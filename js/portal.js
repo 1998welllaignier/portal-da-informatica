@@ -691,8 +691,7 @@
       <div class="painel"><h2>⏱️ Duração</h2><p>${esc(o.duracao)}</p><h2>🧰 Recursos</h2><p>${esc(o.recursos)}</p><h2>📝 Avaliação</h2><p>${esc(o.avaliacao)}</p>
         <h2>✔ Correção</h2><p>Cada atividade mostra se tem <strong>correção automática</strong> ou se <strong>o professor confere</strong> (respostas abertas, tarefas no Paint e no Bloco de Notas). As respostas abertas não recebem nota automática: o portal só mostra critérios de revisão.</p>
         <h2>👀 Acompanhamento pelo Veyon</h2><p>O topo de cada tela mostra a turma, o nome do aluno (ou da dupla), a missão e o andamento do Básico. Quando o Básico termina, a barra fica verde e aparece a faixa “Chame o professor”. O Veyon só mostra as telas: ele não guarda respostas nem notas.</p></div>
-      <div class="painel"><h2>👣 Trilha Passo a Passo</h2><p>As mesmas missões da série, com letra grande, um passo por vez, quase tudo por clique e o botão <strong>🔊 Ouvir</strong> (lê o texto com a voz do Windows). Ela <strong>não aparece na lista dos alunos</strong>: escolha a apostila “Trilha Passo a Passo” abaixo, copie o link e abra pelo Veyon (“Abrir site”) só no computador do aluno que vai usá-la. Na tela, a missão tem o mesmo título que a turma está fazendo.</p>
-        <p>Trilhas prontas: ${cat().apostilas.filter(a => a.trilha).map(a => esc(a.titulo)).join(" · ") || "nenhuma"}.</p></div>
+      <a class="painel atalho-trilhas" href="#/trilhas"><span class="at-ic" aria-hidden="true">👣</span><span><strong>Trilhas Passo a Passo</strong><br>Missões com letra grande, um passo por vez e botão 🔊 Ouvir, para os alunos que precisam de apoio. Clique para ver os links de cada missão.</span><span class="at-seta" aria-hidden="true">→</span></a>
       <div class="painel"><h2>🔗 Link da missão do dia</h2><p>Escolha a apostila e a missão. Abra o link em todos os computadores (função “Abrir site” do Veyon): depois de se identificar, o aluno cai direto na missão.</p>
         <div class="row-btns"><select id="sa">${cat().apostilas.map(a => `<option value="${a.id}">${esc(a.titulo)}</option>`).join("")}</select>
         <select id="sm"></select></div>
@@ -709,6 +708,36 @@
     };
     sa.onchange = upd; sm.onchange = upd; upd();
     el.querySelector("#copiar").onclick = () => { link.select(); try { navigator.clipboard.writeText(link.value).then(() => toast("Link copiado!"), () => { document.execCommand("copy"); toast("Link copiado!"); }); } catch (e) { document.execCommand("copy"); toast("Link copiado!"); } };
+  }
+
+  /* -------- Trilhas Passo a Passo (só pela Área do professor) -------- */
+  async function telaTrilhas() {
+    barra();
+    const lista = cat().apostilas.filter(a => a.trilha);
+    await Promise.all(lista.map(a => carregar(a.id).catch(() => null)));
+    const base = location.href.split("#")[0];
+    const el = mount(`<section class="tela">
+      <nav class="migalhas"><a href="#/">Início</a> › <a href="#/professor">Área do professor</a> › Trilhas Passo a Passo</nav>
+      <h1>👣 Trilhas Passo a Passo</h1>
+      <p class="lead">As mesmas missões da turma, com letra grande, um passo por vez, quase tudo por clique e o botão 🔊 Ouvir.</p>
+      <div class="painel"><h2>Como usar</h2><ol>
+        <li>Na missão do dia, clique em <strong>📋 Copiar link</strong>.</li>
+        <li>No Veyon, selecione <strong>só o computador do aluno</strong> e use “Abrir site” com o link copiado.</li>
+        <li>O aluno digita o nome, escolhe a turma e cai direto na missão. Na tela, ela tem o mesmo título da missão da turma.</li></ol>
+        <p class="ajuda">As Trilhas não aparecem na lista dos alunos. Esta página fica só aqui, na Área do professor. Dica: salve esta página nos favoritos do seu computador.</p></div>
+      ${lista.length ? lista.map(a => { const C = P.conteudo[a.id]; const se = serie(a.serie); return `<div class="painel trilha-box" style="--cor:${se.cor}">
+        <h2>${esc(se.nome)} · ${esc(a.unidade)}</h2><p class="ajuda">${esc(a.titulo)}</p>
+        <ul class="trilha-missoes">${C ? C.missoes.map(m => `<li><span class="tm-tit">${esc(m.icone)} ${esc(m.titulo)}</span>
+          <span class="row-btns"><button type="button" class="btn" data-link="${esc(base + "#/abrir/" + a.id + "/" + m.id)}">📋 Copiar link</button>
+          <a class="btn btn-sec" href="#/abrir/${a.id}/${m.id}">Testar aqui</a></span></li>`).join("") : "<li>Não foi possível carregar esta trilha.</li>"}</ul>
+        <p><a href="#/imprimir/${a.id}">🖨️ Versão para imprimir</a></p></div>`; }).join("") : `<p class="painel">Ainda não há Trilhas Passo a Passo.</p>`}
+    </section>`);
+    el.querySelectorAll("[data-link]").forEach(b => b.onclick = () => {
+      const v = b.dataset.link;
+      const ok = () => toast("Link copiado! Cole no “Abrir site” do Veyon.");
+      const plano = () => { const t = document.createElement("textarea"); t.value = v; document.body.appendChild(t); t.select(); try { document.execCommand("copy"); ok(); } catch (e) { toast(v); } t.remove(); };
+      try { navigator.clipboard.writeText(v).then(ok, plano); } catch (e) { plano(); }
+    });
   }
 
   function telaSobre() {
@@ -740,6 +769,7 @@
       if (r === "missao") return await telaMissao(a1, a2, a3);
       if (r === "imprimir") return await telaImprimir(a1);
       if (r === "professor") return await telaProfessor();
+      if (r === "trilhas") return await telaTrilhas();
       if (r === "sobre") return telaSobre();
       if (r === "abrir") {
         const ap = apostila(a1); if (!ap) return telaInicio();
