@@ -520,3 +520,38 @@ kbd { background: #fff; border: 1px solid #b9bccb; border-bottom-width: 3px; bor
 .med-lista li.certo { color: var(--ok); font-weight: 700; }
 h1[tabindex="-1"]:focus { outline: none; }
 .tb-info[hidden] + .tb-btn { margin-left: auto; }
+
+/* ============================================================
+   TRILHA PASSO A PASSO — letra grande, alvos grandes para o mouse,
+   um passo por vez e botão 🔊 Ouvir. Mesma cara do portal.
+   ============================================================ */
+.bb-card { position: relative; }
+.bb-card.meio { border-color: #f2a900; box-shadow: 0 0 0 4px rgba(242, 169, 0, .35); }
+.bb-mao { position: absolute; bottom: -26px; left: 50%; transform: translateX(-50%); white-space: nowrap; font-size: .85rem; font-weight: 800; color: var(--tinta); }
+.bb-lista:has(.bb-mao) { margin-bottom: 34px; }
+.seq-conta { font-size: 1.1rem; }
+.btn-ouvir { display: inline-flex; align-items: center; gap: 6px; margin: 6px 8px 0 0; padding: 8px 16px; min-height: 44px; border: 2px solid var(--tinta); border-radius: 999px; background: #fff; color: var(--tinta); font: inherit; font-weight: 800; font-size: 1rem; cursor: pointer; }
+.btn-ouvir:hover, .btn-ouvir:focus-visible { background: #fff6d6; outline: 3px solid #f2a900; outline-offset: 2px; }
+
+html.trilha { font-size: 19px; }
+body.modo-trilha { font-size: 21px; line-height: 1.65; }
+.modo-trilha p, .modo-trilha li { max-width: 60ch; }
+.modo-trilha .btn { min-height: 56px; padding: 12px 26px; font-size: 1.05rem; }
+.modo-trilha .atv { padding: 20px 22px; }
+.modo-trilha .atv-cab h2 { font-size: 1.35rem; }
+.modo-trilha .chip, .modo-trilha .lig { padding: 14px 18px; font-size: 1.05rem; min-height: 56px; }
+.modo-trilha .caixa { min-height: 150px; }
+.modo-trilha .cod { min-width: 92px; padding: 10px 14px; }
+.modo-trilha .cod strong { font-size: 1.35rem; }
+.modo-trilha .vfb { min-width: 64px; min-height: 56px; font-size: 1.3rem; }
+.modo-trilha .bb-card { width: 92px; height: 104px; }
+.modo-trilha .bb-card strong { font-size: 2rem; }
+.modo-trilha .bolha .bol { font-size: 2rem; width: 78px; height: 78px; }
+.modo-trilha .ord-item { padding: 12px 14px; font-size: 1.1rem; }
+.modo-trilha .seta { min-width: 52px; min-height: 52px; font-size: 1.3rem; }
+.modo-trilha .esc-op { display: flex; align-items: center; gap: 12px; padding: 12px 14px; margin: 6px 0; border: 2px solid var(--linha); border-radius: 12px; cursor: pointer; }
+.modo-trilha .esc-op input, .modo-trilha .sinais input, .modo-trilha .pc-passos input, .modo-trilha .auto input { width: 28px; height: 28px; flex: none; }
+.modo-trilha .sinais label, .modo-trilha .pc-passos label, .modo-trilha .auto label { display: flex; align-items: center; gap: 12px; padding: 8px 0; cursor: pointer; }
+.modo-trilha .ilustracao { max-width: 820px; }
+.modo-trilha .termo summary { padding: 10px 0; }
+@media print { .btn-ouvir { display: none; } }

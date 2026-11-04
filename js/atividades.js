@@ -262,7 +262,7 @@
     auto: true,
     render(c, at, ctx) {
       const st = ctx.st; st.feitos = st.feitos || [];
-      const rodadas = []; for (let i = 0; i < at.pares.length; i += 5) rodadas.push(at.pares.slice(i, i + 5).map((p, k) => i + k));
+      const rodadas = []; const nR = at.porRodada || 5; for (let i = 0; i < at.pares.length; i += nR) rodadas.push(at.pares.slice(i, i + nR).map((p, k) => i + k));
       let r = rodadas.findIndex(rd => rd.some(i => !st.feitos.includes(i))); if (r < 0) r = rodadas.length - 1;
       let selA = null; let ordB = shuffle(rodadas[r]);
       const draw = () => {
@@ -412,11 +412,11 @@
       ctx.verificar = () => {
         if (at.perguntas.some((_, i) => st.esc[i] === undefined)) { ctx.feedback("info", "Responda todas as perguntas."); return; }
         marcas = {}; let err = 0;
-        at.perguntas.forEach((q, i) => { const ok = st.esc[i] === q.certo; marcas[i] = ok ? "certo" : "errado"; if (!ok) err++; });
+        at.perguntas.forEach((q, i) => { const ok = q.certo < 0 || st.esc[i] === q.certo; marcas[i] = ok ? "certo" : "errado"; if (!ok) err++; });
         draw();
         err ? ctx.errou(`${err} resposta${err > 1 ? "s" : ""} para rever (✖).`) : ctx.concluir("certo", "Certo!");
       };
-      ctx.resolver = () => { at.perguntas.forEach((q, i) => { st.esc[i] = q.certo; marcas[i] = "certo"; }); draw(); };
+      ctx.resolver = () => { at.perguntas.forEach((q, i) => { if (q.certo >= 0) st.esc[i] = q.certo; marcas[i] = "certo"; }); draw(); };
       draw();
     },
     imprimir(at) { return at.perguntas.map(q => `<p>${md(q.p)}</p><ul class="imp-op">${q.opcoes.map(o => `<li>☐ ${md(o)}</li>`).join("")}</ul>`).join(""); }
@@ -648,7 +648,8 @@
         const achou = st.hist.some(x => x.res === "igual");
         c.innerHTML = `<p class="regra">Procure o <strong>${at.alvo}</strong>. Meio = (primeira + última posição) ÷ 2, desprezando a vírgula.</p>
           <div class="bb-lista">${at.lista.map((v, i) => { const p = i + 1; const fora = p < st.lo || p > st.hi; const visto = st.hist.find(x => x.meio === p);
-            return `<button type="button" class="bb-card ${fora && !achou ? "fora" : ""} ${visto ? "visto" : ""} ${visto && visto.res === "igual" ? "achou" : ""}" data-p="${p}" ${fora || achou ? "disabled" : ""} aria-label="Posição ${p}${visto ? ", número " + v : ""}"><small>pos. ${p}</small><strong>${visto || fora || achou ? v : "?"}</strong></button>`; }).join("")}</div>
+            const ehMeio = at.ajudaMeio && !achou && p === Math.floor((st.lo + st.hi) / 2);
+            return `<button type="button" class="bb-card ${fora && !achou ? "fora" : ""} ${visto ? "visto" : ""} ${visto && visto.res === "igual" ? "achou" : ""} ${ehMeio ? "meio" : ""}" data-p="${p}" ${fora || achou ? "disabled" : ""} aria-label="Posição ${p}${visto ? ", número " + v : ""}${ehMeio ? ", carta do meio" : ""}"><small>pos. ${p}</small><strong>${visto || fora || achou ? v : "?"}</strong>${ehMeio ? '<span class="bb-mao" aria-hidden="true">👆 meio</span>' : ""}</button>`; }).join("")}</div>
           ${!achou ? `<p>Tentativa ${st.hist.length + 1}: sobraram as posições <strong>${st.lo} a ${st.hi}</strong>. Clique na carta do <strong>meio</strong>.</p>` : ""}
           ${st.hist.length ? `<table class="tab-mini"><tr><th>Tentativa</th><th>Posições</th><th>Meio</th><th>Número</th><th>${at.alvo} é…</th></tr>${st.hist.map((x, i) => `<tr><td>${i + 1}ª</td><td>${x.lo} a ${x.hi}</td><td>${x.meio}</td><td>${x.v}</td><td>${x.res}</td></tr>`).join("")}</table>` : ""}`;
         c.querySelectorAll(".bb-card:not([disabled])").forEach(b => b.onclick = () => {
@@ -666,6 +667,34 @@
       draw();
     },
     imprimir(at) { return `<p>Lista: ${at.lista.map((v, i) => `(${i + 1}) ${v}`).join(" · ")} — procure o ${at.alvo}.</p><table class="imp-t"><tr><th>Tentativa</th><th>Posições que sobraram</th><th>Posição do meio</th><th>Número no meio</th><th>É maior, menor ou igual?</th></tr><tr><td>1ª</td><td>1 a ${at.lista.length}</td><td></td><td></td><td></td></tr><tr><td>2ª</td><td></td><td></td><td></td><td></td></tr><tr><td>3ª</td><td></td><td></td><td></td><td></td></tr></table>`; }
+  };
+
+  /* ------------------------------------------------------------
+     SEQUENCIAL — virar as cartas uma por uma até achar (busca sequencial)
+     ------------------------------------------------------------ */
+  T.sequencial = {
+    auto: true,
+    render(c, at, ctx) {
+      const st = ctx.st; st.vistas = st.vistas || 0;
+      const draw = () => {
+        const achou = at.lista[st.vistas - 1] === at.alvo;
+        c.innerHTML = `<p class="regra">Procure o <strong>${at.alvo}</strong>. Vire as cartas em ordem: 1ª, 2ª, 3ª…</p>
+          <div class="bb-lista">${at.lista.map((v, i) => { const aberta = i < st.vistas; const prox = !achou && i === st.vistas;
+            return `<button type="button" class="bb-card ${aberta ? "visto" : ""} ${aberta && v === at.alvo ? "achou" : ""} ${prox ? "meio" : ""}" data-i="${i}" ${aberta || achou ? "disabled" : ""} aria-label="${i + 1}ª carta${aberta ? ", número " + v : ""}"><small>${i + 1}ª</small><strong>${aberta ? v : "?"}</strong>${prox ? '<span class="bb-mao" aria-hidden="true">👆 agora</span>' : ""}</button>`; }).join("")}</div>
+          <p class="seq-conta">Cartas olhadas: <strong>${st.vistas}</strong></p>`;
+        c.querySelectorAll(".bb-card:not([disabled])").forEach(b => b.onclick = () => {
+          const i = +b.dataset.i;
+          if (i !== st.vistas) return ctx.errou(`Um por um! Agora é a ${st.vistas + 1}ª carta.`);
+          st.vistas++; ctx.salvar(); draw();
+          const v = at.lista[i];
+          if (v === at.alvo) ctx.concluir("certo", `Achou o ${at.alvo} na ${i + 1}ª carta!`);
+          else { ctx.feedback("ok", `${v} não é o ${at.alvo}. Vire a próxima carta.`); const n = c.querySelector(".bb-card.meio"); n && n.focus(); }
+        });
+      };
+      ctx.resolver = () => { st.vistas = at.lista.indexOf(at.alvo) + 1; draw(); };
+      draw();
+    },
+    imprimir(at) { return `<p>Cartas: ${at.lista.map((v, i) => `(${i + 1}ª) ${v}`).join(" · ")} — procure o ${at.alvo} olhando uma por uma.</p><p>Quantas cartas você olhou? ______</p>`; }
   };
 
   /* ------------------------------------------------------------

@@ -49,6 +49,29 @@
   }
   P.toast = toast;
 
+  /* ---------------- ouvir (leitura em voz alta, voz do próprio Windows) ---------------- */
+  const vozOk = "speechSynthesis" in window && "SpeechSynthesisUtterance" in window;
+  function falar(texto) {
+    if (!vozOk) return;
+    const sy = window.speechSynthesis; sy.cancel();
+    const limpo = String(texto).replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\u{FE0F}]/gu, " ").replace(/\s+/g, " ").trim();
+    if (!limpo) return;
+    const u = new SpeechSynthesisUtterance(limpo);
+    u.lang = "pt-BR"; u.rate = 0.85;
+    const v = sy.getVoices().find(x => /^pt(-|_)BR/i.test(x.lang)) || sy.getVoices().find(x => /^pt/i.test(x.lang));
+    if (v) u.voice = v;
+    sy.speak(u);
+  }
+  function calar() { if (vozOk) try { window.speechSynthesis.cancel(); } catch (e) {} }
+  // texto visível de um trecho, sem os desenhos
+  function textoDe(el) { const c = el.cloneNode(true); c.querySelectorAll("svg, figure, .btn-ouvir, button.seta, .marca").forEach(x => x.remove()); return c.textContent; }
+  function botaoOuvir(rotulo, pegarTexto) {
+    const b = h(`<button type="button" class="btn-ouvir">🔊 ${esc(rotulo)}</button>`);
+    b.onclick = () => falar(pegarTexto());
+    return b;
+  }
+  P.falar = falar;
+
   /* ---------------- catálogo ---------------- */
   const cat = () => P.catalogo;
   const serie = id => cat().series.find(s => s.id === id);
@@ -129,7 +152,7 @@
     if (m.comecar && m.comecar.length) pages.push({ id: "comecar", rotulo: "Para começar", icone: "💡", tipo: "leitura" });
     if (m.termos && m.termos.length) pages.push({ id: "termos", rotulo: "O que significa?", icone: "📖", tipo: "leitura",
       atividades: [{ id: mid + "-termos", nivel: "treino", tipo: "ligar", titulo: "Treino rápido: ligue cada termo ao seu significado",
-        pares: m.termos.map(t => ({ a: t.termo, b: t.def })), explicacao: "Revise os termos sempre que precisar: eles caem na avaliação." }] });
+        porRodada: (apostila(aid) || {}).trilha ? 3 : 5, pares: m.termos.map(t => ({ a: t.termo, b: t.def })), explicacao: "Revise os termos sempre que precisar: eles caem na avaliação." }] });
     if (m.ondeUso && m.ondeUso.itens.length) pages.push({ id: "onde", rotulo: "Onde eu uso isso?", icone: "🌎", tipo: "leitura",
       atividades: m.ondeUso.reflexao ? [{ id: mid + "-onde", nivel: "treino", tipo: "aberta", titulo: "Pense e escreva", enunciado: m.ondeUso.reflexao,
         criterios: ["Conta uma situação real do seu dia a dia.", "Usa pelo menos uma palavra nova da missão."], opcional: true }] : [] });
@@ -192,6 +215,8 @@
     document.getElementById("rodape").innerHTML = `<strong>${esc(cat().portal)}</strong> · <strong>${esc(cat().professor)}</strong> · <span>${esc(cat().escola)} — ${esc(cat().cidade)}</span> ·
       <a href="#/sobre">Privacidade e progresso</a> · <a href="#/professor">Área do professor</a>`;
   }
+
+  function modoTrilha(a) { const on = !!(a && a.trilha); document.body.classList.toggle("modo-trilha", on); document.documentElement.classList.toggle("trilha", on); }
 
   function mount(html) { const a = $app(); a.innerHTML = ""; const el = typeof html === "string" ? h(html) : html; a.appendChild(el); window.scrollTo(0, 0); const f = el.querySelector("h1"); if (f) { f.setAttribute("tabindex", "-1"); f.focus({ preventScroll: true }); } return el; }
 
@@ -278,7 +303,7 @@
     const s = sess.get(); if (!s) return telaInicio();
     const se = serie(s.serie);
     barra();
-    const lista = cat().apostilas.filter(a => a.serie === s.serie);
+    const lista = cat().apostilas.filter(a => a.serie === s.serie && !a.oculta);
     const porDisc = {};
     lista.forEach(a => { (porDisc[a.disciplina] = porDisc[a.disciplina] || []).push(a); });
     const hoje = sessionStorage.getItem("portalJK:hoje");
@@ -299,6 +324,7 @@
     const s = sess.get(); const a = apostila(aid); if (!a) return telaInicio();
     if (!s) return telaSerie(a.serie, "#/apostila/" + aid);
     await carregar(aid);
+    modoTrilha(a);
     const C = P.conteudo[aid]; const se = serie(a.serie);
     barra(`<span>${esc(a.titulo)}</span>`);
     const card = mm => {
@@ -341,6 +367,7 @@
     if (!s) return telaSerie(a.serie, "#/missao/" + aid + "/" + mid);
     if (s.serie !== a.serie) { toast("Esta apostila é de outra série."); location.hash = "#/apostilas"; return; }
     await carregar(aid);
+    modoTrilha(a);
     const { m, pages } = montarMissao(aid, mid);
     if (!pages.length) return telaApostila(aid);
     const idx = Math.max(0, pages.findIndex(p => p.id === pid));
@@ -388,6 +415,16 @@
       if (leit && pg.id === "comecar") colocarFiguras(leit, figs, [...leit.children], "bloco");
       else if (corpo.querySelector(".atv")) colocarFiguras(corpo, figs, [...corpo.querySelectorAll(".atv")], "cartao");
       else colocarFiguras(corpo, figs, [], "bloco");
+    }
+    if (a.trilha && vozOk) {
+      const cab = el.querySelector(".pag-cab");
+      cab.appendChild(botaoOuvir("Ouvir esta página", () => textoDe(cab) + ". " + (pg.tipo === "leitura" || pg.id === "resumo" ? textoDe(corpo) : "")));
+      corpo.querySelectorAll(".atv").forEach(sec => {
+        const alvo = sec.querySelector(".atv-cab");
+        const enun = sec.querySelector(".atv-enun");
+        const passos = sec.querySelector(".pc-passos");
+        alvo && alvo.appendChild(botaoOuvir("Ouvir", () => [textoDe(sec.querySelector("h2")), enun ? textoDe(enun) : "", passos ? textoDe(passos) : ""].join(". ")));
+      });
     }
     function atualizarStatus() {
       const x = statusMissao(aid, mid);
@@ -565,6 +602,7 @@
   async function telaImprimir(aid) {
     const a = apostila(aid); if (!a) return telaInicio();
     await carregar(aid);
+    modoTrilha(a);
     const C = P.conteudo[aid];
     barra();
     const el = mount(`<section class="tela impressao">
@@ -653,6 +691,8 @@
       <div class="painel"><h2>⏱️ Duração</h2><p>${esc(o.duracao)}</p><h2>🧰 Recursos</h2><p>${esc(o.recursos)}</p><h2>📝 Avaliação</h2><p>${esc(o.avaliacao)}</p>
         <h2>✔ Correção</h2><p>Cada atividade mostra se tem <strong>correção automática</strong> ou se <strong>o professor confere</strong> (respostas abertas, tarefas no Paint e no Bloco de Notas). As respostas abertas não recebem nota automática: o portal só mostra critérios de revisão.</p>
         <h2>👀 Acompanhamento pelo Veyon</h2><p>O topo de cada tela mostra a turma, o nome do aluno (ou da dupla), a missão e o andamento do Básico. Quando o Básico termina, a barra fica verde e aparece a faixa “Chame o professor”. O Veyon só mostra as telas: ele não guarda respostas nem notas.</p></div>
+      <div class="painel"><h2>👣 Trilha Passo a Passo</h2><p>As mesmas missões da série, com letra grande, um passo por vez, quase tudo por clique e o botão <strong>🔊 Ouvir</strong> (lê o texto com a voz do Windows). Ela <strong>não aparece na lista dos alunos</strong>: escolha a apostila “Trilha Passo a Passo” abaixo, copie o link e abra pelo Veyon (“Abrir site”) só no computador do aluno que vai usá-la. Na tela, a missão tem o mesmo título que a turma está fazendo.</p>
+        <p>Trilhas prontas: ${cat().apostilas.filter(a => a.trilha).map(a => esc(a.titulo)).join(" · ") || "nenhuma"}.</p></div>
       <div class="painel"><h2>🔗 Link da missão do dia</h2><p>Escolha a apostila e a missão. Abra o link em todos os computadores (função “Abrir site” do Veyon): depois de se identificar, o aluno cai direto na missão.</p>
         <div class="row-btns"><select id="sa">${cat().apostilas.map(a => `<option value="${a.id}">${esc(a.titulo)}</option>`).join("")}</select>
         <select id="sm"></select></div>
@@ -690,6 +730,7 @@
      ============================================================ */
   async function rota() {
     const hs = (location.hash || "#/").slice(1).split("/").filter(Boolean);
+    calar(); modoTrilha(null);
     try {
       if (!hs.length) return telaInicio();
       const [r, a1, a2, a3] = hs;

@@ -16,6 +16,12 @@ PARA ACRESCENTAR APOSTILAS
   docs/2 - Como acrescentar apostilas.pdf  (ou peça ao Claude na conversa)
   Modelo comentado: dados/atividades/_MODELO-atividades.js
 
+TRILHA PASSO A PASSO (alunos que precisam de apoio)
+  As mesmas missões da série, com letra grande, um passo por vez, quase tudo
+  por clique e botão 🔊 Ouvir. Não aparece na lista dos alunos: o professor
+  abre pelo link da Área do professor, só no computador do aluno.
+  Pronta: 8º ano, 4º bimestre (fontes/informatica-8ano-4bim-trilha.md).
+
 PEDAGÓGICO E TESTES
   docs/3 - Plano pedagógico resumido.pdf
   docs/4 - Registro de testes e limitações.pdf
