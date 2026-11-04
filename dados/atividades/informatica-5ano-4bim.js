@@ -1,0 +1,205 @@
+/* ============================================================
+   ATIVIDADES INTERATIVAS — Informática 5º ano — 4º bimestre
+   Professor Welington Laignier · EMEF Juscelino Kubitschek
+   ============================================================ */
+PORTAL.registrarAtividades("informatica-5ano-4bim", {
+
+  /* ======================= MISSÃO 1 ======================= */
+  m1: {
+    basico: [
+      { tipo: "classificar", titulo: "Cada parte no seu lugar: E, S, P ou A",
+        categorias: [
+          { id: "E", rot: "Entrada", ic: "⌨️", desc: "leva informações para dentro" },
+          { id: "S", rot: "Saída", ic: "🖥️", desc: "mostra ou toca o resultado" },
+          { id: "P", rot: "Processamento", ic: "🧠", desc: "faz as contas" },
+          { id: "A", rot: "Armazenamento", ic: "💾", desc: "guarda os arquivos" }],
+        itens: [{ t: "Teclado", ic: "⌨️", c: "E" }, { t: "Monitor", ic: "🖥️", c: "S" }, { t: "Processador", ic: "🧠", c: "P" }, { t: "Pen drive", ic: "💾", c: "A" },
+          { t: "Mouse", ic: "🖱️", c: "E" }, { t: "Caixa de som", ic: "🔊", c: "S" }, { t: "SSD", ic: "💽", c: "A" }, { t: "Microfone", ic: "🎙️", c: "E" }],
+        dicas: ["A informação entra, sai, é processada ou fica guardada?"],
+        explicacao: "Entrada: teclado, mouse e microfone. Saída: monitor e caixa de som. Processamento: o processador. Armazenamento: pen drive e SSD." },
+      { tipo: "classificar", modo: "tabela", titulo: "Onde o arquivo está guardado?", colunaItem: "Arquivo", colunaResp: "A ou N",
+        categorias: [{ id: "A", rot: "No aparelho" }, { id: "N", rot: "Na nuvem" }],
+        itens: [
+          { t: "Foto na galeria do celular, sem internet", c: "A" }, { t: "Trabalho salvo no pen drive", c: "A" },
+          { t: "Vídeo assistido no YouTube", c: "N", why: "O vídeo fica nos computadores da empresa e chega pela internet." },
+          { t: "Arquivo guardado no Google Drive", c: "N" }, { t: "Jogo instalado no computador da escola", c: "A" }],
+        explicacao: "No aparelho: fica no próprio computador, celular ou pen drive. Na nuvem: fica em computadores de empresas e você acessa pela internet." },
+      { tipo: "pc", titulo: "No computador: o Bloco de Notas", programa: "Bloco de Notas",
+        passos: ["Clique no botão <strong>Iniciar</strong> (o símbolo do Windows, no canto de baixo, à esquerda), procure o <strong>Bloco de Notas</strong> e abra.",
+          "Digite: <strong>Meu nome é ______ e o sistema operacional deste computador é o Windows.</strong>",
+          "Depois digite, uma por linha, 2 peças de entrada e 2 peças de saída.", "Com o texto na tela, chame o professor para conferir e carimbar."] }
+    ],
+    desafio: [
+      { tipo: "aberta", titulo: "Por que o computador precisa de um sistema operacional? O que aconteceria sem ele?", linhas: 3,
+        criterios: ["Disse o que o sistema operacional faz.", "Expliquei o que aconteceria sem ele."],
+        exemplo: "O sistema operacional é o programa principal: liga tudo e deixa os outros programas abrirem. Sem ele, o computador não abriria nem o Paint." }
+    ],
+    turbo: [
+      { tipo: "escolha", titulo: "O computador da escola quebrou!",
+        perguntas: [
+          { p: "O trabalho salvo só nele se perde?", opcoes: ["Pode se perder, porque estava guardado só naquele aparelho", "Não, ele vai para a nuvem sozinho"], certo: 0 },
+          { p: "E o trabalho salvo na nuvem?", opcoes: ["Continua guardado: dá para abrir em outro aparelho com internet", "Também se perde"], certo: 0, why: "Na nuvem, o arquivo fica nos computadores da empresa, não no aparelho quebrado." }] }
+    ],
+    vf: [
+      { v: true }, { v: true },
+      { v: false, corrigir: { trecho: "no céu", opcoes: ["no céu", "em computadores de empresas"], certo: "em computadores de empresas" }, why: "Os arquivos ficam em prédios cheios de computadores." },
+      { v: true },
+      { v: false, corrigir: { trecho: "funcionam normalmente", opcoes: ["funcionam normalmente", "não funcionam"], certo: "não funcionam" } }
+    ]
+  },
+
+  /* ======================= MISSÃO 2 ======================= */
+  m2: {
+    basico: [
+      { tipo: "lista_ops", titulo: "A lista de compras", nome: "COMPRAS",
+        inicial: ["arroz", "feijão", "leite", "pão"],
+        passos: [
+          { tipo: "pergunta", instr: "Qual item está na posição 3?", r: "leite" },
+          { tipo: "inserir", instr: "Insira ovos no fim da lista.", esperado: ["arroz", "feijão", "leite", "pão", "ovos"], dica: "Digite ovos e clique em Inserir no fim." },
+          { tipo: "remover", instr: "Agora remova feijão.", esperado: ["arroz", "leite", "pão", "ovos"], dica: "Clique em “remover” ao lado de feijão." },
+          { tipo: "pergunta", instr: "Quantos itens a lista tem agora?", r: "4", num: true }],
+        explicacao: "Inserir coloca um item novo; remover tira um item. Depois de remover feijão, os itens de trás andam uma posição para a frente." },
+      { tipo: "lista_ops", titulo: "A fila da merenda", nome: "FILA",
+        inicial: ["Ana", "Bia", "Caio", "Duda", "Enzo"],
+        passos: [
+          { tipo: "pergunta", instr: "Quem está na posição 3?", r: "Caio" },
+          { tipo: "remover", instr: "Caio foi ao banheiro e saiu da fila: remova Caio.", esperado: ["Ana", "Bia", "Duda", "Enzo"] },
+          { tipo: "pergunta", instr: "Quem fica na posição 3 agora?", r: "Duda" }],
+        explicacao: "Quando Caio sai, Duda anda uma posição e fica em 3º lugar." },
+      { tipo: "tabela", titulo: "O grafo das amizades",
+        enunciado: "<p>Amizades: <strong>Ana — Bia · Ana — Caio · Bia — Duda · Caio — Duda · Duda — Enzo</strong>. Desenhe o grafo na apostila impressa (cada nome é um círculo; cada amizade é uma linha) e responda:</p>",
+        linhas: [["Quem tem mais amigos no grafo?", { r: "Duda", w: 10 }], ["Quantos amigos essa pessoa tem?", { r: "3", tipo: "num", w: 4 }], ["Quem tem só um amigo?", { r: "Enzo", w: 10 }]],
+        dicas: ["Conte quantas linhas saem de cada nome."],
+        explicacao: "Duda tem 3 amigos (Bia, Caio e Enzo). Enzo tem só 1 amigo (Duda)." },
+      { tipo: "pc", titulo: "No computador: lista de brincadeiras em ordem alfabética", programa: "Bloco de Notas",
+        passos: ["Digite uma lista com <strong>5 brincadeiras</strong> de que você gosta, uma por linha.", "Coloque a lista em <strong>ordem alfabética</strong>: selecione uma linha, aperte <strong>Ctrl + X</strong> (recortar) e depois <strong>Ctrl + V</strong> (colar) no lugar certo.", "Com a lista na tela, chame o professor para conferir e carimbar."] }
+    ],
+    desafio: [
+      { tipo: "grafo", titulo: "As estradas da nossa região: de Parauapebas a Marabá", semPeso: true,
+        enunciado: "<p>Estradas: <strong>Parauapebas — Curionópolis · Curionópolis — Eldorado dos Carajás · Eldorado dos Carajás — Marabá</strong>. Clique nas cidades para traçar o caminho, começando em Parauapebas.</p>",
+        vertices: [{ id: "Pa", rot: "Parauapebas", x: 60, y: 230 }, { id: "Cu", rot: "Curionópolis", x: 200, y: 150 }, { id: "El", rot: "Eldorado dos Carajás", x: 330, y: 230 }, { id: "Ma", rot: "Marabá", x: 460, y: 90 }],
+        arestas: [["Pa", "Cu", 1], ["Cu", "El", 1], ["El", "Ma", 1]], de: "Pa", para: "Ma", largura: 520, altura: 300,
+        explicacao: "Para ir de Parauapebas a Marabá, usando só essas estradas, é preciso passar por Curionópolis e por Eldorado dos Carajás." }
+    ],
+    turbo: [
+      { tipo: "aberta", titulo: "2 coisas que viram lista e 2 coisas que viram grafo",
+        campos: [{ rot: "Viram lista:", linhas: 1 }, { rot: "Viram grafo:", linhas: 1 }],
+        criterios: ["Nas listas, os itens ficam um depois do outro.", "Nos grafos, as coisas estão ligadas entre si."],
+        exemplo: "Lista: a playlist e a chamada da turma. Grafo: os amigos de uma rede social e as ruas do bairro." }
+    ],
+    vf: [
+      { v: true },
+      { v: false, corrigir: { trecho: "tirar", opcoes: ["tirar", "colocar"], certo: "colocar" }, why: "Inserir é colocar; remover é tirar." },
+      { v: true }, { v: true },
+      { v: false, corrigir: { trecho: "Z", opcoes: ["Z", "A"], certo: "A" } }
+    ]
+  },
+
+  /* ======================= MISSÃO 3 ======================= */
+  m3: {
+    basico: [
+      { tipo: "classificar", modo: "tabela", titulo: "Verdadeira ou falsa?", colunaItem: "Sentença", colunaResp: "V ou F",
+        categorias: [{ id: "V", rot: "Verdadeira" }, { id: "F", rot: "Falsa" }],
+        itens: [
+          { t: "O sol é quente.", c: "V" }, { t: "O sol NÃO é quente.", c: "F", why: "O NÃO inverte: V vira F." },
+          { t: "2 + 2 = 4 E 3 + 3 = 7", c: "F", why: "Com E, as duas partes precisam ser V, e 3 + 3 = 7 é F." },
+          { t: "2 + 2 = 4 OU 3 + 3 = 7", c: "V", why: "Com OU, basta uma parte ser V." },
+          { t: "Curionópolis fica no Pará E o Pará fica no Brasil.", c: "V" }],
+        dicas: ["E: as duas partes precisam ser verdadeiras. OU: basta uma."] },
+      { tipo: "classificar", modo: "tabela", titulo: "Regra da recreação: terminou a tarefa E guardou o material", colunaItem: "Aluno", colunaResp: "Pode jogar?",
+        categorias: [{ id: "S", rot: "Sim" }, { id: "N", rot: "Não" }],
+        itens: [{ t: "Léo — terminou: Sim · guardou: Não", c: "N" }, { t: "Mia — terminou: Sim · guardou: Sim", c: "S" }, { t: "Davi — terminou: Não · guardou: Sim", c: "N" }],
+        explicacao: "Com E, só pode jogar quem fez as duas coisas: Mia." },
+      { tipo: "aberta", titulo: "Complete os algoritmos de escolha",
+        campos: [{ rot: "SE estiver com fome, ENTÃO… SENÃO…", linhas: 1 }, { rot: "SE o celular estiver com pouca bateria, ENTÃO… SENÃO…", linhas: 1 }, { rot: "SE eu terminar a tarefa, ENTÃO… SENÃO…", linhas: 1 }],
+        criterios: ["Cada linha tem uma ação para o ENTÃO e outra para o SENÃO."],
+        exemplo: "SE estiver com fome, ENTÃO como um lanche, SENÃO continuo brincando." },
+      { tipo: "pintura", titulo: "Siga o algoritmo dos círculos", forma: "circulo", n: 4, pretos: [2, 4],
+        regra: "<strong>REPITA 4 vezes:</strong> desenhe um círculo. Depois, para cada círculo: <strong>SE</strong> for o 2º <strong>OU</strong> o 4º, <strong>ENTÃO</strong> pinte de preto, <strong>SENÃO</strong> deixe branco.",
+        explicacao: "Com OU, basta ser o 2º ou o 4º para pintar." },
+      { tipo: "pc", titulo: "No computador: os círculos no Paint", programa: "Paint",
+        passos: ["Abra o <strong>Paint</strong>.", "REPITA 4 vezes: desenhe um círculo.", "Pinte de preto o 2º e o 4º círculo.", "Chame o professor para conferir e carimbar."] }
+    ],
+    desafio: [
+      { tipo: "tabela", titulo: "Complete a tabela do E e do OU",
+        colunas: ["Frase A", "Frase B", "A E B", "A OU B"],
+        linhas: [
+          ["V", "V", { op: ["V", "F"], r: "V" }, { op: ["V", "F"], r: "V" }],
+          ["V", "F", { op: ["V", "F"], r: "F" }, { op: ["V", "F"], r: "V" }],
+          ["F", "V", { op: ["V", "F"], r: "F" }, { op: ["V", "F"], r: "V" }],
+          ["F", "F", { op: ["V", "F"], r: "F" }, { op: ["V", "F"], r: "F" }]],
+        explicacao: "E só é V quando as duas são V. OU só é F quando as duas são F." }
+    ],
+    turbo: [
+      { tipo: "aberta", titulo: "Crie frases sobre você com NÃO, E e OU, e diga se cada uma é V ou F",
+        campos: [{ rot: "Frase com NÃO (V ou F?)", linhas: 1 }, { rot: "Frase com E (V ou F?)", linhas: 1 }, { rot: "Frase com OU (V ou F?)", linhas: 1 }],
+        exigir: ["não", "ou"], criterios: ["Cada frase usa a palavra pedida.", "Disse se é V ou F."] }
+    ],
+    vf: [
+      { v: true },
+      { v: false, corrigir: { trecho: "basta uma parte ser verdadeira", opcoes: ["basta uma parte ser verdadeira", "as duas partes precisam ser verdadeiras"], certo: "as duas partes precisam ser verdadeiras" } },
+      { v: true }, { v: true },
+      { v: false, corrigir: { trecho: "nunca fazem escolhas", opcoes: ["nunca fazem escolhas", "fazem escolhas com SE… ENTÃO… SENÃO"], certo: "fazem escolhas com SE… ENTÃO… SENÃO" } }
+    ]
+  },
+
+  /* ======================= MISSÃO 4 ======================= */
+  m4: {
+    basico: [
+      { tipo: "classificar", modo: "tabela", titulo: "Confiável ou não?", colunaItem: "Mensagem", colunaResp: "C ou N",
+        categorias: [{ id: "C", rot: "Confiável" }, { id: "N", rot: "Não confiável" }],
+        itens: [
+          { t: "“URGENTE!!! Amanhã não vai ter aula em nenhuma escola do Brasil. Compartilhe!”", c: "N", why: "“URGENTE!!!” e “compartilhe” são sinais de alerta." },
+          { t: "Aviso no site da prefeitura sobre a vacinação, com data e horário", c: "C" },
+          { t: "Vídeo que diz que comer chocolate faz crescer 10 centímetros em uma semana", c: "N", why: "Exagerado demais para ser verdade." },
+          { t: "Informação do livro didático da escola", c: "C" }] },
+      { tipo: "aberta", titulo: "Maria fez um desenho lindo de uma árvore. Você quer usar no seu cartaz.",
+        campos: [{ rot: "O que você precisa fazer?", linhas: 2 }, { rot: "Escreva o crédito: Desenho: ____", linhas: 1 }],
+        exigir: ["Maria"], criterios: ["Pedi autorização à Maria.", "Escrevi o crédito com o nome dela."],
+        exemplo: "Peço autorização para a Maria e escrevo o crédito no cartaz: Desenho: Maria." },
+      { tipo: "classificar", modo: "tabela", titulo: "Ligue cada problema à tecnologia certa", colunaItem: "Problema", colunaResp: "Tecnologia",
+        categorias: [{ id: "A", rot: "Paint" }, { id: "B", rot: "Bloco de Notas" }, { id: "C", rot: "Calculadora" }, { id: "D", rot: "Chamada de vídeo" }],
+        itens: [{ t: "Fazer uma conta difícil bem rápido", c: "C" }, { t: "Falar com a avó que mora em outra cidade", c: "D" }, { t: "Escrever um texto no computador", c: "B" }, { t: "Fazer um desenho no computador", c: "A" }] },
+      { tipo: "pc", titulo: "No computador: cartaz Eu navego com cuidado", programa: "Paint",
+        passos: ["Escreva o título <strong>Eu navego com cuidado</strong>.", "Faça um desenho seu.", "Embaixo, escreva: <strong>Criado por: (seu primeiro nome)</strong>.", "Chame o professor para conferir e carimbar."] }
+    ],
+    desafio: [
+      { tipo: "aberta", titulo: "Escolha 2 profissões: qual tecnologia cada uma usa e como ajuda?",
+        campos: [{ rot: "Profissão 1 — tecnologia — como ajuda", linhas: 2 }, { rot: "Profissão 2 — tecnologia — como ajuda", linhas: 2 }],
+        criterios: ["Disse a profissão, a tecnologia e como ela ajuda."], exemplo: "Agricultor — previsão do tempo no celular — ajuda a saber o melhor dia para plantar." }
+    ],
+    turbo: [
+      { tipo: "ordenar", titulo: "Chegou uma notícia estranha no grupo da família: em que ordem você confere?",
+        itens: ["Leio com calma e vejo se parece exagerada", "Procuro quem escreveu e a data", "Procuro se ela aparece em outros sites sérios", "Só compartilho se for confiável"],
+        alternativas: [[1, 0, 2, 3], [0, 2, 1, 3], [1, 2, 0, 3], [2, 1, 0, 3], [2, 0, 1, 3]],
+        explicacao: "A ordem das três conferências pode variar, mas compartilhar vem sempre por último, e só se for confiável." },
+      { tipo: "aberta", titulo: "Escreva os seus 3 passos antes de compartilhar", campos: [{ rot: "1.", linhas: 1 }, { rot: "2.", linhas: 1 }, { rot: "3.", linhas: 1 }], opcional: true }
+    ],
+    vf: [
+      { v: false, corrigir: { trecho: "é verdade", opcoes: ["é verdade", "pode ser mentira"], certo: "pode ser mentira" } },
+      { v: true }, { v: true }, { v: true },
+      { v: false, corrigir: { trecho: "fazer um desenho", opcoes: ["fazer um desenho", "fazer contas"], certo: "fazer contas" } }
+    ]
+  },
+
+  /* ======================= PROJETO FINAL ======================= */
+  pf: {
+    basico: [
+      { tipo: "info", titulo: "Faltou alguma missão?", html: "<p>Se você faltou em alguma missão, faça agora o <strong>Básico</strong> dela e mostre ao professor.</p>" },
+      { tipo: "aberta", titulo: "Complete o seu passaporte: uma frase sobre cada missão",
+        campos: [{ rot: "🖥️ Missão 1 – O computador e onde moram os dados", linhas: 2 }, { rot: "📋 Missão 2 – Listas e grafos", linhas: 2 }, { rot: "🤔 Missão 3 – Verdadeiro ou falso e escolhas", linhas: 2 }, { rot: "🛡️ Missão 4 – Internet com cuidado", linhas: 2 }],
+        criterios: ["Cada frase fala de algo que eu aprendi naquela missão."], minPalavras: 3 },
+      { tipo: "pc", titulo: "No computador: minha missão favorita", programa: "Bloco de Notas",
+        passos: ["Digite o seu primeiro nome.", "Escreva a missão de que você mais gostou e por quê.", "Mostre ao professor para o carimbo."] }
+    ],
+    desafio: [
+      { tipo: "aberta", titulo: "Crie um algoritmo com SE… ENTÃO… SENÃO para decidir se você pode compartilhar uma mensagem",
+        linhas: 4, exigir: ["se", "então", "senão"], criterios: ["A condição usa as perguntas de confiança (quem escreveu, quando, outros lugares, exagero)."],
+        exemplo: "SE a mensagem tem autor E data E aparece em outros sites sérios, ENTÃO posso compartilhar, SENÃO não compartilho." }
+    ],
+    turbo: [
+      { tipo: "pc", titulo: "No papel: o grafo do caminho até a escola", programa: "Apostila impressa",
+        passos: ["Escolha 5 lugares do caminho da sua casa até a escola.", "Desenhe cada lugar como um círculo (vértice).", "Ligue os lugares com linhas (arestas), como as ruas.", "Mostre ao professor."] }
+    ]
+  }
+});

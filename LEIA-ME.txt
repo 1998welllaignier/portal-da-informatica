@@ -1,0 +1,35 @@
+PORTAL DA INFORMÁTICA — Professor Welington Laignier
+Apostilas digitais interativas — Escola JK
+EMEF Juscelino Kubitschek · Curionópolis/PA
+Piloto: Informática, 4º bimestre, 5º ao 9º ano
+
+PARA TESTAR AGORA
+  Dê dois cliques em index.html (abre no Chrome ou no Edge, sem internet).
+
+PARA USAR NA SALA
+  docs/1 - Uso e publicação.pdf  → pasta da rede, GitHub Pages, Veyon, link da
+                                   missão do dia, Resumo do que fiz (print),
+                                   progresso e privacidade, impressão.
+  Área do professor: link no rodapé do portal.
+
+PARA ACRESCENTAR APOSTILAS
+  docs/2 - Como acrescentar apostilas.pdf  (ou peça ao Claude na conversa)
+  Modelo comentado: dados/atividades/_MODELO-atividades.js
+
+PEDAGÓGICO E TESTES
+  docs/3 - Plano pedagógico resumido.pdf
+  docs/4 - Registro de testes e limitações.pdf
+
+ESTRUTURA
+  index.html ............ o portal
+  css/, js/ ............. visual e funcionamento
+  dados/catalogo.js ..... séries, turmas, disciplinas e apostilas
+  dados/conteudo/ ....... leitura de cada apostila (gerada das fontes)
+  dados/atividades/ ..... atividades interativas de cada apostila
+  dados/ilustracoes/ .... ilustrações da Apostila Ilustrada (SVG)
+  fontes/ ............... texto das apostilas (Markdown)
+  ferramentas/ .......... gerar_conteudo.py (fontes → dados/conteudo)
+                          extrair_ilustracoes.py (apostila ilustrada → dados/ilustracoes)
+
+Nada foi publicado na internet. As respostas dos alunos ficam só no navegador
+de cada computador.

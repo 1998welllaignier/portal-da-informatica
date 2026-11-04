@@ -1,0 +1,719 @@
+/* ============================================================
+   PORTAL DE APOSTILAS DIGITAIS — ESCOLA JK
+   Motor principal: navegação, identificação, progresso,
+   páginas das missões, impressão e exportação.
+   Professor Welington Laignier
+   ============================================================ */
+(function () {
+  "use strict";
+
+  const P = window.PORTAL = window.PORTAL || {};
+  P.conteudo = {};
+  P.atividades = {};
+  P.tipos = P.tipos || {};
+  P.registrarConteudo = (id, d) => { P.conteudo[id] = d; };
+  P.registrarAtividades = (id, d) => { P.atividades[id] = d; };
+  P.ilustracoes = {};
+  P.registrarIlustracoes = (id, d) => { P.ilustracoes[id] = d; };
+
+  const KEY = "portalJK:v1:";
+  const SESS = "portalJK:sessao";
+  const $app = () => document.getElementById("app");
+
+  /* ---------------- utilidades ---------------- */
+  const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  // textos das apostilas (conteúdo do professor): aceitam HTML simples e **negrito**
+  const md = s => String(s == null ? "" : s).replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
+  const semTags = s => String(s == null ? "" : s).replace(/<[^>]+>/g, "").replace(/\*\*/g, "");
+  const h = html => { const t = document.createElement("template"); t.innerHTML = html.trim(); return t.content.firstElementChild; };
+  const norm = s => String(s == null ? "" : s).normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/[.,;:!?"'“”]/g, " ").replace(/\s+/g, " ").trim();
+  const shuffle = a => { const b = a.slice(); for (let i = b.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [b[i], b[j]] = [b[j], b[i]]; } return b; };
+  P.util = { esc, md, h, norm, shuffle, semTags };
+
+  const store = {
+    get(k, def) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : def; } catch (e) { return def; } },
+    set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); return true; } catch (e) { return false; } },
+    del(k) { try { localStorage.removeItem(k); } catch (e) {} }
+  };
+  const sess = {
+    get() { try { return JSON.parse(sessionStorage.getItem(SESS) || "null"); } catch (e) { return null; } },
+    set(v) { try { sessionStorage.setItem(SESS, JSON.stringify(v)); } catch (e) {} },
+    del() { try { sessionStorage.removeItem(SESS); } catch (e) {} }
+  };
+
+  let toastT;
+  function toast(msg) {
+    const t = document.getElementById("toast");
+    t.textContent = msg; t.hidden = false;
+    clearTimeout(toastT); toastT = setTimeout(() => { t.hidden = true; }, 3200);
+  }
+  P.toast = toast;
+
+  /* ---------------- catálogo ---------------- */
+  const cat = () => P.catalogo;
+  const serie = id => cat().series.find(s => s.id === id);
+  const turma = id => { for (const s of cat().series) { const t = s.turmas.find(x => x.id === id); if (t) return { ...t, serie: s }; } return null; };
+  const apostila = id => cat().apostilas.find(a => a.id === id);
+  const disciplina = id => cat().disciplinas.find(d => d.id === id);
+
+  /* ---------------- carregamento das apostilas ---------------- */
+  const loading = {};
+  function carregar(aid) {
+    if (P.conteudo[aid] && P.atividades[aid]) return Promise.resolve();
+    if (loading[aid]) return loading[aid];
+    const add = src => new Promise((ok, err) => {
+      const s = document.createElement("script");
+      s.src = src; s.onload = ok; s.onerror = () => err(new Error(src)); document.head.appendChild(s);
+    });
+    loading[aid] = Promise.all([add("dados/conteudo/" + aid + ".js"), add("dados/atividades/" + aid + ".js"),
+      add("dados/ilustracoes/" + aid + ".js").catch(() => null)]).then(() => garantirDefs(aid));
+    return loading[aid];
+  }
+
+  /* ---------------- ilustrações (da Apostila Ilustrada) ---------------- */
+  function garantirDefs(aid) {
+    let d = document.getElementById("ilu-defs");
+    if (!d) { d = document.createElement("div"); d.id = "ilu-defs"; d.setAttribute("aria-hidden", "true"); document.body.appendChild(d); }
+    if (d.dataset.ap !== aid) { d.innerHTML = (P.ilustracoes[aid] || {}).defs || ""; d.dataset.ap = aid; }
+  }
+  const soLetras = t => norm(t).replace(/[^a-z0-9]/g, "");
+  function figurasDaPagina(aid, mid, pageId, pageIds) {
+    const I = P.ilustracoes[aid]; if (!I) return [];
+    const destino = f => {
+      if (pageIds.includes(f.pagina)) return f.pagina;
+      if (f.pagina === "comecar") return pageIds[0];
+      return pageIds.includes("basico") ? "basico" : pageIds[0];
+    };
+    return I.figuras.filter(f => f.missao === mid && destino(f) === pageId);
+  }
+  // Coloca cada figura logo depois do bloco que vinha antes dela na apostila ilustrada
+  function colocarFiguras(alvo, figs, candidatos, modo) {
+    if (!figs.length) return;
+    let topo = alvo.querySelector(":scope > .ilu-topo");
+    let ultima = null;
+    figs.forEach(f => {
+      const el = h(`<div class="ilustracao">${f.html}</div>`);
+      const anc = soLetras(f.ancora).slice(0, 40);
+      let achou = null;
+      if (anc.length >= 8) achou = candidatos.find(c => soLetras(c.textContent).includes(anc)) || candidatos.find(c => soLetras(c.textContent).includes(anc.slice(0, 20)));
+      if (!anc && ultima) { ultima.after(el); ultima = el; return; }
+      if (achou) {
+        if (modo === "cartao") { const corpo = achou.querySelector(".atv-corpo"); achou.insertBefore(el, corpo); }
+        else if (modo === "depois") { const tit = achou.querySelector("h4"); tit ? tit.after(el) : achou.prepend(el); }
+        else achou.after(el);
+      } else {
+        if (!topo) { topo = h('<div class="ilu-topo"></div>'); alvo.prepend(topo); }
+        topo.appendChild(el);
+      }
+      ultima = el;
+    });
+  }
+  P.colocarFiguras = colocarFiguras;
+
+  /* ---------------- progresso ---------------- */
+  function progressoKey(aid) {
+    const s = sess.get(); if (!s) return null;
+    return KEY + aid + ":" + s.turma + ":" + norm(s.nomes.join("+")).replace(/ /g, "_");
+  }
+  function getProg(aid) { const k = progressoKey(aid); return (k && store.get(k, null)) || { visitas: {}, atv: {}, atualizado: 0 }; }
+  function setProg(aid, p) { const k = progressoKey(aid); if (!k) return; p.atualizado = Date.now(); if (!store.set(k, p)) toast("Não foi possível guardar o progresso neste navegador."); }
+  P.getProg = getProg; P.setProg = setProg;
+
+  /* ---------------- estrutura da missão ---------------- */
+  function montarMissao(aid, mid) {
+    const C = P.conteudo[aid], A = P.atividades[aid] || {};
+    const m = C.missoes.find(x => x.id === mid);
+    const a = A[mid] || {};
+    const pages = [];
+    const ativ = (lvl, arr) => (arr || []).map((x, i) => Object.assign({ nivel: lvl }, x, { id: x.id || (mid + "-" + lvl + "-" + (i + 1)) }));
+    if (m.comecar && m.comecar.length) pages.push({ id: "comecar", rotulo: "Para começar", icone: "💡", tipo: "leitura" });
+    if (m.termos && m.termos.length) pages.push({ id: "termos", rotulo: "O que significa?", icone: "📖", tipo: "leitura",
+      atividades: [{ id: mid + "-termos", nivel: "treino", tipo: "ligar", titulo: "Treino rápido: ligue cada termo ao seu significado",
+        pares: m.termos.map(t => ({ a: t.termo, b: t.def })), explicacao: "Revise os termos sempre que precisar: eles caem na avaliação." }] });
+    if (m.ondeUso && m.ondeUso.itens.length) pages.push({ id: "onde", rotulo: "Onde eu uso isso?", icone: "🌎", tipo: "leitura",
+      atividades: m.ondeUso.reflexao ? [{ id: mid + "-onde", nivel: "treino", tipo: "aberta", titulo: "Pense e escreva", enunciado: m.ondeUso.reflexao,
+        criterios: ["Conta uma situação real do seu dia a dia.", "Usa pelo menos uma palavra nova da missão."], opcional: true }] : [] });
+    const lv = [["basico", "Missão — Básico", "🟢"], ["desafio", "Desafio", "🟡"], ["turbo", "Turbo", "🔴"]];
+    lv.forEach(([k, r, i]) => { const arr = ativ(k, a[k]); if (arr.length) pages.push({ id: k, rotulo: r, icone: i, tipo: "missao", atividades: arr }); });
+    if (m.vf && m.vf.length && a.vf) pages.push({ id: "vf", rotulo: "Perguntas rápidas", icone: "✅", tipo: "revisao",
+      atividades: [{ id: mid + "-vf", nivel: "revisao", tipo: "vf", titulo: "Verdadeiro ou falso — e corrija as falsas",
+        itens: m.vf.map((t, i) => Object.assign({ t }, a.vf[i] || {})) }] });
+    if (m.autoavaliacao && m.autoavaliacao.length) pages.push({ id: "auto", rotulo: "Autoavaliação", icone: "📋", tipo: "revisao",
+      atividades: [{ id: mid + "-auto", nivel: "revisao", tipo: "autoavaliacao", titulo: "Marque o que você já consegue fazer sozinho", itens: m.autoavaliacao }] });
+    if (m.resumo) pages.push({ id: "resumo", rotulo: mid === "pf" ? "Resumo do bimestre" : "Resumo da Aula", icone: "🧠", tipo: "revisao",
+      atividades: [/\*\*/.test(m.resumo.texto)
+        ? { id: mid + "-resumo", nivel: "revisao", tipo: "completar", titulo: "Complete o resumo com as palavras do banco", texto: m.resumo.texto, chaves: m.resumo.chaves }
+        : { id: mid + "-resumo", tipo: "info", titulo: "Leia com a turma", html: `<p>${md(m.resumo.texto)}</p>${m.resumo.chaves.length ? `<p class="chaves"><strong>Palavras-chave:</strong> ${m.resumo.chaves.map(esc).join(" · ")}</p>` : ""}` }] });
+    pages.push({ id: "relatorio", rotulo: "Resumo do que fiz", icone: "📋", tipo: "relatorio" });
+    return { C, m, a, pages };
+  }
+  P.montarMissao = montarMissao;
+
+  function statusMissao(aid, mid) {
+    const { pages } = montarMissao(aid, mid);
+    const prog = getProg(aid);
+    const res = { leitura: [0, 0], basico: [0, 0], desafio: [0, 0], turbo: [0, 0], revisao: [0, 0] };
+    pages.forEach(pg => {
+      if (pg.tipo === "leitura") { res.leitura[1]++; if (prog.visitas[mid + "/" + pg.id]) res.leitura[0]++; }
+      (pg.atividades || []).forEach(at => {
+        const k = ["basico", "desafio", "turbo"].includes(at.nivel) ? at.nivel : at.nivel === "revisao" ? "revisao" : null;
+        if (!k || at.opcional || (P.tipos[at.tipo] || {}).semStatus) return;
+        res[k][1]++; const s = prog.atv[at.id]; if (s && s.status) res[k][0]++;
+      });
+    });
+    return res;
+  }
+  P.statusMissao = statusMissao;
+
+  /* ---------------- barra superior (visível no Veyon) ---------------- */
+  function barra(info) {
+    const s = sess.get();
+    const el = document.getElementById("topbar");
+    const marca = `<span class="brand-txt">💻 ${esc(cat().portal)}</span><span class="brand-prof">${esc(cat().professor)}</span>`;
+    if (!s) { el.innerHTML = `<a class="brand" href="#/">${marca}</a>`; return; }
+    const t = turma(s.turma);
+    const apel = (s.apelidos || []).filter(Boolean);
+    el.innerHTML = `<a class="brand" href="#/apostilas">${marca}</a>
+      <div class="tb-who" aria-label="Quem está usando"><span class="tb-turma">${esc(t ? t.nome : "")}</span><strong class="tb-nome">${esc(quem(s))}</strong>${apel.length ? `<span class="tb-completo">${esc(s.nomes.join(" & "))}</span>` : ""}</div>
+      <div class="tb-info"${info ? "" : " hidden"}>${info || ""}</div>
+      <button class="tb-btn" id="tb-sair" type="button">Sair</button>`;
+    document.getElementById("tb-sair").onclick = () => sair();
+  }
+  // nome curto para mostrar: apelido (se tiver) ou o primeiro nome
+  function curto(s, i) { return (s.apelidos && s.apelidos[i]) || s.nomes[i].split(" ")[0]; }
+  function quem(s) { return s.nomes.map((n, i) => (s.apelidos && s.apelidos[i]) ? s.apelidos[i] : n).join(" & "); }
+  P.curto = curto; P.quem = quem;
+  function sair() {
+    if (!confirm("Sair do portal? Seu progresso fica guardado neste navegador (veja “Privacidade e progresso”).")) return;
+    sess.del(); location.hash = "#/";
+  }
+
+  function rodape() {
+    document.getElementById("rodape").innerHTML = `<strong>${esc(cat().portal)}</strong> · <strong>${esc(cat().professor)}</strong> · <span>${esc(cat().escola)} — ${esc(cat().cidade)}</span> ·
+      <a href="#/sobre">Privacidade e progresso</a> · <a href="#/professor">Área do professor</a>`;
+  }
+
+  function mount(html) { const a = $app(); a.innerHTML = ""; const el = typeof html === "string" ? h(html) : html; a.appendChild(el); window.scrollTo(0, 0); const f = el.querySelector("h1"); if (f) { f.setAttribute("tabindex", "-1"); f.focus({ preventScroll: true }); } return el; }
+
+  /* ============================================================
+     TELAS
+     ============================================================ */
+
+  /* -------- início -------- */
+  function telaInicio() {
+    barra();
+    const el = mount(`<section class="tela">
+      <header class="hero">
+        <p class="hero-escola">${esc(cat().escola)} · ${esc(cat().cidade)}</p>
+        <h1>${esc(cat().portal)}</h1>
+        <p class="hero-prof">${esc(cat().professor)}</p>
+        <p class="hero-tag">Apostilas digitais interativas</p>
+        <p class="hero-sub">Leia, pratique e descubra onde você usa cada conteúdo. Escolha a sua série para começar.</p>
+      </header>
+      <h2 class="sec-tit">Qual é a sua série?</h2>
+      <div class="grid-cards">${cat().series.map(s => `<a class="card-serie" href="#/serie/${s.id}" style="--cor:${s.cor}">
+        <span class="cs-num">${esc(s.nome.split(" ")[0])}</span><span class="cs-nome">${esc(s.nome)}</span>
+        <span class="cs-turmas">${s.nota ? esc(s.nota) : s.turmas.map(t => esc(t.nome)).join(" · ")}</span></a>`).join("")}</div>
+    </section>`);
+    return el;
+  }
+
+  /* -------- escolha da turma + identificação -------- */
+  function telaSerie(sid, destino) {
+    const s = serie(sid); if (!s) return telaInicio();
+    barra();
+    const el = mount(`<section class="tela" style="--cor:${s.cor}">
+      <nav class="migalhas"><a href="#/">Início</a> › ${esc(s.nome)}</nav>
+      <h1>${esc(s.nome)} — quem vai usar este computador?</h1>
+      <form class="painel form-id" id="fid" novalidate>
+        <fieldset><legend>1. Turma</legend>
+          <div class="opcoes-turma">${s.turmas.map((t, i) => `<label class="opt-turma"><input type="radio" name="turma" value="${t.id}" ${s.turmas.length === 1 ? "checked" : ""}><span>${esc(t.nome)}</span></label>`).join("")}</div>
+        </fieldset>
+        <fieldset><legend>2. Vai fazer sozinho ou em dupla?</legend>
+          <div class="opcoes-turma">
+            <label class="opt-turma"><input type="radio" name="modo" value="individual" checked><span>👤 Sozinho</span></label>
+            <label class="opt-turma"><input type="radio" name="modo" value="dupla"><span>👥 Em dupla</span></label>
+          </div>
+        </fieldset>
+        <fieldset><legend>3. Quem é você?</legend>
+          <div class="pessoa"><label class="campo"><span>Nome completo <em class="obrig">(obrigatório)</em></span><input id="n1" maxlength="60" autocomplete="off" placeholder="Ex.: Ana Clara Souza" aria-required="true"></label>
+            <label class="campo"><span>Apelido <em class="opc">(opcional)</em></span><input id="a1" maxlength="20" autocomplete="off" placeholder="Ex.: Aninha, Hacker do 6º"></label></div>
+          <div class="pessoa" id="c2" hidden><p class="pessoa-tit">Colega da dupla</p>
+            <label class="campo"><span>Nome completo <em class="obrig">(obrigatório)</em></span><input id="n2" maxlength="60" autocomplete="off" placeholder="Ex.: Pedro Henrique Lima" aria-required="true"></label>
+            <label class="campo"><span>Apelido <em class="opc">(opcional)</em></span><input id="a2" maxlength="20" autocomplete="off" placeholder="Ex.: Pedrão"></label></div>
+          <p class="ajuda">O apelido aparece em destaque no topo da tela; o nome completo fica embaixo, para o professor registrar. Não digite telefone, endereço nem senha.</p>
+        </fieldset>
+        <p class="erro" id="ferro" role="alert" hidden></p>
+        <button class="btn btn-grande" type="submit">Entrar ➜</button>
+      </form>
+    </section>`);
+    const c2 = el.querySelector("#c2");
+    el.querySelectorAll('input[name="modo"]').forEach(r => r.onchange = () => { c2.hidden = el.querySelector('input[name="modo"]:checked').value !== "dupla"; });
+    el.querySelector("#fid").onsubmit = e => {
+      e.preventDefault();
+      const t = el.querySelector('input[name="turma"]:checked');
+      const modo = el.querySelector('input[name="modo"]:checked').value;
+      const n1 = el.querySelector("#n1").value.trim().replace(/\s+/g, " ");
+      const n2 = el.querySelector("#n2").value.trim().replace(/\s+/g, " ");
+      const a1 = el.querySelector("#a1").value.trim().replace(/\s+/g, " ");
+      const a2 = el.querySelector("#a2").value.trim().replace(/\s+/g, " ");
+      const err = [];
+      const ok = n => n.length >= 5 && n.split(" ").length >= 2 && /^[\p{L}' .-]+$/u.test(n);
+      const okApel = a => !a || /^[\p{L}\p{N}' ._-]{1,20}$/u.test(a);
+      if (!t) err.push("Escolha a turma.");
+      if (!ok(n1)) err.push("Digite o seu nome completo: nome e sobrenome (só letras).");
+      if (modo === "dupla" && !ok(n2)) err.push("Digite o nome completo do colega da dupla.");
+      if (!okApel(a1) || (modo === "dupla" && !okApel(a2))) err.push("O apelido pode ter só letras, números e espaços (até 20).");
+      if (modo === "dupla" && ok(n1) && ok(n2) && norm(n1) === norm(n2)) err.push("Os dois nomes estão iguais.");
+      const fe = el.querySelector("#ferro");
+      if (err.length) { fe.innerHTML = err.map(esc).join("<br>"); fe.hidden = false; return; }
+      sess.set({ serie: sid, turma: t.value, modo, nomes: modo === "dupla" ? [n1, n2] : [n1], apelidos: modo === "dupla" ? [a1, a2] : [a1], entrou: Date.now() });
+      location.hash = destino || "#/apostilas";
+    };
+    setTimeout(() => el.querySelector("#n1").focus(), 50);
+  }
+
+  /* -------- lista de apostilas da série (por disciplina e unidade) -------- */
+  function telaApostilas() {
+    const s = sess.get(); if (!s) return telaInicio();
+    const se = serie(s.serie);
+    barra();
+    const lista = cat().apostilas.filter(a => a.serie === s.serie);
+    const porDisc = {};
+    lista.forEach(a => { (porDisc[a.disciplina] = porDisc[a.disciplina] || []).push(a); });
+    const hoje = sessionStorage.getItem("portalJK:hoje");
+    mount(`<section class="tela" style="--cor:${se.cor}">
+      <nav class="migalhas"><a href="#/">Início</a> › ${esc(se.nome)}</nav>
+      <h1>Olá, ${esc(s.nomes.map((n, i) => curto(s, i)).join(" e "))}! 👋</h1>
+      <p class="lead">Escolha a apostila que o professor pediu.</p>
+      ${Object.keys(porDisc).map(did => { const d = disciplina(did); return `<h2 class="sec-tit">${d.icone} ${esc(d.nome)}</h2>
+        <div class="grid-cards">${porDisc[did].map(a => `<a class="card-apostila" href="#/apostila/${a.id}">
+          <span class="ca-un">${esc(a.unidade)}</span><strong>${esc(a.titulo)}</strong><span class="ca-modo">${esc(a.modo)}</span></a>`).join("")}</div>`; }).join("")}
+      ${lista.length ? "" : `<p class="painel">Ainda não há apostilas para esta série.</p>`}
+      ${hoje ? `<p class="painel destaque">📌 Missão do dia indicada pelo professor: <a href="#/abrir/${esc(hoje)}">abrir agora</a></p>` : ""}
+    </section>`);
+  }
+
+  /* -------- capa da apostila -------- */
+  async function telaApostila(aid) {
+    const s = sess.get(); const a = apostila(aid); if (!a) return telaInicio();
+    if (!s) return telaSerie(a.serie, "#/apostila/" + aid);
+    await carregar(aid);
+    const C = P.conteudo[aid]; const se = serie(a.serie);
+    barra(`<span>${esc(a.titulo)}</span>`);
+    const card = mm => {
+      const st = statusMissao(aid, mm.id);
+      const pct = st.basico[1] ? Math.round(st.basico[0] / st.basico[1] * 100) : 0;
+      const ok = st.basico[1] && st.basico[0] === st.basico[1];
+      const ic = (P.ilustracoes[aid] || { icones: {} }).icones[mm.id];
+      return `<a class="card-missao ${ok ? "ok" : ""}" href="#/missao/${aid}/${mm.id}">
+        <span class="cm-ic" aria-hidden="true">${ic ? `<span class="cm-svg">${ic}</span>` : esc(mm.icone)}</span>
+        <span class="cm-tit">${esc(mm.titulo)}</span>
+        <span class="cm-obj">${mm.objetivo}</span>
+        <span class="cm-prog"><span class="mini-bar"><i style="width:${pct}%"></i></span>
+          <span>${st.leitura[1] ? `📖 Leitura ${st.leitura[0]}/${st.leitura[1]} · ` : ""}🟢 Básico ${st.basico[0]}/${st.basico[1]}${ok ? " ✔" : ""}</span></span></a>`;
+    };
+    mount(`<section class="tela" style="--cor:${se.cor}">
+      <nav class="migalhas"><a href="#/apostilas">Apostilas</a> › ${esc(a.titulo)}</nav>
+      <header class="capa"><div class="capa-txt">
+        <p class="capa-esc">${esc(cat().portal)} · ${esc(cat().escola)} · ${esc(cat().cidade)}</p>
+        <h1>${esc(C.titulo.replace("Apostila de ", ""))}</h1>
+        <p class="capa-prof">${esc(cat().professor)}</p></div>
+        ${(P.ilustracoes[aid] || {}).mascote ? `<div class="capa-masc">${P.ilustracoes[aid].mascote}</div>` : ""}
+      </header>
+      <div class="grid-missoes">${C.missoes.map(card).join("")}</div>
+      <details class="painel como-usar"><summary>📘 Como usar esta apostila</summary>${blocos(C.comoUsar.filter(b => !(b.t === "p" && /Tudo na apostila|escreve e desenha/.test(b.h))))}
+        <p><strong>No portal:</strong> faça junto com o professor a missão do dia. Quando terminar o 🟢 Básico, aparece a faixa <strong>“Chame o professor”</strong>: ele confere e carimba a sua apostila impressa.</p></details>
+      <div class="row-btns"><a class="btn btn-sec" href="#/imprimir/${aid}">🖨️ Versão para imprimir</a>
+        <button class="btn btn-sec" id="exp" type="button">📥 Baixar minhas respostas</button>
+        <button class="btn btn-sec" id="apagar" type="button">🧹 Apagar meus dados deste computador</button></div>
+    </section>`);
+    document.getElementById("exp").onclick = () => exportar(aid);
+    document.getElementById("apagar").onclick = () => {
+      if (!confirm("Apagar todas as suas respostas desta apostila neste computador? Não dá para desfazer.")) return;
+      store.del(progressoKey(aid)); toast("Seus dados desta apostila foram apagados deste computador."); telaApostila(aid);
+    };
+  }
+
+  /* -------- página de missão -------- */
+  async function telaMissao(aid, mid, pid) {
+    const s = sess.get(); const a = apostila(aid); if (!a) return telaInicio();
+    if (!s) return telaSerie(a.serie, "#/missao/" + aid + "/" + mid);
+    if (s.serie !== a.serie) { toast("Esta apostila é de outra série."); location.hash = "#/apostilas"; return; }
+    await carregar(aid);
+    const { m, pages } = montarMissao(aid, mid);
+    if (!pages.length) return telaApostila(aid);
+    const idx = Math.max(0, pages.findIndex(p => p.id === pid));
+    const pg = pages[idx];
+    const se = serie(a.serie);
+    const prog = getProg(aid);
+    if (pg.tipo === "leitura" && !prog.visitas[mid + "/" + pg.id]) { prog.visitas[mid + "/" + pg.id] = Date.now(); setProg(aid, prog); }
+    const st = statusMissao(aid, mid);
+    const info = () => { const x = statusMissao(aid, mid); return `<span class="tb-mis">${esc(m.icone)} ${esc(m.titulo.replace(/ –.*/, ""))}</span><span class="tb-prog">🟢 ${x.basico[0]}/${x.basico[1]}</span>`; };
+    barra(info());
+    const navItem = (p, i) => {
+      const done = p.tipo === "relatorio" ? false : p.tipo === "leitura" ? !!prog.visitas[mid + "/" + p.id] : (p.atividades || []).filter(x => !x.opcional && !(P.tipos[x.tipo] || {}).semStatus).every(x => prog.atv[x.id] && prog.atv[x.id].status);
+      return `<li><a href="#/missao/${aid}/${mid}/${p.id}" class="${i === idx ? "atual" : ""}" ${i === idx ? 'aria-current="page"' : ""}>
+        <span aria-hidden="true">${p.icone}</span> ${esc(p.rotulo)} ${done ? '<span class="feito" title="feito">✔</span>' : ""}</a></li>`;
+    };
+    const el = mount(`<section class="tela missao" style="--cor:${se.cor}">
+      <nav class="migalhas"><a href="#/apostila/${aid}">${esc(a.titulo)}</a> › ${esc(m.titulo.replace(/ –.*/, ""))}</nav>
+      <div class="mis-layout">
+        <aside class="mis-nav" aria-label="Páginas da missão">
+          <p class="mn-tit">${esc(m.icone)} ${esc(m.titulo)}</p>
+          <ol>${pages.map(navItem).join("")}</ol>
+          <div class="mn-status" id="mn-status"></div>
+        </aside>
+        <article class="mis-pag">
+          <header class="pag-cab"><p class="pag-mis">${esc(m.titulo)}</p><h1>${pg.icone} ${esc(pg.rotulo)}</h1>
+            ${idx === 0 && m.objetivo ? `<p class="objetivo"><strong>Objetivo:</strong> ${m.objetivo}</p>` : ""}</header>
+          <div id="pag-corpo"></div>
+          <div id="banner-ok"></div>
+          <nav class="pag-nav">${idx > 0 ? `<a class="btn btn-sec" href="#/missao/${aid}/${mid}/${pages[idx - 1].id}">← ${esc(pages[idx - 1].rotulo)}</a>` : `<a class="btn btn-sec" href="#/apostila/${aid}">← Missões</a>`}
+            ${idx < pages.length - 1 ? `<a class="btn" href="#/missao/${aid}/${mid}/${pages[idx + 1].id}">${esc(pages[idx + 1].rotulo)} →</a>` : `<a class="btn" href="#/apostila/${aid}">Voltar às missões ✔</a>`}</nav>
+        </article>
+      </div></section>`);
+    const corpo = el.querySelector("#pag-corpo");
+    if (pg.tipo === "relatorio") { el.classList.add("pg-rel"); window.scrollTo(0, 0); }
+    if (pg.id === "comecar") corpo.appendChild(h(`<div class="leitura">${blocos(m.comecar, true)}</div>`));
+    if (pg.id === "termos") corpo.appendChild(h(`<div class="glossario">${m.termos.map(t => `<details class="termo"><summary>${t.rotulo}</summary><p>${t.def}</p></details>`).join("")}</div>`));
+    if (pg.id === "onde") corpo.appendChild(h(`<ul class="onde-uso">${m.ondeUso.itens.map(i => `<li>${i}</li>`).join("")}</ul>`));
+    if (pg.tipo === "missao" && m.alertas.length) corpo.appendChild(h(`<div class="alerta" role="note">${m.alertas.map(x => `<p>⚠️ ${x}</p>`).join("")}</div>`));
+    if (pg.tipo === "missao") corpo.appendChild(h(`<p class="nivel-info nivel-${pg.id}">${{ basico: "🟢 <strong>Básico</strong>: todos fazem. É o que o professor confere para o carimbo.", desafio: "🟡 <strong>Desafio</strong>: para quem terminou o Básico. Vale pontos extras.", turbo: "🔴 <strong>Turbo</strong>: para quem terminou o Desafio." }[pg.id]}</p>`));
+    (pg.atividades || []).forEach((at, i) => corpo.appendChild(cartaoAtividade(aid, mid, at, i, () => { barra(info()); atualizarStatus(); })));
+    if (pg.tipo === "relatorio") corpo.appendChild(relatorio(aid, mid, pages));
+    const figs = figurasDaPagina(aid, mid, pg.id, pages.map(p => p.id));
+    if (figs.length) {
+      const leit = corpo.querySelector(".leitura, .glossario, .onde-uso");
+      if (leit && pg.id === "comecar") colocarFiguras(leit, figs, [...leit.children], "bloco");
+      else if (corpo.querySelector(".atv")) colocarFiguras(corpo, figs, [...corpo.querySelectorAll(".atv")], "cartao");
+      else colocarFiguras(corpo, figs, [], "bloco");
+    }
+    function atualizarStatus() {
+      const x = statusMissao(aid, mid);
+      const linha = (r, k) => x[k][1] ? `<li>${r} <strong>${x[k][0]}/${x[k][1]}</strong>${x[k][0] === x[k][1] ? " ✔" : ""}</li>` : "";
+      el.querySelector("#mn-status").innerHTML = `<ul>${linha("📖 Leitura", "leitura")}${linha("🟢 Básico", "basico")}${linha("🟡 Desafio", "desafio")}${linha("🔴 Turbo", "turbo")}${linha("✅ Revisão", "revisao")}</ul>`;
+      const ok = x.basico[1] && x.basico[0] === x.basico[1];
+      el.querySelector("#banner-ok").innerHTML = ok && pg.tipo === "missao" && pg.id === "basico" ? `<div class="banner-concluida" role="status">✅ MISSÃO BÁSICA CONCLUÍDA — chame o professor para conferir e carimbar a sua apostila!<br><a href="#/missao/${aid}/${mid}/relatorio">📋 Ver o resumo do que fiz (para o print)</a></div>` : "";
+      const tb = document.querySelector(".tb-info"); if (tb) tb.classList.toggle("tb-ok", !!ok);
+    }
+    atualizarStatus();
+  }
+
+  /* ---------------- blocos de leitura ---------------- */
+  function blocos(arr, enriquecer) {
+    return (arr || []).map(b => {
+      if (b.t === "p") return `<p>${b.h}</p>`;
+      if (b.t === "lista") {
+        const tag = b.ord ? "ol" : "ul";
+        return `<${tag} class="lista">${b.itens.map(i => `<li style="margin-left:${i.nivel * 1.2}em">${i.h}</li>`).join("")}</${tag}>`;
+      }
+      if (b.t === "tabela") {
+        // tabela de 3 colunas vira cartões, para leitura mais visual
+        if (enriquecer && b.cab.length === 3 && b.linhas.length <= 7 && b.linhas.every(l => l.length === 3)) {
+          return `<div class="cartoes-leitura">${b.linhas.map(l => `<div class="cl"><h3>${l[0]}</h3><p>${l[1]}</p><p class="cl-ex"><span>${b.cab[2]}:</span> ${l[2]}</p></div>`).join("")}</div>`;
+        }
+        return `<div class="tabela-wrap"><table><thead><tr>${b.cab.map(c => `<th scope="col">${c}</th>`).join("")}</tr></thead>
+          <tbody>${b.linhas.map(l => `<tr>${l.map(c => `<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`;
+      }
+      return "";
+    }).join("");
+  }
+  P.blocos = blocos;
+
+  /* ============================================================
+     CARTÃO DE ATIVIDADE (estrutura comum)
+     ============================================================ */
+  const NIVEL = { basico: ["🟢", "Básico"], desafio: ["🟡", "Desafio"], turbo: ["🔴", "Turbo"], treino: ["🔁", "Treino"], revisao: ["✅", "Revisão"] };
+  function cartaoAtividade(aid, mid, at, i, onChange) {
+    const T = P.tipos[at.tipo];
+    if (!T) return h(`<div class="atv erro">Tipo de atividade desconhecido: ${esc(at.tipo)}</div>`);
+    if (T.semStatus) {
+      const box = h(`<section class="atv atv-info"><header class="atv-cab"><h2>${md(at.titulo || "")}</h2></header><div class="atv-corpo"></div></section>`);
+      T.render(box.querySelector(".atv-corpo"), at, {});
+      return box;
+    }
+    const prog = getProg(aid);
+    const st = prog.atv[at.id] = prog.atv[at.id] || { tentativas: 0, dicas: 0 };
+    const s = sess.get();
+    const auto = typeof T.auto === "function" ? T.auto(at) : T.auto;
+    const corr = at.professor ? "👨‍🏫 o professor confere" : auto ? "✔ correção automática" : "👨‍🏫 o professor confere";
+    const vez = s && s.modo === "dupla" && ["basico", "desafio", "turbo"].includes(at.nivel) ? `<span class="vez">🎮 Vez de: <strong>${esc(curto(s, i % 2))}</strong> (o outro ajuda)</span>` : "";
+    const el = h(`<section class="atv nivel-${at.nivel}" id="atv-${at.id}" aria-labelledby="t-${at.id}">
+      <header class="atv-cab"><span class="atv-nivel">${(NIVEL[at.nivel] || ["", ""])[0]} ${(NIVEL[at.nivel] || ["", ""])[1]}</span>
+        <h2 id="t-${at.id}">${md(at.titulo || "")}</h2><span class="atv-corr">${corr}${at.opcional ? " · opcional" : ""}</span>${vez}</header>
+      ${at.enunciado ? `<div class="atv-enun">${at.enunciado}</div>` : ""}
+      <div class="atv-corpo"></div>
+      <div class="atv-dicas" aria-live="polite"></div>
+      <div class="atv-acoes">
+        <button type="button" class="btn btn-ok" data-a="verificar">Verificar</button>
+        <button type="button" class="btn btn-sec" data-a="dica" hidden>💡 Dica</button>
+        <button type="button" class="btn btn-sec" data-a="resolucao" hidden>📘 Ver resolução comentada</button>
+        <button type="button" class="btn btn-link" data-a="refazer" hidden>↺ Refazer</button>
+        <span class="atv-status" aria-live="polite"></span>
+      </div>
+      <div class="atv-fb" role="status" aria-live="polite"></div>
+    </section>`);
+    const corpo = el.querySelector(".atv-corpo"), fb = el.querySelector(".atv-fb"), dicasEl = el.querySelector(".atv-dicas");
+    const bV = el.querySelector('[data-a="verificar"]'), bD = el.querySelector('[data-a="dica"]'), bR = el.querySelector('[data-a="resolucao"]'), bRef = el.querySelector('[data-a="refazer"]');
+    const statusEl = el.querySelector(".atv-status");
+    const dicas = at.dicas || [];
+
+    const salvar = () => { const p = getProg(aid); p.atv[at.id] = st; setProg(aid, p); };
+    const feedback = (kind, html) => { fb.innerHTML = html ? `<div class="fb fb-${kind}">${kind === "ok" ? "✔ " : kind === "erro" ? "✖ " : ""}${html}</div>` : ""; };
+    const mostrarStatus = () => {
+      const m = { certo: "✔ Concluída", ajuda: "✔ Concluída com ajuda", enviado: "📝 Enviada — o professor confere", feito: "✔ Feita" }[st.status] || "";
+      statusEl.textContent = m; el.classList.toggle("concluida", !!st.status);
+      bRef.hidden = !st.status || at.semRefazer;
+    };
+    const atualizarAjuda = () => {
+      bD.hidden = !dicas.length || st.dicas >= dicas.length || !!st.status;
+      bD.textContent = `💡 Dica ${Math.min(st.dicas + 1, dicas.length)} de ${dicas.length}`;
+      dicasEl.innerHTML = dicas.slice(0, st.dicas).map((d, k) => `<p class="dica"><strong>Dica ${k + 1}:</strong> ${d}</p>`).join("");
+      const liberou = st.tentativas >= 2 || (dicas.length > 0 && st.dicas >= dicas.length);
+      bR.hidden = !!st.status || !ctx.resolver || !liberou;
+    };
+    const ctx = {
+      at, st, el, corpo, salvar, feedback,
+      sessao: s,
+      verificar: null, resolver: null,
+      concluir(status, msg) {
+        st.status = (status === "certo" && (st.dicas > 0 || st.viuResolucao)) ? "ajuda" : status;
+        st.quando = Date.now(); salvar(); mostrarStatus(); atualizarAjuda();
+        if (msg !== false) feedback("ok", (msg || "Muito bem!") + (at.explicacao ? `<div class="explic">${at.explicacao}</div>` : ""));
+        onChange && onChange();
+      },
+      errou(msg) {
+        st.tentativas++; salvar();
+        feedback("erro", msg + (st.tentativas >= 2 && (dicas.length || ctx.resolver) ? " <br><small>Se quiser, peça uma dica ou veja a resolução comentada.</small>" : " <br><small>Sua resposta foi mantida: ajuste e tente de novo.</small>"));
+        atualizarAjuda();
+      },
+      esconderVerificar() { bV.hidden = true; },
+      mostrarVerificar() { bV.hidden = false; },
+      reRender() { corpo.innerHTML = ""; T.render(corpo, at, ctx); }
+    };
+    bV.onclick = () => { if (ctx.verificar) ctx.verificar(); };
+    bD.onclick = () => { st.dicas++; salvar(); atualizarAjuda(); };
+    bR.onclick = () => { if (!ctx.resolver) return; st.viuResolucao = true; ctx.resolver(); ctx.concluir("ajuda", "Resolução comentada:"); };
+    bRef.onclick = () => { for (const k of Object.keys(st)) delete st[k]; st.tentativas = 0; st.dicas = 0; salvar(); feedback("", ""); ctx.reRender(); mostrarStatus(); atualizarAjuda(); onChange && onChange(); };
+    T.render(corpo, at, ctx);
+    el._ctx = ctx; // usado pelos testes automatizados
+    if (!ctx.verificar) bV.hidden = true;
+    if (st.status) { mostrarStatus(); if (at.explicacao && st.status !== "enviado") feedback("ok", "Você já concluiu esta atividade." + `<div class="explic">${at.explicacao}</div>`); }
+    atualizarAjuda();
+    return el;
+  }
+
+  /* ============================================================
+     RESUMO DA MISSÃO (para print e registro no diário)
+     ============================================================ */
+  function relatorio(aid, mid, pages) {
+    const s = sess.get(), prog = getProg(aid), a = apostila(aid), t = turma(s.turma);
+    const m = P.conteudo[aid].missoes.find(x => x.id === mid);
+    const x = statusMissao(aid, mid);
+    const tempos = [];
+    Object.keys(prog.visitas).forEach(k => { if (k.startsWith(mid + "/")) tempos.push(prog.visitas[k]); });
+    const linhas = [];
+    pages.forEach(pg => {
+      if (pg.tipo === "leitura") linhas.push(`<li class="${prog.visitas[mid + "/" + pg.id] ? "r-ok" : ""}"><span class="r-ic">📖</span><span class="r-o">Leitura: ${esc(pg.rotulo)}</span><span class="r-s">${prog.visitas[mid + "/" + pg.id] ? "✔ lida" : "⬜ não aberta"}</span></li>`);
+      (pg.atividades || []).forEach(at => {
+        if ((P.tipos[at.tipo] || {}).semStatus) return;
+        const st = prog.atv[at.id] || {};
+        if (st.quando) tempos.push(st.quando);
+        const sit = { certo: "✔ sem ajuda", ajuda: "✔ com ajuda", enviado: "📝 enviada — professor confere", feito: "✔ feita" }[st.status] || (at.opcional ? "— opcional" : "⬜ não feita");
+        const tit = P.util.semTags(at.titulo || "").replace(/\s+/g, " ");
+        const extra = [st.tentativas ? `${st.tentativas} erro${st.tentativas > 1 ? "s" : ""}` : "", st.dicas ? `${st.dicas} dica${st.dicas > 1 ? "s" : ""}` : ""].filter(Boolean).join(" · ");
+        linhas.push(`<li class="${st.status ? "r-ok" : ""}"><span class="r-ic">${(NIVEL[at.nivel] || ["", ""])[0]}</span><span class="r-o">${esc(tit.length > 58 ? tit.slice(0, 56) + "…" : tit)}</span><span class="r-s">${sit}${extra ? `<small>${extra}</small>` : ""}</span></li>`);
+      });
+    });
+    const agora = Date.now();
+    const ini = tempos.length ? Math.min(...tempos) : agora, fim = tempos.length ? Math.max(...tempos) : agora;
+    const hhmm = ms => new Date(ms).toLocaleTimeString("pt-BR").slice(0, 5);
+    const okB = x.basico[1] && x.basico[0] === x.basico[1];
+    const base = [s.nomes.join("+"), s.turma, aid, mid, x.basico.join("/"), x.desafio.join("/"), x.turbo.join("/"), x.revisao.join("/"), new Date(fim).toDateString()].join("|");
+    let hsh = 0; for (const ch of base) hsh = (hsh * 31 + ch.charCodeAt(0)) >>> 0;
+    const codigo = hsh.toString(36).toUpperCase().padStart(6, "0").slice(-6);
+    const nomesTxt = s.nomes.map((n, i) => esc(n) + (s.apelidos && s.apelidos[i] ? ` <span class="r-apel">“${esc(s.apelidos[i])}”</span>` : "")).join("<br>");
+    const cont = (r, k) => x[k][1] ? `<div class="r-cont ${x[k][0] === x[k][1] ? "ok" : ""}"><span>${r}</span><strong>${x[k][0]}/${x[k][1]}</strong></div>` : "";
+    const el = h(`<div class="rel-wrap">
+      <div class="rel-instr nao-imprimir"><p>📸 <strong>Tire um print desta tela</strong> e envie ao professor: tecla <kbd>PrtSc</kbd> ou <kbd>Windows</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd>.</p>
+        <button class="btn btn-sec btn-peq" type="button" id="rel-imp">🖨️ Imprimir</button></div>
+      <section class="relatorio" id="relatorio" aria-label="Resumo da missão">
+        <header class="r-cab"><div><p class="r-portal">💻 ${esc(cat().portal)}</p><p class="r-prof">${esc(cat().professor)}</p></div>
+          <h2 class="r-tit">📋 Resumo da missão</h2>
+          <div class="r-cod"><span>código de conferência</span><strong>${codigo}</strong></div></header>
+        <div class="r-grid">
+          <div><span>Aluno(s)</span><strong>${nomesTxt}</strong></div>
+          <div><span>Turma</span><strong>${esc(t ? t.nome : s.turma)}</strong></div>
+          <div><span>Data</span><strong>${new Date(fim).toLocaleDateString("pt-BR")}</strong></div>
+          <div><span>Horário</span><strong>${hhmm(ini)} – ${hhmm(fim)}</strong></div>
+          <div class="r-larga"><span>Missão</span><strong>${esc(m.icone)} ${esc(m.titulo)}</strong><small>${esc(a.titulo)}</small></div>
+        </div>
+        <div class="r-basico ${okB ? "ok" : "nao"}">${okB ? "✅ BÁSICO CONCLUÍDO — pode carimbar" : `⏳ BÁSICO AINDA NÃO CONCLUÍDO (${x.basico[0]} de ${x.basico[1]})`}</div>
+        <div class="r-conts">${cont("📖 Leitura", "leitura")}${cont("🟢 Básico", "basico")}${cont("🟡 Desafio", "desafio")}${cont("🔴 Turbo", "turbo")}${cont("✅ Revisão", "revisao")}</div>
+        <h3 class="r-sub">O que foi feito</h3>
+        <ol class="r-lista">${linhas.join("")}</ol>
+        <p class="r-rod">Gerado em ${new Date(agora).toLocaleDateString("pt-BR")} às ${hhmm(agora)} · ${esc(cat().escola)} — ${esc(cat().cidade)} · ${esc(cat().professor)}</p>
+      </section></div>`);
+    el.querySelector("#rel-imp").onclick = () => { document.body.classList.add("so-relatorio"); window.print(); setTimeout(() => document.body.classList.remove("so-relatorio"), 500); };
+    return el;
+  }
+
+  /* ============================================================
+     IMPRESSÃO
+     ============================================================ */
+  async function telaImprimir(aid) {
+    const a = apostila(aid); if (!a) return telaInicio();
+    await carregar(aid);
+    const C = P.conteudo[aid];
+    barra();
+    const el = mount(`<section class="tela impressao">
+      <div class="nao-imprimir painel"><p>Esta é a versão para imprimir ou salvar em PDF. Use o botão abaixo e escolha a impressora ou “Salvar como PDF”.</p>
+        <div class="row-btns"><button class="btn" id="bp" type="button">🖨️ Imprimir / salvar PDF</button><a class="btn btn-sec" href="#/apostila/${aid}">← Voltar</a></div></div>
+      <header class="imp-capa"><p>${esc(cat().portal)} · ${esc(cat().escola)} · ${esc(cat().cidade)}</p><h1>${esc(C.titulo)}</h1><p class="imp-prof">${esc(cat().professor)}</p>
+        ${(P.ilustracoes[aid] || {}).mascote ? `<div class="imp-masc">${P.ilustracoes[aid].mascote}</div>` : ""}
+        <table class="imp-id"><tr><td>Nome:</td><td class="linha"></td></tr><tr><td>Turma:</td><td class="linha"></td></tr></table></header>
+      <div id="imp-corpo"></div>
+      <footer class="imp-rodape">${esc(cat().portal)} · ${esc(cat().professor)} · ${esc(cat().escola)}</footer>
+    </section>`);
+    const corpo = el.querySelector("#imp-corpo");
+    C.missoes.forEach(m => {
+      const { pages } = montarMissao(aid, m.id);
+      const sec = h(`<section class="imp-missao"><h2>${esc(m.icone)} ${esc(m.titulo)}</h2>${m.objetivo ? `<p><strong>Objetivo:</strong> ${m.objetivo}</p>` : ""}<p>📅 Data: ____/____</p></section>`);
+      pages.forEach(pg => {
+        let html = `<h3>${pg.icone} ${esc(pg.rotulo)}</h3>`;
+        if (pg.id === "comecar") html += blocos(m.comecar);
+        if (pg.id === "termos") html += `<dl class="imp-termos">${m.termos.map(t => `<dt>${t.rotulo}</dt><dd>${t.def}</dd>`).join("")}</dl>`;
+        if (pg.id === "onde") html += `<ul>${m.ondeUso.itens.map(i => `<li>${i}</li>`).join("")}</ul>`;
+        if (pg.tipo === "missao" && pg.id === "basico" && m.alertas.length) html += m.alertas.map(x => `<p class="imp-alerta">⚠️ ${x}</p>`).join("");
+        (pg.atividades || []).forEach((at, k) => {
+          if (at.id.endsWith("-termos")) return; // jogo digital; os termos já estão impressos acima
+          const T = P.tipos[at.tipo];
+          html += `<div class="imp-atv"><h4>${(NIVEL[at.nivel] || ["", ""])[0]} ${md(at.titulo || "")}</h4>${at.enunciado ? `<div>${at.enunciado}</div>` : ""}${T && T.imprimir ? T.imprimir(at) : ""}</div>`;
+        });
+        if (pg.tipo === "missao") html += `<p class="imp-carimbo">Carimbo do professor: ☐ ${pg.rotulo}</p>`;
+        if (pg.tipo === "relatorio") return;
+        const bloco = h(`<div class="imp-pag">${html}</div>`);
+        const figs = figurasDaPagina(aid, m.id, pg.id, pages.map(p => p.id));
+        if (figs.length) colocarFiguras(bloco, figs, pg.tipo === "missao" ? [...bloco.querySelectorAll(".imp-atv")] : [...bloco.children].slice(1), pg.tipo === "missao" ? "depois" : "bloco");
+        sec.appendChild(bloco);
+      });
+      corpo.appendChild(sec);
+    });
+    el.querySelector("#bp").onclick = () => window.print();
+  }
+
+  /* ============================================================
+     EXPORTAÇÃO DAS RESPOSTAS (arquivo HTML legível)
+     ============================================================ */
+  async function exportar(aid) {
+    await carregar(aid);
+    const s = sess.get(); const C = P.conteudo[aid]; const prog = getProg(aid);
+    const t = turma(s.turma);
+    const linhas = [];
+    C.missoes.forEach(m => {
+      const { pages } = montarMissao(aid, m.id);
+      const itens = [];
+      pages.forEach(pg => (pg.atividades || []).forEach(at => {
+        const x = prog.atv[at.id]; if (!x || (!x.status && !x.resposta)) return;
+        const T = P.tipos[at.tipo];
+        const resp = T && T.resumoResposta ? T.resumoResposta(at, x) : "";
+        itens.push(`<tr><td>${(NIVEL[at.nivel] || ["", ""])[1]}</td><td>${md(at.titulo || "")}</td><td>${{ certo: "Concluída", ajuda: "Concluída com ajuda", enviado: "Enviada (professor confere)", feito: "Feita" }[x.status] || "Em andamento"}</td><td>${resp}</td></tr>`);
+      }));
+      if (itens.length) linhas.push(`<h2>${esc(m.icone)} ${esc(m.titulo)}</h2><table><tr><th>Nível</th><th>Atividade</th><th>Situação</th><th>Resposta</th></tr>${itens.join("")}</table>`);
+    });
+    const d = new Date();
+    const doc = `<!doctype html><html lang="pt-BR"><meta charset="utf-8"><title>Respostas — ${esc(s.nomes.join(" & "))}</title>
+      <style>body{font-family:Segoe UI,Arial,sans-serif;max-width:900px;margin:20px auto;color:#1e2235}table{border-collapse:collapse;width:100%;margin-bottom:16px}td,th{border:1px solid #bbb;padding:6px;vertical-align:top;text-align:left}th{background:#eee}h1{margin-bottom:0}</style>
+      <h1>${esc(C.titulo)}</h1><p><strong>${esc(cat().portal)}</strong> · <strong>${esc(cat().professor)}</strong> · ${esc(cat().escola)} — ${esc(cat().cidade)}</p>
+      <p><strong>Aluno(s):</strong> ${esc(s.nomes.map((n, i) => n + (s.apelidos && s.apelidos[i] ? ` (${s.apelidos[i]})` : "")).join(" & "))} · <strong>Turma:</strong> ${esc(t ? t.nome : s.turma)} · <strong>Gerado em:</strong> ${d.toLocaleDateString("pt-BR")} ${d.toLocaleTimeString("pt-BR").slice(0, 5)}</p>
+      ${linhas.join("") || "<p>Nenhuma atividade registrada ainda.</p>"}
+      <p style="color:#666;font-size:12px">Arquivo gerado pelo Portal da Informática — Professor Welington Laignier — Escola JK. As respostas abertas são avaliadas pelo professor.</p></html>`;
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([doc], { type: "text/html;charset=utf-8" }));
+    const slug = x => norm(x).replace(/[^a-z0-9]+/g, "_");
+    a.download = `respostas_${slug(aid)}_${slug(t ? t.nome : s.turma)}_${slug(s.nomes.join("_"))}.html`;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 3000);
+    toast("📥 Arquivo baixado (pasta Downloads).");
+  }
+
+  /* ============================================================
+     ÁREA DO PROFESSOR e PRIVACIDADE
+     ============================================================ */
+  async function telaProfessor() {
+    barra();
+    await Promise.all(cat().apostilas.map(a => carregar(a.id).catch(() => null)));
+    const o = cat().orientacoes;
+    const base = location.href.split("#")[0];
+    const el = mount(`<section class="tela">
+      <nav class="migalhas"><a href="#/">Início</a> › Área do professor</nav>
+      <h1>Área do professor</h1>
+      <p class="lead">${esc(cat().professor)} · orientações rápidas e links da missão do dia.</p>
+      <div class="painel"><h2>⏱️ Duração</h2><p>${esc(o.duracao)}</p><h2>🧰 Recursos</h2><p>${esc(o.recursos)}</p><h2>📝 Avaliação</h2><p>${esc(o.avaliacao)}</p>
+        <h2>✔ Correção</h2><p>Cada atividade mostra se tem <strong>correção automática</strong> ou se <strong>o professor confere</strong> (respostas abertas, tarefas no Paint e no Bloco de Notas). As respostas abertas não recebem nota automática: o portal só mostra critérios de revisão.</p>
+        <h2>👀 Acompanhamento pelo Veyon</h2><p>O topo de cada tela mostra a turma, o nome do aluno (ou da dupla), a missão e o andamento do Básico. Quando o Básico termina, a barra fica verde e aparece a faixa “Chame o professor”. O Veyon só mostra as telas: ele não guarda respostas nem notas.</p></div>
+      <div class="painel"><h2>🔗 Link da missão do dia</h2><p>Escolha a apostila e a missão. Abra o link em todos os computadores (função “Abrir site” do Veyon): depois de se identificar, o aluno cai direto na missão.</p>
+        <div class="row-btns"><select id="sa">${cat().apostilas.map(a => `<option value="${a.id}">${esc(a.titulo)}</option>`).join("")}</select>
+        <select id="sm"></select></div>
+        <p><input id="link" class="link-out" readonly aria-label="Link da missão do dia"></p>
+        <div class="row-btns"><button class="btn" id="copiar" type="button">📋 Copiar link</button><a class="btn btn-sec" id="abrir" href="#">Testar</a></div></div>
+      <div class="painel"><h2>🖨️ Versões para imprimir</h2><ul>${cat().apostilas.map(a => `<li><a href="#/imprimir/${a.id}">${esc(a.titulo)}</a></li>`).join("")}</ul></div>
+    </section>`);
+    const sa = el.querySelector("#sa"), sm = el.querySelector("#sm"), link = el.querySelector("#link"), ab = el.querySelector("#abrir");
+    const upd = () => {
+      const C = P.conteudo[sa.value];
+      if (sm.dataset.ap !== sa.value) { sm.innerHTML = C ? C.missoes.map(m => `<option value="${m.id}">${esc(m.icone)} ${esc(m.titulo)}</option>`).join("") : ""; sm.dataset.ap = sa.value; }
+      const hash = "#/abrir/" + sa.value + "/" + sm.value;
+      link.value = base + hash; ab.href = hash;
+    };
+    sa.onchange = upd; sm.onchange = upd; upd();
+    el.querySelector("#copiar").onclick = () => { link.select(); try { navigator.clipboard.writeText(link.value).then(() => toast("Link copiado!"), () => { document.execCommand("copy"); toast("Link copiado!"); }); } catch (e) { document.execCommand("copy"); toast("Link copiado!"); } };
+  }
+
+  function telaSobre() {
+    barra();
+    mount(`<section class="tela"><nav class="migalhas"><a href="#/">Início</a> › Privacidade e progresso</nav>
+      <h1>Privacidade e progresso</h1>
+      <div class="painel">
+        <h2>O que o portal guarda?</h2><p>Só o nome (ou os nomes da dupla), a turma e as respostas das atividades. Nada é enviado pela internet: <strong>tudo fica apenas no navegador deste computador</strong>.</p>
+        <h2>Por quanto tempo?</h2><p>As respostas ficam guardadas neste navegador até alguém apagar: pelo botão “Apagar meus dados deste computador” (na capa da apostila) ou limpando os dados do navegador. Ao entrar de novo com o <strong>mesmo nome e a mesma turma</strong>, neste mesmo computador, você continua de onde parou.</p>
+        <h2>Quando o progresso se perde?</h2><ul><li>Se usar outro computador (cada computador guarda o seu).</li><li>Se usar janela anônima.</li><li>Se os dados do navegador forem apagados.</li><li>Se digitar o nome de outro jeito (ex.: “Ana” e depois “Ana Souza”).</li></ul>
+        <h2>Como o professor registra?</h2><p>O registro oficial é o <strong>carimbo na apostila impressa</strong> e o diário de classe do professor. O portal não envia respostas e não tem painel central. Se o professor pedir, use “Baixar minhas respostas”: o arquivo vai para a pasta Downloads e a coleta é feita manualmente.</p>
+        <h2>Precisa de internet?</h2><p>Se o portal estiver na pasta do computador ou da rede da escola, funciona sem internet. Se estiver publicado num endereço web, precisa de internet só para abrir.</p>
+        <h2>Cuidados</h2><p>Nunca digite senhas, telefone, endereço ou documentos no portal. Use só o nome.</p>
+      </div></section>`);
+  }
+
+  /* ============================================================
+     ROTEADOR
+     ============================================================ */
+  async function rota() {
+    const hs = (location.hash || "#/").slice(1).split("/").filter(Boolean);
+    try {
+      if (!hs.length) return telaInicio();
+      const [r, a1, a2, a3] = hs;
+      if (r === "serie") return telaSerie(a1);
+      if (r === "apostilas") return telaApostilas();
+      if (r === "apostila") return await telaApostila(a1);
+      if (r === "missao") return await telaMissao(a1, a2, a3);
+      if (r === "imprimir") return await telaImprimir(a1);
+      if (r === "professor") return await telaProfessor();
+      if (r === "sobre") return telaSobre();
+      if (r === "abrir") {
+        const ap = apostila(a1); if (!ap) return telaInicio();
+        try { sessionStorage.setItem("portalJK:hoje", a1 + "/" + a2); } catch (e) {}
+        const s = sess.get();
+        if (!s || s.serie !== ap.serie) return telaSerie(ap.serie, "#/missao/" + a1 + "/" + a2);
+        location.replace("#/missao/" + a1 + "/" + a2); return;
+      }
+      return telaInicio();
+    } catch (e) {
+      console.error(e);
+      mount(`<section class="tela"><div class="painel erro"><h1>Não foi possível abrir esta página</h1><p>${esc(e.message)}</p><p><a href="#/">Voltar ao início</a></p></div></section>`);
+    }
+  }
+
+  window.addEventListener("hashchange", rota);
+  window.addEventListener("DOMContentLoaded", () => { rodape(); rota(); });
+})();

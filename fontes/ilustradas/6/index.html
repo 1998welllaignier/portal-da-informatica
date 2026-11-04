@@ -1,0 +1,604 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Apostila Ilustrada 6º Ano</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+/* Layout: folhas A4 empilhadas sobre uma "mesa"; tudo em tons de grafite para a impressora monocromática */
+:root{
+  --desk:#e4e6e8;
+  --paper:#ffffff;
+  --ink:#1c1f22;
+  --ink-2:#4a5056;
+  --tint:#eef0f2;
+  --tint-2:#d6dade;
+  --line:#9aa1a8;
+  --accent:#2f5d62;      /* sai como cinza-médio na impressão */
+  --display:"Baloo 2","Trebuchet MS",system-ui,sans-serif;
+  --body:"Atkinson Hyperlegible",Verdana,system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,"Courier New",monospace;
+  color-scheme:light;
+}
+body{background:var(--desk);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.5;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:24px}
+.sheet{max-width:820px;margin:0 auto 28px;background:var(--paper);border-radius:6px;box-shadow:0 2px 10px rgba(0,0,0,.12);padding:40px 44px;position:relative;overflow:hidden}
+@media (max-width:600px){.sheet{padding:24px 18px}}
+h1,h2,h3{font-family:var(--display);line-height:1.1;text-wrap:balance;margin:0}
+h2{font-size:30px;font-weight:800}
+h3{font-size:21px;font-weight:700;display:flex;align-items:center;gap:10px;margin:26px 0 10px}
+h3 svg{width:28px;height:28px;flex:none}
+p{margin:0 0 10px;max-width:68ch}
+.small{font-size:13px;color:var(--ink-2)}
+.lead{font-size:16px}
+.stack{display:flex;flex-direction:column;gap:12px}
+.row{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start}
+.row>*{min-width:0}
+.grow{flex:1 1 300px}
+.tw{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14px;margin:6px 0 12px}
+th,td{border:1.5px solid var(--ink);padding:7px 9px;text-align:left;vertical-align:top}
+th{background:var(--tint-2);font-family:var(--display);font-weight:700;font-size:15px}
+td.w{height:34px;min-width:90px}
+td.wl{height:46px}
+.mono{font-family:var(--mono)}
+.ico{width:22px;height:22px;vertical-align:-5px;flex:none}
+.pill{display:inline-flex;align-items:center;gap:6px;border:1.5px solid var(--ink);border-radius:999px;padding:1px 10px 1px 6px;font-family:var(--display);font-weight:700;font-size:14px;background:var(--paper)}
+.pill svg{width:16px;height:16px}
+
+/* Cabeçalho das missões */
+.mhead{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:center;border-bottom:3px solid var(--ink);padding-bottom:16px;margin-bottom:14px}
+.mnum{width:92px;height:92px;border-radius:50%;border:3px solid var(--ink);display:grid;place-items:center;background:var(--tint);position:relative}
+.mnum svg{width:56px;height:56px}
+.mnum b{position:absolute;bottom:-8px;right:-6px;background:var(--ink);color:var(--paper);font-family:var(--display);font-size:16px;border-radius:999px;padding:0 10px}
+.eyebrow{font-family:var(--display);font-weight:700;letter-spacing:.08em;text-transform:uppercase;font-size:13px;color:var(--accent)}
+.goal{background:var(--tint);border-radius:8px;padding:10px 14px;display:flex;gap:10px;align-items:flex-start}
+.date{font-family:var(--display);font-weight:700;margin-top:8px}
+
+/* Caixas */
+.box{border:2px solid var(--ink);border-radius:10px;padding:14px 16px}
+.box.soft{border-color:var(--tint-2);background:var(--tint)}
+.callout{border-left:5px solid var(--ink);background:var(--tint);padding:10px 14px;border-radius:0 8px 8px 0}
+.warn{border:2px dashed var(--ink);border-radius:10px;padding:10px 14px;display:flex;gap:10px;align-items:flex-start}
+.warn svg{width:26px;height:26px;flex:none}
+.write{border:2px solid var(--ink);border-radius:10px;padding:8px 14px 12px}
+.write .lbl{font-family:var(--display);font-weight:700;display:flex;gap:6px;align-items:center}
+.lines{background-image:repeating-linear-gradient(to bottom,transparent 0 31px,var(--line) 31px 32px);min-height:96px}
+.lines.l2{min-height:64px}.lines.l4{min-height:128px}
+.dots{background-image:radial-gradient(var(--line) 1px,transparent 1.3px);background-size:18px 18px;min-height:260px;border-radius:6px}
+
+/* Níveis */
+.level{display:flex;align-items:center;gap:10px;margin:22px 0 8px;font-family:var(--display);font-weight:800;font-size:20px}
+.level svg{width:30px;height:30px}
+.level::after{content:"";flex:1;border-top:2px dotted var(--line)}
+
+/* Figuras */
+figure{margin:8px 0 14px}
+figure svg{display:block;width:100%;height:auto;max-width:100%}
+figcaption{font-size:13px;color:var(--ink-2);margin-top:4px;text-align:center}
+.fig-s{max-width:420px;margin-inline:auto}
+
+/* Carimbos */
+.stamps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:10px 0}
+.stamp{border:2px dashed var(--ink);border-radius:14px;aspect-ratio:1.5/1;max-width:100%;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding-top:8px;font-family:var(--display);font-weight:700;gap:4px}
+.stamp svg{width:22px;height:22px}
+
+/* V ou F */
+.vf{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:7px}
+.vf li{display:flex;gap:10px;align-items:baseline}
+.vf li::before{content:"";flex:none;width:30px;height:22px;border:1.5px solid var(--ink);border-radius:5px;transform:translateY(5px)}
+
+/* Resumo */
+.resumo{background:var(--paper);color:var(--ink);border:3px double var(--ink);border-radius:12px;padding:14px 18px;margin-top:18px}
+.resumo h3{margin:0 0 8px;color:var(--ink);border-bottom:1.5px dashed var(--line);padding-bottom:6px}
+.resumo p{max-width:none}
+.kw{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.kw span{border:1.5px solid var(--ink);border-radius:999px;padding:0 10px;font-size:13px}
+
+.vida{border:2.5px solid var(--ink);border-radius:14px;padding:2px 18px 14px;margin-top:16px;background:var(--paper);break-inside:avoid}
+.vida h3{margin-top:12px}
+.vida .write{border-style:dashed}
+.vida.sig{border-style:dashed;border-width:2px}
+.vida.sig ul.dots-list li{margin:5px 0}
+.vida.sig ul.dots-list{padding-left:18px}
+ul.dots-list{margin:4px 0 10px;padding-left:20px}
+ul.dots-list li{margin:3px 0}
+/* Capa */
+.cover{display:flex;flex-direction:column;gap:14px}
+.cover h1{font-size:50px;font-weight:800;letter-spacing:-.01em}
+.cover .sub{font-family:var(--display);font-size:22px;font-weight:600;color:var(--ink-2)}
+.author{font-family:var(--display);font-weight:700;font-size:18px;margin-top:6px;display:inline-block;border-top:2px solid var(--ink);padding-top:2px}
+.mascot{width:190px;height:auto;flex:none}
+.infobox{border:2px solid var(--ink);border-radius:10px;display:grid}
+.infobox>div{display:grid;grid-template-columns:150px 1fr;border-top:1.5px solid var(--tint-2)}
+.infobox>div:first-child{border-top:0}
+.infobox b{font-family:var(--display);padding:6px 12px;background:var(--tint)}
+.infobox span{padding:6px 12px}
+.cover .fields{display:grid;grid-template-columns:1.35fr 1fr;gap:8px}
+.field{display:grid;grid-template-columns:150px 1fr;border:2px solid var(--ink);border-radius:10px;overflow:hidden;min-height:40px}
+.field b{background:var(--tint-2);padding:8px 12px;font-family:var(--display)}
+.field span{border-left:2px solid var(--ink)}
+.field .opts{display:flex;align-items:center;gap:10px;padding:0 10px;font-family:var(--display);font-weight:800;font-size:16px;white-space:nowrap}.opt{display:inline-flex;align-items:center;gap:6px}.ck{display:inline-block;width:20px;height:20px;border:2.5px solid var(--ink);border-radius:5px;background:#fff}
+
+table.notas td{height:28px}
+table.notas{margin:4px 0 6px}
+.egg{border:1.5px dashed var(--line);border-radius:8px;padding:6px 10px;margin-top:8px}
+.sign{font-family:var(--display);font-weight:700;text-align:right;margin:10px 0 0;font-size:16px}
+.sheet::after{content:"Prof. Welington Laignier · Informática 6º ano";position:absolute;right:20px;bottom:10px;font-size:10px;letter-spacing:.06em;color:var(--line)}
+@media (max-width:600px){.cover h1{font-size:34px}.mascot{width:110px}.cover .fields{grid-template-columns:1fr}.field{grid-template-columns:1fr}.field span{border-left:0;border-top:2px solid var(--ink)}.infobox>div{grid-template-columns:1fr}}
+
+/* Árvore de pastas */
+.tree{font-family:var(--mono);font-size:14px;line-height:1.9}
+
+/* Alfabeto da cifra */
+.cipher td,.cipher th{text-align:center;padding:5px 4px;font-family:var(--mono);font-size:15px}
+.cipher th{font-family:var(--display)}
+
+@media print{
+  body{background:#fff;padding:0;font-size:12px;line-height:1.4}
+  .sheet{box-shadow:none;border-radius:0;margin:0;padding:0;max-width:none;overflow:visible;break-after:auto}
+  .sheet::after{display:none}
+  .sheet.pb{break-before:auto}
+  .mhead{margin-top:14px}
+  .cover{break-after:page;gap:10px}
+  .cover h1{font-size:42px}
+  .mascot{width:160px}
+  h2{font-size:23px} h3{font-size:17px;margin:12px 0 6px} h3 svg{width:22px;height:22px}
+  p{margin:0 0 6px}
+  .mhead{padding-bottom:10px;margin-bottom:10px}
+  .mnum{width:70px;height:70px}.mnum svg{width:42px;height:42px}
+  .tw{overflow:visible}
+  table{font-size:12px;margin:4px 0 8px} th{font-size:13px} th,td{padding:4px 7px}
+  td.w{height:26px} td.wl{height:36px}
+  .level{margin:12px 0 6px;font-size:17px}.level svg{width:24px;height:24px}
+  .dots{min-height:210px}
+  .lines{min-height:64px}.lines.l4{min-height:96px}
+  .stamp{aspect-ratio:2.2/1}
+  .box,.box.soft{padding:8px 12px}
+  .resumo{padding:10px 14px;margin-top:10px}
+  .box,figure,.write,.resumo,.stamps,.warn,.callout,.goal,tr,.mhead,.vf li,.infobox,.field,.egg{break-inside:avoid}
+  h3,.level,.mhead,.goal,.date{break-after:avoid}
+  th,.goal,.callout,.mnum,.box.soft,.infobox b,.field b{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+@page{size:A4;margin:11mm 12mm 13mm;
+  @bottom-left{content:"Informática · 6º ano · 4º bimestre 2026 · Prof. Welington Laignier";font-family:"Atkinson Hyperlegible",Verdana,sans-serif;font-size:8pt;color:#6b7279}
+  @bottom-right{content:counter(page);font-family:"Baloo 2",sans-serif;font-size:10pt;color:#1c1f22}}
+@page:first{@bottom-left{content:none}@bottom-right{content:none}}
+
+/* listas de passos (marcar ao concluir) */
+.tasks{list-style:none;padding:0;margin:4px 0 10px;display:flex;flex-direction:column;gap:6px}
+.tasks>li{display:flex;gap:10px;align-items:flex-start}
+.tasks>li::before{content:"";flex:none;width:15px;height:15px;border:1.5px solid var(--ink);border-radius:3px;margin-top:3px}
+.tasks>li>div{min-width:0;flex:1}
+.tasks>li.pc>div::before{content:"";display:inline-block;width:20px;height:16px;margin-right:6px;vertical-align:-3px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 16'%3E%3Crect x='1' y='1' width='18' height='11' rx='1.5' fill='white' stroke='%231c1f22' stroke-width='1.6'/%3E%3Cpath d='M7 15h6M10 12v3' stroke='%231c1f22' stroke-width='1.6'/%3E%3C/svg%3E") no-repeat center/contain}
+ol.steps{margin:4px 0 8px;padding-left:22px}
+ol.steps li{margin:2px 0}
+ul.dots-list{margin:4px 0 10px;padding-left:20px}
+.vida{border:2.5px solid var(--ink);border-radius:14px;padding:2px 18px 14px;margin-top:16px;background:var(--paper);break-inside:avoid}
+.vida h3{margin-top:12px}
+.vida .write{border-style:dashed}
+.vida.sig{border-style:dashed;border-width:2px}
+.vida.sig ul.dots-list li{margin:5px 0}
+.vida.sig ul.dots-list{padding-left:18px}
+ul.dots-list li{margin:3px 0}
+.write.dots-box .dots{min-height:240px}
+@media print{.tasks{gap:4px}.write.dots-box .dots{min-height:200px}}
+
+/* Capa: coluna de data maior + espaço para carimbo padrão do professor */
+table.notas th.dt{width:26%}
+.calc-row{display:flex;gap:12px;align-items:stretch;margin-top:2px}
+.calc-row>.tw{flex:1 1 auto;min-width:0}
+.calc-row table.notas{height:calc(100% - 10px)}
+.carimbo-capa{flex:none;width:7.5cm;min-height:3.6cm;margin:4px 0 6px;border:2px dashed var(--ink);border-radius:10px;display:flex;flex-direction:column;align-items:center;padding:6px 8px;font-family:var(--display);font-weight:700;font-size:14px;text-align:center}
+.carimbo-capa small{font-family:var(--body);font-weight:400;font-size:11px;color:var(--ink-2)}
+@media (max-width:600px){.calc-row{flex-direction:column}.carimbo-capa{width:100%;max-width:7.5cm;align-self:center}}
+@media print{table.notas td{height:30px}.carimbo-capa{width:7.5cm;min-height:3.6cm;break-inside:avoid}}
+</style>
+
+<!-- Biblioteca de ícones desenhados (em traço, para imprimir bem em preto) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-basico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="#1c1f22"/></symbol>
+    <symbol id="i-desafio" viewBox="0 0 24 24"><path d="M12 3 22 20H2Z" fill="#9aa1a8" stroke="#1c1f22" stroke-width="2" stroke-linejoin="round"/></symbol>
+    <symbol id="i-turbo" viewBox="0 0 24 24"><path d="M12 2.5l2.9 6 6.6.8-4.9 4.6 1.3 6.6L12 17.2l-5.9 3.3 1.3-6.6L2.5 9.3l6.6-.8Z" fill="#fff" stroke="#1c1f22" stroke-width="2" stroke-linejoin="round"/></symbol>
+    <symbol id="i-grafo" viewBox="0 0 48 48"><g stroke="#1c1f22" stroke-width="3" fill="none"><path d="M12 12 36 16M12 12 18 36M36 16 18 36M36 16 38 38"/></g><g fill="#fff" stroke="#1c1f22" stroke-width="3"><circle cx="12" cy="12" r="6"/><circle cx="36" cy="16" r="6"/><circle cx="18" cy="36" r="6"/><circle cx="38" cy="38" r="5"/></g></symbol>
+    <symbol id="i-cadeado" viewBox="0 0 48 48"><path d="M15 21v-6a9 9 0 0 1 18 0v6" fill="none" stroke="#1c1f22" stroke-width="3.5"/><rect x="9" y="21" width="30" height="22" rx="4" fill="#d6dade" stroke="#1c1f22" stroke-width="3"/><circle cx="24" cy="30" r="3" fill="#1c1f22"/><path d="M24 32v5" stroke="#1c1f22" stroke-width="3"/></symbol>
+    <symbol id="i-autoria" viewBox="0 0 48 48"><circle cx="24" cy="24" r="18" fill="#fff" stroke="#1c1f22" stroke-width="3"/><path d="M31 18a9 9 0 1 0 0 12" fill="none" stroke="#1c1f22" stroke-width="4" stroke-linecap="round"/></symbol>
+    <symbol id="i-bandeira" viewBox="0 0 48 48"><path d="M12 6v38" stroke="#1c1f22" stroke-width="3.5" stroke-linecap="round"/><path d="M12 8h26l-6 8 6 8H12Z" fill="#fff" stroke="#1c1f22" stroke-width="3" stroke-linejoin="round"/><path d="M12 8h7v8h-7zM26 8h6v8h-6zM19 16h7v8h-7z" fill="#1c1f22"/></symbol>
+    <symbol id="i-lampada" viewBox="0 0 24 24"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2V16h5v-.1c0-.8.4-1.5 1-2A6 6 0 0 0 12 3Z" fill="#fff" stroke="#1c1f22" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"/></symbol>
+    <symbol id="i-alvo" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="#fff" stroke="#1c1f22" stroke-width="1.8"/><circle cx="12" cy="12" r="5" fill="#d6dade" stroke="#1c1f22" stroke-width="1.8"/><circle cx="12" cy="12" r="1.8" fill="#1c1f22"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4" fill="#fff" stroke="#1c1f22" stroke-width="1.8"/><path d="m7.5 12.5 3 3 6-7" fill="none" stroke="#1c1f22" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-cerebro" viewBox="0 0 24 24"><path d="M9 4a3 3 0 0 0-3 3 3 3 0 0 0-2 5 3 3 0 0 0 2 5 3 3 0 0 0 3 3h1V4ZM15 4a3 3 0 0 1 3 3 3 3 0 0 1 2 5 3 3 0 0 1-2 5 3 3 0 0 1-3 3h-1V4Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+    <symbol id="i-lapis" viewBox="0 0 24 24"><path d="M4 20l1-4L16 5l3 3L8 19Z" fill="#fff" stroke="#1c1f22" stroke-width="1.8" stroke-linejoin="round"/><path d="M14 7l3 3" stroke="#1c1f22" stroke-width="1.8"/></symbol>
+    <symbol id="i-alerta" viewBox="0 0 24 24"><path d="M12 3 22 20H2Z" fill="#fff" stroke="#1c1f22" stroke-width="2" stroke-linejoin="round"/><path d="M12 9v5" stroke="#1c1f22" stroke-width="2.2" stroke-linecap="round"/><circle cx="12" cy="17" r="1.2" fill="#1c1f22"/></symbol>
+    <symbol id="i-calendario" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2" fill="#fff" stroke="#1c1f22" stroke-width="1.8"/><path d="M3 10h18M8 3v4M16 3v4" stroke="#1c1f22" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="i-jogo" viewBox="0 0 24 24"><path d="M7 8h10a4 4 0 0 1 4 4v3a3 3 0 0 1-5.4 1.8L14.5 15h-5l-1.1 1.8A3 3 0 0 1 3 15v-3a4 4 0 0 1 4-4Z" fill="#fff" stroke="#1c1f22" stroke-width="1.8" stroke-linejoin="round"/><path d="M8 11v3M6.5 12.5h3" stroke="#1c1f22" stroke-width="1.8" stroke-linecap="round"/><circle cx="16" cy="11.5" r="1" fill="#1c1f22"/><circle cx="17.5" cy="13.5" r="1" fill="#1c1f22"/></symbol>
+    <symbol id="i-pasta" viewBox="0 0 24 24"><path d="M3 6a1 1 0 0 1 1-1h5l2 2h9a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1Z" fill="#d6dade" stroke="#1c1f22" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+    <symbol id="i-arquivo" viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6Z" fill="#fff" stroke="#1c1f22" stroke-width="1.6" stroke-linejoin="round"/><path d="M14 3v4h4M9 12h6M9 15h6" stroke="#1c1f22" stroke-width="1.4"/></symbol>
+    <symbol id="i-carimbo" viewBox="0 0 24 24"><path d="M9 3h6v5l2 4H7l2-4Z" fill="#d6dade" stroke="#1c1f22" stroke-width="1.6" stroke-linejoin="round"/><rect x="4" y="12" width="16" height="4" rx="1" fill="#fff" stroke="#1c1f22" stroke-width="1.6"/><path d="M5 20h14" stroke="#1c1f22" stroke-width="2" stroke-linecap="round"/></symbol>
+
+    <symbol id="i-globo" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="#fff" stroke="#1c1f22" stroke-width="1.8"/><path d="M3 12h18M12 3c-3 3-3 15 0 18M12 3c3 3 3 15 0 18" fill="none" stroke="#1c1f22" stroke-width="1.5"/><path d="M5.5 7.5c2 1.2 4 1.2 6.5 1s4.5-.2 6.5-1M5.5 16.5c2-1.2 4-1.2 6.5-1s4.5.2 6.5 1" fill="none" stroke="#1c1f22" stroke-width="1.2"/></symbol>
+    <symbol id="i-livro" viewBox="0 0 24 24"><path d="M3 5.5C5.5 4.3 8.5 4.3 12 6c3.5-1.7 6.5-1.7 9-.5v13c-2.5-1.2-5.5-1.2-9 .5-3.5-1.7-6.5-1.7-9-.5Z" fill="#fff" stroke="#1c1f22" stroke-width="1.7" stroke-linejoin="round"/><path d="M12 6v13.5" stroke="#1c1f22" stroke-width="1.7"/><path d="M5.5 8.5c1.5-.4 3-.3 4.5.3M5.5 11.5c1.5-.4 3-.3 4.5.3M14 8.8c1.5-.6 3-.7 4.5-.3M14 11.8c1.5-.6 3-.7 4.5-.3" stroke="#9aa1a8" stroke-width="1.2" fill="none"/></symbol>
+  
+    <symbol id="i-monitor" viewBox="0 0 48 48"><rect x="5" y="7" width="38" height="26" rx="3" fill="#fff" stroke="#1c1f22" stroke-width="3"/><rect x="10" y="12" width="28" height="16" rx="1" fill="#d6dade"/><path d="M18 41h12M24 33v8" stroke="#1c1f22" stroke-width="3" stroke-linecap="round"/></symbol>
+    <symbol id="i-puzzle" viewBox="0 0 48 48"><path d="M8 14h9a5 5 0 1 1 10 0h9v9a5 5 0 1 1 0 10v9H27a5 5 0 1 0-10 0H8V33a5 5 0 1 0 0-10Z" fill="#d6dade" stroke="#1c1f22" stroke-width="3" stroke-linejoin="round"/></symbol>
+    <symbol id="i-maos" viewBox="0 0 48 48"><circle cx="15" cy="14" r="6" fill="#fff" stroke="#1c1f22" stroke-width="3"/><circle cx="33" cy="14" r="6" fill="#fff" stroke="#1c1f22" stroke-width="3"/><path d="M4 42c0-10 5-16 11-16s8 4 9 6c1-2 3-6 9-6s11 6 11 16" fill="#d6dade" stroke="#1c1f22" stroke-width="3" stroke-linejoin="round"/><path d="M19 33h10" stroke="#1c1f22" stroke-width="3" stroke-linecap="round"/></symbol>
+    <symbol id="i-rede" viewBox="0 0 48 48"><circle cx="24" cy="24" r="17" fill="#fff" stroke="#1c1f22" stroke-width="3"/><path d="M7 24h34M24 7c-8 9-8 25 0 34M24 7c8 9 8 25 0 34" fill="none" stroke="#1c1f22" stroke-width="2.5"/><circle cx="24" cy="7" r="4" fill="#1c1f22"/><circle cx="8" cy="30" r="4" fill="#1c1f22"/><circle cx="40" cy="30" r="4" fill="#1c1f22"/></symbol>
+    <symbol id="i-escudo" viewBox="0 0 48 48"><path d="M24 5 40 11v12c0 10-7 17-16 20C15 40 8 33 8 23V11Z" fill="#d6dade" stroke="#1c1f22" stroke-width="3" stroke-linejoin="round"/><path d="m16 24 6 6 10-12" fill="none" stroke="#1c1f22" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-lista" viewBox="0 0 48 48"><rect x="6" y="8" width="8" height="8" rx="2" fill="#1c1f22"/><rect x="6" y="20" width="8" height="8" rx="2" fill="#9aa1a8"/><rect x="6" y="32" width="8" height="8" rx="2" fill="#d6dade" stroke="#1c1f22" stroke-width="2"/><path d="M19 12h23M19 24h17M19 36h11" stroke="#1c1f22" stroke-width="3.5" stroke-linecap="round"/></symbol>
+    <symbol id="i-nuvem" viewBox="0 0 48 48"><path d="M14 37a9 9 0 0 1-1-18 12 12 0 0 1 23-2 9 9 0 0 1 1 20Z" fill="#fff" stroke="#1c1f22" stroke-width="3" stroke-linejoin="round"/><path d="M18 28h12M18 32h8" stroke="#9aa1a8" stroke-width="2.5" stroke-linecap="round"/></symbol>
+    <symbol id="i-lupa" viewBox="0 0 48 48"><circle cx="20" cy="20" r="13" fill="#fff" stroke="#1c1f22" stroke-width="3.5"/><path d="M30 30 42 42" stroke="#1c1f22" stroke-width="5" stroke-linecap="round"/><path d="M13 17h14M13 23h10" stroke="#9aa1a8" stroke-width="3" stroke-linecap="round"/></symbol>
+    <marker id="seta2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 10 5 0 10Z" fill="#1c1f22"/></marker>
+
+    <symbol id="i-livro" viewBox="0 0 24 24"><path d="M3 5.5C5.5 4.3 8.5 4.3 12 6c3.5-1.7 6.5-1.7 9-.5v13c-2.5-1.2-5.5-1.2-9 .5-3.5-1.7-6.5-1.7-9-.5Z" fill="#fff" stroke="#1c1f22" stroke-width="1.7" stroke-linejoin="round"/><path d="M12 6v13.5" stroke="#1c1f22" stroke-width="1.7"/><path d="M5.5 8.5c1.5-.4 3-.3 4.5.3M5.5 11.5c1.5-.4 3-.3 4.5.3M14 8.8c1.5-.6 3-.7 4.5-.3M14 11.8c1.5-.6 3-.7 4.5-.3" stroke="#9aa1a8" stroke-width="1.2" fill="none"/></symbol>
+    <symbol id="i-globo" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="#fff" stroke="#1c1f22" stroke-width="1.8"/><path d="M3 12h18M12 3c-3 3-3 15 0 18M12 3c3 3 3 15 0 18" fill="none" stroke="#1c1f22" stroke-width="1.5"/><path d="M5.5 7.5c2 1.2 4 1.2 6.5 1s4.5-.2 6.5-1M5.5 16.5c2-1.2 4-1.2 6.5-1s4.5.2 6.5 1" fill="none" stroke="#1c1f22" stroke-width="1.2"/></symbol>
+  </defs>
+</svg>
+
+<!-- ===================== CAPA ===================== -->
+<section class="sheet cover">
+  <div class="row" style="justify-content:space-between;align-items:center">
+    <span class="eyebrow">EMEF Juscelino Kubitschek · Curionópolis – PA</span>
+    <span class="pill"><svg><use href="#i-calendario"/></svg>4º Bimestre · 2026</span>
+  </div>
+  <div class="row" style="align-items:center;gap:8px 20px;flex-wrap:nowrap">
+    <div style="flex:1 1 auto;min-width:0">
+      <h1>Passaporte de Missões</h1>
+      <div class="sub">Apostila de Informática · 6º Ano</div>
+      <div class="author">Professor Welington Laignier</div>
+    </div>
+    <svg class="mascot" viewBox="0 0 240 250" role="img" aria-label="Robô mascote segurando um passaporte">
+      <ellipse cx="110" cy="238" rx="80" ry="9" fill="#d6dade"/>
+      <g stroke="#1c1f22" stroke-width="5" stroke-linejoin="round" stroke-linecap="round">
+        <path d="M110 40V18" fill="none"/><circle cx="110" cy="14" r="9" fill="#1c1f22"/>
+        <rect x="45" y="40" width="130" height="96" rx="28" fill="#fff"/>
+        <rect x="62" y="58" width="96" height="58" rx="18" fill="#d6dade"/>
+        <circle cx="90" cy="83" r="9" fill="#1c1f22" stroke="none"/><circle cx="130" cy="83" r="9" fill="#1c1f22" stroke="none"/>
+        <path d="M96 101q14 10 28 0" fill="none" stroke-width="4"/>
+        <rect x="62" y="142" width="96" height="62" rx="20" fill="#d6dade"/>
+        <circle cx="110" cy="166" r="16" fill="#fff"/>
+        <path d="M62 156q-34 16-32 50" fill="none"/><path d="M158 156q30 6 40 26" fill="none"/>
+        <path d="M88 204v26M132 204v26" fill="none"/>
+      </g>
+      <text x="110" y="173" text-anchor="middle" font-family="Baloo 2, sans-serif" font-weight="800" font-size="19" fill="#1c1f22">6º</text>
+      <g transform="translate(168 150) rotate(-14)">
+        <rect width="62" height="82" rx="6" fill="#fff" stroke="#1c1f22" stroke-width="4"/>
+        <circle cx="31" cy="32" r="13" fill="none" stroke="#1c1f22" stroke-width="2.5"/>
+        <path d="M18 32h26M31 19c-7 7-7 19 0 26M31 19c7 7 7 19 0 26" fill="none" stroke="#1c1f22" stroke-width="2"/>
+        <text x="31" y="64" text-anchor="middle" font-family="Baloo 2, sans-serif" font-weight="800" font-size="10" fill="#1c1f22" letter-spacing="1">MISSÕES</text>
+        <text x="31" y="76" text-anchor="middle" font-family="Baloo 2, sans-serif" font-weight="700" font-size="8" fill="#1c1f22">W.L.</text>
+      </g>
+    </svg>
+  </div>
+
+  <div class="infobox">
+    <div><b>Período</b><span>4º bimestre de 2026 · de 03/11 a 18/12/2026</span></div>
+    <div><b>Turmas e horários</b><span>6º C seg. 7h30 · 6º A qui. 13h30 · 6º B qui. 15h</span></div>
+    <div><b>Conteúdo</b><span>3 missões + projeto final · Mundo Digital, Pensamento Computacional e Cultura Digital</span></div>
+    <div><b>Avaliação</b><span>Apostila (carimbos) até 5,0 + prova no Wayground até 5,0 · média para aprovação: 5,0</span></div>
+  </div>
+
+  <div class="fields">
+    <div class="field" style="grid-column:1/-1"><b>Nome do aluno</b><span></span></div>
+    <div class="field"><b>Turma: 6º ano</b><span class="opts"><label class="opt"><i class="ck"></i>A</label><label class="opt"><i class="ck"></i>B</label><label class="opt"><i class="ck"></i>C</label></span></div>
+    <div class="field"><b>Nº do computador</b><span></span></div>
+  </div>
+
+  <div>
+    <div class="row" style="justify-content:space-between;align-items:baseline;gap:4px 12px">
+      <h3 style="margin:0">Quadro de notas</h3>
+      <span class="small"><i>Preenchido pelo professor. A apostila volta para você no fim do bimestre.</i></span>
+    </div>
+    <div class="tw"><table class="notas">
+      <tr><th>Encontro</th><th class="dt">Data</th><th><svg class="ico"><use href="#i-basico"/></svg> Básico (1,0)</th><th><svg class="ico"><use href="#i-desafio"/></svg> Desafio (0,25)</th><th><svg class="ico"><use href="#i-turbo"/></svg> Turbo (0,25)</th></tr>
+      <tr><td>Missão 1</td><td></td><td></td><td></td><td></td></tr>
+      <tr><td>Missão 2</td><td></td><td></td><td></td><td></td></tr>
+      <tr><td>Missão 3</td><td></td><td></td><td></td><td></td></tr>
+      <tr><td>Projeto final</td><td></td><td></td><td></td><td></td></tr>
+      <tr><th>Total</th><td></td><td></td><td></td><td></td></tr>
+    </table></div>
+    <div class="calc-row">
+      <div class="tw"><table class="notas">
+      <tr><th>Cálculo da nota</th><th style="width:90px">Pontos</th></tr>
+      <tr><td>A – Apostila: total do Básico + Desafio/Turbo (bônus até 1,0) — máximo 5,0</td><td></td></tr>
+      <tr><td>B – Prova no Wayground: ______ % de acertos ÷ 20 — máximo 5,0</td><td></td></tr>
+      <tr><td><b>Nota do bimestre = A + B</b> (0 a 10) · média para aprovação: 5,0</td><td></td></tr>
+    </table></div>
+      <div class="carimbo-capa">Carimbo e visto do professor<small>espaço para o carimbo padrão</small></div>
+    </div>
+  </div>
+</section>
+<section class="sheet pb">
+<h2>Como usar esta apostila</h2>
+<p>Neste bimestre você vai cumprir <b>3 missões</b> e um <b>projeto final</b>. Cada missão é uma aula completa: se você faltar, pode fazer a próxima sem problema.</p>
+<div class="row" style="margin:12px 0 18px"><div class="box grow" style="flex-basis:160px;text-align:center"><svg width="56" height="56"><use href="#i-monitor"/></svg><div class="eyebrow">Missão 1</div><b>O computador e meus arquivos</b><div class="small">Mundo Digital</div></div><div class="box grow" style="flex-basis:160px;text-align:center"><svg width="56" height="56"><use href="#i-puzzle"/></svg><div class="eyebrow">Missão 2</div><b>Algoritmos</b><div class="small">Pensamento Computacional</div></div><div class="box grow" style="flex-basis:160px;text-align:center"><svg width="56" height="56"><use href="#i-maos"/></svg><div class="eyebrow">Missão 3</div><b>Cidadão digital</b><div class="small">Cultura Digital</div></div><div class="box grow" style="flex-basis:160px;text-align:center"><svg width="56" height="56"><use href="#i-bandeira"/></svg><div class="eyebrow">Projeto final</div><b>Meu Passaporte de Missões</b><div class="small">Todos os temas</div></div></div>
+<p><b><b>Cada missão tem 3 níveis:</b></b></p>
+<div class="tw"><table><tr><th>Nível</th><th>Quem faz</th><th>O que vale</th></tr><tr><td><span class="pill"><svg><use href="#i-basico"/></svg>Básico</span></td><td>Todos os alunos</td><td>Obrigatório para concluir a aula</td></tr><tr><td><span class="pill"><svg><use href="#i-desafio"/></svg>Desafio</span></td><td>Quem terminou o Básico</td><td>Pontos extras</td></tr><tr><td><span class="pill"><svg><use href="#i-turbo"/></svg>Turbo</span></td><td>Quem terminou o Desafio</td><td>Para os mais rápidos</td></tr></table></div>
+<p><b><b>Ícones da apostila:</b></b></p>
+<div class="row" style="gap:10px 22px"><span><svg class="ico"><use href="#i-lampada"/></svg> <b>Para começar</b> – a explicação do dia</span><span><svg class="ico"><use href="#i-alvo"/></svg> <b>Missão</b> – papel e computador</span><span><svg class="ico"><use href="#i-check"/></svg> <b>Perguntas rápidas</b> – V ou F</span><span><svg class="ico" style="color:#1c1f22"><use href="#i-cerebro"/></svg> <b>Resumo da Aula</b> – estude por ele</span></div>
+<div class="callout" style="margin-top:14px"><svg class="ico"><use href="#i-lapis"/></svg> <b>Tudo na apostila:</b> você escreve e desenha todas as respostas aqui mesmo, nas tabelas e nos quadros em branco. Use lápis e capriche na letra!</div>
+<div class="box" style="margin-top:12px;display:flex;gap:12px;align-items:center"><svg width="40" height="40" style="flex:none"><use href="#i-jogo"/></svg><p style="margin:0"><b>Regra de ouro:</b> quem conclui o nível Básico e recebe o carimbo do professor ganha o tempo de jogos livres no final da aula.</p></div>
+</section>
+<section class="sheet pb">
+<div class="mhead"><div class="mnum"><svg><use href="#i-monitor"/></svg><b>1</b></div><div><div class="eyebrow">Missão 1 · Mundo Digital</div><h2>O computador e meus arquivos</h2></div></div>
+<div class="goal"><svg class="ico"><use href="#i-alvo"/></svg><p style="margin:0"><b>Objetivo:</b> entender como o computador recebe, processa e mostra informações, e criar, salvar e organizar arquivos.</p></div>
+<div class="date"><svg class="ico"><use href="#i-calendario"/></svg> <b>Data da aula:</b>........ /........</div>
+<h3><svg><use href="#i-lampada"/></svg>Para começar</h3>
+<p>Todo computador trabalha em <b>três etapas</b>:</p>
+<figure class="" style=""><svg viewBox="0 0 740 230" role="img" aria-label="Entrada: teclado, mouse e microfone; processamento: gabinete com processador; saída: monitor, caixa de som e impressora; armazenamento embaixo">
+  <g font-family="Baloo 2, sans-serif" font-weight="700" font-size="17" text-anchor="middle" fill="#1c1f22"><text x="110" y="22">ENTRADA</text><text x="370" y="22">PROCESSAMENTO</text><text x="630" y="22">SAÍDA</text></g>
+  <!-- teclado -->
+  <rect x="20" y="52" width="130" height="44" rx="6" fill="#fff" stroke="#1c1f22" stroke-width="3"/>
+  <g fill="#d6dade" stroke="#1c1f22" stroke-width="1.5"><rect x="30" y="60" width="14" height="10" rx="2"/><rect x="50" y="60" width="14" height="10" rx="2"/><rect x="70" y="60" width="14" height="10" rx="2"/><rect x="90" y="60" width="14" height="10" rx="2"/><rect x="110" y="60" width="14" height="10" rx="2"/><rect x="130" y="60" width="12" height="10" rx="2"/><rect x="45" y="76" width="80" height="12" rx="2"/></g>
+  <!-- mouse -->
+  <rect x="162" y="56" width="30" height="44" rx="15" fill="#fff" stroke="#1c1f22" stroke-width="3"/><path d="M177 56v14M162 70h30" stroke="#1c1f22" stroke-width="2"/>
+  <!-- microfone -->
+  <rect x="80" y="118" width="22" height="36" rx="11" fill="#d6dade" stroke="#1c1f22" stroke-width="3"/><path d="M72 140a19 19 0 0 0 38 0M91 159v14M80 173h22" fill="none" stroke="#1c1f22" stroke-width="3" stroke-linecap="round"/>
+  <path d="M210 100h90" stroke="#1c1f22" stroke-width="3" marker-end="url(#seta2)"/>
+  <!-- gabinete -->
+  <rect x="320" y="42" width="100" height="120" rx="8" fill="#fff" stroke="#1c1f22" stroke-width="3"/>
+  <rect x="345" y="76" width="50" height="50" rx="4" fill="#d6dade" stroke="#1c1f22" stroke-width="2.5"/>
+  <g stroke="#1c1f22" stroke-width="2"><path d="M352 70v6M362 70v6M372 70v6M382 70v6M352 126v6M362 126v6M372 126v6M382 126v6M339 84h6M339 96h6M339 108h6M395 84h6M395 96h6M395 108h6"/></g>
+  <text x="370" y="106" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="12" fill="#1c1f22">CPU</text>
+  <circle cx="370" cy="148" r="5" fill="#1c1f22"/>
+  <path d="M440 100h90" stroke="#1c1f22" stroke-width="3" marker-end="url(#seta2)"/>
+  <!-- monitor -->
+  <rect x="548" y="44" width="110" height="70" rx="6" fill="#fff" stroke="#1c1f22" stroke-width="3"/><rect x="558" y="54" width="90" height="50" fill="#eef0f2"/><path d="M590 128h26M603 114v14" stroke="#1c1f22" stroke-width="3" stroke-linecap="round"/>
+  <!-- caixa de som -->
+  <rect x="672" y="52" width="44" height="64" rx="6" fill="#d6dade" stroke="#1c1f22" stroke-width="3"/><circle cx="694" cy="94" r="12" fill="#fff" stroke="#1c1f22" stroke-width="2.5"/><circle cx="694" cy="66" r="5" fill="#fff" stroke="#1c1f22" stroke-width="2"/>
+  <!-- impressora -->
+  <rect x="580" y="150" width="96" height="40" rx="6" fill="#fff" stroke="#1c1f22" stroke-width="3"/><rect x="596" y="136" width="64" height="16" fill="#fff" stroke="#1c1f22" stroke-width="2.5"/><rect x="596" y="182" width="64" height="26" fill="#fff" stroke="#1c1f22" stroke-width="2.5"/><path d="M606 192h44M606 200h30" stroke="#9aa1a8" stroke-width="2"/>
+  <!-- armazenamento -->
+  <path d="M370 162v26" stroke="#1c1f22" stroke-width="2.5" stroke-dasharray="5 4"/>
+  <rect x="318" y="190" width="104" height="32" rx="6" fill="#eef0f2" stroke="#1c1f22" stroke-width="2.5"/>
+  <text x="370" y="211" text-anchor="middle" font-family="Atkinson Hyperlegible, sans-serif" font-size="13" fill="#1c1f22">armazenamento</text>
+</svg><figcaption>Entrada → processamento → saída. Os arquivos ficam no armazenamento.</figcaption></figure>
+<div class="tw"><table><tr><th>Etapa</th><th>O que faz</th><th>Exemplos</th></tr><tr><td>Entrada</td><td>Recebe informações</td><td>Teclado, mouse, microfone</td></tr><tr><td>Processamento</td><td>Faz os cálculos e segue os comandos</td><td>Processador (dentro do gabinete)</td></tr><tr><td>Saída</td><td>Mostra o resultado</td><td>Monitor, caixa de som, impressora</td></tr></table></div>
+<p>Os arquivos ficam guardados no <b>armazenamento</b> (HD, SSD, pen drive). As peças que podemos tocar são o <b>hardware</b>; os programas são o <b>software</b>.</p>
+<p>Um <b>arquivo</b> é qualquer trabalho guardado no computador. Uma <b>pasta</b> é como uma gaveta que organiza os arquivos. Para <b>salvar</b>: escolha <b>onde</b> guardar, dê um <b>nome</b> e clique em <b>Salvar</b> (atalho: <b>Ctrl + S</b>). Informações como nome, tipo, tamanho e data de um arquivo são os <b>metadados</b>.</p>
+<figure class="" style=""><svg viewBox="0 0 740 200" role="img" aria-label="Pasta como gaveta de arquivos, janela Salvar como e as teclas Ctrl e S">
+  <!-- gaveteiro -->
+  <rect x="20" y="20" width="170" height="170" rx="8" fill="#fff" stroke="#1c1f22" stroke-width="3"/>
+  <rect x="34" y="34" width="142" height="66" rx="5" fill="#eef0f2" stroke="#1c1f22" stroke-width="2.5"/>
+  <rect x="34" y="110" width="142" height="66" rx="5" fill="#eef0f2" stroke="#1c1f22" stroke-width="2.5"/>
+  <path d="M90 60h30M90 136h30" stroke="#1c1f22" stroke-width="4" stroke-linecap="round"/>
+  <g transform="translate(48 22)"><use href="#i-arquivo" width="34" height="34"/></g>
+  <g transform="translate(130 22)"><use href="#i-arquivo" width="34" height="34"/></g>
+  <text x="105" y="88" text-anchor="middle" font-family="Baloo 2, sans-serif" font-weight="700" font-size="14" fill="#1c1f22">Pasta: Textos</text>
+  <text x="105" y="164" text-anchor="middle" font-family="Baloo 2, sans-serif" font-weight="700" font-size="14" fill="#1c1f22">Pasta: Desenhos</text>
+  <!-- janela salvar -->
+  <rect x="230" y="20" width="300" height="170" rx="8" fill="#fff" stroke="#1c1f22" stroke-width="3"/>
+  <rect x="230" y="20" width="300" height="30" rx="8" fill="#d6dade" stroke="#1c1f22" stroke-width="3"/>
+  <text x="244" y="41" font-family="Baloo 2, sans-serif" font-weight="700" font-size="15" fill="#1c1f22">Salvar como</text>
+  <text x="246" y="76" font-family="Atkinson Hyperlegible, sans-serif" font-size="13" fill="#1c1f22">1. Onde guardar:</text>
+  <rect x="356" y="62" width="160" height="22" rx="4" fill="#fff" stroke="#1c1f22" stroke-width="2"/><use href="#i-pasta" x="360" y="64" width="18" height="18"/><text x="382" y="78" font-family="Atkinson Hyperlegible, sans-serif" font-size="12">Minha pasta</text>
+  <text x="246" y="112" font-family="Atkinson Hyperlegible, sans-serif" font-size="13" fill="#1c1f22">2. Nome:</text>
+  <rect x="356" y="98" width="160" height="22" rx="4" fill="#fff" stroke="#1c1f22" stroke-width="2"/><text x="362" y="114" font-family="JetBrains Mono, monospace" font-weight="700" font-size="12">receita_WL</text>
+  <text x="246" y="160" font-family="Atkinson Hyperlegible, sans-serif" font-size="13" fill="#1c1f22">3. Clique em</text>
+  <rect x="416" y="140" width="100" height="32" rx="6" fill="#1c1f22"/><text x="466" y="161" text-anchor="middle" font-family="Baloo 2, sans-serif" font-weight="700" font-size="15" fill="#fff">Salvar</text>
+  <!-- atalho -->
+  <g font-family="Baloo 2, sans-serif" font-weight="700" font-size="20" text-anchor="middle" fill="#1c1f22">
+    <rect x="566" y="72" width="70" height="56" rx="8" fill="#fff" stroke="#1c1f22" stroke-width="3"/><path d="M566 118h70" stroke="#1c1f22" stroke-width="2"/><text x="601" y="106">Ctrl</text>
+    <text x="656" y="108">+</text>
+    <rect x="676" y="72" width="56" height="56" rx="8" fill="#fff" stroke="#1c1f22" stroke-width="3"/><path d="M676 118h56" stroke="#1c1f22" stroke-width="2"/><text x="704" y="106">S</text>
+    <text x="649" y="156" font-size="14">atalho para salvar</text>
+  </g>
+</svg><figcaption>A pasta é como uma gaveta: guarda e organiza os arquivos.</figcaption></figure>
+<div class="tw"><table><tr><th>Ação do mouse</th><th>Para que serve</th></tr><tr><td>Duplo clique</td><td>Abrir pastas e arquivos</td></tr><tr><td>Arrastar</td><td>Mudar algo de lugar</td></tr><tr><td>Clique direito</td><td>Ver mais opções (criar pasta, renomear)</td></tr></table></div>
+<figure class="fig-s" style="max-width:460px;margin-inline:auto"><svg viewBox="0 0 520 200" role="img" aria-label="Mouse com o botão esquerdo para clique e duplo clique, botão direito para mais opções e a seta de arrastar">
+  <rect x="200" y="20" width="110" height="166" rx="55" fill="#fff" stroke="#1c1f22" stroke-width="4"/>
+  <path d="M255 20v62M200 82h110" stroke="#1c1f22" stroke-width="3"/>
+  <path d="M206 78V70c0-28 20-46 46-49v57Z" fill="#d6dade"/>
+  <rect x="249" y="38" width="12" height="26" rx="6" fill="#fff" stroke="#1c1f22" stroke-width="2.5"/>
+  <g fill="none" stroke="#1c1f22" stroke-width="2.5" marker-end="url(#seta2)"><path d="M150 52h52"/><path d="M362 52h-50"/></g>
+  <g font-family="Baloo 2, sans-serif" font-weight="700" font-size="16" fill="#1c1f22"><text x="10" y="44">Botão esquerdo</text><text x="380" y="44">Botão direito</text></g>
+  <g font-family="Atkinson Hyperlegible, sans-serif" font-size="13" fill="#1c1f22"><text x="10" y="64">clique e duplo clique</text><text x="380" y="64">mais opções</text></g>
+  <path d="M60 150h120" stroke="#1c1f22" stroke-width="3" stroke-dasharray="7 5" marker-end="url(#seta2)"/>
+  <text x="10" y="138" font-family="Baloo 2, sans-serif" font-weight="700" font-size="16" fill="#1c1f22">Arrastar</text>
+  <text x="10" y="176" font-family="Atkinson Hyperlegible, sans-serif" font-size="13" fill="#1c1f22">segure o botão e mova</text>
+</svg></figure>
+<p><b>Combinados da sala:</b> não comer nem beber perto do computador · não mexer nos cabos · usar só os programas pedidos · avisar o professor quando algo der errado.</p>
+<div class="vida sig"><h3><svg><use href="#i-livro"/></svg>O que significa?</h3>
+<ul class="dots-list"><li><b>Hardware</b>: as peças físicas do computador, que dá para tocar. Onde eu vejo: teclado, mouse, monitor e gabinete.</li><li><b>Software</b>: os programas, que não dá para pegar com a mão. Onde eu vejo: Bloco de Notas, Paint, jogos e aplicativos do celular.</li><li><b>CPU</b> (<i>Central Processing Unit</i>, Unidade Central de Processamento): o processador, o “cérebro” que faz os cálculos e segue os comandos. Onde fica: num chip dentro do gabinete ou dentro do celular.</li><li><b>HD</b> (<i>Hard Disk</i>, disco rígido): peça que guarda os arquivos em um disco que gira lá dentro. Para quê: o que foi salvo continua lá mesmo com o computador desligado.</li><li><b>SSD</b> (<i>Solid State Drive</i>, unidade de estado sólido): faz o mesmo que o HD, mas sem disco girando, por isso é mais rápido. Onde eu vejo: em computadores mais novos; o celular usa uma memória parecida.</li><li><b>Pen drive</b>: armazenamento pequeno e portátil, do tamanho de uma caneta, que se encaixa na entrada <b>USB</b> (a entradinha retangular do computador).</li><li><b>Ctrl + S</b>: <i>Ctrl</i> vem de <i>Control</i> (controle), a tecla que, junto com outra, faz um atalho; o <i>S</i> é de <i>save</i> (salvar). Juntas, salvam o trabalho.</li><li><b>Metadados</b> (<i>meta</i> = sobre): dados sobre os dados, como nome, tipo, tamanho e data de um arquivo. Onde eu vejo: botão direito no arquivo → Propriedades.</li></ul>
+</div>
+<div class="vida"><h3><svg><use href="#i-globo"/></svg>Onde eu uso isso?</h3>
+<ul class="dots-list"><li>Quando você tira uma foto no celular, ela vira um <b>arquivo</b> guardado no <b>armazenamento</b>.</li><li>Quando separa as fotos em álbuns, você está organizando em <b>pastas</b>.</li><li>No caixa do mercado, o leitor de código de barras é a <b>entrada</b>, o computador <b>processa</b> o preço e a tela e o cupom são a <b>saída</b>.</li></ul>
+<div class="write"><div class="lbl"><svg class="ico"><use href="#i-lapis"/></svg>Escreva uma vez em que você salvou, organizou ou perdeu algo no celular ou no computador.</div><div class="lines "></div></div>
+</div>
+<h3><svg><use href="#i-alvo"/></svg>Missão</h3>
+<div class="level"><svg><use href="#i-basico"/></svg><b>Básico</b></div>
+<ul class="tasks"><li><div>Desenhe um computador no quadro abaixo e escreva o nome de cada parte. Ao lado de cada nome, escreva <b>E</b> (entrada) ou <b>S</b> (saída).</div></li></ul>
+<div class="write dots-box"><div class="lbl"><svg class="ico"><use href="#i-lapis"/></svg>Espaço para o desenho</div><div class="dots"></div></div>
+<ul class="tasks"><li><div>Abra o <b>Explorador de Arquivos</b> (ícone de pasta amarela). No local indicado pelo professor, clique com o botão direito → <b>Novo</b> → <b>Pasta</b> e dê o seu nome a ela.</div></li><li><div>Abra o <b>Bloco de Notas</b> e escreva: seu nome, sua idade e o que você gosta de fazer.</div></li><li><div>Clique em <b>Arquivo → Salvar como</b>, escolha a sua pasta e salve com o nome <b>Sobre mim</b>.</div></li><li><div>Feche o Bloco de Notas, abra a sua pasta e dê duplo clique no arquivo para abri-lo de novo.</div></li><li><div>Com o arquivo aberto, chame o professor para conferir e <b>carimbar</b> o quadro no fim da missão.</div></li></ul>
+<div class="warn"><svg><use href="#i-carimbo"/></svg><p style="margin:0">O carimbo é o comprovante de que você fez a tarefa. Não feche nada antes de mostrar ao professor!</p></div>
+<div class="level"><svg><use href="#i-desafio"/></svg><b>Desafio</b></div>
+<ul class="tasks"><li><div>Dentro da sua pasta, crie as pastas <b>Textos</b> e <b>Desenhos</b> e arraste o arquivo <b>Sobre mim</b> para a pasta Textos.</div></li><li><div>Clique com o botão direito no arquivo → <b>Propriedades</b> e anote os metadados:</div></li></ul>
+<div class="tw"><table><tr><th>Metadado</th><th>O que aparece</th></tr><tr><td>Tipo</td><td class="w"></td></tr><tr><td>Tamanho</td><td class="w"></td></tr><tr><td>Data de criação</td><td class="w"></td></tr></table></div>
+<div class="level"><svg><use href="#i-turbo"/></svg><b>Turbo</b></div>
+<ul class="tasks"><li><div>Descubra uma peça que é <b>ao mesmo tempo</b> entrada e saída. Explique.</div></li></ul>
+<div class="write"><div class="lbl"><svg class="ico"><use href="#i-lapis"/></svg>Resposta</div><div class="lines "></div></div>
+<div class="warn"><svg><use href="#i-alerta"/></svg><p style="margin:0">Os computadores são usados por todos: <b>nunca apague nem mexa nos arquivos dos colegas</b>. Ao final da aula, desligue o computador pelo caminho certo: <b>Iniciar → Ligar/Desligar → Desligar</b>.</p></div>
+<h3><svg><use href="#i-carimbo"/></svg><b> Carimbo do professor</b></h3><div class="stamps"><div class="stamp"><span><svg class="ico"><use href="#i-basico"/></svg> Básico</span></div><div class="stamp"><span><svg class="ico"><use href="#i-desafio"/></svg> Desafio</span></div><div class="stamp"><span><svg class="ico"><use href="#i-turbo"/></svg> Turbo</span></div></div>
+<h3><svg><use href="#i-check"/></svg>Perguntas rápidas</h3>
+<p>Escreva <b>V</b> para verdadeiro ou <b>F</b> para falso:</p>
+<ul class="vf"><li>O teclado é um dispositivo de entrada.</li><li>O monitor é um dispositivo de entrada.</li><li>Pastas servem para organizar arquivos.</li><li>Se eu fechar o programa sem salvar, posso perder o trabalho.</li><li>Data e tamanho de um arquivo são exemplos de metadados.</li></ul>
+<div class="resumo"><h3><svg style="color:#1c1f22"><use href="#i-cerebro"/></svg>Resumo da Aula</h3>
+<p>O computador trabalha em três etapas: <b>entrada</b> (recebe informações), <b>processamento</b> (faz os cálculos) e <b>saída</b> (mostra o resultado). Nossos trabalhos ficam guardados em <b>arquivos</b>, organizados em <b>pastas</b>. Para salvar, escolhemos <b>onde</b> guardar e <b>qual nome</b> dar. As informações sobre um arquivo, como tipo, tamanho e data, são os <b>metadados</b>.</p>
+<div class="kw"><span>entrada</span><span>processamento</span><span>saída</span><span>hardware</span><span>software</span><span>arquivo</span><span>pasta</span><span>salvar</span><span>metadados</span></div>
+</div>
+</section>
+<section class="sheet pb">
+<div class="mhead"><div class="mnum"><svg><use href="#i-puzzle"/></svg><b>2</b></div><div><div class="eyebrow">Missão 2 · Pensamento Computacional</div><h2>Algoritmos: sequência, repetição e seleção</h2></div></div>
+<div class="goal"><svg class="ico"><use href="#i-alvo"/></svg><p style="margin:0"><b>Objetivo:</b> descrever com precisão a solução de um problema e criar algoritmos com sequência, repetição e seleção.</p></div>
+<div class="date"><svg class="ico"><use href="#i-calendario"/></svg> <b>Data da aula:</b>........ /........</div>
+<h3><svg><use href="#i-lampada"/></svg>Para começar</h3>
+<p>Um <b>algoritmo</b> é uma sequência de passos, em ordem, para resolver um problema. Receitas e o caminho até a escola são algoritmos. O computador faz <b>exatamente</b> o que mandamos, por isso o algoritmo precisa ser <b>preciso</b>, sem pular passos. Todo algoritmo parte de <b>entradas</b> (o que é preciso) e chega a uma <b>saída</b> (o resultado).</p>
+<p>Os algoritmos usam três tipos de instrução:</p>
+<div class="tw"><table><tr><th>Instrução</th><th>O que faz</th><th>Exemplo</th></tr><tr><td>Sequência</td><td>Um passo depois do outro</td><td>Ande, vire, ande</td></tr><tr><td>Repetição</td><td>Repete passos várias vezes</td><td><b>Repita 3 vezes:</b> ande um passo</td></tr><tr><td>Seleção</td><td>Escolhe o que fazer conforme uma condição</td><td><b>Se</b> estiver chovendo, <b>então</b> leve guarda-chuva; <b>senão</b>, leve boné</td></tr></table></div>
+<figure class="" style=""><svg viewBox="0 0 740 190" role="img" aria-label="Sequência: passos em linha; repetição: um passo com seta de volta 4 vezes; seleção: pergunta com caminhos sim e não">
+  <g font-family="Baloo 2, sans-serif" font-weight="700" font-size="17" text-anchor="middle" fill="#1c1f22"><text x="120" y="22">Sequência</text><text x="370" y="22">Repetição</text><text x="615" y="22">Seleção</text></g>
+  <g fill="#fff" stroke="#1c1f22" stroke-width="3"><rect x="10" y="70" width="60" height="44" rx="8"/><rect x="90" y="70" width="60" height="44" rx="8"/><rect x="170" y="70" width="60" height="44" rx="8"/></g>
+  <g font-family="JetBrains Mono, monospace" font-weight="700" font-size="15" text-anchor="middle"><text x="40" y="98">ande</text><text x="120" y="98">vire</text><text x="200" y="98">ande</text></g>
+  <g stroke="#1c1f22" stroke-width="2.5"><path d="M70 92h18"/><path d="M150 92h18"/></g>
+  <rect x="320" y="70" width="100" height="44" rx="8" fill="#fff" stroke="#1c1f22" stroke-width="3"/>
+  <text x="370" y="98" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="15">→ 1 passo</text>
+  <path d="M420 92c40 0 40 60 0 60h-100c-40 0-40-60 0-60" fill="none" stroke="#1c1f22" stroke-width="3" marker-end="url(#seta2)"/>
+  <rect x="345" y="136" width="50" height="30" rx="15" fill="#1c1f22"/><text x="370" y="157" text-anchor="middle" font-family="Baloo 2, sans-serif" font-weight="700" font-size="16" fill="#fff">4×</text>
+  <path d="M615 40 675 80 615 120 555 80Z" fill="#fff" stroke="#1c1f22" stroke-width="3" stroke-linejoin="round"/>
+  <text x="615" y="85" text-anchor="middle" font-family="Baloo 2, sans-serif" font-weight="700" font-size="14">Chovendo?</text>
+  <g fill="none" stroke="#1c1f22" stroke-width="2.5"><path d="M555 80h-25v62"/><path d="M675 80h25v62"/></g>
+  <g font-family="Atkinson Hyperlegible, sans-serif" font-size="13" fill="#1c1f22"><text x="528" y="72" text-anchor="end">sim</text><text x="702" y="72">não</text></g>
+  <rect x="482" y="144" width="100" height="34" rx="8" fill="#d6dade" stroke="#1c1f22" stroke-width="2.5"/><text x="532" y="166" text-anchor="middle" font-family="Atkinson Hyperlegible, sans-serif" font-size="13">guarda-chuva</text>
+  <rect x="650" y="144" width="80" height="34" rx="8" fill="#d6dade" stroke="#1c1f22" stroke-width="2.5"/><text x="690" y="166" text-anchor="middle" font-family="Atkinson Hyperlegible, sans-serif" font-size="13">boné</text>
+</svg></figure>
+<p>A repetição deixa o algoritmo <b>mais curto</b>: em vez de →→→→, escrevemos <b>repita 4 vezes →</b>.</p>
+<div class="vida sig"><h3><svg><use href="#i-livro"/></svg>O que significa?</h3>
+<ul class="dots-list"><li><b>Algoritmo</b>: sequência de passos, em ordem, para resolver um problema. O nome vem de Al-Khwarizmi, matemático persa que viveu há mais de mil anos. Onde eu vejo: receitas, manuais de montagem e o caminho que o GPS manda seguir.</li><li><b>Instrução</b> (ou <b>comando</b>): cada ordem do algoritmo, como “ande”, “vire” ou “pinte”.</li><li><b>Condição</b>: a pergunta que decide o caminho na seleção, como “está chovendo?”. A resposta só pode ser sim ou não.</li><li><b>Entrada e saída do algoritmo</b>: o que é preciso para começar (os ingredientes) e o resultado no fim (o bolo pronto).</li></ul>
+</div>
+<div class="vida"><h3><svg><use href="#i-globo"/></svg>Onde eu uso isso?</h3>
+<ul class="dots-list"><li>Uma <b>receita de bolo</b> é um algoritmo: passos em ordem para chegar ao resultado.</li><li>O <b>despertador</b> que toca todo dia no mesmo horário usa <b>repetição</b>.</li><li>O celular que pede senha usa <b>seleção</b>: se a senha estiver certa, então abre; senão, mostra erro.</li></ul>
+<div class="write"><div class="lbl"><svg class="ico"><use href="#i-lapis"/></svg>Escreva um algoritmo do seu dia a dia (por exemplo, o que você faz para se arrumar para a escola).</div><div class="lines "></div></div>
+</div>
+<h3><svg><use href="#i-alvo"/></svg>Missão</h3>
+<div class="level"><svg><use href="#i-basico"/></svg><b>Básico</b></div>
+<ul class="tasks"><li><div>Os passos para escovar os dentes estão fora de ordem. Numere de 1 a 6:</div></li></ul>
+<div class="tw"><table><tr><th>Ordem</th><th>Passo</th></tr><tr><td class="w"></td><td>Escovar todos os dentes</td></tr><tr><td class="w"></td><td>Pegar a escova e a pasta</td></tr><tr><td class="w"></td><td>Enxaguar a boca</td></tr><tr><td class="w"></td><td>Colocar pasta na escova</td></tr><tr><td class="w"></td><td>Guardar a escova</td></tr><tr><td class="w"></td><td>Abrir a torneira e molhar a escova</td></tr></table></div>
+<ul class="tasks"><li><div>Leve o robô até a estrela sem passar pelas paredes. Use as setas ↑ ↓ ← →, uma por casa.</div></li></ul>
+<figure class="fig-s" style="max-width:330px;margin-inline:auto"><svg viewBox="0 0 330 320" role="img" aria-label="Labirinto 5 por 5: robô em A1, estrela em E5, paredes em D1, A2, B2, D2, B4, C4 e D4">
+  <defs><pattern id="tijolo" width="18" height="12" patternUnits="userSpaceOnUse"><rect width="18" height="12" fill="#d6dade"/><path d="M0 6h18M9 0v6M0 6v6M18 6v6" stroke="#1c1f22" stroke-width="1.3"/></pattern></defs>
+  <text x="67.0" y="24" text-anchor="middle" font-family="Baloo 2, sans-serif" font-weight="700" font-size="16">A</text><text x="121.0" y="24" text-anchor="middle" font-family="Baloo 2, sans-serif" font-weight="700" font-size="16">B</text><text x="175.0" y="24" text-anchor="middle" font-family="Baloo 2, sans-serif" font-weight="700" font-size="16">C</text><text x="229.0" y="24" text-anchor="middle" font-family="Baloo 2, sans-serif" font-weight="700" font-size="16">D</text><text x="283.0" y="24" text-anchor="middle" font-family="Baloo 2, sans-serif" font-weight="700" font-size="16">E</text><text x="24" y="67.0" text-anchor="middle" font-family="Baloo 2, sans-serif" font-weight="700" font-size="16">1</text><rect x="40" y="34" width="54" height="54" fill="#fff" stroke="#1c1f22" stroke-width="2"/><rect x="94" y="34" width="54" height="54" fill="#fff" stroke="#1c1f22" stroke-width="2"/><rect x="148" y="34" width="54" height="54" fill="#fff" stroke="#1c1f22" stroke-width="2"/><rect x="202" y="34" width="54" height="54" fill="url(#tijolo)" stroke="#1c1f22" stroke-width="2"/><rect x="256" y="34" width="54" height="54" fill="#fff" stroke="#1c1f22" stroke-width="2"/><text x="24" y="121.0" text-anchor="middle" font-family="Baloo 2, sans-serif" font-weight="700" font-size="16">2</text><rect x="40" y="88" width="54" height="54" fill="url(#tijolo)" stroke="#1c1f22" stroke-width="2"/><rect x="94" y="88" width="54" height="54" fill="url(#tijolo)" stroke="#1c1f22" stroke-width="2"/><rect x="148" y="88" width="54" height="54" fill="#fff" stroke="#1c1f22" stroke-width="2"/><rect x="202" y="88" width="54" height="54" fill="url(#tijolo)" stroke="#1c1f22" stroke-width="2"/><rect x="256" y="88" width="54" height="54" fill="#fff" stroke="#1c1f22" stroke-width="2"/><text x="24" y="175.0" text-anchor="middle" font-family="Baloo 2, sans-serif" font-weight="700" font-size="16">3</text><rect x="40" y="142" width="54" height="54" fill="#fff" stroke="#1c1f22" stroke-width="2"/><rect x="94" y="142" width="54" height="54" fill="#fff" stroke="#1c1f22" stroke-width="2"/><rect x="148" y="142" width="54" height="54" fill="#fff" stroke="#1c1f22" stroke-width="2"/><rect x="202" y="142" width="54" height="54" fill="#fff" stroke="#1c1f22" stroke-width="2"/><rect x="256" y="142" width="54" height="54" fill="#fff" stroke="#1c1f22" stroke-width="2"/><text x="24" y="229.0" text-anchor="middle" font-family="Baloo 2, sans-serif" font-weight="700" font-size="16">4</text><rect x="40" y="196" width="54" height="54" fill="#fff" stroke="#1c1f22" stroke-width="2"/><rect x="94" y="196" width="54" height="54" fill="url(#tijolo)" stroke="#1c1f22" stroke-width="2"/><rect x="148" y="196" width="54" height="54" fill="url(#tijolo)" stroke="#1c1f22" stroke-width="2"/><rect x="202" y="196" width="54" height="54" fill="url(#tijolo)" stroke="#1c1f22" stroke-width="2"/><rect x="256" y="196" width="54" height="54" fill="#fff" stroke="#1c1f22" stroke-width="2"/><text x="24" y="283.0" text-anchor="middle" font-family="Baloo 2, sans-serif" font-weight="700" font-size="16">5</text><rect x="40" y="250" width="54" height="54" fill="#fff" stroke="#1c1f22" stroke-width="2"/><rect x="94" y="250" width="54" height="54" fill="#fff" stroke="#1c1f22" stroke-width="2"/><rect x="148" y="250" width="54" height="54" fill="#fff" stroke="#1c1f22" stroke-width="2"/><rect x="202" y="250" width="54" height="54" fill="#fff" stroke="#1c1f22" stroke-width="2"/><rect x="256" y="250" width="54" height="54" fill="#fff" stroke="#1c1f22" stroke-width="2"/><g transform="translate(51 43)" stroke="#1c1f22" stroke-width="2.5" stroke-linejoin="round"><path d="M16 4v-3" /><rect x="3" y="4" width="26" height="20" rx="6" fill="#fff"/><circle cx="11" cy="14" r="2.6" fill="#1c1f22" stroke="none"/><circle cx="21" cy="14" r="2.6" fill="#1c1f22" stroke="none"/><rect x="7" y="26" width="18" height="10" rx="3" fill="#d6dade"/></g><path transform="translate(267 261) scale(1.35)" d="M12 2.5l2.9 6 6.6.8-4.9 4.6 1.3 6.6L12 17.2l-5.9 3.3 1.3-6.6L2.5 9.3l6.6-.8Z" fill="#fff" stroke="#1c1f22" stroke-width="1.8" stroke-linejoin="round"/>
+  <g font-family="Atkinson Hyperlegible, sans-serif" font-size="12" fill="#1c1f22"><rect x="40" y="304" width="14" height="10" fill="url(#tijolo)" stroke="#1c1f22"/><text x="60" y="313">parede</text><text x="130" y="313">↑ ↓ ← →  uma seta por casa</text></g>
+</svg><figcaption>Labirinto do Prof. Laignier</figcaption></figure>
+<div class="write"><div class="lbl"><svg class="ico"><use href="#i-lapis"/></svg>Meu caminho com setas</div><div class="lines "></div></div>
+<div class="write"><div class="lbl"><svg class="ico"><use href="#i-lapis"/></svg>Meu caminho usando &quot;repita&quot;</div><div class="lines "></div></div>
+<ul class="tasks"><li class="pc"><div>No computador, abra o <b>Paint</b> e siga o algoritmo:<ol class="steps"><li><b>Repita 5 vezes:</b> desenhe um quadrado e deixe um espaço à direita.</li><li>Para cada quadrado: <b>se</b> for o 1º, o 3º ou o 5º, pinte de preto; <b>senão</b>, deixe branco.</li><li><b>Chame o professor para conferir o desenho e carimbar</b>.</li></ol></div></li></ul>
+<div class="level"><svg><use href="#i-desafio"/></svg><b>Desafio</b></div>
+<ul class="tasks"><li><div>Complete as instruções de seleção:</div></li></ul>
+<div class="tw"><table><tr><th>Se...</th><th>então...</th><th>senão...</th></tr><tr><td>Se o sinal estiver verde,</td><td>então</td><td>senão</td></tr><tr><td>Se a bateria estiver fraca,</td><td>então</td><td>senão</td></tr><tr><td>Se eu acertar a senha,</td><td>então</td><td>senão</td></tr></table></div>
+<div class="level"><svg><use href="#i-turbo"/></svg><b>Turbo</b></div>
+<ul class="tasks"><li><div>O algoritmo abaixo tem um <b>erro</b>. Encontre e corrija:</div></li></ul>
+<p><i>1. Pegar o copo. 2. Beber a água. 3. Abrir a geladeira. 4. Colocar água no copo.</i></p>
+<div class="write"><div class="lbl"><svg class="ico"><use href="#i-lapis"/></svg>Qual é o erro e como corrigir?</div><div class="lines "></div></div>
+<h3><svg><use href="#i-carimbo"/></svg><b> Carimbo do professor</b></h3><div class="stamps"><div class="stamp"><span><svg class="ico"><use href="#i-basico"/></svg> Básico</span></div><div class="stamp"><span><svg class="ico"><use href="#i-desafio"/></svg> Desafio</span></div><div class="stamp"><span><svg class="ico"><use href="#i-turbo"/></svg> Turbo</span></div></div>
+<h3><svg><use href="#i-check"/></svg>Perguntas rápidas</h3>
+<ul class="vf"><li>Algoritmo é uma sequência de passos para resolver um problema.</li><li>A ordem dos passos não importa.</li><li>A repetição faz um passo acontecer várias vezes.</li><li>&quot;Se... então... senão&quot; é uma instrução de seleção.</li><li>Repetir passos deixa o algoritmo mais longo.</li></ul>
+<div class="resumo"><h3><svg style="color:#1c1f22"><use href="#i-cerebro"/></svg>Resumo da Aula</h3>
+<p><b>Algoritmo</b> é uma sequência de passos, em ordem e sem ambiguidade, para resolver um problema: parte de <b>entradas</b> e chega a uma <b>saída</b>. Os algoritmos usam <b>sequência</b> (um passo após o outro), <b>repetição</b> (repetir passos várias vezes) e <b>seleção</b> (escolher o que fazer com &quot;se... então... senão&quot;).</p>
+<div class="kw"><span>algoritmo</span><span>sequência</span><span>repetição</span><span>seleção</span><span>condição</span><span>entrada</span><span>saída</span></div>
+</div>
+</section>
+<section class="sheet pb">
+<div class="mhead"><div class="mnum"><svg><use href="#i-maos"/></svg><b>3</b></div><div><div class="eyebrow">Missão 3 · Cultura Digital</div><h2>Cidadão digital: respeito, segurança e consumo consciente</h2></div></div>
+<div class="goal"><svg class="ico"><use href="#i-alvo"/></svg><p style="margin:0"><b>Objetivo:</b> usar linguagem respeitosa no ambiente digital, proteger-se na internet e refletir sobre o consumo e o descarte de aparelhos eletrônicos.</p></div>
+<div class="date"><svg class="ico"><use href="#i-calendario"/></svg> <b>Data da aula:</b>........ /........</div>
+<h3><svg><use href="#i-lampada"/></svg>Para começar</h3>
+<p><b>Respeito e segurança na internet:</b></p>
+<ul class="dots-list"><li>Escreva como se a pessoa estivesse na sua frente. Ofender, zombar ou espalhar fotos de alguém é <b>cyberbullying</b>.</li><li>Não divulgue endereço, telefone ou senhas. Use <b>senhas fortes</b>, com letras, números e símbolos.</li><li>Desconfie de prêmios fáceis e de estranhos. Se algo assustar você, <b>conte a um adulto de confiança</b>.</li></ul>
+<figure class="" style=""><svg viewBox="0 0 740 150" role="img" aria-label="Três atitudes: falar com respeito, proteger os dados com senha forte e contar a um adulto quando algo assustar">
+  <g transform="translate(40 18)">
+    <path d="M0 10a10 10 0 0 1 10-10h120a10 10 0 0 1 10 10v56a10 10 0 0 1-10 10H40l-18 18V76H10A10 10 0 0 1 0 66Z" fill="#fff" stroke="#1c1f22" stroke-width="3"/>
+    <path d="M70 58c-14-9-22-16-22-25a10 10 0 0 1 22-4 10 10 0 0 1 22 4c0 9-8 16-22 25Z" fill="#d6dade" stroke="#1c1f22" stroke-width="2.5"/>
+    <text x="70" y="124" text-anchor="middle" font-family="Baloo 2, sans-serif" font-weight="700" font-size="16" fill="#1c1f22">Fale com respeito</text>
+  </g>
+  <g transform="translate(300 10)">
+    <use href="#i-cadeado" x="30" y="0" width="80" height="80"/>
+    <rect x="18" y="86" width="104" height="24" rx="12" fill="#eef0f2" stroke="#1c1f22" stroke-width="2"/><text x="70" y="103" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="13">S3nh@F0rte!</text>
+    <text x="70" y="132" text-anchor="middle" font-family="Baloo 2, sans-serif" font-weight="700" font-size="16" fill="#1c1f22">Proteja seus dados</text>
+  </g>
+  <g transform="translate(560 18)">
+    <circle cx="40" cy="22" r="14" fill="#fff" stroke="#1c1f22" stroke-width="3"/><path d="M14 80c0-22 12-36 26-36s26 14 26 36" fill="#d6dade" stroke="#1c1f22" stroke-width="3"/>
+    <circle cx="104" cy="40" r="9" fill="#fff" stroke="#1c1f22" stroke-width="3"/><path d="M88 80c0-14 7-24 16-24s16 10 16 24" fill="#fff" stroke="#1c1f22" stroke-width="3"/>
+    <path d="M60 10q10-12 22-6" fill="none" stroke="#1c1f22" stroke-width="2"/><text x="84" y="10" font-family="Baloo 2, sans-serif" font-weight="700" font-size="16">!</text>
+    <text x="70" y="124" text-anchor="middle" font-family="Baloo 2, sans-serif" font-weight="700" font-size="16" fill="#1c1f22">Conte a um adulto</text>
+  </g>
+</svg></figure>
+<p><b>Consumo consciente:</b></p>
+<ul class="dots-list"><li>Celulares e computadores são feitos com metais e plásticos retirados da natureza.</li><li>Muitos aparelhos são trocados ainda funcionando, só porque ficaram &quot;velhos&quot;. Isso se chama <b>obsolescência</b>.</li><li>Aparelhos jogados no lixo comum viram <b>lixo eletrônico</b> e podem contaminar o solo e a água.</li><li>Atitudes conscientes: <b>consertar</b>, <b>doar</b>, <b>usar por mais tempo</b> e <b>descartar em pontos de coleta</b>.</li></ul>
+<figure class="" style=""><svg viewBox="0 0 740 210" role="img" aria-label="Ciclo consciente do celular: usar por mais tempo, consertar, doar e levar ao ponto de coleta; lixo comum, não">
+  <g fill="#fff" stroke="#1c1f22" stroke-width="3">
+    <rect x="20" y="40" width="130" height="70" rx="12"/><rect x="200" y="40" width="130" height="70" rx="12"/><rect x="380" y="40" width="130" height="70" rx="12"/><rect x="380" y="130" width="130" height="70" rx="12" fill="#eef0f2"/>
+  </g>
+  <g stroke="#1c1f22" stroke-width="3" fill="none" marker-end="url(#seta2)"><path d="M152 75h44"/><path d="M332 75h44"/><path d="M445 112v14"/></g>
+  <g font-family="Baloo 2, sans-serif" font-weight="700" font-size="15" text-anchor="middle" fill="#1c1f22"><text x="85" y="100">Usar mais tempo</text><text x="265" y="100">Consertar</text><text x="445" y="100">Doar</text><text x="445" y="190">Ponto de coleta</text></g>
+  <!-- ícones simples -->
+  <rect x="73" y="48" width="24" height="36" rx="4" fill="#d6dade" stroke="#1c1f22" stroke-width="2.5"/>
+  <path d="M252 52l10 10m0 0 12-12 4 4-12 12m-4-4-8 8a4 4 0 0 1-6-6l8-8" fill="none" stroke="#1c1f22" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M432 64h26v20h-26ZM429 58h32v6h-32ZM445 58v26" fill="#d6dade" stroke="#1c1f22" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M432 146h26l-3 26h-20Z" fill="#fff" stroke="#1c1f22" stroke-width="2.5"/><path d="M436 152l-6-8M454 152l6-8" stroke="#1c1f22" stroke-width="2"/>
+  <!-- lixo comum riscado -->
+  <g transform="translate(590 40)">
+    <path d="M20 20h60l-6 80H26Z" fill="#fff" stroke="#1c1f22" stroke-width="3" stroke-linejoin="round"/><path d="M12 20h76M38 10h24v10" fill="none" stroke="#1c1f22" stroke-width="3"/>
+    <path d="M0 0 100 110M100 0 0 110" stroke="#1c1f22" stroke-width="5" stroke-linecap="round"/>
+    <text x="50" y="140" text-anchor="middle" font-family="Baloo 2, sans-serif" font-weight="700" font-size="15" fill="#1c1f22">Lixo comum, não!</text>
+  </g>
+</svg><figcaption>O caminho consciente de um aparelho eletrônico</figcaption></figure>
+<div class="vida sig"><h3><svg><use href="#i-livro"/></svg>O que significa?</h3>
+<ul class="dots-list"><li><b>Cyberbullying</b>: o bullying (humilhar ou intimidar alguém de forma repetida) feito pelo mundo digital, ou seja, ofender, zombar, ameaçar ou expor alguém pela internet, várias vezes. Onde acontece: grupos de mensagem, comentários e jogos on-line.</li><li><b>Senha forte</b>: senha longa, com letras maiúsculas e minúsculas, números e símbolos, difícil de adivinhar. O que não fazer: 123456, o próprio nome ou a data de nascimento.</li><li><b>Dados pessoais</b>: informações que identificam você, como nome completo, endereço, telefone e escola.</li><li><b>Obsolescência</b> (de <i>obsoleto</i> = ultrapassado): quando um aparelho é trocado ainda funcionando, porque ficou “velho” ou parou de receber atualizações.</li><li><b>Lixo eletrônico</b> (ou <i>e-lixo</i>): aparelhos eletrônicos jogados fora, como celulares, carregadores, pilhas e baterias. Por que ter cuidado: eles têm metais que contaminam o solo e a água.</li><li><b>Ponto de coleta</b>: lugar que recebe eletrônicos usados para reciclar, como algumas lojas de celular e de material de construção.</li></ul>
+</div>
+<div class="vida"><h3><svg><use href="#i-globo"/></svg>Onde eu uso isso?</h3>
+<ul class="dots-list"><li>No <b>grupo da turma</b> no WhatsApp, o respeito vale como se a pessoa estivesse na sua frente.</li><li>A <b>senha</b> do celular e da conta do jogo protege os seus dados.</li><li>O <b>celular velho</b> da família pode ser consertado, doado ou levado a um ponto de coleta.</li></ul>
+<div class="write"><div class="lbl"><svg class="ico"><use href="#i-lapis"/></svg>O que a sua família faz com celulares e aparelhos que não funcionam mais?</div><div class="lines "></div></div>
+</div>
+<h3><svg><use href="#i-alvo"/></svg>Missão</h3>
+<div class="level"><svg><use href="#i-basico"/></svg><b>Básico</b></div>
+<ul class="tasks"><li><div>Reescreva as mensagens de forma <b>respeitosa</b>:</div></li></ul>
+<div class="tw"><table><tr><th>Mensagem desrespeitosa</th><th>Versão respeitosa</th></tr><tr><td>&quot;Seu desenho ficou horrível, kkkk&quot;</td><td class="w"></td></tr><tr><td>&quot;Sai do grupo, ninguém gosta de você&quot;</td><td class="w"></td></tr><tr><td>&quot;Você é burro, errou tudo&quot;</td><td class="w"></td></tr></table></div>
+<ul class="tasks"><li><div>O que fazer com um celular que não funciona mais? Marque <b>C</b> para certo e <b>E</b> para errado:</div></li></ul>
+<div class="tw"><table><tr><th>Atitude</th><th>C ou E</th></tr><tr><td>Jogar no lixo comum</td><td class="w"></td></tr><tr><td>Levar a um ponto de coleta de eletrônicos</td><td class="w"></td></tr><tr><td>Tentar consertar antes de trocar</td><td class="w"></td></tr><tr><td>Jogar no rio ou no mato</td><td class="w"></td></tr></table></div>
+<ul class="tasks"><li class="pc"><div>No computador, faça um <b>cartaz</b> no Paint com o título <b>Cidadão Digital</b>, um desenho e uma frase sobre respeito na internet ou consumo consciente. Chame o professor para conferir e carimbar.</div></li></ul>
+<div class="level"><svg><use href="#i-desafio"/></svg><b>Desafio</b></div>
+<ul class="tasks"><li><div>Invente 2 exemplos de senhas fortes (que você <b>não</b> vai usar de verdade) e explique por que são fortes.</div></li></ul>
+<div class="tw"><table><tr><th>Senha inventada</th><th>Por que é forte?</th></tr><tr><td>1.</td><td class="w"></td></tr><tr><td>2.</td><td class="w"></td></tr></table></div>
+<div class="level"><svg><use href="#i-turbo"/></svg><b>Turbo</b></div>
+<ul class="tasks"><li><div>Escreva uma mensagem curta para um colega que está sofrendo cyberbullying, dizendo o que ele pode fazer.</div></li></ul>
+<div class="write"><div class="lbl"><svg class="ico"><use href="#i-lapis"/></svg>Minha mensagem</div><div class="lines l4"></div></div>
+<h3><svg><use href="#i-carimbo"/></svg><b> Carimbo do professor</b></h3><div class="stamps"><div class="stamp"><span><svg class="ico"><use href="#i-basico"/></svg> Básico</span></div><div class="stamp"><span><svg class="ico"><use href="#i-desafio"/></svg> Desafio</span></div><div class="stamp"><span><svg class="ico"><use href="#i-turbo"/></svg> Turbo</span></div></div>
+<h3><svg><use href="#i-check"/></svg>Perguntas rápidas</h3>
+<ul class="vf"><li>Cyberbullying é só brincadeira e não machuca ninguém.</li><li>Uma senha forte mistura letras, números e símbolos.</li><li>Aparelhos eletrônicos podem ser jogados no lixo comum sem problema.</li><li>Consertar e doar aparelhos ajuda o meio ambiente.</li><li>Se algo me assustar na internet, devo contar a um adulto de confiança.</li></ul>
+<div class="resumo"><h3><svg style="color:#1c1f22"><use href="#i-cerebro"/></svg>Resumo da Aula</h3>
+<p>Um <b>cidadão digital</b> se comunica com <b>respeito</b>, protege seus <b>dados pessoais</b> e usa a tecnologia com <b>consciência</b>: conserta, doa e descarta os aparelhos no lugar certo para evitar o <b>lixo eletrônico</b>.</p>
+<div class="kw"><span>respeito</span><span>cyberbullying</span><span>senha forte</span><span>obsolescência</span><span>lixo eletrônico</span></div>
+</div>
+</section>
+<section class="sheet pb">
+<div class="mhead"><div class="mnum"><svg><use href="#i-bandeira"/></svg></div><div><div class="eyebrow">Projeto final · Todos os temas</div><h2>Meu Passaporte de Missões</h2></div></div>
+<div class="goal"><svg class="ico"><use href="#i-alvo"/></svg><p style="margin:0"><b>Objetivo:</b> conferir as missões concluídas, completar o que faltou e mostrar o que você aprendeu no bimestre.</p></div>
+<div class="date"><svg class="ico"><use href="#i-calendario"/></svg> <b>Data da aula:</b>........ /........</div>
+<h3><svg><use href="#i-alvo"/></svg>Missão final</h3>
+<div class="level"><svg><use href="#i-basico"/></svg><b>Básico</b></div>
+<ul class="tasks"><li><div>Folheie a sua apostila e marque quais missões já têm carimbo:</div></li></ul>
+<div class="tw"><table><tr><th>Missão</th><th>Tem carimbo do Básico?</th></tr><tr><td>Missão 1 – O computador e meus arquivos</td><td class="w"></td></tr><tr><td>Missão 2 – Algoritmos</td><td class="w"></td></tr><tr><td>Missão 3 – Cidadão digital</td><td class="w"></td></tr></table></div>
+<ul class="tasks"><li><div>Se faltar algum carimbo (por exemplo, porque você faltou à aula), faça agora a missão e peça o carimbo ao professor.</div></li><li><div>Escreva uma frase sobre o que você aprendeu em cada tema:</div></li></ul>
+<div class="tw"><table><tr><th>Tema</th><th>O que eu aprendi</th></tr><tr><td>O computador e meus arquivos</td><td class="w"></td></tr><tr><td>Algoritmos</td><td class="w"></td></tr><tr><td>Cidadão digital</td><td class="w"></td></tr></table></div>
+<div class="level"><svg><use href="#i-desafio"/></svg><b>Desafio</b></div>
+<ul class="tasks"><li><div>Digite as suas três frases no Bloco de Notas, com letra maiúscula, acentos e pontuação, e mostre ao professor.</div></li></ul>
+<div class="level"><svg><use href="#i-turbo"/></svg><b>Turbo</b></div>
+<ul class="tasks"><li><div>Explique para a turma, no projetor, qual missão você mais gostou e por quê.</div></li></ul>
+<h3><svg><use href="#i-carimbo"/></svg><b> Carimbo do professor – projeto final</b></h3><div class="stamps"><div class="stamp"><span><svg class="ico"><use href="#i-basico"/></svg> Básico</span></div><div class="stamp"><span><svg class="ico"><use href="#i-desafio"/></svg> Desafio</span></div><div class="stamp"><span><svg class="ico"><use href="#i-turbo"/></svg> Turbo</span></div></div>
+<h3><svg><use href="#i-check"/></svg>Autoavaliação</h3>
+<p>Marque o que você já consegue fazer sozinho:</p>
+<ul class="tasks"><li><div>Explico o que é entrada, processamento e saída.</div></li><li><div>Crio pastas, salvo e abro arquivos.</div></li><li><div>Escrevo um algoritmo com passos claros e em ordem.</div></li><li><div>Uso repetição e seleção em um algoritmo.</div></li><li><div>Uso a internet com respeito e segurança.</div></li><li><div>Sei o que fazer com um aparelho eletrônico que não funciona mais.</div></li></ul>
+<h3>Ficha de avaliação do professor</h3>
+<p>O cálculo completo está no <b>Quadro de notas</b> da primeira página: a apostila (carimbos) vale até <b>5,0</b> e a prova no Wayground vale até <b>5,0</b>, somando a nota do bimestre de <b>0 a 10</b>.</p>
+<div class="resumo"><h3><svg style="color:#1c1f22"><use href="#i-cerebro"/></svg>Resumo do Bimestre</h3>
+<p>Neste bimestre você descobriu como o computador trabalha com informações e organiza arquivos, aprendeu a resolver problemas com algoritmos e refletiu sobre como usar a tecnologia com respeito e consciência. Os carimbos da sua apostila mostram tudo o que você conquistou!</p><p class="sign">Prof. Welington Laignier</p>
+<div class="kw"><span>missão</span><span>carimbo</span><span>autoavaliação</span><span>aprendizado</span></div>
+</div>
+</section>
+<section class="sheet" style="padding-block:10px">
+  <figure style="max-width:260px;margin:0 auto">
+    <svg viewBox="0 0 260 150" role="img" aria-label="Robô mascote acenando com um capelo">
+      <g stroke="#1c1f22" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">
+        <path d="M90 34 130 18 170 34 130 50Z" fill="#1c1f22"/><path d="M162 37v18" fill="none"/>
+        <rect x="90" y="42" width="80" height="60" rx="18" fill="#fff"/>
+        <rect x="100" y="54" width="60" height="34" rx="12" fill="#d6dade"/>
+        <circle cx="117" cy="68" r="5" fill="#1c1f22" stroke="none"/><circle cx="143" cy="68" r="5" fill="#1c1f22" stroke="none"/>
+        <path d="M120 78q10 7 20 0" fill="none" stroke-width="3"/>
+        <rect x="100" y="106" width="60" height="38" rx="12" fill="#d6dade"/>
+        <path d="M160 112q22-6 28-32" fill="none"/><path d="M100 116q-16 10-18 26" fill="none"/>
+      </g>
+      <text x="196" y="66" font-family="Baloo 2, sans-serif" font-weight="800" font-size="18" fill="#1c1f22">Tchau!</text>
+    </svg>
+  </figure>
+</section>
+
+</body></html>
