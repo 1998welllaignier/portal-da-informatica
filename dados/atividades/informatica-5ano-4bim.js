@@ -71,8 +71,11 @@ PORTAL.registrarAtividades("informatica-5ano-4bim", {
         linhas: [["Quem tem mais amigos no grafo?", { r: "Duda", w: 10 }], ["Quantos amigos essa pessoa tem?", { r: "3", tipo: "num", w: 4 }], ["Quem tem só um amigo?", { r: "Enzo", w: 10 }]],
         dicas: ["Conte quantas linhas saem de cada nome."],
         explicacao: "Duda tem 3 amigos (Bia, Caio e Enzo). Enzo tem só 1 amigo (Duda)." },
-      { tipo: "pc", titulo: "No computador: lista de brincadeiras em ordem alfabética", programa: "Bloco de Notas",
-        passos: ["Digite uma lista com <strong>5 brincadeiras</strong> de que você gosta, uma por linha.", "Coloque a lista em <strong>ordem alfabética</strong>: selecione uma linha, aperte <strong>Ctrl + X</strong> (recortar) e depois <strong>Ctrl + V</strong> (colar) no lugar certo.", "Com a lista na tela, chame o professor para conferir e carimbar."] }
+      { tipo: "ordenar", titulo: "Coloque as brincadeiras em ordem alfabética",
+        enunciado: "<p>Ordem alfabética é a ordem do alfabeto: A, B, C, D… Olhe a <strong>primeira letra</strong> de cada brincadeira e arraste (ou use as setas ▲▼) até a lista ficar em ordem.</p>",
+        itens: ["Amarelinha", "Cabo de guerra", "Esconde-esconde", "Pega-pega", "Queimada"],
+        dicas: ["Qual brincadeira começa com a letra que vem primeiro no alfabeto?", "A, C, E, P, Q: é a ordem das primeiras letras."],
+        explicacao: "Amarelinha (A) → Cabo de guerra (C) → Esconde-esconde (E) → Pega-pega (P) → Queimada (Q). Os contatos do celular também ficam em ordem alfabética: é por isso que a gente acha um nome rapidinho." }
     ],
     desafio: [
       { tipo: "grafo", titulo: "As estradas da nossa região: de Parauapebas a Marabá", semPeso: true,
@@ -117,8 +120,10 @@ PORTAL.registrarAtividades("informatica-5ano-4bim", {
       { tipo: "pintura", titulo: "Siga o algoritmo dos círculos", forma: "circulo", n: 4, pretos: [2, 4],
         regra: "<strong>REPITA 4 vezes:</strong> desenhe um círculo. Depois, para cada círculo: <strong>SE</strong> for o 2º <strong>OU</strong> o 4º, <strong>ENTÃO</strong> pinte de preto, <strong>SENÃO</strong> deixe branco.",
         explicacao: "Com OU, basta ser o 2º ou o 4º para pintar." },
-      { tipo: "pc", titulo: "No computador: os círculos no Paint", programa: "Paint",
-        passos: ["Abra o <strong>Paint</strong>.", "REPITA 4 vezes: desenhe um círculo.", "Pinte de preto o 2º e o 4º círculo.", "Chame o professor para conferir e carimbar."] }
+      { tipo: "pintura", titulo: "Agora é com você: um algoritmo novo", forma: "circulo", n: 5, pretos: [1, 5],
+        regra: "<strong>REPITA 5 vezes:</strong> desenhe um círculo. Depois, para cada círculo: <strong>SE</strong> for o 1º <strong>OU</strong> o último, <strong>ENTÃO</strong> pinte de preto, <strong>SENÃO</strong> deixe branco.",
+        dicas: ["Com 5 círculos, o último é o 5º."],
+        explicacao: "Só o 1º e o 5º (o último) ficam pretos. Mudando a condição do SE, o mesmo algoritmo faz um desenho diferente." }
     ],
     desafio: [
       { tipo: "tabela", titulo: "Complete a tabela do E e do OU",
@@ -189,8 +194,9 @@ PORTAL.registrarAtividades("informatica-5ano-4bim", {
       { tipo: "aberta", titulo: "Complete o seu passaporte: uma frase sobre cada missão",
         campos: [{ rot: "🖥️ Missão 1 – O computador e onde moram os dados", linhas: 2 }, { rot: "📋 Missão 2 – Listas e grafos", linhas: 2 }, { rot: "🤔 Missão 3 – Verdadeiro ou falso e escolhas", linhas: 2 }, { rot: "🛡️ Missão 4 – Internet com cuidado", linhas: 2 }],
         criterios: ["Cada frase fala de algo que eu aprendi naquela missão."], minPalavras: 3 },
-      { tipo: "pc", titulo: "No computador: minha missão favorita", programa: "Bloco de Notas",
-        passos: ["Digite o seu primeiro nome.", "Escreva a missão de que você mais gostou e por quê.", "Mostre ao professor para o carimbo."] }
+      { tipo: "aberta", titulo: "Minha missão favorita",
+        campos: [{ rot: "Qual foi a missão de que você mais gostou?", linhas: 1, ph: "Ex.: Missão 2 – Listas e grafos" }, { rot: "Por que você gostou dela?", linhas: 3 }],
+        criterios: ["Escrevi o nome da missão.", "Expliquei o porquê com uma frase completa, com letra maiúscula e ponto final."] }
     ],
     desafio: [
       { tipo: "aberta", titulo: "Crie um algoritmo com SE… ENTÃO… SENÃO para decidir se você pode compartilhar uma mensagem",

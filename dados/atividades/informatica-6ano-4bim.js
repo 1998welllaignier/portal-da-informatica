@@ -110,8 +110,10 @@ PORTAL.registrarAtividades("informatica-6ano-4bim", {
         dicas: ["Só os quadrados da condição (1º, 3º e 5º) ficam pretos."],
         explicacao: "Aqui o algoritmo usa repetição (repita 5 vezes) e seleção (se… senão)." },
 
-      { tipo: "pc", titulo: "No computador: o algoritmo no Paint", programa: "Paint",
-        passos: ["Abra o <strong>Paint</strong>.", "<strong>Repita 5 vezes:</strong> desenhe um quadrado e deixe um espaço à direita.", "Pinte de preto o 1º, o 3º e o 5º quadrado; deixe os outros brancos.", "Chame o professor para conferir o desenho e carimbar."] }
+      { tipo: "pintura", titulo: "Agora é com você: um algoritmo novo", forma: "quadrado", n: 6, pretos: [2, 4, 6],
+        regra: "<strong>Repita 6 vezes:</strong> desenhe um quadrado e deixe um espaço à direita. Para cada quadrado: <strong>se</strong> a posição for <strong>par</strong> (2º, 4º, 6º…), pinte de preto; <strong>senão</strong>, deixe branco.",
+        dicas: ["Número par é o que pode ser dividido em dois grupos iguais: 2, 4, 6, 8…"],
+        explicacao: "Os quadrados pares (2º, 4º e 6º) ficam pretos e formam um padrão alternado: branco, preto, branco, preto… Repetição + seleção." }
     ],
     desafio: [
       { tipo: "tabela", titulo: "Complete as instruções de seleção",
@@ -203,8 +205,9 @@ PORTAL.registrarAtividades("informatica-6ano-4bim", {
         criterios: ["Cada frase usa pelo menos uma palavra-chave do tema.", "Frase completa, com letra maiúscula e ponto final."], minPalavras: 4 }
     ],
     desafio: [
-      { tipo: "pc", titulo: "No computador: digite as suas três frases", programa: "Bloco de Notas",
-        passos: ["Digite as três frases no Bloco de Notas.", "Confira letra maiúscula, acentos e pontuação.", "Mostre ao professor."] }
+      { tipo: "ligar", titulo: "Desafio do bimestre: ligue cada termo ao seu significado", porRodada: 6,
+        enunciado: "<p>Um termo de cada tema do bimestre. Clique no termo e depois no significado dele.</p>",
+        pares: [{ a: "Entrada", b: "O computador recebe informações, pelo teclado ou pelo mouse" }, { a: "Processamento", b: "O computador faz os cálculos com as informações" }, { a: "Pasta", b: "Lugar onde organizamos os nossos arquivos" }, { a: "Algoritmo", b: "Sequência de passos, em ordem, para resolver um problema" }, { a: "Repetição", b: "Fazer os mesmos passos várias vezes" }, { a: "Lixo eletrônico", b: "Aparelhos velhos que precisam ser descartados no lugar certo" }] }
     ],
     turbo: [
       { tipo: "pc", titulo: "Apresente para a turma", programa: "Projetor da sala",

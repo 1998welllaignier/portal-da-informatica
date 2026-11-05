@@ -21,8 +21,13 @@ PORTAL.registrarAtividades("informatica-8ano-4bim", {
         enunciado: "<p>Compare os vizinhos destacados e decida: <strong>trocar</strong> (se estão fora de ordem) ou <strong>manter</strong>.</p>",
         explicacao: "1ª passada: [3, 6, 1, 9] · 2ª passada: [3, 1, 6, 9] · 3ª passada: [1, 3, 6, 9]. A cada passada, o maior número que ainda falta “sobe” para o final, como uma bolha." },
 
-      { tipo: "pc", titulo: "No computador: as passadas no Bloco de Notas", programa: "Bloco de Notas",
-        passos: ["Digite, uma por linha: <strong>Original: 6, 3, 9, 1</strong>.", "Depois <strong>Passada 1:</strong>, <strong>Passada 2:</strong> e <strong>Passada 3:</strong> com as listas que você encontrou.", "Na última linha, escreva <strong>Lista ordenada:</strong> e a lista final.", "Com o texto na tela, chame o professor para conferir e carimbar."] }
+      { tipo: "tabela", titulo: "Agora sem ajuda: escreva as passadas de [5, 2, 8, 1]",
+        enunciado: "<p>Faça o método da bolha na cabeça (ou no rascunho) e digite como a lista fica <strong>no fim de cada passada</strong>. Separe os números com vírgula.</p>",
+        colunas: ["Etapa", "Lista"],
+        linhas: [["Original", "5, 2, 8, 1"], ["Passada 1", { r: "2, 5, 1, 8", tipo: "letras", w: 14, ph: "_, _, _, _" }], ["Passada 2", { r: "2, 1, 5, 8", tipo: "letras", w: 14, ph: "_, _, _, _" }], ["Passada 3", { r: "1, 2, 5, 8", tipo: "letras", w: 14, ph: "_, _, _, _" }],
+          ["Quantas trocas aconteceram na passada 1?", { r: "2", tipo: "num", w: 4, dica: "5 e 2 trocam; 5 e 8 ficam; 8 e 1 trocam." }]],
+        dicas: ["Compare só dois vizinhos por vez: se o da esquerda for maior, troque.", "No fim de cada passada, o maior número que ainda falta vai para o final."],
+        explicacao: "Passada 1: [2, 5, 1, 8] (2 trocas) · Passada 2: [2, 1, 5, 8] · Passada 3: [1, 2, 5, 8]. Lista ordenada!" }
     ],
     desafio: [
       { tipo: "adivinhe", titulo: "Jogo “Adivinhe o número” (o número secreto é 73)", min: 1, max: 100, secreto: 73,
@@ -66,8 +71,13 @@ PORTAL.registrarAtividades("informatica-8ano-4bim", {
           { t: "Duas pessoas tentam comprar o último ingresso do show ao mesmo tempo e o sistema decide quem compra.", c: "C", why: "Disputa pelo mesmo recurso (o último ingresso)." }],
         dicas: ["Paralelo = ao mesmo tempo, dividindo o trabalho. Concorrência = disputa pelo mesmo recurso. Distribuído = espalhado em vários lugares."] },
 
-      { tipo: "pc", titulo: "No computador: o Mapa da internet", programa: "Paint",
-        passos: ["Desenhe o caminho: celular ou computador → roteador → provedor → backbone ou cabo submarino → data center (nuvem).", "Use setas e escreva o nome de cada parte.", "Desenhe o <strong>DNS</strong> ao lado do caminho, com uma seta para o navegador.", "Chame o professor para conferir o desenho e carimbar (não precisa salvar)."] }
+      { tipo: "caminho", titulo: "Monte o Mapa da internet",
+        enunciado: "<p>Monte o caminho que o seu pedido faz até o vídeo, do seu aparelho até a nuvem. Depois, coloque ao lado quem ajuda o navegador a achar o endereço do site.</p>",
+        etapas: ["Celular ou computador", "Roteador", "Provedor", "Backbone ou cabo submarino", "Data center (nuvem)"], fixos: [0],
+        extras: [{ rot: "Ao lado do caminho: quem traduz o nome do site no endereço IP para o navegador?", r: "DNS" }],
+        distratores: ["Impressora", "Teclado"],
+        dicas: ["O roteador é a saída da sua casa ou escola; o provedor é a empresa que leva a internet até lá.", "O backbone e os cabos submarinos levam o pedido para longe, até o prédio cheio de servidores."],
+        explicacao: "Celular ou computador → roteador → provedor → backbone ou cabo submarino → data center (nuvem). Ao lado, o DNS (<em>Domain Name System</em>, Sistema de Nomes de Domínio) troca o nome do site pelo endereço IP. Impressora e teclado não fazem parte do caminho." }
     ],
     desafio: [
       { tipo: "tabela", titulo: "Uma tarefa leva 60 minutos em um núcleo. Quanto tempo leva com mais núcleos?",
@@ -123,8 +133,21 @@ PORTAL.registrarAtividades("informatica-8ano-4bim", {
       { tipo: "aberta", titulo: "Você compartilharia essa mensagem? Por quê?", linhas: 2,
         criterios: ["Usei pelo menos um sinal das perguntas do checador para justificar."] },
 
-      { tipo: "pc", titulo: "No computador: Termos de uso da nossa sala de informática", programa: "Bloco de Notas",
-        passos: ["Na primeira linha, escreva: <em>Ao usar este computador, eu concordo em:</em>", "Depois, escreva <strong>5 regras</strong> numeradas, em linguagem simples.", "Chame o professor para conferir e carimbar."] }
+      { tipo: "classificar", modo: "tabela", titulo: "Boa regra ou não faz sentido para a nossa sala?", colunaItem: "Regra", colunaResp: "B ou N",
+        categorias: [{ id: "B", rot: "Boa regra" }, { id: "N", rot: "Não faz sentido" }],
+        itens: [
+          { t: "Usar só os programas e sites que o professor pediu.", c: "B" },
+          { t: "Compartilhar a minha senha com a turma toda.", c: "N", why: "Senha é pessoal: quem sabe a sua senha pode agir no seu nome." },
+          { t: "Não comer nem beber perto do computador.", c: "B" },
+          { t: "Desligar o computador puxando o cabo da tomada.", c: "N", why: "Desligar assim pode estragar o computador e perder arquivos; o certo é Iniciar → Desligar." },
+          { t: "Não mexer no computador nem nos arquivos dos colegas.", c: "B" },
+          { t: "Chamar o professor quando o computador travar.", c: "B" }],
+        dicas: ["Uma boa regra protege os computadores, os dados e os colegas."] },
+      { tipo: "aberta", titulo: "Termos de uso da nossa sala de informática",
+        enunciado: "<p><strong>Ao usar este computador, eu concordo em:</strong></p>",
+        campos: [{ rot: "Regra 1", linhas: 1 }, { rot: "Regra 2", linhas: 1 }, { rot: "Regra 3", linhas: 1 }, { rot: "Regra 4", linhas: 1 }, { rot: "Regra 5", linhas: 1 }],
+        criterios: ["Cada regra está em linguagem simples, que qualquer colega entende.", "As regras protegem os computadores, os dados ou os colegas."], minPalavras: 3,
+        exemplo: "1. Usar só os programas pedidos. 2. Não comer perto do computador. 3. Não mexer nos arquivos dos colegas. 4. Não passar a minha senha para ninguém. 5. Desligar pelo botão Iniciar." }
     ],
     desafio: [
       { tipo: "info", titulo: "Termos de uso do aplicativo inventado FotoTop",
@@ -163,8 +186,9 @@ PORTAL.registrarAtividades("informatica-8ano-4bim", {
         criterios: ["Cada frase usa pelo menos uma palavra-chave do tema.", "Frase completa, com letra maiúscula e ponto final."], minPalavras: 4 }
     ],
     desafio: [
-      { tipo: "pc", titulo: "No computador: digite as suas três frases", programa: "Bloco de Notas",
-        passos: ["Digite as três frases no Bloco de Notas.", "Confira letra maiúscula, acentos e pontuação.", "Mostre ao professor."] }
+      { tipo: "ligar", titulo: "Desafio do bimestre: ligue cada termo ao seu significado", porRodada: 6,
+        enunciado: "<p>Um termo de cada tema do bimestre. Clique no termo e depois no significado dele.</p>",
+        pares: [{ a: "Busca binária", b: "Olha o meio e descarta metade; só funciona em lista ordenada" }, { a: "Método da bolha", b: "Compara vizinhos e troca os que estão fora de ordem" }, { a: "DNS (Sistema de Nomes de Domínio)", b: "Traduz o nome do site no endereço IP" }, { a: "Paralelismo", b: "Partes de uma tarefa feitas ao mesmo tempo, em núcleos diferentes" }, { a: "LGPD (Lei Geral de Proteção de Dados)", b: "Lei brasileira que protege os dados pessoais" }, { a: "Pegada digital", b: "Rastro do que publicamos, curtimos e comentamos" }] }
     ],
     turbo: [
       { tipo: "pc", titulo: "Apresente para a turma", programa: "Projetor da sala",

@@ -43,7 +43,9 @@ PORTAL.registrarAtividades("ID-DA-APOSTILA", {
          escolha (perguntas com explicação) · sinais (marcar todos os corretos) · senha (medidor de senha forte)
          robo (labirinto com setas e repita) · pintura (simulação do Paint) · lista_ops (inserir/remover em listas)
          busca_binaria · adivinhe · bolha · grafo (traçar caminho) · arvore (pastas/decisão) · cesar (cifra)
-         info (texto de apoio, não conta progresso) · autoavaliacao */
+         info (texto de apoio, não conta progresso) · autoavaliacao
+         caminho (montar esquema com setas e banco de peças) · grafo_montar (ligar vértices pela tabela)
+         cesar_livre (o aluno cifra a própria frase) */
     ],
     desafio: [],
     turbo: [],

@@ -18,8 +18,13 @@ PORTAL.registrarAtividades("informatica-7ano-4bim", {
         preview: "Mensagem que o aparelho monta:",
         explicacao: "Mensagem completa: “Bom dia, turma! A aula de hoje é sobre redes de computadores. Até logo!” O TCP (<em>Transmission Control Protocol</em>, Protocolo de Controle de Transmissão) usa esses números para montar a mensagem na ordem certa." },
 
-      { tipo: "pc", titulo: "No computador: os pacotes no Bloco de Notas", programa: "Bloco de Notas",
-        passos: ["Abra o <strong>Bloco de Notas</strong> e digite os 5 pacotes na ordem certa, um por linha, começando com <strong>Pacote 1 de 5:</strong>.", "Na última linha, escreva a mensagem completa.", "Para mudar uma linha de lugar: selecione, <strong>Ctrl + X</strong> (recortar) e <strong>Ctrl + V</strong> (colar) no lugar certo.", "Com o texto na tela, chame o professor para conferir e carimbar."] },
+      { tipo: "tabela", titulo: "Chegou uma mensagem nova em pacotes embaralhados",
+        enunciado: "<p>Os pacotes chegaram nesta ordem:</p><p class=\"regra\"><strong>Pacote 3 de 4:</strong> Informática às · <strong>Pacote 1 de 4:</strong> Amanhã tem · <strong>Pacote 4 de 4:</strong> 9 horas. · <strong>Pacote 2 de 4:</strong> aula de</p><p>Monte a mensagem pela numeração e digite-a completa.</p>",
+        colunas: ["Pergunta", "Resposta"],
+        linhas: [["Digite a mensagem completa, na ordem certa", { r: "Amanhã tem aula de Informática às 9 horas.", tipo: "letras", w: 40 }],
+          ["Que informação do pacote permitiu montar a mensagem na ordem certa?", { op: ["O número do pacote (1 de 4, 2 de 4…)", "O tamanho do pacote", "A hora em que o pacote chegou"], r: "O número do pacote (1 de 4, 2 de 4…)" }]],
+        dicas: ["Comece pelo Pacote 1 de 4 e siga a numeração.", "Confira os acentos: Amanhã, Informática, às."],
+        explicacao: "“Amanhã tem aula de Informática às 9 horas.” Os pacotes podem chegar fora de ordem, mas o número de cada um deixa o aparelho montar a mensagem certinha. Quem cuida disso é o TCP (<em>Transmission Control Protocol</em>, Protocolo de Controle de Transmissão)." },
 
       { tipo: "info", titulo: "🏫 Na prática: a rede da nossa escola (feito junto com o professor)",
         html: `<p>A nossa escola também é uma rede. Veja as peças que levam a internet da rua até o computador em que você está:</p>
@@ -104,8 +109,10 @@ PORTAL.registrarAtividades("informatica-7ano-4bim", {
         regra: "<strong>Bloco DESENHAR CASA:</strong> desenhe um quadrado e um triângulo em cima dele. <strong>Repita 3 vezes:</strong> DESENHAR CASA. Para cada casa: <strong>se</strong> for a 2ª casa, pinte o telhado de preto; <strong>senão</strong>, deixe branco.",
         explicacao: "O bloco DESENHAR CASA foi escrito uma vez só e usado 3 vezes: isso é reúso." },
 
-      { tipo: "pc", titulo: "No computador: as casas no Paint", programa: "Paint",
-        passos: ["Abra o <strong>Paint</strong>.", "Bloco DESENHAR CASA: desenhe um quadrado e um triângulo em cima dele.", "Repita 3 vezes o bloco, deixando um espaço à direita.", "Pinte de preto só o telhado da 2ª casa.", "Chame o professor para conferir o desenho e carimbar."] }
+      { tipo: "pintura", titulo: "Agora é com você: reúse o bloco com 4 casas", forma: "casa", n: 4, pretos: [1, 4],
+        regra: "<strong>Repita 4 vezes:</strong> DESENHAR CASA. Para cada casa: <strong>se</strong> for a 1ª <strong>ou</strong> a última, pinte o telhado de preto; <strong>senão</strong>, deixe branco.",
+        dicas: ["Com 4 casas, a última é a 4ª."],
+        explicacao: "O mesmo bloco DESENHAR CASA foi reusado 4 vezes sem reescrever nada: só mudaram o número de repetições e a condição do se." }
     ],
     desafio: [
       { tipo: "escolha", titulo: "Caça ao bug: o algoritmo deveria desenhar um quadrado",
@@ -186,8 +193,9 @@ PORTAL.registrarAtividades("informatica-7ano-4bim", {
         criterios: ["Cada frase usa pelo menos uma palavra-chave do tema.", "Frase completa, com letra maiúscula e ponto final."], minPalavras: 4 }
     ],
     desafio: [
-      { tipo: "pc", titulo: "No computador: digite as suas três frases", programa: "Bloco de Notas",
-        passos: ["Digite as três frases no Bloco de Notas.", "Confira letra maiúscula, acentos e pontuação.", "Mostre ao professor."] }
+      { tipo: "ligar", titulo: "Desafio do bimestre: ligue cada termo ao seu significado", porRodada: 6,
+        enunciado: "<p>Um termo de cada tema do bimestre. Clique no termo e depois no significado dele.</p>",
+        pares: [{ a: "Pacote", b: "Pedaço numerado de uma mensagem que viaja pela rede" }, { a: "Endereço IP", b: "Número que identifica cada aparelho na rede" }, { a: "Decomposição", b: "Dividir um problema grande em partes menores" }, { a: "Bug", b: "Erro em um algoritmo" }, { a: "Phishing", b: "Golpe com mensagem ou link falso para roubar dados" }, { a: "Verificação em duas etapas", b: "Segunda confirmação além da senha, como um código no celular" }] }
     ],
     turbo: [
       { tipo: "pc", titulo: "Apresente para a turma", programa: "Projetor da sala",

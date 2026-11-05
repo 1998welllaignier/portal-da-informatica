@@ -890,4 +890,147 @@
     imprimir(at) { const k = at.chaveInicial != null ? at.chaveInicial : 3; return `<table class="imp-grade"><tr>${[...ALF].map(x => `<td>${x}</td>`).join("")}</tr><tr>${[...ALF].map((x, i) => `<td>${ALF[(i + k) % 26]}</td>`).join("")}</tr></table><table class="imp-t"><tr><th>Tarefa</th><th>Texto claro</th><th>Texto cifrado</th></tr>${at.tarefas.map(t => t.tipo === "chave" ? `<tr><td>Descubra a chave e a palavra</td><td></td><td>${esc(t.cifrado)} · chave: ____</td></tr>` : `<tr><td>${t.tipo === "cifrar" ? "Cifre" : "Decifre"}</td><td>${t.tipo === "cifrar" ? esc(t.claro) : ""}</td><td>${t.tipo === "cifrar" ? "" : esc(t.cifrado)}</td></tr>`).join("")}</table>`; },
     resumoResposta(at, st) { return Object.values(st.cel || {}).map(esc).join(" · "); }
   };
+
+  /* ------------------------------------------------------------
+     CIFRA LIVRE — o aluno escreve a própria frase e a cifra;
+     o portal confere se a cifra está certa para a chave dada
+     ------------------------------------------------------------ */
+  T.cesar_livre = {
+    auto: true,
+    render(c, at, ctx) {
+      const st = ctx.st; const k = at.chave || 3; st.claro = st.claro || ""; st.cif = st.cif || "";
+      let marca = "";
+      const draw = () => {
+        c.innerHTML = `<div class="cesar">
+          <div class="ces-tira" aria-label="Tabela da cifra com chave ${k}"><div>${[...ALF].map(x => `<span>${x}</span>`).join("")}</div><div class="ces-cif">${[...ALF].map((x, i) => `<span>${ALF[(i + k) % 26]}</span>`).join("")}</div></div>
+          <label class="campo-aberto"><span><strong>Texto claro:</strong> uma frase sua com ${at.minPalavras || 3} palavras ou mais (sem dados pessoais)</span>
+            <input class="cl-in" data-c="claro" value="${esc(st.claro)}" size="34" placeholder="Ex.: EU GOSTO DE FUTEBOL" aria-label="Texto claro"></label>
+          <p><strong>Chave:</strong> ${k}</p>
+          <label class="campo-aberto ${marca}"><span><strong>Texto cifrado:</strong> use a tira para trocar cada letra</span>
+            <input class="cl-in" data-c="cif" value="${esc(st.cif)}" size="34" aria-label="Texto cifrado">${marca ? `<span class="marca">${marca === "certo" ? "✔" : "✖"}</span>` : ""}</label></div>`;
+        c.querySelectorAll(".cl-in").forEach(x => x.oninput = () => { st[x.dataset.c] = x.value; marca = ""; ctx.salvar(); });
+      };
+      ctx.verificar = () => {
+        const pal = st.claro.trim().split(/\s+/).filter(Boolean);
+        if (pal.length < (at.minPalavras || 3)) return ctx.feedback("info", `Escreva uma frase com pelo menos ${at.minPalavras || 3} palavras no texto claro.`);
+        if (/\d{3,}|@/.test(st.claro)) return ctx.feedback("info", "Parece um número de telefone, documento ou e-mail. Use uma frase sem dados pessoais.");
+        if (!st.cif.trim()) return ctx.feedback("info", "Agora escreva a sua frase cifrada.");
+        const certo = cesar(st.claro, k).replace(/ /g, ""), dele = norm(st.cif).toUpperCase().replace(/ /g, "");
+        if (certo === dele) { marca = "certo"; draw(); return ctx.concluir("certo", "Frase cifrada corretamente! Mostre a um colega e veja se ele consegue decifrar."); }
+        let pos = -1; for (let i = 0; i < certo.length; i++) if (certo[i] !== dele[i]) { pos = i; break; }
+        marca = "errado"; draw();
+        ctx.errou(`A cifra ainda tem erro${pos >= 0 ? ` a partir da ${pos + 1}ª letra` : ""}. Confira na tira: letra de cima → letra de baixo.`);
+      };
+      ctx.resolver = () => { if (!st.claro.trim()) st.claro = "EU GOSTO DE INFORMATICA"; st.cif = cesar(st.claro, k); marca = "certo"; draw(); };
+      draw();
+    },
+    imprimir(at) { const k = at.chave || 3; return `<table class="imp-grade"><tr>${[...ALF].map(x => `<td>${x}</td>`).join("")}</tr><tr>${[...ALF].map((x, i) => `<td>${ALF[(i + k) % 26]}</td>`).join("")}</tr></table><p>Texto claro:</p>${linhas(1)}<p>Chave: ${k}</p><p>Texto cifrado:</p>${linhas(1)}`; },
+    resumoResposta(at, st) { return `${esc(st.claro || "")} → ${esc(st.cif || "")}`; }
+  };
+
+  /* ------------------------------------------------------------
+     CAMINHO — montar um esquema em etapas (com setas) usando
+     um banco de peças; peças "extras" ficam ao lado do caminho
+     ------------------------------------------------------------ */
+  T.caminho = {
+    auto: true,
+    render(c, at, ctx) {
+      const st = ctx.st; st.slot = st.slot || {};
+      const fixos = at.fixos || [];
+      const vagas = at.etapas.map((t, i) => ({ id: "e" + i, r: t, fixo: fixos.includes(i) })).concat((at.extras || []).map((x, i) => ({ id: "x" + i, r: x.r, rot: x.rot, extra: true })));
+      const pecas = vagas.filter(v => !v.fixo).map(v => v.r).concat(at.distratores || []);
+      if (!st.banco || st.banco.length !== pecas.length) st.banco = shuffle(pecas.map((_, i) => i));
+      let sel = null, marcas = {};
+      const usado = k => Object.values(st.slot).includes(k);
+      const vaga = v => {
+        if (v.fixo) return `<div class="cam-vaga fixa">${esc(v.r)}</div>`;
+        const k = st.slot[v.id];
+        return `<button type="button" class="cam-vaga ${k !== undefined ? "cheia" : ""} ${marcas[v.id] || ""}" data-v="${v.id}" aria-label="${v.rot ? esc(v.rot) : "Etapa " + (+v.id.slice(1) + 1)}${k !== undefined ? ": " + esc(pecas[k]) : ", vazia"}">${k !== undefined ? esc(pecas[k]) : "?"}${marcas[v.id] ? `<span class="marca">${marcas[v.id] === "certo" ? "✔" : "✖"}</span>` : ""}</button>`;
+      };
+      const draw = () => {
+        const etapas = vagas.filter(v => !v.extra), extras = vagas.filter(v => v.extra);
+        c.innerHTML = `<p class="instr-arrastar">Clique numa peça e depois no espaço do caminho (ou arraste). Clique num espaço preenchido para esvaziar. Cuidado: há peças que não fazem parte do caminho.</p>
+          <div class="banco">${st.banco.map(k => usado(k) ? "" : `<button type="button" class="chip ${sel === k ? "sel" : ""}" data-k="${k}" draggable="true" aria-pressed="${sel === k}">${esc(pecas[k])}</button>`).join("") || '<span class="vazio">Todas as peças foram usadas.</span>'}</div>
+          <div class="cam-fluxo">${etapas.map((v, i) => (i ? '<span class="cam-seta" aria-hidden="true">➜</span>' : "") + vaga(v)).join("")}</div>
+          ${extras.map(v => `<div class="cam-extra"><span>${md(v.rot)}</span>${vaga(v)}</div>`).join("")}`;
+        c.querySelectorAll(".chip").forEach(b => {
+          b.onclick = () => { sel = sel === +b.dataset.k ? null : +b.dataset.k; draw(); const nb = c.querySelector(`.chip[data-k="${b.dataset.k}"]`); nb && nb.focus(); };
+          b.addEventListener("dragstart", e => e.dataTransfer.setData("text/plain", b.dataset.k));
+        });
+        c.querySelectorAll("button.cam-vaga").forEach(b => {
+          const id = b.dataset.v;
+          const put = k => { Object.keys(st.slot).forEach(x => { if (st.slot[x] === k) delete st.slot[x]; }); st.slot[id] = k; delete marcas[id]; sel = null; ctx.salvar(); draw(); const nx = c.querySelector(".chip"); nx && nx.focus(); };
+          b.onclick = () => { if (sel !== null) put(sel); else if (st.slot[id] !== undefined) { delete st.slot[id]; delete marcas[id]; ctx.salvar(); draw(); } };
+          b.addEventListener("dragover", e => e.preventDefault());
+          b.addEventListener("drop", e => { e.preventDefault(); put(+e.dataTransfer.getData("text/plain")); });
+        });
+      };
+      ctx.verificar = () => {
+        const abertas = vagas.filter(v => !v.fixo);
+        const falta = abertas.filter(v => st.slot[v.id] === undefined).length;
+        if (falta) return ctx.feedback("info", `Faltam ${falta} espaço${falta > 1 ? "s" : ""} para preencher.`);
+        marcas = {}; let err = 0;
+        abertas.forEach(v => { const ok = norm(pecas[st.slot[v.id]]) === norm(v.r); marcas[v.id] = ok ? "certo" : "errado"; if (!ok) err++; });
+        draw();
+        err ? ctx.errou(`${err} peça${err > 1 ? "s" : ""} fora do lugar (✖). Clique para esvaziar e tente de novo.`) : ctx.concluir("certo", at.okMsg || "Esquema montado corretamente!");
+      };
+      ctx.resolver = () => { vagas.filter(v => !v.fixo).forEach(v => { st.slot[v.id] = pecas.findIndex(p => p === v.r); marcas[v.id] = "certo"; }); draw(); };
+      draw();
+    },
+    imprimir(at) { const fixos = at.fixos || []; const pecas = shuffle(at.etapas.filter((_, i) => !fixos.includes(i)).concat((at.extras || []).map(x => x.r), at.distratores || [])); return `<p class="imp-banco"><strong>Peças:</strong> ${pecas.map(esc).join(" · ")}</p><p>${at.etapas.map((t, i) => fixos.includes(i) ? esc(t) : "__________").join(" → ")}</p>${(at.extras || []).map(x => `<p>${md(x.rot)} __________</p>`).join("")}`; },
+    resumoResposta(at, st) { const fixos = at.fixos || []; const pecas = at.etapas.filter((_, i) => !fixos.includes(i)).concat((at.extras || []).map(x => x.r), at.distratores || []); return Object.keys(st.slot || {}).sort().map(k => esc(pecas[st.slot[k]])).join(" → "); }
+  };
+
+  /* ------------------------------------------------------------
+     MONTAR GRAFO — o aluno liga os vértices conforme a tabela
+     de arestas (clicando em dois lugares); o peso aparece na linha
+     ------------------------------------------------------------ */
+  T.grafo_montar = {
+    auto: true,
+    render(c, at, ctx) {
+      const st = ctx.st; st.fe = st.fe || [];
+      const V = at.vertices, A = at.arestas, W = at.largura || 520, H = at.altura || 360;
+      const chave = (a, b) => [a, b].sort().join("|");
+      const ar = (a, b) => A.find(e => chave(e[0], e[1]) === chave(a, b));
+      const rot = id => (V.find(v => v.id === id) || {}).rot || id;
+      let sel = null;
+      const draw = () => {
+        c.innerHTML = `<div class="grafo-wrap"><svg viewBox="0 0 ${W} ${H}" class="grafo" role="img" aria-label="${esc(at.descricao || "Grafo para montar")}">
+          ${st.fe.map(k => { const e = A.find(x => chave(x[0], x[1]) === k); const p = V.find(v => v.id === e[0]), q = V.find(v => v.id === e[1]); const mx = (p.x + q.x) / 2, my = (p.y + q.y) / 2;
+            return `<line x1="${p.x}" y1="${p.y}" x2="${q.x}" y2="${q.y}" class="aresta no-cam"/><g class="peso"><rect x="${mx - 15}" y="${my - 12}" width="30" height="22" rx="6"/><text x="${mx}" y="${my + 4}" text-anchor="middle">${fmtPeso(e[2])}</text></g>`; }).join("")}
+          ${V.map(v => `<g class="vert ${sel === v.id ? "no-cam ponta" : ""}" data-v="${v.id}" tabindex="0" role="button" aria-label="${esc(v.rot)}${sel === v.id ? ", selecionado" : ""}">
+            <circle cx="${v.x}" cy="${v.y}" r="${v.r || 24}"/><text x="${v.x}" y="${v.y + 5}" text-anchor="middle" class="v-id">${esc(v.id)}</text>
+            <text x="${v.x}" y="${v.y + (v.r || 24) + 15}" text-anchor="middle" class="v-rot">${esc(v.rot)}</text></g>`).join("")}
+        </svg>
+        <div class="grafo-info"><p>Ligações feitas: <strong>${st.fe.length} de ${A.length}</strong></p>
+          <p>${sel ? `Agora clique no lugar que se liga a <strong>${esc(rot(sel))}</strong>.` : "Clique em um lugar e depois no outro lugar ligado a ele."}</p>
+          <div class="tabela-wrap"><table class="tab-mini"><tr><th>Aresta</th><th>Peso</th></tr>${A.map(e => `<tr class="${st.fe.includes(chave(e[0], e[1])) ? "certo" : ""}"><td>${esc(rot(e[0]))} – ${esc(rot(e[1]))}${st.fe.includes(chave(e[0], e[1])) ? " ✔" : ""}</td><td>${fmtPeso(e[2])}</td></tr>`).join("")}</table></div>
+          <div class="row-btns"><button type="button" class="btn btn-sec" data-g="voltar">↶ Desfazer</button></div></div></div>`;
+        c.querySelectorAll(".vert").forEach(g => {
+          const go = () => {
+            const id = g.dataset.v;
+            if (!sel) { sel = id; draw(); }
+            else if (sel === id) { sel = null; draw(); }
+            else {
+              const e = ar(sel, id);
+              if (!e) { const a = sel; sel = null; draw(); return ctx.errou(`Não existe ligação entre ${esc(rot(a))} e ${esc(rot(id))} na tabela.`); }
+              const k = chave(sel, id); sel = null;
+              if (st.fe.includes(k)) { draw(); return ctx.feedback("info", "Essa ligação já foi feita."); }
+              st.fe.push(k); ctx.salvar(); draw();
+              if (st.fe.length === A.length) return ctx.concluir("certo", at.okMsg || "Grafo montado! Todas as arestas estão no lugar.");
+              ctx.feedback("ok", `Aresta ${esc(rot(e[0]))} – ${esc(rot(e[1]))} (peso ${fmtPeso(e[2])}) ligada.`);
+            }
+            const ng = c.querySelector(`.vert[data-v="${id}"]`); ng && ng.focus();
+          };
+          g.addEventListener("click", go); tecla(g, go);
+        });
+        c.querySelector('[data-g="voltar"]').onclick = () => { st.fe.pop(); sel = null; ctx.salvar(); draw(); };
+      };
+      ctx.verificar = () => { const f = A.length - st.fe.length; f ? ctx.feedback("info", `Ainda faltam ${f} ligaç${f > 1 ? "ões" : "ão"} da tabela.`) : ctx.concluir("certo", at.okMsg || "Grafo montado!"); };
+      ctx.resolver = () => { st.fe = A.map(e => chave(e[0], e[1])); sel = null; draw(); };
+      draw();
+    },
+    imprimir(at) { return `<table class="imp-t"><tr><th>Aresta</th><th>Peso</th></tr>${at.arestas.map(e => `<tr><td>${esc(e[0])} – ${esc(e[1])}</td><td>${fmtPeso(e[2])}</td></tr>`).join("")}</table><p>Desenhe o grafo:</p><div class="imp-caixa"></div>`; },
+    resumoResposta(at, st) { return `${(st.fe || []).length} de ${at.arestas.length} ligações`; }
+  };
 })();

@@ -565,3 +565,16 @@ body.modo-trilha { font-size: 21px; line-height: 1.65; }
 .trilha-missoes { list-style: none; padding: 0; margin: 10px 0; display: flex; flex-direction: column; gap: 10px; }
 .trilha-missoes li { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--linha); }
 .tm-tit { font-weight: 700; min-width: 0; flex: 1 1 280px; }
+
+/* Caminho (montar esquema com setas) */
+.cam-fluxo { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 14px 0; }
+.cam-vaga { position: relative; min-width: 120px; min-height: 52px; padding: 8px 12px; border: 2px dashed var(--cor); border-radius: 12px; background: #f3f6ff; font-weight: 700; cursor: pointer; text-align: center; }
+.cam-vaga.cheia { border-style: solid; background: #fff; }
+.cam-vaga.fixa { border-style: solid; border-color: var(--linha); background: #eef0f4; display: grid; place-items: center; cursor: default; }
+.cam-vaga.certo { border-color: var(--ok); background: var(--ok-bg); }
+.cam-vaga.errado { border-color: var(--erro); background: var(--erro-bg); }
+.cam-vaga .marca { margin-left: 6px; }
+.cam-seta { font-size: 1.5rem; color: var(--cor); font-weight: 900; }
+.cam-extra { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 8px; padding: 10px 12px; border-left: 5px solid var(--cor); background: #fafbfd; border-radius: 0 10px 10px 0; }
+.tab-mini tr.certo td { background: var(--ok-bg); }
+@media (max-width: 600px) { .cam-fluxo { flex-direction: column; align-items: stretch; } .cam-seta { transform: rotate(90deg); align-self: center; } }

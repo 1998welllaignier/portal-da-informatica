@@ -30,6 +30,10 @@
           <tr><td>Casa – Padaria</td><td>4</td></tr><tr><td>Casa – Praça</td><td>3</td></tr><tr><td>Padaria – Escola</td><td>5</td></tr>
           <tr><td>Praça – Escola</td><td>7</td></tr><tr><td>Praça – Posto de saúde</td><td>2</td></tr><tr><td>Posto de saúde – Escola</td><td>3</td></tr></tbody></table></div>
           <p>Na apostila impressa você desenha o grafo: cada lugar é um círculo (vértice) e cada ligação é uma linha (aresta) com o peso escrito em cima.</p>` },
+        Object.assign({ tipo: "grafo_montar", titulo: "Monte o grafo do bairro: ligue os lugares", descricao: "Grafo do bairro para montar" }, bairro,
+          { enunciado: "<p>Agora é você quem desenha o grafo. Clique em um lugar e depois no outro lugar ligado a ele, seguindo a tabela de arestas. O peso aparece em cima de cada linha.</p>",
+            dicas: ["Comece pela Casa: ela se liga à Padaria e à Praça."],
+            explicacao: "O grafo tem 5 vértices (os lugares) e 6 arestas (as ligações), cada uma com o seu peso em minutos." }),
         { tipo: "tabela", titulo: "Os caminhos da Casa até a Escola",
           colunas: ["Caminho", "Total (minutos)"],
           linhas: [["Casa → Padaria → Escola", { r: "9", tipo: "num", w: 5, dica: "4 + 5" }], ["Casa → Praça → Escola", { r: "10", tipo: "num", w: 5 }], ["Casa → Praça → Posto de saúde → Escola", { r: "8", tipo: "num", w: 5 }],
@@ -46,9 +50,6 @@
             { p: "Qual é o caminho da raiz até o arquivo mapa.png?", r: ["Documentos > Escola > mapa.png", "Documentos Escola mapa"], tipo: "letras" }],
           dicas: ["A raiz é onde a árvore começa. As folhas são os vértices do fim, que não se dividem mais.", "Escreva o caminho assim: Documentos > Escola > mapa.png"],
           explicacao: "Raiz: Documentos. Folhas: redação.txt, mapa.png e aniversário.jpg (3). Caminho: Documentos > Escola > mapa.png." },
-        { tipo: "pc", titulo: "No computador: o grafo do bairro no Paint", programa: "Paint",
-          passos: ["Desenhe círculos com o nome de cada lugar e linhas ligando os lugares, com o peso de cada linha.", "Pinte de <strong>outra cor</strong> o caminho mais curto da Casa até a Escola.", "Com o desenho na tela, chame o professor para conferir e carimbar (não precisa salvar)."] },
-
         { tipo: "info", titulo: "🏘️ Na prática: o nosso bairro de verdade (feito junto com o professor)",
           html: `<p>Agora o grafo é o <strong>bairro da nossa escola</strong>, desenhado a partir do mapa do celular. Cada <strong>esquina</strong> virou um <strong>vértice</strong> (com uma letra) e cada trecho de rua virou uma <strong>aresta</strong>. O <strong>peso</strong> de cada aresta é quantas <strong>quadras</strong> (quarteirões) você anda naquele trecho. Os pesos são aproximados.</p>
           <div class="tabela-wrap"><table><thead><tr><th>Vértice</th><th>Onde fica</th></tr></thead><tbody>
@@ -124,8 +125,10 @@
             { t: "Uma mensagem diz que você ganhou um prêmio e pede que você clique e digite a sua senha.", c: "E", why: "É phishing: engana a pessoa para ela mesma entregar a senha." }],
           dicas: ["Engenharia social engana a <strong>pessoa</strong>; força bruta testa senhas; ransomware tranca arquivos; DDoS derruba sites."],
           explicacao: "R · E · F · D · E. DDoS significa <em>Distributed Denial of Service</em>, Negação de Serviço Distribuída." },
-        { tipo: "pc", titulo: "No computador: sua frase cifrada", programa: "Bloco de Notas",
-          passos: ["Linha 1 — <strong>Texto claro:</strong> uma frase sua de 3 palavras (sem dados pessoais).", "Linha 2 — <strong>Chave: 3</strong>", "Linha 3 — <strong>Texto cifrado:</strong> a sua frase cifrada.", "Chame o professor para conferir e carimbar."] }
+        { tipo: "cesar_livre", titulo: "Sua frase cifrada", chave: 3, minPalavras: 3,
+          enunciado: "<p>Escreva uma frase sua e cifre com a <strong>chave 3</strong>. O portal confere se cada letra foi trocada certo. Depois, mostre só o texto cifrado a um colega e veja se ele consegue decifrar.</p>",
+          dicas: ["Os acentos e o ç ficam de fora: escreva a frase sem eles.", "Os espaços continuam no mesmo lugar."],
+          explicacao: "Cada letra andou 3 casas no alfabeto. Quem sabe a chave consegue fazer o caminho de volta e decifrar." }
       ],
       desafio: [
         { tipo: "tabela", titulo: "Quantas senhas a força bruta precisa testar, no máximo?",
@@ -215,8 +218,9 @@
           criterios: ["Cada frase usa pelo menos uma palavra-chave do tema.", "Frase completa, com letra maiúscula e ponto final."], minPalavras: 4 }
       ],
       desafio: [
-        { tipo: "pc", titulo: "No computador: digite as suas três frases", programa: "Bloco de Notas",
-          passos: ["Digite as três frases no Bloco de Notas.", "Confira letra maiúscula, acentos e pontuação.", "Mostre ao professor."] }
+        { tipo: "ligar", titulo: "Desafio do bimestre: ligue cada termo ao seu significado", porRodada: 6,
+        enunciado: "<p>Um termo de cada tema do bimestre. Clique no termo e depois no significado dele.</p>",
+        pares: [{ a: "Aresta", b: "Ligação entre dois vértices de um grafo" }, { a: "Folha", b: "Fim de uma árvore, que não se divide mais" }, { a: "Chave", b: "Informação que permite cifrar e decifrar uma mensagem" }, { a: "Força bruta", b: "Ataque que testa todas as senhas possíveis" }, { a: "Plágio", b: "Copiar a obra de alguém e apresentar como sua" }, { a: "Deepfake", b: "Vídeo, foto ou áudio falso que imita uma pessoa, criado por inteligência artificial" }] }
       ],
       turbo: [
         { tipo: "pc", titulo: "Apresente para a turma", programa: "Projetor da sala",
