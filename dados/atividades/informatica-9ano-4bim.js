@@ -190,7 +190,7 @@
             { t: "Um site de humor publica “Escola troca a merenda por pizza todos os dias” e muita gente acredita.", c: "H" },
             { t: "Um perfil falso publica fotos de um colega com apelidos ofensivos.", c: "O" }] },
         { tipo: "pc", titulo: "No computador: cartaz Eu respeito a autoria", programa: "Paint",
-          passos: ["Escreva o título <strong>Eu respeito a autoria</strong>.", "Faça um desenho seu (não use fotos de colegas nem imagens copiadas da internet).", "Embaixo, escreva: <strong>Criado por: (seu primeiro nome) · Licença: CC BY</strong>.", "Chame o professor para conferir e carimbar."] }
+          passos: ["Escreva o título <strong>Eu respeito a autoria</strong>.", "Faça um desenho seu (não use fotos de colegas nem imagens copiadas da internet).", "Embaixo, escreva: <strong>Criado por: (seu primeiro nome) · Licença: CC BY</strong>.", "Chame o professor para conferir."] }
       ],
       desafio: [
         { tipo: "aberta", titulo: "Escreva o crédito correto da foto da castanheira",

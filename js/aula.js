@@ -143,13 +143,36 @@
   }
 
   const carregando = {};
-  function carregarRoteiro(aid) {
+  function baixar(aid) {
     if (P.roteiros[aid]) return Promise.resolve();
     return carregando[aid] = carregando[aid] || new Promise(ok => {
       const s = document.createElement("script");
       s.src = "dados/roteiros/" + aid + ".js?v=" + (window.PORTAL_VERSAO || ""); s.onload = ok; s.onerror = () => ok();
       document.head.appendChild(s);
     });
+  }
+  /* Roteiro com "base" (ex.: trilha): usa as falas da turma e acrescenta o apoio próprio */
+  async function carregarRoteiro(aid) {
+    await baixar(aid);
+    const R = P.roteiros[aid];
+    if (!R || !R.base || R._juntado) return;
+    await baixar(R.base);
+    const B = P.roteiros[R.base] || {};
+    Object.keys(B).forEach(k => {
+      const b = B[k], t = R[k];
+      if (k === "base") return;
+      if (Array.isArray(b) || typeof b !== "object") { if (t === undefined) R[k] = b; return; }
+      const m = Object.assign({}, b, t || {});
+      if (t) {
+        const junta = (x, y) => { const l = (x || []).concat(y || []); return l.length ? l : undefined; };
+        m.extras = junta(b.extras, t.extras);
+        m.atencao = junta(t.atencao, b.atencao);
+        m.perguntas = junta(t.perguntas, b.perguntas);
+      }
+      R[k] = m;
+    });
+    if (R.antesExtra) R.antes = (R.antes || []).concat(R.antesExtra);
+    R._juntado = true;
   }
   P.aula.resposta = resposta;
 })();

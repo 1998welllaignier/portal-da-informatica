@@ -180,7 +180,7 @@ PORTAL.registrarAtividades("informatica-5ano-4bim", {
         categorias: [{ id: "A", rot: "Paint" }, { id: "B", rot: "Bloco de Notas" }, { id: "C", rot: "Calculadora" }, { id: "D", rot: "Chamada de vídeo" }],
         itens: [{ t: "Fazer uma conta difícil bem rápido", c: "C" }, { t: "Falar com a avó que mora em outra cidade", c: "D" }, { t: "Escrever um texto no computador", c: "B" }, { t: "Fazer um desenho no computador", c: "A" }] },
       { tipo: "pc", titulo: "No computador: cartaz Eu navego com cuidado", programa: "Paint",
-        passos: ["Escreva o título <strong>Eu navego com cuidado</strong>.", "Faça um desenho seu.", "Embaixo, escreva: <strong>Criado por: (seu primeiro nome)</strong>.", "Chame o professor para conferir e carimbar."] }
+        passos: ["Escreva o título <strong>Eu navego com cuidado</strong>.", "Faça um desenho seu.", "Embaixo, escreva: <strong>Criado por: (seu primeiro nome)</strong>.", "Chame o professor para conferir."] }
     ],
     desafio: [
       { tipo: "aberta", titulo: "Escolha 2 profissões: qual tecnologia cada uma usa e como ajuda?",

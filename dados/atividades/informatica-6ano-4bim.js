@@ -195,7 +195,7 @@ PORTAL.registrarAtividades("informatica-6ano-4bim", {
           { t: "Conversar em segredo com estranhos que oferecem presentes", certo: false, why: "Desconfie de estranhos e conte a um adulto." }],
         explicacao: "Respeito, dados protegidos e desconfiança de prêmios e estranhos: é assim que um cidadão digital se protege." },
       { tipo: "pc", titulo: "No computador: cartaz Cidadão Digital", programa: "Paint",
-        passos: ["Abra o <strong>Paint</strong>.", "Escreva o título <strong>Cidadão Digital</strong>.", "Faça um desenho e escreva uma frase sobre respeito na internet ou consumo consciente.", "Chame o professor para conferir e carimbar."] }
+        passos: ["Abra o <strong>Paint</strong>.", "Escreva o título <strong>Cidadão Digital</strong>.", "Faça um desenho e escreva uma frase sobre respeito na internet ou consumo consciente.", "Chame o professor para conferir."] }
     ],
     desafio: [
       { tipo: "senha", titulo: "Invente 2 senhas fortes (que você NÃO vai usar de verdade)", n: 2,

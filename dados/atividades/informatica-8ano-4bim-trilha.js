@@ -60,7 +60,7 @@ PORTAL.registrarAtividades("informatica-8ano-4bim-trilha", {
         explicacao: "O roteador espalha o Wi-Fi. A nuvem guarda a foto nos computadores do data center." },
 
       { tipo: "pc", titulo: "Passo 4 · No computador: desenhe no Paint", programa: "Paint",
-        passos: ["Clique no botão <strong>Iniciar</strong> e digite <strong>paint</strong>. Clique em <strong>Paint</strong>.", "Clique no <strong>retângulo</strong> ▭ e desenhe <strong>3 quadrados</strong>, um ao lado do outro.", "Clique no <strong>A</strong> (texto) e escreva: <strong>CELULAR</strong>, <strong>ROTEADOR</strong> e <strong>NUVEM</strong>.", "Chame o professor para ver e carimbar."] }
+        passos: ["Clique no botão <strong>Iniciar</strong> e digite <strong>paint</strong>. Clique em <strong>Paint</strong>.", "Clique no <strong>retângulo</strong> ▭ e desenhe <strong>3 quadrados</strong>, um ao lado do outro.", "Clique no <strong>A</strong> (texto) e escreva: <strong>CELULAR</strong>, <strong>ROTEADOR</strong> e <strong>NUVEM</strong>.", "Chame o professor para ver o seu desenho."] }
     ],
     vf: [{ v: true }, { v: false, why: "A nuvem é guardar no <strong>data center</strong>, pela internet." }, { v: true }]
   },

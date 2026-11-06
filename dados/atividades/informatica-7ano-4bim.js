@@ -174,7 +174,7 @@ PORTAL.registrarAtividades("informatica-7ano-4bim", {
         exemplo: "“Eu torço para outro time, mas respeito quem gosta desse.” · “Penso diferente: na minha opinião…” · “Essa música não faz o meu estilo, mas entendo quem curte.”",
         conferir: { minPalavras: 4, msg: "Comentários reescritos com empatia! O professor pode ler as suas respostas no painel." } },
       { tipo: "pc", titulo: "No computador: cartaz Alerta de golpe!", programa: "Paint",
-        passos: ["Abra o <strong>Paint</strong> e escreva o título <strong>Alerta de golpe!</strong>", "Faça um desenho e escreva <strong>3 dicas</strong> para se proteger na internet.", "Não use nomes nem fotos de colegas.", "Chame o professor para conferir e carimbar."] }
+        passos: ["Abra o <strong>Paint</strong> e escreva o título <strong>Alerta de golpe!</strong>", "Faça um desenho e escreva <strong>3 dicas</strong> para se proteger na internet.", "Não use nomes nem fotos de colegas.", "Chame o professor para conferir."] }
     ],
     desafio: [
       { tipo: "aberta", titulo: "Um colega fez uma montagem com a foto de outro aluno e mandou no grupo. Escreva 3 atitudes de quem viu.",
