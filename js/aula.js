@@ -101,6 +101,9 @@
           ${r.siglas ? `<p class="aula-acao">📖 ${esc(r.siglas)}</p>` : ""}
         </section>
 
+        ${(r.extras || []).map(e => `<section class="aula-card ${e.cor || "c-roxo"}"><h2>${esc(e.titulo)}</h2>
+          ${(e.itens || []).map(x => x.fala ? `<blockquote class="aula-fala">“${esc(x.fala)}”</blockquote>` : `<p class="aula-acao">👉 ${esc(x.acao)}</p>`).join("")}</section>`).join("")}
+
         ${r.onde ? `<section class="aula-card c-verde" id="aula-onde"><h2>🌎 Onde eu uso isso?</h2>
           <blockquote class="aula-fala">“${esc(r.onde.pergunta)}”</blockquote>
           ${r.onde.fechamento ? `<blockquote class="aula-fala">“${esc(r.onde.fechamento)}”</blockquote>` : ""}
