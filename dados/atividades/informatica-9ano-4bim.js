@@ -74,10 +74,12 @@
           linhas: [["Distância da escola (E) até o Comercial União (U), em quadras", { r: "1.5", tipo: "num", w: 5 }],
             ["Qual dos dois mercados fica mais perto da escola?", { op: ["Comercial União", "Mercado Municipal"], r: "Comercial União" }]],
           explicacao: "E → A → U = ½ + 1 = 1½ quadra. O Comercial União (1½) fica mais perto que o Mercado Municipal (5)." },
-        { tipo: "aberta", titulo: "3. Obra e lama no caminho",
-          campos: [{ rot: "Se a Av. Bahia estiver fechada entre C e D, o caminho 3 ainda serve? Por quê?", linhas: 2 }, { rot: "Se uma rua tiver muita lama, o “peso” dela aumenta ou diminui? Por quê?", linhas: 2 }],
-          criterios: ["Respondi usando as palavras aresta e peso.", "Expliquei o motivo."],
-          exemplo: "Não serve, porque ele usa a aresta C – D, que está fechada. Com lama, o peso aumenta, porque andar ali leva mais tempo e dá mais trabalho." }
+        { tipo: "escolha", titulo: "3. Obra e lama no caminho",
+          perguntas: [
+            { p: "Se a Av. Bahia estiver fechada entre C e D, o caminho 3 ainda serve?", opcoes: ["Não serve, porque ele usa a aresta C – D, que está fechada", "Serve, porque é o caminho mais curto", "Serve, porque o grafo não muda"], certo: 0 },
+            { p: "Se uma rua tiver muita lama, o <strong>peso</strong> dela aumenta ou diminui?", opcoes: ["Aumenta, porque andar ali leva mais tempo e dá mais trabalho", "Diminui, porque a rua fica mais curta", "Não muda nada"], certo: 0,
+              why: "O <strong>peso</strong> de uma aresta mede o custo de passar por ela: distância, tempo ou esforço." }],
+          explicacao: "Não serve, porque ele usa a aresta C – D, que está fechada. Com lama, o peso aumenta, porque andar ali leva mais tempo e dá mais trabalho." }
       ],
       desafio: [
         { tipo: "arvore", titulo: "Árvore de decisão: adivinhe um objeto da sala", modo: "decisao",
@@ -143,9 +145,11 @@
           enunciado: "<p>Digite <strong>FRNLT</strong> no campo “Experimente” e mude a chave com − e + até o <strong>Decifrado</strong> virar uma palavra.</p>",
           tarefas: [{ tipo: "chave", cifrado: "FRNLT", chave: 5, palavra: "AMIGO" }],
           explicacao: "Com a chave 5, FRNLT vira AMIGO." },
-        { tipo: "aberta", titulo: "Por que a cifra de César é fácil de quebrar?", linhas: 2,
-          criterios: ["Falei que existem poucas chaves possíveis (só 25).", "Relacionei com a força bruta."],
-          exemplo: "Porque só existem 25 chaves possíveis: dá para testar todas em poucos minutos, como na força bruta." }
+        { tipo: "escolha", titulo: "Por que a cifra de César é fácil de quebrar?",
+          perguntas: [
+            { p: "Quantas chaves diferentes a cifra de César tem (com o alfabeto de 26 letras)?", opcoes: ["Só 25", "Milhões", "Infinitas"], certo: 0, why: "Deslocar 26 casas volta à letra original; então sobram 25 chaves úteis." },
+            { p: "Por que isso deixa a cifra fácil de quebrar?", opcoes: ["Dá para testar todas as chaves em poucos minutos, como num ataque de força bruta", "Porque as letras ficam maiúsculas", "Porque a mensagem fica mais curta"], certo: 0 }],
+          explicacao: "Porque só existem 25 chaves possíveis: dá para testar todas em poucos minutos, como na força bruta." }
       ],
       vf: [
         { v: true }, { v: true },
@@ -191,14 +195,21 @@
       desafio: [
         { tipo: "aberta", titulo: "Escreva o crédito correto da foto da castanheira",
           enunciado: "<p>Foto de uma castanheira, tirada por <strong>Maria Souza</strong>, encontrada no site <strong>Banco de Imagens Livres</strong>, com licença <strong>CC BY</strong>. Modelo: <em>Foto: nome do autor, site onde estava, licença.</em></p>",
-          linhas: 2, exigir: ["Maria Souza", "Banco de Imagens Livres", "CC BY"],
-          criterios: ["Segui o modelo: Foto: autor, site, licença."], exemplo: "Foto: Maria Souza, Banco de Imagens Livres, CC BY." },
+          linhas: 2,
+          criterios: ["Segui o modelo: Foto: autor, site, licença."], exemplo: "Foto: Maria Souza, Banco de Imagens Livres, CC BY.",
+          conferir: { grupos: [{ dica: "começar com “Foto:”", alts: ["foto"] }, { dica: "o nome da autora (Maria Souza)", alts: ["maria souza"] }, { dica: "o site (Banco de Imagens Livres)", alts: ["banco de imagens livres"] }, { dica: "a licença (CC BY)", alts: ["cc by", "cc-by"] }],
+            msg: "Crédito escrito do jeito certo: autor, site e licença!" } },
         { tipo: "escolha", titulo: "E se fosse “todos os direitos reservados”?",
           perguntas: [{ p: "Se a imagem tivesse o aviso “todos os direitos reservados”, você poderia usá-la sem pedir autorização?", opcoes: ["Não: precisaria pedir autorização ao autor", "Sim, basta escrever o nome do autor", "Sim, porque está na internet"], certo: 0, why: "“Todos os direitos reservados” (©) quer dizer que só o autor decide quem pode usar." }] }
       ],
       turbo: [
-        { tipo: "aberta", titulo: "Por que um deepfake de um colega, mesmo “de brincadeira”, pode causar problemas sérios? O que a vítima deve fazer?", linhas: 4,
-          criterios: ["Falei de direito de imagem e cyberbullying (pode ser crime).", "Disse o que a vítima faz: não apaga as provas, conta a um adulto, denuncia."] }
+        { tipo: "aberta", titulo: "Por que um deepfake de um colega, mesmo “de brincadeira”, pode causar problemas sérios? O que a vítima deve fazer?",
+          campos: [{ rot: "Por que pode causar problemas sérios?", linhas: 3 }, { rot: "O que a vítima deve fazer?", linhas: 3 }],
+          criterios: ["Falei de direito de imagem e cyberbullying (pode ser crime).", "Disse o que a vítima faz: não apaga as provas, conta a um adulto, denuncia."],
+          conferir: { minPalavras: 6, porCampo: [
+            ["direito de imagem", "imagem", "cyberbullying", "crime", "humilh", "mentira", "falso", "reputac", "vergonha", "lei", "expoe", "expor", "constrang"],
+            ["prova", "print", "nao apag", "adulto", "professor", "famil", "pais", "denunc", "policia", "delegacia", "conta", "contar"]] },
+          exemplo: "Porque usa a imagem da pessoa sem autorização (direito de imagem), pode humilhar e ser cyberbullying, e isso pode ser crime. A vítima não apaga as provas (tira print), conta a um adulto de confiança e denuncia." }
       ],
       vf: [
         { v: false, corrigir: { trecho: "pode ser usado sem dar crédito ao autor", opcoes: ["pode ser usado sem dar crédito ao autor", "tem autor e precisa de crédito ou autorização"], certo: "tem autor e precisa de crédito ou autorização" } },
@@ -210,12 +221,14 @@
     /* ======================= PROJETO FINAL ======================= */
     pf: {
       basico: [
-        { tipo: "autoavaliacao", titulo: "Folheie a apostila impressa: quais missões já têm o carimbo do Básico?",
-          itens: ["🕸️ Missão 1 – Grafos e árvores", "🔐 Missão 2 – Criptografia e ataques", "©️ Missão 3 – Autoria, imagem e deepfakes"] },
-        { tipo: "info", titulo: "Faltou algum carimbo?", html: "<p>Se faltar algum carimbo (por exemplo, porque você faltou à aula), volte à missão agora, faça o Básico e peça o carimbo ao professor.</p>" },
+        { tipo: "info", titulo: "Confira as suas missões", html: "<p>Volte à lista de missões da apostila: cada missão com o <strong>Básico concluído</strong> aparece com ✔. Se faltar alguma (por exemplo, porque você faltou à aula), faça o Básico dela agora. O professor acompanha tudo pelo painel.</p>" },
         { tipo: "aberta", titulo: "Escreva uma frase sobre o que você aprendeu em cada tema",
           campos: [{ rot: "🕸️ Grafos e árvores", linhas: 2 }, { rot: "🔐 Criptografia e ataques", linhas: 2 }, { rot: "©️ Autoria, imagem e deepfakes", linhas: 2 }],
-          criterios: ["Cada frase usa pelo menos uma palavra-chave do tema.", "Frase completa, com letra maiúscula e ponto final."], minPalavras: 4 }
+          criterios: ["Cada frase usa pelo menos uma palavra-chave do tema.", "Frase completa, com letra maiúscula e ponto final."],
+          conferir: { minPalavras: 4, porCampo: [
+            ["grafo", "arvore", "vertice", "aresta", "peso", "caminho", "folha", "raiz", "decis", "no ", "ligac", "rede"],
+            ["cripto", "cifra", "chave", "cesar", "senha", "forca bruta", "ataque", "phishing", "engenharia social", "segur", "codig", "decifr"],
+            ["autor", "credito", "plagio", "imagem", "deepfake", "licenc", "direito", "creative commons", "falso", "fake", "inteligencia artificial", "copi"]] } }
       ],
       desafio: [
         { tipo: "ligar", titulo: "Desafio do bimestre: ligue cada termo ao seu significado", porRodada: 6,
