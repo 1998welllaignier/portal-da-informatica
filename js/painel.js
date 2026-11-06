@@ -308,6 +308,9 @@
         <div class="row-btns"><button class="btn" id="imp1" type="button">📥 Importar para esta turma</button></div></div>
       <div class="painel"><h2>Importar arquivo de várias turmas</h2><p>Arquivo <strong>.json</strong> no formato preparado pelo Claude (todas as turmas de uma vez).</p>
         <input type="file" id="arq" accept=".json,application/json"> <button class="btn" id="imp2" type="button">📥 Importar arquivo</button></div>
+      <div class="painel"><h2>🧪 Alunos de teste</h2><p>Cria um aluno <strong>“Aluno Teste”</strong> em cada turma, para você testar a entrada com código. Depois dos testes, use <strong>Remover alunos de teste</strong>.</p>
+        <div class="row-btns"><button class="btn btn-sec" id="tst" type="button">🧪 Criar alunos de teste</button><button class="btn btn-sec" id="tstx" type="button">🧹 Remover alunos de teste</button></div>
+        <div id="tstres"></div></div>
       <div id="res" class="painel" hidden></div>
       <p class="ajuda">Ano letivo atual: <strong>${esc(cfg.ano)}</strong>.</p>`);
     ligarSair(el);
@@ -316,6 +319,39 @@
       res.hidden = false;
       res.innerHTML = `<h2>${esc(titulo)}</h2>` + grupos.map(([tid, r]) => `<p><strong>${esc(nomeTurma(tid))}</strong>: ${r.length} aluno(s) novo(s)</p>`).join("") +
         `<p class="ajuda">Os códigos aparecem na aba 🏫 Turmas e nos cartões para imprimir.</p>`;
+    };
+    const mostrarTestes = async () => {
+      const q = await db().collection("alunos").where("teste", "==", true).get();
+      const lin = q.docs.map(d => d.data()).sort((x, y) => turmas.findIndex(t => t.id === x.turma) - turmas.findIndex(t => t.id === y.turma));
+      el.querySelector("#tstres").innerHTML = lin.length ? `<table class="pp-tabela"><thead><tr><th>Turma</th><th>Aluno</th><th>Código</th><th>Situação</th></tr></thead><tbody>${lin.map(a => `<tr><td>${esc(nomeTurma(a.turma))}</td><td>${esc(a.nome)}</td><td class="pp-cod">${esc(a.codigo)}</td><td>${a.ativo ? "ativo" : "desativado"}</td></tr>`).join("")}</tbody></table>` : `<p class="ajuda">Nenhum aluno de teste no momento.</p>`;
+    };
+    mostrarTestes().catch(() => null);
+    el.querySelector("#tst").onclick = async () => {
+      const b = el.querySelector("#tst"); b.disabled = true; b.textContent = "Criando…";
+      try {
+        const ja = new Set((await db().collection("alunos").where("teste", "==", true).get()).docs.map(d => d.data().turma));
+        for (const t of turmas) {
+          if (ja.has(t.id)) continue;
+          const r = await adicionarAlunos(t.id, [{ nome: "Aluno Teste" }], cfg.ano);
+          if (r[0]) await db().collection("alunos").doc(r[0].id).update({ teste: true });
+        }
+        await mostrarTestes(); toast("Alunos de teste prontos!");
+      } catch (err) { alert("Erro: " + (err.message || err)); }
+      b.disabled = false; b.textContent = "🧪 Criar alunos de teste";
+    };
+    el.querySelector("#tstx").onclick = async () => {
+      if (!confirm("Remover todos os alunos de teste (e o que eles fizeram no portal)?")) return;
+      try {
+        const q = await db().collection("alunos").where("teste", "==", true).get();
+        const ops = [];
+        for (const d of q.docs) {
+          const a = d.data();
+          ops.push(x => x.delete(d.ref)); ops.push(x => x.delete(db().collection("acessos").doc(a.turma + "_" + a.codigo)));
+          const pr = await db().collection("progresso").where("alunoId", "==", d.id).get();
+          pr.docs.forEach(p => ops.push(x => x.delete(p.ref)));
+        }
+        await lotes(ops); await mostrarTestes(); toast("Alunos de teste removidos.");
+      } catch (err) { alert("Erro: " + (err.message || err)); }
     };
     el.querySelector("#imp1").onclick = async () => {
       const tid = el.querySelector("#tt").value;
