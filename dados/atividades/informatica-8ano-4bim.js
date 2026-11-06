@@ -39,9 +39,12 @@ PORTAL.registrarAtividades("informatica-8ano-4bim", {
         linhas: [["Tentativas no máximo", { r: "10", tipo: "num", w: 4 }]],
         dicas: ["A cada tentativa a lista cai pela metade: 1.000 → 500 → 250 → 125 → …", "Conte quantas vezes dá para dividir por 2 até sobrar 1 número."],
         explicacao: "No máximo 10 tentativas, porque 2 × 2 × … (10 vezes) = 1.024, que já é mais do que 1.000." },
-      { tipo: "aberta", titulo: "Por que a busca binária não funciona em uma lista desordenada?", linhas: 3,
-        criterios: ["Expliquei que, ao olhar o meio, descartamos uma metade inteira.", "Disse por que isso só é seguro quando a lista está em ordem."],
-        exemplo: "Porque, ao comparar com o meio, a busca binária descarta uma metade inteira. Numa lista desordenada, o número procurado pode estar justamente na metade descartada." }
+      { tipo: "escolha", titulo: "Por que a busca binária não funciona em uma lista desordenada?",
+        perguntas: [
+          { p: "O que a busca binária faz depois de comparar com o número do <strong>meio</strong>?", opcoes: ["Descarta uma metade inteira da lista", "Olha todos os números, um por um", "Embaralha a lista"], certo: 0 },
+          { p: "Por que isso dá errado numa lista <strong>desordenada</strong>?", opcoes: ["Porque o número procurado pode estar justamente na metade descartada", "Porque a lista desordenada é maior", "Porque o computador não lê listas desordenadas"], certo: 0 },
+          { p: "Então, antes de usar a busca binária, é preciso…", opcoes: ["Ordenar a lista", "Apagar metade da lista", "Contar os números"], certo: 0 }],
+        explicacao: "Porque, ao comparar com o meio, a busca binária descarta uma metade inteira. Numa lista desordenada, o número procurado pode estar justamente na metade descartada." }
     ],
     vf: [
       { v: true },
@@ -87,9 +90,13 @@ PORTAL.registrarAtividades("informatica-8ano-4bim", {
         explicacao: "60 ÷ 2 = 30 · 60 ÷ 3 = 20 · 60 ÷ 6 = 10. Isso vale quando a tarefa pode ser dividida em partes iguais." }
     ],
     turbo: [
-      { tipo: "aberta", titulo: "Por que as empresas guardam cópias dos mesmos arquivos em data centers de lugares diferentes?", linhas: 3,
-        criterios: ["Falei do que acontece se um data center falhar.", "Usei a ideia de sistema distribuído."],
-        exemplo: "Para os arquivos não sumirem se um data center ficar sem energia ou pegar fogo: outro data center, em outro lugar, tem a cópia e continua respondendo. Se só existisse um, as fotos ficariam inacessíveis ou poderiam ser perdidas." }
+      { tipo: "escolha", titulo: "Por que as empresas guardam cópias dos mesmos arquivos em data centers de lugares diferentes?",
+        enunciado: "<p><em>Data center</em> (centro de dados) é um prédio cheio de computadores que guardam e entregam os arquivos da nuvem.</p>",
+        perguntas: [
+          { p: "Se um data center ficar sem energia ou pegar fogo, o que acontece com as suas fotos?", opcoes: ["Outro data center, em outro lugar, tem a cópia e continua respondendo", "As fotos somem para sempre, não tem jeito", "As fotos vão para o seu celular sozinhas"], certo: 0 },
+          { p: "Como se chama um sistema com várias cópias espalhadas que trabalham juntas?", opcoes: ["Sistema distribuído", "Sistema desligado", "Sistema operacional"], certo: 0 },
+          { p: "E se existisse um único data center?", opcoes: ["Uma falha nele deixaria os arquivos inacessíveis ou poderia perdê-los", "Nada mudaria", "Os arquivos ficariam mais seguros"], certo: 0 }],
+        explicacao: "Para os arquivos não sumirem se um data center ficar sem energia ou pegar fogo: outro data center, em outro lugar, tem a cópia e continua respondendo. Se só existisse um, as fotos ficariam inacessíveis ou poderiam ser perdidas." }
     ],
     vf: [
       { v: true },
@@ -130,8 +137,11 @@ PORTAL.registrarAtividades("informatica-8ano-4bim", {
           ["Tem data?", { op: ["Não tem data", "Tem a data de hoje"], r: "Não tem data" }],
           ["O título é exagerado?", { op: ["Sim: “URGENTE!!!” e “compartilhe antes que apaguem”", "Não, é um título calmo"], r: "Sim: “URGENTE!!!” e “compartilhe antes que apaguem”" }]],
         explicacao: "Sem autor, sem data, sem outra fonte confirmando e com título exagerado: são quatro sinais de alerta." },
-      { tipo: "aberta", titulo: "Você compartilharia essa mensagem? Por quê?", linhas: 2,
-        criterios: ["Usei pelo menos um sinal das perguntas do checador para justificar."] },
+      { tipo: "escolha", titulo: "Você compartilharia essa mensagem? Por quê?",
+        perguntas: [
+          { p: "Você compartilharia essa mensagem?", opcoes: ["Não", "Sim"], certo: 0 },
+          { p: "Por quê?", opcoes: ["Porque não tem autor, não tem data e o título é exagerado: são sinais de notícia falsa", "Porque é urgente e pode salvar vidas", "Porque todo mundo já está compartilhando"], certo: 0,
+            why: "Antes de compartilhar, confira: quem publicou, quando, se outra fonte confirma e se o título é exagerado." }] },
 
       { tipo: "classificar", modo: "tabela", titulo: "Boa regra ou não faz sentido para a nossa sala?", colunaItem: "Regra", colunaResp: "B ou N",
         categorias: [{ id: "B", rot: "Boa regra" }, { id: "N", rot: "Não faz sentido" }],
@@ -147,7 +157,9 @@ PORTAL.registrarAtividades("informatica-8ano-4bim", {
         enunciado: "<p><strong>Ao usar este computador, eu concordo em:</strong></p>",
         campos: [{ rot: "Regra 1", linhas: 1 }, { rot: "Regra 2", linhas: 1 }, { rot: "Regra 3", linhas: 1 }, { rot: "Regra 4", linhas: 1 }, { rot: "Regra 5", linhas: 1 }],
         criterios: ["Cada regra está em linguagem simples, que qualquer colega entende.", "As regras protegem os computadores, os dados ou os colegas."], minPalavras: 3,
-        exemplo: "1. Usar só os programas pedidos. 2. Não comer perto do computador. 3. Não mexer nos arquivos dos colegas. 4. Não passar a minha senha para ninguém. 5. Desligar pelo botão Iniciar." }
+        exemplo: "1. Usar só os programas pedidos. 2. Não comer perto do computador. 3. Não mexer nos arquivos dos colegas. 4. Não passar a minha senha para ninguém. 5. Desligar pelo botão Iniciar.",
+        detector: { palavras: ["compartilhar a minha senha", "passar a senha para todos", "puxando o cabo"], msg: "Essa regra não protege a sala. Troque por uma boa regra." },
+        conferir: { minPalavras: 3, diferentes: "todos", msg: "Termos de uso escritos! O professor pode ler as suas regras no painel." } }
     ],
     desafio: [
       { tipo: "info", titulo: "Termos de uso do aplicativo inventado FotoTop",
@@ -163,8 +175,13 @@ PORTAL.registrarAtividades("informatica-8ano-4bim", {
         explicacao: "Ler os termos de uso mostra o que você está aceitando antes de clicar em “Aceito”." }
     ],
     turbo: [
-      { tipo: "aberta", titulo: "O que é pegada digital? Dê um exemplo de publicação que poderia atrapalhar alguém daqui a 5 anos.", linhas: 3,
-        criterios: ["Expliquei que é o rastro do que publicamos, curtimos e comentamos.", "Dei um exemplo concreto e disse por que atrapalharia."] }
+      { tipo: "aberta", titulo: "O que é pegada digital? Dê um exemplo de publicação que poderia atrapalhar alguém daqui a 5 anos.",
+        campos: [{ rot: "O que é pegada digital?", linhas: 2 }, { rot: "Exemplo de publicação e por que ela atrapalharia daqui a 5 anos", linhas: 3 }],
+        criterios: ["Expliquei que é o rastro do que publicamos, curtimos e comentamos.", "Dei um exemplo concreto e disse por que atrapalharia."],
+        conferir: { minPalavras: 6, porCampo: [
+          ["rastro", "marca", "registro", "historico", "fica na internet", "fica guardad", "public", "curt", "coment", "postag", "deixamos"],
+          ["emprego", "trabalho", "vaga", "escola", "faculdade", "vergonha", "prejudic", "atrapalh", "reputac", "ofens", "foto", "video", "comentario", "brincadeira"]] },
+        exemplo: "Pegada digital é o rastro do que publicamos, curtimos e comentamos na internet. Exemplo: um vídeo zoando um colega; daqui a 5 anos, uma empresa pode ver e não contratar a pessoa." }
     ],
     vf: [
       { v: true },
@@ -178,12 +195,14 @@ PORTAL.registrarAtividades("informatica-8ano-4bim", {
   /* ======================= PROJETO FINAL ======================= */
   pf: {
     basico: [
-      { tipo: "autoavaliacao", titulo: "Folheie a apostila impressa: quais missões já têm o carimbo do Básico?",
-        itens: ["🗂️ Missão 1 – Listas: buscar e ordenar", "☁️ Missão 2 – Internet por dentro: nuvem e paralelismo", "🔍 Missão 3 – Dados pessoais e informação confiável"] },
-      { tipo: "info", titulo: "Faltou algum carimbo?", html: "<p>Se faltar algum carimbo (por exemplo, porque você faltou à aula), volte à missão agora, faça o Básico e peça o carimbo ao professor.</p>" },
+      { tipo: "info", titulo: "Confira as suas missões", html: "<p>Volte à lista de missões da apostila: cada missão com o <strong>Básico concluído</strong> aparece com ✔. Se faltar alguma (por exemplo, porque você faltou à aula), faça o Básico dela agora. O professor acompanha tudo pelo painel.</p>" },
       { tipo: "aberta", titulo: "Escreva uma frase sobre o que você aprendeu em cada tema",
         campos: [{ rot: "🗂️ Listas, busca e ordenação", linhas: 2 }, { rot: "☁️ Internet, nuvem e paralelismo", linhas: 2 }, { rot: "🔍 Dados pessoais e informação confiável", linhas: 2 }],
-        criterios: ["Cada frase usa pelo menos uma palavra-chave do tema.", "Frase completa, com letra maiúscula e ponto final."], minPalavras: 4 }
+        criterios: ["Cada frase usa pelo menos uma palavra-chave do tema.", "Frase completa, com letra maiúscula e ponto final."],
+        conferir: { minPalavras: 4, porCampo: [
+          ["lista", "busca", "binaria", "sequencial", "ordena", "ordem", "bolha", "metade", "meio", "comparar", "trocar"],
+          ["internet", "nuvem", "paralel", "data center", "servidor", "dns", "nucleo", "distribuid", "copia", "rede", "processador"],
+          ["dados", "lgpd", "privacidade", "fake", "falsa", "fonte", "checa", "confiavel", "termos", "pegada", "senha", "informacao", "compartilh"]] } }
     ],
     desafio: [
       { tipo: "ligar", titulo: "Desafio do bimestre: ligue cada termo ao seu significado", porRodada: 6,

@@ -29,7 +29,9 @@ PORTAL.registrarAtividades("informatica-8ano-4bim-trilha", {
         explicacao: "Ana, Bia, Caio, Davi: de A até Z, como na lista de chamada." },
 
       { tipo: "pc", titulo: "Passo 5 · No computador: Bloco de Notas", programa: "Bloco de Notas",
-        passos: ["Clique no botão <strong>Iniciar</strong> e digite <strong>bloco</strong>.", "Clique em <strong>Bloco de Notas</strong>.", "Digite os números em ordem: <strong>1 2 3 4</strong>", "Chame o professor para ver e carimbar."] }
+        passos: ["Clique no botão <strong>Iniciar</strong> e digite <strong>bloco</strong>.", "Clique em <strong>Bloco de Notas</strong>.", "Digite os números em ordem: <strong>1 2 3 4</strong>"],
+        conferir: [{ rot: "Agora digite aqui os números que você escreveu no Bloco de Notas:", ph: "1 2 3 4", re: "^\\D*1\\D+2\\D+3\\D+4\\D*$", dica: "Do menor para o maior: 1, 2, 3, 4." }],
+        okMsg: "Muito bem! Os números estão em ordem crescente." }
     ],
     vf: [{ v: true }, { v: false, why: "Ordem crescente é do <strong>menor</strong> para o <strong>maior</strong>." }, { v: true }]
   },
@@ -95,7 +97,9 @@ PORTAL.registrarAtividades("informatica-8ano-4bim-trilha", {
         explicacao: "Três sinais de alerta: é melhor <strong>não compartilhar</strong>." },
 
       { tipo: "pc", titulo: "Passo 4 · No computador: Bloco de Notas", programa: "Bloco de Notas",
-        passos: ["Clique no botão <strong>Iniciar</strong> e digite <strong>bloco</strong>. Clique em <strong>Bloco de Notas</strong>.", "Digite a frase: <strong>Eu protejo meus dados</strong>", "Chame o professor para ver e carimbar."] }
+        passos: ["Clique no botão <strong>Iniciar</strong> e digite <strong>bloco</strong>. Clique em <strong>Bloco de Notas</strong>.", "Digite a frase: <strong>Eu protejo meus dados</strong>"],
+        conferir: [{ rot: "Agora digite aqui a frase que você escreveu no Bloco de Notas:", ph: "Eu protejo meus dados", re: "eu\\s+protejo\\s+(os\\s+)?meus\\s+dados", dica: "A frase é: Eu protejo meus dados." }],
+        okMsg: "Muito bem! Você protege os seus dados." }
     ],
     vf: [{ v: false, why: "A senha é segredo: não conte para ninguém." }, { v: true }, { v: true }]
   },
@@ -103,9 +107,7 @@ PORTAL.registrarAtividades("informatica-8ano-4bim-trilha", {
   /* ======================= PROJETO FINAL ======================= */
   pf: {
     basico: [
-      { tipo: "autoavaliacao", titulo: "Passo 1 · Olhe a apostila impressa: quais missões têm carimbo?",
-        itens: ["🗂️ Missão 1 – Listas", "☁️ Missão 2 – Internet e nuvem", "🔍 Missão 3 – Meus dados"] },
-      { tipo: "info", titulo: "Faltou algum carimbo?", html: "<p>Se faltar um carimbo, volte para a missão, faça o Básico e chame o professor.</p>" },
+      { tipo: "info", titulo: "Passo 1 · Confira as suas missões", html: "<p>Volte para a lista de missões. As missões prontas têm ✔. Se faltar alguma, faça o Básico dela.</p>" },
       { tipo: "escolha", titulo: "Passo 2 · Do que você mais gostou?",
         perguntas: [{ p: "Escolha a missão de que você mais gostou:", opcoes: ["🗂️ Listas", "☁️ Internet e nuvem", "🔍 Meus dados"], certo: -1 }],
         explicacao: "Conte para o professor por que você gostou dessa missão!" }
