@@ -621,3 +621,8 @@ body.modo-trilha { font-size: 21px; line-height: 1.65; }
 .pp-rel { background: var(--info-bg); border-radius: 10px; padding: 10px 14px; margin: 10px 0; }
 .pp-rel p { margin: 4px 0; }
 .pp-rel-txt { font-family: Consolas, monospace; font-size: .85rem; background: #fff; }
+.pp-clic { cursor: pointer; }
+.pp-clic:hover { outline: 2px solid var(--cor); outline-offset: -2px; }
+.pp-dlg-larga { max-width: 760px; width: 92vw; max-height: 85vh; }
+.pp-resps li { margin: 10px 0; }
+.pp-resp blockquote { margin: 6px 0; padding: 6px 10px; background: var(--info-bg); border-radius: 8px; }

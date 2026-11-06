@@ -177,7 +177,7 @@
         if (!p) return `<td class="pp-c vazio" title="não começou">—</td>`;
         const b = p.basico || [0, 0], d = p.desafio || [0, 0];
         const tit = `Básico ${b[0]}/${b[1]}` + (d[1] ? ` · Desafio ${d[0]}/${d[1]}` : "") + (p.dias ? ` · dias: ${Object.keys(p.dias).sort().map(dataBR).join(", ")}` : "");
-        return `<td class="pp-c ${p.basicoOk ? "ok" : "meio"}" title="${esc(tit)}">${p.basicoOk ? "✔" : `${b[0]}/${b[1]}`}${d[1] && d[0] === d[1] ? "⭐" : ""}</td>`;
+        return `<td class="pp-c ${p.basicoOk ? "ok" : "meio"} pp-clic" title="${esc(tit)} · clique para ver as respostas" data-ver="${esc(p.id)}" tabindex="0">${p.basicoOk ? "✔" : `${b[0]}/${b[1]}`}${d[1] && d[0] === d[1] ? "⭐" : ""}</td>`;
       };
       const dias = a => { const s = new Set(); (pm[a.id] || []).forEach(p => Object.keys(p.dias || {}).forEach(d => s.add(d))); return s.size; };
       corpo.innerHTML = `<div class="painel pp-tabela-wrap"><p class="ajuda">✔ Básico concluído · ⭐ Desafio completo · 3/5 = andamento do Básico · — não começou. Passe o mouse para ver os detalhes. <strong>${alunos.filter(a => a.ativo).length}</strong> alunos ativos.</p>
@@ -185,9 +185,33 @@
         <tbody>${lista.map(a => `<tr class="${a.ativo ? "" : "inativo"}"><td>${esc(a.nome)}${a.ativo ? "" : " <small>(desativado)</small>"}</td><td class="pp-cod">${esc(a.codigo)}</td><td>${dias(a)}</td>${missoes.map(x => cel(a, x)).join("")}
           <td><button class="btn btn-link btn-peq" data-a="${a.id}" type="button">⚙️</button></td></tr>`).join("")}</tbody></table></div>`;
       corpo.querySelectorAll("[data-a]").forEach(b => b.onclick = () => menuAluno(alunos.find(a => a.id === b.dataset.a)));
+      corpo.querySelectorAll("[data-ver]").forEach(td => { const f = () => verRespostas(prog.find(p => p.id === td.dataset.ver)); td.onclick = f; td.onkeydown = e => { if (e.key === "Enter") f(); }; });
     }
     el.querySelector("#inat").onchange = desenhar;
     desenhar();
+
+    function verRespostas(p) {
+      if (!p) return;
+      const a = alunos.find(x => x.id === p.alunoId) || { nome: "?" };
+      let atv = {}; try { atv = typeof p.atv === "string" ? JSON.parse(p.atv) : (p.atv || {}); } catch (e) {}
+      const { m, pages } = P.montarMissao(p.aid, p.mid);
+      const sit = st => ({ certo: "✔ certo sem ajuda", ajuda: "✔ com ajuda", enviado: "📝 enviada (professor confere)", feito: "✔ feita" }[st && st.status] || "⬜ não feita");
+      const resp = (at, st) => {
+        if (!st) return "";
+        const T = P.tipos[at.tipo] || {};
+        let r = "";
+        if (st.resposta) r = Object.values(st.resposta).map(x => `<blockquote>${esc(x).replace(/\n/g, "<br>")}</blockquote>`).join("");
+        else if (st.conf) r = Object.values(st.conf).map(x => `<code>${esc(x)}</code>`).join(" · ");
+        else if (T.resumoResposta) { try { r = T.resumoResposta(at, st); } catch (e) {} }
+        return r ? `<div class="pp-resp">${r}</div>` : "";
+      };
+      const itens = [];
+      pages.forEach(pg => (pg.atividades || []).forEach(at => { if ((P.tipos[at.tipo] || {}).semStatus) return; const st = atv[at.id];
+        itens.push(`<li><strong>${esc(P.util.semTags(at.titulo || ""))}</strong> <small>(${esc(pg.rotulo)})</small><br>${sit(st)}${st && st.tentativas ? ` · ${st.tentativas} erro(s)` : ""}${resp(at, st)}</li>`); }));
+      const dlg = h(`<dialog class="pp-dlg pp-dlg-larga"><h2>${esc(a.nome)}</h2><p>${esc(m.icone)} ${esc(m.titulo)}</p><ol class="pp-resps">${itens.join("")}</ol>
+        <form method="dialog"><button class="btn">Fechar</button></form></dialog>`);
+      document.body.appendChild(dlg); dlg.showModal(); dlg.addEventListener("close", () => dlg.remove());
+    }
 
     function menuAluno(a) {
       const dlg = h(`<dialog class="pp-dlg"><form method="dialog"><h2>${esc(a.nome)}</h2><p>${esc(nomeTurma(a.turma))} · código <strong>${esc(a.codigo)}</strong> · ${a.ativo ? "ativo" : "desativado"}</p>

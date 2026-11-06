@@ -26,6 +26,11 @@
     return lista.some(a => norm(a) === r);
   };
   P.util.igual = igual;
+  // confere um campo por expressão regular (ex.: formato de IP, de data, nome de arquivo)
+  const confere = (resp, re) => { try { return new RegExp(re, "i").test(String(resp || "").trim()); } catch (e) { return false; } };
+  // texto contém alguma das alternativas? (sem acento, sem maiúscula)
+  const contem = (txt, alts) => { const t = " " + norm(txt) + " "; return (Array.isArray(alts) ? alts : [alts]).some(a => t.includes(norm(a))); };
+  const palavras = t => String(t || "").trim().split(/\s+/).filter(Boolean).length;
 
   /* ------------------------------------------------------------
      ORDENAR — passos, etapas, pacotes
@@ -297,7 +302,8 @@
      detector de palavras ofensivas (opcional). Professor confere.
      ------------------------------------------------------------ */
   T.aberta = {
-    auto: false,
+    // com "conferir", a resposta é corrigida automaticamente por critérios (tamanho e palavras-chave)
+    auto: at => !!at.conferir,
     render(c, at, ctx) {
       const st = ctx.st; st.resposta = st.resposta || {};
       const campos = at.campos || [{ rot: "", linhas: at.linhas || 3 }];
@@ -323,9 +329,26 @@
           const curto = campos.some((_, i) => (st.resposta[i] || "").trim().split(/\s+/).length < at.minPalavras);
           if (curto) { ctx.feedback("info", `Escreva um pouco mais (pelo menos ${at.minPalavras} palavras em cada campo).`); return; }
         }
+        if (at.conferir) {
+          const cf = at.conferir, txt = campos.map((_, i) => st.resposta[i] || "");
+          if (cf.minPalavras && txt.some(t => palavras(t) < cf.minPalavras)) { ctx.errou(`Escreva um pouco mais: pelo menos ${cf.minPalavras} palavras${campos.length > 1 ? " em cada campo" : ""}.`); return; }
+          if (cf.porCampo) {
+            const i = cf.porCampo.findIndex((alts, k) => alts && !contem(txt[k], alts));
+            if (i >= 0) { ctx.errou(`No campo “${semTags(campos[i].rot || "resposta")}”, use pelo menos uma palavra-chave do tema (ex.: ${cf.porCampo[i].slice(0, 3).map(x => "“" + esc(x.trim()) + "”").join(", ")}).`); return; }
+          }
+          if (cf.grupos) {
+            const tudo = txt.join(" ");
+            const faltam = cf.grupos.filter(g => !contem(tudo, g.alts || g));
+            const min = cf.minGrupos || cf.grupos.length;
+            if (cf.grupos.length - faltam.length < min) { const f = faltam[0]; ctx.errou(`Quase! Ainda falta falar sobre: <strong>${esc(f.dica || (f.alts || f)[0])}</strong>.`); return; }
+          }
+          if (cf.diferentes && norm(txt[cf.diferentes[0]]) === norm(txt[cf.diferentes[1]])) { ctx.errou("As duas ações precisam ser diferentes."); return; }
+          ctx.concluir("certo", cf.msg || "Resposta conferida automaticamente! O professor pode ler a sua resposta no painel.");
+          return;
+        }
         ctx.concluir("enviado", "Resposta registrada! Mostre ao professor: ele confere esta atividade.");
       };
-      if (at.verificarRotulo !== false) setTimeout(() => { const b = ctx.el.querySelector('[data-a="verificar"]'); if (b) b.textContent = "Registrar resposta"; }, 0);
+      if (at.verificarRotulo !== false && !at.conferir) setTimeout(() => { const b = ctx.el.querySelector('[data-a="verificar"]'); if (b) b.textContent = "Registrar resposta"; }, 0);
     },
     imprimir(at) { const campos = at.campos || [{ rot: "", linhas: at.linhas || 3 }]; return campos.map(f => `${f.rot ? `<p>${md(f.rot)}</p>` : ""}${linhas(f.linhas || 3)}`).join(""); },
     resumoResposta(at, st) { return Object.values(st.resposta || {}).map(t => esc(t).replace(/\n/g, "<br>")).join("<hr>"); }
@@ -355,11 +378,11 @@
         const falta = cels.filter(([id]) => !(st.cel[id] || "").trim()).length;
         if (falta) { ctx.feedback("info", `Faltam ${falta} campo${falta > 1 ? "s" : ""}.`); return; }
         marcas = {}; let err = 0; const dicasErro = [];
-        cels.forEach(([id, cel]) => { const ok = igual(st.cel[id], cel.r, cel.tipo); marcas[id] = ok ? "certo" : "errado"; if (!ok) { err++; if (cel.dica) dicasErro.push(cel.dica); } });
+        cels.forEach(([id, cel]) => { const ok = cel.re ? confere(st.cel[id], cel.re) : igual(st.cel[id], cel.r, cel.tipo); marcas[id] = ok ? "certo" : "errado"; if (!ok) { err++; if (cel.dica) dicasErro.push(cel.dica); } });
         draw();
         err ? ctx.errou(`${err} campo${err > 1 ? "s" : ""} para rever (✖).${dicasErro.length ? " Pista: " + md(dicasErro[0]) : ""}`) : ctx.concluir("certo", "Tabela completa e certa!");
       };
-      ctx.resolver = () => { at.linhas.forEach((ln, r) => ln.forEach((cel, k) => { if (cel && typeof cel === "object") { const id = r + "-" + k; st.cel[id] = Array.isArray(cel.r) ? cel.r[0] : cel.r; marcas[id] = "certo"; } })); draw(); };
+      ctx.resolver = () => { at.linhas.forEach((ln, r) => ln.forEach((cel, k) => { if (cel && typeof cel === "object") { const id = r + "-" + k; st.cel[id] = cel.exemplo || (Array.isArray(cel.r) ? cel.r[0] : cel.r); marcas[id] = "certo"; } })); draw(); };
       draw();
     },
     imprimir(at) { return `<table class="imp-t">${at.colunas ? `<tr>${at.colunas.map(k => `<th>${md(k)}</th>`).join("")}</tr>` : ""}${at.linhas.map(ln => `<tr>${ln.map(cel => `<td>${typeof cel === "object" ? (cel.op ? cel.op.map(esc).join(" / ") : "") : md(String(cel))}</td>`).join("")}</tr>`).join("")}</table>`; },
@@ -370,21 +393,33 @@
      TAREFA NO COMPUTADOR — passo a passo; o professor confere
      ------------------------------------------------------------ */
   T.pc = {
-    auto: false,
+    // com "conferir", o aluno digita o que encontrou no computador e o portal confere sozinho
+    auto: at => !!at.conferir,
     render(c, at, ctx) {
-      const st = ctx.st; st.passos = st.passos || {};
+      const st = ctx.st; st.passos = st.passos || {}; st.conf = st.conf || {};
+      let marcas = {};
       const draw = () => {
         c.innerHTML = `<div class="pc"><p class="pc-prog">🖥️ Programa: <strong>${esc(at.programa)}</strong></p>
           <ol class="pc-passos">${at.passos.map((p, i) => `<li><label><input type="checkbox" data-i="${i}" ${st.passos[i] ? "checked" : ""}> <span>${md(p)}</span></label></li>`).join("")}</ol>
-          <p class="pc-aviso">👀 Não feche o programa antes de mostrar ao professor. O comprovante é o carimbo na apostila.</p></div>`;
-        c.querySelectorAll("input").forEach(x => x.onchange = () => { st.passos[x.dataset.i] = x.checked; ctx.salvar(); });
+          ${at.conferir ? `<div class="pc-conf"><p><strong>✍️ Agora conte o que aparece no seu computador:</strong></p>${at.conferir.map((f, i) => `<label class="campo pc-conf-campo ${marcas[i] || ""}"><span>${md(f.rot)}</span><input data-c="${i}" value="${esc(st.conf[i] || "")}" placeholder="${esc(f.ph || "")}" autocomplete="off">${marcas[i] ? `<span class="marca">${marcas[i] === "certo" ? "✔" : "✖"}</span>` : ""}</label>`).join("")}</div>`
+            : `<p class="pc-aviso">👀 Não feche o programa antes de mostrar ao professor.</p>`}</div>`;
+        c.querySelectorAll("input[data-i]").forEach(x => x.onchange = () => { st.passos[x.dataset.i] = x.checked; ctx.salvar(); });
+        c.querySelectorAll("input[data-c]").forEach(x => x.oninput = () => { st.conf[x.dataset.c] = x.value; delete marcas[x.dataset.c]; ctx.salvar(); });
       };
       ctx.verificar = () => {
         const falta = at.passos.filter((_, i) => !st.passos[i]).length;
         if (falta) { ctx.feedback("info", `Marque cada passo quando terminar (faltam ${falta}).`); return; }
-        ctx.concluir("enviado", "🙋 Pronto! Levante a mão e chame o professor para conferir e carimbar.");
+        if (at.conferir) {
+          if (at.conferir.some((_, i) => !(st.conf[i] || "").trim())) { ctx.feedback("info", "Preencha todos os campos com o que aparece no seu computador."); return; }
+          marcas = {}; const erros = [];
+          at.conferir.forEach((f, i) => { const ok = confere(st.conf[i], f.re); marcas[i] = ok ? "certo" : "errado"; if (!ok) erros.push(f); });
+          draw();
+          erros.length ? ctx.errou(`${erros.length} campo${erros.length > 1 ? "s" : ""} para rever (✖).${erros[0].dica ? " Pista: " + md(erros[0].dica) : ""}`) : ctx.concluir("certo", at.okMsg || "Tarefa no computador conferida!");
+          return;
+        }
+        ctx.concluir("enviado", "🙋 Pronto! Levante a mão e chame o professor para conferir.");
       };
-      setTimeout(() => { const b = ctx.el.querySelector('[data-a="verificar"]'); if (b) b.textContent = "Terminei — chamar o professor"; }, 0);
+      setTimeout(() => { const b = ctx.el.querySelector('[data-a="verificar"]'); if (b) b.textContent = at.conferir ? "Verificar" : "Terminei — chamar o professor"; }, 0);
       draw();
     },
     imprimir(at) { return `<p>🖥️ No computador (<strong>${esc(at.programa)}</strong>):</p><ol>${at.passos.map(p => `<li>☐ ${md(p)}</li>`).join("")}</ol>`; }

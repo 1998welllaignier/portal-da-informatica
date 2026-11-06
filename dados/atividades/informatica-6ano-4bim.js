@@ -47,16 +47,28 @@ PORTAL.registrarAtividades("informatica-6ano-4bim", {
           "Abra o <strong>Explorador de Arquivos</strong> (ícone de pasta amarela). No local indicado pelo professor, clique com o botão direito → <strong>Novo</strong> → <strong>Pasta</strong> e dê o seu nome a ela.",
           "Abra o <strong>Bloco de Notas</strong> e escreva: seu nome, sua idade e o que você gosta de fazer.",
           "Clique em <strong>Arquivo → Salvar como</strong>, escolha a sua pasta e salve com o nome <strong>Sobre mim</strong>.",
-          "Feche o Bloco de Notas, abra a sua pasta e dê duplo clique no arquivo para abri-lo de novo.",
-          "Com o arquivo aberto, chame o professor para conferir e carimbar."] }
+          "Feche o Bloco de Notas, abra a sua pasta e dê duplo clique no arquivo para abri-lo de novo."],
+        conferir: [
+          { rot: "Qual é o <strong>nome do arquivo</strong> que aparece dentro da sua pasta?", ph: "Ex.: Sobre mim", re: "^sobre\\s*mim(\\.txt)?$", dica: "Você salvou com o nome <strong>Sobre mim</strong>. Se não aparece assim, salve de novo com esse nome." },
+          { rot: "Quando você deu <strong>duplo clique</strong> no arquivo, qual programa abriu?", ph: "Nome do programa", re: "bloco\\s*de\\s*notas|notepad", dica: "É o mesmo programa em que você escreveu o texto." }],
+        okMsg: "Pasta criada e arquivo salvo! Você sabe guardar e encontrar os seus arquivos." }
     ],
     desafio: [
       { tipo: "pc", titulo: "No computador: organizando em pastas",
         programa: "Explorador de Arquivos",
-        passos: ["Dentro da sua pasta, crie as pastas <strong>Textos</strong> e <strong>Desenhos</strong>.", "Arraste o arquivo <strong>Sobre mim</strong> para a pasta Textos.", "Clique com o botão direito no arquivo → <strong>Propriedades</strong> e veja os metadados."] },
-      { tipo: "aberta", titulo: "Anote os metadados do arquivo “Sobre mim”",
-        campos: [{ rot: "Tipo", linhas: 1 }, { rot: "Tamanho", linhas: 1 }, { rot: "Data de criação", linhas: 1 }],
-        criterios: ["Copiei exatamente o que aparece na janela Propriedades."] },
+        passos: ["Dentro da sua pasta, crie as pastas <strong>Textos</strong> e <strong>Desenhos</strong>.", "Arraste o arquivo <strong>Sobre mim</strong> para a pasta Textos.", "Clique com o botão direito no arquivo → <strong>Propriedades</strong> e veja os metadados."],
+        conferir: [
+          { rot: "Dentro da sua pasta, quantas pastas existem agora?", ph: "Digite um número", re: "^(2|duas)$", dica: "Você criou a pasta Textos e a pasta Desenhos." },
+          { rot: "Em qual pasta está agora o arquivo <strong>Sobre mim</strong>?", ph: "Nome da pasta", re: "^textos$", dica: "Você arrastou o arquivo para a pasta de textos." }],
+        okMsg: "Arquivos organizados em pastas!" },
+      { tipo: "tabela", titulo: "Anote os metadados do arquivo “Sobre mim”",
+        enunciado: "<p>Copie o que aparece na janela <strong>Propriedades</strong> do arquivo (botão direito → Propriedades).</p>",
+        colunas: ["Metadado", "O que aparece no seu computador"],
+        linhas: [
+          ["Tipo", { re: "texto|txt", ph: "Ex.: Documento de Texto", exemplo: "Documento de Texto (.txt)", dica: "O Bloco de Notas salva arquivos do tipo <strong>Documento de Texto (.txt)</strong>.", rot: "Tipo" }],
+          ["Tamanho", { re: "\\d+([.,]\\d+)?\\s*(bytes?|kb|mb)", ph: "Ex.: 58 bytes", exemplo: "58 bytes", dica: "O tamanho é um número seguido de <strong>bytes</strong> ou <strong>KB</strong>.", rot: "Tamanho" }],
+          ["Data de criação", { re: "\\d{1,2}\\s*(/|de)\\s*(\\d{1,2}|[a-zç]+)\\s*(/|de)\\s*\\d{2,4}", ph: "Ex.: 05/11/2026", exemplo: "05/11/2026", dica: "Copie a data no formato dia/mês/ano, como aparece na janela.", rot: "Data de criação" }]],
+        explicacao: "Tipo, tamanho e data são <strong>metadados</strong>: dados <em>sobre</em> o arquivo, que o computador guarda sozinho." },
       { tipo: "sinais", titulo: "Quais destas informações são metadados?",
         opcoes: [
           { t: "O nome do arquivo", certo: true }, { t: "O tipo do arquivo (documento de texto)", certo: true },
@@ -67,9 +79,15 @@ PORTAL.registrarAtividades("informatica-6ano-4bim", {
         explicacao: "Metadados são dados sobre os dados: nome, tipo, tamanho e data. O texto escrito dentro do arquivo é o conteúdo." }
     ],
     turbo: [
-      { tipo: "aberta", titulo: "Descubra uma peça que é ao mesmo tempo entrada e saída. Explique.",
-        linhas: 3, criterios: ["Dei o nome da peça.", "Expliquei o que ela recebe (entrada) e o que ela mostra ou devolve (saída)."],
-        exemplo: "A tela sensível ao toque (touchscreen) do celular: ela mostra imagens (saída) e recebe o toque do dedo (entrada). Outro exemplo: o fone de ouvido com microfone." }
+      { tipo: "escolha", titulo: "Descubra uma peça que é ao mesmo tempo entrada e saída",
+        perguntas: [
+          { p: "Qual destas peças é <strong>entrada e saída</strong> ao mesmo tempo?", opcoes: ["O teclado", "A tela sensível ao toque (touchscreen) do celular", "A impressora", "O monitor comum"], certo: 1,
+            why: "A tela touchscreen mostra imagens (saída) e recebe o toque do dedo (entrada)." },
+          { p: "Por que ela é <strong>entrada</strong>?", opcoes: ["Porque mostra as imagens", "Porque recebe o toque do dedo e leva a informação para o computador", "Porque guarda os arquivos"], certo: 1 },
+          { p: "Por que ela é <strong>saída</strong>?", opcoes: ["Porque mostra o resultado na tela", "Porque recebe o toque do dedo", "Porque liga o aparelho"], certo: 0 },
+          { p: "Qual destas também é entrada e saída?", opcoes: ["O fone de ouvido com microfone", "O mouse", "A caixa de som"], certo: 0,
+            why: "O microfone recebe a sua voz (entrada) e o fone toca o som (saída)." }],
+        explicacao: "Algumas peças fazem as duas coisas: <strong>recebem</strong> informações (entrada) e <strong>mostram ou devolvem</strong> resultados (saída). Exemplos: tela touchscreen, fone com microfone, pen drive (grava e lê)." }
     ],
     vf: [
       { v: true, why: "O teclado leva informações para dentro do computador." },
@@ -125,7 +143,9 @@ PORTAL.registrarAtividades("informatica-6ano-4bim", {
         dicas: ["O “então” acontece quando a condição é verdadeira; o “senão”, quando é falsa."],
         explicacao: "Na seleção, a <strong>condição</strong> é uma pergunta de sim ou não. Sim → então. Não → senão." },
       { tipo: "aberta", titulo: "Crie a sua instrução de seleção", campos: [{ rot: "Se...", linhas: 1 }, { rot: "então...", linhas: 1 }, { rot: "senão...", linhas: 1 }],
-        criterios: ["A condição é uma pergunta de sim ou não.", "O “então” e o “senão” são ações diferentes."], opcional: true }
+        criterios: ["A condição é uma pergunta de sim ou não.", "O “então” e o “senão” são ações diferentes."], opcional: true,
+        conferir: { minPalavras: 2, diferentes: [1, 2], msg: "Instrução de seleção criada! Condição, então e senão no lugar certo." },
+        exemplo: "Se estiver chovendo, então levo o guarda-chuva, senão vou de boné." }
     ],
     turbo: [
       { tipo: "escolha", titulo: "Caça ao erro no algoritmo",
@@ -153,7 +173,8 @@ PORTAL.registrarAtividades("informatica-6ano-4bim", {
         campos: [{ rot: "“Seu desenho ficou horrível, kkkk”", linhas: 2 }, { rot: "“Sai do grupo, ninguém gosta de você”", linhas: 2 }, { rot: "“Você é burro, errou tudo”", linhas: 2 }],
         detector: { palavras: ["horrivel", "kkkk", "kkk", "burro", "burra", "ninguem gosta", "sai do grupo", "idiota", "feio"], msg: "Escreva como se a pessoa estivesse na sua frente." },
         criterios: ["Não tem apelido, xingamento nem risada de deboche.", "Dá para entender o que a pessoa quis dizer.", "Ajuda ou incentiva em vez de humilhar."],
-        exemplo: "“Acho que o seu desenho pode ficar ainda melhor com mais cores!” · “Vamos combinar as regras do grupo juntos?” · “Errar faz parte. Quer ajuda para revisar?”" },
+        exemplo: "“Acho que o seu desenho pode ficar ainda melhor com mais cores!” · “Vamos combinar as regras do grupo juntos?” · “Errar faz parte. Quer ajuda para revisar?”",
+        conferir: { minPalavras: 4, msg: "Mensagens reescritas com respeito! O professor pode ler as suas respostas no painel." } },
       { tipo: "classificar", modo: "tabela", titulo: "O que fazer com um celular que não funciona mais?",
         colunaItem: "Atitude", colunaResp: "Certo ou errado?",
         categorias: [{ id: "C", rot: "Certo" }, { id: "E", rot: "Errado" }],
@@ -183,7 +204,13 @@ PORTAL.registrarAtividades("informatica-6ano-4bim", {
     turbo: [
       { tipo: "aberta", titulo: "Mensagem para um colega que está sofrendo cyberbullying", linhas: 4,
         criterios: ["Mostro que me importo com ele.", "Digo o que ele pode fazer: guardar provas (print), bloquear e contar a um adulto de confiança.", "A mensagem é respeitosa."],
-        exemplo: "“Sinto muito pelo que estão fazendo com você. Não é culpa sua. Tire print das mensagens, bloqueie quem está te ofendendo e conte para o professor ou para alguém da sua família. Conte comigo!”" }
+        exemplo: "“Sinto muito pelo que estão fazendo com você. Não é culpa sua. Tire print das mensagens, bloqueie quem está te ofendendo e conte para o professor ou para alguém da sua família. Conte comigo!”",
+        detector: { palavras: ["burro", "burra", "idiota", "feio", "kkkk", "otario"], msg: "A mensagem precisa ser respeitosa." },
+        conferir: { minPalavras: 15, minGrupos: 3, grupos: [
+          { dica: "guardar provas (tirar print)", alts: ["print", "prova", "guard", "captura"] },
+          { dica: "bloquear quem ofende", alts: ["bloque"] },
+          { dica: "contar a um adulto de confiança", alts: ["adulto", "professor", "famil", "pais", "mae", "pai", "responsav", "diretor", "coordenad"] },
+          { dica: "mostrar que você se importa com ele", alts: ["sinto", "conte comigo", "estou com voce", "nao e culpa", "importo", "apoio", "ajud", "amigo", "sozinho"] }] } }
     ],
     vf: [
       { v: false, corrigir: { trecho: "é só brincadeira e não machuca ninguém", opcoes: ["é só brincadeira e não machuca ninguém", "machuca e deve ser levado a sério", "só acontece com adultos"], certo: "machuca e deve ser levado a sério" } },
@@ -197,12 +224,14 @@ PORTAL.registrarAtividades("informatica-6ano-4bim", {
   /* ======================= PROJETO FINAL ======================= */
   pf: {
     basico: [
-      { tipo: "autoavaliacao", titulo: "Folheie a apostila impressa: quais missões já têm o carimbo do Básico?",
-        itens: ["🌐 Missão 1 – O computador e meus arquivos", "🧩 Missão 2 – Algoritmos", "🤝 Missão 3 – Cidadão digital"] },
-      { tipo: "info", titulo: "Faltou algum carimbo?", html: "<p>Se faltar algum carimbo (por exemplo, porque você faltou à aula), volte à missão agora, faça o Básico e peça o carimbo ao professor.</p>" },
+      { tipo: "info", titulo: "Confira as suas missões", html: "<p>Volte à lista de missões da apostila: cada missão com o <strong>Básico concluído</strong> aparece com ✔. Se faltar alguma (por exemplo, porque você faltou à aula), faça o Básico dela agora. O professor acompanha tudo pelo painel.</p>" },
       { tipo: "aberta", titulo: "Escreva uma frase sobre o que você aprendeu em cada tema",
         campos: [{ rot: "🌐 O computador e meus arquivos", linhas: 2 }, { rot: "🧩 Algoritmos", linhas: 2 }, { rot: "🤝 Cidadão digital", linhas: 2 }],
-        criterios: ["Cada frase usa pelo menos uma palavra-chave do tema.", "Frase completa, com letra maiúscula e ponto final."], minPalavras: 4 }
+        criterios: ["Cada frase usa pelo menos uma palavra-chave do tema.", "Frase completa, com letra maiúscula e ponto final."],
+        conferir: { minPalavras: 4, porCampo: [
+          ["computador", "arquivo", "pasta", "entrada", "saida", "process", "armazen", "salvar", "metadado", "teclado", "mouse", "monitor", "explorador", "bloco de notas"],
+          ["algoritmo", "sequencia", "passo", "ordem", "repeti", "selecao", "condicao", "se ", "entao", "senao", "instru", "robo"],
+          ["respeit", "cyberbullying", "senha", "dados", "lixo eletronico", "consumo", "cidadao", "internet", "segur", "golpe", "privacidade", "recicl", "proteg"]] } }
     ],
     desafio: [
       { tipo: "ligar", titulo: "Desafio do bimestre: ligue cada termo ao seu significado", porRodada: 6,
