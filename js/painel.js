@@ -112,7 +112,7 @@
   const topo = (u, ativo) => `<nav class="migalhas"><a href="#/">Início</a> › <a href="#/painel">Painel do professor</a></nav>
     <div class="pp-cab"><div><h1>📊 Painel do professor</h1><p class="lead">${esc(cat().professor)} · ${esc(cat().escola)}</p></div>
       <div class="pp-user"><span>${esc(u.email)}</span><button class="btn btn-sec btn-peq" id="pp-sair" type="button">Sair do painel</button></div></div>
-    <nav class="pp-abas">${[["", "🏫 Turmas"], ["presenca", "🗓️ Presença"], ["importar", "📥 Importar alunos"], ["ano", "📅 Ano letivo"]].map(([k, r]) =>
+    <nav class="pp-abas">${[["aula", "🎤 Aula"], ["", "🏫 Turmas"], ["presenca", "🗓️ Presença"], ["importar", "📥 Importar alunos"], ["ano", "📅 Ano letivo"]].map(([k, r]) =>
       `<a href="#/painel${k ? "/" + k : ""}" class="${ativo === k ? "atual" : ""}">${r}</a>`).join("")}</nav>`;
   function ligarSair(el) { el.querySelector("#pp-sair").onclick = async () => { await auth().signOut(); location.hash = "#/painel"; }; }
 
@@ -367,6 +367,34 @@
     });
   }
 
+  /* -------- Tela da aula: roteiro visual + respostas + contador ao vivo -------- */
+  async function telaAula(u, tid, mid) {
+    const turmas = todasTurmas();
+    tid = tid || sessionStorage.getItem("painel:turma") || (turmas.find(x => x.serie.id === "6") || turmas[0]).id;
+    try { sessionStorage.setItem("painel:turma", tid); } catch (e) {}
+    const t = turmas.find(x => x.id === tid) || turmas[0];
+    const aps = cat().apostilas.filter(a => a.serie === t.serie.id);
+    const apId = sessionStorage.getItem("painel:ap:" + t.serie.id);
+    const ap = aps.find(a => a.id === apId) || aps.find(a => !a.oculta && !/trilha/.test(a.id)) || aps[0];
+    await P.carregarApostila(ap.id);
+    const C = P.conteudo[ap.id];
+    mid = mid && C.missoes.some(m => m.id === mid) ? mid : C.missoes[0].id;
+    const el = tela(topo(u, "aula") + `<div class="painel pp-barra">
+        <label>Turma <select id="sel">${turmas.map(x => `<option value="${x.id}" ${x.id === t.id ? "selected" : ""}>${esc(nomeTurma(x.id))}</option>`).join("")}</select></label>
+        ${aps.length > 1 ? `<label>Apostila <select id="ap">${aps.map(a => `<option value="${a.id}" ${a.id === ap.id ? "selected" : ""}>${esc(a.titulo || a.id)}</option>`).join("")}</select></label>` : ""}
+        <span class="pp-missoes">${C.missoes.map(m => `<a class="pp-mis ${m.id === mid ? "atual" : ""}" href="#/painel/aula/${t.id}/${m.id}">${esc(m.icone)} ${esc(m.id.toUpperCase())}</a>`).join("")}</span></div>
+      <div id="aula"></div>`);
+    ligarSair(el);
+    el.querySelector("#sel").onchange = e => { location.hash = "#/painel/aula/" + e.target.value + "/" + mid; };
+    const sa = el.querySelector("#ap"); if (sa) sa.onchange = e => { try { sessionStorage.setItem("painel:ap:" + t.serie.id, e.target.value); } catch (x) {} telaAula(u, t.id); };
+    await P.aula.render(el.querySelector("#aula"), ap.id, mid, t.id, { vivo: async (aid, m, turma) => {
+      const prog = await progressoDaTurma(turma), d = N.hoje();
+      const entraram = new Set(prog.filter(p => p.dias && p.dias[d]).map(p => p.alunoId));
+      const basico = new Set(prog.filter(p => p.aid === aid && p.mid === m && p.basicoOk).map(p => p.alunoId));
+      return { entraram: entraram.size, basico: [...basico].filter(x => entraram.has(x)).length };
+    } });
+  }
+
   /* -------- Importar alunos (lista colada ou arquivo) -------- */
   async function telaImportar(u) {
     const turmas = todasTurmas();
@@ -472,12 +500,13 @@
   }
 
   P.painel = {
-    async abrir(mount, sub, arg) {
+    async abrir(mount, sub, arg, arg2) {
       mountFn = mount;
       await (N.app(0).pronto);
       await new Promise(ok => { const x = auth().onAuthStateChanged(() => { x(); ok(); }); });
       const u = await entrar();
       try {
+        if (sub === "aula") return await telaAula(u, arg, arg2);
         if (sub === "presenca") return await telaPresenca(u, arg);
         if (sub === "importar") return await telaImportar(u);
         if (sub === "ano") return await telaAno(u);

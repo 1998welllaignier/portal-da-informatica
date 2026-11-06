@@ -49,8 +49,8 @@ PORTAL.registrarAtividades("informatica-6ano-4bim", {
           "Clique em <strong>Arquivo → Salvar como</strong>, escolha a sua pasta e salve com o nome <strong>Sobre mim</strong>.",
           "Feche o Bloco de Notas, abra a sua pasta e dê duplo clique no arquivo para abri-lo de novo."],
         conferir: [
-          { rot: "Qual é o <strong>nome do arquivo</strong> que aparece dentro da sua pasta?", ph: "Ex.: Sobre mim", re: "^sobre\\s*mim(\\.txt)?$", dica: "Você salvou com o nome <strong>Sobre mim</strong>. Se não aparece assim, salve de novo com esse nome." },
-          { rot: "Quando você deu <strong>duplo clique</strong> no arquivo, qual programa abriu?", ph: "Nome do programa", re: "bloco\\s*de\\s*notas|notepad", dica: "É o mesmo programa em que você escreveu o texto." }],
+          { rot: "Qual é o <strong>nome do arquivo</strong> que aparece dentro da sua pasta?", ph: "Ex.: Sobre mim", gab: "Sobre mim", re: "^sobre\\s*mim(\\.txt)?$", dica: "Você salvou com o nome <strong>Sobre mim</strong>. Se não aparece assim, salve de novo com esse nome." },
+          { rot: "Quando você deu <strong>duplo clique</strong> no arquivo, qual programa abriu?", ph: "Nome do programa", gab: "Bloco de Notas", re: "bloco\\s*de\\s*notas|notepad", dica: "É o mesmo programa em que você escreveu o texto." }],
         okMsg: "Pasta criada e arquivo salvo! Você sabe guardar e encontrar os seus arquivos." }
     ],
     desafio: [
@@ -58,8 +58,8 @@ PORTAL.registrarAtividades("informatica-6ano-4bim", {
         programa: "Explorador de Arquivos",
         passos: ["Dentro da sua pasta, crie as pastas <strong>Textos</strong> e <strong>Desenhos</strong>.", "Arraste o arquivo <strong>Sobre mim</strong> para a pasta Textos.", "Clique com o botão direito no arquivo → <strong>Propriedades</strong> e veja os metadados."],
         conferir: [
-          { rot: "Dentro da sua pasta, quantas pastas existem agora?", ph: "Digite um número", re: "^(2|duas)$", dica: "Você criou a pasta Textos e a pasta Desenhos." },
-          { rot: "Em qual pasta está agora o arquivo <strong>Sobre mim</strong>?", ph: "Nome da pasta", re: "^textos$", dica: "Você arrastou o arquivo para a pasta de textos." }],
+          { rot: "Dentro da sua pasta, quantas pastas existem agora?", ph: "Digite um número", gab: "2 (Textos e Desenhos)", re: "^(2|duas)$", dica: "Você criou a pasta Textos e a pasta Desenhos." },
+          { rot: "Em qual pasta está agora o arquivo <strong>Sobre mim</strong>?", ph: "Nome da pasta", gab: "Textos", re: "^textos$", dica: "Você arrastou o arquivo para a pasta de textos." }],
         okMsg: "Arquivos organizados em pastas!" },
       { tipo: "tabela", titulo: "Anote os metadados do arquivo “Sobre mim”",
         enunciado: "<p>Copie o que aparece na janela <strong>Propriedades</strong> do arquivo (botão direito → Propriedades).</p>",

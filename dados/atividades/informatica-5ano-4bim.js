@@ -29,9 +29,9 @@ PORTAL.registrarAtividades("informatica-5ano-4bim", {
           "Digite: <strong>Meu nome é ______ e o sistema operacional deste computador é o Windows.</strong>",
           "Depois digite, uma por linha, 2 peças de entrada e 2 peças de saída."],
         conferir: [
-          { rot: "Copie aqui a primeira frase que você digitou:", ph: "Meu nome é…", re: "meu\\s+nome\\s+(é|e)\\s+.+windows", dica: "A frase começa com “Meu nome é” e termina com “Windows”." },
-          { rot: "Uma peça de <strong>entrada</strong> que você digitou:", ph: "Ex.: …", re: "teclado|mouse|microfone|webcam|c[aâ]mera|scanner|touchpad|joystick|controle", dica: "Entrada é a peça que leva informação <strong>para dentro</strong> do computador." },
-          { rot: "Uma peça de <strong>saída</strong> que você digitou:", ph: "Ex.: …", re: "monitor|tela|impressora|caixa de som|caixinha de som|fone|projetor", dica: "Saída é a peça que mostra ou entrega o resultado." }],
+          { rot: "Copie aqui a primeira frase que você digitou:", ph: "Meu nome é…", gab: "Meu nome é (nome) e o sistema operacional deste computador é o Windows.", re: "meu\\s+nome\\s+(é|e)\\s+.+windows", dica: "A frase começa com “Meu nome é” e termina com “Windows”." },
+          { rot: "Uma peça de <strong>entrada</strong> que você digitou:", ph: "Ex.: …", gab: "teclado, mouse, microfone ou webcam", re: "teclado|mouse|microfone|webcam|c[aâ]mera|scanner|touchpad|joystick|controle", dica: "Entrada é a peça que leva informação <strong>para dentro</strong> do computador." },
+          { rot: "Uma peça de <strong>saída</strong> que você digitou:", ph: "Ex.: …", gab: "monitor, impressora, caixa de som ou fone", re: "monitor|tela|impressora|caixa de som|caixinha de som|fone|projetor", dica: "Saída é a peça que mostra ou entrega o resultado." }],
         okMsg: "Texto digitado no Bloco de Notas e peças no lugar certo!" }
     ],
     desafio: [

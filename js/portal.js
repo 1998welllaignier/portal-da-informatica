@@ -88,7 +88,7 @@
     if (loading[aid]) return loading[aid];
     const add = src => new Promise((ok, err) => {
       const s = document.createElement("script");
-      s.src = src; s.onload = ok; s.onerror = () => err(new Error(src)); document.head.appendChild(s);
+      s.src = src + "?v=" + (window.PORTAL_VERSAO || ""); s.onload = ok; s.onerror = () => err(new Error(src)); document.head.appendChild(s);
     });
     loading[aid] = Promise.all([add("dados/conteudo/" + aid + ".js"), add("dados/atividades/" + aid + ".js"),
       add("dados/ilustracoes/" + aid + ".js").catch(() => null)]).then(() => garantirDefs(aid));
@@ -875,7 +875,7 @@
       if (r === "professor") return await telaProfessor();
       if (r === "trilhas") return await telaTrilhas();
       if (r === "sobre") return telaSobre();
-      if (r === "painel") { barra(); if (!P.painel) return mount(`<section class="tela"><div class="painel erro"><h1>Painel indisponível</h1><p>O painel precisa de internet. Abra o portal pelo endereço do GitHub.</p></div></section>`); return await P.painel.abrir(mount, a1, a2); }
+      if (r === "painel") { barra(); if (!P.painel) return mount(`<section class="tela"><div class="painel erro"><h1>Painel indisponível</h1><p>O painel precisa de internet. Abra o portal pelo endereço do GitHub.</p></div></section>`); return await P.painel.abrir(mount, a1, a2, a3); }
       const ss = sess.get();
       if (ss && ss.nuvem && P.nuvem && !(await P.nuvem.sessaoValida(ss))) { sess.del(); toast("Sua entrada expirou. Digite o código de novo."); }
       if (r === "abrir") {

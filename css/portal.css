@@ -626,3 +626,51 @@ body.modo-trilha { font-size: 21px; line-height: 1.65; }
 .pp-dlg-larga { max-width: 760px; width: 92vw; max-height: 85vh; }
 .pp-resps li { margin: 10px 0; }
 .pp-resp blockquote { margin: 6px 0; padding: 6px 10px; background: var(--info-bg); border-radius: 8px; }
+
+/* ============================================================
+   TELA DA AULA (roteiro visual do professor)
+   ============================================================ */
+.aula { --r: 18px; font-size: 1.08rem; }
+.aula-cab { display: flex; justify-content: space-between; gap: 14px; flex-wrap: wrap; align-items: flex-end; margin: 10px 0 6px; }
+.aula-cab h1 { font-size: clamp(1.6rem, 3.5vw, 2.3rem); margin: 0; color: var(--cor); }
+.aula-sup { margin: 0; color: var(--suave); font-weight: 600; }
+.aula-vivo { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.aula-v { background: #eef2ff; border-radius: 999px; padding: 8px 14px; font-size: 1rem; }
+.aula-v b { font-size: 1.4rem; }
+.aula-v.ok { background: #e5f4e4; color: #1f6b2a; }
+.aula-v-t { font-size: .8rem; color: var(--suave); }
+.aula-ir { position: sticky; top: 0; z-index: 5; display: flex; gap: 8px; flex-wrap: wrap; padding: 10px 0; background: var(--fundo, #f6f7fb); }
+.aula-ir a { text-decoration: none; font-weight: 700; padding: 10px 16px; border-radius: 999px; background: #fff; border: 2px solid var(--cor); color: var(--tinta); font-size: 1rem; }
+.aula-ir a:hover, .aula-ir a:focus { background: var(--cor); color: #fff; }
+.aula-tempo { display: flex; gap: 4px; margin: 10px 0 18px; border-radius: var(--r); overflow: hidden; }
+.aula-t { min-width: 92px; padding: 10px 8px; color: #fff; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 2px; }
+.aula-t:nth-child(6n+1) { background: #3b5bdb; } .aula-t:nth-child(6n+2) { background: #2f9e44; } .aula-t:nth-child(6n+3) { background: #0c8599; }
+.aula-t:nth-child(6n+4) { background: #e8590c; } .aula-t:nth-child(6n+5) { background: #9c36b5; } .aula-t:nth-child(6n) { background: #c2255c; }
+.aula-t-i { font-size: 1.6rem; } .aula-t-m { font-weight: 800; font-size: 1.1rem; } .aula-t-t { font-size: .82rem; line-height: 1.2; }
+.aula-card { border-radius: var(--r); padding: 18px 22px; margin: 0 0 18px; border-left: 10px solid var(--c); background: var(--cf); box-shadow: 0 2px 10px rgba(20, 30, 60, .06); scroll-margin-top: 70px; }
+.aula-card h2 { margin: 0 0 12px; font-size: 1.5rem; color: var(--c); }
+.c-azul { --c: #3b5bdb; --cf: #edf2ff; } .c-verde { --c: #2b8a3e; --cf: #ebfbee; } .c-amarelo { --c: #b7791f; --cf: #fff9db; }
+.c-laranja { --c: #d9480f; --cf: #fff4e6; } .c-roxo { --c: #862e9c; --cf: #f8f0fc; } .c-rosa { --c: #c2255c; --cf: #fff0f6; }
+.c-ciano { --c: #0b7285; --cf: #e3fafc; } .c-cinza { --c: #495057; --cf: #f8f9fa; }
+.aula-fala { margin: 10px 0; padding: 14px 18px; background: #fff; border-radius: 16px 16px 16px 4px; font-size: 1.32rem; line-height: 1.45; font-weight: 600; border: 2px solid var(--c); }
+.aula-acao { margin: 8px 0 8px 4px; font-size: 1rem; color: #343a40; font-style: italic; }
+.aula-grande { font-size: 1.2rem; line-height: 1.5; }
+.aula-grande li { margin: 6px 0; }
+.aula-check { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 8px 20px; font-size: 1.1rem; }
+.aula-check input { width: 22px; height: 22px; vertical-align: middle; }
+.aula-nivel { background: #fff; border-radius: 14px; margin: 10px 0; padding: 6px 14px; }
+.aula-nivel > summary { cursor: pointer; font-size: 1.25rem; font-weight: 800; padding: 8px 0; }
+.aula-nivel > summary span { font-weight: 400; color: var(--suave); font-size: 1rem; }
+.aula-resp { border-top: 1px dashed #e0d6a8; padding: 10px 0 12px; }
+.aula-resp-tit { margin: 0 0 4px; font-size: .95rem; color: var(--suave); font-weight: 600; }
+.aula-resp.prof .aula-resp-tit { color: #d9480f; }
+.aula-r { font-size: 1.15rem; background: #fff3bf; padding: 1px 6px; border-radius: 6px; }
+.aula-lista { margin: 4px 0; padding-left: 22px; } .aula-lista li { margin: 5px 0; }
+.aula-obs { color: var(--suave); font-size: .95rem; }
+.aula-perg { background: #fff; border-radius: 12px; padding: 10px 14px; margin: 8px 0; }
+.aula-perg summary { cursor: pointer; font-weight: 700; font-size: 1.15rem; }
+.aula-perg p { font-size: 1.15rem; margin: 8px 0 2px; }
+.pp-missoes { display: flex; gap: 6px; flex-wrap: wrap; margin-left: auto; }
+.pp-mis { padding: 6px 12px; border-radius: 999px; border: 2px solid var(--linha); text-decoration: none; color: var(--tinta); font-weight: 700; }
+.pp-mis.atual { background: var(--tinta); color: #fff; border-color: var(--tinta); }
+@media (max-width: 700px) { .aula-t { min-width: 70px; } .aula-fala { font-size: 1.15rem; } }

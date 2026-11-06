@@ -30,7 +30,7 @@ PORTAL.registrarAtividades("informatica-8ano-4bim-trilha", {
 
       { tipo: "pc", titulo: "Passo 5 · No computador: Bloco de Notas", programa: "Bloco de Notas",
         passos: ["Clique no botão <strong>Iniciar</strong> e digite <strong>bloco</strong>.", "Clique em <strong>Bloco de Notas</strong>.", "Digite os números em ordem: <strong>1 2 3 4</strong>"],
-        conferir: [{ rot: "Agora digite aqui os números que você escreveu no Bloco de Notas:", ph: "1 2 3 4", re: "^\\D*1\\D+2\\D+3\\D+4\\D*$", dica: "Do menor para o maior: 1, 2, 3, 4." }],
+        conferir: [{ rot: "Agora digite aqui os números que você escreveu no Bloco de Notas:", ph: "1 2 3 4", gab: "1 2 3 4", re: "^\\D*1\\D+2\\D+3\\D+4\\D*$", dica: "Do menor para o maior: 1, 2, 3, 4." }],
         okMsg: "Muito bem! Os números estão em ordem crescente." }
     ],
     vf: [{ v: true }, { v: false, why: "Ordem crescente é do <strong>menor</strong> para o <strong>maior</strong>." }, { v: true }]
@@ -98,7 +98,7 @@ PORTAL.registrarAtividades("informatica-8ano-4bim-trilha", {
 
       { tipo: "pc", titulo: "Passo 4 · No computador: Bloco de Notas", programa: "Bloco de Notas",
         passos: ["Clique no botão <strong>Iniciar</strong> e digite <strong>bloco</strong>. Clique em <strong>Bloco de Notas</strong>.", "Digite a frase: <strong>Eu protejo meus dados</strong>"],
-        conferir: [{ rot: "Agora digite aqui a frase que você escreveu no Bloco de Notas:", ph: "Eu protejo meus dados", re: "eu\\s+protejo\\s+(os\\s+)?meus\\s+dados", dica: "A frase é: Eu protejo meus dados." }],
+        conferir: [{ rot: "Agora digite aqui a frase que você escreveu no Bloco de Notas:", ph: "Eu protejo meus dados", gab: "Eu protejo meus dados", re: "eu\\s+protejo\\s+(os\\s+)?meus\\s+dados", dica: "A frase é: Eu protejo meus dados." }],
         okMsg: "Muito bem! Você protege os seus dados." }
     ],
     vf: [{ v: false, why: "A senha é segredo: não conte para ninguém." }, { v: true }, { v: true }]
