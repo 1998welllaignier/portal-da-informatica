@@ -342,7 +342,15 @@
             const min = cf.minGrupos || cf.grupos.length;
             if (cf.grupos.length - faltam.length < min) { const f = faltam[0]; ctx.errou(`Quase! Ainda falta falar sobre: <strong>${esc(f.dica || (f.alts || f)[0])}</strong>.`); return; }
           }
-          if (cf.diferentes && norm(txt[cf.diferentes[0]]) === norm(txt[cf.diferentes[1]])) { ctx.errou("As duas ações precisam ser diferentes."); return; }
+          if (cf.diferentes === "todos" && new Set(txt.map(norm)).size < txt.length) { ctx.errou("Cada campo precisa ter uma resposta diferente."); return; }
+          if (Array.isArray(cf.diferentes) && norm(txt[cf.diferentes[0]]) === norm(txt[cf.diferentes[1]])) { ctx.errou("As duas ações precisam ser diferentes."); return; }
+          if (cf.blocoDuasVezes) {
+            // nome do bloco = primeira palavra do 1º campo (pulando "bloco"); precisa aparecer 2 vezes no 2º campo
+            const pals = norm(txt[0]).replace(/[^a-z0-9 ]/g, " ").split(" ").filter(w => w.length >= 3 && w !== "bloco");
+            const nome = pals[0] || "";
+            const vezes = nome ? (" " + norm(txt[1]).replace(/[^a-z0-9 ]/g, " ") + " ").split(" " + nome + " ").length - 1 : 0;
+            if (vezes < 2) { ctx.errou(nome ? `O algoritmo principal precisa chamar o bloco <strong>${esc(nome.toUpperCase())}</strong> duas vezes, pelo nome.` : "Comece o primeiro campo com o nome do bloco."); return; }
+          }
           ctx.concluir("certo", cf.msg || "Resposta conferida automaticamente! O professor pode ler a sua resposta no painel.");
           return;
         }

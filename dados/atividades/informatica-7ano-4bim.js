@@ -51,15 +51,22 @@ PORTAL.registrarAtividades("informatica-7ano-4bim", {
           { p: "3. O cabo do chão aguenta até 1 Gbps, mas o switch da baia vai só até 100 Mbps. Qual é a velocidade máxima que chega ao seu computador?", opcoes: ["100 Mbps, porque o switch da baia é a parte mais lenta do caminho", "1 Gbps, porque o cabo é rápido", "1.100 Mbps, somando os dois"], certo: 0, why: "O caminho inteiro fica limitado pela parte mais lenta: o switch Fast Ethernet de 100 Mbps." }],
         dicas: ["Pense numa estrada larga que termina numa ponte estreita: os carros passam na velocidade da ponte."] },
 
-      { tipo: "aberta", titulo: "4. Descubra o endereço IP do seu computador",
+      { tipo: "tabela", titulo: "4. Descubra o endereço IP do seu computador",
         enunciado: "<p>Aperte <strong>Windows + R</strong> (abre a janela Executar), digite <strong>cmd</strong> e aperte <strong>Enter</strong>. Abre o <strong>Prompt de Comando</strong>, uma janela onde se digitam comandos (<em>cmd</em> vem do inglês <em>command</em>, comando). Digite <strong>ipconfig</strong> e aperte Enter (<em>IP configuration</em>, configuração de IP). Procure a linha <strong>Endereço IPv4</strong> (IPv4 é a versão 4 do endereço IP, a mais usada).</p>",
-        campos: [{ rot: "Meu endereço IPv4", linhas: 1, ph: "ex.: 192.168.0.12" }, { rot: "IPs de dois colegas da minha baia", linhas: 2 }, { rot: "Os números são iguais ou diferentes? Por quê?", linhas: 2 }],
-        criterios: ["Copiei o IPv4 exatamente como aparece.", "Expliquei que cada aparelho precisa de um endereço próprio na rede."],
-        exemplo: "Os números são diferentes, porque cada aparelho da rede precisa de um endereço próprio, como cada casa de uma rua tem o seu número. O roteador é que dá esses endereços." },
+        colunas: ["", "Resposta"],
+        linhas: [
+          ["Meu endereço IPv4", { re: "^\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}$", ph: "ex.: 192.168.0.12", exemplo: "192.168.0.12", dica: "Copie os 4 números separados por pontos, da linha <strong>Endereço IPv4</strong>.", rot: "Meu IPv4" }],
+          ["IPv4 de um colega da minha baia", { re: "^\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}$", ph: "ex.: 192.168.0.15", exemplo: "192.168.0.15", rot: "IP do colega 1" }],
+          ["IPv4 de outro colega da baia", { re: "^\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}$", ph: "ex.: 192.168.0.16", exemplo: "192.168.0.16", rot: "IP do colega 2" }],
+          ["Os números são iguais ou diferentes?", { op: ["Diferentes", "Iguais"], r: "Diferentes", rot: "Iguais ou diferentes" }],
+          ["Por quê?", { op: ["Cada aparelho precisa de um endereço próprio na rede", "Todos os computadores da sala usam o mesmo endereço", "O IP muda a cada segundo"], r: "Cada aparelho precisa de um endereço próprio na rede", rot: "Por quê" }]],
+        dicas: ["Como cada casa de uma rua tem o seu número, cada aparelho da rede tem o seu IP. Quem distribui esses endereços é o roteador."],
+        explicacao: "Os números são diferentes, porque cada aparelho da rede precisa de um endereço próprio, como cada casa de uma rua tem o seu número. O roteador é que dá esses endereços." },
 
       { tipo: "aberta", titulo: "5. Como a imagem da sua tela chega ao computador do professor pelo Veyon?",
         enunciado: "<p>Use as palavras <strong>rede</strong>, <strong>switch</strong> e <strong>pacotes</strong>.</p>",
-        linhas: 3, exigir: ["rede", "switch", "pacote"],
+        linhas: 3,
+        conferir: { minPalavras: 12, grupos: [{ dica: "a palavra rede", alts: ["rede"] }, { dica: "a palavra switch", alts: ["switch"] }, { dica: "a palavra pacotes", alts: ["pacote"] }] },
         criterios: ["Usei as três palavras pedidas.", "Expliquei o caminho: meu computador → switch da baia → … → computador do professor."],
         exemplo: "O Veyon divide a imagem da minha tela em pacotes, que saem do meu computador pela rede da escola, passam pelo switch da baia e pelo switch gigabit e chegam ao computador do professor, que junta os pacotes e mostra a imagem." }
     ],
@@ -74,9 +81,12 @@ PORTAL.registrarAtividades("informatica-7ano-4bim", {
         explicacao: "Endereço → IP; carteiros → roteadores; regras → protocolos (como o TCP/IP); folhas numeradas → pacotes." }
     ],
     turbo: [
-      { tipo: "aberta", titulo: "Por que os pacotes precisam ser numerados? O que acontece se um pacote se perder?", linhas: 3,
-        criterios: ["Expliquei que os pacotes podem chegar fora de ordem.", "Disse o que acontece com o pacote perdido."],
-        exemplo: "Os pacotes viajam por caminhos diferentes e podem chegar fora de ordem; o número mostra onde cada um entra. Se um se perder, o TCP percebe que falta um número e pede aquele pacote de novo." }
+      { tipo: "escolha", titulo: "Por que os pacotes precisam ser numerados? O que acontece se um pacote se perder?",
+        perguntas: [
+          { p: "Por que os pacotes são <strong>numerados</strong>?", opcoes: ["Porque viajam por caminhos diferentes e podem chegar fora de ordem: o número mostra onde cada um entra", "Para deixar a internet mais bonita", "Porque cada pacote vai para um computador diferente"], certo: 0 },
+          { p: "E se um pacote se <strong>perder</strong> no caminho?", opcoes: ["A mensagem chega faltando um pedaço para sempre", "O TCP percebe que falta um número e pede aquele pacote de novo", "O computador desliga"], certo: 1,
+            why: "O TCP (<em>Transmission Control Protocol</em>, Protocolo de Controle de Transmissão) confere os números e pede de novo o que faltou." }],
+        explicacao: "Os pacotes viajam por caminhos diferentes e podem chegar fora de ordem; o número mostra onde cada um entra. Se um se perder, o TCP percebe que falta um número e pede aquele pacote de novo." }
     ],
     vf: [
       { v: true },
@@ -93,7 +103,8 @@ PORTAL.registrarAtividades("informatica-7ano-4bim", {
       { tipo: "aberta", titulo: "Decomponha: “Organizar um lanche coletivo da turma”",
         campos: [{ rot: "Parte 1", linhas: 1 }, { rot: "Parte 2", linhas: 1 }, { rot: "Parte 3", linhas: 1 }, { rot: "Parte 4", linhas: 1 }],
         criterios: ["Cada parte é uma tarefa menor e mais fácil.", "Juntas, as partes resolvem o problema inteiro."],
-        exemplo: "1. Combinar a data e quem vai trazer o quê. 2. Fazer a lista de comidas e bebidas. 3. Arrumar a sala, os pratos e os copos. 4. Limpar tudo depois do lanche." },
+        exemplo: "1. Combinar a data e quem vai trazer o quê. 2. Fazer a lista de comidas e bebidas. 3. Arrumar a sala, os pratos e os copos. 4. Limpar tudo depois do lanche.",
+        conferir: { minPalavras: 2, diferentes: "todos", msg: "Problema decomposto em 4 partes! O professor pode ler as suas partes no painel." } },
 
       { tipo: "lista_ops", titulo: "A lista CHAMADA", nome: "CHAMADA",
         inicial: ["Ana", "Bruno", "Carla", "Davi", "Elisa"],
@@ -126,7 +137,9 @@ PORTAL.registrarAtividades("informatica-7ano-4bim", {
     turbo: [
       { tipo: "aberta", titulo: "Invente um bloco com nome e use-o duas vezes",
         campos: [{ rot: "Nome do bloco e os passos dele", linhas: 3, ph: "Bloco ACENAR: 1. levante a mão. 2. ..." }, { rot: "Algoritmo principal que usa o bloco duas vezes", linhas: 2 }],
-        criterios: ["O bloco tem nome e passos em ordem.", "O algoritmo principal chama o bloco duas vezes pelo nome."] }
+        criterios: ["O bloco tem nome e passos em ordem.", "O algoritmo principal chama o bloco duas vezes pelo nome."],
+        conferir: { minPalavras: 4, blocoDuasVezes: true, msg: "Bloco criado e usado duas vezes pelo nome!" },
+        exemplo: "Bloco ACENAR: 1. levante a mão. 2. balance a mão. 3. abaixe a mão. · Algoritmo: entrar na sala, ACENAR, sentar, ACENAR." }
     ],
     vf: [
       { v: true },
@@ -158,7 +171,8 @@ PORTAL.registrarAtividades("informatica-7ano-4bim", {
         campos: [{ rot: "“Quem gosta desse time não entende nada de futebol.”", linhas: 2 }, { rot: "“Que opinião ridícula, apaga isso.”", linhas: 2 }, { rot: "“Só gente sem noção gosta dessa música.”", linhas: 2 }],
         detector: { palavras: ["nao entende nada", "ridicula", "ridiculo", "apaga isso", "sem nocao", "idiota", "burro"], msg: "Critique a ideia, nunca a pessoa." },
         criterios: ["A minha opinião continua lá.", "Critico a ideia, não a pessoa.", "A pessoa não vai se sentir humilhada ao ler."],
-        exemplo: "“Eu torço para outro time, mas respeito quem gosta desse.” · “Penso diferente: na minha opinião…” · “Essa música não faz o meu estilo, mas entendo quem curte.”" },
+        exemplo: "“Eu torço para outro time, mas respeito quem gosta desse.” · “Penso diferente: na minha opinião…” · “Essa música não faz o meu estilo, mas entendo quem curte.”",
+        conferir: { minPalavras: 4, msg: "Comentários reescritos com empatia! O professor pode ler as suas respostas no painel." } },
       { tipo: "pc", titulo: "No computador: cartaz Alerta de golpe!", programa: "Paint",
         passos: ["Abra o <strong>Paint</strong> e escreva o título <strong>Alerta de golpe!</strong>", "Faça um desenho e escreva <strong>3 dicas</strong> para se proteger na internet.", "Não use nomes nem fotos de colegas.", "Chame o professor para conferir e carimbar."] }
     ],
@@ -166,12 +180,19 @@ PORTAL.registrarAtividades("informatica-7ano-4bim", {
       { tipo: "aberta", titulo: "Um colega fez uma montagem com a foto de outro aluno e mandou no grupo. Escreva 3 atitudes de quem viu.",
         campos: [{ rot: "1.", linhas: 1 }, { rot: "2.", linhas: 1 }, { rot: "3.", linhas: 1 }],
         criterios: ["Nenhuma atitude espalha a montagem.", "Pelo menos uma atitude apoia quem foi exposto.", "Pelo menos uma atitude envolve guardar prova, denunciar ou contar a um adulto."],
-        exemplo: "1. Não compartilho e não comento rindo. 2. Mando uma mensagem de apoio para o colega exposto. 3. Tiro print, denuncio e conto ao professor." }
+        exemplo: "1. Não compartilho e não comento rindo. 2. Mando uma mensagem de apoio para o colega exposto. 3. Tiro print, denuncio e conto ao professor.",
+        conferir: { minPalavras: 3, diferentes: "todos", grupos: [
+          { dica: "não espalhar a montagem (não compartilhar, não repassar)", alts: ["nao compartilh", "nao repass", "nao encaminh", "nao espalh", "nao mand", "apag", "nao comento", "nao rio", "nao curt"] },
+          { dica: "apoiar quem foi exposto", alts: ["apoi", "ajud", "conversar com", "consol", "mensagem", "do lado", "amigo", "acolh"] },
+          { dica: "guardar prova, denunciar ou contar a um adulto", alts: ["print", "prova", "denunc", "adulto", "professor", "cont", "famil", "pais", "diretor", "coordenad"] }] } }
     ],
     turbo: [
-      { tipo: "aberta", titulo: "O que é a verificação em duas etapas e por que ela protege a conta mesmo se alguém descobrir a sua senha?", linhas: 3,
-        criterios: ["Expliquei que existe um segundo código além da senha.", "Disse por que só a senha não basta para o invasor entrar."],
-        exemplo: "Além da senha, a conta pede um segundo código, que chega por SMS ou por um aplicativo no meu celular. Quem descobrir só a senha não consegue entrar, porque não tem esse código." }
+      { tipo: "escolha", titulo: "O que é a verificação em duas etapas e por que ela protege a conta mesmo se alguém descobrir a sua senha?",
+        perguntas: [
+          { p: "O que é a verificação em duas etapas?", opcoes: ["Digitar a senha duas vezes", "Além da senha, a conta pede um segundo código, que chega por SMS ou por um aplicativo no celular", "Ter duas contas diferentes"], certo: 1,
+            why: "SMS (<em>Short Message Service</em>, serviço de mensagens curtas) é a mensagem de texto do celular." },
+          { p: "Por que ela protege mesmo se alguém descobrir a sua senha?", opcoes: ["Porque o invasor não tem o seu celular para receber o segundo código", "Porque a senha fica invisível", "Porque a conta é apagada"], certo: 0 }],
+        explicacao: "Além da senha, a conta pede um segundo código, que chega por SMS ou por um aplicativo no meu celular. Quem descobrir só a senha não consegue entrar, porque não tem esse código." }
     ],
     vf: [
       { v: true },
@@ -185,12 +206,14 @@ PORTAL.registrarAtividades("informatica-7ano-4bim", {
   /* ======================= PROJETO FINAL ======================= */
   pf: {
     basico: [
-      { tipo: "autoavaliacao", titulo: "Folheie a apostila impressa: quais missões já têm o carimbo do Básico?",
-        itens: ["🌐 Missão 1 – Redes e internet", "🧩 Missão 2 – Decompor e corrigir algoritmos", "🛡️ Missão 3 – Segurança e convivência digital"] },
-      { tipo: "info", titulo: "Faltou algum carimbo?", html: "<p>Se faltar algum carimbo (por exemplo, porque você faltou à aula), volte à missão agora, faça o Básico e peça o carimbo ao professor.</p>" },
+      { tipo: "info", titulo: "Confira as suas missões", html: "<p>Volte à lista de missões da apostila: cada missão com o <strong>Básico concluído</strong> aparece com ✔. Se faltar alguma (por exemplo, porque você faltou à aula), faça o Básico dela agora. O professor acompanha tudo pelo painel.</p>" },
       { tipo: "aberta", titulo: "Escreva uma frase sobre o que você aprendeu em cada tema",
         campos: [{ rot: "🌐 Redes e internet", linhas: 2 }, { rot: "🧩 Algoritmos", linhas: 2 }, { rot: "🛡️ Segurança e convivência digital", linhas: 2 }],
-        criterios: ["Cada frase usa pelo menos uma palavra-chave do tema.", "Frase completa, com letra maiúscula e ponto final."], minPalavras: 4 }
+        criterios: ["Cada frase usa pelo menos uma palavra-chave do tema.", "Frase completa, com letra maiúscula e ponto final."],
+        conferir: { minPalavras: 4, porCampo: [
+          ["rede", "internet", "pacote", "ip", "roteador", "switch", "cabo", "wi-fi", "wifi", "protocolo", "tcp", "servidor", "veyon", "ap "],
+          ["algoritmo", "decompo", "parte", "bug", "erro", "corrig", "bloco", "lista", "passo", "sequencia", "repeti", "depura"],
+          ["seguranc", "golpe", "phishing", "senha", "empatia", "respeit", "verificacao", "duas etapas", "dados", "link", "cyberbullying", "denunc", "proteg"]] } }
     ],
     desafio: [
       { tipo: "ligar", titulo: "Desafio do bimestre: ligue cada termo ao seu significado", porRodada: 6,
