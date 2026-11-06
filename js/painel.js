@@ -273,27 +273,73 @@
       <div id="corpo"><p class="painel">Carregando…</p></div>`);
     ligarSair(el);
     el.querySelector("#sel").onchange = e => { try { sessionStorage.setItem("painel:turma", e.target.value); } catch (x) {} location.hash = "#/painel/presenca/" + e.target.value; };
-    const [alunos, prog] = await Promise.all([alunosDaTurma(t.id), progressoDaTurma(t.id)]);
+    const aps = cat().apostilas.filter(a => a.serie === t.serie.id);
+    await Promise.all(aps.map(a => P.carregarApostila(a.id).catch(() => null)));
+    const [alunosTodos, prog] = await Promise.all([alunosDaTurma(t.id), progressoDaTurma(t.id)]);
+    const alunos = alunosTodos.filter(a => !a.teste);
+    const testes = new Set(alunosTodos.filter(a => a.teste).map(a => a.id));
     const porDia = {};
-    prog.forEach(p => Object.entries(p.dias || {}).forEach(([d, ts]) => {
-      const x = (porDia[d] = porDia[d] || {}); const r = (x[p.alunoId] = x[p.alunoId] || { ini: ts, basico: false });
-      r.ini = Math.min(r.ini, ts); if (p.basicoOkEm && p.basicoOkEm[d]) r.basico = true;
+    prog.filter(p => !testes.has(p.alunoId)).forEach(p => Object.entries(p.dias || {}).forEach(([d, ts]) => {
+      const x = (porDia[d] = porDia[d] || {}); const r = (x[p.alunoId] = x[p.alunoId] || { ini: ts, fim: ts, basico: false, missoes: [] });
+      r.ini = Math.min(r.ini, ts); r.fim = Math.max(r.fim, ts);
+      if (p.basicoOkEm && p.basicoOkEm[d]) r.basico = true;
+      if (p.mid) r.missoes.push(p);
     }));
     const dias = Object.keys(porDia).sort().reverse();
-    const nome = id => (alunos.find(a => a.id === id) || { nome: "(aluno removido)" }).nome;
+    const nome = id => (alunosTodos.find(a => a.id === id) || { nome: "(aluno removido)" }).nome;
     const hhmm = ms => new Date(ms).toLocaleTimeString("pt-BR").slice(0, 5);
+    const tituloMissao = p => { const C = P.conteudo[p.aid]; const m = C && C.missoes.find(x => x.id === p.mid); return m ? m.titulo : p.mid; };
+    const fr = (r, k) => (r[k] || [0, 0])[1] ? `${r[k][0]}/${r[k][1]}` : "";
+    const situacao = p => {
+      const partes = [`Básico ${p.basicoOk ? "✔ concluído" : "⏳ " + fr(p, "basico")}`];
+      if ((p.desafio || [0, 0])[1] && p.desafio[0]) partes.push(`Desafio ${p.desafio[0] === p.desafio[1] ? "✔ completo" : fr(p, "desafio")}`);
+      if ((p.turbo || [0, 0])[1] && p.turbo[0]) partes.push(`Turbo ${p.turbo[0] === p.turbo[1] ? "✔ completo" : fr(p, "turbo")}`);
+      return partes.join(" · ");
+    };
+    function relatorio(d) {
+      const pres = porDia[d], ids = Object.keys(pres).sort((a, b) => nome(a).localeCompare(nome(b), "pt-BR"));
+      const aus = alunos.filter(a => a.ativo && !pres[a.id]);
+      const ini = Math.min(...ids.map(i => pres[i].ini)), fim = Math.max(...ids.map(i => pres[i].fim));
+      const missoes = {}; ids.forEach(i => pres[i].missoes.forEach(p => { missoes[p.mid] = tituloMissao(p); }));
+      const nB = ids.filter(i => pres[i].basico || pres[i].missoes.some(p => p.basicoOk)).length;
+      const nD = ids.filter(i => pres[i].missoes.some(p => (p.desafio || [0, 0])[1] && p.desafio[0] === p.desafio[1])).length;
+      const linhas = ids.map(i => {
+        const ms = pres[i].missoes;
+        return `- ${nome(i)} [${i}] — entrou ${hhmm(pres[i].ini)}` + (ms.length ? "\n" + ms.map(p => `    ${p.mid.toUpperCase()} (${tituloMissao(p)}): ${situacao(p)}`).join("\n") : "\n    (entrou, mas não fez atividades)");
+      });
+      return [
+        "📋 RELATÓRIO DA AULA — Portal da Informática",
+        `Turma: ${nomeTurma(t.id)} (código no diário: ${t.id.toLowerCase()})`,
+        `Data: ${dataBR(d)} (${semana(d)})`,
+        `Horário registrado: ${hhmm(ini)} às ${hhmm(fim)}`,
+        `Missões trabalhadas: ${Object.entries(missoes).map(([k, v]) => k.toUpperCase() + " — " + v).join("; ") || "nenhuma"}`,
+        `Resumo: ${ids.length} presentes · ${aus.length} ausentes · ${nB} concluíram o Básico · ${nD} completaram o Desafio`,
+        "",
+        `PRESENTES (${ids.length}):`,
+        ...linhas,
+        "",
+        `AUSENTES (${aus.length}):`,
+        ...(aus.length ? aus.map(a => `- ${a.nome} [${a.id}]`) : ["- nenhum"]),
+        "",
+        "Claude: lance no Diário de Classe a presença (P para os presentes, F para os ausentes), o carimbo do Básico de quem concluiu, os pontos extras de quem completou o Desafio e o registro da aula."
+      ].join("\n");
+    }
     el.querySelector("#corpo").innerHTML = dias.length ? dias.map(d => {
       const ids = Object.keys(porDia[d]).sort((a, b) => nome(a).localeCompare(nome(b), "pt-BR"));
       const aus = alunos.filter(a => a.ativo && !porDia[d][a.id]);
-      return `<details class="painel pp-dia" ${d === dias[0] ? "open" : ""}><summary><strong>${dataBR(d)}</strong> (${semana(d)}) · <strong>${ids.length}</strong> presentes · ${ids.filter(i => porDia[d][i].basico).length} concluíram o Básico</summary>
-        <ol>${ids.map(i => `<li>${esc(nome(i))} <small>entrou às ${hhmm(porDia[d][i].ini)}${porDia[d][i].basico ? " · ✔ Básico" : ""}</small></li>`).join("")}</ol>
-        <details><summary>Ausentes (${aus.length})</summary><p>${aus.map(a => esc(a.nome)).join(" · ") || "—"}</p></details>
-        <button class="btn btn-sec btn-peq" type="button" data-d="${d}">📋 Copiar lista de presentes</button></details>`;
+      const okB = i => porDia[d][i].basico || porDia[d][i].missoes.some(p => p.basicoOk);
+      return `<details class="painel pp-dia" ${d === dias[0] ? "open" : ""}><summary><strong>${dataBR(d)}</strong> (${semana(d)}) · <strong>${ids.length}</strong> presentes · ${ids.filter(okB).length} concluíram o Básico</summary>
+        <div class="pp-rel"><p><strong>📋 Relatório da aula</strong> — copie e cole na conversa com o Claude para lançar tudo no Diário de Classe.</p>
+          <textarea class="pp-area pp-rel-txt" rows="8" readonly data-rel="${d}"></textarea>
+          <div class="row-btns"><button class="btn" type="button" data-copiar="${d}">📋 Copiar relatório</button></div></div>
+        <ol>${ids.map(i => `<li>${esc(nome(i))} <small>entrou às ${hhmm(porDia[d][i].ini)}${okB(i) ? " · ✔ Básico" : ""}</small></li>`).join("")}</ol>
+        <details><summary>Ausentes (${aus.length})</summary><p>${aus.map(a => esc(a.nome)).join(" · ") || "—"}</p></details></details>`;
     }).join("") : `<div class="painel"><p>Ainda não há registros nesta turma. A presença aparece aqui quando os alunos entram no portal com o código.</p></div>`;
-    el.querySelectorAll("[data-d]").forEach(b => b.onclick = () => {
-      const d = b.dataset.d;
-      const txt = `${nomeTurma(t.id)} — ${dataBR(d)}\nPresentes (${Object.keys(porDia[d]).length}):\n` + Object.keys(porDia[d]).map(nome).sort((a, c) => a.localeCompare(c, "pt-BR")).join("\n");
-      navigator.clipboard.writeText(txt).then(() => toast("Lista copiada!"), () => alert(txt));
+    el.querySelectorAll("[data-rel]").forEach(ta => { ta.value = relatorio(ta.dataset.rel); });
+    el.querySelectorAll("[data-copiar]").forEach(b => b.onclick = () => {
+      const ta = el.querySelector(`[data-rel="${b.dataset.copiar}"]`);
+      const ok = () => { toast("Relatório copiado! Agora é só colar na conversa com o Claude."); b.textContent = "✔ Copiado"; setTimeout(() => { b.textContent = "📋 Copiar relatório"; }, 2500); };
+      navigator.clipboard.writeText(ta.value).then(ok, () => { ta.select(); document.execCommand("copy"); ok(); });
     });
   }
 

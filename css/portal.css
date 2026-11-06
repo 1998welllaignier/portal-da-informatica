@@ -618,3 +618,6 @@ body.modo-trilha { font-size: 21px; line-height: 1.65; }
 .pp-dlg::backdrop { background: rgba(20, 25, 45, .45); }
 .pp-dlg-btns { display: flex; flex-direction: column; gap: 8px; }
 @media (max-width: 700px) { .pp-dia ol { columns: 1; } .pp-acoes { margin-left: 0; } }
+.pp-rel { background: var(--info-bg); border-radius: 10px; padding: 10px 14px; margin: 10px 0; }
+.pp-rel p { margin: 4px 0; }
+.pp-rel-txt { font-family: Consolas, monospace; font-size: .85rem; background: #fff; }
