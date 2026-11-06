@@ -39,3 +39,15 @@ ESTRUTURA
 
 Nada foi publicado na internet. As respostas dos alunos ficam só no navegador
 de cada computador.
+
+LOGIN COM CÓDIGO E PAINEL DO PROFESSOR (novembro de 2026)
+  Aluno: escolhe a série, a turma e digita o código de 4 números (cartãozinho).
+  Professor: rodapé → "Painel do professor" (entrar com a conta Google de professor).
+    🏫 Turmas ....... alunos, códigos, missões concluídas, adicionar/desativar/mudar de turma,
+                      cartões com os códigos para imprimir, planilha CSV
+    🗓️ Presença ..... quem entrou em cada dia, ausentes, copiar lista
+    📥 Importar ..... colar lista de nomes ou arquivo .json de várias turmas
+    📅 Ano letivo ... virada de ano (desativa todos e importa as listas novas)
+  Banco de dados: Firebase "portal-da-informatica" (conta de professor, plano gratuito).
+  Regras de segurança: docs/firestore.rules (colar no Firebase → Firestore → Regras → Publicar).
+  Nenhum nome de aluno fica neste repositório.

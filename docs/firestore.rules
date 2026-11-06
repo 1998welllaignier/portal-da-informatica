@@ -1,0 +1,70 @@
+rules_version = '2';
+// Regras de segurança do Portal da Informática — Professor Welington Laignier
+// - Professor: entra com a conta Google de professor e vê/edita tudo.
+// - Aluno: entra de forma anônima, escolhe a turma e digita o código de 4 números.
+//   O código é conferido aqui nas regras, sem que a lista de códigos fique visível.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isProf() {
+      return request.auth != null
+        && request.auth.token.email_verified == true
+        && request.auth.token.email in ['professorwelingtonlaignier@gmail.com'];
+    }
+    function signedIn() { return request.auth != null; }
+    function acesso(id) { return get(/databases/$(database)/documents/acessos/$(id)).data; }
+    function temSessao() {
+      return signedIn() && exists(/databases/$(database)/documents/sessoes/$(request.auth.uid));
+    }
+    function sessao() { return get(/databases/$(database)/documents/sessoes/$(request.auth.uid)).data; }
+
+    // Turmas (sem nomes de alunos) e configuração geral: qualquer um lê.
+    match /turmas/{turmaId} {
+      allow read: if true;
+      allow write: if isProf();
+    }
+    match /config/{doc} {
+      allow read: if true;
+      allow write: if isProf();
+    }
+
+    // Código de acesso do aluno. ID do documento = "<turma>_<código>".
+    // O aluno só consegue abrir o documento exato do seu código; não dá para listar.
+    match /acessos/{acessoId} {
+      allow get: if signedIn();
+      allow list, write: if isProf();
+    }
+
+    // Cadastro completo dos alunos: só o professor.
+    match /alunos/{alunoId} {
+      allow read, write: if isProf();
+    }
+
+    // Sessão: liga o navegador (uid anônimo) ao aluno que digitou o código certo.
+    match /sessoes/{uid} {
+      allow read: if isProf() || (signedIn() && request.auth.uid == uid);
+      allow create, update: if signedIn() && request.auth.uid == uid
+        && request.resource.data.keys().hasOnly(['acessoId', 'alunoId', 'turma', 'criadoEm'])
+        && acesso(request.resource.data.acessoId).alunoId == request.resource.data.alunoId
+        && acesso(request.resource.data.acessoId).turma == request.resource.data.turma
+        && acesso(request.resource.data.acessoId).ativo == true;
+      allow delete: if isProf() || (signedIn() && request.auth.uid == uid);
+    }
+
+    // Progresso nas missões. ID do documento = "<alunoId>_<bimestre>_<missão>".
+    match /progresso/{docId} {
+      allow read: if isProf()
+        || (temSessao() && (resource == null || resource.data.alunoId == sessao().alunoId));
+      allow create, update: if temSessao()
+        && request.resource.data.alunoId == sessao().alunoId
+        && request.resource.data.turma == sessao().turma
+        && docId.matches(sessao().alunoId + '_.*');
+      allow delete: if isProf();
+    }
+
+    // Tudo o que é só do professor: registros de aula, lembretes, notas, boletins.
+    match /prof/{document=**} {
+      allow read, write: if isProf();
+    }
+  }
+}

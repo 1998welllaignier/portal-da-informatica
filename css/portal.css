@@ -578,3 +578,43 @@ body.modo-trilha { font-size: 21px; line-height: 1.65; }
 .cam-extra { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 8px; padding: 10px 12px; border-left: 5px solid var(--cor); background: #fafbfd; border-radius: 0 10px 10px 0; }
 .tab-mini tr.certo td { background: var(--ok-bg); }
 @media (max-width: 600px) { .cam-fluxo { flex-direction: column; align-items: stretch; } .cam-seta { transform: rotate(90deg); align-self: center; } }
+
+/* ============================================================
+   ENTRADA COM CÓDIGO e PAINEL DO PROFESSOR
+   ============================================================ */
+.in-codigo { font-size: 1.8rem; letter-spacing: .4em; max-width: 11ch; text-align: center; font-variant-numeric: tabular-nums; }
+.confirma-quem { border-left: 6px solid var(--cor); }
+.confirma-quem h2 { margin-top: 0; }
+.quem-lista { list-style: none; padding: 0; font-size: 1.35rem; }
+.quem-lista li { margin: 6px 0; }
+
+.painel-prof { max-width: 1400px; }
+.pp-cab { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; flex-wrap: wrap; }
+.pp-cab h1 { margin-bottom: 0; }
+.pp-user { display: flex; gap: 10px; align-items: center; color: var(--suave); font-size: .9rem; flex-wrap: wrap; }
+.pp-abas { display: flex; gap: 6px; flex-wrap: wrap; margin: 14px 0 4px; border-bottom: 2px solid var(--linha); }
+.pp-abas a { padding: 8px 14px; border-radius: 10px 10px 0 0; text-decoration: none; color: var(--tinta); font-weight: 600; }
+.pp-abas a.atual { background: var(--papel); border: 2px solid var(--linha); border-bottom-color: var(--papel); margin-bottom: -2px; }
+.pp-barra { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+.pp-barra select { font: inherit; padding: 6px 8px; border-radius: 8px; border: 1px solid var(--linha); }
+.pp-acoes { display: flex; gap: 8px; flex-wrap: wrap; margin-left: auto; }
+.pp-tabela-wrap { overflow-x: auto; }
+.pp-tabela { border-collapse: collapse; width: 100%; font-size: .92rem; }
+.pp-tabela th, .pp-tabela td { border-bottom: 1px solid var(--linha); padding: 6px 8px; text-align: left; white-space: nowrap; }
+.pp-tabela th { position: sticky; top: 0; background: var(--papel); font-size: .85rem; text-align: center; }
+.pp-tabela td:first-child { white-space: normal; min-width: 220px; }
+.pp-tabela tr.inativo td { color: var(--suave); text-decoration: line-through; }
+.pp-tabela tr:hover td { background: #f7f8fc; }
+.pp-cod { font-family: Consolas, monospace; font-weight: 700; letter-spacing: .1em; }
+.pp-c { text-align: center !important; font-weight: 700; }
+.pp-c.ok { background: var(--ok-bg); color: var(--ok); }
+.pp-c.meio { background: var(--aviso-bg); }
+.pp-c.vazio { color: #b0b4c0; font-weight: 400; }
+.pp-dia summary { cursor: pointer; }
+.pp-dia ol { columns: 2; }
+.pp-area { width: 100%; font: inherit; padding: 10px; border-radius: 10px; border: 1px solid var(--linha); margin: 8px 0; }
+.pp-login { max-width: 560px; margin: 30px auto; text-align: center; }
+.pp-dlg { border: none; border-radius: var(--raio); padding: 22px; box-shadow: var(--sombra); max-width: 440px; }
+.pp-dlg::backdrop { background: rgba(20, 25, 45, .45); }
+.pp-dlg-btns { display: flex; flex-direction: column; gap: 8px; }
+@media (max-width: 700px) { .pp-dia ol { columns: 1; } .pp-acoes { margin-left: 0; } }

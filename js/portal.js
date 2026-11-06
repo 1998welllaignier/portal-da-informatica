@@ -78,6 +78,8 @@
   const turma = id => { for (const s of cat().series) { const t = s.turmas.find(x => x.id === id); if (t) return { ...t, serie: s }; } return null; };
   const apostila = id => cat().apostilas.find(a => a.id === id);
   const disciplina = id => cat().disciplinas.find(d => d.id === id);
+  P.carregarApostila = id => carregar(id);
+  P.serie = serie; P.turma = turma; P.apostila = apostila; P.sess = sess; P.store = store;
 
   /* ---------------- carregamento das apostilas ---------------- */
   const loading = {};
@@ -136,10 +138,15 @@
   /* ---------------- progresso ---------------- */
   function progressoKey(aid) {
     const s = sess.get(); if (!s) return null;
+    if (s.alunoIds && s.alunoIds.length) return KEY + aid + ":" + s.turma + ":id:" + s.alunoIds.join("+");
     return KEY + aid + ":" + s.turma + ":" + norm(s.nomes.join("+")).replace(/ /g, "_");
   }
   function getProg(aid) { const k = progressoKey(aid); return (k && store.get(k, null)) || { visitas: {}, atv: {}, atualizado: 0 }; }
-  function setProg(aid, p) { const k = progressoKey(aid); if (!k) return; p.atualizado = Date.now(); if (!store.set(k, p)) toast("Não foi possível guardar o progresso neste navegador."); }
+  function setProg(aid, p, daNuvem) {
+    const k = progressoKey(aid); if (!k) return; p.atualizado = Date.now();
+    if (!store.set(k, p)) toast("Não foi possível guardar o progresso neste navegador.");
+    if (!daNuvem && P.nuvem && P.nuvem.pronto) P.nuvem.agendar(aid);
+  }
   P.getProg = getProg; P.setProg = setProg;
 
   /* ---------------- estrutura da missão ---------------- */
@@ -206,14 +213,16 @@
   function curto(s, i) { return (s.apelidos && s.apelidos[i]) || s.nomes[i].split(" ")[0]; }
   function quem(s) { return s.nomes.map((n, i) => (s.apelidos && s.apelidos[i]) ? s.apelidos[i] : n).join(" & "); }
   P.curto = curto; P.quem = quem;
-  function sair() {
-    if (!confirm("Sair do portal? Seu progresso fica guardado neste navegador (veja “Privacidade e progresso”).")) return;
+  async function sair() {
+    const s = sess.get();
+    if (!confirm(s && s.nuvem ? "Sair do portal? O que você fez já está guardado no painel do professor." : "Sair do portal? Seu progresso fica guardado neste navegador (veja “Privacidade e progresso”).")) return;
+    if (s && s.nuvem) { try { await Promise.all(cat().apostilas.map(a => P.nuvem.enviar(a.id).catch(() => null))); } catch (e) {} await P.nuvem.sair(); }
     sess.del(); location.hash = "#/";
   }
 
   function rodape() {
     document.getElementById("rodape").innerHTML = `<strong>${esc(cat().portal)}</strong> · <strong>${esc(cat().professor)}</strong> · <span>${esc(cat().escola)} — ${esc(cat().cidade)}</span> ·
-      <a href="#/sobre">Privacidade e progresso</a> · <a href="#/professor">Área do professor</a>`;
+      <a href="#/sobre">Privacidade e progresso</a> · <a href="#/professor">Área do professor</a> · <a href="#/painel">Painel do professor</a>`;
   }
 
   function modoTrilha(a) { const on = !!(a && a.trilha); document.body.classList.toggle("modo-trilha", on); document.documentElement.classList.toggle("trilha", on); }
@@ -245,6 +254,92 @@
 
   /* -------- escolha da turma + identificação -------- */
   function telaSerie(sid, destino) {
+    if (P.nuvem && P.nuvem.pronto && !P.modoAntigo) return telaCodigo(sid, destino);
+    return telaSerieAntiga(sid, destino);
+  }
+  P.telaSerieAntiga = (sid, destino) => { P.modoAntigo = true; return telaSerieAntiga(sid, destino); };
+
+  /* -------- entrada com código (turma → código → "Você é…?") -------- */
+  function telaCodigo(sid, destino) {
+    const s = serie(sid); if (!s) return telaInicio();
+    barra();
+    const el = mount(`<section class="tela" style="--cor:${s.cor}">
+      <nav class="migalhas"><a href="#/">Início</a> › ${esc(s.nome)}</nav>
+      <h1>${esc(s.nome)} — entrar no portal</h1>
+      <form class="painel form-id" id="fcod" novalidate>
+        <fieldset><legend>1. Turma</legend>
+          <div class="opcoes-turma">${s.turmas.map(t => `<label class="opt-turma"><input type="radio" name="turma" value="${t.id}" ${s.turmas.length === 1 ? "checked" : ""}><span>${esc(t.nome)}</span></label>`).join("")}</div>
+        </fieldset>
+        <fieldset><legend>2. Vai fazer sozinho ou em dupla?</legend>
+          <div class="opcoes-turma">
+            <label class="opt-turma"><input type="radio" name="modo" value="individual" checked><span>👤 Sozinho</span></label>
+            <label class="opt-turma"><input type="radio" name="modo" value="dupla"><span>👥 Em dupla</span></label>
+          </div>
+        </fieldset>
+        <fieldset><legend>3. Seu código</legend>
+          <div class="pessoa"><label class="campo"><span>Seu código de 4 números</span><input id="c1" class="in-codigo" inputmode="numeric" maxlength="4" autocomplete="off" placeholder="0000" aria-required="true"></label>
+            <label class="campo"><span>Apelido <em class="opc">(opcional)</em></span><input id="a1" maxlength="20" autocomplete="off" placeholder="Ex.: Aninha"></label></div>
+          <div class="pessoa" id="p2" hidden><p class="pessoa-tit">Colega da dupla</p>
+            <label class="campo"><span>Código do colega</span><input id="c2" class="in-codigo" inputmode="numeric" maxlength="4" autocomplete="off" placeholder="0000"></label>
+            <label class="campo"><span>Apelido <em class="opc">(opcional)</em></span><input id="a2" maxlength="20" autocomplete="off" placeholder="Ex.: Pedrão"></label></div>
+          <p class="ajuda">O código está no seu cartãozinho. Esqueceu? Peça ao professor. Não mostre o seu código para os colegas.</p>
+        </fieldset>
+        <p class="erro" id="ferro" role="alert" hidden></p>
+        <button class="btn btn-grande" type="submit" id="bcont">Continuar ➜</button>
+      </form>
+      <div id="confirma"></div>
+    </section>`);
+    const form = el.querySelector("#fcod"), fe = el.querySelector("#ferro"), bc = el.querySelector("#bcont");
+    const p2 = el.querySelector("#p2");
+    el.querySelectorAll('input[name="modo"]').forEach(r => r.onchange = () => { p2.hidden = el.querySelector('input[name="modo"]:checked').value !== "dupla"; });
+    el.querySelectorAll(".in-codigo").forEach(i => i.oninput = () => { i.value = i.value.replace(/\D/g, "").slice(0, 4); });
+    const erro = m => { fe.innerHTML = m; fe.hidden = !m; };
+    let falhas = 0, bloqueadoAte = 0;
+    form.onsubmit = async e => {
+      e.preventDefault(); erro("");
+      if (Date.now() < bloqueadoAte) return erro("Muitas tentativas erradas. Espere alguns segundos e chame o professor.");
+      const t = el.querySelector('input[name="turma"]:checked');
+      const modo = el.querySelector('input[name="modo"]:checked').value;
+      const cods = [el.querySelector("#c1").value.trim()].concat(modo === "dupla" ? [el.querySelector("#c2").value.trim()] : []);
+      const apels = [el.querySelector("#a1").value, el.querySelector("#a2").value].map(a => a.trim().replace(/\s+/g, " "));
+      if (!t) return erro("Escolha a turma.");
+      if (cods.some(c => !/^\d{4}$/.test(c))) return erro(modo === "dupla" ? "Digite os dois códigos, com 4 números cada." : "Digite o seu código de 4 números.");
+      if (modo === "dupla" && cods[0] === cods[1]) return erro("Os dois códigos estão iguais. Cada um digita o seu.");
+      if (apels.some(a => a && !/^[\p{L}\p{N}' ._-]{1,20}$/u.test(a))) return erro("O apelido pode ter só letras, números e espaços (até 20).");
+      bc.disabled = true; bc.textContent = "Conferindo…";
+      let infos;
+      try { infos = await Promise.all(cods.map((c, i) => P.nuvem.conferirCodigo(i, t.value, c))); }
+      catch (err) {
+        console.warn(err); bc.disabled = false; bc.textContent = "Continuar ➜";
+        return erro(`Não foi possível conferir o código agora (sem internet?). <a href="#" id="antigo">Entrar sem código, só neste computador</a>.`);
+      } finally { bc.disabled = false; bc.textContent = "Continuar ➜"; }
+      const ruins = infos.map((x, i) => x ? null : i).filter(x => x !== null);
+      if (ruins.length) {
+        falhas++; if (falhas >= 5) { bloqueadoAte = Date.now() + 30000; falhas = 0; }
+        return erro(ruins.length === 2 ? "Os dois códigos não foram encontrados nesta turma." : modo === "dupla" ? `O código ${ruins[0] === 0 ? "do primeiro aluno" : "do colega"} não foi encontrado nesta turma.` : "Código não encontrado nesta turma. Confira a turma e o número, ou chame o professor.");
+      }
+      form.hidden = true;
+      const cf = el.querySelector("#confirma");
+      cf.innerHTML = `<div class="painel confirma-quem">
+        <h2>${infos.length > 1 ? "Vocês são…" : "Você é…"}</h2>
+        <ul class="quem-lista">${infos.map(x => `<li>👤 <strong>${esc(x.nome)}</strong></li>`).join("")}</ul>
+        <p class="ajuda">Turma ${esc((turma(t.value) || {}).nome || t.value)}</p>
+        <div class="row-btns"><button class="btn btn-grande" type="button" id="sim">✔ Sim, ${infos.length > 1 ? "somos nós" : "sou eu"}</button>
+          <button class="btn btn-sec" type="button" id="nao">✖ Não, voltar</button></div></div>`;
+      cf.querySelector("#nao").onclick = () => { cf.innerHTML = ""; form.hidden = false; el.querySelector("#c1").focus(); };
+      cf.querySelector("#sim").onclick = async () => {
+        const b = cf.querySelector("#sim"); b.disabled = true; b.textContent = "Entrando…";
+        try { await Promise.all(infos.map((x, i) => P.nuvem.confirmar(i, x, t.value))); }
+        catch (err) { console.warn(err); b.disabled = false; b.textContent = "Tentar de novo"; toast("Não foi possível entrar agora. Tente de novo."); return; }
+        sess.set({ serie: sid, turma: t.value, modo, nuvem: true, alunoIds: infos.map(x => x.alunoId), nomes: infos.map(x => x.nome), apelidos: infos.map((x, i) => apels[i] || ""), entrou: Date.now() });
+        location.hash = destino || "#/apostilas";
+      };
+      cf.querySelector("#sim").focus();
+    };
+    el.addEventListener("click", ev => { if (ev.target && ev.target.id === "antigo") { ev.preventDefault(); P.telaSerieAntiga(sid, destino); } });
+  }
+
+  function telaSerieAntiga(sid, destino) {
     const s = serie(sid); if (!s) return telaInicio();
     barra();
     const el = mount(`<section class="tela" style="--cor:${s.cor}">
@@ -324,6 +419,7 @@
     const s = sess.get(); const a = apostila(aid); if (!a) return telaInicio();
     if (!s) return telaSerie(a.serie, "#/apostila/" + aid);
     await carregar(aid);
+    await restaurarNuvem(aid);
     modoTrilha(a);
     const C = P.conteudo[aid]; const se = serie(a.serie);
     barra(`<span>${esc(a.titulo)}</span>`);
@@ -361,12 +457,19 @@
     };
   }
 
+  // traz da nuvem o que o aluno já fez (espera no máximo 4 segundos)
+  async function restaurarNuvem(aid) {
+    const s = sess.get(); if (!s || !s.nuvem || !P.nuvem || !P.nuvem.pronto) return;
+    await Promise.race([P.nuvem.restaurar(aid).catch(e => console.warn(e)), new Promise(ok => setTimeout(ok, 4000))]);
+  }
+
   /* -------- página de missão -------- */
   async function telaMissao(aid, mid, pid) {
     const s = sess.get(); const a = apostila(aid); if (!a) return telaInicio();
     if (!s) return telaSerie(a.serie, "#/missao/" + aid + "/" + mid);
     if (s.serie !== a.serie) { toast("Esta apostila é de outra série."); location.hash = "#/apostilas"; return; }
     await carregar(aid);
+    await restaurarNuvem(aid);
     modoTrilha(a);
     const { m, pages } = montarMissao(aid, mid);
     if (!pages.length) return telaApostila(aid);
@@ -431,7 +534,7 @@
       const linha = (r, k) => x[k][1] ? `<li>${r} <strong>${x[k][0]}/${x[k][1]}</strong>${x[k][0] === x[k][1] ? " ✔" : ""}</li>` : "";
       el.querySelector("#mn-status").innerHTML = `<ul>${linha("📖 Leitura", "leitura")}${linha("🟢 Básico", "basico")}${linha("🟡 Desafio", "desafio")}${linha("🔴 Turbo", "turbo")}${linha("✅ Revisão", "revisao")}</ul>`;
       const ok = x.basico[1] && x.basico[0] === x.basico[1];
-      el.querySelector("#banner-ok").innerHTML = ok && pg.tipo === "missao" && pg.id === "basico" ? `<div class="banner-concluida" role="status">✅ MISSÃO BÁSICA CONCLUÍDA — chame o professor para conferir e carimbar a sua apostila!<br><a href="#/missao/${aid}/${mid}/relatorio">📋 Ver o resumo do que fiz (para o print)</a></div>` : "";
+      el.querySelector("#banner-ok").innerHTML = ok && pg.tipo === "missao" && pg.id === "basico" ? `<div class="banner-concluida" role="status">✅ MISSÃO BÁSICA CONCLUÍDA — chame o professor para conferir e carimbar a sua apostila!<br><a href="#/missao/${aid}/${mid}/relatorio">📋 Ver o resumo do que fiz${s && s.nuvem ? "" : " (para o print)"}</a></div>` : "";
       const tb = document.querySelector(".tb-info"); if (tb) tb.classList.toggle("tb-ok", !!ok);
     }
     atualizarStatus();
@@ -573,7 +676,7 @@
     const nomesTxt = s.nomes.map((n, i) => esc(n) + (s.apelidos && s.apelidos[i] ? ` <span class="r-apel">“${esc(s.apelidos[i])}”</span>` : "")).join("<br>");
     const cont = (r, k) => x[k][1] ? `<div class="r-cont ${x[k][0] === x[k][1] ? "ok" : ""}"><span>${r}</span><strong>${x[k][0]}/${x[k][1]}</strong></div>` : "";
     const el = h(`<div class="rel-wrap">
-      <div class="rel-instr nao-imprimir"><p>📸 <strong>Tire um print desta tela</strong> e envie ao professor: tecla <kbd>PrtSc</kbd> ou <kbd>Windows</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd>.</p>
+      <div class="rel-instr nao-imprimir">${s.nuvem ? `<p>✅ <strong>Não precisa de print:</strong> o que você fez já vai sozinho para o painel do professor.</p>` : `<p>📸 <strong>Tire um print desta tela</strong> e envie ao professor: tecla <kbd>PrtSc</kbd> ou <kbd>Windows</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd>.</p>`}
         <button class="btn btn-sec btn-peq" type="button" id="rel-imp">🖨️ Imprimir</button></div>
       <section class="relatorio" id="relatorio" aria-label="Resumo da missão">
         <header class="r-cab"><div><p class="r-portal">💻 ${esc(cat().portal)}</p><p class="r-prof">${esc(cat().professor)}</p></div>
@@ -745,12 +848,13 @@
     mount(`<section class="tela"><nav class="migalhas"><a href="#/">Início</a> › Privacidade e progresso</nav>
       <h1>Privacidade e progresso</h1>
       <div class="painel">
-        <h2>O que o portal guarda?</h2><p>Só o nome (ou os nomes da dupla), a turma e as respostas das atividades. Nada é enviado pela internet: <strong>tudo fica apenas no navegador deste computador</strong>.</p>
-        <h2>Por quanto tempo?</h2><p>As respostas ficam guardadas neste navegador até alguém apagar: pelo botão “Apagar meus dados deste computador” (na capa da apostila) ou limpando os dados do navegador. Ao entrar de novo com o <strong>mesmo nome e a mesma turma</strong>, neste mesmo computador, você continua de onde parou.</p>
-        <h2>Quando o progresso se perde?</h2><ul><li>Se usar outro computador (cada computador guarda o seu).</li><li>Se usar janela anônima.</li><li>Se os dados do navegador forem apagados.</li><li>Se digitar o nome de outro jeito (ex.: “Ana” e depois “Ana Souza”).</li></ul>
-        <h2>Como o professor registra?</h2><p>O registro oficial é o <strong>carimbo na apostila impressa</strong> e o diário de classe do professor. O portal não envia respostas e não tem painel central. Se o professor pedir, use “Baixar minhas respostas”: o arquivo vai para a pasta Downloads e a coleta é feita manualmente.</p>
+        <h2>Como o aluno entra?</h2><p>Escolhe a turma e digita o <strong>código de 4 números</strong> do seu cartãozinho. Aparece o nome dele para confirmar. A lista de alunos não fica visível para ninguém: só o professor vê, no painel.</p>
+        <h2>O que o portal guarda?</h2><p>O nome do aluno (cadastrado pelo professor), a turma, as respostas das atividades, o andamento de cada missão e os dias em que ele entrou. Isso fica guardado neste navegador e também num banco de dados protegido (Google Firebase), que <strong>só o professor consegue abrir</strong>, com a conta dele.</p>
+        <h2>Para que serve?</h2><p>Para o professor ver, no Painel do professor, quem veio a cada aula, quem concluiu o Básico e o Desafio, sem precisar de print. E para o aluno continuar de onde parou em qualquer computador da sala.</p>
+        <h2>Sem internet</h2><p>Se a internet cair, o portal continua funcionando no modo antigo: o aluno digita o nome e o progresso fica só neste computador. Nesse caso, vale o print do “Resumo do que fiz”.</p>
+        <h2>Quem pode ver o quê?</h2><ul><li>O aluno vê só o que ele mesmo fez.</li><li>Os colegas não veem as respostas nem o código dos outros.</li><li>O professor vê tudo da turma, no painel.</li></ul>
         <h2>Precisa de internet?</h2><p>Se o portal estiver na pasta do computador ou da rede da escola, funciona sem internet. Se estiver publicado num endereço web, precisa de internet só para abrir.</p>
-        <h2>Cuidados</h2><p>Nunca digite senhas, telefone, endereço ou documentos no portal. Use só o nome.</p>
+        <h2>Cuidados</h2><p>Não mostre o seu código para os colegas. Nunca digite senhas, telefone, endereço ou documentos no portal. Ao terminar, clique em <strong>Sair</strong>.</p>
       </div></section>`);
   }
 
@@ -771,6 +875,9 @@
       if (r === "professor") return await telaProfessor();
       if (r === "trilhas") return await telaTrilhas();
       if (r === "sobre") return telaSobre();
+      if (r === "painel") { barra(); if (!P.painel) return mount(`<section class="tela"><div class="painel erro"><h1>Painel indisponível</h1><p>O painel precisa de internet. Abra o portal pelo endereço do GitHub.</p></div></section>`); return await P.painel.abrir(mount, a1, a2); }
+      const ss = sess.get();
+      if (ss && ss.nuvem && P.nuvem && !(await P.nuvem.sessaoValida(ss))) { sess.del(); toast("Sua entrada expirou. Digite o código de novo."); }
       if (r === "abrir") {
         const ap = apostila(a1); if (!ap) return telaInicio();
         try { sessionStorage.setItem("portalJK:hoje", a1 + "/" + a2); } catch (e) {}
