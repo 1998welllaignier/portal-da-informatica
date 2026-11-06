@@ -27,12 +27,20 @@ PORTAL.registrarAtividades("informatica-5ano-4bim", {
       { tipo: "pc", titulo: "No computador: o Bloco de Notas", programa: "Bloco de Notas",
         passos: ["Clique no botão <strong>Iniciar</strong> (o símbolo do Windows, no canto de baixo, à esquerda), procure o <strong>Bloco de Notas</strong> e abra.",
           "Digite: <strong>Meu nome é ______ e o sistema operacional deste computador é o Windows.</strong>",
-          "Depois digite, uma por linha, 2 peças de entrada e 2 peças de saída.", "Com o texto na tela, chame o professor para conferir e carimbar."] }
+          "Depois digite, uma por linha, 2 peças de entrada e 2 peças de saída."],
+        conferir: [
+          { rot: "Copie aqui a primeira frase que você digitou:", ph: "Meu nome é…", re: "meu\\s+nome\\s+(é|e)\\s+.+windows", dica: "A frase começa com “Meu nome é” e termina com “Windows”." },
+          { rot: "Uma peça de <strong>entrada</strong> que você digitou:", ph: "Ex.: …", re: "teclado|mouse|microfone|webcam|c[aâ]mera|scanner|touchpad|joystick|controle", dica: "Entrada é a peça que leva informação <strong>para dentro</strong> do computador." },
+          { rot: "Uma peça de <strong>saída</strong> que você digitou:", ph: "Ex.: …", re: "monitor|tela|impressora|caixa de som|caixinha de som|fone|projetor", dica: "Saída é a peça que mostra ou entrega o resultado." }],
+        okMsg: "Texto digitado no Bloco de Notas e peças no lugar certo!" }
     ],
     desafio: [
-      { tipo: "aberta", titulo: "Por que o computador precisa de um sistema operacional? O que aconteceria sem ele?", linhas: 3,
-        criterios: ["Disse o que o sistema operacional faz.", "Expliquei o que aconteceria sem ele."],
-        exemplo: "O sistema operacional é o programa principal: liga tudo e deixa os outros programas abrirem. Sem ele, o computador não abriria nem o Paint." }
+      { tipo: "escolha", titulo: "Por que o computador precisa de um sistema operacional? O que aconteceria sem ele?",
+        perguntas: [
+          { p: "O que o sistema operacional faz?", opcoes: ["É o programa principal: liga tudo e deixa os outros programas abrirem", "Só serve para jogar", "É uma peça que fica dentro do mouse"], certo: 0 },
+          { p: "O que aconteceria sem ele?", opcoes: ["O computador não abriria nem o Paint", "O computador ficaria mais rápido", "Nada mudaria"], certo: 0 },
+          { p: "Qual destes é um sistema operacional?", opcoes: ["Windows", "Paint", "Teclado"], certo: 0 }],
+        explicacao: "O sistema operacional é o programa principal: liga tudo e deixa os outros programas abrirem. Sem ele, o computador não abriria nem o Paint." }
     ],
     turbo: [
       { tipo: "escolha", titulo: "O computador da escola quebrou!",
@@ -88,7 +96,8 @@ PORTAL.registrarAtividades("informatica-5ano-4bim", {
       { tipo: "aberta", titulo: "2 coisas que viram lista e 2 coisas que viram grafo",
         campos: [{ rot: "Viram lista:", linhas: 1 }, { rot: "Viram grafo:", linhas: 1 }],
         criterios: ["Nas listas, os itens ficam um depois do outro.", "Nos grafos, as coisas estão ligadas entre si."],
-        exemplo: "Lista: a playlist e a chamada da turma. Grafo: os amigos de uma rede social e as ruas do bairro." }
+        exemplo: "Lista: a playlist e a chamada da turma. Grafo: os amigos de uma rede social e as ruas do bairro.",
+        conferir: { minPalavras: 2, diferentes: "todos", msg: "Exemplos registrados! O professor pode ler no painel." } }
     ],
     vf: [
       { v: true },
@@ -116,6 +125,8 @@ PORTAL.registrarAtividades("informatica-5ano-4bim", {
       { tipo: "aberta", titulo: "Complete os algoritmos de escolha",
         campos: [{ rot: "SE estiver com fome, ENTÃO… SENÃO…", linhas: 1 }, { rot: "SE o celular estiver com pouca bateria, ENTÃO… SENÃO…", linhas: 1 }, { rot: "SE eu terminar a tarefa, ENTÃO… SENÃO…", linhas: 1 }],
         criterios: ["Cada linha tem uma ação para o ENTÃO e outra para o SENÃO."],
+        enunciado: "<p>Escreva o que acontece no <strong>ENTÃO</strong> e no <strong>SENÃO</strong>, usando essas duas palavras.</p>",
+        conferir: { minPalavras: 4, porCampo: [["senao"], ["senao"], ["senao"]], msg: "Algoritmos de escolha completos!" },
         exemplo: "SE estiver com fome, ENTÃO como um lanche, SENÃO continuo brincando." },
       { tipo: "pintura", titulo: "Siga o algoritmo dos círculos", forma: "circulo", n: 4, pretos: [2, 4],
         regra: "<strong>REPITA 4 vezes:</strong> desenhe um círculo. Depois, para cada círculo: <strong>SE</strong> for o 2º <strong>OU</strong> o 4º, <strong>ENTÃO</strong> pinte de preto, <strong>SENÃO</strong> deixe branco.",
@@ -138,7 +149,9 @@ PORTAL.registrarAtividades("informatica-5ano-4bim", {
     turbo: [
       { tipo: "aberta", titulo: "Crie frases sobre você com NÃO, E e OU, e diga se cada uma é V ou F",
         campos: [{ rot: "Frase com NÃO (V ou F?)", linhas: 1 }, { rot: "Frase com E (V ou F?)", linhas: 1 }, { rot: "Frase com OU (V ou F?)", linhas: 1 }],
-        exigir: ["não", "ou"], criterios: ["Cada frase usa a palavra pedida.", "Disse se é V ou F."] }
+        criterios: ["Cada frase usa a palavra pedida.", "Disse se é V ou F."],
+        conferir: { minPalavras: 3, porCampo: [["nao"], [" e "], [" ou "]], vf: true, msg: "Frases com NÃO, E e OU criadas e avaliadas!" },
+        exemplo: "Eu NÃO gosto de chuva (V). Eu tenho 10 anos E estudo no 5º ano (V). Eu moro em Belém OU em Curionópolis (V)." }
     ],
     vf: [
       { v: true },
@@ -160,7 +173,8 @@ PORTAL.registrarAtividades("informatica-5ano-4bim", {
           { t: "Informação do livro didático da escola", c: "C" }] },
       { tipo: "aberta", titulo: "Maria fez um desenho lindo de uma árvore. Você quer usar no seu cartaz.",
         campos: [{ rot: "O que você precisa fazer?", linhas: 2 }, { rot: "Escreva o crédito: Desenho: ____", linhas: 1 }],
-        exigir: ["Maria"], criterios: ["Pedi autorização à Maria.", "Escrevi o crédito com o nome dela."],
+        criterios: ["Pedi autorização à Maria.", "Escrevi o crédito com o nome dela."],
+        conferir: { porCampo: [["autoriza", "permiss", "pedir", "peco", "pergunt", "deixa"], ["maria"]], msg: "Isso mesmo: pedir autorização e dar o crédito!" },
         exemplo: "Peço autorização para a Maria e escrevo o crédito no cartaz: Desenho: Maria." },
       { tipo: "classificar", modo: "tabela", titulo: "Ligue cada problema à tecnologia certa", colunaItem: "Problema", colunaResp: "Tecnologia",
         categorias: [{ id: "A", rot: "Paint" }, { id: "B", rot: "Bloco de Notas" }, { id: "C", rot: "Calculadora" }, { id: "D", rot: "Chamada de vídeo" }],
@@ -171,14 +185,16 @@ PORTAL.registrarAtividades("informatica-5ano-4bim", {
     desafio: [
       { tipo: "aberta", titulo: "Escolha 2 profissões: qual tecnologia cada uma usa e como ajuda?",
         campos: [{ rot: "Profissão 1 — tecnologia — como ajuda", linhas: 2 }, { rot: "Profissão 2 — tecnologia — como ajuda", linhas: 2 }],
-        criterios: ["Disse a profissão, a tecnologia e como ela ajuda."], exemplo: "Agricultor — previsão do tempo no celular — ajuda a saber o melhor dia para plantar." }
+        criterios: ["Disse a profissão, a tecnologia e como ela ajuda."], exemplo: "Agricultor — previsão do tempo no celular — ajuda a saber o melhor dia para plantar.",
+        conferir: { minPalavras: 5, diferentes: "todos", msg: "Profissões e tecnologias registradas! O professor pode ler no painel." } }
     ],
     turbo: [
       { tipo: "ordenar", titulo: "Chegou uma notícia estranha no grupo da família: em que ordem você confere?",
         itens: ["Leio com calma e vejo se parece exagerada", "Procuro quem escreveu e a data", "Procuro se ela aparece em outros sites sérios", "Só compartilho se for confiável"],
         alternativas: [[1, 0, 2, 3], [0, 2, 1, 3], [1, 2, 0, 3], [2, 1, 0, 3], [2, 0, 1, 3]],
         explicacao: "A ordem das três conferências pode variar, mas compartilhar vem sempre por último, e só se for confiável." },
-      { tipo: "aberta", titulo: "Escreva os seus 3 passos antes de compartilhar", campos: [{ rot: "1.", linhas: 1 }, { rot: "2.", linhas: 1 }, { rot: "3.", linhas: 1 }], opcional: true }
+      { tipo: "aberta", titulo: "Escreva os seus 3 passos antes de compartilhar", campos: [{ rot: "1.", linhas: 1 }, { rot: "2.", linhas: 1 }, { rot: "3.", linhas: 1 }], opcional: true,
+        conferir: { minPalavras: 2, diferentes: "todos", msg: "Seus 3 passos estão registrados!" } }
     ],
     vf: [
       { v: false, corrigir: { trecho: "é verdade", opcoes: ["é verdade", "pode ser mentira"], certo: "pode ser mentira" } },
@@ -193,14 +209,23 @@ PORTAL.registrarAtividades("informatica-5ano-4bim", {
       { tipo: "info", titulo: "Faltou alguma missão?", html: "<p>Se você faltou em alguma missão, faça agora o <strong>Básico</strong> dela e mostre ao professor.</p>" },
       { tipo: "aberta", titulo: "Complete o seu passaporte: uma frase sobre cada missão",
         campos: [{ rot: "🖥️ Missão 1 – O computador e onde moram os dados", linhas: 2 }, { rot: "📋 Missão 2 – Listas e grafos", linhas: 2 }, { rot: "🤔 Missão 3 – Verdadeiro ou falso e escolhas", linhas: 2 }, { rot: "🛡️ Missão 4 – Internet com cuidado", linhas: 2 }],
-        criterios: ["Cada frase fala de algo que eu aprendi naquela missão."], minPalavras: 3 },
+        criterios: ["Cada frase fala de algo que eu aprendi naquela missão."],
+        conferir: { minPalavras: 3, porCampo: [
+          ["computador", "entrada", "saida", "sistema operacional", "windows", "dados", "nuvem", "pendrive", "guard", "salv", "teclado", "mouse", "monitor"],
+          ["lista", "grafo", "inserir", "remover", "ordem", "ligad", "vertice", "aresta", "caminho"],
+          ["verdadeir", "falso", "escolha", "se ", "entao", "senao", "nao", " e ", " ou ", "algoritmo", "repit"],
+          ["internet", "cuidado", "senha", "autor", "credito", "noticia", "compartilh", "segur", "dados", "mentira", "confiavel"]] } },
       { tipo: "aberta", titulo: "Minha missão favorita",
         campos: [{ rot: "Qual foi a missão de que você mais gostou?", linhas: 1, ph: "Ex.: Missão 2 – Listas e grafos" }, { rot: "Por que você gostou dela?", linhas: 3 }],
-        criterios: ["Escrevi o nome da missão.", "Expliquei o porquê com uma frase completa, com letra maiúscula e ponto final."] }
+        criterios: ["Escrevi o nome da missão.", "Expliquei o porquê com uma frase completa, com letra maiúscula e ponto final."],
+        conferir: { minPalavras: 2, porCampo: [["missao", "1", "2", "3", "4", "comput", "lista", "grafo", "verdadeir", "escolha", "internet", "cuidado"], null], msg: "Obrigado por contar! O professor pode ler no painel." } }
     ],
     desafio: [
       { tipo: "aberta", titulo: "Crie um algoritmo com SE… ENTÃO… SENÃO para decidir se você pode compartilhar uma mensagem",
-        linhas: 4, exigir: ["se", "então", "senão"], criterios: ["A condição usa as perguntas de confiança (quem escreveu, quando, outros lugares, exagero)."],
+        linhas: 4, criterios: ["A condição usa as perguntas de confiança (quem escreveu, quando, outros lugares, exagero)."],
+        conferir: { minPalavras: 10, grupos: [{ dica: "a palavra SE", alts: ["se "] }, { dica: "a palavra ENTÃO", alts: ["entao"] }, { dica: "a palavra SENÃO", alts: ["senao"] },
+          { dica: "uma pergunta de confiança (quem escreveu, a data, outros sites, exagero)", alts: ["autor", "quem escreveu", "data", "quando", "outros sites", "outro site", "fonte", "exager", "confiavel", "seri"] }],
+          msg: "Algoritmo de decisão criado!" },
         exemplo: "SE a mensagem tem autor E data E aparece em outros sites sérios, ENTÃO posso compartilhar, SENÃO não compartilho." }
     ],
     turbo: [

@@ -336,6 +336,10 @@
             const i = cf.porCampo.findIndex((alts, k) => alts && !contem(txt[k], alts));
             if (i >= 0) { ctx.errou(`No campo “${semTags(campos[i].rot || "resposta")}”, use pelo menos uma palavra-chave do tema (ex.: ${cf.porCampo[i].slice(0, 3).map(x => "“" + esc(x.trim()) + "”").join(", ")}).`); return; }
           }
+          if (cf.vf) {
+            const i = txt.findIndex(t => !/(^|[^a-z])(v|f|verdadeir[oa]|fals[oa])([^a-z]|$)/.test(norm(t)));
+            if (i >= 0) { ctx.errou(`No campo “${semTags(campos[i].rot || "resposta")}”, diga se a frase é <strong>V</strong> (verdadeira) ou <strong>F</strong> (falsa).`); return; }
+          }
           if (cf.grupos) {
             const tudo = txt.join(" ");
             const faltam = cf.grupos.filter(g => !contem(tudo, g.alts || g));

@@ -15,6 +15,7 @@ PARA USAR NA SALA
 PARA ACRESCENTAR APOSTILAS
   docs/2 - Como acrescentar apostilas.pdf  (ou peça ao Claude na conversa)
   Modelo comentado: dados/atividades/_MODELO-atividades.js
+  Padrão (correção automática): docs/PADRAO-ATIVIDADES.md
 
 TRILHA PASSO A PASSO (alunos que precisam de apoio)
   As mesmas missões da série, com letra grande, um passo por vez, quase tudo
