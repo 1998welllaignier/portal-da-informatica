@@ -6,6 +6,7 @@
 - [ ] Lançar os relatórios da semana guardados no painel.
 - [ ] Testar com uma turma antes de liberar para todas.
 - [ ] Botão "Missão de hoje": o professor escolhe no painel e ela aparece grande para os alunos logo depois do código.
+- [ ] Atividades só no dia e na hora da aula da turma (conferido pela hora do servidor, nas regras do Firebase), com tolerância antes e depois; o professor pode liberar fora do horário pelo painel (reposição, recuperação, aluno que estuda em casa). Decidir: os textos de leitura ficam abertos em casa?
 
 ## 2. Fim do 4º bimestre de 2026
 - [ ] Prova no próprio portal ("modo prova": sem dicas, uma tentativa, questões embaralhadas, liberada e encerrada pelo painel, nota direto no boletim), no lugar do Wayground.
