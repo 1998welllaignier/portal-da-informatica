@@ -275,8 +275,9 @@
         <fieldset><legend>2. Vai fazer sozinho ou em dupla?</legend>
           <div class="opcoes-turma">
             <label class="opt-turma"><input type="radio" name="modo" value="individual" checked><span>👤 Sozinho</span></label>
-            <label class="opt-turma"><input type="radio" name="modo" value="dupla"><span>👥 Em dupla</span></label>
+            <label class="opt-turma"><input type="radio" name="modo" value="dupla"><span>👥 Em dupla <small>(no mesmo computador)</small></span></label>
           </div>
+          <p class="aviso-dupla">👥 <strong>Em dupla = os dois no MESMO computador</strong>, lado a lado. O portal mostra de quem é a vez: um faz e o outro ajuda. Não é como jogar Roblox junto, cada um no seu computador: aqui a dupla divide <strong>um computador só</strong>.</p>
         </fieldset>
         <fieldset><legend>3. Seu código</legend>
           <div class="pessoa"><label class="campo"><span>Seu código de 4 números</span><input id="c1" class="in-codigo" inputmode="numeric" maxlength="4" autocomplete="off" placeholder="0000" aria-required="true"></label>
@@ -354,8 +355,9 @@
         <fieldset><legend>2. Vai fazer sozinho ou em dupla?</legend>
           <div class="opcoes-turma">
             <label class="opt-turma"><input type="radio" name="modo" value="individual" checked><span>👤 Sozinho</span></label>
-            <label class="opt-turma"><input type="radio" name="modo" value="dupla"><span>👥 Em dupla</span></label>
+            <label class="opt-turma"><input type="radio" name="modo" value="dupla"><span>👥 Em dupla <small>(no mesmo computador)</small></span></label>
           </div>
+          <p class="aviso-dupla">👥 <strong>Em dupla = os dois no MESMO computador</strong>, lado a lado. O portal mostra de quem é a vez: um faz e o outro ajuda. Não é como jogar Roblox junto, cada um no seu computador: aqui a dupla divide <strong>um computador só</strong>.</p>
         </fieldset>
         <fieldset><legend>3. Quem é você?</legend>
           <div class="pessoa"><label class="campo"><span>Nome completo <em class="obrig">(obrigatório)</em></span><input id="n1" maxlength="60" autocomplete="off" placeholder="Ex.: Ana Clara Souza" aria-required="true"></label>
