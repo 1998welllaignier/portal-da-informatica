@@ -7,6 +7,7 @@
 - [ ] Testar com uma turma antes de liberar para todas.
 - [ ] Botão "Missão de hoje": o professor escolhe no painel e ela aparece grande para os alunos logo depois do código.
 - [ ] Atividades só no dia e na hora da aula da turma (conferido pela hora do servidor, nas regras do Firebase), com tolerância antes e depois; o professor pode liberar fora do horário pelo painel: a turma toda por um tempo escolhido, só um aluno (reposição, recuperação, aluno que estuda em casa), e fechar antes da hora. **Decidido:** os textos de estudo (Para começar, O que significa?, Onde eu uso isso?, Resumo) ficam sempre abertos, inclusive em casa; só as tarefas ficam presas ao horário.
+- [ ] Aluno que frequenta a aula de **outra turma** (curso, karatê, natação…): no painel, marcar "frequenta a aula da turma X". O horário dessa turma libera as tarefas dele; a presença e as notas continuam na turma dele; ele segue a própria apostila.
 
 ## 2. Fim do 4º bimestre de 2026
 - [ ] Prova no próprio portal ("modo prova": sem dicas, uma tentativa, questões embaralhadas, liberada e encerrada pelo painel, nota direto no boletim), no lugar do Wayground.
