@@ -413,16 +413,17 @@
       const draw = () => {
         c.innerHTML = `<div class="pc"><p class="pc-prog">🖥️ Programa: <strong>${esc(at.programa)}</strong></p>
           <ol class="pc-passos">${at.passos.map((p, i) => `<li><label><input type="checkbox" data-i="${i}" ${st.passos[i] ? "checked" : ""}> <span>${md(p)}</span></label></li>`).join("")}</ol>
-          ${at.conferir ? `<div class="pc-conf"><p><strong>✍️ Agora conte o que aparece no seu computador:</strong></p>${at.conferir.map((f, i) => `<label class="campo pc-conf-campo ${marcas[i] || ""}"><span>${md(f.rot)}</span><input data-c="${i}" value="${esc(st.conf[i] || "")}" placeholder="${esc(f.ph || "")}" autocomplete="off">${marcas[i] ? `<span class="marca">${marcas[i] === "certo" ? "✔" : "✖"}</span>` : ""}</label>`).join("")}</div>`
+          ${at.conferir ? `<div class="pc-conf"><p><strong>✍️ Agora conte o que aparece no seu computador:</strong></p>${at.conferir.map((f, i) => `<label class="campo pc-conf-campo ${marcas[i] || ""}"><span>${md(f.rot)}</span>${f.opcoes ? `<span class="pc-opc">${f.opcoes.map(o => `<button type="button" class="pc-opc-b" data-o="${i}" data-v="${esc(o)}" aria-pressed="${st.conf[i] === o}">${esc(o)}</button>`).join("")}</span>` : `<input data-c="${i}" value="${esc(st.conf[i] || "")}" placeholder="${esc(f.ph || "")}" autocomplete="off">`}${marcas[i] ? `<span class="marca">${marcas[i] === "certo" ? "✔" : "✖"}</span>` : ""}</label>`).join("")}</div>`
             : `<p class="pc-aviso">👀 Não feche o programa antes de mostrar ao professor.</p>`}</div>`;
         c.querySelectorAll("input[data-i]").forEach(x => x.onchange = () => { st.passos[x.dataset.i] = x.checked; ctx.salvar(); });
         c.querySelectorAll("input[data-c]").forEach(x => x.oninput = () => { st.conf[x.dataset.c] = x.value; delete marcas[x.dataset.c]; ctx.salvar(); });
+        c.querySelectorAll("button[data-o]").forEach(b => b.onclick = e => { e.preventDefault(); st.conf[b.dataset.o] = b.dataset.v; delete marcas[b.dataset.o]; ctx.salvar(); draw(); });
       };
       ctx.verificar = () => {
         const falta = at.passos.filter((_, i) => !st.passos[i]).length;
         if (falta) { ctx.feedback("info", `Marque cada passo quando terminar (faltam ${falta}).`); return; }
         if (at.conferir) {
-          if (at.conferir.some((_, i) => !(st.conf[i] || "").trim())) { ctx.feedback("info", "Preencha todos os campos com o que aparece no seu computador."); return; }
+          if (at.conferir.some((_, i) => !(st.conf[i] || "").trim())) { ctx.feedback("info", at.conferir.some(f => f.opcoes) ? "Responda todas as perguntas abaixo." : "Preencha todos os campos com o que aparece no seu computador."); return; }
           marcas = {}; const erros = [];
           at.conferir.forEach((f, i) => { const ok = confere(st.conf[i], f.re); marcas[i] = ok ? "certo" : "errado"; if (!ok) erros.push(f); });
           draw();

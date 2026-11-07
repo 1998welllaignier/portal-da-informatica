@@ -46,15 +46,15 @@ PORTAL.registrarConteudo("informatica-8ano-4bim-trilha", {
     },
     {
      "nivel": 0,
-     "h": "🔊 Clique em <strong>Ouvir</strong> para o computador ler o texto para você."
-    },
-    {
-     "nivel": 0,
      "h": "🖱️ Quase tudo é feito <strong>clicando</strong>."
     },
     {
      "nivel": 0,
      "h": "✅ Clique em <strong>Verificar</strong> quando terminar cada atividade."
+    },
+    {
+     "nivel": 0,
+     "h": "⏸️ Cansou? Pode parar e descansar um pouco. Tudo fica salvo."
     },
     {
      "nivel": 0,

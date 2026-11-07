@@ -9,8 +9,8 @@ PORTAL.registrarAtividades("informatica-8ano-4bim-trilha", {
   /* ======================= MISSÃO 1 ======================= */
   m1: {
     pratica: [
-      { tipo: "sim_adivinhe", titulo: "Jogo: adivinhe o número", max: 50, meta: 6,
-        enunciado: "<p>Pensei num número de <strong>1 a 50</strong>. Comece chutando <strong>25</strong> (o meio). Eu digo se é maior ou menor.</p>",
+      { tipo: "sim_adivinhe", titulo: "Jogo: adivinhe o número", max: 10, meta: 4, botoes: true,
+        enunciado: "<p>Pensei num número de <strong>1 a 10</strong>. Clique no <strong>5</strong> (o meio). Eu digo se é maior ⬆️ ou menor ⬇️.</p>",
         explicacao: "Chutar o meio sempre é a <strong>busca binária</strong>: muito mais rápido que tentar 1, 2, 3…" },
       { tipo: "sim_bolha", titulo: "Arrume os números do menor para o maior",
         enunciado: "<p>Clique em <strong>⇄</strong> para trocar dois vizinhos de lugar, até ficar em <strong>ordem crescente</strong>.</p>",
@@ -39,7 +39,7 @@ PORTAL.registrarAtividades("informatica-8ano-4bim-trilha", {
 
       { tipo: "pc", titulo: "Passo 5 · No computador: Bloco de Notas", programa: "Bloco de Notas",
         passos: ["Clique no botão <strong>Iniciar</strong> e digite <strong>bloco</strong>.", "Clique em <strong>Bloco de Notas</strong>.", "Digite os números em ordem: <strong>1 2 3 4</strong>"],
-        conferir: [{ rot: "Agora digite aqui os números que você escreveu no Bloco de Notas:", ph: "1 2 3 4", gab: "1 2 3 4", re: "^\\D*1\\D+2\\D+3\\D+4\\D*$", dica: "Do menor para o maior: 1, 2, 3, 4." }],
+        conferir: [{ rot: "Clique nos números que você digitou:", opcoes: ["4 3 2 1", "1 2 3 4", "2 4 1 3"], gab: "1 2 3 4", re: "^1 2 3 4$", dica: "Do menor para o maior: 1, 2, 3, 4." }],
         okMsg: "Muito bem! Os números estão em ordem crescente." }
     ],
     vf: [{ v: true }, { v: false, why: "Ordem crescente é do <strong>menor</strong> para o <strong>maior</strong>." }, { v: true }]
@@ -81,9 +81,8 @@ PORTAL.registrarAtividades("informatica-8ano-4bim-trilha", {
         explicacao: "O roteador espalha o Wi-Fi. A nuvem guarda a foto nos computadores do data center." },
 
       { tipo: "pc", titulo: "Passo 4 · No computador: desenhe no Paint", programa: "Paint",
-        passos: ["Clique no botão <strong>Iniciar</strong> e digite <strong>paint</strong>. Clique em <strong>Paint</strong>.", "Clique no <strong>retângulo</strong> ▭ e desenhe <strong>3 quadrados</strong>, um ao lado do outro.", "Clique no <strong>A</strong> (texto) e escreva: <strong>CELULAR</strong>, <strong>ROTEADOR</strong> e <strong>NUVEM</strong>.", "Deixe o desenho aberto na tela e responda abaixo."],
-        conferir: [{ rot: "Quantos quadrados você desenhou?", ph: "Número", gab: "3", re: "^\\s*(3|tr[eê]s)\\s*$", dica: "São <strong>3</strong> quadrados." },
-          { rot: "Que palavras você escreveu nos quadrados?", ph: "…", gab: "CELULAR, ROTEADOR e NUVEM", re: "celular[\\s\\S]*roteador[\\s\\S]*nuvem", dica: "Escreva as 3 palavras na ordem: CELULAR, ROTEADOR e NUVEM." }],
+        passos: ["Clique no botão <strong>Iniciar</strong> e digite <strong>paint</strong>. Clique em <strong>Paint</strong>.", "Clique no <strong>retângulo</strong> ▭ e desenhe <strong>3 quadrados</strong>, um ao lado do outro.", "Clique no <strong>balde</strong> 🪣, escolha uma <strong>cor bem bonita</strong> e clique dentro de cada quadrado para pintar.", "Deixe o desenho aberto na tela e responda abaixo."],
+        conferir: [{ rot: "Quantos quadrados você desenhou?", opcoes: ["2", "3", "4"], gab: "3", re: "^3$", dica: "São <strong>3</strong> quadrados: celular, roteador e nuvem." }],
         okMsg: "Desenho pronto! Ficou registrado para o professor." }
     ],
     vf: [{ v: true }, { v: false, why: "A nuvem é guardar no <strong>data center</strong>, pela internet." }, { v: true }]
@@ -131,8 +130,8 @@ PORTAL.registrarAtividades("informatica-8ano-4bim-trilha", {
         explicacao: "Três sinais de alerta: é melhor <strong>não compartilhar</strong>." },
 
       { tipo: "pc", titulo: "Passo 4 · No computador: Bloco de Notas", programa: "Bloco de Notas",
-        passos: ["Clique no botão <strong>Iniciar</strong> e digite <strong>bloco</strong>. Clique em <strong>Bloco de Notas</strong>.", "Digite a frase: <strong>Eu protejo meus dados</strong>"],
-        conferir: [{ rot: "Agora digite aqui a frase que você escreveu no Bloco de Notas:", ph: "Eu protejo meus dados", gab: "Eu protejo meus dados", re: "eu\\s+protejo\\s+(os\\s+)?meus\\s+dados", dica: "A frase é: Eu protejo meus dados." }],
+        passos: ["Clique no botão <strong>Iniciar</strong> e digite <strong>bloco</strong>. Clique em <strong>Bloco de Notas</strong>.", "Digite: <strong>MEUS DADOS</strong>"],
+        conferir: [{ rot: "Clique no que você digitou:", opcoes: ["MINHA CASA", "MEUS DADOS", "MEU JOGO"], gab: "MEUS DADOS", re: "^MEUS DADOS$", dica: "Você digitou: MEUS DADOS." }],
         okMsg: "Muito bem! Você protege os seus dados." }
     ],
     vf: [{ v: false, why: "A senha é segredo: não conte para ninguém." }, { v: true }, { v: true }]
@@ -144,7 +143,7 @@ PORTAL.registrarAtividades("informatica-8ano-4bim-trilha", {
       { tipo: "info", titulo: "Passo 1 · Confira as suas missões", html: "<p>Volte para a lista de missões. As missões prontas têm ✔. Se faltar alguma, faça o Básico dela.</p>" },
       { tipo: "escolha", titulo: "Passo 2 · Do que você mais gostou?",
         perguntas: [{ p: "Escolha a missão de que você mais gostou:", opcoes: ["🗂️ Listas", "☁️ Internet e nuvem", "🔍 Meus dados"], certo: -1 }],
-        explicacao: "Conte para o professor por que você gostou dessa missão!" }
+        explicacao: "Muito bem! Você terminou o projeto final. 🎉" }
     ]
   }
 });

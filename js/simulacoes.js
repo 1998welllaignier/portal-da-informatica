@@ -108,13 +108,14 @@
         let lo = 1, hi = max; st.chutes.forEach(x => { if (x < st.alvo) lo = Math.max(lo, x + 1); if (x > st.alvo) hi = Math.min(hi, x - 1); });
         c.innerHTML = `<div class="sim-adiv"><p>Pensei num número de <strong>1 a ${max}</strong>. Chute sempre o <strong>meio</strong> do que sobrou!</p>
           <div class="sim-faixa"><span>Pode ser de <strong>${lo}</strong> a <strong>${hi}</strong></span></div>
-          ${acertou ? "" : `<div class="ex-busca"><input type="number" min="1" max="${max}" id="chute" placeholder="Seu chute" inputmode="numeric"><button type="button" class="btn btn-ok" id="ch">Chutar</button></div>`}
+          ${acertou ? "" : at.botoes ? `<div class="sim-nums">${Array.from({ length: max }, (_, k) => k + 1).map(n => `<button type="button" class="sim-num" data-n="${n}" ${n < lo || n > hi || st.chutes.includes(n) ? "disabled" : ""}>${n}</button>`).join("")}</div>` : `<div class="ex-busca"><input type="number" min="1" max="${max}" id="chute" placeholder="Seu chute" inputmode="numeric"><button type="button" class="btn btn-ok" id="ch">Chutar</button></div>`}
           <ol class="sim-chutes">${st.chutes.map(x => `<li>${x} → ${x === st.alvo ? "🎉 acertou!" : x < st.alvo ? "⬆️ é maior" : "⬇️ é menor"}</li>`).join("")}</ol>
           ${acertou ? `<button type="button" class="btn btn-link" data-nov>↺ Jogar de novo</button>` : ""}</div>`;
         const inp = c.querySelector("#chute");
-        if (inp) { const go = () => { const x = parseInt(inp.value, 10); if (!(x >= 1 && x <= max)) return; st.chutes.push(x); ctx.salvar(); draw();
-          if (x === st.alvo && !st.status) { const n = st.chutes.length; ctx.concluir("certo", n <= (at.meta || 7) ? `Acertou em ${n} chutes. Isso é busca binária! 🚀` : `Acertou em ${n} chutes. Dica: chutando sempre o meio, dá para acertar em até ${at.meta || 7}.`); } };
-          c.querySelector("#ch").onclick = go; inp.onkeydown = e => { if (e.key === "Enter") go(); }; }
+        c.querySelectorAll("[data-n]").forEach(b => b.onclick = () => chutar(+b.dataset.n));
+        if (inp) { const go = () => chutar(parseInt(inp.value, 10)); c.querySelector("#ch").onclick = go; inp.onkeydown = e => { if (e.key === "Enter") go(); }; }
+        function chutar(x) { if (!(x >= 1 && x <= max)) return; st.chutes.push(x); ctx.salvar(); draw();
+          if (x === st.alvo && !st.status) { const n = st.chutes.length; ctx.concluir("certo", n <= (at.meta || 7) ? `Acertou em ${n} chutes. Isso é busca binária! 🚀` : `Acertou em ${n} chutes. Dica: chutando sempre o meio, dá para acertar em até ${at.meta || 7}.`); } }
         const nv = c.querySelector("[data-nov]"); if (nv) nv.onclick = () => { st.alvo = 0; T.sim_adivinhe.render(c, at, ctx); };
       };
       draw();

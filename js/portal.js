@@ -49,29 +49,6 @@
   }
   P.toast = toast;
 
-  /* ---------------- ouvir (leitura em voz alta, voz do próprio Windows) ---------------- */
-  const vozOk = "speechSynthesis" in window && "SpeechSynthesisUtterance" in window;
-  function falar(texto) {
-    if (!vozOk) return;
-    const sy = window.speechSynthesis; sy.cancel();
-    const limpo = String(texto).replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\u{FE0F}]/gu, " ").replace(/\s+/g, " ").trim();
-    if (!limpo) return;
-    const u = new SpeechSynthesisUtterance(limpo);
-    u.lang = "pt-BR"; u.rate = 0.85;
-    const v = sy.getVoices().find(x => /^pt(-|_)BR/i.test(x.lang)) || sy.getVoices().find(x => /^pt/i.test(x.lang));
-    if (v) u.voice = v;
-    sy.speak(u);
-  }
-  function calar() { if (vozOk) try { window.speechSynthesis.cancel(); } catch (e) {} }
-  // texto visível de um trecho, sem os desenhos
-  function textoDe(el) { const c = el.cloneNode(true); c.querySelectorAll("svg, figure, .btn-ouvir, button.seta, .marca").forEach(x => x.remove()); return c.textContent; }
-  function botaoOuvir(rotulo, pegarTexto) {
-    const b = h(`<button type="button" class="btn-ouvir">🔊 ${esc(rotulo)}</button>`);
-    b.onclick = () => falar(pegarTexto());
-    return b;
-  }
-  P.falar = falar;
-
   /* ---------------- catálogo ---------------- */
   const cat = () => P.catalogo;
   const serie = id => cat().series.find(s => s.id === id);
@@ -526,16 +503,6 @@
       else if (corpo.querySelector(".atv")) colocarFiguras(corpo, figs, [...corpo.querySelectorAll(".atv")], "cartao");
       else colocarFiguras(corpo, figs, [], "bloco");
     }
-    if (a.trilha && vozOk) {
-      const cab = el.querySelector(".pag-cab");
-      cab.appendChild(botaoOuvir("Ouvir esta página", () => textoDe(cab) + ". " + (pg.tipo === "leitura" || pg.id === "resumo" ? textoDe(corpo) : "")));
-      corpo.querySelectorAll(".atv").forEach(sec => {
-        const alvo = sec.querySelector(".atv-cab");
-        const enun = sec.querySelector(".atv-enun");
-        const passos = sec.querySelector(".pc-passos");
-        alvo && alvo.appendChild(botaoOuvir("Ouvir", () => [textoDe(sec.querySelector("h2")), enun ? textoDe(enun) : "", passos ? textoDe(passos) : ""].join(". ")));
-      });
-    }
     function bannerNivel(x) {
       const tem = id => pages.some(p => p.id === id);
       const fez = k => x[k][1] > 0 && x[k][0] === x[k][1];
@@ -896,7 +863,7 @@
   }
   async function rota() {
     const hs = (location.hash || "#/").slice(1).split("/").filter(Boolean);
-    calar(); modoTrilha(null);
+    modoTrilha(null);
     try {
       if (!hs.length) return telaInicio();
       const [r, a1, a2, a3] = hs;

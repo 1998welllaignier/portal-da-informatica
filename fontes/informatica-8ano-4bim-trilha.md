@@ -11,9 +11,9 @@ Neste bimestre você vai cumprir **3 missões** e um **projeto final**. São as 
 
 **Como funciona a Trilha Passo a Passo:**
 - 👣 Faça **um passo de cada vez**.
-- 🔊 Clique em **Ouvir** para o computador ler o texto para você.
 - 🖱️ Quase tudo é feito **clicando**.
 - ✅ Clique em **Verificar** quando terminar cada atividade.
+- ⏸️ Cansou? Pode parar e descansar um pouco. Tudo fica salvo.
 - 🎉 No fim do Básico aparece a faixa **✅ Básico concluído**. Tudo fica registrado sozinho para o professor.
 
 **Regra importante:** quem conclui o Básico (aparece a faixa verde **✅ Básico concluído**) já pode seguir para o Desafio ou ficar com os jogos livres no final da aula. 🎮
