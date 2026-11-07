@@ -9,6 +9,12 @@
 - [ ] Atividades só no dia e na hora da aula da turma (conferido pela hora do servidor, nas regras do Firebase), com tolerância antes e depois; o professor pode liberar fora do horário pelo painel: a turma toda por um tempo escolhido, só um aluno (reposição, recuperação, aluno que estuda em casa), e fechar antes da hora. **Decidido:** os textos de estudo (Para começar, O que significa?, Onde eu uso isso?, Resumo) ficam sempre abertos, inclusive em casa; só as tarefas ficam presas ao horário.
 - [ ] Aluno que frequenta a aula de **outra turma** (curso, karatê, natação…): no painel, marcar "frequenta a aula da turma X". O horário dessa turma libera as tarefas dele; a presença e as notas continuam na turma dele; ele segue a própria apostila.
 
+### Alunos atípicos (🧩) — também na quinta
+- [ ] Descobrir **quem frequenta**: relatório "🧩 atípicos que frequentam" no painel (entradas no portal + chamadas do diário). Material só para os frequentes.
+- [ ] Para cada aluno frequente: ler o PEI e escolher um de 3 caminhos — **A)** apostila da turma com apoios (🔊 ouvir, roteiro da aula antecipado, menos itens); **B)** Trilha Passo a Passo da série (👣); **C)** material individual, só quando A e B não servem.
+- [ ] Rever a Trilha do 8º ano com o PEI da aluna para quem ela foi feita.
+- [ ] Acompanhar a frequência deles toda semana; quem começar a vir entra na análise.
+
 ## 2. Fim do 4º bimestre de 2026
 - [ ] Prova no próprio portal ("modo prova": sem dicas, uma tentativa, questões embaralhadas, liberada e encerrada pelo painel, nota direto no boletim), no lugar do Wayground.
 - [ ] Recuperação: liberar a prova de novo só para quem precisa.
