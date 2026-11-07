@@ -12,7 +12,8 @@
 ### Alunos atípicos (🧩) — também na quinta
 - [ ] Descobrir **quem frequenta**: relatório "🧩 atípicos que frequentam" no painel (entradas no portal + chamadas do diário). Material só para os frequentes.
 - [ ] Para cada aluno frequente: ler o PEI e escolher um de 3 caminhos — **A)** apostila da turma com apoios (🔊 ouvir, roteiro da aula antecipado, menos itens); **B)** Trilha Passo a Passo da série (👣); **C)** material individual, só quando A e B não servem.
-- [ ] Rever a Trilha do 8º ano com o PEI da aluna para quem ela foi feita.
+- [x] Rever a Trilha do 8º ano com o PEI da aluna para quem ela foi feita (feito em 07/11: jogo com botões de 1 a 10, conferência por clique, Paint só com quadrados coloridos, sem o botão Ouvir, porque a sala não tem som).
+- [ ] **Marcações no painel, feitas pelo Claude** (o professor deixa o painel aberto e logado no computador de casa; o Claude entra e faz): marcar 🧩 em todos os alunos com PEI (lista conferida em 07/11, guardada fora do repositório) e 👣 Trilha Passo a Passo na aluna do 8º B; depois conferir na tabela de cada turma se ficou tudo certo.
 - [ ] Acompanhar a frequência deles toda semana; quem começar a vir entra na análise.
 
 ## 2. Fim do 4º bimestre de 2026
