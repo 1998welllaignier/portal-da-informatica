@@ -11,3 +11,4 @@ Piloto do 4º bimestre · 5º ao 9º ano.
 - **Nenhum nome de aluno fica neste repositório**: os cadastros ficam só no banco de dados.
 - Sem internet, o portal volta ao modo antigo (nome digitado, progresso só no navegador).
 - Documentação: pasta `docs/`.
+- **Vai mexer no projeto (pessoa ou IA)?** Leia antes o `AGENTS.md`.
