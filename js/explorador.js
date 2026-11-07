@@ -74,6 +74,7 @@
     const el = document.getElementById("topbar");
     const e = escola(s ? s.escola : "") || {};
     el.innerHTML = `<a class="brand" href="#/explorar/${s ? esc(s.escola) : ""}"><span class="brand-txt">🧭 Modo Explorador</span><span class="brand-prof">${esc(e.nome || "Portal da Informática")}</span></a>
+      ${s ? "" : `<a class="tb-home" href="https://professorwell.com.br/">🏠 Página inicial</a>`}
       ${s ? `<div class="sessao"><span class="quem"><span class="ex-bicho">${bichoDe(s.inicial)}</span> ${esc(s.nome)}</span><button type="button" class="btn btn-sec btn-peq" id="ex-sair">Sair</button></div>` : ""}`;
     const b = el.querySelector("#ex-sair");
     if (b) b.onclick = async () => { sess.del(); try { await N.auth().signOut(); } catch (e) {} ir("#/explorar/" + s.escola); };

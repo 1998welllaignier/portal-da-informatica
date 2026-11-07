@@ -202,7 +202,7 @@
     const s = sess.get();
     const el = document.getElementById("topbar");
     const marca = `<span class="brand-txt">💻 ${esc(cat().portal)}</span><span class="brand-prof">${esc(cat().professor)}</span>`;
-    if (!s) { el.innerHTML = `<a class="brand" href="#/">${marca}</a>`; return; }
+    if (!s) { el.innerHTML = `<a class="brand" href="#/">${marca}</a><a class="tb-home" href="https://professorwell.com.br/">🏠 Página inicial</a>`; return; }
     const t = turma(s.turma);
     const apel = (s.apelidos || []).filter(Boolean);
     el.innerHTML = `<a class="brand" href="#/apostilas">${marca}</a>
@@ -223,7 +223,7 @@
   }
 
   function rodape() {
-    document.getElementById("rodape").innerHTML = `<strong>${esc(cat().portal)}</strong> · <strong>${esc(cat().professor)}</strong> · <span>${esc(cat().escola)} — ${esc(cat().cidade)}</span> ·
+    document.getElementById("rodape").innerHTML = `<a href="https://professorwell.com.br/">🏠 Página inicial</a> · <strong>${esc(cat().portal)}</strong> · <strong>${esc(cat().professor)}</strong> · <span>${esc(cat().escola)} — ${esc(cat().cidade)}</span> ·
       <a href="#/sobre">Privacidade e progresso</a> · <a href="#/professor">Área do professor</a> · <a href="#/painel">Painel do professor</a>`;
   }
 
