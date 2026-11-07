@@ -177,8 +177,8 @@
       if (!serie) return fail("Escolha a sua série.");
       if (!bicho) return fail("Escolha o seu bichinho secreto.");
       if (!nuvemOk()) return fail("Sem internet agora. Tente de novo daqui a pouco.");
-      const cap = s => s.split(" ").map(w => w.length > 2 || /^(da|de|do|das|dos|e)$/i.test(w) === false ? w.charAt(0).toUpperCase() + w.slice(1).toLowerCase() : w.toLowerCase()).join(" ");
-      const curto = cap(nome.split(" ")[0]) + " " + cap(sob).charAt(0) + ".";
+      const cap = (t, sob) => t.trim().replace(/\s+/g, " ").split(" ").map((w, i) => (i > 0 || sob) && /^(da|de|do|das|dos|e)$/i.test(w) ? w.toLowerCase() : w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(" ");
+      const sobC = cap(sob, true), curto = cap(nome.split(" ")[0]) + " " + (sobC.split(" ").find(w => !/^(da|de|do|das|dos|e)$/.test(w)) || sobC).charAt(0) + ".";
       $("#c-ok").disabled = true;
       try {
         const u = await anonimo();
@@ -189,7 +189,7 @@
         const b = db().batch();
         b.set(db().collection("exp_segredos").doc(id), { bicho });
         b.set(db().collection("exp_alunos").doc(id), { escola: escId, nome: curto, apelido: apel, serie, inicial: ini, criadoEm: N.FV.serverTimestamp() });
-        b.set(db().collection("exp_privado").doc(id), { escola: escId, nomeCompleto: cap(nome) + " " + sob, apelido: apel, serie });
+        b.set(db().collection("exp_privado").doc(id), { escola: escId, nomeCompleto: cap(nome) + " " + cap(sob, true), primeiro: cap(nome), sobrenome: cap(sob, true), apelido: apel, serie });
         b.set(db().collection("exp_sessoes").doc(u.uid), { alunoId: id, escola: escId, bicho, criadoEm: N.FV.serverTimestamp() });
         await b.commit();
         const s = { alunoId: id, escola: escId, nome: curto, apelido: apel, serie, inicial: ini };
@@ -419,7 +419,7 @@
     const el = mount(`<section class="tela ex ex-painel"><header class="ex-hero"><p class="ex-escola">🏫 ${esc(e.nome)}</p><h1>🧭 Painel do Explorador</h1>
         <p>${esc(u.email)} · <button type="button" class="btn btn-link" id="sair">Sair</button></p></header>
       <div class="painel"><div class="ex-resumo" id="resumo">Carregando…</div></div>
-      <div class="painel"><h2>Alunos</h2><input type="search" id="q" placeholder="🔎 Procurar aluno" class="ex-q-prof"><div id="tab" class="ex-tab-wrap"></div></div></section>`);
+      <div class="painel"><div class="ex-tit-linha"><h2>Alunos</h2><button type="button" class="btn btn-ok" id="add">➕ Cadastrar aluno</button></div><input type="search" id="q" placeholder="🔎 Procurar aluno" class="ex-q-prof"><div id="tab" class="ex-tab-wrap"></div></div></section>`);
     el.querySelector("#sair").onclick = async () => { await a.signOut(); telaPainel(mount); };
     let alunos = [], priv = {}, progs = [];
     try {
@@ -452,9 +452,11 @@
           <td>${Object.keys(r.dias).sort().map(fmt).join(" · ") || "—"}</td>
           <td>${r.mis.sort((x, y) => (x.dia || "").localeCompare(y.dia || "")).map(m => `${mNome(m.id)} <small>(${fmt(m.dia)})</small>`).join("<br>") || "—"}</td>
           <td>${Object.keys(r.raio).length || ""}</td>
-          <td><button type="button" class="btn btn-link btn-peq" data-reset="${esc(r.a.id)}" title="Se o aluno esqueceu o bichinho">🔄 Bichinho</button></td></tr>`; }).join("")}</tbody></table>`
+          <td class="ex-acoes"><button type="button" class="btn btn-link btn-peq" data-edit="${esc(r.a.id)}">✏️ Editar</button><button type="button" class="btn btn-link btn-peq" data-reset="${esc(r.a.id)}" title="Se o aluno esqueceu o bichinho">🔄 Bichinho</button><button type="button" class="btn btn-link btn-peq" data-del="${esc(r.a.id)}">🗑️ Remover</button></td></tr>`; }).join("")}</tbody></table>`
         : `<p class="ajuda">Nenhum aluno ainda. Os alunos se cadastram sozinhos no primeiro acesso, pelo link do Modo Explorador.</p>`;
       tab.querySelectorAll("[data-reset]").forEach(b => b.onclick = () => trocarBicho(b.dataset.reset));
+      tab.querySelectorAll("[data-edit]").forEach(b => b.onclick = () => formAluno(b.dataset.edit));
+      tab.querySelectorAll("[data-del]").forEach(b => b.onclick = () => removerAluno(b.dataset.del));
     };
     const trocarBicho = id => {
       const r = por[id]; const box = h(`<div class="ex-modal"><div class="painel"><h2>Novo bichinho para ${esc(r.a.nome)}</h2><p>Escolha junto com o aluno:</p>${gradeBichos()}<button type="button" class="btn btn-link" data-x>Cancelar</button></div></div>`);
@@ -466,6 +468,71 @@
         box.remove();
       });
     };
+    const capN = (t, sob) => t.trim().replace(/\s+/g, " ").split(" ").map((w, i) => (i > 0 || sob) && /^(da|de|do|das|dos|e)$/i.test(w) ? w.toLowerCase() : w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(" ");
+    const formAluno = id => {
+      const r = id ? por[id] : null, pv = id ? (priv[id] || {}) : {};
+      const partes = (pv.nomeCompleto || "").split(" ");
+      const pNome = pv.primeiro || partes[0] || "", pSob = pv.sobrenome || partes.slice(1).join(" ");
+      const box = h(`<div class="ex-modal"><div class="painel ex-cad"><h2>${r ? "✏️ Editar aluno" : "➕ Cadastrar aluno"}</h2>
+        <label>Primeiro nome<input id="f-n" maxlength="30" value="${esc(pNome)}"></label>
+        <label>Sobrenome<input id="f-s" maxlength="40" value="${esc(pSob)}"></label>
+        <label>Apelido<input id="f-a" maxlength="20" value="${esc(r ? (r.a.apelido || "") : "")}"></label>
+        <label>Série<select id="f-se">${(e.series || []).map(x => `<option ${r && r.a.serie === x ? "selected" : ""}>${esc(x)}</option>`).join("")}</select></label>
+        ${r ? "" : `<h3>Bichinho secreto (escolha junto com o aluno)</h3>${gradeBichos()}`}
+        <p class="erro" id="f-e" hidden></p>
+        <div class="row-btns"><button type="button" class="btn btn-ok" id="f-ok">Salvar</button><button type="button" class="btn btn-link" data-x>Cancelar</button></div></div></div>`);
+      document.body.appendChild(box);
+      let bicho = null;
+      box.querySelectorAll(".ex-bicho-btn").forEach(b => b.onclick = () => { bicho = b.dataset.b; box.querySelectorAll(".ex-bicho-btn").forEach(x => x.classList.toggle("sel", x === b)); });
+      box.querySelector("[data-x]").onclick = () => box.remove();
+      box.querySelector("#f-ok").onclick = async () => {
+        const n = capN(box.querySelector("#f-n").value), so = capN(box.querySelector("#f-s").value, true), ap = box.querySelector("#f-a").value.trim(), se = box.querySelector("#f-se").value;
+        const er = box.querySelector("#f-e"); const fail = m => { er.textContent = m; er.hidden = false; };
+        if (n.length < 2 || so.length < 2) return fail("Preencha o primeiro nome e o sobrenome.");
+        if (!r && !bicho) return fail("Escolha o bichinho secreto junto com o aluno.");
+        const curto = n.split(" ")[0] + " " + (so.split(" ").find(w => !/^(da|de|do|das|dos|e)$/.test(w)) || so).charAt(0) + ".", ini = inicialDe(n);
+        try {
+          if (r) {
+            const bt = db().batch();
+            bt.update(db().collection("exp_alunos").doc(id), { nome: curto, apelido: ap, serie: se, inicial: ini });
+            bt.set(db().collection("exp_privado").doc(id), { escola: escId, nomeCompleto: n + " " + so, primeiro: n, sobrenome: so, apelido: ap, serie: se });
+            await bt.commit();
+            Object.assign(r.a, { nome: curto, apelido: ap, serie: se, inicial: ini }); priv[id] = { escola: escId, nomeCompleto: n + " " + so, primeiro: n, sobrenome: so, apelido: ap, serie: se };
+            P.toast("Aluno atualizado!");
+          } else {
+            const nid = novoId(), bt = db().batch();
+            bt.set(db().collection("exp_segredos").doc(nid), { bicho });
+            bt.set(db().collection("exp_alunos").doc(nid), { escola: escId, nome: curto, apelido: ap, serie: se, inicial: ini, criadoEm: N.FV.serverTimestamp() });
+            bt.set(db().collection("exp_privado").doc(nid), { escola: escId, nomeCompleto: n + " " + so, primeiro: n, sobrenome: so, apelido: ap, serie: se });
+            await bt.commit();
+            const a2 = { id: nid, escola: escId, nome: curto, apelido: ap, serie: se, inicial: ini };
+            alunos.push(a2); por[nid] = { a: a2, dias: {}, mis: [], raio: {} }; priv[nid] = { nomeCompleto: n + " " + so, primeiro: n, sobrenome: so };
+            P.toast("Aluno cadastrado! Bichinho secreto: " + (SECRETOS.find(x => x[0] === bicho) || ["", ""])[1] + ".");
+          }
+          box.remove(); draw();
+        } catch (err) { fail("Não deu para salvar: " + err.message); }
+      };
+    };
+    const removerAluno = id => {
+      const r = por[id];
+      const box = h(`<div class="ex-modal"><div class="painel"><h2>Remover ${esc((priv[id] || {}).nomeCompleto || r.a.nome)}?</h2><p>O aluno some da lista e o histórico dele é apagado. Isso não pode ser desfeito.</p>
+        <div class="row-btns"><button type="button" class="btn btn-perigo" id="d-ok">🗑️ Remover</button><button type="button" class="btn btn-link" data-x>Cancelar</button></div></div></div>`);
+      document.body.appendChild(box);
+      box.querySelector("[data-x]").onclick = () => box.remove();
+      box.querySelector("#d-ok").onclick = async () => {
+        try {
+          const bt = db().batch();
+          progs.filter(p => p.alunoId === id).forEach(p => bt.delete(db().collection("exp_progresso").doc(id + "_" + (p.missao === "_visitas" ? "visitas" : p.missao === "_raio" ? "_raio" : p.missao))));
+          bt.delete(db().collection("exp_privado").doc(id));
+          bt.delete(db().collection("exp_segredos").doc(id));
+          bt.delete(db().collection("exp_alunos").doc(id));
+          await bt.commit();
+          delete por[id]; alunos = alunos.filter(x => x.id !== id); progs = progs.filter(p => p.alunoId !== id);
+          P.toast("Aluno removido."); box.remove(); draw();
+        } catch (err) { P.toast("Não deu para remover: " + err.message); }
+      };
+    };
+    el.querySelector("#add").onclick = () => formAluno(null);
     q.oninput = draw; draw();
     if (souWel) {
       const box = h(`<div class="painel"><h2>👨‍🏫 Professores com acesso a esta escola</h2><div id="profs" class="ajuda">Carregando…</div>

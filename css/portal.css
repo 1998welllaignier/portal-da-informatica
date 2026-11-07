@@ -784,3 +784,7 @@ body.modo-trilha { font-size: 21px; line-height: 1.65; }
 @media (max-width:600px){.ex-grade-bichos{gap:8px}.ex-bicho-btn span{font-size:38px}.ex-janela{left:5%;width:90%}}
 
 #topbar .sessao{margin-left:auto}
+.ex-tit-linha{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.ex-acoes{white-space:nowrap}
+.ex-modal .ex-cad{max-height:90vh;overflow:auto;text-align:left}
+.btn-perigo{background:#dc2626;color:#fff;border:0}
