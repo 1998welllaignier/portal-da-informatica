@@ -5,6 +5,7 @@
 - [ ] Transferir tudo do diário atual, conferindo os nomes dos alunos.
 - [ ] Lançar os relatórios da semana guardados no painel.
 - [ ] Testar com uma turma antes de liberar para todas.
+- [ ] Botão "Missão de hoje": o professor escolhe no painel e ela aparece grande para os alunos logo depois do código.
 
 ## 2. Fim do 4º bimestre de 2026
 - [ ] Prova no próprio portal ("modo prova": sem dicas, uma tentativa, questões embaralhadas, liberada e encerrada pelo painel, nota direto no boletim), no lugar do Wayground.
