@@ -8,6 +8,15 @@ PORTAL.registrarAtividades("informatica-8ano-4bim-trilha", {
 
   /* ======================= MISSÃO 1 ======================= */
   m1: {
+    pratica: [
+      { tipo: "adivinhe", titulo: "Jogo: adivinhe o número", max: 50, meta: 6,
+        enunciado: "<p>Pensei num número de <strong>1 a 50</strong>. Comece chutando <strong>25</strong> (o meio). Eu digo se é maior ou menor.</p>",
+        explicacao: "Chutar o meio sempre é a <strong>busca binária</strong>: muito mais rápido que tentar 1, 2, 3…" },
+      { tipo: "bolha", titulo: "Arrume os números do menor para o maior",
+        enunciado: "<p>Clique em <strong>⇄</strong> para trocar dois vizinhos de lugar, até ficar em <strong>ordem crescente</strong>.</p>",
+        valores: [9, 2, 6, 4],
+        explicacao: "Trocar vizinhos até ficar em ordem é o <strong>método da bolha</strong>." }
+    ],
     basico: [
       { tipo: "sequencial", titulo: "Passo 1 · Procure o 9 olhando um por um",
         lista: [5, 8, 2, 9, 4], alvo: 9,
@@ -38,6 +47,18 @@ PORTAL.registrarAtividades("informatica-8ano-4bim-trilha", {
 
   /* ======================= MISSÃO 2 ======================= */
   m2: {
+    pratica: [
+      { tipo: "rota", titulo: "O caminho do vídeo até o seu celular",
+        enunciado: "<p>Clique nas etapas <strong>na ordem</strong>: de onde o vídeo está guardado até a sua tela.</p>",
+        etapas: [
+          { ic: "🏭", t: "Data center", dica: "Comece de onde o vídeo está guardado." },
+          { ic: "🌊", t: "Cabo submarino" },
+          { ic: "🏢", t: "Provedor de internet" },
+          { ic: "📶", t: "Roteador Wi-Fi" },
+          { ic: "📱", t: "Seu celular", dica: "Essa é a última etapa." }],
+        okMsg: "Isso! O vídeo viaja por cabos até chegar em você.",
+        explicacao: "A <strong>nuvem</strong> são computadores em <strong>data centers</strong>, ligados por cabos." }
+    ],
     basico: [
       { tipo: "ordenar", titulo: "Passo 1 · Arrume o caminho do vídeo",
         itens: ["📱 Celular", "📶 Roteador (caixinha do Wi-Fi)", "🏢 Provedor (empresa da internet)", "🌊 Cabos no fundo do mar", "🏭 Data center"],
@@ -67,6 +88,16 @@ PORTAL.registrarAtividades("informatica-8ano-4bim-trilha", {
 
   /* ======================= MISSÃO 3 ======================= */
   m3: {
+    pratica: [
+      { tipo: "permissoes", titulo: "Permitir ou negar?",
+        enunciado: "<p>O aplicativo <strong>precisa mesmo</strong> disso para funcionar?</p>",
+        itens: [
+          { ic: "🔦", app: "Lanterna", pede: "seus contatos", c: "N", why: "Lanterna só precisa do flash." },
+          { ic: "🗺️", app: "Mapas", pede: "sua localização", c: "S", why: "O mapa precisa saber onde você está." },
+          { ic: "🃏", app: "Jogo de cartas", pede: "o microfone", c: "N" },
+          { ic: "📷", app: "Câmera", pede: "a câmera", c: "S" }],
+        explicacao: "Só permita o que o aplicativo <strong>precisa</strong>. Seus dados são seus!" }
+    ],
     basico: [
       { tipo: "classificar", titulo: "Passo 1 · Guardo comigo ou posso mostrar?",
         categorias: [{ id: "G", rot: "Guardo comigo", ic: "🔒", desc: "é meu dado pessoal" }, { id: "P", rot: "Posso mostrar", ic: "👍", desc: "não mostra quem eu sou" }],

@@ -788,3 +788,68 @@ body.modo-trilha { font-size: 21px; line-height: 1.65; }
 .ex-acoes{white-space:nowrap}
 .ex-modal .ex-cad{max-height:90vh;overflow:auto;text-align:left}
 .btn-perigo{background:#dc2626;color:#fff;border:0}
+
+/* ============ SIMULAÇÕES "Mão na massa" ============ */
+.sim-cel { max-width: 440px; margin: 0 auto; border: 10px solid #1d2233; border-radius: 26px; background: #ece5dd; overflow: hidden; box-shadow: var(--sombra); }
+.sim-cel-top { background: #075e54; color: #fff; font-weight: 800; padding: 10px 14px; }
+.sim-cel-msgs { padding: 12px; display: flex; flex-direction: column; gap: 10px; }
+.sim-msg { background: #fff; border-radius: 4px 14px 14px 14px; padding: 10px 12px; box-shadow: 0 1px 2px rgba(0,0,0,.15); border-left: 4px solid transparent; }
+.sim-msg.ok { border-left-color: #16a34a; background: #f0fdf4; }
+.sim-msg.erro { border-left-color: #dc2626; }
+.sim-de { font-size: .85rem; font-weight: 800; color: #0f766e; }
+.sim-txt { margin: 2px 0 6px; font-size: 1.05rem; word-break: break-word; }
+.sim-fb { font-size: .92rem; margin-bottom: 6px; }
+.sim-bts { display: flex; gap: 8px; flex-wrap: wrap; }
+.sim-bts button, .sim-et, .sim-roleta button, .sim-troca, .sim-int { font: inherit; cursor: pointer; border: 2px solid #cbd5e1; background: #fff; border-radius: 12px; padding: 8px 12px; font-weight: 700; }
+.sim-bts button:hover, .sim-et:hover, .sim-troca:hover { border-color: var(--cor); background: #eff6ff; }
+.sim-legenda { text-align: center; margin: 10px 0 0; }
+.sim-cesar { text-align: center; }
+.sim-cesar-msg { font-size: 1.15rem; letter-spacing: .08em; }
+.sim-roleta { display: inline-flex; align-items: center; gap: 14px; font-size: 1.2rem; margin: 6px 0; }
+.sim-roleta button { font-size: 1.3rem; padding: 6px 16px; }
+.sim-fitas { overflow-x: auto; margin: 8px auto; max-width: 100%; }
+.sim-fitas div { display: flex; justify-content: center; min-width: max-content; }
+.sim-fitas span { width: 22px; text-align: center; font-family: ui-monospace, monospace; font-weight: 700; padding: 2px 0; border: 1px solid #e2e8f0; }
+.sim-fitas .cif span { background: #fef3c7; }
+.sim-cesar-res { font-size: 1.3rem; letter-spacing: .08em; padding: 10px; border-radius: 12px; background: #f1f5f9; }
+.sim-cesar-res.ok { background: #dcfce7; }
+.sim-grafo svg { width: 100%; max-width: 560px; display: block; margin: 0 auto; }
+.sim-grafo line { stroke: #94a3b8; stroke-width: 4; }
+.sim-grafo line.cam { stroke: #f59e0b; stroke-width: 8; }
+.sim-grafo .peso { font-size: 15px; font-weight: 900; fill: #1d2233; text-anchor: middle; paint-order: stroke; stroke: #fff; stroke-width: 4px; }
+.sim-grafo .v { cursor: pointer; }
+.sim-grafo .v circle { fill: #fff; stroke: #64748b; stroke-width: 3; }
+.sim-grafo .v.pode circle { stroke: var(--cor); stroke-dasharray: 5 3; }
+.sim-grafo .v.no circle { fill: #fef3c7; stroke: #f59e0b; }
+.sim-grafo .v.ult circle { stroke-width: 5; }
+.sim-grafo .ic { font-size: 22px; text-anchor: middle; }
+.sim-grafo .nm { font-size: 13px; font-weight: 800; text-anchor: middle; fill: #1d2233; }
+.sim-cartas { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 6px; }
+.sim-carta { min-width: 64px; padding: 14px 10px; text-align: center; font-weight: 900; font-size: 1.15rem; background: #fff; border: 3px solid var(--cor); border-radius: 12px; box-shadow: var(--sombra); }
+.sim-troca { padding: 6px 8px; }
+.sim-adiv { text-align: center; }
+.sim-faixa { font-size: 1.2rem; padding: 10px; background: #eff6ff; border-radius: 12px; margin: 8px 0; }
+.sim-chutes { text-align: left; max-width: 280px; margin: 10px auto; }
+.sim-senha input { width: 100%; font-size: 1.2rem; padding: 10px; border: 2px solid #cbd5e1; border-radius: 12px; }
+.aviso-senha { background: #fef3c7; padding: 8px 12px; border-radius: 10px; }
+.sim-medidor { height: 16px; background: #e2e8f0; border-radius: 99px; overflow: hidden; margin: 10px 0 4px; }
+.sim-medidor span { display: block; height: 100%; width: 0; transition: width .25s, background .25s; }
+.sim-forca { font-weight: 800; min-height: 1.3em; }
+.sim-reqs { list-style: none; padding: 0; columns: 2; }
+.sim-reqs li.ok { color: #15803d; font-weight: 700; }
+@media (max-width: 560px) { .sim-reqs { columns: 1; } }
+.sim-lamp { text-align: center; }
+.sim-fase { font-size: 1.05rem; }
+.sim-circ { display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap; margin: 14px 0; }
+.sim-int { min-width: 92px; padding: 12px; background: #f1f5f9; }
+.sim-int.on { background: #22c55e; border-color: #15803d; color: #fff; }
+.sim-op { font-weight: 900; font-size: 1.2rem; color: var(--cor); }
+.sim-seta { font-size: 1.4rem; color: #64748b; }
+.sim-bulbo { font-size: 3rem; filter: grayscale(1) opacity(.35); transition: filter .2s; }
+.sim-bulbo.acesa { filter: drop-shadow(0 0 14px #facc15); }
+.sim-rota .sim-trilha { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; min-height: 52px; padding: 10px; background: #f8fafc; border: 2px dashed #cbd5e1; border-radius: 14px; }
+.sim-pass { background: #dcfce7; border: 2px solid #16a34a; border-radius: 10px; padding: 6px 10px; font-weight: 700; }
+.sim-vaz { border: 2px dashed #94a3b8; border-radius: 10px; padding: 6px 16px; color: #64748b; }
+.sim-opcoes { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.sim-et.errou { animation: treme .4s; border-color: #dc2626; }
+@keyframes treme { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }

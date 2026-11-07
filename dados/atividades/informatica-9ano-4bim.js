@@ -24,6 +24,16 @@
 
     /* ======================= MISSÃO 1 ======================= */
     m1: {
+      pratica: [
+        { tipo: "grafo", titulo: "Ache o caminho mais curto até a escola",
+        enunciado: "<p>Cada número na rua é o tempo em <strong>minutos a pé</strong> (o <strong>peso</strong> da aresta). Saindo de <strong>Casa</strong>, clique nos lugares, um vizinho por vez, até chegar na <strong>Escola</strong> com a <strong>menor soma</strong>. Depois clique em <strong>Verificar</strong>.</p>",
+        vertices: { casa: { nome: "Casa", ic: "🏠", x: 45, y: 120 }, mercado: { nome: "Mercado", ic: "🛒", x: 160, y: 45 }, igreja: { nome: "Igreja", ic: "⛪", x: 160, y: 195 },
+          campo: { nome: "Campo", ic: "⚽", x: 270, y: 45 }, praca: { nome: "Praça", ic: "🌳", x: 270, y: 195 }, escola: { nome: "Escola", ic: "🏫", x: 360, y: 120 } },
+        arestas: [["casa", "mercado", 4], ["casa", "igreja", 2], ["mercado", "igreja", 1], ["mercado", "campo", 3], ["campo", "escola", 3], ["igreja", "praca", 3], ["praca", "escola", 2]],
+        inicio: "casa", fim: "escola", menor: 7, solucao: ["casa", "igreja", "praca", "escola"], unidade: "min",
+        dicas: ["Nem sempre o caminho que parece mais reto é o mais rápido. Some os pesos!", "Experimente passar pela Igreja."],
+        explicacao: "Caminho mais curto: Casa → Igreja → Praça → Escola = 2 + 3 + 2 = <strong>7 min</strong>. Aplicativos de mapa fazem essa conta com milhões de vértices!" }
+      ],
       basico: [
         { tipo: "info", titulo: "O grafo do bairro (pesos em minutos de caminhada)",
           html: `<div class="tabela-wrap"><table><thead><tr><th>Aresta (ligação)</th><th>Peso (minutos)</th></tr></thead><tbody>
@@ -111,6 +121,16 @@
 
     /* ======================= MISSÃO 2 ======================= */
     m2: {
+      pratica: [
+        { tipo: "cesar", titulo: "Decifre a mensagem: Cifra de César",
+        enunciado: "<p>Júlio César trocava cada letra pela que está <strong>3 casas</strong> à frente no alfabeto. Gire a <strong>chave</strong> com as setas até a mensagem fazer sentido.</p>",
+        cifrada: "VHJUHGR JXDUGDGR", resposta: "SEGREDO GUARDADO",
+        explicacao: "A <strong>chave</strong> é o número de casas. Quem não sabe a chave vê só letras sem sentido." },
+      { tipo: "cesar", titulo: "Desafio: agora ninguém contou a chave!",
+        enunciado: "<p>Teste chave por chave até achar a mensagem. Testar todas as possibilidades tem nome: <strong>ataque de força bruta</strong>.</p>",
+        cifrada: "F XJSMF J XJLWJIT", resposta: "A SENHA E SEGREDO",
+        explicacao: "Com só 25 chaves possíveis, a força bruta quebra a Cifra de César em segundos. Por isso a criptografia de hoje (como no HTTPS) usa chaves enormes." }
+      ],
       basico: [
         { tipo: "cesar", titulo: "Cifra de César com chave 3", chaveInicial: 3,
           enunciado: "<p>Use a tira: para <strong>cifrar</strong>, troque a letra de cima pela de baixo; para <strong>decifrar</strong>, faça o caminho inverso. Os acentos ficam de fora.</p>",
@@ -161,6 +181,18 @@
 
     /* ======================= MISSÃO 3 ======================= */
     m3: {
+      pratica: [
+        { tipo: "mensagens", titulo: "No seu feed: compartilhar ou não?", app: "📲 Feed",
+        botoes: [{ id: "S", rot: "🔁 Pode compartilhar" }, { id: "N", rot: "🛑 Não compartilhe" }],
+        enunciado: "<p>Pense em <strong>autoria</strong>, <strong>direito de imagem</strong> e se pode ser <strong>deepfake</strong>.</p>",
+        itens: [
+          { de: "@zoeira_9ano", t: "📸 Foto do colega fazendo careta no recreio, postada sem ele saber kkk", c: "N", why: "Direito de imagem: precisa de autorização da pessoa." },
+          { de: "@noticias_ja", t: "🎥 Vídeo do prefeito dizendo que vai acabar com as férias! (sem fonte, voz meio robótica)", c: "N", why: "Pode ser deepfake. Confira em fontes confiáveis antes." },
+          { de: "@arte_livre", t: "🖼️ Ilustração com licença CC BY — Autora: Ana Lima. Pode compartilhar dando crédito.", c: "S", why: "Licença Creative Commons com crédito à autora: pode!" },
+          { de: "@prefeitura_oficial", t: "📢 Campanha de vacinação no posto do centro até sexta.", c: "S" },
+          { de: "@memes_br", t: "🎵 Música inteira de um cantor famoso, baixada e repostada como se fosse sua", c: "N", why: "Isso é plágio e fere o direito autoral." }],
+        okMsg: "Você pensa antes de compartilhar: autoria, imagem e verdade!" }
+      ],
       basico: [
         { tipo: "classificar", modo: "tabela", titulo: "Pode ou não pode?", colunaItem: "Situação", colunaResp: "P ou N",
           categorias: [{ id: "P", rot: "Pode" }, { id: "N", rot: "Não pode" }],

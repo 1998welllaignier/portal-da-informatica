@@ -7,6 +7,17 @@ PORTAL.registrarAtividades("informatica-6ano-4bim", {
 
   /* ======================= MISSÃO 1 ======================= */
   m1: {
+    pratica: [
+      { tipo: "duplo_clique", titulo: "Abra a pasta com duplo clique",
+        alvo: "Trabalhos", itens: ["Fotos", "Músicas", "Trabalhos", "Vídeos"],
+        enunciado: "<p>Na área de trabalho de mentira, dê um <strong>duplo clique</strong> (dois cliques rapidinhos) na pasta <strong>Trabalhos</strong>.</p>",
+        explicacao: "O <strong>duplo clique</strong> abre pastas, arquivos e programas. Um clique só, seleciona." },
+      { tipo: "explorador_pastas", titulo: "Organize os arquivos nas pastas certas",
+        enunciado: "<p>Arraste cada arquivo para a pasta certa (ou clique no arquivo e depois na pasta). Olhe a <strong>extensão</strong>: o final depois do ponto. Depois clique em <strong>Verificar</strong>.</p>",
+        pastas: [{ id: "fotos", nome: "Fotos", ic: "🖼️" }, { id: "musicas", nome: "Músicas", ic: "🎵" }, { id: "textos", nome: "Trabalhos", ic: "📝" }, { id: "videos", nome: "Vídeos", ic: "🎬" }],
+        arquivos: [{ nome: "feira-de-ciencias.jpg", p: "fotos" }, { nome: "time.jpg", p: "fotos" }, { nome: "forro.mp3", p: "musicas" }, { nome: "hino-nacional.mp3", p: "musicas" }, { nome: "redacao.docx", p: "textos" }, { nome: "pesquisa-historia.docx", p: "textos" }, { nome: "gol.mp4", p: "videos" }, { nome: "apresentacao.mp4", p: "videos" }],
+        explicacao: "A extensão (.jpg, .mp3, .docx, .mp4) mostra o tipo do arquivo. Pastas organizadas = arquivo achado rapidinho!" }
+    ],
     basico: [
       { tipo: "classificar", titulo: "Monte o computador: cada peça no seu papel",
         enunciado: "<p>Na apostila impressa você desenha o computador e escreve <strong>E</strong> (entrada) ou <strong>S</strong> (saída) em cada parte. Aqui, organize as peças nas 4 funções que você estudou.</p>",
@@ -100,6 +111,18 @@ PORTAL.registrarAtividades("informatica-6ano-4bim", {
 
   /* ======================= MISSÃO 2 ======================= */
   m2: {
+    pratica: [
+      { tipo: "rota", titulo: "Monte o algoritmo: plantar uma muda de árvore",
+        enunciado: "<p>Um <strong>algoritmo</strong> é uma sequência de passos na ordem certa. Clique nos passos <strong>na ordem</strong> em que eles acontecem.</p>",
+        etapas: [
+          { ic: "🧤", t: "Pegar a pá e a muda", dica: "Primeiro, separe o material." },
+          { ic: "⛏️", t: "Cavar um buraco", dica: "Antes de colocar a muda, precisa ter onde colocar." },
+          { ic: "🌱", t: "Colocar a muda no buraco" },
+          { ic: "🟫", t: "Cobrir a raiz com terra" },
+          { ic: "💧", t: "Regar a planta", dica: "A água vem depois que a muda está plantada." }],
+        okMsg: "Algoritmo na ordem certa! Se trocar a ordem, não funciona: tente cobrir com terra antes de cavar… 😅",
+        explicacao: "No computador é igual: as <strong>instruções</strong> precisam estar na <strong>sequência</strong> certa." }
+    ],
     basico: [
       { tipo: "ordenar", titulo: "Algoritmo de escovar os dentes",
         enunciado: "<p>Os passos estão fora de ordem. Organize do 1º ao 6º.</p>",
@@ -167,6 +190,20 @@ PORTAL.registrarAtividades("informatica-6ano-4bim", {
 
   /* ======================= MISSÃO 3 ======================= */
   m3: {
+    pratica: [
+      { tipo: "mensagens", titulo: "No grupo da turma: respeito ou cyberbullying?", app: "💬 Grupo do 6º ano",
+        botoes: [{ id: "R", rot: "😊 Respeitosa" }, { id: "B", rot: "🚫 Cyberbullying" }],
+        enunciado: "<p>Leia cada mensagem do grupo de mentira e decida.</p>",
+        itens: [
+          { de: "Lucas", t: "Parabéns, Maria, sua apresentação ficou muito boa! 👏", c: "R" },
+          { de: "Anônimo", t: "Olha a foto que eu tirei do João dormindo na aula kkkk espalhem 😂", c: "B", why: "Expor alguém sem permissão para rirem dele é cyberbullying." },
+          { de: "Bia", t: "Alguém pode me explicar a tarefa de matemática?", c: "R" },
+          { de: "Pedro", t: "Ninguém aqui gosta da Júlia, vamos tirar ela do grupo.", c: "B", why: "Excluir e humilhar de propósito também é cyberbullying." }],
+        okMsg: "Você reconhece o cyberbullying. Se acontecer: não compartilhe, guarde o print e conte para um adulto." },
+      { tipo: "medidor_senha", titulo: "Laboratório de senhas: monte uma senha muito forte",
+        enunciado: "<p>Digite uma senha <strong>inventada</strong> e veja o medidor mudar. Complete todos os itens da lista para chegar em <strong>Muito forte</strong>.</p>",
+        explicacao: "Senha forte: comprida, com maiúscula, minúscula, número e símbolo, e sem sequências fáceis. E nunca conte para ninguém!" }
+    ],
     basico: [
       { tipo: "aberta", titulo: "Reescreva as mensagens de forma respeitosa",
         enunciado: "<p>Mantenha a ideia, mas sem ofender. O portal avisa se ainda sobrar alguma palavra ofensiva.</p>",

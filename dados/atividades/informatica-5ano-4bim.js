@@ -6,6 +6,22 @@ PORTAL.registrarAtividades("informatica-5ano-4bim", {
 
   /* ======================= MISSÃO 1 ======================= */
   m1: {
+    pratica: [
+      { tipo: "baloes", titulo: "Aquecimento: estoure os balões", quantidade: 8,
+        enunciado: "<p>Use o <strong>mouse</strong> (um periférico de entrada, é hardware!) para estourar os balões. Eles mudam de lugar. 🎈</p>",
+        explicacao: "O mouse é <strong>hardware</strong>: uma peça que dá para tocar. O jogo que apareceu na tela é <strong>software</strong>." },
+      { tipo: "mensagens", titulo: "Hardware ou software?", app: "🧐 O que é isso?",
+        botoes: [{ id: "H", rot: "🔧 Hardware" }, { id: "S", rot: "💿 Software" }],
+        enunciado: "<p>Para cada item, escolha: é <strong>hardware</strong> (peça que dá para tocar) ou <strong>software</strong> (programa)?</p>",
+        itens: [
+          { de: "", t: "🖱️ Mouse", c: "H" },
+          { de: "", t: "🪟 Windows", c: "S", why: "É o sistema operacional." },
+          { de: "", t: "💾 Pen drive", c: "H" },
+          { de: "", t: "🎮 Um jogo de corrida", c: "S" },
+          { de: "", t: "⌨️ Teclado", c: "H" },
+          { de: "", t: "🌐 Navegador de internet", c: "S" }],
+        okMsg: "Você separou hardware e software!" }
+    ],
     basico: [
       { tipo: "classificar", titulo: "Cada parte no seu lugar: E, S, P ou A",
         categorias: [
@@ -58,6 +74,12 @@ PORTAL.registrarAtividades("informatica-5ano-4bim", {
 
   /* ======================= MISSÃO 2 ======================= */
   m2: {
+    pratica: [
+      { tipo: "bolha", titulo: "Arrume a lista da chamada em ordem alfabética",
+        enunciado: "<p>Clique no botão <strong>⇄</strong> entre dois nomes para trocar os dois de lugar. Deixe a lista em <strong>ordem alfabética</strong> (A, B, C…).</p>",
+        valores: ["Pedro", "Ana", "Luíza", "Carlos", "Bia"],
+        explicacao: "Trocar vizinhos até tudo ficar em ordem é um jeito que o computador usa para <strong>ordenar listas</strong>." }
+    ],
     basico: [
       { tipo: "lista_ops", titulo: "A lista de compras", nome: "COMPRAS",
         inicial: ["arroz", "feijão", "leite", "pão"],
@@ -109,6 +131,16 @@ PORTAL.registrarAtividades("informatica-5ano-4bim", {
 
   /* ======================= MISSÃO 3 ======================= */
   m3: {
+    pratica: [
+      { tipo: "lampadas", titulo: "Acenda a lâmpada: E, OU e NÃO",
+        enunciado: "<p>Clique nos interruptores <strong>A</strong> e <strong>B</strong> para ligar e desligar. Quando a lâmpada estiver como a fase pede, clique em <strong>Pronto!</strong></p>",
+        fases: [
+          { op: "E", pede: "No circuito **E**, a lâmpada só acende se **A E B** estiverem ligados. **Acenda a lâmpada!**", quer: (a, b) => a && b, why: "No E, as duas coisas precisam ser verdade." },
+          { op: "OU", pede: "No circuito **OU**, basta um. **Acenda a lâmpada ligando só UM interruptor.**", quer: (a, b) => a !== b, dica: "Deixe só um interruptor ligado.", why: "No OU, basta uma ser verdade." },
+          { op: "E", pede: "Circuito **E** de novo: deixe **um interruptor ligado**, mas a lâmpada **apagada**.", quer: (a, b) => a !== b, dica: "No E, com só um ligado, a lâmpada não acende.", why: "No E, só um não basta!" },
+          { op: "NAO", pede: "Circuito **NÃO**: ele inverte. A lâmpada acende quando A está desligado. **Deixe a lâmpada apagada.**", quer: a => a, dica: "Para apagar, ligue o A.", why: "O NÃO troca: ligado vira apagado." }],
+        explicacao: "<strong>E</strong>: as duas precisam ser verdade. <strong>OU</strong>: basta uma. <strong>NÃO</strong>: inverte." }
+    ],
     basico: [
       { tipo: "classificar", modo: "tabela", titulo: "Verdadeira ou falsa?", colunaItem: "Sentença", colunaResp: "V ou F",
         categorias: [{ id: "V", rot: "Verdadeira" }, { id: "F", rot: "Falsa" }],
@@ -163,6 +195,17 @@ PORTAL.registrarAtividades("informatica-5ano-4bim", {
 
   /* ======================= MISSÃO 4 ======================= */
   m4: {
+    pratica: [
+      { tipo: "mensagens", titulo: "Chegou no grupo da família: confiar ou desconfiar?", app: "💬 Grupo da Família",
+        botoes: [{ id: "D", rot: "🚩 Desconfiar" }, { id: "C", rot: "✅ Confiável" }],
+        enunciado: "<p>Leia cada mensagem e decida. Pense: <strong>quem escreveu?</strong> Tem <strong>fonte</strong>? Pede para espalhar com pressa?</p>",
+        itens: [
+          { de: "Tio Zé", t: "URGENTE!!! Compartilhe com 10 pessoas senão seu celular vai travar amanhã!!!", c: "D", why: "Pressa, muitas exclamações e sem autor: sinais de fake news." },
+          { de: "Escola JK", t: "Lembrete: a reunião de pais será quinta, às 18h, na escola. Mais informações na secretaria.", c: "C", why: "Diz quem enviou, quando e onde confirmar." },
+          { de: "Desconhecido", t: "Cientistas descobriram que comer chocolate deixa a pessoa invisível. Repassem!", c: "D", why: "Não tem fonte e é impossível." },
+          { de: "Prima Ana", t: "Vi no site oficial da prefeitura: a vacinação vai até sexta no posto do centro.", c: "C", why: "Cita uma fonte oficial que dá para conferir." }],
+        okMsg: "Você sabe desconfiar! Antes de compartilhar, confira quem escreveu e a fonte." }
+    ],
     basico: [
       { tipo: "classificar", modo: "tabela", titulo: "Confiável ou não?", colunaItem: "Mensagem", colunaResp: "C ou N",
         categorias: [{ id: "C", rot: "Confiável" }, { id: "N", rot: "Não confiável" }],

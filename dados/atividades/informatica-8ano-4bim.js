@@ -6,6 +6,15 @@ PORTAL.registrarAtividades("informatica-8ano-4bim", {
 
   /* ======================= MISSÃO 1 ======================= */
   m1: {
+    pratica: [
+      { tipo: "adivinhe", titulo: "Jogo: adivinhe o número do computador", max: 100, meta: 7,
+        enunciado: "<p>O computador pensou num número de 1 a 100. A cada chute ele diz se é <strong>maior</strong> ou <strong>menor</strong>. Tente sempre o <strong>meio</strong> do que sobrou (50, depois 25 ou 75…).</p>",
+        explicacao: "Chutar o meio corta as opções pela metade a cada vez: isso é a <strong>busca binária</strong>. Com 100 números, bastam no máximo 7 chutes. Mas ela só funciona se a lista estiver <strong>em ordem</strong>!" },
+      { tipo: "bolha", titulo: "Método da bolha na mão",
+        enunciado: "<p>Clique em <strong>⇄</strong> para trocar dois vizinhos. Deixe em <strong>ordem crescente</strong>, com o menor número possível de trocas.</p>",
+        valores: [42, 7, 19, 3, 25],
+        explicacao: "No método da bolha, o computador compara vizinhos e troca quando estão fora de ordem, passada por passada, até não precisar mais trocar." }
+    ],
     basico: [
       { tipo: "tabela", titulo: "Busca sequencial: procure o 31",
         enunciado: "<p>Lista ordenada: <strong>NÚMEROS = [3, 7, 12, 18, 25, 31, 40, 52]</strong></p>",
@@ -57,6 +66,19 @@ PORTAL.registrarAtividades("informatica-8ano-4bim", {
 
   /* ======================= MISSÃO 2 ======================= */
   m2: {
+    pratica: [
+      { tipo: "rota", titulo: "O caminho do vídeo até o seu celular",
+        enunciado: "<p>Você deu play num vídeo. Clique nas etapas <strong>na ordem</strong> em que o vídeo viaja, de onde ele está guardado até a sua tela.</p>",
+        etapas: [
+          { ic: "🏭", t: "Data center (onde o vídeo fica guardado)", dica: "Comece de onde o vídeo está guardado." },
+          { ic: "🌊", t: "Cabo submarino atravessa o oceano" },
+          { ic: "🛣️", t: "Backbone de fibra óptica pelo país" },
+          { ic: "🏢", t: "Provedor de internet da cidade" },
+          { ic: "📶", t: "Roteador Wi-Fi da sua casa" },
+          { ic: "📱", t: "Seu celular mostra o vídeo", dica: "Essa é a última etapa." }],
+        okMsg: "Isso! A “nuvem” é, na verdade, um monte de computadores em data centers ligados por cabos.",
+        explicacao: "Mais de 95% dos dados entre continentes passam por <strong>cabos submarinos</strong>, não por satélite." }
+    ],
     basico: [
       { tipo: "ordenar", titulo: "Você abriu um site de vídeos: numere o caminho do pedido",
         itens: ["Você digita o nome do site no navegador", "O DNS traduz o nome do site no endereço IP do servidor", "O pedido sai pelo roteador e chega ao provedor", "O pedido viaja pelo backbone (e às vezes por cabos submarinos) até o data center", "O servidor do data center envia o vídeo em pacotes de volta"],
@@ -109,6 +131,17 @@ PORTAL.registrarAtividades("informatica-8ano-4bim", {
 
   /* ======================= MISSÃO 3 ======================= */
   m3: {
+    pratica: [
+      { tipo: "permissoes", titulo: "Instalando aplicativos: permitir ou negar?",
+        enunciado: "<p>Cada aplicativo está pedindo uma permissão. Pense: <strong>ele precisa mesmo disso para funcionar?</strong></p>",
+        itens: [
+          { ic: "🔦", app: "Lanterna", pede: "seus contatos", c: "N", why: "Lanterna só precisa da luz do flash." },
+          { ic: "🗺️", app: "Mapas", pede: "sua localização (GPS)", c: "S", why: "Sem localização, o mapa não mostra o caminho." },
+          { ic: "🃏", app: "Jogo de cartas", pede: "o microfone", c: "N", why: "Para que um jogo de cartas ouviria você?" },
+          { ic: "📷", app: "Câmera", pede: "a câmera", c: "S" },
+          { ic: "🧮", app: "Calculadora", pede: "sua localização", c: "N", why: "Calculadora não precisa saber onde você está." }],
+        explicacao: "Cada permissão é um <strong>dado pessoal</strong> que você entrega. A <strong>LGPD</strong> diz que o app só deve pedir o que precisa." }
+    ],
     basico: [
       { tipo: "classificar", modo: "tabela", titulo: "O aplicativo precisa dessa permissão para funcionar?", colunaItem: "Aplicativo e permissão pedida", colunaResp: "S ou N",
         categorias: [{ id: "S", rot: "Sim" }, { id: "N", rot: "Não" }],

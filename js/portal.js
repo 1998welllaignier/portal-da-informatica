@@ -157,6 +157,8 @@
     const pages = [];
     const ativ = (lvl, arr) => (arr || []).map((x, i) => Object.assign({ nivel: lvl }, x, { id: x.id || (mid + "-" + lvl + "-" + (i + 1)) }));
     if (m.comecar && m.comecar.length) pages.push({ id: "comecar", rotulo: "Para começar", icone: "💡", tipo: "leitura" });
+    // 🎮 Mão na massa: simulação logo na abertura (todos fazem; conta no Básico)
+    if (a.pratica && a.pratica.length) pages.push({ id: "pratica", rotulo: "Mão na massa", icone: "🎮", tipo: "missao", atividades: ativ("basico", a.pratica).map(x => Object.assign(x, { id: x.id.replace("-basico-", "-pratica-") })) });
     if (m.termos && m.termos.length) pages.push({ id: "termos", rotulo: "O que significa?", icone: "📖", tipo: "leitura",
       atividades: [{ id: mid + "-termos", nivel: "treino", tipo: "ligar", titulo: "Treino rápido: ligue cada termo ao seu significado",
         porRodada: (apostila(aid) || {}).trilha ? 3 : 5, pares: m.termos.map(t => ({ a: t.termo, b: t.def })), explicacao: "Revise os termos sempre que precisar: eles caem na avaliação." }] });
@@ -508,8 +510,8 @@
     if (pg.id === "comecar") corpo.appendChild(h(`<div class="leitura">${blocos(m.comecar, true)}</div>`));
     if (pg.id === "termos") corpo.appendChild(h(`<div class="glossario">${m.termos.map(t => `<details class="termo"><summary>${t.rotulo}</summary><p>${t.def}</p></details>`).join("")}</div>`));
     if (pg.id === "onde") corpo.appendChild(h(`<ul class="onde-uso">${m.ondeUso.itens.map(i => `<li>${i}</li>`).join("")}</ul>`));
-    if (pg.tipo === "missao" && m.alertas.length) corpo.appendChild(h(`<div class="alerta" role="note">${m.alertas.map(x => `<p>⚠️ ${x}</p>`).join("")}</div>`));
-    if (pg.tipo === "missao") corpo.appendChild(h(`<p class="nivel-info nivel-${pg.id}">${{ basico: "🟢 <strong>Básico</strong>: todos fazem. É o que o professor confere para o carimbo.", desafio: "🟡 <strong>Desafio</strong>: para quem terminou o Básico. Vale pontos extras.", turbo: "🔴 <strong>Turbo</strong>: para quem terminou o Desafio." }[pg.id]}</p>`));
+    if (pg.tipo === "missao" && pg.id !== "pratica" && m.alertas.length) corpo.appendChild(h(`<div class="alerta" role="note">${m.alertas.map(x => `<p>⚠️ ${x}</p>`).join("")}</div>`));
+    if (pg.tipo === "missao") corpo.appendChild(h(`<p class="nivel-info nivel-${pg.id}">${{ pratica: "🎮 <strong>Mão na massa</strong>: experimente antes de estudar! Todos fazem, e conta no Básico.", basico: "🟢 <strong>Básico</strong>: todos fazem. É o que o professor confere para o carimbo.", desafio: "🟡 <strong>Desafio</strong>: para quem terminou o Básico. Vale pontos extras.", turbo: "🔴 <strong>Turbo</strong>: para quem terminou o Desafio." }[pg.id]}</p>`));
     (pg.atividades || []).forEach((at, i) => corpo.appendChild(cartaoAtividade(aid, mid, at, i, () => { barra(info()); atualizarStatus(); })));
     if (pg.tipo === "relatorio") corpo.appendChild(relatorio(aid, mid, pages));
     const figs = figurasDaPagina(aid, mid, pg.id, pages.map(p => p.id));
@@ -733,7 +735,7 @@
           html += `<div class="imp-atv"><h4>${(NIVEL[at.nivel] || ["", ""])[0]} ${md(at.titulo || "")}</h4>${at.enunciado ? `<div>${at.enunciado}</div>` : ""}${T && T.imprimir ? T.imprimir(at) : ""}</div>`;
         });
         if (pg.tipo === "missao") html += `<p class="imp-carimbo">Carimbo do professor: ☐ ${pg.rotulo}</p>`;
-        if (pg.tipo === "relatorio") return;
+        if (pg.tipo === "relatorio" || pg.id === "pratica") return; // simulação só existe na tela
         const bloco = h(`<div class="imp-pag">${html}</div>`);
         const figs = figurasDaPagina(aid, m.id, pg.id, pages.map(p => p.id));
         if (figs.length) colocarFiguras(bloco, figs, pg.tipo === "missao" ? [...bloco.querySelectorAll(".imp-atv")] : [...bloco.children].slice(1), pg.tipo === "missao" ? "depois" : "bloco");

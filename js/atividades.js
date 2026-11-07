@@ -560,7 +560,7 @@
   T.robo = {
     auto: true,
     render(c, at, ctx) {
-      const st = ctx.st; st.prog = st.prog || [];
+      const st = ctx.st; st.prog = st.prog || (at.inicial ? at.inicial.map(x => ({ d: x[0], n: x[1] })) : []);
       const G = at.grade, R = G.length, C = G[0].length;
       let ini, fim; G.forEach((ln, r) => [...ln].forEach((ch, k) => { if (ch === "R") ini = [r, k]; if (ch === "*") fim = [r, k]; }));
       const cols = "ABCDEFGH".slice(0, C);

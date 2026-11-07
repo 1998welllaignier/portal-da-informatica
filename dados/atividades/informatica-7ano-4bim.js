@@ -6,6 +6,28 @@ PORTAL.registrarAtividades("informatica-7ano-4bim", {
 
   /* ======================= MISSÃO 1 ======================= */
   m1: {
+    pratica: [
+      { tipo: "rota", titulo: "A viagem do pedido: você abriu um site",
+        enunciado: "<p>Você digitou <strong>www.escola.com.br</strong> no navegador. Clique nas etapas <strong>na ordem</strong> da viagem dos dados.</p>",
+        etapas: [
+          { ic: "🧭", t: "O navegador monta o pedido (HTTP)" },
+          { ic: "📦", t: "O pedido é dividido em pacotes", dica: "Antes de viajar, os dados viram pacotes." },
+          { ic: "📶", t: "O Wi-Fi leva os pacotes ao roteador" },
+          { ic: "🏢", t: "O provedor manda para a internet" },
+          { ic: "🖥️", t: "O servidor do site recebe e responde" },
+          { ic: "📄", t: "Os pacotes voltam e o site aparece", dica: "Essa é a última etapa." }],
+        okMsg: "Viagem completa! Tudo isso acontece em menos de 1 segundo. ⚡",
+        explicacao: "Os dados viajam em <strong>pacotes</strong>, seguindo <strong>protocolos</strong> (como TCP e HTTP), passando pelo <strong>roteador</strong> e pelo <strong>provedor</strong> até o <strong>servidor</strong>." },
+      { tipo: "mensagens", titulo: "Cadeado ou perigo? Olhe o endereço", app: "🌐 Barra de endereços",
+        botoes: [{ id: "S", rot: "🔒 Conexão segura" }, { id: "N", rot: "⚠️ Não segura" }],
+        enunciado: "<p>Olhe o começo de cada endereço. <strong>https</strong> (com S) protege os dados no caminho.</p>",
+        itens: [
+          { de: "", t: "https://www.gov.br", c: "S" },
+          { de: "", t: "http://promocao-celular-gratis.net", c: "N", why: "Sem o S: os dados viajam sem proteção." },
+          { de: "", t: "https://pt.wikipedia.org", c: "S" },
+          { de: "", t: "http://login-banco-atualizar.com", c: "N", why: "Sem https e com nome estranho: perigo!" }],
+        okMsg: "Você olha o endereço antes de digitar seus dados. 🔒" }
+    ],
     basico: [
       { tipo: "ordenar", titulo: "O caminho de uma mensagem do seu celular até o amigo",
         itens: ["Meu celular divide a mensagem em pacotes", "Os pacotes passam pelo roteador da minha casa", "Os pacotes viajam pela internet até o servidor do aplicativo", "O servidor do aplicativo envia os pacotes ao celular do amigo", "O celular do amigo junta os pacotes em ordem e mostra a mensagem"],
@@ -99,6 +121,15 @@ PORTAL.registrarAtividades("informatica-7ano-4bim", {
 
   /* ======================= MISSÃO 2 ======================= */
   m2: {
+    pratica: [
+      { tipo: "robo", titulo: "Caça ao bug: o programa do robô tem um erro",
+        enunciado: "<p>Este programa já está pronto, mas tem um <strong>bug</strong> (erro). Clique em <strong>▶ Executar</strong> para <strong>testar</strong>, descubra onde ele falha e <strong>conserte</strong> usando os botões <strong>+</strong>, <strong>−</strong> e <strong>✕</strong>. Isso é <strong>depuração</strong>!</p>",
+        grade: ["R..#.", "#....", "#.#..", "...#*"],
+        inicial: [["R", 2], ["D", 1], ["R", 1], ["D", 2]],
+        solucao: [["R", 2], ["D", 1], ["R", 2], ["D", 2]],
+        dicas: ["Execute e veja em qual passo o robô bate.", "No 3º bloco, o robô anda para a direita pouco demais."],
+        explicacao: "O bug estava no 3º bloco: era <strong>repita 2× ➡️</strong>, não 1×. Testar, achar o erro e corrigir é <strong>depurar</strong>." }
+    ],
     basico: [
       { tipo: "aberta", titulo: "Decomponha: “Organizar um lanche coletivo da turma”",
         campos: [{ rot: "Parte 1", linhas: 1 }, { rot: "Parte 2", linhas: 1 }, { rot: "Parte 3", linhas: 1 }, { rot: "Parte 4", linhas: 1 }],
@@ -152,6 +183,18 @@ PORTAL.registrarAtividades("informatica-7ano-4bim", {
 
   /* ======================= MISSÃO 3 ======================= */
   m3: {
+    pratica: [
+      { tipo: "mensagens", titulo: "Chegou SMS: golpe ou mensagem segura?", app: "📱 Mensagens",
+        botoes: [{ id: "G", rot: "🚩 Golpe" }, { id: "S", rot: "✅ Segura" }],
+        enunciado: "<p>Leia cada mensagem como se fosse no seu celular. Procure os sinais: <strong>pressa</strong>, <strong>prêmio</strong>, <strong>link estranho</strong>, <strong>pedido de código ou senha</strong>.</p>",
+        itens: [
+          { de: "+55 11 9xxxx-0000", t: "PARABÉNS! Você ganhou um iPhone. Clique para resgatar em 10 min: bit.ly/premio-ja", c: "G", why: "Prêmio + pressa + link encurtado = phishing." },
+          { de: "Mãe", t: "Filho, chego 18h. Já tirou a carne do congelador?", c: "S" },
+          { de: "Número novo", t: "Oi, é a sua tia, troquei de número. Me passa o código de 6 dígitos que chegou aí?", c: "G", why: "Nunca passe códigos: é assim que roubam o WhatsApp." },
+          { de: "Banco Oficial", t: "Sua conta será BLOQUEADA hoje. Atualize seus dados: banco-atualiza.xyz", c: "G", why: "Banco não manda link para pedir dados." },
+          { de: "Escola JK", t: "Amanhã não haverá aula por causa da reunião pedagógica.", c: "S" }],
+        okMsg: "Você não cai em golpe! Na dúvida: não clique, não passe código e pergunte a um adulto." }
+    ],
     basico: [
       { tipo: "classificar", modo: "tabela", titulo: "Golpe ou seguro?", colunaItem: "Mensagem", colunaResp: "G ou S",
         categorias: [{ id: "G", rot: "Golpe" }, { id: "S", rot: "Seguro" }],
