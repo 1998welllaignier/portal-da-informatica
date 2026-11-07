@@ -66,7 +66,7 @@
     if (!snap.exists) return null;
     const d = snap.data();
     if (!d.ativo || d.turma !== turmaId) return null;
-    return { acessoId: id, alunoId: d.alunoId, nome: d.nome || "" };
+    return { acessoId: id, alunoId: d.alunoId, nome: d.nome || "", trilha: !!d.trilha };
   };
 
   /* 2) O aluno confirmou "Sou eu": grava a sessão e a entrada do dia */

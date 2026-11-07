@@ -158,7 +158,7 @@
     const ativ = (lvl, arr) => (arr || []).map((x, i) => Object.assign({ nivel: lvl }, x, { id: x.id || (mid + "-" + lvl + "-" + (i + 1)) }));
     if (m.comecar && m.comecar.length) pages.push({ id: "comecar", rotulo: "Para começar", icone: "💡", tipo: "leitura" });
     // 🎮 Mão na massa: simulação logo na abertura (todos fazem; conta no Básico)
-    if (a.pratica && a.pratica.length) pages.push({ id: "pratica", rotulo: "Mão na massa", icone: "🎮", tipo: "missao", atividades: ativ("basico", a.pratica).map(x => Object.assign(x, { id: x.id.replace("-basico-", "-pratica-") })) });
+    if (a.pratica && a.pratica.length) pages.push({ id: "pratica", rotulo: (apostila(aid) || {}).trilha ? "Praticar" : "Mão na massa", icone: "🎮", tipo: "missao", atividades: ativ("basico", a.pratica).map(x => Object.assign(x, { id: x.id.replace("-basico-", "-pratica-") })) });
     if (m.termos && m.termos.length) pages.push({ id: "termos", rotulo: "O que significa?", icone: "📖", tipo: "leitura",
       atividades: [{ id: mid + "-termos", nivel: "treino", tipo: "ligar", titulo: "Treino rápido: ligue cada termo ao seu significado",
         porRodada: (apostila(aid) || {}).trilha ? 3 : 5, pares: m.termos.map(t => ({ a: t.termo, b: t.def })), explicacao: "Revise os termos sempre que precisar: eles caem na avaliação." }] });
@@ -334,7 +334,8 @@
         const b = cf.querySelector("#sim"); b.disabled = true; b.textContent = "Entrando…";
         try { await Promise.all(infos.map((x, i) => P.nuvem.confirmar(i, x, t.value))); }
         catch (err) { console.warn(err); b.disabled = false; b.textContent = "Tentar de novo"; toast("Não foi possível entrar agora. Tente de novo."); return; }
-        sess.set({ serie: sid, turma: t.value, modo, nuvem: true, alunoIds: infos.map(x => x.alunoId), nomes: infos.map(x => x.nome), apelidos: infos.map((x, i) => apels[i] || ""), entrou: Date.now() });
+        sess.set({ serie: sid, turma: t.value, modo, nuvem: true, alunoIds: infos.map(x => x.alunoId), nomes: infos.map(x => x.nome), apelidos: infos.map((x, i) => apels[i] || ""), entrou: Date.now(),
+          trilha: infos.length === 1 && !!infos[0].trilha });
         location.hash = destino || "#/apostilas";
       };
       cf.querySelector("#sim").focus();
@@ -402,7 +403,7 @@
     const s = sess.get(); if (!s) return telaInicio();
     const se = serie(s.serie);
     barra();
-    const lista = cat().apostilas.filter(a => a.serie === s.serie && !a.oculta);
+    const lista = cat().apostilas.filter(a => a.serie === s.serie && !a.oculta).map(a => trilhaDe(a.id) ? apostila(trilhaDe(a.id)) : a);
     const porDisc = {};
     lista.forEach(a => { (porDisc[a.disciplina] = porDisc[a.disciplina] || []).push(a); });
     const hoje = sessionStorage.getItem("portalJK:hoje");
@@ -509,6 +510,8 @@
       </div></section>`);
     const corpo = el.querySelector("#pag-corpo");
     if (pg.tipo === "relatorio") { el.classList.add("pg-rel"); window.scrollTo(0, 0); }
+    // Trilha: antecipa a sequência da aula (rotina previsível, sem surpresas)
+    if (pg.id === "comecar" && a.trilha) corpo.appendChild(h(`<div class="painel roteiro-hoje"><strong>📋 A aula de hoje, nesta ordem:</strong><ol>${pages.filter(p => !["relatorio"].includes(p.id)).map(p => `<li>${p.icone || ""} ${esc(p.rotulo)}${p.id === pg.id ? " <em>(você está aqui)</em>" : ""}${p.id === "desafio" || p.id === "turbo" ? " <small>(se quiser, depois do Básico)</small>" : ""}</li>`).join("")}</ol></div>`));
     if (pg.id === "comecar") corpo.appendChild(h(`<div class="leitura">${blocos(m.comecar, true)}</div>`));
     if (pg.id === "termos") corpo.appendChild(h(`<div class="glossario">${m.termos.map(t => `<details class="termo"><summary>${t.rotulo}</summary><p>${t.def}</p></details>`).join("")}</div>`));
     if (pg.id === "onde") corpo.appendChild(h(`<ul class="onde-uso">${m.ondeUso.itens.map(i => `<li>${i}</li>`).join("")}</ul>`));
@@ -886,6 +889,11 @@
   /* ============================================================
      ROTEADOR
      ============================================================ */
+  /* Aluno com 📌 apostila diferenciada: a apostila da turma vira a Trilha Passo a Passo dela */
+  function trilhaDe(aid) {
+    const s = sess.get(); if (!s || !s.trilha) return null;
+    const t = cat().apostilas.find(x => x.trilha && x.base === aid); return t ? t.id : null;
+  }
   async function rota() {
     const hs = (location.hash || "#/").slice(1).split("/").filter(Boolean);
     calar(); modoTrilha(null);
@@ -894,6 +902,7 @@
       const [r, a1, a2, a3] = hs;
       if (r === "serie") return telaSerie(a1);
       if (r === "apostilas") return telaApostilas();
+      if ((r === "apostila" || r === "missao") && trilhaDe(a1)) { location.replace("#/" + r + "/" + trilhaDe(a1) + (a2 ? "/" + a2 : "") + (a3 ? "/" + a3 : "")); return; }
       if (r === "apostila") return await telaApostila(a1);
       if (r === "missao") return await telaMissao(a1, a2, a3);
       if (r === "imprimir") return await telaImprimir(a1);

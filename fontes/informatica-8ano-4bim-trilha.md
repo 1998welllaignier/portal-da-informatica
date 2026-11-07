@@ -16,7 +16,7 @@ Neste bimestre você vai cumprir **3 missões** e um **projeto final**. São as 
 - ✅ Clique em **Verificar** quando terminar cada atividade.
 - 🎉 No fim do Básico aparece a faixa **✅ Básico concluído**. Tudo fica registrado sozinho para o professor.
 
-**Regra de ouro:** quem conclui o Básico (aparece a faixa verde **✅ Básico concluído**) já pode seguir para o Desafio ou ficar com os jogos livres no final da aula. 🎮
+**Regra importante:** quem conclui o Básico (aparece a faixa verde **✅ Básico concluído**) já pode seguir para o Desafio ou ficar com os jogos livres no final da aula. 🎮
 
 ## 🗂️ Missão 1 – Listas: procurar e arrumar em ordem
 **Objetivo:** procurar um item numa lista e arrumar uma lista em ordem, como o computador faz.
@@ -27,7 +27,7 @@ Cada coisa da lista fica numa **posição**: 1º lugar, 2º lugar, 3º lugar…
 O computador faz **duas coisas** com as listas: **procurar** um item e **arrumar em ordem**.
 | Jeito | Como é | No dia a dia |
 | 🔎 Procurar um por um | Olha o 1º, depois o 2º, depois o 3º… até achar | Procurar o seu nome na lista de chamada |
-| 📖 Procurar pelo meio | Abre no **meio** e joga fora a metade que não serve. Só funciona com a lista **em ordem** | Procurar uma palavra no dicionário |
+| 📖 Procurar pelo meio | Abre no **meio** e deixa de lado a metade onde o item **não pode estar**. Só funciona com a lista **em ordem** | Procurar uma palavra no dicionário |
 | 🫧 Arrumar em ordem | Olha **dois vizinhos**. Se estão fora de ordem, **troca** os dois de lugar | Arrumar os números do menor para o maior |
 
 **Em ordem crescente** quer dizer: do **menor** para o **maior**. Exemplo: 1, 2, 3, 4.
@@ -38,7 +38,7 @@ O computador faz **duas coisas** com as listas: **procurar** um item e **arrumar
 - **Busca sequencial** (*sequência* = um depois do outro): procurar olhando os itens um por um, do começo até achar.
 - **Busca binária** (*binário* = de dois): procurar pelo meio, dividindo a lista em duas metades. Só funciona em lista em ordem.
 - **Ordem crescente**: do menor para o maior, como 1, 2, 3.
-- **Método da bolha**: arrumar a lista olhando dois vizinhos e trocando se estão fora de ordem. O número maior vai “subindo” até o fim, como uma bolha.
+- **Método da bolha**: arrumar a lista olhando dois vizinhos e trocando se estão fora de ordem. A cada troca, o número maior anda uma posição para o fim da lista. O nome “bolha” é só um apelido do método.
 ### 🌎 Onde eu uso isso?
 - Os **contatos do celular** ficam em ordem de **A a Z**: assim você acha um nome rápido.
 - A **lista de chamada** da escola está em ordem alfabética.
@@ -63,6 +63,7 @@ Quando você assiste a um vídeo no celular, ele vem de **muito longe**. O pedid
 5. 🏭 Chega ao **data center**, um prédio cheio de computadores. O vídeo volta pelo mesmo caminho.
 
 A **nuvem** é guardar fotos e arquivos nos computadores do data center, **pela internet**. Por isso a sua foto aparece em outro celular.
+O nome **nuvem** é só um apelido: não é a nuvem do céu. São computadores de verdade, dentro de um prédio.
 O computador também sabe **organizar o trabalho**:
 | Jeito | Como é | No dia a dia |
 | 🧍🧍🧍 Fila | Todos querem a mesma coisa: um de cada vez | 19 alunos mandam imprimir e a impressora faz uma fila |

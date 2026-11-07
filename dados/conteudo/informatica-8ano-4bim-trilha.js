@@ -64,7 +64,7 @@ PORTAL.registrarConteudo("informatica-8ano-4bim-trilha", {
   },
   {
    "t": "p",
-   "h": "<strong>Regra de ouro:</strong> quem conclui o Básico (aparece a faixa verde <strong>✅ Básico concluído</strong>) já pode seguir para o Desafio ou ficar com os jogos livres no final da aula. 🎮"
+   "h": "<strong>Regra importante:</strong> quem conclui o Básico (aparece a faixa verde <strong>✅ Básico concluído</strong>) já pode seguir para o Desafio ou ficar com os jogos livres no final da aula. 🎮"
   }
  ],
  "missoes": [
@@ -101,7 +101,7 @@ PORTAL.registrarConteudo("informatica-8ano-4bim-trilha", {
       ],
       [
        "📖 Procurar pelo meio",
-       "Abre no <strong>meio</strong> e joga fora a metade que não serve. Só funciona com a lista <strong>em ordem</strong>",
+       "Abre no <strong>meio</strong> e deixa de lado a metade onde o item <strong>não pode estar</strong>. Só funciona com a lista <strong>em ordem</strong>",
        "Procurar uma palavra no dicionário"
       ],
       [
@@ -149,7 +149,7 @@ PORTAL.registrarConteudo("informatica-8ano-4bim-trilha", {
     {
      "termo": "Método da bolha",
      "rotulo": "<strong>Método da bolha</strong>",
-     "def": "arrumar a lista olhando dois vizinhos e trocando se estão fora de ordem. O número maior vai “subindo” até o fim, como uma bolha."
+     "def": "arrumar a lista olhando dois vizinhos e trocando se estão fora de ordem. A cada troca, o número maior anda uma posição para o fim da lista. O nome “bolha” é só um apelido do método."
     }
    ],
    "ondeUso": {
@@ -217,6 +217,10 @@ PORTAL.registrarConteudo("informatica-8ano-4bim-trilha", {
     {
      "t": "p",
      "h": "A <strong>nuvem</strong> é guardar fotos e arquivos nos computadores do data center, <strong>pela internet</strong>. Por isso a sua foto aparece em outro celular."
+    },
+    {
+     "t": "p",
+     "h": "O nome <strong>nuvem</strong> é só um apelido: não é a nuvem do céu. São computadores de verdade, dentro de um prédio."
     },
     {
      "t": "p",

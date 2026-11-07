@@ -80,7 +80,7 @@
   async function mudarAtivo(a, ativo) {
     await lotes([
       b => b.update(db().collection("alunos").doc(a.id), { ativo }),
-      b => b.set(db().collection("acessos").doc(a.turma + "_" + a.codigo), { alunoId: a.id, turma: a.turma, ativo, nome: a.nome })
+      b => b.set(db().collection("acessos").doc(a.turma + "_" + a.codigo), { alunoId: a.id, turma: a.turma, ativo, nome: a.nome, ...(a.trilha ? { trilha: true } : {}) })
     ]);
   }
   async function novoCodigo(a, novaTurma) {
@@ -89,9 +89,16 @@
     await lotes([
       b => b.delete(db().collection("acessos").doc(a.turma + "_" + a.codigo)),
       b => b.update(db().collection("alunos").doc(a.id), { turma: tid, codigo, ativo: true, ...(novaTurma ? { turmaAnterior: a.turma, trocouEm: Date.now() } : {}) }),
-      b => b.set(db().collection("acessos").doc(tid + "_" + codigo), { alunoId: a.id, turma: tid, ativo: true, nome: a.nome })
+      b => b.set(db().collection("acessos").doc(tid + "_" + codigo), { alunoId: a.id, turma: tid, ativo: true, nome: a.nome, ...(a.trilha ? { trilha: true } : {}) })
     ]);
     return codigo;
+  }
+  /* 📌 Apostila diferenciada: o código do aluno passa a abrir a Trilha Passo a Passo da série */
+  async function marcarTrilha(a, on) {
+    await lotes([
+      b => b.update(db().collection("alunos").doc(a.id), { trilha: on }),
+      b => b.set(db().collection("acessos").doc(a.turma + "_" + a.codigo), { alunoId: a.id, turma: a.turma, ativo: a.ativo, nome: a.nome, ...(on ? { trilha: true } : {}) })
+    ]);
   }
   async function renomear(a, nome) {
     await lotes([
@@ -163,7 +170,7 @@
     el.querySelector("#sel").onchange = e => { location.hash = "#/painel/turma/" + e.target.value; };
     el.querySelector("#att").onclick = () => telaTurmas(u, t.id);
     const aps = cat().apostilas.filter(a => a.serie === t.serie.id && !a.oculta);
-    await Promise.all(aps.map(a => P.carregarApostila(a.id).catch(() => null)));
+    await Promise.all(cat().apostilas.filter(a => a.serie === t.serie.id).map(a => P.carregarApostila(a.id).catch(() => null)));
     const [alunos, prog] = await Promise.all([alunosDaTurma(t.id), progressoDaTurma(t.id)]);
     const pm = {}; prog.forEach(p => { (pm[p.alunoId] = pm[p.alunoId] || []).push(p); });
     const missoes = []; aps.forEach(a => { const C = P.conteudo[a.id]; if (C) C.missoes.forEach(m => missoes.push({ aid: a.id, m })); });
@@ -173,7 +180,7 @@
       const lista = alunos.filter(a => verInat || a.ativo);
       if (!alunos.length) { corpo.innerHTML = `<div class="painel"><p>Nenhum aluno cadastrado nesta turma ainda.</p><p>Use <strong>➕ Adicionar aluno</strong> ou a aba <a href="#/painel/importar">📥 Importar alunos</a>.</p></div>`; return; }
       const cel = (a, x) => {
-        const p = (pm[a.id] || []).find(q => q.aid === x.aid && q.mid === x.m.id);
+        const p = (pm[a.id] || []).find(q => (q.aid === x.aid || (cat().apostilas.find(y => y.id === q.aid) || {}).base === x.aid) && q.mid === x.m.id);
         if (!p) return `<td class="pp-c vazio" title="não começou">—</td>`;
         const b = p.basico || [0, 0], d = p.desafio || [0, 0];
         const tit = `Básico ${b[0]}/${b[1]}` + (d[1] ? ` · Desafio ${d[0]}/${d[1]}` : "") + (p.dias ? ` · dias: ${Object.keys(p.dias).sort().map(dataBR).join(", ")}` : "");
@@ -182,7 +189,7 @@
       const dias = a => { const s = new Set(); (pm[a.id] || []).forEach(p => Object.keys(p.dias || {}).forEach(d => s.add(d))); return s.size; };
       corpo.innerHTML = `<div class="painel pp-tabela-wrap"><p class="ajuda">✔ Básico concluído · ⭐ Desafio completo · 3/5 = andamento do Básico · — não começou. Passe o mouse para ver os detalhes. <strong>${alunos.filter(a => a.ativo).length}</strong> alunos ativos.</p>
         <table class="pp-tabela"><thead><tr><th>Aluno</th><th>Código</th><th title="dias em que entrou no portal">Dias</th>${missoes.map(x => `<th title="${esc(x.m.titulo)}">${esc(x.m.icone)}<br><small>${esc(x.m.id.toUpperCase())}</small></th>`).join("")}<th></th></tr></thead>
-        <tbody>${lista.map(a => `<tr class="${a.ativo ? "" : "inativo"}"><td>${esc(a.nome)}${a.ativo ? "" : " <small>(desativado)</small>"}</td><td class="pp-cod">${esc(a.codigo)}</td><td>${dias(a)}</td>${missoes.map(x => cel(a, x)).join("")}
+        <tbody>${lista.map(a => `<tr class="${a.ativo ? "" : "inativo"}"><td>${esc(a.nome)}${a.trilha ? ' <span title="Usa a apostila diferenciada (Trilha Passo a Passo)">📌</span>' : ""}${a.ativo ? "" : " <small>(desativado)</small>"}</td><td class="pp-cod">${esc(a.codigo)}</td><td>${dias(a)}</td>${missoes.map(x => cel(a, x)).join("")}
           <td><button class="btn btn-link btn-peq" data-a="${a.id}" type="button">⚙️</button></td></tr>`).join("")}</tbody></table></div>`;
       corpo.querySelectorAll("[data-a]").forEach(b => b.onclick = () => menuAluno(alunos.find(a => a.id === b.dataset.a)));
       corpo.querySelectorAll("[data-ver]").forEach(td => { const f = () => verRespostas(prog.find(p => p.id === td.dataset.ver)); td.onclick = f; td.onkeydown = e => { if (e.key === "Enter") f(); }; });
@@ -219,6 +226,7 @@
           <button class="btn btn-sec" value="cod" type="button" data-x="cod">🔑 Gerar novo código</button>
           <button class="btn btn-sec" value="nome" type="button" data-x="nome">✏️ Corrigir nome</button>
           <button class="btn btn-sec" type="button" data-x="turma">🔀 Mudar de turma</button>
+          <button class="btn btn-sec" type="button" data-x="trilha">${a.trilha ? "📌 Tirar a apostila diferenciada" : "📌 Usar apostila diferenciada (Trilha Passo a Passo)"}</button>
           <button class="btn btn-sec" type="button" data-x="ativo">${a.ativo ? "⛔ Desativar (saiu da escola)" : "✅ Reativar"}</button>
           <button class="btn" value="x">Fechar</button></div></form></dialog>`);
       document.body.appendChild(dlg); dlg.showModal();
@@ -233,6 +241,12 @@
             const r = prompt("Para qual turma? Digite exatamente: " + opc.map(y => y.id).join(", "));
             const nt = opc.find(y => y.id.toLowerCase() === String(r || "").trim().toLowerCase()); if (!nt) { if (r) alert("Turma não encontrada."); return; }
             const c = await novoCodigo(a, nt.id); alert(`${a.nome} agora está no ${nomeTurma(nt.id)}. Novo código: ${c}. O histórico continua guardado.`);
+          }
+          if (x === "trilha") {
+            const tem = cat().apostilas.some(y => y.trilha && y.serie === (todasTurmas().find(z => z.id === a.turma) || { serie: {} }).serie.id);
+            if (!a.trilha && !tem && !confirm("Esta série ainda não tem Trilha Passo a Passo. A marcação fica guardada e passa a valer quando a Trilha existir. Marcar mesmo assim?")) return;
+            await marcarTrilha(a, !a.trilha);
+            alert(a.trilha ? `${a.nome} volta a usar a apostila da turma.` : `Pronto! Quando ${a.nome} digitar o código, o portal abre direto a Trilha Passo a Passo.`);
           }
           if (x === "ativo") { if (a.ativo && !confirm(`Desativar ${a.nome}? O código para de funcionar, mas o histórico fica guardado.`)) return; await mudarAtivo(a, !a.ativo); }
           dlg.close(); toast("Feito!"); telaTurmas(u, t.id);
@@ -258,7 +272,7 @@
       alunos.forEach(a => {
         const dd = new Set(); (pm[a.id] || []).forEach(p => Object.keys(p.dias || {}).forEach(d => dd.add(d)));
         lin.push([a.nome, a.codigo, a.ativo ? "ativo" : "desativado", dd.size].concat(missoes.map(x => {
-          const p = (pm[a.id] || []).find(q => q.aid === x.aid && q.mid === x.m.id);
+          const p = (pm[a.id] || []).find(q => (q.aid === x.aid || (cat().apostilas.find(y => y.id === q.aid) || {}).base === x.aid) && q.mid === x.m.id);
           return !p ? "" : p.basicoOk ? "Básico concluído" + ((p.desafio || [])[1] && p.desafio[0] === p.desafio[1] ? " + Desafio" : "") : `Básico ${(p.basico || [0, 0]).join("/")}`;
         })));
       });
@@ -390,7 +404,7 @@
     await P.aula.render(el.querySelector("#aula"), ap.id, mid, t.id, { vivo: async (aid, m, turma) => {
       const prog = await progressoDaTurma(turma), d = N.hoje();
       const entraram = new Set(prog.filter(p => p.dias && p.dias[d]).map(p => p.alunoId));
-      const basico = new Set(prog.filter(p => p.aid === aid && p.mid === m && p.basicoOk).map(p => p.alunoId));
+      const basico = new Set(prog.filter(p => (p.aid === aid || (cat().apostilas.find(y => y.id === p.aid) || {}).base === aid) && p.mid === m && p.basicoOk).map(p => p.alunoId));
       return { entraram: entraram.size, basico: [...basico].filter(x => entraram.has(x)).length };
     } });
   }
@@ -490,7 +504,7 @@
       try {
         const q = await db().collection("alunos").where("ativo", "==", true).get();
         const ops = [];
-        q.docs.forEach(d => { const a = d.data(); ops.push(x => x.update(d.ref, { ativo: false })); ops.push(x => x.set(db().collection("acessos").doc(a.turma + "_" + a.codigo), { alunoId: d.id, turma: a.turma, ativo: false, nome: a.nome })); });
+        q.docs.forEach(d => { const a = d.data(); ops.push(x => x.update(d.ref, { ativo: false })); ops.push(x => x.set(db().collection("acessos").doc(a.turma + "_" + a.codigo), { alunoId: d.id, turma: a.turma, ativo: false, nome: a.nome, ...(a.trilha ? { trilha: true } : {}) })); });
         ops.push(x => x.set(db().collection("config").doc("geral"), { ano: cfg.ano + 1, viradaEm: Date.now() }, { merge: true }));
         await lotes(ops);
         alert(`Pronto! ${q.size} alunos desativados. Agora importe as listas de ${cfg.ano + 1}.`);

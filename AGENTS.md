@@ -64,6 +64,12 @@ Apostilas (ids): `informatica-5ano-4bim`, `informatica-6ano-4bim`, `informatica-
 `informatica-8ano-4bim`, `informatica-8ano-4bim-trilha` (versão passo a passo do 8º ano),
 `informatica-9ano-4bim`.
 
+### Alunos com apostila diferenciada (📌)
+No painel, o professor marca o aluno com "📌 Usar apostila diferenciada". A marcação fica em
+`alunos/{id}.trilha` e `acessos/{turma_codigo}.trilha`. Quando esse aluno entra sozinho com o código,
+o portal troca a apostila da turma pela Trilha Passo a Passo da série (catálogo: `trilha: true`,
+`base: <apostila da turma>`). Toda função que regrava o documento `acessos` precisa manter o campo `trilha`.
+
 ## 4. Pode fazer
 - Corrigir ou melhorar textos, enunciados, dicas, explicações e respostas.
 - Acrescentar atividades usando os **tipos que já existem** (veja a lista no topo de
