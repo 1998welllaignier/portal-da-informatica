@@ -14,9 +14,9 @@ Neste bimestre você vai cumprir **3 missões** e um **projeto final**. São as 
 - 🔊 Clique em **Ouvir** para o computador ler o texto para você.
 - 🖱️ Quase tudo é feito **clicando**.
 - ✅ Clique em **Verificar** quando terminar cada atividade.
-- 🙋 No fim do Básico, chame o professor para carimbar a sua apostila.
+- 🎉 No fim do Básico aparece a faixa **✅ Básico concluído**. Tudo fica registrado sozinho para o professor.
 
-**Regra de ouro:** quem conclui o Básico e recebe o carimbo do professor ganha o tempo de jogos livres no final da aula. 🎮
+**Regra de ouro:** quem conclui o Básico (aparece a faixa verde **✅ Básico concluído**) já pode seguir para o Desafio ou ficar com os jogos livres no final da aula. 🎮
 
 ## 🗂️ Missão 1 – Listas: procurar e arrumar em ordem
 **Objetivo:** procurar um item numa lista e arrumar uma lista em ordem, como o computador faz.
@@ -93,6 +93,7 @@ O vídeo sai do **celular**, passa pelo **roteador** e pelo provedor e chega ao 
 ### 💡 Para começar
 **Dado pessoal** é uma informação que mostra **quem você é**: o seu nome completo, o endereço da sua casa, o seu telefone, a sua foto.
 Na internet, **não conte os seus dados** para quem você não conhece. A sua **senha** é segredo: não conte para ninguém.
+Coisas que **não mostram quem você é** podem ser mostradas: a sua **cor favorita**, um **desenho que você fez**, o seu time do coração.
 **Permissão** é quando o aplicativo pede para usar a **câmera**, o **microfone** ou o **lugar onde você está**. Pergunte: ele **precisa** disso para funcionar?
 **Notícia falsa** (em inglês, *fake news*) é uma mentira espalhada como se fosse verdade. Desconfie quando a mensagem:
 - ❓ **não tem o nome** de quem escreveu;
@@ -129,5 +130,5 @@ Marque o que você já consegue fazer:
 - [ ] Protejo a minha senha e os meus dados.
 - [ ] Desconfio de mensagem com URGENTE!!! e sem autor.
 ### 🧠 Resumo do Bimestre
-Neste bimestre você aprendeu a procurar e a arrumar listas como um computador, descobriu o caminho do vídeo na internet e o que é a nuvem, e aprendeu a proteger os seus dados e a desconfiar de notícias falsas. Os carimbos da sua apostila mostram tudo o que você conquistou!
-**Palavras-chave:** missão · carimbo · autoavaliação · aprendizado
+Neste bimestre você aprendeu a procurar e a arrumar listas como um computador, descobriu o caminho do vídeo na internet e o que é a nuvem, e aprendeu a proteger os seus dados e a desconfiar de notícias falsas. As missões concluídas no portal mostram tudo o que você conquistou!
+**Palavras-chave:** missão · conquista · autoavaliação · aprendizado

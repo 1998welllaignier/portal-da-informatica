@@ -31,17 +31,17 @@ Neste bimestre você vai cumprir **3 missões** e um **projeto final**. Cada mis
 
 **Cada missão tem 3 níveis:**
 | Nível | Quem faz | O que vale |
-| 🟢 Básico | Todos os alunos | Obrigatório para concluir a aula |
-| 🟡 Desafio | Quem terminou o Básico | Pontos extras |
-| 🔴 Turbo | Quem terminou o Desafio | Para os mais rápidos |
+| 🟢 Básico | Todos os alunos | Obrigatório: vale **1,0 ponto** por missão e libera os jogos livres |
+| 🟡 Desafio | Quem terminou o Básico | **+0,25 ponto**: aumenta a sua nota do bimestre |
+| 🔴 Turbo | Quem terminou o Desafio | **+0,25 ponto**: aumenta ainda mais a sua nota |
 
 **Ícones da apostila:**
 - 💡 **Para começar** – a explicação do dia
-- 🎯 **Missão** – o que você vai fazer no papel e no computador
+- 🎯 **Missão** – as atividades que você faz no computador; o portal confere na hora
 - ✅ **Perguntas rápidas** – verdadeiro ou falso para conferir
 - 🧠 **Resumo da Aula** – leia com a turma; ele ajuda a estudar para a avaliação
-✍️ **Tudo na apostila:** você escreve e desenha todas as respostas aqui mesmo, nas tabelas e nos quadros em branco. Use lápis e capriche na letra!
-**Regra de ouro:** quem conclui o nível Básico e recebe o carimbo do professor ganha o tempo de jogos livres no final da aula. 🎮
+🔎 **Todas as respostas estão na apostila:** leia o **💡 Para começar** e o **📖 O que significa?**. Errou? Leia de novo com calma, peça uma **💡 Dica** ou veja a **📘 resolução comentada**. Você consegue fazer tudo sozinho!
+**Regra de ouro:** quem conclui o Básico (aparece a faixa verde **✅ Básico concluído**) já pode seguir para o Desafio ou ficar com os jogos livres no final da aula. 🎮 Tudo fica registrado sozinho para o professor: não precisa chamar ninguém.
 ## 🌐 Missão 1 – Redes e internet: como os dados viajam
 **Objetivo:** entender o que é uma rede de computadores e como as mensagens viajam pela internet em pacotes, seguindo regras chamadas protocolos.
 📅 **Data da aula:** ........ / ........
@@ -56,6 +56,25 @@ Uma **rede de computadores** é um grupo de aparelhos ligados entre si para troc
 A **internet** é uma rede de redes: milhões de redes ligadas no mundo todo. Cada aparelho tem um **endereço IP**, que funciona como o endereço de uma casa.
 Quando você envia uma mensagem, ela é dividida em pedaços chamados **pacotes**. Cada pacote leva o endereço de quem envia, o endereço de quem recebe e um número. Os pacotes podem viajar por caminhos diferentes e chegar fora de ordem; o aparelho que recebe usa os números para montar a mensagem.
 Para tudo isso funcionar, os aparelhos seguem **protocolos**: regras combinadas para que todos se entendam, como as regras de trânsito. Exemplos: **TCP/IP** (divide em pacotes e entrega) e **HTTPS** (abre páginas com segurança; aparece um cadeado 🔒 no navegador).
+**A internet funciona como o correio:**
+| No correio | Na internet |
+| Endereço de quem recebe a carta | **Endereço IP** |
+| Carteiros e agências que levam a carta | **Roteadores** |
+| Regras do correio (CEP, selo, envelope) | **Protocolos** |
+| Carta longa enviada em várias folhas numeradas | **Pacotes** |
+
+**A rede da nossa escola, por dentro:** a internet chega da rua por um cabo de **fibra óptica** (cabo que leva os dados em forma de luz) e entra pela cozinha, onde fica o **rack** (o armário dos aparelhos de rede). O caminho até o computador da sala de informática é este:
+| Ordem | Parte do caminho | O que faz |
+| 1 | Fibra óptica chegando da rua | Traz a internet do provedor até a escola |
+| 2 | Roteador MikroTik no rack da cozinha | Distribui a internet para a escola toda (ele não tem antenas: não faz Wi-Fi) |
+| 3 | Switch gigabit de 24 portas | **Switch** é o aparelho que divide a rede por cabo para vários aparelhos; **gigabit** quer dizer até 1 Gbps (1.000 Mbps) |
+| 4 | Cabo CAT6 por baixo do chão | Cabo de rede que leva a internet até as salas |
+| 5 | Tomada de rede na parede ou no chão da sala | Onde o cabo chega na sala |
+| 6 | Switch Fast Ethernet da baia | Switch pequeno, perto dos computadores; vai só até **100 Mbps** |
+| 7 | Computador da sala de informática | Onde você usa a internet |
+
+Nas **salas de aula comuns**, o cabo chega a um **AP** (*Access Point*, ponto de acesso): o aparelho que recebe a rede pelo cabo e a transforma em **Wi-Fi** para os celulares.
+**Mbps** (megabits por segundo) mede quantos dados passam por segundo: quanto maior, mais rápido. **A parte mais lenta manda:** a velocidade de todo o caminho fica limitada pela parte mais lenta, como uma estrada larga que termina numa ponte estreita (os carros passam na velocidade da ponte). O cabo do chão aguenta até 1 Gbps, mas o switch da baia vai só até 100 Mbps; por isso, chegam **no máximo 100 Mbps** ao seu computador.
 ### 📖 O que significa?
 - **Rede**: aparelhos ligados entre si para trocar informações e dividir recursos, como a internet e a impressora.
 - **Internet** (*inter* = entre; *net* = rede): a rede que liga as redes do mundo inteiro.
@@ -264,7 +283,8 @@ Para resolver problemas grandes, usamos a **decomposição**: dividir em partes 
 ### 💡 Para começar
 **Segurança na internet:**
 - **Golpe** (ou **phishing**) é uma mensagem falsa que finge ser de um banco, loja, jogo ou amigo para roubar senhas, códigos e dados.
-- Sinais de golpe: **pressa** (“só hoje!”), **prêmio fácil**, **link estranho**, erros de português e **pedido de senha ou código**.
+- Sinais de golpe: **pressa** (“só hoje!”, “em até 10 minutos!”), **prêmio fácil** (celular, moedas grátis), **link estranho**, erros de português, **pedido de senha ou código** e alguém dizendo que **trocou de número** (“sou eu, sua tia, este é meu número novo”) para pedir dinheiro ou código.
+- Quando **você mesmo** pede um código (por exemplo, ao entrar no aplicativo), o aviso “não compartilhe este código com ninguém” é do próprio aplicativo e protege você. Erro de português é um sinal, mas um texto sem erros, sozinho, não prova que a mensagem é verdadeira.
 - **Malware** é um programa malicioso, como o vírus. Não baixe programas nem jogos de sites desconhecidos.
 - Proteja-se: use **senha forte** e diferente em cada conta, ative a **verificação em duas etapas** (um código extra além da senha), **nunca passe códigos** que chegam por SMS e **saia da conta** em computadores usados por outras pessoas.
 **Convivência digital:**
@@ -379,5 +399,5 @@ Marque o que você já consegue fazer sozinho:
 ### 📝 Ficha de avaliação do professor
 O cálculo completo está no **Quadro de notas** da primeira página: a apostila (carimbos) vale até **5,0** e a prova no Wayground vale até **5,0**, somando a nota do bimestre de **0 a 10**.
 ### 🧠 Resumo do Bimestre
-Neste bimestre você descobriu como as redes e a internet levam as mensagens em pacotes, aprendeu a resolver problemas dividindo-os em partes, usando listas, reaproveitando blocos e corrigindo erros, e viu como se proteger e conviver com respeito no ambiente digital. Os carimbos da sua apostila mostram tudo o que você conquistou!
-**Palavras-chave:** missão · carimbo · autoavaliação · aprendizado
+Neste bimestre você descobriu como as redes e a internet levam as mensagens em pacotes, aprendeu a resolver problemas dividindo-os em partes, usando listas, reaproveitando blocos e corrigindo erros, e viu como se proteger e conviver com respeito no ambiente digital. As missões concluídas no portal mostram tudo o que você conquistou!
+**Palavras-chave:** missão · conquista · autoavaliação · aprendizado

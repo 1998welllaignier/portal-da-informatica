@@ -9,10 +9,10 @@ PORTAL.registrarAtividades("informatica-8ano-4bim-trilha", {
   /* ======================= MISSÃO 1 ======================= */
   m1: {
     pratica: [
-      { tipo: "adivinhe", titulo: "Jogo: adivinhe o número", max: 50, meta: 6,
+      { tipo: "sim_adivinhe", titulo: "Jogo: adivinhe o número", max: 50, meta: 6,
         enunciado: "<p>Pensei num número de <strong>1 a 50</strong>. Comece chutando <strong>25</strong> (o meio). Eu digo se é maior ou menor.</p>",
         explicacao: "Chutar o meio sempre é a <strong>busca binária</strong>: muito mais rápido que tentar 1, 2, 3…" },
-      { tipo: "bolha", titulo: "Arrume os números do menor para o maior",
+      { tipo: "sim_bolha", titulo: "Arrume os números do menor para o maior",
         enunciado: "<p>Clique em <strong>⇄</strong> para trocar dois vizinhos de lugar, até ficar em <strong>ordem crescente</strong>.</p>",
         valores: [9, 2, 6, 4],
         explicacao: "Trocar vizinhos até ficar em ordem é o <strong>método da bolha</strong>." }
@@ -81,7 +81,10 @@ PORTAL.registrarAtividades("informatica-8ano-4bim-trilha", {
         explicacao: "O roteador espalha o Wi-Fi. A nuvem guarda a foto nos computadores do data center." },
 
       { tipo: "pc", titulo: "Passo 4 · No computador: desenhe no Paint", programa: "Paint",
-        passos: ["Clique no botão <strong>Iniciar</strong> e digite <strong>paint</strong>. Clique em <strong>Paint</strong>.", "Clique no <strong>retângulo</strong> ▭ e desenhe <strong>3 quadrados</strong>, um ao lado do outro.", "Clique no <strong>A</strong> (texto) e escreva: <strong>CELULAR</strong>, <strong>ROTEADOR</strong> e <strong>NUVEM</strong>.", "Chame o professor para ver o seu desenho."] }
+        passos: ["Clique no botão <strong>Iniciar</strong> e digite <strong>paint</strong>. Clique em <strong>Paint</strong>.", "Clique no <strong>retângulo</strong> ▭ e desenhe <strong>3 quadrados</strong>, um ao lado do outro.", "Clique no <strong>A</strong> (texto) e escreva: <strong>CELULAR</strong>, <strong>ROTEADOR</strong> e <strong>NUVEM</strong>.", "Deixe o desenho aberto na tela e responda abaixo."],
+        conferir: [{ rot: "Quantos quadrados você desenhou?", ph: "Número", gab: "3", re: "^\\s*(3|tr[eê]s)\\s*$", dica: "São <strong>3</strong> quadrados." },
+          { rot: "Que palavras você escreveu nos quadrados?", ph: "…", gab: "CELULAR, ROTEADOR e NUVEM", re: "celular[\\s\\S]*roteador[\\s\\S]*nuvem", dica: "Escreva as 3 palavras na ordem: CELULAR, ROTEADOR e NUVEM." }],
+        okMsg: "Desenho pronto! Ficou registrado para o professor." }
     ],
     vf: [{ v: true }, { v: false, why: "A nuvem é guardar no <strong>data center</strong>, pela internet." }, { v: true }]
   },

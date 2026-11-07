@@ -853,3 +853,12 @@ body.modo-trilha { font-size: 21px; line-height: 1.65; }
 .sim-opcoes { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
 .sim-et.errou { animation: treme .4s; border-color: #dc2626; }
 @keyframes treme { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+.banner-concluida { text-align: left; font-weight: 600; font-size: 1.05rem; }
+.banner-concluida p { margin: 6px 0; }
+.banner-concluida .bc-tit { font-size: 1.45rem; font-weight: 900; text-align: center; margin: 0 0 8px; }
+.banner-concluida .bc-opcoes { margin: 6px 0 10px; padding-left: 22px; }
+.banner-concluida .bc-opcoes li { margin: 4px 0; }
+.banner-concluida .bc-bts { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+.banner-concluida .bc-bts .btn-ok { background: #fff; color: var(--ok); border-color: #fff; }
+.banner-concluida .bc-bts .btn-sec { background: rgba(255,255,255,.15); color: #fff; border-color: #fff; }
+.banner-concluida .bc-link { display: block; text-align: center; color: #fff; margin-top: 10px; font-size: .95rem; }

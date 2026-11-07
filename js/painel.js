@@ -345,7 +345,7 @@
         `AUSENTES (${aus.length}):`,
         ...(aus.length ? aus.map(a => `- ${a.nome} [${a.id}]`) : ["- nenhum"]),
         "",
-        "Claude: lance no Diário de Classe a presença (P para os presentes, F para os ausentes), o carimbo do Básico de quem concluiu, os pontos extras de quem completou o Desafio e o registro da aula."
+        "Claude: lance no Diário de Classe a presença (P para os presentes, F para os ausentes), o Básico concluído de quem terminou, os pontos extras de quem completou o Desafio e o registro da aula."
       ].join("\n");
     }
     el.querySelector("#corpo").innerHTML = dias.length ? dias.map(d => {

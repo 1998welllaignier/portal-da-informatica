@@ -47,17 +47,17 @@ PORTAL.registrarConteudo("informatica-7ano-4bim", {
     [
      "🟢 Básico",
      "Todos os alunos",
-     "Obrigatório para concluir a aula"
+     "Obrigatório: vale <strong>1,0 ponto</strong> por missão e libera os jogos livres"
     ],
     [
      "🟡 Desafio",
      "Quem terminou o Básico",
-     "Pontos extras"
+     "<strong>+0,25 ponto</strong>: aumenta a sua nota do bimestre"
     ],
     [
      "🔴 Turbo",
      "Quem terminou o Desafio",
-     "Para os mais rápidos"
+     "<strong>+0,25 ponto</strong>: aumenta ainda mais a sua nota"
     ]
    ]
   },
@@ -75,7 +75,7 @@ PORTAL.registrarConteudo("informatica-7ano-4bim", {
     },
     {
      "nivel": 0,
-     "h": "🎯 <strong>Missão</strong> – o que você vai fazer no papel e no computador"
+     "h": "🎯 <strong>Missão</strong> – as atividades que você faz no computador; o portal confere na hora"
     },
     {
      "nivel": 0,
@@ -89,11 +89,11 @@ PORTAL.registrarConteudo("informatica-7ano-4bim", {
   },
   {
    "t": "p",
-   "h": "✍️ <strong>Tudo na apostila:</strong> você escreve e desenha todas as respostas aqui mesmo, nas tabelas e nos quadros em branco. Use lápis e capriche na letra!"
+   "h": "🔎 <strong>Todas as respostas estão na apostila:</strong> leia o <strong>💡 Para começar</strong> e o <strong>📖 O que significa?</strong>. Errou? Leia de novo com calma, peça uma <strong>💡 Dica</strong> ou veja a <strong>📘 resolução comentada</strong>. Você consegue fazer tudo sozinho!"
   },
   {
    "t": "p",
-   "h": "<strong>Regra de ouro:</strong> quem conclui o nível Básico e recebe o carimbo do professor ganha o tempo de jogos livres no final da aula. 🎮"
+   "h": "<strong>Regra de ouro:</strong> quem conclui o Básico (aparece a faixa verde <strong>✅ Básico concluído</strong>) já pode seguir para o Desafio ou ficar com os jogos livres no final da aula. 🎮 Tudo fica registrado sozinho para o professor: não precisa chamar ninguém."
   }
  ],
  "missoes": [
@@ -148,6 +148,92 @@ PORTAL.registrarConteudo("informatica-7ano-4bim", {
     {
      "t": "p",
      "h": "Para tudo isso funcionar, os aparelhos seguem <strong>protocolos</strong>: regras combinadas para que todos se entendam, como as regras de trânsito. Exemplos: <strong>TCP/IP</strong> (divide em pacotes e entrega) e <strong>HTTPS</strong> (abre páginas com segurança; aparece um cadeado 🔒 no navegador)."
+    },
+    {
+     "t": "p",
+     "h": "<strong>A internet funciona como o correio:</strong>"
+    },
+    {
+     "t": "tabela",
+     "cab": [
+      "No correio",
+      "Na internet"
+     ],
+     "linhas": [
+      [
+       "Endereço de quem recebe a carta",
+       "<strong>Endereço IP</strong>"
+      ],
+      [
+       "Carteiros e agências que levam a carta",
+       "<strong>Roteadores</strong>"
+      ],
+      [
+       "Regras do correio (CEP, selo, envelope)",
+       "<strong>Protocolos</strong>"
+      ],
+      [
+       "Carta longa enviada em várias folhas numeradas",
+       "<strong>Pacotes</strong>"
+      ]
+     ]
+    },
+    {
+     "t": "p",
+     "h": "<strong>A rede da nossa escola, por dentro:</strong> a internet chega da rua por um cabo de <strong>fibra óptica</strong> (cabo que leva os dados em forma de luz) e entra pela cozinha, onde fica o <strong>rack</strong> (o armário dos aparelhos de rede). O caminho até o computador da sala de informática é este:"
+    },
+    {
+     "t": "tabela",
+     "cab": [
+      "Ordem",
+      "Parte do caminho",
+      "O que faz"
+     ],
+     "linhas": [
+      [
+       "1",
+       "Fibra óptica chegando da rua",
+       "Traz a internet do provedor até a escola"
+      ],
+      [
+       "2",
+       "Roteador MikroTik no rack da cozinha",
+       "Distribui a internet para a escola toda (ele não tem antenas: não faz Wi-Fi)"
+      ],
+      [
+       "3",
+       "Switch gigabit de 24 portas",
+       "<strong>Switch</strong> é o aparelho que divide a rede por cabo para vários aparelhos; <strong>gigabit</strong> quer dizer até 1 Gbps (1.000 Mbps)"
+      ],
+      [
+       "4",
+       "Cabo CAT6 por baixo do chão",
+       "Cabo de rede que leva a internet até as salas"
+      ],
+      [
+       "5",
+       "Tomada de rede na parede ou no chão da sala",
+       "Onde o cabo chega na sala"
+      ],
+      [
+       "6",
+       "Switch Fast Ethernet da baia",
+       "Switch pequeno, perto dos computadores; vai só até <strong>100 Mbps</strong>"
+      ],
+      [
+       "7",
+       "Computador da sala de informática",
+       "Onde você usa a internet"
+      ]
+     ]
+    },
+    {
+     "t": "p",
+     "h": "Nas <strong>salas de aula comuns</strong>, o cabo chega a um <strong>AP</strong> (<em>Access Point</em>, ponto de acesso): o aparelho que recebe a rede pelo cabo e a transforma em <strong>Wi-Fi</strong> para os celulares."
+    },
+    {
+     "t": "p",
+     "h": "<strong>Mbps</strong> (megabits por segundo) mede quantos dados passam por segundo: quanto maior, mais rápido. <strong>A parte mais lenta manda:</strong> a velocidade de todo o caminho fica limitada pela parte mais lenta, como uma estrada larga que termina numa ponte estreita (os carros passam na velocidade da ponte). O cabo do chão aguenta até 1 Gbps, mas o switch da baia vai só até 100 Mbps; por isso, chegam <strong>no máximo 100 Mbps</strong> ao seu computador."
     }
    ],
    "termos": [
@@ -391,7 +477,11 @@ PORTAL.registrarConteudo("informatica-7ano-4bim", {
       },
       {
        "nivel": 0,
-       "h": "Sinais de golpe: <strong>pressa</strong> (“só hoje!”), <strong>prêmio fácil</strong>, <strong>link estranho</strong>, erros de português e <strong>pedido de senha ou código</strong>."
+       "h": "Sinais de golpe: <strong>pressa</strong> (“só hoje!”, “em até 10 minutos!”), <strong>prêmio fácil</strong> (celular, moedas grátis), <strong>link estranho</strong>, erros de português, <strong>pedido de senha ou código</strong> e alguém dizendo que <strong>trocou de número</strong> (“sou eu, sua tia, este é meu número novo”) para pedir dinheiro ou código."
+      },
+      {
+       "nivel": 0,
+       "h": "Quando <strong>você mesmo</strong> pede um código (por exemplo, ao entrar no aplicativo), o aviso “não compartilhe este código com ninguém” é do próprio aplicativo e protege você. Erro de português é um sinal, mas um texto sem erros, sozinho, não prova que a mensagem é verdadeira."
       },
       {
        "nivel": 0,
@@ -534,10 +624,10 @@ PORTAL.registrarConteudo("informatica-7ano-4bim", {
    "alertas": [],
    "vf": [],
    "resumo": {
-    "texto": "Neste bimestre você descobriu como as redes e a internet levam as mensagens em pacotes, aprendeu a resolver problemas dividindo-os em partes, usando listas, reaproveitando blocos e corrigindo erros, e viu como se proteger e conviver com respeito no ambiente digital. Os carimbos da sua apostila mostram tudo o que você conquistou!",
+    "texto": "Neste bimestre você descobriu como as redes e a internet levam as mensagens em pacotes, aprendeu a resolver problemas dividindo-os em partes, usando listas, reaproveitando blocos e corrigindo erros, e viu como se proteger e conviver com respeito no ambiente digital. As missões concluídas no portal mostram tudo o que você conquistou!",
     "chaves": [
      "missão",
-     "carimbo",
+     "conquista",
      "autoavaliação",
      "aprendizado"
     ]

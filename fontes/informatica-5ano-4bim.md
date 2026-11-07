@@ -32,17 +32,17 @@ Neste bimestre você vai cumprir **4 missões** e um **projeto final**. Cada mis
 
 **Cada missão tem 3 níveis:**
 | Nível | Quem faz | O que vale |
-| 🟢 Básico | Todos os alunos | Obrigatório para concluir a aula |
-| 🟡 Desafio | Quem terminou o Básico | Pontos extras |
-| 🔴 Turbo | Quem terminou o Desafio | Para os mais rápidos |
+| 🟢 Básico | Todos os alunos | Obrigatório: vale **1,0 ponto** por missão e libera os jogos livres |
+| 🟡 Desafio | Quem terminou o Básico | **+0,25 ponto**: aumenta a sua nota do bimestre |
+| 🔴 Turbo | Quem terminou o Desafio | **+0,25 ponto**: aumenta ainda mais a sua nota |
 
 **Ícones da apostila:**
 - 💡 **Para começar** – a explicação do dia
-- 🎯 **Missão** – o que você vai fazer no papel e no computador
+- 🎯 **Missão** – as atividades que você faz no computador; o portal confere na hora
 - ✅ **Perguntas rápidas** – verdadeiro ou falso para conferir
 - 🧠 **Resumo da Aula** – estude por ele
-✍️ **Tudo na apostila:** você escreve e desenha todas as respostas aqui mesmo, nas tabelas e nos quadros em branco. Use lápis e capriche na letra!
-**Regra de ouro:** quem conclui o nível Básico e recebe o carimbo do professor ganha o tempo de jogos livres no final da aula. 🎮
+🔎 **Todas as respostas estão na apostila:** leia o **💡 Para começar** e o **📖 O que significa?**. Errou? Leia de novo com calma, peça uma **💡 Dica** ou veja a **📘 resolução comentada**. Você consegue fazer tudo sozinho!
+**Regra de ouro:** quem conclui o Básico (aparece a faixa verde **✅ Básico concluído**) já pode seguir para o Desafio ou ficar com os jogos livres no final da aula. 🎮 Tudo fica registrado sozinho para o professor: não precisa chamar ninguém.
 ## 🖥️ Missão 1 – O computador e onde moram os dados
 **Objetivo:** conhecer as partes principais do computador, descobrir onde os dados ficam guardados e entender para que serve o sistema operacional.
 📅 **Data da aula:** ........ / ........
@@ -58,6 +58,8 @@ O computador tem **4 tipos de partes**, e cada uma tem uma função:
 | Lugar | Como funciona | Exemplos |
 | No aparelho (local) | Ficam guardados no próprio computador ou celular, ou num pen drive | Galeria de fotos do celular, pen drive |
 | Na nuvem (remoto) | Ficam guardados em computadores de empresas, bem longe, e você acessa pela internet | Google Drive, fotos salvas na nuvem, vídeos do YouTube |
+
+**E se o aparelho quebrar?** O que estava guardado **só no aparelho** pode se perder junto com ele. O que está **na nuvem** continua guardado: dá para abrir em outro computador ou celular com internet. Um jogo instalado no computador da escola e um trabalho salvo no pen drive estão **no aparelho**.
 
 O **sistema operacional** é o programa principal do computador: ele liga tudo, organiza as peças e deixa os outros programas funcionarem. Sem ele, o computador não abre nem o Paint. Os computadores da nossa sala usam o **Windows**. Os celulares usam o **Android** ou o **iOS**.
 **Combinados da sala:** não comer nem beber perto do computador · não mexer nos cabos · usar só os programas pedidos · avisar o professor quando algo der errado.

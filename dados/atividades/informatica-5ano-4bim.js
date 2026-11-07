@@ -75,7 +75,7 @@ PORTAL.registrarAtividades("informatica-5ano-4bim", {
   /* ======================= MISSÃO 2 ======================= */
   m2: {
     pratica: [
-      { tipo: "bolha", titulo: "Arrume a lista da chamada em ordem alfabética",
+      { tipo: "sim_bolha", titulo: "Arrume a lista da chamada em ordem alfabética",
         enunciado: "<p>Clique no botão <strong>⇄</strong> entre dois nomes para trocar os dois de lugar. Deixe a lista em <strong>ordem alfabética</strong> (A, B, C…).</p>",
         valores: ["Pedro", "Ana", "Luíza", "Carlos", "Bia"],
         explicacao: "Trocar vizinhos até tudo ficar em ordem é um jeito que o computador usa para <strong>ordenar listas</strong>." }
@@ -97,7 +97,7 @@ PORTAL.registrarAtividades("informatica-5ano-4bim", {
           { tipo: "pergunta", instr: "Quem fica na posição 3 agora?", r: "Duda" }],
         explicacao: "Quando Caio sai, Duda anda uma posição e fica em 3º lugar." },
       { tipo: "tabela", titulo: "O grafo das amizades",
-        enunciado: "<p>Amizades: <strong>Ana — Bia · Ana — Caio · Bia — Duda · Caio — Duda · Duda — Enzo</strong>. Desenhe o grafo na apostila impressa (cada nome é um círculo; cada amizade é uma linha) e responda:</p>",
+        enunciado: "<p>Amizades: <strong>Ana — Bia · Ana — Caio · Bia — Duda · Caio — Duda · Duda — Enzo</strong>. Imagine o grafo: cada nome é um círculo (vértice) e cada amizade é uma linha (aresta) ligando dois nomes. Conte quantas linhas saem de cada nome e responda:</p>",
         linhas: [["Quem tem mais amigos no grafo?", { r: "Duda", w: 10 }], ["Quantos amigos essa pessoa tem?", { r: "3", tipo: "num", w: 4 }], ["Quem tem só um amigo?", { r: "Enzo", w: 10 }]],
         dicas: ["Conte quantas linhas saem de cada nome."],
         explicacao: "Duda tem 3 amigos (Bia, Caio e Enzo). Enzo tem só 1 amigo (Duda)." },
@@ -223,7 +223,11 @@ PORTAL.registrarAtividades("informatica-5ano-4bim", {
         categorias: [{ id: "A", rot: "Paint" }, { id: "B", rot: "Bloco de Notas" }, { id: "C", rot: "Calculadora" }, { id: "D", rot: "Chamada de vídeo" }],
         itens: [{ t: "Fazer uma conta difícil bem rápido", c: "C" }, { t: "Falar com a avó que mora em outra cidade", c: "D" }, { t: "Escrever um texto no computador", c: "B" }, { t: "Fazer um desenho no computador", c: "A" }] },
       { tipo: "pc", titulo: "No computador: cartaz Eu navego com cuidado", programa: "Paint",
-        passos: ["Escreva o título <strong>Eu navego com cuidado</strong>.", "Faça um desenho seu.", "Embaixo, escreva: <strong>Criado por: (seu primeiro nome)</strong>.", "Chame o professor para conferir."] }
+        passos: ["Escreva o título <strong>Eu navego com cuidado</strong>.", "Faça um desenho seu.", "Embaixo, escreva: <strong>Criado por: (seu primeiro nome)</strong>.", "Deixe o cartaz aberto na tela (o professor vê pelo Veyon) e responda à conferência abaixo."],
+        conferir: [{ rot: "Qual é o título do seu cartaz?", ph: "Título…", gab: "Eu navego com cuidado", re: "navego\\s+com\\s+cuidado", dica: "O título é <strong>Eu navego com cuidado</strong>." },
+          { rot: "O que você escreveu embaixo do desenho?", ph: "Criado por: …", gab: "Criado por: (seu primeiro nome)", re: "criado\\s+por", dica: "Embaixo do desenho vai a frase <strong>Criado por:</strong> e o seu primeiro nome." },
+          { rot: "Escreva 1 cuidado que você tem na internet (está no 💡 Para começar):", ph: "Ex.: confiro quem escreveu…", gab: "conferir o autor e a fonte, desconfiar de mensagem urgente, dar crédito…", re: "confi|fonte|autor|desconfi|compartilh|urgente|cr[eé]dito|adulto|verdade|pergunt|cuidado|link|senha|plágio|plagio", dica: "Releia o <strong>💡 Para começar</strong>: quem escreveu? tem fonte? pede pressa?" }],
+        okMsg: "Cartaz pronto e conferido! Ficou registrado para o professor." }
     ],
     desafio: [
       { tipo: "aberta", titulo: "Escolha 2 profissões: qual tecnologia cada uma usa e como ajuda?",
@@ -249,7 +253,7 @@ PORTAL.registrarAtividades("informatica-5ano-4bim", {
   /* ======================= PROJETO FINAL ======================= */
   pf: {
     basico: [
-      { tipo: "info", titulo: "Faltou alguma missão?", html: "<p>Se você faltou em alguma missão, faça agora o <strong>Básico</strong> dela e mostre ao professor.</p>" },
+      { tipo: "info", titulo: "Faltou alguma missão?", html: "<p>Se você faltou em alguma missão, faça agora o <strong>Básico</strong> dela. Quando terminar, aparece a faixa verde <strong>Básico concluído</strong> e tudo fica registrado sozinho para o professor.</p>" },
       { tipo: "aberta", titulo: "Complete o seu passaporte: uma frase sobre cada missão",
         campos: [{ rot: "🖥️ Missão 1 – O computador e onde moram os dados", linhas: 2 }, { rot: "📋 Missão 2 – Listas e grafos", linhas: 2 }, { rot: "🤔 Missão 3 – Verdadeiro ou falso e escolhas", linhas: 2 }, { rot: "🛡️ Missão 4 – Internet com cuidado", linhas: 2 }],
         criterios: ["Cada frase fala de algo que eu aprendi naquela missão."],
@@ -272,8 +276,12 @@ PORTAL.registrarAtividades("informatica-5ano-4bim", {
         exemplo: "SE a mensagem tem autor E data E aparece em outros sites sérios, ENTÃO posso compartilhar, SENÃO não compartilho." }
     ],
     turbo: [
-      { tipo: "pc", titulo: "No papel: o grafo do caminho até a escola", programa: "Apostila impressa",
-        passos: ["Escolha 5 lugares do caminho da sua casa até a escola.", "Desenhe cada lugar como um círculo (vértice).", "Ligue os lugares com linhas (arestas), como as ruas.", "Mostre ao professor."] }
+      { tipo: "aberta", titulo: "O grafo do caminho até a escola",
+        enunciado: "<p>Pense no caminho da sua casa até a escola. Cada lugar é um <strong>vértice</strong> (círculo) e cada rua que liga dois lugares é uma <strong>aresta</strong> (linha).</p>",
+        campos: [{ rot: "5 lugares do caminho, em ordem (os vértices):", linhas: 1 }, { rot: "As ligações entre eles (as arestas), assim: Casa – Padaria:", linhas: 2 }],
+        criterios: ["Escreveu 5 lugares.", "Ligou os lugares de dois em dois, como as ruas."],
+        exemplo: "Vértices: Casa, Padaria, Praça, Igreja, Escola. Arestas: Casa – Padaria, Padaria – Praça, Praça – Igreja, Igreja – Escola.",
+        conferir: { minPalavras: 5, msg: "Grafo registrado! O professor pode ler no painel." } }
     ]
   }
 });

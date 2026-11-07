@@ -51,17 +51,17 @@ PORTAL.registrarConteudo("informatica-5ano-4bim", {
     [
      "🟢 Básico",
      "Todos os alunos",
-     "Obrigatório para concluir a aula"
+     "Obrigatório: vale <strong>1,0 ponto</strong> por missão e libera os jogos livres"
     ],
     [
      "🟡 Desafio",
      "Quem terminou o Básico",
-     "Pontos extras"
+     "<strong>+0,25 ponto</strong>: aumenta a sua nota do bimestre"
     ],
     [
      "🔴 Turbo",
      "Quem terminou o Desafio",
-     "Para os mais rápidos"
+     "<strong>+0,25 ponto</strong>: aumenta ainda mais a sua nota"
     ]
    ]
   },
@@ -79,7 +79,7 @@ PORTAL.registrarConteudo("informatica-5ano-4bim", {
     },
     {
      "nivel": 0,
-     "h": "🎯 <strong>Missão</strong> – o que você vai fazer no papel e no computador"
+     "h": "🎯 <strong>Missão</strong> – as atividades que você faz no computador; o portal confere na hora"
     },
     {
      "nivel": 0,
@@ -93,11 +93,11 @@ PORTAL.registrarConteudo("informatica-5ano-4bim", {
   },
   {
    "t": "p",
-   "h": "✍️ <strong>Tudo na apostila:</strong> você escreve e desenha todas as respostas aqui mesmo, nas tabelas e nos quadros em branco. Use lápis e capriche na letra!"
+   "h": "🔎 <strong>Todas as respostas estão na apostila:</strong> leia o <strong>💡 Para começar</strong> e o <strong>📖 O que significa?</strong>. Errou? Leia de novo com calma, peça uma <strong>💡 Dica</strong> ou veja a <strong>📘 resolução comentada</strong>. Você consegue fazer tudo sozinho!"
   },
   {
    "t": "p",
-   "h": "<strong>Regra de ouro:</strong> quem conclui o nível Básico e recebe o carimbo do professor ganha o tempo de jogos livres no final da aula. 🎮"
+   "h": "<strong>Regra de ouro:</strong> quem conclui o Básico (aparece a faixa verde <strong>✅ Básico concluído</strong>) já pode seguir para o Desafio ou ficar com os jogos livres no final da aula. 🎮 Tudo fica registrado sozinho para o professor: não precisa chamar ninguém."
   }
  ],
  "missoes": [
@@ -164,6 +164,10 @@ PORTAL.registrarConteudo("informatica-5ano-4bim", {
        "Google Drive, fotos salvas na nuvem, vídeos do YouTube"
       ]
      ]
+    },
+    {
+     "t": "p",
+     "h": "<strong>E se o aparelho quebrar?</strong> O que estava guardado <strong>só no aparelho</strong> pode se perder junto com ele. O que está <strong>na nuvem</strong> continua guardado: dá para abrir em outro computador ou celular com internet. Um jogo instalado no computador da escola e um trabalho salvo no pen drive estão <strong>no aparelho</strong>."
     },
     {
      "t": "p",

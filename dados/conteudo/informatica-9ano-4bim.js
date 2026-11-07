@@ -47,17 +47,17 @@ PORTAL.registrarConteudo("informatica-9ano-4bim", {
     [
      "🟢 Básico",
      "Todos os alunos",
-     "Obrigatório para concluir a aula"
+     "Obrigatório: vale <strong>1,0 ponto</strong> por missão e libera os jogos livres"
     ],
     [
      "🟡 Desafio",
      "Quem terminou o Básico",
-     "Pontos extras"
+     "<strong>+0,25 ponto</strong>: aumenta a sua nota do bimestre"
     ],
     [
      "🔴 Turbo",
      "Quem terminou o Desafio",
-     "Para os mais rápidos"
+     "<strong>+0,25 ponto</strong>: aumenta ainda mais a sua nota"
     ]
    ]
   },
@@ -75,7 +75,7 @@ PORTAL.registrarConteudo("informatica-9ano-4bim", {
     },
     {
      "nivel": 0,
-     "h": "🎯 <strong>Missão</strong> – o que você vai fazer no papel e no computador"
+     "h": "🎯 <strong>Missão</strong> – as atividades que você faz no computador; o portal confere na hora"
     },
     {
      "nivel": 0,
@@ -89,11 +89,11 @@ PORTAL.registrarConteudo("informatica-9ano-4bim", {
   },
   {
    "t": "p",
-   "h": "✍️ <strong>Tudo na apostila:</strong> você escreve e desenha todas as respostas aqui mesmo, nas tabelas e nos quadros em branco. Use lápis e capriche na letra!"
+   "h": "🔎 <strong>Todas as respostas estão na apostila:</strong> leia o <strong>💡 Para começar</strong> e o <strong>📖 O que significa?</strong>. Errou? Leia de novo com calma, peça uma <strong>💡 Dica</strong> ou veja a <strong>📘 resolução comentada</strong>. Você consegue fazer tudo sozinho!"
   },
   {
    "t": "p",
-   "h": "<strong>Regra de ouro:</strong> quem conclui o nível Básico e recebe o carimbo do professor ganha o tempo de jogos livres no final da aula. 🎮"
+   "h": "<strong>Regra de ouro:</strong> quem conclui o Básico (aparece a faixa verde <strong>✅ Básico concluído</strong>) já pode seguir para o Desafio ou ficar com os jogos livres no final da aula. 🎮 Tudo fica registrado sozinho para o professor: não precisa chamar ninguém."
   }
  ],
  "missoes": [
@@ -221,7 +221,7 @@ PORTAL.registrarConteudo("informatica-9ano-4bim", {
     "reflexao": "Pense em dois caminhos para ir a um lugar da cidade (a praça, o mercado). Qual é mais curto e por quê?"
    },
    "alertas": [
-    "Nesta missão use <strong>só o Paint</strong>. Não precisa salvar o desenho: o comprovante é o carimbo na apostila. Ao final da aula, desligue o computador pelo caminho certo: <strong>Iniciar → Ligar/Desligar → Desligar</strong>."
+    "Nesta missão use <strong>só o Paint</strong>. Não precisa salvar o desenho: o portal registra o que você fez. Ao final da aula, desligue o computador pelo caminho certo: <strong>Iniciar → Ligar/Desligar → Desligar</strong>."
    ],
    "vf": [
     "Em um grafo, os pontos se chamam vértices e as ligações se chamam arestas.",
@@ -289,6 +289,10 @@ PORTAL.registrarConteudo("informatica-9ano-4bim", {
     {
      "t": "p",
      "h": "<strong>Cifra de César:</strong> cada letra anda um número fixo de casas no alfabeto. Esse número é a <strong>chave</strong>. Com a chave 3, o A vira D, o B vira E, e assim por diante; no fim do alfabeto, a contagem volta para o começo (X vira A, Y vira B, Z vira C). Exemplo: <strong>SOL → VRO</strong>. Para decifrar, ande 3 casas para trás."
+    },
+    {
+     "t": "p",
+     "h": "<strong>Por que a cifra de César é fácil de quebrar?</strong> Ela só tem <strong>25 chaves</strong> possíveis. Testando uma chave de cada vez (um <strong>ataque de força bruta</strong>), dá para descobrir a mensagem em poucos minutos, mesmo sem saber a chave. Por isso a criptografia de hoje usa chaves enormes."
     },
     {
      "t": "tabela",
@@ -392,8 +396,8 @@ PORTAL.registrarConteudo("informatica-9ano-4bim", {
       ],
       [
        "🎭 Engenharia social",
-       "Enganar a pessoa para que ela mesma entregue a senha ou o código",
-       "Desconfiar de pedidos urgentes; nunca passar códigos recebidos por SMS"
+       "Enganar a pessoa para que ela mesma entregue a senha ou o código. O <strong>phishing</strong> (mensagem ou link falso que promete prêmio ou finge ser do banco para você digitar a senha) é um tipo de engenharia social",
+       "Desconfiar de pedidos urgentes; nunca passar códigos recebidos por SMS; não clicar em links de prêmio"
       ],
       [
        "🌊 DDoS (negação de serviço)",
@@ -576,7 +580,7 @@ PORTAL.registrarConteudo("informatica-9ano-4bim", {
       },
       {
        "nivel": 0,
-       "h": "<strong>Sinais de alerta:</strong> boca fora de sincronia com a fala, voz robótica, piscar estranho, mãos e dedos deformados, letras borradas no fundo, uma fala que a pessoa nunca diria e nenhum site de notícias confirmando."
+       "h": "<strong>Sinais de alerta:</strong> boca fora de sincronia com a fala, voz robótica, piscar estranho, mãos e dedos deformados, letras borradas no fundo, uma fala que a pessoa nunca diria, uma <strong>promessa de presente fácil por link</strong> (famoso “dando” celular ou dinheiro) e nenhum site de notícias confirmando. Atenção: ser famoso ou ter imagem de boa qualidade <strong>não</strong> prova nada; deepfakes também podem ter ótima qualidade."
       },
       {
        "nivel": 0,
@@ -616,6 +620,10 @@ PORTAL.registrarConteudo("informatica-9ano-4bim", {
        "A pessoa acreditou e repassou sem checar"
       ]
      ]
+    },
+    {
+     "t": "p",
+     "h": "<strong>O que fazer quando chega um conteúdo suspeito:</strong> não clico no link, não compartilho e aviso a quem me mandou que pode ser golpe ou mentira."
     }
    ],
    "termos": [
@@ -729,10 +737,10 @@ PORTAL.registrarConteudo("informatica-9ano-4bim", {
    "alertas": [],
    "vf": [],
    "resumo": {
-    "texto": "Neste bimestre você aprendeu a representar mapas, pastas e decisões com grafos e árvores, descobriu como a criptografia protege os dados e como funcionam os ataques, e viu como respeitar a autoria e a imagem das pessoas e desconfiar de deepfakes. Os carimbos da sua apostila mostram tudo o que você conquistou. Boa jornada no Ensino Médio!",
+    "texto": "Neste bimestre você aprendeu a representar mapas, pastas e decisões com grafos e árvores, descobriu como a criptografia protege os dados e como funcionam os ataques, e viu como respeitar a autoria e a imagem das pessoas e desconfiar de deepfakes. As missões concluídas no portal mostram tudo o que você conquistou. Boa jornada no Ensino Médio!",
     "chaves": [
      "missão",
-     "carimbo",
+     "conquista",
      "autoavaliação",
      "aprendizado"
     ]

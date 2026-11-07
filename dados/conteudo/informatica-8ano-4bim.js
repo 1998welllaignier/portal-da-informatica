@@ -47,17 +47,17 @@ PORTAL.registrarConteudo("informatica-8ano-4bim", {
     [
      "🟢 Básico",
      "Todos os alunos",
-     "Obrigatório para concluir a aula"
+     "Obrigatório: vale <strong>1,0 ponto</strong> por missão e libera os jogos livres"
     ],
     [
      "🟡 Desafio",
      "Quem terminou o Básico",
-     "Pontos extras"
+     "<strong>+0,25 ponto</strong>: aumenta a sua nota do bimestre"
     ],
     [
      "🔴 Turbo",
      "Quem terminou o Desafio",
-     "Para os mais rápidos"
+     "<strong>+0,25 ponto</strong>: aumenta ainda mais a sua nota"
     ]
    ]
   },
@@ -75,7 +75,7 @@ PORTAL.registrarConteudo("informatica-8ano-4bim", {
     },
     {
      "nivel": 0,
-     "h": "🎯 <strong>Missão</strong> – o que você vai fazer no papel e no computador"
+     "h": "🎯 <strong>Missão</strong> – as atividades que você faz no computador; o portal confere na hora"
     },
     {
      "nivel": 0,
@@ -89,11 +89,11 @@ PORTAL.registrarConteudo("informatica-8ano-4bim", {
   },
   {
    "t": "p",
-   "h": "✍️ <strong>Tudo na apostila:</strong> você escreve e desenha todas as respostas aqui mesmo, nas tabelas e nos quadros em branco. Use lápis e capriche na letra!"
+   "h": "🔎 <strong>Todas as respostas estão na apostila:</strong> leia o <strong>💡 Para começar</strong> e o <strong>📖 O que significa?</strong>. Errou? Leia de novo com calma, peça uma <strong>💡 Dica</strong> ou veja a <strong>📘 resolução comentada</strong>. Você consegue fazer tudo sozinho!"
   },
   {
    "t": "p",
-   "h": "<strong>Regra de ouro:</strong> quem conclui o nível Básico e recebe o carimbo do professor ganha o tempo de jogos livres no final da aula. 🎮"
+   "h": "<strong>Regra de ouro:</strong> quem conclui o Básico (aparece a faixa verde <strong>✅ Básico concluído</strong>) já pode seguir para o Desafio ou ficar com os jogos livres no final da aula. 🎮 Tudo fica registrado sozinho para o professor: não precisa chamar ninguém."
   }
  ],
  "missoes": [
@@ -135,6 +135,10 @@ PORTAL.registrarConteudo("informatica-8ano-4bim", {
     {
      "t": "p",
      "h": "<strong>Como achar o meio na busca binária:</strong> some a primeira e a última posição e divida por 2. Se der número quebrado, despreze a vírgula. Exemplo: posições 1 a 8 → (1 + 8) ÷ 2 = 4,5 → meio = posição <strong>4</strong>."
+    },
+    {
+     "t": "p",
+     "h": "<strong>Por que a busca binária só funciona em lista ordenada?</strong> Ela joga fora a metade em que o número “não pode estar”. Se a lista estiver fora de ordem, o número procurado pode estar justamente na metade que foi descartada, e a busca erra."
     },
     {
      "t": "p",
@@ -372,7 +376,7 @@ PORTAL.registrarConteudo("informatica-8ano-4bim", {
     "reflexao": "Que serviço de nuvem você ou sua família usa (fotos, e-mail, jogos)? O que aconteceria se ele saísse do ar?"
    },
    "alertas": [
-    "No Paint, faça só o mapa pedido e <strong>mostre ao professor antes de fechar</strong>. Não precisa salvar o arquivo: o comprovante é o carimbo na apostila."
+    "No Paint, faça só o mapa pedido e responda à conferência no portal antes de fechar. Não precisa salvar o arquivo: o portal registra o que você fez."
    ],
    "vf": [
     "O DNS traduz o nome de um site no endereço IP do servidor.",
@@ -414,7 +418,7 @@ PORTAL.registrarConteudo("informatica-8ano-4bim", {
      "itens": [
       {
        "nivel": 0,
-       "h": "<strong>Dado pessoal</strong> é tudo o que identifica você: nome, data de nascimento, endereço, telefone, CPF, foto, localização, escola."
+       "h": "<strong>Dado pessoal</strong> é tudo o que identifica você: nome, data de nascimento, endereço, telefone, CPF, foto, localização, escola. Informações que <strong>não identificam ninguém</strong>, como a previsão do tempo ou o resultado do jogo de ontem, <strong>não são dados pessoais</strong>."
       },
       {
        "nivel": 0,
@@ -427,6 +431,10 @@ PORTAL.registrarConteudo("informatica-8ano-4bim", {
       {
        "nivel": 0,
        "h": "<strong>Termos de uso</strong> são as regras que você aceita ao clicar em “Aceito”: dizem quais dados o serviço coleta, com quem compartilha, a idade mínima e como apagar a conta."
+      },
+      {
+       "nivel": 0,
+       "h": "<strong>Combinados da sala de informática:</strong> usar só os programas e sites que o professor pediu · não comer nem beber perto do computador · não mexer no computador nem nos arquivos dos colegas · senha é pessoal, nunca compartilhe com a turma · desligar pelo caminho certo (Iniciar → Ligar/Desligar → Desligar), nunca puxando o cabo da tomada, que pode estragar o computador e perder arquivos · chamar o professor quando o computador travar."
       },
       {
        "nivel": 0,
@@ -581,10 +589,10 @@ PORTAL.registrarConteudo("informatica-8ano-4bim", {
    "alertas": [],
    "vf": [],
    "resumo": {
-    "texto": "Neste bimestre você aprendeu a buscar e a ordenar listas como um computador, descobriu como a internet é organizada por dentro e como os computadores dividem o trabalho, e viu como proteger os seus dados e checar uma informação antes de compartilhar. Os carimbos da sua apostila mostram tudo o que você conquistou!",
+    "texto": "Neste bimestre você aprendeu a buscar e a ordenar listas como um computador, descobriu como a internet é organizada por dentro e como os computadores dividem o trabalho, e viu como proteger os seus dados e checar uma informação antes de compartilhar. As missões concluídas no portal mostram tudo o que você conquistou!",
     "chaves": [
      "missão",
-     "carimbo",
+     "conquista",
      "autoavaliação",
      "aprendizado"
     ]

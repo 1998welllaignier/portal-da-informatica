@@ -31,17 +31,17 @@ Neste bimestre você vai cumprir **3 missões** e um **projeto final**. Cada mis
 
 **Cada missão tem 3 níveis:**
 | Nível | Quem faz | O que vale |
-| 🟢 Básico | Todos os alunos | Obrigatório para concluir a aula |
-| 🟡 Desafio | Quem terminou o Básico | Pontos extras |
-| 🔴 Turbo | Quem terminou o Desafio | Para os mais rápidos |
+| 🟢 Básico | Todos os alunos | Obrigatório: vale **1,0 ponto** por missão e libera os jogos livres |
+| 🟡 Desafio | Quem terminou o Básico | **+0,25 ponto**: aumenta a sua nota do bimestre |
+| 🔴 Turbo | Quem terminou o Desafio | **+0,25 ponto**: aumenta ainda mais a sua nota |
 
 **Ícones da apostila:**
 - 💡 **Para começar** – a explicação do dia
-- 🎯 **Missão** – o que você vai fazer no papel e no computador
+- 🎯 **Missão** – as atividades que você faz no computador; o portal confere na hora
 - ✅ **Perguntas rápidas** – verdadeiro ou falso para conferir
 - 🧠 **Resumo da Aula** – leia com a turma; ele ajuda a estudar para a avaliação
-✍️ **Tudo na apostila:** você escreve e desenha todas as respostas aqui mesmo, nas tabelas e nos quadros em branco. Use lápis e capriche na letra!
-**Regra de ouro:** quem conclui o nível Básico e recebe o carimbo do professor ganha o tempo de jogos livres no final da aula. 🎮
+🔎 **Todas as respostas estão na apostila:** leia o **💡 Para começar** e o **📖 O que significa?**. Errou? Leia de novo com calma, peça uma **💡 Dica** ou veja a **📘 resolução comentada**. Você consegue fazer tudo sozinho!
+**Regra de ouro:** quem conclui o Básico (aparece a faixa verde **✅ Básico concluído**) já pode seguir para o Desafio ou ficar com os jogos livres no final da aula. 🎮 Tudo fica registrado sozinho para o professor: não precisa chamar ninguém.
 ## 🗂️ Missão 1 – Listas: buscar e ordenar como um computador
 **Objetivo:** usar listas para organizar informações, encontrar um item com a busca sequencial e a busca binária e colocar uma lista em ordem com o método da bolha.
 📅 **Data da aula:** ........ / ........
@@ -53,6 +53,7 @@ No 7º ano você viu que uma **lista** guarda vários dados em ordem e que cada 
 | 🫧 Método da bolha | Compara **vizinhos** e troca os que estão fora de ordem; repete as passadas até não haver nenhuma troca | Para colocar uma lista em ordem crescente ou alfabética |
 
 **Como achar o meio na busca binária:** some a primeira e a última posição e divida por 2. Se der número quebrado, despreze a vírgula. Exemplo: posições 1 a 8 → (1 + 8) ÷ 2 = 4,5 → meio = posição **4**.
+**Por que a busca binária só funciona em lista ordenada?** Ela joga fora a metade em que o número “não pode estar”. Se a lista estiver fora de ordem, o número procurado pode estar justamente na metade que foi descartada, e a busca erra.
 **Exemplo do método da bolha** com a lista [5, 2, 8, 1]:
 1. Compara 5 e 2 → fora de ordem → troca → [2, 5, 8, 1]
 2. Compara 5 e 8 → em ordem → não troca
@@ -196,7 +197,7 @@ Os computadores também precisam **dividir o trabalho**:
 |  |
 |  |
 
-⚠️ No Paint, faça só o mapa pedido e **mostre ao professor antes de fechar**. Não precisa salvar o arquivo: o comprovante é o carimbo na apostila.
+⚠️ No Paint, faça só o mapa pedido e responda à conferência no portal antes de fechar. Não precisa salvar o arquivo: o portal registra o que você fez.
 **✅ Carimbo do professor**
 | 🟢 Básico | 🟡 Desafio | 🔴 Turbo |
 |  |  |  |
@@ -217,10 +218,11 @@ A internet é formada por **provedores**, que ligam casas e escolas à rede, pel
 📅 **Data da aula:** ........ / ........
 ### 💡 Para começar
 **Seus dados, sua privacidade:**
-- **Dado pessoal** é tudo o que identifica você: nome, data de nascimento, endereço, telefone, CPF, foto, localização, escola.
+- **Dado pessoal** é tudo o que identifica você: nome, data de nascimento, endereço, telefone, CPF, foto, localização, escola. Informações que **não identificam ninguém**, como a previsão do tempo ou o resultado do jogo de ontem, **não são dados pessoais**.
 - **Dado sensível** pede cuidado extra: saúde, religião, opinião política, origem étnica e dados **biométricos** (impressão digital, reconhecimento do rosto).
 - A **LGPD** (Lei Geral de Proteção de Dados, Lei nº 13.709/2018) obriga as empresas a explicar quais dados coletam e para quê, e protege de forma especial os dados de crianças e adolescentes.
 - **Termos de uso** são as regras que você aceita ao clicar em “Aceito”: dizem quais dados o serviço coleta, com quem compartilha, a idade mínima e como apagar a conta.
+- **Combinados da sala de informática:** usar só os programas e sites que o professor pediu · não comer nem beber perto do computador · não mexer no computador nem nos arquivos dos colegas · senha é pessoal, nunca compartilhe com a turma · desligar pelo caminho certo (Iniciar → Ligar/Desligar → Desligar), nunca puxando o cabo da tomada, que pode estragar o computador e perder arquivos · chamar o professor quando o computador travar.
 - **Permissões:** o aplicativo pede acesso à câmera, ao microfone, à localização ou aos contatos. Pergunte sempre: **ele precisa disso para funcionar?** Uma lanterna que pede os seus contatos é motivo para desconfiar.
 - **Pegada digital** é o rastro de tudo o que você publica, curte e comenta. Ela pode continuar visível por muitos anos.
 **Informação confiável:** antes de compartilhar, faça as 4 perguntas do checador:
@@ -349,5 +351,5 @@ Marque o que você já consegue fazer sozinho:
 ### 📝 Ficha de avaliação do professor
 O cálculo completo está no **Quadro de notas** da primeira página: a apostila (carimbos) vale até **5,0** e a prova no Wayground vale até **5,0**, somando a nota do bimestre de **0 a 10**.
 ### 🧠 Resumo do Bimestre
-Neste bimestre você aprendeu a buscar e a ordenar listas como um computador, descobriu como a internet é organizada por dentro e como os computadores dividem o trabalho, e viu como proteger os seus dados e checar uma informação antes de compartilhar. Os carimbos da sua apostila mostram tudo o que você conquistou!
-**Palavras-chave:** missão · carimbo · autoavaliação · aprendizado
+Neste bimestre você aprendeu a buscar e a ordenar listas como um computador, descobriu como a internet é organizada por dentro e como os computadores dividem o trabalho, e viu como proteger os seus dados e checar uma informação antes de compartilhar. As missões concluídas no portal mostram tudo o que você conquistou!
+**Palavras-chave:** missão · conquista · autoavaliação · aprendizado

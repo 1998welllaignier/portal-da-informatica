@@ -33,7 +33,7 @@
   };
 
   /* ---------- 2. CESAR: roleta para cifrar/decifrar ---------- */
-  T.cesar = {
+  T.sim_cesar = {
     auto: true,
     render(c, at, ctx) {
       const st = ctx.st; st.k = st.k || 0;
@@ -53,7 +53,7 @@
   };
 
   /* ---------- 3. GRAFO: clicar nos lugares para montar o caminho mais curto ---------- */
-  T.grafo = {
+  T.sim_grafo = {
     auto: true,
     render(c, at, ctx) {
       const st = ctx.st; st.cam = st.cam || [at.inicio];
@@ -81,7 +81,7 @@
   };
 
   /* ---------- 4. BOLHA: ordenar trocando vizinhos ---------- */
-  T.bolha = {
+  T.sim_bolha = {
     auto: true,
     render(c, at, ctx) {
       const st = ctx.st; st.v = st.v || at.valores.slice(); st.trocas = st.trocas || 0;
@@ -98,7 +98,7 @@
   };
 
   /* ---------- 5. ADIVINHE: busca binária ---------- */
-  T.adivinhe = {
+  T.sim_adivinhe = {
     auto: true,
     render(c, at, ctx) {
       const st = ctx.st, max = at.max || 100;
@@ -115,7 +115,7 @@
         if (inp) { const go = () => { const x = parseInt(inp.value, 10); if (!(x >= 1 && x <= max)) return; st.chutes.push(x); ctx.salvar(); draw();
           if (x === st.alvo && !st.status) { const n = st.chutes.length; ctx.concluir("certo", n <= (at.meta || 7) ? `Acertou em ${n} chutes. Isso é busca binária! 🚀` : `Acertou em ${n} chutes. Dica: chutando sempre o meio, dá para acertar em até ${at.meta || 7}.`); } };
           c.querySelector("#ch").onclick = go; inp.onkeydown = e => { if (e.key === "Enter") go(); }; }
-        const nv = c.querySelector("[data-nov]"); if (nv) nv.onclick = () => { st.alvo = 0; T.adivinhe.render(c, at, ctx); };
+        const nv = c.querySelector("[data-nov]"); if (nv) nv.onclick = () => { st.alvo = 0; T.sim_adivinhe.render(c, at, ctx); };
       };
       draw();
     }

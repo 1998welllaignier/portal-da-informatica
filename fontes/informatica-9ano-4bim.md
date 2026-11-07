@@ -31,17 +31,17 @@ Neste bimestre você vai cumprir **3 missões** e um **projeto final**. Cada mis
 
 **Cada missão tem 3 níveis:**
 | Nível | Quem faz | O que vale |
-| 🟢 Básico | Todos os alunos | Obrigatório para concluir a aula |
-| 🟡 Desafio | Quem terminou o Básico | Pontos extras |
-| 🔴 Turbo | Quem terminou o Desafio | Para os mais rápidos |
+| 🟢 Básico | Todos os alunos | Obrigatório: vale **1,0 ponto** por missão e libera os jogos livres |
+| 🟡 Desafio | Quem terminou o Básico | **+0,25 ponto**: aumenta a sua nota do bimestre |
+| 🔴 Turbo | Quem terminou o Desafio | **+0,25 ponto**: aumenta ainda mais a sua nota |
 
 **Ícones da apostila:**
 - 💡 **Para começar** – a explicação do dia
-- 🎯 **Missão** – o que você vai fazer no papel e no computador
+- 🎯 **Missão** – as atividades que você faz no computador; o portal confere na hora
 - ✅ **Perguntas rápidas** – verdadeiro ou falso para conferir
 - 🧠 **Resumo da Aula** – leia com a turma; ele ajuda a estudar para a avaliação
-✍️ **Tudo na apostila:** você escreve e desenha todas as respostas aqui mesmo, nas tabelas e nos quadros em branco. Use lápis e capriche na letra!
-**Regra de ouro:** quem conclui o nível Básico e recebe o carimbo do professor ganha o tempo de jogos livres no final da aula. 🎮
+🔎 **Todas as respostas estão na apostila:** leia o **💡 Para começar** e o **📖 O que significa?**. Errou? Leia de novo com calma, peça uma **💡 Dica** ou veja a **📘 resolução comentada**. Você consegue fazer tudo sozinho!
+**Regra de ouro:** quem conclui o Básico (aparece a faixa verde **✅ Básico concluído**) já pode seguir para o Desafio ou ficar com os jogos livres no final da aula. 🎮 Tudo fica registrado sozinho para o professor: não precisa chamar ninguém.
 ## 🕸️ Missão 1 – Grafos e árvores: mapas, caminhos e decisões
 **Objetivo:** representar informações ligadas com grafos e árvores, encontrar o caminho mais curto em um mapa e organizar escolhas em uma árvore de decisão.
 📅 **Data da aula:** ........ / ........
@@ -177,7 +177,7 @@ Agora o grafo é o **bairro da nossa escola**, desenhado a partir do mapa do cel
 |  |
 |  |
 
-⚠️ Nesta missão use **só o Paint**. Não precisa salvar o desenho: o comprovante é o carimbo na apostila. Ao final da aula, desligue o computador pelo caminho certo: **Iniciar → Ligar/Desligar → Desligar**.
+⚠️ Nesta missão use **só o Paint**. Não precisa salvar o desenho: o portal registra o que você fez. Ao final da aula, desligue o computador pelo caminho certo: **Iniciar → Ligar/Desligar → Desligar**.
 **✅ Carimbo do professor**
 | 🟢 Básico | 🟡 Desafio | 🔴 Turbo |
 |  |  |  |
@@ -206,6 +206,7 @@ No 7º ano você aprendeu a reconhecer golpes e a criar senhas fortes. Agora vam
 | 🔓 Decifrar | Voltar do texto cifrado para o texto claro usando a chave |
 
 **Cifra de César:** cada letra anda um número fixo de casas no alfabeto. Esse número é a **chave**. Com a chave 3, o A vira D, o B vira E, e assim por diante; no fim do alfabeto, a contagem volta para o começo (X vira A, Y vira B, Z vira C). Exemplo: **SOL → VRO**. Para decifrar, ande 3 casas para trás.
+**Por que a cifra de César é fácil de quebrar?** Ela só tem **25 chaves** possíveis. Testando uma chave de cada vez (um **ataque de força bruta**), dá para descobrir a mensagem em poucos minutos, mesmo sem saber a chave. Por isso a criptografia de hoje usa chaves enormes.
 | Letra | A | B | C | D | E | F | G | H | I | J | K | L | M |
 | Chave 3 | D | E | F | G | H | I | J | K | L | M | N | O | P |
 
@@ -217,7 +218,7 @@ No 7º ano você aprendeu a reconhecer golpes e a criar senhas fortes. Agora vam
 | Ataque | Como funciona | Como se proteger |
 | 🔨 Força bruta | Um programa testa todas as senhas possíveis, uma por uma, até acertar | Senha longa; bloqueio depois de tentativas erradas; verificação em duas etapas |
 | 🦠 Ransomware | Programa malicioso que **criptografa** os arquivos da vítima e pede dinheiro, o **resgate**, para devolvê-los | Cópia de segurança (**backup**); não abrir anexos suspeitos; sistema atualizado |
-| 🎭 Engenharia social | Enganar a pessoa para que ela mesma entregue a senha ou o código | Desconfiar de pedidos urgentes; nunca passar códigos recebidos por SMS |
+| 🎭 Engenharia social | Enganar a pessoa para que ela mesma entregue a senha ou o código. O **phishing** (mensagem ou link falso que promete prêmio ou finge ser do banco para você digitar a senha) é um tipo de engenharia social | Desconfiar de pedidos urgentes; nunca passar códigos recebidos por SMS; não clicar em links de prêmio |
 | 🌊 DDoS (negação de serviço) | Milhares de computadores mandam pedidos ao mesmo tempo até o site sair do ar | Proteção feita pelas empresas nos servidores |
 
 **Por que a senha longa protege:** cada posição de uma senha só de números tem 10 opções (0 a 9). Uma senha de 2 dígitos tem 10 × 10 = **100** combinações; uma de 4 dígitos tem 10 × 10 × 10 × 10 = **10.000**. Cada dígito a mais multiplica o trabalho da força bruta por 10.
@@ -308,7 +309,7 @@ No 8º ano você aprendeu a checar uma informação antes de compartilhar: quem 
 **Inteligência artificial e deepfakes:**
 - A **inteligência artificial (IA) generativa** cria textos, imagens, vozes e vídeos novos a partir de um pedido.
 - **Deepfake** é um vídeo, uma foto ou um áudio **falso**, feito com IA, que imita o rosto ou a voz de uma pessoa real.
-- **Sinais de alerta:** boca fora de sincronia com a fala, voz robótica, piscar estranho, mãos e dedos deformados, letras borradas no fundo, uma fala que a pessoa nunca diria e nenhum site de notícias confirmando.
+- **Sinais de alerta:** boca fora de sincronia com a fala, voz robótica, piscar estranho, mãos e dedos deformados, letras borradas no fundo, uma fala que a pessoa nunca diria, uma **promessa de presente fácil por link** (famoso “dando” celular ou dinheiro) e nenhum site de notícias confirmando. Atenção: ser famoso ou ter imagem de boa qualidade **não** prova nada; deepfakes também podem ter ótima qualidade.
 - Criar um deepfake de um colega, mesmo “de brincadeira”, desrespeita o direito de imagem, é cyberbullying e pode ser crime.
 **Por que foi espalhado?** Toda informação falsa tem um motivo:
 | Motivo | Exemplo |
@@ -317,6 +318,8 @@ No 8º ano você aprendeu a checar uma informação antes de compartilhar: quem 
 | 😂 Humor | Sátira ou piada que passa a circular como se fosse verdade |
 | 😠 Ódio | Humilhar uma pessoa ou um grupo |
 | 🤷 Engano | A pessoa acreditou e repassou sem checar |
+
+**O que fazer quando chega um conteúdo suspeito:** não clico no link, não compartilho e aviso a quem me mandou que pode ser golpe ou mentira.
 
 ### 📖 O que significa?
 - **Obra** e **autor**: obra é o que foi criado (música, foto, texto, desenho, vídeo); autor é quem criou.
@@ -432,5 +435,5 @@ Marque o que você já consegue fazer sozinho:
 ### 📝 Ficha de avaliação do professor
 O cálculo completo está no **Quadro de notas** da primeira página: a apostila (carimbos) vale até **5,0** e a prova no Wayground vale até **5,0**, somando a nota do bimestre de **0 a 10**.
 ### 🧠 Resumo do Bimestre
-Neste bimestre você aprendeu a representar mapas, pastas e decisões com grafos e árvores, descobriu como a criptografia protege os dados e como funcionam os ataques, e viu como respeitar a autoria e a imagem das pessoas e desconfiar de deepfakes. Os carimbos da sua apostila mostram tudo o que você conquistou. Boa jornada no Ensino Médio!
-**Palavras-chave:** missão · carimbo · autoavaliação · aprendizado
+Neste bimestre você aprendeu a representar mapas, pastas e decisões com grafos e árvores, descobriu como a criptografia protege os dados e como funcionam os ataques, e viu como respeitar a autoria e a imagem das pessoas e desconfiar de deepfakes. As missões concluídas no portal mostram tudo o que você conquistou. Boa jornada no Ensino Médio!
+**Palavras-chave:** missão · conquista · autoavaliação · aprendizado

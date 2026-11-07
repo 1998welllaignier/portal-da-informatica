@@ -58,13 +58,13 @@ PORTAL.registrarConteudo("informatica-8ano-4bim-trilha", {
     },
     {
      "nivel": 0,
-     "h": "🙋 No fim do Básico, chame o professor para carimbar a sua apostila."
+     "h": "🎉 No fim do Básico aparece a faixa <strong>✅ Básico concluído</strong>. Tudo fica registrado sozinho para o professor."
     }
    ]
   },
   {
    "t": "p",
-   "h": "<strong>Regra de ouro:</strong> quem conclui o Básico e recebe o carimbo do professor ganha o tempo de jogos livres no final da aula. 🎮"
+   "h": "<strong>Regra de ouro:</strong> quem conclui o Básico (aparece a faixa verde <strong>✅ Básico concluído</strong>) já pode seguir para o Desafio ou ficar com os jogos livres no final da aula. 🎮"
   }
  ],
  "missoes": [
@@ -323,6 +323,10 @@ PORTAL.registrarConteudo("informatica-8ano-4bim-trilha", {
     },
     {
      "t": "p",
+     "h": "Coisas que <strong>não mostram quem você é</strong> podem ser mostradas: a sua <strong>cor favorita</strong>, um <strong>desenho que você fez</strong>, o seu time do coração."
+    },
+    {
+     "t": "p",
      "h": "<strong>Permissão</strong> é quando o aplicativo pede para usar a <strong>câmera</strong>, o <strong>microfone</strong> ou o <strong>lugar onde você está</strong>. Pergunte: ele <strong>precisa</strong> disso para funcionar?"
     },
     {
@@ -419,10 +423,10 @@ PORTAL.registrarConteudo("informatica-8ano-4bim-trilha", {
    "alertas": [],
    "vf": [],
    "resumo": {
-    "texto": "Neste bimestre você aprendeu a procurar e a arrumar listas como um computador, descobriu o caminho do vídeo na internet e o que é a nuvem, e aprendeu a proteger os seus dados e a desconfiar de notícias falsas. Os carimbos da sua apostila mostram tudo o que você conquistou!",
+    "texto": "Neste bimestre você aprendeu a procurar e a arrumar listas como um computador, descobriu o caminho do vídeo na internet e o que é a nuvem, e aprendeu a proteger os seus dados e a desconfiar de notícias falsas. As missões concluídas no portal mostram tudo o que você conquistou!",
     "chaves": [
      "missão",
-     "carimbo",
+     "conquista",
      "autoavaliação",
      "aprendizado"
     ]

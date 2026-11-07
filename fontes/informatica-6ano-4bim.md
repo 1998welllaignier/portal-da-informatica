@@ -31,17 +31,17 @@ Neste bimestre você vai cumprir **3 missões** e um **projeto final**. Cada mis
 
 **Cada missão tem 3 níveis:**
 | Nível | Quem faz | O que vale |
-| 🟢 Básico | Todos os alunos | Obrigatório para concluir a aula |
-| 🟡 Desafio | Quem terminou o Básico | Pontos extras |
-| 🔴 Turbo | Quem terminou o Desafio | Para os mais rápidos |
+| 🟢 Básico | Todos os alunos | Obrigatório: vale **1,0 ponto** por missão e libera os jogos livres |
+| 🟡 Desafio | Quem terminou o Básico | **+0,25 ponto**: aumenta a sua nota do bimestre |
+| 🔴 Turbo | Quem terminou o Desafio | **+0,25 ponto**: aumenta ainda mais a sua nota |
 
 **Ícones da apostila:**
 - 💡 **Para começar** – a explicação do dia
-- 🎯 **Missão** – o que você vai fazer no papel e no computador
+- 🎯 **Missão** – as atividades que você faz no computador; o portal confere na hora
 - ✅ **Perguntas rápidas** – verdadeiro ou falso para conferir
 - 🧠 **Resumo da Aula** – leia com a turma; ele ajuda a estudar para a avaliação
-✍️ **Tudo na apostila:** você escreve e desenha todas as respostas aqui mesmo, nas tabelas e nos quadros em branco. Use lápis e capriche na letra!
-**Regra de ouro:** quem conclui o nível Básico e recebe o carimbo do professor ganha o tempo de jogos livres no final da aula. 🎮
+🔎 **Todas as respostas estão na apostila:** leia o **💡 Para começar** e o **📖 O que significa?**. Errou? Leia de novo com calma, peça uma **💡 Dica** ou veja a **📘 resolução comentada**. Você consegue fazer tudo sozinho!
+**Regra de ouro:** quem conclui o Básico (aparece a faixa verde **✅ Básico concluído**) já pode seguir para o Desafio ou ficar com os jogos livres no final da aula. 🎮 Tudo fica registrado sozinho para o professor: não precisa chamar ninguém.
 ## 🌐 Missão 1 – O computador e meus arquivos
 **Objetivo:** entender como o computador recebe, processa e mostra informações, e criar, salvar e organizar arquivos.
 📅 **Data da aula:** ........ / ........
@@ -51,6 +51,8 @@ Todo computador trabalha em **três etapas**:
 | Entrada | Recebe informações | Teclado, mouse, microfone |
 | Processamento | Faz os cálculos e segue os comandos | Processador (dentro do gabinete) |
 | Saída | Mostra o resultado | Monitor, caixa de som, impressora |
+
+Algumas peças são de **entrada e saída ao mesmo tempo**: a **tela sensível ao toque** (*touchscreen*) do celular recebe o toque do dedo (entrada) e mostra as imagens (saída); o **fone de ouvido com microfone** recebe a sua voz (entrada) e toca o som (saída).
 
 Os arquivos ficam guardados no **armazenamento** (HD, SSD, pen drive). As peças que podemos tocar são o **hardware**; os programas são o **software**.
 Um **arquivo** é qualquer trabalho guardado no computador. Uma **pasta** é como uma gaveta que organiza os arquivos. Para **salvar**: escolha **onde** guardar, dê um **nome** e clique em **Salvar** (atalho: **Ctrl + S**). Informações como nome, tipo, tamanho e data de um arquivo são os **metadados**.
@@ -306,5 +308,5 @@ Marque o que você já consegue fazer sozinho:
 ### 📝 Ficha de avaliação do professor
 O cálculo completo está no **Quadro de notas** da primeira página: a apostila (carimbos) vale até **5,0** e a prova no Wayground vale até **5,0**, somando a nota do bimestre de **0 a 10**.
 ### 🧠 Resumo do Bimestre
-Neste bimestre você descobriu como o computador trabalha com informações e organiza arquivos, aprendeu a resolver problemas com algoritmos e refletiu sobre como usar a tecnologia com respeito e consciência. Os carimbos da sua apostila mostram tudo o que você conquistou!
-**Palavras-chave:** missão · carimbo · autoavaliação · aprendizado
+Neste bimestre você descobriu como o computador trabalha com informações e organiza arquivos, aprendeu a resolver problemas com algoritmos e refletiu sobre como usar a tecnologia com respeito e consciência. As missões concluídas no portal mostram tudo o que você conquistou!
+**Palavras-chave:** missão · conquista · autoavaliação · aprendizado

@@ -20,7 +20,7 @@ PORTAL.registrarAtividades("informatica-6ano-4bim", {
     ],
     basico: [
       { tipo: "classificar", titulo: "Monte o computador: cada peça no seu papel",
-        enunciado: "<p>Na apostila impressa você desenha o computador e escreve <strong>E</strong> (entrada) ou <strong>S</strong> (saída) em cada parte. Aqui, organize as peças nas 4 funções que você estudou.</p>",
+        enunciado: "<p>Organize as peças nas 4 funções que você estudou no <strong>💡 Para começar</strong> (a tabela de Entrada, Processamento, Saída e Armazenamento).</p>",
         categorias: [
           { id: "E", rot: "Entrada", ic: "⌨️", desc: "recebe informações" },
           { id: "P", rot: "Processamento", ic: "🧠", desc: "faz os cálculos" },
@@ -232,7 +232,10 @@ PORTAL.registrarAtividades("informatica-6ano-4bim", {
           { t: "Conversar em segredo com estranhos que oferecem presentes", certo: false, why: "Desconfie de estranhos e conte a um adulto." }],
         explicacao: "Respeito, dados protegidos e desconfiança de prêmios e estranhos: é assim que um cidadão digital se protege." },
       { tipo: "pc", titulo: "No computador: cartaz Cidadão Digital", programa: "Paint",
-        passos: ["Abra o <strong>Paint</strong>.", "Escreva o título <strong>Cidadão Digital</strong>.", "Faça um desenho e escreva uma frase sobre respeito na internet ou consumo consciente.", "Chame o professor para conferir."] }
+        passos: ["Abra o <strong>Paint</strong>.", "Escreva o título <strong>Cidadão Digital</strong>.", "Faça um desenho e escreva uma frase sobre respeito na internet ou consumo consciente.", "Deixe o cartaz aberto na tela (o professor vê pelo Veyon) e responda à conferência abaixo."],
+        conferir: [{ rot: "Qual é o título do seu cartaz?", ph: "Título…", gab: "Cidadão Digital", re: "cidad[aã]o\\s+digital", dica: "O título é <strong>Cidadão Digital</strong>." },
+          { rot: "Copie aqui a frase que você escreveu no cartaz:", ph: "A minha frase…", gab: "uma frase sobre respeito na internet ou consumo consciente", re: "\\S+\\s+\\S+\\s+\\S+\\s+\\S+", dica: "Copie a frase inteira (pelo menos 4 palavras)." }],
+        okMsg: "Cartaz pronto e conferido! Ficou registrado para o professor." }
     ],
     desafio: [
       { tipo: "senha", titulo: "Invente 2 senhas fortes (que você NÃO vai usar de verdade)", n: 2,
@@ -276,8 +279,12 @@ PORTAL.registrarAtividades("informatica-6ano-4bim", {
         pares: [{ a: "Entrada", b: "O computador recebe informações, pelo teclado ou pelo mouse" }, { a: "Processamento", b: "O computador faz os cálculos com as informações" }, { a: "Pasta", b: "Lugar onde organizamos os nossos arquivos" }, { a: "Algoritmo", b: "Sequência de passos, em ordem, para resolver um problema" }, { a: "Repetição", b: "Fazer os mesmos passos várias vezes" }, { a: "Lixo eletrônico", b: "Aparelhos velhos que precisam ser descartados no lugar certo" }] }
     ],
     turbo: [
-      { tipo: "pc", titulo: "Apresente para a turma", programa: "Projetor da sala",
-        passos: ["Escolha a missão de que você mais gostou.", "Prepare duas ou três frases dizendo por quê.", "Apresente para a turma, no projetor."] }
+      { tipo: "aberta", titulo: "A missão de que eu mais gostei",
+        enunciado: "<p>Escolha a missão de que você mais gostou e escreva duas ou três frases dizendo por quê. Se o professor ligar o projetor no fim da aula, você pode ler para a turma (é opcional).</p>",
+        campos: [{ rot: "A missão de que eu mais gostei:", linhas: 1 }, { rot: "Por que eu gostei (duas ou três frases):", linhas: 3 }],
+        criterios: ["Diz qual foi a missão.", "Explica o motivo com as suas palavras."],
+        exemplo: "Missão 1. Eu gostei porque aprendi como a internet funciona por dentro e agora entendo por que o vídeo trava.",
+        conferir: { minPalavras: 2, msg: "Registrado! O professor pode ler no painel." } }
     ]
   }
 });

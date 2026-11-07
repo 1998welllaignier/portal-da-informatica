@@ -7,10 +7,10 @@ PORTAL.registrarAtividades("informatica-8ano-4bim", {
   /* ======================= MISSÃO 1 ======================= */
   m1: {
     pratica: [
-      { tipo: "adivinhe", titulo: "Jogo: adivinhe o número do computador", max: 100, meta: 7,
+      { tipo: "sim_adivinhe", titulo: "Jogo: adivinhe o número do computador", max: 100, meta: 7,
         enunciado: "<p>O computador pensou num número de 1 a 100. A cada chute ele diz se é <strong>maior</strong> ou <strong>menor</strong>. Tente sempre o <strong>meio</strong> do que sobrou (50, depois 25 ou 75…).</p>",
         explicacao: "Chutar o meio corta as opções pela metade a cada vez: isso é a <strong>busca binária</strong>. Com 100 números, bastam no máximo 7 chutes. Mas ela só funciona se a lista estiver <strong>em ordem</strong>!" },
-      { tipo: "bolha", titulo: "Método da bolha na mão",
+      { tipo: "sim_bolha", titulo: "Método da bolha na mão",
         enunciado: "<p>Clique em <strong>⇄</strong> para trocar dois vizinhos. Deixe em <strong>ordem crescente</strong>, com o menor número possível de trocas.</p>",
         valores: [42, 7, 19, 3, 25],
         explicacao: "No método da bolha, o computador compara vizinhos e troca quando estão fora de ordem, passada por passada, até não precisar mais trocar." }
@@ -243,8 +243,12 @@ PORTAL.registrarAtividades("informatica-8ano-4bim", {
         pares: [{ a: "Busca binária", b: "Olha o meio e descarta metade; só funciona em lista ordenada" }, { a: "Método da bolha", b: "Compara vizinhos e troca os que estão fora de ordem" }, { a: "DNS (Sistema de Nomes de Domínio)", b: "Traduz o nome do site no endereço IP" }, { a: "Paralelismo", b: "Partes de uma tarefa feitas ao mesmo tempo, em núcleos diferentes" }, { a: "LGPD (Lei Geral de Proteção de Dados)", b: "Lei brasileira que protege os dados pessoais" }, { a: "Pegada digital", b: "Rastro do que publicamos, curtimos e comentamos" }] }
     ],
     turbo: [
-      { tipo: "pc", titulo: "Apresente para a turma", programa: "Projetor da sala",
-        passos: ["Escolha a missão de que você mais gostou.", "Prepare duas ou três frases dizendo por quê.", "Apresente para a turma, no projetor."] }
+      { tipo: "aberta", titulo: "A missão de que eu mais gostei",
+        enunciado: "<p>Escolha a missão de que você mais gostou e escreva duas ou três frases dizendo por quê. Se o professor ligar o projetor no fim da aula, você pode ler para a turma (é opcional).</p>",
+        campos: [{ rot: "A missão de que eu mais gostei:", linhas: 1 }, { rot: "Por que eu gostei (duas ou três frases):", linhas: 3 }],
+        criterios: ["Diz qual foi a missão.", "Explica o motivo com as suas palavras."],
+        exemplo: "Missão 1. Eu gostei porque aprendi como a internet funciona por dentro e agora entendo por que o vídeo trava.",
+        conferir: { minPalavras: 2, msg: "Registrado! O professor pode ler no painel." } }
     ]
   }
 });

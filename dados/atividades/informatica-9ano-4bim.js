@@ -25,7 +25,7 @@
     /* ======================= MISSÃO 1 ======================= */
     m1: {
       pratica: [
-        { tipo: "grafo", titulo: "Ache o caminho mais curto até a escola",
+        { tipo: "sim_grafo", titulo: "Ache o caminho mais curto até a escola",
         enunciado: "<p>Cada número na rua é o tempo em <strong>minutos a pé</strong> (o <strong>peso</strong> da aresta). Saindo de <strong>Casa</strong>, clique nos lugares, um vizinho por vez, até chegar na <strong>Escola</strong> com a <strong>menor soma</strong>. Depois clique em <strong>Verificar</strong>.</p>",
         vertices: { casa: { nome: "Casa", ic: "🏠", x: 45, y: 120 }, mercado: { nome: "Mercado", ic: "🛒", x: 160, y: 45 }, igreja: { nome: "Igreja", ic: "⛪", x: 160, y: 195 },
           campo: { nome: "Campo", ic: "⚽", x: 270, y: 45 }, praca: { nome: "Praça", ic: "🌳", x: 270, y: 195 }, escola: { nome: "Escola", ic: "🏫", x: 360, y: 120 } },
@@ -39,7 +39,7 @@
           html: `<div class="tabela-wrap"><table><thead><tr><th>Aresta (ligação)</th><th>Peso (minutos)</th></tr></thead><tbody>
           <tr><td>Casa – Padaria</td><td>4</td></tr><tr><td>Casa – Praça</td><td>3</td></tr><tr><td>Padaria – Escola</td><td>5</td></tr>
           <tr><td>Praça – Escola</td><td>7</td></tr><tr><td>Praça – Posto de saúde</td><td>2</td></tr><tr><td>Posto de saúde – Escola</td><td>3</td></tr></tbody></table></div>
-          <p>Na apostila impressa você desenha o grafo: cada lugar é um círculo (vértice) e cada ligação é uma linha (aresta) com o peso escrito em cima.</p>` },
+          <p>No próximo passo, você mesmo monta este grafo na tela: cada lugar é um círculo (vértice) e cada ligação é uma linha (aresta), com o peso escrito em cima.</p>` },
         Object.assign({ tipo: "grafo_montar", titulo: "Monte o grafo do bairro: ligue os lugares", descricao: "Grafo do bairro para montar" }, bairro,
           { enunciado: "<p>Agora é você quem desenha o grafo. Clique em um lugar e depois no outro lugar ligado a ele, seguindo a tabela de arestas. O peso aparece em cima de cada linha.</p>",
             dicas: ["Comece pela Casa: ela se liga à Padaria e à Praça."],
@@ -122,11 +122,11 @@
     /* ======================= MISSÃO 2 ======================= */
     m2: {
       pratica: [
-        { tipo: "cesar", titulo: "Decifre a mensagem: Cifra de César",
+        { tipo: "sim_cesar", titulo: "Decifre a mensagem: Cifra de César",
         enunciado: "<p>Júlio César trocava cada letra pela que está <strong>3 casas</strong> à frente no alfabeto. Gire a <strong>chave</strong> com as setas até a mensagem fazer sentido.</p>",
         cifrada: "VHJUHGR JXDUGDGR", resposta: "SEGREDO GUARDADO",
         explicacao: "A <strong>chave</strong> é o número de casas. Quem não sabe a chave vê só letras sem sentido." },
-      { tipo: "cesar", titulo: "Desafio: agora ninguém contou a chave!",
+      { tipo: "sim_cesar", titulo: "Desafio: agora ninguém contou a chave!",
         enunciado: "<p>Teste chave por chave até achar a mensagem. Testar todas as possibilidades tem nome: <strong>ataque de força bruta</strong>.</p>",
         cifrada: "F XJSMF J XJLWJIT", resposta: "A SENHA E SEGREDO",
         explicacao: "Com só 25 chaves possíveis, a força bruta quebra a Cifra de César em segundos. Por isso a criptografia de hoje (como no HTTPS) usa chaves enormes." }
@@ -222,7 +222,11 @@
             { t: "Um site de humor publica “Escola troca a merenda por pizza todos os dias” e muita gente acredita.", c: "H" },
             { t: "Um perfil falso publica fotos de um colega com apelidos ofensivos.", c: "O" }] },
         { tipo: "pc", titulo: "No computador: cartaz Eu respeito a autoria", programa: "Paint",
-          passos: ["Escreva o título <strong>Eu respeito a autoria</strong>.", "Faça um desenho seu (não use fotos de colegas nem imagens copiadas da internet).", "Embaixo, escreva: <strong>Criado por: (seu primeiro nome) · Licença: CC BY</strong>.", "Chame o professor para conferir."] }
+          passos: ["Escreva o título <strong>Eu respeito a autoria</strong>.", "Faça um desenho seu (não use fotos de colegas nem imagens copiadas da internet).", "Embaixo, escreva: <strong>Criado por: (seu primeiro nome) · Licença: CC BY</strong>.", "Deixe o cartaz aberto na tela (o professor vê pelo Veyon) e responda à conferência abaixo."],
+          conferir: [{ rot: "Qual é o título do seu cartaz?", ph: "Título…", gab: "Eu respeito a autoria", re: "respeito\\s+a\\s+autoria", dica: "O título é <strong>Eu respeito a autoria</strong>." },
+            { rot: "O que você escreveu embaixo do desenho?", ph: "Criado por: … · Licença: …", gab: "Criado por: (seu primeiro nome) · Licença: CC BY", re: "criado\\s+por[\\s\\S]*cc\\s*-?\\s*by", dica: "Precisa ter <strong>Criado por:</strong> com o seu nome e <strong>Licença: CC BY</strong>." },
+            { rot: "O que a licença CC BY deixa as outras pessoas fazerem?", ph: "…", gab: "usar e compartilhar, desde que deem crédito ao autor", re: "cr[eé]dito|nome do autor|citar|citando|autor", dica: "Procure <strong>CC BY</strong> no <strong>💡 Para começar</strong>: o BY quer dizer “dar crédito”." }],
+          okMsg: "Cartaz pronto e conferido! Ficou registrado para o professor." }
       ],
       desafio: [
         { tipo: "aberta", titulo: "Escreva o crédito correto da foto da castanheira",
@@ -268,8 +272,12 @@
         pares: [{ a: "Aresta", b: "Ligação entre dois vértices de um grafo" }, { a: "Folha", b: "Fim de uma árvore, que não se divide mais" }, { a: "Chave", b: "Informação que permite cifrar e decifrar uma mensagem" }, { a: "Força bruta", b: "Ataque que testa todas as senhas possíveis" }, { a: "Plágio", b: "Copiar a obra de alguém e apresentar como sua" }, { a: "Deepfake", b: "Vídeo, foto ou áudio falso que imita uma pessoa, criado por inteligência artificial" }] }
       ],
       turbo: [
-        { tipo: "pc", titulo: "Apresente para a turma", programa: "Projetor da sala",
-          passos: ["Escolha a missão de que você mais gostou.", "Prepare duas ou três frases dizendo por quê.", "Apresente para a turma, no projetor."] }
+        { tipo: "aberta", titulo: "A missão de que eu mais gostei",
+          enunciado: "<p>Escolha a missão de que você mais gostou e escreva duas ou três frases dizendo por quê. Se o professor ligar o projetor no fim da aula, você pode ler para a turma (é opcional).</p>",
+          campos: [{ rot: "A missão de que eu mais gostei:", linhas: 1 }, { rot: "Por que eu gostei (duas ou três frases):", linhas: 3 }],
+          criterios: ["Diz qual foi a missão.", "Explica o motivo com as suas palavras."],
+          exemplo: "Missão 1. Eu gostei porque aprendi como a internet funciona por dentro e agora entendo por que o vídeo trava.",
+          conferir: { minPalavras: 2, msg: "Registrado! O professor pode ler no painel." } }
       ]
     }
   });

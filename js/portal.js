@@ -447,7 +447,7 @@
       </header>
       <div class="grid-missoes">${C.missoes.map(card).join("")}</div>
       <details class="painel como-usar"><summary>📘 Como usar esta apostila</summary>${blocos(C.comoUsar.filter(b => !(b.t === "p" && /Tudo na apostila|escreve e desenha/.test(b.h))))}
-        <p><strong>No portal:</strong> faça junto com o professor a missão do dia. Quando terminar o 🟢 Básico, aparece a faixa <strong>“Chame o professor”</strong>: ele confere e carimba a sua apostila impressa.</p></details>
+        <p><strong>No portal:</strong> faça junto com o professor a missão do dia. Quando terminar o 🟢 Básico, aparece a faixa verde <strong>“Básico concluído”</strong>: tudo fica registrado sozinho, e você escolhe entre o Desafio (nota maior) e os jogos livres.</p></details>
       <div class="row-btns"><a class="btn btn-sec" href="#/imprimir/${aid}">🖨️ Versão para imprimir</a>
         <button class="btn btn-sec" id="exp" type="button">📥 Baixar minhas respostas</button>
         <button class="btn btn-sec" id="apagar" type="button">🧹 Apagar meus dados deste computador</button></div>
@@ -511,7 +511,7 @@
     if (pg.id === "termos") corpo.appendChild(h(`<div class="glossario">${m.termos.map(t => `<details class="termo"><summary>${t.rotulo}</summary><p>${t.def}</p></details>`).join("")}</div>`));
     if (pg.id === "onde") corpo.appendChild(h(`<ul class="onde-uso">${m.ondeUso.itens.map(i => `<li>${i}</li>`).join("")}</ul>`));
     if (pg.tipo === "missao" && pg.id !== "pratica" && m.alertas.length) corpo.appendChild(h(`<div class="alerta" role="note">${m.alertas.map(x => `<p>⚠️ ${x}</p>`).join("")}</div>`));
-    if (pg.tipo === "missao") corpo.appendChild(h(`<p class="nivel-info nivel-${pg.id}">${{ pratica: "🎮 <strong>Mão na massa</strong>: experimente antes de estudar! Todos fazem, e conta no Básico.", basico: "🟢 <strong>Básico</strong>: todos fazem. É o que o professor confere para o carimbo.", desafio: "🟡 <strong>Desafio</strong>: para quem terminou o Básico. Vale pontos extras.", turbo: "🔴 <strong>Turbo</strong>: para quem terminou o Desafio." }[pg.id]}</p>`));
+    if (pg.tipo === "missao") corpo.appendChild(h(`<p class="nivel-info nivel-${pg.id}">${{ pratica: "🎮 <strong>Mão na massa</strong>: experimente antes de estudar! Todos fazem, e conta no Básico.", basico: "🟢 <strong>Básico</strong>: todos fazem. Vale 1,0 ponto e libera os jogos livres. As respostas estão no 💡 Para começar e no 📖 O que significa?.", desafio: "🟡 <strong>Desafio</strong>: para quem terminou o Básico. Vale +0,25 e aumenta a sua nota do bimestre.", turbo: "🔴 <strong>Turbo</strong>: para quem terminou o Desafio. Vale mais +0,25 na nota do bimestre." }[pg.id]}</p>`));
     (pg.atividades || []).forEach((at, i) => corpo.appendChild(cartaoAtividade(aid, mid, at, i, () => { barra(info()); atualizarStatus(); })));
     if (pg.tipo === "relatorio") corpo.appendChild(relatorio(aid, mid, pages));
     const figs = figurasDaPagina(aid, mid, pg.id, pages.map(p => p.id));
@@ -531,12 +531,33 @@
         alvo && alvo.appendChild(botaoOuvir("Ouvir", () => [textoDe(sec.querySelector("h2")), enun ? textoDe(enun) : "", passos ? textoDe(passos) : ""].join(". ")));
       });
     }
+    function bannerNivel(x) {
+      const tem = id => pages.some(p => p.id === id);
+      const fez = k => x[k][1] > 0 && x[k][0] === x[k][1];
+      const ir = (id, txt, cls) => tem(id) ? `<a class="btn ${cls}" href="#/missao/${aid}/${mid}/${id}">${txt}</a>` : "";
+      const resumo = `<a class="bc-link" href="#/missao/${aid}/${mid}/relatorio">📋 Ver o resumo do que fiz</a>`;
+      if (fez("desafio") && (fez("turbo") || !tem("turbo")))
+        return `<div class="banner-concluida" role="status"><p class="bc-tit">🏆 MISSÃO COMPLETA!</p>
+          <p>Você fez o <strong>Básico</strong>, o <strong>Desafio</strong>${tem("turbo") ? " e o <strong>Turbo</strong>" : ""}. Esses pontos extras deixam a sua <strong>nota do bimestre maior</strong>.</p>
+          <p>🎮 Agora é a sua vez de aproveitar os <strong>jogos livres</strong> no fim da aula. Ou, se faltou em alguma aula, faça o Básico daquela missão.</p>
+          <div class="bc-bts"><a class="btn btn-sec" href="#/apostila/${aid}">📚 Ver todas as missões</a></div>${resumo}</div>`;
+      if (fez("desafio"))
+        return `<div class="banner-concluida" role="status"><p class="bc-tit">🟡 DESAFIO CONCLUÍDO! +0,25</p>
+          <p>Falta só o <strong>Turbo</strong> para completar a missão e ganhar mais <strong>+0,25</strong> na nota do bimestre. Se preferir, você já pode ir para os <strong>jogos livres</strong>. 🎮</p>
+          <div class="bc-bts">${ir("turbo", "🔴 Ir para o Turbo →", "btn-ok")}</div>${resumo}</div>`;
+      return `<div class="banner-concluida" role="status"><p class="bc-tit">✅ BÁSICO CONCLUÍDO!</p>
+        <p>Você terminou a parte <strong>obrigatória</strong> desta aula e garantiu <strong>1,0 ponto</strong>. Já ficou tudo <strong>registrado sozinho</strong> para o professor: não precisa chamar ninguém.</p>
+        <p><strong>Agora você escolhe:</strong></p>
+        <ul class="bc-opcoes"><li>🟡 <strong>Desafio</strong> (+0,25) e depois 🔴 <strong>Turbo</strong> (+0,25): quem faz todos termina o bimestre com a <strong>nota maior</strong>.</li>
+        <li>🎮 <strong>Jogos livres</strong> no fim da aula: com o Básico pronto, você já tem direito.</li></ul>
+        <div class="bc-bts">${ir("desafio", "🟡 Ir para o Desafio →", "btn-ok")}</div>${resumo}</div>`;
+    }
     function atualizarStatus() {
       const x = statusMissao(aid, mid);
       const linha = (r, k) => x[k][1] ? `<li>${r} <strong>${x[k][0]}/${x[k][1]}</strong>${x[k][0] === x[k][1] ? " ✔" : ""}</li>` : "";
       el.querySelector("#mn-status").innerHTML = `<ul>${linha("📖 Leitura", "leitura")}${linha("🟢 Básico", "basico")}${linha("🟡 Desafio", "desafio")}${linha("🔴 Turbo", "turbo")}${linha("✅ Revisão", "revisao")}</ul>`;
       const ok = x.basico[1] && x.basico[0] === x.basico[1];
-      el.querySelector("#banner-ok").innerHTML = ok && pg.tipo === "missao" && pg.id === "basico" ? `<div class="banner-concluida" role="status">✅ MISSÃO BÁSICA CONCLUÍDA — chame o professor para conferir e carimbar a sua apostila!<br><a href="#/missao/${aid}/${mid}/relatorio">📋 Ver o resumo do que fiz${s && s.nuvem ? "" : " (para o print)"}</a></div>` : "";
+      el.querySelector("#banner-ok").innerHTML = ok && pg.tipo === "missao" ? bannerNivel(x) : "";
       const tb = document.querySelector(".tb-info"); if (tb) tb.classList.toggle("tb-ok", !!ok);
     }
     atualizarStatus();
@@ -691,7 +712,7 @@
           <div><span>Horário</span><strong>${hhmm(ini)} – ${hhmm(fim)}</strong></div>
           <div class="r-larga"><span>Missão</span><strong>${esc(m.icone)} ${esc(m.titulo)}</strong><small>${esc(a.titulo)}</small></div>
         </div>
-        <div class="r-basico ${okB ? "ok" : "nao"}">${okB ? "✅ BÁSICO CONCLUÍDO — pode carimbar" : `⏳ BÁSICO AINDA NÃO CONCLUÍDO (${x.basico[0]} de ${x.basico[1]})`}</div>
+        <div class="r-basico ${okB ? "ok" : "nao"}">${okB ? "✅ BÁSICO CONCLUÍDO" : `⏳ BÁSICO AINDA NÃO CONCLUÍDO (${x.basico[0]} de ${x.basico[1]})`}</div>
         <div class="r-conts">${cont("📖 Leitura", "leitura")}${cont("🟢 Básico", "basico")}${cont("🟡 Desafio", "desafio")}${cont("🔴 Turbo", "turbo")}${cont("✅ Revisão", "revisao")}</div>
         <h3 class="r-sub">O que foi feito</h3>
         <ol class="r-lista">${linhas.join("")}</ol>
@@ -795,7 +816,7 @@
       <p class="lead">${esc(cat().professor)} · orientações rápidas e links da missão do dia.</p>
       <div class="painel"><h2>⏱️ Duração</h2><p>${esc(o.duracao)}</p><h2>🧰 Recursos</h2><p>${esc(o.recursos)}</p><h2>📝 Avaliação</h2><p>${esc(o.avaliacao)}</p>
         <h2>✔ Correção</h2><p>Cada atividade mostra se tem <strong>correção automática</strong> ou se <strong>o professor confere</strong> (respostas abertas, tarefas no Paint e no Bloco de Notas). As respostas abertas não recebem nota automática: o portal só mostra critérios de revisão.</p>
-        <h2>👀 Acompanhamento pelo Veyon</h2><p>O topo de cada tela mostra a turma, o nome do aluno (ou da dupla), a missão e o andamento do Básico. Quando o Básico termina, a barra fica verde e aparece a faixa “Chame o professor”. O Veyon só mostra as telas: ele não guarda respostas nem notas.</p></div>
+        <h2>👀 Acompanhamento pelo Veyon</h2><p>O topo de cada tela mostra a turma, o nome do aluno (ou da dupla), a missão e o andamento do Básico. Quando o Básico termina, a barra fica verde e aparece a faixa “Básico concluído”, que explica ao aluno o que fazer depois (Desafio ou jogos livres), sem precisar chamar o professor. O Veyon só mostra as telas: ele não guarda respostas nem notas.</p></div>
       <a class="painel atalho-trilhas" href="#/trilhas"><span class="at-ic" aria-hidden="true">👣</span><span><strong>Trilhas Passo a Passo</strong><br>Missões com letra grande, um passo por vez e botão 🔊 Ouvir, para os alunos que precisam de apoio. Clique para ver os links de cada missão.</span><span class="at-seta" aria-hidden="true">→</span></a>
       <div class="painel"><h2>🔗 Link da missão do dia</h2><p>Escolha a apostila e a missão. Abra o link em todos os computadores (função “Abrir site” do Veyon): depois de se identificar, o aluno cai direto na missão.</p>
         <div class="row-btns"><select id="sa">${cat().apostilas.map(a => `<option value="${a.id}">${esc(a.titulo)}</option>`).join("")}</select>
