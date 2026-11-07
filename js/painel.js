@@ -189,7 +189,7 @@
       const dias = a => { const s = new Set(); (pm[a.id] || []).forEach(p => Object.keys(p.dias || {}).forEach(d => s.add(d))); return s.size; };
       corpo.innerHTML = `<div class="painel pp-tabela-wrap"><p class="ajuda">✔ Básico concluído · ⭐ Desafio completo · 3/5 = andamento do Básico · — não começou. Passe o mouse para ver os detalhes. <strong>${alunos.filter(a => a.ativo).length}</strong> alunos ativos.</p>
         <table class="pp-tabela"><thead><tr><th>Aluno</th><th>Código</th><th title="dias em que entrou no portal">Dias</th>${missoes.map(x => `<th title="${esc(x.m.titulo)}">${esc(x.m.icone)}<br><small>${esc(x.m.id.toUpperCase())}</small></th>`).join("")}<th></th></tr></thead>
-        <tbody>${lista.map(a => `<tr class="${a.ativo ? "" : "inativo"}"><td>${esc(a.nome)}${a.trilha ? ' <span title="Usa a apostila diferenciada (Trilha Passo a Passo)">📌</span>' : ""}${a.ativo ? "" : " <small>(desativado)</small>"}</td><td class="pp-cod">${esc(a.codigo)}</td><td>${dias(a)}</td>${missoes.map(x => cel(a, x)).join("")}
+        <tbody>${lista.map(a => `<tr class="${a.ativo ? "" : "inativo"}"><td>${a.atipico ? '<span title="Aluno atípico (tem PEI)">🧩</span> ' : ""}${esc(a.nome)}${a.trilha ? ' <span title="Usa a Trilha Passo a Passo">👣</span>' : ""}${a.ativo ? "" : " <small>(desativado)</small>"}</td><td class="pp-cod">${esc(a.codigo)}</td><td>${dias(a)}</td>${missoes.map(x => cel(a, x)).join("")}
           <td><button class="btn btn-link btn-peq" data-a="${a.id}" type="button">⚙️</button></td></tr>`).join("")}</tbody></table></div>`;
       corpo.querySelectorAll("[data-a]").forEach(b => b.onclick = () => menuAluno(alunos.find(a => a.id === b.dataset.a)));
       corpo.querySelectorAll("[data-ver]").forEach(td => { const f = () => verRespostas(prog.find(p => p.id === td.dataset.ver)); td.onclick = f; td.onkeydown = e => { if (e.key === "Enter") f(); }; });
@@ -221,12 +221,13 @@
     }
 
     function menuAluno(a) {
-      const dlg = h(`<dialog class="pp-dlg"><form method="dialog"><h2>${esc(a.nome)}</h2><p>${esc(nomeTurma(a.turma))} · código <strong>${esc(a.codigo)}</strong> · ${a.ativo ? "ativo" : "desativado"}</p>
+      const dlg = h(`<dialog class="pp-dlg"><form method="dialog"><h2>${a.atipico ? "🧩 " : ""}${esc(a.nome)}</h2><p>${esc(nomeTurma(a.turma))} · código <strong>${esc(a.codigo)}</strong> · ${a.ativo ? "ativo" : "desativado"}</p>
         <div class="pp-dlg-btns">
           <button class="btn btn-sec" value="cod" type="button" data-x="cod">🔑 Gerar novo código</button>
           <button class="btn btn-sec" value="nome" type="button" data-x="nome">✏️ Corrigir nome</button>
           <button class="btn btn-sec" type="button" data-x="turma">🔀 Mudar de turma</button>
-          <button class="btn btn-sec" type="button" data-x="trilha">${a.trilha ? "📌 Tirar a apostila diferenciada" : "📌 Usar apostila diferenciada (Trilha Passo a Passo)"}</button>
+          <button class="btn btn-sec" type="button" data-x="atipico">${a.atipico ? "🧩 Tirar a marcação de aluno atípico" : "🧩 Marcar como aluno atípico (tem PEI)"}</button>
+          <button class="btn btn-sec" type="button" data-x="trilha">${a.trilha ? "👣 Tirar a Trilha Passo a Passo" : "👣 Usar a Trilha Passo a Passo (apostila diferenciada)"}</button>
           <button class="btn btn-sec" type="button" data-x="ativo">${a.ativo ? "⛔ Desativar (saiu da escola)" : "✅ Reativar"}</button>
           <button class="btn" value="x">Fechar</button></div></form></dialog>`);
       document.body.appendChild(dlg); dlg.showModal();
@@ -242,6 +243,7 @@
             const nt = opc.find(y => y.id.toLowerCase() === String(r || "").trim().toLowerCase()); if (!nt) { if (r) alert("Turma não encontrada."); return; }
             const c = await novoCodigo(a, nt.id); alert(`${a.nome} agora está no ${nomeTurma(nt.id)}. Novo código: ${c}. O histórico continua guardado.`);
           }
+          if (x === "atipico") { await db().collection("alunos").doc(a.id).update({ atipico: !a.atipico }); }
           if (x === "trilha") {
             const tem = cat().apostilas.some(y => y.trilha && y.serie === (todasTurmas().find(z => z.id === a.turma) || { serie: {} }).serie.id);
             if (!a.trilha && !tem && !confirm("Esta série ainda não tem Trilha Passo a Passo. A marcação fica guardada e passa a valer quando a Trilha existir. Marcar mesmo assim?")) return;
@@ -291,7 +293,7 @@
       @media print{.x{display:none}}</style></head><body>
       <p class="x"><button onclick="print()">🖨️ Imprimir</button> Recorte os cartões e entregue a cada aluno.</p>
       <h1>💻 ${esc(cat().portal)} — ${esc(nomeTurma(t.id))}</h1><div class="g">${alunos.map(a => `<div class="c"><div class="p">💻 ${esc(cat().portal)} · ${esc(cat().professor)}</div>
-      <div class="n">${esc(a.nome)}</div><div class="t">Turma: <strong>${esc(nomeTurma(t.id))}</strong></div><div class="t">Seu código:</div><div class="k">${esc(a.codigo)}</div>
+      <div class="n">${a.atipico ? "🧩 " : ""}${esc(a.nome)}</div><div class="t">Turma: <strong>${esc(nomeTurma(t.id))}</strong></div><div class="t">Seu código:</div><div class="k">${esc(a.codigo)}</div>
       <div class="p">Não mostre o seu código para os colegas.</div></div>`).join("")}</div></body></html>`);
     w.document.close();
   }
@@ -324,7 +326,7 @@
       if (p.mid) r.missoes.push(p);
     }));
     const dias = Object.keys(porDia).sort().reverse();
-    const nome = id => (alunosTodos.find(a => a.id === id) || { nome: "(aluno removido)" }).nome;
+    const nome = id => { const a = alunosTodos.find(x => x.id === id) || { nome: "(aluno removido)" }; return (a.atipico ? "🧩 " : "") + a.nome; };
     const hhmm = ms => new Date(ms).toLocaleTimeString("pt-BR").slice(0, 5);
     const tituloMissao = p => { const C = P.conteudo[p.aid]; const m = C && C.missoes.find(x => x.id === p.mid); return m ? m.titulo : p.mid; };
     const fr = (r, k) => (r[k] || [0, 0])[1] ? `${r[k][0]}/${r[k][1]}` : "";
@@ -420,6 +422,9 @@
         <div class="row-btns"><button class="btn" id="imp1" type="button">📥 Importar para esta turma</button></div></div>
       <div class="painel"><h2>Importar arquivo de várias turmas</h2><p>Arquivo <strong>.json</strong> no formato preparado pelo Claude (todas as turmas de uma vez).</p>
         <input type="file" id="arq" accept=".json,application/json"> <button class="btn" id="imp2" type="button">📥 Importar arquivo</button></div>
+      <div class="painel"><h2>🧩 Marcar alunos atípicos (com PEI)</h2><p>Cole os nomes completos, um por linha. O portal procura em todas as turmas e coloca o 🧩 ao lado do nome: na tabela da turma, na presença, no relatório da aula e nos cartões com os códigos. Esta marcação fica só no painel do professor.</p>
+        <textarea id="atip" rows="8" class="pp-area" placeholder="Nome completo do aluno"></textarea>
+        <div class="row-btns"><button class="btn" id="atipok" type="button">🧩 Marcar</button></div><div id="atipres"></div></div>
       <div class="painel"><h2>🧪 Alunos de teste</h2><p>Cria um aluno <strong>“Aluno Teste”</strong> em cada turma, para você testar a entrada com código. Depois dos testes, use <strong>Remover alunos de teste</strong>.</p>
         <div class="row-btns"><button class="btn btn-sec" id="tst" type="button">🧪 Criar alunos de teste</button><button class="btn btn-sec" id="tstx" type="button">🧹 Remover alunos de teste</button></div>
         <div id="tstres"></div></div>
@@ -438,6 +443,17 @@
       el.querySelector("#tstres").innerHTML = lin.length ? `<table class="pp-tabela"><thead><tr><th>Turma</th><th>Aluno</th><th>Código</th><th>Situação</th></tr></thead><tbody>${lin.map(a => `<tr><td>${esc(nomeTurma(a.turma))}</td><td>${esc(a.nome)}</td><td class="pp-cod">${esc(a.codigo)}</td><td>${a.ativo ? "ativo" : "desativado"}</td></tr>`).join("")}</tbody></table>` : `<p class="ajuda">Nenhum aluno de teste no momento.</p>`;
     };
     mostrarTestes().catch(() => null);
+    el.querySelector("#atipok").onclick = async () => {
+      const sem = t => String(t || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/\s+/g, " ").trim();
+      const nomes = el.querySelector("#atip").value.split("\n").map(sem).filter(Boolean);
+      if (!nomes.length) return;
+      const q = await db().collection("alunos").get();
+      const achou = [], ops = [];
+      q.docs.forEach(d => { const a = d.data(); if (nomes.includes(sem(a.nome))) { achou.push(sem(a.nome)); if (!a.atipico) ops.push(b => b.update(d.ref, { atipico: true })); } });
+      await lotes(ops);
+      const falta = nomes.filter(n => !achou.includes(n));
+      el.querySelector("#atipres").innerHTML = `<p>✅ ${achou.length} aluno(s) marcado(s) com 🧩.</p>` + (falta.length ? `<p>⚠️ Não encontrei (confira a grafia no cadastro): ${falta.map(esc).join(" · ")}</p>` : "");
+    };
     el.querySelector("#tst").onclick = async () => {
       const b = el.querySelector("#tst"); b.disabled = true; b.textContent = "Criando…";
       try {
