@@ -66,5 +66,65 @@ service cloud.firestore {
     match /prof/{document=**} {
       allow read, write: if isProf();
     }
+
+    // ================= MODO EXPLORADOR (outras escolas, sem código) =================
+    // Professor de cada escola: professores/{email} = { escola: "santos-dumont" } (só o Welington cria).
+    function profEsc(esc) {
+      return isProf() || (signedIn() && request.auth.token.email_verified == true
+        && exists(/databases/$(database)/documents/professores/$(request.auth.token.email))
+        && get(/databases/$(database)/documents/professores/$(request.auth.token.email)).data.escola == esc);
+    }
+    function expSessao() { return get(/databases/$(database)/documents/exp_sessoes/$(request.auth.uid)).data; }
+    function temExpSessao() { return signedIn() && exists(/databases/$(database)/documents/exp_sessoes/$(request.auth.uid)); }
+
+    match /professores/{email} {
+      allow read: if isProf() || (signedIn() && request.auth.token.email == email);
+      allow write: if isProf();
+    }
+    match /exp_escolas/{esc} {
+      allow read: if true;
+      allow write: if isProf();
+    }
+    // Lista pública da escola: só primeiro nome + inicial, apelido e série (para o aluno achar o nome).
+    match /exp_alunos/{id} {
+      allow read: if true;
+      allow create: if signedIn()
+        && request.resource.data.keys().hasOnly(['escola', 'nome', 'apelido', 'serie', 'inicial', 'criadoEm'])
+        && exists(/databases/$(database)/documents/exp_escolas/$(request.resource.data.escola))
+        && existsAfter(/databases/$(database)/documents/exp_segredos/$(id))
+        && !exists(/databases/$(database)/documents/exp_alunos/$(id));
+      allow update, delete: if profEsc(resource.data.escola);
+    }
+    // Nome completo: só o professor da escola.
+    match /exp_privado/{id} {
+      allow read, update, delete: if profEsc(resource.data.escola);
+      allow create: if signedIn()
+        && !exists(/databases/$(database)/documents/exp_privado/$(id))
+        && getAfter(/databases/$(database)/documents/exp_alunos/$(id)).data.escola == request.resource.data.escola;
+    }
+    // Bichinho secreto: ninguém lê (nem o professor precisa); só é conferido aqui.
+    match /exp_segredos/{id} {
+      allow create: if signedIn() && !exists(/databases/$(database)/documents/exp_segredos/$(id))
+        && request.resource.data.keys().hasOnly(['bicho']);
+      allow update, delete: if profEsc(get(/databases/$(database)/documents/exp_alunos/$(id)).data.escola);
+    }
+    match /exp_sessoes/{uid} {
+      allow read: if signedIn() && request.auth.uid == uid;
+      allow create, update: if signedIn() && request.auth.uid == uid
+        && request.resource.data.keys().hasOnly(['alunoId', 'escola', 'bicho', 'criadoEm'])
+        && getAfter(/databases/$(database)/documents/exp_segredos/$(request.resource.data.alunoId)).data.bicho == request.resource.data.bicho
+        && getAfter(/databases/$(database)/documents/exp_alunos/$(request.resource.data.alunoId)).data.escola == request.resource.data.escola;
+      allow delete: if signedIn() && request.auth.uid == uid;
+    }
+    // Progresso e visitas. ID = "<alunoId>_<missão>" ou "<alunoId>_visitas".
+    match /exp_progresso/{docId} {
+      allow read: if profEsc(resource.data.escola)
+        || (temExpSessao() && (resource == null || resource.data.alunoId == expSessao().alunoId));
+      allow create, update: if temExpSessao()
+        && request.resource.data.alunoId == expSessao().alunoId
+        && request.resource.data.escola == expSessao().escola
+        && docId.matches(expSessao().alunoId + '_.*');
+      allow delete: if profEsc(resource.data.escola);
+    }
   }
 }
