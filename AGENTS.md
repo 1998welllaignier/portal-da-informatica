@@ -105,6 +105,9 @@ Apostilas (ids): `informatica-5ano-4bim`, `informatica-6ano-4bim`, `informatica-
   O professor cola esse texto na conversa com o Claude, que lança tudo no diário.
 - Cadastro de alunos (Escola JK e Santos Dumont): pelo painel, guardado no Firebase.
 
-## 7. Como testar sem publicar
+## 7. Plano de ação
+O que já está combinado para os próximos bimestres: `docs/PLANO-DE-ACAO.md`.
+
+## 8. Como testar sem publicar
 Abra `index.html` direto no navegador (funciona sem internet, no modo antigo) ou rode
 `python3 -m http.server 8000` na pasta e abra `http://localhost:8000`.
