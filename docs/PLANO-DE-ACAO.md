@@ -5,8 +5,8 @@ Claude Max (5x) assinado por um mês em 08/11 para adiantar tudo. **Voltar ao Pr
 
 ### ✋ O que o professor precisa fazer
 - [x] **Feito em 08/11, 18h40:** regras do Firebase publicadas (coleção `provas` + horário-limite).
-- [ ] Conferir o “Resumo-PEIs-6-ao-9.md” (enviado no chat em 08/11: 44 alunos, com perfil, AEE, caminho sugerido A/👣 B/🚀 aprofundar e prova de 3 alternativas) e aprovar os caminhos.
-- [x] **Feito em 08/11:** 📝 Apoios gravados em 35 alunos com 🧩 (📍 sentar em 17, caminho sugerido, AEE, prova 3 alternativas, perfil, na aula). Falta: marcar 👣 e “3 alternativas” só nos que o professor aprovar.
+- [x] **Feito em 08/11:** caminhos dos PEIs aprovados pelo professor e aplicados: 👣 Trilha em 11 alunos (Helena já tinha), “3 alternativas” em 33, Renato (7º C) no 🚀 aprofundar. Reavaliar quando os alunos começarem a vir.
+- [x] **Feito em 08/11:** 📝 Apoios gravados em 35 alunos com 🧩 (📍 sentar em 17, caminho sugerido, AEE, prova 3 alternativas, perfil, na aula). 👣 e “3 alternativas” marcados em 08/11, após aprovação.
 - [x] **Feito em 08/11:** Pedro Emanuel de Jesus Lima passou do 8º B para o 8º A no portal (como no SIGE desde 04/08), com 🧩 e apoio; código novo entregue ao professor no chat. 🧩 retirado do Pedro Henrique da Silva Sousa (8º A, sem AEE nem PEI).
 - [ ] Entregar o código novo ao Pedro Emanuel de Jesus Lima (8º A) e recolher o cartão antigo.
 - [x] **Feito em 08/11:** diário antigo transferido para a aba 📒 Diário (17 turmas, 9 aulas, registros e lembretes; todos os alunos conferidos). A chamada passa a ser feita no painel.
