@@ -875,6 +875,7 @@
       if (!hs.length) return telaInicio();
       const [r, a1, a2, a3] = hs;
       if (r === "serie") return telaSerie(a1);
+      if (r === "apresentar") { if (!P.apresentacao) return telaInicio(); return await P.apresentacao.abrir(mount, a1, a2); }
       // 👀 Visualização do professor (botão no painel, aba Aula): a apostila exatamente como o aluno vê,
       // numa aba só dela, sem código, sem nuvem e sempre zerada (nada vai para o painel)
       if (r === "ver") {

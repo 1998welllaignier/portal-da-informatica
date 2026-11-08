@@ -126,6 +126,7 @@
     aula: ["Use durante a aula, projetando ou no seu computador.", [
       "<b>📣 Avisos para falar à turma</b>: aparecem no topo com a fala pronta. Depois de falar, toque em “✔ Já avisei esta turma” (o aviso some só daquela turma, neste computador).",
       "<b>Escolha a turma e a missão</b> (M1, M2…). Aparece o roteiro da aula com as falas, as respostas de cada atividade e quantos alunos já entraram e concluíram o Básico.",
+      "<b>🎬 Apresentar</b>: abre numa aba nova os slides animados da missão (os mesmos assuntos do vídeo e da apostila), para projetar. Avance com → , espaço, clique ou passador; volte com ←; F deixa em tela cheia; Esc sai.",
       "<b>👀 Abrir a apostila do aluno</b>: abre, numa aba nova, a apostila exatamente como o aluno vê. Nada do que você fizer ali conta.",
       "<b>📌 Missão de hoje</b>: toque em “Definir … como Missão de hoje”. Quando o aluno digitar o código, ele cai direto nessa missão. Vale só para hoje.",
       "<b>🔒 Travar só nela</b> (opcional): as tarefas das outras missões fecham hoje. Os textos continuam abertos. Quem você liberou individualmente (falta, reposição) continua podendo fazer as outras.",
@@ -792,6 +793,7 @@
         <label>Turma <select id="sel">${turmas.map(x => `<option value="${x.id}" ${x.id === t.id ? "selected" : ""}>${esc(nomeTurma(x.id))}</option>`).join("")}</select></label>
         ${aps.length > 1 ? `<label>Apostila <select id="ap">${aps.map(a => `<option value="${a.id}" ${a.id === ap.id ? "selected" : ""}>${esc(a.titulo || a.id)}</option>`).join("")}</select></label>` : ""}
         <span class="pp-missoes">${C.missoes.map(m => `<a class="pp-mis ${m.id === mid ? "atual" : ""}" href="#/painel/aula/${t.id}/${m.id}">${esc(m.icone)} ${esc(m.id.toUpperCase())}</a>`).join("")}</span>
+        <a class="btn" href="#/apresentar/${ap.id}/${mid}" target="_blank" rel="noopener" title="Abre numa aba nova os slides animados desta missão, para projetar">🎬 Apresentar (abre numa aba nova)</a>
         <a class="btn btn-sec" href="#/ver/${ap.id}/${mid}/${t.id}" target="_blank" rel="noopener" title="Abre numa aba nova a apostila exatamente como os alunos veem">👀 Abrir a apostila do aluno</a></div>
       <div id="aula"></div>`);
     ligarSair(el);

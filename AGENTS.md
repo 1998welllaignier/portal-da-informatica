@@ -99,6 +99,14 @@ o portal troca a apostila da turma pela Trilha Passo a Passo da série (catálog
 - Cada aba do painel tem o quadro ❓ "Para que serve e como usar" (`AJUDA` em `js/painel.js`): ao mudar uma aba,
   atualize o texto dela.
 
+### 🎬 Modo apresentação (`js/apresentacao.js`, rota `#/apresentar/<apostila>/<missão>`)
+- Botão "🎬 Apresentar" na aba 🎤 Aula (abre numa aba nova, para projetar). Slides gerados sozinhos do conteúdo:
+  capa → Para começar (texto, tabelas viram cartões, listas) → **depois de cada explicação, o desenho dela**
+  (figuras `comecar` de `dados/ilustracoes`, ligadas pela `ancora`) → O que significa? (cartas que viram) →
+  Onde eu uso isso? → Resumo → "Agora é com vocês!". Cada tópico entra um por vez.
+- **Regra do professor: nunca deixar o visual de lado.** Toda explicação do "Para começar" precisa ter um desenho
+  logo depois (com setas e legendas explicando). Ao criar missões novas, crie as figuras junto.
+
 ### Diário de Classe (painel, aba 📒 Diário)
 - Dados só do professor, em `prof/diario/turmas/<turma>` (cronograma, lembretes, notas manuais `notas.prova` 0–5
   e `notas.rec` 0–10, `auto`) e `prof/diario/turmas/<turma>/aulas/<data>` (presencas P/F/J, carimbos 0/1/2,
