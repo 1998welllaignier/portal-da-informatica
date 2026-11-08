@@ -14,7 +14,7 @@ Claude Max (5x) assinado por um mês em 08/11 para adiantar tudo. **Voltar ao Pr
 
 ### ✅ Feito
 - 07/11: Mão na massa, faixas do Básico, autonomia (sem carimbo), botão Página inicial, aviso da dupla, cartazes da porta, marcação 🧩 (36 alunos) e 👣 (8º B), Trilha do 8º adaptada ao PEI, botão Ouvir retirado.
-- 08/11: Diário de Classe dentro do painel (aba 📒 Diário); prova só com as missões que a turma estudou (marcadas sozinhas pelo cronograma do diário) e prova com 3 alternativas para quem o PEI pede; Trilhas Passo a Passo do 6º, 7º e 9º ano; prova no portal (Dia de prova no painel, cronômetro até o fim da aula, envio automático quando o tempo acaba, recuperação e gabarito no painel); site professorwell (horários Manhã/Tarde, aviso da prova no portal, animações, barra azul); capa do perfil; Caderno Digital com histórico de pagamentos em grupo.
+- 08/11: botão “👀 Abrir a apostila do aluno” na aba Aula; Diário de Classe dentro do painel (aba 📒 Diário); prova só com as missões que a turma estudou (marcadas sozinhas pelo cronograma do diário) e prova com 3 alternativas para quem o PEI pede; Trilhas Passo a Passo do 6º, 7º e 9º ano; prova no portal (Dia de prova no painel, cronômetro até o fim da aula, envio automático quando o tempo acaba, recuperação e gabarito no painel); site professorwell (horários Manhã/Tarde, aviso da prova no portal, animações, barra azul); capa do perfil; Caderno Digital com histórico de pagamentos em grupo.
 
 ### 🔜 Fila do Claude (nesta ordem)
 0. **Revisão com o professor antes de cada aula** (pedido em 08/11): na véspera, uma conversa curta com o que a turma vai fazer, o assunto explicado de forma simples, as respostas de cada atividade e as perguntas que os alunos costumam fazer, para o professor nunca chegar à aula sem saber o que fazer. Pendências já conhecidas:
@@ -23,7 +23,7 @@ Claude Max (5x) assinado por um mês em 08/11 para adiantar tudo. **Voltar ao Pr
 1. ~~Análise dos PEIs e relatório “🧩 atípicos que frequentam”~~ **feito em 08/11** (relatório no painel, aba Presença). Pela chamada da 1ª semana, só 4 alunos com 🧩 vieram (todos do 8º ano): 1 na Trilha (👣) e 3 no caminho A (apostila da turma com apoios). Os outros ainda não vieram ou a turma não teve chamada registrada. **Reavaliar toda semana**, a cada chamada nova.
 2. ~~Diário de Classe dentro do painel~~ **programado em 08/11** (aba 📒 Diário: chamada, vistos ⚡ automáticos e corrigíveis, frequência, boletim com a nota da prova do portal, registro e lembretes). Falta: transferir o diário antigo (hoje à noite) e boletim em PDF.
 3. Tarefas presas ao dia e à hora da aula + liberação manual + aluno de outra turma + “Missão de hoje”.
-4. “Ver como aluno” no painel.
+4. ~~“Ver como aluno” no painel~~ **feito em 08/11**: botão “👀 Abrir a apostila do aluno” na aba 🎤 Aula, que abre numa aba nova a apostila exatamente como o aluno vê (sem código, nada vai para o painel, sempre zerada).
 5. Atividade de recuperação de cada série; boletins em PDF; SIGE (com o professor).
 
 ## 1. Quinta-feira (renovação do limite do Claude)

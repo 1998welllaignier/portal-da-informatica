@@ -868,6 +868,15 @@
       if (!hs.length) return telaInicio();
       const [r, a1, a2, a3] = hs;
       if (r === "serie") return telaSerie(a1);
+      // 👀 Visualização do professor (botão no painel, aba Aula): a apostila exatamente como o aluno vê,
+      // numa aba só dela, sem código, sem nuvem e sempre zerada (nada vai para o painel)
+      if (r === "ver") {
+        const ap = apostila(a1); if (!ap) return telaInicio();
+        const s0 = serie(ap.serie), t0 = (s0 && s0.turmas.find(x => x.id === a3)) || (s0 && s0.turmas[0]);
+        sess.set({ serie: ap.serie, turma: t0 ? t0.id : "", modo: "sozinho", nomes: ["Professor"], apelidos: ["👀 Visualização do professor"], prof: true, trilha: !!ap.trilha, entrou: Date.now() });
+        store.del(progressoKey(a1));
+        location.replace("#/" + (a2 ? "missao/" + a1 + "/" + a2 : "apostila/" + a1)); return;
+      }
       if (r === "prova") { barra(); if (!P.prova) return telaInicio(); return await P.prova.abrir(mount, a1); }
       if ((r === "apostilas" || r === "apostila" || r === "missao") && P.prova) { const d = await P.prova.destino(); if (d) { location.replace(d); return; } }
       if (r === "apostilas") return telaApostilas();
