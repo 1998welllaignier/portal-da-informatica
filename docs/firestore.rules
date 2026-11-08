@@ -62,6 +62,25 @@ service cloud.firestore {
       allow delete: if isProf();
     }
 
+    // Prova do bimestre. ID = "<alunoId>_<apostila>_<tentativa>" (tentativa 1 = prova; 2 = recuperação).
+    // O aluno só envia uma vez, só no Dia de prova da turma (config/prova_<turma>, ligado pelo professor)
+    // e a recuperação só se o professor liberou. Depois de enviada, ninguém altera (só o professor apaga).
+    function cfgProva(turma) { return get(/databases/$(database)/documents/config/$('prova_' + turma)).data; }
+    match /provas/{docId} {
+      allow read: if isProf()
+        || (temSessao() && (resource == null || resource.data.alunoId == sessao().alunoId));
+      allow create: if temSessao()
+        && request.resource.data.alunoId == sessao().alunoId
+        && request.resource.data.turma == sessao().turma
+        && request.resource.data.tentativa in [1, 2]
+        && docId == sessao().alunoId + '_' + request.resource.data.aid + '_' + string(request.resource.data.tentativa)
+        && exists(/databases/$(database)/documents/config/$('prova_' + sessao().turma))
+        && cfgProva(sessao().turma).aberta == true
+        && (request.resource.data.tentativa == 1 || sessao().alunoId in cfgProva(sessao().turma).recuperacao);
+      allow update: if false;
+      allow delete: if isProf();
+    }
+
     // Tudo o que é só do professor: registros de aula, lembretes, notas, boletins.
     match /prof/{document=**} {
       allow read, write: if isProf();

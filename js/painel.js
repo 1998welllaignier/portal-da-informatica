@@ -119,7 +119,7 @@
   const topo = (u, ativo) => `<nav class="migalhas"><a href="#/">Início</a> › <a href="#/painel">Painel do professor</a></nav>
     <div class="pp-cab"><div><h1>📊 Painel do professor</h1><p class="lead">${esc(cat().professor)} · ${esc(cat().escola)}</p></div>
       <div class="pp-user"><span>${esc(u.email)}</span><button class="btn btn-sec btn-peq" id="pp-sair" type="button">Sair do painel</button></div></div>
-    <nav class="pp-abas">${[["aula", "🎤 Aula"], ["", "🏫 Turmas"], ["presenca", "🗓️ Presença"], ["importar", "📥 Importar alunos"], ["ano", "📅 Ano letivo"]].map(([k, r]) =>
+    <nav class="pp-abas">${[["aula", "🎤 Aula"], ["", "🏫 Turmas"], ["presenca", "🗓️ Presença"], ["prova", "📝 Prova"], ["importar", "📥 Importar alunos"], ["ano", "📅 Ano letivo"]].map(([k, r]) =>
       `<a href="#/painel${k ? "/" + k : ""}" class="${ativo === k ? "atual" : ""}">${r}</a>`).join("")}</nav>`;
   function ligarSair(el) { el.querySelector("#pp-sair").onclick = async () => { await auth().signOut(); location.hash = "#/painel"; }; }
 
@@ -384,6 +384,71 @@
   }
 
   /* -------- Tela da aula: roteiro visual + respostas + contador ao vivo -------- */
+  /* -------- Prova do bimestre: Dia de prova, notas, recuperação e gabarito -------- */
+  async function telaProvaPainel(u, tid) {
+    const turmas = todasTurmas();
+    tid = tid || sessionStorage.getItem("painel:turma") || (turmas.find(x => x.serie.id === "6") || turmas[0]).id;
+    try { sessionStorage.setItem("painel:turma", tid); } catch (e) {}
+    const t = turmas.find(x => x.id === tid) || turmas[0];
+    const el = tela(topo(u, "prova") + `<div class="painel pp-barra"><label>Turma <select id="sel">${turmas.map(x => `<option value="${x.id}" ${x.id === t.id ? "selected" : ""}>${esc(nomeTurma(x.id))}</option>`).join("")}</select></label></div>
+      <div id="corpo"><p class="painel">Carregando…</p></div>`);
+    ligarSair(el);
+    el.querySelector("#sel").onchange = e => { location.hash = "#/painel/prova/" + e.target.value; };
+    const hoje = N.hoje();
+    const cfgRef = db().collection("config").doc("prova_" + t.id);
+    const [cfgSnap, alunosTodos, provasSnap] = await Promise.all([cfgRef.get(), alunosDaTurma(t.id), db().collection("provas").where("turma", "==", t.id).get()]);
+    const cfg = cfgSnap.exists ? cfgSnap.data() : {};
+    const ligada = !!cfg.aberta && cfg.dia === hoje;
+    const rec = new Set(cfg.recuperacao || []);
+    const alunos = alunosTodos.filter(a => a.ativo && !a.teste);
+    const base = cat().apostilas.find(a => a.serie === t.serie.id && !a.oculta && !a.trilha);
+    const trilha = base && cat().apostilas.find(a => a.trilha && a.base === base.id);
+    const aidDe = a => (a.trilha && trilha ? trilha.id : base && base.id);
+    const aids = [...new Set([base && base.id, trilha && alunos.some(a => a.trilha) ? trilha.id : null].filter(Boolean))];
+    await Promise.all(aids.map(x => P.prova.carregar(x).catch(() => null)));
+    // a nota é recalculada aqui, a partir das respostas (não depende do que o navegador do aluno calculou)
+    const acertos = d => { const Pv = P.provas[d.aid]; if (!Pv) return d.acertos || 0; return Pv.questoes.filter(q => d.respostas && d.respostas[q.id] != null && P.provaHash(d.aid, q.id, d.respostas[q.id]) === q.h).length; };
+    const res = {}; provasSnap.docs.forEach(x => { const d = x.data(); (res[d.alunoId] = res[d.alunoId] || {})[d.tentativa] = { ...d, ac: acertos(d) }; });
+    const nota = n => (n * 0.5).toFixed(1).replace(".", ",");
+    const hhmm = d => d.enviadoEm && d.enviadoEm.toDate ? d.enviadoEm.toDate().toLocaleString("pt-BR").slice(0, 17) : (d.dia ? dataBR(d.dia) : "");
+    const fizeram = alunos.filter(a => res[a.id]).length;
+    const linhas = alunos.map(a => {
+      const r = res[a.id] || {}; const t1 = r[1], t2 = r[2];
+      const fin = Math.max(t1 ? t1.ac : -1, t2 ? t2.ac : -1);
+      return `<tr><td>${a.atipico ? "🧩 " : ""}${esc(a.nome)}${a.trilha ? " 👣" : ""}</td>
+        <td>${t1 ? `<strong>${nota(t1.ac)}</strong> <small>(${t1.ac}/10 · ${esc(hhmm(t1))})</small>` : "—"}</td>
+        <td>${t2 ? `<strong>${nota(t2.ac)}</strong> <small>(${t2.ac}/10)</small>` : rec.has(a.id) ? "<small>liberada</small>" : "—"}</td>
+        <td>${fin >= 0 ? `<strong>${nota(fin)}</strong>` : "—"}</td>
+        <td>${t1 && !t2 ? `<button class="btn btn-sec btn-peq" data-rec="${a.id}" type="button">${rec.has(a.id) ? "Cancelar recuperação" : "Liberar recuperação"}</button>` : ""}</td></tr>`;
+    }).join("");
+    const gab = aids.map(x => { const Pv = P.provas[x]; if (!Pv) return ""; const ap = P.apostila(x);
+      return `<h3>${esc(ap ? ap.titulo : x)}</h3><ol>${Pv.questoes.map(q => `<li>${esc(q.p)}<br>${q.opcoes.map(o => P.provaHash(x, q.id, o) === q.h ? `<span class="certa">✔ ${esc(o)}</span>` : `<span>${esc(o)}</span>`).join(" · ")}</li>`).join("")}</ol>`; }).join("");
+    const corpo = el.querySelector("#corpo");
+    corpo.innerHTML = `<div class="painel"><h2>📝 Prova do bimestre · ${esc(nomeTurma(t.id))}</h2>
+        <p>Situação: <span class="pp-prova-st ${ligada ? "on" : "off"}">${ligada ? "🟢 Dia de prova LIGADO (hoje)" : "⚪ Desligado"}</span></p>
+        <p class="ajuda">Ligado, o aluno digita o código e cai direto na prova. Ao terminar, vê a nota e o portal sai sozinho. O Dia de prova desliga sozinho no fim do dia.</p>
+        <div class="row-btns">${ligada ? `<button class="btn" id="pv-off" type="button">⏹️ Encerrar a prova</button>` : `<button class="btn btn-grande" id="pv-on" type="button">📝 Ligar o Dia de prova</button>`}
+          <button class="btn btn-sec" id="pv-cp" type="button">📋 Copiar notas</button>
+          <button class="btn btn-sec" id="pv-gab" type="button">👁️ Mostrar gabarito</button></div></div>
+      <div class="painel pp-gab" id="gab"><h2>Gabarito</h2>${gab}</div>
+      <div class="painel"><h2>Notas (${fizeram} de ${alunos.length} fizeram)</h2>
+        <div class="tabela-wrap"><table><thead><tr><th>Aluno</th><th>1ª tentativa</th><th>Recuperação</th><th>Nota final</th><th></th></tr></thead><tbody>${linhas}</tbody></table></div>
+        <p class="ajuda">Cada questão vale 0,5 (até 5,0). Na nota final vale a maior entre a prova e a recuperação. A recuperação abre só para quem você liberar, quando o Dia de prova estiver ligado.</p></div>`;
+    const recarregar = () => telaProvaPainel(u, t.id);
+    const on = corpo.querySelector("#pv-on"), off = corpo.querySelector("#pv-off");
+    if (on) on.onclick = async () => { on.disabled = true; await cfgRef.set({ aberta: true, dia: hoje, abertaEm: Date.now(), recuperacao: [...rec] }); toast("Dia de prova ligado para " + nomeTurma(t.id)); recarregar(); };
+    if (off) off.onclick = async () => { off.disabled = true; await cfgRef.set({ aberta: false, encerradaEm: Date.now() }, { merge: true }); toast("Prova encerrada."); recarregar(); };
+    corpo.querySelector("#pv-gab").onclick = e => { const g = corpo.querySelector("#gab"); g.classList.toggle("on"); e.target.textContent = g.classList.contains("on") ? "🙈 Esconder gabarito" : "👁️ Mostrar gabarito"; };
+    corpo.querySelector("#pv-cp").onclick = async () => {
+      const txt = `Notas da prova — ${nomeTurma(t.id)}\n` + alunos.map(a => { const r = res[a.id] || {}; const f = Math.max(r[1] ? r[1].ac : -1, r[2] ? r[2].ac : -1); return `${a.nome}: ${f >= 0 ? nota(f) : "não fez"}`; }).join("\n");
+      try { await navigator.clipboard.writeText(txt); toast("Notas copiadas."); } catch (e) { prompt("Copie as notas:", txt); }
+    };
+    corpo.querySelectorAll("[data-rec]").forEach(b => b.onclick = async () => {
+      const id = b.dataset.rec; if (rec.has(id)) rec.delete(id); else rec.add(id);
+      b.disabled = true; await cfgRef.set({ recuperacao: [...rec] }, { merge: true }); recarregar();
+    });
+  }
+
   async function telaAula(u, tid, mid) {
     const turmas = todasTurmas();
     tid = tid || sessionStorage.getItem("painel:turma") || (turmas.find(x => x.serie.id === "6") || turmas[0]).id;
@@ -538,6 +603,7 @@
       try {
         if (sub === "aula") return await telaAula(u, arg, arg2);
         if (sub === "presenca") return await telaPresenca(u, arg);
+        if (sub === "prova") return await telaProvaPainel(u, arg);
         if (sub === "importar") return await telaImportar(u);
         if (sub === "ano") return await telaAno(u);
         return await telaTurmas(u, sub === "turma" ? arg : null);

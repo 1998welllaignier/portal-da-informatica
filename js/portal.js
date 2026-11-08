@@ -868,6 +868,8 @@
       if (!hs.length) return telaInicio();
       const [r, a1, a2, a3] = hs;
       if (r === "serie") return telaSerie(a1);
+      if (r === "prova") { barra(); if (!P.prova) return telaInicio(); return await P.prova.abrir(mount, a1); }
+      if ((r === "apostilas" || r === "apostila" || r === "missao") && P.prova) { const d = await P.prova.destino(); if (d) { location.replace(d); return; } }
       if (r === "apostilas") return telaApostilas();
       if ((r === "apostila" || r === "missao") && trilhaDe(a1)) { location.replace("#/" + r + "/" + trilhaDe(a1) + (a2 ? "/" + a2 : "") + (a3 ? "/" + a3 : "")); return; }
       if (r === "apostila") return await telaApostila(a1);

@@ -19,8 +19,8 @@
 - [ ] Acompanhar a frequência deles toda semana; quem começar a vir entra na análise.
 
 ## 2. Fim do 4º bimestre de 2026
-- [ ] Prova no próprio portal ("modo prova": sem dicas, uma tentativa, questões embaralhadas, liberada e encerrada pelo painel, nota direto no boletim), no lugar do Wayground.
-- [ ] Recuperação: liberar a prova de novo só para quem precisa.
+- [x] Prova no próprio portal (feita em 08/11; falta publicar as regras do Firebase) ("modo prova": sem dicas, uma tentativa, questões embaralhadas, liberada e encerrada pelo painel, nota direto no boletim), no lugar do Wayground.
+- [x] Recuperação: liberar a prova de novo só para quem precisa (botão no painel, aba Prova).
 - [ ] Boletins em PDF pelo diário.
 - [ ] SIGE (sistema da prefeitura), junto com o Claude.
 

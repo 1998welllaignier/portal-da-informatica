@@ -70,6 +70,15 @@ No painel, o professor marca o aluno como atípico (`alunos/{id}.atipico`, só o
 o portal troca a apostila da turma pela Trilha Passo a Passo da série (catálogo: `trilha: true`,
 `base: <apostila da turma>`). Toda função que regrava o documento `acessos` precisa manter o campo `trilha`.
 
+### Prova do bimestre (📝)
+- Questões em `dados/provas/<apostila>.js` (10 questões, 0,5 cada, até 5,0), geradas por
+  `node ferramentas/gerar_provas.js <gabarito.json>`. O gabarito **não** fica no repositório (ele é público):
+  no arquivo vai só a impressão digital da resposta certa (`js/prova-hash.js`). Para recuperar o gabarito,
+  teste cada alternativa com `provaHash` (o painel faz isso no botão "👁️ Mostrar gabarito").
+- O professor liga o "📝 Dia de prova" da turma no painel (`config/prova_<turma>`); o aluno digita o código e
+  cai direto na prova (`js/prova.js`, rota `#/prova/<apostila>`). Respostas em `provas/<aluno>_<apostila>_<tentativa>`;
+  a nota é recalculada no painel. Recuperação = 2ª tentativa liberada pelo professor.
+
 ## 4. Pode fazer
 - Corrigir ou melhorar textos, enunciados, dicas, explicações e respostas.
 - Acrescentar atividades usando os **tipos que já existem** (veja a lista no topo de
@@ -96,7 +105,7 @@ o portal troca a apostila da turma pela Trilha Passo a Passo da série (catálog
 - **Não** criar um tipo de atividade com nome que já existe (`T.grafo`, `T.bolha`, `T.cesar`…):
   o novo apaga o antigo e quebra as atividades que usam o antigo. Antes de criar, procure
   `T.<nome> =` em `js/`. O verificador também acusa isso.
-- **Não** mudar a regra de nota (Básico 1,0 · Desafio 0,25 · Turbo 0,25 · prova no Wayground
+- **Não** mudar a regra de nota (Básico 1,0 · Desafio 0,25 · Turbo 0,25 · prova no portal
   até 5,0) sem o professor pedir.
 - **Não** mudar o `CNAME` nem as configurações do GitHub Pages.
 - **Não** tirar a correção automática para pôr "o professor confere".
