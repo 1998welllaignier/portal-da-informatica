@@ -60,5 +60,6 @@ Claude Max (5x) assinado por um mês em 08/11 para adiantar tudo. **Voltar ao Pr
 ## 4. Início de 2027
 - [ ] Turmas novas, listas de alunos e códigos de acesso.
 - [ ] Novo quadro de horários.
+- [ ] Avaliar código de acesso único na escola (5 ou 6 números), para o aluno entrar só com o código, sem escolher série e turma. Em 08/11 o professor preferiu manter como está (série → turma → código), porque hoje o código só vale dentro da turma.
 - [ ] Kit de diagnóstico do 6º ano.
 - [ ] O 4º bimestre de 2026 fica guardado como arquivo.
