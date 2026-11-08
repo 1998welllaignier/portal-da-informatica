@@ -40,12 +40,21 @@ PORTAL.catalogo = {
       titulo: "Informática — 9º ano — 4º bimestre", modo: "individual ou dupla" },
 
     /* TRILHA PASSO A PASSO — as mesmas missões da série, com letra grande,
-       um passo por vez, quase tudo por clique e botão 🔊 Ouvir.
+       um passo por vez, quase tudo por clique e pouca digitação.
        "oculta": não aparece na lista dos alunos; o professor abre pelo
        link da Área do professor (Veyon → Abrir site, só no computador do aluno). */
     { id: "informatica-8ano-4bim-trilha", serie: "8", disciplina: "informatica", unidade: "4º bimestre",
       titulo: "Informática — 8º ano — 4º bimestre · Trilha Passo a Passo", modo: "individual",
-      trilha: true, oculta: true, base: "informatica-8ano-4bim" }
+      trilha: true, oculta: true, base: "informatica-8ano-4bim" },
+    { id: "informatica-6ano-4bim-trilha", serie: "6", disciplina: "informatica", unidade: "4º bimestre",
+      titulo: "Informática — 6º ano — 4º bimestre · Trilha Passo a Passo", modo: "individual",
+      trilha: true, oculta: true, base: "informatica-6ano-4bim" },
+    { id: "informatica-7ano-4bim-trilha", serie: "7", disciplina: "informatica", unidade: "4º bimestre",
+      titulo: "Informática — 7º ano — 4º bimestre · Trilha Passo a Passo", modo: "individual",
+      trilha: true, oculta: true, base: "informatica-7ano-4bim" },
+    { id: "informatica-9ano-4bim-trilha", serie: "9", disciplina: "informatica", unidade: "4º bimestre",
+      titulo: "Informática — 9º ano — 4º bimestre · Trilha Passo a Passo", modo: "individual",
+      trilha: true, oculta: true, base: "informatica-9ano-4bim" }
   ],
 
   /* Orientações curtas que aparecem na área do professor */

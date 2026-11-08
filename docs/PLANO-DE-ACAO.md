@@ -7,6 +7,7 @@
 - [ ] Testar com uma turma antes de liberar para todas.
 - [ ] Botão "Missão de hoje": o professor escolhe no painel e ela aparece grande para os alunos logo depois do código.
 - [ ] Atividades só no dia e na hora da aula da turma (conferido pela hora do servidor, nas regras do Firebase), com tolerância antes e depois; o professor pode liberar fora do horário pelo painel: a turma toda por um tempo escolhido, só um aluno (reposição, recuperação, aluno que estuda em casa), e fechar antes da hora. **Decidido:** os textos de estudo (Para começar, O que significa?, Onde eu uso isso?, Resumo) ficam sempre abertos, inclusive em casa; só as tarefas ficam presas ao horário.
+- [ ] **"Ver como aluno" no painel** (pedido em 08/11): o professor abre, dentro do painel, a mesma apostila que os alunos veem, sem aluno fictício, para projetar e ler junto com a turma. As respostas ficam escondidas atrás de um botão "Mostrar resposta" (nunca aparecem de primeira). Não é o roteiro de falas: é a tela do aluno. A apostila continua autossuficiente: tudo o que o aluno precisa para responder está no texto dela.
 - [ ] Aluno que frequenta a aula de **outra turma** (curso, karatê, natação…): no painel, marcar "frequenta a aula da turma X". O horário dessa turma libera as tarefas dele; a presença e as notas continuam na turma dele; ele segue a própria apostila.
 
 ### Alunos atípicos (🧩) — também na quinta

@@ -61,7 +61,7 @@ Turmas do 5º ao 9º ano, 4º bimestre de 2026.
 | Versão (para os navegadores pegarem a versão nova) | `index.html`: `PORTAL_VERSAO` e todos os `?v=` |
 
 Apostilas (ids): `informatica-5ano-4bim`, `informatica-6ano-4bim`, `informatica-7ano-4bim`,
-`informatica-8ano-4bim`, `informatica-8ano-4bim-trilha` (versão passo a passo do 8º ano),
+`informatica-8ano-4bim`, as Trilhas Passo a Passo `informatica-6ano-4bim-trilha`, `informatica-7ano-4bim-trilha`, `informatica-8ano-4bim-trilha` e `informatica-9ano-4bim-trilha`,
 `informatica-9ano-4bim`.
 
 ### Alunos atípicos (🧩) e Trilha Passo a Passo (👣)

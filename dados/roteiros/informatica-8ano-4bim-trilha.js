@@ -6,8 +6,7 @@
 PORTAL.registrarRoteiro("informatica-8ano-4bim-trilha", {
   base: "informatica-8ano-4bim",
   antesExtra: [
-    "👣 Link da trilha aberto no computador do aluno (Início → Trilhas Passo a Passo)",
-    "🎧 Fone de ouvido para o botão 🔊 Ouvir, se houver"
+    "👣 Link da trilha aberto no computador do aluno (Início → Trilhas Passo a Passo)"
   ],
   m1: {
     extras: [
@@ -26,7 +25,7 @@ PORTAL.registrarRoteiro("informatica-8ano-4bim-trilha", {
     ],
     atencao: [
       "👣 Trilha: um passo por vez. Não adiante o próximo passo; deixe o portal guiar.",
-      "👣 Trilha: se ele travar na leitura, mostre o botão 🔊 Ouvir antes de explicar.",
+      "👣 Trilha: se ele travar na leitura, leia a frase com ele ou peça a um colega para ler em voz alta.",
       "👣 Trilha: elogie cada passo concluído; o ✔ do Básico vale igual ao da turma."
     ]
   },
