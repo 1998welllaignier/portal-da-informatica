@@ -120,7 +120,44 @@
     <div class="pp-cab"><div><h1>📊 Painel do professor</h1><p class="lead">${esc(cat().professor)} · ${esc(cat().escola)}</p></div>
       <div class="pp-user"><span>${esc(u.email)}</span><button class="btn btn-sec btn-peq" id="pp-sair" type="button">Sair do painel</button></div></div>
     <nav class="pp-abas">${[["aula", "🎤 Aula"], ["", "🏫 Turmas"], ["diario", "📒 Diário"], ["presenca", "🗓️ Presença"], ["prova", "📝 Prova"], ["importar", "📥 Importar alunos"], ["ano", "📅 Ano letivo"]].map(([k, r]) =>
-      `<a href="#/painel${k ? "/" + k : ""}" class="${ativo === k ? "atual" : ""}">${r}</a>`).join("")}</nav>`;
+      `<a href="#/painel${k ? "/" + k : ""}" class="${ativo === k ? "atual" : ""}">${r}</a>`).join("")}</nav>${ajudaAba(ativo)}`;
+  /* ❓ quadro "Para que serve e como usar" de cada aba (fica fechado; o professor abre quando quiser) */
+  const AJUDA = {
+    aula: ["Use durante a aula, projetando ou no seu computador.", [
+      "<b>Escolha a turma e a missão</b> (M1, M2…). Aparece o roteiro da aula com as falas, as respostas de cada atividade e quantos alunos já entraram e concluíram o Básico.",
+      "<b>👀 Abrir a apostila do aluno</b>: abre, numa aba nova, a apostila exatamente como o aluno vê. Nada do que você fizer ali conta.",
+      "<b>📌 Missão de hoje</b>: toque em “Definir … como Missão de hoje”. Quando o aluno digitar o código, ele cai direto nessa missão. Vale só para hoje.",
+      "<b>🔒 Travar só nela</b> (opcional): as tarefas das outras missões fecham hoje. Os textos continuam abertos. Quem você liberou individualmente (falta, reposição) continua podendo fazer as outras.",
+      "<b>Tarefas desta turma</b> (aparece quando a trava de horário está ligada): libera a turma toda agora, fecha antes da hora ou volta ao normal.",
+      "<b>🧩 Apoios</b>: o que fazer com cada aluno atípico da turma. Só você vê."]],
+    "": ["A lista de alunos de cada turma, com códigos e progresso.", [
+      "<b>Toque no nome do aluno</b> para: gerar novo código, corrigir o nome, mudar de turma, marcar 🧩 (tem PEI), escrever os 📝 Apoios, usar a 👣 Trilha Passo a Passo, marcar 🧪 aluno de teste, liberar as tarefas fora do horário só para ele e marcar que ele frequenta a aula de outra turma.",
+      "<b>🧪 Aluno de teste</b> não conta na presença, no diário, nas notas nem nos relatórios. Use nos seus próprios cadastros.",
+      "<b>👣 Trilha</b>: o aluno passa a abrir a apostila mais simples da série (e faz a prova da Trilha)."]],
+    diario: ["O Diário de Classe: chamada, vistos, frequência, notas e registro das aulas.", [
+      "<b>✅ Chamada</b>: escolha a data. O que veio do portal aparece com ⚡ (entrou com o código, concluiu o Básico, completou o Desafio ou o Turbo). Você só corrige: o que você marca vale mais que o ⚡.",
+      "<b>P</b> presente, <b>F</b> falta, <b>J</b> falta justificada. Quem veio mas não entrou no portal: toque em P.",
+      "<b>Básico</b>: toque para avançar — ◐ Parcial (não vale nota) → ✓ Básico (1,0) → ✓✓ ×2 (reposição) → sem visto. <b>Desafio/Turbo</b>: 0,25 cada.",
+      "<b>🗓️ Frequência</b> e <b>🧮 Boletim</b> são calculados sozinhos. A nota da prova do portal entra sozinha; digite só a prova em papel (0 a 5) e a recuperação (0 a 10).",
+      "<b>📝 Registro</b>: o que aconteceu em cada aula. <b>🔔 Lembretes</b>: aparecem no topo da chamada da turma."]],
+    presenca: ["Quem entrou no portal em cada dia, com o horário e o que fez.", [
+      "Abra o dia para ver os presentes, os ausentes e quem concluiu o Básico.",
+      "<b>🧩 Alunos atípicos que frequentam</b>: quantas vezes cada aluno com PEI entrou no portal.",
+      "O <b>relatório da aula</b> era usado para lançar no diário antigo. Agora o 📒 Diário faz isso sozinho."]],
+    prova: ["A prova do bimestre, feita no portal.", [
+      "<b>Antes de ligar</b>: confira as missões marcadas. A prova só cobra o que a turma estudou (o painel marca pelas aulas que já aconteceram).",
+      "<b>📝 Ligar o Dia de prova</b>: o aluno digita o código e cai direto na prova. O relógio vai até o horário-limite; quando acaba, a prova é enviada sozinha.",
+      "<b>3 alternativas</b>: toque no aluno 🧩 cujo PEI pede prova adaptada.",
+      "<b>Liberar recuperação</b>: abre uma 2ª tentativa só para aquele aluno. Vale a maior nota.",
+      "<b>⏹️ Encerrar</b> ao fim da aula. As notas vão sozinhas para o 🧮 Boletim do Diário."]],
+    importar: ["Colocar as listas de alunos no portal.", [
+      "Cole a lista da turma (um nome por linha). Cada aluno ganha um código de 4 números.",
+      "Imprima os cartões com os códigos para entregar aos alunos."]],
+    ano: ["Configurações gerais.", [
+      "<b>🔒 Trava de horário</b>: ligada, as tarefas só abrem no dia e na hora da aula da turma (15 minutos de folga antes e depois). Os textos ficam sempre abertos. Desligada, tudo fica aberto.",
+      "<b>Começar novo ano</b>: só no início do ano letivo. Desativa todos os alunos (o histórico fica guardado)."]]
+  };
+  const ajudaAba = k => { const a = AJUDA[k]; return a ? `<details class="pp-ajuda"><summary>❓ Para que serve esta aba e como usar</summary><p>${a[0]}</p><ul>${a[1].map(x => `<li>${x}</li>`).join("")}</ul></details>` : ""; };
   function ligarSair(el) { el.querySelector("#pp-sair").onclick = async () => { await auth().signOut(); location.hash = "#/painel"; }; }
 
   async function entrar() {
@@ -733,6 +770,25 @@
     ligarSair(el);
     el.querySelector("#sel").onchange = e => { location.hash = "#/painel/aula/" + e.target.value + "/" + mid; };
     const sa = el.querySelector("#ap"); if (sa) sa.onchange = e => { try { sessionStorage.setItem("painel:ap:" + t.serie.id, e.target.value); } catch (x) {} telaAula(u, t.id); };
+    // 📌 Missão de hoje: o aluno cai direto nela depois do código; se "travar", as tarefas das outras missões fecham
+    try {
+      const hRef = db().collection("config").doc("hoje_" + t.id), hs = await hRef.get();
+      const hj = hs.exists && hs.data().dia === N.hoje() ? hs.data() : null;
+      const baseId = ap.base || ap.id, m0 = C.missoes.find(x => x.id === mid);
+      const tit = hj ? ((C.missoes.find(x => x.id === hj.mid) || {}).titulo || hj.mid.toUpperCase()) : "";
+      const box = document.createElement("div"); box.className = "pp-trava pp-hoje";
+      box.innerHTML = `<span>📌 Missão de hoje:</span> <span class="st">${hj ? `${esc(tit.replace(/ –.*/, ""))}${hj.travar ? " · 🔒 só ela" : ""}` : "nenhuma"}</span>
+        ${hj && hj.mid === mid ? "" : `<button class="btn btn-sec btn-peq" type="button" data-hj="def">📌 Definir a ${esc(mid.toUpperCase())} como Missão de hoje</button>`}
+        ${hj ? `<label class="pp-auto"><input type="checkbox" data-hj="trav" ${hj.travar ? "checked" : ""}> 🔒 Travar só nela</label><button class="btn btn-sec btn-peq" type="button" data-hj="tira">✖ Tirar</button>` : ""}`;
+      el.querySelector(".pp-barra").appendChild(box);
+      box.querySelectorAll("[data-hj]").forEach(b => (b.type === "checkbox" ? b.onchange = null : 0, b[b.type === "checkbox" ? "onchange" : "onclick"] = async () => {
+        const k = b.dataset.hj;
+        if (k === "def") await hRef.set({ dia: N.hoje(), aid: baseId, mid, titulo: m0 ? m0.titulo.replace(/ –.*/, "") + " – " + m0.titulo.replace(/^[^–]*– ?/, "") : mid, travar: !!(hj && hj.travar) });
+        if (k === "trav") await hRef.set({ travar: b.checked }, { merge: true });
+        if (k === "tira") await hRef.set({ dia: "", mid: "" });
+        toast("Feito!"); telaAula(u, t.id, mid);
+      }));
+    } catch (e) { console.warn(e); }
     // 🔒 liberar ou fechar as tarefas da turma fora do horário
     try {
       const [g, ls] = await Promise.all([config(), db().collection("config").doc("liberar_" + t.id).get()]);

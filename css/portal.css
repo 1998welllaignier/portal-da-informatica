@@ -952,3 +952,9 @@ body.modo-trilha { font-size: 21px; line-height: 1.65; }
 .trava-aviso .trava-tit { font-size: 1.25rem; font-weight: 800; margin: 0 0 6px; }
 .pp-trava { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; border: 2px dashed var(--linha); border-radius: 12px; padding: 8px 12px; margin-top: 10px; }
 .pp-trava .st { font-weight: 800; }
+/* ❓ ajuda de cada aba do painel */
+.pp-ajuda { background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 12px; padding: 8px 14px; margin: 0 0 12px; }
+.pp-ajuda summary { cursor: pointer; font-weight: 800; color: #1e40af; }
+.pp-ajuda ul { margin: 6px 0 4px; padding-left: 20px; } .pp-ajuda li { margin: 4px 0; }
+.pp-hoje { border-color: #f2c14e; }
+.hoje-destaque .btn { margin-left: 8px; }

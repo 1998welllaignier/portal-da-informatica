@@ -51,16 +51,23 @@
   }
   P.trava = {
     noHorario, horarioTxt, limpar() { Object.keys(cache).forEach(k => delete cache[k]); },
-    /* {aberta:true} ou {aberta:false, fechada, horarios:[texto]} */
-    async estado(s) {
+    /* 📌 Missão de hoje da turma (config/hoje_<turma>), só vale no dia em que o professor marcou */
+    async hoje(s) {
+      if (!s || !s.nuvem || !N() || !N().pronto) return null;
+      const h = await cfg("hoje_" + s.turma);
+      return h && h.mid && h.dia === N().hoje() ? h : null;
+    },
+    /* {aberta:true} ou {aberta:false, fechada, horarios:[texto], hoje:{mid,titulo}} */
+    async estado(s, mid) {
       if (!s || !s.nuvem || !N() || !N().pronto) return { aberta: true }; // visualização do professor, modo explorador
-      const g = await cfg("geral"); if (!g.travaHorario) return { aberta: true };
+      const [g, lib, h] = await Promise.all([cfg("geral"), cfg("liberar_" + s.turma), this.hoje(s)]);
       const ms = await agora();
-      const lib = await cfg("liberar_" + s.turma);
-      if (lib.fechadaAte && ms < lib.fechadaAte) return { aberta: false, fechada: true };
-      if (lib.ate && ms < lib.ate) return { aberta: true };
       const ids = s.alunoIds || [];
-      if (ids.some(id => ((lib.alunos || {})[id] || 0) > ms)) return { aberta: true };
+      if (g.travaHorario && lib.fechadaAte && ms < lib.fechadaAte) return { aberta: false, fechada: true };
+      if (ids.some(id => ((lib.alunos || {})[id] || 0) > ms)) return { aberta: true }; // liberado só para ele
+      if (h && h.travar && mid && mid !== h.mid) return { aberta: false, hoje: h };     // 📌 só a missão de hoje
+      if (!g.travaHorario) return { aberta: true };
+      if (lib.ate && ms < lib.ate) return { aberta: true };
       const turmas = [s.turma, ...ids.map(id => (lib.outra || {})[id]).filter(Boolean)].map(id => P.turma(id)).filter(Boolean);
       if (turmas.some(t => noHorario(t, ms))) return { aberta: true };
       return { aberta: false, horarios: turmas.map(t => `${t.nome}: ${horarioTxt(t)}`) };

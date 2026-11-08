@@ -392,7 +392,7 @@
         <div class="grid-cards">${porDisc[did].map(a => `<a class="card-apostila" href="#/apostila/${a.id}">
           <span class="ca-un">${esc(a.unidade)}</span><strong>${esc(a.titulo)}</strong><span class="ca-modo">${esc(a.modo)}</span></a>`).join("")}</div>`; }).join("")}
       ${lista.length ? "" : `<p class="painel">Ainda não há apostilas para esta série.</p>`}
-      ${hoje ? `<p class="painel destaque">📌 Missão do dia indicada pelo professor: <a href="#/abrir/${esc(hoje)}">abrir agora</a></p>` : ""}
+      ${hoje ? `<p class="painel destaque hoje-destaque">📌 <strong>Missão de hoje</strong>, escolhida pelo professor: <a class="btn" href="#/abrir/${esc(hoje)}">abrir agora →</a></p>` : ""}
     </section>`);
   }
 
@@ -496,9 +496,9 @@
     if (pg.tipo === "missao") corpo.appendChild(h(`<p class="nivel-info nivel-${pg.id}">${{ pratica: "🎮 <strong>Mão na massa</strong>: experimente antes de estudar! Todos fazem, e conta no Básico.", basico: "🟢 <strong>Básico</strong>: todos fazem. Vale 1,0 ponto e libera os jogos livres. As respostas estão no 💡 Para começar e no 📖 O que significa?.", desafio: "🟡 <strong>Desafio</strong>: para quem terminou o Básico. Vale +0,25 e aumenta a sua nota do bimestre.", turbo: "🔴 <strong>Turbo</strong>: para quem terminou o Desafio. Vale mais +0,25 na nota do bimestre." }[pg.id]}</p>`));
     // 🔒 trava de horário: os textos ficam abertos; as tarefas só no dia e na hora da aula (ou liberadas pelo professor)
     let trava = { aberta: true };
-    if ((pg.tipo === "missao" || pg.tipo === "revisao") && P.trava) { try { trava = await P.trava.estado(s); } catch (e) { trava = { aberta: true }; } }
-    if (!trava.aberta) corpo.appendChild(h(`<div class="painel trava-aviso" role="note"><p class="trava-tit">🔒 ${trava.fechada ? "As tarefas estão fechadas agora" : "As tarefas abrem na hora da sua aula"}</p>
-      ${trava.fechada ? "<p>O professor fechou as tarefas desta turma por enquanto.</p>" : `<p>Você pode fazer as tarefas no dia e na hora da aula:</p><ul>${(trava.horarios || []).map(x => `<li><strong>${esc(x)}</strong></li>`).join("")}</ul>`}
+    if ((pg.tipo === "missao" || pg.tipo === "revisao") && P.trava) { try { trava = await P.trava.estado(s, mid); } catch (e) { trava = { aberta: true }; } }
+    if (!trava.aberta) corpo.appendChild(h(`<div class="painel trava-aviso" role="note"><p class="trava-tit">🔒 ${trava.fechada ? "As tarefas estão fechadas agora" : trava.hoje ? "Hoje a turma está em outra missão" : "As tarefas abrem na hora da sua aula"}</p>
+      ${trava.fechada ? "<p>O professor fechou as tarefas desta turma por enquanto.</p>" : trava.hoje ? `<p>📌 A missão de hoje é a <strong>${esc(trava.hoje.titulo || trava.hoje.mid.toUpperCase())}</strong>. <a class="btn" href="#/missao/${aid}/${trava.hoje.mid}">Ir para a missão de hoje →</a></p>` : `<p>Você pode fazer as tarefas no dia e na hora da aula:</p><ul>${(trava.horarios || []).map(x => `<li><strong>${esc(x)}</strong></li>`).join("")}</ul>`}
       <p>📖 Enquanto isso, pode estudar à vontade: <a href="#/missao/${aid}/${mid}/comecar">💡 Para começar</a>, <a href="#/missao/${aid}/${mid}/termos">📖 O que significa?</a> e <a href="#/missao/${aid}/${mid}/onde">🌎 Onde eu uso isso?</a> ficam sempre abertos.</p>
       <p class="ajuda">Precisa fazer fora do horário (faltou, reposição, estuda em casa)? Peça ao professor para liberar.</p></div>`));
     else (pg.atividades || []).forEach((at, i) => corpo.appendChild(cartaoAtividade(aid, mid, at, i, () => { barra(info()); atualizarStatus(); })));
@@ -886,6 +886,15 @@
       }
       if (r === "prova") { barra(); if (!P.prova) return telaInicio(); return await P.prova.abrir(mount, a1); }
       if ((r === "apostilas" || r === "apostila" || r === "missao") && P.prova) { const d = await P.prova.destino(); if (d) { location.replace(d); return; } }
+      // 📌 Missão de hoje: logo depois do código, o aluno cai direto na missão que o professor escolheu (uma vez por dia)
+      if (r === "apostilas" && P.trava) {
+        const s = sess.get(), h = await P.trava.hoje(s).catch(() => null);
+        if (h) {
+          try { sessionStorage.setItem("portalJK:hoje", h.aid + "/" + h.mid); } catch (e) {}
+          const k = "portalJK:hojeIr:" + h.dia + ":" + h.mid;
+          if (!sessionStorage.getItem(k)) { try { sessionStorage.setItem(k, 1); } catch (e) {} location.replace("#/missao/" + h.aid + "/" + h.mid); return; }
+        }
+      }
       if (r === "apostilas") return telaApostilas();
       if ((r === "apostila" || r === "missao") && trilhaDe(a1)) { location.replace("#/" + r + "/" + trilhaDe(a1) + (a2 ? "/" + a2 : "") + (a3 ? "/" + a3 : "")); return; }
       if (r === "apostila") return await telaApostila(a1);

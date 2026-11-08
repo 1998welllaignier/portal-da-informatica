@@ -92,6 +92,13 @@ o portal troca a apostila da turma pela Trilha Passo a Passo da série (catálog
   até o fim do dia escolhido), `outra.<id>` (aluno que frequenta a aula de outra turma). Visualização do professor e
   sessões sem nuvem nunca são travadas. A trava é no navegador (as regras não conseguem separar leitura de tarefa).
 
+### 📌 Missão de hoje
+- `config/hoje_<turma>` = {dia, aid (apostila base), mid, titulo, travar}. Só vale no dia marcado. Ao entrar, o aluno
+  vai direto para a missão (uma vez por dia; a Trilha é redirecionada sozinha). Com `travar`, as tarefas das outras
+  missões fecham (exceto aluno liberado individualmente). Definido na aba 🎤 Aula do painel.
+- Cada aba do painel tem o quadro ❓ "Para que serve e como usar" (`AJUDA` em `js/painel.js`): ao mudar uma aba,
+  atualize o texto dela.
+
 ### Diário de Classe (painel, aba 📒 Diário)
 - Dados só do professor, em `prof/diario/turmas/<turma>` (cronograma, lembretes, notas manuais `notas.prova` 0–5
   e `notas.rec` 0–10, `auto`) e `prof/diario/turmas/<turma>/aulas/<data>` (presencas P/F/J, carimbos 0/1/2,
