@@ -21,7 +21,7 @@
   const { esc } = P.util;
   const cat = () => P.catalogo;
   const hash = (aid, qid, r) => P.provaHash(aid, qid, r);
-  const NOTA_MAX = 5, MAX_Q = 10;
+  const NOTA_MAX = 5, MAX_Q = 10; // a nota guardada vale até 5,0 (peso no bimestre); o aluno vê de 0 a 10 na tela final
   const notaDe = (ac, n) => n ? Math.round(ac / n * NOTA_MAX * 10) / 10 : 0;
 
   /* Escolhe as questões da prova: só das missões estudadas, divididas igualmente,
@@ -139,7 +139,7 @@
     const el = mount(`<section class="tela prova">
       <header class="prova-cab"><h1>📝 Prova do 4º bimestre${e.tentativa === 2 ? " · Recuperação" : ""}</h1>
         <p class="lead">${esc(s.nomes[0])} · ${esc(apost ? apost.titulo : "")}</p>
-        <ul class="prova-regras"><li>✏️ <strong>${NQ} questões</strong>. A prova vale <strong>5,0</strong>${NQ === 10 ? " (cada questão vale <strong>0,5</strong>)" : ""}.</li><li>☝️ Escolha <strong>uma</strong> resposta em cada questão.</li><li>🔒 Você só pode enviar <strong>uma vez</strong>. Confira antes de finalizar.</li></ul></header>
+        <ul class="prova-regras"><li>✏️ <strong>${NQ} questões</strong>. No fim, você vê a sua nota de <strong>0 a 10</strong>.</li><li>☝️ Escolha <strong>uma</strong> resposta em cada questão.</li><li>🔒 Você só pode enviar <strong>uma vez</strong>. Confira antes de finalizar.</li></ul></header>
       <ol class="prova-lista">${ordem.map((q, i) => `<li class="prova-q" data-q="${q.id}"><p class="prova-p"><span class="prova-n">${i + 1}</span>${q.tipo === "vf" ? "<em>Verdadeiro ou falso?</em> " : ""}${esc(q.p)}</p>
         <div class="prova-ops" role="radiogroup" aria-label="Questão ${i + 1}">${q.opcoes.map(o => `<button type="button" class="prova-op" role="radio" data-q="${q.id}" data-o="${esc(o)}" aria-checked="${resp[q.id] === o}">${q.tipo === "vf" ? (o === "Verdadeiro" ? "✅ " : "❌ ") : ""}${esc(o)}</button>`).join("")}</div></li>`).join("")}</ol>
       <div class="prova-rodape"><span class="prova-relogio" id="pv-rel" aria-live="polite"></span><span id="pv-cont"></span><button class="btn btn-grande" id="pv-fim" type="button">Finalizar prova</button></div>
@@ -183,7 +183,10 @@
       try { sessionStorage.removeItem(chave); } catch (x) {}
       ultimaChecagem = 0;
       const fim = mount(`<section class="tela"><div class="painel prova-fim"><h1>${tempo ? "⏰ O tempo acabou: prova enviada!" : "✅ Prova enviada!"}</h1>
-        ${tempo ? "<p>As respostas que você marcou foram enviadas. As questões em branco contam como erradas.</p>" : ""}<p class="prova-nota">Você acertou <strong>${acertos} de ${NQ}</strong>.<br>Nota da prova: <strong>${fmt(notaDe(acertos, NQ))}</strong></p>
+        ${tempo ? "<p>As respostas que você marcou foram enviadas. As questões em branco contam como erradas.</p>" : ""}<p class="prova-nota">Você acertou <strong>${acertos} de ${NQ}</strong>.</p>
+        <div class="prova-dez"><span class="pd-num">${fmt(Math.round(acertos / NQ * 100) / 10)}</span><span class="pd-de">de 10</span></div>
+        <div class="pd-barra" aria-hidden="true"><i style="width:${Math.round(acertos / NQ * 100)}%"></i></div>
+        <p class="pd-msg">${acertos / NQ >= 0.9 ? "🏆 Excelente!" : acertos / NQ >= 0.7 ? "🎉 Muito bem!" : acertos / NQ >= 0.5 ? "👍 Bom trabalho!" : "💪 Continue estudando: você consegue melhorar!"}</p>
         <p>Sua nota já foi para o professor. <strong>Pode ir para casa!</strong> 🏠</p>
         <p class="ajuda" id="pv-cd">Saindo do portal em 15 segundos…</p>
         <button class="btn" id="pv-sair" type="button">Sair agora</button></div></section>`);

@@ -76,7 +76,7 @@ o portal troca a apostila da turma pela Trilha Passo a Passo da série (catálog
   **A prova só cobra as missões que a turma estudou**: o painel marca sozinho pelo cronograma
   (`missoes4` de cada turma em `dados/catalogo.js`, copiado do Diário de Classe) e o professor confere;
   fica em `config/prova_<turma>.missoes`. Até 10 questões divididas entre as missões; nota de 0 a 5,0,
-  proporcional aos acertos (o documento guarda `qs`, as questões sorteadas). Aluno 🧩 com `prova3: true`
+  proporcional aos acertos (o documento guarda `qs`, as questões sorteadas). O aluno vê na tela final a nota de 0 a 10 (só visual); o que fica guardado e vai para o boletim é a nota de 0 a 5,0. Aluno 🧩 com `prova3: true`
   (botão "3 alternativas" na aba Prova, quando o PEI pede) vê só 3 opções por questão (`config.tres`). O gabarito **não** fica no repositório (ele é público):
   no arquivo vai só a impressão digital da resposta certa (`js/prova-hash.js`). Para recuperar o gabarito,
   teste cada alternativa com `provaHash` (o painel faz isso no botão "👁️ Mostrar gabarito").
