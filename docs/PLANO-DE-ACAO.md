@@ -4,12 +4,13 @@
 Claude Max (5x) assinado por um mês em 08/11 para adiantar tudo. **Voltar ao Pro antes de 08/12** (lembretes no celular em 01/12 e 05/12).
 
 ### ✋ O que o professor precisa fazer
-- [ ] **Hoje à noite, no computador (≈10 min):** abrir o console do Firebase logado; o Claude cola as regras novas de `docs/firestore.rules` (coleção `provas` + horário-limite) e o professor clica em Publicar. Sem isso, a aba 📝 Prova do painel e o envio da prova não funcionam.
+- [x] **Feito em 08/11, 18h40:** regras do Firebase publicadas (coleção `provas` + horário-limite).
 - [ ] Conferir o “Resumo-PEIs-6-ao-9.md” (enviado no chat em 08/11: 44 alunos, com perfil, AEE, caminho sugerido A/👣 B/🚀 aprofundar e prova de 3 alternativas) e aprovar os caminhos.
-- [ ] Hoje à noite, com o painel aberto no computador: o Claude grava nos **📝 Apoios** de cada aluno com 🧩 o perfil, o caminho e os apoios do resumo (mesmo os que ainda não vieram) e marca 👣 e “3 alternativas” só nos que o professor aprovar. Eles aparecem na **Tela da aula** do painel, só para o professor.
-- [ ] Hoje à noite: o Claude transfere o diário antigo (cronograma, chamadas, vistos, registros e lembretes) para a aba 📒 Diário do painel, primeiro só conferindo se os alunos batem. Depois disso, a chamada passa a ser feita no painel.
-- [ ] Hoje à noite, o Claude faz no painel: marcar como 🧪 aluno de teste o cadastro “Prof Welington Laignier” do 6º A (e outros cadastros do professor, se houver), para não contar como aluno nos relatórios, no diário e nas notas.
-- [ ] Depois de publicar: teste rápido da prova com um aluno de teste (ligar o Dia de prova, fazer, conferir a nota no painel, encerrar).
+- [x] **Feito em 08/11:** 📝 Apoios gravados em 35 alunos com 🧩 (📍 sentar em 17, caminho sugerido, AEE, prova 3 alternativas, perfil, na aula). Falta: marcar 👣 e “3 alternativas” só nos que o professor aprovar.
+- [ ] Resolver os dois Pedros do 8º ano: Pedro Emanuel de Jesus Lima está no 8º A no SIGE (desde 04/08, com AEE), mas no portal ainda no 8º B e sem 🧩; o 🧩 do 8º A foi para Pedro Henrique da Silva Sousa (sem AEE nem PEI). Aguardando o professor autorizar: mudar de turma (gera código novo), 🧩 + apoio no Pedro Emanuel, tirar 🧩 do Pedro Henrique.
+- [x] **Feito em 08/11:** diário antigo transferido para a aba 📒 Diário (17 turmas, 9 aulas, registros e lembretes; todos os alunos conferidos). A chamada passa a ser feita no painel.
+- [x] **Feito em 08/11:** cadastro “Prof Welington Laignier” (6º A) marcado como 🧪 aluno de teste (era o único).
+- [x] **Feito em 08/11:** prova testada de verdade no 6º A com o aluno de teste (painel liga, aluno cai direto na prova, só Missão 1 = 7 questões, envio aceito pelas regras, nota no painel, saída automática, não refaz). Teste apagado e prova encerrada.
 - [ ] Revisar as questões das provas (arquivo “Gabarito-Provas-4bim.md”, reenviado no chat em 08/11 com as questões separadas por missão) e dizer se quer trocar alguma.
 - [ ] No dia de cada prova: na aba 📝 Prova, conferir as missões já marcadas (o painel marca pelas aulas que a turma teve) e, para o aluno 🧩 cujo PEI pede, tocar em “3 alternativas”.
 - [ ] Quando quiser, ligar a 🔒 trava de horário das tarefas (painel → 📅 Ano letivo) e testar com um aluno de teste.
