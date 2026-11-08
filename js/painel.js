@@ -133,6 +133,7 @@
       "<b>🧩 Apoios</b>: o que fazer com cada aluno atípico da turma. Só você vê."]],
     "": ["A lista de alunos de cada turma, com códigos e progresso.", [
       "<b>Toque no nome do aluno</b> para: gerar novo código, corrigir o nome, mudar de turma, marcar 🧩 (tem PEI), escrever os 📝 Apoios, usar a 👣 Trilha Passo a Passo, marcar 🧪 aluno de teste, liberar as tarefas fora do horário só para ele e marcar que ele frequenta a aula de outra turma.",
+      "<b>🏠 Estuda em casa</b>: marque o aluno que faz as missões em casa e entrega a apostila. O nome dele ganha 🏠 em todas as listas e, no Diário, a presença fica J (justificada) sozinha; o Básico e o ★ você lança conferindo a apostila.",
       "<b>🧪 Aluno de teste</b> não conta na presença, no diário, nas notas nem nos relatórios. Use nos seus próprios cadastros.",
       "<b>👣 Trilha</b>: o aluno passa a abrir a apostila mais simples da série (e faz a prova da Trilha)."]],
     diario: ["O Diário de Classe: chamada, vistos, frequência, notas e registro das aulas.", [
@@ -227,7 +228,7 @@
       const dias = a => { const s = new Set(); (pm[a.id] || []).forEach(p => Object.keys(p.dias || {}).forEach(d => s.add(d))); return s.size; };
       corpo.innerHTML = `<div class="painel pp-tabela-wrap"><p class="ajuda">✔ Básico concluído · ⭐ Desafio completo · 3/5 = andamento do Básico · — não começou. Passe o mouse para ver os detalhes. <strong>${alunos.filter(a => a.ativo).length}</strong> alunos ativos.</p>
         <table class="pp-tabela"><thead><tr><th>Aluno</th><th>Código</th><th title="dias em que entrou no portal">Dias</th>${missoes.map(x => `<th title="${esc(x.m.titulo)}">${esc(x.m.icone)}<br><small>${esc(x.m.id.toUpperCase())}</small></th>`).join("")}<th></th></tr></thead>
-        <tbody>${lista.map(a => `<tr class="${a.ativo ? "" : "inativo"}"><td>${a.atipico ? '<span title="Aluno atípico (tem PEI)">🧩</span> ' : ""}${esc(a.nome)}${a.trilha ? ' <span title="Usa a Trilha Passo a Passo">👣</span>' : ""}${a.ativo ? "" : " <small>(desativado)</small>"}</td><td class="pp-cod">${esc(a.codigo)}</td><td>${dias(a)}</td>${missoes.map(x => cel(a, x)).join("")}
+        <tbody>${lista.map(a => `<tr class="${a.ativo ? "" : "inativo"}"><td>${a.atipico ? '<span title="Aluno atípico (tem PEI)">🧩</span> ' : ""}${esc(a.nome)}${a.trilha ? ' <span title="Usa a Trilha Passo a Passo">👣</span>' : ""}${a.emCasa ? ' <span title="Estuda em casa: lançar pela apostila">🏠</span>' : ""}${a.ativo ? "" : " <small>(desativado)</small>"}</td><td class="pp-cod">${esc(a.codigo)}</td><td>${dias(a)}</td>${missoes.map(x => cel(a, x)).join("")}
           <td><button class="btn btn-link btn-peq" data-a="${a.id}" type="button">⚙️</button></td></tr>`).join("")}</tbody></table></div>`;
       corpo.querySelectorAll("[data-a]").forEach(b => b.onclick = () => menuAluno(alunos.find(a => a.id === b.dataset.a)));
       corpo.querySelectorAll("[data-ver]").forEach(td => { const f = () => verRespostas(prog.find(p => p.id === td.dataset.ver)); td.onclick = f; td.onkeydown = e => { if (e.key === "Enter") f(); }; });
@@ -259,7 +260,7 @@
     }
 
     function menuAluno(a) {
-      const dlg = h(`<dialog class="pp-dlg"><form method="dialog"><h2>${a.atipico ? "🧩 " : ""}${a.teste ? "🧪 " : ""}${esc(a.nome)}</h2><p>${esc(nomeTurma(a.turma))} · código <strong>${esc(a.codigo)}</strong> · ${a.ativo ? "ativo" : "desativado"}${a.outraTurma ? ` · também frequenta a aula do ${esc(nomeTurma(a.outraTurma))}` : ""}</p>
+      const dlg = h(`<dialog class="pp-dlg"><form method="dialog"><h2>${a.atipico ? "🧩 " : ""}${a.teste ? "🧪 " : ""}${a.emCasa ? "🏠 " : ""}${esc(a.nome)}</h2>${a.emCasa ? `<p class="pp-casa">🏠 <strong>Estuda em casa</strong>${a.emCasaObs ? ": " + esc(a.emCasaObs) : ""}. Lance pelo 📒 Diário (J na presença; Básico e ★ conferindo a apostila).</p>` : ""}<p>${esc(nomeTurma(a.turma))} · código <strong>${esc(a.codigo)}</strong> · ${a.ativo ? "ativo" : "desativado"}${a.outraTurma ? ` · também frequenta a aula do ${esc(nomeTurma(a.outraTurma))}` : ""}</p>
         <div class="pp-dlg-btns">
           <button class="btn btn-sec" value="cod" type="button" data-x="cod">🔑 Gerar novo código</button>
           <button class="btn btn-sec" value="nome" type="button" data-x="nome">✏️ Corrigir nome</button>
@@ -267,6 +268,7 @@
           <button class="btn btn-sec" type="button" data-x="atipico">${a.atipico ? "🧩 Tirar a marcação de aluno atípico" : "🧩 Marcar como aluno atípico (tem PEI)"}</button>
           ${a.atipico ? `<button class="btn btn-sec" type="button" data-x="apoio">📝 Apoios na aula (só você vê)</button>` : ""}
           <button class="btn btn-sec" type="button" data-x="trilha">${a.trilha ? "👣 Tirar a Trilha Passo a Passo" : "👣 Usar a Trilha Passo a Passo (apostila diferenciada)"}</button>
+          <button class="btn btn-sec" type="button" data-x="casa">${a.emCasa ? "🏠 Tirar “estuda em casa”" : "🏠 Marcar: estuda em casa (entrega a apostila)"}</button>
           <button class="btn btn-sec" type="button" data-x="teste">${a.teste ? "🧪 Voltar a ser aluno comum" : "🧪 Marcar como aluno de teste (não conta na presença, no diário, nas notas e nos relatórios)"}</button>
           <button class="btn btn-sec" type="button" data-x="libera">🔓 Liberar as tarefas fora do horário (só este aluno)</button>
           <button class="btn btn-sec" type="button" data-x="outra">🏫 Frequenta a aula de outra turma</button>
@@ -292,6 +294,10 @@
             if (!a.trilha && !tem && !confirm("Esta série ainda não tem Trilha Passo a Passo. A marcação fica guardada e passa a valer quando a Trilha existir. Marcar mesmo assim?")) return;
             await marcarTrilha(a, !a.trilha);
             alert(a.trilha ? `${a.nome} volta a usar a apostila da turma.` : `Pronto! Quando ${a.nome} digitar o código, o portal abre direto a Trilha Passo a Passo.`);
+          }
+          if (x === "casa") {
+            if (a.emCasa) await db().collection("alunos").doc(a.id).update({ emCasa: false, emCasaObs: "" });
+            else { const o = prompt("Observação (opcional). Ex.: entrega a apostila impressa; vem só para a prova.", ""); if (o === null) return; await db().collection("alunos").doc(a.id).update({ emCasa: true, emCasaObs: o.trim() }); }
           }
           if (x === "teste") { await db().collection("alunos").doc(a.id).update({ teste: !a.teste }); }
           if (x === "libera") {
@@ -399,7 +405,7 @@
       if (p.mid) r.missoes.push(p);
     }));
     const dias = Object.keys(porDia).sort().reverse();
-    const nome = id => { const a = alunosTodos.find(x => x.id === id) || { nome: "(aluno removido)" }; return (a.atipico ? "🧩 " : "") + a.nome; };
+    const nome = id => { const a = alunosTodos.find(x => x.id === id) || { nome: "(aluno removido)" }; return (a.atipico ? "🧩 " : "") + (a.emCasa ? "🏠 " : "") + a.nome; };
     const hhmm = ms => new Date(ms).toLocaleTimeString("pt-BR").slice(0, 5);
     const tituloMissao = p => { const C = P.conteudo[p.aid]; const m = C && C.missoes.find(x => x.id === p.mid); return m ? m.titulo : p.mid; };
     const fr = (r, k) => (r[k] || [0, 0])[1] ? `${r[k][0]}/${r[k][1]}` : "";
@@ -502,7 +508,7 @@
     const linhas = alunos.map(a => {
       const r = res[a.id] || {}; const t1 = r[1], t2 = r[2];
       const fin = Math.max(t1 ? t1.nt : -1, t2 ? t2.nt : -1);
-      return `<tr><td>${a.atipico ? "🧩 " : ""}${esc(a.nome)}${a.trilha ? " 👣" : ""}${a.atipico ? `<br><button class="btn btn-sec btn-peq" data-tres="${a.id}" type="button">${tres.has(a.id) ? "✅ 3 alternativas" : "⬜ 3 alternativas"}</button>` : ""}</td>
+      return `<tr><td>${a.atipico ? "🧩 " : ""}${esc(a.nome)}${a.trilha ? " 👣" : ""}${a.emCasa ? " 🏠" : ""}${a.atipico ? `<br><button class="btn btn-sec btn-peq" data-tres="${a.id}" type="button">${tres.has(a.id) ? "✅ 3 alternativas" : "⬜ 3 alternativas"}</button>` : ""}</td>
         <td>${t1 ? `<strong>${nota(t1.nt)}</strong> <small>(${t1.ac}/${t1.nq} · ${esc(hhmm(t1))})</small>` : "—"}</td>
         <td>${t2 ? `<strong>${nota(t2.nt)}</strong> <small>(${t2.ac}/${t2.nq})</small>` : rec.has(a.id) ? "<small>liberada</small>" : "—"}</td>
         <td>${fin >= 0 ? `<strong>${nota(fin)}</strong>` : "—"}</td>
@@ -591,7 +597,7 @@
     const T = tSnap.exists ? tSnap.data() : {};
     const aulas = {}; aulasSnap.docs.forEach(d => { aulas[d.id] = d.data(); });
     const alunos = alunosTodos.filter(a => a.ativo !== false && !a.teste);
-    const ids = new Set(alunos.map(a => a.id));
+    const ids = new Set(alunos.map(a => a.id)), emCasa = new Set(alunos.filter(a => a.emCasa).map(a => a.id));
     const prog = progTodos.filter(p => ids.has(p.alunoId));
     // cronograma: o do diário; se não houver, monta pelas missões do catálogo
     const base = cat().apostilas.find(a => a.serie === t.serie.id && !a.oculta && !a.trilha);
@@ -620,7 +626,7 @@
     const temManual = (aula, campo, id) => aula && aula[campo] && aula[campo][id] !== undefined && aula[campo][id] !== null;
     const pres = (d, id) => { const a = aulas[d]; if (temManual(a, "presencas", id)) return { v: a.presencas[id], auto: false };
       if (auto && AUTO[d] && AUTO[d].p[id]) return { v: "P", auto: true };
-      return temChamada(d) ? { v: "F", auto: true, falta: true } : { v: null }; };
+      return temChamada(d) ? (emCasa.has(id) ? { v: "J", auto: true } : { v: "F", auto: true, falta: true }) : { v: null }; };
     const temChamada = d => Object.values((aulas[d] || {}).presencas || {}).some(v => v) || (auto && AUTO[d] && Object.keys(AUTO[d].p).length > 0);
     const carimbo = (d, id) => { const a = aulas[d]; if (temManual(a, "carimbos", id)) return { v: nBas(a.carimbos[id]), auto: false }; return auto && AUTO[d] && AUTO[d].c[id] ? { v: AUTO[d].c[id], auto: true } : { v: 0 }; };
     const extra = (d, id) => { const a = aulas[d]; if (temManual(a, "extras", id)) return { v: +a.extras[id] || 0, auto: false }; return auto && AUTO[d] && AUTO[d].x[id] ? { v: AUTO[d].x[id], auto: true } : { v: 0 }; };
@@ -654,7 +660,7 @@
     };
     const salvarTurma = async patch => { try { await tRef.set(patch, { merge: true }); } catch (err) { toast("Não foi possível salvar: " + (err.message || err)); } };
     const corpo = el.querySelector("#corpo");
-    const nomeA = a => `${a.atipico ? "🧩 " : ""}${esc(a.nome)}${a.trilha ? " 👣" : ""}`;
+    const nomeA = a => `${a.atipico ? "🧩 " : ""}${esc(a.nome)}${a.trilha ? " 👣" : ""}${a.emCasa ? ` <span class="pp-casa-tag" title="${esc(a.emCasaObs || "Estuda em casa")}">🏠 estuda em casa</span>` : ""}`;
     const lemb = () => (T.lembretes || []);
 
     function vChamada() {
@@ -828,7 +834,14 @@
     } catch (e) { console.warn(e); }
     // 🧩 apoios dos alunos atípicos da turma (anotações só do professor, guardadas no cadastro do aluno)
     try {
-      const atip = (await alunosDaTurma(t.id)).filter(a => a.atipico && a.ativo !== false);
+      const todosT = (await alunosDaTurma(t.id)).filter(a => a.ativo !== false && !a.teste);
+      const casa = todosT.filter(a => a.emCasa);
+      if (casa.length) {
+        const bc = document.createElement("div"); bc.className = "painel pp-casa";
+        bc.innerHTML = `<strong>🏠 Estudam em casa (entregam a apostila):</strong> ${casa.map(a => esc(a.nome) + (a.emCasaObs ? ` <small>(${esc(a.emCasaObs)})</small>` : "")).join(" · ")}<br><small>Quando entregarem, lance no 📒 Diário: Básico e ★ na data de cada missão.</small>`;
+        el.querySelector("#aula").before(bc);
+      }
+      const atip = todosT.filter(a => a.atipico);
       if (atip.length) {
         const box = document.createElement("details"); box.className = "painel pp-apoios"; box.open = atip.some(a => a.apoio);
         box.innerHTML = `<summary><strong>🧩 Apoios dos alunos atípicos desta turma</strong> (${atip.length})</summary>
