@@ -117,6 +117,25 @@ o portal troca a apostila da turma pela Trilha Passo a Passo da série (catálog
 - Nota (igual ao diário antigo): Básico 1,0 por visto (até 4) + Desafio/Turbo 0,25 (até 1,0) + prova até 5,0;
   a Recuperação (0–10) substitui quando é maior.
 
+## 3.1 ✅ Checklist de CADA bimestre novo (não pular nenhum item)
+Combinado com o professor em 08/11/2026. Ao criar o material de um bimestre, entregar **tudo** isto:
+1. **Apostila no portal** (`fontes/*.md` → `ferramentas/gerar_conteudo.py`), por série, com em cada missão:
+   💡 Para começar · 📖 O que significa? (toda sigla e termo explicado por completo) · 🌎 Onde eu uso isso? ·
+   🎮 Mão na massa · 🟢 Básico · 🟡 Desafio · 🔴 Turbo · ✅ Perguntas rápidas · 🧠 Resumo.
+   Autossuficiente: toda resposta está escrita na apostila (`node ferramentas/verificar_autonomia.js` = 0 / 0).
+2. **Visual sempre**: cada explicação do "Para começar" tem um **desenho logo depois** (setas, legendas, passo a
+   passo) em `dados/ilustracoes/<apostila>.js` (com `ancora`). Ele aparece na apostila ilustrada e no 🎬 Modo apresentação.
+3. **Trilha Passo a Passo** da série (`-trilha`): mesmas missões, mais simples, quase tudo por clique, para os 👣.
+4. **Roteiro do professor** (`dados/roteiros/`): falas, dinâmica e **as respostas de cada atividade**.
+5. **Prova no portal**: banco por missão (2 de múltipla escolha por missão + as Perguntas rápidas), gabarito
+   **fora do repositório**, `node ferramentas/gerar_provas.js`. Trilha: 1 de múltipla escolha (3 alternativas) por missão.
+6. **Cronograma**: `missoes4` (renomear para o bimestre) de cada turma no `dados/catalogo.js` + cronograma no 📒 Diário.
+7. **Atividade de recuperação** por série; **boletim em PDF** e planilha pelo Diário; lançamento no SIGE só do 6º ano.
+8. **Apoios dos alunos 🧩**: rever os PEIs novos (só leitura) e atualizar os 📝 Apoios, 👣 e "3 alternativas".
+9. **Vídeo da missão**: o professor pede na semana da aula (sem narração; ele dubla).
+10. **Revisão com o professor** na véspera de cada aula (assunto simples, respostas, perguntas comuns, pontos de atenção).
+11. Testar no simulador (Playwright + mock), subir a versão (`?v=`), commit em português, atualizar o `docs/PLANO-DE-ACAO.md`.
+
 ## 4. Pode fazer
 - Corrigir ou melhorar textos, enunciados, dicas, explicações e respostas.
 - Acrescentar atividades usando os **tipos que já existem** (veja a lista no topo de
