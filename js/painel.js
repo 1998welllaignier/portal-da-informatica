@@ -124,6 +124,7 @@
   /* ❓ quadro "Para que serve e como usar" de cada aba (fica fechado; o professor abre quando quiser) */
   const AJUDA = {
     aula: ["Use durante a aula, projetando ou no seu computador.", [
+      "<b>📣 Avisos para falar à turma</b>: aparecem no topo com a fala pronta. Depois de falar, toque em “✔ Já avisei esta turma” (o aviso some só daquela turma, neste computador).",
       "<b>Escolha a turma e a missão</b> (M1, M2…). Aparece o roteiro da aula com as falas, as respostas de cada atividade e quantos alunos já entraram e concluíram o Básico.",
       "<b>👀 Abrir a apostila do aluno</b>: abre, numa aba nova, a apostila exatamente como o aluno vê. Nada do que você fizer ali conta.",
       "<b>📌 Missão de hoje</b>: toque em “Definir … como Missão de hoje”. Quando o aluno digitar o código, ele cai direto nessa missão. Vale só para hoje.",
@@ -770,6 +771,23 @@
     ligarSair(el);
     el.querySelector("#sel").onchange = e => { location.hash = "#/painel/aula/" + e.target.value + "/" + mid; };
     const sa = el.querySelector("#ap"); if (sa) sa.onchange = e => { try { sessionStorage.setItem("painel:ap:" + t.serie.id, e.target.value); } catch (x) {} telaAula(u, t.id); };
+    // 📣 avisos para o professor falar à turma (com a fala pronta); "✔ Já avisei" esconde só para esta turma
+    try {
+      const AVISOS = [{ id: "outra-turma-1", tit: "Quem faz a aula em outro horário",
+        porque: "As tarefas do portal (Mão na massa, Básico, Desafio e Turbo) vão abrir só no dia e na hora da aula de cada turma. Quem vem em outro horário (por causa de curso, karatê, natação…) ficaria travado.",
+        fala: "“Pessoal, um aviso importante: as tarefas do portal vão abrir só no dia e no horário da aula da turma de vocês. Se você faz a aula de Informática em outro horário, junto com outra turma, me avise hoje, porque eu preciso liberar o seu acesso. Se não avisar, as tarefas não vão abrir para você nesse outro horário. Os textos para estudar continuam abertos a qualquer hora, até em casa.”",
+        depois: "Quem avisar: em 🏫 Turmas, toque no nome do aluno → 🏫 Frequenta a aula de outra turma." }];
+      const chave = id => "painel:aviso:" + id + ":" + t.id;
+      const pend = AVISOS.filter(x => { try { return !localStorage.getItem(chave(x.id)); } catch (e) { return true; } });
+      if (pend.length) {
+        const box = document.createElement("details"); box.className = "painel pp-avisos"; box.open = true;
+        box.innerHTML = `<summary><strong>📣 Avisos para falar à turma</strong> (${pend.length})</summary>${pend.map(x => `<div class="pp-aviso" data-av="${x.id}">
+          <p><strong>${esc(x.tit)}</strong> — ${esc(x.porque)}</p><p class="pp-fala">🗣️ ${esc(x.fala)}</p><p class="ajuda">${esc(x.depois)}</p>
+          <button class="btn btn-sec btn-peq" type="button" data-avok="${x.id}">✔ Já avisei esta turma</button></div>`).join("")}`;
+        el.querySelector("#aula").before(box);
+        box.querySelectorAll("[data-avok]").forEach(b => b.onclick = () => { try { localStorage.setItem(chave(b.dataset.avok), Date.now()); } catch (e) {} b.closest(".pp-aviso").remove(); if (!box.querySelector(".pp-aviso")) box.remove(); });
+      }
+    } catch (e) { console.warn(e); }
     // 📌 Missão de hoje: o aluno cai direto nela depois do código; se "travar", as tarefas das outras missões fecham
     try {
       const hRef = db().collection("config").doc("hoje_" + t.id), hs = await hRef.get();

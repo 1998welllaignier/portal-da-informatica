@@ -958,3 +958,8 @@ body.modo-trilha { font-size: 21px; line-height: 1.65; }
 .pp-ajuda ul { margin: 6px 0 4px; padding-left: 20px; } .pp-ajuda li { margin: 4px 0; }
 .pp-hoje { border-color: #f2c14e; }
 .hoje-destaque .btn { margin-left: 8px; }
+/* 📣 avisos para falar à turma (aba Aula) */
+.pp-avisos { border: 2px solid #fb923c; background: #fff7ed; }
+.pp-avisos summary { cursor: pointer; font-size: 1.1rem; }
+.pp-aviso { border-top: 1px dashed #fdba74; padding-top: 8px; margin-top: 8px; }
+.pp-fala { font-size: 1.1rem; background: #fff; border-left: 5px solid #fb923c; border-radius: 0 10px 10px 0; padding: 8px 12px; }
