@@ -25,7 +25,7 @@ Prof. Welington · @Welington Laignier
 Neste bimestre você vai cumprir **3 missões** e um **projeto final**. Cada missão é uma aula completa: se você faltar, pode fazer a próxima sem problema.
 | Missão | Tema |
 | 🌐 Missão 1 – O computador e meus arquivos | Mundo Digital |
-| 🧩 Missão 2 – Algoritmos | Pensamento Computacional |
+| ⚙️ Missão 2 – Algoritmos | Pensamento Computacional |
 | 🤝 Missão 3 – Cidadão digital | Cultura Digital |
 | 🏁 Projeto final – Meu Passaporte de Missões | Todos os temas |
 
@@ -118,7 +118,7 @@ Escreva **V** para verdadeiro ou **F** para falso:
 ### 🧠 Resumo da Aula
 O computador trabalha em três etapas: **entrada** (recebe informações), **processamento** (faz os cálculos) e **saída** (mostra o resultado). Nossos trabalhos ficam guardados em **arquivos**, organizados em **pastas**. Para salvar, escolhemos **onde** guardar e **qual nome** dar. As informações sobre um arquivo, como tipo, tamanho e data, são os **metadados**.
 **Palavras-chave:** entrada · processamento · saída · hardware · software · arquivo · pasta · salvar · metadados
-## 🧩 Missão 2 – Algoritmos: sequência, repetição e seleção
+## ⚙️ Missão 2 – Algoritmos: sequência, repetição e seleção
 **Objetivo:** descrever com precisão a solução de um problema e criar algoritmos com sequência, repetição e seleção.
 📅 **Data da aula:** ........ / ........
 ### 💡 Para começar
@@ -277,14 +277,14 @@ Um **cidadão digital** se comunica com **respeito**, protege seus **dados pesso
 - [ ] Folheie a sua apostila e marque quais missões já têm carimbo:
 | Missão | Tem carimbo do Básico? |
 | 🌐 Missão 1 – O computador e meus arquivos |  |
-| 🧩 Missão 2 – Algoritmos |  |
+| ⚙️ Missão 2 – Algoritmos |  |
 | 🤝 Missão 3 – Cidadão digital |  |
 
 - [ ] Se faltar algum carimbo (por exemplo, porque você faltou à aula), faça agora a missão e peça o carimbo ao professor.
 - [ ] Escreva uma frase sobre o que você aprendeu em cada tema:
 | Tema | ✍️ O que eu aprendi |
 | 🌐 O computador e meus arquivos |  |
-| 🧩 Algoritmos |  |
+| ⚙️ Algoritmos |  |
 | 🤝 Cidadão digital |  |
 
 🟡 **Desafio**

@@ -7,7 +7,7 @@
     { min: 5, icone: "🎬", t: "Abertura" },
     { min: 10, icone: "💡", t: "Para começar e O que significa?" },
     { min: 5, icone: "🌎", t: "Onde eu uso isso?" },
-    { min: 20, icone: "🧩", t: "Missão no portal" },
+    { min: 20, icone: "💻", t: "Missão no portal" },
     { min: 5, icone: "📋", t: "Perguntas rápidas e Resumo" },
     { min: 5, icone: "🎮", t: "Jogos (quem concluiu o Básico)" }
   ];

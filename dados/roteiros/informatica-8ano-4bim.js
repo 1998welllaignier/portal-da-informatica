@@ -6,7 +6,7 @@
     { min: 10, icone: "🎬", t: "Pergunta, dinâmica e vídeo" },
     { min: 10, icone: "🌎", t: "Onde eu uso isso?" },
     { min: 5, icone: "🖥️", t: "Demonstração pelo Veyon" },
-    { min: 30, icone: "🧩", t: "Missão no portal" },
+    { min: 30, icone: "💻", t: "Missão no portal" },
     { min: 10, icone: "📋", t: "Perguntas rápidas e Resumo" },
     { min: 10, icone: "🎮", t: "Recreação (quem concluiu o Básico)" }
   ];

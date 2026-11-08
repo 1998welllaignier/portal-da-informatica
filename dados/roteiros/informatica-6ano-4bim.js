@@ -15,7 +15,7 @@ PORTAL.registrarRoteiro("informatica-6ano-4bim", {
       { min: 10, icone: "🎬", t: "Abertura e vídeo" },
       { min: 10, icone: "🌎", t: "Onde eu uso isso?" },
       { min: 5, icone: "🖥️", t: "Demonstração pelo Veyon" },
-      { min: 30, icone: "🧩", t: "Missão no portal" },
+      { min: 30, icone: "💻", t: "Missão no portal" },
       { min: 10, icone: "📋", t: "Perguntas rápidas e Resumo" },
       { min: 10, icone: "🎮", t: "Recreação (quem concluiu o Básico)" }
     ],
@@ -53,7 +53,7 @@ PORTAL.registrarRoteiro("informatica-6ano-4bim", {
       { min: 10, icone: "🎬", t: "Abertura e vídeo" },
       { min: 10, icone: "🌎", t: "Onde eu uso isso?" },
       { min: 5, icone: "🖥️", t: "Demonstração pelo Veyon" },
-      { min: 30, icone: "🧩", t: "Missão no portal" },
+      { min: 30, icone: "💻", t: "Missão no portal" },
       { min: 10, icone: "📋", t: "Perguntas rápidas e Resumo" },
       { min: 10, icone: "🎮", t: "Recreação (quem concluiu o Básico)" }
     ],
@@ -87,7 +87,7 @@ PORTAL.registrarRoteiro("informatica-6ano-4bim", {
       { min: 10, icone: "🎬", t: "Abertura e vídeo" },
       { min: 10, icone: "🌎", t: "Onde eu uso isso?" },
       { min: 5, icone: "🖥️", t: "Demonstração pelo Veyon" },
-      { min: 30, icone: "🧩", t: "Missão no portal" },
+      { min: 30, icone: "💻", t: "Missão no portal" },
       { min: 10, icone: "📋", t: "Perguntas rápidas e Resumo" },
       { min: 10, icone: "🎮", t: "Recreação (quem concluiu o Básico)" }
     ],

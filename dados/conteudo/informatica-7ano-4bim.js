@@ -19,7 +19,7 @@ PORTAL.registrarConteudo("informatica-7ano-4bim", {
      "Mundo Digital"
     ],
     [
-     "🧩 Missão 2 – Decompor e corrigir algoritmos",
+     "⚙️ Missão 2 – Decompor e corrigir algoritmos",
      "Pensamento Computacional"
     ],
     [
@@ -334,7 +334,7 @@ PORTAL.registrarConteudo("informatica-7ano-4bim", {
   },
   {
    "id": "m2",
-   "icone": "🧩",
+   "icone": "⚙️",
    "titulo": "Missão 2 – Algoritmos: decomposição, listas, reúso e correção de erros",
    "objetivo": "dividir um problema grande em partes menores, guardar dados em listas, reaproveitar partes de um algoritmo e encontrar e corrigir erros.",
    "comecar": [

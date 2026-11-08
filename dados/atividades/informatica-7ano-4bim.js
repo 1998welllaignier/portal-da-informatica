@@ -256,7 +256,7 @@ PORTAL.registrarAtividades("informatica-7ano-4bim", {
     basico: [
       { tipo: "info", titulo: "Confira as suas missões", html: "<p>Volte à lista de missões da apostila: cada missão com o <strong>Básico concluído</strong> aparece com ✔. Se faltar alguma (por exemplo, porque você faltou à aula), faça o Básico dela agora. O professor acompanha tudo pelo painel.</p>" },
       { tipo: "aberta", titulo: "Escreva uma frase sobre o que você aprendeu em cada tema",
-        campos: [{ rot: "🌐 Redes e internet", linhas: 2 }, { rot: "🧩 Algoritmos", linhas: 2 }, { rot: "🛡️ Segurança e convivência digital", linhas: 2 }],
+        campos: [{ rot: "🌐 Redes e internet", linhas: 2 }, { rot: "⚙️ Algoritmos", linhas: 2 }, { rot: "🛡️ Segurança e convivência digital", linhas: 2 }],
         criterios: ["Cada frase usa pelo menos uma palavra-chave do tema.", "Frase completa, com letra maiúscula e ponto final."],
         conferir: { minPalavras: 4, porCampo: [
           ["rede", "internet", "pacote", "ip", "roteador", "switch", "cabo", "wi-fi", "wifi", "protocolo", "tcp", "servidor", "veyon", "ap "],

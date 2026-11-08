@@ -266,7 +266,7 @@ PORTAL.registrarAtividades("informatica-6ano-4bim", {
     basico: [
       { tipo: "info", titulo: "Confira as suas missões", html: "<p>Volte à lista de missões da apostila: cada missão com o <strong>Básico concluído</strong> aparece com ✔. Se faltar alguma (por exemplo, porque você faltou à aula), faça o Básico dela agora. O professor acompanha tudo pelo painel.</p>" },
       { tipo: "aberta", titulo: "Escreva uma frase sobre o que você aprendeu em cada tema",
-        campos: [{ rot: "🌐 O computador e meus arquivos", linhas: 2 }, { rot: "🧩 Algoritmos", linhas: 2 }, { rot: "🤝 Cidadão digital", linhas: 2 }],
+        campos: [{ rot: "🌐 O computador e meus arquivos", linhas: 2 }, { rot: "⚙️ Algoritmos", linhas: 2 }, { rot: "🤝 Cidadão digital", linhas: 2 }],
         criterios: ["Cada frase usa pelo menos uma palavra-chave do tema.", "Frase completa, com letra maiúscula e ponto final."],
         conferir: { minPalavras: 4, porCampo: [
           ["computador", "arquivo", "pasta", "entrada", "saida", "process", "armazen", "salvar", "metadado", "teclado", "mouse", "monitor", "explorador", "bloco de notas"],

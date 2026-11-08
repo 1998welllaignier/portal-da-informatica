@@ -25,7 +25,7 @@ Prof. Welington · @Welington Laignier
 Neste bimestre você vai cumprir **3 missões** e um **projeto final**. Cada missão é uma aula completa: se você faltar, pode fazer a próxima sem problema.
 | Missão | Tema |
 | 🌐 Missão 1 – Redes e internet | Mundo Digital |
-| 🧩 Missão 2 – Decompor e corrigir algoritmos | Pensamento Computacional |
+| ⚙️ Missão 2 – Decompor e corrigir algoritmos | Pensamento Computacional |
 | 🛡️ Missão 3 – Segurança e convivência digital | Mundo Digital e Cultura Digital |
 | 🏁 Projeto final – Meu Passaporte de Missões | Todos os temas |
 
@@ -197,7 +197,7 @@ Escreva **V** para verdadeiro ou **F** para falso:
 ### 🧠 Resumo da Aula
 Uma **rede** liga aparelhos para trocar informações, e a **internet** é uma rede de redes. As mensagens viajam divididas em **pacotes** numerados, passando por **roteadores** até chegar ao destino, onde são montadas em ordem. Cada aparelho tem um **endereço IP**. Tudo isso segue **protocolos**, regras que os aparelhos combinam para se entender, como o TCP/IP e o **HTTPS**.
 **Palavras-chave:** rede · internet · roteador · servidor · pacote · endereço IP · protocolo · HTTPS
-## 🧩 Missão 2 – Algoritmos: decomposição, listas, reúso e correção de erros
+## ⚙️ Missão 2 – Algoritmos: decomposição, listas, reúso e correção de erros
 **Objetivo:** dividir um problema grande em partes menores, guardar dados em listas, reaproveitar partes de um algoritmo e encontrar e corrigir erros.
 📅 **Data da aula:** ........ / ........
 ### 💡 Para começar
@@ -367,14 +367,14 @@ Na internet existem **golpes** (phishing) que usam pressa, prêmios e links fals
 - [ ] Folheie a sua apostila e marque quais missões já têm carimbo:
 | Missão | Tem carimbo do Básico? |
 | 🌐 Missão 1 – Redes e internet |  |
-| 🧩 Missão 2 – Decompor e corrigir algoritmos |  |
+| ⚙️ Missão 2 – Decompor e corrigir algoritmos |  |
 | 🛡️ Missão 3 – Segurança e convivência digital |  |
 
 - [ ] Se faltar algum carimbo (por exemplo, porque você faltou à aula), faça agora a missão e peça o carimbo ao professor.
 - [ ] Escreva uma frase sobre o que você aprendeu em cada tema:
 | Tema | ✍️ O que eu aprendi |
 | 🌐 Redes e internet |  |
-| 🧩 Algoritmos |  |
+| ⚙️ Algoritmos |  |
 | 🛡️ Segurança e convivência digital |  |
 
 🟡 **Desafio**

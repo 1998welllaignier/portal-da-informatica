@@ -19,7 +19,7 @@ PORTAL.registrarConteudo("informatica-6ano-4bim", {
      "Mundo Digital"
     ],
     [
-     "🧩 Missão 2 – Algoritmos",
+     "⚙️ Missão 2 – Algoritmos",
      "Pensamento Computacional"
     ],
     [
@@ -248,7 +248,7 @@ PORTAL.registrarConteudo("informatica-6ano-4bim", {
   },
   {
    "id": "m2",
-   "icone": "🧩",
+   "icone": "⚙️",
    "titulo": "Missão 2 – Algoritmos: sequência, repetição e seleção",
    "objetivo": "descrever com precisão a solução de um problema e criar algoritmos com sequência, repetição e seleção.",
    "comecar": [
