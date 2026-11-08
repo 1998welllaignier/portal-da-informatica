@@ -227,6 +227,7 @@
           <button class="btn btn-sec" value="nome" type="button" data-x="nome">✏️ Corrigir nome</button>
           <button class="btn btn-sec" type="button" data-x="turma">🔀 Mudar de turma</button>
           <button class="btn btn-sec" type="button" data-x="atipico">${a.atipico ? "🧩 Tirar a marcação de aluno atípico" : "🧩 Marcar como aluno atípico (tem PEI)"}</button>
+          ${a.atipico ? `<button class="btn btn-sec" type="button" data-x="apoio">📝 Apoios na aula (só você vê)</button>` : ""}
           <button class="btn btn-sec" type="button" data-x="trilha">${a.trilha ? "👣 Tirar a Trilha Passo a Passo" : "👣 Usar a Trilha Passo a Passo (apostila diferenciada)"}</button>
           <button class="btn btn-sec" type="button" data-x="ativo">${a.ativo ? "⛔ Desativar (saiu da escola)" : "✅ Reativar"}</button>
           <button class="btn" value="x">Fechar</button></div></form></dialog>`);
@@ -244,6 +245,7 @@
             const c = await novoCodigo(a, nt.id); alert(`${a.nome} agora está no ${nomeTurma(nt.id)}. Novo código: ${c}. O histórico continua guardado.`);
           }
           if (x === "atipico") { await db().collection("alunos").doc(a.id).update({ atipico: !a.atipico }); }
+          if (x === "apoio") { const v = prompt("Apoios para este aluno na aula (aparecem na Tela da aula, só para você):", a.apoio || ""); if (v === null) return; await db().collection("alunos").doc(a.id).update({ apoio: v.trim() }); }
           if (x === "trilha") {
             const tem = cat().apostilas.some(y => y.trilha && y.serie === (todasTurmas().find(z => z.id === a.turma) || { serie: {} }).serie.id);
             if (!a.trilha && !tem && !confirm("Esta série ainda não tem Trilha Passo a Passo. A marcação fica guardada e passa a valer quando a Trilha existir. Marcar mesmo assim?")) return;
@@ -499,6 +501,16 @@
     ligarSair(el);
     el.querySelector("#sel").onchange = e => { location.hash = "#/painel/aula/" + e.target.value + "/" + mid; };
     const sa = el.querySelector("#ap"); if (sa) sa.onchange = e => { try { sessionStorage.setItem("painel:ap:" + t.serie.id, e.target.value); } catch (x) {} telaAula(u, t.id); };
+    // 🧩 apoios dos alunos atípicos da turma (anotações só do professor, guardadas no cadastro do aluno)
+    try {
+      const atip = (await alunosDaTurma(t.id)).filter(a => a.atipico && a.ativo !== false);
+      if (atip.length) {
+        const box = document.createElement("details"); box.className = "painel pp-apoios"; box.open = atip.some(a => a.apoio);
+        box.innerHTML = `<summary><strong>🧩 Apoios dos alunos atípicos desta turma</strong> (${atip.length})</summary>
+          <ul>${atip.map(a => `<li><strong>${esc(a.nome)}</strong>${a.trilha ? " 👣 usa a Trilha Passo a Passo" : ""}<br>${a.apoio ? esc(a.apoio).replace(/\n/g, "<br>") : `<span class="ajuda">Ainda sem anotação. Em Turmas, toque no nome do aluno → 📝 Apoios na aula.</span>`}</li>`).join("")}</ul>`;
+        el.querySelector("#aula").before(box);
+      }
+    } catch (e) { console.warn(e); }
     await P.aula.render(el.querySelector("#aula"), ap.id, mid, t.id, { vivo: async (aid, m, turma) => {
       const prog = await progressoDaTurma(turma), d = N.hoje();
       const entraram = new Set(prog.filter(p => p.dias && p.dias[d]).map(p => p.alunoId));

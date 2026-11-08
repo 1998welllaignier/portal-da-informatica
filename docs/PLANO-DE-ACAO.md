@@ -5,6 +5,7 @@ Claude Max (5x) assinado por um mês em 08/11 para adiantar tudo. **Voltar ao Pr
 
 ### ✋ O que o professor precisa fazer
 - [ ] **Hoje à noite, no computador (≈10 min):** abrir o console do Firebase logado; o Claude cola as regras novas de `docs/firestore.rules` (coleção `provas` + horário-limite) e o professor clica em Publicar. Sem isso, a aba 📝 Prova do painel e o envio da prova não funcionam.
+- [ ] Hoje à noite, com o painel aberto no computador: o Claude preenche os **📝 Apoios na aula** dos 4 alunos com 🧩 que já frequentam (texto preparado em 08/11, a partir dos PEIs). Eles aparecem na **Tela da aula** do painel, só para o professor.
 - [ ] Depois de publicar: teste rápido da prova com um aluno de teste (ligar o Dia de prova, fazer, conferir a nota no painel, encerrar).
 - [ ] Revisar as questões das provas (arquivo “Gabarito-Provas-4bim.md”, enviado no chat em 08/11) e dizer se quer trocar alguma.
 - [ ] Decidir a data da prova de cada turma (fim de novembro).
