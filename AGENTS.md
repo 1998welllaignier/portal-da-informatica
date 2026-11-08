@@ -84,6 +84,14 @@ o portal troca a apostila da turma pela Trilha Passo a Passo da série (catálog
   cai direto na prova (`js/prova.js`, rota `#/prova/<apostila>`). Respostas em `provas/<aluno>_<apostila>_<tentativa>`;
   a nota é recalculada no painel. Recuperação = 2ª tentativa liberada pelo professor.
 
+### Trava de horário das tarefas (`js/trava.js`)
+- Liga/desliga em `config/geral.travaHorario` (painel, aba Ano letivo). Desligada = tudo aberto.
+- Ligada: páginas de tarefa (tipo "missao" e "revisao") só abrem no dia/hora da aula da turma (`aula` no catálogo,
+  `toleranciaTarefas` minutos antes e depois). Textos de estudo sempre abertos. Hora do servidor = cabeçalho Date do site.
+- Liberações em `config/liberar_<turma>`: `ate` (turma toda), `fechadaAte` (fechar antes), `alunos.<id>` (só um aluno,
+  até o fim do dia escolhido), `outra.<id>` (aluno que frequenta a aula de outra turma). Visualização do professor e
+  sessões sem nuvem nunca são travadas. A trava é no navegador (as regras não conseguem separar leitura de tarefa).
+
 ### Diário de Classe (painel, aba 📒 Diário)
 - Dados só do professor, em `prof/diario/turmas/<turma>` (cronograma, lembretes, notas manuais `notas.prova` 0–5
   e `notas.rec` 0–10, `auto`) e `prof/diario/turmas/<turma>/aulas/<data>` (presencas P/F/J, carimbos 0/1/2,

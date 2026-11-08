@@ -17,6 +17,7 @@ PORTAL.catalogo = {
      o painel usa para marcar sozinho as missões da prova.
      aula: dia da semana (1 = segunda … 4 = quinta) e hora de início; cada aula dura 1h15 */
   duracaoAula: 75,
+  toleranciaTarefas: 15, // minutos antes e depois da aula em que as tarefas ficam abertas (trava de horário)
   series: [
     { id: "5", nome: "5º ano", faixa: "menor", cor: "#e2583e",
       turmas: [ { id: "5-seg", nome: "Segunda 15h" , aula: { dia: 1, ini: "15:00" }, missoes4: {"2026-11-09": "m1", "2026-11-16": "m2", "2026-11-23": "m3", "2026-11-30": "m4"} }, { id: "5-ter", nome: "Terça 9h" , aula: { dia: 2, ini: "09:00" }, missoes4: {"2026-11-03": "m1", "2026-11-10": "m2", "2026-11-17": "m3", "2026-11-24": "m4"} } ],

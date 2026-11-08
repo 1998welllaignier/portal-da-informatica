@@ -10,6 +10,7 @@ Claude Max (5x) assinado por um mês em 08/11 para adiantar tudo. **Voltar ao Pr
 - [ ] Depois de publicar: teste rápido da prova com um aluno de teste (ligar o Dia de prova, fazer, conferir a nota no painel, encerrar).
 - [ ] Revisar as questões das provas (arquivo “Gabarito-Provas-4bim.md”, reenviado no chat em 08/11 com as questões separadas por missão) e dizer se quer trocar alguma.
 - [ ] No dia de cada prova: na aba 📝 Prova, conferir as missões já marcadas (o painel marca pelas aulas que a turma teve) e, para o aluno 🧩 cujo PEI pede, tocar em “3 alternativas”.
+- [ ] Quando quiser, ligar a 🔒 trava de horário das tarefas (painel → 📅 Ano letivo) e testar com um aluno de teste.
 - [ ] Decidir a data da prova de cada turma (fim de novembro).
 
 ### ✅ Feito
@@ -22,7 +23,7 @@ Claude Max (5x) assinado por um mês em 08/11 para adiantar tudo. **Voltar ao Pr
    - **8º ano, Missão 1 (Listas: busca sequencial, busca binária e método da bolha):** quarta, 18/11. Foi adiada em 04/11 porque o professor ainda não dominava o assunto. Revisar com calma antes de 18/11.
 1. ~~Análise dos PEIs e relatório “🧩 atípicos que frequentam”~~ **feito em 08/11** (relatório no painel, aba Presença). Pela chamada da 1ª semana, só 4 alunos com 🧩 vieram (todos do 8º ano): 1 na Trilha (👣) e 3 no caminho A (apostila da turma com apoios). Os outros ainda não vieram ou a turma não teve chamada registrada. **Reavaliar toda semana**, a cada chamada nova.
 2. ~~Diário de Classe dentro do painel~~ **programado em 08/11** (aba 📒 Diário: chamada, vistos ⚡ automáticos e corrigíveis, frequência, boletim com a nota da prova do portal, registro e lembretes). Falta: transferir o diário antigo (hoje à noite) e boletim em PDF.
-3. Tarefas presas ao dia e à hora da aula + liberação manual + aluno de outra turma + “Missão de hoje”.
+3. ~~Tarefas presas ao dia e à hora da aula + liberação manual + aluno de outra turma~~ **feito em 08/11, trava DESLIGADA** (o professor liga em Ano letivo quando quiser, depois de testar). Falta: “Missão de hoje”.
 4. ~~“Ver como aluno” no painel~~ **feito em 08/11**: botão “👀 Abrir a apostila do aluno” na aba 🎤 Aula, que abre numa aba nova a apostila exatamente como o aluno vê (sem código, nada vai para o painel, sempre zerada).
 5. Atividade de recuperação de cada série; boletins em PDF; SIGE (com o professor).
 

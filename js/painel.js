@@ -221,7 +221,7 @@
     }
 
     function menuAluno(a) {
-      const dlg = h(`<dialog class="pp-dlg"><form method="dialog"><h2>${a.atipico ? "🧩 " : ""}${esc(a.nome)}</h2><p>${esc(nomeTurma(a.turma))} · código <strong>${esc(a.codigo)}</strong> · ${a.ativo ? "ativo" : "desativado"}</p>
+      const dlg = h(`<dialog class="pp-dlg"><form method="dialog"><h2>${a.atipico ? "🧩 " : ""}${esc(a.nome)}</h2><p>${esc(nomeTurma(a.turma))} · código <strong>${esc(a.codigo)}</strong> · ${a.ativo ? "ativo" : "desativado"}${a.outraTurma ? ` · também frequenta a aula do ${esc(nomeTurma(a.outraTurma))}` : ""}</p>
         <div class="pp-dlg-btns">
           <button class="btn btn-sec" value="cod" type="button" data-x="cod">🔑 Gerar novo código</button>
           <button class="btn btn-sec" value="nome" type="button" data-x="nome">✏️ Corrigir nome</button>
@@ -229,6 +229,8 @@
           <button class="btn btn-sec" type="button" data-x="atipico">${a.atipico ? "🧩 Tirar a marcação de aluno atípico" : "🧩 Marcar como aluno atípico (tem PEI)"}</button>
           ${a.atipico ? `<button class="btn btn-sec" type="button" data-x="apoio">📝 Apoios na aula (só você vê)</button>` : ""}
           <button class="btn btn-sec" type="button" data-x="trilha">${a.trilha ? "👣 Tirar a Trilha Passo a Passo" : "👣 Usar a Trilha Passo a Passo (apostila diferenciada)"}</button>
+          <button class="btn btn-sec" type="button" data-x="libera">🔓 Liberar as tarefas fora do horário (só este aluno)</button>
+          <button class="btn btn-sec" type="button" data-x="outra">🏫 Frequenta a aula de outra turma</button>
           <button class="btn btn-sec" type="button" data-x="ativo">${a.ativo ? "⛔ Desativar (saiu da escola)" : "✅ Reativar"}</button>
           <button class="btn" value="x">Fechar</button></div></form></dialog>`);
       document.body.appendChild(dlg); dlg.showModal();
@@ -251,6 +253,21 @@
             if (!a.trilha && !tem && !confirm("Esta série ainda não tem Trilha Passo a Passo. A marcação fica guardada e passa a valer quando a Trilha existir. Marcar mesmo assim?")) return;
             await marcarTrilha(a, !a.trilha);
             alert(a.trilha ? `${a.nome} volta a usar a apostila da turma.` : `Pronto! Quando ${a.nome} digitar o código, o portal abre direto a Trilha Passo a Passo.`);
+          }
+          if (x === "libera") {
+            const d = prompt(`Liberar as tarefas de ${a.nome} fora do horário por quantos dias? (1 = até o fim de hoje; 0 = tirar a liberação)`, "1"); if (d === null || isNaN(+d)) return;
+            const fim = new Date(); fim.setHours(23, 59, 0, 0); fim.setDate(fim.getDate() + Math.max(0, +d - 1));
+            await db().collection("config").doc("liberar_" + a.turma).set({ alunos: { [a.id]: +d > 0 ? fim.getTime() : 0 } }, { merge: true });
+            alert(+d > 0 ? `Pronto! ${a.nome} pode fazer as tarefas até ${fim.toLocaleDateString("pt-BR")}, 23h59.` : "Liberação retirada."); dlg.close(); return;
+          }
+          if (x === "outra") {
+            const opc = todasTurmas().filter(y => y.id !== a.turma && y.serie.id === (todasTurmas().find(z => z.id === a.turma) || { serie: {} }).serie.id);
+            const r = prompt(`${a.nome} também frequenta a aula de qual turma? (as tarefas abrem no horário dela; a presença e as notas continuam na turma dele)\nDigite: ${opc.map(y => y.id).join(", ")}\nDeixe em branco para tirar.`, "");
+            if (r === null) return; const nt = opc.find(y => y.id.toLowerCase() === r.trim().toLowerCase());
+            if (r.trim() && !nt) { alert("Turma não encontrada."); return; }
+            await db().collection("config").doc("liberar_" + a.turma).set({ outra: { [a.id]: nt ? nt.id : null } }, { merge: true });
+            await db().collection("alunos").doc(a.id).update({ outraTurma: nt ? nt.id : null });
+            alert(nt ? `Pronto! As tarefas de ${a.nome} abrem também no horário do ${nomeTurma(nt.id)}.` : "Pronto! Voltou ao horário da própria turma.");
           }
           if (x === "ativo") { if (a.ativo && !confirm(`Desativar ${a.nome}? O código para de funcionar, mas o histórico fica guardado.`)) return; await mudarAtivo(a, !a.ativo); }
           dlg.close(); toast("Feito!"); telaTurmas(u, t.id);
@@ -714,6 +731,25 @@
     ligarSair(el);
     el.querySelector("#sel").onchange = e => { location.hash = "#/painel/aula/" + e.target.value + "/" + mid; };
     const sa = el.querySelector("#ap"); if (sa) sa.onchange = e => { try { sessionStorage.setItem("painel:ap:" + t.serie.id, e.target.value); } catch (x) {} telaAula(u, t.id); };
+    // 🔒 liberar ou fechar as tarefas da turma fora do horário
+    try {
+      const [g, ls] = await Promise.all([config(), db().collection("config").doc("liberar_" + t.id).get()]);
+      const lib = ls.exists ? ls.data() : {}, ag = Date.now(), hm = ms => new Date(ms).toTimeString().slice(0, 5);
+      const noHor = P.trava && P.trava.noHorario(t, ag);
+      const st = !g.travaHorario ? "⚪ Trava desligada: tarefas sempre abertas" : lib.fechadaAte > ag ? `🔒 Fechadas por você até ${hm(lib.fechadaAte)}` : lib.ate > ag ? `🔓 Liberadas por você até ${hm(lib.ate)}` : noHor ? "🟢 Abertas (horário da aula)" : `🔒 Fechadas (abrem ${P.trava ? P.trava.horarioTxt(t) : "no horário da aula"})`;
+      const box = document.createElement("div"); box.className = "pp-trava";
+      box.innerHTML = `<span>Tarefas desta turma:</span> <span class="st">${st}</span>
+        ${g.travaHorario ? `<button class="btn btn-sec btn-peq" type="button" data-tr="lib">🔓 Liberar a turma agora</button><button class="btn btn-sec btn-peq" type="button" data-tr="fecha">🔒 Fechar agora</button>${lib.ate > ag || lib.fechadaAte > ag ? `<button class="btn btn-sec btn-peq" type="button" data-tr="normal">↩️ Voltar ao horário normal</button>` : ""}` : `<a class="btn btn-sec btn-peq" href="#/painel/ano">Ligar a trava</a>`}`;
+      el.querySelector(".pp-barra").appendChild(box);
+      const ref = db().collection("config").doc("liberar_" + t.id);
+      box.querySelectorAll("[data-tr]").forEach(b => b.onclick = async () => {
+        const k = b.dataset.tr;
+        if (k === "lib") { const m = prompt("Liberar as tarefas da turma toda por quantos minutos?", "75"); if (!m || !(+m > 0)) return; await ref.set({ ate: Date.now() + (+m) * 60000, fechadaAte: 0 }, { merge: true }); }
+        if (k === "fecha") { const fimAula = (() => { const d = new Date(); if (!t.aula) return Date.now() + 75 * 60000; const [H, M] = t.aula.ini.split(":").map(Number); d.setHours(H, M + (cat().duracaoAula || 75) + (cat().toleranciaTarefas || 15), 0, 0); return Math.max(d.getTime(), Date.now() + 60000); })(); await ref.set({ fechadaAte: fimAula, ate: 0 }, { merge: true }); }
+        if (k === "normal") await ref.set({ ate: 0, fechadaAte: 0 }, { merge: true });
+        toast("Feito!"); telaAula(u, t.id, mid);
+      });
+    } catch (e) { console.warn(e); }
     // 🧩 apoios dos alunos atípicos da turma (anotações só do professor, guardadas no cadastro do aluno)
     try {
       const atip = (await alunosDaTurma(t.id)).filter(a => a.atipico && a.ativo !== false);
@@ -832,8 +868,18 @@
     const el = tela(topo(u, "ano") + `<div class="painel"><h2>Ano letivo atual: ${esc(cfg.ano)}</h2>
       <p>No começo de cada ano letivo:</p><ol><li>Clique em <strong>Começar novo ano</strong>: todos os alunos ativos são desativados (os códigos param de funcionar), mas o histórico fica guardado.</li>
       <li>Importe as listas novas na aba <a href="#/painel/importar">📥 Importar alunos</a>.</li><li>Imprima os cartões com os códigos novos.</li></ol>
-      <div class="row-btns"><button class="btn" id="novo" type="button">📅 Começar o ano ${esc(cfg.ano + 1)}</button></div></div>`);
+      <div class="row-btns"><button class="btn" id="novo" type="button">📅 Começar o ano ${esc(cfg.ano + 1)}</button></div></div>
+      <div class="painel"><h2>🔒 Trava de horário das tarefas</h2>
+        <p>Situação: <span class="pp-prova-st ${cfg.travaHorario ? "on" : "off"}">${cfg.travaHorario ? "🔒 LIGADA" : "⚪ Desligada"}</span></p>
+        <p>Ligada, as <strong>tarefas</strong> (Mão na massa, Básico, Desafio, Turbo, Perguntas rápidas, Autoavaliação e Resumo) só abrem no <strong>dia e na hora da aula</strong> de cada turma, com ${esc(cat().toleranciaTarefas || 15)} minutos de tolerância antes e depois. Os textos de estudo ficam sempre abertos, inclusive em casa.</p>
+        <p class="ajuda">Para liberar fora do horário: a turma toda, na aba 🎤 Aula; só um aluno (falta, reposição, estuda em casa) ou aluno que frequenta a aula de outra turma, em 🏫 Turmas → toque no nome do aluno.</p>
+        <div class="row-btns"><button class="btn" id="trava" type="button">${cfg.travaHorario ? "⚪ Desligar a trava" : "🔒 Ligar a trava"}</button></div></div>`);
     ligarSair(el);
+    el.querySelector("#trava").onclick = async () => {
+      if (!cfg.travaHorario && !confirm("Ligar a trava? A partir de agora, os alunos só fazem as tarefas no horário da aula da turma.")) return;
+      await db().collection("config").doc("geral").set({ travaHorario: !cfg.travaHorario }, { merge: true });
+      toast(cfg.travaHorario ? "Trava desligada." : "Trava ligada."); telaAno(u);
+    };
     el.querySelector("#novo").onclick = async () => {
       if (!confirm(`Começar o ano letivo ${cfg.ano + 1}? Todos os alunos ativos de ${cfg.ano} serão desativados.`)) return;
       if (prompt(`Para confirmar, digite ${cfg.ano + 1}:`) !== String(cfg.ano + 1)) return alert("Cancelado.");

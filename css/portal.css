@@ -947,3 +947,8 @@ body.modo-trilha { font-size: 21px; line-height: 1.65; }
 .pp-reg { list-style: none; padding: 0; margin: 0; } .pp-reg li { border: 2px solid var(--linha); border-radius: 12px; padding: 10px 12px; margin-bottom: 10px; } .pp-reg p { margin: 6px 0; }
 .pp-lb { list-style: none; padding: 0; } .pp-lb li { padding: 8px 0; border-bottom: 1px solid var(--linha); } .pp-lb li.feito label { text-decoration: line-through; color: #64748b; }
 .pp-lb input { width: 20px; height: 20px; vertical-align: middle; }
+/* 🔒 trava de horário das tarefas */
+.trava-aviso { border: 2px solid #f2c14e; background: #fffbeb; }
+.trava-aviso .trava-tit { font-size: 1.25rem; font-weight: 800; margin: 0 0 6px; }
+.pp-trava { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; border: 2px dashed var(--linha); border-radius: 12px; padding: 8px 12px; margin-top: 10px; }
+.pp-trava .st { font-weight: 800; }

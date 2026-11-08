@@ -494,7 +494,14 @@
     if (pg.id === "onde") corpo.appendChild(h(`<ul class="onde-uso">${m.ondeUso.itens.map(i => `<li>${i}</li>`).join("")}</ul>`));
     if (pg.tipo === "missao" && pg.id !== "pratica" && m.alertas.length) corpo.appendChild(h(`<div class="alerta" role="note">${m.alertas.map(x => `<p>⚠️ ${x}</p>`).join("")}</div>`));
     if (pg.tipo === "missao") corpo.appendChild(h(`<p class="nivel-info nivel-${pg.id}">${{ pratica: "🎮 <strong>Mão na massa</strong>: experimente antes de estudar! Todos fazem, e conta no Básico.", basico: "🟢 <strong>Básico</strong>: todos fazem. Vale 1,0 ponto e libera os jogos livres. As respostas estão no 💡 Para começar e no 📖 O que significa?.", desafio: "🟡 <strong>Desafio</strong>: para quem terminou o Básico. Vale +0,25 e aumenta a sua nota do bimestre.", turbo: "🔴 <strong>Turbo</strong>: para quem terminou o Desafio. Vale mais +0,25 na nota do bimestre." }[pg.id]}</p>`));
-    (pg.atividades || []).forEach((at, i) => corpo.appendChild(cartaoAtividade(aid, mid, at, i, () => { barra(info()); atualizarStatus(); })));
+    // 🔒 trava de horário: os textos ficam abertos; as tarefas só no dia e na hora da aula (ou liberadas pelo professor)
+    let trava = { aberta: true };
+    if ((pg.tipo === "missao" || pg.tipo === "revisao") && P.trava) { try { trava = await P.trava.estado(s); } catch (e) { trava = { aberta: true }; } }
+    if (!trava.aberta) corpo.appendChild(h(`<div class="painel trava-aviso" role="note"><p class="trava-tit">🔒 ${trava.fechada ? "As tarefas estão fechadas agora" : "As tarefas abrem na hora da sua aula"}</p>
+      ${trava.fechada ? "<p>O professor fechou as tarefas desta turma por enquanto.</p>" : `<p>Você pode fazer as tarefas no dia e na hora da aula:</p><ul>${(trava.horarios || []).map(x => `<li><strong>${esc(x)}</strong></li>`).join("")}</ul>`}
+      <p>📖 Enquanto isso, pode estudar à vontade: <a href="#/missao/${aid}/${mid}/comecar">💡 Para começar</a>, <a href="#/missao/${aid}/${mid}/termos">📖 O que significa?</a> e <a href="#/missao/${aid}/${mid}/onde">🌎 Onde eu uso isso?</a> ficam sempre abertos.</p>
+      <p class="ajuda">Precisa fazer fora do horário (faltou, reposição, estuda em casa)? Peça ao professor para liberar.</p></div>`));
+    else (pg.atividades || []).forEach((at, i) => corpo.appendChild(cartaoAtividade(aid, mid, at, i, () => { barra(info()); atualizarStatus(); })));
     if (pg.tipo === "relatorio") corpo.appendChild(relatorio(aid, mid, pages));
     const figs = figurasDaPagina(aid, mid, pg.id, pages.map(p => p.id));
     if (figs.length) {
