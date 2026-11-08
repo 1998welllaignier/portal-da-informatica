@@ -990,3 +990,6 @@ body.modo-trilha { font-size: 21px; line-height: 1.65; }
 .ap-bl.perfil { background: #f5f3ff; border-left: 5px solid #a78bfa; display: block; }
 .ap-bl.perfil summary { cursor: pointer; } .ap-bl.perfil span { display: block; margin-top: 4px; }
 @media (max-width: 640px) { .ap-lista { grid-template-columns: 1fr; } }
+/* 📲 instalar no celular */
+.pwa-inst { text-align: center; padding: 0 16px 24px; }
+#pwa-inst { font: inherit; font-weight: 800; font-size: 1rem; background: #f97316; color: #fff; border: 0; border-radius: 999px; padding: 12px 22px; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,.15); }

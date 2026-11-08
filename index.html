@@ -5,32 +5,58 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Portal da Informática — Professor Welington Laignier · Escola JK</title>
   <meta name="description" content="Portal da Informática: apostilas digitais interativas da EMEF Juscelino Kubitschek, Curionópolis/PA — Professor Welington Laignier.">
-  <link rel="stylesheet" href="css/portal.css?v=20261108p">
+  <link rel="icon" type="image/png" href="img/favicon-32.png">
+  <link rel="apple-touch-icon" href="img/icone-180.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="theme-color" content="#1c2238">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Portal JK">
+  <link rel="stylesheet" href="css/portal.css?v=20261108q">
 </head>
 <body>
   <a class="pular" href="#app">Pular para o conteúdo</a>
   <header id="topbar" class="topbar"></header>
   <main id="app" tabindex="-1"><noscript><p>Este portal precisa do JavaScript ativado no navegador.</p></noscript></main>
   <footer id="rodape" class="rodape"></footer>
+  <!-- 📲 Instalar no celular (PWA): só aparece no celular e quando o site ainda não está instalado -->
+  <div class="pwa-inst"><button id="pwa-inst" type="button" hidden>📲 Instalar no celular</button></div>
+  <script>
+  (function () {
+    var b = document.getElementById("pwa-inst"), ev = null;
+    var cel = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    var instalado = (window.matchMedia && matchMedia("(display-mode: standalone)").matches) || navigator.standalone;
+    if (!cel || instalado) return;
+    var ios = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+    window.addEventListener("beforeinstallprompt", function (e) { e.preventDefault(); ev = e; b.hidden = false; });
+    if (ios) b.hidden = false;
+    b.onclick = function () {
+      if (ev) { ev.prompt(); ev = null; b.hidden = true; return; }
+      alert(ios ? "No iPhone: toque no botão Compartilhar (o quadrado com a seta para cima, embaixo no Safari) e depois em “Adicionar à Tela de Início”."
+                : "No Android: toque nos três pontinhos do navegador e depois em “Instalar app” ou “Adicionar à tela inicial”.");
+    };
+  })();
+  </script>
+  
   <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
 
-  <script>window.PORTAL_VERSAO = "20261108p";</script>
-  <script src="js/portal.js?v=20261108p"></script>
-  <script src="dados/catalogo.js?v=20261108p"></script>
-  <script src="js/atividades.js?v=20261108p"></script>
-  <script src="js/simulacoes.js?v=20261108p"></script>
+  <script>window.PORTAL_VERSAO = "20261108q";</script>
+  <script src="js/portal.js?v=20261108q"></script>
+  <script src="dados/catalogo.js?v=20261108q"></script>
+  <script src="js/atividades.js?v=20261108q"></script>
+  <script src="js/simulacoes.js?v=20261108q"></script>
   <!-- Login dos alunos por código e painel do professor (Firebase, plano gratuito).
        Sem internet, estes arquivos não carregam e o portal volta ao modo antigo. -->
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-  <script src="js/nuvem.js?v=20261108p"></script>
-  <script src="js/prova-hash.js?v=20261108p"></script>
-  <script src="js/prova.js?v=20261108p"></script>
-  <script src="js/trava.js?v=20261108p"></script>
-  <script src="js/painel.js?v=20261108p"></script>
-  <script src="js/aula.js?v=20261108p"></script>
-  <script src="dados/explorador.js?v=20261108p"></script>
-  <script src="js/explorador.js?v=20261108p"></script>
+  <script src="js/nuvem.js?v=20261108q"></script>
+  <script src="js/prova-hash.js?v=20261108q"></script>
+  <script src="js/prova.js?v=20261108q"></script>
+  <script src="js/trava.js?v=20261108q"></script>
+  <script src="js/painel.js?v=20261108q"></script>
+  <script src="js/aula.js?v=20261108q"></script>
+  <script src="dados/explorador.js?v=20261108q"></script>
+  <script src="js/explorador.js?v=20261108q"></script>
 </body>
 </html>
