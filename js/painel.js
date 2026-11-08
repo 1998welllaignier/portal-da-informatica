@@ -310,9 +310,23 @@
     tid = tid || sessionStorage.getItem("painel:turma") || (turmas.find(x => x.serie.id === "6") || turmas[0]).id;
     const t = turmas.find(x => x.id === tid) || turmas[0];
     const el = tela(topo(u, "presenca") + `<div class="painel pp-barra"><label>Turma <select id="sel">${turmas.map(x => `<option value="${x.id}" ${x.id === t.id ? "selected" : ""}>${esc(nomeTurma(x.id))}</option>`).join("")}</select></label></div>
+      <details class="painel" id="atip"><summary><strong>🧩 Alunos atípicos que frequentam</strong> (todas as turmas)</summary><div id="atip-c"><p>Carregando…</p></div></details>
       <div id="corpo"><p class="painel">Carregando…</p></div>`);
     ligarSair(el);
     el.querySelector("#sel").onchange = e => { try { sessionStorage.setItem("painel:turma", e.target.value); } catch (x) {} location.hash = "#/painel/presenca/" + e.target.value; };
+    el.querySelector("#atip").addEventListener("toggle", async ev => {
+      if (!ev.target.open || ev.target.dataset.ok) return; ev.target.dataset.ok = 1;
+      const c = el.querySelector("#atip-c");
+      try {
+        const [qa, qe] = await Promise.all([db().collection("alunos").where("atipico", "==", true).get(), db().collection("progresso").where("tipo", "==", "entrada").get()]);
+        const ent = {}; qe.docs.forEach(d => { const x = d.data(); ent[x.alunoId] = Object.keys(x.dias || {}).sort(); });
+        const lista = qa.docs.map(d => ({ id: d.id, ...d.data() })).filter(a => a.ativo !== false)
+          .map(a => ({ ...a, dias: ent[a.id] || [] })).sort((a, b) => b.dias.length - a.dias.length || a.turma.localeCompare(b.turma) || a.nome.localeCompare(b.nome, "pt-BR"));
+        const vieram = lista.filter(a => a.dias.length);
+        c.innerHTML = `<p>${vieram.length} de ${lista.length} alunos com 🧩 já entraram no portal. Conte também a chamada do diário: quem faltou no portal pode ter vindo sem entrar.</p>
+          <div class="tabela-wrap"><table><thead><tr><th>Aluno</th><th>Turma</th><th>Dias no portal</th><th>Última vez</th></tr></thead><tbody>${lista.map(a => `<tr><td>🧩 ${esc(a.nome)}${a.trilha ? " 👣" : ""}</td><td>${esc(nomeTurma(a.turma))}</td><td><strong>${a.dias.length}</strong></td><td>${a.dias.length ? dataBR(a.dias[a.dias.length - 1]) : "nunca"}</td></tr>`).join("")}</tbody></table></div>`;
+      } catch (err) { c.innerHTML = `<p class="erro">Não foi possível carregar: ${esc(err.message || err)}</p>`; }
+    });
     const aps = cat().apostilas.filter(a => a.serie === t.serie.id);
     await Promise.all(aps.map(a => P.carregarApostila(a.id).catch(() => null)));
     const [alunosTodos, prog] = await Promise.all([alunosDaTurma(t.id), progressoDaTurma(t.id)]);

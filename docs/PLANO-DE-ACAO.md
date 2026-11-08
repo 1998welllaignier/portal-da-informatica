@@ -17,7 +17,7 @@ Claude Max (5x) assinado por um mês em 08/11 para adiantar tudo. **Voltar ao Pr
 0. **Revisão com o professor antes de cada aula** (pedido em 08/11): na véspera, uma conversa curta com o que a turma vai fazer, o assunto explicado de forma simples, as respostas de cada atividade e as perguntas que os alunos costumam fazer, para o professor nunca chegar à aula sem saber o que fazer. Pendências já conhecidas:
    - **8º ano, Missão 2 (Internet por dentro):** quarta, 11/11 (8º C 7h30, 8º D 9h, 8º A 13h30, 8º B 15h). Revisar na terça, 10/11.
    - **8º ano, Missão 1 (Listas: busca sequencial, busca binária e método da bolha):** quarta, 18/11. Foi adiada em 04/11 porque o professor ainda não dominava o assunto. Revisar com calma antes de 18/11.
-1. Análise dos PEIs dos alunos atípicos (só leitura) e relatório “🧩 atípicos que frequentam” no painel.
+1. ~~Análise dos PEIs e relatório “🧩 atípicos que frequentam”~~ **feito em 08/11** (relatório no painel, aba Presença). Pela chamada da 1ª semana, só 4 alunos com 🧩 vieram (todos do 8º ano): 1 na Trilha (👣) e 3 no caminho A (apostila da turma com apoios). Os outros ainda não vieram ou a turma não teve chamada registrada. **Reavaliar toda semana**, a cada chamada nova.
 2. Diário de Classe dentro do painel (presença, vistos e notas da prova automáticos) + transferência do diário atual.
 3. Tarefas presas ao dia e à hora da aula + liberação manual + aluno de outra turma + “Missão de hoje”.
 4. “Ver como aluno” no painel.
@@ -34,7 +34,7 @@ Claude Max (5x) assinado por um mês em 08/11 para adiantar tudo. **Voltar ao Pr
 - [ ] Aluno que frequenta a aula de **outra turma** (curso, karatê, natação…): no painel, marcar "frequenta a aula da turma X". O horário dessa turma libera as tarefas dele; a presença e as notas continuam na turma dele; ele segue a própria apostila.
 
 ### Alunos atípicos (🧩) — também na quinta
-- [ ] Descobrir **quem frequenta**: relatório "🧩 atípicos que frequentam" no painel (entradas no portal + chamadas do diário). Material só para os frequentes.
+- [x] Descobrir **quem frequenta**: relatório "🧩 atípicos que frequentam" no painel, aba Presença (feito em 08/11). Material só para os frequentes.
 - [ ] Para cada aluno frequente: ler o PEI e escolher um de 3 caminhos — **A)** apostila da turma com apoios (🔊 ouvir, roteiro da aula antecipado, menos itens); **B)** Trilha Passo a Passo da série (👣); **C)** material individual, só quando A e B não servem.
 - [x] Rever a Trilha do 8º ano com o PEI da aluna para quem ela foi feita (feito em 07/11: jogo com botões de 1 a 10, conferência por clique, Paint só com quadrados coloridos, sem o botão Ouvir, porque a sala não tem som).
 - [x] **(Feito em 07/11, à noite)** **Marcações no painel, feitas pelo Claude** (o professor deixa o painel aberto e logado no computador de casa; o Claude entra e faz): marcar 🧩 em todos os alunos com PEI (lista conferida em 07/11, guardada fora do repositório) e 👣 Trilha Passo a Passo na aluna do 8º B; depois conferir na tabela de cada turma se ficou tudo certo.
