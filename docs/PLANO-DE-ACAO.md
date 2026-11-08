@@ -7,7 +7,8 @@ Claude Max (5x) assinado por um mês em 08/11 para adiantar tudo. **Voltar ao Pr
 - [x] **Feito em 08/11, 18h40:** regras do Firebase publicadas (coleção `provas` + horário-limite).
 - [ ] Conferir o “Resumo-PEIs-6-ao-9.md” (enviado no chat em 08/11: 44 alunos, com perfil, AEE, caminho sugerido A/👣 B/🚀 aprofundar e prova de 3 alternativas) e aprovar os caminhos.
 - [x] **Feito em 08/11:** 📝 Apoios gravados em 35 alunos com 🧩 (📍 sentar em 17, caminho sugerido, AEE, prova 3 alternativas, perfil, na aula). Falta: marcar 👣 e “3 alternativas” só nos que o professor aprovar.
-- [ ] Resolver os dois Pedros do 8º ano: Pedro Emanuel de Jesus Lima está no 8º A no SIGE (desde 04/08, com AEE), mas no portal ainda no 8º B e sem 🧩; o 🧩 do 8º A foi para Pedro Henrique da Silva Sousa (sem AEE nem PEI). Aguardando o professor autorizar: mudar de turma (gera código novo), 🧩 + apoio no Pedro Emanuel, tirar 🧩 do Pedro Henrique.
+- [x] **Feito em 08/11:** Pedro Emanuel de Jesus Lima passou do 8º B para o 8º A no portal (como no SIGE desde 04/08), com 🧩 e apoio; código novo entregue ao professor no chat. 🧩 retirado do Pedro Henrique da Silva Sousa (8º A, sem AEE nem PEI).
+- [ ] Entregar o código novo ao Pedro Emanuel de Jesus Lima (8º A) e recolher o cartão antigo.
 - [x] **Feito em 08/11:** diário antigo transferido para a aba 📒 Diário (17 turmas, 9 aulas, registros e lembretes; todos os alunos conferidos). A chamada passa a ser feita no painel.
 - [x] **Feito em 08/11:** cadastro “Prof Welington Laignier” (6º A) marcado como 🧪 aluno de teste (era o único).
 - [x] **Feito em 08/11:** prova testada de verdade no 6º A com o aluno de teste (painel liga, aluno cai direto na prova, só Missão 1 = 7 questões, envio aceito pelas regras, nota no painel, saída automática, não refaz). Teste apagado e prova encerrada.
