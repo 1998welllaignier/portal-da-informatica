@@ -14,6 +14,9 @@ Claude Max (5x) assinado por um mês em 08/11 para adiantar tudo. **Voltar ao Pr
 - 08/11: Trilhas Passo a Passo do 6º, 7º e 9º ano; prova no portal (Dia de prova no painel, cronômetro até o fim da aula, envio automático quando o tempo acaba, recuperação e gabarito no painel); site professorwell (horários Manhã/Tarde, aviso da prova no portal, animações, barra azul); capa do perfil; Caderno Digital com histórico de pagamentos em grupo.
 
 ### 🔜 Fila do Claude (nesta ordem)
+0. **Revisão com o professor antes de cada aula** (pedido em 08/11): na véspera, uma conversa curta com o que a turma vai fazer, o assunto explicado de forma simples, as respostas de cada atividade e as perguntas que os alunos costumam fazer, para o professor nunca chegar à aula sem saber o que fazer. Pendências já conhecidas:
+   - **8º ano, Missão 2 (Internet por dentro):** quarta, 11/11 (8º C 7h30, 8º D 9h, 8º A 13h30, 8º B 15h). Revisar na terça, 10/11.
+   - **8º ano, Missão 1 (Listas: busca sequencial, busca binária e método da bolha):** quarta, 18/11. Foi adiada em 04/11 porque o professor ainda não dominava o assunto. Revisar com calma antes de 18/11.
 1. Análise dos PEIs dos alunos atípicos (só leitura) e relatório “🧩 atípicos que frequentam” no painel.
 2. Diário de Classe dentro do painel (presença, vistos e notas da prova automáticos) + transferência do diário atual.
 3. Tarefas presas ao dia e à hora da aula + liberação manual + aluno de outra turma + “Missão de hoje”.
