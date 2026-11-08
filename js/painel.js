@@ -119,7 +119,7 @@
   const topo = (u, ativo) => `<nav class="migalhas"><a href="#/">Início</a> › <a href="#/painel">Painel do professor</a></nav>
     <div class="pp-cab"><div><h1>📊 Painel do professor</h1><p class="lead">${esc(cat().professor)} · ${esc(cat().escola)}</p></div>
       <div class="pp-user"><span>${esc(u.email)}</span><button class="btn btn-sec btn-peq" id="pp-sair" type="button">Sair do painel</button></div></div>
-    <nav class="pp-abas">${[["aula", "🎤 Aula"], ["", "🏫 Turmas"], ["presenca", "🗓️ Presença"], ["prova", "📝 Prova"], ["importar", "📥 Importar alunos"], ["ano", "📅 Ano letivo"]].map(([k, r]) =>
+    <nav class="pp-abas">${[["aula", "🎤 Aula"], ["", "🏫 Turmas"], ["diario", "📒 Diário"], ["presenca", "🗓️ Presença"], ["prova", "📝 Prova"], ["importar", "📥 Importar alunos"], ["ano", "📅 Ano letivo"]].map(([k, r]) =>
       `<a href="#/painel${k ? "/" + k : ""}" class="${ativo === k ? "atual" : ""}">${r}</a>`).join("")}</nav>`;
   function ligarSair(el) { el.querySelector("#pp-sair").onclick = async () => { await auth().signOut(); location.hash = "#/painel"; }; }
 
@@ -502,6 +502,198 @@
     });
   }
 
+  /* -------- 📒 Diário de Classe: chamada, vistos, frequência, boletim, registro e lembretes --------
+     Fica em prof/diario/turmas/<turma> (cronograma, lembretes, notas manuais, auto) e
+     prof/diario/turmas/<turma>/aulas/<data> (presencas, carimbos, parciais, extras, encontro, registro).
+     O que vem do portal (⚡) é calculado na hora: quem entrou, quem concluiu o Básico, quem completou
+     o Desafio e o Turbo. O que o professor marca à mão sempre vale mais que o automático. */
+  const DIARIO = "prof/diario/turmas";
+  const nBas = v => v === true ? 1 : (+v || 0);
+  const fmtN = n => n == null ? "–" : (Math.round(n * 100) / 100).toLocaleString("pt-BR", { minimumFractionDigits: 1, maximumFractionDigits: 2 });
+  function notaProvaDoc(d) {
+    const Pv = P.provas[d.aid]; if (!Pv) return d.nota || 0;
+    const qs = d.qs ? Pv.questoes.filter(q => d.qs.includes(q.id)) : Pv.questoes;
+    const ac = qs.filter(q => d.respostas && d.respostas[q.id] != null && P.provaHash(d.aid, q.id, d.respostas[q.id]) === q.h).length;
+    return P.prova.notaDe(ac, d.nq || qs.length);
+  }
+  async function telaDiario(u, tid, aba) {
+    const turmas = todasTurmas();
+    tid = tid || sessionStorage.getItem("painel:turma") || (turmas.find(x => x.serie.id === "6") || turmas[0]).id;
+    try { sessionStorage.setItem("painel:turma", tid); } catch (e) {}
+    const t = turmas.find(x => x.id === tid) || turmas[0];
+    aba = aba || "chamada";
+    const ABAS = [["chamada", "✅ Chamada"], ["frequencia", "🗓️ Frequência"], ["boletim", "🧮 Boletim"], ["registro", "📝 Registro das aulas"], ["lembretes", "🔔 Lembretes"]];
+    const el = tela(topo(u, "diario") + `<div class="painel pp-barra"><label>Turma <select id="sel">${turmas.map(x => `<option value="${x.id}" ${x.id === t.id ? "selected" : ""}>${esc(nomeTurma(x.id))}</option>`).join("")}</select></label>
+        <span class="pp-missoes">${ABAS.map(([k, r]) => `<a class="pp-mis ${k === aba ? "atual" : ""}" href="#/painel/diario/${t.id}/${k}">${r}</a>`).join("")}</span></div>
+      <div id="corpo"><p class="painel">Carregando o diário…</p></div>`);
+    ligarSair(el);
+    el.querySelector("#sel").onchange = e => { location.hash = "#/painel/diario/" + e.target.value + "/" + aba; };
+    const hoje = N.hoje();
+    const tRef = db().collection(DIARIO).doc(t.id), aulasCol = db().collection(DIARIO + "/" + t.id + "/aulas");
+    const [tSnap, aulasSnap, alunosTodos, progTodos, provasSnap] = await Promise.all([tRef.get(), aulasCol.get(), alunosDaTurma(t.id), progressoDaTurma(t.id), db().collection("provas").where("turma", "==", t.id).get()]);
+    const T = tSnap.exists ? tSnap.data() : {};
+    const aulas = {}; aulasSnap.docs.forEach(d => { aulas[d.id] = d.data(); });
+    const alunos = alunosTodos.filter(a => a.ativo !== false && !a.teste);
+    const ids = new Set(alunos.map(a => a.id));
+    const prog = progTodos.filter(p => ids.has(p.alunoId));
+    // cronograma: o do diário; se não houver, monta pelas missões do catálogo
+    const base = cat().apostilas.find(a => a.serie === t.serie.id && !a.oculta && !a.trilha);
+    if (base) await P.carregarApostila(base.id).catch(() => null);
+    const tituloM = m => { const C = base && P.conteudo[base.id]; const x = C && C.missoes.find(y => y.id === m); return x ? x.titulo : m.toUpperCase(); };
+    const cron = (T.cronograma && T.cronograma.length ? T.cronograma : Object.entries(t.missoes4 || {}).map(([data, m]) => ({ data, encontro: tituloM(m) }))).slice().sort((a, b) => a.data < b.data ? -1 : 1);
+    const encontroDe = d => (aulas[d] && aulas[d].encontro) || (cron.find(c => c.data === d) || {}).encontro || "";
+    // notas da prova feita no portal (maior entre a prova e a recuperação)
+    const aidsProva = [...new Set(provasSnap.docs.map(x => x.data().aid))];
+    await Promise.all(aidsProva.map(x => P.prova.carregar(x).catch(() => null)));
+    const provaPortal = {}; provasSnap.docs.forEach(x => { const d = x.data(); const n = notaProvaDoc(d); provaPortal[d.alunoId] = Math.max(provaPortal[d.alunoId] ?? -1, n); });
+    // ⚡ automático do portal
+    const ehDiaDeAula = d => !!aulas[d] || cron.some(c => c.data === d) || (t.aula && new Date(d + "T12:00:00").getDay() === t.aula.dia);
+    const AUTO = {}; const ad = d => AUTO[d] = AUTO[d] || { p: {}, c: {}, x: {} };
+    prog.forEach(p => {
+      const ds = Object.keys(p.dias || {}).filter(ehDiaDeAula).sort(); if (!ds.length) return;
+      ds.forEach(d => { ad(d).p[p.alunoId] = "P"; });
+      if (!p.mid) return;
+      if (p.basicoOk) { const d = Object.keys(p.basicoOkEm || {}).filter(ehDiaDeAula).sort()[0] || ds[ds.length - 1]; const c = ad(d).c; c[p.alunoId] = Math.min(2, (c[p.alunoId] || 0) + 1); }
+      let n = 0;
+      if ((p.desafio || [0, 0])[1] && p.desafio[0] === p.desafio[1]) n++;
+      if ((p.turbo || [0, 0])[1] && p.turbo[0] === p.turbo[1]) n++;
+      if (n) { const x = ad(ds[ds.length - 1]).x; x[p.alunoId] = Math.min(2, (x[p.alunoId] || 0) + n); }
+    });
+    let auto = T.auto !== false;
+    const temManual = (aula, campo, id) => aula && aula[campo] && aula[campo][id] !== undefined && aula[campo][id] !== null;
+    const pres = (d, id) => { const a = aulas[d]; if (temManual(a, "presencas", id)) return { v: a.presencas[id], auto: false };
+      if (auto && AUTO[d] && AUTO[d].p[id]) return { v: "P", auto: true };
+      return temChamada(d) ? { v: "F", auto: true, falta: true } : { v: null }; };
+    const temChamada = d => Object.values((aulas[d] || {}).presencas || {}).some(v => v) || (auto && AUTO[d] && Object.keys(AUTO[d].p).length > 0);
+    const carimbo = (d, id) => { const a = aulas[d]; if (temManual(a, "carimbos", id)) return { v: nBas(a.carimbos[id]), auto: false }; return auto && AUTO[d] && AUTO[d].c[id] ? { v: AUTO[d].c[id], auto: true } : { v: 0 }; };
+    const extra = (d, id) => { const a = aulas[d]; if (temManual(a, "extras", id)) return { v: +a.extras[id] || 0, auto: false }; return auto && AUTO[d] && AUTO[d].x[id] ? { v: AUTO[d].x[id], auto: true } : { v: 0 }; };
+    const parcial = (d, id) => !!(((aulas[d] || {}).parciais || {})[id]);
+    const diasComChamada = () => [...new Set([...Object.keys(aulas), ...(auto ? Object.keys(AUTO) : [])])].filter(d => d <= hoje && temChamada(d)).sort();
+    const freq = id => { let p = 0, f = 0, j = 0; diasComChamada().forEach(d => { const v = pres(d, id).v; if (v === "P") p++; else if (v === "F") f++; else if (v === "J") j++; }); const tot = p + f + j; return { p, f, j, tot, pct: tot ? Math.round(100 * (p + j) / tot) : null }; };
+    const notas = { prova: { ...((T.notas || {}).prova || {}) }, rec: { ...((T.notas || {}).rec || {}) } };
+    const boletim = id => {
+      const dias = [...new Set([...Object.keys(aulas), ...Object.keys(AUTO)])];
+      let bas = 0, ext = 0; dias.forEach(d => { bas += carimbo(d, id).v; ext += extra(d, id).v; });
+      const basC = Math.min(4, bas), bonus = Math.min(1, ext * 0.25), A = basC + bonus;
+      const man = notas.prova[id], B = man != null && man !== "" ? +man : provaPortal[id] != null ? provaPortal[id] : null;
+      const nota = A + (B || 0); const rv = notas.rec[id], r = rv == null || rv === "" ? null : +rv;
+      const final = r != null && r > nota ? r : nota;
+      const encs = diasComChamada().filter(d => /^(Missão|Projeto final)/.test(encontroDe(d)));
+      const deficit = Math.max(0, encs.length - bas), falta = [];
+      if (deficit) falta.push(`Básico de ${deficit} aula${deficit > 1 ? "s" : ""}`);
+      if (B == null && cron.some(c => /^Avalia/.test(c.encontro) && c.data <= hoje)) falta.push("fazer a prova (2ª chamada)");
+      if (B != null && final < 5 && r == null) falta.push("recuperação");
+      const sit = B == null && r == null ? { c: "wait", t: "Aguardando prova" } : final >= 5 ? { c: "ok", t: "Aprovado" } : r == null ? { c: "bad", t: "Fazer recuperação" } : { c: "bad", t: "Abaixo da média" };
+      return { bas, basC, ext, bonus, A, B, provaManual: man != null && man !== "", nota, r, final, sit, falta, recUsada: r != null && r > nota };
+    };
+    // dia da chamada: hoje se for dia de aula; senão, a última aula
+    let dia = sessionStorage.getItem("painel:diario:" + t.id) || (ehDiaDeAula(hoje) ? hoje : ([...cron.map(c => c.data), ...Object.keys(aulas)].filter(d => d <= hoje).sort().pop() || hoje));
+    const salvarAula = async patch => {
+      const novo = !aulas[dia];
+      const base0 = novo ? { data: dia, encontro: encontroDe(dia), presencas: {}, carimbos: {}, parciais: {}, extras: {}, registro: "" } : {};
+      const a = aulas[dia] = aulas[dia] || { ...base0 };
+      Object.entries(patch).forEach(([k, v]) => { a[k] = v && typeof v === "object" ? { ...(a[k] || {}), ...v } : v; });
+      try { await aulasCol.doc(dia).set({ ...base0, ...patch }, { merge: true }); } catch (err) { toast("Não foi possível salvar: " + (err.message || err)); }
+    };
+    const salvarTurma = async patch => { try { await tRef.set(patch, { merge: true }); } catch (err) { toast("Não foi possível salvar: " + (err.message || err)); } };
+    const corpo = el.querySelector("#corpo");
+    const nomeA = a => `${a.atipico ? "🧩 " : ""}${esc(a.nome)}${a.trilha ? " 👣" : ""}`;
+    const lemb = () => (T.lembretes || []);
+
+    function vChamada() {
+      const enc = encontroDe(dia), pend = lemb().filter(l => !l.feito);
+      const cnt = { P: 0, F: 0, J: 0 }; alunos.forEach(a => { const v = pres(dia, a.id).v; if (v) cnt[v]++; });
+      return `<div class="painel">
+        ${pend.length ? `<div class="pp-lemb"><strong>🔔 Lembretes desta turma</strong><ul>${pend.map(l => `<li>${esc(l.texto)}</li>`).join("")}</ul></div>` : ""}
+        <div class="row-btns pp-dia-bar"><label>Data <input type="date" id="dd" value="${dia}"></label>
+          <label class="grow">Encontro <input type="text" id="enc" list="encs" value="${esc(enc)}" placeholder="Ex.: Missão 1 – …"><datalist id="encs">${[...new Set(cron.map(c => c.encontro))].map(o => `<option value="${esc(o)}">`).join("")}</datalist></label>
+          <label class="pp-auto"><input type="checkbox" id="auto" ${auto ? "checked" : ""}> ⚡ Automático do portal</label></div>
+        <p class="pp-cont"><span>✅ ${cnt.P} presente${cnt.P === 1 ? "" : "s"}</span> <span>❌ ${cnt.F} falta${cnt.F === 1 ? "" : "s"}</span> <span>📝 ${cnt.J} justificada${cnt.J === 1 ? "" : "s"}</span></p>
+        <p class="ajuda">⚡ = veio do portal (o aluno entrou com o código, concluiu o Básico, completou o Desafio ou o Turbo). Toque para corrigir: o que você marca vale mais que o automático. Quem não entrou no portal fica com falta; se ele veio e não entrou, toque em <b>P</b>.</p>
+        <ul class="pp-cham">${alunos.map((a, i) => { const p = pres(dia, a.id), c = carimbo(dia, a.id), x = extra(dia, a.id), pa = parcial(dia, a.id) && !c.v, fr = freq(a.id);
+          return `<li><span class="n">${i + 1}</span><span class="nm">${nomeA(a)}<br><small>${fr.pct == null ? "sem registros" : fr.pct + "% de presença"}</small></span>
+            <span class="seg">${["P", "F", "J"].map(v => `<button type="button" data-pres="${a.id}" data-v="${v}" aria-pressed="${p.v === v}" class="${p.v === v && p.auto ? "auto" : ""}" title="${{ P: "Presente", F: "Falta", J: "Falta justificada" }[v]}">${p.v === v && p.auto && v === "P" ? "⚡P" : v}</button>`).join("")}</span>
+            <button type="button" class="stamp ${c.auto ? "auto" : ""} ${pa ? "part" : ""}" data-car="${a.id}" aria-pressed="${c.v > 0 || pa}">${c.v === 2 ? "✓✓ Básico ×2" : c.v ? (c.auto ? "⚡ " : "✓ ") + "Básico" : pa ? "◐ Parcial" : "Básico"}</button>
+            <button type="button" class="stamp x ${x.auto ? "auto" : ""}" data-ext="${a.id}" aria-pressed="${x.v > 0}">${x.v ? (x.auto ? "⚡" : "") + "★".repeat(x.v) : "☆"} Desafio/Turbo</button></li>`; }).join("")}</ul>
+        <p class="ajuda">Básico: toque para avançar — <b>◐ Parcial</b> (começou e termina na próxima aula, não vale nota) → <b>✓ Básico</b> (1,0) → <b>✓✓ ×2</b> (reposição) → sem visto. Desafio/Turbo: 0,25 cada (toque para 1 ou 2).</p>
+        <h3>O que aconteceu nesta aula</h3>
+        <textarea id="reg" class="pp-area" rows="4" placeholder="Ex.: turma agitada no começo; o computador 7 travou.">${esc((aulas[dia] || {}).registro || "")}</textarea>
+        <div class="row-btns"><button type="button" class="btn" id="reg-ok">💾 Salvar registro</button></div></div>`;
+    }
+    function vFrequencia() {
+      const ds = diasComChamada();
+      if (!ds.length) return `<div class="painel"><p>Ainda não há chamada nesta turma.</p></div>`;
+      const ab = e => (e || "").replace(/ –.*/, "").replace("Missão ", "M").replace("Projeto final", "PF").replace("Avaliação", "Aval.");
+      return `<div class="painel"><div class="tabela-wrap"><table class="pp-freq"><thead><tr><th>Aluno</th>${ds.map(d => `<th title="${esc(encontroDe(d))}">${dataBR(d).slice(0, 5)}<br><small>${esc(ab(encontroDe(d)))}</small></th>`).join("")}<th>Frequência</th></tr></thead>
+        <tbody>${alunos.map(a => { const fr = freq(a.id); return `<tr><td>${nomeA(a)}</td>${ds.map(d => { const p = pres(d, a.id), c = carimbo(d, a.id).v; return `<td><span class="m ${p.v || "x"} ${c ? "c" : ""} ${p.falta ? "au" : ""}">${p.v || "·"}</span></td>`; }).join("")}<td class="${fr.pct != null && fr.pct < 75 ? "baixa" : ""}"><strong>${fr.pct == null ? "–" : fr.pct + "%"}</strong></td></tr>`; }).join("")}</tbody></table></div>
+        <p class="ajuda">P presente · F falta · J justificada · contorno = com visto do Básico. Frequência = presenças e justificadas ÷ aulas com chamada (abaixo de 75% fica em vermelho). É só informativa: não entra na nota.</p></div>`;
+    }
+    function vBoletim() {
+      const rows = alunos.map(a => ({ a, b: boletim(a.id), fr: freq(a.id) }));
+      const com = rows.filter(r => r.b.B != null || r.b.r != null);
+      return `<div class="painel">
+        <p class="pp-cont"><span>${alunos.length} alunos</span> <span>✅ ${com.filter(r => r.b.final >= 5).length} na média</span> <span>❌ ${com.filter(r => r.b.final < 5).length} abaixo de 5,0</span> <span>⏳ ${alunos.length - com.length} sem prova</span></p>
+        <p class="ajuda"><b>Nota:</b> Apostila (até 5,0) = 1,0 por visto do Básico (até 4) + 0,25 por Desafio/Turbo (bônus até 1,0). Prova (até 5,0) = nota da prova feita no portal (ou a que você digitar, para prova em papel). A Recuperação (0 a 10) substitui a nota quando for maior. Média mínima: 5,0.</p>
+        <div class="tabela-wrap"><table class="pp-bol"><thead><tr><th>Aluno</th><th>Freq.</th><th>Básico</th><th>Des./Turbo</th><th>Apostila</th><th>Prova<br><small>até 5,0</small></th><th>Nota</th><th>Recup.<br><small>0 a 10</small></th><th>Final</th><th>Situação</th><th>O que falta</th></tr></thead>
+        <tbody>${rows.map(({ a, b, fr }) => `<tr><td>${nomeA(a)}</td><td>${fr.pct == null ? "–" : fr.pct + "%"}</td><td>${b.basC}/4</td><td>${b.ext}</td><td><strong>${fmtN(b.A)}</strong></td>
+          <td><input class="num" data-np="${a.id}" value="${b.provaManual ? String(notas.prova[a.id]).replace(".", ",") : ""}" placeholder="${b.B != null && !b.provaManual ? fmtN(b.B) + " ⚡" : "–"}" inputmode="decimal" aria-label="Prova de ${esc(a.nome)}"></td>
+          <td>${fmtN(b.nota)}</td><td><input class="num" data-nr="${a.id}" value="${b.r == null ? "" : String(b.r).replace(".", ",")}" placeholder="–" inputmode="decimal" aria-label="Recuperação de ${esc(a.nome)}"></td>
+          <td><strong class="nota ${b.sit.c}">${fmtN(b.final)}</strong></td><td><span class="sit ${b.sit.c}">${b.sit.t}</span></td><td class="falta">${esc(b.falta.join(" · ") || "—")}</td></tr>`).join("")}</tbody></table></div>
+        <p class="ajuda">A prova feita no portal aparece sozinha (⚡). Digite na coluna Prova só se o aluno fez a prova em papel (de 0 a 5); apague o número para voltar à nota do portal.</p>
+        <div class="row-btns"><button type="button" class="btn btn-sec" id="cp-bol">📋 Copiar boletim (para colar numa planilha)</button></div></div>`;
+    }
+    function vRegistro() {
+      const ds = [...new Set([...Object.keys(aulas), ...cron.map(c => c.data)])].sort().reverse();
+      return `<div class="painel"><ul class="pp-reg">${ds.map(d => { const a = aulas[d] || {}; const n = alunos.filter(x => pres(d, x.id).v === "P").length;
+        return `<li><div><strong>${dataBR(d)} (${semana(d)}) · ${esc(encontroDe(d) || "Aula")}</strong> <small>${d <= hoje && temChamada(d) ? n + " presentes" : d > hoje ? "🔜 prevista" : ""}</small></div>${(a.registro || "").trim() ? `<p>${esc(a.registro).replace(/\n/g, "<br>")}</p>` : ""}<button type="button" class="btn btn-sec btn-peq" data-abrir="${d}">Abrir a chamada deste dia</button></li>`; }).join("")}</ul></div>`;
+    }
+    function vLembretes() {
+      return `<div class="painel"><div class="row-btns"><input type="text" id="lb-novo" class="grow" placeholder="Ex.: na próxima aula, começar pela correção do labirinto"><button type="button" class="btn" id="lb-add">Adicionar</button></div>
+        <ul class="pp-lb">${lemb().map((l, i) => `<li class="${l.feito ? "feito" : ""}"><label><input type="checkbox" data-lb="${i}" ${l.feito ? "checked" : ""}> ${esc(l.texto)}</label> <small>${l.criadoEm ? dataBR(l.criadoEm.slice(0, 10)) : ""}</small></li>`).join("") || "<li class='ajuda'>Nenhum lembrete.</li>"}</ul></div>`;
+    }
+    function render() {
+      corpo.innerHTML = ({ chamada: vChamada, frequencia: vFrequencia, boletim: vBoletim, registro: vRegistro, lembretes: vLembretes })[aba]();
+      const q = s => corpo.querySelector(s);
+      if (aba === "chamada") {
+        q("#dd").onchange = e => { dia = e.target.value || hoje; try { sessionStorage.setItem("painel:diario:" + t.id, dia); } catch (x) {} render(); };
+        q("#enc").onchange = e => salvarAula({ encontro: e.target.value.trim() });
+        q("#auto").onchange = e => { auto = e.target.checked; salvarTurma({ auto }); render(); };
+        q("#reg-ok").onclick = async () => { await salvarAula({ registro: q("#reg").value }); toast("Registro salvo."); };
+        corpo.querySelectorAll("[data-pres]").forEach(b => b.onclick = () => {
+          const id = b.dataset.pres, v = b.dataset.v, cur = pres(dia, id);
+          // tocar de novo no que já está marcado à mão devolve para o automático
+          salvarAula({ presencas: { [id]: !cur.auto && cur.v === v ? null : v } }); render();
+        });
+        corpo.querySelectorAll("[data-car]").forEach(b => b.onclick = () => {
+          const id = b.dataset.car, c = carimbo(dia, id).v, pa = parcial(dia, id) && !c;
+          const etapa = c > 0 ? c + 1 : pa ? 1 : 0, prox = (etapa + 1) % 4;
+          salvarAula({ carimbos: { [id]: prox >= 2 ? prox - 1 : 0 }, parciais: { [id]: prox === 1 } }); render();
+        });
+        corpo.querySelectorAll("[data-ext]").forEach(b => b.onclick = () => { const id = b.dataset.ext; salvarAula({ extras: { [id]: (extra(dia, id).v + 1) % 3 } }); render(); });
+      }
+      if (aba === "boletim") {
+        const num = s => { s = String(s).trim().replace(",", "."); return s === "" ? null : +s; };
+        corpo.querySelectorAll("[data-np],[data-nr]").forEach(inp => inp.onchange = () => {
+          const id = inp.dataset.np || inp.dataset.nr, k = inp.dataset.np ? "prova" : "rec", v = num(inp.value), max = k === "prova" ? 5 : 10;
+          if (v != null && (isNaN(v) || v < 0 || v > max)) { toast(`Digite um número de 0 a ${max}.`); inp.value = ""; return; }
+          notas[k][id] = v; salvarTurma({ notas: { [k]: { [id]: v } } }); render();
+        });
+        q("#cp-bol").onclick = async () => {
+          const txt = ["Aluno\tFrequência\tBásico\tDesafio/Turbo\tApostila\tProva\tNota\tRecuperação\tFinal\tSituação",
+            ...alunos.map(a => { const b = boletim(a.id), fr = freq(a.id); return [a.nome, fr.pct == null ? "" : fr.pct + "%", b.basC, b.ext, fmtN(b.A), b.B == null ? "" : fmtN(b.B), fmtN(b.nota), b.r == null ? "" : fmtN(b.r), fmtN(b.final), b.sit.t].join("\t"); })].join("\n");
+          try { await navigator.clipboard.writeText(txt); toast("Boletim copiado."); } catch (e) { prompt("Copie o boletim:", txt); }
+        };
+      }
+      if (aba === "registro") corpo.querySelectorAll("[data-abrir]").forEach(b => b.onclick = () => { dia = b.dataset.abrir; try { sessionStorage.setItem("painel:diario:" + t.id, dia); } catch (x) {} aba = "chamada"; history.replaceState(null, "", "#/painel/diario/" + t.id + "/chamada"); el.querySelectorAll(".pp-barra .pp-mis").forEach(x => x.classList.toggle("atual", /\/chamada$/.test(x.getAttribute("href")))); render(); });
+      if (aba === "lembretes") {
+        const salvar = () => salvarTurma({ lembretes: T.lembretes });
+        q("#lb-add").onclick = () => { const v = q("#lb-novo").value.trim(); if (!v) return; T.lembretes = [...lemb(), { texto: v, feito: false, criadoEm: new Date().toISOString() }]; salvar(); render(); };
+        corpo.querySelectorAll("[data-lb]").forEach(c => c.onchange = () => { T.lembretes = lemb().map((l, i) => i === +c.dataset.lb ? { ...l, feito: c.checked } : l); salvar(); render(); });
+      }
+    }
+    render();
+  }
+
   async function telaAula(u, tid, mid) {
     const turmas = todasTurmas();
     tid = tid || sessionStorage.getItem("painel:turma") || (turmas.find(x => x.serie.id === "6") || turmas[0]).id;
@@ -667,6 +859,7 @@
         if (sub === "aula") return await telaAula(u, arg, arg2);
         if (sub === "presenca") return await telaPresenca(u, arg);
         if (sub === "prova") return await telaProvaPainel(u, arg);
+        if (sub === "diario") return await telaDiario(u, arg, arg2);
         if (sub === "importar") return await telaImportar(u);
         if (sub === "ano") return await telaAno(u);
         return await telaTurmas(u, sub === "turma" ? arg : null);

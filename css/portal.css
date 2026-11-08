@@ -909,3 +909,41 @@ body.modo-trilha { font-size: 21px; line-height: 1.65; }
 .pp-missoes-prova { background: #fff7ed; border: 1px solid #fed7aa; border-radius: 12px; padding: 10px 14px; margin: 10px 0; }
 .pp-mis-ck { display: block; margin: 4px 0; font-weight: 700; cursor: pointer; } .pp-mis-ck input { width: 20px; height: 20px; vertical-align: middle; margin-right: 6px; }
 .pp-gab h4 { margin: 12px 0 4px; }
+/* ---------- 📒 Diário de Classe (painel) ---------- */
+.pp-lemb { border-left: 5px solid #f2c14e; background: #fbf0d2; border-radius: 0 12px 12px 0; padding: 8px 12px; margin-bottom: 10px; }
+.pp-lemb ul { margin: 4px 0 0; padding-left: 18px; }
+.pp-dia-bar { align-items: flex-end; } .pp-dia-bar label { display: flex; flex-direction: column; gap: 4px; font-weight: 700; font-size: .9rem; }
+.pp-dia-bar .grow, .row-btns .grow { flex: 1 1 240px; min-width: 0; }
+.pp-dia-bar input[type=text], .pp-dia-bar input[type=date], .row-btns input.grow { padding: 8px 10px; border: 2px solid var(--linha); border-radius: 10px; font: inherit; }
+.pp-auto { flex-direction: row !important; align-items: center; gap: 6px !important; } .pp-auto input { width: 20px; height: 20px; }
+.pp-cont span { display: inline-block; background: #f1f5f9; border-radius: 999px; padding: 2px 12px; margin: 2px 4px 2px 0; font-weight: 700; }
+.pp-cham { list-style: none; margin: 8px 0; padding: 0; }
+.pp-cham li { display: grid; grid-template-columns: 28px minmax(0, 1fr) auto auto auto; gap: 10px; align-items: center; padding: 8px 4px; border-bottom: 1px solid var(--linha); }
+.pp-cham .n { color: #64748b; text-align: right; font-size: .85rem; } .pp-cham .nm { font-weight: 700; overflow-wrap: anywhere; } .pp-cham small { font-weight: 400; color: #64748b; }
+.pp-cham .seg { display: inline-flex; border: 2px solid var(--linha); border-radius: 10px; overflow: hidden; }
+.pp-cham .seg button { border: 0; background: #fff; padding: 7px 12px; font-weight: 800; min-width: 44px; cursor: pointer; font: inherit; font-weight: 800; }
+.pp-cham .seg button + button { border-left: 2px solid var(--linha); }
+.pp-cham .seg button[aria-pressed="true"][data-v="P"] { background: #2e7d4f; color: #fff; }
+.pp-cham .seg button[aria-pressed="true"][data-v="F"] { background: #b3412f; color: #fff; }
+.pp-cham .seg button[aria-pressed="true"][data-v="J"] { background: #6b5aa6; color: #fff; }
+.pp-cham .seg button.auto[aria-pressed="true"][data-v="P"] { background: #dcfce7; color: #157a3f; }
+.pp-cham .seg button.auto[aria-pressed="true"][data-v="F"] { background: #fde2dd; color: #b3412f; }
+.pp-cham .stamp { border: 2px dashed var(--linha); background: transparent; border-radius: 10px; padding: 6px 10px; font: inherit; font-weight: 700; font-size: .85rem; color: #64748b; cursor: pointer; white-space: nowrap; }
+.pp-cham .stamp[aria-pressed="true"] { border-style: solid; border-color: #2f5d62; background: #2f5d62; color: #fff; }
+.pp-cham .stamp.auto[aria-pressed="true"] { background: #e0eff0; color: #2f5d62; }
+.pp-cham .stamp.part[aria-pressed="true"] { border-color: #f2c14e; background: #fbf0d2; color: var(--tinta); }
+.pp-cham .stamp.x[aria-pressed="true"] { border-color: #e9b949; background: #f2c14e; color: #1c2226; }
+.pp-cham .stamp.x.auto[aria-pressed="true"] { background: #fbf0d2; }
+@media (max-width: 640px) { .pp-cham li { grid-template-columns: 22px minmax(0, 1fr); row-gap: 6px; } .pp-cham .seg, .pp-cham .stamp { grid-column: 2; justify-self: start; } }
+.pp-freq td, .pp-freq th, .pp-bol td, .pp-bol th { text-align: center; white-space: nowrap; } .pp-freq td:first-child, .pp-bol td:first-child, .pp-freq th:first-child, .pp-bol th:first-child { text-align: left; }
+.pp-freq .m { display: inline-grid; place-items: center; width: 24px; height: 24px; border-radius: 7px; font-weight: 800; font-size: .8rem; }
+.pp-freq .m.P { background: #dcfce7; color: #157a3f; } .pp-freq .m.F { background: #fde2dd; color: #b3412f; } .pp-freq .m.J { background: #ebe7f6; color: #6b5aa6; } .pp-freq .m.x { color: #cbd5e1; }
+.pp-freq .m.c { box-shadow: inset 0 0 0 2px #2f5d62; } .pp-freq .m.au { opacity: .6; } .pp-freq .baixa { color: #b3412f; }
+.pp-bol input.num { width: 70px; padding: 4px 6px; text-align: center; border: 2px solid var(--linha); border-radius: 8px; font: inherit; }
+.pp-bol .nota.ok { color: #157a3f; } .pp-bol .nota.bad { color: #b3412f; }
+.pp-bol .sit { display: inline-block; border-radius: 999px; padding: 1px 10px; font-size: .8rem; font-weight: 800; }
+.pp-bol .sit.ok { background: #dcfce7; color: #157a3f; } .pp-bol .sit.bad { background: #fde2dd; color: #b3412f; } .pp-bol .sit.wait { background: #f1f5f9; color: #475569; }
+.pp-bol td.falta { white-space: normal; text-align: left; min-width: 160px; font-size: .85rem; color: #475569; }
+.pp-reg { list-style: none; padding: 0; margin: 0; } .pp-reg li { border: 2px solid var(--linha); border-radius: 12px; padding: 10px 12px; margin-bottom: 10px; } .pp-reg p { margin: 6px 0; }
+.pp-lb { list-style: none; padding: 0; } .pp-lb li { padding: 8px 0; border-bottom: 1px solid var(--linha); } .pp-lb li.feito label { text-decoration: line-through; color: #64748b; }
+.pp-lb input { width: 20px; height: 20px; vertical-align: middle; }

@@ -84,6 +84,16 @@ o portal troca a apostila da turma pela Trilha Passo a Passo da série (catálog
   cai direto na prova (`js/prova.js`, rota `#/prova/<apostila>`). Respostas em `provas/<aluno>_<apostila>_<tentativa>`;
   a nota é recalculada no painel. Recuperação = 2ª tentativa liberada pelo professor.
 
+### Diário de Classe (painel, aba 📒 Diário)
+- Dados só do professor, em `prof/diario/turmas/<turma>` (cronograma, lembretes, notas manuais `notas.prova` 0–5
+  e `notas.rec` 0–10, `auto`) e `prof/diario/turmas/<turma>/aulas/<data>` (presencas P/F/J, carimbos 0/1/2,
+  parciais, extras 0/1/2, encontro, registro). A regra `prof/**` já protege; não precisa de regra nova.
+- ⚡ Automático (desligável por turma): presença = entrou no portal num dia de aula da turma; Básico = `basicoOkEm`;
+  Desafio/Turbo = completos (contam no último dia em que o aluno mexeu na missão). O que o professor marca à mão
+  sempre vale mais. A nota da prova vem de `provas` (maior entre a prova e a recuperação).
+- Nota (igual ao diário antigo): Básico 1,0 por visto (até 4) + Desafio/Turbo 0,25 (até 1,0) + prova até 5,0;
+  a Recuperação (0–10) substitui quando é maior.
+
 ## 4. Pode fazer
 - Corrigir ou melhorar textos, enunciados, dicas, explicações e respostas.
 - Acrescentar atividades usando os **tipos que já existem** (veja a lista no topo de

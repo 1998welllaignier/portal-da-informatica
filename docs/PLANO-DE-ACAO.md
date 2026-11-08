@@ -1,11 +1,12 @@
 # Plano de ação — Portal da Informática (combinado em 07/11/2026)
 
-## 📌 Situação atual (atualizado em 08/11/2026, 17h40)
+## 📌 Situação atual (atualizado em 08/11/2026, 19h)
 Claude Max (5x) assinado por um mês em 08/11 para adiantar tudo. **Voltar ao Pro antes de 08/12** (lembretes no celular em 01/12 e 05/12).
 
 ### ✋ O que o professor precisa fazer
 - [ ] **Hoje à noite, no computador (≈10 min):** abrir o console do Firebase logado; o Claude cola as regras novas de `docs/firestore.rules` (coleção `provas` + horário-limite) e o professor clica em Publicar. Sem isso, a aba 📝 Prova do painel e o envio da prova não funcionam.
 - [ ] Hoje à noite, com o painel aberto no computador: o Claude preenche os **📝 Apoios na aula** dos 4 alunos com 🧩 que já frequentam (texto preparado em 08/11, a partir dos PEIs). Eles aparecem na **Tela da aula** do painel, só para o professor.
+- [ ] Hoje à noite: o Claude transfere o diário antigo (cronograma, chamadas, vistos, registros e lembretes) para a aba 📒 Diário do painel, primeiro só conferindo se os alunos batem. Depois disso, a chamada passa a ser feita no painel.
 - [ ] Depois de publicar: teste rápido da prova com um aluno de teste (ligar o Dia de prova, fazer, conferir a nota no painel, encerrar).
 - [ ] Revisar as questões das provas (arquivo “Gabarito-Provas-4bim.md”, reenviado no chat em 08/11 com as questões separadas por missão) e dizer se quer trocar alguma.
 - [ ] No dia de cada prova: na aba 📝 Prova, conferir as missões já marcadas (o painel marca pelas aulas que a turma teve) e, para o aluno 🧩 cujo PEI pede, tocar em “3 alternativas”.
@@ -13,14 +14,14 @@ Claude Max (5x) assinado por um mês em 08/11 para adiantar tudo. **Voltar ao Pr
 
 ### ✅ Feito
 - 07/11: Mão na massa, faixas do Básico, autonomia (sem carimbo), botão Página inicial, aviso da dupla, cartazes da porta, marcação 🧩 (36 alunos) e 👣 (8º B), Trilha do 8º adaptada ao PEI, botão Ouvir retirado.
-- 08/11: prova só com as missões que a turma estudou (marcadas sozinhas pelo cronograma do diário) e prova com 3 alternativas para quem o PEI pede; Trilhas Passo a Passo do 6º, 7º e 9º ano; prova no portal (Dia de prova no painel, cronômetro até o fim da aula, envio automático quando o tempo acaba, recuperação e gabarito no painel); site professorwell (horários Manhã/Tarde, aviso da prova no portal, animações, barra azul); capa do perfil; Caderno Digital com histórico de pagamentos em grupo.
+- 08/11: Diário de Classe dentro do painel (aba 📒 Diário); prova só com as missões que a turma estudou (marcadas sozinhas pelo cronograma do diário) e prova com 3 alternativas para quem o PEI pede; Trilhas Passo a Passo do 6º, 7º e 9º ano; prova no portal (Dia de prova no painel, cronômetro até o fim da aula, envio automático quando o tempo acaba, recuperação e gabarito no painel); site professorwell (horários Manhã/Tarde, aviso da prova no portal, animações, barra azul); capa do perfil; Caderno Digital com histórico de pagamentos em grupo.
 
 ### 🔜 Fila do Claude (nesta ordem)
 0. **Revisão com o professor antes de cada aula** (pedido em 08/11): na véspera, uma conversa curta com o que a turma vai fazer, o assunto explicado de forma simples, as respostas de cada atividade e as perguntas que os alunos costumam fazer, para o professor nunca chegar à aula sem saber o que fazer. Pendências já conhecidas:
    - **8º ano, Missão 2 (Internet por dentro):** quarta, 11/11 (8º C 7h30, 8º D 9h, 8º A 13h30, 8º B 15h). Revisar na terça, 10/11.
    - **8º ano, Missão 1 (Listas: busca sequencial, busca binária e método da bolha):** quarta, 18/11. Foi adiada em 04/11 porque o professor ainda não dominava o assunto. Revisar com calma antes de 18/11.
 1. ~~Análise dos PEIs e relatório “🧩 atípicos que frequentam”~~ **feito em 08/11** (relatório no painel, aba Presença). Pela chamada da 1ª semana, só 4 alunos com 🧩 vieram (todos do 8º ano): 1 na Trilha (👣) e 3 no caminho A (apostila da turma com apoios). Os outros ainda não vieram ou a turma não teve chamada registrada. **Reavaliar toda semana**, a cada chamada nova.
-2. Diário de Classe dentro do painel (presença, vistos e notas da prova automáticos) + transferência do diário atual.
+2. ~~Diário de Classe dentro do painel~~ **programado em 08/11** (aba 📒 Diário: chamada, vistos ⚡ automáticos e corrigíveis, frequência, boletim com a nota da prova do portal, registro e lembretes). Falta: transferir o diário antigo (hoje à noite) e boletim em PDF.
 3. Tarefas presas ao dia e à hora da aula + liberação manual + aluno de outra turma + “Missão de hoje”.
 4. “Ver como aluno” no painel.
 5. Atividade de recuperação de cada série; boletins em PDF; SIGE (com o professor).
