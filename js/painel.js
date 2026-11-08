@@ -587,7 +587,7 @@
     el.querySelector("#sel").onchange = e => { location.hash = "#/painel/diario/" + e.target.value + "/" + aba; };
     const hoje = N.hoje();
     const tRef = db().collection(DIARIO).doc(t.id), aulasCol = db().collection(DIARIO + "/" + t.id + "/aulas");
-    const [tSnap, aulasSnap, alunosTodos, progTodos, provasSnap] = await Promise.all([tRef.get(), aulasCol.get(), alunosDaTurma(t.id), progressoDaTurma(t.id), db().collection("provas").where("turma", "==", t.id).get()]);
+    const [tSnap, aulasSnap, alunosTodos, progTodos, provasSnap] = await Promise.all([tRef.get(), aulasCol.get(), alunosDaTurma(t.id), progressoDaTurma(t.id), db().collection("provas").where("turma", "==", t.id).get().catch(() => ({ docs: [] }))]);
     const T = tSnap.exists ? tSnap.data() : {};
     const aulas = {}; aulasSnap.docs.forEach(d => { aulas[d.id] = d.data(); });
     const alunos = alunosTodos.filter(a => a.ativo !== false && !a.teste);
