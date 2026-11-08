@@ -1,7 +1,9 @@
 /* Gera dados/provas/<apostila>.js a partir de um arquivo de gabarito que NÃO fica no repositório.
    Uso: node ferramentas/gerar_provas.js /caminho/gabarito.json
-   No site vai só a "impressão digital" (hash) da resposta certa: o aluno não acha a resposta abrindo o código.
-   O professor vê o gabarito no painel (aba Prova). */
+   Formato: { "<apostila>": { "m1": [ {p, certo, erradas:[...]}, ... ], "m2": [...] } }
+   Cada missão entra com as suas questões de múltipla escolha + todas as Perguntas rápidas (V ou F) da apostila.
+   No dia da prova, o portal sorteia até 10 questões SÓ das missões que a turma estudou (o professor marca no painel).
+   No site vai só a "impressão digital" (hash) da resposta certa: o aluno não acha a resposta abrindo o código. */
 const fs = require("fs"), vm = require("vm"), path = require("path");
 const RAIZ = path.join(__dirname, "..");
 const hash = require(path.join(RAIZ, "js", "prova-hash.js"));
@@ -14,25 +16,26 @@ function carregar(aid) {
   return { C: P.conteudo[aid], A: P.atividades[aid] };
 }
 const limpa = s => String(s).replace(/<[^>]+>/g, "").replace(/\*\*/g, "").trim();
-for (const [aid, def] of Object.entries(spec)) {
-  let qs = def;
-  if (typeof def === "string" && def.startsWith("auto:")) {
-    const [p, certo, ...erradas] = def.slice(5).split("|");
-    const { C, A } = carregar(aid); qs = [];
-    C.missoes.filter(m => m.id !== "pf").forEach(m => (m.vf || []).forEach((q, i) => qs.push({ t: "vf", p: limpa(typeof q === "string" ? q : q.t || q.p), v: !!((A[m.id] || {}).vf || [])[i].v })));
-    qs.push({ t: "me", p, certo, erradas });
-  }
-  if (qs.length !== 10) throw new Error(aid + ": a prova precisa ter 10 questões (tem " + qs.length + ")");
-  const questoes = qs.map((q, i) => {
-    const id = "q" + (i + 1);
-    const opcoes = q.t === "vf" ? ["Verdadeiro", "Falso"] : [q.certo, ...q.erradas];
-    const certo = q.t === "vf" ? (q.v ? "Verdadeiro" : "Falso") : q.certo;
-    return { id, tipo: q.t, p: q.p, opcoes, h: hash(aid, id, certo) };
+for (const [aid, porMissao] of Object.entries(spec)) {
+  const { C, A } = carregar(aid);
+  const questoes = [], missoes = [];
+  C.missoes.filter(m => m.id !== "pf").forEach(m => {
+    missoes.push({ id: m.id, titulo: limpa(m.titulo) });
+    (porMissao[m.id] || []).forEach((q, i) => {
+      const id = m.id + "e" + (i + 1);
+      questoes.push({ id, m: m.id, tipo: "me", p: q.p, opcoes: [q.certo, ...q.erradas], h: hash(aid, id, q.certo) });
+    });
+    (m.vf || []).forEach((q, i) => {
+      const id = m.id + "v" + (i + 1), v = !!((A[m.id] || {}).vf || [])[i].v;
+      questoes.push({ id, m: m.id, tipo: "vf", p: limpa(typeof q === "string" ? q : q.t || q.p), opcoes: ["Verdadeiro", "Falso"], h: hash(aid, id, v ? "Verdadeiro" : "Falso") });
+    });
+    if (!(porMissao[m.id] || []).length) throw new Error(aid + " " + m.id + ": falta questão de múltipla escolha");
   });
   const out = `/* Prova do bimestre — ${aid}. Gerado por ferramentas/gerar_provas.js (não edite à mão).
-   10 questões, 0,5 cada (até 5,0). A resposta certa não aparece aqui: só a impressão digital (h). */
-PORTAL.registrarProva(${JSON.stringify(aid)}, ${JSON.stringify({ questoes }, null, 1)});
+   Banco de questões por missão. A prova sorteia até 10 questões só das missões que a turma estudou.
+   A resposta certa não aparece aqui: só a impressão digital (h). */
+PORTAL.registrarProva(${JSON.stringify(aid)}, ${JSON.stringify({ missoes, questoes })});
 `;
   fs.writeFileSync(path.join(RAIZ, "dados/provas", aid + ".js"), out);
-  console.log(aid, "→", questoes.length, "questões");
+  console.log(aid, "→", missoes.map(m => m.id + ":" + questoes.filter(q => q.m === m.id).length).join(" "));
 }

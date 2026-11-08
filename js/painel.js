@@ -432,26 +432,37 @@
     const aids = [...new Set([base && base.id, trilha && alunos.some(a => a.trilha) ? trilha.id : null].filter(Boolean))];
     await Promise.all(aids.map(x => P.prova.carregar(x).catch(() => null)));
     // a nota é recalculada aqui, a partir das respostas (não depende do que o navegador do aluno calculou)
-    const acertos = d => { const Pv = P.provas[d.aid]; if (!Pv) return d.acertos || 0; return Pv.questoes.filter(q => d.respostas && d.respostas[q.id] != null && P.provaHash(d.aid, q.id, d.respostas[q.id]) === q.h).length; };
-    const res = {}; provasSnap.docs.forEach(x => { const d = x.data(); (res[d.alunoId] = res[d.alunoId] || {})[d.tentativa] = { ...d, ac: acertos(d) }; });
-    const nota = n => (n * 0.5).toFixed(1).replace(".", ",");
+    const acertos = d => { const Pv = P.provas[d.aid]; if (!Pv) return d.acertos || 0; const qs = d.qs ? Pv.questoes.filter(q => d.qs.includes(q.id)) : Pv.questoes; return qs.filter(q => d.respostas && d.respostas[q.id] != null && P.provaHash(d.aid, q.id, d.respostas[q.id]) === q.h).length; };
+    const res = {}; provasSnap.docs.forEach(x => { const d = x.data(); const ac = acertos(d), nq = d.nq || (d.qs || []).length || 10; (res[d.alunoId] = res[d.alunoId] || {})[d.tentativa] = { ...d, ac, nq, nt: P.prova.notaDe(ac, nq) }; });
+    const nota = n => n.toFixed(1).replace(".", ",");
+    // missões que a turma estudou (do cronograma): o painel já marca sozinho; o professor confere
+    const nomesM = (P.provas[base && base.id] || {}).missoes || [];
+    const cron = Object.entries(t.missoes4 || {}).sort();
+    const estudadas = cfg.dia === hoje && cfg.missoes ? cfg.missoes : [...new Set(cron.filter(([d]) => d < hoje).map(([, m]) => m))];
+    const tres = new Set(alunos.filter(a => a.prova3).map(a => a.id));
     const hhmm = d => d.enviadoEm && d.enviadoEm.toDate ? d.enviadoEm.toDate().toLocaleString("pt-BR").slice(0, 17) : (d.dia ? dataBR(d.dia) : "");
     const fizeram = alunos.filter(a => res[a.id]).length;
     const linhas = alunos.map(a => {
       const r = res[a.id] || {}; const t1 = r[1], t2 = r[2];
-      const fin = Math.max(t1 ? t1.ac : -1, t2 ? t2.ac : -1);
-      return `<tr><td>${a.atipico ? "🧩 " : ""}${esc(a.nome)}${a.trilha ? " 👣" : ""}</td>
-        <td>${t1 ? `<strong>${nota(t1.ac)}</strong> <small>(${t1.ac}/10 · ${esc(hhmm(t1))})</small>` : "—"}</td>
-        <td>${t2 ? `<strong>${nota(t2.ac)}</strong> <small>(${t2.ac}/10)</small>` : rec.has(a.id) ? "<small>liberada</small>" : "—"}</td>
+      const fin = Math.max(t1 ? t1.nt : -1, t2 ? t2.nt : -1);
+      return `<tr><td>${a.atipico ? "🧩 " : ""}${esc(a.nome)}${a.trilha ? " 👣" : ""}${a.atipico ? `<br><button class="btn btn-sec btn-peq" data-tres="${a.id}" type="button">${tres.has(a.id) ? "✅ 3 alternativas" : "⬜ 3 alternativas"}</button>` : ""}</td>
+        <td>${t1 ? `<strong>${nota(t1.nt)}</strong> <small>(${t1.ac}/${t1.nq} · ${esc(hhmm(t1))})</small>` : "—"}</td>
+        <td>${t2 ? `<strong>${nota(t2.nt)}</strong> <small>(${t2.ac}/${t2.nq})</small>` : rec.has(a.id) ? "<small>liberada</small>" : "—"}</td>
         <td>${fin >= 0 ? `<strong>${nota(fin)}</strong>` : "—"}</td>
         <td>${t1 && !t2 ? `<button class="btn btn-sec btn-peq" data-rec="${a.id}" type="button">${rec.has(a.id) ? "Cancelar recuperação" : "Liberar recuperação"}</button>` : ""}</td></tr>`;
     }).join("");
     const gab = aids.map(x => { const Pv = P.provas[x]; if (!Pv) return ""; const ap = P.apostila(x);
-      return `<h3>${esc(ap ? ap.titulo : x)}</h3><ol>${Pv.questoes.map(q => `<li>${esc(q.p)}<br>${q.opcoes.map(o => P.provaHash(x, q.id, o) === q.h ? `<span class="certa">✔ ${esc(o)}</span>` : `<span>${esc(o)}</span>`).join(" · ")}</li>`).join("")}</ol>`; }).join("");
+      const li = q => `<li>${q.tipo === "vf" ? "<em>V ou F:</em> " : ""}${esc(q.p)}<br>${q.opcoes.map(o => P.provaHash(x, q.id, o) === q.h ? `<span class="certa">✔ ${esc(o)}</span>` : `<span>${esc(o)}</span>`).join(" · ")}</li>`;
+      const grupos = Pv.missoes ? Pv.missoes.map(m => `<h4>${esc(m.titulo)}${estudadas.includes(m.id) ? "" : " <small>(não entra na prova desta turma)</small>"}</h4><ol>${Pv.questoes.filter(q => q.m === m.id).map(li).join("")}</ol>`).join("") : `<ol>${Pv.questoes.map(li).join("")}</ol>`;
+      return `<h3>${esc(ap ? ap.titulo : x)}</h3>${grupos}`; }).join("");
+    const aulasTxt = cron.length ? `<p><strong>Aulas da turma neste bimestre</strong> (do Diário de Classe):</p><ul class="pp-cron">${cron.map(([d, m]) => `<li>${d < hoje ? "✅" : "🔜"} ${esc(dataBR(d))} · ${esc((nomesM.find(x => x.id === m) || { titulo: m.toUpperCase() }).titulo)}</li>`).join("")}</ul>` : "";
+    const caixasM = nomesM.map(m => `<label class="pp-mis-ck"><input type="checkbox" data-m="${m.id}" ${estudadas.includes(m.id) ? "checked" : ""} ${ligada ? "disabled" : ""}> ${esc(m.titulo)}</label>`).join("");
     const corpo = el.querySelector("#corpo");
     corpo.innerHTML = `<div class="painel"><h2>📝 Prova do bimestre · ${esc(nomeTurma(t.id))}</h2>
         <p>Situação: <span class="pp-prova-st ${ligada ? "on" : "off"}">${ligada ? `🟢 Dia de prova LIGADO · termina às ${cfg.ate ? hm(cfg.ate) : "fim do dia"}` : tempoAcabou ? "⏰ Tempo da prova acabou" : "⚪ Desligado"}</span></p>
         ${t.aula ? `<p class="ajuda">Aula da turma: ${["", "segunda", "terça", "quarta", "quinta", "sexta"][t.aula.dia]}, das ${t.aula.ini} às ${hm(new Date("2000-01-01T" + t.aula.ini + ":00").getTime() + (cat().duracaoAula || 75) * 60000)}.</p>` : ""}
+        ${aulasTxt}
+        <div class="pp-missoes-prova"><p><strong>A prova cobra só estas missões</strong> (já marcadas pelas aulas que a turma teve; confira antes de ligar):</p>${caixasM}</div>
         <p class="ajuda">Ligado, o aluno digita o código e cai direto na prova. Um relógio mostra quanto falta até o horário-limite; quando o tempo acaba, a prova é enviada sozinha com as respostas marcadas. Ao terminar, o aluno vê a nota e o portal sai sozinho.</p>
         <div class="row-btns">${ligada ? `<button class="btn" id="pv-off" type="button">⏹️ Encerrar a prova</button>` : `<label>A prova termina às <input type="time" id="pv-ate" value="${hm(fimPadrao)}"></label><button class="btn btn-grande" id="pv-on" type="button">📝 Ligar o Dia de prova</button>`}
           <button class="btn btn-sec" id="pv-cp" type="button">📋 Copiar notas</button>
@@ -459,23 +470,32 @@
       <div class="painel pp-gab" id="gab"><h2>Gabarito</h2>${gab}</div>
       <div class="painel"><h2>Notas (${fizeram} de ${alunos.length} fizeram)</h2>
         <div class="tabela-wrap"><table><thead><tr><th>Aluno</th><th>1ª tentativa</th><th>Recuperação</th><th>Nota final</th><th></th></tr></thead><tbody>${linhas}</tbody></table></div>
-        <p class="ajuda">Cada questão vale 0,5 (até 5,0). Na nota final vale a maior entre a prova e a recuperação. A recuperação abre só para quem você liberar, quando o Dia de prova estiver ligado.</p></div>`;
+        <p class="ajuda">A prova tem até 10 questões, só das missões marcadas, e vale até 5,0 (nota proporcional aos acertos). 🧩 <strong>3 alternativas</strong>: para o aluno cujo PEI pede, a prova mostra só 3 opções em cada questão. Na nota final vale a maior entre a prova e a recuperação. A recuperação abre só para quem você liberar, quando o Dia de prova estiver ligado.</p></div>`;
     const recarregar = () => telaProvaPainel(u, t.id);
     const on = corpo.querySelector("#pv-on"), off = corpo.querySelector("#pv-off");
     if (on) on.onclick = async () => {
       const v = (corpo.querySelector("#pv-ate").value || hm(fimPadrao)).split(":").map(Number);
       const fim = new Date(); fim.setHours(v[0], v[1], 0, 0);
       if (fim.getTime() <= Date.now() + 5 * 60000) { toast("Escolha um horário-limite pelo menos 5 minutos à frente."); return; }
+      const missoes = [...corpo.querySelectorAll("[data-m]:checked")].map(c => c.dataset.m);
+      if (!missoes.length) { toast("Marque pelo menos uma missão que a turma estudou."); return; }
       on.disabled = true;
       const ts = firebase.firestore.Timestamp ? firebase.firestore.Timestamp.fromMillis(fim.getTime()) : fim.getTime();
-      await cfgRef.set({ aberta: true, dia: hoje, abertaEm: Date.now(), ate: fim.getTime(), ateTs: ts, recuperacao: [...rec] });
+      await cfgRef.set({ aberta: true, dia: hoje, abertaEm: Date.now(), ate: fim.getTime(), ateTs: ts, recuperacao: [...rec], missoes, tres: [...tres] });
       toast("Dia de prova ligado até as " + hm(fim.getTime())); recarregar(); };
     if (off) off.onclick = async () => { off.disabled = true; await cfgRef.set({ aberta: false, encerradaEm: Date.now() }, { merge: true }); toast("Prova encerrada."); recarregar(); };
     corpo.querySelector("#pv-gab").onclick = e => { const g = corpo.querySelector("#gab"); g.classList.toggle("on"); e.target.textContent = g.classList.contains("on") ? "🙈 Esconder gabarito" : "👁️ Mostrar gabarito"; };
     corpo.querySelector("#pv-cp").onclick = async () => {
-      const txt = `Notas da prova — ${nomeTurma(t.id)}\n` + alunos.map(a => { const r = res[a.id] || {}; const f = Math.max(r[1] ? r[1].ac : -1, r[2] ? r[2].ac : -1); return `${a.nome}: ${f >= 0 ? nota(f) : "não fez"}`; }).join("\n");
+      const txt = `Notas da prova — ${nomeTurma(t.id)}\n` + alunos.map(a => { const r = res[a.id] || {}; const f = Math.max(r[1] ? r[1].nt : -1, r[2] ? r[2].nt : -1); return `${a.nome}: ${f >= 0 ? nota(f) : "não fez"}`; }).join("\n");
       try { await navigator.clipboard.writeText(txt); toast("Notas copiadas."); } catch (e) { prompt("Copie as notas:", txt); }
     };
+    corpo.querySelectorAll("[data-tres]").forEach(b => b.onclick = async () => {
+      const id = b.dataset.tres, v = !tres.has(id); b.disabled = true;
+      await db().collection("alunos").doc(id).update({ prova3: v });
+      if (v) tres.add(id); else tres.delete(id);
+      if (cfgSnap.exists) await cfgRef.set({ tres: [...tres] }, { merge: true });
+      recarregar();
+    });
     corpo.querySelectorAll("[data-rec]").forEach(b => b.onclick = async () => {
       const id = b.dataset.rec; if (rec.has(id)) rec.delete(id); else rec.add(id);
       b.disabled = true; await cfgRef.set({ recuperacao: [...rec] }, { merge: true }); recarregar();

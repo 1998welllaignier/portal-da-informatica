@@ -5,8 +5,10 @@
    - O professor liga o "📝 Dia de prova" da turma no painel.
    - O aluno digita o código e cai direto na prova da sua série
      (ou da Trilha Passo a Passo, se tiver 👣).
-   - 10 questões, 0,5 cada (até 5,0), uma tentativa, sem dicas,
-     questões e alternativas embaralhadas.
+   - Até 10 questões, só das missões que a turma estudou (o professor
+     marca no painel). Nota de 0 a 5,0, proporcional aos acertos.
+     Uma tentativa, sem dicas, questões e alternativas embaralhadas.
+   - Aluno com 3 alternativas (quando o PEI pede): marcado no painel.
    - Ao finalizar: nota na tela, envio para o painel e saída automática.
    - Recuperação: o professor libera uma 2ª tentativa no painel.
    ============================================================ */
@@ -19,7 +21,28 @@
   const { esc } = P.util;
   const cat = () => P.catalogo;
   const hash = (aid, qid, r) => P.provaHash(aid, qid, r);
-  const VALOR = 0.5;
+  const NOTA_MAX = 5, MAX_Q = 10;
+  const notaDe = (ac, n) => n ? Math.round(ac / n * NOTA_MAX * 10) / 10 : 0;
+
+  /* Escolhe as questões da prova: só das missões estudadas, divididas igualmente,
+     múltipla escolha primeiro. Mesma escolha para o mesmo aluno e tentativa. */
+  function montar(Pv, missoes, seed) {
+    const rnd = semente(seed + "|montar");
+    const todas = (Pv.missoes || []).map(m => m.id);
+    let sel = (missoes || []).filter(m => todas.includes(m));
+    if (!sel.length) sel = todas;
+    if (!Pv.missoes) return Pv.questoes.map(q => q.id); // formato antigo
+    const filas = sel.map(m => [...embaralhar(Pv.questoes.filter(q => q.m === m && q.tipo === "me"), rnd), ...embaralhar(Pv.questoes.filter(q => q.m === m && q.tipo !== "me"), rnd)]);
+    const total = Math.min(MAX_Q, filas.reduce((n, f) => n + f.length, 0)), out = [];
+    for (let i = 0; out.length < total; i++) { const f = filas[i % filas.length]; if (f.length) out.push(f.shift().id); }
+    return out;
+  }
+  /* 3 alternativas: a certa + 2 erradas, sorteadas */
+  function tresOpcoes(aid, q, rnd) {
+    if (q.tipo === "vf" || q.opcoes.length <= 3) return q.opcoes;
+    const certa = q.opcoes.find(o => hash(aid, q.id, o) === q.h);
+    return [certa, ...embaralhar(q.opcoes.filter(o => o !== certa), rnd).slice(0, 2)];
+  }
 
   /* ---------- utilidades ---------- */
   function aidDaProva(s) {
@@ -56,7 +79,7 @@
     let tentativa = null;
     if (!t1.exists) tentativa = 1;
     else if (rec) { const t2 = await db().collection("provas").doc(alunoId + "_" + aid + "_2").get(); if (!t2.exists) tentativa = 2; }
-    return { aberta, ate, aid, alunoId, tentativa, feita: t1.exists ? t1.data() : null };
+    return { aberta, ate, aid, alunoId, tentativa, missoes: cfg.missoes || null, tres: (cfg.tres || []).includes(alunoId), feita: t1.exists ? t1.data() : null };
   }
 
   /* Chamado pelo portal antes de abrir as apostilas: se for dia de prova, devolve o endereço da prova */
@@ -74,7 +97,7 @@
       return ultimoDestino;
     },
     abrir: telaProva,
-    carregar
+    carregar, montar, notaDe
   };
 
   async function telaProva(mount, aidPedido) {
@@ -95,15 +118,18 @@
     }
     if (!e.tentativa) {
       return mount(`<section class="tela"><div class="painel prova-fim"><h1>✅ Você já fez a prova</h1>
-        <p>Sua prova já foi enviada${e.feita ? `: você acertou <strong>${e.feita.acertos} de 10</strong>` : ""}.</p>
+        <p>Sua prova já foi enviada${e.feita ? `: você acertou <strong>${e.feita.acertos} de ${e.feita.nq || 10}</strong>` : ""}.</p>
         <p>Pode ir para casa! 🏠</p><button class="btn" id="pv-sair" type="button">Sair</button></div></section>`).querySelector("#pv-sair").onclick = sairAgora;
     }
     const aid = e.aid;
     if (aidPedido && aidPedido !== aid) { location.replace("#/prova/" + aid); return; }
     await carregar(aid);
     const Pv = P.provas[aid];
-    const rnd = semente(e.alunoId + "|" + aid + "|" + e.tentativa);
-    const ordem = embaralhar(Pv.questoes, rnd).map(q => ({ ...q, opcoes: q.tipo === "vf" ? q.opcoes : embaralhar(q.opcoes, rnd) }));
+    const seed = e.alunoId + "|" + aid + "|" + e.tentativa;
+    const rnd = semente(seed);
+    const qs = montar(Pv, e.missoes, seed), NQ = qs.length;
+    const escolhidas = qs.map(id => Pv.questoes.find(q => q.id === id));
+    const ordem = embaralhar(escolhidas, rnd).map(q => ({ ...q, opcoes: q.tipo === "vf" ? q.opcoes : embaralhar(e.tres ? tresOpcoes(aid, q, rnd) : q.opcoes, rnd) }));
     const chave = "portalJK:prova:" + e.alunoId + ":" + aid + ":" + e.tentativa;
     let resp = {}; try { resp = JSON.parse(sessionStorage.getItem(chave) || "{}"); } catch (x) {}
     const guardar = () => { try { sessionStorage.setItem(chave, JSON.stringify(resp)); } catch (x) {} };
@@ -113,14 +139,14 @@
     const el = mount(`<section class="tela prova">
       <header class="prova-cab"><h1>📝 Prova do 4º bimestre${e.tentativa === 2 ? " · Recuperação" : ""}</h1>
         <p class="lead">${esc(s.nomes[0])} · ${esc(apost ? apost.titulo : "")}</p>
-        <ul class="prova-regras"><li>✏️ <strong>10 questões</strong>. Cada uma vale <strong>0,5</strong>.</li><li>☝️ Escolha <strong>uma</strong> resposta em cada questão.</li><li>🔒 Você só pode enviar <strong>uma vez</strong>. Confira antes de finalizar.</li></ul></header>
+        <ul class="prova-regras"><li>✏️ <strong>${NQ} questões</strong>. A prova vale <strong>5,0</strong>${NQ === 10 ? " (cada questão vale <strong>0,5</strong>)" : ""}.</li><li>☝️ Escolha <strong>uma</strong> resposta em cada questão.</li><li>🔒 Você só pode enviar <strong>uma vez</strong>. Confira antes de finalizar.</li></ul></header>
       <ol class="prova-lista">${ordem.map((q, i) => `<li class="prova-q" data-q="${q.id}"><p class="prova-p"><span class="prova-n">${i + 1}</span>${q.tipo === "vf" ? "<em>Verdadeiro ou falso?</em> " : ""}${esc(q.p)}</p>
         <div class="prova-ops" role="radiogroup" aria-label="Questão ${i + 1}">${q.opcoes.map(o => `<button type="button" class="prova-op" role="radio" data-q="${q.id}" data-o="${esc(o)}" aria-checked="${resp[q.id] === o}">${q.tipo === "vf" ? (o === "Verdadeiro" ? "✅ " : "❌ ") : ""}${esc(o)}</button>`).join("")}</div></li>`).join("")}</ol>
       <div class="prova-rodape"><span class="prova-relogio" id="pv-rel" aria-live="polite"></span><span id="pv-cont"></span><button class="btn btn-grande" id="pv-fim" type="button">Finalizar prova</button></div>
       <div class="prova-conf" id="pv-conf" hidden><p><strong>Tem certeza?</strong> Depois de enviar, não dá para mudar as respostas.</p>
         <div class="row-btns"><button class="btn btn-grande" id="pv-ok" type="button">Sim, enviar a prova</button><button class="btn btn-sec" id="pv-volta" type="button">Voltar e conferir</button></div></div>
     </section>`);
-    const cont = () => { const n = Object.keys(resp).length; el.querySelector("#pv-cont").textContent = `Respondidas: ${n} de 10`; el.querySelector("#pv-fim").disabled = n < 10; };
+    const cont = () => { const n = Object.keys(resp).length; el.querySelector("#pv-cont").textContent = `Respondidas: ${n} de ${NQ}`; el.querySelector("#pv-fim").disabled = n < NQ; };
     el.querySelectorAll(".prova-op").forEach(b => b.onclick = () => {
       resp[b.dataset.q] = b.dataset.o; guardar();
       el.querySelectorAll(`.prova-op[data-q="${b.dataset.q}"]`).forEach(x => x.setAttribute("aria-checked", x === b ? "true" : "false"));
@@ -144,11 +170,11 @@
     async function enviar(tempo) {
       if (enviando) return; enviando = true; clearInterval(ivRel);
       const b = el.querySelector("#pv-ok"); b.disabled = true; b.textContent = "Enviando…";
-      const acertos = Pv.questoes.filter(q => resp[q.id] != null && hash(aid, q.id, resp[q.id]) === q.h).length;
+      const acertos = escolhidas.filter(q => resp[q.id] != null && hash(aid, q.id, resp[q.id]) === q.h).length;
       try {
         await db().collection("provas").doc(e.alunoId + "_" + aid + "_" + e.tentativa).set({
           alunoId: e.alunoId, turma: s.turma, aid, tentativa: e.tentativa, respostas: resp,
-          acertos, nota: acertos * VALOR, enviadoEm: N.FV.serverTimestamp(), dia: N.hoje()
+          qs, nq: NQ, tres: !!e.tres, acertos, nota: notaDe(acertos, NQ), enviadoEm: N.FV.serverTimestamp(), dia: N.hoje()
         });
       } catch (err) {
         enviando = false; b.disabled = false; b.textContent = "Sim, enviar a prova"; if (tempo) { el.querySelector("#pv-conf").hidden = false; }
@@ -157,7 +183,7 @@
       try { sessionStorage.removeItem(chave); } catch (x) {}
       ultimaChecagem = 0;
       const fim = mount(`<section class="tela"><div class="painel prova-fim"><h1>${tempo ? "⏰ O tempo acabou: prova enviada!" : "✅ Prova enviada!"}</h1>
-        ${tempo ? "<p>As respostas que você marcou foram enviadas. As questões em branco contam como erradas.</p>" : ""}<p class="prova-nota">Você acertou <strong>${acertos} de 10</strong>.<br>Nota da prova: <strong>${fmt(acertos * VALOR)}</strong></p>
+        ${tempo ? "<p>As respostas que você marcou foram enviadas. As questões em branco contam como erradas.</p>" : ""}<p class="prova-nota">Você acertou <strong>${acertos} de ${NQ}</strong>.<br>Nota da prova: <strong>${fmt(notaDe(acertos, NQ))}</strong></p>
         <p>Sua nota já foi para o professor. <strong>Pode ir para casa!</strong> 🏠</p>
         <p class="ajuda" id="pv-cd">Saindo do portal em 15 segundos…</p>
         <button class="btn" id="pv-sair" type="button">Sair agora</button></div></section>`);

@@ -71,8 +71,13 @@ o portal troca a apostila da turma pela Trilha Passo a Passo da série (catálog
 `base: <apostila da turma>`). Toda função que regrava o documento `acessos` precisa manter o campo `trilha`.
 
 ### Prova do bimestre (📝)
-- Questões em `dados/provas/<apostila>.js` (10 questões, 0,5 cada, até 5,0), geradas por
-  `node ferramentas/gerar_provas.js <gabarito.json>`. O gabarito **não** fica no repositório (ele é público):
+- Banco de questões por missão em `dados/provas/<apostila>.js` (cada questão tem `m`: a missão), gerado por
+  `node ferramentas/gerar_provas.js <gabarito.json>` (múltipla escolha do gabarito + as Perguntas rápidas V/F).
+  **A prova só cobra as missões que a turma estudou**: o painel marca sozinho pelo cronograma
+  (`missoes4` de cada turma em `dados/catalogo.js`, copiado do Diário de Classe) e o professor confere;
+  fica em `config/prova_<turma>.missoes`. Até 10 questões divididas entre as missões; nota de 0 a 5,0,
+  proporcional aos acertos (o documento guarda `qs`, as questões sorteadas). Aluno 🧩 com `prova3: true`
+  (botão "3 alternativas" na aba Prova, quando o PEI pede) vê só 3 opções por questão (`config.tres`). O gabarito **não** fica no repositório (ele é público):
   no arquivo vai só a impressão digital da resposta certa (`js/prova-hash.js`). Para recuperar o gabarito,
   teste cada alternativa com `provaHash` (o painel faz isso no botão "👁️ Mostrar gabarito").
 - O professor liga o "📝 Dia de prova" da turma no painel (`config/prova_<turma>`); o aluno digita o código e
