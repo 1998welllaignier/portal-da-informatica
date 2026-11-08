@@ -973,3 +973,20 @@ body.modo-trilha { font-size: 21px; line-height: 1.65; }
 /* 🏠 aluno que estuda em casa */
 .pp-casa { background: #f0fdf4; border: 2px solid #86efac; border-radius: 12px; padding: 8px 12px; }
 .pp-casa-tag { display: inline-block; background: #dcfce7; color: #166534; border-radius: 999px; padding: 0 8px; font-size: .78rem; font-weight: 800; margin-left: 4px; }
+/* 🧩 cartões de apoio (aba Aula) */
+.ap-lista { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 14px; margin-top: 10px; }
+.ap-card { border: 2px solid #c4b5fd; border-radius: 14px; overflow: hidden; background: #fff; display: flex; flex-direction: column; gap: 8px; padding-bottom: 10px; }
+.ap-nome { background: #6d28d9; color: #fff; font-weight: 900; font-size: 1.1rem; padding: 8px 12px; }
+.ap-tags { display: flex; flex-wrap: wrap; gap: 6px; padding: 0 10px; }
+.ap-tag { border-radius: 999px; padding: 2px 10px; font-size: .82rem; font-weight: 800; }
+.ap-tag.tri { background: #fef3c7; color: #92400e; } .ap-tag.p3 { background: #fee2e2; color: #991b1b; } .ap-tag.pn { background: #f1f5f9; color: #475569; }
+.ap-tag.aee { background: #ede9fe; color: #5b21b6; } .ap-tag.casa { background: #dcfce7; color: #166534; }
+.ap-bl { margin: 0 10px; border-radius: 10px; padding: 8px 10px; display: flex; flex-direction: column; gap: 2px; line-height: 1.4; }
+.ap-tit { font-weight: 900; font-size: .85rem; text-transform: uppercase; letter-spacing: .03em; }
+.ap-bl.sentar { background: #fef9c3; border-left: 5px solid #eab308; }
+.ap-bl.aula { background: #dcfce7; border-left: 5px solid #22c55e; }
+.ap-bl.caminho { background: #e0f2fe; border-left: 5px solid #0ea5e9; }
+.ap-bl.outros { background: #f8fafc; border-left: 5px solid #94a3b8; }
+.ap-bl.perfil { background: #f5f3ff; border-left: 5px solid #a78bfa; display: block; }
+.ap-bl.perfil summary { cursor: pointer; } .ap-bl.perfil span { display: block; margin-top: 4px; }
+@media (max-width: 640px) { .ap-lista { grid-template-columns: 1fr; } }

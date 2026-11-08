@@ -757,6 +757,26 @@
     render();
   }
 
+  /* 🧩 cartão de apoio de um aluno: cada assunto num bloco com cor própria (o texto vem de alunos/{id}.apoio) */
+  function cartaoApoio(a) {
+    const linhas = String(a.apoio || "").split("\n").map(x => x.trim()).filter(Boolean);
+    const tira = (l, re) => esc(l.replace(re, "").trim());
+    let sentar = "", caminho = "", aee = "", prova = "", perfil = "", aula = "", outros = [];
+    linhas.forEach(l => {
+      if (/^📍/.test(l)) sentar = tira(l, /^📍\s*Sentar:\s*/);
+      else if (/^🧭/.test(l)) caminho = tira(l, /^🧭\s*Caminho sugerido pelo PEI:\s*/);
+      else if (/^🎓/.test(l)) { const [x, y] = l.replace(/^🎓\s*AEE:\s*/, "").split("·"); aee = esc((x || "").trim()); prova = esc((y || "").replace(/Prova com 3 alternativas:\s*/, "").trim()); }
+      else if (/^👤/.test(l)) perfil = tira(l, /^👤\s*Perfil:\s*/);
+      else if (/^✅/.test(l)) aula = tira(l, /^✅\s*Na aula:\s*/);
+      else outros.push(esc(l));
+    });
+    const bl = (cls, tit, txt) => txt ? `<div class="ap-bl ${cls}"><span class="ap-tit">${tit}</span><span>${txt}</span></div>` : "";
+    const tags = [a.trilha ? `<span class="ap-tag tri">👣 Trilha Passo a Passo</span>` : "", prova ? `<span class="ap-tag ${/sim/i.test(prova) ? "p3" : "pn"}">📝 Prova: ${/sim/i.test(prova) ? "3 alternativas" : "normal"}</span>` : "", aee ? `<span class="ap-tag aee">🎓 AEE ${aee}</span>` : "", a.emCasa ? `<span class="ap-tag casa">🏠 estuda em casa</span>` : ""].join("");
+    return `<article class="ap-card"><header class="ap-nome">🧩 ${esc(a.nome)}</header>${tags ? `<div class="ap-tags">${tags}</div>` : ""}
+      ${a.apoio ? `${bl("sentar", "📍 Onde sentar", sentar)}${bl("aula", "✅ Na aula", aula)}${bl("caminho", "🧭 Caminho", caminho)}${outros.length ? bl("outros", "📝 Anotações", outros.join("<br>")) : ""}
+        ${perfil ? `<details class="ap-bl perfil"><summary class="ap-tit">👤 Perfil (dificuldades e habilidades)</summary><span>${perfil}</span></details>` : ""}`
+        : `<p class="ajuda">Ainda sem anotação. Em Turmas, toque no nome do aluno → 📝 Apoios na aula.</p>`}</article>`;
+  }
   async function telaAula(u, tid, mid) {
     const turmas = todasTurmas();
     tid = tid || sessionStorage.getItem("painel:turma") || (turmas.find(x => x.serie.id === "6") || turmas[0]).id;
@@ -845,7 +865,7 @@
       if (atip.length) {
         const box = document.createElement("details"); box.className = "painel pp-apoios"; box.open = atip.some(a => a.apoio);
         box.innerHTML = `<summary><strong>🧩 Apoios dos alunos atípicos desta turma</strong> (${atip.length})</summary>
-          <ul>${atip.map(a => `<li><strong>${esc(a.nome)}</strong>${a.trilha ? " 👣 usa a Trilha Passo a Passo" : ""}<br>${a.apoio ? esc(a.apoio).replace(/\n/g, "<br>") : `<span class="ajuda">Ainda sem anotação. Em Turmas, toque no nome do aluno → 📝 Apoios na aula.</span>`}</li>`).join("")}</ul>`;
+          <div class="ap-lista">${atip.map(cartaoApoio).join("")}</div>`;
         el.querySelector("#aula").before(box);
       }
     } catch (e) { console.warn(e); }
