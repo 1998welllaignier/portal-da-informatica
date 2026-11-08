@@ -5,7 +5,8 @@ Claude Max (5x) assinado por um mês em 08/11 para adiantar tudo. **Voltar ao Pr
 
 ### ✋ O que o professor precisa fazer
 - [ ] **Hoje à noite, no computador (≈10 min):** abrir o console do Firebase logado; o Claude cola as regras novas de `docs/firestore.rules` (coleção `provas` + horário-limite) e o professor clica em Publicar. Sem isso, a aba 📝 Prova do painel e o envio da prova não funcionam.
-- [ ] Hoje à noite, com o painel aberto no computador: o Claude preenche os **📝 Apoios na aula** dos 4 alunos com 🧩 que já frequentam (texto preparado em 08/11, a partir dos PEIs). Eles aparecem na **Tela da aula** do painel, só para o professor.
+- [ ] Conferir o “Resumo-PEIs-6-ao-9.md” (enviado no chat em 08/11: 44 alunos, com perfil, AEE, caminho sugerido A/👣 B/🚀 aprofundar e prova de 3 alternativas) e aprovar os caminhos.
+- [ ] Hoje à noite, com o painel aberto no computador: o Claude grava nos **📝 Apoios** de cada aluno com 🧩 o perfil, o caminho e os apoios do resumo (mesmo os que ainda não vieram) e marca 👣 e “3 alternativas” só nos que o professor aprovar. Eles aparecem na **Tela da aula** do painel, só para o professor.
 - [ ] Hoje à noite: o Claude transfere o diário antigo (cronograma, chamadas, vistos, registros e lembretes) para a aba 📒 Diário do painel, primeiro só conferindo se os alunos batem. Depois disso, a chamada passa a ser feita no painel.
 - [ ] Hoje à noite, o Claude faz no painel: marcar como 🧪 aluno de teste o cadastro “Prof Welington Laignier” do 6º A (e outros cadastros do professor, se houver), para não contar como aluno nos relatórios, no diário e nas notas.
 - [ ] Depois de publicar: teste rápido da prova com um aluno de teste (ligar o Dia de prova, fazer, conferir a nota no painel, encerrar).
