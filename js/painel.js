@@ -398,7 +398,16 @@
     const cfgRef = db().collection("config").doc("prova_" + t.id);
     const [cfgSnap, alunosTodos, provasSnap] = await Promise.all([cfgRef.get(), alunosDaTurma(t.id), db().collection("provas").where("turma", "==", t.id).get()]);
     const cfg = cfgSnap.exists ? cfgSnap.data() : {};
-    const ligada = !!cfg.aberta && cfg.dia === hoje;
+    const agora = Date.now();
+    const ligada = !!cfg.aberta && cfg.dia === hoje && !(cfg.ate && agora > cfg.ate + 3 * 60000);
+    const tempoAcabou = !!cfg.aberta && cfg.dia === hoje && !ligada;
+    const hm = ms => new Date(ms).toTimeString().slice(0, 5);
+    // horário-limite padrão: fim da aula da turma (início + 1h15) se hoje é o dia dela; senão, daqui a 1h15
+    const fimPadrao = (() => {
+      const dur = (cat().duracaoAula || 75) * 60000, d = new Date();
+      if (t.aula && d.getDay() === t.aula.dia) { const [H, M] = t.aula.ini.split(":").map(Number); const ini = new Date(d); ini.setHours(H, M, 0, 0); if (ini.getTime() + dur > agora) return ini.getTime() + dur; }
+      return agora + dur;
+    })();
     const rec = new Set(cfg.recuperacao || []);
     const alunos = alunosTodos.filter(a => a.ativo && !a.teste);
     const base = cat().apostilas.find(a => a.serie === t.serie.id && !a.oculta && !a.trilha);
@@ -425,9 +434,10 @@
       return `<h3>${esc(ap ? ap.titulo : x)}</h3><ol>${Pv.questoes.map(q => `<li>${esc(q.p)}<br>${q.opcoes.map(o => P.provaHash(x, q.id, o) === q.h ? `<span class="certa">✔ ${esc(o)}</span>` : `<span>${esc(o)}</span>`).join(" · ")}</li>`).join("")}</ol>`; }).join("");
     const corpo = el.querySelector("#corpo");
     corpo.innerHTML = `<div class="painel"><h2>📝 Prova do bimestre · ${esc(nomeTurma(t.id))}</h2>
-        <p>Situação: <span class="pp-prova-st ${ligada ? "on" : "off"}">${ligada ? "🟢 Dia de prova LIGADO (hoje)" : "⚪ Desligado"}</span></p>
-        <p class="ajuda">Ligado, o aluno digita o código e cai direto na prova. Ao terminar, vê a nota e o portal sai sozinho. O Dia de prova desliga sozinho no fim do dia.</p>
-        <div class="row-btns">${ligada ? `<button class="btn" id="pv-off" type="button">⏹️ Encerrar a prova</button>` : `<button class="btn btn-grande" id="pv-on" type="button">📝 Ligar o Dia de prova</button>`}
+        <p>Situação: <span class="pp-prova-st ${ligada ? "on" : "off"}">${ligada ? `🟢 Dia de prova LIGADO · termina às ${cfg.ate ? hm(cfg.ate) : "fim do dia"}` : tempoAcabou ? "⏰ Tempo da prova acabou" : "⚪ Desligado"}</span></p>
+        ${t.aula ? `<p class="ajuda">Aula da turma: ${["", "segunda", "terça", "quarta", "quinta", "sexta"][t.aula.dia]}, das ${t.aula.ini} às ${hm(new Date("2000-01-01T" + t.aula.ini + ":00").getTime() + (cat().duracaoAula || 75) * 60000)}.</p>` : ""}
+        <p class="ajuda">Ligado, o aluno digita o código e cai direto na prova. Um relógio mostra quanto falta até o horário-limite; quando o tempo acaba, a prova é enviada sozinha com as respostas marcadas. Ao terminar, o aluno vê a nota e o portal sai sozinho.</p>
+        <div class="row-btns">${ligada ? `<button class="btn" id="pv-off" type="button">⏹️ Encerrar a prova</button>` : `<label>A prova termina às <input type="time" id="pv-ate" value="${hm(fimPadrao)}"></label><button class="btn btn-grande" id="pv-on" type="button">📝 Ligar o Dia de prova</button>`}
           <button class="btn btn-sec" id="pv-cp" type="button">📋 Copiar notas</button>
           <button class="btn btn-sec" id="pv-gab" type="button">👁️ Mostrar gabarito</button></div></div>
       <div class="painel pp-gab" id="gab"><h2>Gabarito</h2>${gab}</div>
@@ -436,7 +446,14 @@
         <p class="ajuda">Cada questão vale 0,5 (até 5,0). Na nota final vale a maior entre a prova e a recuperação. A recuperação abre só para quem você liberar, quando o Dia de prova estiver ligado.</p></div>`;
     const recarregar = () => telaProvaPainel(u, t.id);
     const on = corpo.querySelector("#pv-on"), off = corpo.querySelector("#pv-off");
-    if (on) on.onclick = async () => { on.disabled = true; await cfgRef.set({ aberta: true, dia: hoje, abertaEm: Date.now(), recuperacao: [...rec] }); toast("Dia de prova ligado para " + nomeTurma(t.id)); recarregar(); };
+    if (on) on.onclick = async () => {
+      const v = (corpo.querySelector("#pv-ate").value || hm(fimPadrao)).split(":").map(Number);
+      const fim = new Date(); fim.setHours(v[0], v[1], 0, 0);
+      if (fim.getTime() <= Date.now() + 5 * 60000) { toast("Escolha um horário-limite pelo menos 5 minutos à frente."); return; }
+      on.disabled = true;
+      const ts = firebase.firestore.Timestamp ? firebase.firestore.Timestamp.fromMillis(fim.getTime()) : fim.getTime();
+      await cfgRef.set({ aberta: true, dia: hoje, abertaEm: Date.now(), ate: fim.getTime(), ateTs: ts, recuperacao: [...rec] });
+      toast("Dia de prova ligado até as " + hm(fim.getTime())); recarregar(); };
     if (off) off.onclick = async () => { off.disabled = true; await cfgRef.set({ aberta: false, encerradaEm: Date.now() }, { merge: true }); toast("Prova encerrada."); recarregar(); };
     corpo.querySelector("#pv-gab").onclick = e => { const g = corpo.querySelector("#gab"); g.classList.toggle("on"); e.target.textContent = g.classList.contains("on") ? "🙈 Esconder gabarito" : "👁️ Mostrar gabarito"; };
     corpo.querySelector("#pv-cp").onclick = async () => {

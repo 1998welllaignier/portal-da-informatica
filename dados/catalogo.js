@@ -13,18 +13,20 @@ PORTAL.catalogo = {
     { id: "informatica", nome: "Informática", icone: "💻" }
   ],
 
+  /* aula: dia da semana (1 = segunda … 4 = quinta) e hora de início; cada aula dura 1h15 */
+  duracaoAula: 75,
   series: [
     { id: "5", nome: "5º ano", faixa: "menor", cor: "#e2583e",
-      turmas: [ { id: "5-seg", nome: "Segunda 15h" }, { id: "5-ter", nome: "Terça 9h" } ],
+      turmas: [ { id: "5-seg", nome: "Segunda 15h" , aula: { dia: 1, ini: "15:00" } }, { id: "5-ter", nome: "Terça 9h" , aula: { dia: 2, ini: "09:00" } } ],
       nota: "Atendimento individual" },
     { id: "6", nome: "6º ano", faixa: "menor", cor: "#2f7de1",
-      turmas: [ { id: "6A", nome: "6º A" }, { id: "6B", nome: "6º B" }, { id: "6C", nome: "6º C" } ] },
+      turmas: [ { id: "6A", nome: "6º A" , aula: { dia: 4, ini: "13:30" } }, { id: "6B", nome: "6º B" , aula: { dia: 4, ini: "15:00" } }, { id: "6C", nome: "6º C" , aula: { dia: 1, ini: "07:30" } } ] },
     { id: "7", nome: "7º ano", faixa: "media", cor: "#0f9d76",
-      turmas: [ { id: "7A", nome: "7º A" }, { id: "7B", nome: "7º B" }, { id: "7C", nome: "7º C" }, { id: "7D", nome: "7º D" } ] },
+      turmas: [ { id: "7A", nome: "7º A" , aula: { dia: 2, ini: "13:30" } }, { id: "7B", nome: "7º B" , aula: { dia: 2, ini: "15:00" } }, { id: "7C", nome: "7º C" , aula: { dia: 1, ini: "09:00" } }, { id: "7D", nome: "7º D" , aula: { dia: 2, ini: "07:30" } } ] },
     { id: "8", nome: "8º ano", faixa: "maior", cor: "#7a4fd8",
-      turmas: [ { id: "8A", nome: "8º A" }, { id: "8B", nome: "8º B" }, { id: "8C", nome: "8º C" }, { id: "8D", nome: "8º D" } ] },
+      turmas: [ { id: "8A", nome: "8º A" , aula: { dia: 3, ini: "13:30" } }, { id: "8B", nome: "8º B" , aula: { dia: 3, ini: "15:00" } }, { id: "8C", nome: "8º C" , aula: { dia: 3, ini: "07:30" } }, { id: "8D", nome: "8º D" , aula: { dia: 3, ini: "09:00" } } ] },
     { id: "9", nome: "9º ano", faixa: "maior", cor: "#c2410c",
-      turmas: [ { id: "9A", nome: "9º A" }, { id: "9B", nome: "9º B" }, { id: "9C", nome: "9º C" }, { id: "9D", nome: "9º D" } ] }
+      turmas: [ { id: "9A", nome: "9º A" , aula: { dia: 1, ini: "13:30" } }, { id: "9B", nome: "9º B" , aula: { dia: 1, ini: "15:00" } }, { id: "9C", nome: "9º C" , aula: { dia: 2, ini: "09:00" } }, { id: "9D", nome: "9º D" , aula: { dia: 4, ini: "09:00" } } ] }
   ],
 
   apostilas: [

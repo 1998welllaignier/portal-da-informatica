@@ -76,6 +76,7 @@ service cloud.firestore {
         && docId == sessao().alunoId + '_' + request.resource.data.aid + '_' + string(request.resource.data.tentativa)
         && exists(/databases/$(database)/documents/config/$('prova_' + sessao().turma))
         && cfgProva(sessao().turma).aberta == true
+        && (!('ateTs' in cfgProva(sessao().turma)) || request.time < cfgProva(sessao().turma).ateTs + duration.value(3, 'm'))
         && (request.resource.data.tentativa == 1 || sessao().alunoId in cfgProva(sessao().turma).recuperacao);
       allow update: if false;
       allow delete: if isProf();

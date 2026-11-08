@@ -1,5 +1,25 @@
 # Plano de ação — Portal da Informática (combinado em 07/11/2026)
 
+## 📌 Situação atual (atualizado em 08/11/2026, 16h)
+Claude Max (5x) assinado por um mês em 08/11 para adiantar tudo. **Voltar ao Pro antes de 08/12** (lembretes no celular em 01/12 e 05/12).
+
+### ✋ O que o professor precisa fazer
+- [ ] **Hoje à noite, no computador (≈10 min):** abrir o console do Firebase logado; o Claude cola as regras novas de `docs/firestore.rules` (coleção `provas` + horário-limite) e o professor clica em Publicar. Sem isso, a aba 📝 Prova do painel e o envio da prova não funcionam.
+- [ ] Depois de publicar: teste rápido da prova com um aluno de teste (ligar o Dia de prova, fazer, conferir a nota no painel, encerrar).
+- [ ] Revisar as questões das provas (arquivo “Gabarito-Provas-4bim.md”, enviado no chat em 08/11) e dizer se quer trocar alguma.
+- [ ] Decidir a data da prova de cada turma (fim de novembro).
+
+### ✅ Feito
+- 07/11: Mão na massa, faixas do Básico, autonomia (sem carimbo), botão Página inicial, aviso da dupla, cartazes da porta, marcação 🧩 (36 alunos) e 👣 (8º B), Trilha do 8º adaptada ao PEI, botão Ouvir retirado.
+- 08/11: Trilhas Passo a Passo do 6º, 7º e 9º ano; prova no portal (Dia de prova no painel, cronômetro até o fim da aula, envio automático quando o tempo acaba, recuperação e gabarito no painel); site professorwell (horários Manhã/Tarde, aviso da prova no portal, animações, barra azul); capa do perfil; Caderno Digital com histórico de pagamentos em grupo.
+
+### 🔜 Fila do Claude (nesta ordem)
+1. Análise dos PEIs dos alunos atípicos (só leitura) e relatório “🧩 atípicos que frequentam” no painel.
+2. Diário de Classe dentro do painel (presença, vistos e notas da prova automáticos) + transferência do diário atual.
+3. Tarefas presas ao dia e à hora da aula + liberação manual + aluno de outra turma + “Missão de hoje”.
+4. “Ver como aluno” no painel.
+5. Atividade de recuperação de cada série; boletins em PDF; SIGE (com o professor).
+
 ## 1. Quinta-feira (renovação do limite do Claude)
 - [ ] Levar o Diário de Classe para dentro do Painel do professor (presença e visto de Básico/Desafio/Turbo automáticos, corrigíveis à mão, automático desligável por turma).
 - [ ] Transferir tudo do diário atual, conferindo os nomes dos alunos.
@@ -15,11 +35,11 @@
 - [ ] Para cada aluno frequente: ler o PEI e escolher um de 3 caminhos — **A)** apostila da turma com apoios (🔊 ouvir, roteiro da aula antecipado, menos itens); **B)** Trilha Passo a Passo da série (👣); **C)** material individual, só quando A e B não servem.
 - [x] Rever a Trilha do 8º ano com o PEI da aluna para quem ela foi feita (feito em 07/11: jogo com botões de 1 a 10, conferência por clique, Paint só com quadrados coloridos, sem o botão Ouvir, porque a sala não tem som).
 - [x] **(Feito em 07/11, à noite)** **Marcações no painel, feitas pelo Claude** (o professor deixa o painel aberto e logado no computador de casa; o Claude entra e faz): marcar 🧩 em todos os alunos com PEI (lista conferida em 07/11, guardada fora do repositório) e 👣 Trilha Passo a Passo na aluna do 8º B; depois conferir na tabela de cada turma se ficou tudo certo.
-- [ ] **Trilha Passo a Passo para cada série** (6º, 7º e 9º; a do 8º já existe): uma apostila **genérica**, não feita para um aluno só, para qualquer aluno atípico que não consegue acompanhar a apostila regular. Mesmas missões e mesmos assuntos da turma, porém mais simples: um passo por vez, frases curtas, quase tudo por clique, poucas opções, pouca digitação e Básico curto. A 👣 no painel leva o aluno à Trilha da série dele. Ajustes individuais só quando o PEI pedir.
+- [x] **(Feito em 08/11)** **Trilha Passo a Passo para cada série** (6º, 7º e 9º; a do 8º já existe): uma apostila **genérica**, não feita para um aluno só, para qualquer aluno atípico que não consegue acompanhar a apostila regular. Mesmas missões e mesmos assuntos da turma, porém mais simples: um passo por vez, frases curtas, quase tudo por clique, poucas opções, pouca digitação e Básico curto. A 👣 no painel leva o aluno à Trilha da série dele. Ajustes individuais só quando o PEI pedir.
 - [ ] Acompanhar a frequência deles toda semana; quem começar a vir entra na análise.
 
 ## 2. Fim do 4º bimestre de 2026
-- [x] Prova no próprio portal (feita em 08/11; falta publicar as regras do Firebase) ("modo prova": sem dicas, uma tentativa, questões embaralhadas, liberada e encerrada pelo painel, nota direto no boletim), no lugar do Wayground.
+- [x] Prova no próprio portal (feita em 08/11; falta publicar as regras do Firebase): 10 questões de 0,5, sem dicas, uma tentativa, questões embaralhadas, Dia de prova ligado e encerrado pelo painel, cronômetro até o horário-limite da turma (padrão: fim da aula) com envio automático, nota no painel. Falta: nota ir direto para o boletim (vem com o diário no painel).
 - [x] Recuperação: liberar a prova de novo só para quem precisa (botão no painel, aba Prova).
 - [ ] Boletins em PDF pelo diário.
 - [ ] SIGE (sistema da prefeitura), junto com o Claude.

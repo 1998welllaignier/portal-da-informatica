@@ -47,7 +47,8 @@
     const cfgSnap = await db().collection("config").doc("prova_" + s.turma).get();
     const cfg = cfgSnap.exists ? cfgSnap.data() : {};
     const hojeStr = N.hoje();
-    const aberta = !!cfg.aberta && cfg.dia === hojeStr;
+    const ate = cfg.ate || null;
+    const aberta = !!cfg.aberta && cfg.dia === hojeStr && !(ate && Date.now() > ate);
     const alunoId = s.alunoIds[0];
     const aid = aidDaProva(s);
     const t1 = await db().collection("provas").doc(alunoId + "_" + aid + "_1").get();
@@ -55,7 +56,7 @@
     let tentativa = null;
     if (!t1.exists) tentativa = 1;
     else if (rec) { const t2 = await db().collection("provas").doc(alunoId + "_" + aid + "_2").get(); if (!t2.exists) tentativa = 2; }
-    return { aberta, aid, alunoId, tentativa, feita: t1.exists ? t1.data() : null };
+    return { aberta, ate, aid, alunoId, tentativa, feita: t1.exists ? t1.data() : null };
   }
 
   /* Chamado pelo portal antes de abrir as apostilas: se for dia de prova, devolve o endereço da prova */
@@ -115,7 +116,7 @@
         <ul class="prova-regras"><li>✏️ <strong>10 questões</strong>. Cada uma vale <strong>0,5</strong>.</li><li>☝️ Escolha <strong>uma</strong> resposta em cada questão.</li><li>🔒 Você só pode enviar <strong>uma vez</strong>. Confira antes de finalizar.</li></ul></header>
       <ol class="prova-lista">${ordem.map((q, i) => `<li class="prova-q" data-q="${q.id}"><p class="prova-p"><span class="prova-n">${i + 1}</span>${q.tipo === "vf" ? "<em>Verdadeiro ou falso?</em> " : ""}${esc(q.p)}</p>
         <div class="prova-ops" role="radiogroup" aria-label="Questão ${i + 1}">${q.opcoes.map(o => `<button type="button" class="prova-op" role="radio" data-q="${q.id}" data-o="${esc(o)}" aria-checked="${resp[q.id] === o}">${q.tipo === "vf" ? (o === "Verdadeiro" ? "✅ " : "❌ ") : ""}${esc(o)}</button>`).join("")}</div></li>`).join("")}</ol>
-      <div class="prova-rodape"><span id="pv-cont"></span><button class="btn btn-grande" id="pv-fim" type="button">Finalizar prova</button></div>
+      <div class="prova-rodape"><span class="prova-relogio" id="pv-rel" aria-live="polite"></span><span id="pv-cont"></span><button class="btn btn-grande" id="pv-fim" type="button">Finalizar prova</button></div>
       <div class="prova-conf" id="pv-conf" hidden><p><strong>Tem certeza?</strong> Depois de enviar, não dá para mudar as respostas.</p>
         <div class="row-btns"><button class="btn btn-grande" id="pv-ok" type="button">Sim, enviar a prova</button><button class="btn btn-sec" id="pv-volta" type="button">Voltar e conferir</button></div></div>
     </section>`);
@@ -128,7 +129,20 @@
     cont();
     el.querySelector("#pv-fim").onclick = () => { el.querySelector("#pv-conf").hidden = false; el.querySelector("#pv-conf").scrollIntoView({ block: "center" }); };
     el.querySelector("#pv-volta").onclick = () => { el.querySelector("#pv-conf").hidden = true; };
-    el.querySelector("#pv-ok").onclick = async () => {
+    // relógio: conta até o horário-limite da turma; quando zera, envia sozinho
+    let enviando = false, ivRel = null;
+    const hm = ms => new Date(ms).toTimeString().slice(0, 5);
+    const tic = () => {
+      const r = el.querySelector("#pv-rel"); if (!r || !e.ate) { if (r) r.hidden = true; return; }
+      const falta = e.ate - Date.now(), min = Math.ceil(falta / 60000);
+      if (falta <= 0) { clearInterval(ivRel); r.textContent = "⏰ O tempo acabou"; if (!enviando) enviar(true); return; }
+      r.textContent = `⏰ Até ${hm(e.ate)} · ${falta < 60000 ? "menos de 1 minuto" : "faltam " + min + " min"}`;
+      r.classList.toggle("acabando", min <= 5);
+    };
+    tic(); ivRel = setInterval(tic, 5000);
+    el.querySelector("#pv-ok").onclick = () => enviar(false);
+    async function enviar(tempo) {
+      if (enviando) return; enviando = true; clearInterval(ivRel);
       const b = el.querySelector("#pv-ok"); b.disabled = true; b.textContent = "Enviando…";
       const acertos = Pv.questoes.filter(q => resp[q.id] != null && hash(aid, q.id, resp[q.id]) === q.h).length;
       try {
@@ -137,19 +151,19 @@
           acertos, nota: acertos * VALOR, enviadoEm: N.FV.serverTimestamp(), dia: N.hoje()
         });
       } catch (err) {
-        b.disabled = false; b.textContent = "Sim, enviar a prova";
+        enviando = false; b.disabled = false; b.textContent = "Sim, enviar a prova"; if (tempo) { el.querySelector("#pv-conf").hidden = false; }
         P.toast("Não foi possível enviar. Confira a internet e tente de novo."); console.error(err); return;
       }
       try { sessionStorage.removeItem(chave); } catch (x) {}
       ultimaChecagem = 0;
-      const fim = mount(`<section class="tela"><div class="painel prova-fim"><h1>✅ Prova enviada!</h1>
-        <p class="prova-nota">Você acertou <strong>${acertos} de 10</strong>.<br>Nota da prova: <strong>${fmt(acertos * VALOR)}</strong></p>
+      const fim = mount(`<section class="tela"><div class="painel prova-fim"><h1>${tempo ? "⏰ O tempo acabou: prova enviada!" : "✅ Prova enviada!"}</h1>
+        ${tempo ? "<p>As respostas que você marcou foram enviadas. As questões em branco contam como erradas.</p>" : ""}<p class="prova-nota">Você acertou <strong>${acertos} de 10</strong>.<br>Nota da prova: <strong>${fmt(acertos * VALOR)}</strong></p>
         <p>Sua nota já foi para o professor. <strong>Pode ir para casa!</strong> 🏠</p>
         <p class="ajuda" id="pv-cd">Saindo do portal em 15 segundos…</p>
         <button class="btn" id="pv-sair" type="button">Sair agora</button></div></section>`);
       fim.querySelector("#pv-sair").onclick = sairAgora;
       let t = 15; const iv = setInterval(() => { t--; const c = document.getElementById("pv-cd"); if (c) c.textContent = `Saindo do portal em ${t} segundos…`; if (t <= 0) { clearInterval(iv); sairAgora(); } }, 1000);
-    };
+    }
   }
   async function sairAgora() {
     try { await N.sair(); } catch (x) {}
