@@ -29,7 +29,9 @@ Claude Max (5x) assinado por um mês em 08/11 para adiantar tudo. **Voltar ao Pr
 2. ~~Diário de Classe dentro do painel~~ **programado em 08/11** (aba 📒 Diário: chamada, vistos ⚡ automáticos e corrigíveis, frequência, boletim com a nota da prova do portal, registro e lembretes). Falta: transferir o diário antigo (hoje à noite) e boletim em PDF.
 3. ~~Tarefas presas ao dia e à hora da aula + liberação manual + aluno de outra turma~~ **feito em 08/11, trava DESLIGADA** (o professor liga em Ano letivo quando quiser, depois de testar). “Missão de hoje” feita em 08/11 (aba Aula: o aluno cai direto nela; opção 🔒 travar só nela). Quadro ❓ “Para que serve esta aba e como usar” em todas as abas do painel.
 4. ~~“Ver como aluno” no painel~~ **feito em 08/11**: botão “👀 Abrir a apostila do aluno” na aba 🎤 Aula, que abre numa aba nova a apostila exatamente como o aluno vê (sem código, nada vai para o painel, sempre zerada).
-5. Atividade de recuperação de cada série; boletins em PDF; SIGE (com o professor).
+5. Atividade de recuperação de cada série; boletins em PDF e planilha (Excel) do diário, antes das provas (23/11).
+6. **SIGE — análise do que já foi feito** (pedido em 08/11): o professor abre o SIGE dele no computador; o Claude **só olha** (não altera nada) os anos e bimestres anteriores e faz um relatório: o que foi lançado, o que está certo, o que faltou ou ficou pendente (notas, frequência, conteúdos/registros). O professor nunca lançou nota no SIGE. Oficialmente, só as turmas do 6º ano estão no SIGE dele.
+7. **SIGE — lançamento do 4º bimestre** (só 6º A, B e C): com base no Diário; o Claude prepara a lista na ordem do SIGE ou digita, sempre mostrando antes de salvar cada turma.
 
 ## 1. Quinta-feira (renovação do limite do Claude)
 - [ ] Levar o Diário de Classe para dentro do Painel do professor (presença e visto de Básico/Desafio/Turbo automáticos, corrigíveis à mão, automático desligável por turma).
