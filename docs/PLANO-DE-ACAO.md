@@ -7,6 +7,7 @@ Claude Max (5x) assinado por um mês em 08/11 para adiantar tudo. **Voltar ao Pr
 - [ ] **Hoje à noite, no computador (≈10 min):** abrir o console do Firebase logado; o Claude cola as regras novas de `docs/firestore.rules` (coleção `provas` + horário-limite) e o professor clica em Publicar. Sem isso, a aba 📝 Prova do painel e o envio da prova não funcionam.
 - [ ] Hoje à noite, com o painel aberto no computador: o Claude preenche os **📝 Apoios na aula** dos 4 alunos com 🧩 que já frequentam (texto preparado em 08/11, a partir dos PEIs). Eles aparecem na **Tela da aula** do painel, só para o professor.
 - [ ] Hoje à noite: o Claude transfere o diário antigo (cronograma, chamadas, vistos, registros e lembretes) para a aba 📒 Diário do painel, primeiro só conferindo se os alunos batem. Depois disso, a chamada passa a ser feita no painel.
+- [ ] Hoje à noite, o Claude faz no painel: marcar como 🧪 aluno de teste o cadastro “Prof Welington Laignier” do 6º A (e outros cadastros do professor, se houver), para não contar como aluno nos relatórios, no diário e nas notas.
 - [ ] Depois de publicar: teste rápido da prova com um aluno de teste (ligar o Dia de prova, fazer, conferir a nota no painel, encerrar).
 - [ ] Revisar as questões das provas (arquivo “Gabarito-Provas-4bim.md”, reenviado no chat em 08/11 com as questões separadas por missão) e dizer se quer trocar alguma.
 - [ ] No dia de cada prova: na aba 📝 Prova, conferir as missões já marcadas (o painel marca pelas aulas que a turma teve) e, para o aluno 🧩 cujo PEI pede, tocar em “3 alternativas”.
