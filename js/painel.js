@@ -128,6 +128,7 @@
       "<b>Escolha a turma e a missão</b> (M1, M2…). Aparece o roteiro da aula com as falas, as respostas de cada atividade e quantos alunos já entraram e concluíram o Básico.",
       "<b>🎬 Apresentar</b>: abre numa aba nova os slides animados da missão (os mesmos assuntos do vídeo e da apostila), para projetar. Avance com → , espaço, clique ou passador; volte com ←; F deixa em tela cheia; Esc sai.",
       "<b>👀 Abrir a apostila do aluno</b>: abre, numa aba nova, a apostila exatamente como o aluno vê. Nada do que você fizer ali conta.",
+      "<b>🪧 Cartaz de entrada</b>: abre, numa aba nova, o mesmo cartaz da porta (endereço do site e os 4 passos para entrar), em tela cheia, para projetar no começo da aula. Aperte F11 para tela cheia.",
       "<b>📌 Missão de hoje</b>: toque em “Definir … como Missão de hoje”. Quando o aluno digitar o código, ele cai direto nessa missão. Vale só para hoje.",
       "<b>🔒 Travar só nela</b> (opcional): as tarefas das outras missões fecham hoje. Os textos continuam abertos. Quem você liberou individualmente (falta, reposição) continua podendo fazer as outras.",
       "<b>Tarefas desta turma</b> (aparece quando a trava de horário está ligada): libera a turma toda agora, fecha antes da hora ou volta ao normal.",
@@ -847,7 +848,8 @@
         <span class="pp-missoes">${C.missoes.map(m => `<a class="pp-mis ${m.id === mid ? "atual" : ""}" href="#/painel/aula/${t.id}/${m.id}">${esc(m.icone)} ${esc(m.id.toUpperCase())}</a>`).join("")}</span>
         ${((P.historiasDisponiveis || {})[ap.base || ap.id] || []).includes(mid) ? `<a class="btn" href="#/historia/${ap.base || ap.id}/${mid}" target="_blank" rel="noopener" title="Abre numa aba nova a história animada (problema → solução) desta missão">🎞️ História (abre numa aba nova)</a>` : ""}
         <a class="btn" href="#/apresentar/${ap.id}/${mid}" target="_blank" rel="noopener" title="Abre numa aba nova os slides animados desta missão, para projetar">🎬 Apresentar (abre numa aba nova)</a>
-        <a class="btn btn-sec" href="#/ver/${ap.id}/${mid}/${t.id}" target="_blank" rel="noopener" title="Abre numa aba nova a apostila exatamente como os alunos veem">👀 Abrir a apostila do aluno</a></div>
+        <a class="btn btn-sec" href="#/ver/${ap.id}/${mid}/${t.id}" target="_blank" rel="noopener" title="Abre numa aba nova a apostila exatamente como os alunos veem">👀 Abrir a apostila do aluno</a>
+        <a class="btn btn-sec" href="cartaz.html?v=${window.PORTAL_VERSAO || ""}" target="_blank" rel="noopener" title="Abre numa aba nova o cartaz com o endereço do site e os passos para entrar, para projetar">🪧 Cartaz de entrada (projetar)</a></div>
       <div id="aula"></div>`);
     ligarSair(el);
     el.querySelector("#sel").onchange = e => { location.hash = "#/painel/aula/" + e.target.value + "/" + mid; };
