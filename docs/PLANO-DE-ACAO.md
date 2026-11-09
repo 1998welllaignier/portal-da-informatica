@@ -42,6 +42,15 @@ Claude Max (5x) assinado por um mês em 08/11 para adiantar tudo. **Voltar ao Pr
 - Oficialmente ele tem a disciplina **"Educação Aberta e Digital"** (2026: turmas A-MAT 58 alunos e B-VESP 65 alunos; 2025: "Geração Digital" A e B). **Essas turmas não aceitam nota** ("tipo de aprovação não é por notas"): o que o SIGE cobra é **registro de aulas/conteúdos** e frequência (e talvez conceito/parecer: a confirmar).
 - 2025: 120/120 aulas registradas em cada turma (confirmar com ele quem registrou). 2026: 0/120 → o SIGE mostra aviso "Falta registrar aulas"; só o 4º bimestre está aberto (1º–3º fechados).
 - **No fim do ano o SIGE reabre para correções** → ficar atento à liberação e, quando abrir, registrar **o ano inteiro de 2026** (aulas, conteúdos, frequência e o que mais for exigido). O Claude prepara tudo a partir do diário do portal e só salva turma por turma com o "sim" dele.
+- **🌍 Mundo do SIGE × 🏫 realidade (NÃO CONFUNDIR):**
+  | | 🌍 No SIGE | 🏫 Na realidade (portal e diário) |
+  |---|---|---|
+  | Turmas | 2: **Educação Aberta e Digital A-MAT** (60 alunos) e **B-VESP** (65) | 3: **6º A, 6º B e 6º C**, cada uma 1 aula por semana no contraturno |
+  | Quem está em cada uma | A-MAT = **todo o 6º C** (33) + 27 alunos que não estão em nenhuma turma do 6º no portal (confirmar com a secretaria) · B-VESP = **6º A + 6º B** (61 de 66; 5 do portal não aparecem no SIGE) | 6º A (33), 6º B (33), 6º C (33) |
+  | Aulas | 120 previstas por turma no ano (≈ 3 por semana); **sem horário cadastrado** (qualquer dia letivo aceita registro) | 1 aula por semana por turma |
+  | Avaliação | **Sem nota e sem conceito** (só aulas/conteúdos e frequência) | Nota 0–10 no boletim do portal (Básico + Desafio/Turbo + prova) |
+  | Frequência | Só abre depois que a aula é registrada; **quem lança é o professor** | A frequência real fica no diário do portal e nunca é alterada pelo que for lançado no SIGE |
+  - Regra: o **portal/diário é a verdade da sala**; o SIGE é preenchido à parte, no formato dele. Nada lançado no SIGE muda o diário do portal.
 - **Combinado (09/11):** o Claude ajuda em todas as etapas do SIGE (registro das aulas realmente dadas, conteúdos reais das missões, conferência), **menos a frequência: essa é o professor quem lança**.
 - Daqui para frente: registrar no SIGE **dentro de cada bimestre** (de preferência toda sexta), para não acumular.
 - Análise de 09/11 (só leitura): 2019–2024 sem turmas no nome dele. Conceitos/parecer: a turma não tem componente configurado (nada a lançar). Frequência só existe depois que a aula é registrada (2026: "não existem registros de aulas"). 2025: aulas registradas 2 vezes por semana com conteúdos genéricos por bimestre (ex.: "Uso de ferramentas de criação e colaboração", "Análise de informações e fontes confiáveis", "Direitos autorais e produção de conteúdo", "Início e desenvolvimento dos projetos") e todos os alunos presentes (nenhuma falta lançada).
