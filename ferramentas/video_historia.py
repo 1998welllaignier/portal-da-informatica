@@ -41,19 +41,94 @@ i = n; grupos = []
 for j in range(m, 0, -1): k = arg[j][i]; grupos.append((k, i)); i = k
 grupos.reverse()
 cuts = [(ch[k][0], ch[i - 1][1]) for k, i in grupos]
+
+def silabas(w):
+    """Quantas sílabas (aprox.) a palavra tem quando falada."""
+    lim = re.sub(r"[^\w/]", "", w)
+    if re.fullmatch(r"[A-Z]{2,}(/[A-Z]+)?", lim): return len(lim.replace("/", ""))  # sigla: soletrada
+    if re.fullmatch(r"[\d.,]+", lim): return max(1, int(len(re.sub(r"\D", "", lim)) * 1.5))
+    s = unicodedata.normalize("NFD", w.lower()).encode("ascii", "ignore").decode()
+    return max(1, len(re.findall(r"[aeiouy]+", s)))
+
+def distribuir(ws, cs, S, out):
+    """Espalha as palavras ws pelo tempo de fala dos trechos cs (sem contar as pausas), pelo número de sílabas."""
+    sp = sum(y - x for x, y in cs) or 0.01; pes = [silabas(w) for w in ws]; tot = sum(pes) or 1; acc = 0
+    for p_ in pes:
+        st = acc / tot * sp; acc += p_; t0 = 0; r = cs[-1][1]
+        for x, y in cs:
+            if st <= t0 + (y - x) + 1e-9: r = x + (st - t0); break
+            t0 += y - x
+        out.append(round(r - S, 2))
+
+def grupos_dp(pesos, n):
+    """Divide a lista pesos em n grupos contíguos com proporções parecidas (retorna os cortes)."""
+    m = len(pesos); tot = sum(pesos) or 1; alvo = 1.0 / n; INF = 1e18
+    pre = [0]
+    for x in pesos: pre.append(pre[-1] + x)
+    B = [[INF] * (m + 1) for _ in range(n + 1)]; A = [[0] * (m + 1) for _ in range(n + 1)]; B[0][0] = 0
+    for g in range(1, n + 1):
+        for i in range(g, m + 1):
+            for k in range(g - 1, i):
+                if B[g - 1][k] >= INF: continue
+                v = B[g - 1][k] + ((pre[i] - pre[k]) / tot - alvo) ** 2
+                if v < B[g][i]: B[g][i] = v; A[g][i] = k
+    cortes = []; i = m
+    for g in range(n, 0, -1): k = A[g][i]; cortes.append((k, i)); i = k
+    return cortes[::-1]
+
+def alinhar(words, cc, S):
+    """Encaixa as palavras na voz: frases (até a pontuação) ↔ trechos de fala (entre pausas); dentro, por sílabas."""
+    if not words: return []
+    fr = []; ini = 0
+    for i, w in enumerate(words):
+        if re.search(r"[,.:;!?]$", w) or i == len(words) - 1: fr.append((ini, i + 1)); ini = i + 1
+    sil = [sum(silabas(w) for w in words[a:b]) for a, b in fr]
+    dur = [y - x for x, y in cc]
+    out = []
+    if len(fr) >= len(cc):
+        # várias frases podem caber num trecho: agrupa frases para cada trecho, pelo tamanho
+        tot_d = sum(dur) or 1; tot_s = sum(sil) or 1
+        # DP: frases → trechos, custo = diferença entre a fração de sílabas e a fração de tempo
+        m, n = len(fr), len(cc); INF = 1e18; pre = [0]
+        for x in sil: pre.append(pre[-1] + x)
+        B = [[INF] * (m + 1) for _ in range(n + 1)]; A = [[0] * (m + 1) for _ in range(n + 1)]; B[0][0] = 0
+        for g in range(1, n + 1):
+            for i in range(g, m + 1):
+                for k in range(g - 1, i):
+                    if B[g - 1][k] >= INF: continue
+                    v = B[g - 1][k] + ((pre[i] - pre[k]) / tot_s - dur[g - 1] / tot_d) ** 2
+                    if v < B[g][i]: B[g][i] = v; A[g][i] = k
+        cortes = []; i = m
+        for g in range(n, 0, -1): k = A[g][i]; cortes.append((k, i)); i = k
+        cortes.reverse()
+        for g, (k, i) in enumerate(cortes):
+            distribuir(words[fr[k][0]:fr[i - 1][1]], [cc[g]], S, out)
+    else:
+        # mais pausas que frases: cada frase ganha um ou mais trechos seguidos
+        tot_d = sum(dur) or 1; tot_s = sum(sil) or 1
+        m, n = len(cc), len(fr); INF = 1e18; pre = [0]
+        for x in dur: pre.append(pre[-1] + x)
+        B = [[INF] * (m + 1) for _ in range(n + 1)]; A = [[0] * (m + 1) for _ in range(n + 1)]; B[0][0] = 0
+        for g in range(1, n + 1):
+            for i in range(g, m + 1):
+                for k in range(g - 1, i):
+                    if B[g - 1][k] >= INF: continue
+                    v = B[g - 1][k] + ((pre[i] - pre[k]) / tot_d - sil[g - 1] / tot_s) ** 2
+                    if v < B[g][i]: B[g][i] = v; A[g][i] = k
+        cortes = []; i = m
+        for g in range(n, 0, -1): k = A[g][i]; cortes.append((k, i)); i = k
+        cortes.reverse()
+        for g, (k, i) in enumerate(cortes):
+            a, b = fr[g]; distribuir(words[a:b], cc[k:i], S, out)
+    return out
+
 norm = lambda w: unicodedata.normalize("NFD", w).encode("ascii", "ignore").decode().lower().strip(".,:;!?")
 starts = [0.0] + [cuts[k][0] - LEAD for k in range(1, m)]
 sinc = []
 for k, c in enumerate(cenas):
     S = starts[k]; du = (starts[k + 1] if k + 1 < m else TOTAL + TAIL) - S
     a, b = cuts[k]; cc = [(max(x, a), min(y, b)) for x, y in ch if y > a and x < b]
-    sp = sum(y - x for x, y in cc); words = c["fala"].split(); w8 = [len(w) + 1.5 for w in words]; tot = sum(w8) or 1; acc = 0; wt = []
-    for w in w8:
-        st = acc / tot * sp; acc += w; t0 = 0; r = cc[-1][1]
-        for x, y in cc:
-            if st <= t0 + (y - x) + 1e-9: r = x + (st - t0); break
-            t0 += y - x
-        wt.append(round(r - S, 2))
+    words = c["fala"].split(); wt = alinhar(words, cc, S)
     d = {"dur": round(du, 2), "wt": wt}
     if c["nome"]:
         f = norm(c["nome"].split()[0])
@@ -64,7 +139,7 @@ for k, c in enumerate(cenas):
 txt = open(dados).read()
 # troca só a sincronia desta missão (as outras missões continuam)
 txt = re.sub(r"\n/\* Sincronia %s[^\n]*\*/\nPORTAL\.historias\[[^\n]*\n?" % mid, "\n", txt).rstrip() + "\n"
-txt += "\n/* Sincronia %s com a narração" % mid + " gravada (Grok): tempo de cada cena e de cada palavra da legenda. Só é usada no modo auto (gravação do vídeo). */\n"
+txt += "\n/* Sincronia %s com a narração" % mid + " gravada (voz do professor): tempo de cada cena e de cada palavra da legenda. Só é usada no modo auto (gravação do vídeo). */\n"
 txt += 'PORTAL.historias["%s"].sinc = Object.assign(PORTAL.historias["%s"].sinc || {}, { %s: %s });\n' % (aid, aid, mid, json.dumps(sinc, separators=(",", ":")))
 open(dados, "w").write(txt)
 
@@ -79,6 +154,11 @@ ini = time.time() - t0; pg.evaluate("window.__historiaComecar()")
 pg.wait_for_function("window.__historiaFim === true", timeout=600000); pg.wait_for_timeout(int(TAIL * 1000) + 2500)
 ctx.close(); b.close(); p.stop(); srv.kill()
 v = glob.glob(tmp + "/*.webm")[0]; T = TOTAL + TAIL
+# início exato = fim da tela preta inicial
+bl = subprocess.run(["ffmpeg", "-hide_banner", "-i", v, "-vf", "blackdetect=d=0.3:pix_th=0.05", "-an", "-f", "null", "-"], capture_output=True, text=True).stderr
+m0 = re.search(r"black_start:[\d.]+ black_end:([\d.]+)", bl)
+if m0: ini = float(m0.group(1)); print("início pela tela preta:", ini)
+else: print("aviso: tela preta não encontrada; usando o tempo medido", ini)
 if musica:
     fc = "[1:a]aresample=44100,apad[v];[2:a]aresample=44100,volume=-19dB,afade=t=in:d=1.5,afade=t=out:st=%.2f:d=3[m];[v][m]amix=inputs=2:duration=longest:normalize=0[a]" % (T - 3)
     ins = ["-i", v, "-i", audio, "-stream_loop", "-1", "-i", musica]

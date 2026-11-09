@@ -81,7 +81,7 @@
     // o palco é 1280×720 e se ajusta à tela
     const ajustar = () => { const s = Math.min(window.innerWidth / 1280, window.innerHeight / 720); palco.style.transform = `translate(-50%,-50%) scale(${s})`; };
     ajustar(); window.addEventListener("resize", ajustar);
-    let i = -1, timer = null;
+    let i = -1, timer = null, t0 = 0; const inicioCena = [0];
     function ir(n) {
       i = Math.max(0, Math.min(cenas.length - 1, n));
       const c = cenas[i], r = cenaHTML(c, i);
@@ -91,7 +91,8 @@
       el.querySelector("#hs-prog").style.width = ((i + 1) / cenas.length * 100) + "%";
       const num = el.querySelector("#hs-num"); if (num) num.textContent = `${i + 1} / ${cenas.length}`;
       clearTimeout(timer);
-      if (auto) timer = setTimeout(() => { if (i < cenas.length - 1) ir(i + 1); else { document.title = "FIM"; window.__historiaFim = true; } }, r.dur * 1000);
+      // no modo auto, cada cena começa num horário fixo contado do início (sem acumular atraso)
+      if (auto) { inicioCena[i + 1] = (inicioCena[i] || 0) + r.dur * 1000; timer = setTimeout(() => { if (i < cenas.length - 1) ir(i + 1); else { document.title = "FIM"; window.__historiaFim = true; } }, Math.max(0, t0 + inicioCena[i + 1] - performance.now())); }
     }
     function sair() { document.body.classList.remove("modo-apresentacao"); clearTimeout(timer); window.close(); setTimeout(() => { location.hash = "#/"; }, 300); }
     if (!auto) {
@@ -108,8 +109,10 @@
       el.querySelector("#hs-tela").onclick = () => el.requestFullscreen && el.requestFullscreen().catch(() => {});
       el.querySelector("#hs-sair").onclick = sair;
     }
-    window.__historiaComecar = () => ir(0);
-    if (!auto || !/gravar/.test(location.search)) ir(0);
+    // gravação: tela preta até começar (o vídeo é cortado exatamente no fim do preto)
+    const preto = auto && /gravar/.test(location.search) ? el.appendChild(Object.assign(document.createElement("div"), { style: "position:fixed;inset:0;background:#000;z-index:99" })) : null;
+    window.__historiaComecar = () => { t0 = performance.now(); if (preto) preto.remove(); ir(0); };
+    if (!auto || !/gravar/.test(location.search)) { t0 = performance.now(); ir(0); }
   }
   P.historia = { abrir };
 })();
