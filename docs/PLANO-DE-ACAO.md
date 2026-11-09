@@ -56,6 +56,14 @@ Claude Max (5x) assinado por um mês em 08/11 para adiantar tudo. **Voltar ao Pr
 - Análise de 09/11 (só leitura): 2019–2024 sem turmas no nome dele. Conceitos/parecer: a turma não tem componente configurado (nada a lançar). Frequência só existe depois que a aula é registrada (2026: "não existem registros de aulas"). 2025: aulas registradas 2 vezes por semana com conteúdos genéricos por bimestre (ex.: "Uso de ferramentas de criação e colaboração", "Análise de informações e fontes confiáveis", "Direitos autorais e produção de conteúdo", "Início e desenvolvimento dos projetos") e todos os alunos presentes (nenhuma falta lançada).
 - Pendente no SIGE: "Avaliação de servidores" liberada (ele avalia a si mesmo e um colega sorteado).
 
+### 🎞️ Vídeos da semana 09–12/11 (anotado em 09/11, 12h40) — FAZER HOJE MAIS TARDE
+Prontos (v3, voz HeyGen/Murilo): 6º M1, 7º M1, 8º M2, 9º M1.
+Faltam (história + prompt para o ChatGPT/HeyGen + montagem), nesta ordem:
+1. **7º · Missão 2 – Algoritmos: decomposição, listas, reúso e correção de erros** → 7º A e 7º B na **terça 10/11, 13h30**.
+2. **6º · Missão 2 – Algoritmos: sequência, repetição e seleção** → 6º A e 6º B na **quinta 12/11**.
+3. **9º · Missão 2 – Criptografia e ataques** → 9º D na **quinta 12/11, 9h**.
+Atenção: cada série tem turmas em missões diferentes (ver missoes4 no catálogo); conferir sempre o cronograma por turma antes de dizer qual vídeo falta.
+
 ## 1. Quinta-feira (renovação do limite do Claude)
 - [ ] Levar o Diário de Classe para dentro do Painel do professor (presença e visto de Básico/Desafio/Turbo automáticos, corrigíveis à mão, automático desligável por turma).
 - [ ] Transferir tudo do diário atual, conferindo os nomes dos alunos.
