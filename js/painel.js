@@ -793,6 +793,7 @@
         <label>Turma <select id="sel">${turmas.map(x => `<option value="${x.id}" ${x.id === t.id ? "selected" : ""}>${esc(nomeTurma(x.id))}</option>`).join("")}</select></label>
         ${aps.length > 1 ? `<label>Apostila <select id="ap">${aps.map(a => `<option value="${a.id}" ${a.id === ap.id ? "selected" : ""}>${esc(a.titulo || a.id)}</option>`).join("")}</select></label>` : ""}
         <span class="pp-missoes">${C.missoes.map(m => `<a class="pp-mis ${m.id === mid ? "atual" : ""}" href="#/painel/aula/${t.id}/${m.id}">${esc(m.icone)} ${esc(m.id.toUpperCase())}</a>`).join("")}</span>
+        ${((P.historiasDisponiveis || {})[ap.base || ap.id] || []).includes(mid) ? `<a class="btn" href="#/historia/${ap.base || ap.id}/${mid}" target="_blank" rel="noopener" title="Abre numa aba nova a história animada (problema → solução) desta missão">🎞️ História (abre numa aba nova)</a>` : ""}
         <a class="btn" href="#/apresentar/${ap.id}/${mid}" target="_blank" rel="noopener" title="Abre numa aba nova os slides animados desta missão, para projetar">🎬 Apresentar (abre numa aba nova)</a>
         <a class="btn btn-sec" href="#/ver/${ap.id}/${mid}/${t.id}" target="_blank" rel="noopener" title="Abre numa aba nova a apostila exatamente como os alunos veem">👀 Abrir a apostila do aluno</a></div>
       <div id="aula"></div>`);
