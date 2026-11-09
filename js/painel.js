@@ -781,10 +781,10 @@
             h1{font-size:18px;margin:6px 0 10px}h2{font-size:16px;margin:4px 0 8px}
             .t{width:100%;border-collapse:collapse}.t th,.t td{border:1px solid #bbb;padding:3px 5px;text-align:center}.t th{background:#eef2ff}.t td.nm{text-align:left}
             .t tr:nth-child(even) td{background:#fafafa}.leg{font-size:10px;color:#444;margin-top:8px}
-            .dois{display:flex;flex-direction:column;gap:10mm;height:272mm}.bi{flex:0 0 calc(50% - 5mm);border:1.5px solid #1e3a8a;border-radius:8px;padding:10px 12px;overflow:hidden}
+            .dois{display:flex;flex-direction:column;gap:10mm;height:272mm}.bi{flex:0 0 calc(50% - 5mm);display:flex;flex-direction:column;border:1.5px solid #1e3a8a;border-radius:8px;padding:10px 12px;overflow:hidden}
             .t2{width:100%;border-collapse:collapse;font-size:12.5px}.t2 th{text-align:left;width:38%;padding:4px 6px;background:#f1f5f9;border:1px solid #ddd}.t2 td{padding:4px 6px;border:1px solid #ddd}
             .t2 .fin th,.t2 .fin td{background:#fff7ed;font-size:14px}
-            .ass{display:flex;justify-content:space-around;gap:20px;margin-top:22px}.ass span{flex:1;text-align:center;border-top:1px solid #333;padding-top:3px;font-size:11px}
+            .ass{display:flex;justify-content:space-around;gap:30px;margin-top:60px}.bi .ass{margin-top:auto;padding-top:40px;padding-bottom:6px}.ass span{flex:1;text-align:center;border-top:1px solid #333;padding-top:3px;font-size:11px}
             .barra{position:sticky;top:0;background:#1e3a8a;color:#fff;padding:10px;text-align:center;font-size:14px}.barra button{font-size:14px;margin-left:10px;padding:6px 14px}
             @media print{.barra{display:none}}`;
           const html = `<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><title>Boletim ${e(turmaTxt)} · ${e(bimTxt)}</title><style>${css}</style></head><body>
