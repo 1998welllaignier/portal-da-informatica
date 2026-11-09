@@ -704,7 +704,8 @@
           <td>${fmtN(b.nota)}</td><td><input class="num" data-nr="${a.id}" value="${b.r == null ? "" : String(b.r).replace(".", ",")}" placeholder="–" inputmode="decimal" aria-label="Recuperação de ${esc(a.nome)}"></td>
           <td><strong class="nota ${b.sit.c}">${fmtN(b.final)}</strong></td><td><span class="sit ${b.sit.c}">${b.sit.t}</span></td><td class="falta">${esc(b.falta.join(" · ") || "—")}</td></tr>`).join("")}</tbody></table></div>
         <p class="ajuda">A prova feita no portal aparece sozinha (⚡). Digite na coluna Prova só se o aluno fez a prova em papel (de 0 a 5); apague o número para voltar à nota do portal.</p>
-        <div class="row-btns"><button type="button" class="btn btn-sec" id="cp-bol">📋 Copiar boletim (para colar numa planilha)</button></div></div>`;
+        <div class="row-btns"><button type="button" class="btn" id="pdf-bol">🖨️ Boletim em PDF (turma + individuais)</button><button type="button" class="btn btn-sec" id="xls-bol">📥 Baixar planilha (Excel)</button><button type="button" class="btn btn-sec" id="cp-bol">📋 Copiar boletim</button></div>
+        <p class="ajuda">🖨️ abre uma página pronta para imprimir: a lista da turma e, depois, o boletim de cada aluno (2 por folha A4). Na janela de impressão, escolha <b>Salvar como PDF</b>. 📥 baixa a mesma tabela num arquivo que abre no Excel ou no Google Planilhas.</p></div>`;
     }
     function vRegistro() {
       const ds = [...new Set([...Object.keys(aulas), ...cron.map(c => c.data)])].sort().reverse();
@@ -742,6 +743,57 @@
           if (v != null && (isNaN(v) || v < 0 || v > max)) { toast(`Digite um número de 0 a ${max}.`); inp.value = ""; return; }
           notas[k][id] = v; salvarTurma({ notas: { [k]: { [id]: v } } }); render();
         });
+        const linhas = () => alunos.map(a => ({ a, b: boletim(a.id), fr: freq(a.id) }));
+        const bimTxt = "4º bimestre de " + hoje.slice(0, 4), turmaTxt = nomeTurma(t.id);
+        q("#xls-bol").onclick = () => {
+          const c = v => { v = String(v == null ? "" : v); return /[;"\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v; };
+          const csv = [["Prof. Welington Laignier · Informática · " + turmaTxt + " · " + bimTxt],
+            ["Nº", "Aluno", "Frequência", "Básico (de 4)", "Desafio/Turbo", "Apostila (até 5,0)", "Prova (até 5,0)", "Nota", "Recuperação (0 a 10)", "Final", "Situação", "O que falta"],
+            ...linhas().map(({ a, b, fr }, i) => [i + 1, a.nome, fr.pct == null ? "" : fr.pct + "%", b.basC, b.ext, fmtN(b.A), b.B == null ? "" : fmtN(b.B), fmtN(b.nota), b.r == null ? "" : fmtN(b.r), fmtN(b.final), b.sit.t, b.falta.join(" · ")])]
+            .map(l => l.map(c).join(";")).join("\r\n");
+          const url = URL.createObjectURL(new Blob(["\ufeff" + csv], { type: "text/csv;charset=utf-8" }));
+          const lk = document.createElement("a"); lk.href = url; lk.download = `Boletim-${t.id}-${hoje.slice(0, 4)}-4bim.csv`; document.body.appendChild(lk); lk.click(); lk.remove(); setTimeout(() => URL.revokeObjectURL(url), 2000);
+          toast("Planilha baixada.");
+        };
+        q("#pdf-bol").onclick = () => {
+          const L = linhas(), e = esc, sitCor = c => ({ ok: "#15803d", bad: "#b91c1c", wait: "#a16207" }[c] || "#333");
+          const cab = `<div class="cab"><div><b>Prof. Welington Laignier</b><span>Informática · ${e(turmaTxt)} · ${e(bimTxt)}</span></div><div class="esc">EMEF Juscelino Kubitschek · Curionópolis-PA</div></div>`;
+          const turma = `<section class="pg">${cab}<h1>Boletim da turma</h1>
+            <table class="t"><thead><tr><th>Nº</th><th>Aluno</th><th>Freq.</th><th>Apostila<br><small>até 5,0</small></th><th>Prova<br><small>até 5,0</small></th><th>Nota</th><th>Recup.</th><th>Final</th><th>Situação</th></tr></thead>
+            <tbody>${L.map(({ a, b, fr }, i) => `<tr><td>${i + 1}</td><td class="nm">${e(a.nome)}</td><td>${fr.pct == null ? "–" : fr.pct + "%"}</td><td>${fmtN(b.A)}</td><td>${b.B == null ? "–" : fmtN(b.B)}</td><td>${fmtN(b.nota)}</td><td>${b.r == null ? "–" : fmtN(b.r)}</td><td><b>${fmtN(b.final)}</b></td><td style="color:${sitCor(b.sit.c)}"><b>${e(b.sit.t)}</b></td></tr>`).join("")}</tbody></table>
+            <p class="leg">Apostila = 1,0 por visto do Básico (até 4) + 0,25 por Desafio/Turbo (bônus até 1,0). Prova = até 5,0. Recuperação (0 a 10) substitui a nota quando for maior. Média mínima: 5,0.</p>
+            <div class="ass"><span>Assinatura do professor</span><span>Data: ____/____/______</span></div></section>`;
+          const ind = ({ a, b, fr }) => `<div class="bi">${cab}<h2>${e(a.nome)}</h2>
+            <table class="t2"><tr><th>Frequência</th><td>${fr.pct == null ? "–" : fr.pct + "% (" + fr.p + (fr.p === 1 ? " presença" : " presenças") + (fr.j ? ", " + fr.j + (fr.j === 1 ? " justificada" : " justificadas") : "") + ", " + fr.f + (fr.f === 1 ? " falta" : " faltas") + ")"}</td></tr>
+            <tr><th>Apostila (Básico)</th><td>${b.basC} de 4 vistos = ${fmtN(b.basC)}</td></tr>
+            <tr><th>Desafio / Turbo</th><td>${b.ext} completo${b.ext === 1 ? "" : "s"} = +${fmtN(b.bonus)}</td></tr>
+            <tr><th>Prova</th><td>${b.B == null ? "não fez" : fmtN(b.B) + " de 5,0"}</td></tr>
+            <tr><th>Nota do bimestre</th><td>${fmtN(b.nota)}</td></tr>
+            ${b.r != null ? `<tr><th>Recuperação</th><td>${fmtN(b.r)}${b.recUsada ? " (substituiu a nota)" : ""}</td></tr>` : ""}
+            <tr class="fin"><th>Nota final</th><td><b>${fmtN(b.final)}</b> · <b style="color:${sitCor(b.sit.c)}">${e(b.sit.t)}</b></td></tr>
+            ${b.falta.length ? `<tr><th>O que falta</th><td>${e(b.falta.join(" · "))}</td></tr>` : ""}</table>
+            <div class="ass"><span>Professor</span><span>Responsável</span></div></div>`;
+          const pares = []; for (let i = 0; i < L.length; i += 2) pares.push(`<section class="pg dois">${ind(L[i])}${L[i + 1] ? ind(L[i + 1]) : ""}</section>`);
+          const css = `@page{size:A4;margin:12mm}*{box-sizing:border-box}body{font:12px/1.35 system-ui,Arial,sans-serif;color:#111;margin:0}
+            .pg{page-break-after:always}.pg:last-child{page-break-after:auto}
+            .cab{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:3px solid #f97316;padding-bottom:6px;margin-bottom:10px}
+            .cab b{display:block;font-size:17px;color:#1e3a8a}.cab span{font-size:12px}.esc{font-size:10px;color:#666;text-align:right}
+            h1{font-size:18px;margin:6px 0 10px}h2{font-size:16px;margin:4px 0 8px}
+            .t{width:100%;border-collapse:collapse}.t th,.t td{border:1px solid #bbb;padding:3px 5px;text-align:center}.t th{background:#eef2ff}.t td.nm{text-align:left}
+            .t tr:nth-child(even) td{background:#fafafa}.leg{font-size:10px;color:#444;margin-top:8px}
+            .dois{display:flex;flex-direction:column;gap:10mm;height:272mm}.bi{flex:0 0 calc(50% - 5mm);border:1.5px solid #1e3a8a;border-radius:8px;padding:10px 12px;overflow:hidden}
+            .t2{width:100%;border-collapse:collapse;font-size:12.5px}.t2 th{text-align:left;width:38%;padding:4px 6px;background:#f1f5f9;border:1px solid #ddd}.t2 td{padding:4px 6px;border:1px solid #ddd}
+            .t2 .fin th,.t2 .fin td{background:#fff7ed;font-size:14px}
+            .ass{display:flex;justify-content:space-around;gap:20px;margin-top:22px}.ass span{flex:1;text-align:center;border-top:1px solid #333;padding-top:3px;font-size:11px}
+            .barra{position:sticky;top:0;background:#1e3a8a;color:#fff;padding:10px;text-align:center;font-size:14px}.barra button{font-size:14px;margin-left:10px;padding:6px 14px}
+            @media print{.barra{display:none}}`;
+          const html = `<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><title>Boletim ${e(turmaTxt)} · ${e(bimTxt)}</title><style>${css}</style></head><body>
+            <div class="barra">Confira e clique em Imprimir → <b>Salvar como PDF</b><button onclick="print()">🖨️ Imprimir / PDF</button></div>${turma}${pares.join("")}</body></html>`;
+          const w = window.open("", "_blank");
+          if (!w) { toast("O navegador bloqueou a nova aba. Permita pop-ups para este site."); return; }
+          w.document.open(); w.document.write(html); w.document.close();
+          setTimeout(() => { try { w.focus(); w.print(); } catch (x) {} }, 600);
+        };
         q("#cp-bol").onclick = async () => {
           const txt = ["Aluno\tFrequência\tBásico\tDesafio/Turbo\tApostila\tProva\tNota\tRecuperação\tFinal\tSituação",
             ...alunos.map(a => { const b = boletim(a.id), fr = freq(a.id); return [a.nome, fr.pct == null ? "" : fr.pct + "%", b.basC, b.ext, fmtN(b.A), b.B == null ? "" : fmtN(b.B), fmtN(b.nota), b.r == null ? "" : fmtN(b.r), fmtN(b.final), b.sit.t].join("\t"); })].join("\n");
