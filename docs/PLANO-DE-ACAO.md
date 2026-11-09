@@ -34,6 +34,10 @@ Claude Max (5x) assinado por um mês em 08/11 para adiantar tudo. **Voltar ao Pr
 6. **SIGE — análise do que já foi feito** (pedido em 08/11): o professor abre o SIGE dele no computador; o Claude **só olha** (não altera nada) os anos e bimestres anteriores e faz um relatório: o que foi lançado, o que está certo, o que faltou ou ficou pendente (notas, frequência, conteúdos/registros). O professor nunca lançou nota no SIGE. Oficialmente, só as turmas do 6º ano estão no SIGE dele.
 7. **SIGE — lançamento do 4º bimestre** (só 6º A, B e C): com base no Diário; o Claude prepara a lista na ordem do SIGE ou digita, sempre mostrando antes de salvar cada turma.
 
+### ⏳ Pendente para o Claude fazer no painel (quando o professor abrir no computador)
+- **Diário 09/11/2026 (seg) · 6º C e 7º C:** Encontro = "Sem aula – falta de energia"; Registro = "Não houve aula: a escola está sem energia elétrica desde a madrugada. Todos os alunos foram liberados, tanto da aula regular quanto do contraturno." Sem marcar presença/falta (o dia não entra na frequência). Se a energia não voltar à tarde, fazer o mesmo no 9º A e no 9º B (perguntar a ele).
+- Depois: decidir com ele se a Missão 1 do 6º C e do 7º C passa para 16/11 (empurrar o cronograma) ou se junta com a Missão 2.
+
 ## 1. Quinta-feira (renovação do limite do Claude)
 - [ ] Levar o Diário de Classe para dentro do Painel do professor (presença e visto de Básico/Desafio/Turbo automáticos, corrigíveis à mão, automático desligável por turma).
 - [ ] Transferir tudo do diário atual, conferindo os nomes dos alunos.
