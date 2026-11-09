@@ -121,6 +121,7 @@ o portal troca a apostila da turma pela Trilha Passo a Passo da série (catálog
   a Recuperação (0–10) substitui quando é maior.
 
 ## 3.1 ✅ Checklist de CADA bimestre novo (não pular nenhum item)
+0. **SIGE (só o 6º ano / "Educação Aberta e Digital")**: conferir se as aulas do bimestre foram registradas no SIGE antes de ele fechar; no fim do ano, quando reabrir para correções, registrar o que faltou do ano inteiro (ver docs/PLANO-DE-ACAO.md, seção SIGE). Nunca salvar nada no SIGE sem o "sim" dele.
 Combinado com o professor em 08/11/2026. Ao criar o material de um bimestre, entregar **tudo** isto:
 1. **Apostila no portal** (`fontes/*.md` → `ferramentas/gerar_conteudo.py`), por série, com em cada missão:
    💡 Para começar · 📖 O que significa? (toda sigla e termo explicado por completo) · 🌎 Onde eu uso isso? ·

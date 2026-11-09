@@ -38,6 +38,13 @@ Claude Max (5x) assinado por um mês em 08/11 para adiantar tudo. **Voltar ao Pr
 - ✅ FEITO (09/11, 10h) **Diário 09/11/2026 (seg) · 6º C e 7º C:** Encontro = "Sem aula – falta de energia"; Registro = "Não houve aula: a escola está sem energia elétrica desde a madrugada. Todos os alunos foram liberados, tanto da aula regular quanto do contraturno." Sem marcar presença/falta (o dia não entra na frequência). Se a energia não voltar à tarde, fazer o mesmo no 9º A e no 9º B (perguntar a ele).
 - Depois: decidir com ele se a Missão 1 do 6º C e do 7º C passa para 16/11 (empurrar o cronograma) ou se junta com a Missão 2.
 
+### 🏛️ SIGE: não perder prazos (combinado em 09/11/2026)
+- Oficialmente ele tem a disciplina **"Educação Aberta e Digital"** (2026: turmas A-MAT 58 alunos e B-VESP 65 alunos; 2025: "Geração Digital" A e B). **Essas turmas não aceitam nota** ("tipo de aprovação não é por notas"): o que o SIGE cobra é **registro de aulas/conteúdos** e frequência (e talvez conceito/parecer: a confirmar).
+- 2025: 120/120 aulas registradas em cada turma (confirmar com ele quem registrou). 2026: 0/120 → o SIGE mostra aviso "Falta registrar aulas"; só o 4º bimestre está aberto (1º–3º fechados).
+- **No fim do ano o SIGE reabre para correções** → ficar atento à liberação e, quando abrir, registrar **o ano inteiro de 2026** (aulas, conteúdos, frequência e o que mais for exigido). O Claude prepara tudo a partir do diário do portal e só salva turma por turma com o "sim" dele.
+- Daqui para frente: registrar no SIGE **dentro de cada bimestre** (de preferência toda sexta), para não acumular.
+- Pendente no SIGE: "Avaliação de servidores" liberada (ele avalia a si mesmo e um colega sorteado).
+
 ## 1. Quinta-feira (renovação do limite do Claude)
 - [ ] Levar o Diário de Classe para dentro do Painel do professor (presença e visto de Básico/Desafio/Turbo automáticos, corrigíveis à mão, automático desligável por turma).
 - [ ] Transferir tudo do diário atual, conferindo os nomes dos alunos.
