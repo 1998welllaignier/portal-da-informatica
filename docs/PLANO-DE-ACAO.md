@@ -35,7 +35,7 @@ Claude Max (5x) assinado por um mês em 08/11 para adiantar tudo. **Voltar ao Pr
 7. **SIGE — lançamento do 4º bimestre** (só 6º A, B e C): com base no Diário; o Claude prepara a lista na ordem do SIGE ou digita, sempre mostrando antes de salvar cada turma.
 
 ### ⏳ Pendente para o Claude fazer no painel (quando o professor abrir no computador)
-- **Diário 09/11/2026 (seg) · 6º C e 7º C:** Encontro = "Sem aula – falta de energia"; Registro = "Não houve aula: a escola está sem energia elétrica desde a madrugada. Todos os alunos foram liberados, tanto da aula regular quanto do contraturno." Sem marcar presença/falta (o dia não entra na frequência). Se a energia não voltar à tarde, fazer o mesmo no 9º A e no 9º B (perguntar a ele).
+- ✅ FEITO (09/11, 10h) **Diário 09/11/2026 (seg) · 6º C e 7º C:** Encontro = "Sem aula – falta de energia"; Registro = "Não houve aula: a escola está sem energia elétrica desde a madrugada. Todos os alunos foram liberados, tanto da aula regular quanto do contraturno." Sem marcar presença/falta (o dia não entra na frequência). Se a energia não voltar à tarde, fazer o mesmo no 9º A e no 9º B (perguntar a ele).
 - Depois: decidir com ele se a Missão 1 do 6º C e do 7º C passa para 16/11 (empurrar o cronograma) ou se junta com a Missão 2.
 
 ## 1. Quinta-feira (renovação do limite do Claude)
