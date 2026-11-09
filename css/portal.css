@@ -1215,3 +1215,15 @@ body.modo-apresentacao .topbar, body.modo-apresentacao .rodape, body.modo-aprese
 .hs-leg p { font-size: 29px; }
 .hs-fila { top: 42%; }
 .hs-dc { top: 52%; } .hs-dc i { height: 112px; }
+
+/* destaque do professor no Modo história */
+.hs-prof { position: absolute; right: 30px; top: 18px; z-index: 6; display: grid; gap: 3px; text-align: right; padding: 10px 18px; border-radius: 16px;
+  background: linear-gradient(135deg, #fde047, #f59e0b); color: #1c1917; box-shadow: 0 8px 24px rgba(0,0,0,.35), inset 0 -3px 0 rgba(0,0,0,.15); animation: hs-cai .7s ease .2s both; }
+.hs-prof b { font-size: 21px; font-weight: 900; }
+.hs-prof span { font: 800 15px/1 system-ui, sans-serif; letter-spacing: .02em; opacity: .85; }
+.hs-capa-prof { justify-self: center; margin-top: 18px; display: grid; gap: 4px; padding: 12px 26px; border-radius: 18px; background: rgba(15,23,42,.75); border: 2px solid #fde047;
+  animation: hs-cai .6s ease 1.5s both; }
+.hs-capa-prof b { font-size: 30px; font-weight: 900; color: #fde047; }
+.hs-capa-prof span { font: 800 18px/1 system-ui, sans-serif; letter-spacing: .02em; }
+.hs-capa:has(.hs-capa-prof) { padding-bottom: 150px; }
+.hs-nome { z-index: 5; top: 13.5%; }

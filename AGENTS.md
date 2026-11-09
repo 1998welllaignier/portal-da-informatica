@@ -132,7 +132,7 @@ Combinado com o professor em 08/11/2026. Ao criar o material de um bimestre, ent
 6. **Cronograma**: `missoes4` (renomear para o bimestre) de cada turma no `dados/catalogo.js` + cronograma no 📒 Diário.
 7. **Atividade de recuperação** por série; **boletim em PDF** e planilha pelo Diário; lançamento no SIGE só do 6º ano.
 8. **Apoios dos alunos 🧩**: rever os PEIs novos (só leitura) e atualizar os 📝 Apoios, 👣 e "3 alternativas".
-9. **Vídeo da missão**: o professor pede na semana da aula (sem narração; ele dubla).
+9. **Vídeo da missão**: o professor pede na semana da aula (sem narração; ele dubla no **Grok**). Entregar a narração como **um único bloco pronto para colar no Grok**: instrução no topo ("não crie roteiro/tabela, só gere o ÁUDIO lendo o texto exato") + todas as falas em texto corrido. Nunca mandar tabela de tempos para ele colar.
 10. **Revisão com o professor** na véspera de cada aula (assunto simples, respostas, perguntas comuns, pontos de atenção).
 11. Testar no simulador (Playwright + mock), subir a versão (`?v=`), commit em português, atualizar o `docs/PLANO-DE-ACAO.md`.
 
