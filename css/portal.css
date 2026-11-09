@@ -1225,5 +1225,7 @@ body.modo-apresentacao .topbar, body.modo-apresentacao .rodape, body.modo-aprese
   animation: hs-cai .6s ease 1.5s both; }
 .hs-capa-prof b { font-size: 30px; font-weight: 900; color: #fde047; }
 .hs-capa-prof span { font: 800 18px/1 system-ui, sans-serif; letter-spacing: .02em; }
-.hs-capa:has(.hs-capa-prof) { padding-bottom: 150px; }
+.hs-capa:has(.hs-capa-prof) { padding-bottom: 170px; }
+.hs-capa:has(.hs-capa-prof) h1 { font-size: 66px; max-width: 1100px; line-height: 1.05; }
+.hs-capa:has(.hs-capa-prof) .hs-capa-ic { font-size: 96px; }
 .hs-nome { z-index: 5; top: 13.5%; }

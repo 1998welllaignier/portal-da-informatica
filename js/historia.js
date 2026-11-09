@@ -18,7 +18,7 @@
   P.historias = P.historias || {};
   P.registrarHistoria = (id, d) => { P.historias[id] = d; };
   // missões que já têm história (para mostrar o botão no painel)
-  P.historiasDisponiveis = { "informatica-6ano-4bim": ["m1"], "informatica-7ano-4bim": ["m1"], "informatica-8ano-4bim": ["m2"] };
+  P.historiasDisponiveis = { "informatica-6ano-4bim": ["m1"], "informatica-7ano-4bim": ["m1"], "informatica-8ano-4bim": ["m2"], "informatica-9ano-4bim": ["m1"] };
   const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 
   function carregar(aid) {
