@@ -30,6 +30,9 @@ Turmas do 5º ao 9º ano, 4º bimestre de 2026.
 - A correção é automática. **Não existe mais carimbo nem apostila impressa.**
 - O professor acompanha pelo Veyon e pelo **Painel do professor** (`#/painel`, login Google).
 
+## 1.1 🐟 Regra da marca: o professor em evidência
+Em tudo o que for criado (portal, ícones, nomes de app, vídeos, capas, materiais, apresentações): **puxar a sardinha para o professor, não para a escola.** O destaque é sempre do **Prof. Welington Laignier** (ex.: ícone com "W", nome do app "Portal do Well", nome dele em destaque nos vídeos). A escola (EMEF JK) pode aparecer como contexto, em segundo plano, nunca como marca principal.
+
 ## 2. Princípios pedagógicos (obrigatórios)
 1. **Autonomia do aluno.** Toda resposta de atividade precisa estar escrita no texto da missão
    (Para começar, O que significa?, Onde eu uso isso?) ou no próprio enunciado.
