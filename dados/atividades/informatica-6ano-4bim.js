@@ -145,7 +145,7 @@ PORTAL.registrarAtividades("informatica-6ano-4bim", {
         dicas: ["Os passos iguais seguidos viram um bloco só: ➡️ ➡️ = “repita 2 vezes ➡️”."],
         explicacao: "Com repetição: repita 2× ➡️ · repita 2× ⬇️ · repita 2× ➡️ · repita 2× ⬇️. O algoritmo fica mais curto!" },
 
-      { tipo: "pintura", titulo: "Siga o algoritmo do Paint",
+      { tipo: "pintura", titulo: "Siga o algoritmo de pintura",
         forma: "quadrado", n: 5, pretos: [1, 3, 5],
         regra: "<strong>Repita 5 vezes:</strong> desenhe um quadrado e deixe um espaço à direita. Para cada quadrado: <strong>se</strong> for o 1º, o 3º ou o 5º, pinte de preto; <strong>senão</strong>, deixe branco.",
         dicas: ["Só os quadrados da condição (1º, 3º e 5º) ficam pretos."],
@@ -231,10 +231,9 @@ PORTAL.registrarAtividades("informatica-6ano-4bim", {
           { t: "Espalhar uma foto engraçada de um colega", certo: false, why: "Isso pode ser cyberbullying." },
           { t: "Conversar em segredo com estranhos que oferecem presentes", certo: false, why: "Desconfie de estranhos e conte a um adulto." }],
         explicacao: "Respeito, dados protegidos e desconfiança de prêmios e estranhos: é assim que um cidadão digital se protege." },
-      { tipo: "pc", titulo: "No computador: cartaz Cidadão Digital", programa: "Paint",
-        passos: ["Abra o <strong>Paint</strong>.", "Escreva o título <strong>Cidadão Digital</strong>.", "Faça um desenho e escreva uma frase sobre respeito na internet ou consumo consciente.", "Deixe o cartaz aberto na tela (o professor vê pelo Veyon) e responda à conferência abaixo."],
-        conferir: [{ rot: "Qual é o título do seu cartaz?", ph: "Título…", gab: "Cidadão Digital", re: "cidad[aã]o\\s+digital", dica: "O título é <strong>Cidadão Digital</strong>." },
-          { rot: "Copie aqui a frase que você escreveu no cartaz:", ph: "A minha frase…", gab: "uma frase sobre respeito na internet ou consumo consciente", re: "\\S+\\s+\\S+\\s+\\S+\\s+\\S+", dica: "Copie a frase inteira (pelo menos 4 palavras)." }],
+      { tipo: "cartaz", titulo: "Monte aqui o cartaz Cidadão Digital", tituloCartaz: "Cidadão Digital",
+        campos: [
+          { rot: "Escreva no cartaz uma frase sobre respeito na internet ou consumo consciente (pelo menos 4 palavras):", ph: "Ex.: Na internet eu respeito todo mundo", gab: "uma frase sobre respeito na internet ou consumo consciente", exemplo: "Na internet eu respeito todo mundo.", re: "\\S+\\s+\\S+\\s+\\S+\\s+\\S+", dica: "Escreva a frase inteira (pelo menos 4 palavras)." }],
         okMsg: "Cartaz pronto e conferido! Ficou registrado para o professor." }
     ],
     desafio: [

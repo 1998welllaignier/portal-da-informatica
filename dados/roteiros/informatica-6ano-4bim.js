@@ -104,7 +104,7 @@ PORTAL.registrarRoteiro("informatica-6ano-4bim", {
     atencao: [
       "Tema sensível: se um aluno relatar algo sério (ameaça, exposição, contato de estranho), não aprofunde na frente da turma. Converse depois e encaminhe à direção.",
       "No exemplo de senha forte, avise que ninguém deve usar a senha mostrada no quadro.",
-      "Os cartazes no Paint não podem ter nomes nem fotos de colegas. O cartaz é a atividade que VOCÊ confere."
+      "O cartaz Cidadão Digital é montado no próprio portal (desenhos, cor e frase) e o portal confere sozinho. Nada de nomes de colegas na frase."
     ],
     perguntas: [
       { p: "O que é obsolescência?", r: "É quando um aparelho é trocado ainda funcionando, porque ficou “ultrapassado” ou parou de receber atualizações." },

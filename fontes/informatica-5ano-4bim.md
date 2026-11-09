@@ -61,11 +61,11 @@ O computador tem **4 tipos de partes**, e cada uma tem uma função:
 
 **E se o aparelho quebrar?** O que estava guardado **só no aparelho** pode se perder junto com ele. O que está **na nuvem** continua guardado: dá para abrir em outro computador ou celular com internet. Um jogo instalado no computador da escola e um trabalho salvo no pen drive estão **no aparelho**.
 
-O **sistema operacional** é o programa principal do computador: ele liga tudo, organiza as peças e deixa os outros programas funcionarem. Sem ele, o computador não abre nem o Paint. Os computadores da nossa sala usam o **Windows**. Os celulares usam o **Android** ou o **iOS**.
+O **sistema operacional** é o programa principal do computador: ele liga tudo, organiza as peças e deixa os outros programas funcionarem. Sem ele, o computador não abre nem o navegador. Os computadores da nossa sala usam o **Windows**. Os celulares usam o **Android** ou o **iOS**.
 **Combinados da sala:** não comer nem beber perto do computador · não mexer nos cabos · usar só os programas pedidos · avisar o professor quando algo der errado.
 ### 📖 O que significa?
 - **Hardware**: as peças físicas do computador, que dá para tocar. Onde eu vejo: teclado, mouse, monitor e gabinete.
-- **Software**: os programas, que não dá para pegar com a mão. Onde eu vejo: Paint, Bloco de Notas, jogos e aplicativos do celular.
+- **Software**: os programas, que não dá para pegar com a mão. Onde eu vejo: navegador, Bloco de Notas, jogos e aplicativos do celular.
 - **Processador** ou **CPU** (do inglês Central Processing Unit, Unidade Central de Processamento): a peça que faz as contas e segue os comandos. Onde eu vejo: dentro do gabinete do computador e dentro do celular.
 - **Gabinete**: a caixa do computador onde ficam o processador e o armazenamento.
 - **Armazenamento**: o lugar onde os arquivos ficam guardados, mesmo com o aparelho desligado.
@@ -271,9 +271,7 @@ Os computadores usam isso para **fazer escolhas** nos algoritmos: **SE** uma con
 | SE o celular estiver com pouca bateria, |  |  |
 | SE eu terminar a tarefa, |  |  |
 
-- No computador, abra o **Paint** e siga o algoritmo: **REPITA 4 vezes: desenhe um círculo.** Depois, para cada círculo: **SE for o 2º OU o 4º, ENTÃO pinte de preto, SENÃO deixe branco.**
-- Com o desenho na tela, chame o professor para conferir e **carimbar** o quadro no fim da missão.
-👀 O carimbo é o comprovante de que você fez a tarefa. Não feche nada antes de mostrar ao professor!
+- No portal, siga o algoritmo de pintura: **REPITA 4 vezes: desenhe um círculo.** Depois, para cada círculo: **SE for o 2º OU o 4º, ENTÃO pinte de preto, SENÃO deixe branco.** O portal confere sozinho.
 🟡 **Desafio**
 - Complete a tabela do **E** e do **OU**:
 | Frase A | Frase B | A E B | A OU B |
@@ -315,7 +313,7 @@ Nem tudo o que aparece na internet é verdade. Antes de acreditar ou compartilha
 | Parece exagerado? | "URGENTE!!!" e "compartilhe já" são sinais de alerta |
 
 **Quem cria, é dono.** Um desenho, uma foto, uma música ou um texto pertencem a quem criou: o **autor**. Para usar a obra de outra pessoa, peça autorização ou escreva o nome do autor (**dar o crédito**). Copiar e dizer que é seu é **plágio**.
-**A tecnologia certa para cada problema:** cada ferramenta serve para uma coisa. A calculadora faz contas, o Paint desenha, o Bloco de Notas escreve textos, a chamada de vídeo junta quem está longe. E a tecnologia também muda o trabalho das pessoas: o agricultor usa a previsão do tempo no celular, o comerciante usa a maquininha de cartão.
+**A tecnologia certa para cada problema:** cada ferramenta serve para uma coisa. A calculadora faz contas, o programa de desenho faz desenhos, o Bloco de Notas escreve textos, a chamada de vídeo junta quem está longe. E a tecnologia também muda o trabalho das pessoas: o agricultor usa a previsão do tempo no celular, o comerciante usa a maquininha de cartão.
 ### 📖 O que significa?
 - **Informação confiável**: informação que tem autor, data e aparece em outros lugares sérios.
 - **Fake news** (do inglês, notícia falsa): notícia mentirosa, feita para enganar ou para muita gente compartilhar.
@@ -349,14 +347,12 @@ Nem tudo o que aparece na internet é verdade. Antes de acreditar ou compartilha
 
 - Ligue cada problema à tecnologia certa. Escreva a letra:
 | Problema | Tecnologia |
-| ( ) Fazer uma conta difícil bem rápido | A – Paint |
+| ( ) Fazer uma conta difícil bem rápido | A – Programa de desenho |
 | ( ) Falar com a avó que mora em outra cidade | B – Bloco de Notas |
 | ( ) Escrever um texto no computador | C – Calculadora |
 | ( ) Fazer um desenho no computador | D – Chamada de vídeo no celular |
 
-- No computador, abra o **Paint** e faça um cartaz com o título **Eu navego com cuidado**, um desenho feito por você e, embaixo, a linha **Criado por: (seu primeiro nome)**.
-- Com o cartaz na tela, chame o professor para conferir e **carimbar** o quadro no fim da missão.
-👀 O carimbo é o comprovante de que você fez a tarefa. Não feche nada antes de mostrar ao professor!
+- No portal, monte o cartaz **Eu navego com cuidado**: escolha os desenhos e a cor, escreva 1 cuidado que você tem na internet e, embaixo, a linha **Criado por: (seu primeiro nome)**. O portal confere sozinho.
 🟡 **Desafio**
 - Escolha **2 profissões** (por exemplo: agricultor, médico, motorista, vendedor) e escreva qual tecnologia cada uma usa e como ela ajuda no trabalho.
 | Profissão | Tecnologia que usa | Como ajuda |

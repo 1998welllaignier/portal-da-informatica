@@ -16,7 +16,7 @@
   PORTAL.registrarRoteiro("informatica-5ano-4bim", {
     antes: [
       "🔊 Caixinha de som",
-      "🖥️ Computador do aluno ligado, com Bloco de Notas e Paint fáceis de achar",
+      "🖥️ Computador do aluno ligado, com o portal aberto e o Bloco de Notas fácil de achar",
       "🪪 Cartão com o código do aluno",
       "✅ Chamada no diário no começo; registro da aula no fim (ou o relatório do painel)"
     ],
@@ -84,7 +84,7 @@
         fechamento: "Me fala uma escolha que você faz todo dia com SE, ENTÃO e SENÃO.",
         dica: INDIVIDUAL
       },
-      demonstracao: "No Paint, deixe ele ler o algoritmo em voz alta antes de desenhar.",
+      demonstracao: "Na pintura do portal, deixe ele ler o algoritmo em voz alta antes de clicar nos círculos.",
       atencao: [
         "Para o E: “chave e cadeado: precisa dos dois”. Para o OU: “porta com duas chaves: qualquer uma abre”.",
         "Pintou o círculo errado? Peça para ler de novo o SE, devagar, círculo por círculo."
@@ -99,14 +99,14 @@
         { acao: "Apresente as 4 perguntas: quem escreveu, quando, aparece em outros lugares, parece exagerado?" },
         { fala: "‘URGENTE!!!’ e ‘compartilhe já’ são alarmes." },
         { fala: "Quem cria um desenho é o autor, o dono. Para usar, a gente pede e escreve o nome dele: isso é dar o crédito. Copiar e dizer que é seu é plágio." },
-        { fala: "Cada tecnologia tem seu uso: a calculadora faz contas, o Paint desenha, a chamada de vídeo junta quem está longe." }
+        { fala: "Cada tecnologia tem seu uso: a calculadora faz contas, o programa de desenho faz desenhos, a chamada de vídeo junta quem está longe." }
       ],
       onde: {
         pergunta: "No grupo da família, antes de passar a mensagem para frente, confira. No trabalho da escola, escreva de onde veio a imagem.",
         fechamento: "Qual das 4 perguntas você vai usar na próxima mensagem estranha?",
         dica: INDIVIDUAL
       },
-      demonstracao: "Cartaz no Paint: só desenho feito por ele, sem fotos e sem dados pessoais. O cartaz é a atividade que VOCÊ confere.",
+      demonstracao: "O cartaz agora é montado no próprio portal (desenhos, cor e textos) e o portal confere sozinho. Só o primeiro nome dele no Criado por, nada de dados pessoais.",
       atencao: [
         "Achou que o vídeo do chocolate é verdade “porque está na internet”? Pergunte: “Quem fez o vídeo? Algum médico falou isso?” Valorize quando ele desconfiar.",
         "Nunca colocar no cartaz fotos de colegas, endereço ou telefone."

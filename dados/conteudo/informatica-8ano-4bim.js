@@ -376,7 +376,7 @@ PORTAL.registrarConteudo("informatica-8ano-4bim", {
     "reflexao": "Que serviço de nuvem você ou sua família usa (fotos, e-mail, jogos)? O que aconteceria se ele saísse do ar?"
    },
    "alertas": [
-    "No Paint, faça só o mapa pedido e responda à conferência no portal antes de fechar. Não precisa salvar o arquivo: o portal registra o que você fez."
+    "Tudo desta missão é feito no próprio portal. Não precisa salvar nada no computador: o portal registra o que você fez."
    ],
    "vf": [
     "O DNS traduz o nome de um site no endereço IP do servidor.",

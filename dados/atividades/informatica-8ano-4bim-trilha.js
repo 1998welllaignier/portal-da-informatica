@@ -80,10 +80,11 @@ PORTAL.registrarAtividades("informatica-8ano-4bim-trilha", {
           { p: "☁️ Onde fica guardada a foto na nuvem?", opcoes: ["No data center, pela internet", "Numa nuvem de chuva", "Dentro do teclado"], certo: 0 }],
         explicacao: "O roteador espalha o Wi-Fi. A nuvem guarda a foto nos computadores do data center." },
 
-      { tipo: "pc", titulo: "Passo 4 · No computador: desenhe no Paint", programa: "Paint",
-        passos: ["Clique no botão <strong>Iniciar</strong> e digite <strong>paint</strong>. Clique em <strong>Paint</strong>.", "Clique no <strong>retângulo</strong> ▭ e desenhe <strong>3 quadrados</strong>, um ao lado do outro.", "Clique no <strong>balde</strong> 🪣, escolha uma <strong>cor bem bonita</strong> e clique dentro de cada quadrado para pintar.", "Deixe o desenho aberto na tela e responda abaixo."],
-        conferir: [{ rot: "Quantos quadrados você desenhou?", opcoes: ["2", "3", "4"], gab: "3", re: "^3$", dica: "São <strong>3</strong> quadrados: celular, roteador e nuvem." }],
-        okMsg: "Desenho pronto! Ficou registrado para o professor." }
+      { tipo: "cartaz", titulo: "Passo 4 · Monte o cartaz do caminho da internet", tituloCartaz: "O caminho da internet",
+        desenhos: ["📱", "📶", "☁️", "🐟", "🍕", "⚽"], minDesenhos: 3, maxDesenhos: 3, exigirDesenhos: ["📱", "📶", "☁️"],
+        dicaDesenhos: "Clique nos 3 desenhos do caminho: o <strong>celular</strong> 📱, o <strong>roteador</strong> 📶 e a <strong>nuvem</strong> ☁️.",
+        campos: [{ rot: "Quantos desenhos tem o caminho?", opcoes: ["2", "3", "4"], gab: "3", re: "^3$", dica: "São <strong>3</strong>: celular, roteador e nuvem." }],
+        okMsg: "Cartaz pronto! Celular → roteador → nuvem. Ficou registrado para o professor." }
     ],
     vf: [{ v: true }, { v: false, why: "A nuvem é guardar no <strong>data center</strong>, pela internet." }, { v: true }]
   },

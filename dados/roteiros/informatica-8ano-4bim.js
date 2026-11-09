@@ -89,7 +89,7 @@
         pergunta: "Se o aplicativo de fotos saísse do ar hoje, vocês perderiam alguma coisa? Onde estão as fotos de vocês?",
         dica: "Ouça 3 ou 4 alunos e anote no quadro. Aproveite para falar de backup: guardar uma cópia em mais de um lugar."
       },
-      demonstracao: "Abra o Paint em todos os computadores de uma vez pelo Veyon e diga: “Acabei de mandar 19 tarefas em paralelo.”",
+      demonstracao: "Abra o portal em todos os computadores de uma vez pelo Veyon (Abrir site) e diga: “Acabei de mandar 19 tarefas em paralelo.”",
       atencao: [
         "Compare o DNS com a agenda do celular: ninguém decora o número do amigo, procura pelo nome. O computador procura o IP pelo nome do site.",
         "No mapa da internet vale a ordem certa e o nome de cada parte, não o capricho do desenho.",

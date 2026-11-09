@@ -85,11 +85,12 @@
             ["Qual dos dois mercados fica mais perto da escola?", { op: ["Comercial União", "Mercado Municipal"], r: "Comercial União" }]],
           explicacao: "E → A → U = ½ + 1 = 1½ quadra. O Comercial União (1½) fica mais perto que o Mercado Municipal (5)." },
         { tipo: "escolha", titulo: "3. Obra e lama no caminho",
+          enunciado: "<p>Lembre do <strong>caminho 3</strong> da atividade 1 (a tabela “Da escola (E) ao Mercado Municipal (M)”): ele vai pela <strong>R. Cedro e depois pela Av. Bahia</strong>, passando por <strong>E → B → D → C → F → M</strong>. Repare que ele usa a aresta <strong>C – D</strong> (Av. Bahia).</p><p>Lembre também: o <strong>peso</strong> de uma aresta é a distância, o tempo ou o esforço para passar por aquela rua.</p>",
           perguntas: [
-            { p: "Se a Av. Bahia estiver fechada entre C e D, o caminho 3 ainda serve?", opcoes: ["Não serve, porque ele usa a aresta C – D, que está fechada", "Serve, porque é o caminho mais curto", "Serve, porque o grafo não muda"], certo: 0 },
+            { p: "Se a Av. Bahia estiver fechada por uma obra entre C e D, o caminho 3 (E → B → D → C → F → M) ainda serve?", opcoes: ["Não serve, porque ele usa a aresta C – D, que está fechada", "Serve, porque é o caminho mais curto", "Serve, porque o grafo não muda"], certo: 0 },
             { p: "Se uma rua tiver muita lama, o <strong>peso</strong> dela aumenta ou diminui?", opcoes: ["Aumenta, porque andar ali leva mais tempo e dá mais trabalho", "Diminui, porque a rua fica mais curta", "Não muda nada"], certo: 0,
               why: "O <strong>peso</strong> de uma aresta mede o custo de passar por ela: distância, tempo ou esforço." }],
-          explicacao: "Não serve, porque ele usa a aresta C – D, que está fechada. Com lama, o peso aumenta, porque andar ali leva mais tempo e dá mais trabalho." }
+          explicacao: "O caminho 3 (E → B → D → C → F → M) não serve, porque ele usa a aresta C – D, que está fechada. Com lama, o peso aumenta, porque andar ali leva mais tempo e dá mais trabalho." }
       ],
       desafio: [
         { tipo: "arvore", titulo: "Árvore de decisão: adivinhe um objeto da sala", modo: "decisao",
@@ -221,11 +222,10 @@
             { t: "Montagem de um candidato fazendo algo que nunca fez, publicada na véspera da eleição.", c: "P" },
             { t: "Um site de humor publica “Escola troca a merenda por pizza todos os dias” e muita gente acredita.", c: "H" },
             { t: "Um perfil falso publica fotos de um colega com apelidos ofensivos.", c: "O" }] },
-        { tipo: "pc", titulo: "No computador: cartaz Eu respeito a autoria", programa: "Paint",
-          passos: ["Escreva o título <strong>Eu respeito a autoria</strong>.", "Faça um desenho seu (não use fotos de colegas nem imagens copiadas da internet).", "Embaixo, escreva: <strong>Criado por: (seu primeiro nome) · Licença: CC BY</strong>.", "Deixe o cartaz aberto na tela (o professor vê pelo Veyon) e responda à conferência abaixo."],
-          conferir: [{ rot: "Qual é o título do seu cartaz?", ph: "Título…", gab: "Eu respeito a autoria", re: "respeito\\s+a\\s+autoria", dica: "O título é <strong>Eu respeito a autoria</strong>." },
-            { rot: "O que você escreveu embaixo do desenho?", ph: "Criado por: … · Licença: …", gab: "Criado por: (seu primeiro nome) · Licença: CC BY", re: "criado\\s+por[\\s\\S]*cc\\s*-?\\s*by", dica: "Precisa ter <strong>Criado por:</strong> com o seu nome e <strong>Licença: CC BY</strong>." },
-            { rot: "O que a licença CC BY deixa as outras pessoas fazerem?", ph: "…", gab: "usar e compartilhar, desde que deem crédito ao autor", re: "cr[eé]dito|nome do autor|citar|citando|autor", dica: "Procure <strong>CC BY</strong> no <strong>💡 Para começar</strong>: o BY quer dizer “dar crédito”." }],
+        { tipo: "cartaz", titulo: "Monte aqui o cartaz Eu respeito a autoria", tituloCartaz: "Eu respeito a autoria",
+          campos: [
+            { rot: "Embaixo dos desenhos, escreva <strong>Criado por:</strong> com o seu primeiro nome e <strong>Licença: CC BY</strong>:", ph: "Criado por: … · Licença: CC BY", gab: "Criado por: (seu primeiro nome) · Licença: CC BY", exemplo: "Criado por: Ana · Licença: CC BY", re: "criado\\s+por[\\s\\S]*cc\\s*-?\\s*by", dica: "Precisa ter <strong>Criado por:</strong> com o seu nome e <strong>Licença: CC BY</strong>." },
+            { rot: "O que a licença CC BY deixa as outras pessoas fazerem? (esta resposta não vai para o cartaz)", cartaz: false, ph: "…", gab: "usar e compartilhar, desde que deem crédito ao autor", exemplo: "Usar e compartilhar, desde que deem crédito ao autor.", re: "cr[eé]dito|nome do autor|citar|citando|autor", dica: "Procure <strong>CC BY</strong> no <strong>💡 Para começar</strong>: o BY quer dizer “dar crédito”." }],
           okMsg: "Cartaz pronto e conferido! Ficou registrado para o professor." }
       ],
       desafio: [

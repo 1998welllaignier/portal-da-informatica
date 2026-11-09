@@ -119,10 +119,11 @@ PORTAL.registrarAtividades("informatica-9ano-4bim-trilha", {
           { p: "🎥 Recebi um vídeo suspeito. O que eu faço?", opcoes: ["Não clico e não compartilho", "Mando para todo mundo"], certo: 0 }],
         explicacao: "Crédito é escrever o nome de quem criou. Vídeo suspeito: não clique e não compartilhe." },
 
-      { tipo: "pc", titulo: "Passo 4 · No computador: desenhe no Paint", programa: "Paint",
-        passos: ["Clique no botão <strong>Iniciar</strong> e digite <strong>paint</strong>. Clique em <strong>Paint</strong>.", "Clique na <strong>forma de círculo</strong> ◯ e desenhe um <strong>sol</strong>.", "Clique no <strong>balde</strong> 🪣, escolha a cor <strong>amarela</strong> e clique dentro do sol.", "Deixe o desenho aberto e responda abaixo."],
-        conferir: [{ rot: "Quem é o autor deste desenho?", opcoes: ["O computador", "Eu", "O Paint"], gab: "Eu", re: "^Eu$", dica: "Quem cria é o <strong>autor</strong>: foi você que desenhou." }],
-        okMsg: "Isso! Você é o autor do seu desenho. ©️" }
+      { tipo: "cartaz", titulo: "Passo 4 · Monte o seu cartaz do sol", tituloCartaz: "Meu cartaz",
+        desenhos: ["☀️", "🌙", "⭐", "🌈", "🌳", "🐦"], exigirDesenhos: ["☀️"], dicaDesenhos: "Clique no <strong>sol</strong> ☀️ para colocar no cartaz.",
+        cor: "amarelo", dicaCor: "Clique na cor <strong>amarelo</strong>, a cor do sol.",
+        campos: [{ rot: "Quem é o autor deste cartaz?", opcoes: ["O computador", "Eu", "A internet"], gab: "Eu", re: "^Eu$", dica: "Quem cria é o <strong>autor</strong>: foi você que montou." }],
+        okMsg: "Isso! Você é o autor do seu cartaz. ©️" }
     ],
     vf: [{ v: false, why: "Estar na internet não quer dizer que é seu: isso é plágio." }, { v: true }, { v: true }]
   },

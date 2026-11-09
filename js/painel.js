@@ -128,6 +128,7 @@
       "<b>Escolha a turma e a missão</b> (M1, M2…). Aparece o roteiro da aula com as falas, as respostas de cada atividade e quantos alunos já entraram e concluíram o Básico.",
       "<b>🎬 Apresentar</b>: abre numa aba nova os slides animados da missão (os mesmos assuntos do vídeo e da apostila), para projetar. Avance com → , espaço, clique ou passador; volte com ←; F deixa em tela cheia; Esc sai.",
       "<b>👀 Abrir a apostila do aluno</b>: abre, numa aba nova, a apostila exatamente como o aluno vê. Nada do que você fizer ali conta.",
+      "<b>📺 Vídeo da missão</b>: quando a missão já tem vídeo no seu canal do YouTube (não listado), o player aparece aqui em cima. Dê o play e use a tela cheia do player para projetar. Só você vê; os alunos não.",
       "<b>🪧 Cartaz de entrada</b>: abre, numa aba nova, o mesmo cartaz da porta (endereço do site e os 4 passos para entrar), em tela cheia, para projetar no começo da aula. Aperte F11 para tela cheia.",
       "<b>📌 Missão de hoje</b>: toque em “Definir … como Missão de hoje”. Quando o aluno digitar o código, ele cai direto nessa missão. Vale só para hoje.",
       "<b>🔒 Travar só nela</b> (opcional): as tarefas das outras missões fecham hoje. Os textos continuam abertos. Quem você liberou individualmente (falta, reposição) continua podendo fazer as outras.",
@@ -854,6 +855,17 @@
     ligarSair(el);
     el.querySelector("#sel").onchange = e => { location.hash = "#/painel/aula/" + e.target.value + "/" + mid; };
     const sa = el.querySelector("#ap"); if (sa) sa.onchange = e => { try { sessionStorage.setItem("painel:ap:" + t.serie.id, e.target.value); } catch (x) {} telaAula(u, t.id); };
+    // 📺 vídeo da missão (YouTube não listado do professor): player só aqui no painel, para projetar
+    try {
+      const vid = ((P.videosMissao || {})[ap.base || ap.id] || {})[mid];
+      if (vid && /^[\w-]{11}$/.test(vid)) {
+        const box = document.createElement("details"); box.className = "painel pp-video"; box.open = true;
+        box.innerHTML = `<summary><strong>📺 Vídeo da missão ${esc(mid.toUpperCase())}</strong> (com a sua voz)</summary>
+          <div class="pp-video-quadro"><iframe src="https://www.youtube-nocookie.com/embed/${vid}?rel=0&modestbranding=1" title="Vídeo da missão ${esc(mid.toUpperCase())}" loading="lazy" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
+          <p class="ajuda">Dê o play e use o botão de tela cheia do player para projetar. Lembre da caixinha de som: os computadores dos alunos não têm áudio. <a href="https://youtu.be/${vid}" target="_blank" rel="noopener">Abrir no YouTube</a></p>`;
+        el.querySelector("#aula").before(box);
+      }
+    } catch (e) { console.warn(e); }
     // 📣 avisos para o professor falar à turma (com a fala pronta); "✔ Já avisei" esconde só para esta turma
     try {
       const AVISOS = [{ id: "outra-turma-1", tit: "Quem faz a aula em outro horário",

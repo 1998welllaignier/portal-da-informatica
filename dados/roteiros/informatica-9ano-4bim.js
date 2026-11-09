@@ -61,7 +61,7 @@
         pergunta: "Para ir de casa até a praça, vocês sempre vão pelo mesmo caminho? Ele é o mais curto ou o mais fácil?",
         dica: "Ouça 3 ou 4 alunos e anote no quadro. Mundo do trabalho: entregadores, motoristas de aplicativo e empresas de ônibus usam grafos para planejar as rotas."
       },
-      demonstracao: "No Paint, faça só dois círculos e uma linha com o peso; o resto é com eles.",
+      demonstracao: "No grafo do portal, ligue só os dois primeiros lugares e mostre o peso aparecendo na linha; o resto é com eles.",
       atencao: [
         "Muitos confundem vértice com aresta. Use sempre: vértice é o lugar, aresta é a rua.",
         "Errou a soma do caminho? Peça que leia em voz alta cada peso antes de somar.",
@@ -139,7 +139,7 @@
       atencao: [
         "Nunca use fotos, vozes ou vídeos de alunos ou professores da escola como exemplo de deepfake.",
         "Crédito: autor, site e licença, nessa ordem (exemplo do Desafio).",
-        "Cartaz no Paint: quem copiar imagem da internet faz de novo; a missão é criar. O cartaz é a atividade que VOCÊ confere.",
+        "O cartaz Eu respeito a autoria é montado no próprio portal (desenhos, cor, Criado por e Licença: CC BY) e o portal confere sozinho.",
         "Aluno relata deepfake ou foto exposta: agradeça, não peça detalhes na frente da turma, converse depois e encaminhe à direção."
       ],
       perguntas: [

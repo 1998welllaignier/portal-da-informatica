@@ -621,7 +621,7 @@
   };
 
   /* ------------------------------------------------------------
-     PINTURA — simula o desenho do Paint (quadrados, casas, círculos)
+     PINTURA — simula um desenho dentro do portal (quadrados, casas, círculos)
      ------------------------------------------------------------ */
   T.pintura = {
     auto: true,
@@ -1080,5 +1080,73 @@
     },
     imprimir(at) { return `<table class="imp-t"><tr><th>Aresta</th><th>Peso</th></tr>${at.arestas.map(e => `<tr><td>${esc(e[0])} – ${esc(e[1])}</td><td>${fmtPeso(e[2])}</td></tr>`).join("")}</table><p>Desenhe o grafo:</p><div class="imp-caixa"></div>`; },
     resumoResposta(at, st) { return `${(st.fe || []).length} de ${at.arestas.length} ligações`; }
+  };
+
+  /* ------------------------------------------------------------
+     CARTAZ — o aluno monta um cartaz dentro do portal (substitui
+     os cartazes que eram feitos no Paint): escolhe os desenhos e a
+     cor, escreve os textos e vê o cartaz pronto ao lado.
+     Correção automática pelos campos (re), desenhos e cor.
+     Campos: { rot, ph, re, dica, gab, exemplo, opcoes, cartaz:false (não vai para o cartaz) }
+     Opções: tituloCartaz, desenhos (paleta), minDesenhos, maxDesenhos,
+             exigirDesenhos + dicaDesenhos, cor + dicaCor, okMsg
+     ------------------------------------------------------------ */
+  T.cartaz = {
+    auto: true,
+    render(c, at, ctx) {
+      const st = ctx.st; st.des = Array.isArray(st.des) ? st.des : []; st.conf = st.conf || {}; st.cor = st.cor || "";
+      const PAL = at.desenhos || ["🌳", "🌎", "♻️", "💡", "🛡️", "🔒", "📱", "💻", "📶", "☁️", "❤️", "🤝", "⚠️", "🚫", "✅", "⭐", "☀️", "🌈", "📚", "🎨", "🙂", "👍"];
+      const CORES = [["azul", "#dbeafe"], ["verde", "#dcfce7"], ["amarelo", "#fef9c3"], ["laranja", "#ffedd5"], ["rosa", "#fce7f3"], ["lilás", "#ede9fe"]];
+      const min = at.minDesenhos || 1, max = at.maxDesenhos || 6;
+      const campos = at.campos || [];
+      const noCartaz = f => !f.opcoes && f.cartaz !== false;
+      let marcas = {};
+      const corHex = () => (CORES.find(x => x[0] === st.cor) || [])[1] || "#ffffff";
+      const folha = () => `<div class="ctz-folha" style="background:${corHex()}">
+          ${at.tituloCartaz ? `<p class="ctz-tit">${esc(at.tituloCartaz)}</p>` : ""}
+          <p class="ctz-des" aria-label="Desenhos do cartaz">${st.des.length ? st.des.map(esc).join(" ") : '<span class="ctz-vazio">escolha os desenhos ↓</span>'}</p>
+          ${campos.map((f, i) => noCartaz(f) ? `<p class="ctz-linha" data-pv="${i}">${esc(st.conf[i] || "")}</p>` : "").join("")}</div>`;
+      const draw = () => {
+        c.innerHTML = `<div class="ctz">
+          <div class="ctz-prev"><p class="ctz-rot">👀 O seu cartaz</p>${folha()}</div>
+          <div class="ctz-ctrl">
+            <p class="ctz-rot">1. Escolha ${min > 1 ? `de ${min} a ${max}` : `até ${max}`} desenhos (clique de novo para tirar)</p>
+            <div class="ctz-pal">${PAL.map(e => `<button type="button" class="ctz-em" data-e="${esc(e)}" aria-pressed="${st.des.includes(e)}" aria-label="Desenho ${esc(e)}">${esc(e)}</button>`).join("")}</div>
+            <p class="ctz-rot">2. Escolha a cor do cartaz</p>
+            <div class="ctz-cores">${CORES.map(([n, hx]) => `<button type="button" class="ctz-cor" data-cor="${n}" aria-pressed="${st.cor === n}" style="background:${hx}">${n}</button>`).join("")}</div>
+            ${campos.length ? `<p class="ctz-rot">3. Escreva e responda</p>${campos.map((f, i) => `<label class="campo pc-conf-campo ${marcas[i] || ""}"><span>${md(f.rot)}</span>${f.opcoes
+              ? `<span class="pc-opc">${f.opcoes.map(o => `<button type="button" class="pc-opc-b" data-o="${i}" data-v="${esc(o)}" aria-pressed="${st.conf[i] === o}">${esc(o)}</button>`).join("")}</span>`
+              : `<input data-c="${i}" value="${esc(st.conf[i] || "")}" placeholder="${esc(f.ph || "")}" autocomplete="off" maxlength="120">`}${marcas[i] ? `<span class="marca">${marcas[i] === "certo" ? "✔" : "✖"}</span>` : ""}</label>`).join("")}` : ""}
+          </div></div>`;
+        c.querySelectorAll(".ctz-em").forEach(b => b.onclick = () => {
+          const e = b.dataset.e, k = st.des.indexOf(e);
+          if (k >= 0) st.des.splice(k, 1); else if (st.des.length < max) st.des.push(e); else return ctx.feedback("info", `O cartaz já tem ${max} desenhos. Clique em um deles para tirar.`);
+          ctx.salvar(); draw(); const nb = c.querySelector(`.ctz-em[data-e="${CSS.escape(e)}"]`); nb && nb.focus();
+        });
+        c.querySelectorAll(".ctz-cor").forEach(b => b.onclick = () => { st.cor = b.dataset.cor; ctx.salvar(); draw(); const nb = c.querySelector(`.ctz-cor[data-cor="${b.dataset.cor}"]`); nb && nb.focus(); });
+        c.querySelectorAll("input[data-c]").forEach(x => x.oninput = () => { const i = x.dataset.c; st.conf[i] = x.value; delete marcas[i]; ctx.salvar(); const pv = c.querySelector(`[data-pv="${i}"]`); if (pv) pv.textContent = x.value; });
+        c.querySelectorAll("button[data-o]").forEach(b => b.onclick = e => { e.preventDefault(); st.conf[b.dataset.o] = b.dataset.v; delete marcas[b.dataset.o]; ctx.salvar(); draw(); });
+      };
+      ctx.verificar = () => {
+        if (st.des.length < min) return ctx.feedback("info", min > 1 ? `Escolha pelo menos ${min} desenhos para o cartaz.` : "Escolha pelo menos 1 desenho para o cartaz.");
+        if (at.exigirDesenhos) { const falta = at.exigirDesenhos.filter(e => !st.des.includes(e)); if (falta.length) return ctx.errou(at.dicaDesenhos || `Ainda falta no cartaz: ${falta.map(esc).join(" ")}`); }
+        if (!st.cor) return ctx.feedback("info", "Escolha a cor do cartaz.");
+        if (at.cor && norm(st.cor) !== norm(at.cor)) return ctx.errou(at.dicaCor || `A cor pedida é <strong>${esc(at.cor)}</strong>.`);
+        if (campos.some((_, i) => !(st.conf[i] || "").trim())) return ctx.feedback("info", "Preencha todos os campos do passo 3.");
+        if (campos.some((f, i) => !f.opcoes && /\d{4,}|@/.test(st.conf[i] || ""))) return ctx.feedback("info", "Parece um telefone, documento ou e-mail. No cartaz não vão dados pessoais: só o seu primeiro nome, quando pedir.");
+        marcas = {}; const erros = [];
+        campos.forEach((f, i) => { const ok = f.re ? confere(st.conf[i], f.re) : true; marcas[i] = ok ? "certo" : "errado"; if (!ok) erros.push(f); });
+        draw();
+        erros.length ? ctx.errou(`${erros.length} campo${erros.length > 1 ? "s" : ""} para rever (✖).${erros[0].dica ? " Pista: " + md(erros[0].dica) : ""}`) : ctx.concluir("certo", at.okMsg || "Cartaz pronto e conferido!");
+      };
+      ctx.resolver = () => {
+        st.des = (at.exigirDesenhos || [PAL[0]]).slice(); st.cor = at.cor || CORES[0][0];
+        campos.forEach((f, i) => { st.conf[i] = f.exemplo || f.gab || ""; marcas[i] = "certo"; });
+        draw();
+      };
+      draw();
+    },
+    imprimir(at) { return `${at.tituloCartaz ? `<p><strong>Cartaz: ${esc(at.tituloCartaz)}</strong></p>` : ""}<div class="imp-caixa"></div>${(at.campos || []).map(f => `<p>${md(f.rot)}</p>${f.opcoes ? `<p>${f.opcoes.map(o => "( ) " + esc(o)).join("   ")}</p>` : linhas(1)}`).join("")}`; },
+    resumoResposta(at, st) { return `${(st.des || []).map(esc).join(" ")}${st.cor ? ` · fundo ${esc(st.cor)}` : ""}${Object.keys(st.conf || {}).length ? " · " + Object.values(st.conf).map(esc).join(" · ") : ""}`; }
   };
 })();

@@ -21,6 +21,8 @@ Claude Max (5x) assinado por um mês em 08/11 para adiantar tudo. **Voltar ao Pr
 - 07/11: Mão na massa, faixas do Básico, autonomia (sem carimbo), botão Página inicial, aviso da dupla, cartazes da porta, marcação 🧩 (36 alunos) e 👣 (8º B), Trilha do 8º adaptada ao PEI, botão Ouvir retirado.
 - 08/11: botão “👀 Abrir a apostila do aluno” na aba Aula; Diário de Classe dentro do painel (aba 📒 Diário); prova só com as missões que a turma estudou (marcadas sozinhas pelo cronograma do diário) e prova com 3 alternativas para quem o PEI pede; Trilhas Passo a Passo do 6º, 7º e 9º ano; prova no portal (Dia de prova no painel, cronômetro até o fim da aula, envio automático quando o tempo acaba, recuperação e gabarito no painel); site professorwell (horários Manhã/Tarde, aviso da prova no portal, animações, barra azul); capa do perfil; Caderno Digital com histórico de pagamentos em grupo.
 
+- 09/11 (tarde): canal do YouTube **Prof. Welington Laignier** (@professorwelllaignier) criado; os 4 vídeos prontos (6º M1, 7º M1, 8º M2, 9º M1) estão lá como **não listados**, "conteúdo para crianças", em playlists "Xº ano · 4º bimestre 2026" (não listadas); player na aba 🎤 Aula do painel (`P.videosMissao` em `js/historia.js`: apostila → missão → id do YouTube). **Paint retirado** de todas as apostilas: cartazes e desenhos agora no próprio portal (tipo novo `cartaz`, correção automática); questão "3. Obra e lama" do 9º M1 agora diz qual é o caminho 3.
+
 ### 🔜 Fila do Claude (nesta ordem)
 0. **Revisão com o professor antes de cada aula** (pedido em 08/11): na véspera, uma conversa curta com o que a turma vai fazer, o assunto explicado de forma simples, as respostas de cada atividade e as perguntas que os alunos costumam fazer, para o professor nunca chegar à aula sem saber o que fazer. Pendências já conhecidas:
    - **8º ano, Missão 2 (Internet por dentro):** quarta, 11/11 (8º C 7h30, 8º D 9h, 8º A 13h30, 8º B 15h). Revisar na terça, 10/11.
@@ -57,7 +59,7 @@ Claude Max (5x) assinado por um mês em 08/11 para adiantar tudo. **Voltar ao Pr
 - Pendente no SIGE: "Avaliação de servidores" liberada (ele avalia a si mesmo e um colega sorteado).
 
 ### 🎞️ Vídeos da semana 09–12/11 (anotado em 09/11, 12h40) — FAZER HOJE MAIS TARDE
-Prontos (v3, voz HeyGen/Murilo): 6º M1, 7º M1, 8º M2, 9º M1.
+Prontos (v3, voz HeyGen/Murilo): 6º M1, 7º M1, 8º M2, 9º M1 — já no YouTube e no painel. Cada vídeo novo: o professor envia no YouTube Studio, o Claude preenche (título "Xº ano · 4º bim. 2026 · Missão N: … | Prof. Welington Laignier", descrição, crianças, não listado, playlist da série) e acrescenta o id em `P.videosMissao`.
 Faltam (história + prompt para o ChatGPT/HeyGen + montagem), nesta ordem:
 1. **7º · Missão 2 – Algoritmos: decomposição, listas, reúso e correção de erros** → 7º A e 7º B na **terça 10/11, 13h30**.
 2. **6º · Missão 2 – Algoritmos: sequência, repetição e seleção** → 6º A e 6º B na **quinta 12/11**.

@@ -115,9 +115,7 @@ No 8º ano você trabalhou com **listas**, em que cada item ocupa uma posição,
 | Quantas folhas (arquivos) a árvore tem? |  |
 | Qual é o caminho da raiz até o arquivo mapa.png? |  |
 
-- No computador, abra o **Paint** e desenhe o grafo do bairro: círculos com o nome de cada lugar, linhas ligando os lugares e o peso de cada linha. Depois, pinte de **outra cor** o caminho mais curto da Casa até a Escola.
-- Com o desenho na tela, chame o professor para conferir e **carimbar** o quadro no fim da missão.
-👀 O carimbo é o comprovante de que você fez a tarefa. Não feche nada antes de mostrar ao professor!
+- No portal, monte o grafo do bairro ligando os lugares pela tabela e trace o caminho mais curto. O portal confere sozinho.
 🏘️ **Na prática: o nosso bairro de verdade** (feito junto com o professor)
 Agora o grafo é o **bairro da nossa escola**, desenhado a partir do mapa do celular. Cada **esquina** virou um **vértice** (com uma letra) e cada trecho de rua virou uma **aresta**. O **peso** de cada aresta é quantas **quadras** (quarteirões) você anda naquele trecho. Os pesos são aproximados.
 | Vértice | Onde fica |
@@ -151,7 +149,7 @@ Agora o grafo é o **bairro da nossa escola**, desenhado a partir do mapa do cel
 | **Qual é o caminho mais curto? Por quê?** |  |  |
 
 - **2.** Qual é a distância da escola (E) até o **Comercial União (U)**? Qual dos dois mercados fica mais perto da escola?
-- **3.** Se a Av. Bahia estiver fechada por uma obra entre C e D, o caminho 3 ainda serve? E se uma rua tiver muita lama, o "peso" dela aumenta ou diminui?
+- **3.** O caminho 3 da atividade 1 vai pela R. Cedro e depois pela Av. Bahia: **E → B → D → C → F → M**. Se a Av. Bahia estiver fechada por uma obra entre C e D, o caminho 3 ainda serve? E se uma rua tiver muita lama, o "peso" dela aumenta ou diminui?
 | ✍️ Respostas das perguntas 2 e 3 |
 |  |
 |  |
@@ -177,7 +175,7 @@ Agora o grafo é o **bairro da nossa escola**, desenhado a partir do mapa do cel
 |  |
 |  |
 
-⚠️ Nesta missão use **só o Paint**. Não precisa salvar o desenho: o portal registra o que você fez. Ao final da aula, desligue o computador pelo caminho certo: **Iniciar → Ligar/Desligar → Desligar**.
+⚠️ Tudo desta missão é feito no próprio portal. Não precisa salvar nada no computador: o portal registra o que você fez. Ao final da aula, desligue o computador pelo caminho certo: **Iniciar → Ligar/Desligar → Desligar**.
 **✅ Carimbo do professor**
 | 🟢 Básico | 🟡 Desafio | 🔴 Turbo |
 |  |  |  |
@@ -366,7 +364,7 @@ No 8º ano você aprendeu a checar uma informação antes de compartilhar: quem 
 | Um site de humor publica “Escola troca a merenda por pizza todos os dias” e muita gente acredita. |  |
 | Um perfil falso publica fotos de um colega com apelidos ofensivos. |  |
 
-- No computador, abra o **Paint** e crie um **cartaz original** com o título **Eu respeito a autoria**, um desenho feito por você e, embaixo, a linha **Criado por: (seu primeiro nome) · Licença: CC BY**. Chame o professor para conferir e carimbar.
+- No portal, monte um **cartaz original** **Eu respeito a autoria**: escolha os desenhos e a cor e, embaixo, escreva a linha **Criado por: (seu primeiro nome) · Licença: CC BY**. O portal confere sozinho.
 🟡 **Desafio**
 - Escreva o crédito correto para usar esta imagem em um trabalho: foto de uma castanheira, tirada por **Maria Souza**, encontrada no site **Banco de Imagens Livres**, com licença **CC BY**. Depois responda: se a imagem tivesse o aviso “todos os direitos reservados”, você poderia usá-la sem pedir autorização?
 | ✍️ Resposta |

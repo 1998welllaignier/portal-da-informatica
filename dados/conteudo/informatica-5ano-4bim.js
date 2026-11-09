@@ -171,7 +171,7 @@ PORTAL.registrarConteudo("informatica-5ano-4bim", {
     },
     {
      "t": "p",
-     "h": "O <strong>sistema operacional</strong> é o programa principal do computador: ele liga tudo, organiza as peças e deixa os outros programas funcionarem. Sem ele, o computador não abre nem o Paint. Os computadores da nossa sala usam o <strong>Windows</strong>. Os celulares usam o <strong>Android</strong> ou o <strong>iOS</strong>."
+     "h": "O <strong>sistema operacional</strong> é o programa principal do computador: ele liga tudo, organiza as peças e deixa os outros programas funcionarem. Sem ele, o computador não abre nem o navegador. Os computadores da nossa sala usam o <strong>Windows</strong>. Os celulares usam o <strong>Android</strong> ou o <strong>iOS</strong>."
     },
     {
      "t": "p",
@@ -187,7 +187,7 @@ PORTAL.registrarConteudo("informatica-5ano-4bim", {
     {
      "termo": "Software",
      "rotulo": "<strong>Software</strong>",
-     "def": "os programas, que não dá para pegar com a mão. Onde eu vejo: Paint, Bloco de Notas, jogos e aplicativos do celular."
+     "def": "os programas, que não dá para pegar com a mão. Onde eu vejo: navegador, Bloco de Notas, jogos e aplicativos do celular."
     },
     {
      "termo": "Processador",
@@ -550,7 +550,7 @@ PORTAL.registrarConteudo("informatica-5ano-4bim", {
     },
     {
      "t": "p",
-     "h": "<strong>A tecnologia certa para cada problema:</strong> cada ferramenta serve para uma coisa. A calculadora faz contas, o Paint desenha, o Bloco de Notas escreve textos, a chamada de vídeo junta quem está longe. E a tecnologia também muda o trabalho das pessoas: o agricultor usa a previsão do tempo no celular, o comerciante usa a maquininha de cartão."
+     "h": "<strong>A tecnologia certa para cada problema:</strong> cada ferramenta serve para uma coisa. A calculadora faz contas, o programa de desenho faz desenhos, o Bloco de Notas escreve textos, a chamada de vídeo junta quem está longe. E a tecnologia também muda o trabalho das pessoas: o agricultor usa a previsão do tempo no celular, o comerciante usa a maquininha de cartão."
     }
    ],
    "termos": [

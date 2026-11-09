@@ -128,10 +128,10 @@ PORTAL.registrarAtividades("informatica-6ano-4bim-trilha", {
           { t: "🌊 Jogar no rio", c: "E" }],
         explicacao: "Consertar, doar ou levar ao ponto de coleta. Nunca no lixo comum." },
 
-      { tipo: "pc", titulo: "Passo 4 · No computador: desenhe no Paint", programa: "Paint",
-        passos: ["Clique no botão <strong>Iniciar</strong> e digite <strong>paint</strong>. Clique em <strong>Paint</strong>.", "Clique no <strong>retângulo</strong> ▭ e desenhe <strong>1 quadrado</strong> grande.", "Clique no <strong>balde</strong> 🪣, escolha a cor <strong>verde</strong> e clique dentro do quadrado.", "Deixe o desenho aberto e responda abaixo."],
-        conferir: [{ rot: "De que cor você pintou o quadrado?", opcoes: ["Vermelho", "Verde", "Azul"], gab: "Verde", re: "^Verde$", dica: "A cor pedida é <strong>verde</strong>, a cor da natureza." }],
-        okMsg: "Desenho pronto! Verde, como a natureza que a gente protege. 🌳" }
+      { tipo: "cartaz", titulo: "Passo 4 · Monte o seu cartaz da natureza", tituloCartaz: "Eu cuido da natureza",
+        desenhos: ["🌳", "🌎", "♻️", "🌻", "🐦", "🐟", "☀️", "💧"], cor: "verde", dicaCor: "Clique na cor <strong>verde</strong>, a cor da natureza.",
+        campos: [{ rot: "De que cor é o seu cartaz?", opcoes: ["Vermelho", "Verde", "Azul"], gab: "Verde", re: "^Verde$", dica: "A cor pedida é <strong>verde</strong>, a cor da natureza." }],
+        okMsg: "Cartaz pronto! Verde, como a natureza que a gente protege. 🌳" }
     ],
     vf: [{ v: false, why: "Cyberbullying machuca de verdade." }, { v: true }, { v: true }]
   },

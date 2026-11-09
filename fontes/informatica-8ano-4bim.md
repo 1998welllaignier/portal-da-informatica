@@ -181,8 +181,7 @@ Os computadores também precisam **dividir o trabalho**:
 | O processador usa um núcleo para o jogo e outro para a música, ao mesmo tempo. |  |
 | Duas pessoas tentam comprar o último ingresso do show ao mesmo tempo e o sistema decide quem compra. |  |
 
-- [ ] No computador, abra o **Paint** e desenhe o **Mapa da internet**: o seu celular ou computador → roteador → provedor → backbone ou cabo submarino → data center (nuvem). Use setas e escreva o nome de cada parte. Desenhe também o **DNS** ao lado do caminho, com uma seta para o navegador.
-- [ ] Chame o professor para conferir o desenho e **carimbar**.
+- [ ] No portal, monte o **Mapa da internet**: o seu celular ou computador → roteador → provedor → backbone ou cabo submarino → data center (nuvem), com o **DNS** ao lado do caminho. O portal confere sozinho.
 🟡 **Desafio**
 - [ ] Uma tarefa leva **60 minutos** em um único núcleo. Se ela puder ser dividida em partes iguais, quanto tempo leva com mais núcleos trabalhando em paralelo?
 | Núcleos | ✍️ Tempo |
@@ -197,7 +196,7 @@ Os computadores também precisam **dividir o trabalho**:
 |  |
 |  |
 
-⚠️ No Paint, faça só o mapa pedido e responda à conferência no portal antes de fechar. Não precisa salvar o arquivo: o portal registra o que você fez.
+⚠️ Tudo desta missão é feito no próprio portal. Não precisa salvar nada no computador: o portal registra o que você fez.
 **✅ Carimbo do professor**
 | 🟢 Básico | 🟡 Desafio | 🔴 Turbo |
 |  |  |  |

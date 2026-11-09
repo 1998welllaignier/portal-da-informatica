@@ -216,12 +216,11 @@ PORTAL.registrarAtividades("informatica-7ano-4bim", {
         criterios: ["A minha opinião continua lá.", "Critico a ideia, não a pessoa.", "A pessoa não vai se sentir humilhada ao ler."],
         exemplo: "“Eu torço para outro time, mas respeito quem gosta desse.” · “Penso diferente: na minha opinião…” · “Essa música não faz o meu estilo, mas entendo quem curte.”",
         conferir: { minPalavras: 4, msg: "Comentários reescritos com empatia! O professor pode ler as suas respostas no painel." } },
-      { tipo: "pc", titulo: "No computador: cartaz Alerta de golpe!", programa: "Paint",
-        passos: ["Abra o <strong>Paint</strong> e escreva o título <strong>Alerta de golpe!</strong>", "Faça um desenho e escreva <strong>3 dicas</strong> para se proteger na internet.", "Não use nomes nem fotos de colegas.", "Deixe o cartaz aberto na tela (o professor vê pelo Veyon) e responda à conferência abaixo."],
-        conferir: [{ rot: "Qual é o título do seu cartaz?", ph: "Título…", gab: "Alerta de golpe!", re: "alerta\\s+de\\s+golpe", dica: "O título é <strong>Alerta de golpe!</strong>" },
-          { rot: "Dica 1 do seu cartaz:", ph: "Ex.: nunca passe códigos…", gab: "uma das dicas do 💡 Para começar", re: "senha|c[oó]digo|link|desconfi|duas etapas|verifica|pressa|pr[eê]mio|n[aã]o clique|sair da conta|bloque|denunc|adulto|baix", dica: "As dicas estão no <strong>💡 Para começar</strong>, em “Proteja-se”." },
-          { rot: "Dica 2 do seu cartaz:", ph: "Ex.: use senha forte…", gab: "outra dica do 💡 Para começar", re: "senha|c[oó]digo|link|desconfi|duas etapas|verifica|pressa|pr[eê]mio|n[aã]o clique|sair da conta|bloque|denunc|adulto|baix", dica: "Escreva uma dica diferente da primeira." },
-          { rot: "Dica 3 do seu cartaz:", ph: "Ex.: ative a verificação em duas etapas…", gab: "mais uma dica do 💡 Para começar", re: "senha|c[oó]digo|link|desconfi|duas etapas|verifica|pressa|pr[eê]mio|n[aã]o clique|sair da conta|bloque|denunc|adulto|baix", dica: "Releia o <strong>💡 Para começar</strong> e escolha mais uma." }],
+      { tipo: "cartaz", titulo: "Monte aqui o cartaz Alerta de golpe!", tituloCartaz: "Alerta de golpe!",
+        campos: [
+          { rot: "Dica 1 do seu cartaz:", ph: "Ex.: nunca passe códigos…", gab: "uma das dicas do 💡 Para começar", exemplo: "Nunca passe códigos que chegam por SMS.", re: "senha|c[oó]digo|link|desconfi|duas etapas|verifica|pressa|pr[eê]mio|n[aã]o clique|sair da conta|bloque|denunc|adulto|baix", dica: "As dicas estão no <strong>💡 Para começar</strong>, em “Proteja-se”." },
+          { rot: "Dica 2 do seu cartaz:", ph: "Ex.: use senha forte…", gab: "outra dica do 💡 Para começar", exemplo: "Use senha forte e não conte a ninguém.", re: "senha|c[oó]digo|link|desconfi|duas etapas|verifica|pressa|pr[eê]mio|n[aã]o clique|sair da conta|bloque|denunc|adulto|baix", dica: "Escreva uma dica diferente da primeira." },
+          { rot: "Dica 3 do seu cartaz:", ph: "Ex.: ative a verificação em duas etapas…", gab: "mais uma dica do 💡 Para começar", exemplo: "Ative a verificação em duas etapas.", re: "senha|c[oó]digo|link|desconfi|duas etapas|verifica|pressa|pr[eê]mio|n[aã]o clique|sair da conta|bloque|denunc|adulto|baix", dica: "Releia o <strong>💡 Para começar</strong> e escolha mais uma." }],
         okMsg: "Cartaz pronto e conferido! Ficou registrado para o professor." }
     ],
     desafio: [

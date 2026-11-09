@@ -36,16 +36,18 @@ PORTAL.registrarAtividades("ID-DA-APOSTILA", {
       { tipo: "aberta", titulo: "Explique...", linhas: 3, criterios: ["Critério 1"], exemplo: "Exemplo de resposta",
         exigir: ["palavra"], detector: { palavras: ["ofensa"], msg: "Troque por palavras respeitosas." } },
 
-      /* TAREFA NO COMPUTADOR (Paint, Bloco de Notas...): o aluno marca os passos e chama o professor */
-      { tipo: "pc", titulo: "No computador", programa: "Paint", passos: ["Passo 1", "Passo 2", "Chame o professor."] },
+      /* TAREFA NO COMPUTADOR (fora do portal): o aluno marca os passos; use "conferir" para a correção automática.
+         O Paint NÃO é mais usado: cartaz e desenho são feitos no próprio portal (tipo "cartaz"). */
+      { tipo: "pc", titulo: "No computador", programa: "Bloco de Notas", passos: ["Passo 1", "Passo 2"], conferir: [{ rot: "O que apareceu?", re: "resposta", dica: "Pista" }] },
 
       /* OUTROS TIPOS DISPONÍVEIS (veja exemplos nas apostilas prontas):
          escolha (perguntas com explicação) · sinais (marcar todos os corretos) · senha (medidor de senha forte)
-         robo (labirinto com setas e repita) · pintura (simulação do Paint) · lista_ops (inserir/remover em listas)
+         robo (labirinto com setas e repita) · pintura (simulação de desenho no portal) · lista_ops (inserir/remover em listas)
          busca_binaria · adivinhe · bolha · grafo (traçar caminho) · arvore (pastas/decisão) · cesar (cifra)
          info (texto de apoio, não conta progresso) · autoavaliacao
          caminho (montar esquema com setas e banco de peças) · grafo_montar (ligar vértices pela tabela)
-         cesar_livre (o aluno cifra a própria frase) */
+         cesar_livre (o aluno cifra a própria frase)
+         cartaz (o aluno monta um cartaz no portal: desenhos, cor e textos conferidos; substitui o Paint) */
     ],
     desafio: [],
     turbo: [],

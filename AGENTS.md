@@ -28,6 +28,7 @@ Turmas do 5º ao 9º ano, 4º bimestre de 2026.
   **Desafio** = +0,25. **Turbo** = +0,25. Quando o Básico termina, aparece a faixa verde
   "Básico concluído", explicando ao aluno o que fazer depois.
 - A correção é automática. **Não existe mais carimbo nem apostila impressa.**
+- **O Paint não é mais usado.** Cartaz e desenho são feitos no próprio portal (tipo `cartaz`: desenhos, cor e textos conferidos sozinhos).
 - O professor acompanha pelo Veyon e pelo **Painel do professor** (`#/painel`, login Google).
 
 ## 1.1 🐟 Regra da marca: o professor em evidência
@@ -61,6 +62,7 @@ Em tudo o que for criado (portal, ícones, nomes de app, vídeos, capas, materia
 | Login, Firebase, sincronização | `js/nuvem.js` |
 | Modo Explorador (telas e painel) | `js/explorador.js` |
 | Visual | `css/portal.css` |
+| Vídeos das missões (YouTube não listado, player só no painel, aba Aula) | `js/historia.js`: `P.videosMissao` (apostila → missão → id do YouTube) |
 | Versão (para os navegadores pegarem a versão nova) | `index.html`: `PORTAL_VERSAO` e todos os `?v=` |
 
 Apostilas (ids): `informatica-5ano-4bim`, `informatica-6ano-4bim`, `informatica-7ano-4bim`,

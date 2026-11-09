@@ -179,7 +179,7 @@ PORTAL.registrarConteudo("informatica-6ano-4bim", {
     {
      "termo": "Software",
      "rotulo": "<strong>Software</strong>",
-     "def": "os programas, que não dá para pegar com a mão. Onde eu vejo: Bloco de Notas, Paint, jogos e aplicativos do celular."
+     "def": "os programas, que não dá para pegar com a mão. Onde eu vejo: Bloco de Notas, navegador, jogos e aplicativos do celular."
     },
     {
      "termo": "CPU",

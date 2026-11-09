@@ -38,12 +38,12 @@ PORTAL.registrarRoteiro("informatica-8ano-4bim-trilha", {
           { acao: "Passo 1 (caminho do vídeo): faça o primeiro item junto." },
           { fala: "O vídeo começa no celular. E depois, ele vai para onde? Para a caixinha do Wi-Fi!" },
           { acao: "Passo 2: “Fila ou dividir o trabalho?”. Lembre da caneta única (fila) e das folhas divididas (dividir)." },
-          { acao: "Passo 4 (Paint): 3 quadrados com CELULAR, ROTEADOR e NUVEM. É você quem confere: chegue perto e elogie o desenho." }
+          { acao: "Passo 4 (cartaz no portal): ele clica no celular 📱, no roteador 📶 e na nuvem ☁️. O portal confere sozinho: chegue perto e elogie o cartaz." }
         ]
       }
     ],
     atencao: [
-      "👣 Trilha: o desenho no Paint (Passo 4) é a atividade que VOCÊ confere.",
+      "👣 Trilha: o cartaz do Passo 4 é montado no próprio portal e conferido sozinho.",
       "👣 Trilha: se ele confundir nuvem com nuvem de chuva, use a fala da turma: “nuvem” é só o apelido dos data centers."
     ]
   },

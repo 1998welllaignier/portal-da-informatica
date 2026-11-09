@@ -221,7 +221,7 @@ PORTAL.registrarConteudo("informatica-9ano-4bim", {
     "reflexao": "Pense em dois caminhos para ir a um lugar da cidade (a praça, o mercado). Qual é mais curto e por quê?"
    },
    "alertas": [
-    "Nesta missão use <strong>só o Paint</strong>. Não precisa salvar o desenho: o portal registra o que você fez. Ao final da aula, desligue o computador pelo caminho certo: <strong>Iniciar → Ligar/Desligar → Desligar</strong>."
+    "Tudo desta missão é feito no próprio portal. Não precisa salvar nada no computador: o portal registra o que você fez. Ao final da aula, desligue o computador pelo caminho certo: <strong>Iniciar → Ligar/Desligar → Desligar</strong>."
    ],
    "vf": [
     "Em um grafo, os pontos se chamam vértices e as ligações se chamam arestas.",

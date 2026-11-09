@@ -244,11 +244,11 @@ Depois de corrigir um erro, sempre **teste de novo**: às vezes a correção cri
 | Se Fábio entrar no final da lista, qual será a posição dele? |  |
 | Quantos itens a lista terá depois disso? |  |
 
-- [ ] No computador, abra o **Paint** e siga o algoritmo:
+- [ ] No portal, siga o algoritmo de pintura:
   1. **Bloco DESENHAR CASA:** desenhe um quadrado e um triângulo em cima dele.
   2. **Repita 3 vezes:** DESENHAR CASA e deixe um espaço à direita.
   3. Para cada casa: **se** for a 2ª casa, pinte o telhado de preto; **senão**, deixe branco.
-  4. **Chame o professor para conferir o desenho e carimbar**.
+  4. Clique em **Verificar**: o portal confere sozinho.
 🟡 **Desafio**
 - [ ] O algoritmo abaixo deveria desenhar um quadrado, mas tem um **bug**. Encontre o erro e escreva o algoritmo corrigido:
 *Repita 3 vezes: ande 5 passos e vire à direita.*
@@ -330,7 +330,7 @@ Para resolver problemas grandes, usamos a **decomposição**: dividir em partes 
 | “Que opinião ridícula, apaga isso.” |  |
 | “Só gente sem noção gosta dessa música.” |  |
 
-- [ ] No computador, faça um **cartaz** no Paint com o título **Alerta de golpe!**, um desenho e **3 dicas** para se proteger na internet. Não use nomes nem fotos de colegas. Chame o professor para conferir e carimbar.
+- [ ] No portal, monte o **cartaz** **Alerta de golpe!**: escolha os desenhos e a cor e escreva **3 dicas** para se proteger na internet. Não use nomes nem fotos de colegas. O portal confere sozinho.
 🟡 **Desafio**
 - [ ] Leia a situação: *um colega fez uma montagem engraçada com a foto de outro aluno e mandou no grupo da turma.* Escreva 3 atitudes de quem viu a montagem:
 | ✍️ Atitudes de quem viu |

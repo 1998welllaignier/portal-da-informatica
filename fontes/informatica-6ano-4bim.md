@@ -64,7 +64,7 @@ Um **arquivo** é qualquer trabalho guardado no computador. Uma **pasta** é com
 **Combinados da sala:** não comer nem beber perto do computador · não mexer nos cabos · usar só os programas pedidos · avisar o professor quando algo der errado.
 ### 📖 O que significa?
 - **Hardware**: as peças físicas do computador, que dá para tocar. Onde eu vejo: teclado, mouse, monitor e gabinete.
-- **Software**: os programas, que não dá para pegar com a mão. Onde eu vejo: Bloco de Notas, Paint, jogos e aplicativos do celular.
+- **Software**: os programas, que não dá para pegar com a mão. Onde eu vejo: Bloco de Notas, navegador, jogos e aplicativos do celular.
 - **CPU** (*Central Processing Unit*, Unidade Central de Processamento): o processador, o “cérebro” que faz os cálculos e segue os comandos. Onde fica: num chip dentro do gabinete ou dentro do celular.
 - **HD** (*Hard Disk*, disco rígido): peça que guarda os arquivos em um disco que gira lá dentro. Para quê: o que foi salvo continua lá mesmo com o computador desligado.
 - **SSD** (*Solid State Drive*, unidade de estado sólido): faz o mesmo que o HD, mas sem disco girando, por isso é mais rápido. Onde eu vejo: em computadores mais novos; o celular usa uma memória parecida.
@@ -170,10 +170,10 @@ A repetição deixa o algoritmo **mais curto**: em vez de ➡️➡️➡️➡�
 |  |
 |  |
 
-- [ ] No computador, abra o **Paint** e siga o algoritmo:
+- [ ] No portal, siga o algoritmo de pintura:
   1. **Repita 5 vezes:** desenhe um quadrado e deixe um espaço à direita.
   2. Para cada quadrado: **se** for o 1º, o 3º ou o 5º, pinte de preto; **senão**, deixe branco.
-  3. **Chame o professor para conferir o desenho e carimbar**.
+  3. Clique em **Verificar**: o portal confere sozinho.
 🟡 **Desafio**
 - [ ] Complete as instruções de seleção:
 | Se... | então... | senão... |
@@ -243,7 +243,7 @@ A repetição deixa o algoritmo **mais curto**: em vez de ➡️➡️➡️➡�
 | Tentar consertar antes de trocar |  |
 | Jogar no rio ou no mato |  |
 
-- [ ] No computador, faça um **cartaz** no Paint com o título **Cidadão Digital**, um desenho e uma frase sobre respeito na internet ou consumo consciente. Chame o professor para conferir e carimbar.
+- [ ] No portal, monte o **cartaz** **Cidadão Digital**: escolha os desenhos e a cor e escreva uma frase sobre respeito na internet ou consumo consciente. O portal confere sozinho.
 🟡 **Desafio**
 - [ ] Invente 2 exemplos de senhas fortes (que você **não** vai usar de verdade) e explique por que são fortes.
 | Senha inventada | Por que é forte? |

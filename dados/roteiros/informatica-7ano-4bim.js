@@ -93,11 +93,11 @@
         pergunta: "Qual foi o maior trabalho que vocês já fizeram em grupo? Como dividiram as tarefas?",
         dica: "Ouça 3 ou 4 alunos e anote no quadro. Mundo do trabalho: equipes de programadores dividem um aplicativo em partes, e cada pessoa cuida de uma."
       },
-      demonstracao: "No Paint, mostre como fazer o triângulo do telhado com a ferramenta Linha ou com a forma Triângulo, para ninguém travar.",
+      demonstracao: "Na pintura do portal, mostre que cada clique pinta ou despinta o telhado de uma casa, para ninguém travar.",
       atencao: [
         "A lista começa na posição 1 (em algumas linguagens começa no 0; comente só com quem perguntar).",
         "No Desafio, peça que o aluno “seja o robô” com o dedo na mesa: andando e virando só 3 vezes, o quadrado não fecha.",
-        "Retome do 6º ano: sequência, repetição e seleção reaparecem no algoritmo do Paint."
+        "Retome do 6º ano: sequência, repetição e seleção reaparecem no algoritmo das casas, na pintura do portal."
       ],
       perguntas: [
         { p: "O que é reúso?", r: "Escrever os passos de um bloco uma vez e usar o bloco várias vezes, chamando pelo nome." },
@@ -130,7 +130,7 @@
       },
       atencao: [
         "Ninguém escreve senha verdadeira no portal nem no computador. Repita várias vezes.",
-        "No cartaz do Paint: sem nomes, fotos ou apelidos de colegas. O cartaz é a atividade que VOCÊ confere.",
+        "O cartaz Alerta de golpe! é montado no próprio portal (desenhos, cor e 3 dicas) e o portal confere sozinho. Sem nomes ou apelidos de colegas.",
         "Se um aluno relatar cyberbullying ou golpe real: agradeça, não peça detalhes na frente da turma, converse depois e encaminhe à direção."
       ],
       perguntas: [

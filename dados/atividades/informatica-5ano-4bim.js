@@ -54,9 +54,9 @@ PORTAL.registrarAtividades("informatica-5ano-4bim", {
       { tipo: "escolha", titulo: "Por que o computador precisa de um sistema operacional? O que aconteceria sem ele?",
         perguntas: [
           { p: "O que o sistema operacional faz?", opcoes: ["É o programa principal: liga tudo e deixa os outros programas abrirem", "Só serve para jogar", "É uma peça que fica dentro do mouse"], certo: 0 },
-          { p: "O que aconteceria sem ele?", opcoes: ["O computador não abriria nem o Paint", "O computador ficaria mais rápido", "Nada mudaria"], certo: 0 },
-          { p: "Qual destes é um sistema operacional?", opcoes: ["Windows", "Paint", "Teclado"], certo: 0 }],
-        explicacao: "O sistema operacional é o programa principal: liga tudo e deixa os outros programas abrirem. Sem ele, o computador não abriria nem o Paint." }
+          { p: "O que aconteceria sem ele?", opcoes: ["O computador não abriria nem o navegador", "O computador ficaria mais rápido", "Nada mudaria"], certo: 0 },
+          { p: "Qual destes é um sistema operacional?", opcoes: ["Windows", "Navegador", "Teclado"], certo: 0 }],
+        explicacao: "O sistema operacional é o programa principal: liga tudo e deixa os outros programas abrirem. Sem ele, o computador não abriria nem o navegador." }
     ],
     turbo: [
       { tipo: "escolha", titulo: "O computador da escola quebrou!",
@@ -220,13 +220,12 @@ PORTAL.registrarAtividades("informatica-5ano-4bim", {
         conferir: { porCampo: [["autoriza", "permiss", "pedir", "peco", "pergunt", "deixa"], ["maria"]], msg: "Isso mesmo: pedir autorização e dar o crédito!" },
         exemplo: "Peço autorização para a Maria e escrevo o crédito no cartaz: Desenho: Maria." },
       { tipo: "classificar", modo: "tabela", titulo: "Ligue cada problema à tecnologia certa", colunaItem: "Problema", colunaResp: "Tecnologia",
-        categorias: [{ id: "A", rot: "Paint" }, { id: "B", rot: "Bloco de Notas" }, { id: "C", rot: "Calculadora" }, { id: "D", rot: "Chamada de vídeo" }],
+        categorias: [{ id: "A", rot: "Programa de desenho" }, { id: "B", rot: "Bloco de Notas" }, { id: "C", rot: "Calculadora" }, { id: "D", rot: "Chamada de vídeo" }],
         itens: [{ t: "Fazer uma conta difícil bem rápido", c: "C" }, { t: "Falar com a avó que mora em outra cidade", c: "D" }, { t: "Escrever um texto no computador", c: "B" }, { t: "Fazer um desenho no computador", c: "A" }] },
-      { tipo: "pc", titulo: "No computador: cartaz Eu navego com cuidado", programa: "Paint",
-        passos: ["Escreva o título <strong>Eu navego com cuidado</strong>.", "Faça um desenho seu.", "Embaixo, escreva: <strong>Criado por: (seu primeiro nome)</strong>.", "Deixe o cartaz aberto na tela (o professor vê pelo Veyon) e responda à conferência abaixo."],
-        conferir: [{ rot: "Qual é o título do seu cartaz?", ph: "Título…", gab: "Eu navego com cuidado", re: "navego\\s+com\\s+cuidado", dica: "O título é <strong>Eu navego com cuidado</strong>." },
-          { rot: "O que você escreveu embaixo do desenho?", ph: "Criado por: …", gab: "Criado por: (seu primeiro nome)", re: "criado\\s+por", dica: "Embaixo do desenho vai a frase <strong>Criado por:</strong> e o seu primeiro nome." },
-          { rot: "Escreva 1 cuidado que você tem na internet (está no 💡 Para começar):", ph: "Ex.: confiro quem escreveu…", gab: "conferir o autor e a fonte, desconfiar de mensagem urgente, dar crédito…", re: "confi|fonte|autor|desconfi|compartilh|urgente|cr[eé]dito|adulto|verdade|pergunt|cuidado|link|senha|plágio|plagio", dica: "Releia o <strong>💡 Para começar</strong>: quem escreveu? tem fonte? pede pressa?" }],
+      { tipo: "cartaz", titulo: "Monte aqui o cartaz Eu navego com cuidado", tituloCartaz: "Eu navego com cuidado",
+        campos: [
+          { rot: "Escreva no cartaz 1 cuidado que você tem na internet (está no 💡 Para começar):", ph: "Ex.: confiro quem escreveu antes de acreditar", gab: "conferir o autor e a fonte, desconfiar de mensagem urgente, dar crédito…", exemplo: "Eu confiro quem escreveu antes de acreditar.", re: "confi|fonte|autor|desconfi|compartilh|urgente|cr[eé]dito|adulto|verdade|pergunt|cuidado|link|senha|plágio|plagio", dica: "Releia o <strong>💡 Para começar</strong>: conferir quem escreveu, desconfiar de mensagem urgente, dar crédito…" },
+          { rot: "Embaixo, escreva <strong>Criado por:</strong> e o seu primeiro nome:", ph: "Criado por: …", gab: "Criado por: (seu primeiro nome)", exemplo: "Criado por: Ana", re: "criado\\s+por\\s*:?\\s*\\S+", dica: "Escreva <strong>Criado por:</strong> e, depois, o seu primeiro nome." }],
         okMsg: "Cartaz pronto e conferido! Ficou registrado para o professor." }
     ],
     desafio: [
