@@ -962,6 +962,7 @@ body.modo-trilha { font-size: 21px; line-height: 1.65; }
 .pp-video { border: 2px solid #ef4444; background: #fef2f2; }
 .pp-video summary { cursor: pointer; font-size: 1.1rem; }
 .pp-video-quadro { position: relative; width: 100%; max-width: 960px; aspect-ratio: 16 / 9; margin: 10px 0 6px; background: #000; border-radius: 12px; overflow: hidden; }
+.pp-video-acoes { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 6px 0; }
 .pp-video-quadro iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
 .pp-avisos { border: 2px solid #fb923c; background: #fff7ed; }
 .pp-avisos summary { cursor: pointer; font-size: 1.1rem; }
