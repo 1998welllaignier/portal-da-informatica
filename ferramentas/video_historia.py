@@ -136,6 +136,76 @@ for k, c in enumerate(cenas):
             if norm(w) == f: d["nomeAt"] = wt[q]; break
     sinc.append(d); print(k, round(S, 2), d["dur"], c["fala"][:50])
 
+
+# ---------- encaixe fino com reconhecimento de fala (Whisper tiny local) ----------
+ASR = os.environ.get("ASR_DIR", "")
+def reconhecer():
+    """Transcreve a voz em janelas curtas (cortadas nas pausas) e devolve [(início, fim, palavra)]."""
+    if not ASR or not os.path.exists(os.path.join(ASR, "asr2.mjs")): return None
+    jan = []; ini_j = ch[0][0]
+    for x, y in ch:
+        if y - ini_j > 9 and x > ini_j: jan.append([max(0, ini_j - 0.15), x]); ini_j = x
+    jan.append([max(0, ini_j - 0.15), TOTAL])
+    tmpd = tempfile.mkdtemp(); raw = os.path.join(tmpd, "a.raw")
+    subprocess.check_call(["ffmpeg", "-loglevel", "error", "-y", "-i", audio, "-ac", "1", "-ar", "16000", "-f", "f32le", raw])
+    json.dump(jan, open(os.path.join(tmpd, "j.json"), "w"))
+    env = dict(os.environ, MODELOS=os.path.join(ASR, "wt/package/models/"))
+    r = subprocess.run(["node", os.path.join(ASR, "asr2.mjs"), raw, os.path.join(tmpd, "j.json"), os.path.join(tmpd, "o.json")], cwd=ASR, env=env, capture_output=True, text=True, timeout=900)
+    if r.returncode: print("aviso: reconhecimento falhou", r.stderr[-300:]); return None
+    out = []
+    for lst in json.load(open(os.path.join(tmpd, "o.json"))):
+        for a, b, w in lst:
+            for k, pw in enumerate(w.split()):
+                out.append((a, b, pw))
+    return out
+
+def nrm(w): return re.sub(r"[^a-z0-9]", "", unicodedata.normalize("NFD", w.lower()).encode("ascii", "ignore").decode())
+rec = reconhecer()
+if rec:
+    import difflib
+    sw = [(k, w) for k, c in enumerate(cenas) for w in c["fala"].split()]
+    A_ = [nrm(w) for _, w in sw]; B_ = [nrm(w) for _, _, w in rec]
+    tempo = [None] * len(sw)
+    for blk in difflib.SequenceMatcher(None, A_, B_, autojunk=False).get_matching_blocks():
+        for q in range(blk.size):
+            if A_[blk.a + q]: tempo[blk.a + q] = rec[blk.b + q][0]
+    # garante ordem crescente
+    ult = -1
+    for q in range(len(tempo)):
+        if tempo[q] is not None:
+            if tempo[q] < ult: tempo[q] = None
+            else: ult = tempo[q]
+    ancoras = [q for q in range(len(tempo)) if tempo[q] is not None]
+    print("palavras reconhecidas e encaixadas:", len(ancoras), "de", len(sw))
+    if len(ancoras) >= len(sw) * 0.35:
+        fim_fala = ch[-1][1]
+        pts = [(-1, ch[0][0])] + [(q, tempo[q]) for q in ancoras] + [(len(sw), fim_fala)]
+        sil_ = [silabas(w) for _, w in sw]
+        for (qa, ta), (qb, tb) in zip(pts, pts[1:]):
+            if qb - qa <= 1: continue
+            base = qa if qa >= 0 else 0
+            pesos = sil_[qa + 1 if qa >= 0 else 0: qb]; tot = sum(pesos) + (sil_[qa] if qa >= 0 else 0)
+            acc = sil_[qa] if qa >= 0 else 0
+            for q in range(qa + 1, qb):
+                tempo[q] = ta + (tb - ta) * acc / (tot or 1); acc += sil_[q]
+        # cenas: começam um pouco antes da primeira palavra de cada fala
+        primeiro = {}
+        for q, (k, _) in enumerate(sw): primeiro.setdefault(k, tempo[q])
+        starts = [0.0] + [max(0, primeiro[k] - LEAD) for k in range(1, m)]
+        sinc = []
+        for k, c in enumerate(cenas):
+            S = starts[k]; du = (starts[k + 1] if k + 1 < m else TOTAL + TAIL) - S
+            words = c["fala"].split(); wt = [round(tempo[q] - S, 2) for q, (kk, _) in enumerate(sw) if kk == k]
+            d = {"dur": round(du, 2), "wt": wt}
+            if c["nome"]:
+                f = norm(c["nome"].split()[0])
+                for q, w in enumerate(words):
+                    if norm(w) == f: d["nomeAt"] = wt[q]; break
+            sinc.append(d)
+        print("✅ encaixe pelo reconhecimento de fala:", [round(s, 2) for s in starts])
+    else:
+        print("aviso: poucas palavras reconhecidas; mantendo o encaixe pelas pausas")
+
 txt = open(dados).read()
 # troca só a sincronia desta missão (as outras missões continuam)
 txt = re.sub(r"\n/\* Sincronia %s[^\n]*\*/\nPORTAL\.historias\[[^\n]*\n?" % mid, "\n", txt).rstrip() + "\n"
