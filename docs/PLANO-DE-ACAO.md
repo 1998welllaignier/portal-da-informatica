@@ -73,3 +73,12 @@ Claude Max (5x) assinado por um mês em 08/11 para adiantar tudo. **Voltar ao Pr
 - [ ] Avaliar código de acesso único na escola (5 ou 6 números), para o aluno entrar só com o código, sem escolher série e turma. Em 08/11 o professor preferiu manter como está (série → turma → código), porque hoje o código só vale dentro da turma.
 - [ ] Kit de diagnóstico do 6º ano.
 - [ ] O 4º bimestre de 2026 fica guardado como arquivo.
+
+## 5. 💡 Ideia para amadurecer com calma: o portal na rede municipal (09/11/2026)
+Sem pressa: primeiro testar até tudo funcionar bem na EMEF JK. Esta seção é só para a ideia não se perder.
+- **Sonho:** apresentar o portal à SEMED; cada professor de Informática de cada escola teria o seu painel, usando os materiais criados pelo Prof. Welington.
+- **Técnica (viável):** multiescola/multiprofessor, painel de gestão para a SEMED, LGPD (termo de uso, política de privacidade, responsável pelos dados), custo baixo de servidor.
+- **Atenção:** servidor do próprio município não pode vender para ele (Lei 14.133/2021, art. 9º, § 1º). Software feito "em razão do cargo" pode ser do empregador (Lei 9.609/98) → proteger a autoria.
+- **Caminhos:** (1) na rede de Curionópolis, como projeto/programa (reconhecimento: função ou coordenação), não como venda; (2) venda/licença para outros municípios, por empresa (conferir o estatuto dos servidores); (3) registrar o software no INPI em nome dele e guardar provas de que foi feito com equipamento e tempo próprios.
+- **Antes de proposta formal:** consulta com advogado de direito administrativo.
+- **Enquanto isso:** juntar resultados reais (frequência, notas, alunos fazendo sozinhos), que são o argumento da apresentação.
