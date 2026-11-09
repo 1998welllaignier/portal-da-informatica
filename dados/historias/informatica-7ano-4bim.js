@@ -47,7 +47,7 @@
         visual: box("📦", "Pacote", 50, 50, .2, "grande"),
         tags: [{ t: "DE: 192.168.0.12", x: 24, y: 34, at: 1.4 }, { t: "PARA: 200.10.5.8", x: 76, y: 34, at: 2.6 }, { t: "Nº 3", x: 50, y: 74, at: 3.8 }] },
 
-      { chip: "CAMINHOS DIFERENTES", emo: "!", fala: "Os pacotes podem ir por caminhos diferentes e chegar fora de ordem! O aparelho que recebe usa os números para montar tudo de novo.",
+      { chip: "CAMINHOS DIFERENTES", emo: "!", semMascote: true, fala: "Os pacotes podem ir por caminhos diferentes e chegar fora de ordem! O aparelho que recebe usa os números para montar tudo de novo.",
         visual: box("📱", "Envia", 14, 50, .2) + box("📶", "", 46, 30, .5) + box("📶", "", 46, 66, .7) + linha(19, 47, 41, 32, 1, 2) + linha(19, 53, 41, 64, 1.2, 2) + linha(51, 32, 70, 47, 1.6, 2) + linha(51, 64, 70, 53, 1.8, 2) + box("📱", "Recebe", 76, 50, 1.4),
         tags: [{ t: "3 · 1 · 2 → 1 · 2 · 3", x: 86, y: 30, at: 4.6 }] },
 
@@ -59,7 +59,7 @@
         visual: box("📦", "TCP/IP", 30, 48, .3, "grande") + box("🔒", "HTTPS", 70, 48, 3.4, "grande destaque"),
         tags: [{ t: "DIVIDE E ENTREGA", x: 30, y: 72, at: 1.4 }, { t: "SITE SEGURO", x: 70, y: 72, at: 4.8 }] },
 
-      { chip: "NA NOSSA ESCOLA", emo: "ok", fala: "Na nossa escola, a internet chega por fibra óptica, passa pelo roteador e pelo switch, e vai por cabos até o seu computador.",
+      { chip: "NA NOSSA ESCOLA", emo: "ok", semMascote: true, fala: "Na nossa escola, a internet chega por fibra óptica, passa pelo roteador e pelo switch, e vai por cabos até o seu computador.",
         visual: box("💡", "Fibra óptica", 10, 50, 1.4) + linha(15, 50, 23, 50, 1.8, 1, "#38bdf8") + box("📶", "Roteador", 30, 50, 2.4) + linha(35, 50, 43, 50, 2.8, 1) + box("🔀", "Switch", 50, 50, 3.4) + linha(55, 50, 63, 50, 3.8, 1) + box("〰️", "Cabos", 70, 50, 4.2) + linha(75, 50, 83, 50, 4.6, 1) + box("💻", "Seu PC", 90, 50, 5, "destaque") },
 
       { chip: "A PARTE MAIS LENTA MANDA", emo: "!", nome: "100 Mbps", fala: "Mas o switch da baia vai só até cem megabits por segundo. E a parte mais lenta manda: é essa a velocidade que chega no seu computador.",
@@ -75,3 +75,6 @@
     ]
   });
 })();
+
+/* Sincronia m1 com a narração gravada (Grok): tempo de cada cena e de cada palavra da legenda. Só é usada no modo auto (gravação do vídeo). */
+PORTAL.historias["informatica-7ano-4bim"].sinc = Object.assign(PORTAL.historias["informatica-7ano-4bim"].sinc || {}, { m1: [{"dur":3.4,"wt":[0.0,0.38,0.53,1.15,1.65,1.79,2.06,2.62]},{"dur":7.32,"wt":[0.35,0.6,0.9,1.1,1.54,1.79,1.95,2.25,2.45,2.7,3.57,3.73,3.89,4.33,4.78,5.12,5.82,6.07,6.28,6.53,6.65]},{"dur":11.0,"wt":[0.35,0.64,1.03,1.32,1.66,2.64,3.08,3.42,3.61,3.9,4.29,4.95,5.08,5.52,5.97,6.6,6.73,7.23,7.36,7.49,8.14,8.73,9.08,9.36,9.55,10.2,10.34,10.57],"nomeAt":1.32},{"dur":5.43,"wt":[0.35,0.48,0.62,1.12,1.26,1.5,1.79,1.98,2.38,3.2,3.39,3.74,4.19,4.38,4.73],"nomeAt":1.5},{"dur":9.41,"wt":[0.35,0.61,0.77,1.03,1.19,1.54,2.08,2.63,2.75,3.19,3.45,3.57,3.97,5.06,5.32,5.76,5.97,6.14,6.58,6.79,7.38,7.82,8.08,8.2,8.64,8.81,9.02],"nomeAt":6.14},{"dur":6.24,"wt":[0.35,0.47,0.73,1.09,1.21,1.62,1.74,1.86,2.36,3.01,3.52,3.68,3.99,4.26,4.52,4.88,5.48,5.64],"nomeAt":1.86},{"dur":8.04,"wt":[0.35,0.75,1.16,1.29,1.86,2.21,2.78,2.97,3.64,4.72,5.18,5.32,5.67,6.02,6.62,7.19,7.43]},{"dur":7.51,"wt":[0.35,0.57,0.7,0.87,0.99,1.46,1.69,2.06,2.48,2.75,2.92,3.73,3.95,4.17,4.49,5.32,5.45,5.92,6.09,6.51,6.98],"nomeAt":6.98},{"dur":5.12,"wt":[0.35,0.61,0.97,1.23,1.35,1.8,1.97,2.23,2.58,3.02,3.47,3.63,3.9,4.25,4.37,4.54]},{"dur":8.03,"wt":[0.35,0.52,0.94,1.26,1.43,1.65,2.11,2.68,2.8,3.17,3.43,3.61,4.52,4.65,5.11,5.33,5.7,5.92,6.09,6.51,6.78,7.14,7.41,7.58]},{"dur":6.79,"wt":[0.35,0.47,0.73,1.03,1.2,1.69,1.86,2.77,3.03,3.39,4.3,4.66,5.25,5.51,5.67,6.02,6.19],"nomeAt":3.39},{"dur":8.93,"wt":[0.35,0.49,0.92,1.35,1.49,2.03,2.23,2.72,2.86,3.12,3.26,4.24,4.38,4.52,4.89,5.21,5.41,5.89,6.15,6.81,6.95,7.48,7.96,8.16]},{"dur":8.07,"wt":[0.35,0.52,0.83,1.53,1.65,2.11,2.42,2.64,2.95,3.36,4.06,4.33,4.78,4.9,5.17,5.58,5.7,6.25,6.46,6.78,6.99,7.11,7.33]},{"dur":8.39,"wt":[0.35,0.56,0.68,1.04,1.21,1.47,1.68,1.85,2.06,2.28,2.73,2.94,3.39,3.51,4.06,4.37,4.64,4.94,5.3,5.42,6.06,6.18,6.72,6.94,7.25,7.41,7.63]},{"dur":7.12,"wt":[0.35,0.65,0.83,1.08,1.96,2.25,2.82,3.11,3.46,3.6,3.89,4.19,4.59,4.94,5.13,5.64,6.43]},{"dur":6.49,"wt":[0.35,0.67,0.79,1.01,1.37,2.02,2.14,2.51,2.63,2.8]}] });
