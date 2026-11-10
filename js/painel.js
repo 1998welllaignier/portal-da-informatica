@@ -24,7 +24,7 @@
   function turmaDaHora(turmas) {
     const ag = new Date(), dia = ag.getDay(), min = ag.getHours() * 60 + ag.getMinutes();
     const meiaNoite = new Date(ag.getFullYear(), ag.getMonth(), ag.getDate()).getTime();
-    const hoje = turmas.filter(t => t.aula && t.aula.dia === dia && t.aula.ini).map(t => { const [hh, mm] = t.aula.ini.split(":").map(Number); return { t, ini: hh * 60 + mm }; }).sort((a, b) => a.ini - b.ini);
+    const hoje = turmas.filter(t => t.aula && t.aula.dia === dia && t.aula.ini).map(t => { const [hh, mm] = t.aula.ini.split(":").map(Number); return { t, ini: hh * 60 + mm }; }).sort((a, b) => a.ini - b.ini || (a.t.serie.id === "5") - (b.t.serie.id === "5")); // no mesmo horário, a turma regular vem antes do 5º ano
     const atual = hoje.find(x => min >= x.ini - 15 && min < x.ini + 90);
     if (atual) return { id: atual.t.id, desde: meiaNoite + (atual.ini - 15) * 60000 };
     const prox = hoje.find(x => x.ini - 15 > min);
