@@ -1,0 +1,282 @@
+<!doctype html><html><head><meta charset="utf-8"><title>7º ano · Missão 1 · v4</title>
+<style>html,body{margin:0;background:#000}canvas{display:block}</style></head><body>
+<canvas id="c" width="1280" height="720"></canvas>
+<script>const W = 1280, H = 720, c = document.getElementById("c"), g = c.getContext("2d"); const F = "Poppins, 'DejaVu Sans', sans-serif"; window.SELO_SERIE = "7º ano · Turmas A, B, C e D";</script>
+<script src="../lib.js"></script>
+<script>
+/* ================= peças de cenário ================= */
+const NAVY = "#14213d", AZUL = "#2f7be0", AMAR = "#ffd23f", ROSA = "#ff6fa5", VERDE = "#2fc26f";
+const ANA = { camisa: ROSA, cabelo: "longo" };
+const ana = o => boneco(Object.assign({}, ANA, o));
+function fundoSala(t) {
+  g.fillStyle = "#f6e7c8"; g.fillRect(0, 0, W, H);
+  g.fillStyle = "#e9d3a6"; g.fillRect(0, 500, W, 220);
+  g.fillStyle = "#2f5d4a"; rr(120, 70, 520, 250, 14); g.fill(); g.strokeStyle = "#b07a3c"; g.lineWidth = 12; g.stroke();
+  g.fillStyle = "rgba(255,255,255,.75)"; g.font = `700 30px ${F}`; g.textAlign = "left"; g.fillText("Informática", 160, 130);
+  g.fillStyle = "#fff"; g.beginPath(); g.arc(1090, 120, 46, 0, 7); g.fill(); g.strokeStyle = NAVY; g.lineWidth = 6; g.stroke();
+  g.beginPath(); g.moveTo(1090, 120); g.lineTo(1090, 92); g.moveTo(1090, 120); g.lineTo(1112, 128); g.stroke();
+}
+function mesa(x, y) { g.fillStyle = "#b07a3c"; g.fillRect(x - 230, y, 460, 26); g.fillStyle = "#8a5a28"; g.fillRect(x - 210, y + 26, 20, 190); g.fillRect(x + 190, y + 26, 20, 190); }
+function monitor(x, y, s, tela) { // tela(x0,y0,w,h)
+  g.save(); g.translate(x, y); g.scale(s, s);
+  g.fillStyle = "#2b2f3a"; rr(-150, -200, 300, 190, 16); g.fill();
+  g.fillStyle = "#3a3f4d"; g.fillRect(-14, -12, 28, 34); rr(-70, 18, 140, 14, 7); g.fill();
+  g.save(); rr(-136, -186, 272, 160, 8); g.clip(); g.fillStyle = "#eaf6ff"; g.fillRect(-136, -186, 272, 160); if (tela) tela(-136, -186, 272, 160); g.restore();
+  g.restore();
+}
+function teclado(x, y, s, pressK) {
+  g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = "#3a3f4d"; rr(-130, -20, 260, 46, 10); g.fill();
+  g.fillStyle = "#e9edf5"; for (let r = 0; r < 3; r++) for (let k = 0; k < 11; k++) { rr(-120 + k * 22, -14 + r * 13, 18, 10, 2); g.fill(); }
+  g.restore();
+}
+function mouse(x, y, s) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = "#e9edf5"; g.beginPath(); g.ellipse(0, 0, 22, 32, 0, 0, 7); g.fill(); g.strokeStyle = "#3a3f4d"; g.lineWidth = 3; g.stroke(); g.beginPath(); g.moveTo(0, -32); g.lineTo(0, -6); g.stroke(); g.restore(); }
+function microfone(x, y, s) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = "#3a3f4d"; rr(-18, -60, 36, 62, 18); g.fill(); g.strokeStyle = "#3a3f4d"; g.lineWidth = 6; g.beginPath(); g.arc(0, -20, 30, .1 * Math.PI, .9 * Math.PI); g.stroke(); g.beginPath(); g.moveTo(0, 10); g.lineTo(0, 34); g.moveTo(-20, 34); g.lineTo(20, 34); g.stroke(); g.restore(); }
+function gabinete(x, y, s, luz) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = "#2b2f3a"; rr(-60, -200, 120, 200, 12); g.fill(); g.fillStyle = "#3a3f4d"; rr(-44, -184, 88, 18, 4); g.fill(); rr(-44, -158, 88, 18, 4); g.fill(); g.fillStyle = luz ? "#3dff8b" : "#555"; g.beginPath(); g.arc(0, -40, 9, 0, 7); g.fill(); g.restore(); }
+function caixaSom(x, y, s, t) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = "#2b2f3a"; rr(-40, -110, 80, 110, 12); g.fill(); g.fillStyle = "#555"; g.beginPath(); g.arc(0, -40, 26, 0, 7); g.fill(); g.beginPath(); g.arc(0, -88, 12, 0, 7); g.fill();
+  if (t != null) { g.strokeStyle = AMAR; g.lineWidth = 5; for (let i = 0; i < 3; i++) { const r = 40 + ((t * 60 + i * 22) % 66); g.globalAlpha = 1 - (r - 40) / 66; g.beginPath(); g.arc(30, -50, r, -.6, .6); g.stroke(); } g.globalAlpha = 1; } g.restore(); }
+function impressora(x, y, s, k) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = "#fff"; g.fillRect(-50, -70 + 60 * (1 - k), 100, 70); g.strokeStyle = "#ccd"; g.lineWidth = 3; for (let i = 0; i < 3; i++) { g.beginPath(); g.moveTo(-34, -50 + i * 16 + 60 * (1 - k)); g.lineTo(34, -50 + i * 16 + 60 * (1 - k)); g.stroke(); }
+  g.fillStyle = "#3a3f4d"; rr(-90, -40, 180, 80, 14); g.fill(); g.fillStyle = "#2b2f3a"; g.fillRect(-60, 0, 120, 10); g.fillStyle = "#3dff8b"; g.beginPath(); g.arc(66, -20, 6, 0, 7); g.fill(); g.restore(); }
+function celular(x, y, s, tela) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = "#1c1f27"; rr(-80, -160, 160, 320, 26); g.fill(); g.save(); rr(-70, -146, 140, 292, 16); g.clip(); g.fillStyle = "#dff3ff"; g.fillRect(-70, -146, 140, 292); if (tela) tela(); g.restore(); g.restore(); }
+function pasta(x, y, s, cor, nome, aberta) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = cor || "#f5b82e"; rr(-60, -50, 50, 20, 6); g.fill(); rr(-60, -40, 120, 84, 10); g.fill(); if (aberta) { g.fillStyle = "#ffd977"; g.beginPath(); g.moveTo(-60, 44); g.lineTo(-44, -12); g.lineTo(70, -12); g.lineTo(60, 44); g.fill(); }
+  if (nome) { g.fillStyle = NAVY; g.font = `800 22px ${F}`; g.textAlign = "center"; g.fillText(nome, 0, 74); } g.restore(); }
+function arquivo(x, y, s, rot, cor, txt) { g.save(); g.translate(x, y); g.rotate(rot || 0); g.scale(s, s); g.fillStyle = "#fff"; g.beginPath(); g.moveTo(-34, -44); g.lineTo(18, -44); g.lineTo(34, -28); g.lineTo(34, 44); g.lineTo(-34, 44); g.closePath(); g.fill(); g.strokeStyle = cor || AZUL; g.lineWidth = 4; g.stroke();
+  g.fillStyle = cor || AZUL; g.fillRect(-22, -14, 44, 6); g.fillRect(-22, 0, 44, 6); g.fillRect(-22, 14, 30, 6); if (txt) { g.font = `800 16px ${F}`; g.textAlign = "center"; g.fillText(txt, 0, 36); } g.restore(); }
+function desenhoAna(x0, y0, w, h, k) { // sol, casa e grama, aparecendo conforme k
+  if (k <= 0) return; g.save(); g.lineCap = "round";
+  g.fillStyle = "#7ed957"; g.fillRect(x0, y0 + h * .78, w * cl(k * 3), h * .22);
+  if (k > .25) { const kk = cl((k - .25) * 3); g.fillStyle = "#ffcc33"; g.beginPath(); g.arc(x0 + w * .8, y0 + h * .25, 22 * kk, 0, 7); g.fill(); }
+  if (k > .5) { const kk = cl((k - .5) * 3); g.fillStyle = "#e8553d"; g.globalAlpha = kk; g.fillRect(x0 + w * .22, y0 + h * .48, w * .32, h * .3); g.fillStyle = "#8a3b20"; g.beginPath(); g.moveTo(x0 + w * .18, y0 + h * .5); g.lineTo(x0 + w * .38, y0 + h * .26); g.lineTo(x0 + w * .58, y0 + h * .5); g.fill(); }
+  g.restore();
+}
+function cursor(x, y, clique) { g.save(); g.translate(x, y); g.fillStyle = "#fff"; g.strokeStyle = "#111"; g.lineWidth = 2.5; g.beginPath(); g.moveTo(0, 0); g.lineTo(0, 30); g.lineTo(8, 23); g.lineTo(14, 36); g.lineTo(19, 34); g.lineTo(13, 21); g.lineTo(23, 21); g.closePath(); g.fill(); g.stroke();
+  if (clique > 0 && clique < 1) { g.strokeStyle = `rgba(255,210,63,${1 - clique})`; g.lineWidth = 4; g.beginPath(); g.arc(0, 0, 10 + clique * 30, 0, 7); g.stroke(); } g.restore(); }
+function seta(x1, y1, x2, y2, k, cor) { if (k <= 0) return; const x = lerp(x1, x2, k), y = lerp(y1, y2, k), an = Math.atan2(y2 - y1, x2 - x1); g.strokeStyle = cor || "#fff"; g.fillStyle = cor || "#fff"; g.lineWidth = 7; g.lineCap = "round"; g.beginPath(); g.moveTo(x1, y1); g.lineTo(x, y); g.stroke();
+  g.beginPath(); g.moveTo(x + 6 * Math.cos(an), y + 6 * Math.sin(an)); g.lineTo(x - 20 * Math.cos(an - .5), y - 20 * Math.sin(an - .5)); g.lineTo(x - 20 * Math.cos(an + .5), y - 20 * Math.sin(an + .5)); g.fill(); }
+function pacotes(x1, y1, x2, y2, t, n, cor) { g.save(); g.globalCompositeOperation = "lighter"; for (let i = 0; i < n; i++) { const k = ((t * .9 + i / n) % 1), x = lerp(x1, x2, k), y = lerp(y1, y2, k); const gr = g.createRadialGradient(x, y, 0, x, y, 24); gr.addColorStop(0, cor || "rgba(140,240,255,1)"); gr.addColorStop(1, "rgba(60,190,255,0)"); g.fillStyle = gr; g.beginPath(); g.arc(x, y, 24, 0, 7); g.fill(); } g.restore(); }
+function cartao(txt, x, y, w, cor, k, sub) { if (k <= 0) return; const s = back(cl(k)); g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = cor; g.shadowColor = "rgba(0,0,0,.25)"; g.shadowBlur = 14; rr(-w / 2, -56, w, 112, 22); g.fill(); g.shadowBlur = 0;
+  g.fillStyle = "#fff"; g.font = `800 34px ${F}`; g.textAlign = "center"; g.textBaseline = "middle"; g.fillText(txt, 0, sub ? -14 : 0); if (sub) { g.font = `600 19px ${F}`; g.fillText(sub, 0, 24); } g.restore(); }
+function fundoEscuro(t, cor) { const gr = g.createLinearGradient(0, 0, 0, H); gr.addColorStop(0, cor || "#1b2c5a"); gr.addColorStop(1, "#0d1631"); g.fillStyle = gr; g.fillRect(0, 0, W, H);
+  g.fillStyle = "rgba(255,255,255,.05)"; for (let i = 0; i < 40; i++) { const x = (rnd(i) * W + t * 10 * (1 + rnd(i + 3))) % W, y = rnd(i + 9) * H; g.beginPath(); g.arc(x, y, 2 + rnd(i + 1) * 3, 0, 7); g.fill(); } }
+function confete(t, t0) { const k = t - t0; if (k < 0 || k > 2.6) return; for (let i = 0; i < 70; i++) { const x = rnd(i) * W + Math.sin(k * 3 + i) * 30, y = -20 + k * (220 + rnd(i + 4) * 260) - rnd(i + 8) * 200; g.save(); g.translate(x, y); g.rotate(k * 5 + i); g.fillStyle = [AMAR, ROSA, VERDE, AZUL, "#fff"][i % 5]; g.fillRect(-6, -3, 12, 6); g.restore(); } }
+function maoApontando(x, y, ang, s, espelho, manga) { // mãozinha de desenho animado; ponta do indicador em (x,y)
+  g.save(); g.translate(x, y); g.rotate(ang); g.scale(s, espelho ? -s : s);
+  const PELE = "#f6cfa8", CONT = "#b9825c";
+  const partes = () => { // mesmas formas para o contorno e para o preenchimento
+    rr(-76, -12, 76, 24, 12); g.fill();                                   // indicador
+    g.beginPath(); g.ellipse(-98, 12, 40, 34, 0, 0, 7); g.fill();          // palma
+    g.beginPath(); g.ellipse(-66, 26, 20, 23, 0, 0, 7); g.fill();          // dedos dobrados
+    g.beginPath(); g.ellipse(-84, -14, 24, 12, -.35, 0, 7); g.fill();      // polegar
+  };
+  // punho da camiseta
+  g.fillStyle = CONT; rr(-176, -26, 54, 76, 16); g.fill();
+  g.fillStyle = manga || ROSA; rr(-172, -22, 46, 68, 13); g.fill();
+  g.fillStyle = "#ffffff"; rr(-134, -24, 14, 72, 7); g.fill();
+  // contorno macio (mesmas formas, um pouco maiores, por baixo)
+  g.save(); g.fillStyle = CONT; g.strokeStyle = CONT; g.lineWidth = 7; g.lineJoin = "round";
+  [[-76,-12,76,24]].forEach(()=>{}); g.translate(0, 0);
+  const contorno = () => { rr(-79, -15, 82, 30, 15); g.fill(); g.beginPath(); g.ellipse(-98, 12, 44, 38, 0, 0, 7); g.fill(); g.beginPath(); g.ellipse(-66, 26, 24, 27, 0, 0, 7); g.fill(); g.beginPath(); g.ellipse(-84, -14, 28, 16, -.35, 0, 7); g.fill(); };
+  contorno(); g.restore();
+  g.fillStyle = PELE; partes();
+  // dobrinhas dos dedos e unha
+  g.strokeStyle = CONT; g.lineWidth = 3; g.lineCap = "round";
+  [[14, 18], [27, 30], [39, 40]].forEach(([a, b]) => { g.beginPath(); g.moveTo(-78, a); g.quadraticCurveTo(-64, a + 5, -50, b); g.stroke(); });
+  g.beginPath(); g.moveTo(-70, -2); g.lineTo(-60, -2); g.stroke();
+  g.fillStyle = "rgba(255,255,255,.55)"; g.beginPath(); g.ellipse(-12, -3, 7, 5, 0, 0, 7); g.fill();
+  g.fillStyle = "rgba(255,255,255,.35)"; g.beginPath(); g.ellipse(-104, 0, 14, 9, -.4, 0, 7); g.fill();
+  g.fillStyle = "rgba(240,120,120,.25)"; g.beginPath(); g.ellipse(-110, 26, 12, 8, 0, 0, 7); g.fill();
+  g.restore();
+}
+const pisca = (t, p) => (t % (p || 2.3)) < .11;
+
+/* ================= peças extras do 7º ano ================= */
+const LEO = { camisa: AZUL }, BIA = { camisa: "#22c55e", cabelo: "longo" };
+const leo = o => boneco(Object.assign({}, LEO, o)), bia = o => boneco(Object.assign({}, BIA, o));
+function roteador(x, y, s, t, bone) { g.save(); g.translate(x, y); g.scale(s, s);
+  g.strokeStyle = "#3a3f4d"; g.lineWidth = 7; g.lineCap = "round"; g.beginPath(); g.moveTo(-40, -30); g.lineTo(-52, -80); g.moveTo(40, -30); g.lineTo(52, -80); g.stroke();
+  g.fillStyle = "#e9edf5"; rr(-80, -34, 160, 56, 14); g.fill(); g.strokeStyle = "#94a3b8"; g.lineWidth = 3; g.stroke();
+  for (let i = 0; i < 4; i++) { g.fillStyle = (Math.floor((t || 0) * 6) + i) % 3 ? "#22c55e" : "#bbf7d0"; g.beginPath(); g.arc(-48 + i * 22, -6, 5, 0, 7); g.fill(); }
+  if (bone) { g.fillStyle = "#1d4ed8"; g.beginPath(); g.ellipse(0, -40, 46, 22, 0, Math.PI, 0); g.fill(); g.fillRect(-46, -42, 92, 8); g.fillStyle = "#1e3a8a"; rr(0, -40, 66, 10, 5); g.fill(); g.fillStyle = AMAR; g.beginPath(); g.arc(0, -52, 7, 0, 7); g.fill(); }
+  g.restore(); }
+function rack(x, y, s, t) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = "#1e293b"; rr(-70, -220, 140, 220, 10); g.fill();
+  for (let i = 0; i < 7; i++) { g.fillStyle = "#334155"; rr(-58, -206 + i * 29, 116, 22, 4); g.fill(); g.fillStyle = (Math.floor(t * 5 + i * 1.7) % 4) ? "#22c55e" : "#fde047"; g.beginPath(); g.arc(44, -195 + i * 29, 4, 0, 7); g.fill(); g.fillStyle = "#38bdf8"; g.beginPath(); g.arc(32, -195 + i * 29, 4, 0, 7); g.fill(); } g.restore(); }
+function pacote(x, y, s, num, cor, rot) { g.save(); g.translate(x, y); g.rotate(rot || 0); g.scale(s, s); g.fillStyle = cor || "#fff7d6"; rr(-36, -26, 72, 52, 8); g.fill(); g.strokeStyle = "#b45309"; g.lineWidth = 3; g.stroke();
+  g.beginPath(); g.moveTo(-36, -24); g.lineTo(0, 4); g.lineTo(36, -24); g.stroke(); if (num != null) { g.fillStyle = "#b45309"; g.beginPath(); g.arc(24, 14, 13, 0, 7); g.fill(); g.fillStyle = "#fff"; g.font = `800 16px ${F}`; g.textAlign = "center"; g.textBaseline = "middle"; g.fillText(num, 24, 15); g.textBaseline = "alphabetic"; } g.restore(); }
+function casa(x, y, s, cor, placa) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = cor; g.fillRect(-60, -80, 120, 80); g.fillStyle = "#8a3b20"; g.beginPath(); g.moveTo(-74, -78); g.lineTo(0, -140); g.lineTo(74, -78); g.fill();
+  g.fillStyle = "#5b3a1e"; g.fillRect(-16, -46, 32, 46); g.fillStyle = "#bfe3ff"; g.fillRect(24, -64, 24, 20); if (placa) { g.fillStyle = "#fff"; rr(-56, -112 + 140, 112, 30, 6); g.fill(); g.fillStyle = NAVY; g.font = `800 16px ${F}`; g.textAlign = "center"; g.fillText(placa, 0, 48); } g.restore(); }
+function no(x, y, r, cor) { g.fillStyle = cor || "#60a5fa"; g.beginPath(); g.arc(x, y, r, 0, 7); g.fill(); g.strokeStyle = "#fff"; g.lineWidth = 3; g.stroke(); }
+function linha(x1, y1, x2, y2, cor, w) { g.strokeStyle = cor || "rgba(255,255,255,.5)"; g.lineWidth = w || 4; g.beginPath(); g.moveTo(x1, y1); g.lineTo(x2, y2); g.stroke(); }
+function ondaAudio(x, y, w, t, cor) { g.strokeStyle = cor || AMAR; g.lineWidth = 5; g.lineCap = "round"; for (let i = 0; i < 12; i++) { const h = 8 + Math.abs(Math.sin(t * 7 + i * 1.3)) * 26; g.beginPath(); g.moveTo(x + i * w / 12, y - h / 2); g.lineTo(x + i * w / 12, y + h / 2); g.stroke(); } }
+function carro(x, y, cor, s) { g.save(); g.translate(x, y); g.scale(s || 1, s || 1); g.fillStyle = cor; rr(-40, -26, 80, 26, 10); g.fill(); rr(-24, -42, 46, 20, 8); g.fill(); g.fillStyle = "#bfe3ff"; rr(-18, -38, 16, 12, 3); g.fill(); rr(4, -38, 14, 12, 3); g.fill(); g.fillStyle = "#111"; g.beginPath(); g.arc(-22, 0, 9, 0, 7); g.arc(22, 0, 9, 0, 7); g.fill(); g.restore(); }
+
+/* ================= cenas ================= */
+const CENAS = [
+ { chip: "", fala: "Redes e internet: a grande viagem da sua mensagem!", sfx: [[.05, "whoosh"], [.35, "pop"], [1.6, "voa"], [2.4, "festa"]],
+   draw(t, D) { // céu de aventura com uma estrada pontilhada de um celular ao outro
+     const ceu = g.createLinearGradient(0, 0, 0, H); ceu.addColorStop(0, "#1e3a8a"); ceu.addColorStop(1, "#4c1d95"); g.fillStyle = ceu; g.fillRect(0, 0, W, H);
+     for (let i = 0; i < 50; i++) { g.fillStyle = `rgba(255,255,255,${.3 + .5 * Math.abs(Math.sin(t * 2 + i))})`; g.beginPath(); g.arc(rnd(i) * W, rnd(i + 9) * 420, 1.5 + rnd(i + 3) * 2, 0, 7); g.fill(); }
+     g.fillStyle = "#312e81"; g.beginPath(); g.moveTo(0, 520); for (let x = 0; x <= W; x += 80) g.lineTo(x, 470 + Math.sin(x / 160) * 40); g.lineTo(W, H); g.lineTo(0, H); g.fill();
+     for (let i = 0; i < 14; i++) { const x = 60 + i * 90, h = 50 + rnd(i) * 90; g.fillStyle = "#1e1b4b"; g.fillRect(x, 560 - h, 60, h + 200); g.fillStyle = "#fde68a"; for (let k = 0; k < 4; k++) if (rnd(i * 7 + k) > .4) g.fillRect(x + 10 + (k % 2) * 26, 570 - h + Math.floor(k / 2) * 22, 12, 10); }
+     const kt = out(seg(t, .1, .7)); g.save(); g.globalAlpha = kt; g.textAlign = "center"; g.fillStyle = AMAR; g.font = `800 24px ${F}`; g.fillText("7º ANO · MISSÃO 1", 640, 70); g.fillStyle = "#fff"; g.font = `800 48px ${F}`; g.fillText("Redes e internet", 640, 122); g.restore();
+     // rota em arco de um celular ao outro
+     const P = k => [lerp(170, 1110, k), 400 - Math.sin(k * Math.PI) * 190];
+     g.setLineDash([12, 14]); g.strokeStyle = "rgba(255,255,255,.55)"; g.lineWidth = 5; g.beginPath(); for (let k = 0; k <= 1.001; k += .02) { const [x, y] = P(k); k ? g.lineTo(x, y) : g.moveTo(x, y); } g.stroke(); g.setLineDash([]);
+     celular(170, 430, .55 * back(seg(t, .2, .6)), () => { g.fillStyle = AZUL; g.fillRect(-70, -146, 140, 292); }); celular(1110, 430, .55 * back(seg(t, .4, .8)), () => { g.fillStyle = "#22c55e"; g.fillRect(-70, -146, 140, 292); });
+     const kv = io(seg(t, .9, 3.2)); if (kv > 0 && kv < 1) { const [x, y] = P(kv); for (let k = 1; k < 10; k++) { const [tx, ty] = P(Math.max(0, kv - k * .02)); g.fillStyle = `rgba(253,224,71,${.5 - k * .05})`; g.beginPath(); g.arc(tx, ty, 14 - k, 0, 7); g.fill(); } pacote(x, y, 1.1, null, null, Math.sin(t * 6) * .15); }
+     if (kv >= 1) { const ok = back(seg(t, 3.2, 3.6)); g.save(); g.translate(1110, 300); g.scale(ok, ok); g.fillStyle = "#22c55e"; g.beginPath(); g.arc(0, 0, 30, 0, 7); g.fill(); g.strokeStyle = "#fff"; g.lineWidth = 7; g.beginPath(); g.moveTo(-12, 0); g.lineTo(-3, 10); g.lineTo(14, -10); g.stroke(); g.restore(); }
+     const km = seg(t, 1.9, 2.4); if (km > 0) { g.fillStyle = "rgba(10,16,36,.5)"; g.globalAlpha = out(km); rr(170, 470, 940, 130, 26); g.fill(); g.globalAlpha = 1; palavra("A GRANDE VIAGEM", 640, 512, km, 56); palavra("DA SUA MENSAGEM!", 640, 572, seg(t, 2.1, 2.6), 62); }
+     const kp = back(seg(t, .3, .8)); if (kp > 0) { g.save(); g.translate(640, 662); g.scale(kp, kp); g.fillStyle = AMAR; rr(-250, -30, 500, 60, 30); g.fill(); g.fillStyle = NAVY; g.font = `800 28px ${F}`; g.textAlign = "center"; g.textBaseline = "middle"; g.fillText("Prof. Welington Laignier", 0, 1); g.restore(); g.textBaseline = "alphabetic"; } } },
+ { chip: "O PEDIDO", fala: "O Léo mandou um áudio para a prima, que mora em outro estado. Em um segundo, chegou! Mas como essa mensagem soube o caminho?", sfx: [[1.0, "pop"], [3.6, "voa"], [4.6, "ding"]],
+   draw(t, D) { g.fillStyle = "#bfe3ff"; g.fillRect(0, 0, 640, H); g.fillStyle = "#c7f9d4"; g.fillRect(640, 0, 640, H); g.fillStyle = "#fff"; g.fillRect(636, 0, 8, H);
+     g.fillStyle = NAVY; g.font = `800 26px ${F}`; g.textAlign = "center"; g.fillText("Léo", 320, 140); g.fillText("A prima (outro estado)", 960, 140);
+     leo({ x: 300, y: 610, s: 1.15, braco: -1.9, bracoE: .3, boca: t < 3.4 ? "o" : "sorri", pisca: pisca(t) }); celular(380, 400, .4);
+     if (t > .8 && t < 3.6) { g.fillStyle = "#fff"; rr(380, 200, 200, 70, 22); g.fill(); ondaAudio(400, 235, 160, t); }
+     bia({ x: 960, y: 610, s: 1.15, braco: -1.9, bracoE: .3, boca: t > 4.6 ? "o" : "sorri", pisca: pisca(t + .5) }); celular(1040, 400, .4);
+     if (t > 3.6) { const k = io(seg(t, 3.6, 4.5)); pacote(lerp(470, 1010, k), 330 - Math.sin(k * Math.PI) * 140, .9, null, null, 0); }
+     if (t > 4.6) { palavra("1 SEGUNDO!", 960, 235, seg(t, 4.6, 5.0), 54); }
+     balao("Como ela sabe o caminho?", 330, 340, seg(t, 6.6, 7.0)); } },
+ { chip: "A REDE", fala: "Vamos acompanhar essa viagem. Tudo começa numa rede: aparelhos ligados entre si para trocar informações e dividir coisas, como a internet e a impressora. A nossa sala de informática é uma rede!", sfx: [[.1, "whoosh"], [2.4, "pop"], [6.5, "impressora"], [9.2, "ding"]],
+   draw(t, D) { fundoEscuro(t, "#173a78"); palavra("REDE", 640, 138, seg(t, 2.2, 2.6), 90);
+     const cx = 640, cy = 430, pcs = [[300, 330], [300, 530], [980, 330], [980, 530], [460, 600], [820, 600]];
+     pcs.forEach(([x, y], i) => { const k = seg(t, 2.8 + i * .2, 3.2 + i * .2); if (k <= 0) return; linha(x, y, cx, cy, "rgba(255,255,255,.4)", 5); if (t > 4) pacotes(x, y, cx, cy, t + i * .3, 2); monitor(x, y + 40, .35 * back(k)); });
+     monitor(cx, cy + 50, .55, (x, y, w, h) => { g.fillStyle = "#fff"; g.fillRect(x, y, w, h); g.fillStyle = NAVY; g.font = `800 26px ${F}`; g.textAlign = "center"; g.fillText("Professor", x + w / 2, y + h / 2 + 8); });
+     const ki = seg(t, 5.4, 5.8); if (ki > 0) { g.save(); g.globalAlpha = ki; linha(cx, cy - 80, 640, 250, AMAR, 5); g.fillStyle = "#fff"; g.beginPath(); g.arc(610, 236, 26, 0, 7); g.arc(640, 222, 32, 0, 7); g.arc(672, 238, 24, 0, 7); g.fill(); g.fillStyle = NAVY; g.font = `800 16px ${F}`; g.textAlign = "center"; g.fillText("internet", 640, 244); g.restore(); }
+     const kp = seg(t, 6.2, 6.6); if (kp > 0) { impressora(1130, 420, .8 * back(kp), seg(t, 6.6, 7.6)); linha(1050, 420, 990, 360, "rgba(255,255,255,.4)", 5); }
+     etiqueta("A NOSSA SALA DE INFORMÁTICA!", 640, 590, 640, 590, seg(t, 9.0, 9.4)); } },
+ { chip: "A INTERNET", fala: "E a internet é uma rede de redes: milhões de redes ligadas no mundo inteiro.", sfx: [[.1, "desce"], [2.0, "pop"], [3.6, "pop"]],
+   draw(t, D) { fundoEscuro(t, "#0b1d4a"); const z = io(seg(t, 0, 2.4)); g.save(); g.translate(640, 380); g.scale(lerp(2.2, .8, z), lerp(2.2, .8, z));
+     g.fillStyle = "#1d4ed8"; g.beginPath(); g.arc(0, 0, 230, 0, 7); g.fill(); g.fillStyle = "#16a34a"; [[-90, -60, 90, 60], [80, 30, 70, 90], [20, -120, 60, 30], [-60, 110, 50, 40]].forEach(([x, y, rx, ry]) => { g.beginPath(); g.ellipse(x, y, rx, ry, .4, 0, 7); g.fill(); });
+     const redes = Array.from({ length: 12 }, (_, i) => [Math.cos(i * 2.4) * (120 + (i % 3) * 50), Math.sin(i * 2.4) * (110 + (i % 3) * 40)]);
+     redes.forEach(([x, y], i) => redes.forEach(([x2, y2], j) => { if (j > i && (j - i) % 4 === 1) linha(x, y, x2, y2, "rgba(253,224,71,.6)", 3); }));
+     redes.forEach(([x, y], i) => { for (let k = 0; k < 4; k++) { const a = k / 4 * 7 + t; no(x + Math.cos(a) * 20, y + Math.sin(a) * 20, 6, "#fff"); } no(x, y, 11, AMAR); });
+     g.restore(); palavra("INTERNET", 640, 120, seg(t, 1.8, 2.2), 86); etiqueta("REDE DE REDES", 640, 600, 640, 600, seg(t, 3.4, 3.8)); } },
+ { chip: "ENDEREÇO IP", fala: "No meio de tantos aparelhos, como a mensagem acha o celular certo? Cada aparelho tem um endereço í pê, que funciona como o endereço de uma casa.", sfx: [[.1, "whoosh"], [4.4, "pop"], [6.0, "pop"], [7.0, "pop"]],
+   draw(t, D) { g.fillStyle = "#bfe3ff"; g.fillRect(0, 0, W, H); g.fillStyle = "#86efac"; g.fillRect(0, 470, W, 250); g.fillStyle = "#94a3b8"; g.fillRect(0, 520, W, 60);
+     const cores = ["#fca5a5", "#fde68a", "#a5b4fc", "#86efac"], ips = ["192.168.0.10", "192.168.0.11", "192.168.0.12", "192.168.0.13"];
+     cores.forEach((c, i) => casa(220 + i * 280, 470, 1.1, c, seg(t, 5.8 + i * .2, 6.0 + i * .2) > 0 ? ips[i] : null));
+     if (t < 4.2) { for (let i = 0; i < 4; i++) { g.fillStyle = NAVY; g.font = `800 60px ${F}`; g.textAlign = "center"; g.fillText("?", 220 + i * 280, 250 + Math.sin(t * 4 + i) * 10); } }
+     palavra("ENDEREÇO IP", 640, 130, seg(t, 4.2, 4.6), 80);
+     if (t > 6.8) { const k = io(seg(t, 6.8, 7.8)); pacote(lerp(-60, 780, k), lerp(300, 380, k), 1, null); if (k >= 1) etiqueta("CHEGOU NA CASA CERTA!", 780, 230, 780, 330, seg(t, 7.8, 8.2)); }
+     etiqueta("IP = Protocolo de Internet", 330, 220, 330, 220, seg(t, 5.0, 5.4)); } },
+ { chip: "O ROTEADOR", fala: "Quem mostra o caminho é o roteador: ele encaminha os dados pela rota certa, como um carteiro.", sfx: [[.1, "whoosh"], [1.6, "pop"], [3.4, "voa"], [4.4, "ding"]],
+   draw(t, D) { fundoEscuro(t, "#14532d"); palavra("ROTEADOR", 640, 130, seg(t, 1.4, 1.8), 84);
+     roteador(640, 400, 1.6, t, t > 4.2); const rotas = [[1100, 220], [1120, 400], [1100, 580]];
+     rotas.forEach(([x, y], i) => { linha(760, 400, x, y, i === 1 ? "#fde047" : "rgba(255,255,255,.35)", i === 1 ? 7 : 4); casa(x + 60, y + 60, .45, ["#fca5a5", "#86efac", "#a5b4fc"][i]); });
+     linha(120, 400, 520, 400, "rgba(255,255,255,.5)", 5);
+     const k = seg(t, 2.4, 3.4), k2 = seg(t, 3.4, 4.3); if (k < 1) pacote(lerp(120, 560, k), 400, .9, null); else if (k2 < 1) pacote(lerp(760, 1100, k2), 400, .9, null);
+     etiqueta("ESCOLHE A ROTA CERTA", 900, 300, 1000, 390, seg(t, 3.6, 4.0)); if (t > 4.2) etiqueta("COMO UM CARTEIRO!", 640, 560, 640, 470, seg(t, 4.4, 4.8)); } },
+ { chip: "SERVIDORES", fala: "Sites, vídeos e mensagens ficam guardados em servidores: computadores ligados o tempo todo, que respondem aos pedidos.", sfx: [[.1, "whoosh"], [2.4, "pop"], [4.6, "zum"], [6.0, "pop"]],
+   draw(t, D) { fundoEscuro(t, "#111827"); [380, 560, 740, 920].forEach((x, i) => rack(x, 560, 1, t + i));
+     palavra("SERVIDORES", 640, 130, seg(t, 2.2, 2.6), 80);
+     celular(130, 420, .5, () => { g.fillStyle = AZUL; g.fillRect(-70, -146, 140, 292); });
+     if (t > 4.4) { const k = ((t - 4.4) * .7) % 1; pacote(lerp(190, 300, k), 380, .55, null, "#bae6fd"); pacote(lerp(300, 190, k), 460, .55, null); }
+     etiqueta("LIGADOS 24 HORAS", 1100, 250, 960, 340, seg(t, 4.6, 5.0)); etiqueta("RESPONDEM AOS PEDIDOS", 400, 220, 260, 380, seg(t, 6.0, 6.4)); } },
+ { chip: "OS PACOTES", fala: "Mas o áudio do Léo é grande demais para viajar inteiro. Então ele é dividido em pedaços chamados pacotes.", sfx: [[.1, "whoosh"], [3.0, "alerta"], [4.6, "voa"], [5.6, "pop"]],
+   draw(t, D) { fundoEscuro(t, "#7c2d12"); const parte = seg(t, 4.4, 5.2);
+     if (parte <= 0) { const tr = t > 2.8 && t < 4.2 ? Math.sin(t * 50) * 6 : 0; g.save(); g.translate(640 + tr, 380); g.fillStyle = "#fff"; rr(-300, -80, 600, 160, 30); g.fill(); ondaAudio(-260, 0, 520, t, "#ea580c"); g.restore(); if (t > 2.8) etiqueta("GRANDE DEMAIS!", 640, 220, 640, 300, seg(t, 2.8, 3.2)); }
+     else for (let i = 0; i < 4; i++) { const k = out(parte); pacote(lerp(490 + i * 100, 220 + i * 280, k), 380 + Math.sin(t * 3 + i) * 10 * k, lerp(.8, 1.6, k), i + 1, null, Math.sin(i) * .1 * k); }
+     palavra("PACOTES", 640, 130, seg(t, 5.4, 5.8), 90); } },
+ { chip: "O PACOTE POR DENTRO", fala: "Cada pacote leva o endereço de quem envia, o endereço de quem recebe e um número.", sfx: [[.1, "whoosh"], [1.4, "pop"], [2.6, "pop"], [4.0, "pop"]],
+   draw(t, D) { fundoEscuro(t, "#3b1c6e"); const k = back(seg(t, 0, .6)); g.save(); g.translate(640, 380); g.scale(k, k); g.fillStyle = "#fff7d6"; rr(-330, -170, 660, 340, 28); g.fill(); g.strokeStyle = "#b45309"; g.lineWidth = 6; g.stroke(); g.restore();
+     const lin = [["De:", "Léo · IP 192.168.0.10", 1.3], ["Para:", "Prima · IP 10.0.0.25", 2.5], ["Número:", "3 de 4", 3.8]];
+     lin.forEach(([a, b, t0], i) => { const kk = out(seg(t, t0, t0 + .4)); if (kk <= 0) return; g.save(); g.globalAlpha = kk; g.translate((1 - kk) * 40, 0); g.fillStyle = "#b45309"; g.font = `800 34px ${F}`; g.textAlign = "left"; g.fillText(a, 360, 300 + i * 90); g.fillStyle = NAVY; g.fillText(b, 560, 300 + i * 90); g.restore(); });
+     etiqueta("QUEM ENVIA", 220, 230, 350, 290, seg(t, 1.5, 1.9)); etiqueta("QUEM RECEBE", 1080, 330, 950, 380, seg(t, 2.7, 3.1)); etiqueta("A ORDEM", 220, 520, 350, 470, seg(t, 4.0, 4.4)); } },
+ { chip: "CAMINHOS DIFERENTES", fala: "Os pacotes podem ir por caminhos diferentes e chegar fora de ordem! O celular da prima usa os números para montar tudo de novo.", sfx: [[.1, "whoosh"], [1.0, "voa"], [1.6, "voa"], [2.2, "voa"], [4.2, "alerta"], [6.4, "pop"], [7.6, "ding"]],
+   draw(t, D) { fundoEscuro(t, "#0f3d3e"); const N = [[150, 380], [380, 220], [380, 540], [640, 380], [640, 160], [640, 600], [900, 240], [900, 520], [1130, 380]];
+     const E = [[0, 1], [0, 2], [1, 4], [1, 3], [2, 3], [2, 5], [4, 6], [3, 6], [3, 7], [5, 7], [6, 8], [7, 8]]; E.forEach(([a, b]) => linha(...N[a], ...N[b], "rgba(255,255,255,.3)", 4));
+     N.forEach(([x, y], i) => i && i < 8 ? roteador(x, y + 10, .45, t) : null); celular(150, 380, .32); celular(1130, 380, .32);
+     const rotas = [[0, 1, 4, 6, 8], [0, 2, 5, 7, 8], [0, 1, 3, 7, 8], [0, 2, 3, 6, 8]], atrasos = [.9, .3, 1.5, 0], chegada = [3, 1, 4, 2];
+     rotas.forEach((r, i) => { const k = seg(t, .8 + i * .5, 3.6 + atrasos[i] + i * .3); if (k >= 1) return; const sgs = r.length - 1, p = k * sgs, a = Math.floor(p), f = p - a; const [x1, y1] = N[r[a]], [x2, y2] = N[r[Math.min(a + 1, sgs)]]; pacote(lerp(x1, x2, f), lerp(y1, y2, f), .55, i + 1); });
+     const ordem = t < 6.2 ? [3, 1, 4, 2] : [1, 2, 3, 4], kk = seg(t, 6.2, 7.0);
+     if (t > 4.0) { ordem.forEach((n, j) => { const xd = 1000 + j * 0, y0 = 150 + j * 80; pacote(1220, 170 + j * 90, .6, n); }); }
+     if (t > 4.2 && t < 6.2) palavra("FORA DE ORDEM!", 640, 90, seg(t, 4.2, 4.6), 60);
+     if (t > 6.4) palavra("MONTOU DE NOVO!", 640, 90, seg(t, 6.4, 6.8), 60); } },
+ { chip: "PROTOCOLOS", fala: "E para todos os aparelhos se entenderem, eles seguem protocolos: regras combinadas, como as regras de trânsito.", sfx: [[.1, "whoosh"], [3.0, "pop"], [4.8, "alerta"]],
+   draw(t, D) { g.fillStyle = "#86efac"; g.fillRect(0, 0, W, H); g.fillStyle = "#475569"; g.fillRect(0, 380, W, 200); g.fillStyle = "#fff"; for (let x = 0; x < W; x += 90) g.fillRect(x + ((t * 40) % 90), 474, 50, 8);
+     // semáforo
+     const verde = (t % 4) < 2.2; g.fillStyle = "#1f2937"; g.fillRect(1120, 230, 16, 150); rr(1096, 200, 64, 150, 12); g.fill(); g.fillStyle = verde ? "#4b5563" : "#ef4444"; g.beginPath(); g.arc(1128, 235, 20, 0, 7); g.fill(); g.fillStyle = verde ? "#22c55e" : "#4b5563"; g.beginPath(); g.arc(1128, 310, 20, 0, 7); g.fill();
+     for (let i = 0; i < 4; i++) { const base = ((t * (verde ? 160 : 40)) + i * 300) % 1500 - 150; const x = verde ? base : Math.min(base, 1010 - i * 110); carro(x, 450, [ROSA, AMAR, AZUL, "#f97316"][i], 1.2); pacote(x, 400, .4, i + 1); }
+     palavra("PROTOCOLOS", 640, 120, seg(t, 2.8, 3.2), 86); etiqueta("REGRAS COMBINADAS", 640, 230, 640, 230, seg(t, 3.4, 3.8)); etiqueta("COMO AS REGRAS DE TRÂNSITO", 420, 640, 420, 640, seg(t, 4.8, 5.2)); } },
+ { chip: "TCP/IP E HTTPS", fala: "O tê cê pê barra í pê divide a mensagem em pacotes e faz a entrega. E o agá tê tê pê ésse abre as páginas com segurança: é o cadeado no navegador.", sfx: [[.1, "whoosh"], [1.0, "pop"], [5.0, "pop"], [7.4, "ding"]],
+   draw(t, D) { fundoEscuro(t); g.fillStyle = "rgba(255,255,255,.08)"; g.fillRect(638, 0, 4, H);
+     palavra("TCP/IP", 320, 138, seg(t, .8, 1.2), 74); const kp = seg(t, 1.6, 2.4); g.fillStyle = "#fff"; rr(140, 290, 360, 80, 18); g.fill(); ondaAudio(170, 330, 300, t, "#2563eb");
+     for (let i = 0; i < 4; i++) pacote(lerp(320, 170 + i * 100, out(kp)), lerp(330, 470, out(kp)), .6 * (kp > 0 ? 1 : 0), i + 1);
+     etiqueta("DIVIDE E ENTREGA", 320, 560, 320, 560, seg(t, 3.0, 3.4));
+     palavra("HTTPS", 960, 138, seg(t, 4.8, 5.2), 80); const kb = out(seg(t, 5.4, 6.0)); g.save(); g.globalAlpha = kb; g.fillStyle = "#e5e7eb"; rr(700, 290, 520, 70, 35); g.fill();
+     const kc = back(seg(t, 7.2, 7.7)); g.save(); g.translate(745, 325); g.scale(kc, kc); g.fillStyle = "#16a34a"; rr(-14, -6, 28, 24, 5); g.fill(); g.strokeStyle = "#16a34a"; g.lineWidth = 5; g.beginPath(); g.arc(0, -6, 10, Math.PI, 0); g.stroke(); g.restore();
+     g.fillStyle = "#16a34a"; g.font = `800 28px ${F}`; g.textAlign = "left"; g.fillText("https://", 775, 335); g.fillStyle = NAVY; g.fillText("site.com.br", 900, 335); g.restore();
+     etiqueta("O S É DE SEGURO", 960, 470, 840, 360, seg(t, 6.2, 6.6)); etiqueta("O CADEADO 🔒", 960, 560, 750, 350, seg(t, 7.6, 8.0));
+     etiqueta("TCP = Protocolo de Controle de Transmissão", 320, 230, 320, 230, seg(t, 2.0, 2.4)); } },
+ { chip: "NA NOSSA ESCOLA", fala: "Na nossa escola, a internet chega por fibra óptica, passa pelo roteador e pelo switch, e vai por cabos até o seu computador.", sfx: [[.1, "whoosh"], [1.4, "pop"], [3.0, "pop"], [4.4, "pop"], [6.0, "pop"]],
+   draw(t, D) { fundoEscuro(t, "#1e3a8a"); palavra("NA NOSSA ESCOLA", 640, 120, seg(t, .3, .7), 66);
+     const xs = [150, 420, 700, 1000], ts = [1.3, 2.9, 4.3, 5.9];
+     linha(xs[0], 380, xs[3], 380, "rgba(255,255,255,.25)", 8); const kx = seg(t, 1.3, 6.4); g.strokeStyle = "#38bdf8"; g.lineWidth = 8; g.beginPath(); g.moveTo(xs[0], 380); g.lineTo(lerp(xs[0], xs[3], kx), 380); g.stroke();
+     pacotes(xs[0], 380, lerp(xs[0], xs[3], kx), 380, t, 4);
+     [["FIBRA ÓPTICA", "luz da rua"], ["ROTEADOR", "MikroTik, no rack"], ["SWITCH", "divide a rede em cabos"], ["SEU COMPUTADOR", "na sala de informática"]].forEach(([n, sub], i) => { const k = back(seg(t, ts[i], ts[i] + .4)); if (k <= 0) return; g.save(); g.translate(xs[i], 380); g.scale(k, k);
+       if (i === 0) { g.strokeStyle = "#38bdf8"; g.lineWidth = 10; g.beginPath(); g.arc(0, 0, 40, 0, 7); g.stroke(); g.fillStyle = "#e0f2fe"; g.beginPath(); g.arc(0, 0, 14 + 6 * Math.sin(t * 8), 0, 7); g.fill(); }
+       else if (i === 1) roteador(0, 20, .8, t); else if (i === 2) { g.fillStyle = "#334155"; rr(-90, -26, 180, 52, 8); g.fill(); for (let p = 0; p < 12; p++) { g.fillStyle = (Math.floor(t * 6) + p) % 3 ? "#22c55e" : "#0f172a"; g.fillRect(-80 + p * 13.5, -8, 9, 16); } } else monitor(0, 60, .45);
+       g.restore(); cartao(n, xs[i], 520, 240, "rgba(255,255,255,.12)", seg(t, ts[i] + .2, ts[i] + .5), sub); });
+     etiqueta("CABOS POR BAIXO DO CHÃO", 850, 280, 850, 370, seg(t, 6.2, 6.6)); } },
+ { chip: "A PARTE MAIS LENTA MANDA", fala: "Mas o switch da baia vai só até cem megabits por segundo. E a parte mais lenta manda: é essa a velocidade que chega no seu computador.", sfx: [[.1, "whoosh"], [2.6, "alerta"], [5.0, "pop"]],
+   draw(t, D) { g.fillStyle = "#bfe3ff"; g.fillRect(0, 0, W, H); g.fillStyle = "#86efac"; g.fillRect(0, 300, W, 420); g.fillStyle = "#38bdf8"; g.fillRect(760, 300, 240, 420);
+     // estrada larga que vira ponte estreita
+     g.fillStyle = "#475569"; g.beginPath(); g.moveTo(0, 330); g.lineTo(700, 330); g.lineTo(760, 410); g.lineTo(1000, 410); g.lineTo(1060, 330); g.lineTo(W, 330); g.lineTo(W, 560); g.lineTo(1060, 560); g.lineTo(1000, 480); g.lineTo(760, 480); g.lineTo(700, 560); g.lineTo(0, 560); g.closePath(); g.fill();
+     g.fillStyle = "#a16207"; g.fillRect(760, 404, 240, 6); g.fillRect(760, 480, 240, 6);
+     for (let i = 0; i < 9; i++) { const v = ((t * 220 + i * 160) % 1500) - 150; let x = v; if (x > 650 && x < 1050) x = 650 + (x - 650) * .35 + (i % 3) * 30; const y = x > 700 && x < 1060 ? 445 : 360 + (i % 3) * 70; carro(x, y, [ROSA, AMAR, AZUL, "#f97316", "#a855f7"][i % 5], .8); }
+     etiqueta("CABO: ATÉ 1.000 Mbps", 330, 260, 330, 330, seg(t, 1.0, 1.4)); etiqueta("SWITCH DA BAIA: 100 Mbps", 880, 250, 880, 400, seg(t, 2.6, 3.0));
+     palavra("A PARTE MAIS LENTA MANDA!", 640, 118, seg(t, 4.8, 5.3), 58);
+     etiqueta("Mbps = megabits por segundo", 330, 596, 330, 596, seg(t, 6.0, 6.4)); } },
+ { chip: "FIM DA VIAGEM", fala: "Fim da viagem: os pacotes chegaram, o celular montou o áudio, e a prima respondeu na hora!", sfx: [[.1, "whoosh"], [1.6, "pop"], [3.0, "ding"], [4.4, "festa"]],
+   draw(t, D) { g.fillStyle = "#c7f9d4"; g.fillRect(0, 0, W, H); g.fillStyle = "#a7f3d0"; g.fillRect(0, 520, W, 200);
+     const kj = out(seg(t, .6, 1.8)); for (let i = 0; i < 4; i++) pacote(lerp(200 + i * 60, 760, kj), lerp(200 + i * 40, 330, kj), lerp(.9, .2, kj), i + 1);
+     celular(760, 340, .85, () => { if (t > 1.8) { g.fillStyle = "#fff"; rr(-60, -60, 120, 50, 16); g.fill(); ondaAudio(-50, -35, 100, t * (t < 3.6 ? 1 : 0), "#16a34a"); } if (t > 3.6) { g.fillStyle = "#dcfce7"; rr(-60, 10, 120, 44, 16); g.fill(); g.fillStyle = "#166534"; g.font = `800 18px ${F}`; g.textAlign = "center"; g.fillText("Chegou! ❤️", 0, 38); } });
+     bia({ x: 470, y: 640, s: 1.15, braco: t > 4.2 ? -2.8 + Math.sin(t * 12) * .2 : -1.6, bracoE: t > 4.2 ? 2.8 : .3, boca: "sorri", pisca: pisca(t) });
+     leo({ x: 1080, y: 640, s: 1.0 * back(seg(t, 4.2, 4.7)), braco: -2.6, bracoE: 2.6, boca: "sorri", pisca: pisca(t + .4) });
+     palavra("CHEGOU!", 640, 120, seg(t, 3.0, 3.4), 80); confete(t, 4.3); } },
+ { chip: "ONDE EU USO ISSO?", fala: "Onde eu uso isso? Toda mensagem, todo vídeo e todo jogo online viaja em pacotes, seguindo protocolos.", sfx: [[.1, "whoosh"], [2.0, "pop"], [3.0, "pop"], [4.0, "pop"]],
+   draw(t, D) { fundoEscuro(t, "#1e3a8a"); const itens = [["MENSAGEM", 2.0], ["VÍDEO", 3.0], ["JOGO ONLINE", 4.0]];
+     itens.forEach(([n, t0], i) => { const k = back(seg(t, t0, t0 + .4)); if (k <= 0) return; const x = 260 + i * 380; g.save(); g.translate(x, 360); g.scale(k, k); g.fillStyle = "rgba(255,255,255,.1)"; rr(-150, -150, 300, 300, 26); g.fill();
+       if (i === 0) { g.fillStyle = "#22c55e"; rr(-90, -60, 180, 90, 24); g.fill(); g.fillStyle = "#fff"; g.font = `800 34px ${F}`; g.textAlign = "center"; g.fillText("Oi! 😄", 0, -2); }
+       else if (i === 1) { g.fillStyle = "#ef4444"; rr(-100, -70, 200, 130, 22); g.fill(); g.fillStyle = "#fff"; g.beginPath(); g.moveTo(-20, -30); g.lineTo(30, 0); g.lineTo(-20, 30); g.fill(); }
+       else { g.fillStyle = "#8b5cf6"; rr(-100, -50, 200, 100, 46); g.fill(); g.fillStyle = "#fff"; g.fillRect(-64, -8, 40, 14); g.fillRect(-51, -21, 14, 40); g.beginPath(); g.arc(50, -12, 10, 0, 7); g.arc(70, 10, 10, 0, 7); g.fill(); }
+       for (let p = 0; p < 3; p++) pacote(-100 + ((t * 80 + p * 70) % 200), 110, .4, p + 1);
+       g.restore(); cartao(n, x, 580, 260, "rgba(255,255,255,.12)", seg(t, t0 + .2, t0 + .5)); });
+     palavra("TUDO EM PACOTES!", 640, 120, seg(t, 4.6, 5.0), 64); } },
+ { chip: "", fala: "Agora é com vocês: abram a Missão 1 no portal!", sfx: [[.1, "whoosh"], [1.0, "festa"]],
+   draw(t, D) { fundoEscuro(t); g.textAlign = "center"; g.globalAlpha = out(seg(t, 0, .6)); g.fillStyle = AMAR; g.font = `800 62px ${F}`; g.fillText("Prof. Welington Laignier", 640, 300);
+     g.fillStyle = "#fff"; g.font = `700 30px ${F}`; g.fillText("7º ano · Turmas A, B, C e D · Missão 1", 640, 350); g.font = `800 40px ${F}`; g.fillStyle = "#cfe0ff"; g.fillText("Abram a Missão 1 no portal! 🚀", 640, 430); g.globalAlpha = 1;
+     bia({ x: 1040, y: 700, s: .9, braco: -2.8 + Math.sin(t * 10) * .25, bracoE: 2.8, pisca: pisca(t) }); leo({ x: 240, y: 700, s: .9, braco: -2.6, bracoE: 2.6 - Math.sin(t * 10) * .25, pisca: pisca(t + .7) }); confete(t, .9); } }
+];
+
+
+/* ================= tempo das cenas ================= */
+// Sem o MP3: estimativa pelo número de palavras. Com o MP3: window.DURS = [...] (segundos de cada cena, vindos das pausas da voz).
+const est = f => Math.max(4.2, f.split(/\s+/).length / 2.55 + 1.3);
+let DUR = CENAS.map((s, i) => (window.DURS && window.DURS[i]) || est(s.fala));
+function inicio() { const a = [0]; DUR.forEach(d => a.push(a[a.length - 1] + d)); return a; }
+let INI = inicio(), T = INI[INI.length - 1];
+window.definirDuracoes = d => { DUR = d; INI = inicio(); T = INI[INI.length - 1]; window.T = T; };
+
+function legenda(txt, k) { // legenda embaixo, acendendo palavra por palavra
+  const pal = txt.split(" "), n = Math.floor(pal.length * cl(k * 1.08)); g.font = `700 26px ${F}`;
+  const linhas = [[]]; let w = 0; pal.forEach((p, i) => { const pw = g.measureText(p + " ").width; if (w + pw > 1080) { linhas.push([]); w = 0; } linhas[linhas.length - 1].push([p, i]); w += pw; });
+  const lh = 36, y0 = H - 22 - linhas.length * lh; g.fillStyle = "rgba(10,16,36,.72)"; rr(70, y0 - 10, W - 140, linhas.length * lh + 18, 14); g.fill();
+  linhas.forEach((ln, j) => { const tw = ln.reduce((s, [p]) => s + g.measureText(p + " ").width, 0); let x = (W - tw) / 2; ln.forEach(([p, i]) => { g.fillStyle = i < n ? "#fff" : "rgba(255,255,255,.45)"; g.textAlign = "left"; g.fillText(p, x, y0 + 18 + j * lh); x += g.measureText(p + " ").width; }); });
+}
+function render(t) {
+  g.setTransform(1, 0, 0, 1, 0, 0); g.globalAlpha = 1; g.textBaseline = "alphabetic";
+  let i = INI.findIndex((s, k) => t >= s && t < INI[k + 1]); if (i < 0) i = CENAS.length - 1;
+  const tl = t - INI[i], D = DUR[i], cena = CENAS[i];
+  // as animações foram pensadas no tempo estimado; com a voz real, o tempo da cena estica ou encolhe junto
+  const esc = est(cena.fala) / D, tt = tl * esc;
+  g.save(); cena.draw(tt, D); g.restore();
+  g.setTransform(1, 0, 0, 1, 0, 0); g.globalAlpha = 1; g.textAlign = "left";
+  if (cena.chip) chip(cena.chip, 0, tt);
+  selo(t);
+  if (i > 0 && i < CENAS.length - 1) legenda(cena.fala, tl / Math.max(.1, D - .9));
+  // transição suave
+  const tr = cl(1 - tl / .25); if (i > 0 && tr > 0) { g.fillStyle = `rgba(13,22,49,${tr})`; g.fillRect(0, 0, W, H); }
+}
+window.listaSfx = () => { const o = []; CENAS.forEach((s, i) => (s.sfx || []).forEach(([tt, tipo]) => o.push([INI[i] + tt * DUR[i] / est(s.fala), tipo]))); return o; };
+window.render = render; window.T = T; window.CENAS = CENAS;
+document.fonts.load(`800 40px Poppins`).then(() => { window.pronto = true; render(0); });
+</script></body></html>

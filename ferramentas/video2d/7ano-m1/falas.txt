@@ -1,0 +1,33 @@
+Redes e internet: a grande viagem da sua mensagem!
+
+O Léo mandou um áudio para a prima, que mora em outro estado. Em um segundo, chegou! Mas como essa mensagem soube o caminho?
+
+Vamos acompanhar essa viagem. Tudo começa numa rede: aparelhos ligados entre si para trocar informações e dividir coisas, como a internet e a impressora. A nossa sala de informática é uma rede!
+
+E a internet é uma rede de redes: milhões de redes ligadas no mundo inteiro.
+
+No meio de tantos aparelhos, como a mensagem acha o celular certo? Cada aparelho tem um endereço í pê, que funciona como o endereço de uma casa.
+
+Quem mostra o caminho é o roteador: ele encaminha os dados pela rota certa, como um carteiro.
+
+Sites, vídeos e mensagens ficam guardados em servidores: computadores ligados o tempo todo, que respondem aos pedidos.
+
+Mas o áudio do Léo é grande demais para viajar inteiro. Então ele é dividido em pedaços chamados pacotes.
+
+Cada pacote leva o endereço de quem envia, o endereço de quem recebe e um número.
+
+Os pacotes podem ir por caminhos diferentes e chegar fora de ordem! O celular da prima usa os números para montar tudo de novo.
+
+E para todos os aparelhos se entenderem, eles seguem protocolos: regras combinadas, como as regras de trânsito.
+
+O tê cê pê barra í pê divide a mensagem em pacotes e faz a entrega. E o agá tê tê pê ésse abre as páginas com segurança: é o cadeado no navegador.
+
+Na nossa escola, a internet chega por fibra óptica, passa pelo roteador e pelo switch, e vai por cabos até o seu computador.
+
+Mas o switch da baia vai só até cem megabits por segundo. E a parte mais lenta manda: é essa a velocidade que chega no seu computador.
+
+Fim da viagem: os pacotes chegaram, o celular montou o áudio, e a prima respondeu na hora!
+
+Onde eu uso isso? Toda mensagem, todo vídeo e todo jogo online viaja em pacotes, seguindo protocolos.
+
+Agora é com vocês: abram a Missão 1 no portal!
