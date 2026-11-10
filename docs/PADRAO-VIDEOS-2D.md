@@ -44,3 +44,8 @@ Modelo de referência: `ferramentas/video2d/modelo-cabo-submarino.html` (8º ano
 - A abertura tem que ser **"digna de um Oscar"**: enquanto a voz fala o título, o título e o problema da aula aparecem **com destaque e efeito**, numa mini cena criada para o tema daquela missão. **Não precisa ser sobre mistério**: cada vídeo tem a sua ideia própria (aventura, desafio, corrida, viagem, alerta…). O exemplo do 6º ano M1 é um mistério: o nome da missão em cima, uma mini cena do mistério no centro (ex.: no 6º M1, o arquivo pisca e some, fica o contorno tracejado e um "?" grande com interrogações voando) e o **subtítulo do problema em letras grandes amarelas** com uma tremidinha (ex.: "O MISTÉRIO DO TRABALHO QUE SUMIU!").
 - Recursos que ajudam: holofote, efeito sonoro curto combinando com o clima da abertura (ex.: `misterio` em `audio.py` para suspense) e o bonequinho reagindo no canto.
 - O nome **Prof. Welington Laignier** fica em destaque na abertura (faixa amarela embaixo), além do selo de sempre.
+
+## Pausa entre assuntos (pedido do professor em 09/11/2026, a partir do 8º ano)
+- Ao trocar de assunto ou tópico (ex.: do último conceito para o "Onde eu uso isso?"), tem que haver uma **pausa perceptível**.
+- No texto para a voz: pedir **2 segundos de pausa entre os parágrafos** (cada parágrafo é uma cena).
+- Na montagem: além da pausa da voz, inserir **cerca de 0,7 s de silêncio** em cada troca de cena (só separando os trechos da voz, sem esticar nem alterar a voz), com o "vush" de transição e a troca de cena acontecendo nesse respiro.
