@@ -49,3 +49,7 @@ Modelo de referência: `ferramentas/video2d/modelo-cabo-submarino.html` (8º ano
 - Ao trocar de assunto ou tópico (ex.: do último conceito para o "Onde eu uso isso?"), tem que haver uma **pausa perceptível**.
 - No texto para a voz: pedir **2 segundos de pausa entre os parágrafos** (cada parágrafo é uma cena).
 - Na montagem: além da pausa da voz, inserir **cerca de 0,7 s de silêncio** em cada troca de cena (só separando os trechos da voz, sem esticar nem alterar a voz), com o "vush" de transição e a troca de cena acontecendo nesse respiro.
+
+## Legenda escrita do jeito certo (pedido do professor em 09/11/2026)
+- O texto para a voz pode trazer as siglas escritas do jeito que se fala ("dê ene ésse", "í pê", "tê cê pê barra í pê"), para a narração pronunciar certo.
+- A **legenda** do vídeo mostra sempre a forma escrita correta (DNS, IP, TCP/IP, HTTPS, Ctrl + S). Em cada cena: `fala` = texto falado; `legenda` = texto escrito (usado na tela quando existe).
