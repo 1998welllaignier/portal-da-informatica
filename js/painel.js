@@ -149,6 +149,7 @@
   /* ❓ quadro "Para que serve e como usar" de cada aba (fica fechado; o professor abre quando quiser) */
   const AJUDA = {
     aula: ["Use durante a aula, projetando ou no seu computador.", [
+      "<b>🟧 Recados para esta aula</b>: o quadro laranja no topo mostra os recados que você deixou para a turma (os mesmos do 📒 Diário › 🔔 Lembretes). Depois de ler, toque em “✔ Já li”: o recado some em todos os computadores. Para deixar um recado para a próxima aula, abra “✏️ Deixar um recado…” logo abaixo dos recados.",
       "<b>📣 Avisos para falar à turma</b>: aparecem no topo com a fala pronta. Depois de falar, toque em “✔ Já avisei esta turma” (o aviso some só daquela turma, neste computador).",
       "<b>🕘 A turma já vem certa</b>: ao abrir o painel, ele escolhe sozinho a turma que está em aula agora (ou a próxima aula de hoje) e a missão do dia pelo cronograma. Para ver outra turma, é só trocar na lista; a sua escolha vale até a próxima aula começar.",
       "<b>Escolha a turma e a missão</b> (M1, M2…). Aparece o roteiro da aula com as falas, as respostas de cada atividade e quantos alunos já entraram e concluíram o Básico.",
@@ -910,6 +911,38 @@
         el.querySelector("#aula").before(box);
         box.querySelectorAll("[data-avok]").forEach(b => b.onclick = () => { try { localStorage.setItem(chave(b.dataset.avok), Date.now()); } catch (e) {} b.closest(".pp-aviso").remove(); if (!box.querySelector(".pp-aviso")) box.remove(); });
       }
+    } catch (e) { console.warn(e); }
+    // 🟧 Recados para a próxima aula: os lembretes da turma (mesmos do 📒 Diário › 🔔 Lembretes), num quadro laranja grande.
+    // "✔ Já li" marca o recado como feito no Firebase (some em todos os computadores); dá para escrever um recado novo aqui.
+    try {
+      const lRef = db().collection(DIARIO).doc(t.id);
+      const ls = await lRef.get();
+      let lista = (ls.exists && ls.data().lembretes) || [];
+      const box = document.createElement("div"); box.className = "painel pp-recados";
+      const desenhar = () => {
+        const pend = lista.map((l, i) => ({ ...l, i })).filter(l => !l.feito);
+        box.innerHTML = `<h2>🟧 Recados para esta aula · ${esc(nomeTurma(t.id))}</h2>
+          ${pend.length ? pend.map(l => `<div class="pp-recado"><p>${esc(l.texto).replace(/\n/g, "<br>")}</p>
+            <div class="pp-recado-pe"><small>${l.criadoEm ? "Anotado em " + dataBR(l.criadoEm.slice(0, 10)) : ""}</small>
+            <button class="btn pp-recado-ok" type="button" data-rok="${l.i}">✔ Já li</button></div></div>`).join("")
+            : `<p class="pp-recado-vazio">Nenhum recado pendente para esta turma.</p>`}
+          <details class="pp-recado-novo"><summary>✏️ Deixar um recado para a próxima aula desta turma</summary>
+            <textarea id="rc-txt" rows="3" placeholder="Ex.: A aluna X precisa terminar o Básico da M2 no começo da aula. Liberar a M2 para ela."></textarea>
+            <button class="btn" type="button" id="rc-add">Guardar recado</button></details>`;
+        box.querySelectorAll("[data-rok]").forEach(b => b.onclick = async () => {
+          lista = lista.map((l, i) => i === +b.dataset.rok ? { ...l, feito: true, lidoEm: new Date().toISOString() } : l);
+          try { await lRef.set({ lembretes: lista }, { merge: true }); toast("Recado marcado como lido."); } catch (err) { toast("Não foi possível salvar: " + (err.message || err)); }
+          desenhar();
+        });
+        box.querySelector("#rc-add").onclick = async () => {
+          const v = box.querySelector("#rc-txt").value.trim(); if (!v) return;
+          lista = [...lista, { texto: v, feito: false, criadoEm: new Date().toISOString() }];
+          try { await lRef.set({ lembretes: lista }, { merge: true }); toast("Recado guardado."); } catch (err) { toast("Não foi possível salvar: " + (err.message || err)); }
+          desenhar();
+        };
+      };
+      desenhar();
+      el.querySelector(".pp-barra").after(box);
     } catch (e) { console.warn(e); }
     // 📌 Missão de hoje: o aluno cai direto nela depois do código; se "travar", as tarefas das outras missões fecham
     try {

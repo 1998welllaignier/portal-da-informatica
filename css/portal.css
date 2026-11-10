@@ -1256,3 +1256,16 @@ body.modo-apresentacao .topbar, body.modo-apresentacao .rodape, body.modo-aprese
 .ctz-cores { display: flex; flex-wrap: wrap; gap: 6px; }
 .ctz-cor { border: 2px solid #94a3b8; border-radius: 999px; padding: 6px 14px; font-weight: 700; cursor: pointer; color: #1e293b; }
 .ctz-cor[aria-pressed="true"] { border-color: #1e293b; box-shadow: 0 0 0 2px #1e293b inset; }
+
+/* 🟧 Recados para a próxima aula (aba Aula) */
+.pp-recados { border: 3px solid #ea580c; background: #ffedd5; border-radius: 16px; padding: 14px 18px; margin: 12px 0; }
+.pp-recados h2 { margin: 0 0 8px; color: #9a3412; font-size: 1.35rem; }
+.pp-recado { background: #fff7ed; border-left: 8px solid #f97316; border-radius: 10px; padding: 10px 14px; margin: 8px 0; font-size: 1.15rem; color: #431407; }
+.pp-recado p { margin: 0 0 6px; }
+.pp-recado-pe { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+.pp-recado-pe small { color: #9a3412; }
+.pp-recado-ok { background: #ea580c; color: #fff; font-weight: 700; }
+.pp-recado-vazio { margin: 4px 0; color: #9a3412; }
+.pp-recado-novo { margin-top: 8px; }
+.pp-recado-novo summary { cursor: pointer; color: #9a3412; font-weight: 600; }
+.pp-recado-novo textarea { width: 100%; box-sizing: border-box; margin: 8px 0; font: inherit; border-radius: 8px; border: 1px solid #fdba74; padding: 8px; }
