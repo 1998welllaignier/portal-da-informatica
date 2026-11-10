@@ -1,0 +1,25 @@
+Algoritmos: o plano da festa da turma!
+
+A turma da Ana quer fazer uma festa surpresa. Mas é coisa demais para fazer de uma vez só. Por onde começar?
+
+O segredo é a decomposição: dividir um problema grande em partes menores, mais fáceis de resolver. Convites, comida, música e decoração: cada grupo cuida de uma parte.
+
+Para não esquecer nada, o Leo fez uma lista. Na lista, os dados ficam em ordem, e cada item ocupa uma posição. Na posição um, o bolo; na posição dois, os balões.
+
+Na decoração, a Ana precisa desenhar três casinhas no cartaz. Escrever os mesmos passos três vezes? Que trabalhão!
+
+Então ela criou um bloco com nome: desenhar casa. Desenhe um quadrado e, em cima dele, um triângulo. Ela escreve uma vez só e usa quantas vezes quiser. Isso é reúso.
+
+Mas, na hora de testar, a casinha saiu de cabeça para baixo! O triângulo foi parar embaixo do quadrado.
+
+Um erro num algoritmo se chama bâg, que em inglês quer dizer inseto. Procurar e corrigir o erro é a depuração.
+
+A Ana conferiu passo a passo, achou o bâg e corrigiu. Depois testou de novo, porque às vezes a correção cria outro erro.
+
+Decomposição, lista, reúso e depuração: com essas quatro ideias, tudo ficou pronto.
+
+Missão cumprida: a festa surpresa deu certo!
+
+Onde eu uso isso? Ao dividir as tarefas de um trabalho em grupo; na lista de compras e na chamada da turma; e quando revisa uma redação procurando erros.
+
+Agora é com vocês: abram a Missão 2 no portal!

@@ -1,0 +1,29 @@
+Criptografia e ataques: o segredo das mensagens!
+
+A Lia mandou uma mensagem para o Davi. Mas e se alguém pegar essa mensagem no meio do caminho? Dá para ler tudo?
+
+Para isso existe a criptografia: transformar a mensagem para que só quem tem a chave consiga ler.
+
+A mensagem original é o texto claro. Depois de embaralhada, vira texto cifrado. E voltar ao texto claro, usando a chave, é decifrar.
+
+Uma das mais antigas é a cifra de César: cada letra anda um número fixo de casas no alfabeto. Com a chave três, o á vira dê, e o bê vira ê.
+
+Mas a cifra de César é fácil de quebrar: ela só tem vinte e cinco chaves. Testar uma por uma, até acertar, é o ataque de força bruta.
+
+Por isso a senha longa protege. Uma senha de dois dígitos tem cem combinações; uma de quatro dígitos tem dez mil. Cada dígito a mais multiplica o trabalho de quem ataca.
+
+Hoje a criptografia está no cadeado e no agá tê tê pê ésse dos sites, e nas conversas com criptografia de ponta a ponta: só quem envia e quem recebe consegue ler.
+
+Agora, os ataques. O rensomuér é um programa que tranca os arquivos e pede dinheiro, o resgate, para devolvê-los. A proteção é ter um bécap: uma cópia de segurança.
+
+A engenharia social engana a pessoa, e não o computador. O fíchin é um tipo dela: uma mensagem falsa, com prêmio ou fingindo ser do banco, que pede a sua senha.
+
+E no ataque dê dós, milhares de computadores mandam pedidos ao mesmo tempo, até o site sair do ar.
+
+Atenção: tentar descobrir a senha de outra pessoa ou invadir o aparelho de alguém é crime. Use o que você aprendeu só para se proteger.
+
+Missão cumprida: a mensagem da Lia viajou cifrada, e só o Davi, com a chave, conseguiu ler!
+
+Onde eu uso isso? Nas conversas do WhatsApp, com criptografia de ponta a ponta; no Pix e no aplicativo do banco; e no bécap, que salva os arquivos quando tudo dá errado.
+
+Agora é com vocês: abram a Missão 2 no portal!

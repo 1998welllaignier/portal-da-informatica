@@ -1,0 +1,27 @@
+Algoritmos: o robô que só faz o que a gente manda!
+
+A Duda programou um robozinho para buscar uma estrela. Ela disse só: "vai lá!". E o robô... ficou parado. Por quê?
+
+Porque o computador faz exatamente o que mandamos. Ele precisa de um algoritmo: uma sequência de passos, em ordem, para resolver um problema.
+
+Uma receita de bolo é um algoritmo. Ela começa com a entrada, os ingredientes, e termina com a saída, o bolo pronto. Se a ordem dos passos mudar, dá errado!
+
+O primeiro tipo de instrução é a sequência: um passo depois do outro. Ande, vire, ande.
+
+Mas, para andar quatro casas, a Duda escreveu: ande, ande, ande, ande. Ficou comprido demais!
+
+Então ela usou a repetição: repita quatro vezes, ande. O algoritmo ficou mais curto e faz a mesma coisa.
+
+No caminho apareceu uma porta. Às vezes ela está aberta; às vezes, fechada. E agora?
+
+Aí entra a seleção: se a porta estiver aberta, então passe; senão, abra a porta. A pergunta "a porta está aberta?" é a condição. A resposta só pode ser sim ou não.
+
+Sequência, repetição e seleção: com essas três instruções, a Duda montou o algoritmo completo e apertou o play.
+
+Mas atenção: se um passo estiver fora do lugar, o algoritmo falha. Calçar o tênis antes da meia? Não dá! Encontrar e corrigir o erro também faz parte.
+
+Missão cumprida: o robô da Duda chegou à estrela, passo a passo!
+
+Onde eu uso isso? Na receita de bolo; no despertador que toca todo dia, que é repetição; e na senha do celular: se estiver certa, abre; senão, mostra erro. Isso é seleção.
+
+Agora é com vocês: abram a Missão 2 no portal!

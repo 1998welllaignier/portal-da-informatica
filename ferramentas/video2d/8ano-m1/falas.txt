@@ -1,0 +1,25 @@
+Listas: buscar e ordenar como um computador!
+
+A Bia procura o contato de um amigo no celular. São centenas de nomes! Como o celular acha tão rápido?
+
+Os computadores fazem duas coisas com as listas o tempo todo: buscar um item e ordenar os itens.
+
+O jeito mais simples de buscar é a busca sequencial: olhar os itens um por um, do começo ao fim, até achar. Funciona em qualquer lista, mesmo bagunçada. Mas, numa lista grande, demora.
+
+Na busca binária, olhamos o item do meio. Se o número procurado for maior, descartamos a metade da esquerda; se for menor, a metade da direita. E repetimos com a metade que sobrou.
+
+Para achar o meio, some a primeira e a última posição e divida por dois. De um a oito, dá quatro e meio: despreze a vírgula, e o meio é a posição quatro.
+
+A cada tentativa, metade da lista vai embora. Por isso a busca binária é muito mais rápida. Mas atenção: ela só funciona em lista ordenada!
+
+E como colocar uma lista em ordem? Com o método da bolha: comparar os vizinhos e trocar os que estão fora de ordem.
+
+Veja a lista cinco, dois, oito, um. Cinco e dois: fora de ordem, troca. Cinco e oito: em ordem, fica. Oito e um: fora de ordem, troca.
+
+No fim dessa primeira passada, o maior número, o oito, subiu para o final, como uma bolha. As passadas se repetem até não haver nenhuma troca: um, dois, cinco, oito.
+
+Missão cumprida: com a lista em ordem alfabética, a Bia achou o contato num instante!
+
+Onde eu uso isso? Nos contatos do celular em ordem alfabética, na tabela do campeonato e no botão "ordenar por menor preço" da loja on-line.
+
+Agora é com vocês: abram a Missão 1 no portal!
