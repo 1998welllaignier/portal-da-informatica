@@ -1,0 +1,31 @@
+Grafos e árvores: a corrida pelo melhor caminho!
+
+O Davi precisa ir da escola até a praça, e rápido! São várias ruas e vários caminhos. Como o aplicativo de mapas descobre o melhor?
+
+Uma lista não resolve: as ruas não ficam em fila, uma depois da outra. Elas se ligam para vários lados.
+
+Por isso o computador usa um grafo: pontos, chamados vértices, ligados por linhas, chamadas arestas.
+
+Cada esquina vira um vértice, e cada rua vira uma aresta. Numa rede social é igual: cada pessoa é um vértice, e cada amizade é uma aresta.
+
+Mas as ruas não têm o mesmo tamanho! Então cada aresta ganha um número, o peso: a distância, o tempo ou o custo.
+
+Um caminho é a sequência de arestas que leva de um ponto até outro. E o comprimento do caminho é a soma dos pesos.
+
+De á até dê, o caminho á, bê, dê soma três mais quatro: sete. O caminho á, cê, dê soma dois mais seis: oito.
+
+O mais curto é á, bê, dê. Atenção: o mais curto é o de menor soma, não o de menos paradas.
+
+E as pastas do computador? Elas também se ligam, mas de um jeito especial: formam uma árvore.
+
+A árvore começa em um único ponto, a raiz, e se divide em galhos até as folhas. E nunca tem ciclo: nenhum caminho volta para o ponto de onde saiu.
+
+Agora, um desafio: adivinhar um objeto só com perguntas de sim ou não. Como organizar essas perguntas?
+
+Com uma árvore de decisão! Cada ponto é uma pergunta de sim ou não, e cada folha é uma resposta.
+
+Missão cumprida: o Davi chegou à praça pelo caminho mais curto!
+
+Onde eu uso isso? No aplicativo de mapas, nas sugestões de amizade, nas pastas do celular e na triagem do posto de saúde.
+
+Agora é com vocês: abram a Missão 1 no portal!
