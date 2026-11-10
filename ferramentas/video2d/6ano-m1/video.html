@@ -193,7 +193,7 @@ const CENAS = [
      const k = seg(t, 2.6, 3.2), some = seg(t, 5.4, 6.4); if (k > 0) { g.save(); g.globalAlpha = k * (1 - some); g.translate(760, 210 - some * 40); g.setLineDash([12, 10]); g.strokeStyle = "#fff"; g.lineWidth = 5; rr(-150, -100, 300, 200, 16); g.fillStyle = "rgba(20,33,61,.75)"; g.fill(); g.stroke(); g.setLineDash([]); desenhoAna(-140, -90, 280, 180, 1); g.restore(); }
      etiqueta("AINDA NÃO ESTAVA GUARDADO", 760, 360, 760, 330, seg(t, 3.4, 3.8) * (1 - some));
      if (some > 0) for (let i = 0; i < 16; i++) { const a = i / 16 * 7, r = some * 220; g.fillStyle = `rgba(255,255,255,${1 - some})`; g.beginPath(); g.arc(760 + Math.cos(a) * r, 210 + Math.sin(a) * r * .7, 7, 0, 7); g.fill(); } } },
- { chip: "A SOLUÇÃO", fala: "A solução é salvar! Escolha onde guardar, dê um nome e clique em Salvar. Ou use o atalho: Control mais S.", sfx: [[.1, "whoosh"], [.6, "pop"], [2.2, "tec"], [3.6, "tec"], [4.6, "click"], [4.8, "ding"], [6.9, "tec"], [7.3, "ding"]],
+ { chip: "A SOLUÇÃO", fala: "A solução é salvar! Escolha onde guardar, dê um nome e clique em Salvar. Ou use o atalho: Control mais S.", legenda: "A solução é salvar! Escolha onde guardar, dê um nome e clique em Salvar. Ou use o atalho: Ctrl + S.", sfx: [[.1, "whoosh"], [.6, "pop"], [2.2, "tec"], [3.6, "tec"], [4.6, "click"], [4.8, "ding"], [6.9, "tec"], [7.3, "ding"]],
    draw(t, D) { fundoEscuro(t, "#1d4ed8"); palavra("SALVAR", 640, 138, seg(t, .5, .9), 84);
      const kj = back(seg(t, .9, 1.4)); if (kj > 0 && t < 6.1) { g.save(); g.translate(640, 370); g.scale(kj, kj); g.fillStyle = "#fff"; g.shadowColor = "rgba(0,0,0,.3)"; g.shadowBlur = 20; rr(-330, -170, 660, 340, 18); g.fill(); g.shadowBlur = 0;
        g.fillStyle = "#e3e8f2"; rr(-330, -170, 660, 50, 18); g.fill(); g.fillRect(-330, -140, 660, 20); g.fillStyle = NAVY; g.font = `800 24px ${F}`; g.textAlign = "left"; g.textBaseline = "middle"; g.fillText("Salvar como", -300, -145);
@@ -283,7 +283,7 @@ function render(t) {
   g.setTransform(1, 0, 0, 1, 0, 0); g.globalAlpha = 1; g.textAlign = "left";
   if (cena.chip) chip(cena.chip, 0, tt);
   selo(t);
-  if (i > 0 && i < CENAS.length - 1) legenda(cena.fala, tl / Math.max(.1, D - .9));
+  if (i > 0 && i < CENAS.length - 1) legenda(cena.legenda || cena.fala, tl / Math.max(.1, D - .9));
   // transição suave
   const tr = cl(1 - tl / .25); if (i > 0 && tr > 0) { g.fillStyle = `rgba(13,22,49,${tr})`; g.fillRect(0, 0, W, H); }
 }

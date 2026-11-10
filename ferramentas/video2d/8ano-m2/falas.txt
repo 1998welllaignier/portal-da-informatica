@@ -1,0 +1,33 @@
+Internet por dentro: a viagem do seu vídeo até o outro lado do mundo!
+
+A Bia quer assistir a um vídeo. Ela digita o nome do site… mas a internet não entende nomes: ela só entende números.
+
+Então entra em ação o dê ene ésse: a agenda de contatos da internet. Ele troca o nome do site pelo endereço í pê do servidor.
+
+O pedido sai pelo roteador da casa dela. E como ele sai do bairro? Pelo provedor, a empresa que vende a internet.
+
+Mas o vídeo está guardado em outra cidade, bem longe! Para atravessar o país, o pedido entra no backbone: as estradas principais da internet.
+
+E se o vídeo estiver em outro continente? Tem um oceano no meio! Os dados viajam como luz, por cabos de fibra óptica no fundo do mar.
+
+Chegamos! O vídeo mora num data center: um prédio com milhares de servidores, ligados vinte e quatro horas, com energia reserva e ar gelado.
+
+Guardar as suas fotos nesses servidores, pela internet, é usar a nuvem. Por isso a foto aparece em outro celular.
+
+Mas e se esse data center ficar sem energia? Todas as fotos somem?
+
+Não somem! As empresas guardam cópias em vários data centers, em lugares diferentes. Se um falha, outro responde. Isso é um sistema distribuído.
+
+Agora, um trabalho enorme: um único núcleo do processador leva sessenta minutos para fazer tudo sozinho.
+
+Com quatro núcleos dividindo o trabalho ao mesmo tempo, cada um faz um quarto. Pronto em quinze minutos! Isso é processamento em paralelo.
+
+E quando dezenove computadores mandam imprimir na mesma impressora? Eles disputam a vez, e a impressora forma uma fila. Isso é concorrência.
+
+Resumindo o caminho: celular, roteador, provedor, backbone ou cabo submarino, até o data center, na nuvem. E o dê ene ésse traduz o nome lá no começo.
+
+Missão cumprida: o vídeo da Bia chegou, e ela já está assistindo!
+
+Onde eu uso isso? O vídeo que você assiste vem de um data center. As fotos na nuvem aparecem em outro celular. E a fila da impressora é concorrência.
+
+Agora é com vocês: abram a Missão 2 no portal!

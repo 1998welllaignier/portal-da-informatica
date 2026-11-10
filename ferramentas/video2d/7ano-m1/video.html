@@ -136,12 +136,12 @@ const CENAS = [
      balao("Como ela sabe o caminho?", 330, 340, seg(t, 6.6, 7.0)); } },
  { chip: "A REDE", fala: "Vamos acompanhar essa viagem. Tudo começa numa rede: aparelhos ligados entre si para trocar informações e dividir coisas, como a internet e a impressora. A nossa sala de informática é uma rede!", sfx: [[.1, "whoosh"], [2.4, "pop"], [6.5, "impressora"], [9.2, "ding"]],
    draw(t, D) { fundoEscuro(t, "#173a78"); palavra("REDE", 640, 138, seg(t, 2.2, 2.6), 90);
-     const cx = 640, cy = 430, pcs = [[300, 330], [300, 530], [980, 330], [980, 530], [460, 600], [820, 600]];
+     const cx = 640, cy = 400, pcs = [[290, 310], [290, 480], [990, 310], [990, 480], [430, 520], [850, 520]];
      pcs.forEach(([x, y], i) => { const k = seg(t, 2.8 + i * .2, 3.2 + i * .2); if (k <= 0) return; linha(x, y, cx, cy, "rgba(255,255,255,.4)", 5); if (t > 4) pacotes(x, y, cx, cy, t + i * .3, 2); monitor(x, y + 40, .35 * back(k)); });
      monitor(cx, cy + 50, .55, (x, y, w, h) => { g.fillStyle = "#fff"; g.fillRect(x, y, w, h); g.fillStyle = NAVY; g.font = `800 26px ${F}`; g.textAlign = "center"; g.fillText("Professor", x + w / 2, y + h / 2 + 8); });
      const ki = seg(t, 5.4, 5.8); if (ki > 0) { g.save(); g.globalAlpha = ki; linha(cx, cy - 80, 640, 250, AMAR, 5); g.fillStyle = "#fff"; g.beginPath(); g.arc(610, 236, 26, 0, 7); g.arc(640, 222, 32, 0, 7); g.arc(672, 238, 24, 0, 7); g.fill(); g.fillStyle = NAVY; g.font = `800 16px ${F}`; g.textAlign = "center"; g.fillText("internet", 640, 244); g.restore(); }
      const kp = seg(t, 6.2, 6.6); if (kp > 0) { impressora(1130, 420, .8 * back(kp), seg(t, 6.6, 7.6)); linha(1050, 420, 990, 360, "rgba(255,255,255,.4)", 5); }
-     etiqueta("A NOSSA SALA DE INFORMÁTICA!", 640, 590, 640, 590, seg(t, 9.0, 9.4)); } },
+     etiqueta("A NOSSA SALA DE INFORMÁTICA!", 330, 200, 290, 250, seg(t, 9.0, 9.4)); } },
  { chip: "A INTERNET", fala: "E a internet é uma rede de redes: milhões de redes ligadas no mundo inteiro.", sfx: [[.1, "desce"], [2.0, "pop"], [3.6, "pop"]],
    draw(t, D) { fundoEscuro(t, "#0b1d4a"); const z = io(seg(t, 0, 2.4)); g.save(); g.translate(640, 380); g.scale(lerp(2.2, .8, z), lerp(2.2, .8, z));
      g.fillStyle = "#1d4ed8"; g.beginPath(); g.arc(0, 0, 230, 0, 7); g.fill(); g.fillStyle = "#16a34a"; [[-90, -60, 90, 60], [80, 30, 70, 90], [20, -120, 60, 30], [-60, 110, 50, 40]].forEach(([x, y, rx, ry]) => { g.beginPath(); g.ellipse(x, y, rx, ry, .4, 0, 7); g.fill(); });
@@ -149,7 +149,7 @@ const CENAS = [
      redes.forEach(([x, y], i) => redes.forEach(([x2, y2], j) => { if (j > i && (j - i) % 4 === 1) linha(x, y, x2, y2, "rgba(253,224,71,.6)", 3); }));
      redes.forEach(([x, y], i) => { for (let k = 0; k < 4; k++) { const a = k / 4 * 7 + t; no(x + Math.cos(a) * 20, y + Math.sin(a) * 20, 6, "#fff"); } no(x, y, 11, AMAR); });
      g.restore(); palavra("INTERNET", 640, 120, seg(t, 1.8, 2.2), 86); etiqueta("REDE DE REDES", 640, 600, 640, 600, seg(t, 3.4, 3.8)); } },
- { chip: "ENDEREÇO IP", fala: "No meio de tantos aparelhos, como a mensagem acha o celular certo? Cada aparelho tem um endereço í pê, que funciona como o endereço de uma casa.", sfx: [[.1, "whoosh"], [4.4, "pop"], [6.0, "pop"], [7.0, "pop"]],
+ { chip: "ENDEREÇO IP", fala: "No meio de tantos aparelhos, como a mensagem acha o celular certo? Cada aparelho tem um endereço í pê, que funciona como o endereço de uma casa.", legenda: "No meio de tantos aparelhos, como a mensagem acha o celular certo? Cada aparelho tem um endereço IP, que funciona como o endereço de uma casa.", sfx: [[.1, "whoosh"], [4.4, "pop"], [6.0, "pop"], [7.0, "pop"]],
    draw(t, D) { g.fillStyle = "#bfe3ff"; g.fillRect(0, 0, W, H); g.fillStyle = "#86efac"; g.fillRect(0, 470, W, 250); g.fillStyle = "#94a3b8"; g.fillRect(0, 520, W, 60);
      const cores = ["#fca5a5", "#fde68a", "#a5b4fc", "#86efac"], ips = ["192.168.0.10", "192.168.0.11", "192.168.0.12", "192.168.0.13"];
      cores.forEach((c, i) => casa(220 + i * 280, 470, 1.1, c, seg(t, 5.8 + i * .2, 6.0 + i * .2) > 0 ? ips[i] : null));
@@ -195,8 +195,8 @@ const CENAS = [
      // semáforo
      const verde = (t % 4) < 2.2; g.fillStyle = "#1f2937"; g.fillRect(1120, 230, 16, 150); rr(1096, 200, 64, 150, 12); g.fill(); g.fillStyle = verde ? "#4b5563" : "#ef4444"; g.beginPath(); g.arc(1128, 235, 20, 0, 7); g.fill(); g.fillStyle = verde ? "#22c55e" : "#4b5563"; g.beginPath(); g.arc(1128, 310, 20, 0, 7); g.fill();
      for (let i = 0; i < 4; i++) { const base = ((t * (verde ? 160 : 40)) + i * 300) % 1500 - 150; const x = verde ? base : Math.min(base, 1010 - i * 110); carro(x, 450, [ROSA, AMAR, AZUL, "#f97316"][i], 1.2); pacote(x, 400, .4, i + 1); }
-     palavra("PROTOCOLOS", 640, 120, seg(t, 2.8, 3.2), 86); etiqueta("REGRAS COMBINADAS", 640, 230, 640, 230, seg(t, 3.4, 3.8)); etiqueta("COMO AS REGRAS DE TRÂNSITO", 420, 640, 420, 640, seg(t, 4.8, 5.2)); } },
- { chip: "TCP/IP E HTTPS", fala: "O tê cê pê barra í pê divide a mensagem em pacotes e faz a entrega. E o agá tê tê pê ésse abre as páginas com segurança: é o cadeado no navegador.", sfx: [[.1, "whoosh"], [1.0, "pop"], [5.0, "pop"], [7.4, "ding"]],
+     palavra("PROTOCOLOS", 640, 120, seg(t, 2.8, 3.2), 86); etiqueta("REGRAS COMBINADAS", 640, 230, 640, 230, seg(t, 3.4, 3.8)); etiqueta("COMO AS REGRAS DE TRÂNSITO", 640, 300, 640, 300, seg(t, 4.8, 5.2)); } },
+ { chip: "TCP/IP E HTTPS", fala: "O tê cê pê barra í pê divide a mensagem em pacotes e faz a entrega. E o agá tê tê pê ésse abre as páginas com segurança: é o cadeado no navegador.", legenda: "O TCP/IP divide a mensagem em pacotes e faz a entrega. E o HTTPS abre as páginas com segurança: é o cadeado no navegador.", sfx: [[.1, "whoosh"], [1.0, "pop"], [5.0, "pop"], [7.4, "ding"]],
    draw(t, D) { fundoEscuro(t); g.fillStyle = "rgba(255,255,255,.08)"; g.fillRect(638, 0, 4, H);
      palavra("TCP/IP", 320, 138, seg(t, .8, 1.2), 74); const kp = seg(t, 1.6, 2.4); g.fillStyle = "#fff"; rr(140, 290, 360, 80, 18); g.fill(); ondaAudio(170, 330, 300, t, "#2563eb");
      for (let i = 0; i < 4; i++) pacote(lerp(320, 170 + i * 100, out(kp)), lerp(330, 470, out(kp)), .6 * (kp > 0 ? 1 : 0), i + 1);
@@ -272,7 +272,7 @@ function render(t) {
   g.setTransform(1, 0, 0, 1, 0, 0); g.globalAlpha = 1; g.textAlign = "left";
   if (cena.chip) chip(cena.chip, 0, tt);
   selo(t);
-  if (i > 0 && i < CENAS.length - 1) legenda(cena.fala, tl / Math.max(.1, D - .9));
+  if (i > 0 && i < CENAS.length - 1) legenda(cena.legenda || cena.fala, tl / Math.max(.1, D - .9));
   // transição suave
   const tr = cl(1 - tl / .25); if (i > 0 && tr > 0) { g.fillStyle = `rgba(13,22,49,${tr})`; g.fillRect(0, 0, W, H); }
 }

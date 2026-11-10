@@ -50,6 +50,11 @@ Modelo de referência: `ferramentas/video2d/modelo-cabo-submarino.html` (8º ano
 - No texto para a voz: pedir **2 segundos de pausa entre os parágrafos** (cada parágrafo é uma cena).
 - Na montagem: além da pausa da voz, inserir **cerca de 0,7 s de silêncio** em cada troca de cena (só separando os trechos da voz, sem esticar nem alterar a voz), com o "vush" de transição e a troca de cena acontecendo nesse respiro.
 
+## A legenda nunca cobre nada (pedido do professor em 09/11/2026)
+- A legenda fixa do rodapé **nunca** pode ficar por cima de texto ou informação da cena (no 7º ano, a etiqueta "A NOSSA SALA DE INFORMÁTICA" ficou coberta).
+- Regra: **nenhum vídeo é gravado sem passar pelo verificador**: `python3 ferramentas/video2d/verificar_legenda.py <pasta_do_video> <durs.json>`. Ele percorre o vídeo a cada 0,1 s, mede onde a legenda está e onde há texto na cena, e lista cada conflito (texto e segundos). Só gravar quando ele disser "OK".
+- O verificador só enxerga textos; para desenhos importantes (bonequinho, telas, objetos), conferir os quadros com `quadros.py` e deixar tudo acima da faixa da legenda (cerca de y = 570 em 720).
+
 ## Legenda escrita do jeito certo (pedido do professor em 09/11/2026)
 - O texto para a voz pode trazer as siglas escritas do jeito que se fala ("dê ene ésse", "í pê", "tê cê pê barra í pê"), para a narração pronunciar certo.
 - A **legenda** do vídeo mostra sempre a forma escrita correta (DNS, IP, TCP/IP, HTTPS, Ctrl + S). Em cada cena: `fala` = texto falado; `legenda` = texto escrito (usado na tela quando existe).
