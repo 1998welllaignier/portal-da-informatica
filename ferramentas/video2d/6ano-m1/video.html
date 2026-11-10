@@ -91,13 +91,33 @@ const pisca = (t, p) => (t % (p || 2.3)) < .11;
 /* ================= cenas ================= */
 // fala = texto exato da narração (também vira legenda). dur estimado até chegar o MP3.
 const CENAS = [
- { chip: "", fala: "O computador e meus arquivos: o mistério do trabalho que sumiu.", sfx: [[.1, "whoosh"], [.9, "pop"]],
-   draw(t, D) { fundoEscuro(t);
-     const k = out(seg(t, 0, .8)); monitor(640, 330 + (1 - k) * 60, 1.05 * k, (x, y, w, h) => { pasta(x + w / 2, y + h / 2 + 4, 1, null, null, true); arquivo(x + w / 2 + 30, y + h / 2 - 20 - Math.sin(t * 3) * 6, .55, .2, AZUL); });
-     g.fillStyle = "#fff"; g.textAlign = "center"; g.globalAlpha = out(seg(t, .5, 1.1)); g.font = `700 22px ${F}`; g.fillStyle = AMAR; g.fillText("6º ANO · MISSÃO 1", 640, 420);
-     g.fillStyle = "#fff"; g.font = `800 52px ${F}`; g.fillText("O computador e meus arquivos", 640, 480); g.font = `600 26px ${F}`; g.fillStyle = "#cfe0ff"; g.fillText("o mistério do trabalho que sumiu", 640, 520); g.globalAlpha = 1;
-     const kp = back(seg(t, 1.1, 1.6)); if (kp > 0) { g.save(); g.translate(640, 590); g.scale(kp, kp); g.fillStyle = "rgba(255,255,255,.1)"; rr(-230, -32, 460, 64, 32); g.fill(); g.fillStyle = AMAR; g.font = `800 28px ${F}`; g.textBaseline = "middle"; g.fillText("👨‍🏫 Prof. Welington Laignier", 0, 0); g.restore(); g.textBaseline = "alphabetic"; }
-     ana({ x: 1060, y: 690, s: .9 * back(seg(t, 1.4, 1.9)), braco: -2.5 + Math.sin(t * 8) * .3, pisca: pisca(t) }); } },
+ { chip: "", fala: "O computador e meus arquivos: o mistério do trabalho que sumiu.", sfx: [[.05, "whoosh"], [.35, "pop"], [2.4, "sumiu"], [2.85, "misterio"]],
+   draw(t, D) { fundoEscuro(t, "#162447");
+     // holofote no centro
+     const hol = g.createRadialGradient(640, 330, 40, 640, 330, 560); hol.addColorStop(0, "rgba(255,240,180,.22)"); hol.addColorStop(1, "rgba(0,0,0,.45)"); g.fillStyle = hol; g.fillRect(0, 0, W, H);
+     // 1) título da missão entra por cima
+     const k1 = out(seg(t, .1, .7)); g.save(); g.globalAlpha = k1; g.translate(0, (1 - k1) * -40); g.textAlign = "center";
+     g.fillStyle = AMAR; g.font = `800 24px ${F}`; g.fillText("6º ANO · MISSÃO 1", 640, 86);
+     g.fillStyle = "#fff"; g.font = `800 50px ${F}`; g.fillText("O computador e meus arquivos", 640, 142); g.restore();
+     // 2) o arquivo aparece… pisca… e some!
+     const ka = back(seg(t, .8, 1.3)), some = seg(t, 2.35, 2.9), pis = t > 1.8 && t < 2.35 && Math.floor(t * 14) % 2;
+     if (some < 1 && ka > 0 && !pis) { g.save(); g.globalAlpha = 1 - some; arquivo(640, 330 - some * 30, 2.1 * ka * (1 + some * .4), Math.sin(t * 3) * .06, AZUL, "desenho"); g.restore(); }
+     if (some > 0) { // poeirinha e contorno tracejado no lugar
+       for (let k = 0; k < 18; k++) { const a = k / 18 * 7, r = 40 + some * 200; g.fillStyle = `rgba(255,255,255,${1 - some})`; g.beginPath(); g.arc(640 + Math.cos(a) * r, 330 + Math.sin(a) * r * .8, 6, 0, 7); g.fill(); }
+       g.save(); g.globalAlpha = .7 * some; g.setLineDash([14, 12]); g.strokeStyle = "#fff"; g.lineWidth = 5; g.beginPath(); g.moveTo(640 - 72, 330 - 92); g.lineTo(640 + 36, 330 - 92); g.lineTo(640 + 72, 330 - 58); g.lineTo(640 + 72, 330 + 92); g.lineTo(640 - 72, 330 + 92); g.closePath(); g.stroke(); g.restore();
+       const kq = back(seg(t, 2.6, 3.0)); g.save(); g.translate(640, 335 + Math.sin(t * 6) * 6); g.scale(kq, kq); g.fillStyle = AMAR; g.font = `800 130px ${F}`; g.textAlign = "center"; g.textBaseline = "middle"; g.lineWidth = 12; g.strokeStyle = NAVY; g.strokeText("?", 0, 0); g.fillText("?", 0, 0); g.restore(); g.textBaseline = "alphabetic";
+       // interrogações voando em volta
+       for (let k = 0; k < 6; k++) { const a = t * .9 + k * 1.05, kk = seg(t, 2.7 + k * .08, 3.1 + k * .08); if (kk <= 0) continue; g.save(); g.globalAlpha = kk * .85; g.translate(640 + Math.cos(a) * 250, 330 + Math.sin(a) * 120); g.rotate(Math.sin(a) * .4); g.fillStyle = k % 2 ? "#fff" : AMAR; g.font = `800 ${34 + (k % 3) * 10}px ${F}`; g.textAlign = "center"; g.fillText("?", 0, 0); g.restore(); }
+     }
+     // 3) O MISTÉRIO DO TRABALHO QUE SUMIU — em destaque, com tremidinha
+     const km = seg(t, 2.85, 3.3); if (km > 0) { const tre = t < 3.8 ? Math.sin(t * 60) * 3 * (1 - seg(t, 3.3, 3.8)) : 0; g.save(); g.translate(tre, 0);
+       g.fillStyle = "rgba(10,16,36,.55)"; g.globalAlpha = out(km); rr(150, 470, 980, 132, 26); g.fill(); g.globalAlpha = 1;
+       palavra("O MISTÉRIO DO", 640, 512, km, 54); palavra("TRABALHO QUE SUMIU!", 640, 572, seg(t, 3.0, 3.45), 62); g.restore(); }
+     // nome do professor sempre em destaque, embaixo
+     const kp = back(seg(t, .3, .8)); if (kp > 0) { g.save(); g.translate(640, 662); g.scale(kp, kp); g.fillStyle = AMAR; rr(-250, -30, 500, 60, 30); g.fill(); g.fillStyle = NAVY; g.font = `800 28px ${F}`; g.textAlign = "center"; g.textBaseline = "middle"; g.fillText("Prof. Welington Laignier", 0, 1); g.restore(); g.textBaseline = "alphabetic"; }
+     // Ana espiando, assustada
+     const kn = out(seg(t, 2.7, 3.2)); if (kn > 0) ana({ x: lerp(1380, 1195, kn), y: 640, s: .9, braco: -2.6, bracoE: 2.6, boca: "o", olhar: -1, pisca: false });
+   } },
  { chip: "O PROBLEMA", fala: "A Ana passou a aula inteira fazendo um desenho no computador. Tocou o sinal, ela fechou o programa… e o desenho sumiu! O que aconteceu?", sfx: [[4.2, "sino"], [5.6, "click"], [5.9, "sumiu"]],
    draw(t, D) { fundoSala(t); mesa(640, 520); const fechou = t > 5.6;
      monitor(640, 520, 1.25, (x, y, w, h) => { g.fillStyle = "#fff"; g.fillRect(x, y, w, h); g.fillStyle = "#cfd8e6"; g.fillRect(x, y, w, 16); g.fillStyle = "#e8553d"; g.fillRect(x + w - 16, y, 16, 16);

@@ -39,3 +39,8 @@ Modelo de referência: `ferramentas/video2d/modelo-cabo-submarino.html` (8º ano
 - `ferramentas/video2d/6ano-m1/`: o vídeo completo (16 cenas), `audio.py` (música e efeitos sintetizados, sem arquivos de terceiros), `alinhar.py` (acha as pausas da voz e define o tempo de cada cena) e `durs.json` (tempos usados).
 - Cuidados aprendidos: o cabelo comprido não pode passar por baixo do queixo (parece barba); mão sempre de desenho animado (estilo emoji 👉, com contorno macio e dobrinhas), apontando de lado com os outros dedos dobrados (`maoApontando`), nunca um dedo sozinho em pé (parece gesto obsceno). Nada importante no rodapé, onde fica a legenda.
 - Fluxo: falas → o professor gera o MP3 (pausa de 1 s entre parágrafos) → `alinhar.py` → `gravar.py <saida> durs.json` → `audio.py` → mistura com a voz (música cerca de 18 dB abaixo da voz).
+
+## Abertura de todo vídeo (pedido do professor em 09/11/2026)
+- Enquanto a voz fala o título, a abertura **mostra o problema da aula com drama e efeito**, sempre de acordo com o tema da missão: o nome da missão em cima, uma mini cena do mistério no centro (ex.: no 6º M1, o arquivo pisca e some, fica o contorno tracejado e um "?" grande com interrogações voando) e o **subtítulo do problema em letras grandes amarelas** com uma tremidinha (ex.: "O MISTÉRIO DO TRABALHO QUE SUMIU!").
+- Holofote no centro, efeito sonoro de suspense curto e baixinho (`misterio` em `audio.py`) e o bonequinho reagindo no canto.
+- O nome **Prof. Welington Laignier** fica em destaque na abertura (faixa amarela embaixo), além do selo de sempre.

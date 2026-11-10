@@ -79,6 +79,10 @@ def fx(tipo):
         t = tt(.22); b = np.sin(2 * np.pi * 880 * t) * env(len(t), .005, .05) * .25; return np.concatenate([b, np.zeros(int(SR * .08)), b * .9])
     if tipo == "foto":
         c = bp(ruido(.04), 1000, 8000) * np.exp(-tt(.04) * 120) * .6; return np.concatenate([c, np.zeros(int(SR * .07)), c * .8])
+    if tipo == "misterio":  # acorde de suspense, curto e baixinho
+        t = tt(1.6); trem = .75 + .25 * np.sin(2 * np.pi * 7 * t)
+        x = sum(np.sin(2 * np.pi * nota(m) * t) for m in (57, 60, 63, 66)) * trem * env(len(t), .08, .8) * .14
+        return x + np.sin(2 * np.pi * nota(45) * t) * np.exp(-t * 2) * .25
     if tipo == "festa":
         out = np.zeros(int(SR * 1.2))
         for k, m in enumerate((72, 76, 79, 84)):
