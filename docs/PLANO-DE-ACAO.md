@@ -3,6 +3,24 @@
 ## 📌 Situação atual (atualizado em 08/11/2026, 19h)
 Claude Max (5x) assinado por um mês em 08/11 para adiantar tudo. **Voltar ao Pro antes de 08/12** (lembretes no celular em 01/12 e 05/12).
 
+### 🗓️ Plano para usar bem o limite (combinado em 10/11/2026)
+Ordem: primeiro o que tem data marcada; depois o que adianta o 1º bimestre de 2027.
+**A. Vídeos v4 das próximas missões** (o Claude escreve a narração → o professor gera o MP3 no ChatGPT → o Claude monta, verifica a legenda e entrega; o professor sobe no YouTube e o Claude preenche e liga no portal):
+| Vídeo | Primeira turma que usa | Situação |
+|---|---|---|
+| 6º · M2 Algoritmos | qui 12/11 (6º A, 6º B) | narração entregue em 10/11 |
+| 9º · M2 Criptografia e ataques | qui 12/11 (9º D) | narração entregue em 10/11 |
+| 7º · M2 Algoritmos (decomposição, listas, reúso, erros) | seg 16/11 (7º C) · 7º A/B tiveram em 10/11 sem vídeo | próximo |
+| 7º · M3 Segurança e convivência digital | ter 17/11 (7º A, 7º B) | |
+| 8º · M1 Listas: buscar e ordenar | qua 18/11 (8º A, 8º B) | |
+| 8º · M3 Dados pessoais e informação confiável | qua 18/11 (8º C, 8º D) | |
+| 6º · M3 Cidadão digital | qui 19/11 (6º A, 6º B) | |
+| 9º · M3 Autoria, imagem e deepfakes | qui 19/11 (9º D) | |
+| 5º · M1 a M4 (atendimento individual) | — | só se o professor quiser |
+**B. Fim do 4º bimestre:** revisão do 8º M2 (antes de 11/11) e do 8º M1 (antes de 18/11); revisar as questões das provas; datas das provas; atividade de recuperação; boletins em PDF (antes de 23/11); SIGE dentro do bimestre.
+**C. 1º bimestre de 2027:** proposta de assuntos por série alinhada à BNCC (Computação, 6º–9º), cronograma, e um "pacote de prompts" por série no padrão (portal com Mão na massa/Básico/Desafio/Turbo, apostila ilustrada, guia, roteiro, prova, recuperação, roteiros dos vídeos). Fazer só depois de A, e com o "sim" do professor nos assuntos.
+**D. Sem pressa:** foto do canal com a marca dele; registro do software no INPI.
+
 ### ✋ O que o professor precisa fazer
 - [x] **Feito em 08/11, 18h40:** regras do Firebase publicadas (coleção `provas` + horário-limite).
 - [x] **Feito em 08/11:** caminhos dos PEIs aprovados pelo professor e aplicados: 👣 Trilha em 11 alunos (Helena já tinha), “3 alternativas” em 33, Renato (7º C) no 🚀 aprofundar. Reavaliar quando os alunos começarem a vir.
