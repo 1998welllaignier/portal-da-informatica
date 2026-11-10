@@ -18,6 +18,31 @@
   const auth = () => N.auth();
 
   const todasTurmas = () => { const r = []; cat().series.forEach(s => s.turmas.forEach(t => r.push({ ...t, serie: s }))); return r; };
+  // 🕘 turma do horário: sem turma escolhida, o painel abre na turma que está em aula agora (15 min de folga antes
+  // e depois) ou na próxima aula de hoje. Se o professor trocar de turma à mão, a escolha vale até a próxima aula começar.
+  const ss = { get: k => { try { return sessionStorage.getItem(k); } catch (e) { return null; } }, set: (k, v) => { try { sessionStorage.setItem(k, v); } catch (e) {} } };
+  function turmaDaHora(turmas) {
+    const ag = new Date(), dia = ag.getDay(), min = ag.getHours() * 60 + ag.getMinutes();
+    const meiaNoite = new Date(ag.getFullYear(), ag.getMonth(), ag.getDate()).getTime();
+    const hoje = turmas.filter(t => t.aula && t.aula.dia === dia && t.aula.ini).map(t => { const [hh, mm] = t.aula.ini.split(":").map(Number); return { t, ini: hh * 60 + mm }; }).sort((a, b) => a.ini - b.ini);
+    const atual = hoje.find(x => min >= x.ini - 15 && min < x.ini + 90);
+    if (atual) return { id: atual.t.id, desde: meiaNoite + (atual.ini - 15) * 60000 };
+    const prox = hoje.find(x => x.ini - 15 > min);
+    if (prox) { const antes = hoje.filter(x => x.ini + 90 <= min).pop(); return { id: prox.t.id, desde: meiaNoite + (antes ? antes.ini + 90 : 0) * 60000 }; }
+    return null;
+  }
+  function escolherTurma(tid, turmas) {
+    if (tid) { if (tid !== ss.get("painel:turma")) ss.set("painel:turmaManual", String(Date.now())); return tid; }
+    const a = turmaDaHora(turmas), manual = +ss.get("painel:turmaManual") || 0;
+    if (a && manual < a.desde) return a.id;
+    return ss.get("painel:turma") || (a && a.id) || (turmas.find(x => x.serie.id === "6") || turmas[0]).id;
+  }
+  // missão do dia pelo cronograma da turma (a de hoje ou a última que já passou)
+  function missaoDoDia(t, C) {
+    const ag = new Date(), hoje = `${ag.getFullYear()}-${String(ag.getMonth() + 1).padStart(2, "0")}-${String(ag.getDate()).padStart(2, "0")}`;
+    const ok = Object.entries(t.missoes4 || {}).filter(([d, m]) => d <= hoje && C.missoes.some(x => x.id === m)).sort();
+    return ok.length ? ok[ok.length - 1][1] : null;
+  }
   const nomeTurma = id => { const t = todasTurmas().find(x => x.id === id); return t ? t.nome + (t.serie.id === "5" ? " (5º ano)" : "") : id; };
   const dataBR = d => { const [a, m, dd] = d.split("-"); return `${dd}/${m}/${a}`; };
   const semana = d => ["dom", "seg", "ter", "qua", "qui", "sex", "sáb"][new Date(d + "T12:00:00").getDay()];
@@ -125,6 +150,7 @@
   const AJUDA = {
     aula: ["Use durante a aula, projetando ou no seu computador.", [
       "<b>📣 Avisos para falar à turma</b>: aparecem no topo com a fala pronta. Depois de falar, toque em “✔ Já avisei esta turma” (o aviso some só daquela turma, neste computador).",
+      "<b>🕘 A turma já vem certa</b>: ao abrir o painel, ele escolhe sozinho a turma que está em aula agora (ou a próxima aula de hoje) e a missão do dia pelo cronograma. Para ver outra turma, é só trocar na lista; a sua escolha vale até a próxima aula começar.",
       "<b>Escolha a turma e a missão</b> (M1, M2…). Aparece o roteiro da aula com as falas, as respostas de cada atividade e quantos alunos já entraram e concluíram o Básico.",
       "<b>🎬 Apresentar</b>: abre numa aba nova os slides animados da missão (os mesmos assuntos do vídeo e da apostila), para projetar. Avance com → , espaço, clique ou passador; volte com ←; F deixa em tela cheia; Esc sai.",
       "<b>👀 Abrir a apostila do aluno</b>: abre, numa aba nova, a apostila exatamente como o aluno vê. Nada do que você fizer ali conta.",
@@ -197,7 +223,7 @@
   /* -------- Turmas: visão geral de uma turma -------- */
   async function telaTurmas(u, tid) {
     const turmas = todasTurmas();
-    tid = tid || sessionStorage.getItem("painel:turma") || (turmas.find(x => x.serie.id === "6") || turmas[0]).id;
+    tid = escolherTurma(tid, turmas);
     try { sessionStorage.setItem("painel:turma", tid); } catch (e) {}
     const t = turmas.find(x => x.id === tid) || turmas[0];
     const el = tela(topo(u, "") + `<div class="painel pp-barra">
@@ -375,7 +401,7 @@
   /* -------- Presença: quem entrou em cada dia -------- */
   async function telaPresenca(u, tid) {
     const turmas = todasTurmas();
-    tid = tid || sessionStorage.getItem("painel:turma") || (turmas.find(x => x.serie.id === "6") || turmas[0]).id;
+    tid = escolherTurma(tid, turmas);
     const t = turmas.find(x => x.id === tid) || turmas[0];
     const el = tela(topo(u, "presenca") + `<div class="painel pp-barra"><label>Turma <select id="sel">${turmas.map(x => `<option value="${x.id}" ${x.id === t.id ? "selected" : ""}>${esc(nomeTurma(x.id))}</option>`).join("")}</select></label></div>
       <details class="painel" id="atip"><summary><strong>🧩 Alunos atípicos que frequentam</strong> (todas as turmas)</summary><div id="atip-c"><p>Carregando…</p></div></details>
@@ -469,7 +495,7 @@
   /* -------- Prova do bimestre: Dia de prova, notas, recuperação e gabarito -------- */
   async function telaProvaPainel(u, tid) {
     const turmas = todasTurmas();
-    tid = tid || sessionStorage.getItem("painel:turma") || (turmas.find(x => x.serie.id === "6") || turmas[0]).id;
+    tid = escolherTurma(tid, turmas);
     try { sessionStorage.setItem("painel:turma", tid); } catch (e) {}
     const t = turmas.find(x => x.id === tid) || turmas[0];
     const el = tela(topo(u, "prova") + `<div class="painel pp-barra"><label>Turma <select id="sel">${turmas.map(x => `<option value="${x.id}" ${x.id === t.id ? "selected" : ""}>${esc(nomeTurma(x.id))}</option>`).join("")}</select></label></div>
@@ -584,7 +610,7 @@
   }
   async function telaDiario(u, tid, aba) {
     const turmas = todasTurmas();
-    tid = tid || sessionStorage.getItem("painel:turma") || (turmas.find(x => x.serie.id === "6") || turmas[0]).id;
+    tid = escolherTurma(tid, turmas);
     try { sessionStorage.setItem("painel:turma", tid); } catch (e) {}
     const t = turmas.find(x => x.id === tid) || turmas[0];
     aba = aba || "chamada";
@@ -834,7 +860,7 @@
   }
   async function telaAula(u, tid, mid) {
     const turmas = todasTurmas();
-    tid = tid || sessionStorage.getItem("painel:turma") || (turmas.find(x => x.serie.id === "6") || turmas[0]).id;
+    tid = escolherTurma(tid, turmas);
     try { sessionStorage.setItem("painel:turma", tid); } catch (e) {}
     const t = turmas.find(x => x.id === tid) || turmas[0];
     const aps = cat().apostilas.filter(a => a.serie === t.serie.id);
@@ -842,7 +868,7 @@
     const ap = aps.find(a => a.id === apId) || aps.find(a => !a.oculta && !/trilha/.test(a.id)) || aps[0];
     await P.carregarApostila(ap.id);
     const C = P.conteudo[ap.id];
-    mid = mid && C.missoes.some(m => m.id === mid) ? mid : C.missoes[0].id;
+    mid = mid && C.missoes.some(m => m.id === mid) ? mid : (missaoDoDia(t, C) || C.missoes[0].id);
     const el = tela(topo(u, "aula") + `<div class="painel pp-barra">
         <label>Turma <select id="sel">${turmas.map(x => `<option value="${x.id}" ${x.id === t.id ? "selected" : ""}>${esc(nomeTurma(x.id))}</option>`).join("")}</select></label>
         ${aps.length > 1 ? `<label>Apostila <select id="ap">${aps.map(a => `<option value="${a.id}" ${a.id === ap.id ? "selected" : ""}>${esc(a.titulo || a.id)}</option>`).join("")}</select></label>` : ""}
