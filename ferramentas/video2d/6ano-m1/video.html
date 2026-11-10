@@ -58,17 +58,32 @@ function cartao(txt, x, y, w, cor, k, sub) { if (k <= 0) return; const s = back(
 function fundoEscuro(t, cor) { const gr = g.createLinearGradient(0, 0, 0, H); gr.addColorStop(0, cor || "#1b2c5a"); gr.addColorStop(1, "#0d1631"); g.fillStyle = gr; g.fillRect(0, 0, W, H);
   g.fillStyle = "rgba(255,255,255,.05)"; for (let i = 0; i < 40; i++) { const x = (rnd(i) * W + t * 10 * (1 + rnd(i + 3))) % W, y = rnd(i + 9) * H; g.beginPath(); g.arc(x, y, 2 + rnd(i + 1) * 3, 0, 7); g.fill(); } }
 function confete(t, t0) { const k = t - t0; if (k < 0 || k > 2.6) return; for (let i = 0; i < 70; i++) { const x = rnd(i) * W + Math.sin(k * 3 + i) * 30, y = -20 + k * (220 + rnd(i + 4) * 260) - rnd(i + 8) * 200; g.save(); g.translate(x, y); g.rotate(k * 5 + i); g.fillStyle = [AMAR, ROSA, VERDE, AZUL, "#fff"][i % 5]; g.fillRect(-6, -3, 12, 6); g.restore(); } }
-function maoApontando(x, y, ang, s, espelho, manga) { // ponta do indicador em (x,y); o resto da mão fica para trás
+function maoApontando(x, y, ang, s, espelho, manga) { // mãozinha de desenho animado; ponta do indicador em (x,y)
   g.save(); g.translate(x, y); g.rotate(ang); g.scale(s, espelho ? -s : s);
-  g.lineWidth = 3; g.strokeStyle = "#c9926a"; g.fillStyle = manga || ROSA; rr(-196, -16, 70, 74, 12); g.fill();
-  g.fillStyle = "#f1c7a0";
-  rr(-136, -10, 66, 62, 20); g.fill(); g.stroke();            // palma
-  rr(-116, -27, 44, 17, 8); g.fill(); g.stroke();              // polegar
-  rr(-84, 12, 26, 15, 7); g.fill(); g.stroke();                // dedos dobrados
-  rr(-86, 27, 24, 14, 7); g.fill(); g.stroke();
-  rr(-88, 41, 22, 13, 6); g.fill(); g.stroke();
-  rr(-76, -9, 76, 19, 9); g.fill(); g.stroke();                // indicador esticado
-  g.fillStyle = "#f8dcc4"; rr(-16, -6, 13, 12, 5); g.fill();   // unha
+  const PELE = "#f6cfa8", CONT = "#b9825c";
+  const partes = () => { // mesmas formas para o contorno e para o preenchimento
+    rr(-76, -12, 76, 24, 12); g.fill();                                   // indicador
+    g.beginPath(); g.ellipse(-98, 12, 40, 34, 0, 0, 7); g.fill();          // palma
+    g.beginPath(); g.ellipse(-66, 26, 20, 23, 0, 0, 7); g.fill();          // dedos dobrados
+    g.beginPath(); g.ellipse(-84, -14, 24, 12, -.35, 0, 7); g.fill();      // polegar
+  };
+  // punho da camiseta
+  g.fillStyle = CONT; rr(-176, -26, 54, 76, 16); g.fill();
+  g.fillStyle = manga || ROSA; rr(-172, -22, 46, 68, 13); g.fill();
+  g.fillStyle = "#ffffff"; rr(-134, -24, 14, 72, 7); g.fill();
+  // contorno macio (mesmas formas, um pouco maiores, por baixo)
+  g.save(); g.fillStyle = CONT; g.strokeStyle = CONT; g.lineWidth = 7; g.lineJoin = "round";
+  [[-76,-12,76,24]].forEach(()=>{}); g.translate(0, 0);
+  const contorno = () => { rr(-79, -15, 82, 30, 15); g.fill(); g.beginPath(); g.ellipse(-98, 12, 44, 38, 0, 0, 7); g.fill(); g.beginPath(); g.ellipse(-66, 26, 24, 27, 0, 0, 7); g.fill(); g.beginPath(); g.ellipse(-84, -14, 28, 16, -.35, 0, 7); g.fill(); };
+  contorno(); g.restore();
+  g.fillStyle = PELE; partes();
+  // dobrinhas dos dedos e unha
+  g.strokeStyle = CONT; g.lineWidth = 3; g.lineCap = "round";
+  [[14, 18], [27, 30], [39, 40]].forEach(([a, b]) => { g.beginPath(); g.moveTo(-78, a); g.quadraticCurveTo(-64, a + 5, -50, b); g.stroke(); });
+  g.beginPath(); g.moveTo(-70, -2); g.lineTo(-60, -2); g.stroke();
+  g.fillStyle = "rgba(255,255,255,.55)"; g.beginPath(); g.ellipse(-12, -3, 7, 5, 0, 0, 7); g.fill();
+  g.fillStyle = "rgba(255,255,255,.35)"; g.beginPath(); g.ellipse(-104, 0, 14, 9, -.4, 0, 7); g.fill();
+  g.fillStyle = "rgba(240,120,120,.25)"; g.beginPath(); g.ellipse(-110, 26, 12, 8, 0, 0, 7); g.fill();
   g.restore();
 }
 const pisca = (t, p) => (t % (p || 2.3)) < .11;
