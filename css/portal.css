@@ -1269,3 +1269,6 @@ body.modo-apresentacao .topbar, body.modo-apresentacao .rodape, body.modo-aprese
 .pp-recado-novo { margin-top: 8px; }
 .pp-recado-novo summary { cursor: pointer; color: #9a3412; font-weight: 600; }
 .pp-recado-novo textarea { width: 100%; box-sizing: border-box; margin: 8px 0; font: inherit; border-radius: 8px; border: 1px solid #fdba74; padding: 8px; }
+.pp-recado-velho { background: #fffaf3; border-left: 5px solid #fdba74; border-radius: 8px; padding: 6px 12px; margin: 6px 0; color: #57534e; }
+.pp-recado-velho p { margin: 0 0 4px; }
+.pp-recado-velho small { color: #9a3412; }

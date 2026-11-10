@@ -149,7 +149,7 @@
   /* ❓ quadro "Para que serve e como usar" de cada aba (fica fechado; o professor abre quando quiser) */
   const AJUDA = {
     aula: ["Use durante a aula, projetando ou no seu computador.", [
-      "<b>🟧 Recados para esta aula</b>: o quadro laranja no topo mostra os recados que você deixou para a turma (os mesmos do 📒 Diário › 🔔 Lembretes). Depois de ler, toque em “✔ Já li”: o recado some em todos os computadores. Para deixar um recado para a próxima aula, abra “✏️ Deixar um recado…” logo abaixo dos recados.",
+      "<b>🟧 Recados para esta aula</b>: o quadro laranja no topo mostra os recados que você deixou para a turma (os mesmos do 📒 Diário › 🔔 Lembretes). Depois de ler, toque em “✔ Já li”: o recado sai do quadro em todos os computadores, mas não é apagado; vai para o “📜 Histórico de recados desta turma”, com a data em que foi anotado e a data em que foi lido. Para deixar um recado para a próxima aula, abra “✏️ Deixar um recado…” logo abaixo dos recados.",
       "<b>📣 Avisos para falar à turma</b>: aparecem no topo com a fala pronta. Depois de falar, toque em “✔ Já avisei esta turma” (o aviso some só daquela turma, neste computador).",
       "<b>🕘 A turma já vem certa</b>: ao abrir o painel, ele escolhe sozinho a turma que está em aula agora (ou a próxima aula de hoje) e a missão do dia pelo cronograma. Para ver outra turma, é só trocar na lista; a sua escolha vale até a próxima aula começar.",
       "<b>Escolha a turma e a missão</b> (M1, M2…). Aparece o roteiro da aula com as falas, as respostas de cada atividade e quantos alunos já entraram e concluíram o Básico.",
@@ -926,6 +926,9 @@
             <div class="pp-recado-pe"><small>${l.criadoEm ? "Anotado em " + dataBR(l.criadoEm.slice(0, 10)) : ""}</small>
             <button class="btn pp-recado-ok" type="button" data-rok="${l.i}">✔ Já li</button></div></div>`).join("")
             : `<p class="pp-recado-vazio">Nenhum recado pendente para esta turma.</p>`}
+          ${(() => { const lidos = lista.filter(l => l.feito).slice().sort((a, b) => ((b.lidoEm || b.criadoEm || "") > (a.lidoEm || a.criadoEm || "") ? 1 : -1));
+            return lidos.length ? `<details class="pp-recado-novo pp-recado-hist"><summary>📜 Histórico de recados desta turma (${lidos.length})</summary>
+              ${lidos.map(l => `<div class="pp-recado-velho"><p>${esc(l.texto).replace(/\n/g, "<br>")}</p><small>${l.criadoEm ? "Anotado em " + dataBR(l.criadoEm.slice(0, 10)) : ""}${l.lidoEm ? " · lido em " + dataBR(l.lidoEm.slice(0, 10)) : ""}</small></div>`).join("")}</details>` : ""; })()}
           <details class="pp-recado-novo"><summary>✏️ Deixar um recado para a próxima aula desta turma</summary>
             <textarea id="rc-txt" rows="3" placeholder="Ex.: A aluna X precisa terminar o Básico da M2 no começo da aula. Liberar a M2 para ela."></textarea>
             <button class="btn" type="button" id="rc-add">Guardar recado</button></details>`;
