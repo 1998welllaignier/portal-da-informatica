@@ -23,10 +23,10 @@
   // NÃO LISTADOS e "conteúdo para crianças". Aparecem só no painel do professor (aba Aula), nunca para os alunos.
   // Para acrescentar um vídeo: apostila base → missão → id do YouTube (o que vem depois de youtu.be/).
   P.videosMissao = {
-    "informatica-6ano-4bim": { m1: "VWRRIuCcxRE" },
-    "informatica-7ano-4bim": { m1: "fQn9n-sZefQ" },
-    "informatica-8ano-4bim": { m2: "ErHk_co5Scg" },
-    "informatica-9ano-4bim": { m1: "nvQrKDs_v3E" }
+    "informatica-6ano-4bim": { m1: "c6VL4LyYfoU" },
+    "informatica-7ano-4bim": { m1: "H-I9rr3zvcA" },
+    "informatica-8ano-4bim": { m2: "TIIizqcGvQ4" },
+    "informatica-9ano-4bim": { m1: "9kQjYVojNag" }
   };
   const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 
