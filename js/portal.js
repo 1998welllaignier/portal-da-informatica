@@ -179,7 +179,7 @@
     const s = sess.get();
     const el = document.getElementById("topbar");
     const marca = `<span class="brand-txt">💻 ${esc(cat().portal)}</span><span class="brand-prof">${esc(cat().professor)}</span>`;
-    if (!s) { el.innerHTML = `<a class="brand" href="#/">${marca}</a><a class="tb-home" href="https://professorwell.com.br/">🏠 Página inicial</a>`; return; }
+    if (!s) { el.innerHTML = `<a class="brand" href="#/">${marca}</a><a class="tb-home" href="https://professorwell.com.br/">🏠 Página inicial</a><a class="tb-home tb-painel" href="#/painel" title="Painel do professor (só abre com a conta Google de professor)">📊 <span class="tb-longo">Painel do professor</span><span class="tb-curto">Painel</span></a>`; return; }
     const t = turma(s.turma);
     const apel = (s.apelidos || []).filter(Boolean);
     el.innerHTML = `<a class="brand" href="#/apostilas">${marca}</a>
