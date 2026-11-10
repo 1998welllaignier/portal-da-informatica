@@ -1,0 +1,262 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Teste 2D</title>
+<style>html,body{margin:0;background:#000}canvas{display:block}</style></head><body>
+<canvas id="c" width="1280" height="720"></canvas>
+<script>
+const W = 1280, H = 720, T = 12.6;
+const c = document.getElementById("c"), g = c.getContext("2d");
+const F = "Poppins, 'DejaVu Sans', sans-serif";
+const cl = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x));
+const lerp = (a, b, k) => a + (b - a) * k;
+const io = k => k < .5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2;
+const out = k => 1 - Math.pow(1 - k, 3);
+const back = k => { const s = 1.9; return 1 + (s + 1) * Math.pow(k - 1, 3) + s * Math.pow(k - 1, 2); };
+const seg = (t, a, b) => cl((t - a) / (b - a));
+function rnd(i) { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); }
+
+function rr(x, y, w, h, r) { g.beginPath(); g.moveTo(x + r, y); g.arcTo(x + w, y, x + w, y + h, r); g.arcTo(x + w, y + h, x, y + h, r); g.arcTo(x, y + h, x, y, r); g.arcTo(x, y, x + w, y, r); g.closePath(); }
+
+/* ---------- bonequinho ---------- */
+// opts: x,y (pés), s escala, braco (ângulo do braço direito em rad), aceno, mascara, boca ("sorri","o"), olhar
+function boneco(o) {
+  g.save(); g.translate(o.x, o.y); g.scale(o.s || 1, o.s || 1); if (o.rot) g.rotate(o.rot);
+  const pele = "#f1c7a0", camisa = "#2f7be0", calca = "#1e2a4a";
+  // pernas
+  g.lineCap = "round"; g.strokeStyle = calca; g.lineWidth = 16;
+  const pk = o.perna || 0;
+  g.beginPath(); g.moveTo(-10, -60); g.lineTo(-12 - pk * 10, -8); g.stroke();
+  g.beginPath(); g.moveTo(10, -60); g.lineTo(12 + pk * 10, -8); g.stroke();
+  g.fillStyle = "#fff"; rr(-26 - pk * 10, -12, 26, 12, 6); g.fill(); rr(0 + pk * 10, -12, 26, 12, 6); g.fill();
+  // braço esquerdo
+  g.strokeStyle = camisa; g.lineWidth = 14;
+  g.save(); g.translate(-24, -112); g.rotate(o.bracoE != null ? o.bracoE : .35);
+  g.beginPath(); g.moveTo(0, 0); g.lineTo(0, 46); g.stroke(); g.fillStyle = pele; g.beginPath(); g.arc(0, 52, 9, 0, 7); g.fill(); g.restore();
+  // corpo
+  g.fillStyle = camisa; rr(-30, -128, 60, 74, 22); g.fill();
+  g.fillStyle = "#ffd23f"; g.beginPath(); g.arc(14, -108, 7, 0, 7); g.fill(); // bolso
+  g.fillStyle = calca; rr(-30, -66, 60, 14, 6); g.fill();
+  // braço direito (aponta / acena)
+  g.strokeStyle = camisa;
+  g.save(); g.translate(24, -112); g.rotate(o.braco != null ? o.braco : -.35);
+  g.beginPath(); g.moveTo(0, 0); g.lineTo(0, 46); g.stroke(); g.fillStyle = pele; g.beginPath(); g.arc(0, 52, 9, 0, 7); g.fill();
+  if (o.dedo) { g.strokeStyle = pele; g.lineWidth = 6; g.beginPath(); g.moveTo(0, 56); g.lineTo(0, 70); g.stroke(); }
+  g.restore();
+  // cabeça
+  g.fillStyle = pele; g.beginPath(); g.arc(0, -168, 44, 0, 7); g.fill();
+  g.fillStyle = "#3b2416"; // cabelo
+  g.beginPath(); g.arc(0, -178, 44, Math.PI * 1.05, Math.PI * 1.95); g.closePath(); g.fill();
+  for (let i = -3; i <= 3; i++) { g.beginPath(); g.arc(i * 12, -206 + Math.abs(i) * 3, 13, 0, 7); g.fill(); }
+  // bochechas
+  g.fillStyle = "rgba(240,120,120,.45)"; g.beginPath(); g.arc(-26, -152, 7, 0, 7); g.arc(26, -152, 7, 0, 7); g.fill();
+  // olhos (piscam)
+  const pisca = o.pisca ? .12 : 1, ox = o.olhar || 0;
+  if (o.mascara) {
+    g.fillStyle = "rgba(160,220,255,.55)"; g.strokeStyle = "#ffd23f"; g.lineWidth = 6;
+    rr(-38, -186, 76, 34, 14); g.fill(); g.stroke();
+    g.strokeStyle = "#ffd23f"; g.lineWidth = 7; g.beginPath(); g.moveTo(40, -170); g.lineTo(52, -170); g.lineTo(52, -214); g.stroke();
+  }
+  g.fillStyle = "#fff";
+  g.beginPath(); g.ellipse(-15, -170, 10, 12 * pisca, 0, 0, 7); g.ellipse(15, -170, 10, 12 * pisca, 0, 0, 7); g.fill();
+  g.fillStyle = "#222";
+  g.beginPath(); g.ellipse(-15 + ox * 3, -169, 5, 6 * pisca, 0, 0, 7); g.ellipse(15 + ox * 3, -169, 5, 6 * pisca, 0, 0, 7); g.fill();
+  // boca
+  g.strokeStyle = "#7a2e1e"; g.lineWidth = 4; g.fillStyle = "#7a2e1e";
+  if (o.boca === "o") { g.beginPath(); g.ellipse(0, -140, 7, 9, 0, 0, 7); g.fill(); }
+  else { g.beginPath(); g.arc(0, -150, 12, .15 * Math.PI, .85 * Math.PI); g.stroke(); }
+  g.restore();
+}
+
+/* ---------- balão e textos ---------- */
+function balao(txt, x, y, k) {
+  if (k <= 0) return; const s = back(cl(k)); g.save(); g.translate(x, y); g.scale(s, s);
+  g.font = `700 28px ${F}`; const w = g.measureText(txt).width + 44;
+  g.fillStyle = "#fff"; g.shadowColor = "rgba(0,0,0,.25)"; g.shadowBlur = 12; rr(-w / 2, -64, w, 56, 22); g.fill(); g.shadowBlur = 0;
+  g.beginPath(); g.moveTo(-14, -10); g.lineTo(-30, 12); g.lineTo(8, -10); g.fill();
+  g.fillStyle = "#1e2a4a"; g.textAlign = "center"; g.textBaseline = "middle"; g.fillText(txt, 0, -36); g.restore();
+}
+function palavra(txt, x, y, k, tam) {
+  if (k <= 0) return; const s = back(cl(k)); g.save(); g.translate(x, y); g.scale(s, s); g.rotate(-.03);
+  g.font = `800 ${tam || 76}px ${F}`; g.textAlign = "center"; g.textBaseline = "middle";
+  g.lineJoin = "round"; g.lineWidth = 14; g.strokeStyle = "#1e2a4a"; g.strokeText(txt, 0, 0);
+  g.fillStyle = "#ffd23f"; g.fillText(txt, 0, 0); g.restore();
+}
+function etiqueta(txt, x, y, ax, ay, k) {
+  if (k <= 0) return; const a = out(cl(k)); g.save(); g.globalAlpha = a;
+  g.strokeStyle = "#fff"; g.lineWidth = 4; g.beginPath(); g.moveTo(x, y); g.lineTo(lerp(x, ax, a), lerp(y, ay, a)); g.stroke();
+  if (a > .95) { const an = Math.atan2(ay - y, ax - x); g.fillStyle = "#fff"; g.beginPath(); g.moveTo(ax, ay); g.lineTo(ax - 14 * Math.cos(an - .45), ay - 14 * Math.sin(an - .45)); g.lineTo(ax - 14 * Math.cos(an + .45), ay - 14 * Math.sin(an + .45)); g.fill(); }
+  g.font = `800 22px ${F}`; const w = g.measureText(txt).width + 26; g.fillStyle = "#ffd23f"; rr(x - w / 2, y - 20, w, 40, 12); g.fill();
+  g.fillStyle = "#1e2a4a"; g.textAlign = "center"; g.textBaseline = "middle"; g.fillText(txt, x, y + 1); g.restore();
+}
+function selo(t) { // marca do professor (sempre visível)
+  g.save(); g.globalAlpha = cl(t / .5); g.fillStyle = "rgba(20,28,52,.82)"; rr(W - 372, 18, 352, 60, 16); g.fill();
+  g.fillStyle = "#ffd23f"; g.font = `800 23px ${F}`; g.textAlign = "right"; g.textBaseline = "middle"; g.fillText("Prof. Welington Laignier", W - 38, 41);
+  g.fillStyle = "#fff"; g.font = `600 16px ${F}`; g.fillText("8º ano · Turmas A, B, C e D", W - 38, 63); g.restore();
+}
+function chip(txt, t0, t) {
+  const k = out(seg(t, t0, t0 + .4)); if (k <= 0) return; g.save(); g.globalAlpha = k; g.translate(lerp(-40, 0, k), 0);
+  g.font = `800 20px ${F}`; const w = g.measureText(txt).width + 30; g.fillStyle = "#ffd23f"; rr(22, 22, w, 40, 20); g.fill();
+  g.fillStyle = "#1e2a4a"; g.textBaseline = "middle"; g.fillText(txt, 37, 43); g.restore();
+}
+
+/* ---------- cenário: superfície ---------- */
+function superficie(t) {
+  const ceu = g.createLinearGradient(0, 0, 0, 430); ceu.addColorStop(0, "#5ec8ff"); ceu.addColorStop(1, "#c9f0ff");
+  g.fillStyle = ceu; g.fillRect(0, 0, W, 440);
+  g.fillStyle = "#ffe066"; g.beginPath(); g.arc(1040, 140, 62, 0, 7); g.fill();
+  g.fillStyle = "rgba(255,224,102,.3)"; g.beginPath(); g.arc(1040, 140, 62 + 12 + 6 * Math.sin(t * 3), 0, 7); g.fill();
+  g.fillStyle = "#fff";
+  for (let i = 0; i < 4; i++) { const x = ((i * 380 + t * 30) % 1700) - 200, y = 90 + i * 40; g.beginPath(); g.arc(x, y, 30, 0, 7); g.arc(x + 34, y - 12, 38, 0, 7); g.arc(x + 70, y, 28, 0, 7); g.fill(); }
+  // ilha / Brasil ao longe
+  g.fillStyle = "#3fb26b"; g.beginPath(); g.ellipse(120, 440, 190, 46, 0, Math.PI, 0); g.fill();
+  // mar
+  const mar = g.createLinearGradient(0, 430, 0, 720); mar.addColorStop(0, "#1c8fe0"); mar.addColorStop(1, "#0b4f9c");
+  g.fillStyle = mar; g.fillRect(0, 430, W, 290);
+  g.fillStyle = "rgba(255,255,255,.35)";
+  for (let i = 0; i < 9; i++) { const x = ((i * 170 + t * 60) % 1500) - 100; g.fillRect(x, 470 + (i % 3) * 60, 70, 5); }
+  // ondas
+  g.fillStyle = "#58b4f0"; g.beginPath(); g.moveTo(0, 440);
+  for (let x = 0; x <= W; x += 20) g.lineTo(x, 432 + Math.sin(x / 50 + t * 3) * 7); g.lineTo(W, 460); g.lineTo(0, 460); g.fill();
+}
+function barco(t, x) {
+  const b = Math.sin(t * 2.6) * 6, r = Math.sin(t * 2.6 + 1) * .04;
+  g.save(); g.translate(x, 455 + b); g.rotate(r);
+  // aluno no barco
+  const acena = t < 2.2 ? Math.sin(t * 9) * .4 : 0;
+  boneco({ x: 0, y: -12, s: .95, braco: -2.5 + acena, bracoE: .2, pisca: (t % 2.4) < .12, boca: t > 1 ? "o" : "sorri" });
+  // celular na mão esquerda
+  g.save(); g.translate(-38, -78); g.rotate(-.2); g.fillStyle = "#222"; rr(-14, -24, 28, 48, 6); g.fill(); g.fillStyle = "#5ec8ff"; rr(-10, -19, 20, 36, 3); g.fill();
+  g.fillStyle = "#fff"; g.beginPath(); g.moveTo(-4, -8); g.lineTo(6, -1); g.lineTo(-4, 6); g.fill(); g.restore();
+  g.fillStyle = "#e8553d"; g.beginPath(); g.moveTo(-120, -20); g.lineTo(120, -20); g.lineTo(90, 30); g.lineTo(-90, 30); g.closePath(); g.fill();
+  g.fillStyle = "#fff"; g.fillRect(-110, -14, 220, 8);
+  g.restore();
+}
+
+/* ---------- cenário: fundo do mar ---------- */
+const PEIXES = Array.from({ length: 9 }, (_, i) => ({ y: 120 + rnd(i) * 360, v: 40 + rnd(i + 9) * 70, x0: rnd(i + 20) * 1500, s: .6 + rnd(i + 3) * .7, cor: ["#ff8a3d", "#ffd23f", "#ff5d8f", "#7cf0c5"][i % 4], dir: i % 3 ? 1 : -1 }));
+function peixe(x, y, s, cor, dir, t) {
+  g.save(); g.translate(x, y); g.scale(s * dir, s); const ab = Math.sin(t * 10 + x) * .25;
+  g.fillStyle = cor; g.beginPath(); g.ellipse(0, 0, 34, 20, 0, 0, 7); g.fill();
+  g.beginPath(); g.moveTo(-28, 0); g.lineTo(-56, -18 + ab * 20); g.lineTo(-56, 18 + ab * 20); g.fill();
+  g.fillStyle = "#fff"; g.beginPath(); g.arc(18, -5, 7, 0, 7); g.fill(); g.fillStyle = "#222"; g.beginPath(); g.arc(20, -5, 3.5, 0, 7); g.fill();
+  g.restore();
+}
+function cabo(t, raio) { // caminho do cabo no fundo
+  return x => 600 + Math.sin(x / 210) * 10;
+}
+function fundo(t, cam, semAlgas) {
+  const agua = g.createLinearGradient(0, 0, 0, H); agua.addColorStop(0, "#0d63b8"); agua.addColorStop(1, "#06204d");
+  g.fillStyle = agua; g.fillRect(0, 0, W, H);
+  // raios de luz
+  g.save(); g.globalCompositeOperation = "lighter";
+  for (let i = 0; i < 5; i++) { const x = 160 + i * 260 + Math.sin(t * .8 + i) * 30 - cam * .2; g.fillStyle = "rgba(120,200,255,.07)"; g.beginPath(); g.moveTo(x, 0); g.lineTo(x + 90, 0); g.lineTo(x + 230, H); g.lineTo(x + 60, H); g.fill(); }
+  g.restore();
+  // camada de trás: algas e rochas distantes (parallax lento)
+  g.fillStyle = "#0a3a75";
+  for (let i = 0; i < 8; i++) { const x = ((i * 220 - cam * .3) % 1760 + 1760) % 1760 - 200; g.beginPath(); g.ellipse(x, 640, 140, 70, 0, Math.PI, 0); g.fill(); }
+  // peixes distantes
+  PEIXES.slice(0, 4).forEach((p, i) => peixe(((p.x0 + p.v * t * p.dir - cam * .4) % 1600 + 1600) % 1600 - 160, p.y - 40, p.s * .55, "rgba(255,255,255,.35)", p.dir, t));
+  // chão
+  g.fillStyle = "#d9b26a"; g.beginPath(); g.moveTo(0, 620); for (let x = 0; x <= W; x += 40) g.lineTo(x, 615 + Math.sin((x + cam) / 90) * 8); g.lineTo(W, H); g.lineTo(0, H); g.fill();
+  g.fillStyle = "#c79a52"; for (let i = 0; i < 26; i++) { const x = ((i * 61 - cam) % 1400 + 1400) % 1400 - 60; g.beginPath(); g.arc(x, 660 + (i % 4) * 14, 4 + (i % 3), 0, 7); g.fill(); }
+  // cabo submarino
+  const yC = cabo(t);
+  g.lineCap = "round"; g.strokeStyle = "#11151f"; g.lineWidth = 26; g.beginPath();
+  for (let x = -20; x <= W + 20; x += 10) { const y = yC(x + cam); x < -10 ? g.moveTo(x, y) : g.lineTo(x, y); } g.stroke();
+  g.strokeStyle = "#2c3446"; g.lineWidth = 8; g.beginPath();
+  for (let x = -20; x <= W + 20; x += 10) { const y = yC(x + cam) - 6; x < -10 ? g.moveTo(x, y) : g.lineTo(x, y); } g.stroke();
+  // pulsos de luz viajando pelo cabo
+  g.save(); g.globalCompositeOperation = "lighter";
+  for (let i = 0; i < 7; i++) {
+    const x = ((t * 520 + i * 210) % 1500) - 110, y = yC(x + cam);
+    const gr = g.createRadialGradient(x, y, 0, x, y, 46); gr.addColorStop(0, "rgba(140,240,255,1)"); gr.addColorStop(.3, "rgba(60,190,255,.6)"); gr.addColorStop(1, "rgba(60,190,255,0)");
+    g.fillStyle = gr; g.beginPath(); g.arc(x, y, 46, 0, 7); g.fill();
+    g.fillStyle = "#fff"; rr(x - 11, y - 7, 22, 14, 4); g.fill();
+  }
+  g.restore();
+  // algas da frente (parallax rápido)
+  if (!semAlgas) for (let i = 0; i < 6; i++) {
+    const x = ((i * 300 + 80 - cam * 1.3) % 1800 + 1800) % 1800 - 200;
+    g.strokeStyle = i % 2 ? "#1f9e5a" : "#2fc26f"; g.lineWidth = 14; g.lineCap = "round"; g.beginPath(); g.moveTo(x, 720);
+    for (let k = 1; k <= 6; k++) g.quadraticCurveTo(x + Math.sin(t * 2 + i + k) * 24, 720 - k * 30 + 15, x + Math.sin(t * 2 + i + k) * 18, 720 - k * 30);
+    g.stroke();
+  }
+  // peixes da frente
+  PEIXES.slice(4).forEach(p => peixe(((p.x0 + p.v * t * p.dir - cam * .8) % 1600 + 1600) % 1600 - 160, p.y, p.s, p.cor, p.dir, t));
+  // bolhas
+  g.strokeStyle = "rgba(255,255,255,.55)"; g.lineWidth = 2;
+  for (let i = 0; i < 22; i++) { const x = rnd(i + 50) * W + Math.sin(t * 2 + i) * 10, y = H - ((t * (40 + rnd(i) * 60) + rnd(i + 70) * H) % (H + 40)); g.beginPath(); g.arc(x, y, 3 + rnd(i + 5) * 7, 0, 7); g.stroke(); }
+}
+function placa(txt, x, y) { // placas dos continentes no fundo
+  g.fillStyle = "#6b4a2b"; g.fillRect(x - 4, y, 8, 50); g.fillStyle = "#fff6d6"; rr(x - 90, y - 34, 180, 40, 10); g.fill();
+  g.fillStyle = "#1e2a4a"; g.font = `800 20px ${F}`; g.textAlign = "center"; g.textBaseline = "middle"; g.fillText(txt, x, y - 13);
+}
+
+/* ---------- dentro do cabo ---------- */
+function dentro(t, k) {
+  g.fillStyle = "#081a3a"; g.fillRect(0, 0, W, H);
+  // corte do cabo (esquerda)
+  const cx = 330, cy = 390, R = 190 * back(cl(k * 1.4));
+  const camadas = [["#11151f", 1], ["#d9a63a", .78], ["#c96b3b", .62], ["#e9eef5", .46], ["#7fe3ff", .2]];
+  camadas.forEach(([cor, f]) => { g.fillStyle = cor; g.beginPath(); g.arc(cx, cy, R * f, 0, 7); g.fill(); });
+  g.save(); g.globalCompositeOperation = "lighter"; const pul = .5 + .5 * Math.sin(t * 8);
+  const gr = g.createRadialGradient(cx, cy, 0, cx, cy, R * .5); gr.addColorStop(0, `rgba(170,250,255,${.9 * pul + .1})`); gr.addColorStop(1, "rgba(80,200,255,0)");
+  g.fillStyle = gr; g.beginPath(); g.arc(cx, cy, R * .5, 0, 7); g.fill(); g.restore();
+  const e0 = 8.9;
+  etiqueta("PROTEÇÃO", 150, 150, cx - R * .7, cy - R * .7, seg(t, e0, e0 + .4));
+  etiqueta("AÇO", 560, 170, cx + R * .62, cy - R * .5, seg(t, e0 + .35, e0 + .75));
+  etiqueta("FIBRA ÓPTICA", 330, 668, cx, cy + R * .2, seg(t, e0 + .7, e0 + 1.1));
+  // fibra por dentro (direita): tubo de vidro com luz ricocheteando
+  const a = out(seg(t, 9.6, 10.1)); if (a <= 0) return;
+  g.save(); g.globalAlpha = a; const x0 = 640, x1 = 1220, yT = 330, hT = 120;
+  g.fillStyle = "rgba(200,240,255,.12)"; rr(x0, yT, x1 - x0, hT, 60); g.fill(); g.strokeStyle = "rgba(200,240,255,.7)"; g.lineWidth = 4; g.stroke();
+  g.save(); rr(x0, yT, x1 - x0, hT, 60); g.clip(); g.globalCompositeOperation = "lighter";
+  g.strokeStyle = "rgba(140,240,255,.95)"; g.lineWidth = 6; g.shadowColor = "#7fe3ff"; g.shadowBlur = 18;
+  const fase = (t - 9.6) * 700; g.beginPath();
+  for (let x = x0 - 200; x <= x1; x += 4) { const p = ((x - fase) % 160 + 160) % 160, y = yT + 12 + (p < 80 ? p / 80 : 2 - p / 80) * (hT - 24); x <= x0 - 196 ? g.moveTo(x, y) : g.lineTo(x, y); }
+  g.stroke(); g.restore();
+  g.fillStyle = "#fff"; g.font = `700 22px ${F}`; g.textAlign = "center"; g.fillText("a luz vai batendo nas paredes do vidro e segue em frente", (x0 + x1) / 2, yT + hT + 46);
+  g.restore();
+}
+
+/* ---------- linha do tempo ---------- */
+function render(t) {
+  g.setTransform(1, 0, 0, 1, 0, 0); g.clearRect(0, 0, W, H);
+  const mergulho = io(seg(t, 2.3, 3.7));        // câmera desce da superfície para o fundo
+  const zoom = seg(t, 7.6, 8.5);                 // câmera entra no cabo
+  const cam = Math.max(0, t - 3) * 60;           // câmera anda para a direita no fundo
+  if (zoom < 1) {
+    g.save();
+    if (zoom > 0) { const z = 1 + Math.pow(io(zoom), 2) * 14, px = 640, py = cabo(t)(640 + cam); g.translate(px, py); g.scale(z, z); g.translate(-px, -py); }
+    if (mergulho < 1) { g.save(); g.translate(0, -mergulho * H); superficie(t); barco(t, 640);
+      balao("De onde vem esse vídeo?", 700, 245, seg(t, .6, 1)); g.restore(); }
+    if (mergulho > 0) {
+      g.save(); g.translate(0, (1 - mergulho) * H); fundo(t, cam, zoom > 0);
+      placa("BRASIL", 120 - cam, 540); placa("OUTRO CONTINENTE", 1700 - cam, 540);
+      // aluno mergulhador entra nadando
+      const ent = out(seg(t, 3.6, 4.6)), nx = lerp(-160, 330, ent), ny = lerp(420, 520, ent) + Math.sin(t * 2.4) * 8;
+      const aponta = seg(t, 4.7, 5.0);
+      boneco({ x: nx, y: ny, s: 1.15, mascara: true, rot: lerp(-.9, 0, ent) * (1 - aponta) + .05, perna: Math.sin(t * 9) * .6 * (1 - aponta), braco: lerp(-1.2, -1.0, aponta), dedo: aponta > .5, bracoE: .3, boca: aponta > .5 ? "o" : "sorri", olhar: 1, pisca: (t % 2.1) < .1 });
+      balao("É por aqui que o vídeo passa!", nx + 330, ny - 150, seg(t, 5.1, 5.4) * (1 - seg(t, 7.3, 7.5)));
+      etiqueta("FUNDO DO MAR", 900, 470, 940, 590, seg(t, 6.0, 6.4) * (1 - seg(t, 7.3, 7.5)));
+      g.restore();
+    }
+    g.restore();
+    if (mergulho > 0 && zoom < .6) palavra("CABO SUBMARINO", 640, 128, seg(t, 5.4, 5.8) * (1 - seg(t, 7.3, 7.6)), 78);
+    if (zoom > .7) { g.fillStyle = `rgba(255,255,255,${(zoom - .7) / .3})`; g.fillRect(0, 0, W, H); }
+  } else {
+    dentro(t, seg(t, 8.5, 9.1));
+    g.fillStyle = `rgba(255,255,255,${1 - seg(t, 8.5, 8.8)})`; g.fillRect(0, 0, W, H);
+    palavra("LUZ", 930, 210, seg(t, 10.2, 10.55), 110);
+    // mini aluno surpreso no canto
+    const mk = back(seg(t, 10.5, 10.9)); if (mk > 0) { boneco({ x: 1185, y: 712, s: .55 * mk, mascara: true, braco: -2.6, bracoE: -2.6 + .3, boca: "o", olhar: -1 }); balao("Uau!", 1080, 625, seg(t, 10.8, 11.1)); }
+  }
+  // chips de etapa
+  if (t < 2.3) chip("O PEDIDO", .2, t); else if (t < 7.6) chip("O CABO SUBMARINO", 3.7, t); else chip("DENTRO DO CABO", 8.6, t);
+  selo(t);
+  // final: cartão
+  const fim = seg(t, 11.6, 12.0);
+  if (fim > 0) { g.fillStyle = `rgba(14,22,46,${fim})`; g.fillRect(0, 0, W, H); g.globalAlpha = fim; g.textAlign = "center"; g.fillStyle = "#ffd23f"; g.font = `800 52px ${F}`; g.fillText("Prof. Welington Laignier", 640, 340);
+    g.fillStyle = "#fff"; g.font = `600 26px ${F}`; g.fillText("8º ano · Missão 2 · Internet por dentro  —  teste do estilo 2D", 640, 395); g.globalAlpha = 1; }
+}
+window.render = render; window.T = T;
+document.fonts.load(`800 40px Poppins`).then(() => { window.pronto = true; render(0); });
+</script></body></html>
