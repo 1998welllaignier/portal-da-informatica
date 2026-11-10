@@ -1,0 +1,258 @@
+<!doctype html><html><head><meta charset="utf-8"><title>6º ano · Missão 1 · v4</title>
+<style>html,body{margin:0;background:#000}canvas{display:block}</style></head><body>
+<canvas id="c" width="1280" height="720"></canvas>
+<script>const W = 1280, H = 720, c = document.getElementById("c"), g = c.getContext("2d"); const F = "Poppins, 'DejaVu Sans', sans-serif"; window.SELO_SERIE = "6º ano · Turmas A, B e C";</script>
+<script src="../lib.js"></script>
+<script>
+/* ================= peças de cenário ================= */
+const NAVY = "#14213d", AZUL = "#2f7be0", AMAR = "#ffd23f", ROSA = "#ff6fa5", VERDE = "#2fc26f";
+const ANA = { camisa: ROSA, cabelo: "longo" };
+const ana = o => boneco(Object.assign({}, ANA, o));
+function fundoSala(t) {
+  g.fillStyle = "#f6e7c8"; g.fillRect(0, 0, W, H);
+  g.fillStyle = "#e9d3a6"; g.fillRect(0, 500, W, 220);
+  g.fillStyle = "#2f5d4a"; rr(120, 70, 520, 250, 14); g.fill(); g.strokeStyle = "#b07a3c"; g.lineWidth = 12; g.stroke();
+  g.fillStyle = "rgba(255,255,255,.75)"; g.font = `700 30px ${F}`; g.textAlign = "left"; g.fillText("Informática", 160, 130);
+  g.fillStyle = "#fff"; g.beginPath(); g.arc(1090, 120, 46, 0, 7); g.fill(); g.strokeStyle = NAVY; g.lineWidth = 6; g.stroke();
+  g.beginPath(); g.moveTo(1090, 120); g.lineTo(1090, 92); g.moveTo(1090, 120); g.lineTo(1112, 128); g.stroke();
+}
+function mesa(x, y) { g.fillStyle = "#b07a3c"; g.fillRect(x - 230, y, 460, 26); g.fillStyle = "#8a5a28"; g.fillRect(x - 210, y + 26, 20, 190); g.fillRect(x + 190, y + 26, 20, 190); }
+function monitor(x, y, s, tela) { // tela(x0,y0,w,h)
+  g.save(); g.translate(x, y); g.scale(s, s);
+  g.fillStyle = "#2b2f3a"; rr(-150, -200, 300, 190, 16); g.fill();
+  g.fillStyle = "#3a3f4d"; g.fillRect(-14, -12, 28, 34); rr(-70, 18, 140, 14, 7); g.fill();
+  g.save(); rr(-136, -186, 272, 160, 8); g.clip(); g.fillStyle = "#eaf6ff"; g.fillRect(-136, -186, 272, 160); if (tela) tela(-136, -186, 272, 160); g.restore();
+  g.restore();
+}
+function teclado(x, y, s, pressK) {
+  g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = "#3a3f4d"; rr(-130, -20, 260, 46, 10); g.fill();
+  g.fillStyle = "#e9edf5"; for (let r = 0; r < 3; r++) for (let k = 0; k < 11; k++) { rr(-120 + k * 22, -14 + r * 13, 18, 10, 2); g.fill(); }
+  g.restore();
+}
+function mouse(x, y, s) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = "#e9edf5"; g.beginPath(); g.ellipse(0, 0, 22, 32, 0, 0, 7); g.fill(); g.strokeStyle = "#3a3f4d"; g.lineWidth = 3; g.stroke(); g.beginPath(); g.moveTo(0, -32); g.lineTo(0, -6); g.stroke(); g.restore(); }
+function microfone(x, y, s) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = "#3a3f4d"; rr(-18, -60, 36, 62, 18); g.fill(); g.strokeStyle = "#3a3f4d"; g.lineWidth = 6; g.beginPath(); g.arc(0, -20, 30, .1 * Math.PI, .9 * Math.PI); g.stroke(); g.beginPath(); g.moveTo(0, 10); g.lineTo(0, 34); g.moveTo(-20, 34); g.lineTo(20, 34); g.stroke(); g.restore(); }
+function gabinete(x, y, s, luz) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = "#2b2f3a"; rr(-60, -200, 120, 200, 12); g.fill(); g.fillStyle = "#3a3f4d"; rr(-44, -184, 88, 18, 4); g.fill(); rr(-44, -158, 88, 18, 4); g.fill(); g.fillStyle = luz ? "#3dff8b" : "#555"; g.beginPath(); g.arc(0, -40, 9, 0, 7); g.fill(); g.restore(); }
+function caixaSom(x, y, s, t) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = "#2b2f3a"; rr(-40, -110, 80, 110, 12); g.fill(); g.fillStyle = "#555"; g.beginPath(); g.arc(0, -40, 26, 0, 7); g.fill(); g.beginPath(); g.arc(0, -88, 12, 0, 7); g.fill();
+  if (t != null) { g.strokeStyle = AMAR; g.lineWidth = 5; for (let i = 0; i < 3; i++) { const r = 40 + ((t * 60 + i * 22) % 66); g.globalAlpha = 1 - (r - 40) / 66; g.beginPath(); g.arc(30, -50, r, -.6, .6); g.stroke(); } g.globalAlpha = 1; } g.restore(); }
+function impressora(x, y, s, k) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = "#fff"; g.fillRect(-50, -70 + 60 * (1 - k), 100, 70); g.strokeStyle = "#ccd"; g.lineWidth = 3; for (let i = 0; i < 3; i++) { g.beginPath(); g.moveTo(-34, -50 + i * 16 + 60 * (1 - k)); g.lineTo(34, -50 + i * 16 + 60 * (1 - k)); g.stroke(); }
+  g.fillStyle = "#3a3f4d"; rr(-90, -40, 180, 80, 14); g.fill(); g.fillStyle = "#2b2f3a"; g.fillRect(-60, 0, 120, 10); g.fillStyle = "#3dff8b"; g.beginPath(); g.arc(66, -20, 6, 0, 7); g.fill(); g.restore(); }
+function celular(x, y, s, tela) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = "#1c1f27"; rr(-80, -160, 160, 320, 26); g.fill(); g.save(); rr(-70, -146, 140, 292, 16); g.clip(); g.fillStyle = "#dff3ff"; g.fillRect(-70, -146, 140, 292); if (tela) tela(); g.restore(); g.restore(); }
+function pasta(x, y, s, cor, nome, aberta) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = cor || "#f5b82e"; rr(-60, -50, 50, 20, 6); g.fill(); rr(-60, -40, 120, 84, 10); g.fill(); if (aberta) { g.fillStyle = "#ffd977"; g.beginPath(); g.moveTo(-60, 44); g.lineTo(-44, -12); g.lineTo(70, -12); g.lineTo(60, 44); g.fill(); }
+  if (nome) { g.fillStyle = NAVY; g.font = `800 22px ${F}`; g.textAlign = "center"; g.fillText(nome, 0, 74); } g.restore(); }
+function arquivo(x, y, s, rot, cor, txt) { g.save(); g.translate(x, y); g.rotate(rot || 0); g.scale(s, s); g.fillStyle = "#fff"; g.beginPath(); g.moveTo(-34, -44); g.lineTo(18, -44); g.lineTo(34, -28); g.lineTo(34, 44); g.lineTo(-34, 44); g.closePath(); g.fill(); g.strokeStyle = cor || AZUL; g.lineWidth = 4; g.stroke();
+  g.fillStyle = cor || AZUL; g.fillRect(-22, -14, 44, 6); g.fillRect(-22, 0, 44, 6); g.fillRect(-22, 14, 30, 6); if (txt) { g.font = `800 16px ${F}`; g.textAlign = "center"; g.fillText(txt, 0, 36); } g.restore(); }
+function desenhoAna(x0, y0, w, h, k) { // sol, casa e grama, aparecendo conforme k
+  if (k <= 0) return; g.save(); g.lineCap = "round";
+  g.fillStyle = "#7ed957"; g.fillRect(x0, y0 + h * .78, w * cl(k * 3), h * .22);
+  if (k > .25) { const kk = cl((k - .25) * 3); g.fillStyle = "#ffcc33"; g.beginPath(); g.arc(x0 + w * .8, y0 + h * .25, 22 * kk, 0, 7); g.fill(); }
+  if (k > .5) { const kk = cl((k - .5) * 3); g.fillStyle = "#e8553d"; g.globalAlpha = kk; g.fillRect(x0 + w * .22, y0 + h * .48, w * .32, h * .3); g.fillStyle = "#8a3b20"; g.beginPath(); g.moveTo(x0 + w * .18, y0 + h * .5); g.lineTo(x0 + w * .38, y0 + h * .26); g.lineTo(x0 + w * .58, y0 + h * .5); g.fill(); }
+  g.restore();
+}
+function cursor(x, y, clique) { g.save(); g.translate(x, y); g.fillStyle = "#fff"; g.strokeStyle = "#111"; g.lineWidth = 2.5; g.beginPath(); g.moveTo(0, 0); g.lineTo(0, 30); g.lineTo(8, 23); g.lineTo(14, 36); g.lineTo(19, 34); g.lineTo(13, 21); g.lineTo(23, 21); g.closePath(); g.fill(); g.stroke();
+  if (clique > 0 && clique < 1) { g.strokeStyle = `rgba(255,210,63,${1 - clique})`; g.lineWidth = 4; g.beginPath(); g.arc(0, 0, 10 + clique * 30, 0, 7); g.stroke(); } g.restore(); }
+function seta(x1, y1, x2, y2, k, cor) { if (k <= 0) return; const x = lerp(x1, x2, k), y = lerp(y1, y2, k), an = Math.atan2(y2 - y1, x2 - x1); g.strokeStyle = cor || "#fff"; g.fillStyle = cor || "#fff"; g.lineWidth = 7; g.lineCap = "round"; g.beginPath(); g.moveTo(x1, y1); g.lineTo(x, y); g.stroke();
+  g.beginPath(); g.moveTo(x + 6 * Math.cos(an), y + 6 * Math.sin(an)); g.lineTo(x - 20 * Math.cos(an - .5), y - 20 * Math.sin(an - .5)); g.lineTo(x - 20 * Math.cos(an + .5), y - 20 * Math.sin(an + .5)); g.fill(); }
+function pacotes(x1, y1, x2, y2, t, n, cor) { g.save(); g.globalCompositeOperation = "lighter"; for (let i = 0; i < n; i++) { const k = ((t * .9 + i / n) % 1), x = lerp(x1, x2, k), y = lerp(y1, y2, k); const gr = g.createRadialGradient(x, y, 0, x, y, 24); gr.addColorStop(0, cor || "rgba(140,240,255,1)"); gr.addColorStop(1, "rgba(60,190,255,0)"); g.fillStyle = gr; g.beginPath(); g.arc(x, y, 24, 0, 7); g.fill(); } g.restore(); }
+function cartao(txt, x, y, w, cor, k, sub) { if (k <= 0) return; const s = back(cl(k)); g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = cor; g.shadowColor = "rgba(0,0,0,.25)"; g.shadowBlur = 14; rr(-w / 2, -56, w, 112, 22); g.fill(); g.shadowBlur = 0;
+  g.fillStyle = "#fff"; g.font = `800 34px ${F}`; g.textAlign = "center"; g.textBaseline = "middle"; g.fillText(txt, 0, sub ? -14 : 0); if (sub) { g.font = `600 19px ${F}`; g.fillText(sub, 0, 24); } g.restore(); }
+function fundoEscuro(t, cor) { const gr = g.createLinearGradient(0, 0, 0, H); gr.addColorStop(0, cor || "#1b2c5a"); gr.addColorStop(1, "#0d1631"); g.fillStyle = gr; g.fillRect(0, 0, W, H);
+  g.fillStyle = "rgba(255,255,255,.05)"; for (let i = 0; i < 40; i++) { const x = (rnd(i) * W + t * 10 * (1 + rnd(i + 3))) % W, y = rnd(i + 9) * H; g.beginPath(); g.arc(x, y, 2 + rnd(i + 1) * 3, 0, 7); g.fill(); } }
+function confete(t, t0) { const k = t - t0; if (k < 0 || k > 2.6) return; for (let i = 0; i < 70; i++) { const x = rnd(i) * W + Math.sin(k * 3 + i) * 30, y = -20 + k * (220 + rnd(i + 4) * 260) - rnd(i + 8) * 200; g.save(); g.translate(x, y); g.rotate(k * 5 + i); g.fillStyle = [AMAR, ROSA, VERDE, AZUL, "#fff"][i % 5]; g.fillRect(-6, -3, 12, 6); g.restore(); } }
+function maoApontando(x, y, ang, s, espelho, manga) { // ponta do indicador em (x,y); o resto da mão fica para trás
+  g.save(); g.translate(x, y); g.rotate(ang); g.scale(s, espelho ? -s : s);
+  g.lineWidth = 3; g.strokeStyle = "#c9926a"; g.fillStyle = manga || ROSA; rr(-196, -16, 70, 74, 12); g.fill();
+  g.fillStyle = "#f1c7a0";
+  rr(-136, -10, 66, 62, 20); g.fill(); g.stroke();            // palma
+  rr(-116, -27, 44, 17, 8); g.fill(); g.stroke();              // polegar
+  rr(-84, 12, 26, 15, 7); g.fill(); g.stroke();                // dedos dobrados
+  rr(-86, 27, 24, 14, 7); g.fill(); g.stroke();
+  rr(-88, 41, 22, 13, 6); g.fill(); g.stroke();
+  rr(-76, -9, 76, 19, 9); g.fill(); g.stroke();                // indicador esticado
+  g.fillStyle = "#f8dcc4"; rr(-16, -6, 13, 12, 5); g.fill();   // unha
+  g.restore();
+}
+const pisca = (t, p) => (t % (p || 2.3)) < .11;
+
+/* ================= cenas ================= */
+// fala = texto exato da narração (também vira legenda). dur estimado até chegar o MP3.
+const CENAS = [
+ { chip: "", fala: "O computador e meus arquivos: o mistério do trabalho que sumiu.", sfx: [[.1, "whoosh"], [.9, "pop"]],
+   draw(t, D) { fundoEscuro(t);
+     const k = out(seg(t, 0, .8)); monitor(640, 330 + (1 - k) * 60, 1.05 * k, (x, y, w, h) => { pasta(x + w / 2, y + h / 2 + 4, 1, null, null, true); arquivo(x + w / 2 + 30, y + h / 2 - 20 - Math.sin(t * 3) * 6, .55, .2, AZUL); });
+     g.fillStyle = "#fff"; g.textAlign = "center"; g.globalAlpha = out(seg(t, .5, 1.1)); g.font = `700 22px ${F}`; g.fillStyle = AMAR; g.fillText("6º ANO · MISSÃO 1", 640, 420);
+     g.fillStyle = "#fff"; g.font = `800 52px ${F}`; g.fillText("O computador e meus arquivos", 640, 480); g.font = `600 26px ${F}`; g.fillStyle = "#cfe0ff"; g.fillText("o mistério do trabalho que sumiu", 640, 520); g.globalAlpha = 1;
+     const kp = back(seg(t, 1.1, 1.6)); if (kp > 0) { g.save(); g.translate(640, 590); g.scale(kp, kp); g.fillStyle = "rgba(255,255,255,.1)"; rr(-230, -32, 460, 64, 32); g.fill(); g.fillStyle = AMAR; g.font = `800 28px ${F}`; g.textBaseline = "middle"; g.fillText("👨‍🏫 Prof. Welington Laignier", 0, 0); g.restore(); g.textBaseline = "alphabetic"; }
+     ana({ x: 1060, y: 690, s: .9 * back(seg(t, 1.4, 1.9)), braco: -2.5 + Math.sin(t * 8) * .3, pisca: pisca(t) }); } },
+ { chip: "O PROBLEMA", fala: "A Ana passou a aula inteira fazendo um desenho no computador. Tocou o sinal, ela fechou o programa… e o desenho sumiu! O que aconteceu?", sfx: [[4.2, "sino"], [5.6, "click"], [5.9, "sumiu"]],
+   draw(t, D) { fundoSala(t); mesa(640, 520); const fechou = t > 5.6;
+     monitor(640, 520, 1.25, (x, y, w, h) => { g.fillStyle = "#fff"; g.fillRect(x, y, w, h); g.fillStyle = "#cfd8e6"; g.fillRect(x, y, w, 16); g.fillStyle = "#e8553d"; g.fillRect(x + w - 16, y, 16, 16);
+       const kd = cl(t / 4) * (fechou ? 0 : 1); desenhoAna(x + 10, y + 22, w - 20, h - 30, kd);
+       if (fechou) { const f = seg(t, 5.6, 6.4); g.globalAlpha = 1 - f; desenhoAna(x + 10, y + 22 + f * 60, w - 20, h - 30, 1); g.globalAlpha = 1; } });
+     if (!fechou) cursor(640 + Math.sin(t * 2.2) * 80 * (t < 4.4 ? 1 : 0) + (t > 4.6 ? lerp(0, 150, seg(t, 4.6, 5.5)) : 0), 330 + Math.cos(t * 1.7) * 30 * (t < 4.4 ? 1 : 0) - (t > 4.6 ? lerp(0, 60, seg(t, 4.6, 5.5)) : 0), seg(t, 5.5, 5.9));
+     // sino tocando
+     if (t > 4.0 && t < 5.4) { const sh = Math.sin(t * 50) * .25; g.save(); g.translate(1090, 260); g.rotate(sh); g.fillStyle = AMAR; g.beginPath(); g.arc(0, 0, 34, Math.PI, 0); g.lineTo(40, 26); g.lineTo(-40, 26); g.fill(); g.beginPath(); g.arc(0, 32, 9, 0, 7); g.fill(); g.restore(); palavra("TRIM!", 1090, 340, seg(t, 4.1, 4.4), 46); }
+     ana({ x: 330, y: 615, s: 1.1, braco: fechou ? -2.7 : -.9, bracoE: fechou ? 2.7 : .3, boca: t > 5.9 ? "o" : "sorri", olhar: 1, pisca: pisca(t) });
+     balao("Cadê o meu desenho?!", 420, 330, seg(t, 6.2, 6.5)); } },
+ { chip: "3 ETAPAS", fala: "Para descobrir, vamos entrar no computador e ver como ele trabalha. Tudo acontece em três etapas: entrada, processamento e saída.", sfx: [[.2, "whoosh"], [3.6, "pop"], [4.6, "pop"], [5.7, "pop"]],
+   draw(t, D) { const z = io(seg(t, 0, 1.2));
+     if (z < 1) { g.save(); const zz = 1 + z * z * 10; g.translate(640, 330); g.scale(zz, zz); g.translate(-640, -330); fundoSala(t); mesa(640, 520); monitor(640, 520, 1.25, (x, y, w, h) => { g.fillStyle = "#fff"; g.fillRect(x, y, w, h); }); g.restore(); g.fillStyle = `rgba(13,22,49,${z})`; g.fillRect(0, 0, W, H); return; }
+     fundoEscuro(t); const cards = [["ENTRADA", "#2f7be0", 3.4], ["PROCESSAMENTO", "#8b5cf6", 4.4], ["SAÍDA", "#16a34a", 5.5]];
+     cards.forEach(([n, cor, t0], i) => cartao(n, 220 + i * 420, 330, i === 1 ? 380 : 300, cor, seg(t, t0, t0 + .4)));
+     seta(380, 330, 420, 330, seg(t, 4.2, 4.5)); seta(838, 330, 880, 330, seg(t, 5.3, 5.6));
+     pacotes(80, 330, 1200, 330, t, 5);
+     ana({ x: 640, y: 600, s: .7 * back(seg(t, 1.3, 1.7)), braco: -2.4, pisca: pisca(t), olhar: 0 }); } },
+ { chip: "ENTRADA", fala: "Entrada é quando o computador recebe informações: pelo teclado, pelo mouse ou pelo microfone.", sfx: [[.1, "whoosh"], [1.2, "pop"], [2.6, "tec"], [3.4, "click"], [4.3, "pop"]],
+   draw(t, D) { fundoEscuro(t, "#173a78"); gabinete(900, 520, 1.3, true); g.fillStyle = "#fff"; g.font = `800 24px ${F}`; g.textAlign = "center"; g.fillText("COMPUTADOR", 900, 560);
+     const it = [[teclado, 260, 250, 2.4], [mouse, 260, 400, 3.2], [microfone, 260, 580, 4.1]];
+     it.forEach(([fn, x, y, t0]) => { const k = out(seg(t, t0 - .5, t0)); if (k <= 0) return; fn(lerp(-120, x, k), y, fn === teclado ? 1 : 1.4); seta(x + 160, y - 10, 820, 400, seg(t, t0, t0 + .5)); if (t > t0 + .5) pacotes(x + 160, y - 10, 820, 400, t, 3); });
+     palavra("ENTRADA", 640, 138, seg(t, 1.0, 1.4), 84); etiqueta("RECEBE INFORMAÇÕES", 640, 218, 640, 218, seg(t, 1.6, 2.0)); } },
+ { chip: "PROCESSAMENTO", fala: "Processamento é o trabalho do processador, a CPU: o cérebro do computador, que faz os cálculos e segue os comandos. Ele fica dentro do gabinete.", sfx: [[.2, "whoosh"], [2.0, "pop"], [3.6, "zum"], [7.2, "pop"]],
+   draw(t, D) { const z = io(seg(t, 0, 1.4));
+     g.fillStyle = "#0d1631"; g.fillRect(0, 0, W, H);
+     if (z < 1) { g.save(); const zz = 1 + z * z * 7; g.translate(640, 380); g.scale(zz, zz); g.translate(-640, -380); fundoEscuro(t, "#173a78"); gabinete(640, 520, 1.6, true); g.restore(); g.fillStyle = `rgba(13,22,49,${z})`; g.fillRect(0, 0, W, H); }
+     else { // placa-mãe por dentro
+       g.fillStyle = "#0f5132"; g.fillRect(0, 0, W, H); g.strokeStyle = "#1f8a57"; g.lineWidth = 4;
+       for (let i = 0; i < 14; i++) { const y = 60 + i * 48; g.beginPath(); g.moveTo(0, y); g.lineTo(380 + (i % 3) * 30, y); g.lineTo(420 + (i % 3) * 30, 360); g.stroke(); g.beginPath(); g.moveTo(W, y); g.lineTo(900 - (i % 3) * 30, y); g.lineTo(860 - (i % 3) * 30, 360); g.stroke(); }
+       pacotes(0, 120, 520, 360, t, 3, "rgba(255,230,120,1)"); pacotes(W, 600, 760, 360, t + .4, 3, "rgba(255,230,120,1)");
+       const kc = back(seg(t, 1.6, 2.1)); g.save(); g.translate(640, 360); g.scale(kc, kc); g.rotate(Math.sin(t * 2) * .02);
+       g.fillStyle = "#c9ccd6"; for (let i = -4; i <= 4; i++) { g.fillRect(i * 22 - 4, -150, 8, 22); g.fillRect(i * 22 - 4, 128, 8, 22); g.fillRect(-150, i * 22 - 4, 22, 8); g.fillRect(128, i * 22 - 4, 22, 8); }
+       g.fillStyle = "#2b2f3a"; rr(-130, -130, 260, 260, 18); g.fill(); g.fillStyle = "#3a3f4d"; rr(-100, -100, 200, 200, 12); g.fill();
+       const brilho = .5 + .5 * Math.sin(t * 6); g.fillStyle = `rgba(255,210,63,${.35 + .45 * brilho})`; g.font = `800 64px ${F}`; g.textAlign = "center"; g.textBaseline = "middle"; g.fillText("CPU", 0, 0); g.restore(); g.textBaseline = "alphabetic";
+       // engrenagens = cálculos
+       if (t > 3.5) for (let i = 0; i < 2; i++) { g.save(); g.translate(i ? 1010 : 270, i ? 560 : 200); g.rotate(t * (i ? -2 : 2)); g.fillStyle = AMAR; for (let k = 0; k < 8; k++) { g.rotate(Math.PI / 4); g.fillRect(-10, -58, 20, 22); } g.beginPath(); g.arc(0, 0, 42, 0, 7); g.fill(); g.fillStyle = "#0f5132"; g.beginPath(); g.arc(0, 0, 16, 0, 7); g.fill(); g.restore(); }
+       if (t > 3.8) { g.fillStyle = "#fff"; g.font = `800 30px ${F}`; g.textAlign = "center"; ["2+3=5", "SE…ENTÃO", "7×8=56"].forEach((s, i) => { const k = ((t * .5 + i / 3) % 1); g.globalAlpha = Math.sin(k * Math.PI); g.fillText(s, i === 1 ? 1050 : 230, (i === 2 ? 470 : 380) - k * 70); }); g.globalAlpha = 1; }
+       palavra("PROCESSAMENTO", 640, 138, seg(t, 2.0, 2.4), 70);
+       etiqueta("CPU = Unidade Central de Processamento", 640, 588, 640, 500, seg(t, 4.2, 4.6));
+       etiqueta("DENTRO DO GABINETE", 1060, 200, 800, 300, seg(t, 7.0, 7.4)); } } },
+ { chip: "SAÍDA", fala: "Saída é quando o computador mostra o resultado: no monitor, na caixa de som ou na impressora.", sfx: [[.1, "whoosh"], [1.2, "pop"], [2.5, "pop"], [3.3, "som"], [4.2, "impressora"]],
+   draw(t, D) { fundoEscuro(t, "#14532d"); gabinete(260, 520, 1.3, true); g.fillStyle = "#fff"; g.font = `800 24px ${F}`; g.textAlign = "center"; g.fillText("COMPUTADOR", 260, 560);
+     const sai = [[t0 => monitor(900, 300, .7, (x, y, w, h) => { g.fillStyle = AMAR; g.beginPath(); g.arc(x + w / 2, y + h / 2, 44, 0, 7); g.fill(); g.fillStyle = NAVY; g.beginPath(); g.arc(x + w / 2 - 15, y + h / 2 - 10, 6, 0, 7); g.arc(x + w / 2 + 15, y + h / 2 - 10, 6, 0, 7); g.fill(); g.strokeStyle = NAVY; g.lineWidth = 5; g.beginPath(); g.arc(x + w / 2, y + h / 2 + 4, 20, .15 * Math.PI, .85 * Math.PI); g.stroke(); }), 900, 230, 2.4],
+       [t0 => caixaSom(1080, 480, 1.1, t), 1060, 430, 3.2], [t0 => impressora(860, 600, 1, seg(t, 4.2, 5.2)), 860, 590, 4.0]];
+     sai.forEach(([fn, x, y, t0]) => { const k = out(seg(t, t0 - .4, t0)); if (k <= 0) return; g.save(); g.globalAlpha = k; fn(t0); g.restore(); seta(340, 400, x - 120, y, seg(t, t0, t0 + .5)); if (t > t0 + .5) pacotes(340, 400, x - 120, y, t, 3); });
+     palavra("SAÍDA", 640, 138, seg(t, 1.0, 1.4), 84); etiqueta("MOSTRA O RESULTADO", 640, 218, 640, 218, seg(t, 1.6, 2.0)); } },
+ { chip: "ENTRADA E SAÍDA", fala: "E tem peça que faz as duas coisas! A tela do celular recebe o toque do dedo, que é entrada, e mostra a imagem, que é saída.", sfx: [[.1, "whoosh"], [2.6, "toque"], [3.4, "pop"], [5.4, "pop"]],
+   draw(t, D) { fundoEscuro(t, "#3b1c6e"); const toque = seg(t, 2.6, 3.2), img = seg(t, 4.6, 5.2);
+     celular(640, 380, 1.2, () => { if (img > 0) { g.globalAlpha = img; g.fillStyle = "#7ed957"; g.fillRect(-70, 40, 140, 106); g.fillStyle = "#ffcc33"; g.beginPath(); g.arc(30, -40, 26, 0, 7); g.fill(); g.fillStyle = "#e8553d"; g.fillRect(-46, 0, 50, 40); g.globalAlpha = 1; } else { g.fillStyle = "#b9d9f5"; for (let i = 0; i < 3; i++) for (let j = 0; j < 3; j++) { rr(-56 + i * 42, -110 + j * 46, 30, 30, 8); g.fill(); } } });
+     // dedo
+     const dd = t < 2.6 ? lerp(260, 0, out(seg(t, 1.6, 2.6))) : lerp(0, 220, seg(t, 3.4, 4.2)); maoApontando(690 + dd * .8, 420 + dd * .6, Math.PI + .64, 1.1, true, AZUL);
+     if (toque > 0 && toque < 1) { g.strokeStyle = `rgba(255,210,63,${1 - toque})`; g.lineWidth = 6; g.beginPath(); g.arc(690, 420, 20 + toque * 70, 0, 7); g.stroke(); }
+     cartao("ENTRADA", 260, 420, 260, AZUL, seg(t, 3.2, 3.6), "o toque do dedo"); seta(400, 420, 580, 420, seg(t, 3.5, 3.9));
+     cartao("SAÍDA", 1020, 300, 240, "#16a34a", seg(t, 5.2, 5.6), "a imagem na tela"); seta(740, 300, 880, 300, seg(t, 5.3, 5.7));
+     palavra("AS DUAS COISAS!", 640, 138, seg(t, .8, 1.2), 70); } },
+ { chip: "HARDWARE E SOFTWARE", fala: "As peças que dá para tocar são o hardware. Os programas, como o navegador e os jogos, são o software.", sfx: [[.1, "whoosh"], [1.0, "pop"], [3.6, "pop"], [4.5, "pop"]],
+   draw(t, D) { fundoEscuro(t); g.fillStyle = "rgba(255,255,255,.08)"; g.fillRect(640, 0, 2, H);
+     const kh = out(seg(t, .3, 1)); g.save(); g.globalAlpha = kh; monitor(320, 420, .8); teclado(320, 470, .9); mouse(470, 470, 1); g.restore();
+     // mão tocando
+     if (t > 1.2) { const k = Math.max(0, Math.sin((t - 1.2) * 5)); maoApontando(232, 452 + k * 8, -.55, .85, false, AZUL); }
+     palavra("HARDWARE", 320, 138, seg(t, 1.0, 1.4), 64); etiqueta("DÁ PARA TOCAR", 320, 214, 320, 214, seg(t, 1.6, 2));
+     const ks = out(seg(t, 3.0, 3.6)); if (ks > 0) { g.save(); g.globalAlpha = ks; monitor(960, 420, .8, (x, y, w, h) => { g.fillStyle = "#e3f0ff"; g.fillRect(x, y, w, h);
+       // ícone navegador (globo) e jogo (controle)
+       g.fillStyle = AZUL; g.beginPath(); g.arc(x + 80, y + 78, 40, 0, 7); g.fill(); g.strokeStyle = "#fff"; g.lineWidth = 4; g.beginPath(); g.ellipse(x + 80, y + 78, 16, 40, 0, 0, 7); g.moveTo(x + 40, y + 78); g.lineTo(x + 120, y + 78); g.stroke();
+       g.fillStyle = "#8b5cf6"; rr(x + 150, y + 54, 90, 50, 24); g.fill(); g.fillStyle = "#fff"; g.fillRect(x + 168, y + 74, 20, 8); g.fillRect(x + 174, y + 68, 8, 20); g.beginPath(); g.arc(x + 216, y + 72, 6, 0, 7); g.arc(x + 226, y + 84, 6, 0, 7); g.fill(); }); g.restore(); }
+     palavra("SOFTWARE", 960, 138, seg(t, 3.6, 4.0), 64); etiqueta("OS PROGRAMAS", 960, 214, 960, 214, seg(t, 4.2, 4.6));
+     etiqueta("NAVEGADOR", 860, 560, 870, 330, seg(t, 4.6, 5.0)); etiqueta("JOGOS", 1090, 560, 1050, 330, seg(t, 5.0, 5.4)); } },
+ { chip: "O PROBLEMA", fala: "Mas e o desenho da Ana? Enquanto ela desenhava, ele ainda não estava guardado. Quando ela fechou sem salvar, o trabalho se perdeu.", sfx: [[.1, "whoosh"], [5.6, "sumiu"]],
+   draw(t, D) { fundoSala(t); mesa(760, 520); monitor(760, 520, 1.1, (x, y, w, h) => { g.fillStyle = "#fff"; g.fillRect(x, y, w, h); });
+     ana({ x: 330, y: 615, s: 1.1, braco: -2.2, bracoE: 0.4, boca: "o", olhar: 1, pisca: pisca(t) }); balao("E o meu desenho?", 430, 330, seg(t, .5, .8) * (1 - seg(t, 3, 3.3)));
+     // lembrança: desenho flutuando tracejado, que se desfaz
+     const k = seg(t, 2.6, 3.2), some = seg(t, 5.4, 6.4); if (k > 0) { g.save(); g.globalAlpha = k * (1 - some); g.translate(760, 210 - some * 40); g.setLineDash([12, 10]); g.strokeStyle = "#fff"; g.lineWidth = 5; rr(-150, -100, 300, 200, 16); g.fillStyle = "rgba(20,33,61,.75)"; g.fill(); g.stroke(); g.setLineDash([]); desenhoAna(-140, -90, 280, 180, 1); g.restore(); }
+     etiqueta("AINDA NÃO ESTAVA GUARDADO", 760, 360, 760, 330, seg(t, 3.4, 3.8) * (1 - some));
+     if (some > 0) for (let i = 0; i < 16; i++) { const a = i / 16 * 7, r = some * 220; g.fillStyle = `rgba(255,255,255,${1 - some})`; g.beginPath(); g.arc(760 + Math.cos(a) * r, 210 + Math.sin(a) * r * .7, 7, 0, 7); g.fill(); } } },
+ { chip: "A SOLUÇÃO", fala: "A solução é salvar! Escolha onde guardar, dê um nome e clique em Salvar. Ou use o atalho: Control mais S.", sfx: [[.1, "whoosh"], [.6, "pop"], [2.2, "tec"], [3.6, "tec"], [4.6, "click"], [4.8, "ding"], [6.9, "tec"], [7.3, "ding"]],
+   draw(t, D) { fundoEscuro(t, "#1d4ed8"); palavra("SALVAR", 640, 138, seg(t, .5, .9), 84);
+     const kj = back(seg(t, .9, 1.4)); if (kj > 0 && t < 6.1) { g.save(); g.translate(640, 370); g.scale(kj, kj); g.fillStyle = "#fff"; g.shadowColor = "rgba(0,0,0,.3)"; g.shadowBlur = 20; rr(-330, -170, 660, 340, 18); g.fill(); g.shadowBlur = 0;
+       g.fillStyle = "#e3e8f2"; rr(-330, -170, 660, 50, 18); g.fill(); g.fillRect(-330, -140, 660, 20); g.fillStyle = NAVY; g.font = `800 24px ${F}`; g.textAlign = "left"; g.textBaseline = "middle"; g.fillText("Salvar como", -300, -145);
+       g.font = `700 22px ${F}`; g.fillText("1. Onde guardar:", -300, -70); g.fillText("2. Nome:", -300, 10);
+       const f1 = seg(t, 1.8, 2.4), f2 = seg(t, 3.0, 4.0); g.strokeStyle = "#94a3b8"; g.lineWidth = 3; rr(-60, -95, 360, 50, 10); g.stroke(); rr(-60, -15, 360, 50, 10); g.stroke();
+       if (f1 > 0) { pasta(-30, -68, .32); g.fillStyle = NAVY; g.font = `700 21px ${F}`; g.fillText("Pasta da Ana".slice(0, Math.ceil(12 * f1)), 0, -70); }
+       if (f2 > 0) { g.fillStyle = NAVY; g.font = `700 21px ${F}`; g.fillText("Meu desenho".slice(0, Math.ceil(11 * f2)), -44, 10); }
+       const kb = seg(t, 4.6, 4.9); g.fillStyle = kb > 0 ? "#16a34a" : AZUL; rr(150, 80, 150, 60, 14); g.fill(); g.fillStyle = "#fff"; g.textAlign = "center"; g.font = `800 24px ${F}`; g.fillText(kb > 0 ? "✓ Salvo!" : "Salvar", 225, 110); g.restore(); g.textBaseline = "alphabetic";
+       cursor(lerp(760, 880, seg(t, 4.0, 4.6)), lerp(540, 490, seg(t, 4.0, 4.6)), seg(t, 4.6, 5.1)); }
+     if (t > 5.9) { const ka = back(seg(t, 5.9, 6.4)); g.save(); g.translate(640, 380); g.scale(ka, ka);
+       const tecla = (x, txt, p) => { const dy = p ? 10 : 0; g.fillStyle = "#94a3b8"; rr(x - 110, -60 + 14, 220, 120, 20); g.fill(); g.fillStyle = "#fff"; rr(x - 110, -60 + dy, 220, 120, 20); g.fill(); g.fillStyle = NAVY; g.font = `800 52px ${F}`; g.textAlign = "center"; g.textBaseline = "middle"; g.fillText(txt, x, dy); };
+       const p = t > 6.9 && t < 7.6; tecla(-170, "Ctrl", p); tecla(170, "S", p); g.fillStyle = "#fff"; g.font = `800 60px ${F}`; g.fillText("+", 0, 0); g.restore(); g.textBaseline = "alphabetic";
+       etiqueta("ATALHO PARA SALVAR", 640, 560, 640, 560, seg(t, 7.2, 7.6)); } } },
+ { chip: "ARMAZENAMENTO", fala: "O arquivo fica guardado no armazenamento: no HD, no SSD ou no pen drive. E continua lá, mesmo com o computador desligado.", sfx: [[.1, "whoosh"], [1.0, "desce"], [2.6, "pop"], [3.3, "pop"], [4.1, "pop"], [5.6, "desliga"], [7.0, "ding"]],
+   draw(t, D) { fundoEscuro(t, "#3b1c6e"); palavra("ARMAZENAMENTO", 640, 138, seg(t, .4, .8), 74);
+     const kf = out(seg(t, .8, 2.0)); arquivo(640, lerp(200, 330, kf), 1.1, Math.sin(t * 2) * .05 * (1 - kf), AZUL, "desenho");
+     const it = [["HD", "disco rígido", 300, 2.6], ["SSD", "unidade de estado sólido", 640, 3.3], ["PEN DRIVE", "", 980, 4.1]];
+     it.forEach(([n, sub, x, t0], i) => { const k = back(seg(t, t0 - .3, t0 + .1)); if (k <= 0) return; g.save(); g.translate(x, 450); g.scale(k, k);
+       if (i === 0) { g.fillStyle = "#94a3b8"; rr(-90, -70, 180, 140, 14); g.fill(); g.fillStyle = "#e2e8f0"; g.beginPath(); g.arc(-10, 0, 52, 0, 7); g.fill(); g.strokeStyle = "#64748b"; g.lineWidth = 3; g.save(); g.rotate(t * 8); g.beginPath(); g.moveTo(-10, 0); g.lineTo(40, 0); g.stroke(); g.restore(); g.fillStyle = "#475569"; g.fillRect(40, -40, 30, 8); }
+       else if (i === 1) { g.fillStyle = "#1e293b"; rr(-90, -60, 180, 120, 12); g.fill(); g.fillStyle = "#334155"; for (let a = 0; a < 3; a++) { rr(-70 + a * 50, -36, 40, 50, 6); g.fill(); } g.fillStyle = AMAR; g.fillRect(-80, 40, 160, 8); }
+       else { g.fillStyle = "#c0c7d4"; rr(-30, -96, 60, 40, 6); g.fill(); g.fillStyle = "#e8553d"; rr(-40, -60, 80, 140, 18); g.fill(); g.fillStyle = "#fff"; g.font = `800 18px ${F}`; g.textAlign = "center"; g.fillText("USB", 0, 20); }
+       g.restore(); cartao(n, x, 568, n.length > 3 ? 250 : 170, "rgba(255,255,255,.12)", seg(t, t0, t0 + .3), sub || null); });
+     if (t > 4.4 && t < 5.4) { const k = seg(t, 4.4, 5.4); arquivo(lerp(640, 300, k), lerp(330, 420, k), lerp(1.1, .5, k), 0, AZUL); }
+     // computador desliga, arquivo continua
+     const des = seg(t, 5.5, 6.0); if (des > 0) { g.fillStyle = `rgba(0,0,0,${.6 * des})`; g.fillRect(0, 0, W, H); g.fillStyle = "#fff"; g.font = `800 30px ${F}`; g.textAlign = "center"; g.globalAlpha = des; g.fillText("⏻ computador desligado", 640, 250); g.globalAlpha = 1;
+       const ok = back(seg(t, 6.8, 7.2)); if (ok > 0) { g.save(); g.translate(300, 440); g.scale(ok, ok); g.fillStyle = "#16a34a"; g.beginPath(); g.arc(0, 0, 42, 0, 7); g.fill(); g.strokeStyle = "#fff"; g.lineWidth = 9; g.beginPath(); g.moveTo(-18, 0); g.lineTo(-4, 15); g.lineTo(20, -14); g.stroke(); g.restore(); etiqueta("CONTINUA LÁ!", 500, 380, 350, 430, seg(t, 7.0, 7.4)); } } } },
+ { chip: "PASTAS", fala: "Para não virar bagunça, usamos pastas: elas são como gavetas que organizam os arquivos. E lembre: nunca apague nem mexa nos arquivos dos colegas.", sfx: [[.1, "whoosh"], [2.4, "pop"], [3.2, "voa"], [3.6, "voa"], [4.0, "voa"], [6.6, "alerta"]],
+   draw(t, D) { fundoEscuro(t, "#7c2d12"); palavra("PASTAS", 640, 138, seg(t, 2.2, 2.6), 84);
+     const nomes = ["Textos", "Desenhos", "Fotos"], cores = ["#f5b82e", "#60a5fa", "#4ade80"];
+     nomes.forEach((n, i) => { const k = back(seg(t, 2.6 + i * .15, 3.0 + i * .15)); if (k > 0) pasta(340 + i * 300, 470, 1.4 * k, cores[i], n, t > 3.2); });
+     for (let i = 0; i < 9; i++) { const dest = i % 3, t0 = 3.2 + (i % 3) * .4 + Math.floor(i / 3) * .12, k = io(seg(t, t0, t0 + .7));
+       const x0 = 160 + rnd(i) * 960, y0 = 190 + rnd(i + 5) * 120, x = lerp(x0, 340 + dest * 300, k), y = lerp(y0, 440, k) + Math.sin(t * 3 + i) * 6 * (1 - k);
+       if (k < 1) arquivo(x, y, lerp(.7, .3, k), lerp(rnd(i + 2) - .5, 0, k), cores[dest]); }
+     const ka = seg(t, 6.4, 6.8); if (ka > 0) { g.fillStyle = `rgba(0,0,0,${.55 * ka})`; g.fillRect(0, 0, W, H); const s = back(ka); g.save(); g.translate(640, 400); g.scale(s, s);
+       pasta(0, 0, 1.8, "#a3a3a3", null); g.strokeStyle = "#ef4444"; g.lineWidth = 16; g.beginPath(); g.arc(0, 0, 130, 0, 7); g.stroke(); g.beginPath(); g.moveTo(-92, -92); g.lineTo(92, 92); g.stroke(); g.restore();
+       etiqueta("ARQUIVOS DOS COLEGAS: NÃO MEXA!", 640, 586, 640, 586, seg(t, 6.8, 7.2)); } } },
+ { chip: "METADADOS", fala: "Cada arquivo também tem nome, tipo, tamanho e data. Essas informações sobre o arquivo se chamam metadados.", sfx: [[.1, "whoosh"], [1.2, "pop"], [1.9, "pop"], [2.6, "pop"], [3.3, "pop"], [5.2, "pop"]],
+   draw(t, D) { fundoEscuro(t, "#0f3d3e"); arquivo(340, 380 + Math.sin(t * 2) * 6, 2.6, -.05, AZUL, "desenho");
+     // lupa
+     const lx = 340 + Math.sin(t * 1.5) * 40, ly = 360 + Math.cos(t * 1.2) * 30; g.strokeStyle = "#fff"; g.lineWidth = 12; g.beginPath(); g.arc(lx, ly, 70, 0, 7); g.stroke(); g.lineWidth = 18; g.beginPath(); g.moveTo(lx + 50, ly + 50); g.lineTo(lx + 110, ly + 110); g.stroke(); g.fillStyle = "rgba(255,255,255,.12)"; g.beginPath(); g.arc(lx, ly, 64, 0, 7); g.fill();
+     const linhas = [["Nome", "Meu desenho"], ["Tipo", "Imagem"], ["Tamanho", "250 KB"], ["Data", "09/11/2026"]];
+     const kp = out(seg(t, .6, 1.1)); g.save(); g.globalAlpha = kp; g.fillStyle = "#fff"; rr(640, 190, 520, 360, 18); g.fill(); g.fillStyle = NAVY; g.font = `800 26px ${F}`; g.textAlign = "left"; g.fillText("Propriedades", 670, 240); g.restore();
+     linhas.forEach(([a, b], i) => { const k = out(seg(t, 1.2 + i * .7, 1.6 + i * .7)); if (k <= 0) return; g.save(); g.globalAlpha = k; g.translate((1 - k) * 40, 0); g.fillStyle = "#e3e8f2"; rr(670, 270 + i * 66, 460, 54, 10); g.fill(); g.fillStyle = "#64748b"; g.font = `700 22px ${F}`; g.fillText(a, 690, 305 + i * 66); g.fillStyle = NAVY; g.font = `800 22px ${F}`; g.fillText(b, 860, 305 + i * 66); g.restore(); });
+     palavra("METADADOS", 640, 138, seg(t, 5.0, 5.4), 80); etiqueta("INFORMAÇÕES SOBRE O ARQUIVO", 900, 592, 900, 556, seg(t, 5.6, 6.0)); } },
+ { chip: "FINAL FELIZ", fala: "Na aula seguinte, a Ana salvou o desenho na pasta dela. Fechou o programa, abriu de novo… e ele estava lá!", sfx: [[.1, "whoosh"], [2.4, "ding"], [3.6, "click"], [4.8, "click"], [5.6, "festa"]],
+   draw(t, D) { fundoSala(t); mesa(760, 520); const fase = t < 3.6 ? 0 : t < 4.8 ? 1 : 2;
+     monitor(760, 520, 1.1, (x, y, w, h) => { g.fillStyle = "#fff"; g.fillRect(x, y, w, h);
+       if (fase === 0) { desenhoAna(x + 10, y + 10, w - 20, h - 20, 1); if (t > 2.2) { g.fillStyle = "#16a34a"; rr(x + w - 110, y + h - 40, 100, 30, 8); g.fill(); g.fillStyle = "#fff"; g.font = `800 16px ${F}`; g.textAlign = "center"; g.fillText("✓ Salvo", x + w - 60, y + h - 20); } }
+       else if (fase === 1) { pasta(x + w / 2, y + h / 2, .9, null, null); arquivo(x + w / 2 + 6, y + h / 2 - 6, .45, 0, AZUL); }
+       else { desenhoAna(x + 10, y + 10, w - 20, h - 20, cl((t - 4.8) * 4)); } });
+     ana({ x: 330, y: 615, s: 1.1, braco: t > 5.4 ? -2.8 + Math.sin(t * 12) * .2 : -1.0, bracoE: t > 5.4 ? 2.8 : .3, boca: "sorri", olhar: 1, pisca: pisca(t) });
+     balao("Está aqui!", 420, 330, seg(t, 5.5, 5.8)); confete(t, 5.5); } },
+ { chip: "ONDE EU USO ISSO?", fala: "Onde eu uso isso? A foto que você tira no celular vira um arquivo. E quando você separa as fotos em álbuns, está organizando em pastas.", sfx: [[.1, "whoosh"], [2.0, "foto"], [3.0, "pop"], [5.4, "voa"], [6.0, "pop"]],
+   draw(t, D) { fundoEscuro(t, "#1e3a8a"); const flash = seg(t, 2.0, 2.4), virou = seg(t, 2.8, 3.3), alb = seg(t, 5.0, 5.8);
+     celular(400, 380, 1.2, () => { if (alb > 0) { [["Família", "#f5b82e"], ["Escola", "#60a5fa"], ["Passeio", "#4ade80"]].forEach(([n, cor], i) => { g.globalAlpha = cl(alb * 3 - i); pasta(0, -90 + i * 92, .62, cor); g.fillStyle = NAVY; g.font = `800 15px ${F}`; g.textAlign = "center"; g.fillText(n, 0, -90 + i * 92 + 48); }); g.globalAlpha = 1; }
+       else { g.fillStyle = "#7dd3fc"; g.fillRect(-70, -146, 140, 292); g.fillStyle = "#7ed957"; g.fillRect(-70, 60, 140, 86); g.fillStyle = "#ffcc33"; g.beginPath(); g.arc(30, -60, 26, 0, 7); g.fill(); ana({ x: -10, y: 110, s: .45, braco: -2.5, pisca: false }); } });
+     if (flash > 0 && flash < 1) { g.fillStyle = `rgba(255,255,255,${1 - flash})`; g.fillRect(0, 0, W, H); }
+     if (virou > 0) { arquivo(lerp(400, 880, out(virou)), lerp(380, 300, out(virou)), 1.6, 0, AZUL, "foto.jpg"); seta(520, 340, 760, 310, seg(t, 3.0, 3.4)); etiqueta("VIROU UM ARQUIVO", 880, 450, 880, 400, seg(t, 3.3, 3.7)); }
+     if (alb > .3) etiqueta("ÁLBUNS = PASTAS", 880, 560, 520, 470, seg(t, 6.0, 6.4)); } },
+ { chip: "", fala: "Agora é com vocês: abram a Missão 1 no portal!", sfx: [[.1, "whoosh"], [1.0, "festa"]],
+   draw(t, D) { fundoEscuro(t); g.textAlign = "center"; g.globalAlpha = out(seg(t, 0, .6)); g.fillStyle = AMAR; g.font = `800 62px ${F}`; g.fillText("Prof. Welington Laignier", 640, 300);
+     g.fillStyle = "#fff"; g.font = `700 30px ${F}`; g.fillText("6º ano · Turmas A, B e C · Missão 1", 640, 350); g.font = `800 40px ${F}`; g.fillStyle = "#cfe0ff"; g.fillText("Abram a Missão 1 no portal! 🚀", 640, 430); g.globalAlpha = 1;
+     ana({ x: 1040, y: 700, s: .9, braco: -2.8 + Math.sin(t * 10) * .25, bracoE: 2.8, pisca: pisca(t) }); boneco({ x: 240, y: 700, s: .9, braco: -2.6, bracoE: 2.6 - Math.sin(t * 10) * .25, pisca: pisca(t + .7) }); confete(t, .9); } }
+];
+
+/* ================= tempo das cenas ================= */
+// Sem o MP3: estimativa pelo número de palavras. Com o MP3: window.DURS = [...] (segundos de cada cena, vindos das pausas da voz).
+const est = f => Math.max(4.2, f.split(/\s+/).length / 2.55 + 1.3);
+let DUR = CENAS.map((s, i) => (window.DURS && window.DURS[i]) || est(s.fala));
+function inicio() { const a = [0]; DUR.forEach(d => a.push(a[a.length - 1] + d)); return a; }
+let INI = inicio(), T = INI[INI.length - 1];
+window.definirDuracoes = d => { DUR = d; INI = inicio(); T = INI[INI.length - 1]; window.T = T; };
+
+function legenda(txt, k) { // legenda embaixo, acendendo palavra por palavra
+  const pal = txt.split(" "), n = Math.floor(pal.length * cl(k * 1.08)); g.font = `700 26px ${F}`;
+  const linhas = [[]]; let w = 0; pal.forEach((p, i) => { const pw = g.measureText(p + " ").width; if (w + pw > 1080) { linhas.push([]); w = 0; } linhas[linhas.length - 1].push([p, i]); w += pw; });
+  const lh = 36, y0 = H - 22 - linhas.length * lh; g.fillStyle = "rgba(10,16,36,.72)"; rr(70, y0 - 10, W - 140, linhas.length * lh + 18, 14); g.fill();
+  linhas.forEach((ln, j) => { const tw = ln.reduce((s, [p]) => s + g.measureText(p + " ").width, 0); let x = (W - tw) / 2; ln.forEach(([p, i]) => { g.fillStyle = i < n ? "#fff" : "rgba(255,255,255,.45)"; g.textAlign = "left"; g.fillText(p, x, y0 + 18 + j * lh); x += g.measureText(p + " ").width; }); });
+}
+function render(t) {
+  g.setTransform(1, 0, 0, 1, 0, 0); g.globalAlpha = 1; g.textBaseline = "alphabetic";
+  let i = INI.findIndex((s, k) => t >= s && t < INI[k + 1]); if (i < 0) i = CENAS.length - 1;
+  const tl = t - INI[i], D = DUR[i], cena = CENAS[i];
+  // as animações foram pensadas no tempo estimado; com a voz real, o tempo da cena estica ou encolhe junto
+  const esc = est(cena.fala) / D, tt = tl * esc;
+  g.save(); cena.draw(tt, D); g.restore();
+  g.setTransform(1, 0, 0, 1, 0, 0); g.globalAlpha = 1; g.textAlign = "left";
+  if (cena.chip) chip(cena.chip, 0, tt);
+  selo(t);
+  if (i > 0 && i < CENAS.length - 1) legenda(cena.fala, tl / Math.max(.1, D - .9));
+  // transição suave
+  const tr = cl(1 - tl / .25); if (i > 0 && tr > 0) { g.fillStyle = `rgba(13,22,49,${tr})`; g.fillRect(0, 0, W, H); }
+}
+window.listaSfx = () => { const o = []; CENAS.forEach((s, i) => (s.sfx || []).forEach(([tt, tipo]) => o.push([INI[i] + tt * DUR[i] / est(s.fala), tipo]))); return o; };
+window.render = render; window.T = T; window.CENAS = CENAS;
+document.fonts.load(`800 40px Poppins`).then(() => { window.pronto = true; render(0); });
+</script></body></html>

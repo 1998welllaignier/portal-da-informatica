@@ -1,0 +1,31 @@
+O computador e meus arquivos: o mistério do trabalho que sumiu.
+
+A Ana passou a aula inteira fazendo um desenho no computador. Tocou o sinal, ela fechou o programa… e o desenho sumiu! O que aconteceu?
+
+Para descobrir, vamos entrar no computador e ver como ele trabalha. Tudo acontece em três etapas: entrada, processamento e saída.
+
+Entrada é quando o computador recebe informações: pelo teclado, pelo mouse ou pelo microfone.
+
+Processamento é o trabalho do processador, a CPU: o cérebro do computador, que faz os cálculos e segue os comandos. Ele fica dentro do gabinete.
+
+Saída é quando o computador mostra o resultado: no monitor, na caixa de som ou na impressora.
+
+E tem peça que faz as duas coisas! A tela do celular recebe o toque do dedo, que é entrada, e mostra a imagem, que é saída.
+
+As peças que dá para tocar são o hardware. Os programas, como o navegador e os jogos, são o software.
+
+Mas e o desenho da Ana? Enquanto ela desenhava, ele ainda não estava guardado. Quando ela fechou sem salvar, o trabalho se perdeu.
+
+A solução é salvar! Escolha onde guardar, dê um nome e clique em Salvar. Ou use o atalho: Control mais S.
+
+O arquivo fica guardado no armazenamento: no HD, no SSD ou no pen drive. E continua lá, mesmo com o computador desligado.
+
+Para não virar bagunça, usamos pastas: elas são como gavetas que organizam os arquivos. E lembre: nunca apague nem mexa nos arquivos dos colegas.
+
+Cada arquivo também tem nome, tipo, tamanho e data. Essas informações sobre o arquivo se chamam metadados.
+
+Na aula seguinte, a Ana salvou o desenho na pasta dela. Fechou o programa, abriu de novo… e ele estava lá!
+
+Onde eu uso isso? A foto que você tira no celular vira um arquivo. E quando você separa as fotos em álbuns, está organizando em pastas.
+
+Agora é com vocês: abram a Missão 1 no portal!
