@@ -242,8 +242,8 @@
             <p class="av-t">👓 Óculos</p><div class="av-row">${op("oculos")}</div></div>
           </div></div>
         <div class="row-btns av-bts"><button type="button" class="btn btn-grande btn-ok" id="av-ok">✔ Pronto! Salvar o meu avatar</button>
-          <button type="button" class="btn btn-sec" id="av-pula">Pular${anterior ? " (usar o que já tenho)" : " (usar o padrão)"}</button></div>
-        <p class="ajuda">Quando o tempo acabar, você entra com o avatar ${anterior ? "que já tinha salvo" : "padrão"}. O avatar aparece no placar e no pódio da aula.</p></div></section>`);
+          <button type="button" class="btn btn-sec" id="av-pula">${anterior ? "😎 Entrar com o mesmo da última vez" : "Pular (usar o padrão)"}</button></div>
+        <p class="ajuda">${anterior ? "Este é o avatar que você usou da última vez: mude o que quiser ou entre com ele mesmo. " : ""}Quando o tempo acabar, você entra com o avatar ${anterior ? "da última vez" : "padrão"}. O avatar aparece no placar e no pódio da aula.</p></div></section>`);
       // passo 1 primeiro: as roupas, profissões e camisas de futebol só destravam depois de escolher masculino/feminino, pele e cabelo
       const fez = { tipo: !!(anterior && anterior.tipo), pele: !!anterior, cabelo: !!anterior };
       const pinta = () => {
