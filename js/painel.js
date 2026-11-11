@@ -143,7 +143,7 @@
   const tela = html => mountFn(`<section class="tela painel-prof">${html}</section>`);
   const topo = (u, ativo) => `<nav class="migalhas"><a href="#/">Início</a> › <a href="#/painel">Painel do professor</a></nav>
     <div class="pp-cab"><div><h1>📊 Painel do professor</h1><p class="lead">${esc(cat().professor)} · ${esc(cat().escola)}</p></div>
-      <div class="pp-user"><button class="btn btn-peq pp-hor-btn" id="pp-hor" type="button">🗓️ Horários</button><button class="btn btn-peq pp-hor-btn" id="pp-cod" type="button">🔑 Códigos</button><button class="btn btn-peq pp-vivo-btn" id="pp-vivo" type="button">🔴 Ao vivo</button><span>${esc(u.email)}</span><button class="btn btn-sec btn-peq" id="pp-sair" type="button">Sair do painel</button></div></div>
+      <div class="pp-user"><button class="btn btn-peq pp-hor-btn" id="pp-hor" type="button">🗓️ Horários</button><button class="btn btn-peq pp-hor-btn" id="pp-cod" type="button">🔑 Códigos</button><button class="btn btn-peq pp-vivo-btn" id="pp-vivo" type="button">🔴 Ao vivo</button><button class="btn btn-peq pp-placar-btn" id="pp-placar" type="button" title="Abre numa aba nova, para deixar no projetor">🏆 Placar</button><span>${esc(u.email)}</span><button class="btn btn-sec btn-peq" id="pp-sair" type="button">Sair do painel</button></div></div>
     <nav class="pp-abas">${[["aula", "🎤 Aula"], ["", "🏫 Turmas"], ["diario", "📒 Diário"], ["presenca", "🗓️ Presença"], ["prova", "📝 Prova"], ["importar", "📥 Importar alunos"], ["ano", "📅 Ano letivo"]].map(([k, r]) =>
       `<a href="#/painel${k ? "/" + k : ""}" class="${ativo === k ? "atual" : ""}">${r}</a>`).join("")}</nav>${ajudaAba(ativo)}`;
   /* ❓ quadro "Para que serve e como usar" de cada aba (fica fechado; o professor abre quando quiser) */
@@ -247,6 +247,78 @@
     dlg.querySelector("#pc-b").oninput = pintar;
     await carregarT(); dlg.querySelector("#pc-b").focus();
   }
+  /* 🏁 finalizar a aula: grava o pódio (config/podio_<turma>, que os alunos leem) e fecha as tarefas até o fim da aula */
+  async function carregarSerie(t) { await Promise.all(cat().apostilas.filter(a => a.serie === t.serie.id).map(a => P.carregarApostila(a.id).catch(() => null))); }
+  async function finalizarAula(t, alunos, prog, mid) {
+    await carregarSerie(t);
+    const hoje = N.hoje(), rk = P.podio.ranking(alunos, prog, mid, hoje);
+    const ranking = rk.map(e => ({ ids: e.ids, nomes: e.nomes, pontos: e.pontos, pos: e.pos, avatares: e.avatares.map(a => a || null), trilha: !!e.trilha }));
+    await db().collection("config").doc("podio_" + t.id).set({ dia: hoje, mid, finalizadaEm: Date.now(), ranking });
+    let ate = Date.now() + 60000;
+    if (t.aula && t.aula.ini) { const d = new Date(), [H, M] = t.aula.ini.split(":").map(Number); d.setHours(H, M + (cat().duracaoAula || 75) + (cat().toleranciaTarefas || 15), 0, 0); ate = Math.max(ate, d.getTime()); }
+    await db().collection("config").doc("liberar_" + t.id).set({ fechadaAte: ate, ate: 0 }, { merge: true });
+    return rk;
+  }
+  async function missaoDeHoje(t) {
+    const ap = cat().apostilas.find(a => a.serie === t.serie.id && !a.oculta && !a.trilha) || cat().apostilas.find(a => a.serie === t.serie.id);
+    await P.carregarApostila(ap.id); const C = P.conteudo[ap.id];
+    try { const h = await db().collection("config").doc("hoje_" + t.id).get(); if (h.exists && h.data().dia === N.hoje() && h.data().mid) return { mid: h.data().mid, C }; } catch (e) {}
+    return { mid: missaoDoDia(t, C) || C.missoes[0].id, C };
+  }
+  /* 🏆 Placar ao vivo (para o projetor): ranking que muda na hora; congela nos últimos 5 min; vira pódio ao finalizar */
+  async function telaPlacar(u, tid) {
+    const turmas = todasTurmas(), t = turmas.find(x => x.id === tid) || turmas.find(x => x.id === escolherTurma(null, turmas));
+    DUR = cat().duracaoAula || 75;
+    document.body.classList.add("modo-placar");
+    window.addEventListener("hashchange", function sai() { document.body.classList.remove("modo-placar"); window.removeEventListener("hashchange", sai); });
+    await carregarSerie(t);
+    const { mid, C } = await missaoDeHoje(t), missao = C.missoes.find(x => x.id === mid) || {};
+    const alunos = (await alunosDaTurma(t.id)).filter(a => a.ativo !== false && !a.teste);
+    const el = tela(`<div class="pl-tela"><header class="pl-cab"><div><p class="pl-sup">🏆 Placar ao vivo · ${esc(nomeTurma(t.id))}</p><h1>${esc(missao.icone || "")} ${esc(missao.titulo || mid.toUpperCase())}</h1>
+        <p class="pl-aviso">Pontos do pódio (não são nota) · ${esc(cat().professor)}</p></div>
+        <div class="pl-dir"><div class="pl-relogio" id="pl-rel"></div><div class="pl-bts"><button type="button" class="btn btn-peq btn-sec" id="pl-tela">⛶ Tela cheia</button><button type="button" class="btn btn-peq" id="pl-fim">🏁 Finalizar aula</button><button type="button" class="btn btn-peq btn-sec" id="pl-volta" hidden>↩ Voltar ao placar</button></div></div></header>
+      <div class="pl-corpo" id="pl-corpo"></div></div>`);
+    let prog = [], pod = null, vendoPodio = false, finalizando = false;
+    const corpo = el.querySelector("#pl-corpo");
+    const relogio = () => { const { dia, m } = agoraBR(); const ini = t.aula && t.aula.ini ? hm(t.aula.ini) : null; if (ini == null || t.aula.dia !== dia) return { fora: true };
+      const s = new Date(Date.now() + (new Date().getTimezoneOffset() - 180) * 60000), seg = s.getHours() * 3600 + s.getMinutes() * 60 + s.getSeconds(), fim = (ini + DUR) * 60;
+      return { antes: seg < ini * 60, depois: seg >= fim, r: fim - seg, fimTxt: fhm(ini + DUR) }; };
+    const pintarPlacar = () => {
+      if (vendoPodio) return;
+      const rel = relogio(), congelado = !rel.fora && !rel.antes && !rel.depois && rel.r <= 300;
+      if (congelado) { corpo.innerHTML = `<div class="pl-cong"><p>🤫</p><h2>Placar congelado!</h2><p>Faltam menos de 5 minutos. O resultado só aparece no pódio… Corram!</p></div>`; return; }
+      const rk = P.podio.ranking(alunos, prog, mid, N.hoje());
+      if (!rk.length) { corpo.innerHTML = `<div class="pl-cong"><p>⏳</p><h2>Esperando a turma entrar…</h2><p>O placar começa assim que os alunos entrarem com o código.</p></div>`; return; }
+      let lista = corpo.querySelector(".pl-lista"); if (!lista) { corpo.innerHTML = `<div class="pl-lista"></div>`; lista = corpo.querySelector(".pl-lista"); }
+      lista.style.height = rk.length * 74 + "px";
+      const vivos = new Set();
+      rk.forEach((e, i) => { const k = e.ids.join("+"); vivos.add(k); let n = lista.querySelector(`[data-k="${CSS.escape(k)}"]`);
+        const novo = h(P.podio.linhaPlacar(e, i));
+        if (n) { n.className = novo.className; n.innerHTML = novo.innerHTML; n.style.top = i * 74 + "px"; } else lista.appendChild(novo); });
+      lista.querySelectorAll(".pl-lin").forEach(n => { if (!vivos.has(n.dataset.k)) n.remove(); });
+    };
+    const mostrarPodio = () => { if (!pod) return; vendoPodio = true; el.querySelector("#pl-volta").hidden = false;
+      corpo.innerHTML = `<div class="pd-tela"><h2 class="pd-tit">🏆 Pódio da aula!</h2>${P.podio.podioHTML(pod.ranking || [])}</div>`; P.podio.confete(corpo.querySelector(".pd-tela")); };
+    el.querySelector("#pl-volta").onclick = () => { vendoPodio = false; el.querySelector("#pl-volta").hidden = true; corpo.innerHTML = ""; pintarPlacar(); };
+    el.querySelector("#pl-tela").onclick = () => { const d = document.documentElement; (document.fullscreenElement ? document.exitFullscreen() : d.requestFullscreen()).catch(() => {}); };
+    const finalizar = async auto => { if (finalizando) return; finalizando = true;
+      try { await finalizarAula(t, alunos, prog, mid); if (!auto) toast("🏁 Aula finalizada!"); } catch (err) { toast("Não foi possível finalizar: " + (err.message || err)); } finalizando = false; };
+    el.querySelector("#pl-fim").onclick = () => { if (confirm("Finalizar a aula agora? As tarefas fecham e o pódio aparece aqui e na tela dos alunos.")) finalizar(false); };
+    const u1 = db().collection("progresso").where("turma", "==", t.id).onSnapshot(q => { prog = q.docs.map(d => ({ id: d.id, ...d.data() })); pintarPlacar(); }, err => toast("Placar: " + (err.message || err)));
+    let jaVi = 0;
+    const u2 = db().collection("config").doc("podio_" + t.id).onSnapshot(sn => { const d = sn.exists ? sn.data() : null;
+      pod = d && d.dia === N.hoje() ? d : null; if (pod && pod.finalizadaEm !== jaVi) { jaVi = pod.finalizadaEm; mostrarPodio(); } });
+    const iv = setInterval(() => {
+      if (!document.body.contains(el)) { clearInterval(iv); u1(); u2(); return; }
+      const rel = relogio(), r = el.querySelector("#pl-rel");
+      if (rel.fora) r.innerHTML = `<span class="pl-r-txt">Fora do horário da aula</span>`;
+      else if (rel.antes) r.innerHTML = `<span class="pl-r-txt">A aula ainda não começou</span>`;
+      else if (rel.depois) { r.innerHTML = `<span class="pl-r-txt">⏰ Tempo esgotado</span>`; if (!pod && prog.length) finalizar(true); }
+      else { r.className = "pl-relogio" + (rel.r <= 300 ? " fim pisca" : rel.r <= 600 ? " fim" : ""); r.innerHTML = `⏱️ <b>${Math.floor(rel.r / 60)}:${String(rel.r % 60).padStart(2, "0")}</b><span class="pl-r-txt">termina às ${rel.fimTxt}</span>`; }
+      if (!vendoPodio && !rel.fora && !rel.antes && !rel.depois && rel.r <= 300 && !corpo.querySelector(".pl-cong")) pintarPlacar();
+    }, 1000);
+  }
+
   /* 🔴 Ao vivo: quem entrou na aula hoje, em que parte da missão está, o que falta e quanto tempo falta para o fim da aula.
      Lê o progresso que o portal já grava (só leitura) e atualiza sozinho quando um aluno avança. */
   async function abrirAoVivo() {
@@ -254,7 +326,7 @@
     if (document.querySelector(".pp-vivo-dlg")) return;
     const turmas = todasTurmas(); let tid = escolherTurma(null, turmas), unsub = null, iv = null;
     const dlg = h(`<dialog class="pp-dlg pp-dlg-larga pp-vivo-dlg"><form method="dialog"><div class="pp-hor-top"><h2>🔴 Ao vivo</h2><button class="btn btn-sec btn-peq" value="x">Fechar</button></div>
-      <div class="row-btns"><label>Turma <select id="pv-t">${turmas.map(x => `<option value="${x.id}" ${x.id === tid ? "selected" : ""}>${esc(nomeTurma(x.id))}</option>`).join("")}</select></label><span class="grow" id="pv-rel"></span></div>
+      <div class="row-btns"><label>Turma <select id="pv-t">${turmas.map(x => `<option value="${x.id}" ${x.id === tid ? "selected" : ""}>${esc(nomeTurma(x.id))}</option>`).join("")}</select></label><span class="grow" id="pv-rel"></span><button type="button" class="btn btn-peq pp-placar-btn" id="pv-placar">🏆 Placar no projetor</button><button type="button" class="btn btn-peq" id="pv-fim">🏁 Finalizar aula</button></div>
       <div id="pv-c"><p class="ajuda">Carregando…</p></div>
       <p class="ajuda">Atualiza sozinho quando um aluno avança. “Parado” = sem nenhuma atividade há mais de 10 minutos.</p></form></dialog>`);
     document.body.appendChild(dlg); dlg.showModal();
@@ -310,10 +382,13 @@
         err => { dlg.querySelector("#pv-c").innerHTML = `<p class="ajuda">Não foi possível acompanhar ao vivo: ${esc(err.message || err)}</p>`; });
     };
     dlg.querySelector("#pv-t").onchange = e => { tid = e.target.value; carregarT(); };
+    dlg.querySelector("#pv-placar").onclick = () => window.open("#/painel/placar/" + tid, "_blank");
+    dlg.querySelector("#pv-fim").onclick = async () => { if (!estado || !confirm("Finalizar a aula agora? As tarefas fecham e o pódio aparece no placar e na tela dos alunos.")) return;
+      try { await finalizarAula(estado.t, estado.alunos, estado.prog, estado.mid); toast("🏁 Aula finalizada! O pódio está no placar."); } catch (err) { toast("Não foi possível finalizar: " + (err.message || err)); } };
     iv = setInterval(pinta, 30000);
     try { await carregarT(); } catch (err) { dlg.querySelector("#pv-c").innerHTML = `<p class="ajuda">Erro: ${esc(err.message || err)}</p>`; }
   }
-  document.addEventListener("click", e => { if (e.target.closest("#pp-hor")) abrirHorarios(); if (e.target.closest("#pp-cod")) abrirCodigos(); if (e.target.closest("#pp-vivo")) abrirAoVivo(); });
+  document.addEventListener("click", e => { if (e.target.closest("#pp-hor")) abrirHorarios(); if (e.target.closest("#pp-cod")) abrirCodigos(); if (e.target.closest("#pp-vivo")) abrirAoVivo(); if (e.target.closest("#pp-placar")) window.open("#/painel/placar/" + escolherTurma(null, todasTurmas()), "_blank"); });
 
   function ligarSair(el) { el.querySelector("#pp-sair").onclick = async () => { await auth().signOut(); location.hash = "#/painel"; }; }
 
@@ -1338,6 +1413,7 @@
       if (!ss.get("painel:pendencias")) { ss.set("painel:pendencias", "1"); setTimeout(() => perguntarPendentes(), 1200); }
       try {
         if (sub === "aula") return await telaAula(u, arg, arg2);
+        if (sub === "placar") return await telaPlacar(u, arg);
         if (sub === "presenca") return await telaPresenca(u, arg);
         if (sub === "prova") return await telaProvaPainel(u, arg);
         if (sub === "diario") return await telaDiario(u, arg, arg2);

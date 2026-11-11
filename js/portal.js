@@ -192,8 +192,26 @@
   }
   /* ⏱️ cronômetro da aula: durante a aula da turma, mostra quanto falta para o fim (contagem regressiva) e o horário final;
      nos últimos 10 minutos fica vermelho e nos últimos 5 pisca. Horário de Curionópolis (UTC−3). */
-  let relogioIv = null;
+  let relogioIv = null, podioUnsub = null, podioTurma = null, podioVisto = 0;
+  // 🏁 quando o professor finaliza a aula, aparece para o aluno a posição dele no pódio
+  function ouvirPodio(s) {
+    if (!s || !s.nuvem || !P.nuvem || !P.nuvem.app || podioTurma === s.turma) return;
+    if (podioUnsub) podioUnsub(); podioTurma = s.turma;
+    try { podioUnsub = P.nuvem.app(0).db.collection("config").doc("podio_" + s.turma).onSnapshot(sn => {
+      const d = sn.exists ? sn.data() : null; if (!d || d.dia !== P.nuvem.hoje() || d.finalizadaEm === podioVisto) return;
+      const ss = sess.get(); if (!ss || ss.turma !== s.turma) return;
+      podioVisto = d.finalizadaEm;
+      const meu = (d.ranking || []).find(e => (e.ids || []).some(id => (ss.alunoIds || []).includes(id)));
+      const med = meu && meu.pos <= 3 ? ["🥇", "🥈", "🥉"][meu.pos - 1] : "🏁";
+      const dlg = h(`<dialog class="pp-dlg fim-aula"><h2>${med} Aula encerrada!</h2>
+        ${meu ? `<p class="fa-pos">Você${meu.ids.length > 1 ? "s" : ""} ficou${meu.ids.length > 1 ? "aram" : ""} em <b>${meu.pos}º lugar</b>, com <b>${meu.pontos} pontos</b>${meu.pos <= 3 ? " 🎉" : "!"}</p>` : `<p>O professor finalizou a aula.</p>`}
+        <p>Veja o pódio no projetor! 🏆</p><p class="ajuda">Os pontos do pódio são só da brincadeira da aula: não são a sua nota. Quem fez o Básico pode ir para os jogos livres.</p>
+        <form method="dialog"><button class="btn">OK</button></form></dialog>`);
+      document.body.appendChild(dlg); dlg.showModal(); dlg.addEventListener("close", () => dlg.remove());
+    }, () => {}); } catch (e) {}
+  }
   function relogioAula() {
+    try { ouvirPodio(sess.get()); } catch (e) {}
     clearInterval(relogioIv);
     const tick = () => {
       const el = document.getElementById("tb-relogio"); if (!el) return clearInterval(relogioIv);
@@ -335,6 +353,8 @@
         catch (err) { console.warn(err); b.disabled = false; b.textContent = "Tentar de novo"; toast("Não foi possível entrar agora. Tente de novo."); return; }
         sess.set({ serie: sid, turma: t.value, modo, nuvem: true, alunoIds: infos.map(x => x.alunoId), nomes: infos.map(x => x.nome), apelidos: infos.map((x, i) => apels[i] || ""), entrou: Date.now(),
           trilha: infos.length === 1 && !!infos[0].trilha });
+        // 🧍 monta o avatar (60 s); quem não salvar entra com o avatar que já tinha ou com o uniforme da escola
+        if (P.avatar) { try { await P.avatar.fluxoLogin(mount, infos.map(x => Object.assign({}, x, { turma: t.value })), 60); } catch (e) { console.warn("avatar", e); } }
         location.hash = destino || "#/apostilas";
       };
       cf.querySelector("#sim").focus();
