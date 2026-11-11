@@ -34,12 +34,21 @@
   function ding(t, alto) { const b = alto ? 76 : 72; [b, b + 7].forEach((m, i) => nota(hz(m), t + i * 0.07, 0.25, 0.1, "square")); }
   // 🎺 tcharam! no estilo videogame antigo (8 bits: ondas quadradas). Melodia própria, criada para o portal.
   function tcharam(t) {
-    const passo = 0.075, frases = [[55, 59, 62, 67], [64, 67, 72], [65, 69, 74]];
-    let k = 0; frases.forEach((fr, j) => { fr.forEach(m => { nota(hz(m), t + k * passo, passo * 1.6, 0.11, "square"); k++; }); k += j < 2 ? 1 : 0; });
-    const fim = t + k * passo + 0.05;
-    [67, 71, 74, 79].forEach(m => nota(hz(m), fim, 1.3, 0.085, "square"));   // acorde final (sol maior)
-    [43, 55].forEach(m => nota(hz(m), fim, 1.3, 0.12, "triangle"));          // baixo
-    ruido(fim, 0.12, 0.18, 4000);                                             // "prato" de 8 bits
+    const q = 0.075, sq = (m, at, d, v) => nota(hz(m), at, d, v || 0.11, "square");
+    // 1) três subidas rápidas
+    let k = 0; [[55, 59, 62, 67], [64, 67, 72], [65, 69, 74]].forEach((fr, j) => { fr.forEach(m => { sq(m, t + k * q, q * 1.6); k++; }); k += j < 2 ? 1 : 0; });
+    let at = t + k * q + 0.08;
+    // 2) enfeite "tu-ru-rum, tu-ru-rum" (sobe um degrau a cada vez)
+    [[74, 76, 78, 79], [76, 78, 79, 81]].forEach(fr => { fr.forEach((m, i) => sq(m, at + i * q, i < 3 ? q * 1.4 : 0.32, i < 3 ? 0.1 : 0.12)); [43, 50].forEach(b => nota(hz(b + (fr[0] - 74)), at + 3 * q, 0.32, 0.1, "triangle")); at += 3 * q + 0.36; });
+    // 3) escadinha final + "ta-dá"
+    [79, 81, 83, 84, 86].forEach((m, i) => sq(m, at + i * 0.06, 0.1, 0.09)); at += 5 * 0.06 + 0.06;
+    sq(83, at, 0.12, 0.11); const fim = at + 0.16;
+    // 4) acorde final longo, com tremidinho no agudo
+    [67, 71, 74, 79].forEach(m => nota(hz(m), fim, 1.7, 0.08, "square"));
+    for (let i = 0; i < 10; i++) sq(i % 2 ? 86 : 83, fim + i * 0.07, 0.07, 0.05);
+    [43, 55].forEach(m => nota(hz(m), fim, 1.7, 0.12, "triangle"));
+    ruido(fim, 0.14, 0.2, 4000); ruido(fim + 0.3, 0.1, 0.1, 5000);
+    return fim + 1.7 - t;
   }
   // 🎉 estalinhos do confete
   function estalos(t, dur) { for (let i = 0; i < 26; i++) ruido(t + Math.random() * dur, 0.04, 0.12, 2500 + Math.random() * 2500); }
@@ -47,7 +56,7 @@
   const S = {
     get ligado() { return ligado; }, pronto, destravar, setLigado,
     // pódio: 3º (0 s) → 2º (1,4 s) → 1º (2,8 s) → confete (3 s)
-    podio() { if (!pronto()) return; rufar(0, 2.75); ding(0); ding(1.4, true); tcharam(2.8); estalos(3.1, 2.5); },
+    podio() { if (!pronto()) return; rufar(0, 2.75); ding(0); ding(1.4, true); const d = tcharam(2.8); estalos(3.1, d); },
     // 👑 alguém novo pegou a coroa
     coroa() { if (!pronto()) return; [72, 76, 79, 84].forEach((m, i) => nota(hz(m), i * 0.06, 0.18, 0.09, "square")); },
     // 🤫 placar congelou (últimos 5 min)
