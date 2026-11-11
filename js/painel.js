@@ -169,6 +169,8 @@
     diario: ["O Diário de Classe: chamada, vistos, frequência, notas e registro das aulas.", [
       "<b>✅ Chamada</b>: escolha a data. O que veio do portal aparece com ⚡ (entrou com o código, concluiu o Básico, completou o Desafio ou o Turbo). Você só corrige: o que você marca vale mais que o ⚡.",
       "<b>P</b> presente, <b>F</b> falta, <b>J</b> falta justificada. Quem veio mas não entrou no portal: toque em P.",
+      "<b>🚦 Aula que não aconteceu normalmente</b>: na Chamada, abra “Esta aula não aconteceu normalmente?”. <b>🚫 Nenhum aluno veio</b> dá falta para todos. <b>🙋 O professor não pôde vir</b>, <b>🎉 Feriado</b> (inclusive os municipais), <b>🏫 Sem aula na escola</b> (formação, evento) e <b>📌 Outro motivo</b> não contam na frequência de ninguém. Escreva uma anotação para lembrar depois.",
+      "<b>🗓️ Aulas sem registro</b>: quando você abre o painel, ele pergunta sozinho sobre as aulas que já passaram sem nenhuma presença, chamada ou registro, para você responder na hora.",
       "<b>Básico</b>: toque para avançar — ◐ Parcial (não vale nota) → ✓ Básico (1,0) → ✓✓ ×2 (reposição) → sem visto. <b>Desafio/Turbo</b>: 0,25 cada.",
       "<b>🗓️ Frequência</b> e <b>🧮 Boletim</b> são calculados sozinhos. A nota da prova do portal entra sozinha; digite só a prova em papel (0 a 5) e a recuperação (0 a 10).",
       "<b>📝 Registro</b>: o que aconteceu em cada aula. <b>🔔 Lembretes</b>: aparecem no topo da chamada da turma."]],
@@ -601,6 +603,61 @@
      O que vem do portal (⚡) é calculado na hora: quem entrou, quem concluiu o Básico, quem completou
      o Desafio e o Turbo. O que o professor marca à mão sempre vale mais que o automático. */
   const DIARIO = "prof/diario/turmas";
+  // 🚦 aula que não aconteceu normalmente. "ninguem" = falta para todos; os outros não contam na frequência de ninguém.
+  const OCORR = { ninguem: "🚫 Nenhum aluno veio", professor: "🙋 O professor não pôde vir", feriado: "🎉 Feriado ou ponto facultativo", formacao: "🏫 Sem aula na escola (formação, evento, reunião)", outro: "📌 Sem aula por outro motivo" };
+  const OCORR_CURTO = { ninguem: "🚫 Ninguém veio", professor: "🙋 Eu não fui", feriado: "🎉 Feriado", formacao: "🏫 Sem aula na escola", outro: "📌 Outro motivo" };
+  const semAula = a => !!(a && a.ocorrencia && a.ocorrencia.tipo && a.ocorrencia.tipo !== "ninguem");
+  const ocorrDe = a => (a && a.ocorrencia && a.ocorrencia.tipo) ? a.ocorrencia : null;
+  // dias de aula já passados (desde o início do cronograma) em que não há nenhum registro: nem presença do portal,
+  // nem chamada à mão, nem registro escrito, nem ocorrência. O painel pergunta logo que abre.
+  async function aulasPendentes() {
+    const ag = new Date(), hoje = N.hoje(), min = ag.getHours() * 60 + ag.getMinutes(), out = [];
+    await Promise.all(todasTurmas().filter(t => t.aula && t.aula.ini && Object.keys(t.missoes4 || {}).length).map(async t => {
+      const ini = Object.keys(t.missoes4).sort()[0], [hh, mm] = t.aula.ini.split(":").map(Number), dias = [];
+      for (let d = new Date(ini + "T12:00:00"); ; d.setDate(d.getDate() + 1)) {
+        const ds = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+        if (ds > hoje) break;
+        if (d.getDay() !== t.aula.dia && !(t.missoes4 || {})[ds]) continue;
+        if (ds === hoje && min < hh * 60 + mm + 90) continue; // a aula de hoje ainda não terminou
+        dias.push(ds);
+      }
+      if (!dias.length) return;
+      const [aSnap, prog, alunos] = await Promise.all([db().collection(DIARIO + "/" + t.id + "/aulas").get(), progressoDaTurma(t.id), alunosDaTurma(t.id)]);
+      const validos = new Set(alunos.filter(a => a.ativo !== false && !a.teste).map(a => a.id));
+      if (!validos.size) return;
+      const aulas = {}; aSnap.docs.forEach(x => { aulas[x.id] = x.data(); });
+      const veio = new Set(); prog.forEach(p => { if (validos.has(p.alunoId)) Object.keys(p.dias || {}).forEach(d => veio.add(d)); });
+      dias.forEach(d => { const a = aulas[d] || {};
+        if (ocorrDe(a) || veio.has(d) || String(a.registro || "").trim() || Object.values(a.presencas || {}).some(v => v)) return;
+        out.push({ t, d }); });
+    }));
+    return out.sort((a, b) => a.d < b.d ? -1 : a.d > b.d ? 1 : a.t.aula.ini < b.t.aula.ini ? -1 : 1);
+  }
+  async function salvarOcorrencia(tid, d, tipo, nota) {
+    await db().collection(DIARIO + "/" + tid + "/aulas").doc(d).set({ data: d, ocorrencia: tipo ? { tipo, nota: nota || "", em: new Date().toISOString() } : null }, { merge: true });
+  }
+  async function perguntarPendentes() {
+    let lista; try { lista = await aulasPendentes(); } catch (e) { console.warn("pendências", e); return; }
+    if (!lista.length) return;
+    const porDia = {}; lista.forEach(x => { (porDia[x.d] = porDia[x.d] || []).push(x); });
+    const dlg = h(`<dialog class="pp-dlg pp-dlg-larga pp-pend"><form method="dialog"><h2>🗓️ Aulas sem nenhum registro</h2>
+      <p class="ajuda">Nestas aulas ninguém entrou no portal e não há chamada. Responda agora, para não esquecer o que aconteceu. Se algum aluno veio e só não entrou no portal, use <b>📒 Abrir a chamada</b>.</p>
+      ${Object.entries(porDia).map(([d, xs]) => `<section class="pp-pend-dia" data-dia="${d}"><h3>${dataBR(d)} (${semana(d)})${xs.length > 1 ? ` <button type="button" class="btn btn-sec btn-peq" data-todas="${d}">🙋 Eu não fui neste dia (todas as ${xs.length} turmas)</button>` : ""}</h3>
+        ${xs.map(({ t }) => `<div class="pp-pend-item" data-t="${t.id}" data-d="${d}"><strong>${esc(nomeTurma(t.id))} · ${t.aula.ini}</strong>
+          <span class="pp-pend-bts">${Object.keys(OCORR).map(k => `<button type="button" class="btn btn-sec btn-peq" data-oc="${k}">${OCORR_CURTO[k]}</button>`).join("")}<a class="btn btn-sec btn-peq" data-cham href="#/painel/diario/${t.id}/chamada">📒 Abrir a chamada</a></span>
+          <input type="text" class="pp-pend-nota" placeholder="Anotação (opcional): o que aconteceu?"></div>`).join("")}</section>`).join("")}
+      <div class="row-btns"><button class="btn" value="x">Responder depois</button></div></form></dialog>`);
+    document.body.appendChild(dlg); dlg.showModal(); dlg.addEventListener("close", () => dlg.remove());
+    const feito = (it, tipo) => { it.classList.add("ok"); it.querySelector(".pp-pend-bts").innerHTML = `<b>✔ ${OCORR[tipo]}</b>`; it.querySelector(".pp-pend-nota").disabled = true;
+      if (![...dlg.querySelectorAll(".pp-pend-item")].some(x => !x.classList.contains("ok"))) setTimeout(() => { toast("Tudo respondido. Obrigado!"); dlg.close(); }, 700); };
+    dlg.querySelectorAll(".pp-pend-item").forEach(it => {
+      it.querySelectorAll("[data-oc]").forEach(b => b.onclick = async () => { b.disabled = true;
+        try { await salvarOcorrencia(it.dataset.t, it.dataset.d, b.dataset.oc, it.querySelector(".pp-pend-nota").value.trim()); feito(it, b.dataset.oc); } catch (err) { b.disabled = false; toast("Não foi possível salvar: " + (err.message || err)); } });
+      it.querySelector("[data-cham]").onclick = () => { ss.set("painel:diario:" + it.dataset.t, it.dataset.d); ss.set("painel:turmaManual", String(Date.now())); dlg.close(); };
+    });
+    dlg.querySelectorAll("[data-todas]").forEach(b => b.onclick = async () => { b.disabled = true; const sec = b.closest(".pp-pend-dia"), nota = prompt("Anotação para este dia (opcional): o que aconteceu?") || "";
+      for (const it of sec.querySelectorAll(".pp-pend-item:not(.ok)")) { try { await salvarOcorrencia(it.dataset.t, it.dataset.d, "professor", nota); feito(it, "professor"); } catch (err) { toast("Não foi possível salvar: " + (err.message || err)); } } b.remove(); });
+  }
   const nBas = v => v === true ? 1 : (+v || 0);
   const fmtN = n => n == null ? "–" : (Math.round(n * 100) / 100).toLocaleString("pt-BR", { minimumFractionDigits: 1, maximumFractionDigits: 2 });
   function notaProvaDoc(d) {
@@ -654,10 +711,10 @@
     });
     let auto = T.auto !== false;
     const temManual = (aula, campo, id) => aula && aula[campo] && aula[campo][id] !== undefined && aula[campo][id] !== null;
-    const pres = (d, id) => { const a = aulas[d]; if (temManual(a, "presencas", id)) return { v: a.presencas[id], auto: false };
+    const pres = (d, id) => { const a = aulas[d]; if (semAula(a)) return { v: null }; if (temManual(a, "presencas", id)) return { v: a.presencas[id], auto: false };
       if (auto && AUTO[d] && AUTO[d].p[id]) return { v: "P", auto: true };
       return temChamada(d) ? (emCasa.has(id) ? { v: "J", auto: true } : { v: "F", auto: true, falta: true }) : { v: null }; };
-    const temChamada = d => Object.values((aulas[d] || {}).presencas || {}).some(v => v) || (auto && AUTO[d] && Object.keys(AUTO[d].p).length > 0);
+    const temChamada = d => ocorrDe(aulas[d]) ? ocorrDe(aulas[d]).tipo === "ninguem" : Object.values((aulas[d] || {}).presencas || {}).some(v => v) || (auto && AUTO[d] && Object.keys(AUTO[d].p).length > 0);
     const carimbo = (d, id) => { const a = aulas[d]; if (temManual(a, "carimbos", id)) return { v: nBas(a.carimbos[id]), auto: false }; return auto && AUTO[d] && AUTO[d].c[id] ? { v: AUTO[d].c[id], auto: true } : { v: 0 }; };
     const extra = (d, id) => { const a = aulas[d]; if (temManual(a, "extras", id)) return { v: +a.extras[id] || 0, auto: false }; return auto && AUTO[d] && AUTO[d].x[id] ? { v: AUTO[d].x[id], auto: true } : { v: 0 }; };
     const parcial = (d, id) => !!(((aulas[d] || {}).parciais || {})[id]);
@@ -701,14 +758,20 @@
         <div class="row-btns pp-dia-bar"><label>Data <input type="date" id="dd" value="${dia}"></label>
           <label class="grow">Encontro <input type="text" id="enc" list="encs" value="${esc(enc)}" placeholder="Ex.: Missão 1 – …"><datalist id="encs">${[...new Set(cron.map(c => c.encontro))].map(o => `<option value="${esc(o)}">`).join("")}</datalist></label>
           <label class="pp-auto"><input type="checkbox" id="auto" ${auto ? "checked" : ""}> ⚡ Automático do portal</label></div>
-        <p class="pp-cont"><span>✅ ${cnt.P} presente${cnt.P === 1 ? "" : "s"}</span> <span>❌ ${cnt.F} falta${cnt.F === 1 ? "" : "s"}</span> <span>📝 ${cnt.J} justificada${cnt.J === 1 ? "" : "s"}</span></p>
+        ${(() => { const o = ocorrDe(aulas[dia]); return o ? `<div class="pp-ocorr ${o.tipo}"><strong>${OCORR[o.tipo]}</strong>
+            <p class="ajuda">${o.tipo === "ninguem" ? "Todos ficam com falta nesta aula (quem estuda em casa fica com J). Se alguém veio, toque em P no nome dele." : "Esta aula não conta na frequência de ninguém."}</p>
+            <textarea id="oc-nota" class="pp-area" rows="2" placeholder="Anotação: o que aconteceu? (para lembrar no futuro)">${esc(o.nota || "")}</textarea>
+            <div class="row-btns"><button type="button" class="btn btn-sec btn-peq" id="oc-salvar">💾 Salvar anotação</button><button type="button" class="btn btn-sec btn-peq" id="oc-desfazer">↩️ Desfazer (a aula aconteceu)</button></div></div>`
+          : `<details class="pp-ocorr-abrir"><summary>🚦 Esta aula não aconteceu normalmente? (ninguém veio, você não foi, feriado, sem aula na escola…)</summary>
+            <div class="row-btns">${Object.keys(OCORR).map(k => `<button type="button" class="btn btn-sec btn-peq" data-oc="${k}">${OCORR[k]}</button>`).join("")}</div></details>`; })()}
+        ${semAula(aulas[dia]) ? "" : `<p class="pp-cont"><span>✅ ${cnt.P} presente${cnt.P === 1 ? "" : "s"}</span> <span>❌ ${cnt.F} falta${cnt.F === 1 ? "" : "s"}</span> <span>📝 ${cnt.J} justificada${cnt.J === 1 ? "" : "s"}</span></p>
         <p class="ajuda">⚡ = veio do portal (o aluno entrou com o código, concluiu o Básico, completou o Desafio ou o Turbo). Toque para corrigir: o que você marca vale mais que o automático. Quem não entrou no portal fica com falta; se ele veio e não entrou, toque em <b>P</b>.</p>
         <ul class="pp-cham">${alunos.map((a, i) => { const p = pres(dia, a.id), c = carimbo(dia, a.id), x = extra(dia, a.id), pa = parcial(dia, a.id) && !c.v, fr = freq(a.id);
           return `<li><span class="n">${i + 1}</span><span class="nm">${nomeA(a)}<br><small>${fr.pct == null ? "sem registros" : fr.pct + "% de presença"}</small></span>
             <span class="seg">${["P", "F", "J"].map(v => `<button type="button" data-pres="${a.id}" data-v="${v}" aria-pressed="${p.v === v}" class="${p.v === v && p.auto ? "auto" : ""}" title="${{ P: "Presente", F: "Falta", J: "Falta justificada" }[v]}">${p.v === v && p.auto && v === "P" ? "⚡P" : v}</button>`).join("")}</span>
             <button type="button" class="stamp ${c.auto ? "auto" : ""} ${pa ? "part" : ""}" data-car="${a.id}" aria-pressed="${c.v > 0 || pa}">${c.v === 2 ? "✓✓ Básico ×2" : c.v ? (c.auto ? "⚡ " : "✓ ") + "Básico" : pa ? "◐ Parcial" : "Básico"}</button>
             <button type="button" class="stamp x ${x.auto ? "auto" : ""}" data-ext="${a.id}" aria-pressed="${x.v > 0}">${x.v ? (x.auto ? "⚡" : "") + "★".repeat(x.v) : "☆"} Desafio/Turbo</button></li>`; }).join("")}</ul>
-        <p class="ajuda">Básico: toque para avançar — <b>◐ Parcial</b> (começou e termina na próxima aula, não vale nota) → <b>✓ Básico</b> (1,0) → <b>✓✓ ×2</b> (reposição) → sem visto. Desafio/Turbo: 0,25 cada (toque para 1 ou 2).</p>
+        <p class="ajuda">Básico: toque para avançar — <b>◐ Parcial</b> (começou e termina na próxima aula, não vale nota) → <b>✓ Básico</b> (1,0) → <b>✓✓ ×2</b> (reposição) → sem visto. Desafio/Turbo: 0,25 cada (toque para 1 ou 2).</p>`}
         <h3>O que aconteceu nesta aula</h3>
         <textarea id="reg" class="pp-area" rows="4" placeholder="Ex.: turma agitada no começo; o computador 7 travou.">${esc((aulas[dia] || {}).registro || "")}</textarea>
         <div class="row-btns"><button type="button" class="btn" id="reg-ok">💾 Salvar registro</button></div></div>`;
@@ -717,7 +780,7 @@
       const ds = diasComChamada();
       if (!ds.length) return `<div class="painel"><p>Ainda não há chamada nesta turma.</p></div>`;
       const ab = e => (e || "").replace(/ –.*/, "").replace("Missão ", "M").replace("Projeto final", "PF").replace("Avaliação", "Aval.");
-      return `<div class="painel"><div class="tabela-wrap"><table class="pp-freq"><thead><tr><th>Aluno</th>${ds.map(d => `<th title="${esc(encontroDe(d))}">${dataBR(d).slice(0, 5)}<br><small>${esc(ab(encontroDe(d)))}</small></th>`).join("")}<th>Frequência</th></tr></thead>
+      return `<div class="painel"><div class="tabela-wrap"><table class="pp-freq"><thead><tr><th>Aluno</th>${ds.map(d => `<th title="${esc(encontroDe(d))}">${dataBR(d).slice(0, 5)}<br><small>${ocorrDe(aulas[d]) ? "🚫 ninguém veio" : esc(ab(encontroDe(d)))}</small></th>`).join("")}<th>Frequência</th></tr></thead>
         <tbody>${alunos.map(a => { const fr = freq(a.id); return `<tr><td>${nomeA(a)}</td>${ds.map(d => { const p = pres(d, a.id), c = carimbo(d, a.id).v; return `<td><span class="m ${p.v || "x"} ${c ? "c" : ""} ${p.falta ? "au" : ""}">${p.v || "·"}</span></td>`; }).join("")}<td class="${fr.pct != null && fr.pct < 75 ? "baixa" : ""}"><strong>${fr.pct == null ? "–" : fr.pct + "%"}</strong></td></tr>`; }).join("")}</tbody></table></div>
         <p class="ajuda">P presente · F falta · J justificada · contorno = com visto do Básico. Frequência = presenças e justificadas ÷ aulas com chamada (abaixo de 75% fica em vermelho). É só informativa: não entra na nota.</p></div>`;
     }
@@ -739,7 +802,7 @@
     function vRegistro() {
       const ds = [...new Set([...Object.keys(aulas), ...cron.map(c => c.data)])].sort().reverse();
       return `<div class="painel"><ul class="pp-reg">${ds.map(d => { const a = aulas[d] || {}; const n = alunos.filter(x => pres(d, x.id).v === "P").length;
-        return `<li><div><strong>${dataBR(d)} (${semana(d)}) · ${esc(encontroDe(d) || "Aula")}</strong> <small>${d <= hoje && temChamada(d) ? n + " presentes" : d > hoje ? "🔜 prevista" : ""}</small></div>${(a.registro || "").trim() ? `<p>${esc(a.registro).replace(/\n/g, "<br>")}</p>` : ""}<button type="button" class="btn btn-sec btn-peq" data-abrir="${d}">Abrir a chamada deste dia</button></li>`; }).join("")}</ul></div>`;
+        return `<li><div><strong>${dataBR(d)} (${semana(d)}) · ${esc(encontroDe(d) || "Aula")}</strong> <small>${ocorrDe(a) ? esc(OCORR[ocorrDe(a).tipo]) + (ocorrDe(a).nota ? " · " + esc(ocorrDe(a).nota) : "") : d <= hoje && temChamada(d) ? n + " presentes" : d > hoje ? "🔜 prevista" : ""}</small></div>${(a.registro || "").trim() ? `<p>${esc(a.registro).replace(/\n/g, "<br>")}</p>` : ""}<button type="button" class="btn btn-sec btn-peq" data-abrir="${d}">Abrir a chamada deste dia</button></li>`; }).join("")}</ul></div>`;
     }
     function vLembretes() {
       return `<div class="painel"><div class="row-btns"><input type="text" id="lb-novo" class="grow" placeholder="Ex.: na próxima aula, começar pela correção do labirinto"><button type="button" class="btn" id="lb-add">Adicionar</button></div>
@@ -753,6 +816,11 @@
         q("#enc").onchange = e => salvarAula({ encontro: e.target.value.trim() });
         q("#auto").onchange = e => { auto = e.target.checked; salvarTurma({ auto }); render(); };
         q("#reg-ok").onclick = async () => { await salvarAula({ registro: q("#reg").value }); toast("Registro salvo."); };
+        corpo.querySelectorAll("[data-oc]").forEach(b => b.onclick = async () => { const tipo = b.dataset.oc;
+          if (tipo === "ninguem" && !confirm("Marcar falta para todos os alunos nesta aula?")) return;
+          await salvarAula({ ocorrencia: { tipo, nota: "", em: new Date().toISOString() } }); toast(OCORR[tipo]); render(); });
+        if (q("#oc-salvar")) q("#oc-salvar").onclick = async () => { await salvarAula({ ocorrencia: { nota: q("#oc-nota").value.trim() } }); toast("Anotação salva."); };
+        if (q("#oc-desfazer")) q("#oc-desfazer").onclick = async () => { aulas[dia].ocorrencia = null; try { await aulasCol.doc(dia).set({ ocorrencia: null }, { merge: true }); } catch (err) { toast("Não foi possível salvar: " + (err.message || err)); } render(); };
         corpo.querySelectorAll("[data-pres]").forEach(b => b.onclick = () => {
           const id = b.dataset.pres, v = b.dataset.v, cur = pres(dia, id);
           // tocar de novo no que já está marcado à mão devolve para o automático
@@ -1144,6 +1212,7 @@
       await (N.app(0).pronto);
       await new Promise(ok => { const x = auth().onAuthStateChanged(() => { x(); ok(); }); });
       const u = await entrar();
+      if (!ss.get("painel:pendencias")) { ss.set("painel:pendencias", "1"); setTimeout(() => perguntarPendentes(), 1200); }
       try {
         if (sub === "aula") return await telaAula(u, arg, arg2);
         if (sub === "presenca") return await telaPresenca(u, arg);

@@ -1272,3 +1272,16 @@ body.modo-apresentacao .topbar, body.modo-apresentacao .rodape, body.modo-aprese
 .pp-recado-velho { background: #fffaf3; border-left: 5px solid #fdba74; border-radius: 8px; padding: 6px 12px; margin: 6px 0; color: #57534e; }
 .pp-recado-velho p { margin: 0 0 4px; }
 .pp-recado-velho small { color: #9a3412; }
+
+/* 🚦 aula que não aconteceu normalmente + 🗓️ aulas sem registro */
+.pp-ocorr { border: 2px solid #f59e0b; background: #fffbeb; border-radius: var(--raio); padding: 12px 14px; margin: 10px 0; }
+.pp-ocorr.ninguem { border-color: #ef4444; background: #fef2f2; }
+.pp-ocorr strong { font-size: 1.1em; }
+.pp-ocorr-abrir { margin: 8px 0 12px; }
+.pp-ocorr-abrir summary { cursor: pointer; font-weight: 600; color: #92400e; }
+.pp-ocorr-abrir .row-btns { margin-top: 8px; flex-wrap: wrap; }
+.pp-pend h3 { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin: 14px 0 6px; }
+.pp-pend-item { border: 1px solid #e2e8f0; border-radius: 10px; padding: 8px 10px; margin: 6px 0; display: grid; gap: 6px; }
+.pp-pend-item.ok { background: #f0fdf4; border-color: #86efac; }
+.pp-pend-bts { display: flex; flex-wrap: wrap; gap: 6px; }
+.pp-pend-nota { width: 100%; padding: 6px 8px; border: 1px solid #cbd5e1; border-radius: 8px; font: inherit; }
