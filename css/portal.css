@@ -1329,3 +1329,4 @@ body.modo-apresentacao .topbar, body.modo-apresentacao .rodape, body.modo-aprese
 .pp-cod-lista .cod { font-family: ui-monospace, monospace; font-weight: 800; font-size: 1.15rem; letter-spacing: 3px; color: #1e3a8a; }
 .pp-cod-busca { width: 100%; padding: 8px 10px; border: 1px solid #cbd5e1; border-radius: 10px; font: inherit; }
 .modal-def::first-letter { text-transform: uppercase; }
+.modal-sub { font-size: 1rem; margin: 12px 0 6px; color: #1e3a8a; } .modal-explic p { margin: 4px 0; }

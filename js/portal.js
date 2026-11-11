@@ -583,16 +583,41 @@
     return profOk = (async () => { try { await N.app(0).pronto; const a = N.auth(); await new Promise(ok => { const x = a.onAuthStateChanged(() => { x(); ok(); }); });
       const u = a.currentUser; return !!(u && !u.isAnonymous && u.email === N.EMAIL_PROFESSOR); } catch (e) { return false; } })();
   }
-  function botaoRespostaProf(el, at) {
+  // 💬 explicação breve para o professor explicar à turma: o texto "prof" da atividade (quando existe) ou, senão,
+  // a resolução comentada, as dicas e os termos da missão que aparecem na atividade (do "O que significa?")
+  function explicacaoProf(at, termos, aid, mid) {
+    const sem = x => String(x || "").replace(/<[^>]+>/g, " ");
+    const partes = [], EX = ((P.explicProf || {})[aid] || {}), extra = (EX.at || {})[String(at.id || "").replace(/^.*?(?=m\d|pf)/, "")] || (EX.at || {})[at.id];
+    const vfEx = ((EX.vf || {})[mid]) || [];
+    if (extra && !at.prof) at = Object.assign({}, at, { prof: extra });
+    if (at.prof) partes.push(`<p>${at.prof}</p>`);
+    else if (at.explicacao) partes.push(`<p>${at.explicacao}</p>`);
+    if (at.tipo === "vf") partes.push(`<ul class="aula-lista">${(at.itens || []).map((it, k) => `<li>${k + 1}. ${it.v ? "<strong>V</strong>" : "<strong>F</strong>"} — ${(vfEx[k] || "").replace(/^[VF]:\s*/, "") || it.prof || it.explic || (it.corrigir ? "o certo é: <strong>" + it.corrigir.certo + "</strong>" : it.v ? "está certo como está escrito" : "")}</li>`).join("")}</ul>`);
+    if (at.tipo === "completar") partes.push(`<p>Leia o texto completo com a turma: <em>${String(at.texto || "").replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")}</em></p>`);
+    if (at.tipo === "aberta" && !at.prof && !at.explicacao) partes.push(`<p>Não há uma única resposta. Peça 2 ou 3 exemplos em voz alta e mostre o que precisa aparecer${at.criterios ? ": " + at.criterios.map(c => sem(c)).join(" · ") : "."}${at.exemplo ? ` Exemplo de boa resposta: <strong>${at.exemplo}</strong>.` : ""}</p>`);
+    if (at.tipo === "autoavaliacao") partes.push(`<p>Não tem resposta certa: é o aluno olhando para o que aprendeu. Se alguém marcar que ainda não sabe um item, mostre onde ele está na missão (Para começar ou O que significa?).</p>`);
+    const porques = [].concat((at.perguntas || []).map(q => q.why && [q.p, q.why]), (at.itens || []).map(i => i && i.why && [i.t, i.why]), (at.opcoes || []).map(o => o && o.why && [o.t, o.why])).filter(Boolean);
+    if (porques.length && at.tipo !== "vf") partes.push(`<p><strong>Por quê:</strong></p><ul class="aula-lista">${porques.map(([q, w]) => `<li>${sem(q)} → ${w}</li>`).join("")}</ul>`);
+    const dicas = (at.dicas || []).concat(at.tipo === "tabela" ? (at.linhas || []).flatMap(l => l.filter(c => c && typeof c === "object" && c.dica).map(c => c.dica)) : []);
+    if (dicas.length && !at.prof) partes.push(`<p><strong>Pistas para dar, uma de cada vez:</strong></p><ul class="aula-lista">${[...new Set(dicas)].map(d => `<li>${d}</li>`).join("")}</ul>`);
+    const txt = norm(sem(JSON.stringify(at)));
+    const ts = (termos || []).filter(t => { const b = norm(String(t.termo || "").replace(/\s*\(.*?\)\s*/g, " ").trim()); return b.length > 1 && new RegExp(`(^|[^a-z0-9])${b.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}([^a-z0-9]|$)`).test(txt); }).slice(0, 4);
+    if (ts.length) partes.push(`<p><strong>Termos para relembrar com a turma:</strong></p><ul class="aula-lista">${ts.map(t => `<li>${t.rotulo}: ${t.def}</li>`).join("")}</ul>`);
+    return partes.join("") || `<p>Mostre na tela, junto com a turma, o primeiro item resolvido e peça que eles façam o resto.</p>`;
+  }
+  P.explicacaoProf = explicacaoProf;
+  function botaoRespostaProf(el, at, termos, aid, mid) {
     const s = sess.get(); if (!s || !s.prof || !P.aula || !P.aula.resposta) return;
     professorLogado().then(ok => { if (!ok) return;
       const b = h(`<button type="button" class="btn btn-peq atv-resp-prof" title="Só você vê este botão">✅ Resposta</button>`);
       el.querySelector(".atv-cab").appendChild(b);
       b.onclick = () => { const x = P.aula.resposta(at);
-        modal(`✅ ${md(at.titulo || "Resposta")}`, `${x.html}${at.explicacao && !/aula-obs/.test(x.html) ? `<div class="modal-explic"><strong>📘 Resolução comentada:</strong> ${at.explicacao}</div>` : ""}
+        modal(`✅ ${md(at.titulo || "Resposta")}`, `<h3 class="modal-sub">✅ Resposta</h3>${x.html}
+          <h3 class="modal-sub">💬 Como explicar para a turma</h3><div class="modal-explic">${explicacaoProf(at, termos, aid, mid)}</div>
           <p class="ajuda">${x.auto ? "✔ O portal confere sozinho." : "👀 Esta você confere."} Só você vê este botão: os alunos não têm.</p>`, "modal-resp"); };
     });
   }
+
   /* 📖 palavra explicada: os termos do "O que significa?" viram botõezinhos nos textos; tocou, abre o significado num modal */
   function ligarTermos(raiz, termos) {
     if (!raiz || !termos || !termos.length) return;
@@ -648,7 +673,7 @@
       </div>
       <div class="atv-fb" role="status" aria-live="polite"></div>
     </section>`);
-    botaoRespostaProf(el, at);
+    botaoRespostaProf(el, at, ((P.conteudo[aid] || {}).missoes || []).find(x => x.id === mid)?.termos, aid, mid);
     const corpo = el.querySelector(".atv-corpo"), fb = el.querySelector(".atv-fb"), dicasEl = el.querySelector(".atv-dicas");
     const bV = el.querySelector('[data-a="verificar"]'), bD = el.querySelector('[data-a="dica"]'), bR = el.querySelector('[data-a="resolucao"]'), bRef = el.querySelector('[data-a="refazer"]');
     const statusEl = el.querySelector(".atv-status");

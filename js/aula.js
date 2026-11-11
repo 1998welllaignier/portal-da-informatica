@@ -60,6 +60,12 @@
         }
         html = `${c ? `<p class="aula-obs">O portal confere: ${reg.join(" · ")}</p>` : `<p>👀 <strong>Você confere</strong>${at.criterios ? ": " + at.criterios.map(limpo).join(" · ") : ""}</p>`}${at.exemplo ? `<p>Exemplo: ${forte(at.exemplo)}</p>` : ""}`; break;
       }
+      case "mensagens": {
+        const rot = id => ((at.botoes || []).find(b => b.id === id) || {}).rot || id;
+        html = `<ul class="aula-lista">${(at.itens || []).map(i => `<li>${limpo(i.t)} → ${forte(rot(i.c))}</li>`).join("")}</ul>`; break;
+      }
+      case "cartaz":
+        html = `<ul class="aula-lista">${(at.campos || []).map(c => `<li>${limpo(c.rot)} → ${forte(c.gab || c.exemplo || "")}</li>`).join("")}${at.exigirDesenhos ? `<li>Desenhos: ${at.exigirDesenhos.join(" ")}</li>` : ""}</ul>`; break;
       case "bolha": {
         const v = (at.lista || []).slice(), passos = []; let troca = true, n = 0;
         while (troca && n < v.length) { troca = false; n++; for (let i = 0; i + 1 < v.length - (n - 1); i++) if (v[i] > v[i + 1]) { [v[i], v[i + 1]] = [v[i + 1], v[i]]; troca = true; } if (!troca) break; passos.push(`${n}ª passada: ${forte(v.join(", "))}`); if (v.every((x, i) => !i || v[i - 1] <= x)) break; }
