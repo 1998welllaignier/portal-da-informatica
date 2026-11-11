@@ -214,16 +214,17 @@
   }
 
   /* editor com cronômetro. resolve com o avatar escolhido (salvo, anterior ou padrão) */
-  function editor(mount, { nome, anterior, segundos }) {
+  function editor(mount, { nome, anterior, segundos, dupla }) {
     return new Promise(resolve => {
       let a = norm(anterior), fim = Date.now() + (segundos || 120) * 1000, acabou = false;
       const sw = (lista, campo, cls) => lista.map((c, i) => `<button type="button" class="av-sw ${cls || ""}" data-c="${campo}" data-v="${i}" style="--c:${c}" aria-label="cor ${i + 1}"></button>`).join("");
       const op = campo => OPC[campo].map(([v, r]) => `<button type="button" class="av-op" data-c="${campo}" data-v="${v}">${r}</button>`).join("");
       const el = mount(`<section class="tela av-tela"><div class="av-cx">
         <div class="av-topo"><h1>🧍 Monte o seu avatar${nome ? `, <span>${esc(nome)}</span>` : ""}!</h1>
-          <div class="av-tempo"><span id="av-s">120</span>s<i><b id="av-b"></b></i></div></div>
+          <div class="av-tempo"><span id="av-s">${segundos || 120}</span>s<i><b id="av-b"></b></i></div></div>
+        ${dupla ? `<div class="av-dupla">👥 <b>Atividade em dupla: vez ${dupla.vez} de 2.</b> ${dupla.vez === 1 ? `Primeiro ${esc(nome)} monta o avatar; depois é a vez de <b>${esc(dupla.outro)}</b>.` : `Agora é a vez de <b>${esc(nome)}</b>.`} Cada um tem <b>1 minuto</b>. Se o tempo acabar, ${dupla.vez === 1 ? "passa para o colega" : "a aula começa"} e quem não montou entra com o uniforme de Curionópolis e uma cor de pele sorteada.</div>` : ""}
         <div class="av-rapidos"><button type="button" class="btn btn-grande av-rap" id="av-pula" ${anterior ? "" : "disabled"}>😎 Usar o mesmo da última vez${anterior ? "" : "<small>(você ainda não tem)</small>"}</button>
-          <button type="button" class="btn btn-grande av-rap uni" id="av-uni">🏫 Usar o uniforme de Curionópolis</button></div>
+          <button type="button" class="btn btn-grande av-rap uni" id="av-uni">🏫 Usar o uniforme de Curionópolis<small class="av-uni-trava">(escolha antes o passo 1 aqui embaixo 👇)</small></button></div>
         <p class="av-ou">ou monte um novo avatar aqui embaixo 👇</p>
         <div class="av-grid"><div class="av-prev" id="av-prev"></div>
           <div class="av-opcoes">
@@ -245,12 +246,14 @@
             <p class="av-t">👓 Óculos</p><div class="av-row">${op("oculos")}</div></div>
           </div></div>
         <div class="row-btns av-bts"><button type="button" class="btn btn-grande btn-ok" id="av-ok">✔ Pronto! Salvar o meu avatar</button></div>
-        <p class="ajuda">${anterior ? "Este é o avatar que você usou da última vez: mude o que quiser ou entre com ele mesmo. " : ""}Quando o tempo acabar, você entra com o avatar ${anterior ? "da última vez" : "padrão"}. O avatar aparece no placar e no pódio da aula.</p></div></section>`);
+        <p class="ajuda">${anterior ? "Este é o avatar que você usou da última vez: mude o que quiser ou entre com ele mesmo. " : ""}Quando o tempo acabar, você entra com o avatar ${anterior ? "da última vez" : "com o uniforme de Curionópolis e uma cor de pele sorteada"}. O avatar aparece no placar e no pódio da aula.</p></div></section>`);
       // passo 1 primeiro: as roupas, profissões e camisas de futebol só destravam depois de escolher masculino/feminino, pele e cabelo
       const fez = { tipo: !!(anterior && anterior.tipo), pele: !!anterior, cabelo: !!anterior };
       const pinta = () => {
         const livre = fez.tipo && fez.pele && fez.cabelo, p2 = el.querySelector(".av-passo2");
         p2.classList.toggle("travado", !livre); p2.querySelector(".av-trava").hidden = livre; p2.inert = !livre;
+        // 🏫 uniforme: só depois do passo 1 (quem já tem avatar salvo usa o jeitinho da última vez)
+        const ub = el.querySelector("#av-uni"), uLivre = livre || !!anterior; ub.disabled = !uLivre; ub.querySelector(".av-uni-trava").hidden = uLivre;
         el.querySelector("#av-prev").innerHTML = svg(a, 220);
         el.querySelectorAll("[data-c]").forEach(b => b.setAttribute("aria-pressed", String(a[b.dataset.c]) === String(b.dataset.v)));
         el.querySelector(".av-fut").hidden = a.blusa !== "futebol"; el.querySelector(".av-calca").hidden = a.blusa === "futebol";
@@ -281,13 +284,16 @@
       el.querySelector("#av-ok").onclick = () => sair({ avatar: a, salvo: true });
       el.querySelector("#av-pula").onclick = () => { if (anterior) sair({ avatar: norm(anterior), salvo: false }); };
       // 🏫 uniforme da escola: mantém o jeitinho do aluno (masculino/feminino, pele, cabelo, óculos) e veste o uniforme
-      el.querySelector("#av-uni").onclick = () => { const base = anterior ? norm(anterior) : a;
+      el.querySelector("#av-uni").onclick = () => { if (!(fez.tipo && fez.pele && fez.cabelo) && !anterior) return; const base = anterior ? norm(anterior) : a;
         sair({ avatar: Object.assign({}, PADRAO, { tipo: base.tipo || a.tipo, pele: base.pele, cabelo: base.cabelo, corCabelo: base.corCabelo, oculos: base.oculos }, fez.pele ? { pele: a.pele } : {}, fez.cabelo ? { cabelo: a.cabelo, corCabelo: a.corCabelo } : {}, fez.tipo ? { tipo: a.tipo } : {}), salvo: true }); };
       const iv = setInterval(() => {
         const r = Math.max(0, Math.ceil((fim - Date.now()) / 1000));
         el.querySelector("#av-s").textContent = r; el.querySelector("#av-b").style.width = (100 * r / (segundos || 120)) + "%";
         el.querySelector(".av-tempo").classList.toggle("fim", r <= 10);
-        if (r <= 0) { P.toast && P.toast("⏰ Acabou o tempo!"); sair({ avatar: norm(anterior), salvo: false }); }
+        if (r <= 0) { P.toast && P.toast("⏰ Acabou o tempo!");
+          // sem avatar salvo: uniforme de Curionópolis com o que o aluno já escolheu e cor de pele sorteada (se não escolheu)
+          if (anterior) sair({ avatar: norm(anterior), salvo: false });
+          else sair({ avatar: Object.assign({}, PADRAO, fez.tipo ? { tipo: a.tipo } : {}, fez.cabelo ? { cabelo: a.cabelo, corCabelo: a.corCabelo } : {}, { pele: fez.pele ? a.pele : Math.floor(Math.random() * PELE.length) }), salvo: true }); }
       }, 250);
       pinta();
     });
@@ -300,7 +306,9 @@
     for (let i = 0; i < infos.length; i++) {
       const x = infos[i], ref = N.app(i).db.collection("progresso").doc(x.alunoId + "_avatar");
       let anterior = null; try { const sn = await ref.get(); anterior = sn.exists ? sn.data().avatar : null; } catch (e) {}
-      const r = await editor(mount, { nome: (x.nome || "").split(" ")[0], anterior, segundos });
+      const pn = y => (y.nome || "").split(" ")[0], du = infos.length > 1;
+      if (du && i > 0) P.toast && P.toast(`👥 Agora é a vez de ${pn(x)} montar o avatar!`);
+      const r = await editor(mount, { nome: pn(x), anterior, segundos: du ? 60 : segundos, dupla: du ? { vez: i + 1, outro: pn(infos[1 - i]) } : null });
       usados.push(r.avatar);
       if (r.salvo) try { await ref.set({ alunoId: x.alunoId, turma: x.turma || P.sess.get().turma, tipo: "avatar", avatar: r.avatar, atualizado: Date.now() }, { merge: true }); } catch (e) { console.warn("avatar", e); }
     }

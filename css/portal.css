@@ -1449,5 +1449,6 @@ body.modo-placar .tela.painel-prof { max-width: none; padding: 0; }
 .av-rap { width: 100%; justify-content: center; min-height: 58px; font-size: 1.05rem; background: #2563eb; border-color: #2563eb; color: #fff; display: flex; flex-direction: column; align-items: center; }
 .av-rap.uni { background: #1e2f6b; border-color: #1e2f6b; }
 .av-rap[disabled] { opacity: .45; cursor: not-allowed; }
+.av-dupla { margin-top: 10px; padding: 10px 14px; border-radius: 10px; background: #fef3c7; border: 2px solid #f59e0b; color: #78350f; font-size: .98rem; }
 .av-rap small { font-size: .75rem; font-weight: 600; opacity: .9; }
 .av-ou { text-align: center; color: #64748b; margin: 8px 0 0; font-weight: 700; }
