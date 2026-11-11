@@ -1452,3 +1452,37 @@ body.modo-placar .tela.painel-prof { max-width: none; padding: 0; }
 .av-dupla { margin-top: 10px; padding: 10px 14px; border-radius: 10px; background: #fef3c7; border: 2px solid #f59e0b; color: #78350f; font-size: .98rem; }
 .av-rap small { font-size: .75rem; font-weight: 600; opacity: .9; }
 .av-ou { text-align: center; color: #64748b; margin: 8px 0 0; font-weight: 700; }
+
+/* 👑 rei da sala */
+@keyframes coroa-flutua { 0%,100% { transform: translateY(0) rotate(-14deg); } 50% { transform: translateY(-4px) rotate(-8deg); } }
+.coroa { filter: drop-shadow(0 2px 3px rgba(0,0,0,.35)); }
+.tb-av { position: relative; }
+.tb-av.rei .avatar-svg { border-color: #facc15; box-shadow: 0 0 0 3px rgba(250,204,21,.45), 0 0 14px rgba(250,204,21,.7); }
+@keyframes coroa-flutua-d { 0%,100% { transform: translateY(0) rotate(16deg); } 50% { transform: translateY(-4px) rotate(10deg); } }
+.tb-av .coroa { position: absolute; right: -14px; top: -7px; z-index: 2; animation: coroa-flutua-d 2.2s ease-in-out infinite; }
+.tb-rei { display: flex; flex-direction: column; align-items: center; line-height: 1.1; background: linear-gradient(135deg, #facc15, #f59e0b); color: #422006; font-weight: 900; border-radius: 12px; padding: 4px 10px; font-size: .95rem; white-space: nowrap; }
+.tb-rei small { font-size: .7rem; font-weight: 800; }
+.pl-av { position: relative; }
+.pl-av.rei .coroa { position: absolute; left: -18px; top: -24px; z-index: 2; animation: coroa-flutua 2.2s ease-in-out infinite; }
+.pl-rei { font-size: .8rem; background: linear-gradient(135deg, #facc15, #f59e0b); color: #422006; border-radius: 999px; padding: 2px 9px; vertical-align: middle; font-weight: 900; }
+.pv-chip.rei { background: #fef3c7; border-color: #f59e0b; color: #78350f; }
+.pv-coroa { display: inline-block; vertical-align: middle; margin-right: 4px; }
+.rei-aviso { position: fixed; top: 34vh; left: 50%; transform: translateX(-50%); z-index: 9999; display: flex; align-items: center; gap: 14px; padding: 14px 22px; border-radius: 18px; box-shadow: 0 12px 30px rgba(0,0,0,.25); animation: rei-entra .5s cubic-bezier(.2,1.4,.4,1); max-width: calc(100% - 32px); }
+.rei-aviso.ganhou { background: linear-gradient(135deg, #fef08a, #facc15); color: #422006; border: 3px solid #a16207; }
+.rei-aviso.perdeu { background: #1e293b; color: #fff; }
+.rei-aviso b { display: block; font-size: 1.35rem; } .rei-aviso span { font-size: 1rem; } .rei-aviso .rei-ic { font-size: 2.4rem; }
+.rei-aviso .coroa { animation: coroa-flutua 2.2s ease-in-out infinite; }
+.rei-aviso.sai { opacity: 0; transition: opacity .7s; }
+@keyframes rei-entra { from { opacity: 0; transform: translate(-50%, -30px) scale(.8); } to { opacity: 1; transform: translate(-50%, 0) scale(1); } }
+@media (prefers-reduced-motion: reduce) { .coroa, .rei-aviso { animation: none !important; } }
+
+/* ⭐ bolha de pontos e posição (aparece e some) */
+.pts-bolha { position: fixed; right: 18px; top: 78px; z-index: 9998; display: flex; flex-direction: column; align-items: flex-end; gap: 4px; background: #fff; border: 3px solid #22c55e; border-radius: 18px; padding: 10px 16px; box-shadow: 0 10px 26px rgba(0,0,0,.2); max-width: calc(100% - 36px); }
+.pts-bolha.pula { animation: pts-pula .55s cubic-bezier(.2,1.5,.4,1); }
+.pts-mais { font-size: 1.6rem; color: #15803d; font-weight: 900; }
+.pts-pos { font-size: 1.05rem; color: #1e293b; }
+.pts-pos.pisca1 { animation: pts-luz 1s ease-out; border-radius: 8px; }
+.pts-bolha.sai { opacity: 0; transform: translateY(-10px); transition: opacity .6s, transform .6s; }
+@keyframes pts-pula { 0% { opacity: 0; transform: scale(.6) translateY(-10px); } 100% { opacity: 1; transform: none; } }
+@keyframes pts-luz { 0% { background: #fde68a; } 100% { background: transparent; } }
+@media (prefers-reduced-motion: reduce) { .pts-bolha, .pts-pos { animation: none !important; } }

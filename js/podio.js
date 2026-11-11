@@ -370,12 +370,23 @@
     return out;
   }
 
+  /* ======================= 👑 rei da sala ======================= */
+  // coroinha que flutua perto do avatar de quem está em 1º lugar (não fica encaixada na cabeça)
+  function coroa(px) {
+    return `<svg class="coroa" viewBox="0 0 40 30" width="${px}" height="${Math.round(px * .75)}" aria-hidden="true"><path d="M3 26 L5 9 L13 17 L20 4 L27 17 L35 9 L37 26 Z" fill="#facc15" stroke="#a16207" stroke-width="1.6" stroke-linejoin="round"/><rect x="3" y="23" width="34" height="5" rx="1.5" fill="#eab308" stroke="#a16207" stroke-width="1.2"/><circle cx="20" cy="4" r="2.6" fill="#ef4444"/><circle cx="5" cy="9" r="2.1" fill="#3b82f6"/><circle cx="35" cy="9" r="2.1" fill="#22c55e"/><circle cx="20" cy="18" r="2.4" fill="#ef4444"/><circle cx="11" cy="21" r="1.4" fill="#fff"/><circle cx="29" cy="21" r="1.4" fill="#fff"/></svg>`;
+  }
+  // reis = quem está em 1º lugar com pontos (empate no 1º lugar: todos ganham a coroa)
+  const reis = rk => rk.filter(e => e.pos === 1 && e.pontos > 0);
+  // "Rei" ou "Rainha" pelo avatar (masculino/feminino que o próprio aluno escolheu); dupla: "Reis"/"Rainhas"
+  function tituloRei(avs) { const f = (avs || []).map(a => !!(a && a.tipo === "f")), n = f.length || 1, todas = f.length && f.every(Boolean);
+    return n > 1 ? (todas ? "Rainhas da sala" : "Reis da sala") : (todas ? "Rainha da sala" : "Rei da sala"); }
+
   /* ======================= 🎉 telas do placar/pódio ======================= */
   const MED = ["🥇", "🥈", "🥉"];
   function linhaPlacar(e, i) {
     return `<div class="pl-lin ${i < 3 ? "top top" + (i + 1) : ""}" data-k="${esc(e.ids.join("+"))}" style="top:${i * 74}px">
-      <span class="pl-pos">${i < 3 ? MED[i] : e.pos + "º"}</span><span class="pl-av">${e.avatares.map(a => svg(a, 38)).join("")}</span>
-      <span class="pl-nome">${e.nomes.map(esc).join(" & ")}${e.trilha ? " 👣" : ""}${e.okB ? ` <small class="pl-ok">✔ Básico</small>` : ""}</span>
+      <span class="pl-pos">${i < 3 ? MED[i] : e.pos + "º"}</span><span class="pl-av${e.rei ? " rei" : ""}">${e.rei ? coroa(38) : ""}${e.avatares.map(a => svg(a, 38)).join("")}</span>
+      <span class="pl-nome">${e.nomes.map(esc).join(" & ")}${e.trilha ? " 👣" : ""}${e.rei ? ` <small class="pl-rei">👑 ${tituloRei(e.avatares)}</small>` : ""}${e.okB ? ` <small class="pl-ok">✔ Básico</small>` : ""}</span>
       <span class="pl-pts">${e.pontos}<small> pts</small></span></div>`;
   }
   function podioHTML(rk) {
@@ -391,5 +402,5 @@
   }
 
   P.avatar = { svg, editor, fluxoLogin, daSessao, PADRAO };
-  P.podio = { ranking, pontosDoc, linhaPlacar, podioHTML, confete, nomeCurto, MED };
+  P.podio = { ranking, pontosDoc, linhaPlacar, podioHTML, confete, nomeCurto, MED, coroa, reis, tituloRei };
 })();

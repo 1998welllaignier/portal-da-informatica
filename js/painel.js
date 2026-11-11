@@ -249,9 +249,23 @@
   }
   /* 🏁 finalizar a aula: grava o pódio (config/podio_<turma>, que os alunos leem) e fecha as tarefas até o fim da aula */
   async function carregarSerie(t) { await Promise.all(cat().apostilas.filter(a => a.serie === t.serie.id).map(a => P.carregarApostila(a.id).catch(() => null))); }
+  /* 👑 rei da sala: o painel (placar ou ao vivo aberto) grava quem está em 1º lugar em config/rei_<turma>, que a tela do aluno lê */
+  const reiGravado = {};
+  function marcarRei(rk) { const rs = P.podio.reis(rk); rk.forEach(e => { e.rei = rs.includes(e); }); return rs; }
+  // também grava a posição e os pontos de cada um (só os códigos internos, sem nomes): a tela do aluno mostra "você está em Nº lugar"
+  async function publicarRei(t, rk, congelado) {
+    let dados, chave;
+    if (congelado) { chave = N.hoje() + "|congelado"; dados = { dia: N.hoje(), congelado: true, em: Date.now() }; }
+    else { const rs = marcarRei(rk), grupos = rs.map(e => ({ ids: e.ids, titulo: P.podio.tituloRei(e.avatares) })), lista = rk.map(e => ({ ids: e.ids, pos: e.pos, pontos: e.pontos }));
+      chave = N.hoje() + "|" + JSON.stringify(lista);
+      dados = { dia: N.hoje(), congelado: false, ids: [].concat(...grupos.map(g => g.ids)), grupos, lista, total: rk.length, em: Date.now() }; }
+    if (reiGravado[t.id] === chave) return; reiGravado[t.id] = chave;
+    try { await db().collection("config").doc("rei_" + t.id).set(dados, { merge: true }); } catch (e) { reiGravado[t.id] = null; console.warn("rei", e); }
+  }
   async function finalizarAula(t, alunos, prog, mid) {
     await carregarSerie(t);
     const hoje = N.hoje(), rk = P.podio.ranking(alunos, prog, mid, hoje);
+    await publicarRei(t, rk);
     const ranking = rk.map(e => ({ ids: e.ids, nomes: e.nomes, pontos: e.pontos, pos: e.pos, avatares: e.avatares.map(a => a || null), trilha: !!e.trilha }));
     await db().collection("config").doc("podio_" + t.id).set({ dia: hoje, mid, finalizadaEm: Date.now(), ranking });
     let ate = Date.now() + 60000;
@@ -286,8 +300,9 @@
     const pintarPlacar = () => {
       if (vendoPodio) return;
       const rel = relogio(), congelado = !rel.fora && !rel.antes && !rel.depois && rel.r <= 300;
-      if (congelado) { corpo.innerHTML = `<div class="pl-cong"><p>🤫</p><h2>Placar congelado!</h2><p>Faltam menos de 5 minutos. O resultado só aparece no pódio… Corram!</p></div>`; return; }
+      if (congelado) { publicarRei(t, [], true); corpo.innerHTML = `<div class="pl-cong"><p>🤫</p><h2>Placar congelado!</h2><p>Faltam menos de 5 minutos. O resultado só aparece no pódio… Corram!</p></div>`; return; }
       const rk = P.podio.ranking(alunos, prog, mid, N.hoje());
+      publicarRei(t, rk);
       if (!rk.length) { corpo.innerHTML = `<div class="pl-cong"><p>⏳</p><h2>Esperando a turma entrar…</h2><p>O placar começa assim que os alunos entrarem com o código.</p></div>`; return; }
       let lista = corpo.querySelector(".pl-lista"); if (!lista) { corpo.innerHTML = `<div class="pl-lista"></div>`; lista = corpo.querySelector(".pl-lista"); }
       lista.style.height = rk.length * 74 + "px";
@@ -344,6 +359,10 @@
       else rel = `<span class="pv-rel">⏱️ <b>Faltam ${fim - m} min</b> para o fim da aula (${fhm(ini)}–${fhm(fim)})<span class="pv-barra"><i style="width:${Math.round(100 * (m - ini) / DUR)}%"></i></span></span>`;
       dlg.querySelector("#pv-rel").innerHTML = rel;
       const missao = C.missoes.find(x => x.id === mid) || {};
+      // 👑 rei da sala (mesma pontuação do placar); nos últimos 5 min não muda (placar congelado)
+      const rk = P.podio.ranking(alunos, prog, mid, hoje), congelado = ini != null && t.aula.dia === dia && m >= fim - 5 && m < fim;
+      if (!congelado) publicarRei(t, rk); else { marcarRei(rk); publicarRei(t, rk, true); }
+      const reisV = rk.filter(e => e.rei), ehRei = new Set([].concat(...reisV.map(e => e.ids)));
       const linhas = alunos.map(a => {
         const ps = prog.filter(p => p.alunoId === a.id), ent = ps.find(p => p.tipo === "entrada"), entrou = ent && ent.dias && ent.dias[hoje];
         const daHoje = ps.filter(p => p.mid && p.dias && p.dias[hoje]).sort((x, y) => (y.atualizado || 0) - (x.atualizado || 0));
@@ -359,12 +378,12 @@
         nT = dentro.filter(x => x.pm && x.pm.turbo && x.pm.turbo[1] && x.pm.turbo[0] === x.pm.turbo[1]).length, nPar = dentro.filter(x => agora - x.ult > 600000).length;
       dlg.querySelector("#pv-c").innerHTML = `<p class="pv-mis">📌 ${esc(missao.icone || "")} <b>${esc(missao.titulo || mid.toUpperCase())}</b></p>
         <div class="pv-chips"><span class="pv-chip">👥 <b>${dentro.length}</b> de ${alunos.length} entraram hoje</span><span class="pv-chip ok">🟢 Básico ✔ <b>${nB}</b>/${dentro.length}</span>
-          <span class="pv-chip">🟡 Desafio ✔ <b>${nD}</b></span><span class="pv-chip">🔴 Turbo ✔ <b>${nT}</b></span>${nPar ? `<span class="pv-chip alerta">😴 Parados <b>${nPar}</b></span>` : ""}</div>
+          <span class="pv-chip">🟡 Desafio ✔ <b>${nD}</b></span><span class="pv-chip">🔴 Turbo ✔ <b>${nT}</b></span>${reisV.length ? `<span class="pv-chip rei">👑 ${reisV.map(e => `${P.podio.tituloRei(e.avatares).replace(/ da sala$/, "")}: <b>${e.nomes.map(esc).join(" & ")}</b> (${e.pontos} pts)`).join(" · ")}</span>` : ""}${nPar ? `<span class="pv-chip alerta">😴 Parados <b>${nPar}</b></span>` : ""}</div>
         ${dentro.length ? `<div class="tabela-wrap"><table class="pv-tab"><thead><tr><th>Aluno</th><th>Entrou</th><th>Progresso na missão de hoje</th><th>Situação</th><th>Última atividade</th></tr></thead><tbody>${dentro.map(({ a, entrou, pm, ult, outra }) => {
           const p = pm || {}, okB = !!p.basicoOk, falta = p.basico && p.basico[1] ? p.basico[1] - p.basico[0] : null, par = agora - ult > 600000;
           const sit = okB ? (p.turbo && p.turbo[1] && p.turbo[0] === p.turbo[1] ? `<span class="sit ok">🏆 Missão completa</span>` : `<span class="sit ok">✔ Básico feito (visto)</span>`)
             : falta != null ? `<span class="sit wait">Faltam ${falta} do Básico</span>` : `<span class="sit bad">Ainda não começou a missão</span>`;
-          return `<tr class="${par ? "parado" : ""} ${okB ? "feito" : ""}"><td>${a.atipico ? "🧩 " : ""}${esc(a.nome)}${a.trilha ? " 👣" : ""}${outra ? `<br><small>está na ${esc(outra.mid.toUpperCase())}</small>` : ""}</td><td>${hhmm(entrou)}</td>
+          return `<tr class="${par ? "parado" : ""} ${okB ? "feito" : ""}"><td>${ehRei.has(a.id) ? `<span class="pv-coroa" title="Rei da sala: 1º lugar">${P.podio.coroa(22)}</span>` : ""}${a.atipico ? "🧩 " : ""}${esc(a.nome)}${a.trilha ? " 👣" : ""}${outra ? `<br><small>está na ${esc(outra.mid.toUpperCase())}</small>` : ""}</td><td>${hhmm(entrou)}</td>
             <td class="pv-bars">${fr(p.leitura, "📖 Leitura", "l")}${fr(p.basico, "🟢 Básico", "b")}${fr(p.desafio, "🟡 Desafio", "d")}${fr(p.turbo, "🔴 Turbo", "t")}${!pm ? "<small>—</small>" : ""}</td>
             <td>${sit}</td><td>${par ? "😴 " : ""}há ${Math.max(0, Math.round((agora - ult) / 60000))} min</td></tr>`; }).join("")}</tbody></table></div>`
         : `<p class="ajuda">Nenhum aluno desta turma entrou hoje ainda.</p>`}
@@ -375,7 +394,7 @@
       dlg.querySelector("#pv-c").innerHTML = `<p class="ajuda">Carregando…</p>`;
       const t = turmas.find(x => x.id === tid);
       const ap = cat().apostilas.find(a => a.serie === t.serie.id && !a.oculta && !a.trilha) || cat().apostilas.find(a => a.serie === t.serie.id);
-      await P.carregarApostila(ap.id); const C = P.conteudo[ap.id], mid = missaoDoDia(t, C) || C.missoes[0].id;
+      await P.carregarApostila(ap.id); await carregarSerie(t); const C = P.conteudo[ap.id], mid = missaoDoDia(t, C) || C.missoes[0].id;
       const alunos = (await alunosDaTurma(tid)).filter(a => a.ativo !== false && !a.teste);
       estado = { t, alunos, prog: [], C, mid, aid: ap.id };
       unsub = db().collection("progresso").where("turma", "==", tid).onSnapshot(q => { if (estado && estado.t.id === tid) { estado.prog = q.docs.map(d => ({ id: d.id, ...d.data() })); pinta(); } },

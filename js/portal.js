@@ -119,8 +119,18 @@
     return KEY + aid + ":" + s.turma + ":" + norm(s.nomes.join("+")).replace(/ /g, "_");
   }
   function getProg(aid) { const k = progressoKey(aid); return (k && store.get(k, null)) || { visitas: {}, atv: {}, atualizado: 0 }; }
+  // ⭐ pontos da brincadeira da aula (mesma conta do placar, sem o bônus de rapidez, que entra no total do placar)
+  function pontosDaMissao(aid, mid, atv) { try { const r = P.podio && P.podio.pontosDoc({ aid, mid, atv: atv || {} }, null, ""); return r ? r.pontos : 0; } catch (e) { return 0; } }
+  function conferirPontos(aid, antes, depois) {
+    const s = sess.get(), C = P.conteudo[aid]; if (!s || !s.nuvem || !C || !P.podio) return;
+    if (JSON.stringify(antes.atv || {}) === JSON.stringify(depois.atv || {})) return;
+    let ganho = 0; C.missoes.forEach(m => { const d = pontosDaMissao(aid, m.id, depois.atv) - pontosDaMissao(aid, m.id, antes.atv); if (d > 0) ganho += d; });
+    if (ganho > 0) bolhaPontos(ganho);
+  }
   function setProg(aid, p, daNuvem) {
-    const k = progressoKey(aid); if (!k) return; p.atualizado = Date.now();
+    const k = progressoKey(aid); if (!k) return;
+    if (!daNuvem) try { conferirPontos(aid, getProg(aid), p); } catch (e) {}
+    p.atualizado = Date.now();
     if (!store.set(k, p)) toast("Não foi possível guardar o progresso neste navegador.");
     if (!daNuvem && P.nuvem && P.nuvem.pronto) P.nuvem.agendar(aid);
   }
@@ -185,11 +195,12 @@
     el.innerHTML = `<a class="brand" href="#/apostilas">${marca}</a>
       ${P.avatar && s.nuvem ? `<span class="tb-av" aria-hidden="true">${(s.alunoIds || []).map((_, i) => P.avatar.svg((s.avatares || [])[i], 46, true)).join("")}</span>` : ""}
       <div class="tb-who" aria-label="Quem está usando"><span class="tb-turma">${esc(t ? t.nome : "")}</span><strong class="tb-nome">${esc(quem(s))}</strong>${apel.length ? `<span class="tb-completo">${esc(s.nomes.join(" & "))}</span>` : ""}</div>
+      <div class="tb-rei" id="tb-rei" hidden></div>
       <div class="tb-info"${info ? "" : " hidden"}>${info || ""}</div>
       <div class="tb-relogio" id="tb-relogio" hidden aria-live="off"></div>
       <button class="tb-btn" id="tb-sair" type="button">Sair</button>`;
     document.getElementById("tb-sair").onclick = () => sair();
-    relogioAula();
+    relogioAula(); aplicarCoroa();
     if (P.avatar && s.nuvem && !(s.avatares && s.avatares.length)) P.avatar.daSessao(s, () => barra(info));
   }
   /* ⏱️ cronômetro da aula: durante a aula da turma, mostra quanto falta para o fim (contagem regressiva) e o horário final;
@@ -212,8 +223,53 @@
       document.body.appendChild(dlg); dlg.showModal(); dlg.addEventListener("close", () => dlg.remove());
     }, () => {}); } catch (e) {}
   }
+  // 👑 rei da sala: o painel do professor grava quem está em 1º lugar (config/rei_<turma>); quem é ganha a coroinha na barra de cima
+  let reiUnsub = null, reiTurma = null, reiEu = null, minhaPos = null, esperaPos = 0, bolha = null, bolhaTo = null;
+  // ⭐ bolha que aparece e some: "+N pontos" na hora; a posição chega logo depois (o painel do professor recalcula o placar)
+  function posTxt(mp) { return mp.congelado ? `🤫 Placar congelado: a sua posição aparece no pódio!` : `${mp.dupla ? "Vocês estão" : "Você está"} em <b>${mp.pos}º lugar</b> de ${mp.total} · ${mp.pontos} pts`; }
+  function bolhaPontos(ganho) {
+    esperaPos = Date.now() + 15000;
+    if (!bolha || !bolha.isConnected) { bolha = h(`<div class="pts-bolha" role="status"><b class="pts-mais"></b><span class="pts-pos"></span></div>`); document.body.appendChild(bolha); }
+    bolha.classList.remove("sai"); bolha.classList.remove("pula"); void bolha.offsetWidth; bolha.classList.add("pula");
+    bolha.querySelector(".pts-mais").textContent = `⭐ +${ganho} pontos!`;
+    const pos = bolha.querySelector(".pts-pos"); pos.innerHTML = minhaPos ? posTxt(minhaPos) : ""; pos.hidden = !minhaPos;
+    segura(4500);
+  }
+  function segura(ms) { clearTimeout(bolhaTo); bolhaTo = setTimeout(() => { if (bolha) { bolha.classList.add("sai"); setTimeout(() => { if (bolha && bolha.classList.contains("sai")) { bolha.remove(); bolha = null; } }, 700); } }, ms); }
+  function novaPos(mp) {
+    const antes = minhaPos; minhaPos = mp;
+    if (!mp || Date.now() > esperaPos) return;
+    if (antes && !mp.congelado && !antes.congelado && antes.pos === mp.pos && antes.pontos === mp.pontos) return;
+    if (!bolha || !bolha.isConnected) { bolha = h(`<div class="pts-bolha" role="status"><b class="pts-mais"></b><span class="pts-pos"></span></div>`); document.body.appendChild(bolha); bolha.querySelector(".pts-mais").hidden = true; }
+    bolha.classList.remove("sai"); const pos = bolha.querySelector(".pts-pos"); pos.hidden = false;
+    const subiu = antes && !antes.congelado && !mp.congelado && mp.pos < antes.pos;
+    pos.innerHTML = (subiu ? "⬆️ Subiu! " : "") + posTxt(mp); pos.classList.remove("pisca1"); void pos.offsetWidth; pos.classList.add("pisca1");
+    segura(4000);
+  }
+  function aplicarCoroa() {
+    const av = document.querySelector("#topbar .tb-av"), chip = document.getElementById("tb-rei");
+    if (av) { av.classList.toggle("rei", !!reiEu); const c = av.querySelector(".coroa"); if (reiEu && !c && P.podio) av.insertAdjacentHTML("afterbegin", P.podio.coroa(26)); if (!reiEu && c) c.remove(); }
+    if (chip) { chip.hidden = !reiEu; chip.innerHTML = reiEu ? `👑 ${reiEu}<small>1º lugar</small>` : ""; }
+  }
+  function aviso(html, cls) { const b = h(`<div class="rei-aviso ${cls || ""}" role="status">${html}</div>`); document.body.appendChild(b); setTimeout(() => b.classList.add("sai"), 5200); setTimeout(() => b.remove(), 6000); }
+  function ouvirRei(s) {
+    if (!s || !s.nuvem || !P.nuvem || !P.nuvem.app || reiTurma === s.turma) return;
+    if (reiUnsub) reiUnsub(); reiTurma = s.turma; reiEu = null;
+    try { reiUnsub = P.nuvem.app(0).db.collection("config").doc("rei_" + s.turma).onSnapshot(sn => {
+      const d = sn.exists ? sn.data() : null, ss = sess.get(); if (!ss || ss.turma !== s.turma) return;
+      const g = d && d.dia === P.nuvem.hoje() ? (d.grupos || []).find(x => (x.ids || []).some(id => (ss.alunoIds || []).includes(id))) : null;
+      if (d && d.dia === P.nuvem.hoje()) { const meu = (d.lista || []).find(x => (x.ids || []).some(id => (ss.alunoIds || []).includes(id)));
+        novaPos(d.congelado ? { congelado: true } : meu ? { pos: meu.pos, pontos: meu.pontos, total: d.total || (d.lista || []).length, dupla: (ss.alunoIds || []).length > 1 } : null); }
+      if (d && d.congelado) return; // placar congelado: a coroa fica com quem estava na frente
+      const novo = g ? (g.titulo || "Rei da sala") : null, antes = reiEu; reiEu = novo; aplicarCoroa();
+      const voce = (ss.alunoIds || []).length > 1 ? "Vocês são" : "Você é";
+      if (novo && !antes) aviso(`${P.podio ? P.podio.coroa(54) : "👑"}<div><b>${voce} ${novo.replace(/^(Reis?|Rainhas?)/, m => (/s$/.test(m) ? "os " : /Rainha/.test(m) ? "a " : "o ") + m.toLowerCase())}!</b><span>${(ss.alunoIds || []).length > 1 ? "Vocês estão" : "Você está"} em 1º lugar. Continue acertando para não perder a coroa!</span></div>`, "ganhou");
+      else if (!novo && antes) aviso(`<span class="rei-ic">😮</span><div><b>Alguém passou na sua frente!</b><span>Responda certo e rápido para pegar a coroa de volta 👑</span></div>`, "perdeu");
+    }, () => {}); } catch (e) {}
+  }
   function relogioAula() {
     try { ouvirPodio(sess.get()); } catch (e) {}
+    try { ouvirRei(sess.get()); } catch (e) {}
     clearInterval(relogioIv);
     const tick = () => {
       const el = document.getElementById("tb-relogio"); if (!el) return clearInterval(relogioIv);
