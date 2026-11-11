@@ -200,7 +200,7 @@
       const s = sess.get(), t = s && turma(s.turma), a = t && t.aula;
       if (!a || !a.ini) { el.hidden = true; return; }
       const d = new Date(Date.now() + (new Date().getTimezoneOffset() - 180) * 60000);
-      const [hh, mm] = a.ini.split(":").map(Number), ini = hh * 3600 + mm * 60, fim = ini + 75 * 60, agora = d.getHours() * 3600 + d.getMinutes() * 60 + d.getSeconds();
+      const [hh, mm] = a.ini.split(":").map(Number), ini = hh * 3600 + mm * 60, fim = ini + (cat().duracaoAula || 75) * 60, agora = d.getHours() * 3600 + d.getMinutes() * 60 + d.getSeconds();
       if (d.getDay() !== a.dia || agora < ini || agora >= fim) { el.hidden = true; return; }
       const r = fim - agora, mi = Math.floor(r / 60), se = r % 60, hf = `${Math.floor(fim / 3600)}h${String(Math.floor(fim % 3600 / 60)).padStart(2, "0")}`;
       el.hidden = false;

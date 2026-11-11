@@ -194,10 +194,11 @@
   const ajudaAba = k => { const a = AJUDA[k]; return a ? `<details class="pp-ajuda"><summary>❓ Para que serve esta aba e como usar</summary><p>${a[0]}</p><ul>${a[1].map(x => `<li>${x}</li>`).join("")}</ul></details>` : ""; };
   /* 🗓️ quadro de horários (igual ao da página inicial): a aula que está acontecendo pisca; fora do horário, avisa que não há aula */
   const COR_S = { "5": ["#16a34a", "#dcfce7"], "6": ["#2563eb", "#dbeafe"], "7": ["#7c3aed", "#ede9fe"], "8": ["#ea580c", "#ffedd5"], "9": ["#db2777", "#fce7f3"] };
-  const DIAS_L = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"], EMO_D = ["", "🌅", "🚀", "⚡", "🎯"], DUR = 75;
+  const DIAS_L = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"], EMO_D = ["", "🌅", "🚀", "⚡", "🎯"]; let DUR = 75;
   const hm = x => { const [a, b] = x.split(":").map(Number); return a * 60 + b; }, fhm = m => `${Math.floor(m / 60)}h${String(m % 60).padStart(2, "0")}`;
   function agoraBR() { const d = new Date(Date.now() + (new Date().getTimezoneOffset() - 180) * 60000); return { dia: d.getDay(), m: d.getHours() * 60 + d.getMinutes() }; }
   function abrirHorarios() {
+    DUR = cat().duracaoAula || 75;
     if (document.querySelector(".pp-hor-dlg")) return;
     const H = todasTurmas().filter(t => t.aula && t.aula.ini).map(t => ({ t, dia: t.aula.dia, i: hm(t.aula.ini) })).sort((a, b) => a.dia - b.dia || a.i - b.i || (a.t.serie.id === "5") - (b.t.serie.id === "5"));
     const dlg = h(`<dialog class="pp-dlg pp-dlg-larga pp-hor-dlg"><form method="dialog"><div class="pp-hor-top"><h2>🗓️ Horários da Sala de Informática</h2><button class="btn btn-sec btn-peq" value="x">Fechar</button></div>
@@ -249,6 +250,7 @@
   /* 🔴 Ao vivo: quem entrou na aula hoje, em que parte da missão está, o que falta e quanto tempo falta para o fim da aula.
      Lê o progresso que o portal já grava (só leitura) e atualiza sozinho quando um aluno avança. */
   async function abrirAoVivo() {
+    DUR = cat().duracaoAula || 75;
     if (document.querySelector(".pp-vivo-dlg")) return;
     const turmas = todasTurmas(); let tid = escolherTurma(null, turmas), unsub = null, iv = null;
     const dlg = h(`<dialog class="pp-dlg pp-dlg-larga pp-vivo-dlg"><form method="dialog"><div class="pp-hor-top"><h2>🔴 Ao vivo</h2><button class="btn btn-sec btn-peq" value="x">Fechar</button></div>
