@@ -107,12 +107,12 @@
   /* editor com cronômetro. resolve com o avatar escolhido (salvo, anterior ou padrão) */
   function editor(mount, { nome, anterior, segundos }) {
     return new Promise(resolve => {
-      let a = norm(anterior), fim = Date.now() + (segundos || 90) * 1000, acabou = false;
+      let a = norm(anterior), fim = Date.now() + (segundos || 120) * 1000, acabou = false;
       const sw = (lista, campo, cls) => lista.map((c, i) => `<button type="button" class="av-sw ${cls || ""}" data-c="${campo}" data-v="${i}" style="--c:${c}" aria-label="cor ${i + 1}"></button>`).join("");
       const op = campo => OPC[campo].map(([v, r]) => `<button type="button" class="av-op" data-c="${campo}" data-v="${v}">${r}</button>`).join("");
       const el = mount(`<section class="tela av-tela"><div class="av-cx">
         <div class="av-topo"><h1>🧍 Monte o seu avatar${nome ? `, <span>${esc(nome)}</span>` : ""}!</h1>
-          <div class="av-tempo"><span id="av-s">90</span>s<i><b id="av-b"></b></i></div></div>
+          <div class="av-tempo"><span id="av-s">120</span>s<i><b id="av-b"></b></i></div></div>
         <div class="av-grid"><div class="av-prev" id="av-prev"></div>
           <div class="av-opcoes">
             <p class="av-t">🎨 Cor da pele</p><div class="av-row">${sw(PELE, "pele")}</div>
@@ -152,7 +152,7 @@
       el.querySelector("#av-pula").onclick = () => sair({ avatar: norm(anterior), salvo: false });
       const iv = setInterval(() => {
         const r = Math.max(0, Math.ceil((fim - Date.now()) / 1000));
-        el.querySelector("#av-s").textContent = r; el.querySelector("#av-b").style.width = (100 * r / (segundos || 90)) + "%";
+        el.querySelector("#av-s").textContent = r; el.querySelector("#av-b").style.width = (100 * r / (segundos || 120)) + "%";
         el.querySelector(".av-tempo").classList.toggle("fim", r <= 10);
         if (r <= 0) { P.toast && P.toast("⏰ Acabou o tempo!"); sair({ avatar: norm(anterior), salvo: false }); }
       }, 250);

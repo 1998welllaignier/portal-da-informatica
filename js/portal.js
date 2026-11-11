@@ -355,8 +355,8 @@
         catch (err) { console.warn(err); b.disabled = false; b.textContent = "Tentar de novo"; toast("Não foi possível entrar agora. Tente de novo."); return; }
         sess.set({ serie: sid, turma: t.value, modo, nuvem: true, alunoIds: infos.map(x => x.alunoId), nomes: infos.map(x => x.nome), apelidos: infos.map((x, i) => apels[i] || ""), entrou: Date.now(),
           trilha: infos.length === 1 && !!infos[0].trilha });
-        // 🧍 monta o avatar (1 min 30 s); quem não salvar entra com o avatar que já tinha ou com o uniforme da escola
-        if (P.avatar) { try { const avs = await P.avatar.fluxoLogin(mount, infos.map(x => Object.assign({}, x, { turma: t.value })), 90); const ss = sess.get(); if (ss && avs && avs.length) sess.set(Object.assign({}, ss, { avatares: avs })); } catch (e) { console.warn("avatar", e); } }
+        // 🧍 monta o avatar (2 min); quem não salvar entra com o avatar que já tinha ou com o uniforme da escola
+        if (P.avatar) { try { const avs = await P.avatar.fluxoLogin(mount, infos.map(x => Object.assign({}, x, { turma: t.value })), 120); const ss = sess.get(); if (ss && avs && avs.length) sess.set(Object.assign({}, ss, { avatares: avs })); } catch (e) { console.warn("avatar", e); } }
         location.hash = destino || "#/apostilas";
       };
       cf.querySelector("#sim").focus();
