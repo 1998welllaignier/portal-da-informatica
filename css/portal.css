@@ -1434,3 +1434,8 @@ body.modo-placar .tela.painel-prof { max-width: none; padding: 0; }
 @media (prefers-reduced-motion: reduce) { .pd-col, .pd-resto { animation: none; opacity: 1; transform: none; } .pd-conf { display: none; } .pl-lin { transition: none; } }
 .tb-av { display: flex; align-items: center; gap: 4px; }
 .tb-av .avatar-svg { width: 46px; height: 46px; background: radial-gradient(circle at 50% 40%, #e0f2fe, #93c5fd); border-radius: 50%; border: 2px solid #fde68a; }
+.av-ideias-btn { margin-left: 6px; background: #f59e0b; border-color: #f59e0b; color: #fff; }
+.av-ideias { max-width: 860px; }
+.av-ideias-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; max-height: 60vh; overflow: auto; }
+.av-ideia { display: flex; flex-direction: column; align-items: center; gap: 4px; border: 2px solid #e2e8f0; background: radial-gradient(circle at 50% 35%, #e0f2fe, #fff); border-radius: 14px; padding: 8px; cursor: pointer; font: inherit; font-size: .85rem; font-weight: 700; }
+.av-ideia:hover, .av-ideia:focus-visible { border-color: #2563eb; transform: translateY(-2px); }

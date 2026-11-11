@@ -26,6 +26,21 @@
     estilo: [["lisa", "Lisa"], ["vertical", "Listras em pé"], ["horizontal", "Listras deitadas"], ["faixa", "Faixa"], ["metade", "Metade e metade"], ["gola", "Gola e mangas"]],
     oculos: [["nenhum", "Sem óculos"], ["redondo", "Redondo"], ["quadrado", "Quadrado"], ["escuro", "Escuro"]]
   };
+  // ideias de uniformes (combinações de cores e modelos; sem escudos nem nomes de times)
+  const IDEIAS = [
+    ["Listras em pé preto e branco", { estilo: "vertical", cor1: 9, cor2: 10, corCalcao: 9, corMeiao: 9, corChuteira: 2, numero: 9 }],
+    ["Listras deitadas vermelho e preto", { estilo: "horizontal", cor1: 0, cor2: 9, corCalcao: 10, corMeiao: 0, corChuteira: 9, numero: 10 }],
+    ["Amarela com detalhe verde", { estilo: "lisa", cor1: 2, cor2: 3, corCalcao: 6, corMeiao: 10, corChuteira: 3, numero: 10 }],
+    ["Metade verde, metade branca", { estilo: "metade", cor1: 3, cor2: 10, corCalcao: 10, corMeiao: 3, corChuteira: 9, numero: 7 }],
+    ["Branca com gola e mangas pretas", { estilo: "gola", cor1: 10, cor2: 9, corCalcao: 9, corMeiao: 10, corChuteira: 9, numero: 1 }],
+    ["Branca com faixa azul", { estilo: "faixa", cor1: 10, cor2: 6, corCalcao: 6, corMeiao: 10, corChuteira: 5, numero: 5 }],
+    ["Listras em pé verde e branco", { estilo: "vertical", cor1: 3, cor2: 10, corCalcao: 10, corMeiao: 3, corChuteira: 10, numero: 11 }],
+    ["Azul com listras deitadas brancas", { estilo: "horizontal", cor1: 5, cor2: 10, corCalcao: 6, corMeiao: 5, corChuteira: 1, numero: 8 }],
+    ["Vermelha lisa", { estilo: "lisa", cor1: 0, cor2: 10, corCalcao: 10, corMeiao: 0, corChuteira: 10, numero: 3 }],
+    ["Preta com faixa branca", { estilo: "faixa", cor1: 9, cor2: 10, corCalcao: 9, corMeiao: 9, corChuteira: 0, numero: 4 }],
+    ["Roxa com gola amarela", { estilo: "gola", cor1: 7, cor2: 2, corCalcao: 7, corMeiao: 2, corChuteira: 7, numero: 6 }],
+    ["Metade azul, metade vermelha", { estilo: "metade", cor1: 6, cor2: 0, corCalcao: 6, corMeiao: 0, corChuteira: 2, numero: 2 }]
+  ];
   const PADRAO = { pele: 2, cabelo: "curto", corCabelo: 1, blusa: "uniforme", cor1: 10, cor2: 6, numero: 10, calca: "calca", corCalca: 6, estilo: "vertical", corCalcao: 10, corMeiao: 10, corChuteira: 9, bone: "nenhum", corBone: 0, oculos: "nenhum" };
   const norm = a => { const x = Object.assign({}, PADRAO, a || {}); if (x.blusa === "time") x.blusa = "futebol"; return x; };
 
@@ -106,7 +121,7 @@
             <div class="av-fut" hidden><p class="av-t">⚽ Uniforme de jogador</p><div class="av-row"><small>Modelo:</small> ${op("estilo")}</div>
               <div class="av-row av-num"><small>Número da camisa:</small> <input type="number" id="av-num" min="0" max="99" value="${a.numero}"></div>
               <div class="av-row"><small>Calção:</small> ${sw(COR, "corCalcao")}</div><div class="av-row"><small>Meião:</small> ${sw(COR, "corMeiao")}</div><div class="av-row"><small>Chuteira:</small> ${sw(COR, "corChuteira")}</div>
-              <p class="ajuda">Dica: monte com as cores do seu time do coração! 💚💛</p></div>
+              <p class="ajuda">Dica: monte com as cores do seu time do coração! 💚💛 <button type="button" class="btn btn-peq av-ideias-btn" id="av-ideias">💡 Ver ideias de uniformes</button></p></div>
             <div class="av-calca"><p class="av-t">👖 Calça</p><div class="av-row">${op("calca")}</div><div class="av-row">${sw(COR, "corCalca")}</div></div>
             <p class="av-t">🧢 Boné</p><div class="av-row">${op("bone")}</div><div class="av-row">${sw(COR, "corBone")}</div>
             <p class="av-t">👓 Óculos</p><div class="av-row">${op("oculos")}</div>
@@ -121,6 +136,16 @@
       };
       el.querySelectorAll("[data-c]").forEach(b => b.onclick = () => { const c = b.dataset.c, v = b.dataset.v; a[c] = /^\d+$/.test(v) && c !== "numero" && !OPC[c] ? +v : v;
         if (c === "blusa" && v === "futebol" && a.cor1 === 10 && a.cor2 === 6) { a.cor1 = 3; a.cor2 = 10; } pinta(); });
+      // 💡 modal com ideias de uniformes de futebol (tocar numa ideia já veste o bonequinho; o tempo continua correndo)
+      el.querySelector("#av-ideias").onclick = () => {
+        const d = document.createElement("dialog"); d.className = "pp-dlg pp-dlg-larga av-ideias";
+        d.innerHTML = `<form method="dialog"><h2>💡 Ideias de uniformes de futebol</h2><p class="ajuda">Toque numa ideia para vestir o seu jogador. Depois, mude as cores, o número, o calção, o meião e a chuteira do jeito que quiser. ⏱️ O tempo continua correndo!</p>
+          <div class="av-ideias-grid">${IDEIAS.map(([rot, x], i) => `<button type="button" class="av-ideia" data-i="${i}">${svg(Object.assign({}, a, x, { blusa: "futebol" }), 110)}<span>${rot}</span></button>`).join("")}</div>
+          <div class="row-btns"><button class="btn" value="x">Fechar</button></div></form>`;
+        document.body.appendChild(d); d.showModal(); d.addEventListener("close", () => d.remove());
+        d.querySelectorAll("[data-i]").forEach(b => b.onclick = () => { Object.assign(a, IDEIAS[+b.dataset.i][1], { blusa: "futebol" }); el.querySelector("#av-num").value = a.numero; pinta(); d.close(); });
+        const fecha = setInterval(() => { if (acabou) { clearInterval(fecha); if (d.open) d.close(); } else if (!d.isConnected) clearInterval(fecha); }, 300);
+      };
       el.querySelector("#av-num").oninput = e => { a.numero = Math.max(0, Math.min(99, +e.target.value || 0)); pinta(); };
       const sair = v => { if (acabou) return; acabou = true; clearInterval(iv); resolve(v); };
       el.querySelector("#av-ok").onclick = () => sair({ avatar: a, salvo: true });
