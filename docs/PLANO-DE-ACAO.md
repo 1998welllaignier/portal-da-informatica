@@ -26,6 +26,7 @@ Ordem: primeiro o que tem data marcada; depois o que adianta o 1º bimestre de 2
 - [x] **Feito em 08/11:** caminhos dos PEIs aprovados pelo professor e aplicados: 👣 Trilha em 11 alunos (Helena já tinha), “3 alternativas” em 33, Renato (7º C) no 🚀 aprofundar. Reavaliar quando os alunos começarem a vir.
 - [x] **Feito em 08/11:** 📝 Apoios gravados em 35 alunos com 🧩 (📍 sentar em 17, caminho sugerido, AEE, prova 3 alternativas, perfil, na aula). 👣 e “3 alternativas” marcados em 08/11, após aprovação.
 - [x] **Feito em 08/11:** Pedro Emanuel de Jesus Lima passou do 8º B para o 8º A no portal (como no SIGE desde 04/08), com 🧩 e apoio; código novo entregue ao professor no chat. 🧩 retirado do Pedro Henrique da Silva Sousa (8º A, sem AEE nem PEI).
+- [x] **Feito pelo professor (informado em 10/11):** Santiago Pinheiro Moraes Amaral (5º C, terça 9h) colocado no diário do painel, à mão.
 - [ ] Entregar o código novo ao Pedro Emanuel de Jesus Lima (8º A) e recolher o cartão antigo.
 - [x] **Feito em 08/11:** diário antigo transferido para a aba 📒 Diário (17 turmas, 9 aulas, registros e lembretes; todos os alunos conferidos). A chamada passa a ser feita no painel.
 - [x] **Feito em 08/11:** cadastro “Prof Welington Laignier” (6º A) marcado como 🧪 aluno de teste (era o único).
