@@ -24,6 +24,10 @@
     calca: [["calca", "Calça"], ["bermuda", "Bermuda"], ["saia", "Saia"]],
     bone: [["nenhum", "Sem boné"], ["frente", "Boné"], ["tras", "Aba para trás"]],
     estilo: [["lisa", "Lisa"], ["vertical", "Listras em pé"], ["horizontal", "Listras deitadas"], ["faixa", "Faixa"], ["metade", "Metade e metade"], ["gola", "Gola e mangas"]],
+    roupa: [["nenhuma", "Nada por cima"], ["jaleco", "Jaleco"], ["terno", "Terno e gravata"], ["macacao", "Macacão"], ["colete", "Colete refletivo"], ["avental", "Avental"], ["bombeiro", "Roupa de bombeiro"], ["farda", "Farda"], ["astronauta", "Roupa de astronauta"]],
+    chapeu: [["nenhum", "Nada"], ["capacete", "Capacete de obra"], ["chef", "Chapéu de chef"], ["quepe", "Quepe"], ["bombeiro", "Capacete de bombeiro"], ["palha", "Chapéu de palha"], ["boina", "Boina"], ["fone", "Fone de ouvido"], ["astronauta", "Capacete espacial"], ["cartola", "Cartola"], ["detetive", "Chapéu de detetive"], ["peruca", "Peruca colorida"], ["mergulho", "Máscara de mergulho"], ["coroa", "Coroa"], ["pirata", "Chapéu de pirata"]],
+    rosto: [["nenhum", "Nada"], ["nariz", "Nariz de palhaço"], ["bigode", "Bigode"], ["mascara", "Máscara cirúrgica"], ["tapaolho", "Tapa-olho"]],
+    objeto: [["nenhum", "Nada"], ["estetoscopio", "Estetoscópio"], ["livro", "Livro"], ["prancheta", "Prancheta"], ["planta", "Planta da obra"], ["maleta", "Maleta"], ["notebook", "Notebook"], ["chave", "Chave inglesa"], ["pincel", "Pincel"], ["microfone", "Microfone"], ["tubo", "Tubo de ensaio"], ["colher", "Colher de pau"], ["bola", "Bola"], ["violao", "Violão"], ["mangueira", "Mangueira"], ["regador", "Regador"], ["pa", "Pá"], ["tijolo", "Colher e tijolo"], ["varinha", "Varinha mágica"], ["lupa", "Lupa"], ["boia", "Boia"], ["vara", "Vara de pescar"], ["vassoura", "Vassoura"], ["pao", "Pão"], ["bolo", "Bolo"], ["camera", "Câmera"], ["carta", "Carta"], ["balao", "Balões"], ["pizza", "Pizza"]],
     oculos: [["nenhum", "Sem óculos"], ["redondo", "Redondo"], ["quadrado", "Quadrado"], ["escuro", "Escuro"]]
   };
   // ideias de uniformes (combinações de cores e modelos; sem escudos nem nomes de times)
@@ -41,11 +45,50 @@
     ["Roxa com gola amarela", { estilo: "gola", cor1: 7, cor2: 2, corCalcao: 7, corMeiao: 2, corChuteira: 7, numero: 6 }],
     ["Metade azul, metade vermelha", { estilo: "metade", cor1: 6, cor2: 0, corCalcao: 6, corMeiao: 0, corChuteira: 2, numero: 2 }]
   ];
-  const PADRAO = { pele: 2, cabelo: "curto", corCabelo: 1, blusa: "uniforme", cor1: 10, cor2: 6, numero: 10, calca: "calca", corCalca: 6, estilo: "vertical", corCalcao: 10, corMeiao: 10, corChuteira: 9, bone: "nenhum", corBone: 0, oculos: "nenhum" };
+  // 💼 profissões (o aluno toca e o bonequinho veste; depois pode mudar tudo)
+  const LIMPA = { roupa: "nenhuma", chapeu: "nenhum", objeto: "nenhum", rosto: "nenhum", bone: "nenhum" };
+  const PROF = [
+    ["🩺 Médica(o)", { blusa: "lisa", cor1: 5, calca: "calca", corCalca: 6, roupa: "jaleco", objeto: "estetoscopio" }],
+    ["💉 Enfermeira(o)", { blusa: "lisa", cor1: 4, calca: "calca", corCalca: 4, objeto: "prancheta", rosto: "mascara" }],
+    ["🦷 Dentista", { blusa: "lisa", cor1: 5, calca: "calca", corCalca: 10, roupa: "jaleco", rosto: "mascara" }],
+    ["🐶 Veterinária(o)", { blusa: "lisa", cor1: 3, calca: "calca", corCalca: 3, roupa: "jaleco", objeto: "estetoscopio" }],
+    ["📚 Professor(a)", { blusa: "lisa", cor1: 7, calca: "calca", corCalca: 9, objeto: "livro", oculos: "quadrado" }],
+    ["👷 Engenheira(o)", { blusa: "lisa", cor1: 10, calca: "calca", corCalca: 6, roupa: "colete", chapeu: "capacete", objeto: "planta" }],
+    ["🧱 Pedreiro(a)", { blusa: "regata", cor1: 11, calca: "bermuda", corCalca: 6, chapeu: "capacete", objeto: "tijolo" }],
+    ["⚖️ Advogada(o)", { blusa: "lisa", cor1: 10, calca: "calca", corCalca: 9, roupa: "terno", corRoupa: 9, objeto: "maleta" }],
+    ["💻 Programador(a)", { blusa: "lisa", cor1: 9, calca: "calca", corCalca: 6, chapeu: "fone", objeto: "notebook" }],
+    ["👨‍🍳 Chef de cozinha", { blusa: "lisa", cor1: 10, calca: "calca", corCalca: 9, roupa: "avental", chapeu: "chef", objeto: "colher" }],
+    ["🍕 Pizzaiolo(a)", { blusa: "lisa", cor1: 0, calca: "calca", corCalca: 9, roupa: "avental", chapeu: "chef", objeto: "pizza", rosto: "bigode" }],
+    ["🥖 Padeiro(a)", { blusa: "lisa", cor1: 10, calca: "calca", corCalca: 11, roupa: "avental", chapeu: "chef", objeto: "pao" }],
+    ["🎂 Confeiteira(o)", { blusa: "lisa", cor1: 8, calca: "calca", corCalca: 10, roupa: "avental", chapeu: "chef", objeto: "bolo" }],
+    ["🚒 Bombeira(o)", { blusa: "lisa", cor1: 0, calca: "calca", corCalca: 9, roupa: "bombeiro", chapeu: "bombeiro", objeto: "mangueira" }],
+    ["👮 Policial", { blusa: "lisa", cor1: 6, calca: "calca", corCalca: 6, roupa: "farda", corRoupa: 6, chapeu: "quepe", corRoupa2: 6 }],
+    ["✈️ Piloto de avião", { blusa: "lisa", cor1: 10, calca: "calca", corCalca: 6, roupa: "terno", corRoupa: 6, chapeu: "quepe", oculos: "escuro" }],
+    ["🚀 Astronauta", { blusa: "lisa", cor1: 10, calca: "calca", corCalca: 10, roupa: "astronauta", chapeu: "astronauta" }],
+    ["🔬 Cientista", { blusa: "lisa", cor1: 7, calca: "calca", corCalca: 9, roupa: "jaleco", objeto: "tubo", oculos: "redondo" }],
+    ["🔧 Mecânico(a)", { blusa: "lisa", cor1: 11, roupa: "macacao", corRoupa: 5, bone: "tras", corBone: 0, objeto: "chave" }],
+    ["🌾 Agricultor(a)", { blusa: "listras", cor1: 0, cor2: 10, roupa: "macacao", corRoupa: 6, chapeu: "palha", objeto: "regador" }],
+    ["🎨 Artista", { blusa: "listras", cor1: 10, cor2: 9, calca: "calca", corCalca: 9, roupa: "avental", chapeu: "boina", corRoupa: 0, objeto: "pincel" }],
+    ["🎤 Cantor(a)", { blusa: "lisa", cor1: 8, calca: "calca", corCalca: 9, objeto: "microfone", oculos: "escuro" }],
+    ["🎸 Músico(a)", { blusa: "lisa", cor1: 9, calca: "calca", corCalca: 6, objeto: "violao" }],
+    ["🎥 Youtuber", { blusa: "lisa", cor1: 0, calca: "bermuda", corCalca: 9, bone: "tras", corBone: 9, objeto: "camera" }],
+    ["📬 Carteiro(a)", { blusa: "lisa", cor1: 2, calca: "calca", corCalca: 6, bone: "frente", corBone: 6, objeto: "carta" }],
+    ["🧹 Agente de limpeza", { blusa: "lisa", cor1: 1, calca: "calca", corCalca: 1, roupa: "colete", bone: "frente", corBone: 1, objeto: "vassoura" }],
+    ["🏖️ Salva-vidas", { blusa: "regata", cor1: 0, calca: "bermuda", corCalca: 0, objeto: "boia", oculos: "escuro" }],
+    ["🎣 Pescador(a)", { blusa: "lisa", cor1: 4, calca: "bermuda", corCalca: 11, chapeu: "palha", objeto: "vara" }],
+    ["🤿 Mergulhador(a)", { blusa: "regata", cor1: 9, calca: "bermuda", corCalca: 9, chapeu: "mergulho" }],
+    ["🪦 Coveiro(a)", { blusa: "lisa", cor1: 9, calca: "calca", corCalca: 9, roupa: "macacao", corRoupa: 11, chapeu: "palha", objeto: "pa" }],
+    ["🤡 Palhaço(a)", { blusa: "listras", cor1: 2, cor2: 0, calca: "calca", corCalca: 5, chapeu: "peruca", rosto: "nariz", objeto: "balao" }],
+    ["🎩 Mágico(a)", { blusa: "lisa", cor1: 10, calca: "calca", corCalca: 9, roupa: "terno", corRoupa: 9, chapeu: "cartola", objeto: "varinha", rosto: "bigode" }],
+    ["🕵️ Detetive", { blusa: "lisa", cor1: 10, calca: "calca", corCalca: 11, roupa: "terno", corRoupa: 11, chapeu: "detetive", objeto: "lupa", rosto: "bigode" }],
+    ["🏴‍☠️ Pirata", { blusa: "listras", cor1: 10, cor2: 0, calca: "bermuda", corCalca: 9, chapeu: "pirata", rosto: "tapaolho", objeto: "nenhum" }],
+    ["👑 Rei ou rainha", { blusa: "lisa", cor1: 7, calca: "calca", corCalca: 7, chapeu: "coroa", objeto: "varinha" }]
+  ];
+  const PADRAO = { pele: 2, cabelo: "curto", corCabelo: 1, blusa: "uniforme", cor1: 10, cor2: 6, numero: 10, calca: "calca", corCalca: 6, estilo: "vertical", corCalcao: 10, corMeiao: 10, corChuteira: 9, bone: "nenhum", corBone: 0, roupa: "nenhuma", corRoupa: 9, chapeu: "nenhum", objeto: "nenhum", rosto: "nenhum", oculos: "nenhum" };
   const norm = a => { const x = Object.assign({}, PADRAO, a || {}); if (x.blusa === "time") x.blusa = "futebol"; return x; };
 
   function svg(a0, px, busto) {
-    const a = norm(a0), pele = PELE[a.pele] || PELE[2], c1 = COR[a.cor1] || COR[5], c2 = COR[a.cor2] || COR[10], cc = CAB[a.corCabelo] || CAB[1], cl = COR[a.corCalca] || COR[6], cb = COR[a.corBone] || COR[0];
+    const a = (x => (x.roupa === "macacao" && x.blusa !== "futebol" ? Object.assign(x, { corCalca: x.corRoupa, calca: "calca" }) : x))(norm(a0)), pele = PELE[a.pele] || PELE[2], c1 = COR[a.cor1] || COR[5], c2 = COR[a.cor2] || COR[10], cc = CAB[a.corCabelo] || CAB[1], cl = COR[a.corCalca] || COR[6], cb = COR[a.corBone] || COR[0];
     const sombra = "rgba(0,0,0,.18)";
     let atras = "", cabelo = "", blusa = "", pernas = "";
     // pernas e calça (camisa de futebol = uniforme de jogador: calção, meião e chuteira)
@@ -89,6 +132,67 @@
       bone = `<path d="M35 36 Q35 13 60 13 Q85 13 85 36 Z" fill="${cb}"/><circle cx="60" cy="14" r="2.5" fill="${sombra}"/>`;
       bone += a.bone === "frente" ? `<path d="M58 34 Q80 30 98 38 Q80 42 58 38 Z" fill="${cb}"/><path d="M58 37 Q80 40 98 38" stroke="${sombra}" stroke-width="2" fill="none"/>` : `<path d="M62 34 Q40 30 22 36 Q40 40 62 38 Z" fill="${cb}"/>`;
     }
+    // 💼 profissões: roupa por cima, chapéu/capacete e objeto na mão
+    const cr = COR[a.corRoupa] || COR[9], R = a.roupa;
+    let roupa = "", chapeu = "", objeto = "", antesCabeca = "";
+    const mangas = c => `<rect x="21" y="72" width="17" height="30" rx="7" fill="${c}"/><rect x="82" y="72" width="17" height="30" rx="7" fill="${c}"/>`;
+    if (R === "jaleco") roupa = `${mangas("#ffffff")}<path d="M34 70 Q36 66 48 66 L60 92 L72 66 Q84 66 86 70 L88 138 L32 138 Z" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/><path d="M48 66 L56 90 M72 66 L64 90" stroke="#cbd5e1" stroke-width="1.5"/><rect x="40" y="104" width="12" height="9" rx="2" fill="none" stroke="#cbd5e1"/><rect x="68" y="80" width="10" height="7" rx="1.5" fill="#3b82f6" opacity=".7"/>`;
+    if (R === "terno") roupa = `${mangas(cr)}<path d="M35 70 Q37 66 49 66 L60 96 L71 66 Q83 66 85 70 L86 122 L34 122 Z" fill="${cr}"/><path d="M50 66 L60 96 L70 66 Z" fill="#ffffff"/><path d="M58 70 L62 70 L64 94 L60 100 L56 94 Z" fill="#dc2626"/><path d="M49 66 L55 84 L52 88 Z M71 66 L65 84 L68 88 Z" fill="rgba(0,0,0,.25)"/><circle cx="60" cy="108" r="1.6" fill="#e5e7eb"/>`;
+    if (R === "macacao") roupa = `<rect x="44" y="82" width="32" height="36" rx="4" fill="${cr}"/><rect x="44" y="68" width="5" height="18" fill="${cr}"/><rect x="71" y="68" width="5" height="18" fill="${cr}"/><circle cx="46.5" cy="84" r="2" fill="#facc15"/><circle cx="73.5" cy="84" r="2" fill="#facc15"/><rect x="54" y="90" width="12" height="9" rx="2" fill="rgba(0,0,0,.15)"/>`;
+    if (R === "colete") roupa = `<path d="M37 70 L52 68 L56 118 L36 118 Z M83 70 L68 68 L64 118 L84 118 Z" fill="#f97316"/><rect x="36" y="92" width="20" height="5" fill="#e5e7eb"/><rect x="64" y="92" width="20" height="5" fill="#e5e7eb"/><rect x="36" y="104" width="20" height="5" fill="#e5e7eb"/><rect x="64" y="104" width="20" height="5" fill="#e5e7eb"/>`;
+    if (R === "avental") roupa = `<path d="M44 80 H76 L80 134 H40 Z" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/><path d="M44 80 Q60 60 76 80" stroke="#ffffff" stroke-width="3" fill="none"/><rect x="52" y="104" width="16" height="10" rx="2" fill="none" stroke="#cbd5e1"/>`;
+    if (R === "bombeiro") roupa = `${mangas("#b45309")}<rect x="34" y="66" width="52" height="58" rx="10" fill="#b45309"/><rect x="34" y="96" width="52" height="5" fill="#facc15"/><rect x="34" y="101" width="52" height="3" fill="#e5e7eb"/><rect x="21" y="92" width="17" height="4" fill="#facc15"/><rect x="82" y="92" width="17" height="4" fill="#facc15"/><rect x="59" y="68" width="2" height="56" fill="rgba(0,0,0,.25)"/>`;
+    if (R === "farda") roupa = `${mangas(cr)}<rect x="35" y="66" width="50" height="54" rx="10" fill="${cr}"/><path d="M50 66 L60 78 L70 66" fill="rgba(0,0,0,.2)"/><path d="M71 80 l2 4 4 .5 -3 3 .8 4 -3.8 -2 -3.8 2 .8 -4 -3 -3 4 -.5 Z" fill="#facc15"/><rect x="35" y="110" width="50" height="6" fill="#111827"/><rect x="57" y="109" width="6" height="8" fill="#facc15"/><rect x="42" y="78" width="10" height="2" fill="#facc15"/>`;
+    if (R === "astronauta") roupa = `${mangas("#f1f5f9")}<rect x="33" y="66" width="54" height="56" rx="12" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.5"/><rect x="48" y="80" width="24" height="16" rx="3" fill="#cbd5e1"/><circle cx="54" cy="88" r="2.5" fill="#ef4444"/><circle cx="61" cy="88" r="2.5" fill="#22c55e"/><circle cx="68" cy="88" r="2.5" fill="#3b82f6"/><rect x="38" y="70" width="10" height="6" fill="#3b82f6"/>`;
+    const CH = a.chapeu;
+    if (CH === "capacete") chapeu = `<path d="M33 34 Q33 10 60 10 Q87 10 87 34 Z" fill="#facc15"/><rect x="28" y="32" width="64" height="6" rx="3" fill="#eab308"/><rect x="57" y="10" width="6" height="22" fill="#eab308"/>`;
+    if (CH === "chef") chapeu = `<rect x="40" y="16" width="40" height="16" fill="#ffffff" stroke="#cbd5e1"/><circle cx="46" cy="10" r="9" fill="#ffffff"/><circle cx="60" cy="6" r="10" fill="#ffffff"/><circle cx="74" cy="10" r="9" fill="#ffffff"/><rect x="40" y="26" width="40" height="7" fill="#f1f5f9" stroke="#cbd5e1"/>`;
+    if (CH === "quepe") chapeu = `<path d="M34 28 Q36 12 60 12 Q84 12 86 28 Z" fill="${cr}"/><rect x="34" y="26" width="52" height="7" fill="#111827"/><path d="M42 33 Q60 40 78 33 L78 31 L42 31 Z" fill="#111827"/><circle cx="60" cy="22" r="4" fill="#facc15"/>`;
+    if (CH === "bombeiro") chapeu = `<path d="M34 34 Q34 9 60 9 Q86 9 86 34 Z" fill="#dc2626"/><path d="M26 34 Q60 44 94 34 L94 38 Q60 48 26 38 Z" fill="#b91c1c"/><path d="M54 13 h12 v14 h-12 Z" fill="#facc15"/>`;
+    if (CH === "palha") chapeu = `<ellipse cx="60" cy="27" rx="38" ry="8" fill="#e5c07b"/><path d="M40 27 Q42 8 60 8 Q78 8 80 27 Z" fill="#e5c07b"/><rect x="40" y="21" width="40" height="5" fill="#b45309"/>`;
+    if (CH === "boina") chapeu = `<ellipse cx="56" cy="20" rx="27" ry="10" fill="${cr}"/><circle cx="56" cy="10" r="2.5" fill="${cr}"/>`;
+    if (CH === "fone") chapeu = `<path d="M34 42 Q34 12 60 12 Q86 12 86 42" stroke="#111827" stroke-width="5" fill="none"/><rect x="28" y="36" width="10" height="16" rx="4" fill="#ef4444"/><rect x="82" y="36" width="10" height="16" rx="4" fill="#ef4444"/>`;
+    if (CH === "astronauta") { antesCabeca = ``; chapeu = `<circle cx="60" cy="42" r="33" fill="rgba(186,230,253,.35)" stroke="#e2e8f0" stroke-width="4"/><path d="M38 28 Q44 18 54 16" stroke="#ffffff" stroke-width="3" fill="none" opacity=".8"/>`; }
+    const O = a.objeto, hx = 90, hy = 114;
+    if (O === "estetoscopio") objeto = `<path d="M50 70 Q48 92 58 96 Q68 92 70 70" stroke="#475569" stroke-width="2.4" fill="none"/><circle cx="58" cy="98" r="4" fill="#94a3b8" stroke="#475569" stroke-width="1.5"/>`;
+    if (O === "livro") objeto = `<rect x="${hx - 2}" y="${hy - 16}" width="16" height="20" rx="2" fill="#2563eb"/><rect x="${hx}" y="${hy - 14}" width="2" height="16" fill="#facc15"/>`;
+    if (O === "prancheta") objeto = `<rect x="${hx - 2}" y="${hy - 18}" width="16" height="22" rx="2" fill="#b45309"/><rect x="${hx}" y="${hy - 14}" width="12" height="16" fill="#ffffff"/><rect x="${hx + 3}" y="${hy - 20}" width="6" height="4" fill="#6b7280"/><path d="M${hx + 2} ${hy - 10} h8 M${hx + 2} ${hy - 6} h8 M${hx + 2} ${hy - 2} h6" stroke="#9ca3af"/>`;
+    if (O === "planta") objeto = `<rect x="${hx - 4}" y="${hy - 6}" width="24" height="8" rx="4" fill="#60a5fa"/><circle cx="${hx + 20}" cy="${hy - 2}" r="4" fill="#3b82f6"/>`;
+    if (O === "maleta") objeto = `<rect x="${hx - 6}" y="${hy + 2}" width="20" height="15" rx="2" fill="#78350f"/><path d="M${hx} ${hy + 2} v-3 h8 v3" stroke="#78350f" stroke-width="2" fill="none"/>`;
+    if (O === "notebook") objeto = `<rect x="44" y="104" width="32" height="18" rx="2" fill="#334155"/><rect x="46" y="106" width="28" height="14" rx="1" fill="#38bdf8"/><path d="M50 110 h10 M50 114 h16" stroke="#0f172a" stroke-width="1.5"/><rect x="40" y="122" width="40" height="4" rx="2" fill="#475569"/>`;
+    if (O === "chave") objeto = `<rect x="${hx - 1}" y="${hy - 22}" width="4" height="22" rx="2" fill="#9ca3af"/><path d="M${hx - 5} ${hy - 26} a6 6 0 1 0 12 0 l-3 4 h-6 Z" fill="#9ca3af"/>`;
+    if (O === "pincel") objeto = `<rect x="${hx}" y="${hy - 24}" width="3" height="22" fill="#b45309"/><path d="M${hx - 1} ${hy - 30} q2.5 -6 5 0 v6 h-5 Z" fill="#ef4444"/>`;
+    if (O === "microfone") objeto = `<rect x="${hx - 1}" y="${hy - 14}" width="4" height="14" fill="#111827"/><circle cx="${hx + 1}" cy="${hy - 17}" r="5" fill="#6b7280"/>`;
+    if (O === "tubo") objeto = `<rect x="${hx - 1}" y="${hy - 22}" width="6" height="20" rx="3" fill="#e0f2fe" stroke="#64748b"/><rect x="${hx - 1}" y="${hy - 12}" width="6" height="10" rx="3" fill="#22c55e"/>`;
+    if (O === "colher") objeto = `<rect x="${hx}" y="${hy - 22}" width="3" height="20" fill="#b45309"/><ellipse cx="${hx + 1.5}" cy="${hy - 25}" rx="4" ry="6" fill="#d97706"/>`;
+    if (O === "bola") objeto = `<circle cx="${hx + 2}" cy="${hy + 12}" r="8" fill="#ffffff" stroke="#111827"/><path d="M${hx + 2} ${hy + 8} l3 2 -1 3 h-4 l-1 -3 Z" fill="#111827"/>`;
+    if (O === "violao") objeto = `<g transform="rotate(-35 60 110)"><ellipse cx="60" cy="118" rx="12" ry="10" fill="#b45309"/><ellipse cx="60" cy="104" rx="9" ry="8" fill="#b45309"/><circle cx="60" cy="112" r="3.5" fill="#451a03"/><rect x="58" y="72" width="4" height="30" fill="#78350f"/></g>`;
+    if (O === "mangueira") objeto = `<path d="M${hx} ${hy} q10 -10 4 -24" stroke="#16a34a" stroke-width="4" fill="none"/><rect x="${hx + 1}" y="${hy - 30}" width="6" height="8" fill="#9ca3af"/>`;
+    if (O === "regador") objeto = `<rect x="${hx - 4}" y="${hy + 2}" width="14" height="12" rx="2" fill="#22c55e"/><path d="M${hx + 10} ${hy + 6} l8 -6" stroke="#22c55e" stroke-width="3"/>`;
+    if (CH === "cartola") chapeu = `<rect x="42" y="0" width="36" height="26" rx="2" fill="#111827"/><rect x="42" y="18" width="36" height="5" fill="#dc2626"/><ellipse cx="60" cy="27" rx="28" ry="5" fill="#111827"/>`;
+    if (CH === "detetive") chapeu = `<path d="M38 28 Q40 10 60 10 Q80 10 82 28 Z" fill="#78716c"/><ellipse cx="60" cy="28" rx="30" ry="6" fill="#57534e"/><rect x="40" y="21" width="40" height="4" fill="#292524"/>`;
+    if (CH === "peruca") chapeu = [[34, 30, "#ef4444"], [42, 18, "#f97316"], [54, 12, "#facc15"], [66, 12, "#22c55e"], [78, 18, "#3b82f6"], [86, 30, "#a855f7"], [30, 44, "#ec4899"], [90, 44, "#14b8a6"]].map(([x, y, c]) => `<circle cx="${x}" cy="${y}" r="10" fill="${c}"/>`).join("");
+    if (CH === "mergulho") chapeu = `<rect x="38" y="34" width="44" height="18" rx="8" fill="rgba(125,211,252,.55)" stroke="#0369a1" stroke-width="3"/><path d="M38 40 Q32 30 36 22" stroke="#0369a1" stroke-width="3" fill="none"/><rect x="86" y="10" width="5" height="34" rx="2.5" fill="#f97316"/><path d="M88 44 Q88 52 78 54" stroke="#f97316" stroke-width="4" fill="none"/>`;
+    if (CH === "coroa") chapeu = `<path d="M40 24 L42 8 L51 18 L60 4 L69 18 L78 8 L80 24 Z" fill="#facc15" stroke="#ca8a04"/><circle cx="60" cy="16" r="2.5" fill="#ef4444"/><circle cx="48" cy="20" r="2" fill="#3b82f6"/><circle cx="72" cy="20" r="2" fill="#22c55e"/>`;
+    if (CH === "pirata") chapeu = `<path d="M28 30 Q60 0 92 30 Q60 22 28 30 Z" fill="#111827"/><circle cx="60" cy="20" r="4" fill="#ffffff"/><path d="M56 26 l8 -6 M56 20 l8 6" stroke="#ffffff" stroke-width="1.5"/>`;
+    if (O === "pa") objeto = `<rect x="${hx}" y="${hy - 44}" width="3.5" height="56" fill="#92400e"/><path d="M${hx - 6} ${hy + 10} h15 v8 q-7.5 8 -15 0 Z" fill="#9ca3af"/><rect x="${hx - 3}" y="${hy - 48}" width="10" height="5" rx="2" fill="#92400e"/>`;
+    if (O === "tijolo") objeto = `<rect x="${hx - 4}" y="${hy + 2}" width="18" height="10" fill="#c2410c" stroke="#7c2d12"/><path d="M${hx - 4} ${hy + 7} h18 M${hx + 5} ${hy + 2} v5" stroke="#7c2d12"/><path d="M30 110 l-10 -10 l8 -2 Z" fill="#9ca3af"/>`;
+    if (O === "varinha") objeto = `<rect x="${hx}" y="${hy - 26}" width="3" height="26" fill="#111827"/><rect x="${hx}" y="${hy - 26}" width="3" height="5" fill="#ffffff"/><path d="M${hx + 8} ${hy - 32} l1.5 4 4 .5 -3 2.5 1 4 -3.5 -2 -3.5 2 1 -4 -3 -2.5 4 -.5 Z" fill="#facc15"/>`;
+    if (O === "lupa") objeto = `<rect x="${hx}" y="${hy - 16}" width="3.5" height="16" fill="#78350f"/><circle cx="${hx + 2}" cy="${hy - 23}" r="8" fill="rgba(186,230,253,.6)" stroke="#475569" stroke-width="2.5"/>`;
+    if (O === "boia") objeto = `<circle cx="${hx}" cy="${hy + 4}" r="11" fill="#ef4444"/><circle cx="${hx}" cy="${hy + 4}" r="5" fill="#ffffff"/><path d="M${hx - 11} ${hy + 4} h5 M${hx + 6} ${hy + 4} h5 M${hx} ${hy - 7} v5 M${hx} ${hy + 10} v5" stroke="#ffffff" stroke-width="3"/>`;
+    if (O === "vara") objeto = `<path d="M${hx} ${hy} L${hx + 22} ${hy - 50}" stroke="#78350f" stroke-width="2.5"/><path d="M${hx + 22} ${hy - 50} Q${hx + 26} ${hy - 20} ${hx + 24} ${hy}" stroke="#94a3b8" fill="none"/><path d="M${hx + 18} ${hy + 4} q6 -6 12 0 q-6 6 -12 0 Z M${hx + 30} ${hy + 4} l4 -3 v6 Z" fill="#38bdf8"/>`;
+    if (O === "vassoura") objeto = `<rect x="${hx}" y="${hy - 40}" width="3" height="52" fill="#b45309"/><path d="M${hx - 7} ${hy + 12} h17 l3 12 h-23 Z" fill="#facc15"/>`;
+    if (O === "pao") objeto = `<ellipse cx="${hx + 2}" cy="${hy - 2}" rx="12" ry="6" fill="#d97706"/><path d="M${hx - 4} ${hy - 4} l3 4 M${hx + 2} ${hy - 5} l3 4 M${hx + 8} ${hy - 4} l3 4" stroke="#92400e" stroke-width="1.5"/>`;
+    if (O === "bolo") objeto = `<rect x="${hx - 8}" y="${hy - 12}" width="20" height="12" rx="2" fill="#f472b6"/><rect x="${hx - 8}" y="${hy - 14}" width="20" height="4" rx="2" fill="#ffffff"/><rect x="${hx + 1}" y="${hy - 21}" width="2" height="7" fill="#60a5fa"/><path d="M${hx + 2} ${hy - 24} q2 2 0 3 q-2 -1 0 -3" fill="#f97316"/>`;
+    if (O === "camera") objeto = `<rect x="${hx - 6}" y="${hy - 12}" width="20" height="14" rx="3" fill="#111827"/><circle cx="${hx + 4}" cy="${hy - 5}" r="4.5" fill="#38bdf8" stroke="#475569" stroke-width="2"/><circle cx="${hx + 10}" cy="${hy - 10}" r="1.5" fill="#ef4444"/>`;
+    if (O === "carta") objeto = `<rect x="${hx - 6}" y="${hy - 10}" width="20" height="13" fill="#fef3c7" stroke="#b45309"/><path d="M${hx - 6} ${hy - 10} l10 7 l10 -7" stroke="#b45309" fill="none"/><path d="M24 70 L46 118" stroke="#78350f" stroke-width="3"/><rect x="22" y="112" width="20" height="16" rx="3" fill="#2563eb"/>`;
+    if (O === "balao") objeto = `<path d="M${hx} ${hy} L${hx - 4} ${hy - 40} M${hx} ${hy} L${hx + 8} ${hy - 44} M${hx} ${hy} L${hx + 16} ${hy - 36}" stroke="#94a3b8"/><ellipse cx="${hx - 4}" cy="${hy - 48}" rx="7" ry="9" fill="#ef4444"/><ellipse cx="${hx + 8}" cy="${hy - 52}" rx="7" ry="9" fill="#facc15"/><ellipse cx="${hx + 16}" cy="${hy - 44}" rx="7" ry="9" fill="#3b82f6"/>`;
+    if (O === "pizza") objeto = `<path d="M${hx - 10} ${hy - 4} L${hx + 16} ${hy - 4} L${hx + 3} ${hy + 18} Z" fill="#fbbf24" stroke="#b45309" stroke-width="2"/><circle cx="${hx}" cy="${hy + 1}" r="2" fill="#dc2626"/><circle cx="${hx + 7}" cy="${hy + 2}" r="2" fill="#dc2626"/><circle cx="${hx + 3}" cy="${hy + 8}" r="2" fill="#dc2626"/>`;
+    const RO = a.rosto; let rosto = "";
+    if (RO === "nariz") rosto = `<circle cx="60" cy="49" r="5" fill="#ef4444"/><circle cx="58.5" cy="47.5" r="1.4" fill="#ffffff" opacity=".7"/>`;
+    if (RO === "bigode") rosto = `<path d="M60 51 Q52 47 46 53 Q53 52 60 54 Q67 52 74 53 Q68 47 60 51 Z" fill="${cc}"/>`;
+    if (RO === "mascara") rosto = `<path d="M46 47 Q60 45 74 47 L72 58 Q60 64 48 58 Z" fill="#7dd3fc"/><path d="M46 49 L36 45 M74 49 L84 45" stroke="#e0f2fe" stroke-width="1.5"/><path d="M50 52 h20 M51 55 h18" stroke="#38bdf8" stroke-width="1"/>`;
+    if (RO === "tapaolho") rosto = `<path d="M36 34 L84 46" stroke="#111827" stroke-width="2"/><ellipse cx="69" cy="44" rx="6" ry="5" fill="#111827"/>`;
     // óculos
     let oc = "";
     if (a.oculos === "redondo") oc = `<g fill="none" stroke="#111827" stroke-width="2.4"><circle cx="51" cy="44" r="7"/><circle cx="69" cy="44" r="7"/><path d="M58 44 H62"/></g>`;
@@ -98,10 +202,10 @@
     const uid = "a" + Math.random().toString(36).slice(2, 7);
     return `<svg class="avatar-svg${busto ? " busto" : ""}" viewBox="${busto ? "14 2 92 92" : "0 0 120 170"}" width="${px || 120}" height="${busto ? px || 120 : Math.round((px || 120) * 170 / 120)}" role="img" aria-label="Avatar">
       <defs><clipPath id="tr"><rect x="36" y="68" width="48" height="50" rx="10"/></clipPath></defs>
-      ${pernas}${blusa}${atras}<rect x="54" y="58" width="12" height="14" rx="4" fill="${pele}"/>
+      ${pernas}${R === "macacao" ? `<rect x="41" y="110" width="38" height="12" rx="4" fill="${cr}"/>` : ""}${blusa}${roupa}${atras}<rect x="54" y="58" width="12" height="14" rx="4" fill="${pele}"/>
       <circle cx="35" cy="45" r="5" fill="${pele}"/><circle cx="85" cy="45" r="5" fill="${pele}"/><circle cx="60" cy="42" r="25" fill="${pele}"/>
       ${olhos}<circle cx="45" cy="52" r="3.5" fill="#f87171" opacity=".35"/><circle cx="75" cy="52" r="3.5" fill="#f87171" opacity=".35"/>
-      <path d="M52 54 Q60 61 68 54" stroke="#7f1d1d" stroke-width="2.4" fill="none" stroke-linecap="round"/>${cabelo}${bone}${oc}</svg>`.replace(/id="tr"/g, `id="${uid}"`).replace(/url\(#tr\)/g, `url(#${uid})`);
+      <path d="M52 54 Q60 61 68 54" stroke="#7f1d1d" stroke-width="2.4" fill="none" stroke-linecap="round"/>${CH !== "nenhum" && CH !== "fone" && CH !== "astronauta" ? (a.cabelo === "longo" || a.cabelo === "trancas" ? "" : "") : cabelo}${CH === "nenhum" ? bone : ""}${rosto}${chapeu}${oc}${objeto}</svg>`.replace(/id="tr"/g, `id="${uid}"`).replace(/url\(#tr\)/g, `url(#${uid})`);
   }
 
   /* editor com cronômetro. resolve com o avatar escolhido (salvo, anterior ou padrão) */
@@ -123,6 +227,9 @@
               <div class="av-row"><small>Calção:</small> ${sw(COR, "corCalcao")}</div><div class="av-row"><small>Meião:</small> ${sw(COR, "corMeiao")}</div><div class="av-row"><small>Chuteira:</small> ${sw(COR, "corChuteira")}</div>
               <p class="ajuda">Dica: monte com as cores do seu time do coração! 💚💛 <button type="button" class="btn btn-peq av-ideias-btn" id="av-ideias">💡 Ver ideias de uniformes</button></p></div>
             <div class="av-calca"><p class="av-t">👖 Calça</p><div class="av-row">${op("calca")}</div><div class="av-row">${sw(COR, "corCalca")}</div></div>
+            <p class="av-t">💼 Profissão <button type="button" class="btn btn-peq av-ideias-btn" id="av-prof">💼 Ver profissões</button></p>
+            <div class="av-row"><small>Roupa por cima:</small> ${op("roupa")}</div><div class="av-row"><small>Cor da roupa:</small> ${sw(COR, "corRoupa")}</div>
+            <div class="av-row"><small>Na cabeça:</small> ${op("chapeu")}</div><div class="av-row"><small>Na mão:</small> ${op("objeto")}</div><div class="av-row"><small>No rosto:</small> ${op("rosto")}</div>
             <p class="av-t">🧢 Boné</p><div class="av-row">${op("bone")}</div><div class="av-row">${sw(COR, "corBone")}</div>
             <p class="av-t">👓 Óculos</p><div class="av-row">${op("oculos")}</div>
           </div></div>
@@ -144,6 +251,15 @@
           <div class="row-btns"><button class="btn" value="x">Fechar</button></div></form>`;
         document.body.appendChild(d); d.showModal(); d.addEventListener("close", () => d.remove());
         d.querySelectorAll("[data-i]").forEach(b => b.onclick = () => { Object.assign(a, IDEIAS[+b.dataset.i][1], { blusa: "futebol" }); el.querySelector("#av-num").value = a.numero; pinta(); d.close(); });
+        const fecha = setInterval(() => { if (acabou) { clearInterval(fecha); if (d.open) d.close(); } else if (!d.isConnected) clearInterval(fecha); }, 300);
+      };
+      el.querySelector("#av-prof").onclick = () => {
+        const d = document.createElement("dialog"); d.className = "pp-dlg pp-dlg-larga av-ideias";
+        d.innerHTML = `<form method="dialog"><h2>💼 Profissões</h2><p class="ajuda">Toque numa profissão para vestir o seu bonequinho. Depois, mude as cores e o que quiser. ⏱️ O tempo continua correndo!</p>
+          <div class="av-ideias-grid">${PROF.map(([rot, x], i) => `<button type="button" class="av-ideia" data-i="${i}">${svg(Object.assign({}, a, LIMPA, { oculos: "nenhum" }, x), 110)}<span>${rot}</span></button>`).join("")}</div>
+          <div class="row-btns"><button class="btn" value="x">Fechar</button></div></form>`;
+        document.body.appendChild(d); d.showModal(); d.addEventListener("close", () => d.remove());
+        d.querySelectorAll("[data-i]").forEach(b => b.onclick = () => { Object.assign(a, LIMPA, { oculos: "nenhum" }, PROF[+b.dataset.i][1]); pinta(); d.close(); });
         const fecha = setInterval(() => { if (acabou) { clearInterval(fecha); if (d.open) d.close(); } else if (!d.isConnected) clearInterval(fecha); }, 300);
       };
       el.querySelector("#av-num").oninput = e => { a.numero = Math.max(0, Math.min(99, +e.target.value || 0)); pinta(); };
