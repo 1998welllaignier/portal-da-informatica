@@ -58,3 +58,8 @@ Modelo de referência: `ferramentas/video2d/modelo-cabo-submarino.html` (8º ano
 ## Legenda escrita do jeito certo (pedido do professor em 09/11/2026)
 - O texto para a voz pode trazer as siglas escritas do jeito que se fala ("dê ene ésse", "í pê", "tê cê pê barra í pê"), para a narração pronunciar certo.
 - A **legenda** do vídeo mostra sempre a forma escrita correta (DNS, IP, TCP/IP, HTTPS, Ctrl + S). Em cada cena: `fala` = texto falado; `legenda` = texto escrito (usado na tela quando existe).
+
+## Legenda sincronizada com a voz (anotado pelo professor em 10/11/2026)
+- Nos 8 vídeos de 10/11, voz e efeitos sonoros ficaram no lugar certo, mas **em alguns momentos a legenda ficou fora de sincronia** com a fala.
+- Causa: as palavras da legenda acendem num ritmo igual ao longo da cena, e a voz não fala num ritmo igual (respira nas vírgulas e nos pontos, acelera em listas).
+- Correção para os próximos: usar as pausas que o `finalizar.py` já encontra dentro de cada parágrafo para acender a legenda por trecho (cada trecho entre duas pausas acende no tempo real em que é falado, dividido pelas sílabas) e, antes de entregar, conferir quadros em 2 ou 3 pontos de cada vídeo.
