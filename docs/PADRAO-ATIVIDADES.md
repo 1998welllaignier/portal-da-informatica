@@ -12,14 +12,14 @@ A BNCC não muda: muda o formato da atividade, não a habilidade trabalhada. Cad
 2. **O aluno cria algo com estrutura conhecida?** (SE… ENTÃO… SENÃO, decomposição, crédito de imagem, regras)
    → `aberta` com `conferir`: palavras mínimas, palavras-chave obrigatórias, campos diferentes entre si,
    `blocoDuasVezes` (bloco chamado pelo nome), `vf` (diz se é V ou F).
-3. **O aluno faz algo no computador?** (pastas, arquivos, IP, metadados, Bloco de Notas)
+3. **O aluno faz algo no computador?** (pastas, arquivos, IP, metadados) — só quando o assunto da BNCC é o próprio computador; para digitar, sempre na caixa da tarefa (nada de Bloco de Notas, desde 10/11/2026)
    → `pc` com `conferir`: o aluno digita o que aparece na tela e o portal confere o formato
    (ex.: IP com 4 números separados por pontos; nome do arquivo; programa que abriu).
    Para várias informações, `tabela` com células `re` (expressão regular).
 4. **Texto de opinião pessoal** (missão favorita, o que aprendi, mensagem de apoio)
    → `aberta` com `conferir`: tamanho mínimo e palavras-chave do tema (`porCampo` ou `grupos`).
    O professor pode ler tudo no painel (aba Turmas → clicar na célula da missão).
-5. **Só fica com o professor:** cartaz no Paint (criativo), apresentação oral, desenho no papel.
+5. **Só fica com o professor:** apresentação oral, desenho no papel (o Paint não é mais usado; o cartaz é feito no próprio portal).
 
 ## Não usar mais
 - Autoavaliação "folheie a apostila impressa e veja os carimbos" (o portal já mostra ✔ em cada missão).

@@ -60,6 +60,35 @@
         }
         html = `${c ? `<p class="aula-obs">O portal confere: ${reg.join(" · ")}</p>` : `<p>👀 <strong>Você confere</strong>${at.criterios ? ": " + at.criterios.map(limpo).join(" · ") : ""}</p>`}${at.exemplo ? `<p>Exemplo: ${forte(at.exemplo)}</p>` : ""}`; break;
       }
+      case "bolha": {
+        const v = (at.lista || []).slice(), passos = []; let troca = true, n = 0;
+        while (troca && n < v.length) { troca = false; n++; for (let i = 0; i + 1 < v.length - (n - 1); i++) if (v[i] > v[i + 1]) { [v[i], v[i + 1]] = [v[i + 1], v[i]]; troca = true; } if (!troca) break; passos.push(`${n}ª passada: ${forte(v.join(", "))}`); if (v.every((x, i) => !i || v[i - 1] <= x)) break; }
+        html = `<p>Lista: ${(at.lista || []).join(", ")}</p><ul class="aula-lista">${passos.map(p => `<li>${p}</li>`).join("")}</ul><p class="aula-obs">Ordenada em ${passos.length} passada${passos.length > 1 ? "s" : ""}. Uma passada a mais não teria nenhuma troca.</p>`; break;
+      }
+      case "busca_binaria": {
+        const L = at.lista || [], alvo = at.alvo; let lo = 0, hi = L.length - 1, k = 0; const pas = [];
+        while (lo <= hi && k < 12) { k++; const mid = Math.floor((lo + hi) / 2); const v = L[mid];
+          pas.push(`${k}ª: posições ${lo + 1} a ${hi + 1} → meio ${mid + 1} → número ${v} → ${v === alvo ? forte("achou!") : alvo > v ? "o " + alvo + " é maior" : "o " + alvo + " é menor"}`);
+          if (v === alvo) break; if (alvo > v) lo = mid + 1; else hi = mid - 1; }
+        html = `<ul class="aula-lista">${pas.map(p => `<li>${p}</li>`).join("")}</ul><p>Total: ${forte(k + " tentativa" + (k > 1 ? "s" : ""))}</p>`; break;
+      }
+      case "sequencial": {
+        const L = at.lista || [], p = L.indexOf(at.alvo);
+        html = `<p>O ${at.alvo} está na ${forte("posição " + (p + 1))}: ${forte((p + 1) + " comparações")} (olhando um por um: ${L.slice(0, p + 1).join(", ")}).</p>`; break;
+      }
+      case "adivinhe": {
+        let lo = at.min || 1, hi = at.max || 100, k = 0; const ch = [];
+        while (lo <= hi && k < 20) { k++; const m = Math.floor((lo + hi) / 2); ch.push(`${m}${m === at.secreto ? " ✔" : m < at.secreto ? " (maior)" : " (menor)"}`); if (m === at.secreto) break; if (m < at.secreto) lo = m + 1; else hi = m - 1; }
+        html = `<p>Número secreto: ${forte(at.secreto)} · chutando sempre o meio: ${ch.join(" → ")} = ${forte(k + " tentativas")}</p>`; break;
+      }
+      case "grafo": {
+        if (at.semPeso || !at.de || !at.para) { html = `<p class="aula-obs">Atividade interativa: o portal confere sozinho.${at.explicacao ? " " + limpo(at.explicacao) : ""}</p>`; break; }
+        const ar = (at.arestas || []).map(e => Array.isArray(e) ? { a: e[0], b: e[1], peso: e[2] } : e), dist = { [at.de]: 0 }, ant = {}, fila = new Set([at.de]), viz = x => ar.filter(e => e.a === x || e.b === x).map(e => [e.a === x ? e.b : e.a, +e.peso || +e.p || 1]);
+        while (fila.size) { const u = [...fila].sort((a, b) => dist[a] - dist[b])[0]; fila.delete(u); viz(u).forEach(([w, c]) => { if (dist[w] == null || dist[u] + c < dist[w]) { dist[w] = dist[u] + c; ant[w] = u; fila.add(w); } }); }
+        const cam = []; for (let x = at.para; x != null; x = ant[x]) cam.unshift(x);
+        const nome = id => { const v = (at.vertices || []).find(y => y.id === id); return v ? (v.nome || v.t || v.rot || id) : id; };
+        html = dist[at.para] == null ? `<p class="aula-obs">${limpo(at.explicacao || "")}</p>` : `<p>Caminho mais curto: ${forte(cam.map(nome).join(" → "))} = ${forte(dist[at.para] + " " + (at.unidade || ""))}</p>`; break;
+      }
       default:
         html = `<p class="aula-obs">Atividade interativa: o portal confere sozinho.${at.explicacao ? " " + limpo(at.explicacao) : ""}</p>`;
     }

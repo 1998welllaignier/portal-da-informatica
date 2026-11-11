@@ -143,7 +143,7 @@
   const tela = html => mountFn(`<section class="tela painel-prof">${html}</section>`);
   const topo = (u, ativo) => `<nav class="migalhas"><a href="#/">Início</a> › <a href="#/painel">Painel do professor</a></nav>
     <div class="pp-cab"><div><h1>📊 Painel do professor</h1><p class="lead">${esc(cat().professor)} · ${esc(cat().escola)}</p></div>
-      <div class="pp-user"><button class="btn btn-peq pp-hor-btn" id="pp-hor" type="button">🗓️ Horários</button><span>${esc(u.email)}</span><button class="btn btn-sec btn-peq" id="pp-sair" type="button">Sair do painel</button></div></div>
+      <div class="pp-user"><button class="btn btn-peq pp-hor-btn" id="pp-hor" type="button">🗓️ Horários</button><button class="btn btn-peq pp-hor-btn" id="pp-cod" type="button">🔑 Códigos</button><span>${esc(u.email)}</span><button class="btn btn-sec btn-peq" id="pp-sair" type="button">Sair do painel</button></div></div>
     <nav class="pp-abas">${[["aula", "🎤 Aula"], ["", "🏫 Turmas"], ["diario", "📒 Diário"], ["presenca", "🗓️ Presença"], ["prova", "📝 Prova"], ["importar", "📥 Importar alunos"], ["ano", "📅 Ano letivo"]].map(([k, r]) =>
       `<a href="#/painel${k ? "/" + k : ""}" class="${ativo === k ? "atual" : ""}">${r}</a>`).join("")}</nav>${ajudaAba(ativo)}`;
   /* ❓ quadro "Para que serve e como usar" de cada aba (fica fechado; o professor abre quando quiser) */
@@ -228,7 +228,25 @@
     dlg.addEventListener("click", e => { if (e.target.closest(".ph-aula")) dlg.close(); });
     dlg.addEventListener("close", () => { clearInterval(iv); dlg.remove(); });
   }
-  document.addEventListener("click", e => { if (e.target.closest("#pp-hor")) abrirHorarios(); });
+  /* 🔑 códigos da turma do horário (para o aluno que esqueceu): abre num modal, com busca e troca de turma */
+  async function abrirCodigos() {
+    if (document.querySelector(".pp-cod-dlg")) return;
+    const turmas = todasTurmas(); let tid = escolherTurma(null, turmas);
+    const dlg = h(`<dialog class="pp-dlg pp-dlg-larga pp-cod-dlg"><form method="dialog"><div class="pp-hor-top"><h2>🔑 Códigos dos alunos</h2><button class="btn btn-sec btn-peq" value="x">Fechar</button></div>
+      <div class="row-btns"><label>Turma <select id="pc-t">${turmas.map(x => `<option value="${x.id}" ${x.id === tid ? "selected" : ""}>${esc(nomeTurma(x.id))}</option>`).join("")}</select></label>
+      <input type="search" id="pc-b" class="pp-cod-busca grow" placeholder="Procurar pelo nome…" autocomplete="off"></div><div id="pc-l"><p class="ajuda">Carregando…</p></div>
+      <p class="ajuda">Abre na turma do horário. O código é pessoal: mostre só para o próprio aluno.</p></form></dialog>`);
+    document.body.appendChild(dlg); dlg.showModal(); dlg.addEventListener("close", () => dlg.remove());
+    let lista = [];
+    const pintar = () => { const q = normNome(dlg.querySelector("#pc-b").value); const xs = lista.filter(a => !q || normNome(a.nome).includes(q));
+      dlg.querySelector("#pc-l").innerHTML = xs.length ? `<ul class="pp-cod-lista">${xs.map(a => `<li><span>${a.atipico ? "🧩 " : ""}${esc(a.nome)}</span><span class="cod">${esc(a.codigo || "—")}</span></li>`).join("")}</ul>` : `<p class="ajuda">Nenhum aluno encontrado.</p>`; };
+    const carregarT = async () => { dlg.querySelector("#pc-l").innerHTML = `<p class="ajuda">Carregando…</p>`;
+      try { lista = (await alunosDaTurma(tid)).filter(a => a.ativo !== false && !a.teste); } catch (e) { lista = []; toast("Não foi possível carregar: " + (e.message || e)); } pintar(); };
+    dlg.querySelector("#pc-t").onchange = e => { tid = e.target.value; carregarT(); };
+    dlg.querySelector("#pc-b").oninput = pintar;
+    await carregarT(); dlg.querySelector("#pc-b").focus();
+  }
+  document.addEventListener("click", e => { if (e.target.closest("#pp-hor")) abrirHorarios(); if (e.target.closest("#pp-cod")) abrirCodigos(); });
 
   function ligarSair(el) { el.querySelector("#pp-sair").onclick = async () => { await auth().signOut(); location.hash = "#/painel"; }; }
 

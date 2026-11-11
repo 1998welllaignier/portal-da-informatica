@@ -503,6 +503,7 @@
       <p class="ajuda">Precisa fazer fora do horário (faltou, reposição, estuda em casa)? Peça ao professor para liberar.</p></div>`));
     else (pg.atividades || []).forEach((at, i) => corpo.appendChild(cartaoAtividade(aid, mid, at, i, () => { barra(info()); atualizarStatus(); })));
     if (pg.tipo === "relatorio") corpo.appendChild(relatorio(aid, mid, pages));
+    if (pg.id !== "termos") try { ligarTermos(el, (P.conteudo[aid].missoes || []).flatMap(x => x.termos || [])); } catch (e) { console.warn("termos", e); }
     const figs = figurasDaPagina(aid, mid, pg.id, pages.map(p => p.id));
     if (figs.length) {
       const leit = corpo.querySelector(".leitura, .glossario, .onde-uso");
@@ -567,6 +568,57 @@
      CARTÃO DE ATIVIDADE (estrutura comum)
      ============================================================ */
   const NIVEL = { basico: ["🟢", "Básico"], desafio: ["🟡", "Desafio"], turbo: ["🔴", "Turbo"], treino: ["🔁", "Treino"], revisao: ["✅", "Revisão"] };
+  /* 🪟 modal simples (abre por cima da página, fecha com o botão ou com Esc) */
+  function modal(titulo, html, cls) {
+    const d = h(`<dialog class="pp-dlg ${cls || ""}"><form method="dialog"><h2>${titulo}</h2><div class="modal-corpo">${html}</div><div class="row-btns"><button class="btn" value="x">Fechar</button></div></form></dialog>`);
+    document.body.appendChild(d); d.showModal(); d.addEventListener("close", () => d.remove());
+    d.addEventListener("click", e => { if (e.target === d) d.close(); });
+    return d;
+  }
+  // ✅ só para o professor: na 👀 visualização do professor e com o login de professor ativo neste navegador
+  let profOk = null;
+  function professorLogado() {
+    if (profOk) return profOk;
+    const N = P.nuvem; if (!N || !N.pronto || !N.app) return Promise.resolve(false);
+    return profOk = (async () => { try { await N.app(0).pronto; const a = N.auth(); await new Promise(ok => { const x = a.onAuthStateChanged(() => { x(); ok(); }); });
+      const u = a.currentUser; return !!(u && !u.isAnonymous && u.email === N.EMAIL_PROFESSOR); } catch (e) { return false; } })();
+  }
+  function botaoRespostaProf(el, at) {
+    const s = sess.get(); if (!s || !s.prof || !P.aula || !P.aula.resposta) return;
+    professorLogado().then(ok => { if (!ok) return;
+      const b = h(`<button type="button" class="btn btn-peq atv-resp-prof" title="Só você vê este botão">✅ Resposta</button>`);
+      el.querySelector(".atv-cab").appendChild(b);
+      b.onclick = () => { const x = P.aula.resposta(at);
+        modal(`✅ ${md(at.titulo || "Resposta")}`, `${x.html}${at.explicacao && !/aula-obs/.test(x.html) ? `<div class="modal-explic"><strong>📘 Resolução comentada:</strong> ${at.explicacao}</div>` : ""}
+          <p class="ajuda">${x.auto ? "✔ O portal confere sozinho." : "👀 Esta você confere."} Só você vê este botão: os alunos não têm.</p>`, "modal-resp"); };
+    });
+  }
+  /* 📖 palavra explicada: os termos do "O que significa?" viram botõezinhos nos textos; tocou, abre o significado num modal */
+  function ligarTermos(raiz, termos) {
+    if (!raiz || !termos || !termos.length) return;
+    const base = t => String(t.termo || "").replace(/\s*\(.*?\)\s*/g, " ").trim();
+    const lista = termos.map(t => ({ t, b: base(t) })).filter(x => x.b.length > 1).sort((a, b) => b.b.length - a.b.length);
+    const usados = new Set();
+    const zonas = raiz.querySelectorAll(".leitura, .onde-uso, .atv-enun, .alerta, .objetivo, .atv-info .atv-corpo");
+    zonas.forEach(z => {
+      const walker = document.createTreeWalker(z, NodeFilter.SHOW_TEXT, { acceptNode: n => n.parentElement.closest("a, button, input, textarea, select, label, .termo-link, svg, code") ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT });
+      const nos = []; while (walker.nextNode()) nos.push(walker.currentNode);
+      nos.forEach(no => {
+        for (const x of lista) {
+          if (usados.has(x.b)) continue;
+          const esc2 = x.b.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+          const re = new RegExp(`(^|[^\\p{L}\\p{N}])(${esc2})(?![\\p{L}\\p{N}])`, "iu");
+          const m = re.exec(no.nodeValue); if (!m) continue;
+          const ini = m.index + m[1].length, fim = ini + m[2].length;
+          const depois = no.splitText(ini); depois.splitText(fim - ini);
+          const b = document.createElement("button"); b.type = "button"; b.className = "termo-link"; b.textContent = depois.nodeValue; b.title = "Toque para ver o que significa";
+          b.onclick = () => modal(`📖 ${x.t.rotulo}`, `<p class="modal-def">${x.t.def}</p><p class="ajuda">Está no “O que significa?” desta apostila.</p>`, "modal-termo");
+          depois.replaceWith(b); usados.add(x.b); break;
+        }
+      });
+    });
+  }
+
   function cartaoAtividade(aid, mid, at, i, onChange) {
     const T = P.tipos[at.tipo];
     if (!T) return h(`<div class="atv erro">Tipo de atividade desconhecido: ${esc(at.tipo)}</div>`);
@@ -596,6 +648,7 @@
       </div>
       <div class="atv-fb" role="status" aria-live="polite"></div>
     </section>`);
+    botaoRespostaProf(el, at);
     const corpo = el.querySelector(".atv-corpo"), fb = el.querySelector(".atv-fb"), dicasEl = el.querySelector(".atv-dicas");
     const bV = el.querySelector('[data-a="verificar"]'), bD = el.querySelector('[data-a="dica"]'), bR = el.querySelector('[data-a="resolucao"]'), bRef = el.querySelector('[data-a="refazer"]');
     const statusEl = el.querySelector(".atv-status");

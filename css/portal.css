@@ -1313,3 +1313,19 @@ body.modo-apresentacao .topbar, body.modo-apresentacao .rodape, body.modo-aprese
 .ph-turno { font-size: 11px; font-weight: 800; letter-spacing: .5px; text-transform: uppercase; color: #64748b; margin: 2px 0 6px; }
 .ph-turno.tarde { border-top: 2px dashed #e2e8f0; padding-top: 8px; margin-top: 8px; }
 @media (prefers-reduced-motion: reduce) { .ph-aula.ag, .pp-agora.vivo .pulso { animation: none; } }
+
+/* 📖 palavra explicada + ✅ resposta do professor (modais) */
+.termo-link { all: unset; cursor: pointer; color: inherit; border-bottom: 2px dotted var(--cor, #2563eb); font-weight: inherit; }
+.termo-link:hover, .termo-link:focus-visible { background: #fef3c7; border-bottom-style: solid; outline: none; }
+.modal-termo h2 { font-size: 1.3rem; }
+.modal-def { font-size: 1.1rem; line-height: 1.5; }
+.modal-resp { max-width: 640px; }
+.modal-resp .modal-corpo { max-height: 60vh; overflow: auto; }
+.modal-explic { margin-top: 10px; padding: 10px 12px; background: #f0f9ff; border-radius: 10px; }
+.atv-resp-prof { margin-left: auto; background: #16a34a; border-color: #16a34a; color: #fff; }
+.pp-cod-lista { columns: 2; column-gap: 24px; padding-left: 0; list-style: none; margin: 10px 0; }
+@media (max-width: 520px) { .pp-cod-lista { columns: 1; } }
+.pp-cod-lista li { break-inside: avoid; display: flex; justify-content: space-between; gap: 10px; padding: 6px 4px; border-bottom: 1px dashed #e2e8f0; }
+.pp-cod-lista .cod { font-family: ui-monospace, monospace; font-weight: 800; font-size: 1.15rem; letter-spacing: 3px; color: #1e3a8a; }
+.pp-cod-busca { width: 100%; padding: 8px 10px; border: 1px solid #cbd5e1; border-radius: 10px; font: inherit; }
+.modal-def::first-letter { text-transform: uppercase; }
