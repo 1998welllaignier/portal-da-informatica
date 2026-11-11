@@ -222,7 +222,9 @@
       const el = mount(`<section class="tela av-tela"><div class="av-cx">
         <div class="av-topo"><h1>🧍 Monte o seu avatar${nome ? `, <span>${esc(nome)}</span>` : ""}!</h1>
           <div class="av-tempo"><span id="av-s">${segundos || 120}</span>s<i><b id="av-b"></b></i></div></div>
-        ${dupla ? `<div class="av-dupla">👥 <b>Atividade em dupla: vez ${dupla.vez} de 2.</b> ${dupla.vez === 1 ? `Primeiro ${esc(nome)} monta o avatar; depois é a vez de <b>${esc(dupla.outro)}</b>.` : `Agora é a vez de <b>${esc(nome)}</b>.`} Cada um tem <b>1 minuto</b>. Se o tempo acabar, ${dupla.vez === 1 ? "passa para o colega" : "a aula começa"} e quem não montou entra com o uniforme de Curionópolis e uma cor de pele sorteada.</div>` : ""}
+        <div class="av-dupla">${dupla ? `👥 <b>Atividade em dupla: vez ${dupla.vez} de 2.</b> ${dupla.vez === 1 ? `Primeiro ${esc(nome)} monta o avatar; depois é a vez de <b>${esc(dupla.outro)}</b>.` : `Agora é a vez de <b>${esc(nome)}</b>.`} Cada um tem <b>1 minuto</b>.` : `⏱️ Você tem <b>2 minutos</b> para montar o seu avatar.`}
+          ${anterior ? `Se o tempo acabar${dupla && dupla.vez === 1 ? ", passa para o colega e" : ","} você entra com o avatar da última vez.` : `Se o tempo acabar${dupla && dupla.vez === 1 ? " (aí passa para o colega)" : ""}, o portal <b>sorteia</b> o que você não escolheu: masculino ou feminino, tom de pele, tipo e cor do cabelo, e você entra com o uniforme de Curionópolis.`}
+          <b>🔒 Depois de entrar, o avatar não muda durante a aula.</b></div>
         <div class="av-rapidos"><button type="button" class="btn btn-grande av-rap" id="av-pula" ${anterior ? "" : "disabled"}>😎 Usar o mesmo da última vez${anterior ? "" : "<small>(você ainda não tem)</small>"}</button>
           <button type="button" class="btn btn-grande av-rap uni" id="av-uni">🏫 Usar o uniforme de Curionópolis<small class="av-uni-trava">(escolha antes o passo 1 aqui embaixo 👇)</small></button></div>
         <p class="av-ou">ou monte um novo avatar aqui embaixo 👇</p>
@@ -246,7 +248,7 @@
             <p class="av-t">👓 Óculos</p><div class="av-row">${op("oculos")}</div></div>
           </div></div>
         <div class="row-btns av-bts"><button type="button" class="btn btn-grande btn-ok" id="av-ok">✔ Pronto! Salvar o meu avatar</button></div>
-        <p class="ajuda">${anterior ? "Este é o avatar que você usou da última vez: mude o que quiser ou entre com ele mesmo. " : ""}Quando o tempo acabar, você entra com o avatar ${anterior ? "da última vez" : "com o uniforme de Curionópolis e uma cor de pele sorteada"}. O avatar aparece no placar e no pódio da aula.</p></div></section>`);
+        <p class="ajuda">${anterior ? "Este é o avatar que você usou da última vez: mude o que quiser ou entre com ele mesmo. " : ""}O avatar aparece no placar e no pódio da aula.</p></div></section>`);
       // passo 1 primeiro: as roupas, profissões e camisas de futebol só destravam depois de escolher masculino/feminino, pele e cabelo
       const fez = { tipo: !!(anterior && anterior.tipo), pele: !!anterior, cabelo: !!anterior };
       const pinta = () => {
@@ -293,7 +295,12 @@
         if (r <= 0) { P.toast && P.toast("⏰ Acabou o tempo!");
           // sem avatar salvo: uniforme de Curionópolis com o que o aluno já escolheu e cor de pele sorteada (se não escolheu)
           if (anterior) sair({ avatar: norm(anterior), salvo: false });
-          else sair({ avatar: Object.assign({}, PADRAO, fez.tipo ? { tipo: a.tipo } : {}, fez.cabelo ? { cabelo: a.cabelo, corCabelo: a.corCabelo } : {}, { pele: fez.pele ? a.pele : Math.floor(Math.random() * PELE.length) }), salvo: true }); }
+          else { const sorteia = n => Math.floor(Math.random() * n);
+            sair({ avatar: Object.assign({}, PADRAO, {
+              tipo: fez.tipo ? a.tipo : OPC.tipo[sorteia(2)][0],
+              pele: fez.pele ? a.pele : sorteia(PELE.length),
+              cabelo: fez.cabelo ? a.cabelo : OPC.cabelo[sorteia(OPC.cabelo.length)][0],
+              corCabelo: fez.cabelo ? a.corCabelo : sorteia(4) }), salvo: true }); } }
       }, 250);
       pinta();
     });
@@ -305,12 +312,15 @@
     const usados = [];
     for (let i = 0; i < infos.length; i++) {
       const x = infos[i], ref = N.app(i).db.collection("progresso").doc(x.alunoId + "_avatar");
-      let anterior = null; try { const sn = await ref.get(); anterior = sn.exists ? sn.data().avatar : null; } catch (e) {}
+      let anterior = null, usadoEm = null; try { const sn = await ref.get(); if (sn.exists) { anterior = sn.data().avatar || null; usadoEm = sn.data().usadoEm || null; } } catch (e) {}
+      const hoje = new Date().toLocaleDateString("sv-SE");
+      // 🔒 já entrou hoje: o avatar não muda durante a aula
+      if (anterior && usadoEm === hoje) { usados.push(norm(anterior)); P.toast && P.toast(`🔒 ${(x.nome || "").split(" ")[0]}, você já montou o avatar hoje: ele não muda durante a aula.`); continue; }
       const pn = y => (y.nome || "").split(" ")[0], du = infos.length > 1;
       if (du && i > 0) P.toast && P.toast(`👥 Agora é a vez de ${pn(x)} montar o avatar!`);
       const r = await editor(mount, { nome: pn(x), anterior, segundos: du ? 60 : segundos, dupla: du ? { vez: i + 1, outro: pn(infos[1 - i]) } : null });
       usados.push(r.avatar);
-      if (r.salvo) try { await ref.set({ alunoId: x.alunoId, turma: x.turma || P.sess.get().turma, tipo: "avatar", avatar: r.avatar, atualizado: Date.now() }, { merge: true }); } catch (e) { console.warn("avatar", e); }
+      try { await ref.set(Object.assign({ alunoId: x.alunoId, turma: x.turma || P.sess.get().turma, tipo: "avatar", usadoEm: hoje }, r.salvo ? { avatar: r.avatar, atualizado: Date.now() } : {}), { merge: true }); } catch (e) { console.warn("avatar", e); }
     }
     return usados;
   }
