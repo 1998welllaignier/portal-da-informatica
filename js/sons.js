@@ -25,17 +25,21 @@
     s.buffer = b; f.type = "bandpass"; f.frequency.value = corte || 1800; g.gain.value = vol || 0.15;
     s.connect(f).connect(g).connect(x.destination); s.start(t0);
   }
+  const hz = m => 440 * Math.pow(2, (m - 69) / 12); // número MIDI → frequência
   const N = { C4: 261.6, E4: 329.6, G4: 392, C5: 523.3, E5: 659.3, G5: 784, C6: 1046.5, A4: 440, F4: 349.2 };
 
   // 🥁 rufar de tambor (suspense do pódio)
   function rufar(t, dur) { for (let s = 0; s < dur; s += 0.055) ruido(t + s, 0.06, 0.05 + 0.1 * (s / dur), 900); }
   // 🔔 ding (3º e 2º lugar aparecendo)
-  function ding(t, alto) { const f = alto ? N.G5 : N.E5; nota(f, t, 0.6, 0.22, "sine"); nota(f * 2, t, 0.35, 0.06, "sine"); }
-  // 🎺 tcharam! (1º lugar / fim da aula)
+  function ding(t, alto) { const b = alto ? 76 : 72; [b, b + 7].forEach((m, i) => nota(hz(m), t + i * 0.07, 0.25, 0.1, "square")); }
+  // 🎺 tcharam! no estilo videogame antigo (8 bits: ondas quadradas). Melodia própria, criada para o portal.
   function tcharam(t) {
-    [N.C5, N.E5, N.G5].forEach((f, i) => nota(f, t + i * 0.11, 0.22, 0.2, "square"));
-    [N.C5, N.E5, N.G5, N.C6].forEach(f => nota(f, t + 0.36, 1.6, 0.13, "sawtooth"));
-    [N.C4, N.G4].forEach(f => nota(f, t + 0.36, 1.6, 0.14, "triangle"));
+    const passo = 0.075, frases = [[55, 59, 62, 67], [64, 67, 72], [65, 69, 74]];
+    let k = 0; frases.forEach((fr, j) => { fr.forEach(m => { nota(hz(m), t + k * passo, passo * 1.6, 0.11, "square"); k++; }); k += j < 2 ? 1 : 0; });
+    const fim = t + k * passo + 0.05;
+    [67, 71, 74, 79].forEach(m => nota(hz(m), fim, 1.3, 0.085, "square"));   // acorde final (sol maior)
+    [43, 55].forEach(m => nota(hz(m), fim, 1.3, 0.12, "triangle"));          // baixo
+    ruido(fim, 0.12, 0.18, 4000);                                             // "prato" de 8 bits
   }
   // 🎉 estalinhos do confete
   function estalos(t, dur) { for (let i = 0; i < 26; i++) ruido(t + Math.random() * dur, 0.04, 0.12, 2500 + Math.random() * 2500); }
@@ -45,9 +49,9 @@
     // pódio: 3º (0 s) → 2º (1,4 s) → 1º (2,8 s) → confete (3 s)
     podio() { if (!pronto()) return; rufar(0, 2.75); ding(0); ding(1.4, true); tcharam(2.8); estalos(3.1, 2.5); },
     // 👑 alguém novo pegou a coroa
-    coroa() { if (!pronto()) return; [N.E5, N.G5, N.C6].forEach((f, i) => nota(f, i * 0.08, 0.5, 0.14, "sine")); },
+    coroa() { if (!pronto()) return; [72, 76, 79, 84].forEach((m, i) => nota(hz(m), i * 0.06, 0.18, 0.09, "square")); },
     // 🤫 placar congelou (últimos 5 min)
-    congelou() { if (!pronto()) return; nota(N.A4, 0, 0.5, 0.15, "sine"); nota(N.F4, 0.35, 0.9, 0.15, "sine"); },
+    congelou() { if (!pronto()) return; [69, 68, 67, 66].forEach((m, i) => nota(hz(m), i * 0.22, 0.2, 0.09, "square")); },
     teste() { if (!pronto()) return; tcharam(0); estalos(0.4, 1.2); }
   };
   P.sons = S;
