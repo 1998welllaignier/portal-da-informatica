@@ -296,7 +296,7 @@
             <td class="pv-bars">${fr(p.leitura, "📖 Leitura", "l")}${fr(p.basico, "🟢 Básico", "b")}${fr(p.desafio, "🟡 Desafio", "d")}${fr(p.turbo, "🔴 Turbo", "t")}${!pm ? "<small>—</small>" : ""}</td>
             <td>${sit}</td><td>${par ? "😴 " : ""}há ${Math.max(0, Math.round((agora - ult) / 60000))} min</td></tr>`; }).join("")}</tbody></table></div>`
         : `<p class="ajuda">Nenhum aluno desta turma entrou hoje ainda.</p>`}
-        ${fora.length ? `<details class="pv-fora"><summary>Ainda não entraram hoje (${fora.length})</summary><p>${fora.map(x => esc(x.a.nome)).join(" · ")}</p></details>` : ""}`;
+        ${fora.length ? `<details class="pv-fora"><summary>👀 Alunos que faltaram (${fora.length}) · clique para ver</summary><p>${fora.map(x => esc(x.a.nome)).join(" · ")}</p></details>` : ""}`;
     };
     const carregarT = async () => {
       if (unsub) { unsub(); unsub = null; }

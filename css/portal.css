@@ -1361,3 +1361,5 @@ body.modo-apresentacao .topbar, body.modo-apresentacao .rodape, body.modo-aprese
 @keyframes tb-pisca { 50% { background: #991b1b; transform: scale(1.04); } }
 @media (max-width: 640px) { .tb-relogio .tb-rel-txt { display: none; } .tb-relogio .tb-rel-t { font-size: 1.2rem; } }
 @media (prefers-reduced-motion: reduce) { .tb-relogio.pisca { animation: none; } }
+.pv-fora summary { display: inline-block; list-style: none; background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 10px; padding: 6px 12px; margin-top: 8px; }
+.pv-fora summary::-webkit-details-marker { display: none; }
