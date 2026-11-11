@@ -19,14 +19,15 @@
   const COR = ["#ef4444", "#f97316", "#facc15", "#22c55e", "#0d9488", "#3b82f6", "#1e3a8a", "#a855f7", "#ec4899", "#111827", "#ffffff", "#9ca3af"];
   const CAB = ["#1c1208", "#4a2c15", "#8b5a2b", "#d9a95b", "#e5e7eb", "#b91c1c", "#7c3aed", "#2563eb"];
   const OPC = {
-    cabelo: [["careca", "Careca"], ["curto", "Curto"], ["espetado", "Espetado"], ["cacheado", "Cacheado"], ["black", "Black power"], ["longo", "Longo"], ["coque", "Coque"], ["trancas", "Tranças"], ["moicano", "Moicano"]],
+    tipo: [["m", "Masculino"], ["f", "Feminino"]],
+    cabelo: [["careca", "Careca"], ["curto", "Curto"], ["espetado", "Espetado"], ["cacheado", "Cacheado"], ["black", "Black power"], ["longo", "Longo"], ["coque", "Coque"], ["trancas", "Tranças"], ["moicano", "Moicano"], ["topete", "Penteado para trás"]],
     blusa: [["uniforme", "Uniforme da escola"], ["lisa", "Lisa"], ["listras", "Listras"], ["faixa", "Faixa"], ["futebol", "⚽ Camisa de futebol"], ["regata", "Regata"]],
     calca: [["calca", "Calça"], ["bermuda", "Bermuda"], ["saia", "Saia"]],
     bone: [["nenhum", "Sem boné"], ["frente", "Boné"], ["tras", "Aba para trás"]],
     estilo: [["lisa", "Lisa"], ["vertical", "Listras em pé"], ["horizontal", "Listras deitadas"], ["faixa", "Faixa"], ["metade", "Metade e metade"], ["gola", "Gola e mangas"]],
     roupa: [["nenhuma", "Nada por cima"], ["jaleco", "Jaleco"], ["terno", "Terno e gravata"], ["macacao", "Macacão"], ["colete", "Colete refletivo"], ["avental", "Avental"], ["bombeiro", "Roupa de bombeiro"], ["farda", "Farda"], ["astronauta", "Roupa de astronauta"]],
     chapeu: [["nenhum", "Nada"], ["capacete", "Capacete de obra"], ["chef", "Chapéu de chef"], ["quepe", "Quepe"], ["bombeiro", "Capacete de bombeiro"], ["palha", "Chapéu de palha"], ["boina", "Boina"], ["fone", "Fone de ouvido"], ["astronauta", "Capacete espacial"], ["cartola", "Cartola"], ["detetive", "Chapéu de detetive"], ["peruca", "Peruca colorida"], ["mergulho", "Máscara de mergulho"], ["coroa", "Coroa"], ["pirata", "Chapéu de pirata"]],
-    rosto: [["nenhum", "Nada"], ["nariz", "Nariz de palhaço"], ["bigode", "Bigode"], ["mascara", "Máscara cirúrgica"], ["tapaolho", "Tapa-olho"]],
+    rosto: [["nenhum", "Nada"], ["nariz", "Nariz de palhaço"], ["bigode", "Bigode"], ["mascara", "Máscara cirúrgica"], ["tapaolho", "Tapa-olho"], ["barba", "Barba"]],
     objeto: [["nenhum", "Nada"], ["estetoscopio", "Estetoscópio"], ["livro", "Livro"], ["prancheta", "Prancheta"], ["planta", "Planta da obra"], ["maleta", "Maleta"], ["notebook", "Notebook"], ["chave", "Chave inglesa"], ["pincel", "Pincel"], ["microfone", "Microfone"], ["tubo", "Tubo de ensaio"], ["colher", "Colher de pau"], ["bola", "Bola"], ["violao", "Violão"], ["mangueira", "Mangueira"], ["regador", "Regador"], ["pa", "Pá"], ["tijolo", "Colher e tijolo"], ["varinha", "Varinha mágica"], ["lupa", "Lupa"], ["boia", "Boia"], ["vara", "Vara de pescar"], ["vassoura", "Vassoura"], ["pao", "Pão"], ["bolo", "Bolo"], ["camera", "Câmera"], ["carta", "Carta"], ["balao", "Balões"], ["pizza", "Pizza"]],
     oculos: [["nenhum", "Sem óculos"], ["redondo", "Redondo"], ["quadrado", "Quadrado"], ["escuro", "Escuro"]]
   };
@@ -48,6 +49,7 @@
   // 💼 profissões (o aluno toca e o bonequinho veste; depois pode mudar tudo)
   const LIMPA = { roupa: "nenhuma", chapeu: "nenhum", objeto: "nenhum", rosto: "nenhum", bone: "nenhum" };
   const PROF = [
+    ["👨‍🏫 Prof. Welington", { tipo: "m", pele: 1, cabelo: "topete", corCabelo: 0, rosto: "barba", blusa: "lisa", cor1: 10, calca: "calca", corCalca: 6, objeto: "notebook" }],
     ["🩺 Médica(o)", { blusa: "lisa", cor1: 5, calca: "calca", corCalca: 6, roupa: "jaleco", objeto: "estetoscopio" }],
     ["💉 Enfermeira(o)", { blusa: "lisa", cor1: 4, calca: "calca", corCalca: 4, objeto: "prancheta", rosto: "mascara" }],
     ["🦷 Dentista", { blusa: "lisa", cor1: 5, calca: "calca", corCalca: 10, roupa: "jaleco", rosto: "mascara" }],
@@ -103,7 +105,7 @@
     // blusa
     const uni = a.blusa === "uniforme", AZ = "#1e2f6b", mc = uni ? AZ : c1, corpo = uni ? "#ffffff" : c1;
     const mg = fut && (a.estilo === "gola" || a.estilo === "metade") ? c2 : c1;
-    const manga = a.blusa === "regata" ? "" : fut ? `<rect x="22" y="74" width="16" height="22" rx="7" fill="${mg}"/><rect x="82" y="74" width="16" height="22" rx="7" fill="${a.estilo === "metade" ? c2 : mg}"/>` : uni ? `<rect x="22" y="74" width="16" height="22" rx="7" fill="${AZ}"/><rect x="82" y="74" width="16" height="22" rx="7" fill="${AZ}"/>` : `<rect x="22" y="74" width="16" height="22" rx="7" fill="${c1}"/><rect x="82" y="74" width="16" height="22" rx="7" fill="${c1}"/>`;
+    const manga = a.blusa === "regata" ? "" : fut ? `<rect x="22" y="74" width="16" height="22" rx="7" fill="${mg}"/><rect x="82" y="74" width="16" height="22" rx="7" fill="${a.estilo === "metade" ? c2 : mg}"/>` : uni ? `<rect x="22" y="74" width="16" height="22" rx="7" fill="${AZ}"/><rect x="82" y="74" width="16" height="22" rx="7" fill="${AZ}"/>` : `<rect x="22" y="74" width="16" height="22" rx="7" fill="${c1}" stroke="${c1 === "#ffffff" ? "#cbd5e1" : "none"}"/><rect x="82" y="74" width="16" height="22" rx="7" fill="${c1}" stroke="${c1 === "#ffffff" ? "#cbd5e1" : "none"}"/>`;
     const bracos = `<rect x="24" y="${a.blusa === "regata" ? 74 : 90}" width="12" height="${a.blusa === "regata" ? 38 : 22}" rx="6" fill="${pele}"/><rect x="84" y="${a.blusa === "regata" ? 74 : 90}" width="12" height="${a.blusa === "regata" ? 38 : 22}" rx="6" fill="${pele}"/><circle cx="30" cy="114" r="6.5" fill="${pele}"/><circle cx="90" cy="114" r="6.5" fill="${pele}"/>`;
     let estampa = "";
     if (uni) estampa = `<rect x="36" y="84" width="48" height="11" fill="${AZ}"/><rect x="36" y="80" width="48" height="1.6" fill="#facc15"/><rect x="36" y="81.6" width="48" height="1.6" fill="#22c55e"/><rect x="36" y="83.2" width="48" height="1.2" fill="#ef4444"/><rect x="70" y="86" width="9" height="7" rx="1.5" fill="#ffffff"/><rect x="71.5" y="87.5" width="6" height="4" fill="#3b82f6"/>`;
@@ -115,7 +117,7 @@
         : E === "faixa" ? `<path d="M36 70 L48 68 L86 112 L74 118 Z" fill="${c2}"/>` : E === "metade" ? `<rect x="60" y="68" width="24" height="50" fill="${c2}"/>` : "";
       estampa += `<text x="60" y="104" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="18" fill="${E === "lisa" || E === "gola" ? c2 : "#ffffff"}" stroke="${E === "lisa" || E === "gola" ? "none" : "rgba(0,0,0,.55)"}" stroke-width="1.2">${Math.max(0, Math.min(99, +a.numero || 0))}</text>`; }
     if (a.blusa === "time") estampa = `<rect x="36" y="70" width="48" height="8" fill="${c2}"/><text x="60" y="104" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="20" fill="${c2}">${Math.max(0, Math.min(99, +a.numero || 0))}</text>`;
-    blusa = `${manga}${bracos}<rect x="36" y="68" width="48" height="50" rx="10" fill="${corpo}" stroke="${uni ? "#cbd5e1" : "none"}"/><g clip-path="url(#tr)">${estampa}</g>${a.blusa === "regata" ? `<path d="M50 68 Q60 80 70 68" fill="${pele}"/>` : uni ? `<path d="M50 68 L60 80 L70 68" fill="${AZ}"/><path d="M53 68 L60 76 L67 68" fill="${pele}"/>` : fut ? `<path d="M50 68 L60 79 L70 68" fill="${c2}"/><path d="M53 68 L60 75 L67 68" fill="${pele}"/>` : `<path d="M52 68 Q60 76 68 68" fill="${pele}"/>`}`;
+    blusa = `${manga}${bracos}<rect x="36" y="68" width="48" height="50" rx="10" fill="${corpo}" stroke="${uni || corpo === "#ffffff" ? "#cbd5e1" : "none"}"/><g clip-path="url(#tr)">${estampa}</g>${a.blusa === "regata" ? `<path d="M50 68 Q60 80 70 68" fill="${pele}"/>` : uni ? `<path d="M50 68 L60 80 L70 68" fill="${AZ}"/><path d="M53 68 L60 76 L67 68" fill="${pele}"/>` : fut ? `<path d="M50 68 L60 79 L70 68" fill="${c2}"/><path d="M53 68 L60 75 L67 68" fill="${pele}"/>` : `<path d="M52 68 Q60 76 68 68" fill="${pele}"/>`}`;
     // cabelo
     const topo = `<path d="M36 42 Q36 16 60 16 Q84 16 84 42 Q78 30 60 28 Q42 30 36 42 Z" fill="${cc}"/>`;
     if (a.cabelo === "curto") cabelo = topo;
@@ -125,6 +127,7 @@
     if (a.cabelo === "longo") { atras = `<path d="M33 40 Q32 14 60 14 Q88 14 87 40 L90 86 Q76 92 70 70 L50 70 Q44 92 30 86 Z" fill="${cc}"/>`; cabelo = topo; }
     if (a.cabelo === "coque") { cabelo = topo + `<circle cx="60" cy="12" r="10" fill="${cc}"/>`; }
     if (a.cabelo === "trancas") { atras = `<rect x="30" y="38" width="9" height="44" rx="4.5" fill="${cc}"/><rect x="81" y="38" width="9" height="44" rx="4.5" fill="${cc}"/><circle cx="34.5" cy="84" r="4" fill="${c2}"/><circle cx="85.5" cy="84" r="4" fill="${c2}"/>`; cabelo = topo; }
+    if (a.cabelo === "topete") cabelo = `<path d="M35 44 Q33 14 58 12 Q80 11 86 30 Q87 38 85 44 Q82 30 74 27 Q62 22 50 26 Q40 30 35 44 Z" fill="${cc}"/><path d="M44 22 Q58 12 76 18 M48 26 Q62 18 78 23" stroke="rgba(255,255,255,.25)" stroke-width="1.5" fill="none"/>`;
     if (a.cabelo === "moicano") cabelo = `<path d="M54 30 Q56 6 60 4 Q64 6 66 30 Z" fill="${cc}"/>`;
     // boné
     let bone = "";
@@ -192,6 +195,7 @@
     if (RO === "nariz") rosto = `<circle cx="60" cy="49" r="5" fill="#ef4444"/><circle cx="58.5" cy="47.5" r="1.4" fill="#ffffff" opacity=".7"/>`;
     if (RO === "bigode") rosto = `<path d="M60 51 Q52 47 46 53 Q53 52 60 54 Q67 52 74 53 Q68 47 60 51 Z" fill="${cc}"/>`;
     if (RO === "mascara") rosto = `<path d="M46 47 Q60 45 74 47 L72 58 Q60 64 48 58 Z" fill="#7dd3fc"/><path d="M46 49 L36 45 M74 49 L84 45" stroke="#e0f2fe" stroke-width="1.5"/><path d="M50 52 h20 M51 55 h18" stroke="#38bdf8" stroke-width="1"/>`;
+    if (RO === "barba") rosto = `<path d="M36 44 Q37 60 46 66 Q53 71 60 71 Q67 71 74 66 Q83 60 84 44 Q81 56 74 58 Q67 52 60 54 Q53 52 46 58 Q39 56 36 44 Z" fill="${cc}"/><path d="M51 53 Q60 49 69 53 Q60 52 51 53 Z" fill="${cc}"/><path d="M52.5 55.5 Q60 62 67.5 55.5 Z" fill="#ffffff" stroke="#7f1d1d" stroke-width="1.6" stroke-linejoin="round"/>`;
     if (RO === "tapaolho") rosto = `<path d="M36 34 L84 46" stroke="#111827" stroke-width="2"/><ellipse cx="69" cy="44" rx="6" ry="5" fill="#111827"/>`;
     // óculos
     let oc = "";
@@ -199,13 +203,14 @@
     if (a.oculos === "quadrado") oc = `<g fill="none" stroke="#111827" stroke-width="2.4"><rect x="43" y="38" width="15" height="11" rx="3"/><rect x="62" y="38" width="15" height="11" rx="3"/><path d="M58 43 H62"/></g>`;
     if (a.oculos === "escuro") oc = `<g fill="#111827"><rect x="42" y="38" width="16" height="11" rx="4"/><rect x="62" y="38" width="16" height="11" rx="4"/><rect x="57" y="41" width="6" height="2.5"/></g>`;
     const olhos = a.oculos === "escuro" ? "" : `<circle cx="51" cy="44" r="2.8" fill="#1f2937"/><circle cx="69" cy="44" r="2.8" fill="#1f2937"/><circle cx="52" cy="43" r="1" fill="#fff"/><circle cx="70" cy="43" r="1" fill="#fff"/>`;
+    const fem = a.tipo === "f" && a.oculos !== "escuro" ? `<path d="M46 41 l-3 -2.5 M47.5 39.8 l-2 -3 M74 41 l3 -2.5 M72.5 39.8 l2 -3" stroke="#1f2937" stroke-width="1.4" stroke-linecap="round"/>` : "";
     const uid = "a" + Math.random().toString(36).slice(2, 7);
     return `<svg class="avatar-svg${busto ? " busto" : ""}" viewBox="${busto ? "14 2 92 92" : "0 0 120 170"}" width="${px || 120}" height="${busto ? px || 120 : Math.round((px || 120) * 170 / 120)}" role="img" aria-label="Avatar">
       <defs><clipPath id="tr"><rect x="36" y="68" width="48" height="50" rx="10"/></clipPath></defs>
       ${pernas}${R === "macacao" ? `<rect x="41" y="110" width="38" height="12" rx="4" fill="${cr}"/>` : ""}${blusa}${roupa}${atras}<rect x="54" y="58" width="12" height="14" rx="4" fill="${pele}"/>
       <circle cx="35" cy="45" r="5" fill="${pele}"/><circle cx="85" cy="45" r="5" fill="${pele}"/><circle cx="60" cy="42" r="25" fill="${pele}"/>
       ${olhos}<circle cx="45" cy="52" r="3.5" fill="#f87171" opacity=".35"/><circle cx="75" cy="52" r="3.5" fill="#f87171" opacity=".35"/>
-      <path d="M52 54 Q60 61 68 54" stroke="#7f1d1d" stroke-width="2.4" fill="none" stroke-linecap="round"/>${CH !== "nenhum" && CH !== "fone" && CH !== "astronauta" ? (a.cabelo === "longo" || a.cabelo === "trancas" ? "" : "") : cabelo}${CH === "nenhum" ? bone : ""}${rosto}${chapeu}${oc}${objeto}</svg>`.replace(/id="tr"/g, `id="${uid}"`).replace(/url\(#tr\)/g, `url(#${uid})`);
+      ${fem}${a.rosto === "barba" ? "" : `<path d="M52 54 Q60 61 68 54" stroke="${a.tipo === "f" ? "#be123c" : "#7f1d1d"}" stroke-width="2.4" fill="none" stroke-linecap="round"/>`}${CH !== "nenhum" && CH !== "fone" && CH !== "astronauta" ? (a.cabelo === "longo" || a.cabelo === "trancas" ? "" : "") : cabelo}${CH === "nenhum" ? bone : ""}${rosto}${chapeu}${oc}${objeto}</svg>`.replace(/id="tr"/g, `id="${uid}"`).replace(/url\(#tr\)/g, `url(#${uid})`);
   }
 
   /* editor com cronômetro. resolve com o avatar escolhido (salvo, anterior ou padrão) */
@@ -219,8 +224,11 @@
           <div class="av-tempo"><span id="av-s">120</span>s<i><b id="av-b"></b></i></div></div>
         <div class="av-grid"><div class="av-prev" id="av-prev"></div>
           <div class="av-opcoes">
+            <div class="av-passo1"><p class="av-passo">1️⃣ Primeiro, você!</p>
+            <p class="av-t">🙂 Masculino ou feminino</p><div class="av-row">${op("tipo")}</div>
             <p class="av-t">🎨 Cor da pele</p><div class="av-row">${sw(PELE, "pele")}</div>
-            <p class="av-t">💇 Cabelo</p><div class="av-row">${op("cabelo")}</div><div class="av-row">${sw(CAB, "corCabelo")}</div>
+            <p class="av-t">💇 Cabelo</p><div class="av-row">${op("cabelo")}</div><div class="av-row">${sw(CAB, "corCabelo")}</div></div>
+            <div class="av-passo2"><p class="av-passo">2️⃣ Agora, a roupa! <span class="av-trava">🔒 Escolha primeiro: masculino ou feminino, a cor da pele e o cabelo</span></p>
             <p class="av-t">👕 Blusa</p><div class="av-row">${op("blusa")}</div><div class="av-row"><small>Cor:</small> ${sw(COR, "cor1")}</div><div class="av-row"><small>Detalhe:</small> ${sw(COR, "cor2")}</div>
             <div class="av-fut" hidden><p class="av-t">⚽ Uniforme de jogador</p><div class="av-row"><small>Modelo:</small> ${op("estilo")}</div>
               <div class="av-row av-num"><small>Número da camisa:</small> <input type="number" id="av-num" min="0" max="99" value="${a.numero}"></div>
@@ -231,17 +239,21 @@
             <div class="av-row"><small>Roupa por cima:</small> ${op("roupa")}</div><div class="av-row"><small>Cor da roupa:</small> ${sw(COR, "corRoupa")}</div>
             <div class="av-row"><small>Na cabeça:</small> ${op("chapeu")}</div><div class="av-row"><small>Na mão:</small> ${op("objeto")}</div><div class="av-row"><small>No rosto:</small> ${op("rosto")}</div>
             <p class="av-t">🧢 Boné</p><div class="av-row">${op("bone")}</div><div class="av-row">${sw(COR, "corBone")}</div>
-            <p class="av-t">👓 Óculos</p><div class="av-row">${op("oculos")}</div>
+            <p class="av-t">👓 Óculos</p><div class="av-row">${op("oculos")}</div></div>
           </div></div>
         <div class="row-btns av-bts"><button type="button" class="btn btn-grande btn-ok" id="av-ok">✔ Pronto! Salvar o meu avatar</button>
           <button type="button" class="btn btn-sec" id="av-pula">Pular${anterior ? " (usar o que já tenho)" : " (usar o padrão)"}</button></div>
         <p class="ajuda">Quando o tempo acabar, você entra com o avatar ${anterior ? "que já tinha salvo" : "padrão"}. O avatar aparece no placar e no pódio da aula.</p></div></section>`);
+      // passo 1 primeiro: as roupas, profissões e camisas de futebol só destravam depois de escolher masculino/feminino, pele e cabelo
+      const fez = { tipo: !!(anterior && anterior.tipo), pele: !!anterior, cabelo: !!anterior };
       const pinta = () => {
+        const livre = fez.tipo && fez.pele && fez.cabelo, p2 = el.querySelector(".av-passo2");
+        p2.classList.toggle("travado", !livre); p2.querySelector(".av-trava").hidden = livre; p2.inert = !livre;
         el.querySelector("#av-prev").innerHTML = svg(a, 220);
         el.querySelectorAll("[data-c]").forEach(b => b.setAttribute("aria-pressed", String(a[b.dataset.c]) === String(b.dataset.v)));
         el.querySelector(".av-fut").hidden = a.blusa !== "futebol"; el.querySelector(".av-calca").hidden = a.blusa === "futebol";
       };
-      el.querySelectorAll("[data-c]").forEach(b => b.onclick = () => { const c = b.dataset.c, v = b.dataset.v; a[c] = /^\d+$/.test(v) && c !== "numero" && !OPC[c] ? +v : v;
+      el.querySelectorAll("[data-c]").forEach(b => b.onclick = () => { const c = b.dataset.c, v = b.dataset.v; if (c in fez) fez[c] = true; if (c === "corCabelo") fez.cabelo = true; a[c] = /^\d+$/.test(v) && c !== "numero" && !OPC[c] ? +v : v;
         if (c === "blusa" && v === "futebol" && a.cor1 === 10 && a.cor2 === 6) { a.cor1 = 3; a.cor2 = 10; } pinta(); });
       // 💡 modal com ideias de uniformes de futebol (tocar numa ideia já veste o bonequinho; o tempo continua correndo)
       el.querySelector("#av-ideias").onclick = () => {
