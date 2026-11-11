@@ -62,4 +62,11 @@ Modelo de referência: `ferramentas/video2d/modelo-cabo-submarino.html` (8º ano
 ## Legenda sincronizada com a voz (anotado pelo professor em 10/11/2026)
 - Nos 8 vídeos de 10/11, voz e efeitos sonoros ficaram no lugar certo, mas **em alguns momentos a legenda ficou fora de sincronia** com a fala.
 - Causa: as palavras da legenda acendem num ritmo igual ao longo da cena, e a voz não fala num ritmo igual (respira nas vírgulas e nos pontos, acelera em listas).
+- **Feito a partir do vídeo extra do 8º M1 (10/11):** `alinhar_frases.py` alinha cada frase às pausas da voz (rápido, funciona mesmo quando a voz não faz pausa longa entre parágrafos) e confere pelos "núcleos de sílaba" do áudio; `fala_sync.py` grava no `video.html` o início real de cada palavra (`window.FALA`). A legenda acende pela fala real e os desenhos e efeitos são marcados por palavra (`A("palavra")`), então tudo acompanha a voz. Montagem: `alinhar_frases.py` → `fala_sync.py` → `finalizar.py --usar-cortes`.
 - Correção para os próximos: usar as pausas que o `finalizar.py` já encontra dentro de cada parágrafo para acender a legenda por trecho (cada trecho entre duas pausas acende no tempo real em que é falado, dividido pelas sílabas) e, antes de entregar, conferir quadros em 2 ou 3 pontos de cada vídeo.
+
+## Vídeo extra "ultra explicado" (combinado em 10/11/2026)
+- **Não é o padrão.** O padrão continua sendo o videozinho curto de cada missão.
+- O vídeo extra é um reforço que o professor pede **só quando o assunto exigir** (quando ele perceber que a turma vai ter dificuldade mesmo com a explicação e o vídeo curto).
+- Como é: explica a missão inteira do começo ao fim, passo a passo, como para uma criança, com historinha (ex.: Bia e o robozinho Bit com cartas numeradas), usando os mesmos exemplos das tarefas do portal. Pode ser mais longo (o do 8º M1 tem cerca de 6 minutos).
+- Primeiro: `ferramentas/video2d/8ano-m1-extra/` (Listas: busca sequencial, busca binária e método da bolha).

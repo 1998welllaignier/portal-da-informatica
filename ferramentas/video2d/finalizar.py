@@ -18,42 +18,43 @@ for k, v in sil:
 t0 = S[0][1] if S and S[0][0] < .05 else 0.0
 S = [s for s in S if s[0] > .05 and s[1] < END - .05]
 par = [p.strip() for p in open(f"{pasta}/falas.txt").read().split("\n\n") if p.strip()]
-syl = lambda s: max(1, len(re.findall(r"[aeiouáéíóúâêôãõàü]+", s.lower())))
-fr, pb = [], set()  # frases e índices de fronteira de parágrafo
-for i, p in enumerate(par):
-    for f in [x for x in re.split(r"(?<=[.,:;?!…])\s+", p) if x.strip()]: fr.append(syl(f))
-    pb.add(len(fr))  # fronteira depois da última frase do parágrafo
-pb.discard(len(fr))
-NB = len(fr); fala = END - t0 - sum(b - a for a, b in S); R = sum(fr) / fala
-cum = [0]
-for x in fr: cum.append(cum[-1] + x)
-def custo(j1, j2, dur):  # frases j1..j2-1 faladas em dur segundos
-    if any(j1 < b < j2 for b in pb): return 1e9
-    e = (cum[j2] - cum[j1]) / R; return (math.log(max(dur, .05) / e)) ** 2 * (1 + .02 * (j2 - j1))
-M = len(S); INF = 1e18
-best = {(-1, 0): (0.0, None)}  # estado: (última pausa usada, fronteira) -> (custo, anterior)
-ordem = [(-1, 0)]
-for i in range(M):
-    for (pi, pj) in list(best.keys()):
-        if pi >= i: continue
-        c0, _ = best[(pi, pj)]; tini = t0 if pi < 0 else S[pi][1]
-        pul = sum(min(2.0, (S[q][1] - S[q][0]) * 4) for q in range(pi + 1, i))
-        for j in range(pj + 1, NB):
-            c = c0 + pul + custo(pj, j, S[i][0] - tini)
-            if c < best.get((i, j), (INF,))[0]: best[(i, j)] = (c, (pi, pj))
-fim = None; fc = INF
-for (i, j), (c, _) in best.items():
-    tini = t0 if i < 0 else S[i][1]; pul = sum(min(2.0, (S[q][1] - S[q][0]) * 4) for q in range(i + 1, M))
-    cc = c + pul + custo(j, NB, END - tini)
-    if cc < fc: fc, fim = cc, (i, j)
-mapa = {}; st = fim
-while st and st[0] >= 0: mapa[st[1]] = st[0]; st = best[st][1]
-faltam = [b for b in sorted(pb) if b not in mapa]
-cortes = [list(S[mapa[b]]) for b in sorted(pb) if b in mapa]
-print("parágrafos", len(par), "cortes", len(cortes), "faltando", faltam, "custo", round(fc, 2))
-ini = t0
-for k, p in enumerate(par):
-    e = cortes[k][0] if k < len(cortes) else END; print(f"{k:2d} {ini:6.2f}-{e:6.2f} ({e-ini:4.1f}s) {p[:60]}"); ini = cortes[k][1] if k < len(cortes) else END
+if "--usar-cortes" not in sys.argv:
+    syl = lambda s: max(1, len(re.findall(r"[aeiouáéíóúâêôãõàü]+", s.lower())))
+    fr, pb = [], set()  # frases e índices de fronteira de parágrafo
+    for i, p in enumerate(par):
+        for f in [x for x in re.split(r"(?<=[.,:;?!…])\s+", p) if x.strip()]: fr.append(syl(f))
+        pb.add(len(fr))  # fronteira depois da última frase do parágrafo
+    pb.discard(len(fr))
+    NB = len(fr); fala = END - t0 - sum(b - a for a, b in S); R = sum(fr) / fala
+    cum = [0]
+    for x in fr: cum.append(cum[-1] + x)
+    def custo(j1, j2, dur):  # frases j1..j2-1 faladas em dur segundos
+        if any(j1 < b < j2 for b in pb): return 1e9
+        e = (cum[j2] - cum[j1]) / R; return (math.log(max(dur, .05) / e)) ** 2 * (1 + .02 * (j2 - j1))
+    M = len(S); INF = 1e18
+    best = {(-1, 0): (0.0, None)}  # estado: (última pausa usada, fronteira) -> (custo, anterior)
+    ordem = [(-1, 0)]
+    for i in range(M):
+        for (pi, pj) in list(best.keys()):
+            if pi >= i: continue
+            c0, _ = best[(pi, pj)]; tini = t0 if pi < 0 else S[pi][1]
+            pul = sum(min(2.0, (S[q][1] - S[q][0]) * 4) for q in range(pi + 1, i))
+            for j in range(pj + 1, NB):
+                c = c0 + pul + custo(pj, j, S[i][0] - tini)
+                if c < best.get((i, j), (INF,))[0]: best[(i, j)] = (c, (pi, pj))
+    fim = None; fc = INF
+    for (i, j), (c, _) in best.items():
+        tini = t0 if i < 0 else S[i][1]; pul = sum(min(2.0, (S[q][1] - S[q][0]) * 4) for q in range(i + 1, M))
+        cc = c + pul + custo(j, NB, END - tini)
+        if cc < fc: fc, fim = cc, (i, j)
+    mapa = {}; st = fim
+    while st and st[0] >= 0: mapa[st[1]] = st[0]; st = best[st][1]
+    faltam = [b for b in sorted(pb) if b not in mapa]
+    cortes = [list(S[mapa[b]]) for b in sorted(pb) if b in mapa]
+    print("parágrafos", len(par), "cortes", len(cortes), "faltando", faltam, "custo", round(fc, 2))
+    ini = t0
+    for k, p in enumerate(par):
+        e = cortes[k][0] if k < len(cortes) else END; print(f"{k:2d} {ini:6.2f}-{e:6.2f} ({e-ini:4.1f}s) {p[:60]}"); ini = cortes[k][1] if k < len(cortes) else END
 if "--usar-cortes" in sys.argv: cortes = json.load(open(f"{pasta}/voz/cortes.json")); faltam = []; print("usando cortes.json", cortes)
 else: json.dump(cortes, open(f"{pasta}/voz/cortes.json", "w"))
 if faltam or so: sys.exit(0 if so else 1)
