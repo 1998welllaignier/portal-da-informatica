@@ -183,12 +183,14 @@
     const t = turma(s.turma);
     const apel = (s.apelidos || []).filter(Boolean);
     el.innerHTML = `<a class="brand" href="#/apostilas">${marca}</a>
+      ${P.avatar && s.nuvem ? `<span class="tb-av" aria-hidden="true">${(s.alunoIds || []).map((_, i) => P.avatar.svg((s.avatares || [])[i], 46, true)).join("")}</span>` : ""}
       <div class="tb-who" aria-label="Quem está usando"><span class="tb-turma">${esc(t ? t.nome : "")}</span><strong class="tb-nome">${esc(quem(s))}</strong>${apel.length ? `<span class="tb-completo">${esc(s.nomes.join(" & "))}</span>` : ""}</div>
       <div class="tb-info"${info ? "" : " hidden"}>${info || ""}</div>
       <div class="tb-relogio" id="tb-relogio" hidden aria-live="off"></div>
       <button class="tb-btn" id="tb-sair" type="button">Sair</button>`;
     document.getElementById("tb-sair").onclick = () => sair();
     relogioAula();
+    if (P.avatar && s.nuvem && !(s.avatares && s.avatares.length)) P.avatar.daSessao(s, () => barra(info));
   }
   /* ⏱️ cronômetro da aula: durante a aula da turma, mostra quanto falta para o fim (contagem regressiva) e o horário final;
      nos últimos 10 minutos fica vermelho e nos últimos 5 pisca. Horário de Curionópolis (UTC−3). */
@@ -354,7 +356,7 @@
         sess.set({ serie: sid, turma: t.value, modo, nuvem: true, alunoIds: infos.map(x => x.alunoId), nomes: infos.map(x => x.nome), apelidos: infos.map((x, i) => apels[i] || ""), entrou: Date.now(),
           trilha: infos.length === 1 && !!infos[0].trilha });
         // 🧍 monta o avatar (1 min 30 s); quem não salvar entra com o avatar que já tinha ou com o uniforme da escola
-        if (P.avatar) { try { await P.avatar.fluxoLogin(mount, infos.map(x => Object.assign({}, x, { turma: t.value })), 90); } catch (e) { console.warn("avatar", e); } }
+        if (P.avatar) { try { const avs = await P.avatar.fluxoLogin(mount, infos.map(x => Object.assign({}, x, { turma: t.value })), 90); const ss = sess.get(); if (ss && avs && avs.length) sess.set(Object.assign({}, ss, { avatares: avs })); } catch (e) { console.warn("avatar", e); } }
         location.hash = destino || "#/apostilas";
       };
       cf.querySelector("#sim").focus();

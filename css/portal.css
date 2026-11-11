@@ -1432,3 +1432,5 @@ body.modo-placar .tela.painel-prof { max-width: none; padding: 0; }
 .pp-placar-btn { background: #ca8a04; border-color: #ca8a04; color: #fff; }
 .fim-aula { text-align: center; } .fim-aula h2 { font-size: 1.8rem; } .fa-pos { font-size: 1.3rem; }
 @media (prefers-reduced-motion: reduce) { .pd-col, .pd-resto { animation: none; opacity: 1; transform: none; } .pd-conf { display: none; } .pl-lin { transition: none; } }
+.tb-av { display: flex; align-items: center; gap: 4px; }
+.tb-av .avatar-svg { width: 46px; height: 46px; background: radial-gradient(circle at 50% 40%, #e0f2fe, #93c5fd); border-radius: 50%; border: 2px solid #fde68a; }

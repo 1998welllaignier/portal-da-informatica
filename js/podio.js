@@ -29,7 +29,7 @@
   const PADRAO = { pele: 2, cabelo: "curto", corCabelo: 1, blusa: "uniforme", cor1: 10, cor2: 6, numero: 10, calca: "calca", corCalca: 6, estilo: "vertical", corCalcao: 10, corMeiao: 10, corChuteira: 9, bone: "nenhum", corBone: 0, oculos: "nenhum" };
   const norm = a => { const x = Object.assign({}, PADRAO, a || {}); if (x.blusa === "time") x.blusa = "futebol"; return x; };
 
-  function svg(a0, px) {
+  function svg(a0, px, busto) {
     const a = norm(a0), pele = PELE[a.pele] || PELE[2], c1 = COR[a.cor1] || COR[5], c2 = COR[a.cor2] || COR[10], cc = CAB[a.corCabelo] || CAB[1], cl = COR[a.corCalca] || COR[6], cb = COR[a.corBone] || COR[0];
     const sombra = "rgba(0,0,0,.18)";
     let atras = "", cabelo = "", blusa = "", pernas = "";
@@ -81,7 +81,7 @@
     if (a.oculos === "escuro") oc = `<g fill="#111827"><rect x="42" y="38" width="16" height="11" rx="4"/><rect x="62" y="38" width="16" height="11" rx="4"/><rect x="57" y="41" width="6" height="2.5"/></g>`;
     const olhos = a.oculos === "escuro" ? "" : `<circle cx="51" cy="44" r="2.8" fill="#1f2937"/><circle cx="69" cy="44" r="2.8" fill="#1f2937"/><circle cx="52" cy="43" r="1" fill="#fff"/><circle cx="70" cy="43" r="1" fill="#fff"/>`;
     const uid = "a" + Math.random().toString(36).slice(2, 7);
-    return `<svg class="avatar-svg" viewBox="0 0 120 170" width="${px || 120}" height="${Math.round((px || 120) * 170 / 120)}" role="img" aria-label="Avatar">
+    return `<svg class="avatar-svg${busto ? " busto" : ""}" viewBox="${busto ? "14 2 92 92" : "0 0 120 170"}" width="${px || 120}" height="${busto ? px || 120 : Math.round((px || 120) * 170 / 120)}" role="img" aria-label="Avatar">
       <defs><clipPath id="tr"><rect x="36" y="68" width="48" height="50" rx="10"/></clipPath></defs>
       ${pernas}${blusa}${atras}<rect x="54" y="58" width="12" height="14" rx="4" fill="${pele}"/>
       <circle cx="35" cy="45" r="5" fill="${pele}"/><circle cx="85" cy="45" r="5" fill="${pele}"/><circle cx="60" cy="42" r="25" fill="${pele}"/>
@@ -137,13 +137,24 @@
 
   /* depois do código: cada aluno da sessão monta o avatar (dupla: um de cada vez) */
   async function fluxoLogin(mount, infos, segundos) {
-    const N = P.nuvem; if (!N || !N.app) return;
+    const N = P.nuvem; if (!N || !N.app) return [];
+    const usados = [];
     for (let i = 0; i < infos.length; i++) {
       const x = infos[i], ref = N.app(i).db.collection("progresso").doc(x.alunoId + "_avatar");
       let anterior = null; try { const sn = await ref.get(); anterior = sn.exists ? sn.data().avatar : null; } catch (e) {}
       const r = await editor(mount, { nome: (x.nome || "").split(" ")[0], anterior, segundos });
+      usados.push(r.avatar);
       if (r.salvo) try { await ref.set({ alunoId: x.alunoId, turma: x.turma || P.sess.get().turma, tipo: "avatar", avatar: r.avatar, atualizado: Date.now() }, { merge: true }); } catch (e) { console.warn("avatar", e); }
     }
+    return usados;
+  }
+  /* avatares da sessão (para a barra de cima): guarda na sessão; se não tiver, busca uma vez na nuvem */
+  let buscando = false;
+  async function daSessao(s, aoTer) {
+    if (!s || !s.nuvem || !s.alunoIds || (s.avatares && s.avatares.length === s.alunoIds.length) || buscando) return;
+    const N = P.nuvem; if (!N || !N.app) return; buscando = true;
+    try { const avs = await Promise.all(s.alunoIds.map((id, i) => N.app(i).db.collection("progresso").doc(id + "_avatar").get().then(sn => sn.exists ? sn.data().avatar : null).catch(() => null)));
+      const ss = P.sess.get(); if (ss && ss.entrou === s.entrou) { P.sess.set(Object.assign({}, ss, { avatares: avs })); aoTer && aoTer(); } } finally { buscando = false; }
   }
 
   /* ======================= 🏆 PONTOS ======================= */
@@ -203,6 +214,6 @@
     for (let i = 0; i < 120; i++) { const c = document.createElement("i"); c.className = "pd-conf"; c.style.cssText = `left:${Math.random() * 100}%;background:${cores[i % 6]};animation-delay:${3 + Math.random() * 2.5}s;animation-duration:${2.5 + Math.random() * 2}s;transform:rotate(${Math.random() * 360}deg)`; raiz.appendChild(c); }
   }
 
-  P.avatar = { svg, editor, fluxoLogin, PADRAO };
+  P.avatar = { svg, editor, fluxoLogin, daSessao, PADRAO };
   P.podio = { ranking, pontosDoc, linhaPlacar, podioHTML, confete, nomeCurto, MED };
 })();
