@@ -8,14 +8,14 @@ Ordem: primeiro o que tem data marcada; depois o que adianta o 1º bimestre de 2
 **A. Vídeos v4 das próximas missões** (narrações em `Narracoes-videos-v4.md`, enviado no chat em 10/11; montagem: `python3 ferramentas/video2d/finalizar.py <pasta> <mp3> <saida.mp4>`) (o Claude escreve a narração → o professor gera o MP3 no ChatGPT → o Claude monta, verifica a legenda e entrega; o professor sobe no YouTube e o Claude preenche e liga no portal):
 | Vídeo | Primeira turma que usa | Situação |
 |---|---|---|
-| 6º · M2 Algoritmos | qui 12/11 (6º A, 6º B) | cenas prontas; falta o MP3 |
-| 9º · M2 Criptografia e ataques | qui 12/11 (9º D) | cenas prontas; falta o MP3 |
+| 6º · M2 Algoritmos | qui 12/11 (6º A, 6º B) | ✅ pronto em 10/11 (falta subir no YouTube) |
+| 9º · M2 Criptografia e ataques | qui 12/11 (9º D) | ✅ pronto em 10/11 (falta subir no YouTube) |
 | 7º · M2 Algoritmos (decomposição, listas, reúso, erros) | ter 10/11 (7º A, 7º B) | ✅ pronto em 10/11 (falta subir no YouTube) |
-| 7º · M3 Segurança e convivência digital | ter 17/11 (7º A, 7º B) | cenas prontas; falta o MP3 |
-| 8º · M1 Listas: buscar e ordenar | qua 18/11 (8º A, 8º B) | cenas prontas; falta o MP3 |
-| 8º · M3 Dados pessoais e informação confiável | qua 18/11 (8º C, 8º D) | cenas prontas; falta o MP3 |
-| 6º · M3 Cidadão digital | qui 19/11 (6º A, 6º B) | cenas prontas; falta o MP3 |
-| 9º · M3 Autoria, imagem e deepfakes | qui 19/11 (9º D) | cenas prontas; falta o MP3 |
+| 7º · M3 Segurança e convivência digital | ter 17/11 (7º A, 7º B) | ✅ pronto em 10/11 (falta subir no YouTube) |
+| 8º · M1 Listas: buscar e ordenar | qua 18/11 (8º A, 8º B) | ✅ pronto em 10/11 (falta subir no YouTube) |
+| 8º · M3 Dados pessoais e informação confiável | qua 18/11 (8º C, 8º D) | ✅ pronto em 10/11 (falta subir no YouTube) |
+| 6º · M3 Cidadão digital | qui 19/11 (6º A, 6º B) | ✅ pronto em 10/11 (falta subir no YouTube) |
+| 9º · M3 Autoria, imagem e deepfakes | qui 19/11 (9º D) | ✅ pronto em 10/11 (falta subir no YouTube) |
 | 5º · M1 a M4 (atendimento individual) | — | só se o professor quiser |
 **B. Fim do 4º bimestre:** revisão do 8º M2 (antes de 11/11) e do 8º M1 (antes de 18/11); revisar as questões das provas; datas das provas; atividade de recuperação; boletins em PDF (antes de 23/11); SIGE dentro do bimestre.
 **C. 1º bimestre de 2027:** proposta de assuntos por série alinhada à BNCC (Computação, 6º–9º), cronograma, e um "pacote de prompts" por série no padrão (portal com Mão na massa/Básico/Desafio/Turbo, apostila ilustrada, guia, roteiro, prova, recuperação, roteiros dos vídeos). Fazer só depois de A, e com o "sim" do professor nos assuntos.
