@@ -185,8 +185,30 @@
     el.innerHTML = `<a class="brand" href="#/apostilas">${marca}</a>
       <div class="tb-who" aria-label="Quem está usando"><span class="tb-turma">${esc(t ? t.nome : "")}</span><strong class="tb-nome">${esc(quem(s))}</strong>${apel.length ? `<span class="tb-completo">${esc(s.nomes.join(" & "))}</span>` : ""}</div>
       <div class="tb-info"${info ? "" : " hidden"}>${info || ""}</div>
+      <div class="tb-relogio" id="tb-relogio" hidden aria-live="off"></div>
       <button class="tb-btn" id="tb-sair" type="button">Sair</button>`;
     document.getElementById("tb-sair").onclick = () => sair();
+    relogioAula();
+  }
+  /* ⏱️ cronômetro da aula: durante a aula da turma, mostra quanto falta para o fim (contagem regressiva) e o horário final;
+     nos últimos 10 minutos fica vermelho e nos últimos 5 pisca. Horário de Curionópolis (UTC−3). */
+  let relogioIv = null;
+  function relogioAula() {
+    clearInterval(relogioIv);
+    const tick = () => {
+      const el = document.getElementById("tb-relogio"); if (!el) return clearInterval(relogioIv);
+      const s = sess.get(), t = s && turma(s.turma), a = t && t.aula;
+      if (!a || !a.ini) { el.hidden = true; return; }
+      const d = new Date(Date.now() + (new Date().getTimezoneOffset() - 180) * 60000);
+      const [hh, mm] = a.ini.split(":").map(Number), ini = hh * 3600 + mm * 60, fim = ini + 75 * 60, agora = d.getHours() * 3600 + d.getMinutes() * 60 + d.getSeconds();
+      if (d.getDay() !== a.dia || agora < ini || agora >= fim) { el.hidden = true; return; }
+      const r = fim - agora, mi = Math.floor(r / 60), se = r % 60, hf = `${Math.floor(fim / 3600)}h${String(Math.floor(fim % 3600 / 60)).padStart(2, "0")}`;
+      el.hidden = false;
+      el.className = "tb-relogio" + (r <= 300 ? " fim pisca" : r <= 600 ? " fim" : "");
+      el.innerHTML = `<span class="tb-rel-ic">⏱️</span><span class="tb-rel-t">${mi}:${String(se).padStart(2, "0")}</span><span class="tb-rel-txt">para acabar a aula<br><small>termina às ${hf}</small></span>`;
+      el.title = `A aula termina às ${hf}`;
+    };
+    tick(); relogioIv = setInterval(tick, 1000);
   }
   // nome curto para mostrar: apelido (se tiver) ou o primeiro nome
   function curto(s, i) { return (s.apelidos && s.apelidos[i]) || s.nomes[i].split(" ")[0]; }

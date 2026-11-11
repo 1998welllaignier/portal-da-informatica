@@ -1351,3 +1351,13 @@ body.modo-apresentacao .topbar, body.modo-apresentacao .rodape, body.modo-aprese
 .pv-n i { position: absolute; left: 0; bottom: 0; height: 3px; background: #2563eb; }
 .pv-n.ok { background: #dcfce7; } .pv-n.ok i { background: #16a34a; }
 .pv-fora summary { cursor: pointer; color: #64748b; }
+
+/* ⏱️ cronômetro da aula (barra do aluno) */
+.tb-relogio { display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,.12); color: #fff; border-radius: 12px; padding: 4px 12px; line-height: 1.1; }
+.tb-relogio .tb-rel-t { font-size: 1.5rem; font-weight: 800; font-variant-numeric: tabular-nums; letter-spacing: 1px; }
+.tb-relogio .tb-rel-txt { font-size: .75rem; opacity: .9; }
+.tb-relogio.fim { background: #dc2626; }
+.tb-relogio.pisca { animation: tb-pisca 1s ease-in-out infinite; }
+@keyframes tb-pisca { 50% { background: #991b1b; transform: scale(1.04); } }
+@media (max-width: 640px) { .tb-relogio .tb-rel-txt { display: none; } .tb-relogio .tb-rel-t { font-size: 1.2rem; } }
+@media (prefers-reduced-motion: reduce) { .tb-relogio.pisca { animation: none; } }
