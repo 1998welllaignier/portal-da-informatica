@@ -249,7 +249,7 @@ PORTAL.registrarConteudo("informatica-5ano-4bim", {
     "reflexao": "Escreva onde ficam guardadas as fotos do celular da sua família: no aparelho, na nuvem ou nos dois?"
    },
    "alertas": [
-    "Não mexa nos cabos nem nas peças do computador. Ao final da aula, desligue pelo caminho certo: <strong>Iniciar → Ligar/Desligar → Desligar</strong>."
+    "Não mexa nos cabos nem nas peças do computador."
    ],
    "vf": [
     "O teclado é uma parte de entrada.",

@@ -175,7 +175,7 @@ Agora o grafo é o **bairro da nossa escola**, desenhado a partir do mapa do cel
 |  |
 |  |
 
-⚠️ Tudo desta missão é feito no próprio portal. Não precisa salvar nada no computador: o portal registra o que você fez. Ao final da aula, desligue o computador pelo caminho certo: **Iniciar → Ligar/Desligar → Desligar**.
+⚠️ Tudo desta missão é feito no próprio portal. Não precisa salvar nada no computador: o portal registra o que você fez.
 **✅ Carimbo do professor**
 | 🟢 Básico | 🟡 Desafio | 🔴 Turbo |
 |  |  |  |

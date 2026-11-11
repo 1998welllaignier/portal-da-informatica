@@ -182,7 +182,7 @@ PORTAL.registrarAtividades("informatica-8ano-4bim", {
           { t: "Usar só os programas e sites que o professor pediu.", c: "B" },
           { t: "Compartilhar a minha senha com a turma toda.", c: "N", why: "Senha é pessoal: quem sabe a sua senha pode agir no seu nome." },
           { t: "Não comer nem beber perto do computador.", c: "B" },
-          { t: "Desligar o computador puxando o cabo da tomada.", c: "N", why: "Desligar assim pode estragar o computador e perder arquivos; o certo é Iniciar → Desligar." },
+          { t: "Mexer nos cabos e nas peças do computador.", c: "N", why: "Um cabo solto pode deixar o computador ou a internet sem funcionar." },
           { t: "Não mexer no computador nem nos arquivos dos colegas.", c: "B" },
           { t: "Chamar o professor quando o computador travar.", c: "B" }],
         dicas: ["Uma boa regra protege os computadores, os dados e os colegas."] },
@@ -190,7 +190,7 @@ PORTAL.registrarAtividades("informatica-8ano-4bim", {
         enunciado: "<p><strong>Ao usar este computador, eu concordo em:</strong></p>",
         campos: [{ rot: "Regra 1", linhas: 1 }, { rot: "Regra 2", linhas: 1 }, { rot: "Regra 3", linhas: 1 }, { rot: "Regra 4", linhas: 1 }, { rot: "Regra 5", linhas: 1 }],
         criterios: ["Cada regra está em linguagem simples, que qualquer colega entende.", "As regras protegem os computadores, os dados ou os colegas."], minPalavras: 3,
-        exemplo: "1. Usar só os programas pedidos. 2. Não comer perto do computador. 3. Não mexer nos arquivos dos colegas. 4. Não passar a minha senha para ninguém. 5. Desligar pelo botão Iniciar.",
+        exemplo: "1. Usar só os programas pedidos. 2. Não comer perto do computador. 3. Não mexer nos arquivos dos colegas. 4. Não passar a minha senha para ninguém. 5. Não mexer nos cabos.",
         detector: { palavras: ["compartilhar a minha senha", "passar a senha para todos", "puxando o cabo"], msg: "Essa regra não protege a sala. Troque por uma boa regra." },
         conferir: { minPalavras: 3, diferentes: "todos", msg: "Termos de uso escritos! O professor pode ler as suas regras no painel." } }
     ],

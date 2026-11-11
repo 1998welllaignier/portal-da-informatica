@@ -181,7 +181,7 @@ A nossa escola também é uma rede. Veja as peças que levam a internet da rua a
 |  |
 |  |
 
-⚠️ **Não mexa nos cabos de rede** nem nos aparelhos da sala: um cabo solto pode deixar vários computadores sem internet. Ao final da aula, desligue o computador pelo caminho certo: **Iniciar → Ligar/Desligar → Desligar**.
+⚠️ **Não mexa nos cabos de rede** nem nos aparelhos da sala: um cabo solto pode deixar vários computadores sem internet.
 **✅ Carimbo do professor**
 | 🟢 Básico | 🟡 Desafio | 🔴 Turbo |
 |  |  |  |

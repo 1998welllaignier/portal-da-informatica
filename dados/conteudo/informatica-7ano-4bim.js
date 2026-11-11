@@ -308,7 +308,7 @@ PORTAL.registrarConteudo("informatica-7ano-4bim", {
     "reflexao": "Quais aparelhos da sua casa ou da escola estão ligados a uma rede?"
    },
    "alertas": [
-    "<strong>Não mexa nos cabos de rede</strong> nem nos aparelhos da sala: um cabo solto pode deixar vários computadores sem internet. Ao final da aula, desligue o computador pelo caminho certo: <strong>Iniciar → Ligar/Desligar → Desligar</strong>."
+    "<strong>Não mexa nos cabos de rede</strong> nem nos aparelhos da sala: um cabo solto pode deixar vários computadores sem internet."
    ],
    "vf": [
     "Uma rede é formada por aparelhos ligados para trocar informações.",

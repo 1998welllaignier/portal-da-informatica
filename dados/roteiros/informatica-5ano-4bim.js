@@ -40,7 +40,7 @@
       atencao: [
         "Confundiu pen drive com entrada? Pergunte: “Ele leva uma ordem para o computador ou guarda um arquivo?”",
         "O microfone costuma confundir: ele LEVA a voz para dentro, então é entrada.",
-        "Não deixar mexer nos cabos. No fim, desligar pelo caminho certo: Iniciar → Ligar/Desligar → Desligar."
+        "Não deixar mexer nos cabos."
       ],
       perguntas: [
         { p: "A nuvem fica no céu?", r: "Não: são prédios cheios de computadores de empresas, e a gente chega lá pela internet." }

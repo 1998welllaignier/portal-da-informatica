@@ -208,7 +208,7 @@ PORTAL.registrarConteudo("informatica-8ano-4bim", {
     "reflexao": "Onde você já viu uma lista em ordem (alfabética, de preço ou de pontos)? Para que ela servia?"
    },
    "alertas": [
-    "Nesta missão use <strong>só o Bloco de Notas</strong>. Ao final da aula, desligue o computador pelo caminho certo: <strong>Iniciar → Ligar/Desligar → Desligar</strong>."
+    "Nesta missão use <strong>só o Bloco de Notas</strong>."
    ],
    "vf": [
     "Na busca sequencial, olhamos os itens da lista um por um.",
@@ -434,7 +434,7 @@ PORTAL.registrarConteudo("informatica-8ano-4bim", {
       },
       {
        "nivel": 0,
-       "h": "<strong>Combinados da sala de informática:</strong> usar só os programas e sites que o professor pediu · não comer nem beber perto do computador · não mexer no computador nem nos arquivos dos colegas · senha é pessoal, nunca compartilhe com a turma · desligar pelo caminho certo (Iniciar → Ligar/Desligar → Desligar), nunca puxando o cabo da tomada, que pode estragar o computador e perder arquivos · chamar o professor quando o computador travar."
+       "h": "<strong>Combinados da sala de informática:</strong> usar só os programas e sites que o professor pediu · não comer nem beber perto do computador · não mexer no computador nem nos arquivos dos colegas · senha é pessoal, nunca compartilhe com a turma · não mexer nos cabos nem nas peças do computador · chamar o professor quando o computador travar."
       },
       {
        "nivel": 0,

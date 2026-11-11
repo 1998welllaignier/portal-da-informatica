@@ -221,7 +221,7 @@ PORTAL.registrarConteudo("informatica-6ano-4bim", {
     "reflexao": "Escreva uma vez em que você salvou, organizou ou perdeu algo no celular ou no computador."
    },
    "alertas": [
-    "Os computadores são usados por todos: <strong>nunca apague nem mexa nos arquivos dos colegas</strong>. Ao final da aula, desligue o computador pelo caminho certo: <strong>Iniciar → Ligar/Desligar → Desligar</strong>."
+    "Os computadores são usados por todos: <strong>nunca apague nem mexa nos arquivos dos colegas</strong>."
    ],
    "vf": [
     "O teclado é um dispositivo de entrada.",

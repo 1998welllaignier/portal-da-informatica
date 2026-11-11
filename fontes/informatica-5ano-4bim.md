@@ -120,7 +120,7 @@ O **sistema operacional** é o programa principal do computador: ele liga tudo, 
 |  |
 |  |
 
-⚠️ Não mexa nos cabos nem nas peças do computador. Ao final da aula, desligue pelo caminho certo: **Iniciar → Ligar/Desligar → Desligar**.
+⚠️ Não mexa nos cabos nem nas peças do computador.
 **✅ Carimbo do professor**
 | 🟢 Básico | 🟡 Desafio | 🔴 Turbo |
 |  |  |  |

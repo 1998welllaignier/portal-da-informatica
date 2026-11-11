@@ -104,7 +104,7 @@ Um **arquivo** é qualquer trabalho guardado no computador. Uma **pasta** é com
 |  |
 |  |
 
-⚠️ Os computadores são usados por todos: **nunca apague nem mexa nos arquivos dos colegas**. Ao final da aula, desligue o computador pelo caminho certo: **Iniciar → Ligar/Desligar → Desligar**.
+⚠️ Os computadores são usados por todos: **nunca apague nem mexa nos arquivos dos colegas**.
 **✅ Carimbo do professor**
 | 🟢 Básico /  /  /  /  | 🟡 Desafio /  /  /  /  | 🔴 Turbo /  /  /  /  |
 

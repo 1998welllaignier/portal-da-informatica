@@ -109,7 +109,7 @@ Fim da **1ª passada**: o maior número (8) “subiu” para o final, como uma b
 |  |
 |  |
 
-⚠️ Nesta missão use **só o Bloco de Notas**. Ao final da aula, desligue o computador pelo caminho certo: **Iniciar → Ligar/Desligar → Desligar**.
+⚠️ Nesta missão use **só o Bloco de Notas**.
 **✅ Carimbo do professor**
 | 🟢 Básico | 🟡 Desafio | 🔴 Turbo |
 |  |  |  |
@@ -221,7 +221,7 @@ A internet é formada por **provedores**, que ligam casas e escolas à rede, pel
 - **Dado sensível** pede cuidado extra: saúde, religião, opinião política, origem étnica e dados **biométricos** (impressão digital, reconhecimento do rosto).
 - A **LGPD** (Lei Geral de Proteção de Dados, Lei nº 13.709/2018) obriga as empresas a explicar quais dados coletam e para quê, e protege de forma especial os dados de crianças e adolescentes.
 - **Termos de uso** são as regras que você aceita ao clicar em “Aceito”: dizem quais dados o serviço coleta, com quem compartilha, a idade mínima e como apagar a conta.
-- **Combinados da sala de informática:** usar só os programas e sites que o professor pediu · não comer nem beber perto do computador · não mexer no computador nem nos arquivos dos colegas · senha é pessoal, nunca compartilhe com a turma · desligar pelo caminho certo (Iniciar → Ligar/Desligar → Desligar), nunca puxando o cabo da tomada, que pode estragar o computador e perder arquivos · chamar o professor quando o computador travar.
+- **Combinados da sala de informática:** usar só os programas e sites que o professor pediu · não comer nem beber perto do computador · não mexer no computador nem nos arquivos dos colegas · senha é pessoal, nunca compartilhe com a turma · não mexer nos cabos nem nas peças do computador · chamar o professor quando o computador travar.
 - **Permissões:** o aplicativo pede acesso à câmera, ao microfone, à localização ou aos contatos. Pergunte sempre: **ele precisa disso para funcionar?** Uma lanterna que pede os seus contatos é motivo para desconfiar.
 - **Pegada digital** é o rastro de tudo o que você publica, curte e comenta. Ela pode continuar visível por muitos anos.
 **Informação confiável:** antes de compartilhar, faça as 4 perguntas do checador:
