@@ -221,6 +221,8 @@
         <p>Veja o pódio no projetor! 🏆</p><p class="ajuda">Os pontos do pódio são só da brincadeira da aula: não são a sua nota. Quem fez o Básico pode ir para os jogos livres.</p>
         <form method="dialog"><button class="btn">OK</button></form></dialog>`);
       document.body.appendChild(dlg); dlg.showModal(); dlg.addEventListener("close", () => dlg.remove());
+      // 🎉 confete na tela de todos quando a aula termina
+      if (P.podio) { const cf = h(`<div class="conf-tela" aria-hidden="true"></div>`); dlg.appendChild(cf); P.podio.confete(cf, 0); setTimeout(() => cf.remove(), 7000); }
     }, () => {}); } catch (e) {}
   }
   // 👑 rei da sala: o painel do professor grava quem está em 1º lugar (config/rei_<turma>); quem é ganha a coroinha na barra de cima

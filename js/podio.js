@@ -396,9 +396,10 @@
     const resto = rk.slice(3);
     return `<div class="pd-palco">${top}</div>${resto.length ? `<div class="pd-resto">${resto.map(e => `<span class="pd-r"><b>${e.pos}º</b> ${e.avatares.map(a => svg(a, 26)).join("")} ${e.nomes.map(esc).join(" & ")} · ${e.pontos}</span>`).join("")}</div>` : ""}`;
   }
-  function confete(raiz) {
-    const cores = ["#facc15", "#f97316", "#22c55e", "#3b82f6", "#ec4899", "#a855f7"];
-    for (let i = 0; i < 120; i++) { const c = document.createElement("i"); c.className = "pd-conf"; c.style.cssText = `left:${Math.random() * 100}%;background:${cores[i % 6]};animation-delay:${3 + Math.random() * 2.5}s;animation-duration:${2.5 + Math.random() * 2}s;transform:rotate(${Math.random() * 360}deg)`; raiz.appendChild(c); }
+  // atraso = segundos até começar (no pódio do projetor espera o 1º lugar aparecer)
+  function confete(raiz, atraso) {
+    const cores = ["#facc15", "#f97316", "#22c55e", "#3b82f6", "#ec4899", "#a855f7"], a0 = atraso == null ? 3 : atraso;
+    for (let i = 0; i < 120; i++) { const c = document.createElement("i"); c.className = "pd-conf"; c.style.cssText = `left:${Math.random() * 100}%;background:${cores[i % 6]};animation-delay:${a0 + Math.random() * 2.5}s;animation-duration:${2.5 + Math.random() * 2}s;transform:rotate(${Math.random() * 360}deg)`; raiz.appendChild(c); }
   }
 
   P.avatar = { svg, editor, fluxoLogin, daSessao, PADRAO };

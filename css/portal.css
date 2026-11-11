@@ -1486,3 +1486,6 @@ body.modo-placar .tela.painel-prof { max-width: none; padding: 0; }
 @keyframes pts-pula { 0% { opacity: 0; transform: scale(.6) translateY(-10px); } 100% { opacity: 1; transform: none; } }
 @keyframes pts-luz { 0% { background: #fde68a; } 100% { background: transparent; } }
 @media (prefers-reduced-motion: reduce) { .pts-bolha, .pts-pos { animation: none !important; } }
+
+.conf-tela { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 10001; }
+.pp-fim-btn { background: #dc2626; border-color: #dc2626; color: #fff; }
