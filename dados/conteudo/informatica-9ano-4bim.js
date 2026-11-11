@@ -492,7 +492,7 @@ PORTAL.registrarConteudo("informatica-9ano-4bim", {
     "reflexao": "Onde você usa senha ou código no dia a dia? Qual deles é o mais importante proteger? (Não escreva a senha!)"
    },
    "alertas": [
-    "Use o que você aprendeu <strong>só para se proteger</strong>. Tentar descobrir a senha de outra pessoa ou invadir a conta ou o aparelho de alguém é <strong>crime</strong> (Lei nº 12.737/2012). No Bloco de Notas, <strong>nunca escreva uma senha verdadeira</strong>."
+    "Use o que você aprendeu <strong>só para se proteger</strong>. Tentar descobrir a senha de outra pessoa ou invadir a conta ou o aparelho de alguém é <strong>crime</strong> (Lei nº 12.737/2012). No portal, <strong>nunca escreva uma senha verdadeira</strong>."
    ],
    "vf": [
     "Criptografar é transformar uma mensagem para que só quem tem a chave consiga ler.",

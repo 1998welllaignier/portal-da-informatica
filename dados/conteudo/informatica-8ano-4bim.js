@@ -208,7 +208,7 @@ PORTAL.registrarConteudo("informatica-8ano-4bim", {
     "reflexao": "Onde você já viu uma lista em ordem (alfabética, de preço ou de pontos)? Para que ela servia?"
    },
    "alertas": [
-    "Nesta missão use <strong>só o Bloco de Notas</strong>."
+    "Tudo desta missão é feito no próprio portal: digite as respostas nas caixas das tarefas."
    ],
    "vf": [
     "Na busca sequencial, olhamos os itens da lista um por um.",

@@ -37,10 +37,9 @@ PORTAL.registrarAtividades("informatica-8ano-4bim-trilha", {
         enunciado: "<p>Use as setas <strong>▲</strong> (subir) e <strong>▼</strong> (descer) para arrumar os nomes em <strong>ordem alfabética</strong>, como nos contatos do celular.</p>",
         explicacao: "Ana, Bia, Caio, Davi: de A até Z, como na lista de chamada." },
 
-      { tipo: "pc", titulo: "Passo 5 · No computador: Bloco de Notas", programa: "Bloco de Notas",
-        passos: ["Clique no botão <strong>Iniciar</strong> e digite <strong>bloco</strong>.", "Clique em <strong>Bloco de Notas</strong>.", "Digite os números em ordem: <strong>1 2 3 4</strong>"],
-        conferir: [{ rot: "Clique nos números que você digitou:", opcoes: ["4 3 2 1", "1 2 3 4", "2 4 1 3"], gab: "1 2 3 4", re: "^1 2 3 4$", dica: "Do menor para o maior: 1, 2, 3, 4." }],
-        okMsg: "Muito bem! Os números estão em ordem crescente." }
+      { tipo: "tabela", titulo: "Passo 5 · Digite aqui no portal",
+        enunciado: "<p>Digite os números em ordem, do menor para o maior: <strong>1 2 3 4</strong></p>",
+        linhas: [["Digite aqui:", { r: "1 2 3 4", tipo: "letras", w: 12, ph: "1 2 3 4", dica: "Do menor para o maior: 1, 2, 3, 4." }]] }
     ],
     vf: [{ v: true }, { v: false, why: "Ordem crescente é do <strong>menor</strong> para o <strong>maior</strong>." }, { v: true }]
   },
@@ -130,10 +129,9 @@ PORTAL.registrarAtividades("informatica-8ano-4bim-trilha", {
           { t: "📰 Tem o nome de um jornal e a data", certo: false, why: "A mensagem não tem jornal nem data." }],
         explicacao: "Três sinais de alerta: é melhor <strong>não compartilhar</strong>." },
 
-      { tipo: "pc", titulo: "Passo 4 · No computador: Bloco de Notas", programa: "Bloco de Notas",
-        passos: ["Clique no botão <strong>Iniciar</strong> e digite <strong>bloco</strong>. Clique em <strong>Bloco de Notas</strong>.", "Digite: <strong>MEUS DADOS</strong>"],
-        conferir: [{ rot: "Clique no que você digitou:", opcoes: ["MINHA CASA", "MEUS DADOS", "MEU JOGO"], gab: "MEUS DADOS", re: "^MEUS DADOS$", dica: "Você digitou: MEUS DADOS." }],
-        okMsg: "Muito bem! Você protege os seus dados." }
+      { tipo: "tabela", titulo: "Passo 4 · Digite aqui no portal",
+        enunciado: "<p>Digite na caixa: <strong>MEUS DADOS</strong></p>",
+        linhas: [["Digite aqui:", { r: "MEUS DADOS", tipo: "letras", w: 16, ph: "MEUS DADOS", dica: "Digite: MEUS DADOS." }]] }
     ],
     vf: [{ v: false, why: "A senha é segredo: não conte para ninguém." }, { v: true }, { v: true }]
   },

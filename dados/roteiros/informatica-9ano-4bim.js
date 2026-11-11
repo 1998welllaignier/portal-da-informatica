@@ -104,7 +104,7 @@
       atencao: [
         "Muitos andam para trás ao cifrar. Cifrar = 3 casas para frente; decifrar = 3 para trás. Aponte a tabela: em cima o texto claro, embaixo o cifrado.",
         "O alfabeto “dá a volta”: X vira A, Y vira B e Z vira C.",
-        "Ninguém digita senha verdadeira no portal nem no Bloco de Notas.",
+        "Ninguém digita senha verdadeira no portal.",
         "Se perguntarem como invadir uma conta: é crime (Lei nº 12.737/2012). Volte para “como eu me protejo disso?”."
       ],
       perguntas: [

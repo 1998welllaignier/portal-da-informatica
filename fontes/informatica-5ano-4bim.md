@@ -105,7 +105,7 @@ O **sistema operacional** é o programa principal do computador: ele liga tudo, 
 | Arquivo guardado no Google Drive |  |
 | Jogo instalado no computador da escola |  |
 
-- No computador, clique no botão **Iniciar** (o símbolo do Windows, no canto de baixo, à esquerda), procure o **Bloco de Notas** e abra. Digite a frase: **Meu nome é ______ e o sistema operacional deste computador é o Windows.** Depois digite, uma por linha, 2 peças de entrada e 2 peças de saída.
+- Na tarefa do portal, digite a frase: **Meu nome é ______ e o sistema operacional deste computador é o Windows.** Depois digite, uma por linha, 2 peças de entrada e 2 peças de saída.
 - Com o texto na tela, chame o professor para conferir e **carimbar** o quadro no fim da missão.
 👀 O carimbo é o comprovante de que você fez a tarefa. Não feche nada antes de mostrar ao professor!
 🟡 **Desafio**
@@ -191,7 +191,7 @@ Um **grafo** é um desenho de **pontos ligados por linhas**. Cada ponto é um **
 | Quem tem mais amigos no grafo? Quantos? |  |
 | Quem tem só um amigo? |  |
 
-- No computador, abra o **Bloco de Notas** e digite uma lista com **5 brincadeiras** de que você gosta, uma por linha. Depois coloque a lista em **ordem alfabética**: selecione uma linha, aperte **Ctrl + X** (recortar) e depois **Ctrl + V** (colar) no lugar certo.
+- Na tarefa do portal, coloque a lista de brincadeiras em **ordem alfabética**, subindo e descendo os itens até ficar de A a Z.
 - Com a lista na tela, chame o professor para conferir e **carimbar** o quadro no fim da missão.
 👀 O carimbo é o comprovante de que você fez a tarefa. Não feche nada antes de mostrar ao professor!
 🟡 **Desafio**
@@ -394,7 +394,7 @@ Antes de acreditar ou compartilhar, pergunte: **quem escreveu, quando, aparece e
 | 🤔 Missão 3 – Verdadeiro ou falso e escolhas |  |
 | 🛡️ Missão 4 – Internet com cuidado |  |
 
-- No computador, abra o **Bloco de Notas** e digite: o seu primeiro nome, a missão de que você mais gostou e por quê. Mostre ao professor para o **carimbo**.
+- Na tarefa do portal, digite: o seu primeiro nome, a missão de que você mais gostou e por quê. Mostre ao professor para o **carimbo**.
 🟡 **Desafio**
 - Crie um algoritmo com **SE… ENTÃO… SENÃO** para decidir se você pode compartilhar uma mensagem que recebeu.
 | ✍️ Meu algoritmo |

@@ -90,7 +90,7 @@ Fim da **1ª passada**: o maior número (8) “subiu” para o final, como uma b
 | 2ª passada |  |
 | 3ª passada |  |
 
-- [ ] No computador, abra o **Bloco de Notas** e digite, uma por linha: **Original: 6, 3, 9, 1**, depois **Passada 1:**, **Passada 2:** e **Passada 3:** com as listas da tabela acima. Na última linha, escreva **Lista ordenada:** e a lista final.
+- [ ] Na tarefa do portal, digite, uma por linha: **Original: 6, 3, 9, 1**, depois **Passada 1:**, **Passada 2:** e **Passada 3:** com as listas da tabela acima. Na última linha, escreva **Lista ordenada:** e a lista final.
 - [ ] Com o texto na tela, chame o professor para conferir e **carimbar** o quadro no fim da missão.
 👀 O carimbo é o comprovante de que você fez a tarefa. Não feche nada antes de mostrar ao professor!
 🟡 **Desafio**
@@ -109,7 +109,7 @@ Fim da **1ª passada**: o maior número (8) “subiu” para o final, como uma b
 |  |
 |  |
 
-⚠️ Nesta missão use **só o Bloco de Notas**.
+⚠️ Tudo desta missão é feito no próprio portal: digite as respostas nas caixas das tarefas.
 **✅ Carimbo do professor**
 | 🟢 Básico | 🟡 Desafio | 🔴 Turbo |
 |  |  |  |
@@ -279,7 +279,7 @@ A internet é formada por **provedores**, que ligam casas e escolas à rede, pel
 | O título é exagerado? Por quê? |  |
 | Você compartilharia? Por quê? |  |
 
-- [ ] No computador, abra o **Bloco de Notas** e escreva os **Termos de uso da nossa sala de informática**: na primeira linha, *Ao usar este computador, eu concordo em:*; depois, **5 regras** numeradas, em linguagem simples. Chame o professor para conferir e carimbar.
+- [ ] Na tarefa do portal, escreva os **Termos de uso da nossa sala de informática**: na primeira linha, *Ao usar este computador, eu concordo em:*; depois, **5 regras** numeradas, em linguagem simples. Chame o professor para conferir e carimbar.
 🟡 **Desafio**
 - [ ] Leia o trecho dos termos de uso de um aplicativo inventado e responda: *“O FotoTop coleta seu nome, e-mail, data de nascimento, fotos publicadas e localização. Podemos compartilhar esses dados com empresas parceiras de publicidade. Você pode apagar sua conta a qualquer momento em Configurações. Uso permitido a partir de 13 anos.”*
 | Pergunta | ✍️ Resposta |
@@ -329,7 +329,7 @@ Escreva **V** para verdadeiro ou **F** para falso:
 | 🔍 Dados pessoais e informação confiável |  |
 
 🟡 **Desafio**
-- [ ] Digite as suas três frases no Bloco de Notas, com letra maiúscula, acentos e pontuação, e mostre ao professor.
+- [ ] Digite as suas três frases na caixa do portal, com letra maiúscula, acentos e pontuação.
 🔴 **Turbo**
 - [ ] Explique para a turma, no projetor, qual missão você mais gostou e por quê.
 **✅ Carimbo do professor – projeto final**

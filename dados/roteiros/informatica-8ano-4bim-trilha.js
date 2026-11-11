@@ -19,7 +19,7 @@ PORTAL.registrarRoteiro("informatica-8ano-4bim-trilha", {
           { acao: "Passo 2: mostre a mãozinha 👆 na carta do meio e deixe ele clicar sozinho." },
           { fala: "O 8 é maior ou menor que o 6? Então a gente joga fora este lado." },
           { acao: "Passo 3 (bolha): ele só escolhe Trocar ou Manter. Pergunte sempre: “O da esquerda é maior?”" },
-          { acao: "Passos 4 e 5: setas ▲ ▼ e Bloco de Notas (digitar 1 2 3 4). Depois, deixe-o seguir sozinho e volte a cada 10 minutos." }
+          { acao: "Passos 4 e 5: setas ▲ ▼ e digitar 1 2 3 4 na caixa do portal. Depois, deixe-o seguir sozinho e volte a cada 10 minutos." }
         ]
       }
     ],

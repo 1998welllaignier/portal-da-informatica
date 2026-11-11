@@ -16,7 +16,7 @@
   PORTAL.registrarRoteiro("informatica-5ano-4bim", {
     antes: [
       "🔊 Caixinha de som",
-      "🖥️ Computador do aluno ligado, com o portal aberto e o Bloco de Notas fácil de achar",
+      "🖥️ Computador do aluno ligado, com o portal aberto",
       "🪪 Cartão com o código do aluno",
       "✅ Chamada no diário no começo; registro da aula no fim (ou o relatório do painel)"
     ],
@@ -36,7 +36,7 @@
         fechamento: "Qual foi a palavra nova mais legal de hoje?",
         dica: INDIVIDUAL
       },
-      demonstracao: "Mostre o botão Iniciar e deixe o aluno procurar o Bloco de Notas sozinho.",
+      demonstracao: "Mostre onde ficam as caixas para digitar no portal e deixe o aluno digitar sozinho.",
       atencao: [
         "Confundiu pen drive com entrada? Pergunte: “Ele leva uma ordem para o computador ou guarda um arquivo?”",
         "O microfone costuma confundir: ele LEVA a voz para dentro, então é entrada.",
@@ -62,7 +62,7 @@
         fechamento: "Me diz uma coisa da sua casa que é uma lista.",
         dica: INDIVIDUAL
       },
-      demonstracao: "No Bloco de Notas, mostre uma vez: selecionar a linha, Ctrl + X para recortar e Ctrl + V para colar. Depois deixe ele fazer.",
+      demonstracao: "No portal, mostre uma vez como subir e descer os itens da lista. Depois deixe ele fazer.",
       atencao: [
         "Para achar “quem tem mais amigos”, peça que conte as linhas que saem de cada círculo.",
         "Se a ordem alfabética travar, ele pode escrever só a primeira letra de cada brincadeira no papel antes."

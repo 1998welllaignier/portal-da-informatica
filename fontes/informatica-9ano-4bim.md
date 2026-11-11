@@ -259,7 +259,7 @@ No 7º ano você aprendeu a reconhecer golpes e a criar senhas fortes. Agora vam
 | O site de inscrições sai do ar porque recebeu milhões de pedidos falsos ao mesmo tempo. |  |
 | Uma mensagem diz que você ganhou um prêmio e pede que você clique e digite a sua senha. |  |
 
-- No computador, abra o **Bloco de Notas** e escreva três linhas: **Texto claro:** uma frase sua de 3 palavras (sem dados pessoais); **Chave: 3**; **Texto cifrado:** a sua frase cifrada.
+- Na tarefa do portal, escreva três linhas: **Texto claro:** uma frase sua de 3 palavras (sem dados pessoais); **Chave: 3**; **Texto cifrado:** a sua frase cifrada.
 - Chame o professor para conferir e **carimbar**.
 🟡 **Desafio**
 - Quantas senhas um programa de força bruta precisa testar, no máximo?
@@ -276,7 +276,7 @@ No 7º ano você aprendeu a reconhecer golpes e a criar senhas fortes. Agora vam
 |  |
 |  |
 
-⚠️ Use o que você aprendeu **só para se proteger**. Tentar descobrir a senha de outra pessoa ou invadir a conta ou o aparelho de alguém é **crime** (Lei nº 12.737/2012). No Bloco de Notas, **nunca escreva uma senha verdadeira**.
+⚠️ Use o que você aprendeu **só para se proteger**. Tentar descobrir a senha de outra pessoa ou invadir a conta ou o aparelho de alguém é **crime** (Lei nº 12.737/2012). No portal, **nunca escreva uma senha verdadeira**.
 **✅ Carimbo do professor**
 | 🟢 Básico | 🟡 Desafio | 🔴 Turbo |
 |  |  |  |
@@ -412,7 +412,7 @@ Quem cria uma obra é o **autor** e tem o **direito autoral** sobre ela; copiar 
 | ©️ Autoria, imagem e deepfakes |  |
 
 🟡 **Desafio**
-- Digite as suas três frases no Bloco de Notas, com letra maiúscula, acentos e pontuação, e mostre ao professor.
+- Digite as suas três frases na caixa do portal, com letra maiúscula, acentos e pontuação.
 🔴 **Turbo**
 - Explique para a turma, no projetor, qual missão você mais gostou e por quê.
 **✅ Carimbo do professor – projeto final**

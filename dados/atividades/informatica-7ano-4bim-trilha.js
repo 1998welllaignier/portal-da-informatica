@@ -125,10 +125,9 @@ PORTAL.registrarAtividades("informatica-7ano-4bim-trilha", {
           { t: "Bloquear e denunciar", ic: "🚫", c: "F" }],
         explicacao: "No cyberbullying: <strong>print</strong>, <strong>bloquear</strong>, <strong>denunciar</strong> e <strong>contar a um adulto</strong>. Nunca responder com ofensa." },
 
-      { tipo: "pc", titulo: "Passo 4 · No computador: Bloco de Notas", programa: "Bloco de Notas",
-        passos: ["Clique no botão <strong>Iniciar</strong> e digite <strong>bloco</strong>. Clique em <strong>Bloco de Notas</strong>.", "Digite: <strong>NAO PASSO MEU CODIGO</strong>"],
-        conferir: [{ rot: "Clique no que você digitou:", opcoes: ["NAO PASSO MEU CODIGO", "PASSO MEU CODIGO", "MEU JOGO"], gab: "NAO PASSO MEU CODIGO", re: "^NAO PASSO MEU CODIGO$", dica: "Você digitou: NAO PASSO MEU CODIGO." }],
-        okMsg: "Isso mesmo! O código é só seu. 🔐" }
+      { tipo: "tabela", titulo: "Passo 4 · Digite aqui no portal",
+        enunciado: "<p>Digite na caixa: <strong>NAO PASSO MEU CODIGO</strong></p>",
+        linhas: [["Digite aqui:", { r: "NAO PASSO MEU CODIGO", tipo: "letras", w: 24, ph: "NAO PASSO MEU CODIGO", dica: "Digite: NAO PASSO MEU CODIGO." }]] }
     ],
     vf: [{ v: false, why: "O código é só seu: nunca passe para ninguém." }, { v: true }, { v: true }]
   },

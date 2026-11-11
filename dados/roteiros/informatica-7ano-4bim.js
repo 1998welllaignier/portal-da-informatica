@@ -58,7 +58,7 @@
         pergunta: "Quantos aparelhos estão ligados no Wi-Fi da casa de vocês? O que acontece com o vídeo quando muita gente usa a internet ao mesmo tempo?",
         dica: "Ouça 3 ou 4 alunos e anote no quadro. Se ninguém falar, conte um exemplo seu. Mundo do trabalho: técnicos de rede instalam e cuidam exatamente dessas partes nas empresas e na escola."
       },
-      demonstracao: "Mostre o Bloco de Notas e o atalho Ctrl + X / Ctrl + V para mudar uma linha de lugar (muitos não conhecem). Mostre também o cadeado 🔒 e o “https” na barra de endereço.",
+      demonstracao: "Mostre o cadeado 🔒 e o “https” na barra de endereço.",
       atencao: [
         "Segurança: os alunos só observam a rede; ninguém mexe em cabos nem em aparelhos.",
         "Na pergunta 3, a ideia é perceber que a rede fica limitada pela peça mais lenta do caminho (o switch da baia, 100 Mbps).",

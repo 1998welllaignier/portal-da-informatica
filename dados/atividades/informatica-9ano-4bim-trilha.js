@@ -74,10 +74,9 @@ PORTAL.registrarAtividades("informatica-9ano-4bim-trilha", {
           { t: "Alguém diz ser do banco e pede o código do celular", c: "E", why: "Enganar a pessoa para ela entregar o código é engenharia social." }],
         explicacao: "Força bruta tenta todas as senhas. Ransomware tranca os arquivos. Engenharia social engana a pessoa." },
 
-      { tipo: "pc", titulo: "Passo 4 · No computador: Bloco de Notas", programa: "Bloco de Notas",
-        passos: ["Clique no botão <strong>Iniciar</strong> e digite <strong>bloco</strong>. Clique em <strong>Bloco de Notas</strong>.", "Digite: <strong>SOL = TPM</strong>"],
-        conferir: [{ rot: "Com a chave 1, SOL vira:", opcoes: ["RNK", "TPM", "SOL"], gab: "TPM", re: "^TPM$", dica: "Cada letra anda 1 casa: S → T, O → P, L → M." }],
-        okMsg: "Muito bem! Você cifrou a palavra SOL. 🔐" }
+      { tipo: "tabela", titulo: "Passo 4 · Digite aqui no portal",
+        enunciado: "<p>Com a chave 1, cada letra anda 1 casa: S → T, O → P, L → M. Digite como fica a palavra <strong>SOL</strong>.</p>",
+        linhas: [["SOL com a chave 1:", { r: "TPM", tipo: "letras", w: 8, ph: "_ _ _", dica: "Cada letra anda 1 casa: S → T, O → P, L → M." }]] }
     ],
     vf: [{ v: true }, { v: false, why: "Pedido de senha com pressa é engenharia social: nunca passe." }, { v: true }]
   },

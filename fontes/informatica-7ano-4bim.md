@@ -119,8 +119,7 @@ Nas **salas de aula comuns**, o cabo chega a um **AP** (*Access Point*, ponto de
 |  |
 |  |
 
-- [ ] No computador, abra o **Bloco de Notas** e digite os 5 pacotes na ordem certa, um por linha, começando com **Pacote 1 de 5:**. Na última linha, escreva a mensagem completa.
-- [ ] Se precisar mudar uma linha de lugar, selecione-a, use **Ctrl + X** para recortar e **Ctrl + V** para colar no lugar certo.
+- [ ] Na tarefa do portal, digite os 5 pacotes na ordem certa, um por linha, começando com **Pacote 1 de 5:**. Na última linha, escreva a mensagem completa.
 - [ ] Com o texto na tela, chame o professor para conferir e **carimbar** o quadro no fim da missão.
 👀 O carimbo é o comprovante de que você fez a tarefa. Não feche nada antes de mostrar ao professor!
 🏫 **Na prática: a rede da nossa escola** (feito junto com o professor)
@@ -378,7 +377,7 @@ Na internet existem **golpes** (phishing) que usam pressa, prêmios e links fals
 | 🛡️ Segurança e convivência digital |  |
 
 🟡 **Desafio**
-- [ ] Digite as suas três frases no Bloco de Notas, com letra maiúscula, acentos e pontuação, e mostre ao professor.
+- [ ] Digite as suas três frases na caixa do portal, com letra maiúscula, acentos e pontuação.
 🔴 **Turbo**
 - [ ] Explique para a turma, no projetor, qual missão você mais gostou e por quê.
 **✅ Carimbo do professor – projeto final**

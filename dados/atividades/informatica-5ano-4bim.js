@@ -40,15 +40,13 @@ PORTAL.registrarAtividades("informatica-5ano-4bim", {
           { t: "Vídeo assistido no YouTube", c: "N", why: "O vídeo fica nos computadores da empresa e chega pela internet." },
           { t: "Arquivo guardado no Google Drive", c: "N" }, { t: "Jogo instalado no computador da escola", c: "A" }],
         explicacao: "No aparelho: fica no próprio computador, celular ou pen drive. Na nuvem: fica em computadores de empresas e você acessa pela internet." },
-      { tipo: "pc", titulo: "No computador: o Bloco de Notas", programa: "Bloco de Notas",
-        passos: ["Clique no botão <strong>Iniciar</strong> (o símbolo do Windows, no canto de baixo, à esquerda), procure o <strong>Bloco de Notas</strong> e abra.",
-          "Digite: <strong>Meu nome é ______ e o sistema operacional deste computador é o Windows.</strong>",
-          "Depois digite, uma por linha, 2 peças de entrada e 2 peças de saída."],
-        conferir: [
-          { rot: "Copie aqui a primeira frase que você digitou:", ph: "Meu nome é…", gab: "Meu nome é (nome) e o sistema operacional deste computador é o Windows.", re: "meu\\s+nome\\s+(é|e)\\s+.+windows", dica: "A frase começa com “Meu nome é” e termina com “Windows”." },
-          { rot: "Uma peça de <strong>entrada</strong> que você digitou:", ph: "Ex.: …", gab: "teclado, mouse, microfone ou webcam", re: "teclado|mouse|microfone|webcam|c[aâ]mera|scanner|touchpad|joystick|controle", dica: "Entrada é a peça que leva informação <strong>para dentro</strong> do computador." },
-          { rot: "Uma peça de <strong>saída</strong> que você digitou:", ph: "Ex.: …", gab: "monitor, impressora, caixa de som ou fone", re: "monitor|tela|impressora|caixa de som|caixinha de som|fone|projetor", dica: "Saída é a peça que mostra ou entrega o resultado." }],
-        okMsg: "Texto digitado no Bloco de Notas e peças no lugar certo!" }
+      { tipo: "tabela", titulo: "Digite aqui no portal",
+        enunciado: "<p>Digite nas caixas abaixo. Use as letras do teclado e a barra de espaço para separar as palavras.</p>",
+        colunas: ["O que digitar", "Digite aqui"],
+        linhas: [
+          ["A frase: <strong>Meu nome é ______ e o sistema operacional deste computador é o Windows.</strong> (troque o ______ pelo seu nome)", { re: "meu\\s+nome\\s+(é|e)\\s+.+windows", w: 40, ph: "Meu nome é…", exemplo: "Meu nome é Ana e o sistema operacional deste computador é o Windows.", dica: "A frase começa com “Meu nome é” e termina com “Windows”." }],
+          ["Uma peça de <strong>entrada</strong> (leva informação <strong>para dentro</strong> do computador)", { re: "teclado|mouse|microfone|webcam|c[aâ]mera|scanner|touchpad|joystick|controle", w: 16, ph: "Ex.: …", exemplo: "teclado", dica: "Entrada é a peça que leva informação <strong>para dentro</strong>: teclado, mouse, microfone ou câmera." }],
+          ["Uma peça de <strong>saída</strong> (mostra ou entrega o resultado)", { re: "monitor|tela|impressora|caixa de som|caixinha de som|fone|projetor", w: 16, ph: "Ex.: …", exemplo: "monitor", dica: "Saída é a peça que mostra ou entrega o resultado: monitor, impressora, caixa de som ou fone." }]] }
     ],
     desafio: [
       { tipo: "escolha", titulo: "Por que o computador precisa de um sistema operacional? O que aconteceria sem ele?",

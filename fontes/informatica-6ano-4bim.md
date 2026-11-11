@@ -288,7 +288,7 @@ Um **cidadão digital** se comunica com **respeito**, protege seus **dados pesso
 | 🤝 Cidadão digital |  |
 
 🟡 **Desafio**
-- [ ] Digite as suas três frases no Bloco de Notas, com letra maiúscula, acentos e pontuação, e mostre ao professor.
+- [ ] Digite as suas três frases na caixa do portal, com letra maiúscula, acentos e pontuação.
 🔴 **Turbo**
 - [ ] Explique para a turma, no projetor, qual missão você mais gostou e por quê.
 **✅ Carimbo do professor – projeto final**
