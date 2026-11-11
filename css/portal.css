@@ -1489,3 +1489,5 @@ body.modo-placar .tela.painel-prof { max-width: none; padding: 0; }
 
 .conf-tela { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 10001; }
 .pp-fim-btn { background: #dc2626; border-color: #dc2626; color: #fff; }
+
+.pl-som.pisca-som { background: #facc15; color: #422006; border-color: #facc15; animation: tb-pisca 1s infinite; }

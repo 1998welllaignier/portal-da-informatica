@@ -290,19 +290,28 @@
     const alunos = (await alunosDaTurma(t.id)).filter(a => a.ativo !== false && !a.teste);
     const el = tela(`<div class="pl-tela"><header class="pl-cab"><div><p class="pl-sup">🏆 Placar ao vivo · ${esc(nomeTurma(t.id))}</p><h1>${esc(missao.icone || "")} ${esc(missao.titulo || mid.toUpperCase())}</h1>
         <p class="pl-aviso">Pontos do pódio (não são nota) · ${esc(cat().professor)}</p></div>
-        <div class="pl-dir"><div class="pl-relogio" id="pl-rel"></div><div class="pl-bts"><button type="button" class="btn btn-peq btn-sec" id="pl-tela">⛶ Tela cheia</button><button type="button" class="btn btn-peq" id="pl-fim">🏁 Finalizar aula</button><button type="button" class="btn btn-peq btn-sec" id="pl-volta" hidden>↩ Voltar ao placar</button></div></div></header>
+        <div class="pl-dir"><div class="pl-relogio" id="pl-rel"></div><div class="pl-bts"><button type="button" class="btn btn-peq btn-sec pl-som" id="pl-som"></button><button type="button" class="btn btn-peq btn-sec" id="pl-tela">⛶ Tela cheia</button><button type="button" class="btn btn-peq" id="pl-fim">🏁 Finalizar aula</button><button type="button" class="btn btn-peq btn-sec" id="pl-volta" hidden>↩ Voltar ao placar</button></div></div></header>
       <div class="pl-corpo" id="pl-corpo"></div></div>`);
-    let prog = [], pod = null, vendoPodio = false, finalizando = false;
+    let prog = [], pod = null, vendoPodio = false, finalizando = false, reiAntes = null, jaCongelou = false;
     const corpo = el.querySelector("#pl-corpo");
+    // 🔊 som (só no computador do professor): o navegador exige um clique na página antes de tocar
+    const So = P.sons, bSom = el.querySelector("#pl-som");
+    const pintaSom = () => { if (!So) { bSom.hidden = true; return; } const ok = So.pronto();
+      bSom.textContent = !So.ligado ? "🔇 Som desligado" : ok ? "🔊 Som ligado" : "🔊 Toque para ligar o som"; bSom.classList.toggle("pisca-som", So.ligado && !ok); };
+    bSom.onclick = async () => { if (!So) return; if (So.ligado && !So.pronto()) { await So.destravar(); So.teste(); } else { So.setLigado(!So.ligado); await So.destravar(); if (So.ligado) So.teste(); } pintaSom(); };
+    el.addEventListener("click", async e => { if (So && e.target !== bSom && So.ligado && !So.pronto()) { await So.destravar(); pintaSom(); } });
+    pintaSom();
     const relogio = () => { const { dia, m } = agoraBR(); const ini = t.aula && t.aula.ini ? hm(t.aula.ini) : null; if (ini == null || t.aula.dia !== dia) return { fora: true };
       const s = new Date(Date.now() + (new Date().getTimezoneOffset() - 180) * 60000), seg = s.getHours() * 3600 + s.getMinutes() * 60 + s.getSeconds(), fim = (ini + DUR) * 60;
       return { antes: seg < ini * 60, depois: seg >= fim, r: fim - seg, fimTxt: fhm(ini + DUR) }; };
     const pintarPlacar = () => {
       if (vendoPodio) return;
       const rel = relogio(), congelado = !rel.fora && !rel.antes && !rel.depois && rel.r <= 300;
-      if (congelado) { publicarRei(t, [], true); corpo.innerHTML = `<div class="pl-cong"><p>🤫</p><h2>Placar congelado!</h2><p>Faltam menos de 5 minutos. O resultado só aparece no pódio… Corram!</p></div>`; return; }
+      if (congelado) { publicarRei(t, [], true); if (!jaCongelou) { jaCongelou = true; So && So.congelou(); } corpo.innerHTML = `<div class="pl-cong"><p>🤫</p><h2>Placar congelado!</h2><p>Faltam menos de 5 minutos. O resultado só aparece no pódio… Corram!</p></div>`; return; }
       const rk = P.podio.ranking(alunos, prog, mid, N.hoje());
       publicarRei(t, rk);
+      const reiAgora = rk.filter(e => e.rei).map(e => e.ids.join("+")).join(",");
+      if (reiAgora && reiAntes !== null && reiAgora !== reiAntes) So && So.coroa(); reiAntes = reiAgora;
       if (!rk.length) { corpo.innerHTML = `<div class="pl-cong"><p>⏳</p><h2>Esperando a turma entrar…</h2><p>O placar começa assim que os alunos entrarem com o código.</p></div>`; return; }
       let lista = corpo.querySelector(".pl-lista"); if (!lista) { corpo.innerHTML = `<div class="pl-lista"></div>`; lista = corpo.querySelector(".pl-lista"); }
       lista.style.height = rk.length * 74 + "px";
@@ -313,7 +322,7 @@
       lista.querySelectorAll(".pl-lin").forEach(n => { if (!vivos.has(n.dataset.k)) n.remove(); });
     };
     const mostrarPodio = () => { if (!pod) return; vendoPodio = true; el.querySelector("#pl-volta").hidden = false;
-      corpo.innerHTML = `<div class="pd-tela"><h2 class="pd-tit">🏆 Pódio da aula!</h2>${P.podio.podioHTML(pod.ranking || [])}</div>`; P.podio.confete(corpo.querySelector(".pd-tela")); };
+      corpo.innerHTML = `<div class="pd-tela"><h2 class="pd-tit">🏆 Pódio da aula!</h2>${P.podio.podioHTML(pod.ranking || [])}</div>`; P.podio.confete(corpo.querySelector(".pd-tela")); So && So.podio(); };
     el.querySelector("#pl-volta").onclick = () => { vendoPodio = false; el.querySelector("#pl-volta").hidden = true; corpo.innerHTML = ""; pintarPlacar(); };
     el.querySelector("#pl-tela").onclick = () => { const d = document.documentElement; (document.fullscreenElement ? document.exitFullscreen() : d.requestFullscreen()).catch(() => {}); };
     const finalizar = async auto => { if (finalizando) return; finalizando = true;
