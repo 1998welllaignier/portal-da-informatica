@@ -26,6 +26,7 @@ Estas funções estão no código: todo material novo ganha sozinho. Só é prec
   → Todo material novo precisa trazer: `explicacao` (resolução comentada) em cada atividade; `why` em cada item de escolha/classificar/sinais/mensagens; e, em `dados/explicacoes-prof.js`, a explicação de cada item das Perguntas rápidas (`vf`) e de atividades sem resolução comentada (`at`). Conferir com o teste "fracos = 0" (nenhuma atividade sem explicação).
 - **Painel do professor:**
   - 🗓️ **Horários** e 🔑 **Códigos** em modal (11/11/2026): o quadro da semana pisca na aula que está acontecendo; os códigos abrem na turma do horário, com busca.
+  - 🔴 **Ao vivo** (11/11/2026): modal com quem entrou na aula hoje, o progresso de cada um na missão do dia (leitura, Básico, Desafio, Turbo), quem já tem o visto do Básico, quem está parado há mais de 10 min, quem ainda não entrou e quanto tempo falta para o fim da aula; atualiza sozinho.
   - 🕘 Turma do horário já vem escolhida em todas as abas.
   - 🚦 **Aula que não aconteceu** (11/11/2026): 🚫 ninguém veio (falta para todos) · 🙋 professor não foi · 🎉 feriado (inclusive municipal) · 🏫 sem aula na escola · 📌 outro, com anotação. O painel pergunta sozinho, ao abrir, sobre aulas passadas sem nenhum registro.
   - Diário com presença, vistos e boletim automáticos; prova no portal; trava de horário; 📌 Missão de hoje; 🎬 Apresentar.

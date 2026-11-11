@@ -143,7 +143,7 @@
   const tela = html => mountFn(`<section class="tela painel-prof">${html}</section>`);
   const topo = (u, ativo) => `<nav class="migalhas"><a href="#/">Início</a> › <a href="#/painel">Painel do professor</a></nav>
     <div class="pp-cab"><div><h1>📊 Painel do professor</h1><p class="lead">${esc(cat().professor)} · ${esc(cat().escola)}</p></div>
-      <div class="pp-user"><button class="btn btn-peq pp-hor-btn" id="pp-hor" type="button">🗓️ Horários</button><button class="btn btn-peq pp-hor-btn" id="pp-cod" type="button">🔑 Códigos</button><span>${esc(u.email)}</span><button class="btn btn-sec btn-peq" id="pp-sair" type="button">Sair do painel</button></div></div>
+      <div class="pp-user"><button class="btn btn-peq pp-hor-btn" id="pp-hor" type="button">🗓️ Horários</button><button class="btn btn-peq pp-hor-btn" id="pp-cod" type="button">🔑 Códigos</button><button class="btn btn-peq pp-vivo-btn" id="pp-vivo" type="button">🔴 Ao vivo</button><span>${esc(u.email)}</span><button class="btn btn-sec btn-peq" id="pp-sair" type="button">Sair do painel</button></div></div>
     <nav class="pp-abas">${[["aula", "🎤 Aula"], ["", "🏫 Turmas"], ["diario", "📒 Diário"], ["presenca", "🗓️ Presença"], ["prova", "📝 Prova"], ["importar", "📥 Importar alunos"], ["ano", "📅 Ano letivo"]].map(([k, r]) =>
       `<a href="#/painel${k ? "/" + k : ""}" class="${ativo === k ? "atual" : ""}">${r}</a>`).join("")}</nav>${ajudaAba(ativo)}`;
   /* ❓ quadro "Para que serve e como usar" de cada aba (fica fechado; o professor abre quando quiser) */
@@ -246,7 +246,72 @@
     dlg.querySelector("#pc-b").oninput = pintar;
     await carregarT(); dlg.querySelector("#pc-b").focus();
   }
-  document.addEventListener("click", e => { if (e.target.closest("#pp-hor")) abrirHorarios(); if (e.target.closest("#pp-cod")) abrirCodigos(); });
+  /* 🔴 Ao vivo: quem entrou na aula hoje, em que parte da missão está, o que falta e quanto tempo falta para o fim da aula.
+     Lê o progresso que o portal já grava (só leitura) e atualiza sozinho quando um aluno avança. */
+  async function abrirAoVivo() {
+    if (document.querySelector(".pp-vivo-dlg")) return;
+    const turmas = todasTurmas(); let tid = escolherTurma(null, turmas), unsub = null, iv = null;
+    const dlg = h(`<dialog class="pp-dlg pp-dlg-larga pp-vivo-dlg"><form method="dialog"><div class="pp-hor-top"><h2>🔴 Ao vivo</h2><button class="btn btn-sec btn-peq" value="x">Fechar</button></div>
+      <div class="row-btns"><label>Turma <select id="pv-t">${turmas.map(x => `<option value="${x.id}" ${x.id === tid ? "selected" : ""}>${esc(nomeTurma(x.id))}</option>`).join("")}</select></label><span class="grow" id="pv-rel"></span></div>
+      <div id="pv-c"><p class="ajuda">Carregando…</p></div>
+      <p class="ajuda">Atualiza sozinho quando um aluno avança. “Parado” = sem nenhuma atividade há mais de 10 minutos.</p></form></dialog>`);
+    document.body.appendChild(dlg); dlg.showModal();
+    dlg.addEventListener("close", () => { if (unsub) unsub(); clearInterval(iv); dlg.remove(); });
+    let estado = null;
+    const hojeS = () => N.hoje(), hhmm = ms => { const d = new Date(ms); return String(d.getHours()).padStart(2, "0") + ":" + String(d.getMinutes()).padStart(2, "0"); };
+    const pinta = () => {
+      if (!estado) return; const { t, alunos, prog, C, mid, aid } = estado, hoje = hojeS(), agora = Date.now();
+      // relógio da aula
+      const { dia, m } = agoraBR(), ini = t.aula && t.aula.ini ? hm(t.aula.ini) : null, fim = ini != null ? ini + DUR : null;
+      let rel;
+      if (ini == null || t.aula.dia !== dia) rel = `<span class="pv-rel fora">Hoje não é dia de aula desta turma${t.aula ? ` (${DIAS_L[t.aula.dia].toLowerCase()} às ${fhm(ini)})` : ""}.</span>`;
+      else if (m < ini) rel = `<span class="pv-rel fora">A aula começa às ${fhm(ini)} (faltam ${ini - m} min).</span>`;
+      else if (m >= fim) rel = `<span class="pv-rel fora">A aula terminou às ${fhm(fim)}.</span>`;
+      else rel = `<span class="pv-rel">⏱️ <b>Faltam ${fim - m} min</b> para o fim da aula (${fhm(ini)}–${fhm(fim)})<span class="pv-barra"><i style="width:${Math.round(100 * (m - ini) / DUR)}%"></i></span></span>`;
+      dlg.querySelector("#pv-rel").innerHTML = rel;
+      const missao = C.missoes.find(x => x.id === mid) || {};
+      const linhas = alunos.map(a => {
+        const ps = prog.filter(p => p.alunoId === a.id), ent = ps.find(p => p.tipo === "entrada"), entrou = ent && ent.dias && ent.dias[hoje];
+        const daHoje = ps.filter(p => p.mid && p.dias && p.dias[hoje]).sort((x, y) => (y.atualizado || 0) - (x.atualizado || 0));
+        const pm = ps.filter(p => p.mid === mid).sort((x, y) => (y.atualizado || 0) - (x.atualizado || 0))[0];
+        const ult = Math.max(entrou || 0, ...daHoje.map(p => +p.atualizado || 0));
+        const outra = daHoje[0] && daHoje[0].mid !== mid ? daHoje[0] : null;
+        return { a, entrou, pm, ult, outra };
+      });
+      const dentro = linhas.filter(x => x.entrou).sort((x, y) => x.a.nome.localeCompare(y.a.nome, "pt-BR")), fora = linhas.filter(x => !x.entrou);
+      const fr = (v, rot, cls) => { const [f, tt] = v || [0, 0]; if (!tt) return ""; const ok = f === tt;
+        return `<span class="pv-n ${cls} ${ok ? "ok" : ""}" title="${rot}: ${f} de ${tt}">${rot} ${ok ? "✔" : f + "/" + tt}<i style="width:${Math.round(100 * f / tt)}%"></i></span>`; };
+      const nB = dentro.filter(x => x.pm && x.pm.basicoOk).length, nD = dentro.filter(x => x.pm && x.pm.desafio && x.pm.desafio[1] && x.pm.desafio[0] === x.pm.desafio[1]).length,
+        nT = dentro.filter(x => x.pm && x.pm.turbo && x.pm.turbo[1] && x.pm.turbo[0] === x.pm.turbo[1]).length, nPar = dentro.filter(x => agora - x.ult > 600000).length;
+      dlg.querySelector("#pv-c").innerHTML = `<p class="pv-mis">📌 ${esc(missao.icone || "")} <b>${esc(missao.titulo || mid.toUpperCase())}</b></p>
+        <div class="pv-chips"><span class="pv-chip">👥 <b>${dentro.length}</b> de ${alunos.length} entraram hoje</span><span class="pv-chip ok">🟢 Básico ✔ <b>${nB}</b>/${dentro.length}</span>
+          <span class="pv-chip">🟡 Desafio ✔ <b>${nD}</b></span><span class="pv-chip">🔴 Turbo ✔ <b>${nT}</b></span>${nPar ? `<span class="pv-chip alerta">😴 Parados <b>${nPar}</b></span>` : ""}</div>
+        ${dentro.length ? `<div class="tabela-wrap"><table class="pv-tab"><thead><tr><th>Aluno</th><th>Entrou</th><th>Progresso na missão de hoje</th><th>Situação</th><th>Última atividade</th></tr></thead><tbody>${dentro.map(({ a, entrou, pm, ult, outra }) => {
+          const p = pm || {}, okB = !!p.basicoOk, falta = p.basico && p.basico[1] ? p.basico[1] - p.basico[0] : null, par = agora - ult > 600000;
+          const sit = okB ? (p.turbo && p.turbo[1] && p.turbo[0] === p.turbo[1] ? `<span class="sit ok">🏆 Missão completa</span>` : `<span class="sit ok">✔ Básico feito (visto)</span>`)
+            : falta != null ? `<span class="sit wait">Faltam ${falta} do Básico</span>` : `<span class="sit bad">Ainda não começou a missão</span>`;
+          return `<tr class="${par ? "parado" : ""} ${okB ? "feito" : ""}"><td>${a.atipico ? "🧩 " : ""}${esc(a.nome)}${a.trilha ? " 👣" : ""}${outra ? `<br><small>está na ${esc(outra.mid.toUpperCase())}</small>` : ""}</td><td>${hhmm(entrou)}</td>
+            <td class="pv-bars">${fr(p.leitura, "📖 Leitura", "l")}${fr(p.basico, "🟢 Básico", "b")}${fr(p.desafio, "🟡 Desafio", "d")}${fr(p.turbo, "🔴 Turbo", "t")}${!pm ? "<small>—</small>" : ""}</td>
+            <td>${sit}</td><td>${par ? "😴 " : ""}há ${Math.max(0, Math.round((agora - ult) / 60000))} min</td></tr>`; }).join("")}</tbody></table></div>`
+        : `<p class="ajuda">Nenhum aluno desta turma entrou hoje ainda.</p>`}
+        ${fora.length ? `<details class="pv-fora"><summary>Ainda não entraram hoje (${fora.length})</summary><p>${fora.map(x => esc(x.a.nome)).join(" · ")}</p></details>` : ""}`;
+    };
+    const carregarT = async () => {
+      if (unsub) { unsub(); unsub = null; }
+      dlg.querySelector("#pv-c").innerHTML = `<p class="ajuda">Carregando…</p>`;
+      const t = turmas.find(x => x.id === tid);
+      const ap = cat().apostilas.find(a => a.serie === t.serie.id && !a.oculta && !a.trilha) || cat().apostilas.find(a => a.serie === t.serie.id);
+      await P.carregarApostila(ap.id); const C = P.conteudo[ap.id], mid = missaoDoDia(t, C) || C.missoes[0].id;
+      const alunos = (await alunosDaTurma(tid)).filter(a => a.ativo !== false && !a.teste);
+      estado = { t, alunos, prog: [], C, mid, aid: ap.id };
+      unsub = db().collection("progresso").where("turma", "==", tid).onSnapshot(q => { if (estado && estado.t.id === tid) { estado.prog = q.docs.map(d => ({ id: d.id, ...d.data() })); pinta(); } },
+        err => { dlg.querySelector("#pv-c").innerHTML = `<p class="ajuda">Não foi possível acompanhar ao vivo: ${esc(err.message || err)}</p>`; });
+    };
+    dlg.querySelector("#pv-t").onchange = e => { tid = e.target.value; carregarT(); };
+    iv = setInterval(pinta, 30000);
+    try { await carregarT(); } catch (err) { dlg.querySelector("#pv-c").innerHTML = `<p class="ajuda">Erro: ${esc(err.message || err)}</p>`; }
+  }
+  document.addEventListener("click", e => { if (e.target.closest("#pp-hor")) abrirHorarios(); if (e.target.closest("#pp-cod")) abrirCodigos(); if (e.target.closest("#pp-vivo")) abrirAoVivo(); });
 
   function ligarSair(el) { el.querySelector("#pp-sair").onclick = async () => { await auth().signOut(); location.hash = "#/painel"; }; }
 
