@@ -1444,3 +1444,10 @@ body.modo-placar .tela.painel-prof { max-width: none; padding: 0; }
 .av-passo2 { margin-top: 10px; transition: opacity .3s; }
 .av-passo2.travado > :not(.av-passo) { opacity: .35; filter: grayscale(1); pointer-events: none; }
 .av-trava { display: block; font-size: .85rem; font-weight: 700; color: #b45309; background: #fef3c7; border-radius: 10px; padding: 4px 10px; margin-top: 4px; }
+.av-rapidos { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
+@media (max-width: 560px) { .av-rapidos { grid-template-columns: 1fr; } }
+.av-rap { width: 100%; justify-content: center; min-height: 58px; font-size: 1.05rem; background: #2563eb; border-color: #2563eb; color: #fff; display: flex; flex-direction: column; align-items: center; }
+.av-rap.uni { background: #1e2f6b; border-color: #1e2f6b; }
+.av-rap[disabled] { opacity: .45; cursor: not-allowed; }
+.av-rap small { font-size: .75rem; font-weight: 600; opacity: .9; }
+.av-ou { text-align: center; color: #64748b; margin: 8px 0 0; font-weight: 700; }

@@ -222,6 +222,9 @@
       const el = mount(`<section class="tela av-tela"><div class="av-cx">
         <div class="av-topo"><h1>🧍 Monte o seu avatar${nome ? `, <span>${esc(nome)}</span>` : ""}!</h1>
           <div class="av-tempo"><span id="av-s">120</span>s<i><b id="av-b"></b></i></div></div>
+        <div class="av-rapidos"><button type="button" class="btn btn-grande av-rap" id="av-pula" ${anterior ? "" : "disabled"}>😎 Usar o mesmo da última vez${anterior ? "" : "<small>(você ainda não tem)</small>"}</button>
+          <button type="button" class="btn btn-grande av-rap uni" id="av-uni">🏫 Usar o uniforme de Curionópolis</button></div>
+        <p class="av-ou">ou monte um novo avatar aqui embaixo 👇</p>
         <div class="av-grid"><div class="av-prev" id="av-prev"></div>
           <div class="av-opcoes">
             <div class="av-passo1"><p class="av-passo">1️⃣ Primeiro, você!</p>
@@ -241,8 +244,7 @@
             <p class="av-t">🧢 Boné</p><div class="av-row">${op("bone")}</div><div class="av-row">${sw(COR, "corBone")}</div>
             <p class="av-t">👓 Óculos</p><div class="av-row">${op("oculos")}</div></div>
           </div></div>
-        <div class="row-btns av-bts"><button type="button" class="btn btn-grande btn-ok" id="av-ok">✔ Pronto! Salvar o meu avatar</button>
-          <button type="button" class="btn btn-sec" id="av-pula">${anterior ? "😎 Entrar com o mesmo da última vez" : "Pular (usar o padrão)"}</button></div>
+        <div class="row-btns av-bts"><button type="button" class="btn btn-grande btn-ok" id="av-ok">✔ Pronto! Salvar o meu avatar</button></div>
         <p class="ajuda">${anterior ? "Este é o avatar que você usou da última vez: mude o que quiser ou entre com ele mesmo. " : ""}Quando o tempo acabar, você entra com o avatar ${anterior ? "da última vez" : "padrão"}. O avatar aparece no placar e no pódio da aula.</p></div></section>`);
       // passo 1 primeiro: as roupas, profissões e camisas de futebol só destravam depois de escolher masculino/feminino, pele e cabelo
       const fez = { tipo: !!(anterior && anterior.tipo), pele: !!anterior, cabelo: !!anterior };
@@ -277,7 +279,10 @@
       el.querySelector("#av-num").oninput = e => { a.numero = Math.max(0, Math.min(99, +e.target.value || 0)); pinta(); };
       const sair = v => { if (acabou) return; acabou = true; clearInterval(iv); resolve(v); };
       el.querySelector("#av-ok").onclick = () => sair({ avatar: a, salvo: true });
-      el.querySelector("#av-pula").onclick = () => sair({ avatar: norm(anterior), salvo: false });
+      el.querySelector("#av-pula").onclick = () => { if (anterior) sair({ avatar: norm(anterior), salvo: false }); };
+      // 🏫 uniforme da escola: mantém o jeitinho do aluno (masculino/feminino, pele, cabelo, óculos) e veste o uniforme
+      el.querySelector("#av-uni").onclick = () => { const base = anterior ? norm(anterior) : a;
+        sair({ avatar: Object.assign({}, PADRAO, { tipo: base.tipo || a.tipo, pele: base.pele, cabelo: base.cabelo, corCabelo: base.corCabelo, oculos: base.oculos }, fez.pele ? { pele: a.pele } : {}, fez.cabelo ? { cabelo: a.cabelo, corCabelo: a.corCabelo } : {}, fez.tipo ? { tipo: a.tipo } : {}), salvo: true }); };
       const iv = setInterval(() => {
         const r = Math.max(0, Math.ceil((fim - Date.now()) / 1000));
         el.querySelector("#av-s").textContent = r; el.querySelector("#av-b").style.width = (100 * r / (segundos || 120)) + "%";
