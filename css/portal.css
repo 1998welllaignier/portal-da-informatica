@@ -1285,3 +1285,31 @@ body.modo-apresentacao .topbar, body.modo-apresentacao .rodape, body.modo-aprese
 .pp-pend-item.ok { background: #f0fdf4; border-color: #86efac; }
 .pp-pend-bts { display: flex; flex-wrap: wrap; gap: 6px; }
 .pp-pend-nota { width: 100%; padding: 6px 8px; border: 1px solid #cbd5e1; border-radius: 8px; font: inherit; }
+
+/* 🗓️ horários no painel (igual à página inicial) */
+.pp-hor-btn { background: #f97316; border-color: #f97316; color: #fff; }
+.pp-hor-dlg { max-width: 1000px; }
+.pp-hor-top { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.pp-agora { margin-top: 12px; display: flex; align-items: center; gap: 12px; background: #fff; border: 2px dashed #94a3b8; border-radius: 16px; padding: 12px 16px; width: fit-content; max-width: 100%; }
+.pp-agora .pulso { width: 14px; height: 14px; border-radius: 50%; background: #94a3b8; flex: none; }
+.pp-agora.vivo { border-color: #f97316; }
+.pp-agora.vivo .pulso { background: #f97316; box-shadow: 0 0 0 0 rgba(249,115,22,.6); animation: ph-pulso 1.6s infinite; }
+@keyframes ph-pulso { 70% { box-shadow: 0 0 0 12px rgba(249,115,22,0); } 100% { box-shadow: 0 0 0 0 rgba(249,115,22,0); } }
+.pp-semana { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-top: 18px; }
+@media (max-width: 760px) { .pp-semana { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 440px) { .pp-semana { grid-template-columns: 1fr; } }
+.ph-dia { background: #fff; border-radius: 16px; padding: 12px; border: 2px solid #e2e8f0; position: relative; }
+.ph-dia.hoje { border-color: #2563eb; box-shadow: 0 6px 18px rgba(30,58,138,.15); }
+.ph-dia.hoje::before { content: "HOJE"; position: absolute; top: -11px; right: 12px; background: #2563eb; color: #fff; font-size: 11px; font-weight: 800; padding: 2px 10px; border-radius: 999px; letter-spacing: 1px; }
+.ph-dia h3 { font-size: 16px; color: #1e3a8a; margin: 0 0 8px; }
+.ph-aula { display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-radius: 12px; background: var(--bg); margin-bottom: 6px; text-decoration: none; color: inherit; }
+.ph-aula .t { font-weight: 700; font-size: 13px; color: #64748b; width: 48px; flex: none; }
+.ph-aula .tu { font-weight: 800; font-size: 16px; color: var(--cor); }
+.ph-aula.cinco .tu { font-size: 13px; }
+.ph-aula .vivo { margin-left: auto; font-size: 10px; font-weight: 800; color: #fff; background: #f97316; padding: 2px 8px; border-radius: 999px; }
+.ph-aula.ja { opacity: .5; }
+.ph-aula.ag { outline: 3px solid #f97316; outline-offset: 2px; animation: ph-aula 1.8s ease-in-out infinite; }
+@keyframes ph-aula { 50% { box-shadow: 0 0 0 8px rgba(249,115,22,.25); transform: scale(1.02); } }
+.ph-turno { font-size: 11px; font-weight: 800; letter-spacing: .5px; text-transform: uppercase; color: #64748b; margin: 2px 0 6px; }
+.ph-turno.tarde { border-top: 2px dashed #e2e8f0; padding-top: 8px; margin-top: 8px; }
+@media (prefers-reduced-motion: reduce) { .ph-aula.ag, .pp-agora.vivo .pulso { animation: none; } }

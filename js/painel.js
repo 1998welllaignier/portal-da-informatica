@@ -143,7 +143,7 @@
   const tela = html => mountFn(`<section class="tela painel-prof">${html}</section>`);
   const topo = (u, ativo) => `<nav class="migalhas"><a href="#/">Início</a> › <a href="#/painel">Painel do professor</a></nav>
     <div class="pp-cab"><div><h1>📊 Painel do professor</h1><p class="lead">${esc(cat().professor)} · ${esc(cat().escola)}</p></div>
-      <div class="pp-user"><span>${esc(u.email)}</span><button class="btn btn-sec btn-peq" id="pp-sair" type="button">Sair do painel</button></div></div>
+      <div class="pp-user"><button class="btn btn-peq pp-hor-btn" id="pp-hor" type="button">🗓️ Horários</button><span>${esc(u.email)}</span><button class="btn btn-sec btn-peq" id="pp-sair" type="button">Sair do painel</button></div></div>
     <nav class="pp-abas">${[["aula", "🎤 Aula"], ["", "🏫 Turmas"], ["diario", "📒 Diário"], ["presenca", "🗓️ Presença"], ["prova", "📝 Prova"], ["importar", "📥 Importar alunos"], ["ano", "📅 Ano letivo"]].map(([k, r]) =>
       `<a href="#/painel${k ? "/" + k : ""}" class="${ativo === k ? "atual" : ""}">${r}</a>`).join("")}</nav>${ajudaAba(ativo)}`;
   /* ❓ quadro "Para que serve e como usar" de cada aba (fica fechado; o professor abre quando quiser) */
@@ -192,6 +192,44 @@
       "<b>Começar novo ano</b>: só no início do ano letivo. Desativa todos os alunos (o histórico fica guardado)."]]
   };
   const ajudaAba = k => { const a = AJUDA[k]; return a ? `<details class="pp-ajuda"><summary>❓ Para que serve esta aba e como usar</summary><p>${a[0]}</p><ul>${a[1].map(x => `<li>${x}</li>`).join("")}</ul></details>` : ""; };
+  /* 🗓️ quadro de horários (igual ao da página inicial): a aula que está acontecendo pisca; fora do horário, avisa que não há aula */
+  const COR_S = { "5": ["#16a34a", "#dcfce7"], "6": ["#2563eb", "#dbeafe"], "7": ["#7c3aed", "#ede9fe"], "8": ["#ea580c", "#ffedd5"], "9": ["#db2777", "#fce7f3"] };
+  const DIAS_L = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"], EMO_D = ["", "🌅", "🚀", "⚡", "🎯"], DUR = 75;
+  const hm = x => { const [a, b] = x.split(":").map(Number); return a * 60 + b; }, fhm = m => `${Math.floor(m / 60)}h${String(m % 60).padStart(2, "0")}`;
+  function agoraBR() { const d = new Date(Date.now() + (new Date().getTimezoneOffset() - 180) * 60000); return { dia: d.getDay(), m: d.getHours() * 60 + d.getMinutes() }; }
+  function abrirHorarios() {
+    if (document.querySelector(".pp-hor-dlg")) return;
+    const H = todasTurmas().filter(t => t.aula && t.aula.ini).map(t => ({ t, dia: t.aula.dia, i: hm(t.aula.ini) })).sort((a, b) => a.dia - b.dia || a.i - b.i || (a.t.serie.id === "5") - (b.t.serie.id === "5"));
+    const dlg = h(`<dialog class="pp-dlg pp-dlg-larga pp-hor-dlg"><form method="dialog"><div class="pp-hor-top"><h2>🗓️ Horários da Sala de Informática</h2><button class="btn btn-sec btn-peq" value="x">Fechar</button></div>
+      <div class="pp-agora"><span class="pulso"></span><span id="ph-txt"></span></div><div class="pp-semana" id="ph-sem"></div>
+      <p class="ajuda">Cada aula dura 1h15. A aula que está acontecendo agora pisca. Toque numa turma para abrir a aula dela no painel.</p></form></dialog>`);
+    const desenhar = () => {
+      const { dia, m } = agoraBR(); let html = "";
+      for (let d = 1; d <= 4; d++) {
+        const xs = H.filter(x => x.dia === d);
+        html += `<div class="ph-dia ${d === dia ? "hoje" : ""}"><h3>${EMO_D[d]} ${DIAS_L[d]}</h3>` + xs.map((x, k) => {
+          const f = x.i + DUR, cls = d === dia ? (m >= f ? "ja" : m >= x.i ? "ag" : "") : "", [cor, bg] = COR_S[x.t.serie.id] || ["#334155", "#f1f5f9"];
+          const tarde = x.i >= 720, antes = k ? xs[k - 1].i >= 720 : null, rot = antes === tarde ? "" : `<div class="ph-turno ${tarde ? "tarde" : ""}">${tarde ? "🌇 Tarde" : "☀️ Manhã"}</div>`;
+          return rot + `<a class="ph-aula ${cls} ${x.t.serie.id === "5" ? "cinco" : ""}" href="#/painel/aula/${x.t.id}" style="--cor:${cor};--bg:${bg}"><span class="t">${fhm(x.i)}</span><span class="tu">${esc(nomeTurma(x.t.id))}</span>${cls === "ag" ? '<span class="vivo">AGORA</span>' : ""}</a>`;
+        }).join("") + "</div>";
+      }
+      dlg.querySelector("#ph-sem").innerHTML = html;
+      const hoje = H.filter(x => x.dia === dia), atuais = hoje.filter(x => m >= x.i && m < x.i + DUR), prox = hoje.find(x => x.i > m);
+      let txt;
+      if (atuais.length) txt = `<b>Agora:</b> aula do <b>${atuais.map(x => esc(nomeTurma(x.t.id))).join("</b> e do <b>")}</b> (até ${fhm(atuais[0].i + DUR)})`;
+      else if (prox) txt = `<b>Sem aula agora.</b> Próxima hoje: <b>${esc(nomeTurma(prox.t.id))}</b> às ${fhm(prox.i)}`;
+      else { let d = dia, ach = null; for (let k = 1; k <= 7 && !ach; k++) { d = (dia + k) % 7; ach = H.find(x => x.dia === d); }
+        txt = ach ? `<b>Sem aula agora.</b> Próxima: <b>${esc(nomeTurma(ach.t.id))}</b> na ${DIAS_L[ach.dia].toLowerCase()} às ${fhm(ach.i)}` : "<b>Sem aula agora.</b>"; }
+      dlg.querySelector("#ph-txt").innerHTML = txt;
+      dlg.querySelector(".pp-agora").classList.toggle("vivo", !!atuais.length);
+    };
+    desenhar(); const iv = setInterval(desenhar, 30000);
+    document.body.appendChild(dlg); dlg.showModal();
+    dlg.addEventListener("click", e => { if (e.target.closest(".ph-aula")) dlg.close(); });
+    dlg.addEventListener("close", () => { clearInterval(iv); dlg.remove(); });
+  }
+  document.addEventListener("click", e => { if (e.target.closest("#pp-hor")) abrirHorarios(); });
+
   function ligarSair(el) { el.querySelector("#pp-sair").onclick = async () => { await auth().signOut(); location.hash = "#/painel"; }; }
 
   async function entrar() {
