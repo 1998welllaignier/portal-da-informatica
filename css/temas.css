@@ -106,3 +106,8 @@ body.modo-placar .tm-selo { display: none; }
 .tm-boto { transform-box: view-box; transform-origin: 140px 96px; animation: tm-boto 4s ease-in-out infinite; } @keyframes tm-boto { 0%, 100% { transform: translateY(24px) rotate(10deg); opacity: 0; } 30%, 70% { transform: translateY(0) rotate(-6deg); opacity: 1; } }
 @media (max-width: 900px) { .tm-passa { display: none; } }
 @media (prefers-reduced-motion: reduce) { .tm-boto, .tm-giro { animation: none; } }
+
+/* 📚 enquanto o aluno lê ou faz as tarefas (logado: a barra tem o botão Sair), os enfeites vão para o FUNDO:
+   ficam atrás dos textos e das atividades e só aparecem nos espaços vazios. No login e na página inicial ficam na frente. */
+body:has(#tb-sair) .tm-cai, body:has(#tb-sair) .tm-canto, body:has(#tb-sair) .tm-passa { z-index: -1; opacity: .8; }
+body:has(#tb-sair) .tm-cai i { opacity: .5 !important; }
