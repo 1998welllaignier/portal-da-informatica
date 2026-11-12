@@ -1631,3 +1631,8 @@ body.modo-placar .tm-faixa { display: none; }
 .tema-padroeira .topbar { background: linear-gradient(90deg, #1e3a8a, #2563eb 60%, #60a5fa); }
 .tema-natal { --tm1: #dc2626; --tm2: #facc15; --tm-placar: radial-gradient(circle at 20% 0%, #166534, #0b1d12 60%, #450a0a); }
 .pp-tema-rolar { max-height: 55vh; overflow: auto; padding-right: 4px; }
+
+.pp-av-lista { list-style: none; padding: 0; margin: 10px 0; display: grid; gap: 8px; }
+.pp-av-lista li { display: flex; gap: 10px; align-items: center; padding: 10px 12px; border-radius: 12px; background: #f8fafc; border: 1px solid var(--linha); transition: opacity .3s; }
+.pp-av-lista li.lido { opacity: .4; text-decoration: line-through; }
+.pp-av-ic { font-size: 1.4rem; } .pp-av-txt { flex: 1; }

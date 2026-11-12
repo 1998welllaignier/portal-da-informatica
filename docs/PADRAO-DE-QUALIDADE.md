@@ -35,6 +35,7 @@ Estas funções estão no código: todo material novo ganha sozinho. Só é prec
 - **Painel do professor:**
   - 🗓️ **Horários** e 🔑 **Códigos** em modal (11/11/2026): o quadro da semana pisca na aula que está acontecendo; os códigos abrem na turma do horário, com busca.
   - 🔴 **Ao vivo** (11/11/2026): modal com quem entrou na aula hoje, o progresso de cada um na missão do dia (leitura, Básico, Desafio, Turbo), quem já tem o visto do Básico, quem está parado há mais de 10 min, quem ainda não entrou e quanto tempo falta para o fim da aula; atualiza sozinho.
+  - 📣 **Avisos ao entrar no painel** (11/11/2026): datas comemorativas e feriados de hoje e dos próximos 7 dias (com o tipo: feriado, ponto facultativo ou data comemorativa; Carnaval, Sexta Santa, Páscoa e Corpus Christi calculados), tema que começou hoje, sexta = dia de registrar no SIGE, prazos (boletins, reabertura do SIGE) e os recados das turmas que têm aula hoje. Cada aviso: **✔ Já li** (não aparece mais, em qualquer computador: `prof/avisos`) ou **⏰ Ver depois** (aparece no próximo login). Logo depois vêm as perguntas das aulas sem registro.
   - 🕘 Turma do horário já vem escolhida em todas as abas.
   - 🚦 **Aula que não aconteceu** (11/11/2026): 🚫 ninguém veio (falta para todos) · 🙋 professor não foi · 🎉 feriado (inclusive municipal) · 🏫 sem aula na escola · 📌 outro, com anotação. O painel pergunta sozinho, ao abrir, sobre aulas passadas sem nenhum registro.
   - Diário com presença, vistos e boletim automáticos; prova no portal; trava de horário; 📌 Missão de hoje; 🎬 Apresentar.

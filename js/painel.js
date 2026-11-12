@@ -897,6 +897,56 @@
   async function salvarOcorrencia(tid, d, tipo, nota) {
     await db().collection(DIARIO + "/" + tid + "/aulas").doc(d).set({ data: d, ocorrencia: tipo ? { tipo, nota: nota || "", em: new Date().toISOString() } : null }, { merge: true });
   }
+  /* 📣 Avisos ao abrir o painel: datas comemorativas e feriados (hoje e próximos 7 dias), tema que começou, SIGE, prazos
+     e recados das turmas de hoje. "✔ Já li" não mostra mais (fica em prof/avisos, vale em qualquer computador);
+     "⏰ Ver depois" mostra de novo no próximo login. Depois dos avisos vêm as perguntas das aulas sem registro. */
+  const PRAZOS = [ // [mostrar a partir de, até, id, texto]
+    ["2026-11-16", "2026-11-23", "boletins-2026-4b", "📄 <b>Boletins em PDF do 4º bimestre</b> até 23/11 (📒 Diário › 🧮 Boletim)."],
+    ["2026-12-01", "2026-12-31", "sige-reabre-2026", "🏛️ <b>SIGE: fique atento à reabertura de fim de ano.</b> Quando abrir, registrar o ano inteiro de 2026 (aulas e conteúdos) com o Claude; a frequência é você quem lança."]
+  ];
+  function datasDoAno(ano) {
+    const pas = (() => { const a = ano % 19, b = Math.floor(ano / 100), c = ano % 100, d = Math.floor(b / 4), e = b % 4, f = Math.floor((b + 8) / 25), g = Math.floor((b - f + 1) / 3), h = (19 * a + b - d - g + 15) % 30, i = Math.floor(c / 4), k = c % 4, l = (32 + 2 * e + 2 * i - h - k) % 7, m = Math.floor((a + 11 * h + 22 * l) / 451); return new Date(ano, Math.floor((h + l - 7 * m + 114) / 31) - 1, ((h + l - 7 * m + 114) % 31) + 1); })();
+    const ds = (d) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`, mv = n => ds(new Date(pas.getFullYear(), pas.getMonth(), pas.getDate() + n)), f = md => ano + "-" + md;
+    return [ // [data, nome, tipo: feriado | facultativo | data]
+      [f("01-01"), "🎆 Confraternização Universal", "feriado"], [mv(-48), "🎭 Carnaval (segunda)", "facultativo"], [mv(-47), "🎭 Carnaval (terça)", "facultativo"], [mv(-46), "Quarta-feira de Cinzas", "facultativo"],
+      [mv(-2), "✝️ Sexta-feira Santa", "feriado"], [mv(0), "🐰 Páscoa", "data"], [f("04-19"), "🪶 Dia dos Povos Indígenas", "data"], [f("04-21"), "Tiradentes", "feriado"], [f("05-01"), "👷 Dia do Trabalhador", "feriado"],
+      [f("05-10"), "🎂 Aniversário de Curionópolis (1988)", "data"], [mv(60), "Corpus Christi", "facultativo"], [f("06-24"), "🌽 São João", "data"], [f("08-11"), "🎓 Dia do Estudante", "data"], [f("08-15"), "Adesão do Pará", "feriado"],
+      [f("08-22"), "🍃 Dia do Folclore", "data"], [f("09-07"), "🇧🇷 Independência do Brasil", "feriado"], [f("10-12"), "🎈 Dia das Crianças · Nossa Senhora Aparecida", "feriado"], [f("10-15"), "🍎 Dia do Professor", "data"],
+      [f("11-02"), "Finados", "feriado"], [f("11-15"), "Proclamação da República", "feriado"], [f("11-20"), "✊🏿 Dia Nacional de Zumbi e da Consciência Negra", "feriado"], [f("11-27"), "⛪ Nossa Senhora das Graças, padroeira de Curionópolis", "data"],
+      [f("12-24"), "🎄 Véspera de Natal", "facultativo"], [f("12-25"), "🎄 Natal", "feriado"], [f("12-31"), "🎆 Véspera de Ano-Novo", "facultativo"]
+    ];
+  }
+  async function mostrarAvisos() {
+    const hoje = N.hoje(), d0 = new Date(hoje + "T12:00:00"), ano = d0.getFullYear(), dif = d => Math.round((new Date(d + "T12:00:00") - d0) / 864e5);
+    const TIPO = { feriado: "feriado", facultativo: "ponto facultativo", data: "data comemorativa" };
+    const lista = [];
+    datasDoAno(ano).concat(datasDoAno(ano + 1)).forEach(([d, nome, tipo]) => { const n = dif(d); if (n < 0 || n > 7) return;
+      lista.push(n === 0 ? { id: "hoje-" + d + "-" + nome, ic: "📅", txt: `<b>Hoje é ${nome}</b> (${TIPO[tipo]}).` }
+        : { id: "prox-" + d + "-" + nome, ic: "🗓️", txt: `<b>${n === 1 ? "Amanhã" : "Daqui a " + n + " dias"} (${dataBR(d)}, ${semana(d)}):</b> ${nome} (${TIPO[tipo]}).` }); });
+    if (P.temaCalendario) P.temaCalendario(ano).forEach(x => { const [dd, mm] = x.ini.split("/"); if (`${ano}-${mm}-${dd}` === hoje) lista.push({ id: "tema-" + hoje, ic: "🎨", txt: `<b>Hoje o portal entrou no tema ${x.nome}</b> (sozinho, pela data, até ${x.fim}). Para mudar: botão 🎨 Tema.` }); });
+    if (d0.getDay() === 5) lista.push({ id: "sige-" + hoje, ic: "🏛️", txt: "<b>Sexta-feira: dia de registrar no SIGE</b> as aulas da semana, para não acumular (a frequência é você quem lança)." });
+    PRAZOS.forEach(([de, ate, id, txt]) => { if (hoje >= de && hoje <= ate) lista.push({ id, ic: "⏰", txt }); });
+    // recados das turmas que têm aula hoje
+    try { await Promise.all(todasTurmas().filter(t => t.aula && t.aula.dia === d0.getDay()).map(async t => { const sn = await db().collection(DIARIO).doc(t.id).get();
+      ((sn.exists && sn.data().lembretes) || []).forEach((l, i) => { if (!l.feito) lista.push({ id: "lemb-" + t.id + "-" + (l.criadoEm || i) + "-" + hoje, ic: "🟧", txt: `<b>${esc(nomeTurma(t.id))} (${t.aula.ini}):</b> ${esc(l.texto)}` }); }); })); } catch (e) {}
+    let lidos = {}; const ref = db().collection("prof").doc("avisos");
+    try { const sn = await ref.get(); lidos = (sn.exists && sn.data().lidos) || {}; } catch (e) {}
+    const chave = id => id.replace(/[^\w-]/g, "_").slice(0, 120);
+    const mostrar = lista.filter(a => !lidos[chave(a.id)]);
+    if (!mostrar.length) return;
+    return new Promise(fim => {
+      const dlg = h(`<dialog class="pp-dlg pp-dlg-larga pp-avisos"><form method="dialog"><h2>📣 Avisos de hoje · ${dataBR(hoje)}</h2>
+        <ul class="pp-av-lista">${mostrar.map((a, i) => `<li data-i="${i}"><span class="pp-av-ic">${a.ic}</span><span class="pp-av-txt">${a.txt}</span><button type="button" class="btn btn-sec btn-peq" data-lido="${i}" title="Não mostrar mais este aviso">✔ Já li</button></li>`).join("")}</ul>
+        <div class="row-btns"><button type="button" class="btn" id="av-todos">✔ OK, já li tudo</button><button class="btn btn-sec" value="x">⏰ Ver depois</button></div>
+        <p class="ajuda">"Já li": o aviso não aparece mais. "Ver depois": aparece de novo da próxima vez que você entrar no painel.</p></form></dialog>`);
+      document.body.appendChild(dlg); dlg.showModal(); dlg.addEventListener("close", () => { dlg.remove(); fim(); });
+      const marcar = async idx => {
+        try { await ref.set({ lidos: Object.fromEntries(idx.map(i => [chave(mostrar[i].id), Date.now()])) }, { merge: true }); } catch (e) { toast("Não foi possível salvar: " + (e.message || e)); } };
+      dlg.querySelectorAll("[data-lido]").forEach(b => b.onclick = async () => { const i = +b.dataset.lido; await marcar([i]); const li = b.closest("li"); li.classList.add("lido"); b.remove();
+        if (!dlg.querySelector("li:not(.lido)")) dlg.close(); });
+      dlg.querySelector("#av-todos").onclick = async () => { await marcar([...dlg.querySelectorAll("li:not(.lido)")].map(li => +li.dataset.i)); dlg.close(); };
+    });
+  }
   async function perguntarPendentes() {
     let lista; try { lista = await aulasPendentes(); } catch (e) { console.warn("pendências", e); return; }
     if (!lista.length) return;
@@ -1473,7 +1523,7 @@
       await (N.app(0).pronto);
       await new Promise(ok => { const x = auth().onAuthStateChanged(() => { x(); ok(); }); });
       const u = await entrar();
-      if (!ss.get("painel:pendencias")) { ss.set("painel:pendencias", "1"); setTimeout(() => perguntarPendentes(), 1200); }
+      if (!ss.get("painel:pendencias")) { ss.set("painel:pendencias", "1"); setTimeout(() => mostrarAvisos().finally(() => perguntarPendentes()), 1200); }
       try {
         if (sub === "aula") return await telaAula(u, arg, arg2);
         if (sub === "placar") return await telaPlacar(u, arg);
