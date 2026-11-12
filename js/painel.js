@@ -620,8 +620,18 @@
           if (x === "libera") {
             const d = await P.perguntar(`Liberar as tarefas de ${a.nome} fora do horário por quantos dias? (1 = até o fim de hoje; 0 = tirar a liberação)`, "1"); if (d === null || isNaN(+d)) return;
             const fim = new Date(); fim.setHours(23, 59, 0, 0); fim.setDate(fim.getDate() + Math.max(0, +d - 1));
-            await db().collection("config").doc("liberar_" + a.turma).set({ alunos: { [a.id]: +d > 0 ? fim.getTime() : 0 } }, { merge: true });
-            await P.aviso(+d > 0 ? `Pronto! ${a.nome} pode fazer as tarefas até ${fim.toLocaleDateString("pt-BR")}, 23h59.` : "Liberação retirada."); dlg.close(); return;
+            // pergunta QUAL missão liberar, para o aluno não entrar na missão dos outros dias (12/11/2026)
+            let ms = null;
+            if (+d > 0) {
+              let lista = [];
+              try { const tt = todasTurmas().find(z => z.id === a.turma); const apx = cat().apostilas.find(y => y.serie === tt.serie.id && !y.oculta && !/trilha/.test(y.id)); await P.carregarApostila(apx.id); lista = P.conteudo[apx.id].missoes.map(m => ({ id: m.id, t: (m.titulo || "").replace(/^[^–]*–\s*/, "") })); } catch (e) {}
+              const r = await P.perguntar(`Qual missão ${a.nome} vai fazer? Ele só consegue abrir as tarefas dela (e as da missão de hoje da turma).\n${lista.map(m => m.id.toUpperCase() + " = " + m.t).join("\n")}\nDigite só o número (ex.: 1). Deixe em branco para liberar todas.`, "");
+              if (r === null) return;
+              const n = String(r).trim().toLowerCase().replace(/^m/, "");
+              if (n) { const mm = lista.find(m => m.id.toLowerCase() === "m" + n) || lista.find(m => m.id.toLowerCase() === n); if (!mm) { await P.aviso("Missão não encontrada. Digite só o número, como 1 ou 2."); return; } ms = mm.id; }
+            }
+            await db().collection("config").doc("liberar_" + a.turma).set({ alunos: { [a.id]: +d > 0 ? fim.getTime() : 0 }, alunosMissao: { [a.id]: ms } }, { merge: true });
+            await P.aviso(+d > 0 ? `Pronto! ${a.nome} pode fazer ${ms ? "só a " + ms.toUpperCase() + " (e a missão de hoje da turma)" : "as tarefas de todas as missões"} até ${fim.toLocaleDateString("pt-BR")}, 23h59.` : "Liberação retirada."); dlg.close(); return;
           }
           if (x === "outra") {
             const opc = todasTurmas().filter(y => y.id !== a.turma && y.serie.id === (todasTurmas().find(z => z.id === a.turma) || { serie: {} }).serie.id);
@@ -1556,7 +1566,7 @@
       <div class="painel"><h2>🔒 Trava de horário das tarefas</h2>
         <p>Situação: <span class="pp-prova-st ${cfg.travaHorario ? "on" : "off"}">${cfg.travaHorario ? "🔒 LIGADA" : "⚪ Desligada"}</span></p>
         <p>Ligada, as <strong>tarefas</strong> (Mão na massa, Básico, Desafio, Turbo, Perguntas rápidas, Autoavaliação e Resumo) só abrem no <strong>dia e na hora da aula</strong> de cada turma, com ${esc(cat().toleranciaTarefas || 15)} minutos de tolerância antes e depois. Os textos de estudo ficam sempre abertos, inclusive em casa.</p>
-        <p class="ajuda">Para liberar fora do horário: a turma toda, na aba 🎤 Aula; só um aluno (falta, reposição, estuda em casa) ou aluno que frequenta a aula de outra turma, em 🏫 Turmas → toque no nome do aluno.</p>
+        <p class="ajuda">Para liberar fora do horário: a turma toda, na aba 🎤 Aula; só um aluno, escolhendo qual missão ele pode fazer (falta, reposição, estuda em casa) ou aluno que frequenta a aula de outra turma, em 🏫 Turmas → toque no nome do aluno.</p>
         <div class="row-btns"><button class="btn" id="trava" type="button">${cfg.travaHorario ? "⚪ Desligar a trava" : "🔒 Ligar a trava"}</button></div></div>`);
     ligarSair(el);
     el.querySelector("#trava").onclick = async () => {

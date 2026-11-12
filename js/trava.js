@@ -64,7 +64,14 @@
       const ms = await agora();
       const ids = s.alunoIds || [];
       if (g.travaHorario && lib.fechadaAte && ms < lib.fechadaAte) return { aberta: false, fechada: true };
-      if (ids.some(id => ((lib.alunos || {})[id] || 0) > ms)) return { aberta: true }; // liberado só para ele
+      // liberado só para ele: se o professor escolheu a missão, só ela (e a missão de hoje da turma) abre (12/11/2026)
+      const lib1 = ids.filter(id => ((lib.alunos || {})[id] || 0) > ms);
+      if (lib1.length) {
+        const so = lib1.map(id => (lib.alunosMissao || {})[id]).filter(Boolean);
+        if (!so.length || lib1.length > so.length) return { aberta: true };            // liberado sem missão escolhida = todas
+        if (!mid || so.includes(mid) || (h && h.mid === mid)) return { aberta: true };
+        return { aberta: false, so: so[0], hoje: h && h.travar ? h : null };
+      }
       if (h && h.travar && mid && mid !== h.mid) return { aberta: false, hoje: h };     // 📌 só a missão de hoje
       if (!g.travaHorario) return { aberta: true };
       if (lib.ate && ms < lib.ate) return { aberta: true };
