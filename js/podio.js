@@ -219,14 +219,16 @@
   /* editor com cronômetro. resolve com o avatar escolhido (salvo, anterior ou padrão) */
   function editor(mount, { nome, anterior, segundos, dupla }) {
     return new Promise(resolve => {
-      let a = norm(anterior), fim = Date.now() + (segundos || 120) * 1000, acabou = false;
+      segundos = segundos || 180; let a = norm(anterior), fim = Date.now() + segundos * 1000, acabou = false, mexeu = false;
+      const tempoTxt = s => s % 60 ? `${Math.floor(s / 60) ? Math.floor(s / 60) + " min e " : ""}${s % 60} segundos` : (s / 60 === 1 ? "1 minuto" : s / 60 + " minutos");
       const sw = (lista, campo, cls) => lista.map((c, i) => `<button type="button" class="av-sw ${cls || ""}" data-c="${campo}" data-v="${i}" style="--c:${c}" aria-label="cor ${i + 1}"></button>`).join("");
       const op = campo => OPC[campo].map(([v, r]) => `<button type="button" class="av-op" data-c="${campo}" data-v="${v}">${r}</button>`).join("");
       const el = mount(`<section class="tela av-tela"><div class="av-cx">
         <div class="av-topo"><h1>🧍 Monte o seu avatar${nome ? `, <span>${esc(nome)}</span>` : ""}!</h1>
-          <div class="av-tempo"><span id="av-s">${segundos || 120}</span>s<i><b id="av-b"></b></i></div></div>
-        <div class="av-dupla">${dupla ? `👥 <b>Atividade em dupla: vez ${dupla.vez} de 2.</b> ${dupla.vez === 1 ? `Primeiro ${esc(nome)} monta o avatar; depois é a vez de <b>${esc(dupla.outro)}</b>.` : `Agora é a vez de <b>${esc(nome)}</b>.`} Cada um tem <b>1 minuto</b>.` : `⏱️ Você tem <b>2 minutos</b> para montar o seu avatar.`}
-          ${anterior ? `Se o tempo acabar${dupla && dupla.vez === 1 ? ", passa para o colega e" : ","} você entra com o avatar da última vez.` : `Se o tempo acabar${dupla && dupla.vez === 1 ? " (aí passa para o colega)" : ""}, o portal <b>sorteia</b> o que você não escolheu: masculino ou feminino, tom de pele, tipo e cor do cabelo, e você entra com o uniforme de Curionópolis.`}
+          <div class="av-tempo">⏱️ <span class="av-s" id="av-s">${segundos}</span>s<i><b class="av-b" id="av-b"></b></i></div></div>
+        <div class="av-tempo av-tempo-flut" aria-hidden="true">⏱️ <span class="av-s">${segundos}</span>s<i><b class="av-b"></b></i></div>
+        <div class="av-dupla">${dupla ? `👥 <b>Atividade em dupla: vez ${dupla.vez} de 2.</b> ${dupla.vez === 1 ? `Primeiro ${esc(nome)} monta o avatar; depois é a vez de <b>${esc(dupla.outro)}</b>.` : `Agora é a vez de <b>${esc(nome)}</b>.`} Cada um tem <b>${tempoTxt(segundos)}</b>.` : `⏱️ Você tem <b>${tempoTxt(segundos)}</b> para montar o seu avatar.`}
+          ${`Se o tempo acabar${dupla && dupla.vez === 1 ? " (aí passa para o colega)" : ""}, o portal <b>salva sozinho o que você já escolheu</b>, do jeitinho que estiver.`} ${anterior ? "Se você não mexer em nada, entra com o avatar da última vez." : "Se você não escolher nada, o portal sorteia masculino ou feminino, pele e cabelo, e você entra com o uniforme de Curionópolis."}
           <b>🔒 Depois de entrar, o avatar não muda durante a aula.</b></div>
         ${P.temaAcessorio && P.temaAcessorio() ? (([ic, nome, alt]) => `<div class="av-tema">${ic} <b>${esc(((P.temaNome && P.temaNome(P.tema)) || "Data comemorativa").replace(/!*$/, "!"))}</b> Quem fica sem ${alt} ganha o <b>${nome}</b> automaticamente. Se você escolher ${alt}, fica o que você escolheu. Quando a data acabar, o enfeite sai sozinho.</div>`)(P.temaAcessorio()) : ""}
         <div class="av-rapidos"><button type="button" class="btn btn-grande av-rap" id="av-pula" ${anterior ? "" : "disabled"}>😎 Usar o mesmo da última vez${anterior ? "" : "<small>(você ainda não tem)</small>"}</button>
@@ -239,11 +241,12 @@
             <p class="av-t">🎨 Cor da pele</p><div class="av-row">${sw(PELE, "pele")}</div>
             <p class="av-t">💇 Cabelo</p><div class="av-row">${op("cabelo")}</div><div class="av-row">${sw(CAB, "corCabelo")}</div></div>
             <div class="av-passo2"><p class="av-passo">2️⃣ Agora, a roupa! <span class="av-trava">🔒 Escolha primeiro: masculino ou feminino, a cor da pele e o cabelo</span></p>
-            <p class="av-t">👕 Blusa</p><div class="av-row">${op("blusa")}</div><div class="av-row"><small>Cor:</small> ${sw(COR, "cor1")}</div><div class="av-row"><small>Detalhe:</small> ${sw(COR, "cor2")}</div>
+            <p class="av-t">👕 Blusa</p><div class="av-row">${op("blusa")}</div>
+            <div class="av-fut-times" hidden><p class="av-t">⚽ Times prontos: toque num time para vestir <button type="button" class="btn btn-peq av-ideias-btn" id="av-ideias">💡 Ver todos maiores</button></p><div class="av-times-faixa"></div></div><div class="av-row"><small>Cor:</small> ${sw(COR, "cor1")}</div><div class="av-row"><small>Detalhe:</small> ${sw(COR, "cor2")}</div>
             <div class="av-fut" hidden><p class="av-t">⚽ Uniforme de jogador</p><div class="av-row"><small>Modelo:</small> ${op("estilo")}</div>
               <div class="av-row av-num"><small>Número da camisa:</small> <input type="number" id="av-num" min="0" max="99" value="${a.numero}"></div>
               <div class="av-row"><small>Calção:</small> ${sw(COR, "corCalcao")}</div><div class="av-row"><small>Meião:</small> ${sw(COR, "corMeiao")}</div><div class="av-row"><small>Chuteira:</small> ${sw(COR, "corChuteira")}</div>
-              <p class="ajuda">Dica: monte com as cores do seu time do coração! 💚💛 <button type="button" class="btn btn-peq av-ideias-btn" id="av-ideias">💡 Ver ideias de uniformes</button></p></div>
+              <p class="ajuda">Dica: monte com as cores do seu time do coração! 💚💛 Os times prontos ficam logo abaixo de 👕 Blusa.</p></div>
             <div class="av-calca"><p class="av-t">👖 Calça</p><div class="av-row">${op("calca")}</div><div class="av-row">${sw(COR, "corCalca")}</div></div>
             <p class="av-t">💼 Profissão <button type="button" class="btn btn-peq av-ideias-btn" id="av-prof">💼 Ver profissões</button></p>
             <div class="av-row"><small>Roupa por cima:</small> ${op("roupa")}</div><div class="av-row"><small>Cor da roupa:</small> ${sw(COR, "corRoupa")}</div>
@@ -265,29 +268,33 @@
         const marcou = c => c === "corCabelo" ? fez.cabelo : (c in fez ? fez[c] : true);
         el.querySelectorAll("[data-c]").forEach(b => b.setAttribute("aria-pressed", marcou(b.dataset.c) && String(a[b.dataset.c]) === String(b.dataset.v)));
         el.querySelector(".av-fut").hidden = a.blusa !== "futebol"; el.querySelector(".av-calca").hidden = a.blusa === "futebol";
+        const ft = el.querySelector(".av-fut-times"); ft.hidden = a.blusa !== "futebol";
+        if (!ft.hidden) { const fx = ft.querySelector(".av-times-faixa"), chave = [a.tipo, a.pele, a.cabelo, a.corCabelo, a.oculos].join("|");
+          if (fx.dataset.k !== chave) { fx.dataset.k = chave; fx.innerHTML = IDEIAS.map(([rot, x], i) => `<button type="button" class="av-ideia av-time" data-i="${i}">${svg(Object.assign({}, a, x, { blusa: "futebol" }), 64)}<span>${rot}</span></button>`).join("");
+            fx.querySelectorAll("[data-i]").forEach(b => b.onclick = () => { mexeu = true; Object.assign(a, IDEIAS[+b.dataset.i][1], { blusa: "futebol" }); el.querySelector("#av-num").value = a.numero; pinta(); }); } }
       };
-      el.querySelectorAll("[data-c]").forEach(b => b.onclick = () => { const c = b.dataset.c, v = b.dataset.v; if (c in fez) fez[c] = true; if (c === "corCabelo") fez.cabelo = true; a[c] = /^\d+$/.test(v) && c !== "numero" && !OPC[c] ? +v : v;
+      el.querySelectorAll("[data-c]").forEach(b => b.onclick = () => { mexeu = true; const c = b.dataset.c, v = b.dataset.v; if (c in fez) fez[c] = true; if (c === "corCabelo") fez.cabelo = true; a[c] = /^\d+$/.test(v) && c !== "numero" && !OPC[c] ? +v : v;
         if (c === "blusa" && v === "futebol" && a.cor1 === 10 && a.cor2 === 6) { a.cor1 = 3; a.cor2 = 10; } pinta(); });
       // 💡 modal com ideias de uniformes de futebol (tocar numa ideia já veste o bonequinho; o tempo continua correndo)
       el.querySelector("#av-ideias").onclick = () => {
         const d = document.createElement("dialog"); d.className = "pp-dlg pp-dlg-larga av-ideias";
-        d.innerHTML = `<form method="dialog"><h2>💡 Ideias de uniformes de futebol</h2><p class="ajuda">Toque numa ideia para vestir o seu jogador. Depois, mude as cores, o número, o calção, o meião e a chuteira do jeito que quiser. ⏱️ O tempo continua correndo!</p>
+        d.innerHTML = `<form method="dialog"><h2>💡 Ideias de uniformes de futebol <span class="av-tempo av-tempo-dlg">⏱️ <span class="av-s">${Math.max(0, Math.ceil((fim - Date.now()) / 1000))}</span>s</span></h2><p class="ajuda">Toque numa ideia para vestir o seu jogador. Depois, mude as cores, o número, o calção, o meião e a chuteira do jeito que quiser. ⏱️ O tempo continua correndo!</p>
           <div class="av-ideias-grid">${IDEIAS.map(([rot, x], i) => `<button type="button" class="av-ideia" data-i="${i}">${svg(Object.assign({}, a, x, { blusa: "futebol" }), 110)}<span>${rot}</span></button>`).join("")}</div>
           <div class="row-btns"><button class="btn" value="x">Fechar</button></div></form>`;
         document.body.appendChild(d); d.showModal(); d.addEventListener("close", () => d.remove());
-        d.querySelectorAll("[data-i]").forEach(b => b.onclick = () => { Object.assign(a, IDEIAS[+b.dataset.i][1], { blusa: "futebol" }); el.querySelector("#av-num").value = a.numero; pinta(); d.close(); });
+        d.querySelectorAll("[data-i]").forEach(b => b.onclick = () => { mexeu = true; Object.assign(a, IDEIAS[+b.dataset.i][1], { blusa: "futebol" }); el.querySelector("#av-num").value = a.numero; pinta(); d.close(); });
         const fecha = setInterval(() => { if (acabou) { clearInterval(fecha); if (d.open) d.close(); } else if (!d.isConnected) clearInterval(fecha); }, 300);
       };
       el.querySelector("#av-prof").onclick = () => {
         const d = document.createElement("dialog"); d.className = "pp-dlg pp-dlg-larga av-ideias";
-        d.innerHTML = `<form method="dialog"><h2>💼 Profissões</h2><p class="ajuda">Toque numa profissão para vestir o seu bonequinho. Depois, mude as cores e o que quiser. ⏱️ O tempo continua correndo!</p>
+        d.innerHTML = `<form method="dialog"><h2>💼 Profissões <span class="av-tempo av-tempo-dlg">⏱️ <span class="av-s">${Math.max(0, Math.ceil((fim - Date.now()) / 1000))}</span>s</span></h2><p class="ajuda">Toque numa profissão para vestir o seu bonequinho. Depois, mude as cores e o que quiser. ⏱️ O tempo continua correndo!</p>
           <div class="av-ideias-grid">${PROF.map(([rot, x], i) => `<button type="button" class="av-ideia" data-i="${i}">${svg(Object.assign({}, a, LIMPA, { oculos: "nenhum" }, x), 110)}<span>${rot}</span></button>`).join("")}</div>
           <div class="row-btns"><button class="btn" value="x">Fechar</button></div></form>`;
         document.body.appendChild(d); d.showModal(); d.addEventListener("close", () => d.remove());
-        d.querySelectorAll("[data-i]").forEach(b => b.onclick = () => { Object.assign(a, LIMPA, { oculos: "nenhum" }, PROF[+b.dataset.i][1]); pinta(); d.close(); });
+        d.querySelectorAll("[data-i]").forEach(b => b.onclick = () => { mexeu = true; Object.assign(a, LIMPA, { oculos: "nenhum" }, PROF[+b.dataset.i][1]); pinta(); d.close(); });
         const fecha = setInterval(() => { if (acabou) { clearInterval(fecha); if (d.open) d.close(); } else if (!d.isConnected) clearInterval(fecha); }, 300);
       };
-      el.querySelector("#av-num").oninput = e => { a.numero = Math.max(0, Math.min(99, +e.target.value || 0)); pinta(); };
+      el.querySelector("#av-num").oninput = e => { mexeu = true; a.numero = Math.max(0, Math.min(99, +e.target.value || 0)); pinta(); };
       const sair = v => { if (acabou) return; acabou = true; clearInterval(iv); resolve(v); };
       el.querySelector("#av-ok").onclick = () => sair({ avatar: a, salvo: true });
       el.querySelector("#av-pula").onclick = () => { if (anterior) sair({ avatar: norm(anterior), salvo: false }); };
@@ -296,11 +303,13 @@
         sair({ avatar: Object.assign({}, PADRAO, { tipo: base.tipo || a.tipo, pele: base.pele, cabelo: base.cabelo, corCabelo: base.corCabelo, oculos: base.oculos }, fez.pele ? { pele: a.pele } : {}, fez.cabelo ? { cabelo: a.cabelo, corCabelo: a.corCabelo } : {}, fez.tipo ? { tipo: a.tipo } : {}), salvo: true }); };
       const iv = setInterval(() => {
         const r = Math.max(0, Math.ceil((fim - Date.now()) / 1000));
-        el.querySelector("#av-s").textContent = r; el.querySelector("#av-b").style.width = (100 * r / (segundos || 120)) + "%";
-        el.querySelector(".av-tempo").classList.toggle("fim", r <= 10);
+        document.querySelectorAll(".av-s").forEach(x => x.textContent = r); el.querySelectorAll(".av-b").forEach(x => x.style.width = (100 * r / segundos) + "%");
+        document.querySelectorAll(".av-tempo").forEach(x => x.classList.toggle("fim", r <= 10));
         if (r <= 0) { P.toast && P.toast("⏰ Acabou o tempo!");
-          // sem avatar salvo: uniforme de Curionópolis com o que o aluno já escolheu e cor de pele sorteada (se não escolheu)
-          if (anterior) sair({ avatar: norm(anterior), salvo: false });
+          // mexeu em alguma coisa: salva do jeitinho que está (como se tivesse clicado em "Pronto!")
+          if (mexeu) sair({ avatar: a, salvo: true });
+          // não mexeu em nada: avatar da última vez; sem avatar salvo, uniforme de Curionópolis com sorteio
+          else if (anterior) sair({ avatar: norm(anterior), salvo: false });
           else { const sorteia = n => Math.floor(Math.random() * n);
             sair({ avatar: Object.assign({}, PADRAO, {
               tipo: fez.tipo ? a.tipo : OPC.tipo[sorteia(2)][0],
@@ -324,7 +333,7 @@
       if (anterior && usadoEm === hoje) { usados.push(norm(anterior)); P.toast && P.toast(`🔒 ${(x.nome || "").split(" ")[0]}, você já montou o avatar hoje: ele não muda durante a aula.`); continue; }
       const pn = y => (y.nome || "").split(" ")[0], du = infos.length > 1;
       if (du && i > 0) P.toast && P.toast(`👥 Agora é a vez de ${pn(x)} montar o avatar!`);
-      const r = await editor(mount, { nome: pn(x), anterior, segundos: du ? 60 : segundos, dupla: du ? { vez: i + 1, outro: pn(infos[1 - i]) } : null });
+      const r = await editor(mount, { nome: pn(x), anterior, segundos: du ? Math.round(segundos / 2) : segundos, dupla: du ? { vez: i + 1, outro: pn(infos[1 - i]) } : null });
       usados.push(r.avatar);
       try { await ref.set(Object.assign({ alunoId: x.alunoId, turma: x.turma || P.sess.get().turma, tipo: "avatar", usadoEm: hoje }, r.salvo ? { avatar: r.avatar, atualizado: Date.now() } : {}), { merge: true }); } catch (e) { console.warn("avatar", e); }
     }

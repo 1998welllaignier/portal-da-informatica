@@ -1372,6 +1372,16 @@ body.modo-apresentacao .topbar, body.modo-apresentacao .rodape, body.modo-aprese
 .av-tempo i { display: block; width: 140px; height: 10px; background: #e2e8f0; border-radius: 6px; overflow: hidden; }
 .av-tempo b { display: block; height: 100%; background: #22c55e; transition: width .25s linear; }
 .av-tempo.fim { color: #dc2626; } .av-tempo.fim b { background: #dc2626; }
+/* ⏱️ relógio sempre à vista enquanto o aluno escolhe (flutuante no canto) */
+.av-tempo-flut { position: fixed; right: 16px; bottom: 16px; z-index: 50; background: #fff; border: 3px solid #1e3a8a; border-radius: 999px; padding: 8px 16px; box-shadow: 0 8px 24px rgba(30,58,138,.3); font-size: 1.6rem; }
+.av-tempo-flut.fim { border-color: #dc2626; animation: avPisca 1s infinite; }
+@keyframes avPisca { 50% { transform: scale(1.08); } }
+.av-tempo-dlg { display: inline-flex; float: right; font-size: 1.2rem; }
+/* ⚽ times prontos logo abaixo da blusa */
+.av-fut-times { background: #ecfdf5; border: 2px solid #22c55e; border-radius: 14px; padding: 6px 10px; margin: 6px 0; }
+.av-fut-times .av-t { margin-top: 0; }
+.av-times-faixa { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px; }
+.av-time { flex: 0 0 auto; width: 92px; font-size: .72rem; padding: 4px; }
 .av-grid { display: grid; grid-template-columns: 260px 1fr; gap: 18px; margin-top: 12px; }
 @media (max-width: 700px) { .av-grid { grid-template-columns: 1fr; } }
 .av-prev { display: grid; place-items: center; background: radial-gradient(circle at 50% 40%, #e0f2fe, #f8fafc); border-radius: 18px; min-height: 320px; }
