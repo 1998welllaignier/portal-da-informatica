@@ -123,12 +123,34 @@
   function paginaFeita(p, mid, prog) {
     return p.tipo === "relatorio" ? false : p.tipo === "leitura" ? !!(prog.visitas || {})[mid + "/" + p.id] : (p.atividades || []).filter(x => !x.opcional && !((P.tipos || {})[x.tipo] || {}).semStatus).every(x => prog.atv[x.id] && prog.atv[x.id].status);
   }
+  /* 🔒 Trilha em sequência (12/11/2026): uma etapa só abre quando as anteriores estão feitas (tarefas VERIFICADAS),
+     para o aluno não deixar nada para trás. Até o Básico é tudo em fila; o Desafio abre depois do Básico, o Turbo
+     depois do Desafio; Perguntas rápidas, Autoavaliação e Resumo abrem depois do Básico (Desafio e Turbo são extras).
+     O "Resumo do que fiz" fica sempre aberto. Só vale com o aluno logado e as tarefas abertas. */
+  function bloqueioPagina(pages, i, mid, prog) {
+    const p = pages[i]; if (!p || p.id === "relatorio") return null;
+    const iB = pages.findIndex(x => x.id === "basico"), iD = pages.findIndex(x => x.id === "desafio");
+    let req = [];
+    if (iB < 0 || i <= iB) req = pages.slice(0, i).map((_, j) => j);
+    else if (p.id === "desafio") req = pages.slice(0, iB + 1).map((_, j) => j);
+    else if (p.id === "turbo") { req = pages.slice(0, iB + 1).map((_, j) => j); if (iD >= 0) req.push(iD); }
+    else req = pages.slice(0, i).map((_, j) => j).filter(j => j <= iB || !["desafio", "turbo"].includes(pages[j].id));
+    const j = req.find(k => pages[k].id !== "relatorio" && !paginaFeita(pages[k], mid, prog));
+    return j == null ? null : pages[j];
+  }
+  function faltandoNaPagina(p, prog) {
+    return (p.atividades || []).filter(x => !x.opcional && !((P.tipos || {})[x.tipo] || {}).semStatus && !(prog.atv[x.id] && prog.atv[x.id].status));
+  }
   function atualizarTrilha(aid) {
     if (!trilhaAtual || trilhaAtual.aid !== aid) return;
     const mid = trilhaAtual.mid, box = document.getElementById("mn-xp"); if (!box) return;
     const prog = getProg(aid); let pages = []; try { pages = montarMissao(aid, mid).pages; } catch (e) {}
     pages.forEach(p => { const li = document.querySelector(`.mn-trilha li[data-pg="${p.id}"]`); if (!li) return; const ok = paginaFeita(p, mid, prog);
       if (ok && !li.classList.contains("ok")) { li.classList.add("ok", "acabou"); const a = li.querySelector("a"); if (a && !a.querySelector(".feito")) a.insertAdjacentHTML("beforeend", ' <span class="feito" title="feito">✔</span>'); } });
+    if (trilhaAtual.seq) pages.forEach((p, i) => { const li = document.querySelector(`.mn-trilha li[data-pg="${p.id}"]`); if (!li || !li.classList.contains("trancada")) return;
+      if (!bloqueioPagina(pages, i, mid, prog)) { li.classList.remove("trancada"); li.classList.add("abriu"); li.innerHTML = `<a href="#/missao/${aid}/${mid}/${p.id}"><span aria-hidden="true">${p.icone}</span> <span class="mn-rot">${esc(p.rotulo)}</span> <span class="novo-ok">🔓 liberada!</span></a>`; } });
+    if (trilhaAtual.seq) { const bx = document.getElementById("pag-prox"); if (bx && bx.dataset.trancado) { const i = pages.findIndex(p => p.id === bx.dataset.pg);
+      if (i >= 0 && !bloqueioPagina(pages, i, mid, prog)) { const a = document.createElement("a"); a.className = "btn btn-pulsa"; a.id = "pag-prox"; a.href = `#/missao/${aid}/${mid}/${pages[i].id}`; a.textContent = "🔓 " + pages[i].rotulo + " →"; bx.replaceWith(a); const av = document.getElementById("pag-falta"); if (av) av.remove(); } } }
     const xp = pontosDaMissao(aid, mid, prog.atv), cheio = xp >= 1000, antes = +box.dataset.xp || 0;
     box.dataset.xp = xp; box.classList.toggle("cheio", cheio);
     box.innerHTML = `<div class="xp-cab"><span>⚡ XP da missão</span><b>${cheio ? "🏆 COMPLETA!" : `${xp} / 1000`}</b></div><div class="xp-trilho"><i style="width:${Math.max(xp ? 3 : 0, xp / 10)}%"></i></div>`;
@@ -628,14 +650,21 @@
     const prog = getProg(aid);
     if (pg.tipo === "leitura" && !prog.visitas[mid + "/" + pg.id]) { prog.visitas[mid + "/" + pg.id] = Date.now(); setProg(aid, prog); }
     const st = statusMissao(aid, mid);
+    // 🔒 trilha em sequência: só com aluno logado e tarefas abertas (fora do horário ele continua podendo ler tudo)
+    let travaPre = { aberta: true };
+    if (P.trava) { try { travaPre = await P.trava.estado(s, mid); } catch (e) { travaPre = { aberta: true }; } }
+    const seq = !!(s.nuvem && travaPre.aberta);
+    if (seq) { const b = bloqueioPagina(pages, idx, mid, prog);
+      if (b) { toast(`🔒 Primeiro termine “${b.rotulo}”. A trilha abre uma etapa de cada vez.`); location.replace(`#/missao/${aid}/${mid}/${b.id}`); return; } }
     const info = () => { const x = statusMissao(aid, mid); return `<span class="tb-mis">${esc(m.icone)} ${esc(m.titulo.replace(/ –.*/, ""))}</span><span class="tb-prog">🟢 ${x.basico[0]}/${x.basico[1]}</span>`; };
     barra(info());
     const navItem = (p, i) => {
       const done = paginaFeita(p, mid, prog);
+      if (seq && bloqueioPagina(pages, i, mid, prog)) return `<li class="trancada" data-pg="${p.id}"><span class="mn-tranca" title="Termine as etapas anteriores para abrir"><span aria-hidden="true">${p.icone}</span> <span class="mn-rot">${esc(p.rotulo)}</span> 🔒</span></li>`;
       return `<li class="${done ? "ok" : ""}" data-pg="${p.id}"><a href="#/missao/${aid}/${mid}/${p.id}" class="${i === idx ? "atual" : ""}" ${i === idx ? 'aria-current="page"' : ""}>
         <span aria-hidden="true">${p.icone}</span> <span class="mn-rot">${esc(p.rotulo)}</span> ${done ? '<span class="feito" title="feito">✔</span>' : ""}</a></li>`;
     };
-    trilhaAtual = { aid, mid };
+    trilhaAtual = { aid, mid, seq };
     const el = mount(`<section class="tela missao" style="--cor:${se.cor}">
       <nav class="migalhas"><a href="#/apostila/${aid}">${esc(a.titulo)}</a> › ${esc(m.titulo.replace(/ –.*/, ""))}</nav>
       <div class="mis-layout">
@@ -651,7 +680,11 @@
           <div id="pag-corpo"></div>
           <div id="banner-ok"></div>
           <nav class="pag-nav">${idx > 0 ? `<a class="btn btn-sec" href="#/missao/${aid}/${mid}/${pages[idx - 1].id}">← ${esc(pages[idx - 1].rotulo)}</a>` : `<a class="btn btn-sec" href="#/apostila/${aid}">← Missões</a>`}
-            ${idx < pages.length - 1 ? `<a class="btn" href="#/missao/${aid}/${mid}/${pages[idx + 1].id}">${esc(pages[idx + 1].rotulo)} →</a>` : `<a class="btn" href="#/apostila/${aid}">Voltar às missões ✔</a>`}</nav>
+            ${idx < pages.length - 1 ? (seq && bloqueioPagina(pages, idx + 1, mid, prog) && pages[idx + 1].id !== "relatorio"
+              ? `<button type="button" class="btn btn-tranca" id="pag-prox" data-trancado="1" data-pg="${pages[idx + 1].id}" disabled>🔒 ${esc(pages[idx + 1].rotulo)}</button>`
+              : `<a class="btn" id="pag-prox" href="#/missao/${aid}/${mid}/${pages[idx + 1].id}">${esc(pages[idx + 1].rotulo)} →</a>`) : `<a class="btn" href="#/apostila/${aid}">Voltar às missões ✔</a>`}</nav>
+          ${seq && idx < pages.length - 1 && bloqueioPagina(pages, idx + 1, mid, prog) && pages[idx + 1].id !== "relatorio" ? (() => { const f = faltandoNaPagina(pg, prog);
+            return `<p class="pag-falta" id="pag-falta" role="note">🔒 A próxima etapa abre quando você terminar esta.${f.length ? ` Falta${f.length > 1 ? "m" : ""} <b>${f.length}</b> tarefa${f.length > 1 ? "s" : ""}: faça e toque em <b>✔ Verificar</b> em cada uma.` : ""}</p>`; })() : ""}
         </article>
       </div></section>`);
     const corpo = el.querySelector("#pag-corpo");
@@ -666,7 +699,7 @@
     if (pg.tipo === "missao") corpo.appendChild(h(`<p class="nivel-info nivel-${pg.id}">${{ pratica: "🎮 <strong>Mão na massa</strong>: experimente antes de estudar! Todos fazem, e conta no Básico.", basico: "🟢 <strong>Básico</strong>: todos fazem. Vale 1,0 ponto e libera os jogos livres. As respostas estão no 💡 Para começar e no 📖 O que significa?.", desafio: "🟡 <strong>Desafio</strong>: para quem terminou o Básico. Vale +0,25 e aumenta a sua nota do bimestre.", turbo: "🔴 <strong>Turbo</strong>: para quem terminou o Desafio. Vale mais +0,25 na nota do bimestre." }[pg.id]}</p>`));
     // 🔒 trava de horário: os textos ficam abertos; as tarefas só no dia e na hora da aula (ou liberadas pelo professor)
     let trava = { aberta: true };
-    if ((pg.tipo === "missao" || pg.tipo === "revisao") && P.trava) { try { trava = await P.trava.estado(s, mid); } catch (e) { trava = { aberta: true }; } }
+    if (pg.tipo === "missao" || pg.tipo === "revisao") trava = travaPre;
     if (!trava.aberta) corpo.appendChild(h(`<div class="painel trava-aviso" role="note"><p class="trava-tit">🔒 ${trava.fechada ? "As tarefas estão fechadas agora" : trava.so ? "Esta missão não está liberada para você hoje" : trava.hoje ? "Hoje a turma está em outra missão" : "As tarefas abrem na hora da sua aula"}</p>
       ${trava.fechada ? "<p>O professor fechou as tarefas desta turma por enquanto.</p>" : trava.so ? `<p>🔓 O professor liberou para você a <strong>${esc(String(trava.so).toUpperCase())}</strong>${trava.hoje ? ` e a missão de hoje da turma (<strong>${esc(trava.hoje.titulo || trava.hoje.mid.toUpperCase())}</strong>)` : ""}. Faça essa missão primeiro.</p><p><a class="btn" href="#/missao/${aid}/${trava.so}">Ir para a ${esc(String(trava.so).toUpperCase())} →</a>${trava.hoje ? ` <a class="btn btn-sec" href="#/missao/${aid}/${trava.hoje.mid}">Ir para a missão de hoje →</a>` : ""}</p>` : trava.hoje ? `<p>📌 A missão de hoje é a <strong>${esc(trava.hoje.titulo || trava.hoje.mid.toUpperCase())}</strong>. <a class="btn" href="#/missao/${aid}/${trava.hoje.mid}">Ir para a missão de hoje →</a></p>` : `<p>Você pode fazer as tarefas no dia e na hora da aula:</p><ul>${(trava.horarios || []).map(x => `<li><strong>${esc(x)}</strong></li>`).join("")}</ul>`}
       <p>📖 Enquanto isso, pode estudar à vontade: <a href="#/missao/${aid}/${mid}/comecar">💡 Para começar</a>, <a href="#/missao/${aid}/${mid}/termos">📖 O que significa?</a> e <a href="#/missao/${aid}/${mid}/onde">🌎 Onde eu uso isso?</a> ficam sempre abertos.</p>
