@@ -8,6 +8,7 @@
   const C = {
     consciencia: { tit: "✊🏿 Semana da Consciência Negra", sub: "20 de novembro · Dia Nacional de Zumbi e da Consciência Negra", itens: [
       ["📅", "Por que 20 de novembro?", "É a data da morte de Zumbi dos Palmares, em 1695. Desde 2024, o dia é feriado nacional (Lei nº 14.759/2023)."],
+      ["🛖", "O que é um quilombo?", "Era uma comunidade escondida nas matas, formada por pessoas escravizadas que fugiam em busca de liberdade. A palavra vem do quimbundo, língua de Angola, e quer dizer \"acampamento, povoado\". Ainda hoje existem comunidades quilombolas, inclusive aqui no Pará."],
       ["🏞️", "Quilombo dos Palmares", "Foi o maior quilombo das Américas, na Serra da Barriga (hoje Alagoas). Ali, pessoas escravizadas que fugiram viveram livres e resistiram por quase 100 anos."],
       ["👑", "Zumbi e Dandara", "Zumbi foi o último líder de Palmares. Dandara foi uma guerreira que lutou ao lado dele. Os dois estão no Livro dos Heróis e Heroínas da Pátria."],
       ["🌳", "O baobá do tema", "O baobá é uma árvore africana que pode viver mais de mil anos. Para muitos povos africanos, é a árvore da memória e dos antepassados."],
