@@ -49,7 +49,9 @@
       ["🛏️", "Herança no dia a dia", "Dormir em rede, tomar banho todo dia e comer farinha de mandioca são costumes que aprendemos com os povos indígenas."]
     ] },
     curionopolis: { tit: "🎂 Parabéns, Curionópolis!", sub: "10 de maio", itens: [
-      ["📜", "Quando nasceu", "Curionópolis foi criada em 10 de maio de 1988, quando deixou de fazer parte de Marabá e virou município."],
+      ["🏘️", "Antes de ser cidade", "No fim dos anos 1970, Curionópolis era um povoado no km 30 da rodovia PA-275 e pertencia ao município de Marabá. Cresceu com quem chegava para trabalhar na Estrada de Ferro Carajás e no garimpo, e depois virou distrito de Marabá."],
+      ["📜", "A emancipação", "Em 10 de maio de 1988, a Lei Estadual nº 5.444 transformou Curionópolis em município, separado de Marabá. O primeiro prefeito tomou posse em 1º de janeiro de 1989."],
+      ["👶", "A cidade que virou \"mãe\"", "Em 1991, uma parte de Curionópolis também se separou e virou outro município: Eldorado dos Carajás (Lei Estadual nº 5.687, de 13/12/1991)."],
       ["⛏️", "Serra Pelada", "O distrito de Serra Pelada é da nossa cidade. Nos anos 1980, foi o maior garimpo de ouro a céu aberto do mundo, com dezenas de milhares de garimpeiros."],
       ["🏷️", "De onde vem o nome", "O nome homenageia Sebastião Rodrigues de Moura, conhecido como Major Curió, que coordenou o garimpo de Serra Pelada."],
       ["🗺️", "Onde fica", "No sudeste do Pará, na região de Carajás, uma das regiões de mineração mais importantes do Brasil."]
