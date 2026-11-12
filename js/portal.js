@@ -154,6 +154,19 @@
   P.getProg = getProg; P.setProg = setProg;
 
   /* ---------------- estrutura da missão ---------------- */
+  // palavras novas da missão (termos do "O que significa?"), para conferir o "Pense e escreva" sozinho
+  const PARADAS = new Set(["sobre", "entre", "quando", "porque", "outro", "outra", "dados", "forma", "parte", "cada", "como", "mais", "para", "pelo", "pela", "não", "nao"]);
+  function palavrasDaMissao(m) {
+    const r = new Set();
+    (m.termos || []).forEach(t => {
+      const termo = String(t.termo || "").replace(/\(.*?\)/g, " ").replace(/<[^>]+>/g, " ").trim();
+      if (termo.length >= 3 && !PARADAS.has(termo.toLowerCase())) r.add(termo);
+      termo.split(/[\s\/,–-]+/).forEach(w => { if (w.length >= 5 && !PARADAS.has(w.toLowerCase())) r.add(w); });
+      const sig = (String(t.termo || "").match(/\(([^)]+)\)/) || [])[1]; if (sig && sig.trim().length >= 3 && sig.length <= 12) r.add(sig.trim());
+    });
+    return [...r];
+  }
+
   function montarMissao(aid, mid) {
     const C = P.conteudo[aid], A = P.atividades[aid] || {};
     const m = C.missoes.find(x => x.id === mid);
@@ -168,7 +181,11 @@
         porRodada: (apostila(aid) || {}).trilha ? 3 : 5, pares: m.termos.map(t => ({ a: t.termo, b: t.def })), explicacao: "Revise os termos sempre que precisar: eles caem na avaliação." }] });
     if (m.ondeUso && m.ondeUso.itens.length) pages.push({ id: "onde", rotulo: "Onde eu uso isso?", icone: "🌎", tipo: "leitura",
       atividades: m.ondeUso.reflexao ? [{ id: mid + "-onde", nivel: "treino", tipo: "aberta", titulo: "Pense e escreva", enunciado: m.ondeUso.reflexao,
-        criterios: ["Conta uma situação real do seu dia a dia.", "Usa pelo menos uma palavra nova da missão."], opcional: true }] : [] });
+        criterios: ["Conta uma situação real do seu dia a dia.", "Usa pelo menos uma palavra nova da missão."], opcional: true,
+        // correção automática (combinado de 08/11): tamanho mínimo + pelo menos uma palavra nova da missão; o professor lê no painel
+        conferir: palavrasDaMissao(m).length ? { minPalavras: 8, minGrupos: 1,
+          grupos: [{ alts: palavrasDaMissao(m), dica: "pelo menos uma palavra nova da missão (veja em 📖 O que significa?, por exemplo “" + (m.termos && m.termos[0] ? m.termos[0].termo : "") + "”)" }],
+          msg: "Resposta conferida! Você contou uma situação com as palavras da missão. O professor pode ler a sua resposta no painel." } : { minPalavras: 8 } }] : [] });
     const lv = [["basico", "Missão — Básico", "🟢"], ["desafio", "Desafio", "🟡"], ["turbo", "Turbo", "🔴"]];
     lv.forEach(([k, r, i]) => { const arr = ativ(k, a[k]); if (arr.length) pages.push({ id: k, rotulo: r, icone: i, tipo: "missao", atividades: arr }); });
     if (m.vf && m.vf.length && a.vf) pages.push({ id: "vf", rotulo: "Perguntas rápidas", icone: "✅", tipo: "revisao",

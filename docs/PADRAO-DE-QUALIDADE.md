@@ -58,3 +58,4 @@ Apostila no portal + ilustrada (PDF só para quem estuda em casa) · guia do pro
 
 ## 5. Marca
 - Em tudo: **Prof. Welington Laignier** em evidência; a escola fica em segundo plano.
+- **12/11/2026 — "Pense e escreva" (🌎 Onde eu uso isso?) sem "professor confere"**: corrigido sozinho, como os outros textos pessoais: pelo menos 8 palavras e pelo menos uma palavra nova da missão (os termos do 📖 O que significa?). O professor continua lendo as respostas no painel (🏫 Turmas → clique na missão do aluno). Nenhuma atividade nova pode terminar em "enviada, o professor confere".
