@@ -54,6 +54,7 @@
       ["👶", "A cidade que virou \"mãe\"", "Em 1991, uma parte de Curionópolis também se separou e virou outro município: Eldorado dos Carajás (Lei Estadual nº 5.687, de 13/12/1991)."],
       ["⛏️", "Serra Pelada", "O distrito de Serra Pelada é da nossa cidade. Nos anos 1980, foi o maior garimpo de ouro a céu aberto do mundo, com dezenas de milhares de garimpeiros."],
       ["🏷️", "De onde vem o nome", "O nome homenageia Sebastião Rodrigues de Moura, conhecido como Major Curió, que coordenou o garimpo de Serra Pelada.", "img/curiosidades/major-curio.jpg", "Sebastião Rodrigues de Moura, o Major Curió"],
+      ["🛡️", "O brasão da cidade", "Repare nos desenhos: em cima, uma coroa com torres (nos brasões, ela indica que é uma cidade); o sol nascendo atrás da serra verde; a bateia, a \"bacia\" do garimpeiro, cheia de ouro; duas picaretas cruzadas, ferramentas do garimpo; e a faixa com a data de criação: 10-05-1988. Tudo lembra a história de Serra Pelada. As cores da bandeira são dourado, verde e branco.", "img/curiosidades/brasao-curionopolis.png", "Brasão de Curionópolis"],
       ["🗺️", "Onde fica", "No sudeste do Pará, na região de Carajás, uma das regiões de mineração mais importantes do Brasil."]
     ] },
     junina: { tit: "🌽 Festa Junina · Arraiá da Informática", sub: "junho", itens: [
