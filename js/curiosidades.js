@@ -50,7 +50,7 @@
     ] },
     curionopolis: { tit: "🎂 Parabéns, Curionópolis!", sub: "10 de maio", itens: [
       ["🏘️", "Antes de ser cidade", "No fim dos anos 1970, Curionópolis era um povoado no km 30 da rodovia PA-275 e pertencia ao município de Marabá. Cresceu com quem chegava para trabalhar na Estrada de Ferro Carajás e no garimpo, e depois virou distrito de Marabá."],
-      ["📜", "A emancipação", "Em 10 de maio de 1988, a Lei Estadual nº 5.444 transformou Curionópolis em município, separado de Marabá. O primeiro prefeito tomou posse em 1º de janeiro de 1989."],
+      ["📜", "A emancipação", "Em 10 de maio de 1988, a Lei Estadual nº 5.444 transformou Curionópolis em município, separado de Marabá. O primeiro prefeito foi Salatiel Almeida, eleito em 15 de novembro de 1988, que tomou posse em 1º de janeiro de 1989, quando o município foi instalado."],
       ["👶", "A cidade que virou \"mãe\"", "Em 1991, uma parte de Curionópolis também se separou e virou outro município: Eldorado dos Carajás (Lei Estadual nº 5.687, de 13/12/1991)."],
       ["⛏️", "Serra Pelada", "O distrito de Serra Pelada é da nossa cidade. Nos anos 1980, foi o maior garimpo de ouro a céu aberto do mundo, com dezenas de milhares de garimpeiros."],
       ["🏷️", "De onde vem o nome", "O nome homenageia Sebastião Rodrigues de Moura, conhecido como Major Curió, que coordenou o garimpo de Serra Pelada."],
