@@ -261,7 +261,9 @@
         // 🏫 uniforme: só depois do passo 1 (quem já tem avatar salvo usa o jeitinho da última vez)
         const ub = el.querySelector("#av-uni"), uLivre = livre || !!anterior; ub.disabled = !uLivre; ub.querySelector(".av-uni-trava").hidden = uLivre;
         el.querySelector("#av-prev").innerHTML = svg(a, 220);
-        el.querySelectorAll("[data-c]").forEach(b => b.setAttribute("aria-pressed", String(a[b.dataset.c]) === String(b.dataset.v)));
+        // passo 1: só aparece marcado o que o aluno tocou de verdade (o padrão não pode parecer escolhido enquanto o passo 2 está travado)
+        const marcou = c => c === "corCabelo" ? fez.cabelo : (c in fez ? fez[c] : true);
+        el.querySelectorAll("[data-c]").forEach(b => b.setAttribute("aria-pressed", marcou(b.dataset.c) && String(a[b.dataset.c]) === String(b.dataset.v)));
         el.querySelector(".av-fut").hidden = a.blusa !== "futebol"; el.querySelector(".av-calca").hidden = a.blusa === "futebol";
       };
       el.querySelectorAll("[data-c]").forEach(b => b.onclick = () => { const c = b.dataset.c, v = b.dataset.v; if (c in fez) fez[c] = true; if (c === "corCabelo") fez.cabelo = true; a[c] = /^\d+$/.test(v) && c !== "numero" && !OPC[c] ? +v : v;
