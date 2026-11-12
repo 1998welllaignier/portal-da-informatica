@@ -37,6 +37,7 @@ Ordem: primeiro o que tem data marcada; depois o que adianta o 1º bimestre de 2
 - [ ] No dia de cada prova: na aba 📝 Prova, conferir as missões já marcadas (o painel marca pelas aulas que a turma teve) e, para o aluno 🧩 cujo PEI pede, tocar em “3 alternativas”.
 - [ ] Quando quiser, ligar a 🔒 trava de horário das tarefas (painel → 📅 Ano letivo) e testar com um aluno de teste.
 - [ ] Decidir a data da prova de cada turma (fim de novembro).
+- [ ] **9º D: ajustar o calendário (anotado em 12/11, 09h53):** na quinta 12/11 a turma refez a **Missão 1** em vez da M2 (veio mais aluno que o comum e, na aula de 05/11, as respostas de vários não foram contadas). Combinar com o professor: M2 em 19/11, M3 em 26/11 (?) e a data da prova; depois atualizar `missoes4` do 9D em dados/catalogo.js.
 
 ### ✅ Feito
 - 07/11: Mão na massa, faixas do Básico, autonomia (sem carimbo), botão Página inicial, aviso da dupla, cartazes da porta, marcação 🧩 (36 alunos) e 👣 (8º B), Trilha do 8º adaptada ao PEI, botão Ouvir retirado.
