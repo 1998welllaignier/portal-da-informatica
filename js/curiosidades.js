@@ -50,10 +50,10 @@
     ] },
     curionopolis: { tit: "🎂 Parabéns, Curionópolis!", sub: "10 de maio", itens: [
       ["🏘️", "Antes de ser cidade", "No fim dos anos 1970, Curionópolis era um povoado no km 30 da rodovia PA-275 e pertencia ao município de Marabá. Cresceu com quem chegava para trabalhar na Estrada de Ferro Carajás e no garimpo, e depois virou distrito de Marabá."],
-      ["📜", "A emancipação", "Em 10 de maio de 1988, a Lei Estadual nº 5.444 transformou Curionópolis em município, separado de Marabá. O primeiro prefeito foi Salatiel Almeida, eleito em 15 de novembro de 1988, que tomou posse em 1º de janeiro de 1989, quando o município foi instalado."],
+      ["📜", "A emancipação", "Em 10 de maio de 1988, a Lei Estadual nº 5.444 transformou Curionópolis em município, separado de Marabá. O primeiro prefeito foi Salatiel Almeida, eleito em 15 de novembro de 1988, que tomou posse em 1º de janeiro de 1989, quando o município foi instalado.", "img/curiosidades/salatiel-almeida.jpg", "Salatiel Almeida, primeiro prefeito de Curionópolis"],
       ["👶", "A cidade que virou \"mãe\"", "Em 1991, uma parte de Curionópolis também se separou e virou outro município: Eldorado dos Carajás (Lei Estadual nº 5.687, de 13/12/1991)."],
       ["⛏️", "Serra Pelada", "O distrito de Serra Pelada é da nossa cidade. Nos anos 1980, foi o maior garimpo de ouro a céu aberto do mundo, com dezenas de milhares de garimpeiros."],
-      ["🏷️", "De onde vem o nome", "O nome homenageia Sebastião Rodrigues de Moura, conhecido como Major Curió, que coordenou o garimpo de Serra Pelada."],
+      ["🏷️", "De onde vem o nome", "O nome homenageia Sebastião Rodrigues de Moura, conhecido como Major Curió, que coordenou o garimpo de Serra Pelada.", "img/curiosidades/major-curio.jpg", "Sebastião Rodrigues de Moura, o Major Curió"],
       ["🗺️", "Onde fica", "No sudeste do Pará, na região de Carajás, uma das regiões de mineração mais importantes do Brasil."]
     ] },
     junina: { tit: "🌽 Festa Junina · Arraiá da Informática", sub: "junho", itens: [
@@ -98,7 +98,7 @@
     return new Promise(fim => {
       const d = document.createElement("dialog"); d.className = "pp-dlg pp-dlg-larga cur-dlg tema-" + tema;
       d.innerHTML = `<div class="cur-topo"><p class="cur-sup">📚 Você sabia?</p><h2>${c.tit}</h2><p class="cur-sub">${esc(c.sub)}</p></div>
-        <div class="cur-grade">${c.itens.map(([ic, t, x], i) => `<article class="cur-card" style="--d:${i * .15}s"><span class="cur-ic">${ic}</span><h3>${esc(t)}</h3><p>${esc(x)}</p></article>`).join("")}</div>
+        <div class="cur-grade">${c.itens.map(([ic, t, x, foto, leg], i) => `<article class="cur-card${foto ? " com-foto" : ""}" style="--d:${i * .15}s">${foto ? `<figure class="cur-foto"><img src="${foto}" alt="${esc(leg || t)}" loading="lazy"><figcaption>${esc(leg || "")}</figcaption></figure>` : ""}<span class="cur-ic">${ic}</span><h3>${esc(t)}</h3><p>${esc(x)}</p></article>`).join("")}</div>
         <div class="row-btns cur-bts"><button type="button" class="btn btn-grande" id="cur-ok"></button></div>`;
       document.body.appendChild(d); d.showModal();
       const b = d.querySelector("#cur-ok"); let r = comTempo ? SEG : 0, iv = null;
