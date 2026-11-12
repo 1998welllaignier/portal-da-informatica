@@ -421,11 +421,12 @@
   async function abrirTema() {
     if (document.querySelector(".pp-tema-dlg")) return;
     let atual = "auto"; try { const sn = await db().collection("config").doc("tema").get(); if (sn.exists) atual = sn.data().modo || "auto"; } catch (e) {}
-    const dataHoje = P.temaPelaData ? P.temaPelaData(new Date()) : null;
-    const ops = [["auto", "📅 Automático pela data", `Hoje: ${dataHoje ? "🎄 Natal" : "sem tema"} · Natal de 1º/12 a 06/01`], ["natal", "🎄 Natal agora", "Luzes, neve, árvore, Papai Noel e gorro nos avatares"], ["nenhum", "⚪ Sem tema", "Portal normal, mesmo nas datas festivas"]];
+    const cal = P.temaCalendario ? P.temaCalendario() : [], hojeT = P.temaPelaData ? P.temaPelaData(new Date()) : null, nomeHoje = (cal.find(x => x.id === hojeT) || {}).nome;
+    const ops = [["auto", "📅 Automático pela data (recomendado)", `Entra e sai sozinho no calendário abaixo. Hoje: ${nomeHoje || "sem tema"}.`]]
+      .concat(cal.map(x => [x.id, x.nome + " agora", `No automático: de ${x.ini} a ${x.fim}`])).concat([["nenhum", "⚪ Sem tema", "Portal normal, mesmo nas datas comemorativas"]]);
     const dlg = h(`<dialog class="pp-dlg pp-tema-dlg"><form method="dialog"><h2>🎨 Tema do portal</h2>
       <p class="ajuda">Vale para todos os computadores (alunos, placar e o seu), a partir da próxima vez que a página abrir.</p>
-      <div class="pp-tema-ops">${ops.map(([v, r, d]) => `<label class="pp-tema-op"><input type="radio" name="tm" value="${v}" ${v === atual ? "checked" : ""}><span><b>${r}</b><small>${d}</small></span></label>`).join("")}</div>
+      <div class="pp-tema-ops pp-tema-rolar">${ops.map(([v, r, d]) => `<label class="pp-tema-op"><input type="radio" name="tm" value="${v}" ${v === atual ? "checked" : ""}><span><b>${r}</b><small>${d}</small></span></label>`).join("")}</div>
       <p class="erro" id="tm-e" hidden></p>
       <div class="row-btns"><button type="button" class="btn" id="tm-ok">Salvar</button><button class="btn btn-sec" value="x">Fechar</button></div></form></dialog>`);
     document.body.appendChild(dlg); dlg.showModal(); dlg.addEventListener("close", () => dlg.remove());
