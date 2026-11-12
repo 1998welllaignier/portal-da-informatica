@@ -1400,6 +1400,15 @@ body.modo-placar #topbar, body.modo-placar #rodape, body.modo-placar .migalhas {
 body.modo-placar { background: #0b1437; }
 body.modo-placar .tela.painel-prof { max-width: none; padding: 0; }
 .pl-tela { min-height: 100vh; background: radial-gradient(circle at 20% 0%, #1e3a8a, #0b1437 60%); color: #fff; padding: 18px 28px; }
+.pl-marca { display: flex; align-items: center; gap: 14px; background: rgba(255,255,255,.1); border: 2px solid rgba(253,230,138,.5); border-radius: 18px; padding: 8px 18px 8px 8px; margin: 0 0 12px; }
+.pl-marca img { width: 64px; height: 64px; border-radius: 14px; flex: none; }
+.pl-marca-txt { display: flex; flex-direction: column; line-height: 1.15; }
+.pl-marca-txt b { font-size: 1.7rem; color: #fde68a; }
+.pl-marca-txt span { font-size: 1.15rem; } .pl-marca-txt strong { color: #fdba74; }
+.pl-marca-data { margin-left: auto; display: flex; flex-direction: column; align-items: flex-end; font-weight: 800; }
+.pl-data { font-size: 1.05rem; } .pl-hora { font-size: 1.9rem; font-variant-numeric: tabular-nums; color: #fde68a; }
+.pd-credito { margin: -4px 0 12px; font-size: 1.25rem; color: #fff; background: rgba(0,0,0,.25); display: inline-block; padding: 6px 16px; border-radius: 999px; } .pd-credito b { color: #fdba74; }
+@media (max-width: 700px) { .pl-marca { flex-wrap: wrap; } .pl-marca-data { margin-left: 0; align-items: flex-start; } .pl-marca-txt b { font-size: 1.3rem; } }
 .pl-cab { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; flex-wrap: wrap; }
 .pl-sup { margin: 0; color: #fde68a; font-weight: 800; letter-spacing: .5px; }
 .pl-cab h1 { margin: 2px 0; font-size: 2rem; }

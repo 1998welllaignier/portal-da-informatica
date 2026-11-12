@@ -299,7 +299,13 @@
     await carregarSerie(t);
     const hj = await missaoDeHoje(t), C = hj.C; let mid = hj.mid; const missao = C.missoes.find(x => x.id === mid) || {};
     const alunos = (await alunosDaTurma(t.id)).filter(a => a.ativo !== false && !a.teste);
-    const el = tela(`<div class="pl-tela"><header class="pl-cab"><div><p class="pl-sup">🏆 Placar ao vivo · ${esc(nomeTurma(t.id))}</p><h1 id="pl-h1">${esc(missao.icone || "")} ${esc(missao.titulo || mid.toUpperCase())}</h1>
+    const DSEM = ["domingo", "segunda", "terça", "quarta", "quinta", "sexta", "sábado"], MESES = ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"];
+    const dataHoje = () => { const d = new Date(N.hoje() + "T12:00:00"); return `${DSEM[d.getDay()]}, ${d.getDate()} de ${MESES[d.getMonth()]} de ${d.getFullYear()}`; };
+    const horaAgora = () => new Date().toLocaleTimeString("pt-BR", { timeZone: "America/Sao_Paulo", hour: "2-digit", minute: "2-digit" });
+    // faixa da marca (aparece nas fotos que os alunos tiram do placar e do pódio): professor em destaque, turma, data e hora
+    const marca = `<div class="pl-marca"><img src="img/icone-192.png?v=f2" alt="" width="64" height="64"><div class="pl-marca-txt"><b>💻 Aula de Informática</b><span>com o <strong>${esc(cat().professor)}</strong> · ${esc(nomeTurma(t.id))}</span></div>
+      <div class="pl-marca-data"><span class="pl-data">📅 ${dataHoje()}</span><span class="pl-hora" id="pl-hora">🕒 ${horaAgora()}</span></div></div>`;
+    const el = tela(`<div class="pl-tela">${marca}<header class="pl-cab"><div><p class="pl-sup">🏆 Placar ao vivo · ${esc(nomeTurma(t.id))}</p><h1 id="pl-h1">${esc(missao.icone || "")} ${esc(missao.titulo || mid.toUpperCase())}</h1>
         <p class="pl-aviso">Pontos do pódio (não são nota) · ${esc(cat().professor)}</p></div>
         <div class="pl-dir"><div class="pl-relogio" id="pl-rel"></div><div class="pl-bts"><button type="button" class="btn btn-peq btn-sec pl-som" id="pl-som"></button><button type="button" class="btn btn-peq btn-sec" id="pl-tela">⛶ Tela cheia</button><button type="button" class="btn btn-peq" id="pl-fim">🏁 Finalizar aula</button><button type="button" class="btn btn-peq btn-sec" id="pl-volta" hidden>↩ Voltar ao placar</button></div></div></header>
       <div class="pl-corpo" id="pl-corpo"></div></div>`);
@@ -336,7 +342,7 @@
       lista.querySelectorAll(".pl-lin").forEach(n => { if (!vivos.has(n.dataset.k)) n.remove(); });
     };
     const mostrarPodio = () => { if (!pod) return; vendoPodio = true; el.querySelector("#pl-volta").hidden = false;
-      corpo.innerHTML = `<div class="pd-tela"><h2 class="pd-tit">🏆 Pódio da aula!</h2>${P.podio.podioHTML(pod.ranking || [])}</div>`; P.podio.confete(corpo.querySelector(".pd-tela")); So && So.podio(); };
+      corpo.innerHTML = `<div class="pd-tela"><h2 class="pd-tit">🏆 Pódio da aula!</h2><p class="pd-credito">💻 Aula de Informática com o <b>${esc(cat().professor)}</b> · ${esc(nomeTurma(t.id))} · ${dataHoje()}</p>${P.podio.podioHTML(pod.ranking || [])}</div>`; P.podio.confete(corpo.querySelector(".pd-tela")); So && So.podio(); };
     el.querySelector("#pl-volta").onclick = () => { vendoPodio = false; el.querySelector("#pl-volta").hidden = true; corpo.innerHTML = ""; pintarPlacar(); };
     el.querySelector("#pl-tela").onclick = () => { const d = document.documentElement; (document.fullscreenElement ? document.exitFullscreen() : d.requestFullscreen()).catch(() => {}); };
     const finalizar = async auto => { if (finalizando) return; finalizando = true;
@@ -348,6 +354,7 @@
       pod = d && d.dia === N.hoje() ? d : null; if (pod && pod.finalizadaEm !== jaVi) { jaVi = pod.finalizadaEm; mostrarPodio(); } });
     const iv = setInterval(() => {
       if (!document.body.contains(el)) { clearInterval(iv); u1(); u2(); return; }
+      const ph = el.querySelector("#pl-hora"); if (ph) ph.textContent = "🕒 " + horaAgora();
       const rel = relogio(), r = el.querySelector("#pl-rel");
       if (rel.fora) r.innerHTML = `<span class="pl-r-txt">Fora do horário da aula</span>`;
       else if (rel.antes) r.innerHTML = `<span class="pl-r-txt">A aula ainda não começou</span>`;
