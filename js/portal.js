@@ -432,6 +432,7 @@
           trilha: infos.length === 1 && !!infos[0].trilha });
         // 🧍 monta o avatar (2 min); quem não salvar entra com o avatar que já tinha ou com o uniforme da escola
         if (P.avatar) { try { const avs = await P.avatar.fluxoLogin(mount, infos.map(x => Object.assign({}, x, { turma: t.value })), 120); const ss = sess.get(); if (ss && avs && avs.length) sess.set(Object.assign({}, ss, { avatares: avs })); } catch (e) { console.warn("avatar", e); } }
+        if (P.curiosidadesNoLogin) { try { await P.curiosidadesNoLogin(infos, t.value); } catch (e) { console.warn("curiosidades", e); } }
         location.hash = destino || "#/apostilas";
       };
       cf.querySelector("#sim").focus();

@@ -111,3 +111,18 @@ body.modo-placar .tm-selo { display: none; }
    ficam atrás dos textos e das atividades e só aparecem nos espaços vazios. No login e na página inicial ficam na frente. */
 body:has(#tb-sair) .tm-cai, body:has(#tb-sair) .tm-canto, body:has(#tb-sair) .tm-passa { z-index: -1; opacity: .8; }
 body:has(#tb-sair) .tm-cai i { opacity: .5 !important; }
+
+.tm-canto { transition: opacity .6s; } .tm-canto.troca { opacity: 0 !important; }
+.tm-faixa .tm-saiba { font-size: .9rem; font-weight: 800; color: #fff; background: var(--tm1, #7c3aed); border-radius: 10px; padding: 6px 12px; white-space: nowrap; }
+.tm-faixa .tm-saiba:hover { background: var(--tm1, #7c3aed); filter: brightness(1.1); }
+/* 📚 janela de curiosidades */
+.cur-dlg { max-width: 920px; width: calc(100% - 32px); border-top: 8px solid var(--tm1, #7c3aed); }
+.cur-topo { text-align: center; } .cur-sup { margin: 0; font-weight: 800; color: var(--tm1, #7c3aed); letter-spacing: .05em; text-transform: uppercase; font-size: .85rem; }
+.cur-topo h2 { margin: 4px 0 0; font-size: 1.7rem; } .cur-sub { margin: 2px 0 12px; color: #64748b; font-weight: 600; }
+.cur-grade { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+.cur-card { background: #fffbeb; border: 2px solid #fde68a; border-radius: 16px; padding: 12px 14px; animation: cur-entra .5s ease-out both; animation-delay: var(--d); }
+.cur-card:nth-child(3n+2) { background: #f0fdf4; border-color: #bbf7d0; } .cur-card:nth-child(3n) { background: #eff6ff; border-color: #bfdbfe; }
+.cur-ic { font-size: 1.9rem; } .cur-card h3 { margin: 4px 0; font-size: 1.05rem; } .cur-card p { margin: 0; font-size: .97rem; line-height: 1.45; }
+@keyframes cur-entra { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+.cur-bts { justify-content: center; margin-top: 14px; } .cur-bts .btn[disabled] { opacity: .65; cursor: wait; }
+.cur-dlg { padding-top: 26px; }
