@@ -85,8 +85,10 @@ body.modo-placar .tm-faixa { display: none; }
 .tema-consciencia { --tm1: #b45309; --tm2: #facc15; --tm-placar: radial-gradient(circle at 20% 0%, #78350f, #0c0a09 65%); }
 .tema-consciencia .topbar { background: linear-gradient(90deg, #0c0a09, #292524 60%, #78350f); }
 .tema-consciencia .topbar::after { content: ""; position: absolute; left: 0; right: 0; bottom: -10px; height: 10px; pointer-events: none; background: repeating-linear-gradient(90deg, #b91c1c 0 20px, #facc15 20px 40px, #15803d 40px 60px, #0c0a09 60px 66px); }
-.tema-padroeira { --tm1: #1d4ed8; --tm2: #bfdbfe; --tm-placar: radial-gradient(circle at 20% 0%, #1d4ed8, #0b1437 65%); }
-.tema-padroeira .topbar { background: linear-gradient(90deg, #1e3a8a, #2563eb 60%, #60a5fa); }
+/* padroeira: azul-celeste e branco (como a igreja matriz) com dourado (brasão da paróquia) */
+.tema-padroeira { --tm1: #0284c7; --tm2: #eab308; --tm-placar: radial-gradient(circle at 20% 0%, #0284c7, #0c2a4d 65%); }
+.tema-padroeira .topbar { background: linear-gradient(90deg, #0c4a6e, #0284c7 55%, #7dd3fc); }
+.tema-padroeira .topbar::after { content: ""; position: absolute; left: 0; right: 0; bottom: -8px; height: 8px; pointer-events: none; background: repeating-linear-gradient(90deg, #fff 0 18px, #7dd3fc 18px 24px, #fff 24px 42px, #eab308 42px 46px); }
 .tema-natal { --tm1: #dc2626; --tm2: #facc15; --tm-placar: radial-gradient(circle at 20% 0%, #166534, #0b1d12 60%, #450a0a); }
 .pp-tema-rolar { max-height: 55vh; overflow: auto; padding-right: 4px; }
 

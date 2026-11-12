@@ -123,6 +123,21 @@
   const BOLO_CUR = n => `<svg viewBox="0 0 120 120" width="100" height="100"><g class="tm-balao"><path d="M18 64 Q14 40 26 30" stroke="#94a3b8" fill="none"/><ellipse cx="26" cy="22" rx="12" ry="15" fill="${CUR.verde}"/><path d="M98 60 Q104 38 94 28" stroke="#94a3b8" fill="none"/><ellipse cx="94" cy="20" rx="12" ry="15" fill="${CUR.ouro2}"/></g>
       <rect x="22" y="70" width="76" height="40" rx="6" fill="${CUR.ouro}"/><path d="M22 80 Q32 88 41 80 Q51 88 60 80 Q70 88 79 80 Q89 88 98 80" stroke="#fff" stroke-width="5" fill="none"/><rect x="34" y="52" width="52" height="20" rx="5" fill="#fff" stroke="${CUR.verde}" stroke-width="3"/>
       <rect x="57" y="36" width="6" height="16" fill="${CUR.verde}"/><path d="M60 24 Q65 31 60 36 Q55 31 60 24 Z" fill="#f97316" class="tm-chama"/><text x="60" y="98" text-anchor="middle" font-size="16" font-weight="900" fill="${CUR.verde}" font-family="sans-serif">${n} anos</text><rect x="14" y="108" width="92" height="6" rx="3" fill="#cbd5e1"/></svg>`;
+  // ⛪ a igreja matriz de Curionópolis (Nossa Senhora das Graças): branca com faixas azul-claras, cruz no alto e sino que balança
+  const IGREJA_CUR = `<svg viewBox="0 0 170 150" width="150" height="132">
+      <path d="M104 62 H166 V140 H104 Z" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/><path d="M100 56 H168 V64 H100 Z" fill="#7dd3fc"/>
+      <g fill="#94a3b8">${[0, 1, 2].map(i => `<rect x="${112 + i * 18}" y="78" width="9" height="13" rx="1"/><rect x="${112 + i * 18}" y="104" width="9" height="13" rx="1"/>`).join("")}</g>
+      <path d="M14 140 V58 L59 26 L104 58 V140 Z" fill="#fff" stroke="#cbd5e1" stroke-width="1.5"/>
+      <path d="M22 140 V61 L59 35 L96 61 V140" fill="none" stroke="#38bdf8" stroke-width="6"/><path d="M30 140 V64 L59 44 L88 64 V140" fill="none" stroke="#7dd3fc" stroke-width="3"/>
+      <path d="M59 2 V30 M50 10 H68" stroke="#0ea5e9" stroke-width="5" stroke-linecap="round"/>
+      <g class="tm-sino"><path d="M52 62 Q52 50 59 50 Q66 50 66 62 Z" fill="#eab308" stroke="#a16207" stroke-width="1.5"/><circle cx="59" cy="63" r="2.2" fill="#a16207"/></g>
+      <g fill="#64748b"><rect x="44" y="76" width="6" height="10" rx="1"/><rect x="56" y="76" width="6" height="10" rx="1"/><rect x="68" y="76" width="6" height="10" rx="1"/><rect x="44" y="94" width="6" height="10" rx="1"/><rect x="56" y="94" width="6" height="10" rx="1"/><rect x="68" y="94" width="6" height="10" rx="1"/></g>
+      <path d="M48 140 V122 Q59 110 70 122 V140 Z" fill="#334155"/><path d="M40 140 H78 V146 H40 Z" fill="#94a3b8"/><rect x="0" y="144" width="170" height="6" fill="#86efac"/></svg>`;
+  // 🏅 a medalha milagrosa (o "M" com a cruz e as estrelas, como no brasão da paróquia)
+  const MEDALHA = `<svg viewBox="0 0 120 130" width="100" height="108"><ellipse cx="60" cy="64" rx="44" ry="54" fill="#1d4ed8" stroke="#eab308" stroke-width="5"/>
+      <g fill="#facc15">${Array.from({ length: 12 }, (_, i) => { const a = i / 12 * Math.PI * 2; return `<circle cx="${(60 + 34 * Math.cos(a)).toFixed(1)}" cy="${(64 + 44 * Math.sin(a)).toFixed(1)}" r="2.6"/>`; }).join("")}</g>
+      <path d="M38 92 V52 L60 76 L82 52 V92" stroke="#facc15" stroke-width="6" fill="none" stroke-linejoin="round"/><path d="M60 30 V58 M50 40 H70" stroke="#fff" stroke-width="5" stroke-linecap="round"/><path d="M34 92 H86" stroke="#facc15" stroke-width="5"/>
+      <text x="60" y="128" font-size="9" font-weight="800" text-anchor="middle" fill="#1e3a8a" font-family="sans-serif">Medalha Milagrosa</text></svg>`;
   const BANDEIRAS_BR = `<svg viewBox="0 0 120 120" width="96" height="96"><path d="M20 118 V10" stroke="#78350f" stroke-width="4"/><g class="tm-mola"><path d="M22 12 H104 V64 H22 Z" fill="#16a34a"/><path d="M63 18 L98 38 L63 58 L28 38 Z" fill="#facc15"/><circle cx="63" cy="38" r="12" fill="#1d4ed8"/><path d="M51 36 Q63 32 75 40" stroke="#fff" stroke-width="2" fill="none"/></g></svg>`;
   const PIPA = `<svg viewBox="0 0 120 130" width="96" height="104"><g class="tm-pipa"><path d="M60 6 L94 40 L60 86 L26 40 Z" fill="#f43f5e"/><path d="M60 6 L60 86 M26 40 H94" stroke="#fff" stroke-width="2"/><path d="M60 6 L94 40 L60 40 Z" fill="#facc15"/><path d="M26 40 L60 86 L60 40 Z" fill="#3b82f6"/>
       <path d="M60 86 Q50 100 62 108 Q74 116 64 128" stroke="#334155" stroke-width="1.5" fill="none"/><path d="M58 98 l-6 2 l6 2 Z M62 112 l6 2 l-6 2 Z" fill="#22c55e"/></g></svg>`;
@@ -142,7 +157,7 @@
     professor: { esq: MACA_LIVROS, faixa: "🍎 <b>15 de outubro · Dia do Professor.</b> A data lembra a primeira lei do Brasil sobre as escolas de primeiras letras, de 15 de outubro de 1827. Obrigado a todos os professores que ensinam com carinho: que tal agradecer ao seu hoje?" },
     saci: { esq: [SACI, CURUPIRA], passa: SACI, cai: { tipo: "folha", n: 14 }, avatar: "carapuca", faixa: "🌪️ <b>31 de outubro · Dia do Saci.</b> No Brasil, em vez do Halloween, a gente celebra o nosso folclore: o Saci-Pererê, de uma perna só e gorro vermelho, que apronta travessuras dentro do redemoinho!" },
     consciencia: { esq: [BAOBA, ZUMBI_DANDARA, SANKOFA, QUILOMBO, CAPOEIRA], faixa: "✊🏿 <b>20 de novembro · Dia Nacional de Zumbi e da Consciência Negra.</b> Zumbi e Dandara dos Palmares lutaram pela liberdade do povo negro. Conheça e valorize a história e a cultura afro-brasileira, que estão na nossa música, na comida, nas palavras e no jeito de ser do Brasil. <b>Racismo é crime</b> (Lei nº 7.716/1989): respeito é para todos." },
-    padroeira: { esq: IGREJA, cai: { tipo: "estrela", n: 14 }, faixa: "⛪ <b>27 de novembro · Festa de Nossa Senhora das Graças, padroeira de Curionópolis.</b> Dias de festejo, fé e encontro na nossa cidade." },
+    padroeira: { esq: [IGREJA_CUR, MEDALHA], cai: { tipo: "estrela", n: 14 }, faixa: "⛪ <b>27 de novembro · Festa de Nossa Senhora das Graças, padroeira de Curionópolis.</b> Dias de festejo, fé e encontro na nossa cidade." },
     natal: { natal: true, avatar: "gorro", faixa: "🎄 <b>Natal:</b> a festa cristã que celebra o nascimento de Jesus. É tempo de família, de solidariedade e de fazer o bem a quem está perto. Feliz Natal e boas festas!" }
   };
 

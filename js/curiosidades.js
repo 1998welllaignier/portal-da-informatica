@@ -23,7 +23,7 @@
       ["📚", "Saci nos livros", "O escritor Monteiro Lobato ajudou a deixar o Saci famoso com o livro \"O Saci\" (1921) e as histórias do Sítio do Picapau Amarelo."]
     ] },
     padroeira: { tit: "⛪ Festa da Padroeira", sub: "27 de novembro · Nossa Senhora das Graças", itens: [
-      ["⛪", "A paróquia da nossa cidade", "A Paróquia Nossa Senhora das Graças, de Curionópolis, foi fundada em 25 de janeiro de 1988, antes mesmo de a cidade virar município! O dia da padroeira, 27 de novembro, é feriado municipal."],
+      ["⛪", "A paróquia da nossa cidade", "A Paróquia Nossa Senhora das Graças, de Curionópolis, foi fundada em 25 de janeiro de 1988, antes mesmo de a cidade virar município! O dia da padroeira, 27 de novembro, é feriado municipal.", "img/curiosidades/igreja-nsgracas.jpg", "Igreja Nossa Senhora das Graças, em Curionópolis"],
       ["🏅", "A Medalha Milagrosa", "A devoção vem de Paris, na França: em 1830, a jovem Catarina Labouré contou ter visto Nossa Senhora, que pediu uma medalha, conhecida como Medalha Milagrosa."],
       ["🔔", "O sino da igreja", "Antigamente, o sino era o \"relógio\" e o \"alto-falante\" da cidade: avisava as horas, as missas, as festas e até as emergências."],
       ["🎉", "Festejo é cultura", "Nas festas de padroeiro há novenas, procissão e arraial com comidas típicas. Mesmo quem tem outra religião pode conhecer e respeitar essa tradição da cidade."]
