@@ -412,7 +412,7 @@
   /* ======================= 🎉 telas do placar/pódio ======================= */
   const MED = ["🥇", "🥈", "🥉"];
   function linhaPlacar(e, i) {
-    return `<div class="pl-lin ${e.pontos && e.pos <= 3 ? "top top" + e.pos : ""}" data-k="${esc(e.ids.join("+"))}" style="top:${i * 74}px">
+    return `<div class="pl-lin ${e.pontos && e.pos <= 3 ? "top top" + e.pos : ""}" data-k="${esc(e.ids.join("+"))}" style="top:${i * 4.6}rem">
       <span class="pl-pos">${!e.pontos ? "–" : e.pos <= 3 ? MED[e.pos - 1] : e.pos + "º"}</span><span class="pl-av${e.rei ? " rei" : ""}">${e.rei ? coroa(38) : ""}${e.avatares.map(a => svg(a, 38)).join("")}</span>
       <span class="pl-nome">${e.nomes.map(esc).join(" & ")}${e.trilha ? " 👣" : ""}${e.rei ? ` <small class="pl-rei">👑 ${tituloRei(e.avatares)}</small>` : ""}${e.okB ? ` <small class="pl-ok">✔ Básico</small>` : ""}</span>
       <span class="pl-pts">${e.pontos}<small> pts</small></span></div>`;

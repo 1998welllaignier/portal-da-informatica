@@ -1448,6 +1448,25 @@ body.modo-placar .tela.painel-prof { max-width: none; padding: 0; }
 .pd-r { background: rgba(255,255,255,.1); border-radius: 999px; padding: 4px 12px 4px 6px; display: inline-flex; align-items: center; gap: 6px; }
 .pd-conf { position: absolute; top: -20px; width: 10px; height: 16px; border-radius: 2px; opacity: 0; animation-name: pd-cai; animation-timing-function: linear; animation-fill-mode: forwards; }
 @keyframes pd-cai { 0% { opacity: 1; transform: translateY(0) rotate(0); } 100% { opacity: .9; transform: translateY(110vh) rotate(720deg); } }
+/* 🏆 placar em tela cheia: ocupa a tela toda e cresce/encolhe com a janela e o zoom (pedido em 12/11/2026) */
+html:has(body.modo-placar) { font-size: clamp(12px, calc(6px + .78vw), 46px); }
+body.modo-placar main { max-width: none; padding: 0; }
+body.modo-placar .pl-tela { padding: 1.1rem 2rem; }
+body.modo-placar .pl-marca img { width: 4rem; height: 4rem; }
+body.modo-placar .pl-lista { max-width: none; width: 100%; }
+body.modo-placar .pl-lin { height: 4rem; }
+body.modo-placar .pl-pos { width: 3.5rem; }
+body.modo-placar .pl-av .avatar-svg { width: 2.4rem; height: auto; }
+body.modo-placar .pd-tela { min-height: calc(100vh - 12rem); }
+body.modo-placar .pd-palco { gap: 1.2rem; }
+body.modo-placar .pd-col { width: min(15rem, 30vw); }
+body.modo-placar .pd-av .avatar-svg { width: 6rem; height: auto; }
+body.modo-placar .pd-col.l1 .pd-av .avatar-svg { width: 7.5rem; }
+body.modo-placar .pd-col.l1 .pd-bloco { height: min(12.5rem, 26vh); }
+body.modo-placar .pd-col.l2 .pd-bloco { height: min(9.4rem, 19vh); }
+body.modo-placar .pd-col.l3 .pd-bloco { height: min(6.9rem, 14vh); }
+body.modo-placar .pd-resto { max-width: none; }
+body.modo-placar .pd-r .avatar-svg { width: 1.7rem; height: auto; }
 .pp-placar-btn { background: #ca8a04; border-color: #ca8a04; color: #fff; }
 .fim-aula { text-align: center; } .fim-aula h2 { font-size: 1.8rem; } .fa-pos { font-size: 1.3rem; }
 @media (prefers-reduced-motion: reduce) { .pd-col, .pd-resto { animation: none; opacity: 1; transform: none; } .pd-conf { display: none; } .pl-lin { transition: none; } }

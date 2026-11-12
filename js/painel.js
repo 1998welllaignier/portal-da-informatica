@@ -334,11 +334,11 @@
       if (reiAgora && reiAntes !== null && reiAgora !== reiAntes) So && So.coroa(); reiAntes = reiAgora;
       if (!rk.length) { corpo.innerHTML = `<div class="pl-cong"><p>⏳</p><h2>Esperando a turma entrar…</h2><p>O placar começa assim que os alunos entrarem com o código.</p></div>`; return; }
       let lista = corpo.querySelector(".pl-lista"); if (!lista) { corpo.innerHTML = `<div class="pl-lista"></div>`; lista = corpo.querySelector(".pl-lista"); }
-      lista.style.height = rk.length * 74 + "px";
+      lista.style.height = rk.length * 4.6 + "rem";
       const vivos = new Set();
       rk.forEach((e, i) => { const k = e.ids.join("+"); vivos.add(k); let n = lista.querySelector(`[data-k="${CSS.escape(k)}"]`);
         const novo = h(P.podio.linhaPlacar(e, i));
-        if (n) { n.className = novo.className; n.innerHTML = novo.innerHTML; n.style.top = i * 74 + "px"; } else lista.appendChild(novo); });
+        if (n) { n.className = novo.className; n.innerHTML = novo.innerHTML; n.style.top = i * 4.6 + "rem"; } else lista.appendChild(novo); });
       lista.querySelectorAll(".pl-lin").forEach(n => { if (!vivos.has(n.dataset.k)) n.remove(); });
     };
     const mostrarPodio = () => { if (!pod) return; vendoPodio = true; el.querySelector("#pl-volta").hidden = false;
@@ -925,6 +925,8 @@
      e recados das turmas de hoje. "✔ Já li" não mostra mais (fica em prof/avisos, vale em qualquer computador);
      "⏰ Ver depois" mostra de novo no próximo login. Depois dos avisos vêm as perguntas das aulas sem registro. */
   const PRAZOS = [ // [mostrar a partir de, até, id, texto]
+    ["2026-11-12", "2026-11-13", "reposicao-8ano-2026-11-13", "🏫 <b>Sexta, 13/11, às 10h30: aula de reposição</b> com a turma de quarta (8º ano) que ficou sem aula em 11/11. Chegar antes das 10h30. Depois, registrar a aula no 📒 Diário da turma."],
+    ["2026-11-13", "2026-11-13", "rede-sexta-2026-11-13", "📡 <b>Rede (sexta):</b> olhar o vigia do MikroTik (quedas do roteador do corredor superior, AP AEE .240) e trocar a fonte dele, se já tiver a nova (12 V / 2 A)."],
     ["2026-11-16", "2026-11-23", "boletins-2026-4b", "📄 <b>Boletins em PDF do 4º bimestre</b> até 23/11 (📒 Diário › 🧮 Boletim)."],
     ["2026-12-01", "2026-12-31", "sige-reabre-2026", "🏛️ <b>SIGE: fique atento à reabertura de fim de ano.</b> Quando abrir, registrar o ano inteiro de 2026 (aulas e conteúdos) com o Claude; a frequência é você quem lança."]
   ];
