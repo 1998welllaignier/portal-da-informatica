@@ -1565,3 +1565,8 @@ body.modo-placar .tela.painel-prof { max-width: none; padding: 0; }
 @keyframes tm-desce { 0% { transform: translateY(-130px); } 30% { transform: translateY(0); } 38% { transform: translateY(-6px); } 46% { transform: translateY(0); } 70% { transform: translateY(95px); } 88% { transform: translateY(95px); } 100% { transform: translateY(-130px); } }
 @media (max-width: 900px) { .tm-noel { display: none; } }
 @media (prefers-reduced-motion: reduce) { .tm-noel-corpo { animation: none; } }
+
+.pp-tema-ops { display: grid; gap: 8px; margin: 10px 0; }
+.pp-tema-op { display: flex; gap: 10px; align-items: flex-start; border: 2px solid var(--linha); border-radius: 12px; padding: 10px 12px; cursor: pointer; }
+.pp-tema-op:has(input:checked) { border-color: var(--cor, #7c3aed); background: #f5f3ff; }
+.pp-tema-op span { display: flex; flex-direction: column; } .pp-tema-op small { color: var(--suave); }

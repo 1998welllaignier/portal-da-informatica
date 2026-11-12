@@ -143,7 +143,7 @@
   const tela = html => mountFn(`<section class="tela painel-prof">${html}</section>`);
   const topo = (u, ativo) => `<nav class="migalhas"><a href="#/">Início</a> › <a href="#/painel">Painel do professor</a></nav>
     <div class="pp-cab"><div><h1>📊 Painel do professor</h1><p class="lead">${esc(cat().professor)} · ${esc(cat().escola)}</p></div>
-      <div class="pp-user"><button class="btn btn-peq pp-hor-btn" id="pp-hor" type="button">🗓️ Horários</button><button class="btn btn-peq pp-hor-btn" id="pp-cod" type="button">🔑 Códigos</button><button class="btn btn-peq pp-vivo-btn" id="pp-vivo" type="button">🔴 Ao vivo</button><button class="btn btn-peq pp-placar-btn" id="pp-placar" type="button" title="Abre numa aba nova, para deixar no projetor">🏆 Placar</button><button class="btn btn-peq pp-fim-btn" id="pp-fim" type="button" title="Finaliza a aula agora: fecha as tarefas e mostra o pódio">🏁 Finalizar aula</button><span>${esc(u.email)}</span><button class="btn btn-sec btn-peq" id="pp-sair" type="button">Sair do painel</button></div></div>
+      <div class="pp-user"><button class="btn btn-peq pp-hor-btn" id="pp-hor" type="button">🗓️ Horários</button><button class="btn btn-peq pp-hor-btn" id="pp-cod" type="button">🔑 Códigos</button><button class="btn btn-peq pp-vivo-btn" id="pp-vivo" type="button">🔴 Ao vivo</button><button class="btn btn-peq pp-placar-btn" id="pp-placar" type="button" title="Abre numa aba nova, para deixar no projetor">🏆 Placar</button><button class="btn btn-peq pp-hor-btn" id="pp-tema" type="button" title="Decoração do portal por época do ano">🎨 Tema</button><button class="btn btn-peq pp-fim-btn" id="pp-fim" type="button" title="Finaliza a aula agora: fecha as tarefas e mostra o pódio">🏁 Finalizar aula</button><span>${esc(u.email)}</span><button class="btn btn-sec btn-peq" id="pp-sair" type="button">Sair do painel</button></div></div>
     <nav class="pp-abas">${[["aula", "🎤 Aula"], ["", "🏫 Turmas"], ["diario", "📒 Diário"], ["presenca", "🗓️ Presença"], ["prova", "📝 Prova"], ["importar", "📥 Importar alunos"], ["ano", "📅 Ano letivo"]].map(([k, r]) =>
       `<a href="#/painel${k ? "/" + k : ""}" class="${ativo === k ? "atual" : ""}">${r}</a>`).join("")}</nav>${ajudaAba(ativo)}`;
   /* ❓ quadro "Para que serve e como usar" de cada aba (fica fechado; o professor abre quando quiser) */
@@ -416,7 +416,23 @@
     iv = setInterval(pinta, 30000);
     try { await carregarT(); } catch (err) { dlg.querySelector("#pv-c").innerHTML = `<p class="ajuda">Erro: ${esc(err.message || err)}</p>`; }
   }
-  document.addEventListener("click", e => { if (e.target.closest("#pp-hor")) abrirHorarios(); if (e.target.closest("#pp-cod")) abrirCodigos(); if (e.target.closest("#pp-vivo")) abrirAoVivo(); if (e.target.closest("#pp-placar")) window.open("#/painel/placar/" + escolherTurma(null, todasTurmas()), "_blank"); if (e.target.closest("#pp-fim")) finalizarAgora(); });
+  document.addEventListener("click", e => { if (e.target.closest("#pp-hor")) abrirHorarios(); if (e.target.closest("#pp-cod")) abrirCodigos(); if (e.target.closest("#pp-vivo")) abrirAoVivo(); if (e.target.closest("#pp-placar")) window.open("#/painel/placar/" + escolherTurma(null, todasTurmas()), "_blank"); if (e.target.closest("#pp-fim")) finalizarAgora(); if (e.target.closest("#pp-tema")) abrirTema(); });
+  // 🎨 tema do portal: automático pela data, ou ligado/desligado à mão (vale para todos os computadores)
+  async function abrirTema() {
+    if (document.querySelector(".pp-tema-dlg")) return;
+    let atual = "auto"; try { const sn = await db().collection("config").doc("tema").get(); if (sn.exists) atual = sn.data().modo || "auto"; } catch (e) {}
+    const dataHoje = P.temaPelaData ? P.temaPelaData(new Date()) : null;
+    const ops = [["auto", "📅 Automático pela data", `Hoje: ${dataHoje ? "🎄 Natal" : "sem tema"} · Natal de 1º/12 a 06/01`], ["natal", "🎄 Natal agora", "Luzes, neve, árvore, Papai Noel e gorro nos avatares"], ["nenhum", "⚪ Sem tema", "Portal normal, mesmo nas datas festivas"]];
+    const dlg = h(`<dialog class="pp-dlg pp-tema-dlg"><form method="dialog"><h2>🎨 Tema do portal</h2>
+      <p class="ajuda">Vale para todos os computadores (alunos, placar e o seu), a partir da próxima vez que a página abrir.</p>
+      <div class="pp-tema-ops">${ops.map(([v, r, d]) => `<label class="pp-tema-op"><input type="radio" name="tm" value="${v}" ${v === atual ? "checked" : ""}><span><b>${r}</b><small>${d}</small></span></label>`).join("")}</div>
+      <p class="erro" id="tm-e" hidden></p>
+      <div class="row-btns"><button type="button" class="btn" id="tm-ok">Salvar</button><button class="btn btn-sec" value="x">Fechar</button></div></form></dialog>`);
+    document.body.appendChild(dlg); dlg.showModal(); dlg.addEventListener("close", () => dlg.remove());
+    dlg.querySelector("#tm-ok").onclick = async () => { const v = dlg.querySelector('input[name="tm"]:checked').value;
+      try { await db().collection("config").doc("tema").set({ modo: v, em: Date.now() }); P.aplicarTemaGlobal && P.aplicarTemaGlobal(v); dlg.close(); toast("🎨 Tema salvo! Os alunos veem ao abrir ou recarregar a página."); }
+      catch (err) { const e = dlg.querySelector("#tm-e"); e.textContent = "Não foi possível salvar: " + (err.message || err); e.hidden = false; } };
+  }
   // 🏁 finalizar à força pelo cabeçalho do painel (turma do horário; dá para trocar)
   async function finalizarAgora() {
     if (document.querySelector(".pp-fim-dlg")) return;

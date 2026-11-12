@@ -10,15 +10,24 @@
     const t = TEMAS.find(([, ini, fim]) => ini <= fim ? md >= ini && md <= fim : md >= ini || md <= fim);
     return t ? t[0] : null;
   }
-  let escolha = null;
-  try { const q = new URLSearchParams(location.search).get("tema"); if (q) localStorage.setItem("pp-tema", q); escolha = localStorage.getItem("pp-tema"); } catch (e) {}
-  const tema = escolha && escolha !== "auto" ? (escolha === "nenhum" ? null : escolha) : pelaData(new Date());
-  P.tema = tema; P.temaPelaData = pelaData;
-  if (!tema) return;
-  document.documentElement.classList.add("tema-" + tema);
-
+  // prioridade: escolha deste navegador (?tema=) > escolha do professor no painel (config/tema, vale para todos) > data
+  let local = null;
+  try { const q = new URLSearchParams(location.search).get("tema"); if (q) localStorage.setItem("pp-tema", q); local = localStorage.getItem("pp-tema"); } catch (e) {}
+  const resolver = global => { const l = local && local !== "auto" ? local : null, g = global && global !== "auto" ? global : null, x = l || g;
+    return x ? (x === "nenhum" ? null : x) : pelaData(new Date()); };
+  let tema = null;
+  function aplicar(novo) {
+    if (novo === tema) return;
+    document.documentElement.classList.forEach(c => { if (/^tema-/.test(c)) document.documentElement.classList.remove(c); });
+    document.querySelectorAll(".tm-neve, .tm-arvore, .tm-noel").forEach(x => x.remove());
+    tema = novo; P.tema = novo;
+    if (!novo) return;
+    document.documentElement.classList.add("tema-" + novo);
+    if (document.body) enfeitar(); else document.addEventListener("DOMContentLoaded", enfeitar, { once: true });
+  }
+  P.temaPelaData = pelaData; P.TEMAS = TEMAS;
   function enfeitar() {
-    if (tema === "natal") {
+    if (tema === "natal" && !document.querySelector(".tm-neve, .tm-arvore")) {
       const reduz = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
       // ❄️ neve caindo de leve (atrás de tudo e sem clique)
       if (!reduz) { const n = document.createElement("div"); n.className = "tm-neve"; n.setAttribute("aria-hidden", "true");
@@ -50,5 +59,12 @@
       document.body.appendChild(pn);
     }
   }
-  if (document.body) enfeitar(); else document.addEventListener("DOMContentLoaded", enfeitar);
+  aplicar(resolver(null));
+  // escolha do professor (painel → 🎨 Tema): lida da nuvem uma vez, quando o Firebase estiver pronto
+  P.aplicarTemaGlobal = g => aplicar(resolver(g));
+  let tent = 0;
+  (function lerGlobal() {
+    const N = P.nuvem; if (!N || !N.app) { if (tent++ < 20) setTimeout(lerGlobal, 500); return; }
+    try { N.app(0).db.collection("config").doc("tema").get().then(sn => { P.temaGlobal = sn.exists ? sn.data().modo || "auto" : "auto"; P.aplicarTemaGlobal(P.temaGlobal); }).catch(() => {}); } catch (e) {}
+  })();
 })();
