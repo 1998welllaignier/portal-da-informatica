@@ -327,7 +327,7 @@
     el.querySelector("#pl-tela").onclick = () => { const d = document.documentElement; (document.fullscreenElement ? document.exitFullscreen() : d.requestFullscreen()).catch(() => {}); };
     const finalizar = async auto => { if (finalizando) return; finalizando = true;
       try { await finalizarAula(t, alunos, prog, mid); if (!auto) toast("🏁 Aula finalizada!"); } catch (err) { toast("Não foi possível finalizar: " + (err.message || err)); } finalizando = false; };
-    el.querySelector("#pl-fim").onclick = () => { if (confirm("Finalizar a aula agora? As tarefas fecham e o pódio aparece aqui e na tela dos alunos.")) finalizar(false); };
+    el.querySelector("#pl-fim").onclick = async () => { if (await P.confirmar("Finalizar a aula agora? As tarefas fecham e o pódio aparece aqui e na tela dos alunos.")) finalizar(false); };
     const u1 = db().collection("progresso").where("turma", "==", t.id).onSnapshot(q => { prog = q.docs.map(d => ({ id: d.id, ...d.data() })); pintarPlacar(); }, err => toast("Placar: " + (err.message || err)));
     let jaVi = 0;
     const u2 = db().collection("config").doc("podio_" + t.id).onSnapshot(sn => { const d = sn.exists ? sn.data() : null;
@@ -411,7 +411,7 @@
     };
     dlg.querySelector("#pv-t").onchange = e => { tid = e.target.value; carregarT(); };
     dlg.querySelector("#pv-placar").onclick = () => window.open("#/painel/placar/" + tid, "_blank");
-    dlg.querySelector("#pv-fim").onclick = async () => { if (!estado || !confirm("Finalizar a aula agora? As tarefas fecham e o pódio aparece no placar e na tela dos alunos.")) return;
+    dlg.querySelector("#pv-fim").onclick = async () => { if (!estado || !await P.confirmar("Finalizar a aula agora? As tarefas fecham e o pódio aparece no placar e na tela dos alunos.")) return;
       try { await finalizarAula(estado.t, estado.alunos, estado.prog, estado.mid); toast("🏁 Aula finalizada! O pódio está no placar."); } catch (err) { toast("Não foi possível finalizar: " + (err.message || err)); } };
     iv = setInterval(pinta, 30000);
     try { await carregarT(); } catch (err) { dlg.querySelector("#pv-c").innerHTML = `<p class="ajuda">Erro: ${esc(err.message || err)}</p>`; }
@@ -572,59 +572,59 @@
       dlg.querySelectorAll("[data-x]").forEach(b => b.onclick = async () => {
         const x = b.dataset.x;
         try {
-          if (x === "cod") { if (!confirm("Gerar um código novo? O código antigo deixa de funcionar.")) return; const c = await novoCodigo(a); alert(`Novo código de ${a.nome}: ${c}`); }
-          if (x === "nome") { const n = arrumarNome(prompt("Nome completo:", a.nome)); if (!n || n === a.nome) return; await renomear(a, n); }
+          if (x === "cod") { if (!await P.confirmar("Gerar um código novo? O código antigo deixa de funcionar.")) return; const c = await novoCodigo(a); await P.aviso(`Novo código de ${a.nome}: ${c}`); }
+          if (x === "nome") { const n = arrumarNome(await P.perguntar("Nome completo:", a.nome)); if (!n || n === a.nome) return; await renomear(a, n); }
           if (x === "turma") {
             const opc = todasTurmas().filter(y => y.id !== a.turma);
-            const r = prompt("Para qual turma? Digite exatamente: " + opc.map(y => y.id).join(", "));
-            const nt = opc.find(y => y.id.toLowerCase() === String(r || "").trim().toLowerCase()); if (!nt) { if (r) alert("Turma não encontrada."); return; }
-            const c = await novoCodigo(a, nt.id); alert(`${a.nome} agora está no ${nomeTurma(nt.id)}. Novo código: ${c}. O histórico continua guardado.`);
+            const r = await P.perguntar("Para qual turma? Digite exatamente: " + opc.map(y => y.id).join(", "));
+            const nt = opc.find(y => y.id.toLowerCase() === String(r || "").trim().toLowerCase()); if (!nt) { if (r) await P.aviso("Turma não encontrada."); return; }
+            const c = await novoCodigo(a, nt.id); await P.aviso(`${a.nome} agora está no ${nomeTurma(nt.id)}. Novo código: ${c}. O histórico continua guardado.`);
           }
           if (x === "atipico") { await db().collection("alunos").doc(a.id).update({ atipico: !a.atipico }); }
-          if (x === "apoio") { const v = prompt("Apoios para este aluno na aula (aparecem na Tela da aula, só para você):", a.apoio || ""); if (v === null) return; await db().collection("alunos").doc(a.id).update({ apoio: v.trim() }); }
+          if (x === "apoio") { const v = await P.perguntar("Apoios para este aluno na aula (aparecem na Tela da aula, só para você):", a.apoio || ""); if (v === null) return; await db().collection("alunos").doc(a.id).update({ apoio: v.trim() }); }
           if (x === "trilha") {
             const tem = cat().apostilas.some(y => y.trilha && y.serie === (todasTurmas().find(z => z.id === a.turma) || { serie: {} }).serie.id);
-            if (!a.trilha && !tem && !confirm("Esta série ainda não tem Trilha Passo a Passo. A marcação fica guardada e passa a valer quando a Trilha existir. Marcar mesmo assim?")) return;
+            if (!a.trilha && !tem && !await P.confirmar("Esta série ainda não tem Trilha Passo a Passo. A marcação fica guardada e passa a valer quando a Trilha existir. Marcar mesmo assim?")) return;
             await marcarTrilha(a, !a.trilha);
-            alert(a.trilha ? `${a.nome} volta a usar a apostila da turma.` : `Pronto! Quando ${a.nome} digitar o código, o portal abre direto a Trilha Passo a Passo.`);
+            await P.aviso(a.trilha ? `${a.nome} volta a usar a apostila da turma.` : `Pronto! Quando ${a.nome} digitar o código, o portal abre direto a Trilha Passo a Passo.`);
           }
           if (x === "casa") {
             if (a.emCasa) await db().collection("alunos").doc(a.id).update({ emCasa: false, emCasaObs: "" });
-            else { const o = prompt("Observação (opcional). Ex.: entrega a apostila impressa; vem só para a prova.", ""); if (o === null) return; await db().collection("alunos").doc(a.id).update({ emCasa: true, emCasaObs: o.trim() }); }
+            else { const o = await P.perguntar("Observação (opcional). Ex.: entrega a apostila impressa; vem só para a prova.", ""); if (o === null) return; await db().collection("alunos").doc(a.id).update({ emCasa: true, emCasaObs: o.trim() }); }
           }
           if (x === "teste") { await db().collection("alunos").doc(a.id).update({ teste: !a.teste }); }
           if (x === "libera") {
-            const d = prompt(`Liberar as tarefas de ${a.nome} fora do horário por quantos dias? (1 = até o fim de hoje; 0 = tirar a liberação)`, "1"); if (d === null || isNaN(+d)) return;
+            const d = await P.perguntar(`Liberar as tarefas de ${a.nome} fora do horário por quantos dias? (1 = até o fim de hoje; 0 = tirar a liberação)`, "1"); if (d === null || isNaN(+d)) return;
             const fim = new Date(); fim.setHours(23, 59, 0, 0); fim.setDate(fim.getDate() + Math.max(0, +d - 1));
             await db().collection("config").doc("liberar_" + a.turma).set({ alunos: { [a.id]: +d > 0 ? fim.getTime() : 0 } }, { merge: true });
-            alert(+d > 0 ? `Pronto! ${a.nome} pode fazer as tarefas até ${fim.toLocaleDateString("pt-BR")}, 23h59.` : "Liberação retirada."); dlg.close(); return;
+            await P.aviso(+d > 0 ? `Pronto! ${a.nome} pode fazer as tarefas até ${fim.toLocaleDateString("pt-BR")}, 23h59.` : "Liberação retirada."); dlg.close(); return;
           }
           if (x === "outra") {
             const opc = todasTurmas().filter(y => y.id !== a.turma && y.serie.id === (todasTurmas().find(z => z.id === a.turma) || { serie: {} }).serie.id);
-            const r = prompt(`${a.nome} também frequenta a aula de qual turma? (as tarefas abrem no horário dela; a presença e as notas continuam na turma dele)\nDigite: ${opc.map(y => y.id).join(", ")}\nDeixe em branco para tirar.`, "");
+            const r = await P.perguntar(`${a.nome} também frequenta a aula de qual turma? (as tarefas abrem no horário dela; a presença e as notas continuam na turma dele)\nDigite: ${opc.map(y => y.id).join(", ")}\nDeixe em branco para tirar.`, "");
             if (r === null) return; const nt = opc.find(y => y.id.toLowerCase() === r.trim().toLowerCase());
-            if (r.trim() && !nt) { alert("Turma não encontrada."); return; }
+            if (r.trim() && !nt) { await P.aviso("Turma não encontrada."); return; }
             await db().collection("config").doc("liberar_" + a.turma).set({ outra: { [a.id]: nt ? nt.id : null } }, { merge: true });
             await db().collection("alunos").doc(a.id).update({ outraTurma: nt ? nt.id : null });
-            alert(nt ? `Pronto! As tarefas de ${a.nome} abrem também no horário do ${nomeTurma(nt.id)}.` : "Pronto! Voltou ao horário da própria turma.");
+            await P.aviso(nt ? `Pronto! As tarefas de ${a.nome} abrem também no horário do ${nomeTurma(nt.id)}.` : "Pronto! Voltou ao horário da própria turma.");
           }
-          if (x === "ativo") { if (a.ativo && !confirm(`Desativar ${a.nome}? O código para de funcionar, mas o histórico fica guardado.`)) return; await mudarAtivo(a, !a.ativo); }
+          if (x === "ativo") { if (a.ativo && !await P.confirmar(`Desativar ${a.nome}? O código para de funcionar, mas o histórico fica guardado.`)) return; await mudarAtivo(a, !a.ativo); }
           dlg.close(); toast("Feito!"); telaTurmas(u, t.id);
-        } catch (err) { alert("Não foi possível: " + (err.message || err)); }
+        } catch (err) { await P.aviso("Não foi possível: " + (err.message || err)); }
       });
     }
 
     el.querySelector("#add").onclick = async () => {
-      const n = arrumarNome(prompt(`Nome completo do aluno novo (${nomeTurma(t.id)}):`));
+      const n = arrumarNome(await P.perguntar(`Nome completo do aluno novo (${nomeTurma(t.id)}):`));
       if (!n) return;
-      if (n.split(" ").length < 2) return alert("Digite nome e sobrenome.");
+      if (n.split(" ").length < 2) return await P.aviso("Digite nome e sobrenome.");
       try {
         const cfg = await config();
         const r = await adicionarAlunos(t.id, [{ nome: n }], cfg.ano);
-        if (!r.length) return alert("Já existe um aluno com esse nome nesta turma.");
-        alert(`${r[0].nome} foi adicionado(a). Código: ${r[0].codigo}`);
+        if (!r.length) return await P.aviso("Já existe um aluno com esse nome nesta turma.");
+        await P.aviso(`${r[0].nome} foi adicionado(a). Código: ${r[0].codigo}`);
         telaTurmas(u, t.id);
-      } catch (err) { alert("Não foi possível adicionar: " + (err.message || err)); }
+      } catch (err) { await P.aviso("Não foi possível adicionar: " + (err.message || err)); }
     };
     el.querySelector("#cart").onclick = () => imprimirCartoes(t, alunos.filter(a => a.ativo));
     el.querySelector("#csv").onclick = () => {
@@ -640,9 +640,9 @@
     };
   }
 
-  function imprimirCartoes(t, alunos) {
+  async function imprimirCartoes(t, alunos) {
     const w = window.open("", "_blank");
-    if (!w) return alert("Permita pop-ups para imprimir os cartões.");
+    if (!w) return await P.aviso("Permita pop-ups para imprimir os cartões.");
     const base = location.href.split("#")[0];
     w.document.write(`<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><title>Códigos — ${esc(nomeTurma(t.id))}</title>
       <style>body{font-family:"Segoe UI",Arial,sans-serif;margin:10mm}h1{font-size:14pt;margin:0 0 6mm}
@@ -843,7 +843,7 @@
     corpo.querySelector("#pv-gab").onclick = e => { const g = corpo.querySelector("#gab"); g.classList.toggle("on"); e.target.textContent = g.classList.contains("on") ? "🙈 Esconder gabarito" : "👁️ Mostrar gabarito"; };
     corpo.querySelector("#pv-cp").onclick = async () => {
       const txt = `Notas da prova — ${nomeTurma(t.id)}\n` + alunos.map(a => { const r = res[a.id] || {}; const f = Math.max(r[1] ? r[1].nt : -1, r[2] ? r[2].nt : -1); return `${a.nome}: ${f >= 0 ? nota(f) : "não fez"}`; }).join("\n");
-      try { await navigator.clipboard.writeText(txt); toast("Notas copiadas."); } catch (e) { prompt("Copie as notas:", txt); }
+      try { await navigator.clipboard.writeText(txt); toast("Notas copiadas."); } catch (e) { await P.perguntar("Copie as notas:", txt); }
     };
     corpo.querySelectorAll("[data-tres]").forEach(b => b.onclick = async () => {
       const id = b.dataset.tres, v = !tres.has(id); b.disabled = true;
@@ -966,7 +966,7 @@
         try { await salvarOcorrencia(it.dataset.t, it.dataset.d, b.dataset.oc, it.querySelector(".pp-pend-nota").value.trim()); feito(it, b.dataset.oc); } catch (err) { b.disabled = false; toast("Não foi possível salvar: " + (err.message || err)); } });
       it.querySelector("[data-cham]").onclick = () => { ss.set("painel:diario:" + it.dataset.t, it.dataset.d); ss.set("painel:turmaManual", String(Date.now())); dlg.close(); };
     });
-    dlg.querySelectorAll("[data-todas]").forEach(b => b.onclick = async () => { b.disabled = true; const sec = b.closest(".pp-pend-dia"), nota = prompt("Anotação para este dia (opcional): o que aconteceu?") || "";
+    dlg.querySelectorAll("[data-todas]").forEach(b => b.onclick = async () => { b.disabled = true; const sec = b.closest(".pp-pend-dia"), nota = await P.perguntar("Anotação para este dia (opcional): o que aconteceu?") || "";
       for (const it of sec.querySelectorAll(".pp-pend-item:not(.ok)")) { try { await salvarOcorrencia(it.dataset.t, it.dataset.d, "professor", nota); feito(it, "professor"); } catch (err) { toast("Não foi possível salvar: " + (err.message || err)); } } b.remove(); });
   }
   const nBas = v => v === true ? 1 : (+v || 0);
@@ -1128,7 +1128,7 @@
         q("#auto").onchange = e => { auto = e.target.checked; salvarTurma({ auto }); render(); };
         q("#reg-ok").onclick = async () => { await salvarAula({ registro: q("#reg").value }); toast("Registro salvo."); };
         corpo.querySelectorAll("[data-oc]").forEach(b => b.onclick = async () => { const tipo = b.dataset.oc;
-          if (tipo === "ninguem" && !confirm("Marcar falta para todos os alunos nesta aula?")) return;
+          if (tipo === "ninguem" && !await P.confirmar("Marcar falta para todos os alunos nesta aula?")) return;
           await salvarAula({ ocorrencia: { tipo, nota: "", em: new Date().toISOString() } }); toast(OCORR[tipo]); render(); });
         if (q("#oc-salvar")) q("#oc-salvar").onclick = async () => { await salvarAula({ ocorrencia: { nota: q("#oc-nota").value.trim() } }); toast("Anotação salva."); };
         if (q("#oc-desfazer")) q("#oc-desfazer").onclick = async () => { aulas[dia].ocorrencia = null; try { await aulasCol.doc(dia).set({ ocorrencia: null }, { merge: true }); } catch (err) { toast("Não foi possível salvar: " + (err.message || err)); } render(); };
@@ -1205,7 +1205,7 @@
         q("#cp-bol").onclick = async () => {
           const txt = ["Aluno\tFrequência\tBásico\tDesafio/Turbo\tApostila\tProva\tNota\tRecuperação\tFinal\tSituação",
             ...alunos.map(a => { const b = boletim(a.id), fr = freq(a.id); return [a.nome, fr.pct == null ? "" : fr.pct + "%", b.basC, b.ext, fmtN(b.A), b.B == null ? "" : fmtN(b.B), fmtN(b.nota), b.r == null ? "" : fmtN(b.r), fmtN(b.final), b.sit.t].join("\t"); })].join("\n");
-          try { await navigator.clipboard.writeText(txt); toast("Boletim copiado."); } catch (e) { prompt("Copie o boletim:", txt); }
+          try { await navigator.clipboard.writeText(txt); toast("Boletim copiado."); } catch (e) { await P.perguntar("Copie o boletim:", txt); }
         };
       }
       if (aba === "registro") corpo.querySelectorAll("[data-abrir]").forEach(b => b.onclick = () => { dia = b.dataset.abrir; try { sessionStorage.setItem("painel:diario:" + t.id, dia); } catch (x) {} aba = "chamada"; history.replaceState(null, "", "#/painel/diario/" + t.id + "/chamada"); el.querySelectorAll(".pp-barra .pp-mis").forEach(x => x.classList.toggle("atual", /\/chamada$/.test(x.getAttribute("href")))); render(); });
@@ -1359,7 +1359,7 @@
       const ref = db().collection("config").doc("liberar_" + t.id);
       box.querySelectorAll("[data-tr]").forEach(b => b.onclick = async () => {
         const k = b.dataset.tr;
-        if (k === "lib") { const m = prompt("Liberar as tarefas da turma toda por quantos minutos?", "75"); if (!m || !(+m > 0)) return; await ref.set({ ate: Date.now() + (+m) * 60000, fechadaAte: 0 }, { merge: true }); }
+        if (k === "lib") { const m = await P.perguntar("Liberar as tarefas da turma toda por quantos minutos?", "75"); if (!m || !(+m > 0)) return; await ref.set({ ate: Date.now() + (+m) * 60000, fechadaAte: 0 }, { merge: true }); }
         if (k === "fecha") { const fimAula = (() => { const d = new Date(); if (!t.aula) return Date.now() + 75 * 60000; const [H, M] = t.aula.ini.split(":").map(Number); d.setHours(H, M + (cat().duracaoAula || 75) + (cat().toleranciaTarefas || 15), 0, 0); return Math.max(d.getTime(), Date.now() + 60000); })(); await ref.set({ fechadaAte: fimAula, ate: 0 }, { merge: true }); }
         if (k === "normal") await ref.set({ ate: 0, fechadaAte: 0 }, { merge: true });
         toast("Feito!"); telaAula(u, t.id, mid);
@@ -1443,11 +1443,11 @@
           if (r[0]) await db().collection("alunos").doc(r[0].id).update({ teste: true });
         }
         await mostrarTestes(); toast("Alunos de teste prontos!");
-      } catch (err) { alert("Erro: " + (err.message || err)); }
+      } catch (err) { await P.aviso("Erro: " + (err.message || err)); }
       b.disabled = false; b.textContent = "🧪 Criar alunos de teste";
     };
     el.querySelector("#tstx").onclick = async () => {
-      if (!confirm("Remover todos os alunos de teste (e o que eles fizeram no portal)?")) return;
+      if (!await P.confirmar("Remover todos os alunos de teste (e o que eles fizeram no portal)?")) return;
       try {
         const q = await db().collection("alunos").where("teste", "==", true).get();
         const ops = [];
@@ -1458,28 +1458,28 @@
           pr.docs.forEach(p => ops.push(x => x.delete(p.ref)));
         }
         await lotes(ops); await mostrarTestes(); toast("Alunos de teste removidos.");
-      } catch (err) { alert("Erro: " + (err.message || err)); }
+      } catch (err) { await P.aviso("Erro: " + (err.message || err)); }
     };
     el.querySelector("#imp1").onclick = async () => {
       const tid = el.querySelector("#tt").value;
       const nomes = el.querySelector("#lista").value.split(/\r?\n/).map(arrumarNome).filter(n => n.length > 2);
-      if (!nomes.length) return alert("Cole pelo menos um nome.");
+      if (!nomes.length) return await P.aviso("Cole pelo menos um nome.");
       const b = el.querySelector("#imp1"); b.disabled = true; b.textContent = "Importando…";
       try { const r = await adicionarAlunos(tid, nomes.map(nome => ({ nome })), cfg.ano); mostrar("Importação concluída", [[tid, r]]); el.querySelector("#lista").value = ""; }
-      catch (err) { alert("Erro: " + (err.message || err)); }
+      catch (err) { await P.aviso("Erro: " + (err.message || err)); }
       b.disabled = false; b.textContent = "📥 Importar para esta turma";
     };
     el.querySelector("#imp2").onclick = async () => {
-      const f = el.querySelector("#arq").files[0]; if (!f) return alert("Escolha o arquivo.");
-      let d; try { d = JSON.parse(await f.text()); } catch (e) { return alert("Arquivo inválido."); }
+      const f = el.querySelector("#arq").files[0]; if (!f) return await P.aviso("Escolha o arquivo.");
+      let d; try { d = JSON.parse(await f.text()); } catch (e) { return await P.aviso("Arquivo inválido."); }
       const ts = d && d.turmas ? Object.keys(d.turmas).filter(tid => turmas.some(x => x.id === tid)) : [];
-      if (!ts.length) return alert("O arquivo não tem turmas reconhecidas.");
+      if (!ts.length) return await P.aviso("O arquivo não tem turmas reconhecidas.");
       const total = ts.reduce((n, tid) => n + d.turmas[tid].length, 0);
-      if (!confirm(`Importar ${total} alunos em ${ts.length} turmas?`)) return;
+      if (!await P.confirmar(`Importar ${total} alunos em ${ts.length} turmas?`)) return;
       const b = el.querySelector("#imp2"); b.disabled = true;
       const grupos = [];
       try { for (const tid of ts) { b.textContent = "Importando " + nomeTurma(tid) + "…"; grupos.push([tid, await adicionarAlunos(tid, d.turmas[tid], d.ano || cfg.ano)]); } mostrar("Importação concluída", grupos); }
-      catch (err) { alert("Erro: " + (err.message || err)); if (grupos.length) mostrar("Importação parcial", grupos); }
+      catch (err) { await P.aviso("Erro: " + (err.message || err)); if (grupos.length) mostrar("Importação parcial", grupos); }
       b.disabled = false; b.textContent = "📥 Importar arquivo";
     };
   }
@@ -1498,13 +1498,13 @@
         <div class="row-btns"><button class="btn" id="trava" type="button">${cfg.travaHorario ? "⚪ Desligar a trava" : "🔒 Ligar a trava"}</button></div></div>`);
     ligarSair(el);
     el.querySelector("#trava").onclick = async () => {
-      if (!cfg.travaHorario && !confirm("Ligar a trava? A partir de agora, os alunos só fazem as tarefas no horário da aula da turma.")) return;
+      if (!cfg.travaHorario && !await P.confirmar("Ligar a trava? A partir de agora, os alunos só fazem as tarefas no horário da aula da turma.")) return;
       await db().collection("config").doc("geral").set({ travaHorario: !cfg.travaHorario }, { merge: true });
       toast(cfg.travaHorario ? "Trava desligada." : "Trava ligada."); telaAno(u);
     };
     el.querySelector("#novo").onclick = async () => {
-      if (!confirm(`Começar o ano letivo ${cfg.ano + 1}? Todos os alunos ativos de ${cfg.ano} serão desativados.`)) return;
-      if (prompt(`Para confirmar, digite ${cfg.ano + 1}:`) !== String(cfg.ano + 1)) return alert("Cancelado.");
+      if (!await P.confirmar(`Começar o ano letivo ${cfg.ano + 1}? Todos os alunos ativos de ${cfg.ano} serão desativados.`)) return;
+      if (await P.perguntar(`Para confirmar, digite ${cfg.ano + 1}:`) !== String(cfg.ano + 1)) return await P.aviso("Cancelado.");
       const b = el.querySelector("#novo"); b.disabled = true; b.textContent = "Desativando…";
       try {
         const q = await db().collection("alunos").where("ativo", "==", true).get();
@@ -1512,9 +1512,9 @@
         q.docs.forEach(d => { const a = d.data(); ops.push(x => x.update(d.ref, { ativo: false })); ops.push(x => x.set(db().collection("acessos").doc(a.turma + "_" + a.codigo), { alunoId: d.id, turma: a.turma, ativo: false, nome: a.nome, ...(a.trilha ? { trilha: true } : {}) })); });
         ops.push(x => x.set(db().collection("config").doc("geral"), { ano: cfg.ano + 1, viradaEm: Date.now() }, { merge: true }));
         await lotes(ops);
-        alert(`Pronto! ${q.size} alunos desativados. Agora importe as listas de ${cfg.ano + 1}.`);
+        await P.aviso(`Pronto! ${q.size} alunos desativados. Agora importe as listas de ${cfg.ano + 1}.`);
         location.hash = "#/painel/importar";
-      } catch (err) { alert("Erro: " + (err.message || err)); b.disabled = false; }
+      } catch (err) { await P.aviso("Erro: " + (err.message || err)); b.disabled = false; }
     };
   }
 

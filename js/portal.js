@@ -326,15 +326,24 @@
   function curto(s, i) { return (s.apelidos && s.apelidos[i]) || s.nomes[i].split(" ")[0]; }
   function quem(s) { return s.nomes.map((n, i) => (s.apelidos && s.apelidos[i]) ? s.apelidos[i] : n).join(" & "); }
   P.curto = curto; P.quem = quem;
-  /* pergunta sim/não dentro da página (o confirm() do navegador às vezes é bloqueado e o botão parece não funcionar) */
-  function confirmar(msg, sim, nao) {
+  /* 💬 caixas de mensagem DENTRO da página, no lugar de alert(), confirm() e prompt() do navegador:
+     as do navegador podem ser bloqueadas (aí o botão parece não funcionar) e congelam a página inteira (cronômetros param) */
+  function caixa(msg, { botoes, campo, valor }) {
     return new Promise(res => {
-      const d = document.createElement("dialog"); d.className = "pp-dlg";
-      d.innerHTML = `<form method="dialog"><p style="font-size:1.1rem;font-weight:700">${esc(msg)}</p><div class="row-btns"><button class="btn btn-ok" value="sim">${esc(sim || "Sim")}</button> <button class="btn" value="nao">${esc(nao || "Não, voltar")}</button></div></form>`;
-      document.body.appendChild(d); d.addEventListener("close", () => { res(d.returnValue === "sim"); d.remove(); }); d.showModal();
+      const d = document.createElement("dialog"); d.className = "pp-dlg pp-caixa";
+      d.innerHTML = `<form method="dialog"><p class="pp-caixa-msg">${esc(msg)}</p>${campo ? `<textarea class="pp-caixa-campo" rows="${String(valor || "").length > 60 || campo === "longo" ? 4 : 1}">${esc(valor == null ? "" : valor)}</textarea>` : ""}
+        <div class="row-btns">${botoes.map(([v, r, cls]) => `<button class="btn ${cls || ""}" value="${v}">${esc(r)}</button>`).join(" ")}</div></form>`;
+      document.body.appendChild(d);
+      const t = d.querySelector("textarea");
+      if (t) t.addEventListener("keydown", e => { if (e.key === "Enter" && !e.shiftKey && campo !== "longo") { e.preventDefault(); d.close("ok"); } });
+      d.addEventListener("close", () => { const v = d.returnValue; res(campo ? (v === "ok" ? t.value : null) : v === "sim" || v === "ok"); d.remove(); });
+      d.showModal(); if (t) { t.focus(); t.select(); }
     });
   }
+  const confirmar = (msg, sim, nao) => caixa(msg, { botoes: [["sim", sim || "Sim", "btn-ok"], ["nao", nao || "Não, voltar"]] });
   P.confirmar = confirmar;
+  P.aviso = msg => caixa(msg, { botoes: [["ok", "OK", "btn-ok"]] }).then(() => undefined);
+  P.perguntar = (msg, valor, longo) => caixa(msg, { botoes: [["ok", "OK", "btn-ok"], ["nao", "Cancelar"]], campo: longo ? "longo" : "curto", valor });
   async function sair() {
     const s = sess.get();
     if (!(await confirmar(s && s.nuvem ? "Sair do portal? O que você fez já está guardado no painel do professor." : "Sair do portal? Seu progresso fica guardado neste navegador (veja “Privacidade e progresso”).", "Sim, sair"))) return;
