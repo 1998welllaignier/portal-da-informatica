@@ -960,6 +960,8 @@ body.modo-trilha { font-size: 21px; line-height: 1.65; }
 .pp-ajuda summary { cursor: pointer; font-weight: 800; color: #1e40af; }
 .pp-ajuda ul { margin: 6px 0 4px; padding-left: 20px; } .pp-ajuda li { margin: 4px 0; }
 .pp-hoje { border-color: #f2c14e; }
+.pp-mdia { display: inline-block; background: #fff6e0; border: 1px solid #f2c14e; border-radius: 999px; padding: 1px 10px; font-size: .88rem; font-weight: 700; }
+.pp-mdia-ch { margin: 0 0 8px; }
 .hoje-destaque .btn { margin-left: 8px; }
 /* 📣 avisos para falar à turma (aba Aula) */
 .pp-btn-sub { display: block; margin-top: 3px; font-size: .8rem; font-weight: 600; line-height: 1.25; color: #ffc078; }

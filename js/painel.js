@@ -157,7 +157,7 @@
       "<b>👀 Abrir a apostila do aluno</b>: abre, numa aba nova, a apostila exatamente como o aluno vê. Nada do que você fizer ali conta.",
       "<b>📺 Vídeo da missão</b>: quando a missão já tem vídeo no seu canal do YouTube (não listado), o player aparece nesta aba. Dê o play ali mesmo ou toque em <b>↗️ Abrir player em nova aba</b>, que abre só o vídeo numa aba própria, ocupando a tela toda (bom para projetar). Só você vê; os alunos não.",
       "<b>🪧 Cartaz de entrada</b>: abre, numa aba nova, o mesmo cartaz da porta (endereço do site e os 4 passos para entrar), em tela cheia, para projetar no começo da aula. Aperte F11 para tela cheia.",
-      "<b>📌 Missão de hoje</b>: escolha a missão na lista do quadro amarelo (qualquer uma, não precisa abrir antes). Quando o aluno digitar o código, ele cai direto nela. Marque “🔒 Travar só nela” para fechar as tarefas das outras missões. Vale só para hoje; para tirar, escolha “nenhuma”.",
+      "<b>📌 Missão de hoje</b>: escolha a missão na lista do quadro amarelo (qualquer uma, não precisa abrir antes). Quando o aluno digitar o código, ele cai direto nela. Ao escolher, ela já vem 🔒 travada: as tarefas das outras missões ficam fechadas para os alunos (desmarque se quiser liberar). A escolha fica anotada no 📒 Diário, na aula do dia. Vale só para hoje; para tirar, escolha “nenhuma”.",
       "<b>🔒 Travar só nela</b> (opcional): as tarefas das outras missões fecham hoje. Os textos continuam abertos. Quem você liberou individualmente (falta, reposição) continua podendo fazer as outras.",
       "<b>Tarefas desta turma</b> (aparece quando a trava de horário está ligada): libera a turma toda agora, fecha antes da hora ou volta ao normal.",
       "<b>🧩 Apoios</b>: o que fazer com cada aluno atípico da turma. Só você vê."]],
@@ -888,6 +888,13 @@
      O que vem do portal (⚡) é calculado na hora: quem entrou, quem concluiu o Básico, quem completou
      o Desafio e o Turbo. O que o professor marca à mão sempre vale mais que o automático. */
   const DIARIO = "prof/diario/turmas";
+  // 📌 a Missão de hoje fica anotada na aula do dia no Diário (aulas/<data>.missaoHoje), para saber depois "dia tal, missão tal"
+  async function registrarMissaoDoDia(tid, m) {
+    const d = N.hoje();
+    try { await db().collection(DIARIO + "/" + tid + "/aulas").doc(d).set({ data: d, missaoHoje: m ? { mid: m.mid, titulo: m.titulo || m.mid, travar: !!m.travar, em: new Date().toISOString() } : null }, { merge: true }); }
+    catch (e) { console.warn("registro da missão do dia", e); }
+  }
+  const missaoTxt = a => a && a.missaoHoje && a.missaoHoje.mid ? `📌 ${esc(String(a.missaoHoje.mid).toUpperCase())} · ${esc(String(a.missaoHoje.titulo || "").replace(/^[^–]*–\s*/, ""))}${a.missaoHoje.travar ? " 🔒" : ""}` : "";
   // 🚦 aula que não aconteceu normalmente. "ninguem" = falta para todos; os outros não contam na frequência de ninguém.
   const OCORR = { ninguem: "🚫 Nenhum aluno veio", professor: "🙋 O professor não pôde vir", feriado: "🎉 Feriado ou ponto facultativo", formacao: "🏫 Sem aula na escola (formação, evento, reunião)", outro: "📌 Sem aula por outro motivo" };
   const OCORR_CURTO = { ninguem: "🚫 Ninguém veio", professor: "🙋 Eu não fui", feriado: "🎉 Feriado", formacao: "🏫 Sem aula na escola", outro: "📌 Outro motivo" };
@@ -1109,6 +1116,7 @@
       const cnt = { P: 0, F: 0, J: 0 }; alunos.forEach(a => { const v = pres(dia, a.id).v; if (v) cnt[v]++; });
       return `<div class="painel">
         ${pend.length ? `<div class="pp-lemb"><strong>🔔 Lembretes desta turma</strong><ul>${pend.map(l => `<li>${esc(l.texto)}</li>`).join("")}</ul></div>` : ""}
+        ${missaoTxt(aulas[dia]) ? `<p class="pp-mdia-ch">Missão do dia (escolhida no painel): <span class="pp-mdia">${missaoTxt(aulas[dia])}</span></p>` : ""}
         <div class="row-btns pp-dia-bar"><label>Data <input type="date" id="dd" value="${dia}"></label>
           <label class="grow">Encontro <input type="text" id="enc" list="encs" value="${esc(enc)}" placeholder="Ex.: Missão 1 – …"><datalist id="encs">${[...new Set(cron.map(c => c.encontro))].map(o => `<option value="${esc(o)}">`).join("")}</datalist></label>
           <label class="pp-auto"><input type="checkbox" id="auto" ${auto ? "checked" : ""}> ⚡ Automático do portal</label></div>
@@ -1156,7 +1164,7 @@
     function vRegistro() {
       const ds = [...new Set([...Object.keys(aulas), ...cron.map(c => c.data)])].sort().reverse();
       return `<div class="painel"><ul class="pp-reg">${ds.map(d => { const a = aulas[d] || {}; const n = alunos.filter(x => pres(d, x.id).v === "P").length;
-        return `<li><div><strong>${dataBR(d)} (${semana(d)}) · ${esc(encontroDe(d) || "Aula")}</strong> <small>${ocorrDe(a) ? esc(OCORR[ocorrDe(a).tipo]) + (ocorrDe(a).nota ? " · " + esc(ocorrDe(a).nota) : "") : d <= hoje && temChamada(d) ? n + " presentes" : d > hoje ? "🔜 prevista" : ""}</small></div>${(a.registro || "").trim() ? `<p>${esc(a.registro).replace(/\n/g, "<br>")}</p>` : ""}<button type="button" class="btn btn-sec btn-peq" data-abrir="${d}">Abrir a chamada deste dia</button></li>`; }).join("")}</ul></div>`;
+        return `<li><div><strong>${dataBR(d)} (${semana(d)}) · ${esc(encontroDe(d) || "Aula")}</strong>${missaoTxt(a) ? ` <span class="pp-mdia">${missaoTxt(a)}</span>` : ""} <small>${ocorrDe(a) ? esc(OCORR[ocorrDe(a).tipo]) + (ocorrDe(a).nota ? " · " + esc(ocorrDe(a).nota) : "") : d <= hoje && temChamada(d) ? n + " presentes" : d > hoje ? "🔜 prevista" : ""}</small></div>${(a.registro || "").trim() ? `<p>${esc(a.registro).replace(/\n/g, "<br>")}</p>` : ""}<button type="button" class="btn btn-sec btn-peq" data-abrir="${d}">Abrir a chamada deste dia</button></li>`; }).join("")}</ul></div>`;
     }
     function vLembretes() {
       return `<div class="painel"><div class="row-btns"><input type="text" id="lb-novo" class="grow" placeholder="Ex.: na próxima aula, começar pela correção do labirinto"><button type="button" class="btn" id="lb-add">Adicionar</button></div>
@@ -1387,13 +1395,16 @@
       sel.onchange = async () => {
         const v = sel.value, m = C.missoes.find(x => x.id === v);
         try {
+          // escolher já trava por padrão (12/11/2026: aluno abriu a M3 no dia da M2); dá para destravar no quadrinho
+          const travar = hj ? !!hj.travar : true, titulo = m ? m.titulo.replace(/ –.*/, "") + " – " + m.titulo.replace(/^[^–]*– ?/, "") : v;
           if (!v) await hRef.set({ dia: "", mid: "" });
-          else await hRef.set({ dia: N.hoje(), aid: baseId, mid: v, titulo: m ? m.titulo.replace(/ –.*/, "") + " – " + m.titulo.replace(/^[^–]*– ?/, "") : v, travar: !!(hj && hj.travar) });
-          toast(v ? "Missão de hoje: " + v.toUpperCase() : "Missão de hoje tirada."); telaAula(u, t.id, v || mid);
+          else await hRef.set({ dia: N.hoje(), aid: baseId, mid: v, titulo, travar });
+          await registrarMissaoDoDia(t.id, v ? { mid: v, titulo, travar } : null);
+          toast(v ? "Missão de hoje: " + v.toUpperCase() + (travar ? " · 🔒 travada" : "") + " (anotado no Diário)" : "Missão de hoje tirada."); telaAula(u, t.id, v || mid);
         } catch (err) { toast("Não foi possível salvar: " + (err.message || err)); }
       };
       trav.onchange = async () => {
-        try { await hRef.set({ travar: trav.checked }, { merge: true }); toast(trav.checked ? "🔒 Travado só na missão de hoje." : "Destravado."); telaAula(u, t.id, mid); }
+        try { await hRef.set({ travar: trav.checked }, { merge: true }); if (hj) await registrarMissaoDoDia(t.id, { mid: hj.mid, titulo: hj.titulo || hj.mid, travar: trav.checked }); toast(trav.checked ? "🔒 Travado só na missão de hoje." : "Destravado."); telaAula(u, t.id, mid); }
         catch (err) { toast("Não foi possível salvar: " + (err.message || err)); }
       };
     } catch (e) { console.warn(e); }
