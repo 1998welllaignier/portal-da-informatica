@@ -15,8 +15,15 @@
       ["🥁", "A África no nosso dia a dia", "Palavras como cafuné, moleque, caçula e samba vêm de línguas africanas. A capoeira é Patrimônio Cultural da Humanidade (UNESCO, 2014)."],
       ["⚖️", "Racismo é crime", "No Brasil, o racismo é crime inafiançável e imprescritível (Constituição e Lei nº 7.716/1989). Mais da metade dos brasileiros se declara preta ou parda (Censo 2022). Respeito é para todos!"]
     ] },
+    saci: { tit: "🌪️ Dia do Saci", sub: "31 de outubro", itens: [
+      ["📅", "Por que 31 de outubro?", "É o mesmo dia do Halloween, que veio dos Estados Unidos. O Dia do Saci foi criado para valorizar o folclore brasileiro no lugar da festa estrangeira. Em São Paulo, a data é lei estadual (Lei nº 11.669/2004)."],
+      ["🧢", "Quem é o Saci", "Um menino de uma perna só, com um gorro vermelho mágico. Ele aparece dentro do redemoinho e faz travessuras: esconde objetos, trança a crina dos cavalos e deixa o leite azedo."],
+      ["🫙", "Como pegar um Saci", "Diz a lenda: jogue uma peneira em cima do redemoinho e prenda o Saci numa garrafa. Quem pega o gorro vermelho dele ganha um desejo!"],
+      ["🌎", "De onde veio", "A lenda nasceu entre povos indígenas do Sul do Brasil e foi ganhando jeitos africanos e europeus ao longo do tempo: é a cara da mistura do nosso povo."],
+      ["📚", "Saci nos livros", "O escritor Monteiro Lobato ajudou a deixar o Saci famoso com o livro \"O Saci\" (1921) e as histórias do Sítio do Picapau Amarelo."]
+    ] },
     padroeira: { tit: "⛪ Festa da Padroeira", sub: "27 de novembro · Nossa Senhora das Graças", itens: [
-      ["⛪", "A paróquia da nossa cidade", "A paróquia de Curionópolis é dedicada a Nossa Senhora das Graças, lembrada no dia 27 de novembro."],
+      ["⛪", "A paróquia da nossa cidade", "A Paróquia Nossa Senhora das Graças, de Curionópolis, foi fundada em 25 de janeiro de 1988, antes mesmo de a cidade virar município! O dia da padroeira, 27 de novembro, é feriado municipal."],
       ["🏅", "A Medalha Milagrosa", "A devoção vem de Paris, na França: em 1830, a jovem Catarina Labouré contou ter visto Nossa Senhora, que pediu uma medalha, conhecida como Medalha Milagrosa."],
       ["🔔", "O sino da igreja", "Antigamente, o sino era o \"relógio\" e o \"alto-falante\" da cidade: avisava as horas, as missas, as festas e até as emergências."],
       ["🎉", "Festejo é cultura", "Nas festas de padroeiro há novenas, procissão e arraial com comidas típicas. Mesmo quem tem outra religião pode conhecer e respeitar essa tradição da cidade."]

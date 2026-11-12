@@ -130,3 +130,5 @@ body:has(#tb-sair) .tm-cai i { opacity: .5 !important; }
 .cur-bts { justify-content: center; margin-top: 14px; } .cur-bts .btn[disabled] { opacity: .65; cursor: wait; }
 .cur-dlg { padding-top: 26px; }
 .cur-foto { float: right; width: 92px; margin: 0 0 6px 10px; } .cur-foto img { width: 100%; border-radius: 10px; border: 3px solid #fff; box-shadow: 0 3px 8px rgba(0,0,0,.2); display: block; } .cur-foto figcaption { font-size: .68rem; line-height: 1.2; color: #64748b; text-align: center; margin-top: 3px; }
+.tema-saci { --tm1: #dc2626; --tm2: #16a34a; --tm-placar: radial-gradient(circle at 20% 0%, #7f1d1d, #1c1917 60%, #14532d); }
+.tema-saci .topbar { background: linear-gradient(90deg, #7f1d1d, #b91c1c 50%, #166534); }

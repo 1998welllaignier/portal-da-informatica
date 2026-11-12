@@ -36,6 +36,7 @@
       ["patria", "🇧🇷 Semana da Pátria", ...janela(ano, "09-07")],
       ["criancas", "🎈 Dia das Crianças", ...janela(ano, "10-12")],
       ["professor", "🍎 Dia do Professor", ...janela(ano, "10-15")],
+      ["saci", "🌪️ Dia do Saci", ...janela(ano, "10-31")],
       ["consciencia", "✊🏿 Consciência Negra", ...janela(ano, "11-20")],
       ["padroeira", "⛪ Padroeira de Curionópolis", ...janela(ano, "11-27")],
       ["natal", "🎄 Natal", "12-01", "01-06"]
@@ -139,6 +140,7 @@
     patria: { dir: BANDEIRAS_BR, faixa: "🇧🇷 <b>7 de setembro · Independência do Brasil (1822).</b> Semana da Pátria: conhecer a nossa história é cuidar do nosso futuro." },
     criancas: { dir: PIPA, cai: { tipo: "balao", n: 14 }, avatar: "festa", faixa: "🎈 <b>12 de outubro · Dia das Crianças!</b> Brincar, aprender e sonhar: hoje a festa é de vocês!" },
     professor: { esq: MACA_LIVROS, faixa: "🍎 <b>15 de outubro · Dia do Professor.</b> A data lembra a primeira lei do Brasil sobre as escolas de primeiras letras, de 15 de outubro de 1827. Obrigado a todos os professores que ensinam com carinho: que tal agradecer ao seu hoje?" },
+    saci: { esq: [SACI, CURUPIRA], passa: SACI, cai: { tipo: "folha", n: 14 }, avatar: "carapuca", faixa: "🌪️ <b>31 de outubro · Dia do Saci.</b> No Brasil, em vez do Halloween, a gente celebra o nosso folclore: o Saci-Pererê, de uma perna só e gorro vermelho, que apronta travessuras dentro do redemoinho!" },
     consciencia: { esq: [BAOBA, ZUMBI_DANDARA, SANKOFA, QUILOMBO, CAPOEIRA], faixa: "✊🏿 <b>20 de novembro · Dia Nacional de Zumbi e da Consciência Negra.</b> Zumbi e Dandara dos Palmares lutaram pela liberdade do povo negro. Conheça e valorize a história e a cultura afro-brasileira, que estão na nossa música, na comida, nas palavras e no jeito de ser do Brasil. <b>Racismo é crime</b> (Lei nº 7.716/1989): respeito é para todos." },
     padroeira: { esq: IGREJA, cai: { tipo: "estrela", n: 14 }, faixa: "⛪ <b>27 de novembro · Festa de Nossa Senhora das Graças, padroeira de Curionópolis.</b> Dias de festejo, fé e encontro na nossa cidade." },
     natal: { natal: true, avatar: "gorro", faixa: "🎄 <b>Natal:</b> a festa cristã que celebra o nascimento de Jesus. É tempo de família, de solidariedade e de fazer o bem a quem está perto. Feliz Natal e boas festas!" }
@@ -149,18 +151,19 @@
   const NOME = { carnaval: ["🎭 Unidos da Informática", "Carnaval"], pascoa: ["🐰 Páscoa Conectada", "Páscoa"], indigenas: ["🪶 Dia dos Povos Indígenas", "19 de abril"],
     curionopolis: ["🎂 Parabéns, Curionópolis!", "Aniversário da cidade · 10 de maio"], junina: ["🌽 Arraiá da Informática", "Festa Junina · São João"], folclore: ["🍃 Lendas do Brasil", "Dia do Folclore · 22 de agosto"],
     patria: ["🇧🇷 Brasil Conectado", "Semana da Pátria · 7 de setembro"], criancas: ["🎈 Criançada Digital", "Dia das Crianças · 12 de outubro"], professor: ["🍎 Mestres do Saber", "Dia do Professor · 15 de outubro"],
-    consciencia: ["✊🏿 Semana da Consciência Negra", "20 de novembro · Zumbi e Dandara"], padroeira: ["⛪ Festa da Padroeira", "Nossa Senhora das Graças · 27 de novembro"], natal: ["🎄 Feliz Natal!", "Natal Conectado"] };
+    saci: ["🌪️ Redemoinho do Saci", "Dia do Saci · 31 de outubro"], consciencia: ["✊🏿 Semana da Consciência Negra", "20 de novembro · Zumbi e Dandara"], padroeira: ["⛪ Festa da Padroeira", "Nossa Senhora das Graças · 27 de novembro"], natal: ["🎄 Feliz Natal!", "Natal Conectado"] };
   P.temaNome = id => (NOME[id] || [""])[0];
 
   /* ---------- enfeite do avatar (só em quem está sem chapéu e sem boné) ---------- */
   // nome do enfeite do avatar no tema atual (para o aviso na tela do avatar)
   P.temaAcessorio = function () { const t = tema && DEF[tema] && DEF[tema].avatar;
-    return ({ gorro: ["🎅", "gorro de Papai Noel", "boné ou chapéu"], palha: ["👒", "chapéu de palha", "boné ou chapéu"], festa: ["🥳", "chapéu de festa", "boné ou chapéu"], mascara: ["🎭", "máscara de Carnaval", "óculos"] })[t] || null; };
+    return ({ gorro: ["🎅", "gorro de Papai Noel", "boné ou chapéu"], palha: ["👒", "chapéu de palha", "boné ou chapéu"], festa: ["🥳", "chapéu de festa", "boné ou chapéu"], carapuca: ["🌪️", "gorro vermelho do Saci", "boné ou chapéu"], mascara: ["🎭", "máscara de Carnaval", "óculos"] })[t] || null; };
   P.enfeiteAvatar = function (a) {
     const d = tema && DEF[tema], tipo = d && d.avatar; if (!tipo) return "";
     const livre = !(a.chapeu && a.chapeu !== "nenhum") && !(a.bone && a.bone !== "nenhum");
     if (tipo === "gorro" && livre) return `<path d="M36 25 Q44 4 66 6 Q86 8 92 20 L84 22 Q78 14 70 15 Q80 22 84 25 Z" fill="#dc2626"/><path d="M36 25 Q50 10 70 15 Q80 22 84 25 Z" fill="#b91c1c" opacity=".35"/><rect x="32" y="21" width="56" height="9" rx="4.5" fill="#fff" stroke="#e5e7eb"/><circle cx="92" cy="21" r="5" fill="#fff" stroke="#e5e7eb"/>`;
     if (tipo === "palha" && livre) return `<ellipse cx="60" cy="24" rx="38" ry="7" fill="#eab308" stroke="#a16207" stroke-width="1.5"/><path d="M40 24 Q42 4 60 4 Q78 4 80 24 Z" fill="#facc15" stroke="#a16207" stroke-width="1.5"/><path d="M41 18 H79" stroke="#dc2626" stroke-width="4"/><path d="M48 10 L52 6 M66 8 L70 12 M30 26 L26 30 M90 26 L94 30" stroke="#a16207" stroke-width="1.5"/><rect x="62" y="10" width="7" height="6" fill="#3b82f6" transform="rotate(12 65 13)"/>`;
+    if (tipo === "carapuca" && livre) return `<path d="M38 26 Q40 6 60 4 Q82 2 96 -2 Q86 8 84 26 Z" fill="#dc2626"/><path d="M38 26 Q60 16 84 26" stroke="#991b1b" stroke-width="3" fill="none"/>`;
     if (tipo === "festa" && livre) return `<path d="M50 22 L62 -6 L74 22 Z" fill="#a855f7"/><path d="M53 15 L71 15 M56 8 L68 8" stroke="#facc15" stroke-width="3"/><circle cx="62" cy="-6" r="4" fill="#f43f5e"/><ellipse cx="62" cy="22" rx="13" ry="3" fill="#7c3aed"/>`;
     if (tipo === "mascara" && (!a.oculos || a.oculos === "nenhum")) return `<path d="M36 42 Q46 32 60 40 Q74 32 84 42 Q80 54 68 52 Q62 50 60 46 Q58 50 52 52 Q40 54 36 42 Z" fill="#7c3aed" stroke="#facc15" stroke-width="1.8"/><ellipse cx="51" cy="44" rx="4" ry="2.6" fill="#fff"/><ellipse cx="69" cy="44" rx="4" ry="2.6" fill="#fff"/><circle cx="51" cy="44" r="1.8" fill="#1f2937"/><circle cx="69" cy="44" r="1.8" fill="#1f2937"/><path d="M84 40 Q92 30 88 22" stroke="#ec4899" stroke-width="2.5" fill="none"/>`;
     return "";
