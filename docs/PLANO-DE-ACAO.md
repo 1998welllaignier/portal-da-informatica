@@ -29,7 +29,7 @@ Ordem: primeiro o que tem data marcada; depois o que adianta o 1º bimestre de 2
 - [x] **Feito pelo professor (informado em 10/11):** Santiago Pinheiro Moraes Amaral (5º C, terça 9h) colocado no diário do painel, à mão.
 - [ ] **Professor (quando abrir o painel):** responder a janela 🗓️ "Aulas sem nenhum registro": 11/11 (qua) = 🙋 eu não fui (imprevisto, manhã e tarde); turmas de 10/11 e do resto da semana sem presença = 🚫 ninguém veio.
 - [x] Painel (11/11): botões 🚦 na Chamada (🚫 nenhum aluno veio = falta para todos; 🙋 professor não foi, 🎉 feriado, 🏫 sem aula na escola, 📌 outro = não contam na frequência) + anotação; o painel pergunta sozinho, ao abrir, sobre aulas passadas sem nenhum registro.
-- [ ] Entregar o código novo ao Pedro Emanuel de Jesus Lima (8º A) e recolher o cartão antigo.
+- [x] **Feito (informado em 11/11):** código novo entregue ao Pedro Emanuel de Jesus Lima (8º A) e cartão antigo recolhido.
 - [x] **Feito em 08/11:** diário antigo transferido para a aba 📒 Diário (17 turmas, 9 aulas, registros e lembretes; todos os alunos conferidos). A chamada passa a ser feita no painel.
 - [x] **Feito em 08/11:** cadastro “Prof Welington Laignier” (6º A) marcado como 🧪 aluno de teste (era o único).
 - [x] **Feito em 08/11:** prova testada de verdade no 6º A com o aluno de teste (painel liga, aluno cai direto na prova, só Missão 1 = 7 questões, envio aceito pelas regras, nota no painel, saída automática, não refaz). Teste apagado e prova encerrada.
