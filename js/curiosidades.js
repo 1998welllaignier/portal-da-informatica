@@ -108,12 +108,17 @@
       d.innerHTML = `<div class="cur-topo"><p class="cur-sup">📚 Você sabia?</p><h2>${c.tit}</h2><p class="cur-sub">${esc(c.sub)}</p></div>
         <div class="cur-grade">${c.itens.map(([ic, t, x, foto, leg], i) => `<article class="cur-card${foto ? " com-foto" : ""}" style="--d:${i * .15}s">${foto ? `<figure class="cur-foto"><img src="${foto}" alt="${esc(leg || t)}" loading="lazy"><figcaption>${esc(leg || "")}</figcaption></figure>` : ""}<span class="cur-ic">${ic}</span><h3>${esc(t)}</h3><p>${esc(x)}</p></article>`).join("")}</div>
         <div class="row-btns cur-bts"><button type="button" class="btn btn-grande" id="cur-ok"></button></div>`;
-      document.body.appendChild(d); d.showModal();
+      document.body.appendChild(d); d.showModal(); d.tabIndex = -1; d.focus(); d.scrollTop = 0; requestAnimationFrame(() => { d.scrollTop = 0; });
       const b = d.querySelector("#cur-ok"); let r = comTempo ? SEG : 0, iv = null;
-      const pinta = () => { b.disabled = r > 0; b.innerHTML = r > 0 ? `⏳ Leia com calma… ${Math.floor(r / 60)}:${String(r % 60).padStart(2, "0")}` : "✔ Li e aprendi!"; };
+      // 🎮 no primeiro acesso, se o tema tem desafio, a saída é um joguinho sobre os cartões (js/desafios.js)
+      let fase = comTempo && P.temDesafio && P.temDesafio(tema) ? "desafio" : "livre";
+      if (fase === "desafio") d.querySelector(".cur-topo").insertAdjacentHTML("beforeend", `<div class="cur-aviso"><b>📖 Leia os cartões com calma.</b> Quando o tempo acabar, vem um <b>🎮 desafio</b> sobre o que está aqui: só quem leu consegue resolver! Venceu o desafio? Aí você entra na tarefa do dia. 🚀</div>`);
+      const pinta = () => { b.disabled = r > 0; b.innerHTML = r > 0 ? `⏳ Leia com calma… ${Math.floor(r / 60)}:${String(r % 60).padStart(2, "0")}` : fase === "desafio" ? "🎮 Desafio para entrar!" : fase === "feito" ? "✔ Entrar na apostila" : "✔ Li e aprendi!"; };
       pinta(); if (r > 0) iv = setInterval(() => { r--; pinta(); if (r <= 0) clearInterval(iv); }, 1000);
-      d.addEventListener("cancel", e => { if (r > 0) e.preventDefault(); }); // Esc não fecha antes do tempo
-      b.onclick = () => { if (r > 0) return; d.close(); };
+      d.addEventListener("cancel", e => { if (r > 0 || fase === "desafio" || fase === "jogando") e.preventDefault(); }); // Esc não fecha antes do tempo nem do desafio
+      b.onclick = () => { if (r > 0) return;
+        if (fase === "desafio") { fase = "jogando"; P.desafioNaJanela(d, tema, () => { fase = "feito"; pinta(); }); return; }
+        d.close(); };
       d.addEventListener("close", () => { clearInterval(iv); d.remove(); fim(true); });
     });
   }

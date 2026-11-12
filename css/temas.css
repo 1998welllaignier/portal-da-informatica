@@ -134,3 +134,25 @@ body:has(#tb-sair) .tm-cai i { opacity: .5 !important; }
 .cur-foto { float: right; width: 92px; margin: 0 0 6px 10px; } .cur-foto img { width: 100%; border-radius: 10px; border: 3px solid #fff; box-shadow: 0 3px 8px rgba(0,0,0,.2); display: block; } .cur-foto figcaption { font-size: .68rem; line-height: 1.2; color: #64748b; text-align: center; margin-top: 3px; }
 .tema-saci { --tm1: #dc2626; --tm2: #16a34a; --tm-placar: radial-gradient(circle at 20% 0%, #7f1d1d, #1c1917 60%, #14532d); }
 .tema-saci .topbar { background: linear-gradient(90deg, #7f1d1d, #b91c1c 50%, #166534); }
+
+/* 🎮 desafio de saída das curiosidades */
+.dz-rever { display: block; margin: 0 auto 10px; }
+.dz-box { min-height: 260px; }
+.dz-inst { text-align: center; margin: 0 0 10px; } .dz-msg { text-align: center; font-weight: 700; min-height: 1.5em; margin: 10px 0 0; color: #0f766e; }
+.dz-caca { display: flex; gap: 18px; justify-content: center; align-items: flex-start; flex-wrap: wrap; }
+.dz-grade { display: grid; grid-template-columns: repeat(var(--n), 34px); gap: 3px; }
+.dz-l { width: 34px; height: 34px; border: 2px solid #e2e8f0; border-radius: 8px; background: #fff; font: 800 16px/1 system-ui, sans-serif; color: #1e293b; cursor: pointer; padding: 0; }
+.dz-l:hover { border-color: var(--tm1, #7c3aed); } .dz-l.sel { background: #fde68a; border-color: #f59e0b; } .dz-l.ok { background: #bbf7d0; border-color: #22c55e; color: #14532d; }
+.dz-l.dica { animation: tb-pisca 1s infinite; border-color: #f97316; }
+.dz-pal { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; font-weight: 800; letter-spacing: .06em; } .dz-pal li { padding: 6px 12px; border-radius: 10px; background: #f1f5f9; } .dz-pal li.ok { background: #bbf7d0; text-decoration: line-through; color: #166534; }
+.dz-mem { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; max-width: 760px; margin: 0 auto; }
+.dz-c { position: relative; height: 96px; border: none; border-radius: 14px; cursor: pointer; perspective: 600px; background: transparent; padding: 0; font: 700 14px/1.25 system-ui, sans-serif; }
+.dz-c .fr, .dz-c .vs { position: absolute; inset: 0; display: grid; place-items: center; border-radius: 14px; padding: 6px; backface-visibility: hidden; transition: transform .35s; }
+.dz-c .fr { background: linear-gradient(135deg, var(--tm1, #7c3aed), #1e293b); color: #fff; font-size: 30px; } .dz-c .vs { background: #fff; border: 3px solid #e2e8f0; transform: rotateY(180deg); color: #1e293b; }
+.dz-c.t .vs { font-size: 17px; font-weight: 900; color: var(--tm1, #7c3aed); }
+.dz-c.vira .fr { transform: rotateY(180deg); } .dz-c.vira .vs { transform: rotateY(0); } .dz-c.ok .vs { border-color: #22c55e; background: #f0fdf4; }
+@media (max-width: 700px) { .dz-mem { grid-template-columns: repeat(3, 1fr); } .dz-grade { grid-template-columns: repeat(var(--n), 28px); } .dz-l { width: 28px; height: 28px; font-size: 13px; } }
+.dz-perg { text-align: center; font-size: 1.3rem; margin: 6px 0 14px; } .dz-ops { display: grid; gap: 10px; max-width: 560px; margin: 0 auto; }
+.dz-op { font-size: 1.05rem; padding: 12px; } .dz-op.ok { background: #bbf7d0; border-color: #22c55e; } .dz-op.errou { background: #fee2e2; border-color: #ef4444; text-decoration: line-through; }
+.dz-fim { text-align: center; padding: 30px 0; } .dz-festa { font-size: 4rem; margin: 0; animation: pts-pula .6s; } .dz-fim h3 { font-size: 1.6rem; margin: 6px 0; }
+.cur-aviso { margin: 0 auto 12px; max-width: 720px; padding: 10px 14px; border-radius: 12px; background: #fef9c3; border: 2px dashed #eab308; font-size: .98rem; }
