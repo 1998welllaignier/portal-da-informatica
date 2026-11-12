@@ -98,3 +98,11 @@ body.modo-placar .tm-selo { display: none; }
 @media (prefers-reduced-motion: reduce) { .tm-selo { animation: none; } }
 .tm-selo b { text-align: center; } .tm-selo small { display: block; font-size: 11px; font-weight: 700; opacity: .9; margin-top: 3px; letter-spacing: .03em; }
 .tema-on .tm-faixa { margin-top: 64px; }
+
+/* 🍃 folclore: o Saci passa no redemoinho, o boto pula, o redemoinho gira */
+.tm-passa { position: fixed; bottom: 4px; left: -90px; z-index: 6; pointer-events: none; animation: tm-passa 22s linear infinite; }
+@keyframes tm-passa { 0% { transform: translateX(0); } 45% { transform: translateX(calc(100vw + 180px)); } 100% { transform: translateX(calc(100vw + 180px)); } }
+.tm-giro { transform-box: fill-box; transform-origin: center; animation: tm-giro .5s linear infinite alternate; } @keyframes tm-giro { to { transform: scaleX(-1); } }
+.tm-boto { transform-box: view-box; transform-origin: 140px 96px; animation: tm-boto 4s ease-in-out infinite; } @keyframes tm-boto { 0%, 100% { transform: translateY(24px) rotate(10deg); opacity: 0; } 30%, 70% { transform: translateY(0) rotate(-6deg); opacity: 1; } }
+@media (max-width: 900px) { .tm-passa { display: none; } }
+@media (prefers-reduced-motion: reduce) { .tm-boto, .tm-giro { animation: none; } }

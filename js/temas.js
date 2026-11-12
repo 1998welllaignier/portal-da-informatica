@@ -79,6 +79,26 @@
       <ellipse cx="96" cy="114" rx="11" ry="14" fill="#a78bfa"/><path d="M86 112 Q96 106 106 112" stroke="#fff" stroke-width="3" fill="none"/><ellipse cx="24" cy="116" rx="10" ry="12" fill="#fcd34d"/><path d="M15 116 l4 -4 l4 4 l4 -4 l4 4" stroke="#fff" stroke-width="2.5" fill="none"/></svg>`;
   const FOLHAS = `<svg viewBox="0 0 130 110" width="110" height="94"><path class="tm-mola" d="M64 100 Q20 96 30 60 Q40 30 64 20 Q88 30 98 60 Q108 96 64 100 Z" fill="#16a34a"/><path d="M64 100 V24 M64 56 L44 44 M64 72 L86 60 M64 86 L46 78" stroke="#bbf7d0" stroke-width="2.5" fill="none"/>
       <path d="M18 104 Q14 80 30 70 Q34 92 18 104 Z" fill="#65a30d"/><path d="M110 104 Q118 84 104 72 Q98 92 110 104 Z" fill="#84cc16"/><circle cx="104" cy="22" r="10" fill="#f97316"/><path d="M104 12 Q108 4 114 6" stroke="#15803d" stroke-width="3" fill="none"/></svg>`;
+  // 🧚 lendas do folclore brasileiro (desenhos próprios, no estilo dos avatares)
+  const CURUPIRA = `<svg viewBox="0 0 110 140" width="96" height="122">
+      <g class="tm-chama"><path d="M34 34 Q30 10 42 18 Q44 0 54 14 Q62 -2 66 16 Q78 6 74 30 Q84 26 76 42 L36 44 Q24 36 34 34 Z" fill="#f97316"/><path d="M40 36 Q40 20 48 26 Q54 12 60 26 Q68 18 68 38 Z" fill="#facc15"/></g>
+      <circle cx="56" cy="50" r="17" fill="#c98a58"/><circle cx="62" cy="47" r="2.3" fill="#1f2937"/><circle cx="70" cy="47" r="2.3" fill="#1f2937"/><path d="M60 57 Q66 61 71 56" stroke="#7f1d1d" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <path d="M40 66 L72 66 L78 96 L34 96 Z" fill="#15803d"/><path d="M34 96 l6 -10 l6 10 l6 -10 l6 10 l6 -10 l6 10 l6 -10 l4 10" fill="#16a34a"/><path d="M42 70 L30 88 M70 70 L84 84" stroke="#c98a58" stroke-width="7" stroke-linecap="round"/>
+      <rect x="44" y="96" width="8" height="22" rx="3" fill="#c98a58"/><rect x="60" y="96" width="8" height="22" rx="3" fill="#c98a58"/>
+      <path d="M52 118 Q52 124 46 124 H32 Q28 120 34 116 Z M68 118 Q68 124 62 124 H48 Q44 120 50 116 Z" fill="#c98a58"/>
+      <g fill="#a16207" opacity=".55"><ellipse cx="88" cy="128" rx="6" ry="3"/><ellipse cx="102" cy="134" rx="6" ry="3"/></g>
+      <text x="55" y="139" text-anchor="middle" font-size="9" font-weight="800" fill="#14532d" font-family="sans-serif">Curupira</text></svg>`;
+  const IARA_BOTO = `<svg viewBox="0 0 170 130" width="150" height="115">
+      <path d="M0 108 Q20 100 40 108 T80 108 T120 108 T170 108 V130 H0 Z" fill="#38bdf8" opacity=".75"/>
+      <g class="tm-boto"><path d="M112 96 Q118 60 148 58 Q162 58 166 66 Q156 66 152 70 Q140 72 132 96 Z" fill="#f9a8d4" stroke="#ec4899" stroke-width="1.5"/><path d="M134 68 l-4 -10 l10 6 Z" fill="#f472b6"/><circle cx="156" cy="64" r="1.6" fill="#1f2937"/><path d="M116 92 l-8 4 l4 -10 Z" fill="#f472b6"/></g>
+      <ellipse cx="44" cy="112" rx="34" ry="10" fill="#78716c"/><path d="M30 104 Q24 70 44 60 Q66 66 58 104 Q70 112 84 100 Q88 112 74 116 Q56 118 30 112 Z" fill="#10b981"/><path d="M40 80 Q50 84 58 80 M38 92 Q50 96 60 92" stroke="#047857" stroke-width="1.5" fill="none"/>
+      <path d="M28 30 Q24 64 30 76 Q38 70 36 46 Z M60 30 Q66 64 58 78 Q52 70 54 46 Z" fill="#1c1917"/><circle cx="44" cy="34" r="15" fill="#c98a58"/><path d="M29 32 Q30 14 44 16 Q60 16 60 34 Q52 22 44 24 Q36 22 29 32 Z" fill="#1c1917"/>
+      <circle cx="39" cy="34" r="2" fill="#1f2937"/><circle cx="49" cy="34" r="2" fill="#1f2937"/><path d="M40 41 Q44 44 48 41" stroke="#be123c" stroke-width="1.6" fill="none" stroke-linecap="round"/><path d="M33 52 Q44 58 55 52 L55 62 Q44 66 33 62 Z" fill="#c98a58"/><path d="M34 54 Q39 50 44 55 Q49 50 54 54" stroke="#facc15" stroke-width="3" fill="none"/>
+      <text x="44" y="128" text-anchor="middle" font-size="9" font-weight="800" fill="#0c4a6e" font-family="sans-serif">Iara</text><text x="140" y="128" text-anchor="middle" font-size="9" font-weight="800" fill="#0c4a6e" font-family="sans-serif">Boto</text></svg>`;
+  const SACI = `<svg viewBox="0 0 80 110" width="64" height="88"><g class="tm-giro" fill="none" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round" opacity=".7"><path d="M14 104 Q40 94 66 104"/><path d="M18 92 Q40 82 62 92"/><path d="M22 80 Q40 72 58 80"/></g>
+      <path d="M28 22 Q36 -2 56 6 Q48 10 50 22 Z" fill="#dc2626"/><circle cx="40" cy="30" r="12" fill="#93592b"/><circle cx="36" cy="29" r="1.8" fill="#1f2937"/><circle cx="44" cy="29" r="1.8" fill="#1f2937"/><path d="M35 35 Q40 39 45 35" stroke="#fde68a" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+      <path d="M30 44 H50 L52 64 H28 Z" fill="#dc2626"/><path d="M30 46 L20 56 M50 46 L60 40" stroke="#93592b" stroke-width="6" stroke-linecap="round"/><rect x="36" y="64" width="8" height="22" rx="3" fill="#93592b"/><ellipse cx="42" cy="88" rx="8" ry="3.5" fill="#93592b"/>
+      <text x="40" y="108" text-anchor="middle" font-size="8" font-weight="800" fill="#334155" font-family="sans-serif">Saci</text></svg>`;
   const BANDEIRAS_BR = `<svg viewBox="0 0 120 120" width="96" height="96"><path d="M20 118 V10" stroke="#78350f" stroke-width="4"/><g class="tm-mola"><path d="M22 12 H104 V64 H22 Z" fill="#16a34a"/><path d="M63 18 L98 38 L63 58 L28 38 Z" fill="#facc15"/><circle cx="63" cy="38" r="12" fill="#1d4ed8"/><path d="M51 36 Q63 32 75 40" stroke="#fff" stroke-width="2" fill="none"/></g></svg>`;
   const PIPA = `<svg viewBox="0 0 120 130" width="96" height="104"><g class="tm-pipa"><path d="M60 6 L94 40 L60 86 L26 40 Z" fill="#f43f5e"/><path d="M60 6 L60 86 M26 40 H94" stroke="#fff" stroke-width="2"/><path d="M60 6 L94 40 L60 40 Z" fill="#facc15"/><path d="M26 40 L60 86 L60 40 Z" fill="#3b82f6"/>
       <path d="M60 86 Q50 100 62 108 Q74 116 64 128" stroke="#334155" stroke-width="1.5" fill="none"/><path d="M58 98 l-6 2 l6 2 Z M62 112 l6 2 l-6 2 Z" fill="#22c55e"/></g></svg>`;
@@ -92,7 +112,7 @@
     indigenas: { esq: SOL_FLORESTA, faixa: "🪶 <b>19 de abril · Dia dos Povos Indígenas.</b> O Brasil tem centenas de povos indígenas, cada um com a sua língua, a sua história e a sua cultura. Eles não são coisa do passado: estão aqui hoje. Respeito e valorização!" },
     curionopolis: { dir: BOLO(new Date().getFullYear() - 1988), cai: { tipo: "balao", n: 10 }, faixa: `🎂 <b>10 de maio · Aniversário de Curionópolis!</b> A nossa cidade foi criada em 10 de maio de 1988 e faz ${new Date().getFullYear() - 1988} anos. Parabéns, Curionópolis!` },
     junina: { esq: FOGUEIRA, dir: MILHO, avatar: "palha", faixa: "🌽 <b>Festa Junina:</b> as festas de junho homenageiam Santo Antônio, São João e São Pedro e celebram a colheita, com quadrilha, fogueira, bandeirinhas e comidas de milho. Bem-vindos ao <b>Arraiá da Informática</b>! 🎶" },
-    folclore: { esq: FOLHAS, cai: { tipo: "folha", n: 18 }, faixa: "🍃 <b>22 de agosto · Dia do Folclore.</b> Curupira, Iara, Boto, Saci, Boitatá… as lendas, as danças e as brincadeiras que contam a história do nosso povo." },
+    folclore: { esq: CURUPIRA, dir: IARA_BOTO, passa: SACI, cai: { tipo: "folha", n: 18 }, faixa: "🍃 <b>22 de agosto · Dia do Folclore.</b> Curupira, Iara, Boto, Saci, Boitatá… as lendas, as danças e as brincadeiras que contam a história do nosso povo." },
     patria: { dir: BANDEIRAS_BR, faixa: "🇧🇷 <b>7 de setembro · Independência do Brasil (1822).</b> Semana da Pátria: conhecer a nossa história é cuidar do nosso futuro." },
     criancas: { dir: PIPA, cai: { tipo: "balao", n: 14 }, avatar: "festa", faixa: "🎈 <b>12 de outubro · Dia das Crianças!</b> Brincar, aprender e sonhar: hoje a festa é de vocês!" },
     professor: { esq: MACA_LIVROS, faixa: "🍎 <b>15 de outubro · Dia do Professor.</b> A data lembra a primeira lei do Brasil sobre as escolas de primeiras letras, de 15 de outubro de 1827. Obrigado a todos os professores que ensinam com carinho: que tal agradecer ao seu hoje?" },
@@ -185,6 +205,7 @@
       const pos = () => { const tb = document.querySelector("#topbar, .topbar"); pl.style.top = (tb ? Math.max(0, tb.getBoundingClientRect().bottom) : 0) + "px"; };
       pos(); window.addEventListener("resize", pos); window.addEventListener("scroll", pos, { passive: true }); setTimeout(pos, 600); setTimeout(pos, 2000); }
     if (d.esq) el("tm-canto esq", d.esq);
+    if (d.passa && !reduz()) el("tm-passa", d.passa);
     if (d.dir) el("tm-canto dir", d.dir);
     // faixa de mensagem logo abaixo da barra de cima (o aluno pode fechar; volta no dia seguinte)
     if (d.faixa) {
