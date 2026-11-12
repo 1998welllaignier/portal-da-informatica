@@ -326,9 +326,18 @@
   function curto(s, i) { return (s.apelidos && s.apelidos[i]) || s.nomes[i].split(" ")[0]; }
   function quem(s) { return s.nomes.map((n, i) => (s.apelidos && s.apelidos[i]) ? s.apelidos[i] : n).join(" & "); }
   P.curto = curto; P.quem = quem;
+  /* pergunta sim/não dentro da página (o confirm() do navegador às vezes é bloqueado e o botão parece não funcionar) */
+  function confirmar(msg, sim, nao) {
+    return new Promise(res => {
+      const d = document.createElement("dialog"); d.className = "pp-dlg";
+      d.innerHTML = `<form method="dialog"><p style="font-size:1.1rem;font-weight:700">${esc(msg)}</p><div class="row-btns"><button class="btn btn-ok" value="sim">${esc(sim || "Sim")}</button> <button class="btn" value="nao">${esc(nao || "Não, voltar")}</button></div></form>`;
+      document.body.appendChild(d); d.addEventListener("close", () => { res(d.returnValue === "sim"); d.remove(); }); d.showModal();
+    });
+  }
+  P.confirmar = confirmar;
   async function sair() {
     const s = sess.get();
-    if (!confirm(s && s.nuvem ? "Sair do portal? O que você fez já está guardado no painel do professor." : "Sair do portal? Seu progresso fica guardado neste navegador (veja “Privacidade e progresso”).")) return;
+    if (!(await confirmar(s && s.nuvem ? "Sair do portal? O que você fez já está guardado no painel do professor." : "Sair do portal? Seu progresso fica guardado neste navegador (veja “Privacidade e progresso”).", "Sim, sair"))) return;
     if (s && s.nuvem) { try { await Promise.all(cat().apostilas.map(a => P.nuvem.enviar(a.id).catch(() => null))); } catch (e) {} await P.nuvem.sair(); }
     sess.del(); location.hash = "#/";
   }
@@ -570,8 +579,8 @@
         <button class="btn btn-sec" id="apagar" type="button">🧹 Apagar meus dados deste computador</button></div>
     </section>`);
     document.getElementById("exp").onclick = () => exportar(aid);
-    document.getElementById("apagar").onclick = () => {
-      if (!confirm("Apagar todas as suas respostas desta apostila neste computador? Não dá para desfazer.")) return;
+    document.getElementById("apagar").onclick = async () => {
+      if (!(await confirmar("Apagar todas as suas respostas desta apostila neste computador? Não dá para desfazer.", "Sim, apagar"))) return;
       store.del(progressoKey(aid)); toast("Seus dados desta apostila foram apagados deste computador."); telaApostila(aid);
     };
   }
