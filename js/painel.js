@@ -1263,16 +1263,17 @@
     const sa = el.querySelector("#ap"); if (sa) sa.onchange = e => { try { sessionStorage.setItem("painel:ap:" + t.serie.id, e.target.value); } catch (x) {} telaAula(u, t.id); };
     // 📺 vídeo da missão (YouTube não listado do professor): player só aqui no painel, para projetar
     try {
-      const vid = ((P.videosMissao || {})[ap.base || ap.id] || {})[mid];
-      if (vid && /^[\w-]{11}$/.test(vid)) {
-        const box = document.createElement("details"); box.className = "painel pp-video"; box.open = true;
-        box.innerHTML = `<summary><strong>📺 Vídeo da missão ${esc(mid.toUpperCase())}</strong> (com a sua voz)</summary>
+      // pode ser um ID ou uma lista [principal, extra]: o 2º em diante aparece como vídeo extra (passo a passo)
+      const vv = ((P.videosMissao || {})[ap.base || ap.id] || {})[mid], lista = (Array.isArray(vv) ? vv : [vv]).filter(v => v && /^[\w-]{11}$/.test(v));
+      lista.forEach((vid, k) => {
+        const box = document.createElement("details"); box.className = "painel pp-video"; box.open = !k;
+        box.innerHTML = `<summary><strong>📺 ${k ? "Vídeo extra" : "Vídeo"} da missão ${esc(mid.toUpperCase())}</strong> ${k ? "(passo a passo, para quando a turma tiver dificuldade)" : "(com a sua voz)"}</summary>
           <div class="pp-video-quadro"><iframe src="https://www.youtube-nocookie.com/embed/${vid}?rel=0&modestbranding=1" title="Vídeo da missão ${esc(mid.toUpperCase())}" loading="lazy" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
           <p class="pp-video-acoes"><a class="btn btn-sec" href="https://www.youtube-nocookie.com/embed/${vid}?autoplay=1&rel=0&modestbranding=1" target="_blank" rel="noopener">↗️ Abrir player em nova aba</a>
             <a class="btn btn-link" href="https://youtu.be/${vid}" target="_blank" rel="noopener">Abrir no YouTube</a></p>
           <p class="ajuda">Dê o play aqui mesmo ou abra o player numa aba só dele (ocupa a tela toda, bom para projetar). Use o botão de tela cheia do player. Lembre da caixinha de som: os computadores dos alunos não têm áudio.</p>`;
         el.querySelector("#aula").before(box);
-      }
+      });
     } catch (e) { console.warn(e); }
     // 📣 avisos para o professor falar à turma (com a fala pronta); "✔ Já avisei" esconde só para esta turma
     try {
