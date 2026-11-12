@@ -356,6 +356,19 @@
     max += BONUS;
     return { pontos: max ? Math.round(1000 * raw / max) : 0, okB: !!p.basicoOk, okEm: okEm || null };
   }
+  // ⚡ XP da missão (0 a 1000): só as atividades que dão pontos (sem o bônus de rapidez, que fica no placar)
+  function xpDoc(aid, mid, atv) {
+    if (!P.montarMissao || !P.conteudo[aid]) return 0;
+    let mm; try { mm = P.montarMissao(aid, mid); } catch (e) { return 0; }
+    let max = 0, raw = 0;
+    mm.pages.forEach(pg => { const base = BASE[pg.id]; if (!base) return;
+      (pg.atividades || []).forEach(at => { const T = (P.tipos || {})[at.tipo] || {}; if (T.semStatus || at.opcional) return;
+        max += base; const st = (atv || {})[at.id]; if (!st || !st.status) return;
+        let f = st.status === "certo" ? 1 : st.status === "ajuda" ? .6 : st.status === "enviado" ? .8 : .5;
+        f -= .12 * (st.tentativas || 0) + .15 * (st.dicas || 0) + (st.viuResolucao ? .2 : 0);
+        raw += base * Math.max(.3, Math.min(1, f)); }); });
+    return max ? Math.round(1000 * raw / max) : 0;
+  }
   const nomeCurto = n => { const p = String(n || "").trim().split(/\s+/); return p.length > 1 ? p[0] + " " + p[p.length - 1][0] + "." : p[0] || "?"; };
   /* ranking da missão do dia. alunos = cadastro da turma; prog = documentos de progresso da turma */
   function ranking(alunos, prog, mid, hoje) {
@@ -408,5 +421,5 @@
   }
 
   P.avatar = { svg, editor, fluxoLogin, daSessao, PADRAO };
-  P.podio = { ranking, pontosDoc, linhaPlacar, podioHTML, confete, nomeCurto, MED, coroa, reis, tituloRei };
+  P.podio = { ranking, pontosDoc, xpDoc, linhaPlacar, podioHTML, confete, nomeCurto, MED, coroa, reis, tituloRei };
 })();

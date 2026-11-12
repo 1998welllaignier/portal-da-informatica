@@ -118,14 +118,31 @@
     if (s.alunoIds && s.alunoIds.length) return KEY + aid + ":" + s.turma + ":id:" + s.alunoIds.join("+");
     return KEY + aid + ":" + s.turma + ":" + norm(s.nomes.join("+")).replace(/ /g, "_");
   }
+  /* 🗺️ trilha da missão (barra da esquerda): bolinhas numeradas que ficam verdes e barra de ⚡ XP; atualiza na hora */
+  let trilhaAtual = null;
+  function paginaFeita(p, mid, prog) {
+    return p.tipo === "relatorio" ? false : p.tipo === "leitura" ? !!(prog.visitas || {})[mid + "/" + p.id] : (p.atividades || []).filter(x => !x.opcional && !((P.tipos || {})[x.tipo] || {}).semStatus).every(x => prog.atv[x.id] && prog.atv[x.id].status);
+  }
+  function atualizarTrilha(aid) {
+    if (!trilhaAtual || trilhaAtual.aid !== aid) return;
+    const mid = trilhaAtual.mid, box = document.getElementById("mn-xp"); if (!box) return;
+    const prog = getProg(aid); let pages = []; try { pages = montarMissao(aid, mid).pages; } catch (e) {}
+    pages.forEach(p => { const li = document.querySelector(`.mn-trilha li[data-pg="${p.id}"]`); if (!li) return; const ok = paginaFeita(p, mid, prog);
+      if (ok && !li.classList.contains("ok")) { li.classList.add("ok", "acabou"); const a = li.querySelector("a"); if (a && !a.querySelector(".feito")) a.insertAdjacentHTML("beforeend", ' <span class="feito" title="feito">✔</span>'); } });
+    const xp = pontosDaMissao(aid, mid, prog.atv), cheio = xp >= 1000, antes = +box.dataset.xp || 0;
+    box.dataset.xp = xp; box.classList.toggle("cheio", cheio);
+    box.innerHTML = `<div class="xp-cab"><span>⚡ XP da missão</span><b>${cheio ? "🏆 COMPLETA!" : `${xp} / 1000`}</b></div><div class="xp-trilho"><i style="width:${Math.max(xp ? 3 : 0, xp / 10)}%"></i></div>`;
+    if (xp > antes && antes) { box.classList.remove("subiu"); void box.offsetWidth; box.classList.add("subiu"); }
+  }
   function getProg(aid) { const k = progressoKey(aid); return (k && store.get(k, null)) || { visitas: {}, atv: {}, atualizado: 0 }; }
   // ⭐ pontos da brincadeira da aula (mesma conta do placar, sem o bônus de rapidez, que entra no total do placar)
-  function pontosDaMissao(aid, mid, atv) { try { const r = P.podio && P.podio.pontosDoc({ aid, mid, atv: atv || {} }, null, ""); return r ? r.pontos : 0; } catch (e) { return 0; } }
+  function pontosDaMissao(aid, mid, atv) { try { return P.podio ? P.podio.xpDoc(aid, mid, atv || {}) : 0; } catch (e) { return 0; } }
   function conferirPontos(aid, antes, depois) {
     const s = sess.get(), C = P.conteudo[aid]; if (!s || !s.nuvem || !C || !P.podio) return;
     if (JSON.stringify(antes.atv || {}) === JSON.stringify(depois.atv || {})) return;
     let ganho = 0; C.missoes.forEach(m => { const d = pontosDaMissao(aid, m.id, depois.atv) - pontosDaMissao(aid, m.id, antes.atv); if (d > 0) ganho += d; });
     if (ganho > 0) bolhaPontos(ganho);
+    setTimeout(() => atualizarTrilha(aid), 0);
   }
   function setProg(aid, p, daNuvem) {
     const k = progressoKey(aid); if (!k) return;
@@ -233,7 +250,7 @@
     esperaPos = Date.now() + 15000;
     if (!bolha || !bolha.isConnected) { bolha = h(`<div class="pts-bolha" role="status"><b class="pts-mais"></b><span class="pts-pos"></span></div>`); document.body.appendChild(bolha); }
     bolha.classList.remove("sai"); bolha.classList.remove("pula"); void bolha.offsetWidth; bolha.classList.add("pula");
-    bolha.querySelector(".pts-mais").textContent = `+${ganho} pts!`;
+    bolha.querySelector(".pts-mais").textContent = `+${ganho} XP!`;
     const pos = bolha.querySelector(".pts-pos"); pos.innerHTML = minhaPos ? posTxt(minhaPos) : ""; pos.hidden = !minhaPos;
     segura(4500);
   }
@@ -566,16 +583,18 @@
     const info = () => { const x = statusMissao(aid, mid); return `<span class="tb-mis">${esc(m.icone)} ${esc(m.titulo.replace(/ –.*/, ""))}</span><span class="tb-prog">🟢 ${x.basico[0]}/${x.basico[1]}</span>`; };
     barra(info());
     const navItem = (p, i) => {
-      const done = p.tipo === "relatorio" ? false : p.tipo === "leitura" ? !!prog.visitas[mid + "/" + p.id] : (p.atividades || []).filter(x => !x.opcional && !(P.tipos[x.tipo] || {}).semStatus).every(x => prog.atv[x.id] && prog.atv[x.id].status);
-      return `<li><a href="#/missao/${aid}/${mid}/${p.id}" class="${i === idx ? "atual" : ""}" ${i === idx ? 'aria-current="page"' : ""}>
-        <span aria-hidden="true">${p.icone}</span> ${esc(p.rotulo)} ${done ? '<span class="feito" title="feito">✔</span>' : ""}</a></li>`;
+      const done = paginaFeita(p, mid, prog);
+      return `<li class="${done ? "ok" : ""}" data-pg="${p.id}"><a href="#/missao/${aid}/${mid}/${p.id}" class="${i === idx ? "atual" : ""}" ${i === idx ? 'aria-current="page"' : ""}>
+        <span aria-hidden="true">${p.icone}</span> <span class="mn-rot">${esc(p.rotulo)}</span> ${done ? '<span class="feito" title="feito">✔</span>' : ""}</a></li>`;
     };
+    trilhaAtual = { aid, mid };
     const el = mount(`<section class="tela missao" style="--cor:${se.cor}">
       <nav class="migalhas"><a href="#/apostila/${aid}">${esc(a.titulo)}</a> › ${esc(m.titulo.replace(/ –.*/, ""))}</nav>
       <div class="mis-layout">
         <aside class="mis-nav" aria-label="Páginas da missão">
           <p class="mn-tit">${esc(m.icone)} ${esc(m.titulo)}</p>
-          <ol>${pages.map(navItem).join("")}</ol>
+          <div class="mn-xp" id="mn-xp"></div>
+          <ol class="mn-trilha">${pages.map(navItem).join("")}</ol>
           <div class="mn-status" id="mn-status"></div>
         </aside>
         <article class="mis-pag">
@@ -588,6 +607,7 @@
         </article>
       </div></section>`);
     const corpo = el.querySelector("#pag-corpo");
+    atualizarTrilha(aid);
     if (pg.tipo === "relatorio") { el.classList.add("pg-rel"); window.scrollTo(0, 0); }
     // Trilha: antecipa a sequência da aula (rotina previsível, sem surpresas)
     if (pg.id === "comecar" && a.trilha) corpo.appendChild(h(`<div class="painel roteiro-hoje"><strong>📋 A aula de hoje, nesta ordem:</strong><ol>${pages.filter(p => !["relatorio"].includes(p.id)).map(p => `<li>${p.icone || ""} ${esc(p.rotulo)}${p.id === pg.id ? " <em>(você está aqui)</em>" : ""}${p.id === "desafio" || p.id === "turbo" ? " <small>(se quiser, depois do Básico)</small>" : ""}</li>`).join("")}</ol></div>`));

@@ -1524,3 +1524,44 @@ body.modo-placar .tela.painel-prof { max-width: none; padding: 0; }
 .tema-natal .mis-nav a.atual, .tema-natal .btn:not(.btn-sec) { box-shadow: 0 0 0 2px rgba(250,204,21,.35); }
 .tema-natal body.modo-placar, .tema-natal .pl-tela { background: radial-gradient(circle at 20% 0%, #166534, #0b1d12 60%, #450a0a); }
 @media (prefers-reduced-motion: reduce) { .tema-natal .topbar::before, .tema-natal .topbar::after, .tm-arvore .tm-luzes { animation: none; } }
+
+/* 🗺️ TRILHA DA MISSÃO (barra da esquerda, 11/11/2026): mapa de fases numerado + ⚡ barra de XP */
+.mis-nav { background: linear-gradient(180deg, #f0fdf4 0%, #eff6ff 100%); border: 2px solid #bbf7d0; border-radius: 18px; box-shadow: 0 6px 18px rgba(15,23,42,.08); }
+.mn-tit { background: #fff; border-radius: 12px; padding: 9px 11px; border: 2px dashed #a7f3d0; box-shadow: 0 2px 0 #d1fae5; }
+/* ⚡ XP */
+.mn-xp { margin: 10px 0 12px; }
+.xp-cab { display: flex; justify-content: space-between; align-items: baseline; font-size: .8rem; font-weight: 800; color: #6d28d9; }
+.xp-cab b { font-variant-numeric: tabular-nums; }
+.xp-trilho { position: relative; height: 13px; border-radius: 99px; background: #ede9fe; box-shadow: inset 0 2px 3px rgba(76,29,149,.18); overflow: hidden; margin-top: 4px; }
+.xp-trilho i { position: relative; display: block; height: 100%; border-radius: 99px; background: linear-gradient(90deg, #8b5cf6, #ec4899); transition: width .8s cubic-bezier(.2,.9,.3,1.2); overflow: hidden; }
+.xp-trilho i::after { content: ""; position: absolute; inset: 0; background: linear-gradient(100deg, transparent 30%, rgba(255,255,255,.55) 50%, transparent 70%); transform: translateX(-100%); animation: xp-brilho 3.2s ease-in-out infinite; }
+@keyframes xp-brilho { 60%, 100% { transform: translateX(100%); } }
+.mn-xp.cheio .xp-trilho i { background: linear-gradient(90deg, #f59e0b, #facc15); }
+.mn-xp.cheio .xp-cab { color: #b45309; }
+.mn-xp.subiu .xp-cab b { animation: xp-pula .5s ease-out; }
+@keyframes xp-pula { 40% { transform: scale(1.35); color: #db2777; } }
+/* trilha */
+.mn-trilha { position: relative; counter-reset: fase; }
+.mn-trilha li { counter-increment: fase; position: relative; }
+.mn-trilha li:not(:last-child)::after { content: ""; position: absolute; left: 21px; top: 38px; height: calc(100% - 26px); border-left: 4px dotted #cbd5e1; z-index: 0; }
+.mn-trilha li.ok:not(:last-child)::after { border-left: 4px solid #22c55e; }
+.mis-nav .mn-trilha a { display: flex; align-items: center; gap: 10px; padding: 6px 4px; background: none; color: #1e293b; font-weight: 700; border-radius: 12px; transition: background .2s; }
+.mis-nav .mn-trilha a:hover { background: rgba(255,255,255,.7); }
+.mn-trilha a::before { content: counter(fase); position: relative; z-index: 1; flex: 0 0 34px; height: 34px; border-radius: 50%; background: #fff; border: 3px solid #cbd5e1; display: grid; place-items: center; font-weight: 900; color: #64748b; box-shadow: 0 3px 0 #cbd5e1; transition: transform .2s; }
+.mn-trilha a:hover::before { transform: scale(1.08); }
+.mn-trilha li[data-pg="basico"] a::before { border-color: #86efac; } .mn-trilha li[data-pg="desafio"] a::before { border-color: #fcd34d; } .mn-trilha li[data-pg="turbo"] a::before { border-color: #fca5a5; }
+.mn-trilha li.ok a::before { content: "✔"; background: #22c55e; border-color: #16a34a; color: #fff; box-shadow: 0 3px 0 #15803d; }
+.mn-trilha li.acabou a::before { animation: fase-ok .6s cubic-bezier(.2,1.6,.4,1); }
+@keyframes fase-ok { 0% { transform: scale(.5); } 100% { transform: scale(1); } }
+.mis-nav .mn-trilha a.atual { background: rgba(255,255,255,.85); color: var(--cor); box-shadow: 0 2px 8px rgba(15,23,42,.08); }
+.mn-trilha a.atual::before { content: "▶"; background: var(--cor); border-color: #fde047; color: #fff; box-shadow: 0 3px 0 rgba(0,0,0,.25); animation: fase-pulso 2.2s ease-in-out infinite; }
+.mn-trilha li.ok a.atual::before { content: "✔"; }
+@keyframes fase-pulso { 0%, 100% { box-shadow: 0 3px 0 rgba(0,0,0,.25), 0 0 0 4px rgba(253,224,71,.55); } 50% { box-shadow: 0 3px 0 rgba(0,0,0,.25), 0 0 0 8px rgba(253,224,71,.15); } }
+.mn-trilha .feito { display: none; }
+.mis-nav .mn-trilha a.atual .feito { display: none; }
+@media (prefers-reduced-motion: reduce) { .xp-trilho i::after, .mn-trilha a.atual::before, .mn-trilha li.acabou a::before { animation: none; } }
+.tm-noel { position: fixed; right: 8px; bottom: 0; z-index: 6; pointer-events: none; filter: drop-shadow(0 3px 4px rgba(0,0,0,.2)); }
+.tm-noel-corpo { animation: tm-desce 14s ease-in-out infinite; }
+@keyframes tm-desce { 0% { transform: translateY(-130px); } 30% { transform: translateY(0); } 38% { transform: translateY(-6px); } 46% { transform: translateY(0); } 70% { transform: translateY(95px); } 88% { transform: translateY(95px); } 100% { transform: translateY(-130px); } }
+@media (max-width: 900px) { .tm-noel { display: none; } }
+@media (prefers-reduced-motion: reduce) { .tm-noel-corpo { animation: none; } }
