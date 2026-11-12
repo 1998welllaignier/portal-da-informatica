@@ -412,8 +412,8 @@
   /* ======================= 🎉 telas do placar/pódio ======================= */
   const MED = ["🥇", "🥈", "🥉"];
   function linhaPlacar(e, i) {
-    return `<div class="pl-lin ${i < 3 ? "top top" + (i + 1) : ""}" data-k="${esc(e.ids.join("+"))}" style="top:${i * 74}px">
-      <span class="pl-pos">${i < 3 ? MED[i] : e.pos + "º"}</span><span class="pl-av${e.rei ? " rei" : ""}">${e.rei ? coroa(38) : ""}${e.avatares.map(a => svg(a, 38)).join("")}</span>
+    return `<div class="pl-lin ${e.pontos && e.pos <= 3 ? "top top" + e.pos : ""}" data-k="${esc(e.ids.join("+"))}" style="top:${i * 74}px">
+      <span class="pl-pos">${!e.pontos ? "–" : e.pos <= 3 ? MED[e.pos - 1] : e.pos + "º"}</span><span class="pl-av${e.rei ? " rei" : ""}">${e.rei ? coroa(38) : ""}${e.avatares.map(a => svg(a, 38)).join("")}</span>
       <span class="pl-nome">${e.nomes.map(esc).join(" & ")}${e.trilha ? " 👣" : ""}${e.rei ? ` <small class="pl-rei">👑 ${tituloRei(e.avatares)}</small>` : ""}${e.okB ? ` <small class="pl-ok">✔ Básico</small>` : ""}</span>
       <span class="pl-pts">${e.pontos}<small> pts</small></span></div>`;
   }

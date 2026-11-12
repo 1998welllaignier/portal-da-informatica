@@ -273,10 +273,21 @@
     await db().collection("config").doc("liberar_" + t.id).set({ fechadaAte: ate, ate: 0 }, { merge: true });
     return rk;
   }
+  // missão em que a turma realmente está hoje: a que tem mais alunos com progresso de hoje (empate: a do cronograma)
+  function missaoDaTurmaHoje(prog, padrao) {
+    const hoje = N.hoje(), quem = {};
+    prog.forEach(p => { if (p.mid && p.dias && p.dias[hoje]) (quem[p.mid] = quem[p.mid] || new Set()).add(p.alunoId); });
+    let melhor = padrao, n = quem[padrao] ? quem[padrao].size : 0;
+    Object.keys(quem).forEach(m => { if (quem[m].size > n) { melhor = m; n = quem[m].size; } });
+    return melhor;
+  }
+  // garante que a apostila de cada progresso esteja carregada (sem ela os pontos dariam 0: ex. aluno na trilha adaptada)
+  async function carregarAids(prog) { const aids = [...new Set(prog.map(p => p.aid).filter(a => a && !P.conteudo[a]))];
+    for (const a of aids) { try { await P.carregarApostila(a); } catch (e) {} } }
   async function missaoDeHoje(t) {
     const ap = cat().apostilas.find(a => a.serie === t.serie.id && !a.oculta && !a.trilha) || cat().apostilas.find(a => a.serie === t.serie.id);
     await P.carregarApostila(ap.id); const C = P.conteudo[ap.id];
-    try { const h = await db().collection("config").doc("hoje_" + t.id).get(); if (h.exists && h.data().dia === N.hoje() && h.data().mid) return { mid: h.data().mid, C }; } catch (e) {}
+    try { const h = await db().collection("config").doc("hoje_" + t.id).get(); if (h.exists && h.data().dia === N.hoje() && h.data().mid) return { mid: h.data().mid, C, fixo: true }; } catch (e) {}
     return { mid: missaoDoDia(t, C) || C.missoes[0].id, C };
   }
   /* 🏆 Placar ao vivo (para o projetor): ranking que muda na hora; congela nos últimos 5 min; vira pódio ao finalizar */
@@ -286,9 +297,9 @@
     document.body.classList.add("modo-placar");
     window.addEventListener("hashchange", function sai() { document.body.classList.remove("modo-placar"); window.removeEventListener("hashchange", sai); });
     await carregarSerie(t);
-    const { mid, C } = await missaoDeHoje(t), missao = C.missoes.find(x => x.id === mid) || {};
+    const hj = await missaoDeHoje(t), C = hj.C; let mid = hj.mid; const missao = C.missoes.find(x => x.id === mid) || {};
     const alunos = (await alunosDaTurma(t.id)).filter(a => a.ativo !== false && !a.teste);
-    const el = tela(`<div class="pl-tela"><header class="pl-cab"><div><p class="pl-sup">🏆 Placar ao vivo · ${esc(nomeTurma(t.id))}</p><h1>${esc(missao.icone || "")} ${esc(missao.titulo || mid.toUpperCase())}</h1>
+    const el = tela(`<div class="pl-tela"><header class="pl-cab"><div><p class="pl-sup">🏆 Placar ao vivo · ${esc(nomeTurma(t.id))}</p><h1 id="pl-h1">${esc(missao.icone || "")} ${esc(missao.titulo || mid.toUpperCase())}</h1>
         <p class="pl-aviso">Pontos do pódio (não são nota) · ${esc(cat().professor)}</p></div>
         <div class="pl-dir"><div class="pl-relogio" id="pl-rel"></div><div class="pl-bts"><button type="button" class="btn btn-peq btn-sec pl-som" id="pl-som"></button><button type="button" class="btn btn-peq btn-sec" id="pl-tela">⛶ Tela cheia</button><button type="button" class="btn btn-peq" id="pl-fim">🏁 Finalizar aula</button><button type="button" class="btn btn-peq btn-sec" id="pl-volta" hidden>↩ Voltar ao placar</button></div></div></header>
       <div class="pl-corpo" id="pl-corpo"></div></div>`);
@@ -308,6 +319,9 @@
       if (vendoPodio) return;
       const rel = relogio(), congelado = !rel.fora && !rel.antes && !rel.depois && rel.r <= 300;
       if (congelado) { publicarRei(t, [], true); if (!jaCongelou) { jaCongelou = true; So && So.congelou(); } corpo.innerHTML = `<div class="pl-cong"><p>🤫</p><h2>Placar congelado!</h2><p>Faltam menos de 5 minutos. O resultado só aparece no pódio… Corram!</p></div>`; return; }
+      // a missão do placar é a que a turma está fazendo de verdade hoje (se a turma ainda está na M1, conta a M1), a não ser que o professor tenha fixado a missão do dia
+      const m2 = hj.fixo ? mid : missaoDaTurmaHoje(prog, mid);
+      if (m2 !== mid) { mid = m2; const mi = C.missoes.find(x => x.id === mid) || {}; el.querySelector("#pl-h1").textContent = `${mi.icone || ""} ${mi.titulo || mid.toUpperCase()}`; }
       const rk = P.podio.ranking(alunos, prog, mid, N.hoje());
       publicarRei(t, rk);
       const reiAgora = rk.filter(e => e.rei).map(e => e.ids.join("+")).join(",");
@@ -328,7 +342,7 @@
     const finalizar = async auto => { if (finalizando) return; finalizando = true;
       try { await finalizarAula(t, alunos, prog, mid); if (!auto) toast("🏁 Aula finalizada!"); } catch (err) { toast("Não foi possível finalizar: " + (err.message || err)); } finalizando = false; };
     el.querySelector("#pl-fim").onclick = async () => { if (await P.confirmar("Finalizar a aula agora? As tarefas fecham e o pódio aparece aqui e na tela dos alunos.")) finalizar(false); };
-    const u1 = db().collection("progresso").where("turma", "==", t.id).onSnapshot(q => { prog = q.docs.map(d => ({ id: d.id, ...d.data() })); pintarPlacar(); }, err => toast("Placar: " + (err.message || err)));
+    const u1 = db().collection("progresso").where("turma", "==", t.id).onSnapshot(async q => { prog = q.docs.map(d => ({ id: d.id, ...d.data() })); await carregarAids(prog); pintarPlacar(); }, err => toast("Placar: " + (err.message || err)));
     let jaVi = 0;
     const u2 = db().collection("config").doc("podio_" + t.id).onSnapshot(sn => { const d = sn.exists ? sn.data() : null;
       pod = d && d.dia === N.hoje() ? d : null; if (pod && pod.finalizadaEm !== jaVi) { jaVi = pod.finalizadaEm; mostrarPodio(); } });
@@ -367,6 +381,7 @@
       else if (m >= fim) rel = `<span class="pv-rel fora">A aula terminou às ${fhm(fim)}.</span>`;
       else rel = `<span class="pv-rel">⏱️ <b>Faltam ${fim - m} min</b> para o fim da aula (${fhm(ini)}–${fhm(fim)})<span class="pv-barra"><i style="width:${Math.round(100 * (m - ini) / DUR)}%"></i></span></span>`;
       dlg.querySelector("#pv-rel").innerHTML = rel;
+      if (!estado.fixo) { const m2 = missaoDaTurmaHoje(prog, estado.midPadrao); if (m2 !== mid) { estado.mid = m2; return pinta(); } }
       const missao = C.missoes.find(x => x.id === mid) || {};
       // 👑 rei da sala (mesma pontuação do placar); nos últimos 5 min não muda (placar congelado)
       const rk = P.podio.ranking(alunos, prog, mid, hoje), congelado = ini != null && t.aula.dia === dia && m >= fim - 5 && m < fim;
@@ -405,8 +420,9 @@
       const ap = cat().apostilas.find(a => a.serie === t.serie.id && !a.oculta && !a.trilha) || cat().apostilas.find(a => a.serie === t.serie.id);
       await P.carregarApostila(ap.id); await carregarSerie(t); const C = P.conteudo[ap.id], mid = missaoDoDia(t, C) || C.missoes[0].id;
       const alunos = (await alunosDaTurma(tid)).filter(a => a.ativo !== false && !a.teste);
-      estado = { t, alunos, prog: [], C, mid, aid: ap.id };
-      unsub = db().collection("progresso").where("turma", "==", tid).onSnapshot(q => { if (estado && estado.t.id === tid) { estado.prog = q.docs.map(d => ({ id: d.id, ...d.data() })); pinta(); } },
+      let fixo = false; try { const hh = await db().collection("config").doc("hoje_" + t.id).get(); fixo = hh.exists && hh.data().dia === N.hoje() && hh.data().mid === mid; } catch (e) {}
+      estado = { t, alunos, prog: [], C, mid, midPadrao: mid, fixo, aid: ap.id };
+      unsub = db().collection("progresso").where("turma", "==", tid).onSnapshot(async q => { if (estado && estado.t.id === tid) { estado.prog = q.docs.map(d => ({ id: d.id, ...d.data() })); await carregarAids(estado.prog); pinta(); } },
         err => { dlg.querySelector("#pv-c").innerHTML = `<p class="ajuda">Não foi possível acompanhar ao vivo: ${esc(err.message || err)}</p>`; });
     };
     dlg.querySelector("#pv-t").onchange = e => { tid = e.target.value; carregarT(); };
@@ -446,8 +462,9 @@
     document.body.appendChild(dlg); dlg.showModal(); dlg.addEventListener("close", () => dlg.remove());
     dlg.querySelector("#ff-ok").onclick = async () => {
       const b = dlg.querySelector("#ff-ok"), t = turmas.find(x => x.id === dlg.querySelector("#ff-t").value); b.disabled = true; b.textContent = "Finalizando…";
-      try { const [{ mid }, alunos, q] = await Promise.all([missaoDeHoje(t), alunosDaTurma(t.id), db().collection("progresso").where("turma", "==", t.id).get()]);
-        await finalizarAula(t, alunos.filter(a => a.ativo !== false && !a.teste), q.docs.map(d => ({ id: d.id, ...d.data() })), mid);
+      try { const [hj, alunos, q] = await Promise.all([missaoDeHoje(t), alunosDaTurma(t.id), db().collection("progresso").where("turma", "==", t.id).get()]);
+        const prog = q.docs.map(d => ({ id: d.id, ...d.data() })); await carregarAids(prog);
+        await finalizarAula(t, alunos.filter(a => a.ativo !== false && !a.teste), prog, hj.fixo ? hj.mid : missaoDaTurmaHoje(prog, hj.mid));
         dlg.close(); toast("🏁 Aula finalizada! Abra o 🏆 Placar para ver o pódio.");
       } catch (err) { const e = dlg.querySelector("#ff-e"); e.textContent = "Não foi possível finalizar: " + (err.message || err); e.hidden = false; b.disabled = false; b.textContent = "🏁 Sim, finalizar agora"; }
     };
