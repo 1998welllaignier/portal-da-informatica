@@ -157,7 +157,7 @@
       "<b>👀 Abrir a apostila do aluno</b>: abre, numa aba nova, a apostila exatamente como o aluno vê. Nada do que você fizer ali conta.",
       "<b>📺 Vídeo da missão</b>: quando a missão já tem vídeo no seu canal do YouTube (não listado), o player aparece nesta aba. Dê o play ali mesmo ou toque em <b>↗️ Abrir player em nova aba</b>, que abre só o vídeo numa aba própria, ocupando a tela toda (bom para projetar). Só você vê; os alunos não.",
       "<b>🪧 Cartaz de entrada</b>: abre, numa aba nova, o mesmo cartaz da porta (endereço do site e os 4 passos para entrar), em tela cheia, para projetar no começo da aula. Aperte F11 para tela cheia.",
-      "<b>📌 Missão de hoje</b>: toque em “Definir … como Missão de hoje”. Quando o aluno digitar o código, ele cai direto nessa missão. Vale só para hoje.",
+      "<b>📌 Missão de hoje</b>: escolha a missão na lista do quadro amarelo (qualquer uma, não precisa abrir antes). Quando o aluno digitar o código, ele cai direto nela. Marque “🔒 Travar só nela” para fechar as tarefas das outras missões. Vale só para hoje; para tirar, escolha “nenhuma”.",
       "<b>🔒 Travar só nela</b> (opcional): as tarefas das outras missões fecham hoje. Os textos continuam abertos. Quem você liberou individualmente (falta, reposição) continua podendo fazer as outras.",
       "<b>Tarefas desta turma</b> (aparece quando a trava de horário está ligada): libera a turma toda agora, fecha antes da hora ou volta ao normal.",
       "<b>🧩 Apoios</b>: o que fazer com cada aluno atípico da turma. Só você vê."]],
@@ -1374,20 +1374,28 @@
     try {
       const hRef = db().collection("config").doc("hoje_" + t.id), hs = await hRef.get();
       const hj = hs.exists && hs.data().dia === N.hoje() ? hs.data() : null;
-      const baseId = ap.base || ap.id, m0 = C.missoes.find(x => x.id === mid);
-      const tit = hj ? ((C.missoes.find(x => x.id === hj.mid) || {}).titulo || hj.mid.toUpperCase()) : "";
+      const baseId = ap.base || ap.id, curto = m => (m.titulo || m.id.toUpperCase()).replace(/ –.*/, "");
+      // escolher QUALQUER missão numa lista (não só a que está aberta) e travar, tudo no mesmo quadro (pedido em 12/11/2026)
       const box = document.createElement("div"); box.className = "pp-trava pp-hoje";
-      box.innerHTML = `<span>📌 Missão de hoje:</span> <span class="st">${hj ? `${esc(tit.replace(/ –.*/, ""))}${hj.travar ? " · 🔒 só ela" : ""}` : "nenhuma"}</span>
-        ${hj && hj.mid === mid ? "" : `<button class="btn btn-sec btn-peq" type="button" data-hj="def">📌 Definir a ${esc(mid.toUpperCase())} como Missão de hoje</button>`}
-        ${hj ? `<label class="pp-auto"><input type="checkbox" data-hj="trav" ${hj.travar ? "checked" : ""}> 🔒 Travar só nela</label><button class="btn btn-sec btn-peq" type="button" data-hj="tira">✖ Tirar</button>` : ""}`;
+      box.innerHTML = `<label>📌 <b>Missão de hoje:</b> <select data-hj="sel">
+          <option value="" ${hj ? "" : "selected"}>— nenhuma (o aluno escolhe) —</option>
+          ${C.missoes.map(m => `<option value="${esc(m.id)}" ${hj && hj.mid === m.id ? "selected" : ""}>${esc(m.icone || "")} ${esc(m.id.toUpperCase())} · ${esc(((m.titulo || "").replace(/^[^–]*–\s*/, "") || curto(m)).slice(0, 60))}</option>`).join("")}</select></label>
+        <label class="pp-auto" title="${hj ? "Só a missão de hoje fica com as tarefas abertas" : "Escolha primeiro a missão de hoje na lista"}"><input type="checkbox" data-hj="trav" ${hj && hj.travar ? "checked" : ""} ${hj ? "" : "disabled"}> 🔒 Travar só nela</label>
+        <span class="st">${hj ? (hj.travar ? "🔒 os alunos só fazem as tarefas desta missão" : "✔ o aluno cai direto nela ao digitar o código") : "nenhuma missão definida para hoje"}</span>`;
       el.querySelector(".pp-barra").appendChild(box);
-      box.querySelectorAll("[data-hj]").forEach(b => (b.type === "checkbox" ? b.onchange = null : 0, b[b.type === "checkbox" ? "onchange" : "onclick"] = async () => {
-        const k = b.dataset.hj;
-        if (k === "def") await hRef.set({ dia: N.hoje(), aid: baseId, mid, titulo: m0 ? m0.titulo.replace(/ –.*/, "") + " – " + m0.titulo.replace(/^[^–]*– ?/, "") : mid, travar: !!(hj && hj.travar) });
-        if (k === "trav") await hRef.set({ travar: b.checked }, { merge: true });
-        if (k === "tira") await hRef.set({ dia: "", mid: "" });
-        toast("Feito!"); telaAula(u, t.id, mid);
-      }));
+      const sel = box.querySelector('[data-hj="sel"]'), trav = box.querySelector('[data-hj="trav"]');
+      sel.onchange = async () => {
+        const v = sel.value, m = C.missoes.find(x => x.id === v);
+        try {
+          if (!v) await hRef.set({ dia: "", mid: "" });
+          else await hRef.set({ dia: N.hoje(), aid: baseId, mid: v, titulo: m ? m.titulo.replace(/ –.*/, "") + " – " + m.titulo.replace(/^[^–]*– ?/, "") : v, travar: !!(hj && hj.travar) });
+          toast(v ? "Missão de hoje: " + v.toUpperCase() : "Missão de hoje tirada."); telaAula(u, t.id, v || mid);
+        } catch (err) { toast("Não foi possível salvar: " + (err.message || err)); }
+      };
+      trav.onchange = async () => {
+        try { await hRef.set({ travar: trav.checked }, { merge: true }); toast(trav.checked ? "🔒 Travado só na missão de hoje." : "Destravado."); telaAula(u, t.id, mid); }
+        catch (err) { toast("Não foi possível salvar: " + (err.message || err)); }
+      };
     } catch (e) { console.warn(e); }
     // 🔒 liberar ou fechar as tarefas da turma fora do horário
     try {
