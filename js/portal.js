@@ -233,7 +233,7 @@
     esperaPos = Date.now() + 15000;
     if (!bolha || !bolha.isConnected) { bolha = h(`<div class="pts-bolha" role="status"><b class="pts-mais"></b><span class="pts-pos"></span></div>`); document.body.appendChild(bolha); }
     bolha.classList.remove("sai"); bolha.classList.remove("pula"); void bolha.offsetWidth; bolha.classList.add("pula");
-    bolha.querySelector(".pts-mais").textContent = `⭐ +${ganho} pontos!`;
+    bolha.querySelector(".pts-mais").textContent = `+${ganho} pts!`;
     const pos = bolha.querySelector(".pts-pos"); pos.innerHTML = minhaPos ? posTxt(minhaPos) : ""; pos.hidden = !minhaPos;
     segura(4500);
   }

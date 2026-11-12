@@ -1491,3 +1491,19 @@ body.modo-placar .tela.painel-prof { max-width: none; padding: 0; }
 .pp-fim-btn { background: #dc2626; border-color: #dc2626; color: #fff; }
 
 .pl-som.pisca-som { background: #facc15; color: #422006; border-color: #facc15; animation: tb-pisca 1s infinite; }
+
+/* 🎮 bolha de pontos no estilo videogame 8 bits (11/11/2026): entra caindo com quiques "travadinhos", pisca e sai encolhendo como TV antiga */
+.pts-bolha { background: #111827; border: 4px solid #fff; outline: 4px solid #111827; border-radius: 0; box-shadow: 8px 8px 0 #7c3aed; padding: 12px 18px; font-family: "Courier New", ui-monospace, monospace; text-transform: uppercase; letter-spacing: .05em; right: 26px; top: 82px; image-rendering: pixelated; }
+.pts-mais { color: #fde047; font-size: 1.7rem; text-shadow: 3px 3px 0 #b45309; }
+.pts-mais::before { content: "★ "; }
+.pts-pos { color: #a5f3fc; font-size: .95rem; font-weight: 900; }
+.pts-pos b { color: #fff; }
+.pts-bolha.pula { animation: pts-entra .5s steps(6) both; }
+.pts-bolha.pula .pts-mais { animation: pts-pisca .9s steps(1) .5s 3; }
+.pts-pos.pisca1 { animation: pts-luz8 .8s steps(1) 2; }
+.pts-bolha.sai { opacity: 1; transform: none; transition: none; animation: pts-sai .45s steps(5) forwards; }
+@keyframes pts-entra { 0% { transform: translateY(-160%) scale(.4); } 55% { transform: translateY(12%) scale(1.12); } 75% { transform: translateY(-6%) scale(.97); } 100% { transform: none; } }
+@keyframes pts-pisca { 0%, 100% { color: #fde047; } 50% { color: #fff; } }
+@keyframes pts-luz8 { 0% { background: #7c3aed; color: #fff; } 50% { background: transparent; } }
+@keyframes pts-sai { 0% { transform: none; opacity: 1; } 60% { transform: scale(1.15, .08); opacity: 1; } 100% { transform: scale(0, .02); opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .pts-bolha.pula, .pts-bolha.sai, .pts-bolha .pts-mais, .pts-pos { animation: none !important; } }
