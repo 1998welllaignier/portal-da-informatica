@@ -933,13 +933,30 @@
   function datasDoAno(ano) {
     const pas = (() => { const a = ano % 19, b = Math.floor(ano / 100), c = ano % 100, d = Math.floor(b / 4), e = b % 4, f = Math.floor((b + 8) / 25), g = Math.floor((b - f + 1) / 3), h = (19 * a + b - d - g + 15) % 30, i = Math.floor(c / 4), k = c % 4, l = (32 + 2 * e + 2 * i - h - k) % 7, m = Math.floor((a + 11 * h + 22 * l) / 451); return new Date(ano, Math.floor((h + l - 7 * m + 114) / 31) - 1, ((h + l - 7 * m + 114) % 31) + 1); })();
     const ds = (d) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`, mv = n => ds(new Date(pas.getFullYear(), pas.getMonth(), pas.getDate() + n)), f = md => ano + "-" + md;
+    const nDia = (mes, dow, n) => { const d = new Date(ano, mes - 1, 1); while (d.getDay() !== dow) d.setDate(d.getDate() + 1); d.setDate(d.getDate() + 7 * (n - 1)); return ds(d); }, nDom = (mes, n) => nDia(mes, 0, n);
     return [ // [data, nome, tipo: feriado | facultativo | data]
       [f("01-01"), "🎆 Confraternização Universal", "feriado"], [mv(-48), "🎭 Carnaval (segunda)", "facultativo"], [mv(-47), "🎭 Carnaval (terça)", "facultativo"], [mv(-46), "Quarta-feira de Cinzas", "facultativo"],
       [mv(-2), "✝️ Sexta-feira Santa", "feriado"], [mv(0), "🐰 Páscoa", "data"], [f("04-19"), "🪶 Dia dos Povos Indígenas", "data"], [f("04-21"), "Tiradentes", "feriado"], [f("05-01"), "👷 Dia do Trabalhador", "feriado"],
       [f("05-10"), "🎂 Aniversário de Curionópolis (1988)", "data"], [mv(60), "Corpus Christi", "facultativo"], [f("06-24"), "🌽 São João", "data"], [f("08-11"), "🎓 Dia do Estudante", "data"], [f("08-15"), "Adesão do Pará", "feriado"],
       [f("08-22"), "🍃 Dia do Folclore", "data"], [f("09-07"), "🇧🇷 Independência do Brasil", "feriado"], [f("10-12"), "🎈 Dia das Crianças · Nossa Senhora Aparecida", "feriado"], [f("10-15"), "🍎 Dia do Professor", "data"],
       [f("10-31"), "🌪️ Dia do Saci", "data"], [f("11-02"), "Finados", "feriado"], [f("11-15"), "Proclamação da República", "feriado"], [f("11-20"), "✊🏿 Dia Nacional de Zumbi e da Consciência Negra", "feriado"], [f("11-27"), "⛪ Nossa Senhora das Graças, padroeira de Curionópolis (feriado municipal)", "feriado"],
-      [f("12-24"), "🎄 Véspera de Natal", "facultativo"], [f("12-25"), "🎄 Natal", "feriado"], [f("12-31"), "🎆 Véspera de Ano-Novo", "facultativo"]
+      [f("12-24"), "🎄 Véspera de Natal", "facultativo"], [f("12-25"), "🎄 Natal", "feriado"], [f("12-31"), "🎆 Véspera de Ano-Novo", "facultativo"],
+      // 🏫 datas da escola e das pessoas que trabalham nela (12/11/2026: faltava o Dia do Diretor de Escola)
+      [f("03-12"), "📚 Dia do Bibliotecário", "data"], [f("03-15"), "🏫 Dia da Escola", "data"], [f("04-28"), "📘 Dia da Educação", "data"], [f("04-24"), "👨‍👩‍👧 Dia Nacional da Família na Escola", "data"],
+      [f("08-06"), "👩‍🏫 Dia Nacional dos Profissionais da Educação (todos que trabalham na escola)", "data"], [f("09-30"), "🗂️ Dia da Secretária (parabenize a secretaria da escola)", "data"],
+      [f("10-21"), "🍲 Dia Nacional da Alimentação na Escola", "data"], [f("10-28"), "🏛️ Dia do Servidor Público", "data"], [f("10-30"), "🍲 Dia da Merendeira Escolar (parabenize a equipe da cozinha)", "data"],
+      [f("11-12"), "🏫 Dia do Diretor de Escola (parabenize a direção)", "data"], [nDom(5, 2), "💐 Dia das Mães", "data"], [nDom(8, 2), "👔 Dia dos Pais", "data"], [f("07-26"), "👵 Dia dos Avós", "data"],
+      // 💻 Informática e internet (a matéria do professor)
+      [nDia(2, 2, 2), "🔐 Dia da Internet Segura", "data"], [f("05-17"), "🌐 Dia Mundial da Internet (Telecomunicações e Sociedade da Informação)", "data"], [f("08-15"), "💻 Dia da Informática", "data"], [ds(new Date(ano, 0, 256)), "👨‍💻 Dia do Programador (256º dia do ano)", "data"],
+      // 🧩 inclusão, direitos e cuidado
+      [f("03-21"), "🧦 Dia Mundial da Síndrome de Down · Dia Internacional contra a Discriminação Racial", "data"], [f("04-02"), "🧩 Dia Mundial de Conscientização do Autismo", "data"], [f("04-07"), "🛑 Dia Nacional de Combate ao Bullying e à Violência na Escola · Dia Mundial da Saúde", "data"],
+      [f("05-18"), "🛡️ Dia Nacional de Combate ao Abuso e à Exploração Sexual de Crianças e Adolescentes", "data"], [f("06-12"), "🚸 Dia Mundial contra o Trabalho Infantil", "data"], [f("07-13"), "📜 Aniversário do ECA (Estatuto da Criança e do Adolescente)", "data"],
+      [f("09-21"), "♿ Dia Nacional de Luta da Pessoa com Deficiência · 🌳 Dia da Árvore", "data"], [f("11-18"), "✊ Dia Nacional de Combate ao Racismo", "data"], [f("12-03"), "♿ Dia Internacional da Pessoa com Deficiência", "data"],
+      // 🌎 datas que costumam entrar nas aulas
+      [f("03-08"), "💜 Dia Internacional da Mulher", "data"], [f("03-14"), "➗ Dia Internacional da Matemática", "data"], [f("03-22"), "💧 Dia Mundial da Água", "data"], [f("04-18"), "📖 Dia Nacional do Livro Infantil (Monteiro Lobato)", "data"],
+      [f("04-22"), "⛵ Descobrimento do Brasil · 🌍 Dia da Terra", "data"], [f("04-23"), "📚 Dia Mundial do Livro", "data"], [f("05-05"), "🗣️ Dia da Língua Portuguesa e da Cultura Lusófona", "data"], [f("05-13"), "✊🏿 Abolição da Escravatura", "data"],
+      [f("06-05"), "🌱 Dia Mundial do Meio Ambiente", "data"], [f("09-05"), "🌳 Dia da Amazônia", "data"], [f("09-08"), "🔤 Dia Mundial da Alfabetização", "data"], [nDom(10, 2), "🕯️ Círio de Nazaré (Belém/PA)", "data"],
+      [f("11-05"), "🗣️ Dia Nacional da Língua Portuguesa", "data"], [f("11-19"), "🇧🇷 Dia da Bandeira", "data"]
     ];
   }
   async function mostrarAvisos() {
