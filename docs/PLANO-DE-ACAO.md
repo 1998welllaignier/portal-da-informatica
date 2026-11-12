@@ -87,6 +87,10 @@ Faltam (história + prompt para o ChatGPT/HeyGen + montagem), nesta ordem:
 3. **9º · Missão 2 – Criptografia e ataques** → 9º D na **quinta 12/11, 9h**.
 Atenção: cada série tem turmas em missões diferentes (ver missoes4 no catálogo); conferir sempre o cronograma por turma antes de dizer qual vídeo falta.
 
+### 💡 Ideias para amadurecer
+- **Barra da esquerda da missão (11/11/2026):** 4 modelos mostrados (mapa de fases, fliperama 8 bits, cores por parte, moderna com XP); esperando a escolha do professor.
+- **🎄 Portal decorado por época do ano (11/11/2026):** cronograma anual de festas com o portal inteiro no clima de cada data (luzes, enfeites, cores, avatar com acessório da época), troca automática pela data, leve (só CSS/SVG, sem imagens pesadas), botão para desligar, nunca atrapalhando a leitura. Começar pelo **Natal 2026** (dezembro). Sugestões de calendário: Carnaval, Páscoa, Povos Indígenas (19/04), Festa Junina, Folclore (22/08), Semana da Pátria (07/09), Dia das Crianças (12/10), Dia do Professor (15/10), Dia do Saci (31/10), Consciência Negra (20/11), Natal; datas religiosas sempre no tom cultural (escola pública).
+
 ## 1. Quinta-feira (renovação do limite do Claude)
 - [ ] Levar o Diário de Classe para dentro do Painel do professor (presença e visto de Básico/Desafio/Turbo automáticos, corrigíveis à mão, automático desligável por turma).
 - [ ] Transferir tudo do diário atual, conferindo os nomes dos alunos.
