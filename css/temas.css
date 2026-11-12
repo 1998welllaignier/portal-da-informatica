@@ -65,8 +65,11 @@ body.modo-placar .tm-faixa { display: none; }
 .tema-indigenas { --tm1: #c2410c; --tm2: #f59e0b; --tm-placar: radial-gradient(circle at 20% 0%, #9a3412, #1c1917 65%, #14532d); }
 .tema-indigenas .topbar { background: linear-gradient(90deg, #7c2d12, #9a3412 40%, #14532d); }
 .tema-indigenas .topbar::after { content: ""; position: absolute; left: 0; right: 0; bottom: -12px; height: 12px; pointer-events: none; background: linear-gradient(135deg, #f59e0b 25%, transparent 25%) -6px 0 / 12px 12px, linear-gradient(225deg, #f59e0b 25%, transparent 25%) -6px 0 / 12px 12px, #1c1917; }
-.tema-curionopolis { --tm1: #ec4899; --tm2: #38bdf8; --tm-placar: radial-gradient(circle at 20% 0%, #0369a1, #082f49 60%, #831843); }
-.tema-curionopolis .topbar { background: linear-gradient(90deg, #0369a1, #0ea5e9 50%, #db2777); }
+/* cores da bandeira de Curionópolis: dourado, verde e branco (marrom e amarelo do brasão como apoio) */
+.tema-curionopolis { --tm1: #025f32; --tm2: #dfc15a; --tm-placar: radial-gradient(circle at 20% 0%, #037a40, #01311a 60%, #5c2e26); }
+.tema-curionopolis .topbar { background: linear-gradient(90deg, #025f32, #03703b 55%, #8a6d12); }
+.tema-curionopolis .topbar::after { content: ""; position: absolute; left: 0; right: 0; bottom: -12px; height: 12px; pointer-events: none;
+  background: linear-gradient(90deg, #dfc15a 0 36%, #fff 36% 38%, #025f32 38% 40.5%, #fff 40.5% 59.5%, #025f32 59.5% 62%, #fff 62% 64%, #dfc15a 64%); }
 .tema-junina { --tm1: #ea580c; --tm2: #facc15; --tm-placar: radial-gradient(circle at 20% 0%, #9a3412, #1c0f05 65%); }
 .tema-junina .topbar { background: linear-gradient(90deg, #9a3412, #c2410c 50%, #92400e); }
 .tema-junina .topbar::after { content: ""; position: absolute; left: 0; right: 0; bottom: -22px; height: 22px; pointer-events: none; background: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22150%22%20height%3D%2222%22%3E%3Cpath%20d%3D%22M0%202%20Q75%206%20150%202%22%20stroke%3D%22%2378350f%22%20stroke-width%3D%222%22%20fill%3D%22none%22/%3E%3Cpath%20d%3D%22M0%202%20L30%202%20L15%2020%20Z%22%20fill%3D%22%23ef4444%22/%3E%3Cpath%20d%3D%22M30%202%20L60%202%20L45%2020%20Z%22%20fill%3D%22%2322c55e%22/%3E%3Cpath%20d%3D%22M60%202%20L90%202%20L75%2020%20Z%22%20fill%3D%22%233b82f6%22/%3E%3Cpath%20d%3D%22M90%202%20L120%202%20L105%2020%20Z%22%20fill%3D%22%23facc15%22/%3E%3Cpath%20d%3D%22M120%202%20L150%202%20L135%2020%20Z%22%20fill%3D%22%23ec4899%22/%3E%3C/svg%3E") repeat-x; }
