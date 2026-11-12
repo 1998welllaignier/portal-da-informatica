@@ -89,6 +89,11 @@
   const PADRAO = { pele: 2, cabelo: "curto", corCabelo: 1, blusa: "uniforme", cor1: 10, cor2: 6, numero: 10, calca: "calca", corCalca: 6, estilo: "vertical", corCalcao: 10, corMeiao: 10, corChuteira: 9, bone: "nenhum", corBone: 0, roupa: "nenhuma", corRoupa: 9, chapeu: "nenhum", objeto: "nenhum", rosto: "nenhum", oculos: "nenhum" };
   const norm = a => { const x = Object.assign({}, PADRAO, a || {}); if (x.blusa === "time") x.blusa = "futebol"; return x; };
 
+  // 🎅 no tema de Natal, quem está sem chapéu e sem boné ganha um gorrinho de Papai Noel
+  function gorroNatal(a) {
+    if (P.tema !== "natal" || (a.chapeu && a.chapeu !== "nenhum") || (a.bone && a.bone !== "nenhum")) return "";
+    return `<path d="M36 25 Q44 4 66 6 Q86 8 92 20 L84 22 Q78 14 70 15 Q80 22 84 25 Z" fill="#dc2626"/><path d="M36 25 Q50 10 70 15 Q80 22 84 25 Z" fill="#b91c1c" opacity=".35"/><rect x="32" y="21" width="56" height="9" rx="4.5" fill="#fff" stroke="#e5e7eb"/><circle cx="92" cy="21" r="5" fill="#fff" stroke="#e5e7eb"/>`;
+  }
   function svg(a0, px, busto) {
     const a = (x => (x.roupa === "macacao" && x.blusa !== "futebol" ? Object.assign(x, { corCalca: x.corRoupa, calca: "calca" }) : x))(norm(a0)), pele = PELE[a.pele] || PELE[2], c1 = COR[a.cor1] || COR[5], c2 = COR[a.cor2] || COR[10], cc = CAB[a.corCabelo] || CAB[1], cl = COR[a.corCalca] || COR[6], cb = COR[a.corBone] || COR[0];
     const sombra = "rgba(0,0,0,.18)";
@@ -210,7 +215,7 @@
       ${pernas}${R === "macacao" ? `<rect x="41" y="110" width="38" height="12" rx="4" fill="${cr}"/>` : ""}${blusa}${roupa}${atras}<rect x="54" y="58" width="12" height="14" rx="4" fill="${pele}"/>
       <circle cx="35" cy="45" r="5" fill="${pele}"/><circle cx="85" cy="45" r="5" fill="${pele}"/><circle cx="60" cy="42" r="25" fill="${pele}"/>
       ${olhos}<circle cx="45" cy="52" r="3.5" fill="#f87171" opacity=".35"/><circle cx="75" cy="52" r="3.5" fill="#f87171" opacity=".35"/>
-      ${fem}${a.rosto === "barba" ? "" : `<path d="M52 54 Q60 61 68 54" stroke="${a.tipo === "f" ? "#be123c" : "#7f1d1d"}" stroke-width="2.4" fill="none" stroke-linecap="round"/>`}${CH !== "nenhum" && CH !== "fone" && CH !== "astronauta" ? (a.cabelo === "longo" || a.cabelo === "trancas" ? "" : "") : cabelo}${CH === "nenhum" ? bone : ""}${rosto}${chapeu}${oc}${objeto}</svg>`.replace(/id="tr"/g, `id="${uid}"`).replace(/url\(#tr\)/g, `url(#${uid})`);
+      ${fem}${a.rosto === "barba" ? "" : `<path d="M52 54 Q60 61 68 54" stroke="${a.tipo === "f" ? "#be123c" : "#7f1d1d"}" stroke-width="2.4" fill="none" stroke-linecap="round"/>`}${CH !== "nenhum" && CH !== "fone" && CH !== "astronauta" ? (a.cabelo === "longo" || a.cabelo === "trancas" ? "" : "") : cabelo}${CH === "nenhum" ? bone : ""}${rosto}${chapeu}${gorroNatal(a)}${oc}${objeto}</svg>`.replace(/id="tr"/g, `id="${uid}"`).replace(/url\(#tr\)/g, `url(#${uid})`);
   }
 
   /* editor com cronômetro. resolve com o avatar escolhido (salvo, anterior ou padrão) */

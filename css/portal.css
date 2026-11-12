@@ -1507,3 +1507,20 @@ body.modo-placar .tela.painel-prof { max-width: none; padding: 0; }
 @keyframes pts-luz8 { 0% { background: #7c3aed; color: #fff; } 50% { background: transparent; } }
 @keyframes pts-sai { 0% { transform: none; opacity: 1; } 60% { transform: scale(1.15, .08); opacity: 1; } 100% { transform: scale(0, .02); opacity: 0; } }
 @media (prefers-reduced-motion: reduce) { .pts-bolha.pula, .pts-bolha.sai, .pts-bolha .pts-mais, .pts-pos { animation: none !important; } }
+
+/* 🎄 TEMA DE NATAL (1º/12 a 06/01; js/temas.js) — só enfeites, sem mudar a leitura */
+.tema-natal .topbar { background: linear-gradient(90deg, #7f1d1d, #14532d 55%, #7f1d1d); border-bottom: 3px solid #facc15; }
+.tema-natal .topbar::after, .tema-natal .topbar::before { content: ""; position: absolute; left: 0; right: 0; bottom: -12px; height: 14px; pointer-events: none; z-index: 1;
+  background-repeat: repeat-x; background-size: 56px 14px; }
+.tema-natal .topbar::before { background-image: radial-gradient(circle at 14px 8px, #ef4444 0 4.5px, transparent 5px), radial-gradient(circle at 42px 8px, #22c55e 0 4.5px, transparent 5px); animation: tm-pisca 1.4s steps(1) infinite; }
+.tema-natal .topbar::after { background-image: radial-gradient(circle at 28px 8px, #facc15 0 4.5px, transparent 5px), radial-gradient(circle at 0px 8px, #3b82f6 0 4.5px, transparent 5px); animation: tm-pisca 1.4s steps(1) .7s infinite; }
+@keyframes tm-pisca { 0% { opacity: 1; filter: drop-shadow(0 0 4px rgba(255,255,255,.9)); } 50% { opacity: .35; filter: none; } }
+.tm-neve { position: fixed; inset: 0; pointer-events: none; z-index: 5; overflow: hidden; }
+.tm-neve i { position: absolute; top: -20px; color: #bfdbfe; font-style: normal; animation-name: tm-cai; animation-timing-function: linear; animation-iteration-count: infinite; text-shadow: 0 0 2px #94a3b8; }
+@keyframes tm-cai { from { transform: translate(0, -20px) rotate(0); } to { transform: translate(40px, 105vh) rotate(360deg); } }
+.tm-arvore { position: fixed; left: 10px; bottom: 6px; z-index: 6; pointer-events: none; filter: drop-shadow(0 3px 4px rgba(0,0,0,.2)); }
+.tm-arvore .tm-luzes { animation: tm-pisca 1.2s steps(1) infinite; } .tm-arvore .tm-luzes.b { animation-delay: .6s; }
+@media (max-width: 900px) { .tm-arvore { display: none; } }
+.tema-natal .mis-nav a.atual, .tema-natal .btn:not(.btn-sec) { box-shadow: 0 0 0 2px rgba(250,204,21,.35); }
+.tema-natal body.modo-placar, .tema-natal .pl-tela { background: radial-gradient(circle at 20% 0%, #166534, #0b1d12 60%, #450a0a); }
+@media (prefers-reduced-motion: reduce) { .tema-natal .topbar::before, .tema-natal .topbar::after, .tm-arvore .tm-luzes { animation: none; } }
