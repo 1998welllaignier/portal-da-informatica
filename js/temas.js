@@ -17,22 +17,30 @@
   const fmt = s => s.split("-").reverse().join("/");
 
   /* ---------- calendário: [id, nome, início, fim] (mês-dia; o fim pode passar da virada do ano) ---------- */
+  // regra das aulas (segunda a quinta): o tema fica na semana da data, terminando no próprio dia.
+  // Data numa segunda ou terça: começa na quinta anterior (para pegar pelo menos 2 dias de aula). extra = semanas a mais antes.
+  function janela(ano, mmdd, extra) {
+    const d = new Date(ano + "-" + mmdd + "T12:00:00"), dia = d.getDay();
+    const ini = dia === 1 || dia === 2 ? mais(d, -(dia + 3)) : mais(d, -((dia + 6) % 7)); // segunda da semana (data na segunda ou terça: desde a quinta anterior)
+    return [md(mais(ini, -7 * (extra || 0))), md(d)];
+  }
   function calendario(ano) {
     const pa = pascoa(ano), carn = mais(pa, -47); // terça de Carnaval
     return [
-      ["carnaval", "🎭 Carnaval", md(mais(carn, -6)), md(mais(carn, 1))],
-      ["pascoa", "🐰 Páscoa", md(mais(pa, -6)), md(mais(pa, 1))],
-      ["indigenas", "🪶 Dia dos Povos Indígenas", "04-13", "04-19"],
-      ["curionopolis", "🎂 Aniversário de Curionópolis", "05-04", "05-10"],
-      ["junina", "🌽 Festa Junina", "06-01", "06-30"],
-      ["folclore", "🍃 Dia do Folclore", "08-17", "08-22"],
-      ["patria", "🇧🇷 Semana da Pátria", "09-01", "09-07"],
-      ["criancas", "🎈 Dia das Crianças", "10-06", "10-12"],
-      ["professor", "🍎 Dia do Professor", "10-13", "10-15"],
-      ["consciencia", "✊🏿 Consciência Negra", "11-13", "11-20"],
-      ["padroeira", "⛪ Padroeira de Curionópolis", "11-23", "11-27"],
+      ["carnaval", "🎭 Carnaval", md(mais(carn, -6)), md(mais(carn, 1))],          // da quarta antes até a Quarta-feira de Cinzas
+      ["pascoa", "🐰 Páscoa", md(mais(pa, -6)), md(pa)],                            // Semana Santa (segunda a domingo de Páscoa)
+      ["indigenas", "🪶 Dia dos Povos Indígenas", ...janela(ano, "04-19")],
+      ["curionopolis", "🎂 Aniversário de Curionópolis", ...janela(ano, "05-10")],
+      ["junina", "🌽 Festa Junina", ...janela(ano, "06-24", 1)],                    // 2 semanas, até o dia de São João
+      ["folclore", "🍃 Dia do Folclore", ...janela(ano, "08-22")],
+      ["patria", "🇧🇷 Semana da Pátria", ...janela(ano, "09-07")],
+      ["criancas", "🎈 Dia das Crianças", ...janela(ano, "10-12")],
+      ["professor", "🍎 Dia do Professor", ...janela(ano, "10-15")],
+      ["consciencia", "✊🏿 Consciência Negra", ...janela(ano, "11-20")],
+      ["padroeira", "⛪ Padroeira de Curionópolis", ...janela(ano, "11-27")],
       ["natal", "🎄 Natal", "12-01", "01-06"]
-    ];
+    ].map((x, i, arr) => { // se encostar no tema anterior, começa no dia seguinte ao fim dele
+      if (i && x[2] <= arr[i - 1][3] && x[0] !== "natal") x[2] = md(mais(new Date(ano + "-" + arr[i - 1][3] + "T12:00:00"), 1)); return x; });
   }
   function pelaData(d) {
     const x = md(d), t = calendario(d.getFullYear()).find(([, , ini, fim]) => ini <= fim ? x >= ini && x <= fim : x >= ini || x <= fim);
@@ -79,19 +87,27 @@
 
   /* ---------- cada tema: classes do CSS, enfeites dos cantos, o que cai, faixa de mensagem e enfeite do avatar ---------- */
   const DEF = {
-    carnaval: { esq: MASCARA, dir: SERPENTINA, cai: { tipo: "confete", n: 40 }, avatar: "mascara" },
-    pascoa: { dir: COELHO, faixa: "🐰 <b>Feliz Páscoa!</b> Tempo de partilha, de esperança e de chocolate com os amigos. 🍫" },
+    carnaval: { esq: MASCARA, dir: SERPENTINA, cai: { tipo: "confete", n: 40 }, avatar: "mascara", faixa: "🥁 <b>Carnaval:</b> a maior festa popular do Brasil, nos dias antes da Quarta-feira de Cinzas, com escolas de samba, blocos, frevo e marchinhas. A escola <b>Unidos da Informática</b> está na avenida: alegria com respeito, porque o Carnaval é festa para todos!" },
+    pascoa: { dir: COELHO, faixa: "🐰 <b>Páscoa:</b> a festa cristã que celebra a ressurreição de Jesus. Virou também tempo de partilha, de esperança e de ovos de chocolate com quem a gente gosta. 🍫" },
     indigenas: { esq: SOL_FLORESTA, faixa: "🪶 <b>19 de abril · Dia dos Povos Indígenas.</b> O Brasil tem centenas de povos indígenas, cada um com a sua língua, a sua história e a sua cultura. Eles não são coisa do passado: estão aqui hoje. Respeito e valorização!" },
     curionopolis: { dir: BOLO(new Date().getFullYear() - 1988), cai: { tipo: "balao", n: 10 }, faixa: `🎂 <b>10 de maio · Aniversário de Curionópolis!</b> A nossa cidade foi criada em 10 de maio de 1988 e faz ${new Date().getFullYear() - 1988} anos. Parabéns, Curionópolis!` },
-    junina: { esq: FOGUEIRA, dir: MILHO, avatar: "palha", faixa: "🌽 <b>Arraiá da Informática!</b> Mês de São João, quadrilha, pamonha e muita alegria. 🎶" },
+    junina: { esq: FOGUEIRA, dir: MILHO, avatar: "palha", faixa: "🌽 <b>Festa Junina:</b> as festas de junho homenageiam Santo Antônio, São João e São Pedro e celebram a colheita, com quadrilha, fogueira, bandeirinhas e comidas de milho. Bem-vindos ao <b>Arraiá da Informática</b>! 🎶" },
     folclore: { esq: FOLHAS, cai: { tipo: "folha", n: 18 }, faixa: "🍃 <b>22 de agosto · Dia do Folclore.</b> Curupira, Iara, Boto, Saci, Boitatá… as lendas, as danças e as brincadeiras que contam a história do nosso povo." },
     patria: { dir: BANDEIRAS_BR, faixa: "🇧🇷 <b>7 de setembro · Independência do Brasil (1822).</b> Semana da Pátria: conhecer a nossa história é cuidar do nosso futuro." },
     criancas: { dir: PIPA, cai: { tipo: "balao", n: 14 }, avatar: "festa", faixa: "🎈 <b>12 de outubro · Dia das Crianças!</b> Brincar, aprender e sonhar: hoje a festa é de vocês!" },
-    professor: { esq: MACA_LIVROS, faixa: "🍎 <b>15 de outubro · Dia do Professor.</b> Obrigado a todos os professores que ensinam com carinho. Que tal agradecer ao seu hoje?" },
+    professor: { esq: MACA_LIVROS, faixa: "🍎 <b>15 de outubro · Dia do Professor.</b> A data lembra a primeira lei do Brasil sobre as escolas de primeiras letras, de 15 de outubro de 1827. Obrigado a todos os professores que ensinam com carinho: que tal agradecer ao seu hoje?" },
     consciencia: { esq: BAOBA, faixa: "✊🏿 <b>20 de novembro · Dia Nacional de Zumbi e da Consciência Negra.</b> Zumbi e Dandara dos Palmares lutaram pela liberdade do povo negro. Conheça e valorize a história e a cultura afro-brasileira, que estão na nossa música, na comida, nas palavras e no jeito de ser do Brasil. <b>Racismo é crime</b> (Lei nº 7.716/1989): respeito é para todos." },
     padroeira: { esq: IGREJA, cai: { tipo: "estrela", n: 14 }, faixa: "⛪ <b>27 de novembro · Festa de Nossa Senhora das Graças, padroeira de Curionópolis.</b> Dias de festejo, fé e encontro na nossa cidade." },
-    natal: { natal: true, avatar: "gorro" }
+    natal: { natal: true, avatar: "gorro", faixa: "🎄 <b>Natal:</b> a festa cristã que celebra o nascimento de Jesus. É tempo de família, de solidariedade e de fazer o bem a quem está perto. Feliz Natal e boas festas!" }
   };
+
+  /* ---------- nome do tema na plaquinha pendurada embaixo da barra de cima ---------- */
+  // [nome divertido, nome oficial] (datas de conscientização sem trocadilho, por respeito)
+  const NOME = { carnaval: ["🎭 Unidos da Informática", "Carnaval"], pascoa: ["🐰 Páscoa Conectada", "Páscoa"], indigenas: ["🪶 Dia dos Povos Indígenas", "19 de abril"],
+    curionopolis: ["🎂 Parabéns, Curionópolis!", "Aniversário da cidade · 10 de maio"], junina: ["🌽 Arraiá da Informática", "Festa Junina · São João"], folclore: ["🍃 Lendas do Brasil", "Dia do Folclore · 22 de agosto"],
+    patria: ["🇧🇷 Brasil Conectado", "Semana da Pátria · 7 de setembro"], criancas: ["🎈 Criançada Digital", "Dia das Crianças · 12 de outubro"], professor: ["🍎 Mestres do Saber", "Dia do Professor · 15 de outubro"],
+    consciencia: ["✊🏿 Semana da Consciência Negra", "20 de novembro · Zumbi e Dandara"], padroeira: ["⛪ Festa da Padroeira", "Nossa Senhora das Graças · 27 de novembro"], natal: ["🎄 Feliz Natal!", "Natal Conectado"] };
+  P.temaNome = id => (NOME[id] || [""])[0];
 
   /* ---------- enfeite do avatar (só em quem está sem chapéu e sem boné) ---------- */
   P.enfeiteAvatar = function (a) {
@@ -164,6 +180,10 @@
         <rect x="30" y="120" width="60" height="10" rx="2" fill="#92400e"/><path d="M30 121 Q45 114 60 120 Q75 114 90 121" fill="#fff"/></svg>`);
     }
     if (d.cai) particulas(d.cai);
+    // 🪧 plaquinha com o nome do tema, pendurada logo abaixo da barra de cima
+    if (NOME[tema]) { const pl = el("tm-selo", `<span class="tm-fio"></span><span class="tm-fio d"></span><b>${NOME[tema][0]}<small>${NOME[tema][1]}</small></b>`);
+      const pos = () => { const tb = document.querySelector("#topbar, .topbar"); pl.style.top = (tb ? Math.max(0, tb.getBoundingClientRect().bottom) : 0) + "px"; };
+      pos(); window.addEventListener("resize", pos); window.addEventListener("scroll", pos, { passive: true }); setTimeout(pos, 600); setTimeout(pos, 2000); }
     if (d.esq) el("tm-canto esq", d.esq);
     if (d.dir) el("tm-canto dir", d.dir);
     // faixa de mensagem logo abaixo da barra de cima (o aluno pode fechar; volta no dia seguinte)
@@ -172,15 +192,20 @@
       if (!fechou) { const f = document.createElement("div"); f.className = "tm-el tm-faixa"; f.setAttribute("role", "note");
         f.innerHTML = `<p>${d.faixa}</p><button type="button" aria-label="Fechar mensagem">✕</button>`;
         f.querySelector("button").onclick = () => { try { localStorage.setItem(chave, "1"); } catch (e) {} f.remove(); };
-        const tb = document.getElementById("topbar"); if (tb) tb.after(f); else document.body.prepend(f); }
+        const tb = document.querySelector("#topbar, .topbar"); if (tb) tb.after(f); else document.body.prepend(f); }
     }
   }
   aplicar(resolver(null));
   // escolha do professor (painel → 🎨 Tema): lida da nuvem uma vez, quando o Firebase estiver pronto
   P.aplicarTemaGlobal = g => aplicar(resolver(g));
   let tent = 0;
+  // fora do portal (página inicial, sem Firebase): lê a mesma escolha pela API pública do Firestore
+  function lerREST() {
+    fetch("https://firestore.googleapis.com/v1/projects/portal-da-informatica/databases/(default)/documents/config/tema")
+      .then(r => r.ok ? r.json() : null).then(j => { const v = j && j.fields && j.fields.modo && j.fields.modo.stringValue; P.temaGlobal = v || "auto"; P.aplicarTemaGlobal(P.temaGlobal); }).catch(() => {});
+  }
   (function lerGlobal() {
-    const N = P.nuvem; if (!N || !N.app) { if (tent++ < 20) setTimeout(lerGlobal, 500); return; }
+    const N = P.nuvem; if (!N || !N.app) { if (typeof firebase === "undefined" && document.readyState !== "loading") return lerREST(); if (tent++ < 20) setTimeout(lerGlobal, 500); else lerREST(); return; }
     try { N.app(0).db.collection("config").doc("tema").get().then(sn => { P.temaGlobal = sn.exists ? sn.data().modo || "auto" : "auto"; P.aplicarTemaGlobal(P.temaGlobal); }).catch(() => {}); } catch (e) {}
   })();
 })();
