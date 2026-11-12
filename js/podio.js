@@ -333,7 +333,7 @@
       if (anterior && usadoEm === hoje) { usados.push(norm(anterior)); P.toast && P.toast(`🔒 ${(x.nome || "").split(" ")[0]}, você já montou o avatar hoje: ele não muda durante a aula.`); continue; }
       const pn = y => (y.nome || "").split(" ")[0], du = infos.length > 1;
       if (du && i > 0) P.toast && P.toast(`👥 Agora é a vez de ${pn(x)} montar o avatar!`);
-      const r = await editor(mount, { nome: pn(x), anterior, segundos: du ? Math.round(segundos / 2) : segundos, dupla: du ? { vez: i + 1, outro: pn(infos[1 - i]) } : null });
+      const r = await editor(mount, { nome: pn(x), anterior, segundos: du ? 120 : segundos,  /* dupla: 4 minutos divididos, 2 para cada um; sozinho: 3 minutos */ dupla: du ? { vez: i + 1, outro: pn(infos[1 - i]) } : null });
       usados.push(r.avatar);
       try { await ref.set(Object.assign({ alunoId: x.alunoId, turma: x.turma || P.sess.get().turma, tipo: "avatar", usadoEm: hoje }, r.salvo ? { avatar: r.avatar, atualizado: Date.now() } : {}), { merge: true }); } catch (e) { console.warn("avatar", e); }
     }

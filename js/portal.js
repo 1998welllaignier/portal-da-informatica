@@ -227,13 +227,14 @@
     const t = turma(s.turma);
     const apel = (s.apelidos || []).filter(Boolean);
     el.innerHTML = `<a class="brand" href="#/apostilas">${marca}</a>
-      ${P.avatar && s.nuvem ? `<span class="tb-av" aria-hidden="true">${(s.alunoIds || []).map((_, i) => P.avatar.svg((s.avatares || [])[i], 46, true)).join("")}</span>` : ""}
+      ${P.avatar && s.nuvem ? `<button type="button" class="tb-av" id="tb-av" title="Ver o meu avatar de perto" aria-label="Ver o meu avatar de perto">${(s.alunoIds || []).map((_, i) => P.avatar.svg((s.avatares || [])[i], 46, true)).join("")}</button>` : ""}
       <div class="tb-who" aria-label="Quem está usando"><span class="tb-turma">${esc(t ? t.nome : "")}</span><strong class="tb-nome">${esc(quem(s))}</strong>${apel.length ? `<span class="tb-completo">${esc(s.nomes.join(" & "))}</span>` : ""}</div>
       <div class="tb-rei" id="tb-rei" hidden></div>
       <div class="tb-info"${info ? "" : " hidden"}>${info || ""}</div>
       <div class="tb-relogio" id="tb-relogio" hidden aria-live="off"></div>
       <button class="tb-btn" id="tb-sair" type="button">Sair</button>`;
     document.getElementById("tb-sair").onclick = () => sair();
+    const tbAv = document.getElementById("tb-av"); if (tbAv) tbAv.onclick = () => verAvatar();
     relogioAula(); aplicarCoroa();
     if (P.avatar && s.nuvem && !(s.avatares && s.avatares.length)) P.avatar.daSessao(s, () => barra(info));
   }
@@ -281,6 +282,17 @@
     const subiu = antes && !antes.congelado && !mp.congelado && mp.pos < antes.pos;
     pos.innerHTML = (subiu ? "⬆️ Subiu! " : "") + posTxt(mp); pos.classList.remove("pisca1"); void pos.offsetWidth; pos.classList.add("pisca1");
     segura(4000);
+  }
+  /* 🔍 tocar no avatar da barra de cima: abre o avatar grande (corpo inteiro); ✖ ou "Voltar" fecha */
+  function verAvatar() {
+    const s = sess.get(); if (!s || !P.avatar) return;
+    const d = document.createElement("dialog"); d.className = "pp-dlg av-zoom";
+    d.innerHTML = `<form method="dialog"><button class="av-zoom-x" value="x" aria-label="Fechar">✖</button>
+      <div class="av-zoom-lista">${(s.alunoIds || []).map((_, i) => `<figure>${P.avatar.svg((s.avatares || [])[i], 210)}<figcaption>${esc(s.nomes[i])}</figcaption></figure>`).join("")}</div>
+      <div class="row-btns"><button class="btn btn-ok" value="x">↩️ Voltar</button></div></form>`;
+    document.body.appendChild(d); d.addEventListener("close", () => d.remove());
+    d.addEventListener("click", e => { if (e.target === d) d.close(); }); // tocar fora também fecha
+    d.showModal();
   }
   function aplicarCoroa() {
     const av = document.querySelector("#topbar .tb-av"), chip = document.getElementById("tb-rei");
