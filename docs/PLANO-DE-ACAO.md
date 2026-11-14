@@ -147,6 +147,14 @@ Para decidir com o professor no salão. Cada item: manter, juntar ou desligar.
 - **Barra da esquerda da missão (11/11/2026):** 4 modelos mostrados (mapa de fases, fliperama 8 bits, cores por parte, moderna com XP); esperando a escolha do professor.
 - **🎄 Portal decorado por época do ano (11/11/2026):** cronograma anual de festas com o portal inteiro no clima de cada data (luzes, enfeites, cores, avatar com acessório da época), troca automática pela data, leve (só CSS/SVG, sem imagens pesadas), botão para desligar, nunca atrapalhando a leitura. Começar pelo **Natal 2026** (dezembro). Sugestões de calendário: Carnaval, Páscoa, Povos Indígenas (19/04), Festa Junina, Folclore (22/08), Semana da Pátria (07/09), Dia das Crianças (12/10), Dia do Professor (15/10), Dia do Saci (31/10), Consciência Negra (20/11), Natal; datas religiosas sempre no tom cultural (escola pública).
 
+## 🔁 Reta final até a prova (combinado em 14/11/2026, 17h)
+- **Toda turma do 6º ao 9º tem uma 🔁 Revisão** na última aula antes da prova. Revisão = **aula inteira de atividade**, igual a uma missão (Básico/Desafio/Turbo, correção automática, pontos no placar), e **só com os blocos das missões que aquela turma estudou**.
+- **M4 só onde, mesmo com a Revisão, ainda sobra aula** (cada caso visto individualmente): 6º A e B, 7º B, 8º A–D e 9º D. Turmas: aula 1 = missão que falta, aula 2 = **M4**, aula 3 = 🔁 Revisão.
+- 7º A, 7º D e 9º C: M2 · M3 · 🔁 Revisão (sem M4).
+- **Prova só com o que a turma viu** (nada de prova sem ter passado o assunto).
+- **Para decidir:** turmas de segunda (6º C, 7º C, 9º A, 9º B) só têm 16/11 e 23/11 (30/11 sem aula). Sugestão A: M2 · 🔁 Revisão (M1+M2), prova só M1–M2. Alternativa B: M2 · M3 e revisão em casa. **Temas da M4** (sugeridos: 6º pesquisa confiável, 7º programação em blocos, 8º tabelas e gráficos, 9º inteligência artificial).
+- **5º ano (atendimento individual, por vontade do professor): fora deste planejamento.** Sem prova; no dia da prova faz outra tarefa. Não gastar esforço com ele agora.
+
 ## 1. Quinta-feira (renovação do limite do Claude)
 - [ ] Levar o Diário de Classe para dentro do Painel do professor (presença e visto de Básico/Desafio/Turbo automáticos, corrigíveis à mão, automático desligável por turma).
 - [ ] Transferir tudo do diário atual, conferindo os nomes dos alunos.
