@@ -199,7 +199,8 @@ Para decidir com o professor no salão. Cada item: manter, juntar ou desligar.
 ## 🗓️ Material de 2027 (conversa de 14/11/2026, noite)
 - [x] Chave seletora de bimestre no painel (⚙️ Configurações › Ano letivo e aulas): feita em 14/11.
 - [ ] Separar Diário, Boletim e Prova por bimestre (cada bimestre com as suas aulas e notas), antes do 1º bimestre de 2027.
-- [ ] **Para decidir:** quantidade padrão de missões por bimestre, "para sempre sobrar e nunca faltar" (proposta do Claude: 6 missões principais + 2 de reserva + 🔁 Revisão por bimestre).
+- [x] **Decidido (14/11/2026):** por bimestre e por série, **6 missões fixas + 2 extras (reserva) + 🔁 Revisão**, depois prova e 2ª chamada/recuperação. Extras não usadas passam para o bimestre seguinte (são independentes), servem para reposição/🏠 em casa e para quem termina rápido. Ano: 24 fixas + 8 extras + 4 revisões por série.
+- [x] **Decidido (14/11/2026):** adiantar agora o conteúdo (enquanto o plano Max está ativo, até 08/12). O calendário da SEMED de 2027 **não** é necessário para produzir: só entra depois, em `calendarioRede`, para as datas, o dia da prova e a ordem automática no Panorama.
 - [ ] Revisar o documento "Informática 2027: proposta de assuntos por série" com essa quantidade (e com as M4 e Revisões de 2026) e mandar para o professor aprovar.
 - [ ] Depois de aprovado: material completo por bimestre, na ordem (1º bimestre primeiro). A 🔁 Revisão já nasce junto com cada bimestre (blocos por missão; o portal mostra só as missões dadas). Vídeos: perto da época, ou adiantados aos poucos para não estourar o limite semanal.
 
