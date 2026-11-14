@@ -97,6 +97,8 @@ Atenção: cada série tem turmas em missões diferentes (ver missoes4 no catál
 2. Revisão da Missão 1 do 8º ano (Listas: busca sequencial, binária e bolha) — aula em 18/11.
 🟠 **Até o fim de novembro (antes das revisões e da prova de 07–10/12)**
 3. **EAD / reposição a distância**: o aluno faz em casa quando falta ou precisa repor (trilha estilo AVA, com vídeo). Decidir: prazo; se a reposição conta como presença; vídeo obrigatório ou "Já assisti".
+3b. ✅ **Feito em 14/11:** ▶️ Iniciar a aula (tarefas só depois que o professor inicia; 🏠 em casa sem trava).
+3c. **🏠 Estudo em casa (especificado pelo professor em 14/11, a montar):** ao entrar, o aluno marcado 🏠 vê: aviso do professor (só se houver), instruções de como usar a apostila digital em casa, vídeo de instruções do portal (roteiro do Claude no estilo lúdico, voz gerada pelo professor no ChatGPT; inclui "pegue seu código de 4 números com o professor na sala de informática no dia da aula regular"), cronograma sugerido (missão X na semana de dd/mm a dd/mm; sem bloqueio, ritmo livre, tudo concluído até o fim do bimestre), cronômetro de 2 h por sessão que fecha quando acaba, aviso de ver o vídeo da missão antes das tarefas e de que precisa terminar o Básico para ganhar o visto. Perguntas pendentes: o que acontece depois das 2 h; vídeo obrigatório ou "Já assisti"; aviso por aluno ou geral.
 4. **Pensar sempre no celular (mobile)**: quem faz em casa muitas vezes não tem computador, mas tem celular (nem que seja do pai ou da mãe). Testar as missões, tarefas e a prova no celular e ajustar o que não funcionar; virar regra do padrão de qualidade.
 5. Aula de "Revisão para a prova" (ideias abaixo).
 6. Trabalho avaliativo em aula (turma sem nenhuma missão dada até a prova).
