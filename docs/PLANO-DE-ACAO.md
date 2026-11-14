@@ -152,7 +152,9 @@ Para decidir com o professor no salão. Cada item: manter, juntar ou desligar.
 - **M4 só onde, mesmo com a Revisão, ainda sobra aula** (cada caso visto individualmente): 6º A e B, 7º B, 8º A–D e 9º D. Turmas: aula 1 = missão que falta, aula 2 = **M4**, aula 3 = 🔁 Revisão.
 - 7º A, 7º D e 9º C: M2 · M3 · 🔁 Revisão (sem M4).
 - **Prova só com o que a turma viu** (nada de prova sem ter passado o assunto).
-- **Para decidir:** turmas de segunda (6º C, 7º C, 9º A, 9º B) só têm 16/11 e 23/11 (30/11 sem aula). Sugestão A: M2 · 🔁 Revisão (M1+M2), prova só M1–M2. Alternativa B: M2 · M3 e revisão em casa. **Temas da M4** (sugeridos: 6º pesquisa confiável, 7º programação em blocos, 8º tabelas e gráficos, 9º inteligência artificial).
+- **Turmas de segunda (6º C, 7º C, 9º A, 9º B) — decidido em 14/11: caminho A.** 16/11 M2 · 23/11 🔁 Revisão (M1+M2) · 07/12 prova **só M1 e M2**. A M3 fica para depois da prova, como conteúdo.
+- **Regra da M4 (14/11):** só aprofunda o assunto **da própria série**; nunca adianta o que a turma vai ver na série seguinte em 2027 (nem programação em blocos, que está reservada para o editor do portal em 2027). Ao planejar 2027, conferir esta lista para não repetir com os mesmos alunos.
+- **Temas da M4 (propostos, falta ele aprovar):** 6º 💾 como o computador guarda texto, números e imagens (bits e bytes) · 7º 📶 redes na prática (IP, Wi-Fi, a rede da sala) · 8º 📊 dados em tabelas e gráficos · 9º 🤖 inteligência artificial com responsabilidade.
 - **5º ano (atendimento individual, por vontade do professor): fora deste planejamento.** Sem prova; no dia da prova faz outra tarefa. Não gastar esforço com ele agora.
 
 ## 1. Quinta-feira (renovação do limite do Claude)
