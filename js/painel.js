@@ -857,7 +857,7 @@
     const dds = l => l.map(d => dataBR(d).slice(0, 5)).join(", ");
     const ck = m => { const on = estudadas.includes(m.id), dd = dadas[m.id];
       return `<label class="pp-mis-ck ${dd ? "dada" : "nao"}"><input type="checkbox" data-m="${m.id}" ${on ? "checked" : ""} ${ligada ? "disabled" : ""}>
-        <span><b>${esc(m.titulo)}</b><small>${dd ? `✅ dada em ${esc(dds(dd))}${hist.linhas.some(l => l.mid === m.id && l.status === "dada" && l.fonte === "cronograma") ? " <em>(📅 pelo cronograma)</em>" : ""}` : "⏳ ainda não foi dada"}</small></span></label>`; };
+        <span><b>${esc(m.titulo)}</b><small>${dd ? `✅ dada em ${esc(dds(dd))}${hist.linhas.some(l => l.mid === m.id && l.status === "dada" && l.fonte === "cronograma") ? " <em>(previsto no cronograma)</em>" : ""}` : "⏳ ainda não foi dada"}</small></span></label>`; };
     const jaM = nomesM.filter(m => dadas[m.id]), naoM = nomesM.filter(m => !dadas[m.id]);
     const caixasM = `<div class="pp-mis-col"><h4>✅ Já dadas (${jaM.length})</h4>${jaM.map(ck).join("") || `<p class="ajuda">Nenhuma missão dada ainda.</p>`}</div>
       <div class="pp-mis-col nao"><h4>⏳ Ainda não dadas (${naoM.length})</h4>${naoM.map(ck).join("") || `<p class="ajuda">Todas já foram dadas. 🎉</p>`}</div>`;
@@ -969,14 +969,14 @@
     return { t, alunos, linhas, dadas, tituloM, base };
   }
   const ST_PAN = { dada: ["✅", "Aula dada"], prevista: ["🔜", "Próxima aula"], hoje: ["⏳", "Hoje"], semregistro: ["❔", "Sem registro"] };
-  const FONTE_M = { registrada: "📌 escolhida no painel", portal: "⚡ pelo que os alunos abriram", cronograma: "📅 pelo cronograma" };
+  const FONTE_M = { registrada: "📌 escolhida no painel", portal: "⚡ pelo que os alunos abriram", cronograma: "previsto no cronograma (sem registro do que foi dado)" };
   const curtoM = s => String(s || "").replace(/^[^–-]*[–-]\s*/, "");
   const DIASEM = ["dom", "seg", "ter", "qua", "qui", "sex", "sáb"];
   /* -------- 🗺️ Panorama: todas as turmas, uma linha de cartões por turma (uma aula por cartão) -------- */
   async function telaPanorama(u) {
     const turmas = todasTurmas().filter(t => t.aula || Object.keys(t.missoes4 || {}).length);
     const el = tela(topo(u, "panorama") + `<div class="painel pp-barra"><label><input type="checkbox" id="pan-fut"> Mostrar também as próximas aulas</label>
-        <span class="pan-leg">✅ dada · 🚫 ninguém veio · 🙋 eu não fui · 🎉 feriado · 🏫 sem aula na escola · ❔ sem registro · M1, M2… = missão dada (<sup>📅</sup> = só pelo cronograma)</span></div>
+        <span class="pan-leg">✅ dada · 🚫 ninguém veio · 🙋 eu não fui · 🎉 feriado · 🏫 sem aula na escola · ❔ sem registro · M1, M2… = missão dada · “previsto” = só o que o cronograma planejou</span></div>
       <div id="corpo"><p class="painel">Carregando as aulas de todas as turmas…</p></div>`);
     ligarSair(el);
     const hoje = N.hoje();
@@ -1002,7 +1002,7 @@
     const st = l.ocorr ? [OCORR_CURTO[l.status] ? OCORR_CURTO[l.status].split(" ")[0] : "📌", OCORR_CURTO[l.status] ? OCORR_CURTO[l.status].replace(/^\S+\s/, "") : "Sem aula"] : ST_PAN[l.status];
     const classe = l.status === "dada" ? "ok" : l.status === "ninguem" ? "ninguem" : l.ocorr ? "sem" : l.status;
     const [, mm, dd] = l.d.split("-");
-    const missao = l.ocorr ? "" : l.mid ? `<span class="pan-m" title="${esc(l.titulo)}${l.fonte ? " · " + FONTE_M[l.fonte] : ""}">${esc(l.mid.toUpperCase())}${l.fonte === "cronograma" ? "<sup>📅</sup>" : ""}</span>` : (l.encontro ? `<span class="pan-m pan-m-txt" title="${esc(l.encontro)}">${esc(l.encontro.split(/[–-]/)[0].trim().slice(0, 14))}</span>` : "");
+    const missao = l.ocorr ? "" : l.mid ? `<span class="pan-m${l.fonte === "cronograma" ? " pan-m-prev" : ""}" title="${esc(l.titulo)}${l.fonte ? " · " + FONTE_M[l.fonte] : ""}">${esc(l.mid.toUpperCase())}${l.fonte === "cronograma" ? " <small>previsto</small>" : ""}</span>` : (l.encontro ? `<span class="pan-m pan-m-txt" title="${esc(l.encontro)}">${esc(l.encontro.split(/ [–-] /)[0].trim())}</span>` : "");
     const pres = l.status === "dada" ? `<span class="pan-p">👥 ${l.presentes}</span>` : "";
     const nota = l.ocorr && l.ocorr.nota ? ` · ${l.ocorr.nota}` : "";
     return `<a class="pan-c pan-${classe}" href="#/painel/diario/${tid}/chamada" data-pan-dia="${l.d}" data-pan-t="${tid}" title="${esc(dataBR(l.d))} · ${esc(st[1] + nota)}${l.mid ? " · " + esc(l.titulo) : ""}">
