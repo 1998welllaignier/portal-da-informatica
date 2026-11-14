@@ -10,6 +10,7 @@ Prof. Welington · @Welington Laignier
 | Missão 1 | ........ / ........ |  |  |  |
 | Missão 2 | ........ / ........ |  |  |  |
 | Missão 3 | ........ / ........ |  |  |  |
+| Missão 4 | ........ / ........ |  |  |  |
 | Projeto final | ........ / ........ |  |  |  |
 | **Total** |  |  |  |  |
 
@@ -310,6 +311,71 @@ Escreva **V** para verdadeiro ou **F** para falso:
 ### 🧠 Resumo da Aula
 **Dados pessoais** identificam você, e os **dados sensíveis** (saúde, religião, biometria) pedem cuidado extra; a **LGPD** é a lei que os protege. Antes de aceitar os **termos de uso** ou dar uma **permissão**, pergunte se o aplicativo precisa daquilo. Tudo o que publicamos forma a nossa **pegada digital**. Para não espalhar **desinformação**, verifique a **fonte**, a data, se outros sites confirmam e se o texto é exagerado.
 **Palavras-chave:** dado pessoal · dado sensível · LGPD · termos de uso · permissões · pegada digital · fonte · desinformação
+## 📜 Missão 4 – Termos de uso: o que eu aceitei?
+**Objetivo:** ler os termos de uso de um aplicativo, encontrar o que ele faz com os seus dados e com o que você publica, e decidir com consciência antes de clicar em “Aceito”.
+📅 **Data da aula:** ........ / ........
+### 💡 Para começar
+Quase ninguém lê os **termos de uso** antes de clicar em **“Li e aceito”**. Mas aquele clique é um **contrato**: você concorda com tudo o que está escrito, mesmo sem ter lido.
+Os termos de uso (e a **política de privacidade**, que costuma vir junto) respondem a perguntas importantes. Procure sempre estas partes:
+| O que procurar | Exemplo de frase nos termos | Por que importa |
+| 🎂 Idade mínima | “O serviço é destinado a maiores de 13 anos.” | Muitas redes sociais exigem **13 anos ou mais** |
+| 📋 Dados coletados | “Coletamos nome, telefone, localização e contatos.” | Mostra quais **dados pessoais** você entrega |
+| 🤝 Compartilhamento | “Podemos compartilhar seus dados com parceiros.” | Outras empresas podem receber os seus dados |
+| 📢 Publicidade | “Usamos seus dados para mostrar anúncios personalizados.” | O aplicativo “grátis” ganha dinheiro com propaganda feita para você |
+| 🖼️ O que você publica | “Você nos concede licença para usar o conteúdo que publicar.” | A empresa pode usar as suas fotos e vídeos |
+| 🗑️ Apagar a conta | “Você pode excluir sua conta em Configurações.” | Mostra se dá para sair e levar os dados embora |
+| 🔄 Mudanças | “Os termos podem mudar a qualquer momento; avisaremos por e-mail.” | O contrato pode mudar depois que você aceitou |
+
+**Quando o serviço é grátis, quem paga?** Muitas vezes, quem paga é a **propaganda**, e os seus **dados** ajudam a escolher que propaganda mostrar para você.
+A **LGPD** (Lei Geral de Proteção de Dados) dá direitos a você: **saber** quais dados a empresa tem, **corrigir** dados errados, **pedir para apagar** os dados e **retirar o consentimento** (desistir da autorização que deu). Para crianças de até 12 anos, a lei exige a autorização de pelo menos um dos **pais ou responsáveis**.
+**Antes de aceitar, faça 3 perguntas:** 1) Que dados ele pega? 2) Com quem ele compartilha? 3) Consigo apagar a minha conta?
+### 📖 O que significa?
+- **Termos de uso** (ou termos de serviço): o **contrato** com as regras do aplicativo ou site, que você aceita ao clicar em “Aceito”. Onde se vê: na hora de criar a conta e no menu Configurações → Sobre.
+- **Política de privacidade**: a parte que explica **quais dados pessoais** o serviço coleta, **para quê** e **com quem** compartilha.
+- **Contrato**: acordo com regras que as duas partes prometem cumprir.
+- **Consentimento**: a sua autorização para a empresa usar os seus dados. Pela LGPD, você pode **retirar** o consentimento depois.
+- **Compartilhamento de dados**: quando a empresa passa os seus dados para outras empresas (os “parceiros”).
+- **Publicidade personalizada** (ou anúncio direcionado): propaganda escolhida de acordo com o que você curte, pesquisa e assiste.
+- **Licença de uso do conteúdo**: a permissão que você dá para a empresa usar as fotos, vídeos e textos que publica.
+- **Excluir a conta**: apagar o seu cadastro do serviço; os termos dizem se os dados também são apagados.
+- **LGPD** (Lei Geral de Proteção de Dados, Lei nº 13.709/2018): lei que protege os dados pessoais e dá a você o direito de saber, corrigir e pedir para apagar os seus dados.
+### 🌎 Onde eu uso isso?
+- Ao **criar uma conta** em rede social, jogo ou aplicativo de vídeo: o botão “Li e aceito” aparece antes de tudo.
+- Em **sorteios e promoções** que pedem nome, telefone e CPF: os termos dizem o que fazem com esses dados.
+- Quando chega o aviso **“Atualizamos nossos termos”**: o contrato mudou, e vale a pena ver o quê.
+| ✍️ Qual aplicativo você usa mais? Você lembra de ter lido os termos dele? |
+|  |
+|  |
+
+### 🎯 Missão
+🟢 **Básico**
+- [ ] No portal, leia os termos do jogo **JogoMania** (um jogo inventado) e encontre o que ele faz com a **propaganda**, com as **fotos e vídeos** que você publica e quando os **termos mudam**.
+- [ ] Classifique cada frase dos termos: **👍 tranquila** ou **⚠️ atenção**.
+- [ ] Ligue cada direito da LGPD ao que ele permite fazer.
+🟡 **Desafio**
+- [ ] Compare os termos de dois jogos e decida qual protege melhor os seus dados, dizendo por quê.
+🔴 **Turbo**
+- [ ] Escreva as 3 perguntas que você vai fazer antes de aceitar os termos de um aplicativo novo.
+| ✍️ As minhas 3 perguntas |
+|  |
+|  |
+|  |
+
+**✅ Carimbo do professor**
+| 🟢 Básico | 🟡 Desafio | 🔴 Turbo |
+|  |  |  |
+|  |  |  |
+
+### ✅ Perguntas rápidas
+1. ( ) Clicar em “Li e aceito” é concordar com um contrato.
+2. ( ) Se o aplicativo é grátis, ele nunca usa os meus dados para nada.
+3. ( ) Os termos de uso dizem com quem a empresa compartilha os meus dados.
+4. ( ) Pela LGPD, posso pedir para a empresa apagar os meus dados.
+5. ( ) Depois que eu aceito, os termos nunca podem mudar.
+### 🧠 Resumo da Aula
+Os **termos de uso** são um **contrato**: clicar em “Aceito” é concordar com tudo. Neles e na **política de privacidade** procuramos a **idade mínima**, os **dados coletados**, o **compartilhamento** com parceiros, o uso para **publicidade**, a **licença** sobre o que publicamos e como **excluir a conta**. Serviço grátis costuma ser pago com **propaganda** e **dados**. A **LGPD** garante o direito de **saber, corrigir e pedir para apagar** os dados e de **retirar o consentimento**. Antes de aceitar: que dados pega, com quem compartilha e se dá para apagar a conta.
+**Palavras-chave:** termos de uso · política de privacidade · contrato · consentimento · compartilhamento · publicidade personalizada · licença · LGPD
+
 ## 🏁 Projeto final – Meu Passaporte de Missões
 **Objetivo:** conferir as missões concluídas, completar o que faltou e registrar o que você aprendeu no bimestre.
 📅 **Data da aula:** ........ / ........

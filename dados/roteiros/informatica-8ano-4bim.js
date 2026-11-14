@@ -136,6 +136,42 @@
       ],
       curiosidade: "“Se o serviço é de graça, talvez o produto seja você.” A frase ajuda a turma a lembrar que os dados têm valor."
     },
+    m4: {
+      datas: "8º A, 8º B, 8º C e 8º D: 25/11",
+      tempo: TEMPO,
+      abertura: [
+        { fala: "Levante a mão quem já leu inteirinho os termos de uso de algum aplicativo antes de clicar em “Li e aceito”." },
+        { acao: "Quase ninguém levanta. Continue:" },
+        { fala: "Aquele clique é um contrato. Vocês concordaram com tudo o que estava escrito, mesmo sem ler. Hoje vamos descobrir o que a gente costuma aceitar sem saber." },
+        { fala: "Pergunta para pensar: se o aplicativo é grátis, quem paga a conta dele?" }
+      ],
+      extras: [
+        {
+          titulo: "🎲 Dinâmica: o contrato do recreio (5 min)", cor: "c-roxo",
+          itens: [
+            { acao: "Diga que quem quiser 10 minutos a mais de jogos livres precisa assinar um “contrato”. Leia rápido e baixo um texto longo; no meio, inclua: “e o aluno arrumará a sala sozinho por uma semana”." },
+            { fala: "Quem aceita? Levantem a mão!" },
+            { acao: "Depois que vários aceitarem, leia devagar a frase escondida. Ria com eles e conclua:" },
+            { fala: "É isso que acontece quando a gente clica em “Aceito” sem ler. Nos termos de uso, as frases importantes também ficam no meio do texto." }
+          ]
+        }
+      ],
+      onde: {
+        pergunta: "Qual aplicativo vocês mais usam? Alguém sabe se ele compartilha os dados com parceiros ou se dá para apagar a conta?",
+        dica: "Mostre no projetor, no seu celular ou computador, o caminho Configurações → Privacidade de um aplicativo comum. Não abra contas de alunos."
+      },
+      atencao: [
+        "Os termos do JogoMania e dos Jogos A e B são inventados, para treinar. Não peça aos alunos que entrem nos próprios aplicativos.",
+        "A LGPD protege de forma especial crianças e adolescentes; para crianças de até 12 anos, exige a autorização dos pais ou responsáveis.",
+        "Ligue com a Missão 3 (dados pessoais e permissões): termos de uso é o “contrato” por trás das permissões."
+      ],
+      perguntas: [
+        { p: "Se o aplicativo é grátis, quem paga?", r: "Muitas vezes a propaganda, e os nossos dados ajudam a escolher que propaganda mostrar." },
+        { p: "Quais são as 3 perguntas antes de aceitar?", r: "Que dados ele pega? Com quem compartilha? Consigo apagar a minha conta?" },
+        { p: "Que direitos a LGPD me dá?", r: "Saber quais dados a empresa tem, corrigir, pedir para apagar e retirar o consentimento." }
+      ],
+      curiosidade: "Uma pesquisa famosa calculou que, para ler todos os termos de uso que uma pessoa aceita em um ano, seriam necessários vários dias inteiros de leitura. Por isso as empresas resumem o mais importante, e a LGPD exige que expliquem de forma clara."
+    },
     pf: {
       datas: "Avaliação: 25/11 · Projeto final: 02/12 · Segunda chamada: 09/12",
       tempo: [

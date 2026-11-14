@@ -225,6 +225,85 @@ PORTAL.registrarAtividades("informatica-8ano-4bim", {
     ]
   },
 
+  /* ======================= MISSÃO 4 ======================= */
+  m4: {
+    pratica: [
+      { tipo: "sinais", titulo: "Antes de clicar em “Li e aceito”: o que o JogoMania faz?",
+        enunciado: `<div class="regra"><p><strong>📜 Termos de uso do JogoMania</strong> (jogo inventado, para treinar)</p><ol>
+          <li>O JogoMania é <strong>gratuito</strong> e destinado a maiores de <strong>13 anos</strong>.</li>
+          <li>Usamos o que você joga, curte e pesquisa para mostrar <strong>anúncios personalizados</strong>.</li>
+          <li>Ao publicar fotos e vídeos no JogoMania, você nos concede <strong>licença para usar esse conteúdo</strong> na divulgação do jogo.</li>
+          <li>Podemos <strong>compartilhar seus dados com parceiros</strong> de publicidade.</li>
+          <li>Os termos podem <strong>mudar a qualquer momento</strong>; avisaremos por e-mail.</li>
+          <li>Você pode <strong>excluir sua conta</strong> em Configurações → Conta.</li></ol></div>
+          <p>Marque <strong>tudo o que é verdade</strong> sobre o JogoMania, segundo os termos.</p>`,
+        opcoes: [
+          { t: "Ele mostra propaganda escolhida pelo que eu jogo e pesquiso", certo: true },
+          { t: "Ele pode usar as fotos e vídeos que eu publicar para divulgar o jogo", certo: true },
+          { t: "Ele pode passar os meus dados para parceiros de publicidade", certo: true },
+          { t: "As regras podem mudar depois que eu aceitar", certo: true },
+          { t: "Ele nunca mostra propaganda, porque é grátis", certo: false, why: "O item 2 diz que ele mostra anúncios personalizados." },
+          { t: "Não dá para apagar a conta", certo: false, why: "O item 6 diz que dá: Configurações → Conta." }],
+        explicacao: "Itens 2, 3, 4 e 5: propaganda personalizada, licença sobre o que você publica, compartilhamento com parceiros e termos que mudam. O jogo é grátis, mas é pago com <strong>propaganda e dados</strong>." }
+    ],
+    basico: [
+      { tipo: "classificar", modo: "tabela", titulo: "Cada frase dos termos: tranquila ou atenção?", colunaItem: "Frase nos termos", colunaResp: "👍 ou ⚠️",
+        categorias: [{ id: "T", rot: "👍 Tranquila" }, { id: "A", rot: "⚠️ Atenção" }],
+        itens: [
+          { t: "“Você pode excluir sua conta e seus dados em Configurações.”", c: "T", why: "Dá para sair e apagar os dados: bom para você." },
+          { t: "“Podemos vender seus dados para outras empresas.”", c: "A", why: "Seus dados vão para empresas que você nem conhece." },
+          { t: "“Usaremos sua localização o tempo todo, mesmo com o aplicativo fechado.”", c: "A", why: "Localização o tempo todo mostra onde você mora e anda." },
+          { t: "“Avisaremos por e-mail antes de mudar estes termos.”", c: "T", why: "Você fica sabendo da mudança e pode decidir." },
+          { t: "“Você nos concede licença para usar suas fotos em propagandas.”", c: "A", why: "A sua foto pode aparecer em propaganda." },
+          { t: "“Coletamos apenas o seu e-mail para criar a conta.”", c: "T", why: "Pede só o necessário." }],
+        explicacao: "⚠️ Atenção: vender dados, localização o tempo todo, licença para usar suas fotos. 👍 Tranquila: dá para excluir a conta, avisa antes de mudar, pede só o necessário." },
+      { tipo: "ligar", titulo: "Os seus direitos pela LGPD: ligue cada direito ao que ele permite",
+        enunciado: "<p>Clique no direito e depois no que ele permite fazer.</p>",
+        pares: [{ a: "Saber", b: "Perguntar quais dados a empresa tem sobre mim" }, { a: "Corrigir", b: "Pedir para arrumar um dado errado, como o endereço" },
+          { a: "Apagar", b: "Pedir para a empresa excluir os meus dados" }, { a: "Retirar o consentimento", b: "Desistir da autorização que eu dei" }],
+        explicacao: "A LGPD (Lei Geral de Proteção de Dados) garante: saber, corrigir, pedir para apagar e retirar o consentimento." },
+      { tipo: "escolha", titulo: "Grátis mesmo?",
+        perguntas: [
+          { p: "Se o aplicativo é grátis, como ele costuma ganhar dinheiro?", opcoes: ["Com propaganda, usando os meus dados para escolher os anúncios", "Ele nunca ganha dinheiro", "Cobrando da escola"], certo: 0, why: "Serviço grátis costuma ser pago com propaganda e dados." },
+          { p: "Clicar em “Li e aceito” sem ler significa:", opcoes: ["Concordar com tudo o que está escrito, mesmo sem ter lido", "Não concordar com nada", "Que posso mudar as regras depois"], certo: 0, why: "É um contrato: o clique vale como concordância." },
+          { p: "Chegou o aviso “Atualizamos nossos termos”. O que isso quer dizer?", opcoes: ["O contrato mudou; vale a pena ver o que mudou", "O aplicativo foi apagado", "Nada mudou"], certo: 0 },
+          { p: "Para uma criança de 10 anos criar uma conta, o que a LGPD exige?", opcoes: ["A autorização de pelo menos um dos pais ou responsáveis", "Nada, basta clicar em Aceito", "Que ela mostre o CPF"], certo: 0, why: "Para crianças de até 12 anos, a lei exige o consentimento dos pais ou responsáveis." }],
+        explicacao: "Grátis costuma ser pago com propaganda e dados; aceitar é concordar com o contrato; aviso de atualização = o contrato mudou; criança de até 12 anos precisa da autorização dos pais." }
+    ],
+    desafio: [
+      { tipo: "info", titulo: "Dois jogos, dois termos de uso",
+        html: `<div class="tabela-wrap"><table><thead><tr><th></th><th>🎮 Jogo A</th><th>🎮 Jogo B</th></tr></thead><tbody>
+          <tr><td>Dados coletados</td><td>Apelido e e-mail</td><td>Nome, telefone, contatos e localização</td></tr>
+          <tr><td>Compartilhamento</td><td>“Não compartilhamos seus dados.”</td><td>“Podemos compartilhar com parceiros.”</td></tr>
+          <tr><td>Apagar a conta</td><td>Em Configurações, com os dados</td><td>Não informa</td></tr>
+          <tr><td>Mudanças nos termos</td><td>Avisa antes, por e-mail</td><td>“Podem mudar sem aviso.”</td></tr></tbody></table></div>` },
+      { tipo: "escolha", titulo: "Qual jogo protege melhor os seus dados?",
+        perguntas: [
+          { p: "Qual jogo protege melhor os seus dados?", opcoes: ["O Jogo A", "O Jogo B", "Os dois protegem igual"], certo: 0 },
+          { p: "Qual é o principal motivo?", opcoes: ["Pede só apelido e e-mail, não compartilha e deixa apagar a conta", "Tem mais fases", "Pede o telefone para mandar prêmios"], certo: 0 },
+          { p: "No Jogo B, qual parte é mais preocupante?", opcoes: ["Pega contatos e localização e pode compartilhar com parceiros", "Ter termos de uso", "Pedir um apelido"], certo: 0 }],
+        explicacao: "O Jogo A pede só o necessário, não compartilha, deixa apagar a conta e avisa antes de mudar. O Jogo B pega contatos e localização, compartilha com parceiros, não diz como apagar e muda sem aviso." }
+    ],
+    turbo: [
+      { tipo: "aberta", titulo: "As minhas 3 perguntas antes de aceitar os termos",
+        campos: [{ rot: "Pergunta 1", linhas: 1 }, { rot: "Pergunta 2", linhas: 1 }, { rot: "Pergunta 3", linhas: 1 }],
+        criterios: ["Cada pergunta é sobre os dados, o compartilhamento, a conta, a propaganda ou o que eu publico.", "As três perguntas são diferentes."],
+        exemplo: "1. Que dados ele pega? 2. Com quem ele compartilha os meus dados? 3. Consigo apagar a minha conta?",
+        conferir: { minPalavras: 3, diferentes: "todos",
+          grupos: [{ dica: "quais dados ele pega", alts: ["dado", "coleta", "pega", "pede"] }, { dica: "com quem compartilha", alts: ["compartilh", "parceir", "vende", "passa"] },
+            { dica: "como apagar a conta", alts: ["apag", "exclu", "sair", "conta"] }, { dica: "propaganda ou anúncios", alts: ["propagand", "anúnci", "anunci", "publicidad"] },
+            { dica: "o que faz com as fotos e vídeos", alts: ["foto", "vídeo", "video", "public", "licen"] }, { dica: "a idade mínima", alts: ["idade", "anos"] }],
+          minGrupos: 3, msg: "Três perguntas de quem lê antes de aceitar!" } }
+    ],
+    vf: [
+      { v: true },
+      { v: false, corrigir: { trecho: "nunca usa os meus dados para nada", opcoes: ["nunca usa os meus dados para nada", "costuma usar os meus dados para propaganda"], certo: "costuma usar os meus dados para propaganda" }, why: "Serviço grátis costuma ser pago com propaganda e dados." },
+      { v: true },
+      { v: true },
+      { v: false, corrigir: { trecho: "nunca podem mudar", opcoes: ["nunca podem mudar", "podem mudar"], certo: "podem mudar" }, why: "Os termos podem ser atualizados; por isso vale ler o aviso." }
+    ]
+  },
+
   /* ======================= PROJETO FINAL ======================= */
   pf: {
     basico: [

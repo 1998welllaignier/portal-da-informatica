@@ -86,7 +86,12 @@
       "F: a lanterna só precisa da luz do celular. Pedir os contatos é pedir dado demais: desconfie.",
       "V: verificar quem publicou e a data ajuda a não espalhar notícia falsa ou velha.",
       "F: muitos compartilhamentos não provam nada; notícia falsa também se espalha muito.",
-      "V: LGPD é a Lei Geral de Proteção de Dados: ela diz como as empresas podem usar os nossos dados."]
+      "V: LGPD é a Lei Geral de Proteção de Dados: ela diz como as empresas podem usar os nossos dados."],
+    m4: ["V: é um contrato. O clique vale como “concordo”, mesmo que a pessoa não tenha lido.",
+      "F: o serviço grátis costuma ser pago com propaganda, e os dados ajudam a escolher os anúncios.",
+      "V: a parte de compartilhamento (na política de privacidade) diz se os dados vão para parceiros.",
+      "V: a LGPD dá o direito de saber, corrigir, pedir para apagar os dados e retirar o consentimento.",
+      "F: os termos podem mudar; por isso o aviso “Atualizamos nossos termos” merece atenção."]
   } };
 
   E["informatica-9ano-4bim"] = { vf: {
@@ -110,7 +115,8 @@
   E["informatica-8ano-4bim-trilha"] = { vf: {
     m1: ["V: a chamada tem os nomes em fila, um depois do outro: é uma lista.", "F: crescente é do menor para o maior (1, 2, 3).", "V: procurar um por um é a busca sequencial."],
     m2: ["V: o roteador é a caixinha com luzes que espalha o Wi-Fi.", "F: a nuvem são computadores de empresas, ligados à internet, que guardam as fotos.", "V: na fila, cada um espera a sua vez, como os pacotes na internet."],
-    m3: ["F: a senha é só minha. Não conto para ninguém, nem para os colegas.", "V: o endereço da casa identifica a pessoa: é dado pessoal.", "V: pressa (URGENTE!!!) e falta de autor são sinais de mensagem falsa."]
+    m3: ["F: a senha é só minha. Não conto para ninguém, nem para os colegas.", "V: o endereço da casa identifica a pessoa: é dado pessoal.", "V: pressa (URGENTE!!!) e falta de autor são sinais de mensagem falsa."],
+    m4: ["V: “Li e aceito” é o contrato com as regras do aplicativo.", "F: o grátis costuma ser pago com propaganda.", "V: a LGPD dá o direito de pedir para apagar os dados."]
   } };
   E["informatica-6ano-4bim-trilha"] = { vf: {
     m1: ["V: o teclado manda o que eu digito para o computador: entrada.", "F: o monitor mostra a imagem: é de saída.", "V: a pasta guarda os arquivos organizados, como uma gaveta."],
@@ -156,8 +162,8 @@
     "m3-basico-5": "Pergunte sempre: quem ganha com isso? Link cheio de propaganda = dinheiro; montagem de candidato na véspera da eleição = política; site de piada que muita gente leva a sério = humor; perfil falso com apelidos ofensivos = ódio.",
     "pf-desafio-1": "Revisão do bimestre: aresta e folha (M1), chave e força bruta (M2), plágio e deepfake (M3). Peça um exemplo de cada um."
   });
-  at("informatica-8ano-4bim-trilha", { "m1-basico-5": "Do menor para o maior é a ordem crescente: 1, 2, 3, 4.", "m2-basico-4": "O caminho tem 3 desenhos: o celular manda, o roteador (Wi-Fi) leva, a nuvem guarda.", "m3-basico-4": "Digitar MEUS DADOS lembra que nome, endereço e telefone são meus e eu protejo." });
+  at("informatica-8ano-4bim-trilha", { "m4-basico-4": "A frase lembra a regra da missão: ler (ou pelo menos procurar o mais importante) antes de aceitar.", "m1-basico-5": "Do menor para o maior é a ordem crescente: 1, 2, 3, 4.", "m2-basico-4": "O caminho tem 3 desenhos: o celular manda, o roteador (Wi-Fi) leva, a nuvem guarda.", "m3-basico-4": "Digitar MEUS DADOS lembra que nome, endereço e telefone são meus e eu protejo." });
   at("informatica-6ano-4bim-trilha", { "m1-basico-4": "Ctrl + S salva. O arquivo se chama EU: é o nome que ele digitou na hora de salvar.", "m3-basico-4": "Verde é a cor da natureza: o cartaz lembra de cuidar do planeta (lixo eletrônico no lugar certo)." });
-  at("informatica-7ano-4bim-trilha", { "m1-basico-4": "O portal usa https, por isso aparece o cadeado 🔒: os dados viajam protegidos.", "m3-basico-4": "A frase lembra a regra mais importante contra golpe: o código que chega no celular não se passa para ninguém." });
+  at("informatica-7ano-4bim-trilha", { "m4-basico-2": "3 + 2 = 5 minutos pela Padaria; a rua direta é 9.", "m1-basico-4": "O portal usa https, por isso aparece o cadeado 🔒: os dados viajam protegidos.", "m3-basico-4": "A frase lembra a regra mais importante contra golpe: o código que chega no celular não se passa para ninguém." });
   at("informatica-9ano-4bim-trilha", { "m2-basico-4": "Com chave 1, cada letra anda 1 casa no alfabeto: S → T, O → P, L → M. SOL vira TPM.", "m3-basico-4": "Quem monta o cartaz é o autor: foi ele mesmo (Eu)." });
 })();

@@ -2,11 +2,12 @@
 Prof. Welington · @Welington Laignier
 
 ## 📘 Como usar esta apostila
-Neste bimestre você vai cumprir **3 missões** e um **projeto final**. São as mesmas missões da sua turma.
+Neste bimestre você vai cumprir **4 missões** e um **projeto final**. São as mesmas missões da sua turma.
 | Missão | Tema |
 | 🗂️ Missão 1 – Listas: procurar e arrumar em ordem | Pensamento Computacional |
 | ☁️ Missão 2 – Internet por dentro: o caminho do vídeo e a nuvem | Mundo Digital |
 | 🔍 Missão 3 – Meus dados e notícia de verdade | Cultura Digital |
+| 📜 Missão 4 – Termos de uso: o que eu aceitei? | Cultura Digital |
 | 🏁 Projeto final – Meu Passaporte de Missões | Todos os temas |
 
 **Como funciona a Trilha Passo a Passo:**
@@ -118,6 +119,37 @@ Coisas que **não mostram quem você é** podem ser mostradas: a sua **cor favor
 ### 🧠 Resumo da Aula
 O meu **nome**, o meu endereço e a minha **senha** são meus dados: eu protejo. Antes de dar uma **permissão**, pergunto se o aplicativo precisa. Antes de compartilhar, desconfio de mensagem **falsa**.
 **Palavras-chave:** dado pessoal · senha · permissão · notícia falsa
+
+## 📜 Missão 4 – Termos de uso: o que eu aceitei?
+**Objetivo:** saber que “Li e aceito” é um contrato e fazer 3 perguntas antes de aceitar.
+📅 **Data da aula:** ........ / ........
+### 💡 Para começar
+Quando você cria uma conta, aparece o botão **“Li e aceito”**. Clicar nele é assinar um **contrato**: os **termos de uso**.
+Nos termos está escrito:
+- 📋 quais **dados** o aplicativo pega (nome, telefone, localização);
+- 🤝 se ele **passa os dados** para outras empresas;
+- 📢 se ele mostra **propaganda** feita para você;
+- 🗑️ se dá para **apagar a conta**.
+
+Aplicativo **grátis** costuma ganhar dinheiro com **propaganda**.
+**Antes de aceitar, pergunte:** 1) Que dados ele pega? 2) Com quem ele compartilha? 3) Consigo apagar a minha conta?
+### 📖 O que significa?
+- **Termos de uso**: o contrato com as regras do aplicativo.
+- **Contrato**: um acordo com regras.
+- **Dados**: as informações sobre você, como nome e telefone.
+- **Compartilhar dados**: passar os seus dados para outra empresa.
+- **Propaganda**: o anúncio que tenta vender alguma coisa.
+- **LGPD** (Lei Geral de Proteção de Dados): a lei que protege os seus dados. Com ela, você pode pedir para apagar os seus dados.
+### 🌎 Onde eu uso isso?
+- Ao **criar uma conta** em jogo ou rede social.
+- Quando chega o aviso **“Atualizamos nossos termos”**.
+### ✅ Perguntas rápidas
+1. ( ) Clicar em “Li e aceito” é aceitar um contrato.
+2. ( ) Aplicativo grátis nunca mostra propaganda.
+3. ( ) Pela LGPD, posso pedir para apagar os meus dados.
+### 🧠 Resumo da Aula
+“**Li e aceito**” é um **contrato**. Antes de aceitar, eu pergunto: **que dados** ele pega, **com quem compartilha** e se dá para **apagar a conta**.
+**Palavras-chave:** termos de uso · contrato · dados · propaganda · LGPD
 
 ## 🏁 Projeto final – Meu Passaporte de Missões
 **Objetivo:** conferir as missões concluídas, completar o que faltou e mostrar o que você aprendeu no bimestre.

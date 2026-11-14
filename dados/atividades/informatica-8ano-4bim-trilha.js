@@ -136,6 +136,35 @@ PORTAL.registrarAtividades("informatica-8ano-4bim-trilha", {
     vf: [{ v: false, why: "A senha é segredo: não conte para ninguém." }, { v: true }, { v: true }]
   },
 
+  /* ======================= MISSÃO 4 ======================= */
+  m4: {
+    pratica: [
+      { tipo: "escolha", titulo: "Apareceu o botão “Li e aceito”",
+        enunciado: "<p>Você vai criar uma conta num jogo novo e aparece um texto comprido com o botão <strong>Li e aceito</strong>.</p>",
+        perguntas: [{ p: "Clicar em “Li e aceito” é:", opcoes: ["Aceitar um contrato", "Só fechar a janela"], certo: 0, why: "Os termos de uso são um contrato." }],
+        explicacao: "Clicar em <strong>Li e aceito</strong> é aceitar o <strong>contrato</strong> (os termos de uso)." }
+    ],
+    basico: [
+      { tipo: "classificar", titulo: "Passo 1 · Bom para mim ou atenção?",
+        categorias: [{ id: "B", rot: "Bom para mim", ic: "👍", desc: "protege você" }, { id: "A", rot: "Atenção", ic: "⚠️", desc: "pode prejudicar" }],
+        itens: [{ t: "Dá para apagar a conta", ic: "🗑️", c: "B" }, { t: "Passa os seus dados para outras empresas", ic: "🤝", c: "A" },
+          { t: "Pega a sua localização o tempo todo", ic: "📍", c: "A" }, { t: "Pede só o e-mail", ic: "📧", c: "B" }],
+        explicacao: "👍 Apagar a conta e pedir só o necessário. ⚠️ Passar dados para outras empresas e pegar a localização o tempo todo." },
+      { tipo: "escolha", titulo: "Passo 2 · Grátis mesmo?",
+        perguntas: [{ p: "Como o aplicativo grátis costuma ganhar dinheiro?", opcoes: ["Com propaganda", "Com nada"], certo: 0 }],
+        explicacao: "Aplicativo grátis costuma ganhar dinheiro com <strong>propaganda</strong>." },
+      { tipo: "sinais", titulo: "Passo 3 · As 3 perguntas antes de aceitar",
+        enunciado: "<p>Marque as <strong>3 perguntas</strong> que eu faço antes de aceitar os termos.</p>",
+        opcoes: [{ t: "📋 Que dados ele pega?", certo: true }, { t: "🤝 Com quem ele compartilha?", certo: true }, { t: "🗑️ Consigo apagar a minha conta?", certo: true },
+          { t: "🎨 De que cor é o botão?", certo: false, why: "A cor do botão não protege os seus dados." }],
+        explicacao: "As 3 perguntas: que dados pega, com quem compartilha e se dá para apagar a conta." },
+      { tipo: "tabela", titulo: "Passo 4 · Digite aqui no portal",
+        enunciado: "<p>Digite na caixa: <strong>LEIO ANTES DE ACEITAR</strong></p>",
+        linhas: [["Digite aqui:", { r: "LEIO ANTES DE ACEITAR", tipo: "letras", w: 24, ph: "LEIO ANTES DE ACEITAR", dica: "Digite: LEIO ANTES DE ACEITAR." }]] }
+    ],
+    vf: [{ v: true }, { v: false, why: "Aplicativo grátis costuma ganhar dinheiro com propaganda." }, { v: true }]
+  },
+
   /* ======================= PROJETO FINAL ======================= */
   pf: {
     basico: [

@@ -576,6 +576,156 @@ PORTAL.registrarConteudo("informatica-8ano-4bim", {
    "autoavaliacao": []
   },
   {
+   "id": "m4",
+   "icone": "📜",
+   "titulo": "Missão 4 – Termos de uso: o que eu aceitei?",
+   "objetivo": "ler os termos de uso de um aplicativo, encontrar o que ele faz com os seus dados e com o que você publica, e decidir com consciência antes de clicar em “Aceito”.",
+   "comecar": [
+    {
+     "t": "p",
+     "h": "Quase ninguém lê os <strong>termos de uso</strong> antes de clicar em <strong>“Li e aceito”</strong>. Mas aquele clique é um <strong>contrato</strong>: você concorda com tudo o que está escrito, mesmo sem ter lido."
+    },
+    {
+     "t": "p",
+     "h": "Os termos de uso (e a <strong>política de privacidade</strong>, que costuma vir junto) respondem a perguntas importantes. Procure sempre estas partes:"
+    },
+    {
+     "t": "tabela",
+     "cab": [
+      "O que procurar",
+      "Exemplo de frase nos termos",
+      "Por que importa"
+     ],
+     "linhas": [
+      [
+       "🎂 Idade mínima",
+       "“O serviço é destinado a maiores de 13 anos.”",
+       "Muitas redes sociais exigem <strong>13 anos ou mais</strong>"
+      ],
+      [
+       "📋 Dados coletados",
+       "“Coletamos nome, telefone, localização e contatos.”",
+       "Mostra quais <strong>dados pessoais</strong> você entrega"
+      ],
+      [
+       "🤝 Compartilhamento",
+       "“Podemos compartilhar seus dados com parceiros.”",
+       "Outras empresas podem receber os seus dados"
+      ],
+      [
+       "📢 Publicidade",
+       "“Usamos seus dados para mostrar anúncios personalizados.”",
+       "O aplicativo “grátis” ganha dinheiro com propaganda feita para você"
+      ],
+      [
+       "🖼️ O que você publica",
+       "“Você nos concede licença para usar o conteúdo que publicar.”",
+       "A empresa pode usar as suas fotos e vídeos"
+      ],
+      [
+       "🗑️ Apagar a conta",
+       "“Você pode excluir sua conta em Configurações.”",
+       "Mostra se dá para sair e levar os dados embora"
+      ],
+      [
+       "🔄 Mudanças",
+       "“Os termos podem mudar a qualquer momento; avisaremos por e-mail.”",
+       "O contrato pode mudar depois que você aceitou"
+      ]
+     ]
+    },
+    {
+     "t": "p",
+     "h": "<strong>Quando o serviço é grátis, quem paga?</strong> Muitas vezes, quem paga é a <strong>propaganda</strong>, e os seus <strong>dados</strong> ajudam a escolher que propaganda mostrar para você."
+    },
+    {
+     "t": "p",
+     "h": "A <strong>LGPD</strong> (Lei Geral de Proteção de Dados) dá direitos a você: <strong>saber</strong> quais dados a empresa tem, <strong>corrigir</strong> dados errados, <strong>pedir para apagar</strong> os dados e <strong>retirar o consentimento</strong> (desistir da autorização que deu). Para crianças de até 12 anos, a lei exige a autorização de pelo menos um dos <strong>pais ou responsáveis</strong>."
+    },
+    {
+     "t": "p",
+     "h": "<strong>Antes de aceitar, faça 3 perguntas:</strong> 1) Que dados ele pega? 2) Com quem ele compartilha? 3) Consigo apagar a minha conta?"
+    }
+   ],
+   "termos": [
+    {
+     "termo": "Termos de uso",
+     "rotulo": "<strong>Termos de uso</strong> (ou termos de serviço)",
+     "def": "o <strong>contrato</strong> com as regras do aplicativo ou site, que você aceita ao clicar em “Aceito”. Onde se vê: na hora de criar a conta e no menu Configurações → Sobre."
+    },
+    {
+     "termo": "Política de privacidade",
+     "rotulo": "<strong>Política de privacidade</strong>",
+     "def": "a parte que explica <strong>quais dados pessoais</strong> o serviço coleta, <strong>para quê</strong> e <strong>com quem</strong> compartilha."
+    },
+    {
+     "termo": "Contrato",
+     "rotulo": "<strong>Contrato</strong>",
+     "def": "acordo com regras que as duas partes prometem cumprir."
+    },
+    {
+     "termo": "Consentimento",
+     "rotulo": "<strong>Consentimento</strong>",
+     "def": "a sua autorização para a empresa usar os seus dados. Pela LGPD, você pode <strong>retirar</strong> o consentimento depois."
+    },
+    {
+     "termo": "Compartilhamento de dados",
+     "rotulo": "<strong>Compartilhamento de dados</strong>",
+     "def": "quando a empresa passa os seus dados para outras empresas (os “parceiros”)."
+    },
+    {
+     "termo": "Publicidade personalizada",
+     "rotulo": "<strong>Publicidade personalizada</strong> (ou anúncio direcionado)",
+     "def": "propaganda escolhida de acordo com o que você curte, pesquisa e assiste."
+    },
+    {
+     "termo": "Licença de uso do conteúdo",
+     "rotulo": "<strong>Licença de uso do conteúdo</strong>",
+     "def": "a permissão que você dá para a empresa usar as fotos, vídeos e textos que publica."
+    },
+    {
+     "termo": "Excluir a conta",
+     "rotulo": "<strong>Excluir a conta</strong>",
+     "def": "apagar o seu cadastro do serviço; os termos dizem se os dados também são apagados."
+    },
+    {
+     "termo": "LGPD",
+     "rotulo": "<strong>LGPD</strong> (Lei Geral de Proteção de Dados, Lei nº 13.709/2018)",
+     "def": "lei que protege os dados pessoais e dá a você o direito de saber, corrigir e pedir para apagar os seus dados."
+    }
+   ],
+   "ondeUso": {
+    "itens": [
+     "Ao <strong>criar uma conta</strong> em rede social, jogo ou aplicativo de vídeo: o botão “Li e aceito” aparece antes de tudo.",
+     "Em <strong>sorteios e promoções</strong> que pedem nome, telefone e CPF: os termos dizem o que fazem com esses dados.",
+     "Quando chega o aviso <strong>“Atualizamos nossos termos”</strong>: o contrato mudou, e vale a pena ver o quê."
+    ],
+    "reflexao": "Qual aplicativo você usa mais? Você lembra de ter lido os termos dele?"
+   },
+   "alertas": [],
+   "vf": [
+    "Clicar em “Li e aceito” é concordar com um contrato.",
+    "Se o aplicativo é grátis, ele nunca usa os meus dados para nada.",
+    "Os termos de uso dizem com quem a empresa compartilha os meus dados.",
+    "Pela LGPD, posso pedir para a empresa apagar os meus dados.",
+    "Depois que eu aceito, os termos nunca podem mudar."
+   ],
+   "resumo": {
+    "texto": "Os **termos de uso** são um **contrato**: clicar em “Aceito” é concordar com tudo. Neles e na **política de privacidade** procuramos a **idade mínima**, os **dados coletados**, o **compartilhamento** com parceiros, o uso para **publicidade**, a **licença** sobre o que publicamos e como **excluir a conta**. Serviço grátis costuma ser pago com **propaganda** e **dados**. A **LGPD** garante o direito de **saber, corrigir e pedir para apagar** os dados e de **retirar o consentimento**. Antes de aceitar: que dados pega, com quem compartilha e se dá para apagar a conta.",
+    "chaves": [
+     "termos de uso",
+     "política de privacidade",
+     "contrato",
+     "consentimento",
+     "compartilhamento",
+     "publicidade personalizada",
+     "licença",
+     "LGPD"
+    ]
+   },
+   "autoavaliacao": []
+  },
+  {
    "id": "pf",
    "icone": "🏁",
    "titulo": "Projeto final – Meu Passaporte de Missões",

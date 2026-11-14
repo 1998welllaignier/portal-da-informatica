@@ -5,7 +5,7 @@ PORTAL.registrarConteudo("informatica-8ano-4bim-trilha", {
  "comoUsar": [
   {
    "t": "p",
-   "h": "Neste bimestre você vai cumprir <strong>3 missões</strong> e um <strong>projeto final</strong>. São as mesmas missões da sua turma."
+   "h": "Neste bimestre você vai cumprir <strong>4 missões</strong> e um <strong>projeto final</strong>. São as mesmas missões da sua turma."
   },
   {
    "t": "tabela",
@@ -24,6 +24,10 @@ PORTAL.registrarConteudo("informatica-8ano-4bim-trilha", {
     ],
     [
      "🔍 Missão 3 – Meus dados e notícia de verdade",
+     "Cultura Digital"
+    ],
+    [
+     "📜 Missão 4 – Termos de uso: o que eu aceitei?",
      "Cultura Digital"
     ],
     [
@@ -409,6 +413,108 @@ PORTAL.registrarConteudo("informatica-8ano-4bim-trilha", {
      "senha",
      "permissão",
      "notícia falsa"
+    ]
+   },
+   "autoavaliacao": []
+  },
+  {
+   "id": "m4",
+   "icone": "📜",
+   "titulo": "Missão 4 – Termos de uso: o que eu aceitei?",
+   "objetivo": "saber que “Li e aceito” é um contrato e fazer 3 perguntas antes de aceitar.",
+   "comecar": [
+    {
+     "t": "p",
+     "h": "Quando você cria uma conta, aparece o botão <strong>“Li e aceito”</strong>. Clicar nele é assinar um <strong>contrato</strong>: os <strong>termos de uso</strong>."
+    },
+    {
+     "t": "p",
+     "h": "Nos termos está escrito:"
+    },
+    {
+     "t": "lista",
+     "ord": false,
+     "itens": [
+      {
+       "nivel": 0,
+       "h": "📋 quais <strong>dados</strong> o aplicativo pega (nome, telefone, localização);"
+      },
+      {
+       "nivel": 0,
+       "h": "🤝 se ele <strong>passa os dados</strong> para outras empresas;"
+      },
+      {
+       "nivel": 0,
+       "h": "📢 se ele mostra <strong>propaganda</strong> feita para você;"
+      },
+      {
+       "nivel": 0,
+       "h": "🗑️ se dá para <strong>apagar a conta</strong>."
+      }
+     ]
+    },
+    {
+     "t": "p",
+     "h": "Aplicativo <strong>grátis</strong> costuma ganhar dinheiro com <strong>propaganda</strong>."
+    },
+    {
+     "t": "p",
+     "h": "<strong>Antes de aceitar, pergunte:</strong> 1) Que dados ele pega? 2) Com quem ele compartilha? 3) Consigo apagar a minha conta?"
+    }
+   ],
+   "termos": [
+    {
+     "termo": "Termos de uso",
+     "rotulo": "<strong>Termos de uso</strong>",
+     "def": "o contrato com as regras do aplicativo."
+    },
+    {
+     "termo": "Contrato",
+     "rotulo": "<strong>Contrato</strong>",
+     "def": "um acordo com regras."
+    },
+    {
+     "termo": "Dados",
+     "rotulo": "<strong>Dados</strong>",
+     "def": "as informações sobre você, como nome e telefone."
+    },
+    {
+     "termo": "Compartilhar dados",
+     "rotulo": "<strong>Compartilhar dados</strong>",
+     "def": "passar os seus dados para outra empresa."
+    },
+    {
+     "termo": "Propaganda",
+     "rotulo": "<strong>Propaganda</strong>",
+     "def": "o anúncio que tenta vender alguma coisa."
+    },
+    {
+     "termo": "LGPD",
+     "rotulo": "<strong>LGPD</strong> (Lei Geral de Proteção de Dados)",
+     "def": "a lei que protege os seus dados. Com ela, você pode pedir para apagar os seus dados."
+    }
+   ],
+   "ondeUso": {
+    "itens": [
+     "Ao <strong>criar uma conta</strong> em jogo ou rede social.",
+     "Quando chega o aviso <strong>“Atualizamos nossos termos”</strong>."
+    ],
+    "reflexao": ""
+   },
+   "alertas": [],
+   "vf": [
+    "Clicar em “Li e aceito” é aceitar um contrato.",
+    "Aplicativo grátis nunca mostra propaganda.",
+    "Pela LGPD, posso pedir para apagar os meus dados."
+   ],
+   "resumo": {
+    "texto": "“**Li e aceito**” é um **contrato**. Antes de aceitar, eu pergunto: **que dados** ele pega, **com quem compartilha** e se dá para **apagar a conta**.",
+    "chaves": [
+     "termos de uso",
+     "contrato",
+     "dados",
+     "propaganda",
+     "LGPD"
     ]
    },
    "autoavaliacao": []
