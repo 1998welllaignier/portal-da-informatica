@@ -181,6 +181,7 @@
     panorama: ["Ver de uma vez como foram as aulas de todas as turmas.", [
       "Cada cartão é uma aula: a data, se aconteceu (✅) ou por que não (🚫 ninguém veio, 🙋 eu não fui, 🎉 feriado, 🏫 sem aula na escola), a missão dada e 👥 quantos alunos vieram.",
       "<b>❔ Sem registro</b>: dia de aula que já passou sem nada anotado. Abra o cartão e registre no Diário.",
+      "<b>Próximas aulas se ajustam sozinhas</b>: mostram a próxima missão que ainda falta dar (se a turma repetiu a M1, a próxima vira M2). Se faltar aula para todas, aparece ⚠️ Não cabe no calendário.",
       "<b>A missão de cada aula</b> vem, nesta ordem: 📌 a Missão de hoje escolhida no painel; ⚡ a missão que a maioria dos alunos abriu no portal naquele dia; 📅 o cronograma (só quando não há outra informação).",
       "Toque no cartão para abrir a ✅ Chamada daquele dia (a lista de quem veio fica lá). A 📝 Prova usa este mesmo histórico para marcar as missões já dadas."]],
     prova: ["A prova do bimestre, feita no portal.", [
@@ -962,11 +963,21 @@
       else if (MIS[d]) { const top = Object.entries(MIS[d]).sort((x, y) => y[1].size - x[1].size)[0]; if (top) { mid = top[0]; fonte = "portal"; } }
       const plano = (a && a.encontro) ? midDoTexto(a.encontro) : ((cron.find(c => c.data === d) || {}).mid || midDoTexto(encontro));
       if (!mid && plano) { mid = plano; fonte = "cronograma"; }
-      return { d, status, ocorr: oc, presentes, mid, fonte, titulo: mid ? tituloM(mid) : encontro, encontro };
-    });
+      return { d, status, ocorr: oc, presentes, mid, fonte, titulo: mid ? tituloM(mid) : encontro, encontro, temAlgo: !!(a && (a.registro || (a.missaoHoje && a.missaoHoje.mid))) };
+    // data solta fora do dia da turma, sem nada registrado (nem presença, nem ocorrência, nem missão, nem texto) = não houve aula: some
+    }).filter(l => !(t.aula && new Date(l.d + "T12:00:00").getDay() !== t.aula.dia && !l.ocorr && !l.presentes && !l.temAlgo));
     // missões efetivamente dadas: só nas aulas que aconteceram (veio pelo menos 1 aluno)
     const dadas = {}; linhas.filter(l => l.status === "dada" && l.mid).forEach(l => { (dadas[l.mid] = dadas[l.mid] || []).push(l.d); });
-    return { t, alunos, linhas, dadas, tituloM, base };
+    // 🔁 próximas aulas se ajustam ao que já foi dado: na ordem do cronograma, entra a próxima missão que ainda falta
+    // (se a turma repetiu a M1, a próxima aula vira M2, e assim por diante). Avaliação, Projeto final etc. ficam onde estão.
+    const ordem = [...new Set(cron.map(c => c.mid || midDoTexto(c.encontro)).filter(Boolean))];
+    const faltam = ordem.filter(m => !dadas[m]);
+    linhas.filter(l => l.d >= hoje && l.fonte === "cronograma" && !l.ocorr && (l.status === "prevista" || l.status === "hoje")).forEach(l => {
+      const novo = faltam.shift() || null;
+      if (novo === l.mid) return;
+      l.plano = l.mid; l.mid = novo; l.titulo = novo ? tituloM(novo) : "Revisão / missão livre"; if (!novo) { l.fonte = null; l.encontro = "Revisão"; }
+    });
+    return { t, alunos, linhas, dadas, tituloM, base, semVaga: faltam };
   }
   const ST_PAN = { dada: ["✅", "Aula dada"], prevista: ["🔜", "Próxima aula"], hoje: ["⏳", "Hoje"], semregistro: ["❔", "Sem registro"] };
   const FONTE_M = { registrada: "📌 escolhida no painel", portal: "⚡ pelo que os alunos abriram", cronograma: "previsto no cronograma (sem registro do que foi dado)" };
@@ -991,7 +1002,7 @@
         const dadas = n(l => l.status === "dada"), sem = n(l => l.ocorr), semReg = n(l => l.status === "semregistro");
         const mis = Object.keys(h.dadas).sort((a, b) => (+a.slice(1) || 0) - (+b.slice(1) || 0));
         return `<div class="painel pan-turma"><div class="pan-cab"><h2><a href="#/painel/diario/${h.t.id}/frequencia">${esc(nomeTurma(h.t.id))}</a></h2>
-          <span class="pan-res">✅ ${dadas} aula${dadas === 1 ? "" : "s"} dada${dadas === 1 ? "" : "s"}${sem ? ` · 🚫 ${sem} sem aula` : ""}${semReg ? ` · <b>❔ ${semReg} sem registro</b>` : ""}${mis.length ? ` · missões dadas: <b>${mis.map(m => m.toUpperCase()).join(", ")}</b>` : ""}</span></div>
+          <span class="pan-res">✅ ${dadas} aula${dadas === 1 ? "" : "s"} dada${dadas === 1 ? "" : "s"}${sem ? ` · 🚫 ${sem} sem aula` : ""}${semReg ? ` · <b>❔ ${semReg} sem registro</b>` : ""}${mis.length ? ` · missões dadas: <b>${mis.map(m => m.toUpperCase()).join(", ")}</b>` : ""}${h.semVaga && h.semVaga.length ? ` · <b class="pan-alerta">⚠️ Não cabe${h.semVaga.length > 1 ? "m" : ""} no calendário: ${h.semVaga.map(m => m.toUpperCase()).join(", ")}</b> (falta${h.semVaga.length > 1 ? "m" : ""} ${h.semVaga.length} aula${h.semVaga.length > 1 ? "s" : ""})` : ""}</span></div>
           ${ls.length ? `<div class="pan-fila">${ls.map(l => cartaoAula(l, h.t.id)).join("")}</div>` : `<p class="ajuda">Nenhuma aula registrada ainda.</p>`}</div>`;
       }).join("") + `<p class="ajuda painel">Toque em um cartão para abrir a ✅ Chamada daquele dia no Diário (lá fica a lista de quem veio). No nome da turma, abre a 🗓️ Frequência.</p>`;
     };
@@ -1002,7 +1013,7 @@
     const st = l.ocorr ? [OCORR_CURTO[l.status] ? OCORR_CURTO[l.status].split(" ")[0] : "📌", OCORR_CURTO[l.status] ? OCORR_CURTO[l.status].replace(/^\S+\s/, "") : "Sem aula"] : ST_PAN[l.status];
     const classe = l.status === "dada" ? "ok" : l.status === "ninguem" ? "ninguem" : l.ocorr ? "sem" : l.status;
     const [, mm, dd] = l.d.split("-");
-    const missao = l.ocorr ? "" : l.mid ? `<span class="pan-m${l.fonte === "cronograma" ? " pan-m-prev" : ""}" title="${esc(l.titulo)}${l.fonte ? " · " + FONTE_M[l.fonte] : ""}">${esc(l.mid.toUpperCase())}${l.fonte === "cronograma" ? " <small>previsto</small>" : ""}</span>` : (l.encontro ? `<span class="pan-m pan-m-txt" title="${esc(l.encontro)}">${esc(l.encontro.split(/ [–-] /)[0].trim())}</span>` : "");
+    const missao = l.ocorr ? "" : l.mid ? `<span class="pan-m${l.fonte === "cronograma" ? " pan-m-prev" : ""}" title="${esc(l.titulo)}${l.fonte ? " · " + FONTE_M[l.fonte] : ""}${l.plano ? " · ajustado (o cronograma previa " + esc(l.plano.toUpperCase()) + ")" : ""}">${esc(l.mid.toUpperCase())}${l.fonte === "cronograma" ? " <small>previsto</small>" : ""}</span>` : (l.encontro ? `<span class="pan-m pan-m-txt" title="${esc(l.encontro)}">${esc(l.encontro.split(/ [–-] /)[0].trim())}</span>` : "");
     const pres = l.status === "dada" ? `<span class="pan-p">👥 ${l.presentes}</span>` : "";
     const nota = l.ocorr && l.ocorr.nota ? ` · ${l.ocorr.nota}` : "";
     return `<a class="pan-c pan-${classe}" href="#/painel/diario/${tid}/chamada" data-pan-dia="${l.d}" data-pan-t="${tid}" title="${esc(dataBR(l.d))} · ${esc(st[1] + nota)}${l.mid ? " · " + esc(l.titulo) : ""}">
