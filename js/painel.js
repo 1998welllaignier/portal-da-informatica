@@ -1731,12 +1731,13 @@
           // merge: não apaga o "aula iniciada" (iniciadaDia) ao trocar a missão no meio da aula
           if (!v) await hRef.set({ dia: N.hoje(), mid: "", titulo: "", travar: false }, { merge: true });
           else await hRef.set({ dia: N.hoje(), aid: baseId, mid: v, titulo, travar }, { merge: true });
-          await registrarMissaoDoDia(t.id, v ? { mid: v, titulo, travar } : null);
-          toast(v ? "Missão de hoje: " + rotMis(C, v) + (travar ? " · 🔒 travada" : "") + " (anotado no Diário)" : "Missão de hoje tirada."); telaAula(u, t.id, v || mid);
+          // 📒 só anota no Diário depois que a aula foi INICIADA de verdade (testar/escolher antes não registra nada) — 14/11/2026
+          if (iniciada) await registrarMissaoDoDia(t.id, v ? { mid: v, titulo, travar } : null);
+          toast(v ? "Missão de hoje: " + rotMis(C, v) + (travar ? " · 🔒 travada" : "") + (iniciada ? " (anotado no Diário)" : " · vai para o Diário quando você iniciar a aula") : "Missão de hoje tirada."); telaAula(u, t.id, v || mid);
         } catch (err) { toast("Não foi possível salvar: " + (err.message || err)); }
       };
       trav.onchange = async () => {
-        try { await hRef.set({ travar: trav.checked }, { merge: true }); if (hj) await registrarMissaoDoDia(t.id, { mid: hj.mid, titulo: hj.titulo || hj.mid, travar: trav.checked }); toast(trav.checked ? "🔒 Travado só na missão de hoje." : "Destravado."); telaAula(u, t.id, mid); }
+        try { await hRef.set({ travar: trav.checked }, { merge: true }); if (hj && iniciada) await registrarMissaoDoDia(t.id, { mid: hj.mid, titulo: hj.titulo || hj.mid, travar: trav.checked }); toast(trav.checked ? "🔒 Travado só na missão de hoje." : "Destravado."); telaAula(u, t.id, mid); }
         catch (err) { toast("Não foi possível salvar: " + (err.message || err)); }
       };
     } catch (e) { console.warn(e); }
