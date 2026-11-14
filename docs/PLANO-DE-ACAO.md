@@ -154,7 +154,8 @@ Para decidir com o professor no salão. Cada item: manter, juntar ou desligar.
 - **Prova só com o que a turma viu** (nada de prova sem ter passado o assunto).
 - **Turmas de segunda (6º C, 7º C, 9º A, 9º B) — decidido em 14/11: caminho A.** 16/11 M2 · 23/11 🔁 Revisão (M1+M2) · 07/12 prova **só M1 e M2**. A M3 fica para depois da prova, como conteúdo.
 - **Regra da M4 (14/11):** só aprofunda o assunto **da própria série**; nunca adianta o que a turma vai ver na série seguinte em 2027 (nem programação em blocos, que está reservada para o editor do portal em 2027). Ao planejar 2027, conferir esta lista para não repetir com os mesmos alunos.
-- **Temas da M4 (propostos, falta ele aprovar):** 6º 💾 como o computador guarda texto, números e imagens (bits e bytes) · 7º 📶 redes na prática (IP, Wi-Fi, a rede da sala) · 8º 📊 dados em tabelas e gráficos · 9º 🤖 inteligência artificial com responsabilidade.
+- **Temas da M4 (decididos em 14/11; ele pediu que o Claude escolhesse):** 6º 💾 Bits e bytes: como o computador guarda textos e números (tamanho dos arquivos: KB, MB, GB) · 7º 🖼️ Fotos e sons viram dados (pixels, resolução, tamanho do arquivo) · 8º 📊 Dados em tabelas e gráficos · 9º 🤖 Inteligência artificial com responsabilidade. O 6º fica só com texto e números, para não adiantar as imagens do 7º.
+- **Ordem de construção:** 🔁 Revisão do 6º, 7º e 9º para as turmas de segunda (23/11) → M4 do 7º (7º B, 24/11) → M4 do 8º (25/11) → M4 do 6º e do 9º (26/11) → Revisões das demais turmas (01 a 03/12) → provas de cada turma só com o que ela viu.
 - **5º ano (atendimento individual, por vontade do professor): fora deste planejamento.** Sem prova; no dia da prova faz outra tarefa. Não gastar esforço com ele agora.
 
 ## 1. Quinta-feira (renovação do limite do Claude)
