@@ -700,10 +700,18 @@
     // 🔒 trava de horário: os textos ficam abertos; as tarefas só no dia e na hora da aula (ou liberadas pelo professor)
     let trava = { aberta: true };
     if (pg.tipo === "missao" || pg.tipo === "revisao") trava = travaPre;
-    if (!trava.aberta) corpo.appendChild(h(`<div class="painel trava-aviso" role="note"><p class="trava-tit">🔒 ${trava.fechada ? "As tarefas estão fechadas agora" : trava.so ? "Esta missão não está liberada para você hoje" : trava.hoje ? "Hoje a turma está em outra missão" : "As tarefas abrem na hora da sua aula"}</p>
-      ${trava.fechada ? "<p>O professor fechou as tarefas desta turma por enquanto.</p>" : trava.so ? `<p>🔓 O professor liberou para você a <strong>${esc(String(trava.so).toUpperCase())}</strong>${trava.hoje ? ` e a missão de hoje da turma (<strong>${esc(trava.hoje.titulo || trava.hoje.mid.toUpperCase())}</strong>)` : ""}. Faça essa missão primeiro.</p><p><a class="btn" href="#/missao/${aid}/${trava.so}">Ir para a ${esc(String(trava.so).toUpperCase())} →</a>${trava.hoje ? ` <a class="btn btn-sec" href="#/missao/${aid}/${trava.hoje.mid}">Ir para a missão de hoje →</a>` : ""}</p>` : trava.hoje ? `<p>📌 A missão de hoje é a <strong>${esc(trava.hoje.titulo || trava.hoje.mid.toUpperCase())}</strong>. <a class="btn" href="#/missao/${aid}/${trava.hoje.mid}">Ir para a missão de hoje →</a></p>` : `<p>Você pode fazer as tarefas no dia e na hora da aula:</p><ul>${(trava.horarios || []).map(x => `<li><strong>${esc(x)}</strong></li>`).join("")}</ul>`}
+    if (!trava.aberta) corpo.appendChild(h(`<div class="painel trava-aviso" role="note"><p class="trava-tit">🔒 ${trava.aguardando ? "Aguardando o professor iniciar a aula" : trava.fechada ? "As tarefas estão fechadas agora" : trava.so ? "Esta missão não está liberada para você hoje" : trava.hoje ? "Hoje a turma está em outra missão" : "As tarefas abrem na hora da sua aula"}</p>
+      ${trava.aguardando ? "<p>⏳ As tarefas abrem quando o professor iniciar a aula. Enquanto isso, leia os textos da missão. Esta página se atualiza sozinha.</p>" : trava.fechada ? "<p>O professor fechou as tarefas desta turma por enquanto.</p>" : trava.so ? `<p>🔓 O professor liberou para você a <strong>${esc(String(trava.so).toUpperCase())}</strong>${trava.hoje ? ` e a missão de hoje da turma (<strong>${esc(trava.hoje.titulo || trava.hoje.mid.toUpperCase())}</strong>)` : ""}. Faça essa missão primeiro.</p><p><a class="btn" href="#/missao/${aid}/${trava.so}">Ir para a ${esc(String(trava.so).toUpperCase())} →</a>${trava.hoje ? ` <a class="btn btn-sec" href="#/missao/${aid}/${trava.hoje.mid}">Ir para a missão de hoje →</a>` : ""}</p>` : trava.hoje ? `<p>📌 A missão de hoje é a <strong>${esc(trava.hoje.titulo || trava.hoje.mid.toUpperCase())}</strong>. <a class="btn" href="#/missao/${aid}/${trava.hoje.mid}">Ir para a missão de hoje →</a></p>` : `<p>Você pode fazer as tarefas no dia e na hora da aula:</p><ul>${(trava.horarios || []).map(x => `<li><strong>${esc(x)}</strong></li>`).join("")}</ul>`}
       <p>📖 Enquanto isso, pode estudar à vontade: <a href="#/missao/${aid}/${mid}/comecar">💡 Para começar</a>, <a href="#/missao/${aid}/${mid}/termos">📖 O que significa?</a> e <a href="#/missao/${aid}/${mid}/onde">🌎 Onde eu uso isso?</a> ficam sempre abertos.</p>
       <p class="ajuda">Precisa fazer fora do horário (faltou, reposição, estuda em casa)? Peça ao professor para liberar.</p></div>`));
+    // ⏳ esperando o professor iniciar a aula: confere a cada 20 s e abre sozinho, sem o aluno recarregar
+    if (!trava.aberta && trava.aguardando && P.trava) {
+      const hashAgora = location.hash;
+      const vigia = setInterval(async () => {
+        if (location.hash !== hashAgora || !document.body.contains(corpo)) { clearInterval(vigia); return; }
+        try { P.trava.limpar(); const e = await P.trava.estado(sess.get(), mid); if (e.aberta || !e.aguardando) { clearInterval(vigia); rota(); } } catch (x) {}
+      }, 20000);
+    }
     else (pg.atividades || []).forEach((at, i) => corpo.appendChild(cartaoAtividade(aid, mid, at, i, () => { barra(info()); atualizarStatus(); })));
     if (pg.tipo === "relatorio") corpo.appendChild(relatorio(aid, mid, pages));
     if (pg.id !== "termos") try { ligarTermos(el, (P.conteudo[aid].missoes || []).flatMap(x => x.termos || [])); } catch (e) { console.warn("termos", e); }
@@ -1172,7 +1180,7 @@
       // 📌 Missão de hoje: logo depois do código, o aluno cai direto na missão que o professor escolheu (uma vez por dia)
       if (r === "apostilas" && P.trava) {
         const s = sess.get(), h = await P.trava.hoje(s).catch(() => null);
-        if (h) {
+        if (h && h.mid) {
           try { sessionStorage.setItem("portalJK:hoje", h.aid + "/" + h.mid); } catch (e) {}
           const k = "portalJK:hojeIr:" + h.dia + ":" + h.mid;
           if (!sessionStorage.getItem(k)) { try { sessionStorage.setItem(k, 1); } catch (e) {} location.replace("#/missao/" + h.aid + "/" + h.mid); return; }

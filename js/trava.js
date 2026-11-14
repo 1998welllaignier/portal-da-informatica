@@ -12,6 +12,10 @@
      aluno seguir o horário de outra turma (config/liberar_<turma>).
    - A hora vem do servidor do site (não adianta mudar o relógio
      do computador).
+   - ▶️ Modo "aula iniciada" (padrão desde 14/11/2026): as tarefas
+     ficam fechadas até o professor tocar em "Iniciar a aula" no
+     painel (config/hoje_<turma>.iniciadaDia = hoje) e fecham de novo
+     no "Finalizar aula". Quem estuda em casa (🏠) não tem trava.
    ============================================================ */
 (function () {
   "use strict";
@@ -54,8 +58,8 @@
     /* 📌 Missão de hoje da turma (config/hoje_<turma>), só vale no dia em que o professor marcou */
     async hoje(s) {
       if (!s || !s.nuvem || !N() || !N().pronto) return null;
-      const h = await cfg("hoje_" + s.turma);
-      return h && h.mid && h.dia === N().hoje() ? h : null;
+      const h = await cfg("hoje_" + s.turma), d = N().hoje();
+      return h && h.dia === d && (h.mid || h.iniciadaDia === d) ? h : null;
     },
     /* {aberta:true} ou {aberta:false, fechada, horarios:[texto], hoje:{mid,titulo}} */
     async estado(s, mid) {
@@ -63,7 +67,10 @@
       const [g, lib, h] = await Promise.all([cfg("geral"), cfg("liberar_" + s.turma), this.hoje(s)]);
       const ms = await agora();
       const ids = s.alunoIds || [];
-      if (g.travaHorario && lib.fechadaAte && ms < lib.fechadaAte) return { aberta: false, fechada: true };
+      const modoAula = g.modoAula !== false;   // ▶️ 14/11/2026: as tarefas só abrem depois que o professor INICIA a aula no painel
+      // 🏠 quem estuda em casa não tem trava nenhuma: faz no próprio ritmo (config/liberar_<turma>.casa)
+      if (ids.length && ids.every(id => (lib.casa || {})[id])) return { aberta: true, casa: true };
+      if ((g.travaHorario || modoAula) && lib.fechadaAte && ms < lib.fechadaAte) return { aberta: false, fechada: true };
       // liberado só para ele: se o professor escolheu a missão, só ela (e a missão de hoje da turma) abre (12/11/2026)
       const lib1 = ids.filter(id => ((lib.alunos || {})[id] || 0) > ms);
       if (lib1.length) {
@@ -71,6 +78,13 @@
         if (!so.length || lib1.length > so.length) return { aberta: true };            // liberado sem missão escolhida = todas
         if (!mid || so.includes(mid) || (h && h.mid === mid)) return { aberta: true };
         return { aberta: false, so: so[0], hoje: h && h.travar ? h : null };
+      }
+      if (modoAula) {
+        if (lib.ate && ms < lib.ate) return { aberta: true };
+        const iniciada = h && h.iniciadaDia === N().hoje();
+        if (!iniciada) return { aberta: false, aguardando: true };
+        if (h.travar && h.mid && mid && mid !== h.mid) return { aberta: false, hoje: h };
+        return { aberta: true };
       }
       if (h && h.travar && mid && mid !== h.mid) return { aberta: false, hoje: h };     // 📌 só a missão de hoje
       if (!g.travaHorario) return { aberta: true };

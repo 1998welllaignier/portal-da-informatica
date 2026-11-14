@@ -157,7 +157,7 @@
   const tela = html => mountFn(`<section class="tela painel-prof">${html}</section>`);
   const topo = (u, ativo) => `<nav class="migalhas"><a href="#/">Início</a> › <a href="#/painel">Painel do professor</a></nav>
     <div class="pp-cab"><div><h1>📊 Painel do professor</h1><p class="lead">${esc(cat().professor)} · ${esc(cat().escola)}</p></div>
-      <div class="pp-user"><button class="btn btn-peq pp-sino" id="pp-sino" type="button" title="Avisos de hoje: abre de novo os avisos, inclusive os que você deixou para ver depois">🔔<span class="pp-sino-n" id="pp-sino-n" hidden></span></button><button class="btn btn-peq pp-hor-btn" id="pp-hor" type="button">🗓️ Horários</button><button class="btn btn-peq pp-hor-btn" id="pp-cod" type="button">🔑 Códigos</button><button class="btn btn-peq pp-vivo-btn" id="pp-vivo" type="button">🔴 Ao vivo</button><button class="btn btn-peq pp-placar-btn" id="pp-placar" type="button" title="Abre numa aba nova, para deixar no projetor">🏆 Placar</button><button class="btn btn-peq pp-hor-btn" id="pp-tema" type="button" title="Decoração do portal por época do ano">🎨 Tema</button><button class="btn btn-peq pp-fim-btn" id="pp-fim" type="button" title="Finaliza a aula agora: fecha as tarefas e mostra o pódio">🏁 Finalizar aula</button><span>${esc(u.email)}</span><button class="btn btn-sec btn-peq" id="pp-sair" type="button">Sair do painel</button></div></div>
+      <div class="pp-user"><button class="btn btn-peq pp-sino" id="pp-sino" type="button" title="Avisos de hoje: abre de novo os avisos, inclusive os que você deixou para ver depois">🔔<span class="pp-sino-n" id="pp-sino-n" hidden></span></button><button class="btn btn-peq pp-ini-btn" id="pp-ini" type="button" title="Iniciar uma aula agora (abre as tarefas da turma)">▶️ Iniciar aula</button><button class="btn btn-peq pp-hor-btn" id="pp-hor" type="button">🗓️ Horários</button><button class="btn btn-peq pp-hor-btn" id="pp-cod" type="button">🔑 Códigos</button><button class="btn btn-peq pp-vivo-btn" id="pp-vivo" type="button">🔴 Ao vivo</button><button class="btn btn-peq pp-placar-btn" id="pp-placar" type="button" title="Abre numa aba nova, para deixar no projetor">🏆 Placar</button><button class="btn btn-peq pp-hor-btn" id="pp-tema" type="button" title="Decoração do portal por época do ano">🎨 Tema</button><button class="btn btn-peq pp-fim-btn" id="pp-fim" type="button" title="Finaliza a aula agora: fecha as tarefas e mostra o pódio">🏁 Finalizar aula</button><span>${esc(u.email)}</span><button class="btn btn-sec btn-peq" id="pp-sair" type="button">Sair do painel</button></div></div>
     <nav class="pp-abas">${[["aula", "🎤 Aula"], ["", "🏫 Turmas"], ["diario", "📒 Diário"], ["panorama", "🗺️ Panorama"], ["presenca", "🗓️ Presença"], ["prova", "📝 Prova"], ["importar", "📥 Importar alunos"], ["ano", "📅 Ano letivo"]].map(([k, r]) =>
       `<a href="#/painel${k ? "/" + k : ""}" class="${ativo === k ? "atual" : ""}">${r}</a>`).join("")}</nav>${ajudaAba(ativo)}`;
   /* ❓ quadro "Para que serve e como usar" de cada aba (fica fechado; o professor abre quando quiser) */
@@ -291,6 +291,7 @@
     let ate = Date.now() + 60000;
     if (t.aula && t.aula.ini) { const d = new Date(), [H, M] = t.aula.ini.split(":").map(Number); d.setHours(H, M + (cat().duracaoAula || 75) + (cat().toleranciaTarefas || 15), 0, 0); ate = Math.max(ate, d.getTime()); }
     await db().collection("config").doc("liberar_" + t.id).set({ fechadaAte: ate, ate: 0 }, { merge: true });
+    try { await db().collection("config").doc("hoje_" + t.id).set({ iniciadaDia: "", finalizadaEm: Date.now() }, { merge: true }); } catch (e) {}
     return rk;
   }
   // missão em que a turma realmente está hoje: a que tem mais alunos com progresso de hoje (empate: a do cronograma)
@@ -459,7 +460,7 @@
     iv = setInterval(pinta, 30000);
     try { await carregarT(); } catch (err) { dlg.querySelector("#pv-c").innerHTML = `<p class="ajuda">Erro: ${esc(err.message || err)}</p>`; }
   }
-  document.addEventListener("click", e => { if (e.target.closest("#pp-sino")) mostrarAvisos({ manual: true }); { const pc = e.target.closest("[data-pan-dia]"); if (pc) try { sessionStorage.setItem("painel:diario:" + pc.dataset.panT, pc.dataset.panDia); } catch (x) {} } if (e.target.closest("#pp-hor")) abrirHorarios(); if (e.target.closest("#pp-cod")) abrirCodigos(); if (e.target.closest("#pp-vivo")) abrirAoVivo(); if (e.target.closest("#pp-placar")) window.open("#/painel/placar/" + escolherTurma(null, todasTurmas()), "_blank"); if (e.target.closest("#pp-fim")) finalizarAgora(); if (e.target.closest("#pp-tema")) abrirTema(); });
+  document.addEventListener("click", e => { if (e.target.closest("#pp-sino")) mostrarAvisos({ manual: true }); if (e.target.closest("#pp-ini")) iniciarAula(null, { manual: true }); { const pc = e.target.closest("[data-pan-dia]"); if (pc) try { sessionStorage.setItem("painel:diario:" + pc.dataset.panT, pc.dataset.panDia); } catch (x) {} } if (e.target.closest("#pp-hor")) abrirHorarios(); if (e.target.closest("#pp-cod")) abrirCodigos(); if (e.target.closest("#pp-vivo")) abrirAoVivo(); if (e.target.closest("#pp-placar")) window.open("#/painel/placar/" + escolherTurma(null, todasTurmas()), "_blank"); if (e.target.closest("#pp-fim")) finalizarAgora(); if (e.target.closest("#pp-tema")) abrirTema(); });
   // 🎨 tema do portal: automático pela data, ou ligado/desligado à mão (vale para todos os computadores)
   async function abrirTema() {
     if (document.querySelector(".pp-tema-dlg")) return;
@@ -497,6 +498,86 @@
     };
   }
 
+  /* ▶️ ASSISTENTE "INICIAR A AULA" (14/11/2026): as tarefas ficam fechadas até o professor iniciar a aula.
+     Abre sozinho no horário de uma aula (uma vez por aula) ou pelo botão ▶️ Iniciar aula (reposição, fora do horário).
+     Grava em config/hoje_<turma>: dia, missão (ou nenhuma = o aluno escolhe), travar e iniciadaDia. */
+  function turmaAgora(turmas) {
+    const ag = new Date(), min = ag.getHours() * 60 + ag.getMinutes(), dur = cat().duracaoAula || 75;
+    return turmas.filter(t => t.aula && t.aula.dia === ag.getDay() && t.aula.ini).find(t => { const [h, m] = t.aula.ini.split(":").map(Number); const i = h * 60 + m; return min >= i - 15 && min < i + dur; }) || null;
+  }
+  async function sincronizarCasa(t, alunos) {
+    const casa = {}; alunos.filter(a => a.emCasa && a.ativo !== false).forEach(a => { casa[a.id] = true; });
+    await db().collection("config").doc("liberar_" + t.id).set({ casa }, { merge: true });
+    return Object.keys(casa).length;
+  }
+  async function iniciarAula(u, op = {}) {
+    const turmas = todasTurmas(), atual = op.tid ? turmas.find(x => x.id === op.tid) : turmaAgora(turmas);
+    const dlg = h(`<dialog class="pp-dlg pp-ini-dlg"><form method="dialog"><div id="ini-c"></div></form></dialog>`);
+    document.body.appendChild(dlg); dlg.showModal();
+    const fechado = new Promise(r => dlg.addEventListener("close", () => { dlg.remove(); r(); }));
+    const c = dlg.querySelector("#ini-c");
+    const passo2 = async () => {
+      c.innerHTML = `<h2>▶️ Iniciar a aula</h2>
+        <p><label>Turma <select id="ini-t">${turmas.map(x => `<option value="${x.id}" ${atual && x.id === atual.id ? "selected" : ""}>${esc(nomeTurma(x.id))}${x.aula ? " · " + esc(semanaCurta(x.aula.dia)) + " " + esc(x.aula.ini) : ""}</option>`).join("")}</select></label></p>
+        <p class="pp-ini-casa" id="ini-casa" hidden></p>
+        <p><label>📌 Missão de hoje <select id="ini-m"><option value="">Carregando…</option></select></label></p>
+        <p><label class="pp-auto"><input type="checkbox" id="ini-trav" checked> 🔒 Travar nela (o aluno cai direto nesta missão e as outras ficam fechadas)</label></p>
+        <p class="ajuda">Antes de você iniciar, os alunos já podem entrar e ler os textos, mas as tarefas ficam fechadas.</p>
+        <p class="erro" id="ini-e" hidden></p>
+        <div class="row-btns"><button type="button" class="btn btn-grande" id="ini-ok">▶️ Iniciar a aula</button><button class="btn btn-sec" value="x">Cancelar</button></div>`;
+      const selT = c.querySelector("#ini-t"), selM = c.querySelector("#ini-m"), trav = c.querySelector("#ini-trav");
+      let ctx = null;
+      const carregar = async () => {
+        const t = turmas.find(x => x.id === selT.value);
+        selM.innerHTML = `<option>Carregando…</option>`; c.querySelector("#ini-casa").hidden = true;
+        const ap = cat().apostilas.find(a => a.serie === t.serie.id && !a.oculta && !a.trilha) || cat().apostilas.find(a => a.serie === t.serie.id);
+        await P.carregarApostila(ap.id); const C = P.conteudo[ap.id];
+        const [sug, alunos] = await Promise.all([missaoSugerida(t, C), alunosDaTurma(t.id)]);
+        ctx = { t, ap, C, alunos: alunos.filter(a => a.ativo !== false && !a.teste) };
+        selM.innerHTML = `<option value="">— nenhuma: os alunos escolhem —</option>` + C.missoes.map(m => `<option value="${esc(m.id)}" ${m.id === sug ? "selected" : ""}>${esc(m.id.toUpperCase())} · ${esc(((m.titulo || "").replace(/^[^–]*–\s*/, "")).slice(0, 60))}${m.id === sug ? " (sugerida)" : ""}</option>`).join("");
+        trav.disabled = !selM.value; if (!selM.value) trav.checked = false;
+        const casa = ctx.alunos.filter(a => a.emCasa);
+        const cx = c.querySelector("#ini-casa");
+        if (casa.length) { cx.innerHTML = `🏠 Esta turma tem <strong>${casa.length} aluno${casa.length > 1 ? "s" : ""} que estuda${casa.length > 1 ? "m" : ""} em casa</strong>: ${casa.map(a => esc(a.nome)).join(", ")}. Para ${casa.length > 1 ? "eles" : "ele"} as tarefas ficam sempre abertas.`; cx.hidden = false; }
+      };
+      selT.onchange = () => carregar().catch(e => console.warn(e));
+      selM.onchange = () => { trav.disabled = !selM.value; trav.checked = !!selM.value; };
+      await carregar();
+      c.querySelector("#ini-ok").onclick = async () => {
+        const b = c.querySelector("#ini-ok"); b.disabled = true; b.textContent = "Iniciando…";
+        try {
+          const { t, ap, C } = ctx, v = selM.value, m = C.missoes.find(x => x.id === v), hoje = N.hoje();
+          const titulo = m ? m.titulo.replace(/ –.*/, "") + " – " + m.titulo.replace(/^[^–]*– ?/, "") : "";
+          await db().collection("config").doc("hoje_" + t.id).set({ dia: hoje, aid: ap.base || ap.id, mid: v, titulo, travar: !!(v && trav.checked), iniciadaDia: hoje, iniciadaEm: Date.now() }, { merge: true });
+          await db().collection("config").doc("liberar_" + t.id).set({ fechadaAte: 0 }, { merge: true });
+          await sincronizarCasa(t, ctx.alunos).catch(() => {});
+          if (v) await registrarMissaoDoDia(t.id, { mid: v, titulo, travar: !!trav.checked });
+          try { sessionStorage.setItem("painel:turma", t.id); sessionStorage.setItem("painel:ini:" + t.id + ":" + hoje, "1"); } catch (e) {}
+          dlg.close(); toast("▶️ Aula iniciada: " + nomeTurma(t.id) + (v ? " · " + v.toUpperCase() + (trav.checked ? " 🔒" : "") : " · os alunos escolhem a missão"));
+          location.hash = "#/painel/aula/" + t.id + (v ? "/" + v : "");
+        } catch (err) { const e = c.querySelector("#ini-e"); e.textContent = "Não foi possível iniciar: " + (err.message || err); e.hidden = false; b.disabled = false; b.textContent = "▶️ Iniciar a aula"; }
+      };
+    };
+    if (op.manual) { passo2().catch(e => console.warn(e)); return fechado; }
+    c.innerHTML = `<h2>👋 Olá, professor!</h2><p>${atual ? `Agora é a aula do <strong>${esc(nomeTurma(atual.id))}</strong>. ` : ""}Vai dar aula agora ou só vai olhar o sistema?</p>
+      <div class="row-btns"><button type="button" class="btn btn-grande" id="ini-sim">🎤 Vou dar aula agora</button><button class="btn btn-sec" value="x">👀 Só vou olhar</button></div>`;
+    c.querySelector("#ini-sim").onclick = () => passo2().catch(e => console.warn(e));
+    return fechado;
+  }
+  const semanaCurta = d => ["dom", "seg", "ter", "qua", "qui", "sex", "sáb"][d] || "";
+  async function perguntarInicio(u) {
+    // 🏠 uma vez por dia, atualiza em todas as turmas a lista de quem estuda em casa (fica sem trava)
+    if (!ss.get("painel:casa:" + N.hoje())) { ss.set("painel:casa:" + N.hoje(), "1"); todasTurmas().forEach(t => alunosDaTurma(t.id).then(al => sincronizarCasa(t, al)).catch(() => {})); }
+    try {
+      const g = await config(); if (g.modoAula === false) return;
+      const t = turmaAgora(todasTurmas()); if (!t) return;
+      const hoje = N.hoje(), k = "painel:ini:" + t.id + ":" + hoje;
+      if (ss.get(k)) return; ss.set(k, "1");
+      const hs = await db().collection("config").doc("hoje_" + t.id).get();
+      if (hs.exists && hs.data().iniciadaDia === hoje) return;
+      await iniciarAula(u);
+    } catch (e) { console.warn("iniciar aula", e); }
+  }
   function ligarSair(el) { el.querySelector("#pp-sair").onclick = async () => { await auth().signOut(); location.hash = "#/painel"; }; }
 
   async function entrar() {
@@ -635,6 +716,8 @@
           if (x === "casa") {
             if (a.emCasa) await db().collection("alunos").doc(a.id).update({ emCasa: false, emCasaObs: "" });
             else { const o = await P.perguntar("Observação (opcional). Ex.: entrega a apostila impressa; vem só para a prova.", ""); if (o === null) return; await db().collection("alunos").doc(a.id).update({ emCasa: true, emCasaObs: o.trim() }); }
+            // 🏠 quem estuda em casa fica sem trava (o portal do aluno lê config/liberar_<turma>.casa)
+            await db().collection("config").doc("liberar_" + a.turma).set({ casa: { [a.id]: !a.emCasa } }, { merge: true });
           }
           if (x === "teste") { await db().collection("alunos").doc(a.id).update({ teste: !a.teste }); }
           if (x === "libera") {
@@ -1546,7 +1629,8 @@
     // 📌 Missão de hoje: o aluno cai direto nela depois do código; se "travar", as tarefas das outras missões fecham
     try {
       const hRef = db().collection("config").doc("hoje_" + t.id), hs = await hRef.get();
-      const hj = hs.exists && hs.data().dia === N.hoje() ? hs.data() : null;
+      const hj0 = hs.exists && hs.data().dia === N.hoje() ? hs.data() : null, iniciada = !!(hj0 && hj0.iniciadaDia === N.hoje());
+      const hj = hj0 && hj0.mid ? hj0 : null;
       const baseId = ap.base || ap.id, curto = m => (m.titulo || m.id.toUpperCase()).replace(/ –.*/, "");
       // escolher QUALQUER missão numa lista (não só a que está aberta) e travar, tudo no mesmo quadro (pedido em 12/11/2026)
       const box = document.createElement("div"); box.className = "pp-trava pp-hoje";
@@ -1554,16 +1638,19 @@
           <option value="" ${hj ? "" : "selected"}>— nenhuma (o aluno escolhe) —</option>
           ${C.missoes.map(m => `<option value="${esc(m.id)}" ${hj && hj.mid === m.id ? "selected" : ""}>${esc(m.icone || "")} ${esc(m.id.toUpperCase())} · ${esc(((m.titulo || "").replace(/^[^–]*–\s*/, "") || curto(m)).slice(0, 60))}</option>`).join("")}</select></label>
         <label class="pp-auto" title="${hj ? "Só a missão de hoje fica com as tarefas abertas" : "Escolha primeiro a missão de hoje na lista"}"><input type="checkbox" data-hj="trav" ${hj && hj.travar ? "checked" : ""} ${hj ? "" : "disabled"}> 🔒 Travar só nela</label>
-        <span class="st">${hj ? (hj.travar ? "🔒 os alunos só fazem as tarefas desta missão" : "✔ o aluno cai direto nela ao digitar o código") : "nenhuma missão definida para hoje"}</span>`;
+        <span class="st">${hj ? (hj.travar ? "🔒 os alunos só fazem as tarefas desta missão" : "✔ o aluno cai direto nela ao digitar o código") : "nenhuma missão definida para hoje"}</span>
+        <span class="pp-ini-st ${iniciada ? "on" : "off"}">${iniciada ? `▶️ Aula iniciada às ${new Date(hj0.iniciadaEm || Date.now()).toTimeString().slice(0, 5)}` : `⏳ Aula não iniciada: tarefas fechadas <button class="btn btn-peq" type="button" data-hj="ini">▶️ Iniciar a aula</button>`}</span>`;
       el.querySelector(".pp-barra").appendChild(box);
       const sel = box.querySelector('[data-hj="sel"]'), trav = box.querySelector('[data-hj="trav"]');
+      const bIni = box.querySelector('[data-hj="ini"]'); if (bIni) bIni.onclick = () => iniciarAula(u, { manual: true, tid: t.id });
       sel.onchange = async () => {
         const v = sel.value, m = C.missoes.find(x => x.id === v);
         try {
           // escolher já trava por padrão (12/11/2026: aluno abriu a M3 no dia da M2); dá para destravar no quadrinho
           const travar = hj ? !!hj.travar : true, titulo = m ? m.titulo.replace(/ –.*/, "") + " – " + m.titulo.replace(/^[^–]*– ?/, "") : v;
-          if (!v) await hRef.set({ dia: "", mid: "" });
-          else await hRef.set({ dia: N.hoje(), aid: baseId, mid: v, titulo, travar });
+          // merge: não apaga o "aula iniciada" (iniciadaDia) ao trocar a missão no meio da aula
+          if (!v) await hRef.set({ dia: N.hoje(), mid: "", titulo: "", travar: false }, { merge: true });
+          else await hRef.set({ dia: N.hoje(), aid: baseId, mid: v, titulo, travar }, { merge: true });
           await registrarMissaoDoDia(t.id, v ? { mid: v, titulo, travar } : null);
           toast(v ? "Missão de hoje: " + v.toUpperCase() + (travar ? " · 🔒 travada" : "") + " (anotado no Diário)" : "Missão de hoje tirada."); telaAula(u, t.id, v || mid);
         } catch (err) { toast("Não foi possível salvar: " + (err.message || err)); }
@@ -1578,10 +1665,11 @@
       const [g, ls] = await Promise.all([config(), db().collection("config").doc("liberar_" + t.id).get()]);
       const lib = ls.exists ? ls.data() : {}, ag = Date.now(), hm = ms => new Date(ms).toTimeString().slice(0, 5);
       const noHor = P.trava && P.trava.noHorario(t, ag);
-      const st = !g.travaHorario ? "⚪ Trava desligada: tarefas sempre abertas" : lib.fechadaAte > ag ? `🔒 Fechadas por você até ${hm(lib.fechadaAte)}` : lib.ate > ag ? `🔓 Liberadas por você até ${hm(lib.ate)}` : noHor ? "🟢 Abertas (horário da aula)" : `🔒 Fechadas (abrem ${P.trava ? P.trava.horarioTxt(t) : "no horário da aula"})`;
+      const modoAula = g.modoAula !== false, hjx = (await db().collection("config").doc("hoje_" + t.id).get()).data() || {}, ini = hjx.iniciadaDia === N.hoje();
+      const st = modoAula ? (lib.fechadaAte > ag ? `🔒 Fechadas (aula finalizada)` : lib.ate > ag ? `🔓 Liberadas por você até ${hm(lib.ate)}` : ini ? "🟢 Abertas (aula iniciada)" : "⏳ Fechadas até você iniciar a aula") : !g.travaHorario ? "⚪ Trava desligada: tarefas sempre abertas" : lib.fechadaAte > ag ? `🔒 Fechadas por você até ${hm(lib.fechadaAte)}` : lib.ate > ag ? `🔓 Liberadas por você até ${hm(lib.ate)}` : noHor ? "🟢 Abertas (horário da aula)" : `🔒 Fechadas (abrem ${P.trava ? P.trava.horarioTxt(t) : "no horário da aula"})`;
       const box = document.createElement("div"); box.className = "pp-trava";
       box.innerHTML = `<span>Tarefas desta turma:</span> <span class="st">${st}</span>
-        ${g.travaHorario ? `<button class="btn btn-sec btn-peq" type="button" data-tr="lib">🔓 Liberar a turma agora</button><button class="btn btn-sec btn-peq" type="button" data-tr="fecha">🔒 Fechar agora</button>${lib.ate > ag || lib.fechadaAte > ag ? `<button class="btn btn-sec btn-peq" type="button" data-tr="normal">↩️ Voltar ao horário normal</button>` : ""}` : `<a class="btn btn-sec btn-peq" href="#/painel/ano">Ligar a trava</a>`}`;
+        ${g.travaHorario || modoAula ? `<button class="btn btn-sec btn-peq" type="button" data-tr="lib">🔓 Liberar a turma agora</button><button class="btn btn-sec btn-peq" type="button" data-tr="fecha">🔒 Fechar agora</button>${lib.ate > ag || lib.fechadaAte > ag ? `<button class="btn btn-sec btn-peq" type="button" data-tr="normal">↩️ Voltar ao horário normal</button>` : ""}` : `<a class="btn btn-sec btn-peq" href="#/painel/ano">Ligar a trava</a>`}`;
       el.querySelector(".pp-barra").appendChild(box);
       const ref = db().collection("config").doc("liberar_" + t.id);
       box.querySelectorAll("[data-tr]").forEach(b => b.onclick = async () => {
@@ -1596,6 +1684,7 @@
     try {
       const todosT = (await alunosDaTurma(t.id)).filter(a => a.ativo !== false && !a.teste);
       const casa = todosT.filter(a => a.emCasa);
+      sincronizarCasa(t, todosT).catch(() => {});
       if (casa.length) {
         const bc = document.createElement("div"); bc.className = "painel pp-casa";
         bc.innerHTML = `<strong>🏠 Estudam em casa (entregam a apostila):</strong> ${casa.map(a => esc(a.nome) + (a.emCasaObs ? ` <small>(${esc(a.emCasaObs)})</small>` : "")).join(" · ")}<br><small>Quando entregarem, lance no 📒 Diário: Básico e ★ na data de cada missão.</small>`;
@@ -1718,12 +1807,22 @@
       <p>No começo de cada ano letivo:</p><ol><li>Clique em <strong>Começar novo ano</strong>: todos os alunos ativos são desativados (os códigos param de funcionar), mas o histórico fica guardado.</li>
       <li>Importe as listas novas na aba <a href="#/painel/importar">📥 Importar alunos</a>.</li><li>Imprima os cartões com os códigos novos.</li></ol>
       <div class="row-btns"><button class="btn" id="novo" type="button">📅 Começar o ano ${esc(cfg.ano + 1)}</button></div></div>
+      <div class="painel"><h2>▶️ Tarefas só depois de "Iniciar a aula"</h2>
+        <p>Situação: <span class="pp-prova-st ${cfg.modoAula !== false ? "on" : "off"}">${cfg.modoAula !== false ? "▶️ LIGADO" : "⚪ Desligado"}</span></p>
+        <p>Ligado, as <strong>tarefas</strong> de cada turma ficam fechadas até você tocar em <strong>▶️ Iniciar a aula</strong> (o painel pergunta sozinho no horário da aula, ou pelo botão na barra de cima) e fecham de novo no <strong>🏁 Finalizar aula</strong>. Os textos ficam sempre abertos. Quem <strong>🏠 estuda em casa</strong> não tem trava.</p>
+        <div class="row-btns"><button class="btn" id="modo" type="button">${cfg.modoAula !== false ? "⚪ Desligar" : "▶️ Ligar"}</button></div></div>
       <div class="painel"><h2>🔒 Trava de horário das tarefas</h2>
         <p>Situação: <span class="pp-prova-st ${cfg.travaHorario ? "on" : "off"}">${cfg.travaHorario ? "🔒 LIGADA" : "⚪ Desligada"}</span></p>
         <p>Ligada, as <strong>tarefas</strong> (Mão na massa, Básico, Desafio, Turbo, Perguntas rápidas, Autoavaliação e Resumo) só abrem no <strong>dia e na hora da aula</strong> de cada turma, com ${esc(cat().toleranciaTarefas || 15)} minutos de tolerância antes e depois. Os textos de estudo ficam sempre abertos, inclusive em casa.</p>
         <p class="ajuda">Para liberar fora do horário: a turma toda, na aba 🎤 Aula; só um aluno, escolhendo qual missão ele pode fazer (falta, reposição, estuda em casa) ou aluno que frequenta a aula de outra turma, em 🏫 Turmas → toque no nome do aluno.</p>
         <div class="row-btns"><button class="btn" id="trava" type="button">${cfg.travaHorario ? "⚪ Desligar a trava" : "🔒 Ligar a trava"}</button></div></div>`);
     ligarSair(el);
+    el.querySelector("#modo").onclick = async () => {
+      const on = cfg.modoAula !== false;
+      if (on && !await P.confirmar("Desligar? As tarefas voltam a seguir só a trava de horário (ou ficam sempre abertas, se ela estiver desligada).")) return;
+      await db().collection("config").doc("geral").set({ modoAula: !on }, { merge: true });
+      toast(on ? "Desligado." : "Ligado: tarefas só depois de Iniciar a aula."); telaAno(u);
+    };
     el.querySelector("#trava").onclick = async () => {
       if (!cfg.travaHorario && !await P.confirmar("Ligar a trava? A partir de agora, os alunos só fazem as tarefas no horário da aula da turma.")) return;
       await db().collection("config").doc("geral").set({ travaHorario: !cfg.travaHorario }, { merge: true });
@@ -1751,8 +1850,8 @@
       await (N.app(0).pronto);
       await new Promise(ok => { const x = auth().onAuthStateChanged(() => { x(); ok(); }); });
       const u = await entrar();
-      if (!ss.get("painel:pendencias")) { ss.set("painel:pendencias", "1"); setTimeout(() => mostrarAvisos().finally(() => perguntarPendentes()), 1200); }
-      else setTimeout(() => mostrarAvisos({ contar: true }).catch(() => {}), 1200);
+      if (!ss.get("painel:pendencias")) { ss.set("painel:pendencias", "1"); setTimeout(() => perguntarInicio(u).finally(() => mostrarAvisos().finally(() => perguntarPendentes())), 900); }
+      else setTimeout(() => { perguntarInicio(u); mostrarAvisos({ contar: true }).catch(() => {}); }, 900);
       try {
         if (sub === "aula") return await telaAula(u, arg, arg2);
         if (sub === "placar") return await telaPlacar(u, arg);

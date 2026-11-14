@@ -1658,3 +1658,11 @@ button.tb-av:hover .avatar-svg, button.tb-av:focus-visible .avatar-svg { transfo
 .pan-m-prev { background: var(--papel); color: var(--cor); border: 2px dashed var(--cor); } .pan-m-prev small { font-weight: 700; font-size: .68rem; }
 .pan-alerta { color: var(--erro); }
 .pan-m-prova { background: #b45309; } .pan-c:has(.pan-m-prova) { border-color: #f59e0b; opacity: 1; }
+
+/* ▶️ Iniciar a aula (14/11/2026) */
+.pp-ini-btn { background: #157a3f; border-color: #157a3f; color: #fff; }
+.pp-ini-st { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; border-radius: 999px; padding: 2px 10px; font-size: .9rem; }
+.pp-ini-st.on { background: var(--ok-bg); color: var(--ok); }
+.pp-ini-st.off { background: var(--aviso-bg); color: #8a5a00; }
+.pp-ini-casa { background: var(--info-bg); border-radius: 10px; padding: 8px 12px; }
+.pp-ini-dlg select { max-width: 100%; }
