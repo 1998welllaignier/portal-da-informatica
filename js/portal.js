@@ -1194,9 +1194,11 @@
       const passo = () => {
         const a = lista[i], ult = i === lista.length - 1; let r = tempoLeitura(a.texto);
         d.querySelector("#av-u").innerHTML = `<div class="aviso-prof"><p class="ap-tit">📣 Aviso do professor${a.alvo === "aluno" ? " (só para você)" : ""}${lista.length > 1 ? ` · ${i + 1} de ${lista.length}` : ""}</p><p>${esc(a.texto)}</p></div>
-          <div class="row-btns"><button type="button" class="btn" id="av-ok" disabled>⏳ Leia com atenção… ${r}s</button></div>`;
-        const b = d.querySelector("#av-ok"); clearInterval(tk);
-        tk = setInterval(() => { r--; if (r > 0) b.textContent = `⏳ Leia com atenção… ${r}s`; else { clearInterval(tk); b.disabled = false; b.textContent = ult ? "✓ OK, já li · ▶️ Ir para as minhas tarefas" : "✓ OK, já li · próximo aviso →"; } }, 1000);
+          <div class="av-relogio" id="av-rel"><span class="av-rel-n">⏱️ <b id="av-n">${r}</b> s</span><i><b id="av-bar" style="width:0%"></b></i></div>
+          <div class="row-btns"><button type="button" class="btn" id="av-ok" disabled>⏳ Leia com atenção… o botão libera em ${r}s</button></div>`;
+        const b = d.querySelector("#av-ok"), tot = r; clearInterval(tk);
+        tk = setInterval(() => { r--; d.querySelector("#av-n").textContent = Math.max(0, r); d.querySelector("#av-bar").style.width = Math.min(100, Math.round(100 * (tot - r) / tot)) + "%";
+          if (r > 0) b.textContent = `⏳ Leia com atenção… o botão libera em ${r}s`; else { d.querySelector("#av-rel").classList.add("ok"); d.querySelector("#av-n").textContent = "✓"; clearInterval(tk); b.disabled = false; b.textContent = ult ? "✓ OK, já li · ▶️ Ir para as minhas tarefas" : "✓ OK, já li · próximo aviso →"; } }, 1000);
         b.onclick = () => {
           const ids = s.alunoIds || [];
           ids.forEach(id => P.nuvem.db().collection("progresso").doc(id + "_avisos").set({ alunoId: id, turma: s.turma, tipo: "avisos", lidos: { [a.id]: (a.lidos || 0) + 1 }, atualizado: Date.now() }, { merge: true }).catch(() => {}));
