@@ -37,6 +37,20 @@
     if (a && manual < a.desde) return a.id;
     return ss.get("painel:turma") || (a && a.id) || (turmas.find(x => x.serie.id === "6") || turmas[0]).id;
   }
+  // 🔁 missão sugerida pela mesma regra do Panorama: a da aula de hoje (registrada › portal › próxima que falta);
+  // fora do dia da aula, a da próxima aula. Sem histórico, cai no cronograma antigo (missaoDoDia).
+  const _sug = {};
+  async function missaoSugerida(t, C) {
+    const ok = m => m && C.missoes.some(x => x.id === m);
+    try {
+      const k = t.id + "|" + N.hoje();
+      if (!_sug[k]) _sug[k] = historicoTurma(t);
+      const h = await _sug[k], hoje = N.hoje();
+      const l = h.linhas.find(x => x.d === hoje && !x.ocorr && ok(x.mid)) || h.linhas.find(x => x.d > hoje && !x.ocorr && ok(x.mid));
+      if (l) return l.mid;
+    } catch (e) { console.warn("missão sugerida", e); }
+    return missaoDoDia(t, C);
+  }
   // missão do dia pelo cronograma da turma (a de hoje ou a última que já passou)
   function missaoDoDia(t, C) {
     const ag = new Date(), hoje = `${ag.getFullYear()}-${String(ag.getMonth() + 1).padStart(2, "0")}-${String(ag.getDate()).padStart(2, "0")}`;
@@ -151,7 +165,7 @@
     aula: ["Use durante a aula, projetando ou no seu computador.", [
       "<b>🟧 Recados para esta aula</b>: o quadro laranja no topo mostra os recados que você deixou para a turma (os mesmos do 📒 Diário › 🔔 Lembretes). Depois de ler, toque em “✔ Já li”: o recado sai do quadro em todos os computadores, mas não é apagado; vai para o “📜 Histórico de recados desta turma”, com a data em que foi anotado e a data em que foi lido. Para deixar um recado para a próxima aula, abra “✏️ Deixar um recado…” logo abaixo dos recados.",
       "<b>📣 Avisos para falar à turma</b>: aparecem no topo com a fala pronta. Depois de falar, toque em “✔ Já avisei esta turma” (o aviso some só daquela turma, neste computador).",
-      "<b>🕘 A turma já vem certa</b>: ao abrir o painel, ele escolhe sozinho a turma que está em aula agora (ou a próxima aula de hoje) e a missão do dia pelo cronograma. Para ver outra turma, é só trocar na lista; a sua escolha vale até a próxima aula começar.",
+      "<b>🕘 A turma já vem certa</b>: ao abrir o painel, ele escolhe sozinho a turma que está em aula agora (ou a próxima aula de hoje) e a missão do dia pela mesma regra do 🗺️ Panorama (a próxima missão que a turma ainda não fez). Para ver outra turma, é só trocar na lista; a sua escolha vale até a próxima aula começar.",
       "<b>Escolha a turma e a missão</b> (M1, M2…). Aparece o roteiro da aula com as falas, as respostas de cada atividade e quantos alunos já entraram e concluíram o Básico.",
       "<b>🎬 Apresentar</b>: abre numa aba nova os slides animados da missão (os mesmos assuntos do vídeo e da apostila), para projetar. Avance com → , espaço, clique ou passador; volte com ←; F deixa em tela cheia; Esc sai.",
       "<b>👀 Abrir a apostila do aluno</b>: abre, numa aba nova, a apostila exatamente como o aluno vê. Nada do que você fizer ali conta.",
@@ -294,7 +308,7 @@
     const ap = cat().apostilas.find(a => a.serie === t.serie.id && !a.oculta && !a.trilha) || cat().apostilas.find(a => a.serie === t.serie.id);
     await P.carregarApostila(ap.id); const C = P.conteudo[ap.id];
     try { const h = await db().collection("config").doc("hoje_" + t.id).get(); if (h.exists && h.data().dia === N.hoje() && h.data().mid) return { mid: h.data().mid, C, fixo: true }; } catch (e) {}
-    return { mid: missaoDoDia(t, C) || C.missoes[0].id, C };
+    return { mid: (await missaoSugerida(t, C)) || C.missoes[0].id, C };
   }
   /* 🏆 Placar ao vivo (para o projetor): ranking que muda na hora; congela nos últimos 5 min; vira pódio ao finalizar */
   async function telaPlacar(u, tid) {
@@ -431,7 +445,7 @@
       dlg.querySelector("#pv-c").innerHTML = `<p class="ajuda">Carregando…</p>`;
       const t = turmas.find(x => x.id === tid);
       const ap = cat().apostilas.find(a => a.serie === t.serie.id && !a.oculta && !a.trilha) || cat().apostilas.find(a => a.serie === t.serie.id);
-      await P.carregarApostila(ap.id); await carregarSerie(t); const C = P.conteudo[ap.id], mid = missaoDoDia(t, C) || C.missoes[0].id;
+      await P.carregarApostila(ap.id); await carregarSerie(t); const C = P.conteudo[ap.id], mid = (await missaoSugerida(t, C)) || C.missoes[0].id;
       const alunos = (await alunosDaTurma(tid)).filter(a => a.ativo !== false && !a.teste);
       let fixo = false; try { const hh = await db().collection("config").doc("hoje_" + t.id).get(); fixo = hh.exists && hh.data().dia === N.hoje() && hh.data().mid === mid; } catch (e) {}
       estado = { t, alunos, prog: [], C, mid, midPadrao: mid, fixo, aid: ap.id };
@@ -1450,7 +1464,7 @@
     const ap = aps.find(a => a.id === apId) || aps.find(a => !a.oculta && !/trilha/.test(a.id)) || aps[0];
     await P.carregarApostila(ap.id);
     const C = P.conteudo[ap.id];
-    mid = mid && C.missoes.some(m => m.id === mid) ? mid : (missaoDoDia(t, C) || C.missoes[0].id);
+    mid = mid && C.missoes.some(m => m.id === mid) ? mid : ((await missaoSugerida(t, C)) || C.missoes[0].id);
     const el = tela(topo(u, "aula") + `<div class="painel pp-barra">
         <label>Turma <select id="sel">${turmas.map(x => `<option value="${x.id}" ${x.id === t.id ? "selected" : ""}>${esc(nomeTurma(x.id))}</option>`).join("")}</select></label>
         ${aps.length > 1 ? `<label>Apostila <select id="ap">${aps.map(a => `<option value="${a.id}" ${a.id === ap.id ? "selected" : ""}>${esc(a.titulo || a.id)}</option>`).join("")}</select></label>` : ""}
