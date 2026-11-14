@@ -90,6 +90,7 @@ Atenção: cada série tem turmas em missões diferentes (ver missoes4 no catál
 
 ### 🧭 Pauta da conversa no salão, por urgência (combinada em 14/11/2026)
 0. **Primeiro de tudo, quando ele disser "cheguei ao salão":** lembrar de anotar no 📒 Caderno Digital os pagamentos recebidos que ainda não foram anotados.
+0a. **Caderno Digital › Francinaldo:** lançar os pagamentos em dinheiro (R$ 500 em 14/11 e R$ 150 em outro dia, data a confirmar), os produtos que ele vai passar, e fazer as contas de quanto ainda deve.
 0b. **Lembrar:** avisar a professora do AEE, Rosineide, que o roteador da sala dela foi trocado (mesma senha de antes, deve conectar sozinho); ela testa na segunda 16/11 e avisa se não funcionar. Atenção: a rede nova se chama "PROF / AEE - JK" (nome e senha antigos), não "SALA DO AEE".
 🔴 **Esta semana (antes de 16–18/11)**
 1. Aba 🎤 Aula sugerir a Missão de hoje pela regra do Panorama (vale já na segunda 16/11).
