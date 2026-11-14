@@ -16,6 +16,14 @@ PORTAL.catalogo = {
   /* missoes4: em que dia a turma estudou cada missão no 4º bimestre (vem do Diário de Classe);
      o painel usa para marcar sozinho as missões da prova.
      aula: dia da semana (1 = segunda … 4 = quinta) e hora de início; cada aula dura 1h15 */
+  /* 📆 Calendário Escolar 2026 da rede (SEMED Curionópolis): a prova de cada turma cai no dia dela dentro da
+     semana de Avaliação Bimestral, não importa quantas aulas tenham sido dadas. O painel reorganiza o resto sozinho.
+     semAula = feriados/recessos em dias de aula (seg a qui). */
+  calendarioRede: {
+    provaBimestral: ["2026-12-07", "2026-12-11"],
+    fimAulas: "2026-12-18",
+    semAula: ["2026-11-02", "2026-11-20", "2026-11-27", "2026-11-30", "2026-12-25"]
+  },
   duracaoAula: 75,
   toleranciaTarefas: 15, // minutos antes e depois da aula em que as tarefas ficam abertas (trava de horário)
   series: [

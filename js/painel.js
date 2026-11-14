@@ -866,6 +866,7 @@
     corpo.innerHTML = `<div class="painel"><h2>📝 Prova do bimestre · ${esc(nomeTurma(t.id))}</h2>
         <p>Situação: <span class="pp-prova-st ${ligada ? "on" : "off"}">${ligada ? `🟢 Dia de prova LIGADO · termina às ${cfg.ate ? hm(cfg.ate) : "fim do dia"}` : tempoAcabou ? "⏰ Tempo da prova acabou" : "⚪ Desligado"}</span></p>
         ${t.aula ? `<p class="ajuda">Aula da turma: ${["", "segunda", "terça", "quarta", "quinta", "sexta"][t.aula.dia]}, das ${t.aula.ini} às ${hm(new Date("2000-01-01T" + t.aula.ini + ":00").getTime() + (cat().duracaoAula || 75) * 60000)}.</p>` : ""}
+        ${hist.prova ? `<p class="pp-dia-prova">📆 <strong>Dia da prova desta turma</strong> (semana de Avaliação Bimestral do calendário da rede): <strong>${esc(semana(hist.prova))}, ${esc(dataBR(hist.prova))}</strong>${hist.linhas.some(l => l.trabalho) ? " · nenhuma missão dada: vira 📝 Trabalho avaliativo em aula" : ""}</p>` : ""}
         ${aulasTxt}
         <div class="pp-missoes-prova"><p><strong>A prova cobra só as missões marcadas</strong>. O painel já marcou as que foram dadas nas aulas (com a data de cada uma); confira antes de ligar. Pode desmarcar ou marcar à vontade.</p><div class="pp-mis-grade">${caixasM}</div></div>
         <p class="ajuda">Ligado, o aluno digita o código e cai direto na prova. Um relógio mostra quanto falta até o horário-limite; quando o tempo acaba, a prova é enviada sozinha com as respostas marcadas. Ao terminar, o aluno vê a nota e o portal sai sozinho.</p>
@@ -931,6 +932,23 @@
        1) 📌 a Missão de hoje escolhida no painel (fica gravada na aula do dia);
        2) ⚡ a missão que a maioria dos alunos abriu no portal naquele dia;
        3) 📅 o cronograma (o que estava previsto para a data). */
+  /* 📆 Calendário da rede: a prova cai no dia da turma dentro da semana de Avaliação Bimestral. Antes dela, todas as aulas
+     futuras são vagas para as missões que faltam (ou revisão); depois dela, 2ª chamada / recuperação. Vale para o Panorama,
+     a Prova e o Diário, por cima do cronograma antigo. */
+  const ESPECIAL = /^\s*(📝\s*)?(Avalia|Prova|Segunda chamada|2ª chamada|Projeto final|Revis|Trabalho)/i;
+  function cronComRede(t, cron) {
+    const R = cat().calendarioRede; if (!R || !t.aula) return cron;
+    const sem = new Set(R.semAula || []), [pi, pf] = R.provaBimestral;
+    const datas = (ini, fim) => { const out = []; for (let d = new Date(ini + "T12:00:00"); ; d.setDate(d.getDate() + 1)) { const s = d.toISOString().slice(0, 10); if (s > fim) break; if (d.getDay() === t.aula.dia && !sem.has(s)) out.push(s); } return out; };
+    const prova = datas(pi, pf)[0]; if (!prova) return cron;
+    const hoje = N.hoje();
+    const out = cron.filter(c => c.data < pi && !sem.has(c.data) && !ESPECIAL.test(c.encontro || ""));
+    const tem = new Set(out.map(c => c.data));
+    if (hoje < pi) datas(hoje, pi).filter(d => d < pi && !tem.has(d)).forEach(d => out.push({ data: d, encontro: "Aula", vaga: true }));
+    out.push({ data: prova, encontro: "Avaliação bimestral", prova: true });
+    datas(pf, R.fimAulas || pf).filter(d => d > prova).forEach(d => out.push({ data: d, encontro: "2ª chamada / recuperação" }));
+    return out.sort((a, b) => a.data < b.data ? -1 : 1);
+  }
   const midDoTexto = s => { const m = /Miss[aã]o\s*(\d+)/i.exec(s || ""); return m ? "m" + m[1] : null; };
   async function historicoTurma(t) {
     const hoje = N.hoje();
@@ -942,7 +960,7 @@
     const base = cat().apostilas.find(a => a.serie === t.serie.id && !a.oculta && !a.trilha);
     if (base) await P.carregarApostila(base.id).catch(() => null);
     const tituloM = m => { const C = base && P.conteudo[base.id]; const x = C && C.missoes.find(y => y.id === m); return x ? x.titulo : String(m).toUpperCase(); };
-    const cron = (T.cronograma && T.cronograma.length ? T.cronograma : Object.entries(t.missoes4 || {}).map(([data, m]) => ({ data, encontro: tituloM(m), mid: m }))).slice().sort((a, b) => a.data < b.data ? -1 : 1);
+    const cron = cronComRede(t, (T.cronograma && T.cronograma.length ? T.cronograma : Object.entries(t.missoes4 || {}).map(([data, m]) => ({ data, encontro: tituloM(m), mid: m }))).slice().sort((a, b) => a.data < b.data ? -1 : 1));
     const ehDiaDeAula = d => !!aulas[d] || cron.some(c => c.data === d) || (t.aula && new Date(d + "T12:00:00").getDay() === t.aula.dia);
     const auto = T.auto !== false;
     const VEIO = {}, MIS = {};   // VEIO[d] = Set(alunos que abriram o portal); MIS[d][mid] = Set(alunos naquela missão)
@@ -954,16 +972,17 @@
     const datas = [...new Set([...cron.map(c => c.data), ...Object.keys(aulas), ...(auto ? Object.keys(VEIO) : [])])].filter(d => /^\d{4}-\d\d-\d\d$/.test(d) && d >= inicio).sort();
     const linhas = datas.map(d => {
       const a = aulas[d], oc = ocorrDe(a);
-      const encontro = (a && a.encontro) || (cron.find(c => c.data === d) || {}).encontro || "";
+      const cr = cron.find(c => c.data === d) || {};
+      const encontro = (cr.prova || cr.vaga || d >= hoje) && cr.encontro ? cr.encontro : (a && a.encontro) || cr.encontro || "";
       let presentes = null;
       if (!oc) presentes = alunos.filter(x => { const man = a && a.presencas && a.presencas[x.id]; return man ? man === "P" : (auto && VEIO[d] && VEIO[d].has(x.id)); }).length;
       const status = oc ? oc.tipo : presentes > 0 ? "dada" : d > hoje ? "prevista" : d === hoje ? "hoje" : "semregistro";
       let mid = null, fonte = null;
       if (a && a.missaoHoje && a.missaoHoje.mid) { mid = a.missaoHoje.mid; fonte = "registrada"; }
       else if (MIS[d]) { const top = Object.entries(MIS[d]).sort((x, y) => y[1].size - x[1].size)[0]; if (top) { mid = top[0]; fonte = "portal"; } }
-      const plano = (a && a.encontro) ? midDoTexto(a.encontro) : ((cron.find(c => c.data === d) || {}).mid || midDoTexto(encontro));
+      const plano = cr.prova ? null : (a && a.encontro && d < hoje) ? midDoTexto(a.encontro) : (cr.mid || midDoTexto(encontro));
       if (!mid && plano) { mid = plano; fonte = "cronograma"; }
-      return { d, status, ocorr: oc, presentes, mid, fonte, titulo: mid ? tituloM(mid) : encontro, encontro, temAlgo: !!(a && (a.registro || (a.missaoHoje && a.missaoHoje.mid))) };
+      return { d, status, ocorr: oc, presentes, mid, fonte, titulo: mid ? tituloM(mid) : encontro, encontro, vaga: !!cr.vaga && !mid, prova: !!cr.prova, temAlgo: !!(a && (a.registro || (a.missaoHoje && a.missaoHoje.mid))) };
     // data solta fora do dia da turma, sem nada registrado (nem presença, nem ocorrência, nem missão, nem texto) = não houve aula: some
     }).filter(l => !(t.aula && new Date(l.d + "T12:00:00").getDay() !== t.aula.dia && !l.ocorr && !l.presentes && !l.temAlgo));
     // missões efetivamente dadas: só nas aulas que aconteceram (veio pelo menos 1 aluno)
@@ -972,12 +991,17 @@
     // (se a turma repetiu a M1, a próxima aula vira M2, e assim por diante). Avaliação, Projeto final etc. ficam onde estão.
     const ordem = [...new Set(cron.map(c => c.mid || midDoTexto(c.encontro)).filter(Boolean))];
     const faltam = ordem.filter(m => !dadas[m]);
-    linhas.filter(l => l.d >= hoje && l.fonte === "cronograma" && !l.ocorr && (l.status === "prevista" || l.status === "hoje")).forEach(l => {
+    linhas.filter(l => l.d >= hoje && (l.fonte === "cronograma" || l.vaga) && !l.ocorr && (l.status === "prevista" || l.status === "hoje")).forEach(l => {
       const novo = faltam.shift() || null;
-      if (novo === l.mid) return;
-      l.plano = l.mid; l.mid = novo; l.titulo = novo ? tituloM(novo) : "Revisão / missão livre"; if (!novo) { l.fonte = null; l.encontro = "Revisão"; }
+      if (novo === l.mid && !l.vaga) return;
+      if (!l.vaga) l.plano = l.mid;
+      l.mid = novo; l.vaga = false;
+      if (novo) { l.fonte = "cronograma"; l.titulo = tituloM(novo); } else { l.fonte = null; l.encontro = l.titulo = "Revisão para a prova"; }
     });
-    return { t, alunos, linhas, dadas, tituloM, base, semVaga: faltam };
+    // nenhuma missão dada até o dia da prova → no lugar da prova, um trabalho avaliativo que começa e termina na aula
+    const lp = linhas.find(l => l.prova);
+    if (lp && !Object.keys(dadas).length && !linhas.some(l => l.d < lp.d && l.d >= hoje && l.mid)) { lp.encontro = lp.titulo = "📝 Trabalho avaliativo em aula"; lp.trabalho = true; }
+    return { t, alunos, linhas, dadas, tituloM, base, semVaga: faltam, prova: lp ? lp.d : null };
   }
   const ST_PAN = { dada: ["✅", "Aula dada"], prevista: ["🔜", "Próxima aula"], hoje: ["⏳", "Hoje"], semregistro: ["❔", "Sem registro"] };
   const FONTE_M = { registrada: "📌 escolhida no painel", portal: "⚡ pelo que os alunos abriram", cronograma: "previsto no cronograma (sem registro do que foi dado)" };
@@ -987,7 +1011,7 @@
   async function telaPanorama(u) {
     const turmas = todasTurmas().filter(t => t.aula || Object.keys(t.missoes4 || {}).length);
     const el = tela(topo(u, "panorama") + `<div class="painel pp-barra"><label><input type="checkbox" id="pan-fut"> Mostrar também as próximas aulas</label>
-        <span class="pan-leg">✅ dada · 🚫 ninguém veio · 🙋 eu não fui · 🎉 feriado · 🏫 sem aula na escola · ❔ sem registro · M1, M2… = missão dada · “previsto” = só o que o cronograma planejou</span></div>
+        <span class="pan-leg">✅ dada · 🚫 ninguém veio · 🙋 eu não fui · 🎉 feriado · 🏫 sem aula na escola · ❔ sem registro · 📝 prova · M1, M2… = missão dada · “previsto” = só o que o cronograma planejou</span></div>
       <div id="corpo"><p class="painel">Carregando as aulas de todas as turmas…</p></div>`);
     ligarSair(el);
     const hoje = N.hoje();
@@ -1013,7 +1037,7 @@
     const st = l.ocorr ? [OCORR_CURTO[l.status] ? OCORR_CURTO[l.status].split(" ")[0] : "📌", OCORR_CURTO[l.status] ? OCORR_CURTO[l.status].replace(/^\S+\s/, "") : "Sem aula"] : ST_PAN[l.status];
     const classe = l.status === "dada" ? "ok" : l.status === "ninguem" ? "ninguem" : l.ocorr ? "sem" : l.status;
     const [, mm, dd] = l.d.split("-");
-    const missao = l.ocorr ? "" : l.mid ? `<span class="pan-m${l.fonte === "cronograma" ? " pan-m-prev" : ""}" title="${esc(l.titulo)}${l.fonte ? " · " + FONTE_M[l.fonte] : ""}${l.plano ? " · ajustado (o cronograma previa " + esc(l.plano.toUpperCase()) + ")" : ""}">${esc(l.mid.toUpperCase())}${l.fonte === "cronograma" ? " <small>previsto</small>" : ""}</span>` : (l.encontro ? `<span class="pan-m pan-m-txt" title="${esc(l.encontro)}">${esc(l.encontro.split(/ [–-] /)[0].trim())}</span>` : "");
+    const missao = l.ocorr ? "" : l.prova ? `<span class="pan-m pan-m-prova">📝 ${l.trabalho ? "Trabalho" : "Prova"}</span>` : l.mid ? `<span class="pan-m${l.fonte === "cronograma" ? " pan-m-prev" : ""}" title="${esc(l.titulo)}${l.fonte ? " · " + FONTE_M[l.fonte] : ""}${l.plano ? " · ajustado (o cronograma previa " + esc(l.plano.toUpperCase()) + ")" : ""}">${esc(l.mid.toUpperCase())}${l.fonte === "cronograma" ? " <small>previsto</small>" : ""}</span>` : (l.encontro ? `<span class="pan-m pan-m-txt" title="${esc(l.encontro)}">${esc(l.encontro.split(/ [–-] /)[0].trim())}</span>` : "");
     const pres = l.status === "dada" ? `<span class="pan-p">👥 ${l.presentes}</span>` : "";
     const nota = l.ocorr && l.ocorr.nota ? ` · ${l.ocorr.nota}` : "";
     return `<a class="pan-c pan-${classe}" href="#/painel/diario/${tid}/chamada" data-pan-dia="${l.d}" data-pan-t="${tid}" title="${esc(dataBR(l.d))} · ${esc(st[1] + nota)}${l.mid ? " · " + esc(l.titulo) : ""}">
@@ -1178,7 +1202,7 @@
     const base = cat().apostilas.find(a => a.serie === t.serie.id && !a.oculta && !a.trilha);
     if (base) await P.carregarApostila(base.id).catch(() => null);
     const tituloM = m => { const C = base && P.conteudo[base.id]; const x = C && C.missoes.find(y => y.id === m); return x ? x.titulo : m.toUpperCase(); };
-    const cron = (T.cronograma && T.cronograma.length ? T.cronograma : Object.entries(t.missoes4 || {}).map(([data, m]) => ({ data, encontro: tituloM(m) }))).slice().sort((a, b) => a.data < b.data ? -1 : 1);
+    const cron = cronComRede(t, (T.cronograma && T.cronograma.length ? T.cronograma : Object.entries(t.missoes4 || {}).map(([data, m]) => ({ data, encontro: tituloM(m) }))).slice().sort((a, b) => a.data < b.data ? -1 : 1));
     const encontroDe = d => (aulas[d] && aulas[d].encontro) || (cron.find(c => c.data === d) || {}).encontro || "";
     // notas da prova feita no portal (maior entre a prova e a recuperação)
     const aidsProva = [...new Set(provasSnap.docs.map(x => x.data().aid))];

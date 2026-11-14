@@ -1657,3 +1657,4 @@ button.tb-av:hover .avatar-svg, button.tb-av:focus-visible .avatar-svg { transfo
 .pp-mis-ck.dada small { color: var(--ok); }
 .pan-m-prev { background: var(--papel); color: var(--cor); border: 2px dashed var(--cor); } .pan-m-prev small { font-weight: 700; font-size: .68rem; }
 .pan-alerta { color: var(--erro); }
+.pan-m-prova { background: #b45309; } .pan-c:has(.pan-m-prova) { border-color: #f59e0b; opacity: 1; }
