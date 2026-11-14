@@ -288,7 +288,16 @@
   const reiGravado = {};
   function marcarRei(rk) { const rs = P.podio.reis(rk); rk.forEach(e => { e.rei = rs.includes(e); }); return rs; }
   // também grava a posição e os pontos de cada um (só os códigos internos, sem nomes): a tela do aluno mostra "você está em Nº lugar"
+  // ▶️ só grava algo da aula (rei, pódio, fechamento automático) se a aula foi INICIADA hoje (14/11/2026):
+  //    abrir o placar, o Ao vivo ou clicar para testar não gera registro nenhum.
+  const _ini = {};
+  async function aulaIniciadaHoje(tid) {
+    const c = _ini[tid]; if (c && Date.now() - c.t < 30000) return c.v;
+    let v = false; try { const g = await config(); if (g.modoAula === false) v = true; else { const sn = await db().collection("config").doc("hoje_" + tid).get(); v = !!(sn.exists && sn.data().iniciadaDia === N.hoje()); } } catch (e) {}
+    _ini[tid] = { t: Date.now(), v }; return v;
+  }
   async function publicarRei(t, rk, congelado) {
+    if (!await aulaIniciadaHoje(t.id)) return;
     let dados, chave;
     if (congelado) { chave = N.hoje() + "|congelado"; dados = { dia: N.hoje(), congelado: true, em: Date.now() }; }
     else { const rs = marcarRei(rk), grupos = rs.map(e => ({ ids: e.ids, titulo: P.podio.tituloRei(e.avatares) })), lista = rk.map(e => ({ ids: e.ids, pos: e.pos, pontos: e.pontos }));
@@ -298,6 +307,8 @@
     try { await db().collection("config").doc("rei_" + t.id).set(dados, { merge: true }); } catch (e) { reiGravado[t.id] = null; console.warn("rei", e); }
   }
   async function finalizarAula(t, alunos, prog, mid) {
+    _ini[t.id] = null;
+    if (!await aulaIniciadaHoje(t.id)) throw new Error("a aula desta turma não foi iniciada hoje. Nada foi registrado (toque em ▶️ Iniciar aula antes)");
     await carregarSerie(t);
     const hoje = N.hoje(), rk = P.podio.ranking(alunos, prog, mid, hoje);
     await publicarRei(t, rk);
@@ -394,7 +405,7 @@
       const rel = relogio(), r = el.querySelector("#pl-rel");
       if (rel.fora) r.innerHTML = `<span class="pl-r-txt">Fora do horário da aula</span>`;
       else if (rel.antes) r.innerHTML = `<span class="pl-r-txt">A aula ainda não começou</span>`;
-      else if (rel.depois) { r.innerHTML = `<span class="pl-r-txt">⏰ Tempo esgotado</span>`; if (!pod && prog.length) finalizar(true); }
+      else if (rel.depois) { r.innerHTML = `<span class="pl-r-txt">⏰ Tempo esgotado</span>`; if (!pod && prog.length) aulaIniciadaHoje(t.id).then(ok => { if (ok) finalizar(true); }); }
       else { r.className = "pl-relogio" + (rel.r <= 300 ? " fim pisca" : rel.r <= 600 ? " fim" : ""); r.innerHTML = `⏱️ <b>${Math.floor(rel.r / 60)}:${String(rel.r % 60).padStart(2, "0")}</b><span class="pl-r-txt">termina às ${rel.fimTxt}</span>`; }
       if (!vendoPodio && !rel.fora && !rel.antes && !rel.depois && rel.r <= 300 && !corpo.querySelector(".pl-cong")) pintarPlacar();
     }, 1000);
