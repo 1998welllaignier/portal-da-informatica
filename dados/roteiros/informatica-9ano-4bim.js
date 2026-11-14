@@ -114,7 +114,7 @@
       curiosidade: "Na Segunda Guerra, os alemães usavam a máquina Enigma, com milhões de chaves. A equipe de Alan Turing construiu máquinas para quebrá-la, e esse trabalho ajudou a criar os primeiros computadores."
     },
     m3: {
-      datas: "9º C: 17/11 · 9º D: 19/11 (avise sobre a avaliação no fim) · 9º A e 9º B: 07/12, depois da prova",
+      datas: "9º D: 19/11 · 9º C: 24/11 · 9º A e 9º B: depois da prova, como conteúdo (14/12)",
       tempo: TEMPO,
       abertura: [
         { fala: "Quem aqui já viu um vídeo de um famoso dizendo algo absurdo e depois descobriu que era montagem?" },
@@ -183,8 +183,34 @@
       ],
       curiosidade: "O termo “inteligência artificial” foi criado em 1956, num encontro de cientistas nos Estados Unidos. Por décadas, a IA ficou nos laboratórios; ela chegou ao bolso de todo mundo com os celulares."
     },
+    rv: {
+      datas: "9º C: 01/12 · 9º D: 03/12 · 9º A e 9º B: 23/11 (só M1 e M2)",
+      tempo: [
+        { min: 5, icone: "🎬", t: "Abertura: como funciona a revisão" },
+        { min: 45, icone: "💻", t: "Revisão no portal: 📚 Relembre + atividades de cada missão" },
+        { min: 15, icone: "🏆", t: "Desafio e Turbo (simulado) + placar" },
+        { min: 10, icone: "🎮", t: "Recreação (quem concluiu o Básico)" }
+      ],
+      abertura: [
+        { fala: "Hoje é dia de revisão, mas não é aula de só olhar: a aula inteira tem atividade, igual a uma missão, e vale ponto no placar." },
+        { fala: "O portal mostra só as missões que vocês estudaram, e é exatamente isso que cai na prova. Em cada missão: leiam o 📚 Relembre e façam as atividades." },
+        { acao: "Inicie a aula com a Missão de hoje = 🔁 Revisão. O painel grava sozinho quais missões a turma estudou e o portal mostra só essas." }
+      ],
+      onde: {
+        pergunta: "Qual missão vocês acham mais difícil? Comecem a revisão por ela.",
+        dica: "Abra o 🔴 Ao vivo: quem estiver parado num bloco, mande reler o 📚 Relembre daquela missão."
+      },
+      atencao: [
+        "No fim da aula, lembre a data da prova da turma (aparece no 🗺️ Panorama).",
+        "Quem terminar o Básico vai para o Desafio e o Turbo: eles misturam as missões, como na prova.",
+        "Aluno que faltou a uma missão: a revisão não substitui a missão. Libere a missão para ele fazer em casa (🏠) ou na reposição."
+      ],
+      perguntas: [
+        { p: "Por que não aparece a M4 (ou a M3) para a minha turma?", r: "Porque a turma não estudou essa missão: a revisão e a prova só cobram o que foi dado." }
+      ]
+    },
     pf: {
-      datas: "Prova: 9º A e 9º B 23/11 (Missões 1 e 2) · 9º C 24/11 · 9º D 26/11 · Projeto final: 9º C 01/12 · 9º D 03/12 · 9º A e 9º B 14/12 · 2ª chamada: 9º A e B 07/12 · 9º C 08/12 · 9º D 10/12",
+      datas: "Prova: 9º A e 9º B 07/12 (só M1 e M2) · 9º C 08/12 · 9º D 10/12 · 2ª chamada/recuperação: 9º A e 9º B 14/12 · 9º C 15/12 · 9º D 17/12",
       tempo: [
         { min: 10, icone: "🎬", t: "Abertura" },
         { min: 45, icone: "🏁", t: "Missões que faltaram e projeto final" },

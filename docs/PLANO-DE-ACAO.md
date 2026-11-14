@@ -159,7 +159,8 @@ Para decidir com o professor no salão. Cada item: manter, juntar ou desligar.
   - 7º 🗺️ **Grafos: mapas, caminhos e conexões** (EF07CO04) — reaproveita no 7º 2027, 2º bim · M2.
   - 8º 📜 **Termos de uso: o que eu aceitei?** (EF08CO09) — reaproveita no 8º 2027, 3º bim · M3.
   - 9º 🤖 **Inteligência artificial: impactos na vida, no trabalho e na cidade** (EF09CO07) — reaproveita no 9º 2027, 3º bim · M3.
-- **Ordem de construção:** 🔁 Revisão do 6º, 7º e 9º para as turmas de segunda (23/11) → M4 do 7º (7º B, 24/11) → M4 do 8º (25/11) → M4 do 6º e do 9º (26/11) → Revisões das demais turmas (01 a 03/12) → provas de cada turma só com o que ela viu.
+- ✅ **Feito em 14/11/2026 (noite):** M4 do 6º, 7º, 8º e 9º (apostila, apostila ilustrada, atividades, Trilha 👣, prova, roteiro, explicações para o professor e narração do vídeo em `docs/roteiros/narracao-m4.md`); 🔁 Revisão de todas as séries e trilhas, filtrando só as missões da turma; Panorama/cronogramas com a Revisão na última aula e a M4 onde sobra aula.
+- **Falta:** os vídeos das M4 (o professor gera o áudio com as narrações e manda o MP3: 7º B 24/11, 8º 25/11, 6º e 9º D 26/11); conferir com o login de verdade, na segunda 16/11, a Missão de hoje sugerida e o Panorama de cada turma; a nota da apostila no Quadro de notas passa a ter a linha da Missão 4 (a decidir: se a M4 e a Revisão entram na nota da apostila).
 - **5º ano (atendimento individual, por vontade do professor): fora deste planejamento.** Sem prova; no dia da prova faz outra tarefa. Não gastar esforço com ele agora.
 
 ## 1. Quinta-feira (renovação do limite do Claude)

@@ -102,7 +102,7 @@
       curiosidade: "Desde 2021, o cabo submarino EllaLink liga Fortaleza (CE) a Sines, em Portugal. É por cabos assim, e não por satélite, que passa quase todo o tráfego de internet entre continentes."
     },
     m3: {
-      datas: "8º C, 8º D, 8º A e 8º B: 18/11 · No fim da aula, avise sobre a avaliação",
+      datas: "8º C e 8º D: 18/11 (8º A e 8º B fizeram em 04/11; nelas, 18/11 é a M1) · No fim da aula, avise sobre a avaliação",
       tempo: TEMPO,
       abertura: [
         { fala: "Levante a mão quem já instalou um aplicativo ou criou uma conta e clicou em ‘Aceito’ sem ler nada." },
@@ -172,8 +172,34 @@
       ],
       curiosidade: "Uma pesquisa famosa calculou que, para ler todos os termos de uso que uma pessoa aceita em um ano, seriam necessários vários dias inteiros de leitura. Por isso as empresas resumem o mais importante, e a LGPD exige que expliquem de forma clara."
     },
+    rv: {
+      datas: "8º A, 8º B, 8º C e 8º D: 02/12",
+      tempo: [
+        { min: 5, icone: "🎬", t: "Abertura: como funciona a revisão" },
+        { min: 45, icone: "💻", t: "Revisão no portal: 📚 Relembre + atividades de cada missão" },
+        { min: 15, icone: "🏆", t: "Desafio e Turbo (simulado) + placar" },
+        { min: 10, icone: "🎮", t: "Recreação (quem concluiu o Básico)" }
+      ],
+      abertura: [
+        { fala: "Hoje é dia de revisão, mas não é aula de só olhar: a aula inteira tem atividade, igual a uma missão, e vale ponto no placar." },
+        { fala: "O portal mostra só as missões que vocês estudaram, e é exatamente isso que cai na prova. Em cada missão: leiam o 📚 Relembre e façam as atividades." },
+        { acao: "Inicie a aula com a Missão de hoje = 🔁 Revisão. O painel grava sozinho quais missões a turma estudou e o portal mostra só essas." }
+      ],
+      onde: {
+        pergunta: "Qual missão vocês acham mais difícil? Comecem a revisão por ela.",
+        dica: "Abra o 🔴 Ao vivo: quem estiver parado num bloco, mande reler o 📚 Relembre daquela missão."
+      },
+      atencao: [
+        "No fim da aula, lembre a data da prova da turma (aparece no 🗺️ Panorama).",
+        "Quem terminar o Básico vai para o Desafio e o Turbo: eles misturam as missões, como na prova.",
+        "Aluno que faltou a uma missão: a revisão não substitui a missão. Libere a missão para ele fazer em casa (🏠) ou na reposição."
+      ],
+      perguntas: [
+        { p: "Por que não aparece a M4 (ou a M3) para a minha turma?", r: "Porque a turma não estudou essa missão: a revisão e a prova só cobram o que foi dado." }
+      ]
+    },
     pf: {
-      datas: "Avaliação: 25/11 · Projeto final: 02/12 · Segunda chamada: 09/12",
+      datas: "Prova: 09/12 · 2ª chamada/recuperação: 16/12",
       tempo: [
         { min: 10, icone: "🎬", t: "Abertura" },
         { min: 45, icone: "🏁", t: "Missões que faltaram e projeto final" },

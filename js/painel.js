@@ -181,6 +181,7 @@
       "<b>🗣️ Para falar à turma</b>: aparecem no topo com a fala pronta. Depois de falar, toque em “✔ Já avisei esta turma” (o aviso some só daquela turma, neste computador).",
       "<b>🕘 A turma já vem certa</b>: ao abrir o painel, ele escolhe sozinho a turma que está em aula agora (ou a próxima aula de hoje) e a missão do dia pela mesma regra do 🗺️ Panorama (a próxima missão que a turma ainda não fez). Para ver outra turma, é só trocar na lista; a sua escolha vale até a próxima aula começar.",
       "<b>A missão da aula</b> é a 📌 Missão de hoje (o roteiro abre nela). Para só olhar o roteiro de outra missão, abra “👁️ Só olhar o roteiro de outra missão”. Aparece o roteiro da aula com as falas, as respostas de cada atividade e quantos alunos já entraram e concluíram o Básico.",
+      "<b>🔁 Revisão para a prova</b>: na última aula antes da prova, escolha 🔁 Revisão na Missão de hoje. Ao ▶️ Iniciar, o painel grava quais missões a turma já estudou e cada aluno vê só os blocos dessas missões (📚 Relembre + atividades com correção automática, Desafio e Turbo misturando as missões). Conta no placar como uma missão.",
       "<b>👀 Abrir a apostila do aluno</b>: abre, numa aba nova, a apostila exatamente como o aluno vê. Nada do que você fizer ali conta.",
       "<b>📺 Vídeo da missão</b>: quando a missão já tem vídeo no seu canal do YouTube (não listado), o player aparece nesta aba. Dê o play ali mesmo ou toque em <b>↗️ Abrir player em nova aba</b>, que abre só o vídeo numa aba própria, ocupando a tela toda (bom para projetar). Só você vê; os alunos não.",
       "<b>🪧 Cartaz de entrada</b>: abre, numa aba nova, o mesmo cartaz da porta (endereço do site e os 4 passos para entrar), em tela cheia, para projetar no começo da aula. Aperte F11 para tela cheia.",
@@ -203,7 +204,7 @@
       "<b>🗓️ Frequência</b> e <b>🧮 Boletim</b> são calculados sozinhos. A nota da prova do portal entra sozinha; digite só a prova em papel (0 a 5) e a recuperação (0 a 10).",
       "<b>📝 Registro</b>: o que aconteceu em cada aula. <b>🟧 Recados</b>: aparecem no topo da chamada e na aba 🎤 Aula."]],
     panorama: ["Ver de uma vez como foram as aulas de todas as turmas.", [
-      "<b>Datas pelo calendário da rede</b>: a prova cai no dia da turma na semana de Avaliação Bimestral; antes dela, as aulas recebem as missões que faltam (ou Revisão); depois, 2ª chamada/recuperação.",
+      "<b>Datas pelo calendário da rede</b>: a prova cai no dia da turma na semana de Avaliação Bimestral. A <b>última aula antes da prova é sempre a 🔁 Revisão</b> (aula inteira de atividades, só com as missões que a turma estudou: escolha 🔁 Revisão na Missão de hoje ao ▶️ Iniciar). As aulas antes dela recebem as missões que faltam; se ainda sobrar aula, entra a <b>M4</b>. Missão que não couber fica para depois da prova, e a prova só cobra o que foi dado. Depois da prova: 2ª chamada/recuperação.",
       "<b>🧩 Alunos atípicos que frequentam</b>: abra o quadro no topo para ver quantas vezes cada aluno com PEI entrou no portal.",
       "Cada cartão é uma aula: a data, se aconteceu (✅) ou por que não (🚫 ninguém veio, 🙋 eu não fui, 🎉 feriado, 🏫 sem aula na escola), a missão dada e 👥 quantos alunos vieram.",
       "<b>❔ Sem registro</b>: dia de aula que já passou sem nada anotado. Abra o cartão e registre no Diário.",

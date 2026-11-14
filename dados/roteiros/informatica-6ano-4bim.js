@@ -82,7 +82,7 @@ PORTAL.registrarRoteiro("informatica-6ano-4bim", {
     curiosidade: "A palavra algoritmo vem do nome de um matemático persa, Al-Khwarizmi, que viveu há mais de mil anos."
   },
   m3: {
-    datas: "6º A e 6º B: 19/11 · 6º C: 07/12 (depois da avaliação)",
+    datas: "6º A e 6º B: 19/11 · 6º C: depois da prova, como conteúdo (14/12)",
     tempo: [
       { min: 10, icone: "🎬", t: "Abertura e vídeo" },
       { min: 10, icone: "🌎", t: "Onde eu uso isso?" },
@@ -153,8 +153,34 @@ PORTAL.registrarRoteiro("informatica-6ano-4bim", {
     ],
     curiosidade: "Os primeiros computadores guardavam bits em furinhos de cartões de papel: furo = 1, sem furo = 0. Hoje, um pen drive do tamanho de um dedo guarda bilhões de bits."
   },
+  rv: {
+    datas: "6º A e 6º B: 03/12 · 6º C: 23/11 (só M1 e M2)",
+    tempo: [
+      { min: 5, icone: "🎬", t: "Abertura: como funciona a revisão" },
+      { min: 45, icone: "💻", t: "Revisão no portal: 📚 Relembre + atividades de cada missão" },
+      { min: 15, icone: "🏆", t: "Desafio e Turbo (simulado) + placar" },
+      { min: 10, icone: "🎮", t: "Recreação (quem concluiu o Básico)" }
+    ],
+    abertura: [
+      { fala: "Hoje é dia de revisão, mas não é aula de só olhar: a aula inteira tem atividade, igual a uma missão, e vale ponto no placar." },
+      { fala: "O portal mostra só as missões que vocês estudaram, e é exatamente isso que cai na prova. Em cada missão: leiam o 📚 Relembre e façam as atividades." },
+      { acao: "Inicie a aula com a Missão de hoje = 🔁 Revisão. O painel grava sozinho quais missões a turma estudou e o portal mostra só essas." }
+    ],
+    onde: {
+      pergunta: "Qual missão vocês acham mais difícil? Comecem a revisão por ela.",
+      dica: "Abra o 🔴 Ao vivo: quem estiver parado num bloco, mande reler o 📚 Relembre daquela missão."
+    },
+    atencao: [
+      "No fim da aula, lembre a data da prova da turma (aparece no 🗺️ Panorama).",
+      "Quem terminar o Básico vai para o Desafio e o Turbo: eles misturam as missões, como na prova.",
+      "Aluno que faltou a uma missão: a revisão não substitui a missão. Libere a missão para ele fazer em casa (🏠) ou na reposição."
+    ],
+    perguntas: [
+      { p: "Por que não aparece a M4 (ou a M3) para a minha turma?", r: "Porque a turma não estudou essa missão: a revisão e a prova só cobram o que foi dado." }
+    ]
+  },
   pf: {
-    datas: "Avaliação: 6º A e 6º B 26/11 · 6º C 23/11 · Projeto final: 6º A e 6º B 03/12 · 6º C 14/12",
+    datas: "Prova: 6º C 07/12 (só M1 e M2) · 6º A e 6º B 10/12 · 2ª chamada/recuperação: 6º C 14/12 · 6º A e 6º B 17/12",
     tempo: [
       { min: 10, icone: "🎬", t: "Abertura" },
       { min: 45, icone: "🏁", t: "Missões que faltaram e projeto final" },

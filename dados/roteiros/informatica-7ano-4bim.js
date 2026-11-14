@@ -71,7 +71,7 @@
       curiosidade: "A primeira mensagem da rede que deu origem à internet, em 1969, era para ser “LOGIN”, mas o sistema travou depois de duas letras e só chegou “LO”."
     },
     m2: {
-      datas: "7º D, 7º A e 7º B: 10/11 · 7º C: 16/11",
+      datas: "7º B: 10/11 · 7º A e 7º D: 17/11 · 7º C: 16/11",
       tempo: TEMPO,
       abertura: [
         { fala: "Se eu pedir para vocês organizarem a festa de fim de ano da turma, por onde começam? Ninguém faz tudo de uma vez. A gente divide em partes: comida, música, decoração. Isso tem nome em computação: decomposição." }
@@ -106,7 +106,7 @@
       curiosidade: "O termo “bug” ficou famoso em 1947, quando a equipe de Grace Hopper achou uma mariposa presa dentro de um computador e colou o inseto no caderno de registro."
     },
     m3: {
-      datas: "7º D, 7º A e 7º B: 17/11 · 7º C: 07/12 (depois da avaliação, junto com a segunda chamada)",
+      datas: "7º B: 17/11 · 7º A e 7º D: 24/11 · 7º C: depois da prova, como conteúdo (14/12)",
       tempo: TEMPO,
       abertura: [
         { fala: "Levante a mão quem já recebeu uma mensagem prometendo prêmio, moedas grátis no jogo ou pedindo um código. Não precisa contar detalhes nem dizer nomes." },
@@ -175,8 +175,34 @@
       ],
       curiosidade: "Em 1736, o matemático Leonhard Euler resolveu o problema das 7 pontes da cidade de Königsberg desenhando um grafo: foi o começo da Teoria dos Grafos, que hoje está no GPS e nas redes sociais."
     },
+    rv: {
+      datas: "7º A, 7º B e 7º D: 01/12 · 7º C: 23/11 (só M1 e M2)",
+      tempo: [
+        { min: 5, icone: "🎬", t: "Abertura: como funciona a revisão" },
+        { min: 45, icone: "💻", t: "Revisão no portal: 📚 Relembre + atividades de cada missão" },
+        { min: 15, icone: "🏆", t: "Desafio e Turbo (simulado) + placar" },
+        { min: 10, icone: "🎮", t: "Recreação (quem concluiu o Básico)" }
+      ],
+      abertura: [
+        { fala: "Hoje é dia de revisão, mas não é aula de só olhar: a aula inteira tem atividade, igual a uma missão, e vale ponto no placar." },
+        { fala: "O portal mostra só as missões que vocês estudaram, e é exatamente isso que cai na prova. Em cada missão: leiam o 📚 Relembre e façam as atividades." },
+        { acao: "Inicie a aula com a Missão de hoje = 🔁 Revisão. O painel grava sozinho quais missões a turma estudou e o portal mostra só essas." }
+      ],
+      onde: {
+        pergunta: "Qual missão vocês acham mais difícil? Comecem a revisão por ela.",
+        dica: "Abra o 🔴 Ao vivo: quem estiver parado num bloco, mande reler o 📚 Relembre daquela missão."
+      },
+      atencao: [
+        "No fim da aula, lembre a data da prova da turma (aparece no 🗺️ Panorama).",
+        "Quem terminar o Básico vai para o Desafio e o Turbo: eles misturam as missões, como na prova.",
+        "Aluno que faltou a uma missão: a revisão não substitui a missão. Libere a missão para ele fazer em casa (🏠) ou na reposição."
+      ],
+      perguntas: [
+        { p: "Por que não aparece a M4 (ou a M3) para a minha turma?", r: "Porque a turma não estudou essa missão: a revisão e a prova só cobram o que foi dado." }
+      ]
+    },
     pf: {
-      datas: "Avaliação: 7º D, 7º A e 7º B 24/11 · 7º C 23/11 · Projeto final: 7º D, A e B 01/12 · 7º C 14/12 (ou com a Missão 3 em 07/12)",
+      datas: "Prova: 7º C 07/12 (só M1 e M2) · 7º A, 7º B e 7º D 08/12 · 2ª chamada/recuperação: 7º C 14/12 · 7º A, B e D 15/12",
       tempo: [
         { min: 10, icone: "🎬", t: "Abertura" },
         { min: 45, icone: "🏁", t: "Missões que faltaram e projeto final" },
