@@ -1711,3 +1711,7 @@ button.tb-av:hover .avatar-svg, button.tb-av:focus-visible .avatar-svg { transfo
   .mis-pag input[type=text], .mis-pag textarea, .mis-pag select { font-size: 16px; } /* evita o zoom automático do iPhone */
 }
 @media (max-width: 600px) { .mis-pag table.tab-mini { display: block; max-width: 100%; overflow-x: auto; font-size: .85rem; } }
+/* ⚙️ painel enxuto (14/11/2026) */
+.pp-outra { display: inline-block; } .pp-outra summary { cursor: pointer; font-size: .9rem; color: var(--suave); }
+.pp-outra[open] summary { margin-bottom: 6px; }
+.pp-hoje .pp-emerg { flex-basis: 100%; font-size: .88rem; border-top: 1px dashed var(--linha); padding-top: 6px; margin-top: 4px; background: none; }

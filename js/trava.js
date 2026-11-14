@@ -110,7 +110,7 @@
         return { aberta: true };
       }
       if (h && h.travar && mid && mid !== h.mid) return { aberta: false, hoje: h };     // 📌 só a missão de hoje
-      if (!g.travaHorario) return { aberta: true };
+      return { aberta: true }; // 🔒 trava de horário eliminada em 14/11/2026 (substituída pelo ▶️ Iniciar a aula); o código abaixo fica só de histórico
       if (lib.ate && ms < lib.ate) return { aberta: true };
       const turmas = [s.turma, ...ids.map(id => (lib.outra || {})[id]).filter(Boolean)].map(id => P.turma(id)).filter(Boolean);
       if (turmas.some(t => noHorario(t, ms))) return { aberta: true };

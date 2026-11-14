@@ -122,7 +122,7 @@ Atenção: cada série tem turmas em missões diferentes (ver missoes4 no catál
    - **Simulado curtinho** (5 questões) com a correção explicada logo depois de cada resposta; quem acertar tudo libera a recreação mais cedo.
    - Painel mostra para cada aluno **o que falta** (Básico de alguma missão), para a revisão também servir de reposição.
 
-### 🔍 Levantamento de redundâncias do painel (14/11/2026, só análise — nada foi mudado)
+### 🔍 Levantamento de redundâncias do painel (14/11/2026) — ✅ APROVADO E FEITO em 14/11 (itens 1 a 10; o 11 fica como está)
 Para decidir com o professor no salão. Cada item: manter, juntar ou desligar.
 **Mesma coisa com nomes diferentes**
 1. 🟧 **Recados** (aba Aula) = 🔔 **Lembretes** (Diário): são os mesmos dados. Sugestão: um nome só ("Recados").
