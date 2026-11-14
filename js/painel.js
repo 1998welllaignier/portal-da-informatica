@@ -1388,6 +1388,8 @@
     const temManual = (aula, campo, id) => aula && aula[campo] && aula[campo][id] !== undefined && aula[campo][id] !== null;
     // 🔁 reposição (14/11/2026): faltou, mas depois concluiu o Básico da missão daquele dia (em casa ou liberado) → vira J,
     //    como quem estuda em casa. J conta como presença na frequência.
+    // 🏷️ encontro sempre com o título da missão ("Missão 1" → "Missão 1 – O computador e onde moram os dados")
+    const encCompleto = d => { const e = encontroDe(d), m = midDoTexto(e); return m && !/ [–-] /.test(e) ? tituloM(m) : e; };
     const midDoDia = d => { const a = aulas[d]; return (a && a.missaoHoje && a.missaoHoje.mid) || midDoTexto(encontroDe(d)); };
     const fezMissao = {}; prog.forEach(p => { if (p.mid && p.basicoOk) (fezMissao[p.alunoId] = fezMissao[p.alunoId] || new Set()).add(p.mid); });
     const repos = (d, id) => { const m = midDoDia(d); return !!(m && fezMissao[id] && fezMissao[id].has(m)); };
@@ -1462,9 +1464,9 @@
       const ds = diasComChamada();
       if (!ds.length) return `<div class="painel"><p>Ainda não há chamada nesta turma.</p></div>`;
       const ab = e => (e || "").replace(/ –.*/, "").replace("Missão ", "M").replace("Projeto final", "PF").replace("Avaliação", "Aval.");
-      return `<div class="painel"><div class="tabela-wrap"><table class="pp-freq"><thead><tr><th>Aluno</th>${ds.map(d => `<th title="${esc(encontroDe(d))}">${dataBR(d).slice(0, 5)}<br><small>${ocorrDe(aulas[d]) ? "🚫 ninguém veio" : esc(ab(encontroDe(d)))}</small>${ocorrDe(aulas[d]) ? "" : (n => `<br><small class="pp-vieram">👥 ${n} ${n === 1 ? "veio" : "vieram"}</small>`)(alunos.filter(a => pres(d, a.id).v === "P").length)}</th>`).join("")}<th>Frequência</th></tr></thead>
+      return `<div class="painel"><div class="tabela-wrap"><table class="pp-freq"><thead><tr><th>Aluno</th>${ds.map(d => `<th title="${esc(encCompleto(d))}">${dataBR(d).slice(0, 5)}<br><small>${ocorrDe(aulas[d]) ? "🚫 ninguém veio" : esc(ab(encCompleto(d)))}</small>${ocorrDe(aulas[d]) || !/ [–-] /.test(encCompleto(d)) ? "" : `<br><span class="pp-th-t">${esc(encCompleto(d).replace(/^[^–-]*[–-]\s*/, ""))}</span>`}${ocorrDe(aulas[d]) ? "" : (n => `<br><small class="pp-vieram">👥 ${n} ${n === 1 ? "veio" : "vieram"}</small>`)(alunos.filter(a => pres(d, a.id).v === "P").length)}</th>`).join("")}<th>Frequência</th></tr></thead>
         <tbody>${alunos.map(a => { const fr = freq(a.id); return `<tr><td>${nomeA(a)}</td>${ds.map(d => { const p = pres(d, a.id), c = carimbo(d, a.id).v; return `<td><span class="m ${p.v || "x"} ${c ? "c" : ""} ${p.falta ? "au" : ""}" ${p.repos ? 'title="🔁 Faltou, mas repôs a missão depois (conta como falta justificada)"' : ""}>${p.v || "·"}${p.repos ? "🔁" : ""}</span></td>`; }).join("")}<td class="${fr.pct != null && fr.pct < 75 ? "baixa" : ""}"><strong>${fr.pct == null ? "–" : fr.pct + "%"}</strong></td></tr>`; }).join("")}</tbody></table></div>
-        ${(lg => lg.length ? `<p class="pp-leg-m">${lg.map(e => `<span><b>${esc(ab(e))}</b> = ${esc(e.replace(/^[^–]*–\s*/, ""))}</span>`).join("")}</p>` : "")([...new Set(ds.map(d => encontroDe(d)).filter(e => / – /.test(e)))])}
+        ${(lg => lg.length ? `<p class="pp-leg-m">${lg.map(e => `<span><b>${esc(ab(e))}</b> = ${esc(e.replace(/^[^–]*–\s*/, ""))}</span>`).join("")}</p>` : "")([...new Set(ds.map(d => encCompleto(d)).filter(e => / – /.test(e)))])}
         <p class="ajuda">P presente · F falta · J justificada · J🔁 repôs a missão depois · contorno = com visto do Básico. Frequência = presenças e justificadas ÷ aulas com chamada (abaixo de 75% fica em vermelho). É só informativa: não entra na nota.</p></div>`;
     }
     function vBoletim() {
@@ -1485,7 +1487,7 @@
     function vRegistro() {
       const ds = [...new Set([...Object.keys(aulas), ...cron.map(c => c.data)])].sort().reverse();
       return `<div class="painel"><ul class="pp-reg">${ds.map(d => { const a = aulas[d] || {}; const n = alunos.filter(x => pres(d, x.id).v === "P").length;
-        return `<li><div><strong>${dataBR(d)} (${semana(d)}) · ${esc(encontroDe(d) || "Aula")}</strong>${missaoTxt(a) ? ` <span class="pp-mdia">${missaoTxt(a)}</span>` : ""} <small>${ocorrDe(a) ? esc(OCORR[ocorrDe(a).tipo]) + (ocorrDe(a).nota ? " · " + esc(ocorrDe(a).nota) : "") : d <= hoje && temChamada(d) ? n + " presentes" : d > hoje ? "🔜 prevista" : ""}</small></div>${(a.registro || "").trim() ? `<p>${esc(a.registro).replace(/\n/g, "<br>")}</p>` : ""}<button type="button" class="btn btn-sec btn-peq" data-abrir="${d}">Abrir a chamada deste dia</button></li>`; }).join("")}</ul></div>`;
+        return `<li><div><strong>${dataBR(d)} (${semana(d)}) · ${esc(encCompleto(d) || "Aula")}</strong>${missaoTxt(a) ? ` <span class="pp-mdia">${missaoTxt(a)}</span>` : ""} <small>${ocorrDe(a) ? esc(OCORR[ocorrDe(a).tipo]) + (ocorrDe(a).nota ? " · " + esc(ocorrDe(a).nota) : "") : d <= hoje && temChamada(d) ? n + " presentes" : d > hoje ? "🔜 prevista" : ""}</small></div>${(a.registro || "").trim() ? `<p>${esc(a.registro).replace(/\n/g, "<br>")}</p>` : ""}<button type="button" class="btn btn-sec btn-peq" data-abrir="${d}">Abrir a chamada deste dia</button></li>`; }).join("")}</ul></div>`;
     }
     function vLembretes() {
       return `<div class="painel"><div class="row-btns"><input type="text" id="lb-novo" class="grow" placeholder="Ex.: na próxima aula, começar pela correção do labirinto"><button type="button" class="btn" id="lb-add">Adicionar</button></div>
