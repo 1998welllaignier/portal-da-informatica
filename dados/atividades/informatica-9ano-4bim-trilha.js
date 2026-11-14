@@ -127,6 +127,35 @@ PORTAL.registrarAtividades("informatica-9ano-4bim-trilha", {
     vf: [{ v: false, why: "Estar na internet não quer dizer que é seu: isso é plágio." }, { v: true }, { v: true }]
   },
 
+  /* ======================= MISSÃO 4 ======================= */
+  m4: {
+    pratica: [
+      { tipo: "mensagens", titulo: "Seja a IA: spam ou normal?", app: "📧 E-mail",
+        botoes: [{ id: "S", rot: "🚫 Spam" }, { id: "N", rot: "✅ Normal" }],
+        enunciado: "<p><strong>Exemplo:</strong> e-mail com <strong>GRÁTIS</strong>, <strong>PRÊMIO</strong> e <strong>CLIQUE JÁ</strong> é spam. Agora separe:</p>",
+        itens: [{ de: "sorteio.xyz", t: "PRÊMIO GRÁTIS! Clique já!", c: "S", why: "Grátis + prêmio + clique já." }, { de: "Escola", t: "A aula de amanhã é às 13h30.", c: "N" }],
+        okMsg: "Você aprendeu com o exemplo, como a IA!" }
+    ],
+    basico: [
+      { tipo: "classificar", titulo: "Passo 1 · Usa IA ou não?",
+        categorias: [{ id: "S", rot: "Usa IA", ic: "🤖", desc: "aprendeu com exemplos" }, { id: "N", rot: "Não usa", ic: "⚙️", desc: "regra fixa" }],
+        itens: [{ t: "Vídeo recomendado", ic: "📺", c: "S" }, { t: "Desbloqueio pelo rosto", ic: "🙂", c: "S" }, { t: "Interruptor de luz", ic: "💡", c: "N" }, { t: "Calculadora: 2 + 2", ic: "🧮", c: "N" }],
+        explicacao: "Vídeo recomendado e rosto usam IA. Interruptor e calculadora seguem regras fixas." },
+      { tipo: "escolha", titulo: "Passo 2 · A IA erra?",
+        perguntas: [{ p: "O chatbot respondeu. O que eu faço?", opcoes: ["Confiro em outro lugar", "Copio sem ler"], certo: 0 },
+          { p: "Coloco meu endereço no chatbot?", opcoes: ["Não", "Sim"], certo: 0 }],
+        explicacao: "A IA erra: eu confiro. E não coloco meus dados pessoais." },
+      { tipo: "sinais", titulo: "Passo 3 · Onde está a IA?",
+        enunciado: "<p>Marque <strong>onde tem IA</strong>.</p>",
+        opcoes: [{ t: "⌨️ Corretor do teclado", certo: true }, { t: "🌐 Tradutor", certo: true }, { t: "📺 Vídeo recomendado", certo: true }, { t: "✏️ Lápis", certo: false, why: "O lápis não tem programa." }],
+        explicacao: "Teclado, tradutor e vídeo recomendado usam IA." },
+      { tipo: "tabela", titulo: "Passo 4 · Digite aqui no portal",
+        enunciado: "<p>Digite na caixa: <strong>EU CONFIRO A IA</strong></p>",
+        linhas: [["Digite aqui:", { r: "EU CONFIRO A IA", tipo: "letras", w: 20, ph: "EU CONFIRO A IA", dica: "Digite: EU CONFIRO A IA." }]] }
+    ],
+    vf: [{ v: true }, { v: false, why: "A IA erra: por isso eu confiro." }, { v: true }]
+  },
+
   /* ======================= PROJETO FINAL ======================= */
   pf: {
     basico: [

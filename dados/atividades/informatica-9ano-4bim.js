@@ -254,6 +254,85 @@
       ]
     },
 
+    /* ======================= MISSÃO 4 ======================= */
+    m4: {
+      pratica: [
+        { tipo: "mensagens", titulo: "Seja a IA: aprenda com os exemplos e separe os e-mails", app: "📧 E-mail",
+          botoes: [{ id: "S", rot: "🚫 Spam" }, { id: "N", rot: "✅ Normal" }],
+          enunciado: `<p><strong>1. Treino:</strong> estes exemplos já vieram com a resposta certa. Procure o <strong>padrão</strong>:</p>
+            <div class="tabela-wrap"><table><thead><tr><th>E-mail de exemplo</th><th>Resposta</th></tr></thead><tbody>
+            <tr><td>“GRÁTIS! Clique já e ganhe um prêmio!”</td><td>🚫 Spam</td></tr>
+            <tr><td>“Prêmio garantido, só hoje, clique no link”</td><td>🚫 Spam</td></tr>
+            <tr><td>“Reunião de pais na quinta, às 19h”</td><td>✅ Normal</td></tr>
+            <tr><td>“Segue o trabalho de Ciências em anexo”</td><td>✅ Normal</td></tr></tbody></table></div>
+            <p><strong>2. Use o que aprendeu:</strong> agora você é a IA. Separe os e-mails novos.</p>`,
+          itens: [
+            { de: "promo@sorteio.xyz", t: "Você foi escolhido! Prêmio GRÁTIS, clique já!", c: "S", why: "Tem o padrão do spam: grátis, prêmio, clique já." },
+            { de: "Escola", t: "Lembrete: a prova de Informática é na semana que vem.", c: "N" },
+            { de: "ofertas@ganhe.com", t: "Só hoje: clique no link e ganhe um celular", c: "S", why: "Pressa + prêmio + link: padrão de spam." },
+            { de: "Prima Ana", t: "Mandei as fotos do aniversário no grupo da família.", c: "N" }],
+          okMsg: "Você fez o que a IA faz: aprendeu um padrão com exemplos e usou nos e-mails novos!" }
+      ],
+      basico: [
+        { tipo: "ordenar", titulo: "Como a IA aprende: coloque as etapas em ordem",
+          itens: ["1️⃣ Coletar muitos exemplos com a resposta certa (os dados)", "2️⃣ Treinar: procurar padrões nos exemplos", "3️⃣ Testar com exemplos que ela nunca viu", "4️⃣ Usar no dia a dia para fazer previsões"],
+          dicas: ["Primeiro vêm os exemplos; depois o treino."],
+          explicacao: "Coletar dados → treinar → testar → usar. No filtro de spam: milhares de e-mails marcados → descobre as palavras do spam → confere com e-mails novos → manda sozinho para a pasta Spam." },
+        { tipo: "classificar", modo: "tabela", titulo: "Usa IA ou não usa?", colunaItem: "Situação", colunaResp: "IA?",
+          categorias: [{ id: "S", rot: "🤖 Usa IA" }, { id: "N", rot: "⚙️ Não usa IA" }],
+          itens: [
+            { t: "O aplicativo escolhe o próximo vídeo pelo que você já assistiu", c: "S", why: "Recomendação aprende com o que você vê." },
+            { t: "O celular desbloqueia reconhecendo o seu rosto", c: "S", why: "Reconhecimento facial é IA." },
+            { t: "A calculadora faz 2 + 2", c: "N", why: "É uma conta fixa: não aprende com exemplos." },
+            { t: "O teclado sugere a próxima palavra", c: "S", why: "Aprende com muitos textos." },
+            { t: "O interruptor acende a lâmpada", c: "N", why: "Só liga e desliga: não aprende nada." },
+            { t: "O tradutor passa uma frase do inglês para o português", c: "S", why: "O tradutor aprendeu com milhões de frases." }],
+          explicacao: "Usa IA quando o programa aprendeu com muitos exemplos: recomendação, rosto, teclado e tradutor. Calculadora e interruptor seguem regras fixas." },
+        { tipo: "escolha", titulo: "A IA também erra",
+          perguntas: [
+            { p: "Uma IA de fotos foi treinada quase só com fotos de cachorros brancos. O que deve acontecer?", opcoes: ["Ela pode errar mais com cachorros de outras cores: isso é viés", "Ela acerta todos os cachorros do mundo", "Ela vira um cachorro"], certo: 0, why: "Exemplos de um tipo só ensinam errado: viés." },
+            { p: "O chatbot respondeu com toda a certeza a data de um fato histórico. O que eu faço?", opcoes: ["Confiro em outras fontes, porque o chatbot pode inventar respostas", "Copio sem conferir, porque IA nunca erra", "Apago o chatbot"], certo: 0 },
+            { p: "Como evitar o viés ao treinar uma IA?", opcoes: ["Usar muitos exemplos, de vários tipos diferentes", "Usar poucos exemplos, todos iguais", "Não usar exemplos"], certo: 0 }],
+          explicacao: "Exemplos poucos ou de um tipo só causam viés; a solução é ter exemplos variados. O chatbot pode inventar: sempre confira." }
+      ],
+      desafio: [
+        { tipo: "classificar", modo: "tabela", titulo: "Impactos da IA: ajuda ou pede cuidado?", colunaItem: "Impacto", colunaResp: "👍 ou ⚠️",
+          categorias: [{ id: "A", rot: "👍 Ajuda" }, { id: "C", rot: "⚠️ Pede cuidado" }],
+          itens: [
+            { t: "Legenda automática para pessoas surdas", c: "A" },
+            { t: "Treinar a IA com milhões de fotos de pessoas sem pedir autorização", c: "C", why: "Usa dados pessoais sem consentimento." },
+            { t: "Ajudar o médico a encontrar sinais de doença no exame", c: "A" },
+            { t: "Criar o vídeo falso de um prefeito dizendo o que ele nunca disse", c: "C", why: "Deepfake: desinformação." },
+            { t: "Prever chuva e pragas para o agricultor", c: "A" },
+            { t: "Computadores gigantes que gastam muita energia e água para treinar a IA", c: "C", why: "Impacto no meio ambiente." }],
+          explicacao: "👍 Acessibilidade, saúde e campo. ⚠️ Dados pessoais sem autorização, deepfakes e gasto de energia e água." },
+        { tipo: "escolha", titulo: "A IA na nossa cidade",
+          perguntas: [
+            { p: "A prefeitura quer câmeras com reconhecimento facial na praça. Qual é a pergunta mais importante a fazer?", opcoes: ["Como os dados do rosto das pessoas serão guardados e protegidos?", "De que cor são as câmeras?", "Quantas câmeras cabem num poste?"], certo: 0, why: "Rosto é dado pessoal sensível (biometria)." },
+            { p: "Uma loja trocou o caixa por uma máquina com IA. O que pode acontecer com o trabalho?", opcoes: ["Algumas profissões mudam ou diminuem, e outras novas aparecem", "Nenhum trabalho muda", "Todas as pessoas perdem o emprego"], certo: 0 },
+            { p: "Semáforos com IA percebem onde tem mais carros. Qual é o impacto bom?", opcoes: ["Menos tempo parado no trânsito", "Mais engarrafamento", "Ruas sem semáforo"], certo: 0 }],
+          explicacao: "Toda tecnologia tem impactos: o reconhecimento facial pede cuidado com os dados; o trabalho muda; o semáforo inteligente pode diminuir o tempo no trânsito." }
+      ],
+      turbo: [
+        { tipo: "aberta", titulo: "Uma regra para usar a IA com responsabilidade na escola",
+          campos: [{ rot: "A minha regra", linhas: 2 }, { rot: "Por que essa regra é importante", linhas: 3 }],
+          criterios: ["A regra fala de conferir, estudar, dados pessoais ou dizer quando usou IA.", "O porquê explica um risco ou um benefício."],
+          exemplo: "Regra: sempre confira a resposta da IA em outra fonte. Por quê: o chatbot pode inventar uma resposta errada com toda a certeza.",
+          conferir: { minPalavras: 5, diferentes: "todos",
+            grupos: [{ dica: "conferir as respostas", alts: ["confer", "checa", "verific", "fonte"] }, { dica: "usar para estudar, sem copiar", alts: ["estud", "aprend", "entend", "copi"] },
+              { dica: "não colocar dados pessoais", alts: ["dado", "pessoa", "nome", "senha", "privac"] }, { dica: "dizer quando usou IA", alts: ["dizer", "avisar", "contar", "informar", "usei"] },
+              { dica: "a IA pode errar ou inventar", alts: ["err", "invent", "viés", "vies", "falso", "mentir"] }],
+            minGrupos: 2, msg: "Regra de quem usa a IA com responsabilidade!" } }
+      ],
+      vf: [
+        { v: true },
+        { v: false, corrigir: { trecho: "nunca erra, então não preciso", opcoes: ["nunca erra, então não preciso", "também erra, então preciso"], certo: "também erra, então preciso" }, why: "O chatbot pode inventar respostas." },
+        { v: true },
+        { v: true },
+        { v: false, corrigir: { trecho: "Posso colocar", opcoes: ["Posso colocar", "Não devo colocar"], certo: "Não devo colocar" }, why: "Dados pessoais não vão para o chatbot." }
+      ]
+    },
+
     /* ======================= PROJETO FINAL ======================= */
     pf: {
       basico: [

@@ -2,11 +2,12 @@
 Prof. Welington · @Welington Laignier
 
 ## 📘 Como usar esta apostila
-Neste bimestre você vai cumprir **3 missões** e um **projeto final**. São as mesmas missões da sua turma.
+Neste bimestre você vai cumprir **4 missões** e um **projeto final**. São as mesmas missões da sua turma.
 | Missão | Tema |
 | 🕸️ Missão 1 – Mapas e caminhos | Pensamento Computacional |
 | 🔐 Missão 2 – Mensagem secreta e golpes | Mundo Digital |
 | ©️ Missão 3 – Autoria, imagem e vídeos falsos | Cultura Digital |
+| 🤖 Missão 4 – Inteligência artificial no dia a dia | Cultura Digital |
 | 🏁 Projeto final – Meu Passaporte de Missões | Todos os temas |
 
 **Como funciona a Trilha Passo a Passo:**
@@ -120,6 +121,35 @@ Recebeu algo suspeito? **Não clique**, **não compartilhe** e avise quem mandou
 ### 🧠 Resumo da Aula
 Quem cria é o **autor**: eu dou o **crédito** e não faço **plágio**. Antes de postar a foto de alguém, **peço autorização**. Vídeo com sinais estranhos pode ser **deepfake**: não clico e não compartilho.
 **Palavras-chave:** autor · crédito · plágio · direito de imagem · deepfake
+
+## 🤖 Missão 4 – Inteligência artificial no dia a dia
+**Objetivo:** saber que a IA aprende com exemplos, achar onde ela está e usar com cuidado.
+📅 **Data da aula:** ........ / ........
+### 💡 Para começar
+A **inteligência artificial (IA)** é um programa que **aprende com muitos exemplos**.
+Ela está:
+- ⌨️ no **corretor do teclado**;
+- 📺 no **vídeo seguinte** que aparece sozinho;
+- 🙂 no **desbloqueio pelo rosto** do celular;
+- 🌐 no **tradutor**.
+
+A IA **também erra**. Por isso eu **confiro** as respostas dela.
+**Cuidados:** não coloco meus **dados pessoais** (nome completo, endereço, telefone) e uso a IA para **estudar**, não para copiar.
+### 📖 O que significa?
+- **IA** (inteligência artificial): programa que aprende com muitos exemplos.
+- **Exemplos** (ou **dados**): o que a IA estuda para aprender.
+- **Chatbot**: programa que conversa com a gente.
+- **Conferir**: ver em outro lugar se a resposta está certa.
+### 🌎 Onde eu uso isso?
+- No **vídeo recomendado** do aplicativo.
+- Na **sugestão de palavras** do teclado do celular.
+### ✅ Perguntas rápidas
+1. ( ) A IA aprende com muitos exemplos.
+2. ( ) A IA nunca erra.
+3. ( ) Não coloco meus dados pessoais no chatbot.
+### 🧠 Resumo da Aula
+A **IA** aprende com **exemplos**. Ela está no teclado, nos vídeos e no tradutor. Ela **erra**, então eu **confiro**, e **não coloco meus dados pessoais**.
+**Palavras-chave:** IA · exemplos · chatbot · conferir
 
 ## 🏁 Projeto final – Meu Passaporte de Missões
 **Objetivo:** conferir as missões concluídas, completar o que faltou e mostrar o que você aprendeu no bimestre.

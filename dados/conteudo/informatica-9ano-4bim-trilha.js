@@ -5,7 +5,7 @@ PORTAL.registrarConteudo("informatica-9ano-4bim-trilha", {
  "comoUsar": [
   {
    "t": "p",
-   "h": "Neste bimestre você vai cumprir <strong>3 missões</strong> e um <strong>projeto final</strong>. São as mesmas missões da sua turma."
+   "h": "Neste bimestre você vai cumprir <strong>4 missões</strong> e um <strong>projeto final</strong>. São as mesmas missões da sua turma."
   },
   {
    "t": "tabela",
@@ -24,6 +24,10 @@ PORTAL.registrarConteudo("informatica-9ano-4bim-trilha", {
     ],
     [
      "©️ Missão 3 – Autoria, imagem e vídeos falsos",
+     "Cultura Digital"
+    ],
+    [
+     "🤖 Missão 4 – Inteligência artificial no dia a dia",
      "Cultura Digital"
     ],
     [
@@ -429,6 +433,97 @@ PORTAL.registrarConteudo("informatica-9ano-4bim-trilha", {
      "plágio",
      "direito de imagem",
      "deepfake"
+    ]
+   },
+   "autoavaliacao": []
+  },
+  {
+   "id": "m4",
+   "icone": "🤖",
+   "titulo": "Missão 4 – Inteligência artificial no dia a dia",
+   "objetivo": "saber que a IA aprende com exemplos, achar onde ela está e usar com cuidado.",
+   "comecar": [
+    {
+     "t": "p",
+     "h": "A <strong>inteligência artificial (IA)</strong> é um programa que <strong>aprende com muitos exemplos</strong>."
+    },
+    {
+     "t": "p",
+     "h": "Ela está:"
+    },
+    {
+     "t": "lista",
+     "ord": false,
+     "itens": [
+      {
+       "nivel": 0,
+       "h": "⌨️ no <strong>corretor do teclado</strong>;"
+      },
+      {
+       "nivel": 0,
+       "h": "📺 no <strong>vídeo seguinte</strong> que aparece sozinho;"
+      },
+      {
+       "nivel": 0,
+       "h": "🙂 no <strong>desbloqueio pelo rosto</strong> do celular;"
+      },
+      {
+       "nivel": 0,
+       "h": "🌐 no <strong>tradutor</strong>."
+      }
+     ]
+    },
+    {
+     "t": "p",
+     "h": "A IA <strong>também erra</strong>. Por isso eu <strong>confiro</strong> as respostas dela."
+    },
+    {
+     "t": "p",
+     "h": "<strong>Cuidados:</strong> não coloco meus <strong>dados pessoais</strong> (nome completo, endereço, telefone) e uso a IA para <strong>estudar</strong>, não para copiar."
+    }
+   ],
+   "termos": [
+    {
+     "termo": "IA",
+     "rotulo": "<strong>IA</strong> (inteligência artificial)",
+     "def": "programa que aprende com muitos exemplos."
+    },
+    {
+     "termo": "Exemplos",
+     "rotulo": "<strong>Exemplos</strong> (ou <strong>dados</strong>)",
+     "def": "o que a IA estuda para aprender."
+    },
+    {
+     "termo": "Chatbot",
+     "rotulo": "<strong>Chatbot</strong>",
+     "def": "programa que conversa com a gente."
+    },
+    {
+     "termo": "Conferir",
+     "rotulo": "<strong>Conferir</strong>",
+     "def": "ver em outro lugar se a resposta está certa."
+    }
+   ],
+   "ondeUso": {
+    "itens": [
+     "No <strong>vídeo recomendado</strong> do aplicativo.",
+     "Na <strong>sugestão de palavras</strong> do teclado do celular."
+    ],
+    "reflexao": ""
+   },
+   "alertas": [],
+   "vf": [
+    "A IA aprende com muitos exemplos.",
+    "A IA nunca erra.",
+    "Não coloco meus dados pessoais no chatbot."
+   ],
+   "resumo": {
+    "texto": "A **IA** aprende com **exemplos**. Ela está no teclado, nos vídeos e no tradutor. Ela **erra**, então eu **confiro**, e **não coloco meus dados pessoais**.",
+    "chaves": [
+     "IA",
+     "exemplos",
+     "chatbot",
+     "conferir"
     ]
    },
    "autoavaliacao": []

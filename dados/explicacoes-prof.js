@@ -114,7 +114,12 @@
       "V: cada pessoa decide onde a sua imagem aparece; postar a foto de alguém sem permissão desrespeita esse direito.",
       "V: deepfake é um vídeo, uma foto ou um áudio falso feito com inteligência artificial, parecendo real.",
       "V: CC BY é uma licença Creative Commons: pode usar, desde que coloque o nome do autor.",
-      "F: notícia falsa é espalhada por vários motivos: dinheiro (cliques), política, humor, ódio ou engano."]
+      "F: notícia falsa é espalhada por vários motivos: dinheiro (cliques), política, humor, ódio ou engano."],
+    m4: ["V: a IA aprende com muitos exemplos (dados) e descobre padrões; não pensa como uma pessoa.",
+      "F: a IA erra, e o chatbot pode inventar respostas com toda a certeza. Sempre conferir.",
+      "V: exemplos poucos ou de um tipo só ensinam errado: isso é viés.",
+      "V: o aplicativo aprende com o que você assistiu e recomenda o próximo vídeo.",
+      "F: dados pessoais (seus ou dos colegas) não vão para o chatbot."]
   } };
 
   E["informatica-8ano-4bim-trilha"] = { vf: {
@@ -138,7 +143,8 @@
   E["informatica-9ano-4bim-trilha"] = { vf: {
     m1: ["V: no grafo, os pontos (vértices) são ligados por linhas (arestas).", "F: o caminho mais curto é o de menor soma.", "V: a árvore de decisão faz perguntas de sim ou não até chegar à resposta."],
     m2: ["V: na cifra de César, cada letra anda algumas casas no alfabeto (com chave 1, A vira B).", "F: senha não se passa para ninguém, ainda mais com pressa: é sinal de golpe.", "V: com uma cópia (backup), se o ransomware trancar os arquivos, eu ainda tenho tudo."],
-    m3: ["F: copiar e dizer que é meu é plágio. Tenho que dar o crédito ao autor.", "V: antes de postar a foto de alguém, peço autorização.", "V: boca que não acompanha a fala é um sinal comum de deepfake."]
+    m3: ["F: copiar e dizer que é meu é plágio. Tenho que dar o crédito ao autor.", "V: antes de postar a foto de alguém, peço autorização.", "V: boca que não acompanha a fala é um sinal comum de deepfake."],
+    m4: ["V: a IA aprende com muitos exemplos.", "F: a IA erra; por isso conferimos.", "V: dados pessoais não vão para o chatbot."]
   } };
   // explicações de atividades sem resolução comentada (por id da atividade)
   const at = (aid, o) => { E[aid] = E[aid] || {}; E[aid].at = Object.assign(E[aid].at || {}, o); };
@@ -171,5 +177,5 @@
   at("informatica-8ano-4bim-trilha", { "m4-basico-4": "A frase lembra a regra da missão: ler (ou pelo menos procurar o mais importante) antes de aceitar.", "m1-basico-5": "Do menor para o maior é a ordem crescente: 1, 2, 3, 4.", "m2-basico-4": "O caminho tem 3 desenhos: o celular manda, o roteador (Wi-Fi) leva, a nuvem guarda.", "m3-basico-4": "Digitar MEUS DADOS lembra que nome, endereço e telefone são meus e eu protejo." });
   at("informatica-6ano-4bim-trilha", { "m4-basico-4": "0 E 1: os dois únicos valores de um bit.", "m1-basico-4": "Ctrl + S salva. O arquivo se chama EU: é o nome que ele digitou na hora de salvar.", "m3-basico-4": "Verde é a cor da natureza: o cartaz lembra de cuidar do planeta (lixo eletrônico no lugar certo)." });
   at("informatica-7ano-4bim-trilha", { "m4-basico-2": "3 + 2 = 5 minutos pela Padaria; a rua direta é 9.", "m1-basico-4": "O portal usa https, por isso aparece o cadeado 🔒: os dados viajam protegidos.", "m3-basico-4": "A frase lembra a regra mais importante contra golpe: o código que chega no celular não se passa para ninguém." });
-  at("informatica-9ano-4bim-trilha", { "m2-basico-4": "Com chave 1, cada letra anda 1 casa no alfabeto: S → T, O → P, L → M. SOL vira TPM.", "m3-basico-4": "Quem monta o cartaz é o autor: foi ele mesmo (Eu)." });
+  at("informatica-9ano-4bim-trilha", { "m4-basico-4": "A frase lembra a regra principal: a IA erra, então eu confiro.", "m2-basico-4": "Com chave 1, cada letra anda 1 casa no alfabeto: S → T, O → P, L → M. SOL vira TPM.", "m3-basico-4": "Quem monta o cartaz é o autor: foi ele mesmo (Eu)." });
 })();

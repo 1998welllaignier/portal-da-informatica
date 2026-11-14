@@ -724,6 +724,185 @@ PORTAL.registrarConteudo("informatica-9ano-4bim", {
    "autoavaliacao": []
   },
   {
+   "id": "m4",
+   "icone": "🤖",
+   "titulo": "Missão 4 – Inteligência artificial: impactos na vida, no trabalho e na cidade",
+   "objetivo": "entender como a inteligência artificial aprende com exemplos, reconhecer onde ela já está no dia a dia, avaliar os impactos bons e os cuidados, e usar a IA com responsabilidade.",
+   "comecar": [
+    {
+     "t": "p",
+     "h": "Na Missão 3 você viu que a IA pode criar deepfakes. Mas a <strong>inteligência artificial (IA)</strong> está em muito mais lugares: no <strong>corretor do teclado</strong>, nos <strong>vídeos recomendados</strong>, no <strong>tradutor</strong>, no <strong>assistente de voz</strong> e no <strong>desbloqueio pelo rosto</strong> do celular."
+    },
+    {
+     "t": "p",
+     "h": "<strong>Como a IA aprende?</strong> Ela não “pensa” como uma pessoa. Ela <strong>aprende com muitos exemplos</strong> (os <strong>dados</strong>) e descobre <strong>padrões</strong>:"
+    },
+    {
+     "t": "tabela",
+     "cab": [
+      "Etapa",
+      "O que acontece",
+      "Exemplo: filtro de spam do e-mail"
+     ],
+     "linhas": [
+      [
+       "1️⃣ Coletar dados",
+       "Juntar muitos exemplos já com a resposta certa",
+       "Milhares de e-mails marcados como “spam” ou “normal”"
+      ],
+      [
+       "2️⃣ Treinar",
+       "O programa procura padrões nos exemplos",
+       "Descobre que “grátis”, “prêmio” e “clique já” aparecem muito no spam"
+      ],
+      [
+       "3️⃣ Testar",
+       "Ver se acerta exemplos que nunca viu",
+       "Separa e-mails novos e confere os erros"
+      ],
+      [
+       "4️⃣ Usar",
+       "Fazer previsões no dia a dia",
+       "Manda sozinho para a pasta Spam"
+      ]
+     ]
+    },
+    {
+     "t": "p",
+     "h": "<strong>A IA também erra:</strong>"
+    },
+    {
+     "t": "lista",
+     "ord": false,
+     "itens": [
+      {
+       "nivel": 0,
+       "h": "Se os exemplos forem <strong>poucos</strong> ou <strong>de um tipo só</strong>, ela aprende errado. Isso se chama <strong>viés</strong>: uma IA treinada quase só com fotos de pessoas de pele clara pode errar mais com pessoas de pele escura."
+      },
+      {
+       "nivel": 0,
+       "h": "A IA que conversa (o <strong>chatbot</strong>) pode <strong>inventar</strong> uma resposta errada com toda a certeza. Por isso, <strong>sempre confira</strong> em outras fontes."
+      }
+     ]
+    },
+    {
+     "t": "p",
+     "h": "<strong>Impactos da IA na sociedade:</strong>"
+    },
+    {
+     "t": "tabela",
+     "cab": [
+      "👍 Ajuda",
+      "⚠️ Pede cuidado"
+     ],
+     "linhas": [
+      [
+       "🏥 Ajuda médicos a encontrar sinais de doenças em exames",
+       "🔐 Usa muitos <strong>dados pessoais</strong> para aprender"
+      ],
+      [
+       "♿ Legenda automática e leitura em voz alta ajudam pessoas com deficiência",
+       "💼 Algumas <strong>profissões mudam</strong> ou diminuem; outras novas aparecem"
+      ],
+      [
+       "🌾 Ajuda o agricultor a prever chuva e pragas",
+       "🎭 Facilita criar <strong>deepfakes</strong> e notícias falsas"
+      ],
+      [
+       "🚦 Pode organizar o trânsito e os semáforos da cidade",
+       "⚡ Os computadores que treinam a IA gastam <strong>muita energia</strong> e água"
+      ]
+     ]
+    },
+    {
+     "t": "p",
+     "h": "<strong>Usar a IA com responsabilidade na escola:</strong> usar para <strong>entender</strong> e <strong>estudar</strong>, não para copiar a tarefa · <strong>conferir</strong> as respostas · <strong>não colocar dados pessoais</strong> (seus ou de colegas) · <strong>dizer quando usou</strong> IA num trabalho."
+    }
+   ],
+   "termos": [
+    {
+     "termo": "Inteligência artificial (IA)",
+     "rotulo": "<strong>Inteligência artificial (IA)</strong>",
+     "def": "programas que aprendem com muitos exemplos e fazem tarefas que pareciam só de pessoas, como reconhecer rostos, traduzir e conversar. Em inglês, <em>Artificial Intelligence</em> (AI)."
+    },
+    {
+     "termo": "Dados",
+     "rotulo": "<strong>Dados</strong>",
+     "def": "os exemplos (textos, fotos, números) que a IA usa para aprender."
+    },
+    {
+     "termo": "Padrão",
+     "rotulo": "<strong>Padrão</strong>",
+     "def": "algo que se repete nos exemplos e ajuda a prever, como as palavras que aparecem muito no spam."
+    },
+    {
+     "termo": "Treinar",
+     "rotulo": "<strong>Treinar</strong>",
+     "def": "a etapa em que a IA estuda os exemplos para descobrir os padrões."
+    },
+    {
+     "termo": "Spam",
+     "rotulo": "<strong>Spam</strong>",
+     "def": "mensagem indesejada, de propaganda ou de golpe, mandada para muita gente."
+    },
+    {
+     "termo": "Viés",
+     "rotulo": "<strong>Viés</strong>",
+     "def": "quando os exemplos são poucos ou de um tipo só e a IA aprende de forma injusta ou errada."
+    },
+    {
+     "termo": "Chatbot",
+     "rotulo": "<strong>Chatbot</strong> (<em>chat</em> = conversa; <em>bot</em> = robô)",
+     "def": "programa que conversa por texto ou voz."
+    },
+    {
+     "termo": "Reconhecimento facial",
+     "rotulo": "<strong>Reconhecimento facial</strong>",
+     "def": "IA que identifica uma pessoa pelo rosto, como no desbloqueio do celular."
+    },
+    {
+     "termo": "Recomendação",
+     "rotulo": "<strong>Recomendação</strong>",
+     "def": "quando a IA escolhe o próximo vídeo, música ou produto que você deve gostar, a partir do que você já viu."
+    },
+    {
+     "termo": "Impacto",
+     "rotulo": "<strong>Impacto</strong>",
+     "def": "o efeito que uma tecnologia causa na vida das pessoas, no trabalho, na cidade e no meio ambiente."
+    }
+   ],
+   "ondeUso": {
+    "itens": [
+     "No <strong>vídeo seguinte</strong> que aparece sozinho no aplicativo: é uma recomendação feita por IA.",
+     "No <strong>corretor e nas sugestões do teclado</strong> do celular, que adivinham a próxima palavra.",
+     "No <strong>tradutor</strong> e na <strong>legenda automática</strong> de vídeos."
+    ],
+    "reflexao": "Em qual aplicativo você acha que já usou IA sem perceber?"
+   },
+   "alertas": [],
+   "vf": [
+    "A IA aprende com muitos exemplos, chamados de dados.",
+    "A IA nunca erra, então não preciso conferir as respostas dela.",
+    "Viés acontece quando a IA aprende com exemplos poucos ou de um tipo só.",
+    "A recomendação do próximo vídeo é feita por inteligência artificial.",
+    "Posso colocar os dados pessoais dos meus colegas no chatbot à vontade."
+   ],
+   "resumo": {
+    "texto": "A **inteligência artificial** aprende com muitos **exemplos** (os **dados**): coleta, **treina** procurando **padrões**, testa e usa. Ela está no corretor do teclado, nas **recomendações**, no tradutor e no **reconhecimento facial**. A IA também erra: com exemplos ruins aparece o **viés**, e o **chatbot** pode inventar respostas, por isso conferimos. Os **impactos** são bons (saúde, acessibilidade, campo, trânsito) e pedem cuidado (dados pessoais, empregos que mudam, deepfakes, energia). Na escola: usar para estudar, conferir, não pôr dados pessoais e dizer quando usou.",
+    "chaves": [
+     "inteligência artificial",
+     "dados",
+     "padrão",
+     "treinar",
+     "viés",
+     "chatbot",
+     "recomendação",
+     "impacto"
+    ]
+   },
+   "autoavaliacao": []
+  },
+  {
    "id": "pf",
    "icone": "🏁",
    "titulo": "Projeto final – Meu Passaporte de Missões",

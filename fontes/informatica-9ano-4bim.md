@@ -10,6 +10,7 @@ Prof. Welington · @Welington Laignier
 | Missão 1 | ........ / ........ |  |  |  |
 | Missão 2 | ........ / ........ |  |  |  |
 | Missão 3 | ........ / ........ |  |  |  |
+| Missão 4 | ........ / ........ |  |  |  |
 | Projeto final | ........ / ........ |  |  |  |
 | **Total** |  |  |  |  |
 
@@ -393,6 +394,77 @@ Escreva **V** para verdadeiro ou **F** para falso:
 ### 🧠 Resumo da Aula
 Quem cria uma obra é o **autor** e tem o **direito autoral** sobre ela; copiar e apresentar como seu é **plágio**. Obras em **domínio público** podem ser usadas livremente, e licenças como a **Creative Commons (CC BY)** liberam o uso desde que você dê o **crédito**. O **direito de imagem** proíbe publicar a foto ou o vídeo de alguém sem autorização. A **inteligência artificial** pode criar **deepfakes**, vídeos, fotos e áudios falsos que imitam pessoas reais: desconfie de boca fora de sincronia, voz robótica e falas estranhas. Antes de compartilhar, pergunte também **por que** aquilo foi espalhado: dinheiro, política, humor, ódio ou engano.
 **Palavras-chave:** autor · direito autoral · plágio · domínio público · Creative Commons · crédito · direito de imagem · inteligência artificial · deepfake · motivação
+## 🤖 Missão 4 – Inteligência artificial: impactos na vida, no trabalho e na cidade
+**Objetivo:** entender como a inteligência artificial aprende com exemplos, reconhecer onde ela já está no dia a dia, avaliar os impactos bons e os cuidados, e usar a IA com responsabilidade.
+📅 **Data da aula:** ........ / ........
+### 💡 Para começar
+Na Missão 3 você viu que a IA pode criar deepfakes. Mas a **inteligência artificial (IA)** está em muito mais lugares: no **corretor do teclado**, nos **vídeos recomendados**, no **tradutor**, no **assistente de voz** e no **desbloqueio pelo rosto** do celular.
+**Como a IA aprende?** Ela não “pensa” como uma pessoa. Ela **aprende com muitos exemplos** (os **dados**) e descobre **padrões**:
+| Etapa | O que acontece | Exemplo: filtro de spam do e-mail |
+| 1️⃣ Coletar dados | Juntar muitos exemplos já com a resposta certa | Milhares de e-mails marcados como “spam” ou “normal” |
+| 2️⃣ Treinar | O programa procura padrões nos exemplos | Descobre que “grátis”, “prêmio” e “clique já” aparecem muito no spam |
+| 3️⃣ Testar | Ver se acerta exemplos que nunca viu | Separa e-mails novos e confere os erros |
+| 4️⃣ Usar | Fazer previsões no dia a dia | Manda sozinho para a pasta Spam |
+
+**A IA também erra:**
+- Se os exemplos forem **poucos** ou **de um tipo só**, ela aprende errado. Isso se chama **viés**: uma IA treinada quase só com fotos de pessoas de pele clara pode errar mais com pessoas de pele escura.
+- A IA que conversa (o **chatbot**) pode **inventar** uma resposta errada com toda a certeza. Por isso, **sempre confira** em outras fontes.
+
+**Impactos da IA na sociedade:**
+| 👍 Ajuda | ⚠️ Pede cuidado |
+| 🏥 Ajuda médicos a encontrar sinais de doenças em exames | 🔐 Usa muitos **dados pessoais** para aprender |
+| ♿ Legenda automática e leitura em voz alta ajudam pessoas com deficiência | 💼 Algumas **profissões mudam** ou diminuem; outras novas aparecem |
+| 🌾 Ajuda o agricultor a prever chuva e pragas | 🎭 Facilita criar **deepfakes** e notícias falsas |
+| 🚦 Pode organizar o trânsito e os semáforos da cidade | ⚡ Os computadores que treinam a IA gastam **muita energia** e água |
+
+**Usar a IA com responsabilidade na escola:** usar para **entender** e **estudar**, não para copiar a tarefa · **conferir** as respostas · **não colocar dados pessoais** (seus ou de colegas) · **dizer quando usou** IA num trabalho.
+### 📖 O que significa?
+- **Inteligência artificial (IA)**: programas que aprendem com muitos exemplos e fazem tarefas que pareciam só de pessoas, como reconhecer rostos, traduzir e conversar. Em inglês, *Artificial Intelligence* (AI).
+- **Dados**: os exemplos (textos, fotos, números) que a IA usa para aprender.
+- **Padrão**: algo que se repete nos exemplos e ajuda a prever, como as palavras que aparecem muito no spam.
+- **Treinar**: a etapa em que a IA estuda os exemplos para descobrir os padrões.
+- **Spam**: mensagem indesejada, de propaganda ou de golpe, mandada para muita gente.
+- **Viés**: quando os exemplos são poucos ou de um tipo só e a IA aprende de forma injusta ou errada.
+- **Chatbot** (*chat* = conversa; *bot* = robô): programa que conversa por texto ou voz.
+- **Reconhecimento facial**: IA que identifica uma pessoa pelo rosto, como no desbloqueio do celular.
+- **Recomendação**: quando a IA escolhe o próximo vídeo, música ou produto que você deve gostar, a partir do que você já viu.
+- **Impacto**: o efeito que uma tecnologia causa na vida das pessoas, no trabalho, na cidade e no meio ambiente.
+### 🌎 Onde eu uso isso?
+- No **vídeo seguinte** que aparece sozinho no aplicativo: é uma recomendação feita por IA.
+- No **corretor e nas sugestões do teclado** do celular, que adivinham a próxima palavra.
+- No **tradutor** e na **legenda automática** de vídeos.
+| ✍️ Em qual aplicativo você acha que já usou IA sem perceber? |
+|  |
+|  |
+
+### 🎯 Missão
+🟢 **Básico**
+- [ ] No portal, seja a IA: aprenda com os exemplos e separe os e-mails em **spam** ou **normal**.
+- [ ] Coloque em ordem as etapas de como a IA aprende e diga o que é IA e o que não é.
+- [ ] Responda sobre viés e sobre o chatbot que inventa respostas.
+🟡 **Desafio**
+- [ ] Classifique os impactos da IA: **👍 ajuda** ou **⚠️ pede cuidado**, e resolva os casos da cidade.
+🔴 **Turbo**
+- [ ] Escreva uma **regra** para usar a IA com responsabilidade na escola e explique **por quê**.
+| ✍️ Minha regra e o porquê |
+|  |
+|  |
+
+**✅ Carimbo do professor**
+| 🟢 Básico | 🟡 Desafio | 🔴 Turbo |
+|  |  |  |
+|  |  |  |
+
+### ✅ Perguntas rápidas
+1. ( ) A IA aprende com muitos exemplos, chamados de dados.
+2. ( ) A IA nunca erra, então não preciso conferir as respostas dela.
+3. ( ) Viés acontece quando a IA aprende com exemplos poucos ou de um tipo só.
+4. ( ) A recomendação do próximo vídeo é feita por inteligência artificial.
+5. ( ) Posso colocar os dados pessoais dos meus colegas no chatbot à vontade.
+### 🧠 Resumo da Aula
+A **inteligência artificial** aprende com muitos **exemplos** (os **dados**): coleta, **treina** procurando **padrões**, testa e usa. Ela está no corretor do teclado, nas **recomendações**, no tradutor e no **reconhecimento facial**. A IA também erra: com exemplos ruins aparece o **viés**, e o **chatbot** pode inventar respostas, por isso conferimos. Os **impactos** são bons (saúde, acessibilidade, campo, trânsito) e pedem cuidado (dados pessoais, empregos que mudam, deepfakes, energia). Na escola: usar para estudar, conferir, não pôr dados pessoais e dizer quando usou.
+**Palavras-chave:** inteligência artificial · dados · padrão · treinar · viés · chatbot · recomendação · impacto
+
 ## 🏁 Projeto final – Meu Passaporte de Missões
 **Objetivo:** conferir as missões concluídas, completar o que faltou e registrar o que você aprendeu no bimestre.
 📅 **Data da aula:** ........ / ........

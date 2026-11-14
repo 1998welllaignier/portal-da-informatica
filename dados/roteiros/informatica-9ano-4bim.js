@@ -148,6 +148,41 @@
       ],
       curiosidade: "Por décadas uma empresa cobrou direitos autorais de “Parabéns pra você” (Happy Birthday). Em 2016 a Justiça dos EUA encerrou o caso e a música virou domínio público por lá. Termo para lembrar: “Antes de compartilhar, pergunte: quem ganha com isso?”"
     },
+    m4: {
+      datas: "Só no 9º D: 26/11 (as outras turmas do 9º não têm aula sobrando antes da prova)",
+      tempo: TEMPO,
+      abertura: [
+        { fala: "Levante a mão quem já usou inteligência artificial. Agora levante quem usou o corretor do teclado, viu um vídeo recomendado ou desbloqueou o celular pelo rosto." },
+        { acao: "Quase todos levantam na segunda pergunta. Continue:" },
+        { fala: "Pois é: tudo isso é IA. Hoje vocês vão descobrir como ela aprende, onde ela erra e o que ela muda na vida, no trabalho e na nossa cidade." }
+      ],
+      extras: [
+        {
+          titulo: "🎲 Dinâmica: a turma é a IA (5 min)", cor: "c-roxo",
+          itens: [
+            { acao: "Escreva no quadro 4 “e-mails” já com a resposta: 2 de spam (“GRÁTIS! Clique já!”, “Prêmio só hoje”) e 2 normais (“Reunião na quinta”, “Segue o trabalho”)." },
+            { fala: "Vocês são a IA. Que padrão vocês veem no spam?" },
+            { acao: "Leia 3 frases novas e a turma diz spam ou normal com a mão (✋ = spam). Depois leia uma pegadinha: “Grátis: aula de reforço na biblioteca, quinta, 14h”." },
+            { fala: "Viram? A IA também erra quando o exemplo é diferente do que ela treinou. Por isso a gente confere." }
+          ]
+        }
+      ],
+      onde: {
+        pergunta: "Em qual aplicativo vocês acham que já usaram IA sem perceber?",
+        dica: "Anote no quadro em duas colunas: 👍 o que a IA ajuda e ⚠️ o que pede cuidado. Volte a essa lista no fim da aula."
+      },
+      atencao: [
+        "Não peça aos alunos que criem contas em chatbots: muitos exigem idade mínima. A missão é toda feita no portal.",
+        "Ao falar de empregos, evite o tom de medo: algumas profissões mudam, outras aparecem; quem aprende tecnologia sai na frente.",
+        "Ligue com a Missão 3 (deepfakes): é a IA usada para enganar."
+      ],
+      perguntas: [
+        { p: "Como a IA aprende?", r: "Com muitos exemplos (dados): coleta, treina procurando padrões, testa e usa." },
+        { p: "O que é viés?", r: "Quando a IA aprende com exemplos poucos ou de um tipo só e passa a errar mais com quem ficou de fora." },
+        { p: "Uma regra para usar IA na escola?", r: "Usar para estudar, conferir as respostas, não colocar dados pessoais e dizer quando usou." }
+      ],
+      curiosidade: "O termo “inteligência artificial” foi criado em 1956, num encontro de cientistas nos Estados Unidos. Por décadas, a IA ficou nos laboratórios; ela chegou ao bolso de todo mundo com os celulares."
+    },
     pf: {
       datas: "Prova: 9º A e 9º B 23/11 (Missões 1 e 2) · 9º C 24/11 · 9º D 26/11 · Projeto final: 9º C 01/12 · 9º D 03/12 · 9º A e 9º B 14/12 · 2ª chamada: 9º A e B 07/12 · 9º C 08/12 · 9º D 10/12",
       tempo: [
