@@ -611,6 +611,155 @@ PORTAL.registrarConteudo("informatica-7ano-4bim", {
    "autoavaliacao": []
   },
   {
+   "id": "m4",
+   "icone": "🗺️",
+   "titulo": "Missão 4 – Grafos: mapas, caminhos e conexões",
+   "objetivo": "representar lugares e pessoas como pontos ligados por linhas (um grafo), encontrar caminhos e descobrir o caminho mais curto, como faz o GPS (Sistema de Posicionamento Global).",
+   "comecar": [
+    {
+     "t": "p",
+     "h": "O aplicativo de mapa do celular mostra o caminho mais rápido até a casa de um amigo. Como ele sabe? O computador <strong>não enxerga as ruas</strong> como nós. Ele guarda o mapa de um jeito bem simples: <strong>pontos ligados por linhas</strong>. Isso se chama <strong>grafo</strong>."
+    },
+    {
+     "t": "tabela",
+     "cab": [
+      "Parte do grafo",
+      "O que é",
+      "Exemplo no mapa da cidade"
+     ],
+     "linhas": [
+      [
+       "⚪ Vértice (ou nó)",
+       "Um ponto: um lugar, uma pessoa, um computador",
+       "A escola, a praça, o mercado"
+      ],
+      [
+       "➖ Aresta",
+       "Uma linha que liga dois vértices",
+       "A rua que liga a escola à praça"
+      ],
+      [
+       "🔢 Peso",
+       "Um número escrito na aresta: distância, tempo ou preço",
+       "300 metros, 5 minutos"
+      ],
+      [
+       "🧭 Caminho",
+       "Uma sequência de vértices ligados por arestas, um depois do outro",
+       "Escola → Praça → Mercado"
+      ]
+     ]
+    },
+    {
+     "t": "p",
+     "h": "Veja um grafo do bairro, com o tempo de caminhada em minutos em cada aresta:"
+    },
+    {
+     "t": "p",
+     "h": "<strong>Escola —5— Praça —4— Mercado</strong> e <strong>Escola —12— Mercado</strong> (uma rua direta, porém mais longa)."
+    },
+    {
+     "t": "lista",
+     "ord": false,
+     "itens": [
+      {
+       "nivel": 0,
+       "h": "Caminho 1: Escola → Mercado = <strong>12 minutos</strong>."
+      },
+      {
+       "nivel": 0,
+       "h": "Caminho 2: Escola → Praça → Mercado = 5 + 4 = <strong>9 minutos</strong>."
+      }
+     ]
+    },
+    {
+     "t": "p",
+     "h": "O caminho com <strong>menos arestas</strong> nem sempre é o <strong>mais curto</strong>: para achar o mais curto, <strong>somamos os pesos</strong> de cada caminho e escolhemos o <strong>menor total</strong>. É isso que o GPS faz, muito rápido, com milhares de ruas."
+    },
+    {
+     "t": "p",
+     "h": "Grafos também mostram <strong>pessoas</strong>: cada pessoa é um vértice, e cada amizade é uma aresta. O número de arestas que chegam a um vértice é o <strong>grau</strong> dele: quem tem grau maior tem mais conexões."
+    }
+   ],
+   "termos": [
+    {
+     "termo": "Grafo",
+     "rotulo": "<strong>Grafo</strong>",
+     "def": "um desenho (ou modelo) feito de pontos ligados por linhas, que mostra <strong>o que está ligado a quê</strong>. Onde se vê: mapas, redes de amigos, rotas de ônibus, a rede de computadores. Para quê: o computador consegue achar caminhos e conexões."
+    },
+    {
+     "termo": "Vértice",
+     "rotulo": "<strong>Vértice</strong> (também chamado de <strong>nó</strong>)",
+     "def": "cada ponto do grafo; pode ser um lugar, uma pessoa ou um computador."
+    },
+    {
+     "termo": "Aresta",
+     "rotulo": "<strong>Aresta</strong>",
+     "def": "cada linha que liga dois vértices; mostra que eles estão conectados (uma rua, uma amizade, um cabo)."
+    },
+    {
+     "termo": "Peso",
+     "rotulo": "<strong>Peso</strong>",
+     "def": "o número escrito em uma aresta; pode ser distância (metros), tempo (minutos) ou preço (reais)."
+    },
+    {
+     "termo": "Caminho",
+     "rotulo": "<strong>Caminho</strong>",
+     "def": "a sequência de vértices que você percorre, passando sempre por arestas, para ir de um vértice a outro."
+    },
+    {
+     "termo": "Caminho mais curto",
+     "rotulo": "<strong>Caminho mais curto</strong>",
+     "def": "o caminho cuja <strong>soma dos pesos</strong> é a menor de todas."
+    },
+    {
+     "termo": "Grau",
+     "rotulo": "<strong>Grau</strong>",
+     "def": "quantas arestas chegam a um vértice; mostra quantas conexões ele tem."
+    },
+    {
+     "termo": "GPS",
+     "rotulo": "<strong>GPS</strong> (<em>Global Positioning System</em>, Sistema de Posicionamento Global)",
+     "def": "sistema de satélites que mostra onde o celular está; o aplicativo de mapa usa um grafo das ruas para calcular a rota."
+    },
+    {
+     "termo": "Rota",
+     "rotulo": "<strong>Rota</strong>",
+     "def": "o caminho escolhido para ir de um lugar a outro."
+    }
+   ],
+   "ondeUso": {
+    "itens": [
+     "No <strong>aplicativo de mapa</strong> e no <strong>aplicativo de transporte</strong>, que calculam a rota mais rápida até um endereço.",
+     "Nas <strong>redes sociais</strong>, que sugerem “pessoas que você talvez conheça”: são amigos dos seus amigos no grafo.",
+     "No <strong>ônibus escolar</strong>, que passa pelas casas em um caminho que gasta menos tempo e combustível."
+    ],
+    "reflexao": "Pense no caminho da sua casa até a escola. Por quais lugares (vértices) você passa?"
+   },
+   "alertas": [],
+   "vf": [
+    "Um grafo é formado por vértices (pontos) e arestas (linhas).",
+    "O caminho com menos arestas é sempre o mais curto.",
+    "O peso de uma aresta pode ser a distância, o tempo ou o preço.",
+    "O grau de um vértice é o número de arestas que chegam até ele.",
+    "O aplicativo de mapa usa um grafo das ruas para calcular a rota."
+   ],
+   "resumo": {
+    "texto": "Um **grafo** mostra o que está ligado a quê: os **vértices** são os pontos (lugares, pessoas, computadores) e as **arestas** são as linhas que os ligam. O **peso** de uma aresta pode ser distância, tempo ou preço. Um **caminho** passa de vértice em vértice pelas arestas, e o **caminho mais curto** é o que tem a **menor soma de pesos**, que nem sempre é o que tem menos arestas. O **grau** mostra quantas conexões um vértice tem. É assim que o **GPS** calcula rotas e que as redes sociais sugerem amigos.",
+    "chaves": [
+     "grafo",
+     "vértice",
+     "aresta",
+     "peso",
+     "caminho",
+     "caminho mais curto",
+     "grau",
+     "rota"
+    ]
+   },
+   "autoavaliacao": []
+  },
+  {
    "id": "pf",
    "icone": "🏁",
    "titulo": "Projeto final – Meu Passaporte de Missões",

@@ -5,7 +5,7 @@ PORTAL.registrarConteudo("informatica-7ano-4bim-trilha", {
  "comoUsar": [
   {
    "t": "p",
-   "h": "Neste bimestre você vai cumprir <strong>3 missões</strong> e um <strong>projeto final</strong>. São as mesmas missões da sua turma."
+   "h": "Neste bimestre você vai cumprir <strong>4 missões</strong> e um <strong>projeto final</strong>. São as mesmas missões da sua turma."
   },
   {
    "t": "tabela",
@@ -25,6 +25,10 @@ PORTAL.registrarConteudo("informatica-7ano-4bim-trilha", {
     [
      "🛡️ Missão 3 – Segurança e convivência digital",
      "Cultura Digital"
+    ],
+    [
+     "🗺️ Missão 4 – Grafos: mapas e caminhos",
+     "Pensamento Computacional"
     ],
     [
      "🏁 Projeto final – Meu Passaporte de Missões",
@@ -407,6 +411,100 @@ PORTAL.registrarConteudo("informatica-7ano-4bim-trilha", {
      "empatia",
      "cyberbullying",
      "denunciar"
+    ]
+   },
+   "autoavaliacao": []
+  },
+  {
+   "id": "m4",
+   "icone": "🗺️",
+   "titulo": "Missão 4 – Grafos: mapas e caminhos",
+   "objetivo": "ver o mapa como pontos ligados por linhas e achar o caminho mais curto.",
+   "comecar": [
+    {
+     "t": "p",
+     "h": "O aplicativo de mapa vê as ruas como <strong>pontos ligados por linhas</strong>. Isso é um <strong>grafo</strong>."
+    },
+    {
+     "t": "lista",
+     "ord": false,
+     "itens": [
+      {
+       "nivel": 0,
+       "h": "⚪ Cada <strong>lugar</strong> é um <strong>vértice</strong> (um ponto)."
+      },
+      {
+       "nivel": 0,
+       "h": "➖ Cada <strong>rua</strong> é uma <strong>aresta</strong> (uma linha)."
+      },
+      {
+       "nivel": 0,
+       "h": "🔢 O <strong>número</strong> na rua é o <strong>peso</strong>: quantos minutos você anda."
+      }
+     ]
+    },
+    {
+     "t": "p",
+     "h": "Para saber o <strong>caminho mais curto</strong>, <strong>some os números</strong> de cada caminho. O caminho com a <strong>menor soma</strong> é o mais curto."
+    },
+    {
+     "t": "p",
+     "h": "Exemplo: Casa → Padaria → Escola = 3 + 2 = <strong>5 minutos</strong>. A rua direta Casa → Escola = <strong>9 minutos</strong>. O mais curto é pela Padaria!"
+    }
+   ],
+   "termos": [
+    {
+     "termo": "Grafo",
+     "rotulo": "<strong>Grafo</strong>",
+     "def": "pontos ligados por linhas."
+    },
+    {
+     "termo": "Vértice",
+     "rotulo": "<strong>Vértice</strong>",
+     "def": "um ponto do grafo, como um lugar ou uma pessoa."
+    },
+    {
+     "termo": "Aresta",
+     "rotulo": "<strong>Aresta</strong>",
+     "def": "a linha que liga dois pontos, como uma rua."
+    },
+    {
+     "termo": "Peso",
+     "rotulo": "<strong>Peso</strong>",
+     "def": "o número da linha (minutos, metros)."
+    },
+    {
+     "termo": "Caminho mais curto",
+     "rotulo": "<strong>Caminho mais curto</strong>",
+     "def": "o caminho com a menor soma."
+    },
+    {
+     "termo": "GPS",
+     "rotulo": "<strong>GPS</strong> (<em>Global Positioning System</em>, Sistema de Posicionamento Global)",
+     "def": "o sistema que mostra onde o celular está; o mapa usa ele para achar a rota."
+    }
+   ],
+   "ondeUso": {
+    "itens": [
+     "O <strong>aplicativo de mapa</strong> mostra o caminho mais rápido.",
+     "A <strong>rede social</strong> sugere amigos dos seus amigos."
+    ],
+    "reflexao": ""
+   },
+   "alertas": [],
+   "vf": [
+    "No grafo, cada lugar é um vértice.",
+    "O caminho mais curto é o que tem a maior soma.",
+    "O número escrito na rua é o peso."
+   ],
+   "resumo": {
+    "texto": "Um **grafo** tem **vértices** (lugares) e **arestas** (ruas). O número da rua é o **peso**. O **caminho mais curto** é o de **menor soma**.",
+    "chaves": [
+     "grafo",
+     "vértice",
+     "aresta",
+     "peso",
+     "caminho mais curto"
     ]
    },
    "autoavaliacao": []

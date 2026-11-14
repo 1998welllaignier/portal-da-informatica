@@ -250,6 +250,110 @@ PORTAL.registrarAtividades("informatica-7ano-4bim", {
     ]
   },
 
+  /* ======================= MISSÃO 4 ======================= */
+  m4: (function () {
+    const bairro = {
+      vertices: [{ id: "C", rot: "Casa", x: 70, y: 180 }, { id: "Pa", rot: "Padaria", x: 260, y: 60 }, { id: "Pr", rot: "Praça", x: 260, y: 300 }, { id: "E", rot: "Escola", x: 450, y: 180 }],
+      arestas: [["C", "Pa", 3], ["Pa", "E", 2], ["C", "Pr", 4], ["Pr", "E", 4], ["C", "E", 9]]
+    };
+    const escola = {
+      vertices: [{ id: "Po", rot: "Portão", x: 60, y: 180 }, { id: "Pt", rot: "Pátio", x: 230, y: 180 }, { id: "Ca", rot: "Cantina", x: 230, y: 330 },
+        { id: "In", rot: "Sala de Informática", x: 420, y: 70 }, { id: "Bi", rot: "Biblioteca", x: 420, y: 290 }],
+      arestas: [["Po", "Pt", 1], ["Pt", "Ca", 1], ["Pt", "In", 2], ["Pt", "Bi", 2], ["In", "Bi", 1]]
+    };
+    const cidade = {
+      vertices: [{ id: "M", rot: "Mercado", x: 60, y: 190 }, { id: "B", rot: "Banco", x: 200, y: 60 }, { id: "F", rot: "Farmácia", x: 220, y: 320 },
+        { id: "I", rot: "Igreja", x: 360, y: 60 }, { id: "P", rot: "Posto", x: 370, y: 300 }, { id: "H", rot: "Hospital", x: 480, y: 180 }],
+      arestas: [["M", "B", 3], ["M", "F", 6], ["B", "F", 2], ["B", "I", 4], ["F", "P", 3], ["I", "H", 3], ["P", "H", 2], ["F", "H", 7]]
+    };
+    return {
+      pratica: [
+        { tipo: "sim_grafo", titulo: "O GPS sou eu: ache o caminho mais rápido até o parque",
+          enunciado: "<p>Cada número na rua é o tempo em <strong>minutos de bicicleta</strong> (o <strong>peso</strong> da aresta). Saindo de <strong>Casa</strong>, clique nos lugares, um vizinho por vez, até o <strong>Parque</strong>, com a <strong>menor soma</strong>. Depois clique em <strong>Verificar</strong>.</p>",
+          vertices: { casa: { nome: "Casa", ic: "🏠", x: 45, y: 120 }, sorveteria: { nome: "Sorveteria", ic: "🍦", x: 160, y: 45 }, quadra: { nome: "Quadra", ic: "🏀", x: 160, y: 195 },
+            ponte: { nome: "Ponte", ic: "🌉", x: 270, y: 45 }, feira: { nome: "Feira", ic: "🧺", x: 270, y: 195 }, parque: { nome: "Parque", ic: "🌳", x: 360, y: 120 } },
+          arestas: [["casa", "sorveteria", 2], ["casa", "quadra", 5], ["sorveteria", "quadra", 1], ["sorveteria", "ponte", 6], ["ponte", "parque", 2], ["quadra", "feira", 2], ["feira", "parque", 3]],
+          inicio: "casa", fim: "parque", menor: 8, solucao: ["casa", "sorveteria", "quadra", "feira", "parque"], unidade: "min",
+          dicas: ["Some os pesos de cada caminho antes de escolher.", "Passar pela Sorveteria e depois pela Quadra pode ser mais rápido do que ir direto para a Quadra."],
+          explicacao: "Caminho mais rápido: Casa → Sorveteria → Quadra → Feira → Parque = 2 + 1 + 2 + 3 = <strong>8 min</strong>. Ele tem mais paradas, mas a menor soma. O aplicativo de mapa faz essa conta com milhares de ruas." }
+      ],
+      basico: [
+        { tipo: "info", titulo: "O grafo do bairro (pesos em minutos de caminhada)",
+          html: `<div class="tabela-wrap"><table><thead><tr><th>Aresta (ligação)</th><th>Peso (minutos)</th></tr></thead><tbody>
+          <tr><td>Casa – Padaria</td><td>3</td></tr><tr><td>Padaria – Escola</td><td>2</td></tr><tr><td>Casa – Praça</td><td>4</td></tr>
+          <tr><td>Praça – Escola</td><td>4</td></tr><tr><td>Casa – Escola (rua direta)</td><td>9</td></tr></tbody></table></div>
+          <p>Cada <strong>lugar</strong> é um <strong>vértice</strong> (um círculo). Cada <strong>rua</strong> é uma <strong>aresta</strong> (uma linha). O número da rua é o <strong>peso</strong>. Para saber quanto tempo leva um caminho, <strong>some os pesos</strong> das arestas por onde ele passa.</p>` },
+        Object.assign({ tipo: "grafo_montar", titulo: "Monte o grafo do bairro: ligue os lugares", descricao: "Grafo do bairro para montar: Casa, Padaria, Praça e Escola" }, bairro,
+          { enunciado: "<p>Clique em um lugar e depois no outro lugar ligado a ele, seguindo a tabela de arestas. O peso aparece em cima de cada linha.</p>",
+            dicas: ["Comece pela Casa: ela se liga à Padaria, à Praça e à Escola (rua direta)."],
+            explicacao: "O grafo tem 4 vértices (Casa, Padaria, Praça e Escola) e 5 arestas, cada uma com o seu peso em minutos." }),
+        { tipo: "tabela", titulo: "Os caminhos da Casa até a Escola",
+          colunas: ["Pergunta", "Resposta"],
+          linhas: [["Quantos vértices tem o grafo?", { r: "4", tipo: "num", w: 4, dica: "Conte os lugares (círculos)." }],
+            ["Quantos minutos leva Casa → Padaria → Escola?", { r: "5", tipo: "num", w: 4, dica: "3 + 2" }],
+            ["Quantos minutos leva Casa → Praça → Escola?", { r: "8", tipo: "num", w: 4 }],
+            ["Quantos minutos leva a rua direta Casa → Escola?", { r: "9", tipo: "num", w: 4 }],
+            ["<strong>Qual é o caminho mais curto?</strong>", { op: ["Casa → Escola (rua direta)", "Casa → Padaria → Escola", "Casa → Praça → Escola"], r: "Casa → Padaria → Escola" }]],
+          dicas: ["Some os pesos de cada aresta do caminho.", "O mais curto é o de menor soma, não o de menos ruas."],
+          explicacao: "Casa → Padaria → Escola = 3 + 2 = 5 · Casa → Praça → Escola = 4 + 4 = 8 · rua direta = 9. O mais curto é pela Padaria (5 minutos), mesmo com uma parada a mais do que a rua direta." },
+        Object.assign({ tipo: "grafo", titulo: "Trace no grafo o caminho mais curto da Casa até a Escola", de: "C", para: "E", unidade: "minutos", descricao: "Grafo do bairro com Casa, Padaria, Praça e Escola" }, bairro,
+          { enunciado: "<p>Clique nos vértices, um depois do outro, começando pela Casa. A soma aparece embaixo.</p>", explicacao: "Casa → Padaria → Escola = 3 + 2 = 5 minutos." }),
+        { tipo: "classificar", modo: "tabela", titulo: "Cada parte do grafo é o quê no mapa?", colunaItem: "No mapa", colunaResp: "Parte do grafo",
+          categorias: [{ id: "V", rot: "Vértice" }, { id: "A", rot: "Aresta" }, { id: "P", rot: "Peso" }],
+          itens: [
+            { t: "A escola", c: "V", why: "Um lugar é um ponto: vértice." },
+            { t: "A rua que liga a casa à padaria", c: "A", why: "A ligação entre dois lugares é uma aresta." },
+            { t: "“3 minutos” escrito na rua", c: "P", why: "O número da aresta é o peso." },
+            { t: "A praça", c: "V", why: "Lugar = vértice." },
+            { t: "“500 metros” escrito na rua", c: "P", why: "Distância também é peso." },
+            { t: "A amizade entre a Ana e a Bia (numa rede de amigos)", c: "A", why: "Numa rede de amigos, cada amizade é uma aresta." }],
+          explicacao: "Lugar ou pessoa = <strong>vértice</strong>. Rua, cabo ou amizade (o que liga) = <strong>aresta</strong>. Número na ligação (minutos, metros, reais) = <strong>peso</strong>." },
+        { tipo: "tabela", titulo: "A rede de amigos: qual é o grau de cada um?",
+          enunciado: "<p>Amizades: <strong>Ana–Bia</strong>, <strong>Ana–Caio</strong>, <strong>Ana–Davi</strong> e <strong>Bia–Caio</strong>. O <strong>grau</strong> é quantas arestas (amizades) chegam em cada pessoa.</p>",
+          colunas: ["Pessoa (vértice)", "Grau (nº de amizades)"],
+          linhas: [["Ana", { r: "3", tipo: "num", w: 3 }], ["Bia", { r: "2", tipo: "num", w: 3 }], ["Caio", { r: "2", tipo: "num", w: 3 }], ["Davi", { r: "1", tipo: "num", w: 3 }],
+            ["<strong>Quem tem mais conexões?</strong>", { op: ["Ana", "Bia", "Caio", "Davi"], r: "Ana" }]],
+          dicas: ["Conte quantas vezes cada nome aparece na lista de amizades."],
+          explicacao: "Ana aparece em 3 amizades (grau 3), Bia e Caio em 2, Davi em 1. Ana tem mais conexões. É assim que a rede social sugere amigos: pelas conexões do grafo." }
+      ],
+      desafio: [
+        { tipo: "info", titulo: "As pistas do grafo da escola",
+          html: `<p>Monte o grafo da escola com estas pistas (o peso é quantos <strong>minutos</strong> se anda):</p><ul>
+          <li>Do <strong>Portão</strong> só se chega ao <strong>Pátio</strong>: 1 minuto.</li>
+          <li>Do <strong>Pátio</strong> se vai à <strong>Cantina</strong> (1 minuto), à <strong>Sala de Informática</strong> (2 minutos) e à <strong>Biblioteca</strong> (2 minutos).</li>
+          <li>A <strong>Sala de Informática</strong> e a <strong>Biblioteca</strong> são vizinhas, ligadas por um corredor de 1 minuto.</li></ul>` },
+        Object.assign({ tipo: "grafo_montar", titulo: "Monte o grafo da escola seguindo as pistas", descricao: "Grafo da escola para montar" }, escola,
+          { enunciado: "<p>Clique em um lugar e depois no lugar ligado a ele, seguindo as pistas acima.</p>",
+            dicas: ["São 5 arestas ao todo.", "O Pátio é o vértice de maior grau: ele se liga a 4 lugares."],
+            explicacao: "Arestas: Portão–Pátio (1), Pátio–Cantina (1), Pátio–Informática (2), Pátio–Biblioteca (2) e Informática–Biblioteca (1)." }),
+        { tipo: "tabela", titulo: "Perguntas sobre o grafo da escola",
+          linhas: [["Qual lugar tem o maior grau (mais ligações)?", { op: ["Portão", "Pátio", "Cantina", "Biblioteca"], r: "Pátio" }],
+            ["Quantos minutos do Portão até a Sala de Informática pelo caminho mais curto?", { r: "3", tipo: "num", w: 4, dica: "Portão → Pátio → Informática" }],
+            ["Se o corredor do Pátio até a Informática estiver fechado, quantos minutos leva do Portão até a Informática?", { r: "4", tipo: "num", w: 4, dica: "Portão → Pátio → Biblioteca → Informática" }]],
+          explicacao: "O Pátio tem grau 4. Portão → Pátio → Informática = 1 + 2 = 3 minutos. Com esse corredor fechado: Portão → Pátio → Biblioteca → Informática = 1 + 2 + 1 = 4 minutos. Quando uma aresta some, o caminho mais curto muda: o GPS faz isso quando uma rua está interditada." }
+      ],
+      turbo: [
+        { tipo: "info", titulo: "A entrega: Mercado → Farmácia → Hospital",
+          html: `<p>O entregador sai do <strong>Mercado</strong>, precisa <strong>passar na Farmácia</strong> para pegar um remédio e depois levar tudo ao <strong>Hospital</strong>. Os pesos são minutos de moto. Resolva em duas partes: primeiro o caminho mais curto do Mercado até a Farmácia; depois, da Farmácia até o Hospital.</p>` },
+        Object.assign({ tipo: "grafo", titulo: "Parte 1: o caminho mais curto do Mercado até a Farmácia", de: "M", para: "F", unidade: "minutos", descricao: "Grafo da cidade com Mercado, Banco, Farmácia, Igreja, Posto e Hospital" }, cidade,
+          { explicacao: "Mercado → Banco → Farmácia = 3 + 2 = 5 minutos (a rua direta Mercado–Farmácia leva 6)." }),
+        Object.assign({ tipo: "grafo", titulo: "Parte 2: o caminho mais curto da Farmácia até o Hospital", de: "F", para: "H", unidade: "minutos", descricao: "Grafo da cidade com Mercado, Banco, Farmácia, Igreja, Posto e Hospital" }, cidade,
+          { explicacao: "Farmácia → Posto → Hospital = 3 + 2 = 5 minutos (a rua direta Farmácia–Hospital leva 7)." }),
+        { tipo: "tabela", titulo: "O total da entrega",
+          linhas: [["Quantos minutos leva a entrega inteira (parte 1 + parte 2)?", { r: "10", tipo: "num", w: 4 }],
+            ["Por que o entregador não usou as ruas diretas?", { op: ["Porque os caminhos com mais paradas tinham uma soma menor", "Porque as ruas diretas estavam fechadas", "Porque o grafo não tinha ruas diretas"], r: "Porque os caminhos com mais paradas tinham uma soma menor" }]],
+          explicacao: "5 + 5 = 10 minutos. Pelas ruas diretas seria 6 + 7 = 13. De novo: o caminho mais curto é o de menor soma dos pesos." }
+      ],
+      vf: [
+        { v: true },
+        { v: false, corrigir: { trecho: "é sempre o mais curto", opcoes: ["é sempre o mais curto", "nem sempre é o mais curto"], certo: "nem sempre é o mais curto" }, why: "O mais curto é o de menor soma dos pesos." },
+        { v: true },
+        { v: true },
+        { v: true }
+      ]
+    };
+  })(),
+
   /* ======================= PROJETO FINAL ======================= */
   pf: {
     basico: [

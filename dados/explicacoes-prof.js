@@ -63,7 +63,12 @@
       "F: o código que chega por SMS é a chave da sua conta. Nunca passe para ninguém, nem para amigo.",
       "V: com a verificação em duas etapas, além da senha é preciso um código; fica bem mais difícil invadir a conta.",
       "F: discordar é normal; ofender não. Dá para discordar com respeito.",
-      "V: guardar as provas (prints), bloquear e denunciar protegem a vítima e ajudam a resolver."]
+      "V: guardar as provas (prints), bloquear e denunciar protegem a vítima e ajudam a resolver."],
+    m4: ["V: o grafo tem duas partes: os vértices (pontos: lugares, pessoas) e as arestas (linhas que ligam os pontos).",
+      "F: o mais curto é o de MENOR SOMA dos pesos. Ex.: Casa → Padaria → Escola (3 + 2 = 5) ganha da rua direta (9), mesmo tendo uma parada a mais.",
+      "V: o peso é o número escrito na aresta: pode ser minutos, metros ou reais, conforme o problema.",
+      "V: grau = quantas arestas chegam no vértice. Ana com 3 amigos tem grau 3.",
+      "V: o aplicativo guarda as ruas como um grafo e soma os pesos para achar a rota mais rápida."]
   } };
 
   E["informatica-8ano-4bim"] = { vf: {
@@ -115,7 +120,8 @@
   E["informatica-7ano-4bim-trilha"] = { vf: {
     m1: ["V: a internet liga computadores e celulares do mundo todo.", "F: a mensagem é dividida em pedaços (pacotes) e montada no fim.", "V: o cadeado 🔒 mostra que o site protege os dados."],
     m2: ["V: dividir em partes deixa a tarefa grande mais fácil.", "F: bug é um erro do programa, não um acerto.", "V: depois de corrigir, testo de novo para ver se funcionou."],
-    m3: ["F: o código que chega no celular é secreto: não passo para ninguém.", "V: prêmio fácil e pressa são sinais de golpe.", "V: se sofrer cyberbullying, conto a um adulto de confiança."]
+    m3: ["F: o código que chega no celular é secreto: não passo para ninguém.", "V: prêmio fácil e pressa são sinais de golpe.", "V: se sofrer cyberbullying, conto a um adulto de confiança."],
+    m4: ["V: no grafo, cada lugar é um ponto, que se chama vértice.", "F: o mais curto é o de MENOR soma (5 minutos ganha de 9).", "V: o número escrito na rua é o peso (os minutos)."]
   } };
   E["informatica-9ano-4bim-trilha"] = { vf: {
     m1: ["V: no grafo, os pontos (vértices) são ligados por linhas (arestas).", "F: o caminho mais curto é o de menor soma.", "V: a árvore de decisão faz perguntas de sim ou não até chegar à resposta."],

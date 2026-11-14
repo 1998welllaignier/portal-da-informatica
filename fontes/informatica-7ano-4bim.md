@@ -10,6 +10,7 @@ Prof. Welington · @Welington Laignier
 | Missão 1 | ........ / ........ |  |  |  |
 | Missão 2 | ........ / ........ |  |  |  |
 | Missão 3 | ........ / ........ |  |  |  |
+| Missão 4 | ........ / ........ |  |  |  |
 | Projeto final | ........ / ........ |  |  |  |
 | **Total** |  |  |  |  |
 
@@ -358,6 +359,75 @@ Para resolver problemas grandes, usamos a **decomposição**: dividir em partes 
 ### 🧠 Resumo da Aula
 Na internet existem **golpes** (phishing) que usam pressa, prêmios e links falsos para roubar dados, e **malwares** que danificam o computador. Para se proteger: **senha forte**, **verificação em duas etapas** e nunca passar códigos. Na convivência digital, discordamos com **empatia**, criticando ideias e não pessoas. Diante do **cyberbullying**: guardar provas, bloquear, denunciar e contar a um adulto de confiança.
 **Palavras-chave:** golpe · phishing · malware · senha forte · verificação em duas etapas · empatia · opinião divergente · cyberbullying
+## 🗺️ Missão 4 – Grafos: mapas, caminhos e conexões
+**Objetivo:** representar lugares e pessoas como pontos ligados por linhas (um grafo), encontrar caminhos e descobrir o caminho mais curto, como faz o GPS (Sistema de Posicionamento Global).
+📅 **Data da aula:** ........ / ........
+### 💡 Para começar
+O aplicativo de mapa do celular mostra o caminho mais rápido até a casa de um amigo. Como ele sabe? O computador **não enxerga as ruas** como nós. Ele guarda o mapa de um jeito bem simples: **pontos ligados por linhas**. Isso se chama **grafo**.
+| Parte do grafo | O que é | Exemplo no mapa da cidade |
+| ⚪ Vértice (ou nó) | Um ponto: um lugar, uma pessoa, um computador | A escola, a praça, o mercado |
+| ➖ Aresta | Uma linha que liga dois vértices | A rua que liga a escola à praça |
+| 🔢 Peso | Um número escrito na aresta: distância, tempo ou preço | 300 metros, 5 minutos |
+| 🧭 Caminho | Uma sequência de vértices ligados por arestas, um depois do outro | Escola → Praça → Mercado |
+
+Veja um grafo do bairro, com o tempo de caminhada em minutos em cada aresta:
+**Escola —5— Praça —4— Mercado** e **Escola —12— Mercado** (uma rua direta, porém mais longa).
+- Caminho 1: Escola → Mercado = **12 minutos**.
+- Caminho 2: Escola → Praça → Mercado = 5 + 4 = **9 minutos**.
+O caminho com **menos arestas** nem sempre é o **mais curto**: para achar o mais curto, **somamos os pesos** de cada caminho e escolhemos o **menor total**. É isso que o GPS faz, muito rápido, com milhares de ruas.
+Grafos também mostram **pessoas**: cada pessoa é um vértice, e cada amizade é uma aresta. O número de arestas que chegam a um vértice é o **grau** dele: quem tem grau maior tem mais conexões.
+### 📖 O que significa?
+- **Grafo**: um desenho (ou modelo) feito de pontos ligados por linhas, que mostra **o que está ligado a quê**. Onde se vê: mapas, redes de amigos, rotas de ônibus, a rede de computadores. Para quê: o computador consegue achar caminhos e conexões.
+- **Vértice** (também chamado de **nó**): cada ponto do grafo; pode ser um lugar, uma pessoa ou um computador.
+- **Aresta**: cada linha que liga dois vértices; mostra que eles estão conectados (uma rua, uma amizade, um cabo).
+- **Peso**: o número escrito em uma aresta; pode ser distância (metros), tempo (minutos) ou preço (reais).
+- **Caminho**: a sequência de vértices que você percorre, passando sempre por arestas, para ir de um vértice a outro.
+- **Caminho mais curto**: o caminho cuja **soma dos pesos** é a menor de todas.
+- **Grau**: quantas arestas chegam a um vértice; mostra quantas conexões ele tem.
+- **GPS** (*Global Positioning System*, Sistema de Posicionamento Global): sistema de satélites que mostra onde o celular está; o aplicativo de mapa usa um grafo das ruas para calcular a rota.
+- **Rota**: o caminho escolhido para ir de um lugar a outro.
+### 🌎 Onde eu uso isso?
+- No **aplicativo de mapa** e no **aplicativo de transporte**, que calculam a rota mais rápida até um endereço.
+- Nas **redes sociais**, que sugerem “pessoas que você talvez conheça”: são amigos dos seus amigos no grafo.
+- No **ônibus escolar**, que passa pelas casas em um caminho que gasta menos tempo e combustível.
+| ✍️ Pense no caminho da sua casa até a escola. Por quais lugares (vértices) você passa? |
+|  |
+|  |
+
+### 🎯 Missão
+🟢 **Básico**
+- [ ] Observe o grafo do bairro: **Casa —3— Padaria —2— Escola**, **Casa —4— Praça —4— Escola** e **Casa —9— Escola**. Complete:
+| Pergunta | ✍️ Resposta |
+| Quantos vértices tem o grafo? |  |
+| Quantos minutos leva o caminho Casa → Padaria → Escola? |  |
+| Quantos minutos leva o caminho Casa → Praça → Escola? |  |
+| Qual é o caminho mais curto da Casa até a Escola? |  |
+
+- [ ] Ligue cada parte do grafo ao que ela é no mapa: **vértice** · **aresta** · **peso** → a rua · o número de minutos · o lugar.
+- [ ] Na rede de amigos **Ana–Bia, Ana–Caio, Ana–Davi, Bia–Caio**, qual é o grau de cada pessoa? Quem tem mais conexões?
+🟡 **Desafio**
+- [ ] No portal, monte o grafo da escola: ligue os lugares (Portão, Pátio, Cantina, Sala de Informática e Biblioteca) seguindo as pistas e clique em **Verificar**.
+🔴 **Turbo**
+- [ ] O entregador precisa sair do Mercado e passar pela Farmácia antes de chegar ao Hospital. Escreva o caminho mais curto e a soma dos minutos, usando o grafo do portal.
+| ✍️ Meu caminho e o total de minutos |
+|  |
+|  |
+
+**✅ Carimbo do professor**
+| 🟢 Básico | 🟡 Desafio | 🔴 Turbo |
+|  |  |  |
+|  |  |  |
+
+### ✅ Perguntas rápidas
+1. ( ) Um grafo é formado por vértices (pontos) e arestas (linhas).
+2. ( ) O caminho com menos arestas é sempre o mais curto.
+3. ( ) O peso de uma aresta pode ser a distância, o tempo ou o preço.
+4. ( ) O grau de um vértice é o número de arestas que chegam até ele.
+5. ( ) O aplicativo de mapa usa um grafo das ruas para calcular a rota.
+### 🧠 Resumo da Aula
+Um **grafo** mostra o que está ligado a quê: os **vértices** são os pontos (lugares, pessoas, computadores) e as **arestas** são as linhas que os ligam. O **peso** de uma aresta pode ser distância, tempo ou preço. Um **caminho** passa de vértice em vértice pelas arestas, e o **caminho mais curto** é o que tem a **menor soma de pesos**, que nem sempre é o que tem menos arestas. O **grau** mostra quantas conexões um vértice tem. É assim que o **GPS** calcula rotas e que as redes sociais sugerem amigos.
+**Palavras-chave:** grafo · vértice · aresta · peso · caminho · caminho mais curto · grau · rota
+
 ## 🏁 Projeto final – Meu Passaporte de Missões
 **Objetivo:** conferir as missões concluídas, completar o que faltou e registrar o que você aprendeu no bimestre.
 📅 **Data da aula:** ........ / ........

@@ -292,7 +292,7 @@ table.notas th.dt{width:26%}
       <tr><th>Encontro</th><th class="dt">Data</th><th><svg class="ico"><use href="#i-basico"/></svg> Básico (1,0)</th><th><svg class="ico"><use href="#i-desafio"/></svg> Desafio (0,25)</th><th><svg class="ico"><use href="#i-turbo"/></svg> Turbo (0,25)</th></tr>
       <tr><td>Missão 1</td><td></td><td></td><td></td><td></td></tr>
       <tr><td>Missão 2</td><td></td><td></td><td></td><td></td></tr>
-      <tr><td>Missão 3</td><td></td><td></td><td></td><td></td></tr>
+      <tr><td>Missão 3</td><td></td><td></td><td></td><td></td></tr><tr><td>Missão 4</td><td></td><td></td><td></td><td></td></tr>
       <tr><td>Projeto final</td><td></td><td></td><td></td><td></td></tr>
       <tr><th>Total</th><td></td><td></td><td></td><td></td></tr>
     </table></div>
@@ -592,6 +592,58 @@ table.notas th.dt{width:26%}
 <div class="resumo"><h3><svg style="color:#1c1f22"><use href="#i-cerebro"/></svg>Resumo da Aula</h3>
 <p>Na internet existem <b>golpes</b> (phishing) que usam pressa, prêmios e links falsos para roubar dados, e <b>malwares</b> que danificam o computador. Para se proteger: <b>senha forte</b>, <b>verificação em duas etapas</b> e nunca passar códigos. Na convivência digital, discordamos com <b>empatia</b>, criticando ideias e não pessoas. Diante do <b>cyberbullying</b>: guardar provas, bloquear, denunciar e contar a um adulto de confiança.</p>
 <div class="kw"><span>golpe</span><span>phishing</span><span>malware</span><span>senha forte</span><span>verificação em duas etapas</span><span>empatia</span><span>opinião divergente</span><span>cyberbullying</span></div>
+</div>
+</section>
+<section class="sheet pb">
+<div class="mhead"><div class="mnum"><svg><use href="#i-grafo"/></svg><b>4</b></div><div><div class="eyebrow">Missão 4 · Pensamento Computacional</div><h2>Grafos: mapas, caminhos e conexões</h2></div></div>
+<div class="goal"><svg class="ico"><use href="#i-alvo"/></svg><p style="margin:0"><b>Objetivo:</b> representar lugares e pessoas como pontos ligados por linhas (um grafo), encontrar caminhos e descobrir o caminho mais curto, como faz o GPS.</p></div>
+<div class="date"><svg class="ico"><use href="#i-calendario"/></svg> <b>Data da aula:</b>........ /........</div>
+<h3><svg><use href="#i-lampada"/></svg>Para começar</h3>
+<p>O aplicativo de mapa do celular mostra o caminho mais rápido até a casa de um amigo. Como ele sabe? O computador <b>não enxerga as ruas</b> como nós. Ele guarda o mapa de um jeito bem simples: <b>pontos ligados por linhas</b>. Isso se chama <b>grafo</b>.</p>
+<figure class="" style=""><svg viewBox="0 0 740 300" role="img" aria-label="Grafo do bairro: Casa, Padaria, Praça e Escola são vértices; as ruas são arestas; os minutos escritos nas ruas são os pesos">
+  <g stroke="#1c1f22" stroke-width="4" fill="none"><path d="M200 150 360 60"/><path d="M360 60 520 150"/><path d="M200 150 360 240"/><path d="M360 240 520 150"/><path d="M200 150 520 150" stroke-dasharray="10 8"/></g>
+  <g font-family="Baloo 2, sans-serif" font-weight="800" font-size="22" fill="#1c1f22" text-anchor="middle"><text x="268" y="92">3</text><text x="452" y="92">2</text><text x="268" y="226">4</text><text x="452" y="226">4</text><text x="360" y="140">9</text></g>
+  <g fill="#fff" stroke="#1c1f22" stroke-width="4"><circle cx="200" cy="150" r="30"/><circle cx="360" cy="60" r="30"/><circle cx="360" cy="240" r="30"/><circle cx="520" cy="150" r="30"/></g>
+  <g font-family="Baloo 2, sans-serif" font-weight="700" font-size="15" text-anchor="middle" fill="#1c1f22"><text x="200" y="155">Casa</text><text x="360" y="65">Padaria</text><text x="360" y="245">Praça</text><text x="520" y="155">Escola</text></g>
+  <g fill="none" stroke="#1c1f22" stroke-width="2.5" marker-end="url(#seta2)"><path d="M90 60C130 60 160 90 178 126"/><path d="M640 60C600 60 560 70 480 96"/><path d="M640 250C600 250 560 230 470 222"/></g>
+  <g font-family="Baloo 2, sans-serif" font-weight="700" font-size="16" fill="#1c1f22"><text x="14" y="50">Vértice</text><text x="14" y="68" font-family="Atkinson Hyperlegible, sans-serif" font-weight="400" font-size="12">um lugar (ponto)</text>
+  <text x="600" y="44">Aresta</text><text x="600" y="62" font-family="Atkinson Hyperlegible, sans-serif" font-weight="400" font-size="12">a rua (linha)</text>
+  <text x="600" y="270">Peso</text><text x="600" y="288" font-family="Atkinson Hyperlegible, sans-serif" font-weight="400" font-size="12">4 minutos de caminhada</text></g>
+</svg><figcaption>As partes de um grafo</figcaption></figure>
+<p>O caminho com <b>menos arestas</b> nem sempre é o <b>mais curto</b>: para achar o mais curto, <b>somamos os pesos</b> de cada caminho e escolhemos o <b>menor total</b>. É isso que o GPS faz, muito rápido, com milhares de ruas.</p>
+<figure class="fig-s" style="max-width:560px;margin-inline:auto"><svg viewBox="0 0 600 150" role="img" aria-label="Comparando caminhos: pela Padaria 3 mais 2 igual a 5 minutos, o mais curto; pela rua direta 9 minutos">
+  <rect x="10" y="10" width="580" height="58" rx="12" fill="#d6dade" stroke="#1c1f22" stroke-width="3"/>
+  <text x="26" y="46" font-family="Baloo 2, sans-serif" font-weight="700" font-size="18" fill="#1c1f22">Casa → Padaria → Escola = 3 + 2 = 5 min ✔ o mais curto</text>
+  <rect x="10" y="82" width="580" height="58" rx="12" fill="#fff" stroke="#1c1f22" stroke-width="3"/>
+  <text x="26" y="118" font-family="Baloo 2, sans-serif" font-weight="700" font-size="18" fill="#1c1f22">Casa → Escola (rua direta) = 9 min · menos ruas, mais tempo</text>
+</svg><figcaption>O mais curto é o de menor soma dos pesos</figcaption></figure>
+<p>Grafos também mostram <b>pessoas</b>: cada pessoa é um vértice, e cada amizade é uma aresta. O número de arestas que chegam a um vértice é o <b>grau</b> dele: quem tem grau maior tem mais conexões.</p>
+<figure class="fig-s" style="max-width:480px;margin-inline:auto"><svg viewBox="0 0 480 220" role="img" aria-label="Rede de amigos: Ana ligada a Bia, Caio e Davi tem grau 3; Bia e Caio grau 2; Davi grau 1">
+  <g stroke="#1c1f22" stroke-width="4"><path d="M120 110 260 40"/><path d="M120 110 260 180"/><path d="M120 110 400 110"/><path d="M260 40 260 180"/></g>
+  <g fill="#fff" stroke="#1c1f22" stroke-width="4"><circle cx="120" cy="110" r="30"/><circle cx="260" cy="40" r="26"/><circle cx="260" cy="180" r="26"/><circle cx="400" cy="110" r="26"/></g>
+  <g font-family="Baloo 2, sans-serif" font-weight="700" font-size="15" text-anchor="middle" fill="#1c1f22"><text x="120" y="115">Ana</text><text x="260" y="45">Bia</text><text x="260" y="185">Caio</text><text x="400" y="115">Davi</text></g>
+  <g font-family="Atkinson Hyperlegible, sans-serif" font-size="13" fill="#4a5056"><text x="40" y="160">grau 3</text><text x="296" y="30">grau 2</text><text x="296" y="210">grau 2</text><text x="380" y="160">grau 1</text></g>
+</svg><figcaption>Grau: quantas arestas chegam em cada vértice</figcaption></figure>
+<div class="vida sig"><h3><svg><use href="#i-livro"/></svg>O que significa?</h3>
+<ul class="dots-list"><li><b>Grafo</b>: pontos ligados por linhas, que mostram o que está ligado a quê.</li><li><b>Vértice</b> (ou nó): cada ponto do grafo.</li><li><b>Aresta</b>: cada linha que liga dois vértices.</li><li><b>Peso</b>: o número da aresta (distância, tempo ou preço).</li><li><b>Caminho mais curto</b>: o de menor soma dos pesos.</li><li><b>Grau</b>: quantas arestas chegam a um vértice.</li><li><b>GPS</b> (<i>Global Positioning System</i>, Sistema de Posicionamento Global).</li></ul>
+</div>
+<div class="vida"><h3><svg><use href="#i-globo"/></svg>Onde eu uso isso?</h3>
+<ul class="dots-list"><li>No <b>aplicativo de mapa</b>, que calcula a rota mais rápida.</li><li>Nas <b>redes sociais</b>, que sugerem amigos dos seus amigos.</li><li>No <b>ônibus escolar</b>, que faz o caminho que gasta menos tempo.</li></ul>
+<div class="write"><div class="lbl"><svg class="ico"><use href="#i-lapis"/></svg>Por quais lugares (vértices) você passa da sua casa até a escola?</div><div class="lines "></div></div>
+</div>
+<h3><svg><use href="#i-alvo"/></svg>Missão</h3>
+<div class="level"><svg><use href="#i-basico"/></svg><b>Básico</b></div>
+<ul class="tasks"><li><div>Monte no portal o grafo do bairro, some os pesos dos caminhos e trace o mais curto da Casa até a Escola.</div></li><li><div>Diga o que é vértice, aresta e peso no mapa e calcule o grau de cada pessoa da rede de amigos.</div></li></ul>
+<div class="level"><svg><use href="#i-desafio"/></svg><b>Desafio</b></div>
+<ul class="tasks"><li><div>Monte o grafo da escola seguindo as pistas e ache o caminho mais curto do Portão até a Sala de Informática.</div></li></ul>
+<div class="level"><svg><use href="#i-turbo"/></svg><b>Turbo</b></div>
+<ul class="tasks"><li><div>Ajude o entregador: Mercado → Farmácia → Hospital pelo caminho mais curto.</div></li></ul>
+<h3><svg><use href="#i-carimbo"/></svg><b> Carimbo do professor</b></h3><div class="stamps"><div class="stamp"><span><svg class="ico"><use href="#i-basico"/></svg> Básico</span></div><div class="stamp"><span><svg class="ico"><use href="#i-desafio"/></svg> Desafio</span></div><div class="stamp"><span><svg class="ico"><use href="#i-turbo"/></svg> Turbo</span></div></div>
+<h3><svg><use href="#i-check"/></svg>Perguntas rápidas</h3>
+<ul class="vf"><li>Um grafo é formado por vértices (pontos) e arestas (linhas).</li><li>O caminho com menos arestas é sempre o mais curto.</li><li>O peso de uma aresta pode ser a distância, o tempo ou o preço.</li><li>O grau de um vértice é o número de arestas que chegam até ele.</li><li>O aplicativo de mapa usa um grafo das ruas para calcular a rota.</li></ul>
+<div class="resumo"><h3><svg style="color:#1c1f22"><use href="#i-cerebro"/></svg>Resumo da Aula</h3>
+<p>Um <b>grafo</b> tem <b>vértices</b> (pontos) e <b>arestas</b> (linhas). O <b>peso</b> é o número da aresta. O <b>caminho mais curto</b> é o de <b>menor soma dos pesos</b>. O <b>grau</b> é quantas arestas chegam a um vértice. É assim que o GPS calcula rotas.</p>
+<div class="kw"><span>grafo</span><span>vértice</span><span>aresta</span><span>peso</span><span>caminho</span><span>caminho mais curto</span><span>grau</span><span>rota</span></div>
 </div>
 </section>
 <section class="sheet pb">

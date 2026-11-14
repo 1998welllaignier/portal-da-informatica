@@ -139,6 +139,42 @@
       ],
       curiosidade: "“Phishing” vem de “fishing” (pescar, em inglês): o golpista joga a isca e espera alguém morder."
     },
+    m4: {
+      datas: "Só no 7º B: 24/11 (as outras turmas do 7º não têm aula sobrando antes da prova)",
+      tempo: TEMPO,
+      abertura: [
+        { fala: "Quando vocês pedem ao aplicativo de mapa o caminho até a casa de alguém, ele mostra a rota mais rápida em um segundo. Como ele sabe? Ele enxerga as ruas como a gente?" },
+        { acao: "Ouça 3 ou 4 respostas. Depois desenhe no quadro: três bolinhas (Casa, Padaria, Escola) ligadas por linhas, com 3 e 2 escritos nas linhas, e uma linha direta Casa–Escola com 9." },
+        { fala: "Para o computador, o mapa é isso: pontos ligados por linhas. Os pontos são os vértices, as linhas são as arestas e o número em cada linha é o peso. Qual caminho é mais curto: o direto, de 9, ou o que passa pela Padaria?" },
+        { acao: "Deixe a turma somar (3 + 2 = 5) e conclua: o mais curto é o de menor SOMA, não o de menos ruas." }
+      ],
+      extras: [
+        {
+          titulo: "🎲 Dinâmica: o grafo humano (5 min)", cor: "c-roxo",
+          itens: [
+            { acao: "Chame 4 alunos para a frente: cada um é um vértice (Ana, Bia, Caio, Davi). Entregue um barbante (ou peça que deem as mãos) para cada amizade: Ana–Bia, Ana–Caio, Ana–Davi, Bia–Caio." },
+            { fala: "Cada barbante é uma aresta. Quantas arestas chegam na Ana? Esse número é o grau dela." },
+            { acao: "A turma conta: Ana 3, Bia 2, Caio 2, Davi 1." },
+            { fala: "A rede social faz isso: o Davi conhece a Ana, a Ana conhece a Bia… então ela sugere a Bia para o Davi: “pessoas que você talvez conheça”." }
+          ]
+        }
+      ],
+      onde: {
+        pergunta: "Quem já usou mapa, aplicativo de transporte ou recebeu sugestão de amigos numa rede social? Em todos tem um grafo por trás.",
+        dica: "Peça a 2 ou 3 alunos que digam por quais lugares passam de casa até a escola: cada lugar é um vértice e cada rua é uma aresta."
+      },
+      atencao: [
+        "O erro mais comum: achar que o caminho com menos ruas é o mais curto. Repita: SOMA os pesos e escolhe a MENOR soma.",
+        "No Turbo (entrega Mercado → Farmácia → Hospital), o aluno resolve em duas partes no próprio grafo do portal; não precisa de papel.",
+        "Quem terminar cedo: refaça o grafo da escola com o corredor fechado (o Desafio já pede) e explique para o colega."
+      ],
+      perguntas: [
+        { p: "O que é vértice e o que é aresta?", r: "Vértice é o ponto (lugar, pessoa, computador). Aresta é a linha que liga dois vértices (rua, amizade, cabo)." },
+        { p: "Como saber o caminho mais curto?", r: "Somar os pesos de cada caminho e escolher a menor soma. Casa → Padaria → Escola = 5 ganha da rua direta (9)." },
+        { p: "O que é o grau de um vértice?", r: "Quantas arestas chegam nele. Ana, com 3 amigos, tem grau 3." }
+      ],
+      curiosidade: "Em 1736, o matemático Leonhard Euler resolveu o problema das 7 pontes da cidade de Königsberg desenhando um grafo: foi o começo da Teoria dos Grafos, que hoje está no GPS e nas redes sociais."
+    },
     pf: {
       datas: "Avaliação: 7º D, 7º A e 7º B 24/11 · 7º C 23/11 · Projeto final: 7º D, A e B 01/12 · 7º C 14/12 (ou com a Missão 3 em 07/12)",
       tempo: [

@@ -2,11 +2,12 @@
 Prof. Welington · @Welington Laignier
 
 ## 📘 Como usar esta apostila
-Neste bimestre você vai cumprir **3 missões** e um **projeto final**. São as mesmas missões da sua turma.
+Neste bimestre você vai cumprir **4 missões** e um **projeto final**. São as mesmas missões da sua turma.
 | Missão | Tema |
 | 🌐 Missão 1 – Redes e internet: como a mensagem viaja | Mundo Digital |
 | ⚙️ Missão 2 – Algoritmos: dividir, guardar e corrigir | Pensamento Computacional |
 | 🛡️ Missão 3 – Segurança e convivência digital | Cultura Digital |
+| 🗺️ Missão 4 – Grafos: mapas e caminhos | Pensamento Computacional |
 | 🏁 Projeto final – Meu Passaporte de Missões | Todos os temas |
 
 **Como funciona a Trilha Passo a Passo:**
@@ -119,6 +120,35 @@ O **código** que chega por mensagem no celular é **só seu**: **nunca passe pa
 ### 🧠 Resumo da Aula
 Mensagem com **pressa**, **prêmio** ou **pedido de código** pode ser **golpe**. O código do celular é só meu. Na internet eu falo com **respeito** e, no cyberbullying, **guardo o print, bloqueio, denuncio e conto a um adulto**.
 **Palavras-chave:** golpe · código · empatia · cyberbullying · denunciar
+
+## 🗺️ Missão 4 – Grafos: mapas e caminhos
+**Objetivo:** ver o mapa como pontos ligados por linhas e achar o caminho mais curto.
+📅 **Data da aula:** ........ / ........
+### 💡 Para começar
+O aplicativo de mapa vê as ruas como **pontos ligados por linhas**. Isso é um **grafo**.
+- ⚪ Cada **lugar** é um **vértice** (um ponto).
+- ➖ Cada **rua** é uma **aresta** (uma linha).
+- 🔢 O **número** na rua é o **peso**: quantos minutos você anda.
+
+Para saber o **caminho mais curto**, **some os números** de cada caminho. O caminho com a **menor soma** é o mais curto.
+Exemplo: Casa → Padaria → Escola = 3 + 2 = **5 minutos**. A rua direta Casa → Escola = **9 minutos**. O mais curto é pela Padaria!
+### 📖 O que significa?
+- **Grafo**: pontos ligados por linhas.
+- **Vértice**: um ponto do grafo, como um lugar ou uma pessoa.
+- **Aresta**: a linha que liga dois pontos, como uma rua.
+- **Peso**: o número da linha (minutos, metros).
+- **Caminho mais curto**: o caminho com a menor soma.
+- **GPS** (*Global Positioning System*, Sistema de Posicionamento Global): o sistema que mostra onde o celular está; o mapa usa ele para achar a rota.
+### 🌎 Onde eu uso isso?
+- O **aplicativo de mapa** mostra o caminho mais rápido.
+- A **rede social** sugere amigos dos seus amigos.
+### ✅ Perguntas rápidas
+1. ( ) No grafo, cada lugar é um vértice.
+2. ( ) O caminho mais curto é o que tem a maior soma.
+3. ( ) O número escrito na rua é o peso.
+### 🧠 Resumo da Aula
+Um **grafo** tem **vértices** (lugares) e **arestas** (ruas). O número da rua é o **peso**. O **caminho mais curto** é o de **menor soma**.
+**Palavras-chave:** grafo · vértice · aresta · peso · caminho mais curto
 
 ## 🏁 Projeto final – Meu Passaporte de Missões
 **Objetivo:** conferir as missões concluídas, completar o que faltou e mostrar o que você aprendeu no bimestre.

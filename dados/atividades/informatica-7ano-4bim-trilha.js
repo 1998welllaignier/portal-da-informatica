@@ -132,6 +132,40 @@ PORTAL.registrarAtividades("informatica-7ano-4bim-trilha", {
     vf: [{ v: false, why: "O código é só seu: nunca passe para ninguém." }, { v: true }, { v: true }]
   },
 
+  /* ======================= MISSÃO 4 ======================= */
+  m4: (function () {
+    const bairro = {
+      vertices: [{ id: "C", rot: "Casa", x: 70, y: 180 }, { id: "Pa", rot: "Padaria", x: 260, y: 60 }, { id: "E", rot: "Escola", x: 450, y: 180 }],
+      arestas: [["C", "Pa", 3], ["Pa", "E", 2], ["C", "E", 9]]
+    };
+    return {
+      pratica: [
+        { tipo: "sim_grafo", titulo: "Leve o amigo até a escola pelo caminho mais rápido",
+          enunciado: "<p>Clique nos lugares, um depois do outro, saindo de <strong>Casa</strong> até a <strong>Escola</strong>. Some os números. Depois clique em <strong>Verificar</strong>.</p>",
+          vertices: { casa: { nome: "Casa", ic: "🏠", x: 45, y: 120 }, padaria: { nome: "Padaria", ic: "🥖", x: 200, y: 45 }, escola: { nome: "Escola", ic: "🏫", x: 360, y: 120 } },
+          arestas: [["casa", "padaria", 3], ["padaria", "escola", 2], ["casa", "escola", 9]],
+          inicio: "casa", fim: "escola", menor: 5, solucao: ["casa", "padaria", "escola"], unidade: "min",
+          dicas: ["3 + 2 = 5. A rua direta é 9."],
+          explicacao: "Casa → Padaria → Escola = 3 + 2 = <strong>5 min</strong>. É menos que 9!" }
+      ],
+      basico: [
+        { tipo: "classificar", titulo: "Passo 1 · Lugar ou rua?",
+          categorias: [{ id: "V", rot: "Vértice", ic: "⚪", desc: "é um lugar" }, { id: "A", rot: "Aresta", ic: "➖", desc: "é uma rua (linha)" }],
+          itens: [{ t: "A escola", ic: "🏫", c: "V" }, { t: "A rua da padaria", ic: "🛣️", c: "A" }, { t: "A praça", ic: "🌳", c: "V" }, { t: "A rua da escola", ic: "🛣️", c: "A" }],
+          explicacao: "Lugar = <strong>vértice</strong>. Rua = <strong>aresta</strong>." },
+        { tipo: "tabela", titulo: "Passo 2 · Some os números",
+          linhas: [["Casa → Padaria → Escola = 3 + 2 =", { r: "5", tipo: "num", w: 3 }], ["Casa → Escola (rua direta) =", { r: "9", tipo: "num", w: 3 }]],
+          explicacao: "3 + 2 = 5 e a rua direta é 9." },
+        { tipo: "escolha", titulo: "Passo 3 · Qual é o mais curto?",
+          perguntas: [{ p: "Qual caminho é o mais curto?", opcoes: ["Casa → Padaria → Escola (5 minutos)", "Casa → Escola (9 minutos)"], certo: 0, why: "5 é menor que 9." }],
+          explicacao: "O mais curto é o de <strong>menor soma</strong>: pela Padaria, 5 minutos." },
+        Object.assign({ tipo: "grafo", titulo: "Passo 4 · Trace o caminho mais curto", de: "C", para: "E", unidade: "minutos", descricao: "Grafo com Casa, Padaria e Escola" }, bairro,
+          { enunciado: "<p>Clique na Casa, depois na Padaria e depois na Escola.</p>", explicacao: "Casa → Padaria → Escola = 5 minutos." })
+      ],
+      vf: [{ v: true }, { v: false, why: "O mais curto é o de MENOR soma." }, { v: true }]
+    };
+  })(),
+
   /* ======================= PROJETO FINAL ======================= */
   pf: {
     basico: [
