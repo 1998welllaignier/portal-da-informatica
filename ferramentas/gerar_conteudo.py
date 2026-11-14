@@ -135,6 +135,8 @@ def missao_id(titulo, idx):
         return "m" + m.group(1)
     if "Projeto final" in titulo:
         return "pf"
+    if "Revisão" in titulo:
+        return "rv"
     return "s%d" % idx
 
 

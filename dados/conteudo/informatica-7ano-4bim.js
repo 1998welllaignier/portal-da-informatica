@@ -760,6 +760,60 @@ PORTAL.registrarConteudo("informatica-7ano-4bim", {
    "autoavaliacao": []
   },
   {
+   "id": "rv",
+   "icone": "🔁",
+   "titulo": "Revisão para a prova",
+   "objetivo": "revisar, fazendo atividades, todas as missões que a sua turma estudou, para chegar preparado à prova.",
+   "comecar": [
+    {
+     "t": "p",
+     "h": "Hoje é dia de <strong>revisão</strong>, e a aula inteira tem atividade, como numa missão. O portal mostra <strong>só as missões que a sua turma estudou</strong>: é exatamente isso que cai na prova."
+    },
+    {
+     "t": "p",
+     "h": "Em cada missão, faça assim:"
+    },
+    {
+     "t": "tabela",
+     "cab": [
+      "Passo",
+      "O que fazer"
+     ],
+     "linhas": [
+      [
+       "📚 1. Relembre",
+       "Leia o resumo da missão e os termos principais"
+      ],
+      [
+       "🟢 2. Pratique",
+       "Faça as atividades daquela missão (correção automática)"
+      ],
+      [
+       "🔁 3. Errou?",
+       "Leia a explicação, volte ao 📚 Relembre e tente de novo"
+      ]
+     ]
+    },
+    {
+     "t": "p",
+     "h": "Terminou o Básico de todas as missões? Siga para o 🟡 <strong>Desafio</strong> e o 🔴 <strong>Turbo</strong>: eles misturam as missões, como na prova."
+    },
+    {
+     "t": "p",
+     "h": "<strong>Dica de prova:</strong> tudo o que cai está nos <strong>Resumos da Aula</strong> e nas <strong>Perguntas rápidas</strong> de cada missão. Você pode abrir a missão no portal para reler quando quiser."
+    }
+   ],
+   "termos": [],
+   "ondeUso": {
+    "itens": [],
+    "reflexao": ""
+   },
+   "alertas": [],
+   "vf": [],
+   "resumo": null,
+   "autoavaliacao": []
+  },
+  {
    "id": "pf",
    "icone": "🏁",
    "titulo": "Projeto final – Meu Passaporte de Missões",

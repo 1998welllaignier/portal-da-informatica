@@ -139,6 +139,16 @@ Para **achar** um arquivo, digite o nome dele na **lupa 🔍**.
 O computador guarda tudo em **bits** (0 e 1). **KB** é pequeno, **MB** é médio e **GB** é grande. **Compactar** junta arquivos num **.zip**. Para achar um arquivo, uso a **lupa 🔍**.
 **Palavras-chave:** bit · KB · MB · GB · compactar · buscar
 
+## 🔁 Revisão para a prova
+**Objetivo:** relembrar as missões que a sua turma estudou, um passo de cada vez.
+📅 **Data da aula:** ........ / ........
+### 💡 Para começar
+Hoje é dia de **revisão**. O portal mostra **só as missões que a sua turma estudou**.
+Em cada missão:
+- 📚 **leia** o resumo;
+- 🟢 **faça** as atividades;
+- 🔁 errou? Leia a explicação e tente de novo.
+
 ## 🏁 Projeto final – Meu Passaporte de Missões
 **Objetivo:** conferir as missões concluídas, completar o que faltou e mostrar o que você aprendeu no bimestre.
 📅 **Data da aula:** ........ / ........

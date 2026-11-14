@@ -465,6 +465,20 @@ Na Missão 3 você viu que a IA pode criar deepfakes. Mas a **inteligência arti
 A **inteligência artificial** aprende com muitos **exemplos** (os **dados**): coleta, **treina** procurando **padrões**, testa e usa. Ela está no corretor do teclado, nas **recomendações**, no tradutor e no **reconhecimento facial**. A IA também erra: com exemplos ruins aparece o **viés**, e o **chatbot** pode inventar respostas, por isso conferimos. Os **impactos** são bons (saúde, acessibilidade, campo, trânsito) e pedem cuidado (dados pessoais, empregos que mudam, deepfakes, energia). Na escola: usar para estudar, conferir, não pôr dados pessoais e dizer quando usou.
 **Palavras-chave:** inteligência artificial · dados · padrão · treinar · viés · chatbot · recomendação · impacto
 
+## 🔁 Revisão para a prova
+**Objetivo:** revisar, fazendo atividades, todas as missões que a sua turma estudou, para chegar preparado à prova.
+📅 **Data da aula:** ........ / ........
+### 💡 Para começar
+Hoje é dia de **revisão**, e a aula inteira tem atividade, como numa missão. O portal mostra **só as missões que a sua turma estudou**: é exatamente isso que cai na prova.
+Em cada missão, faça assim:
+| Passo | O que fazer |
+| 📚 1. Relembre | Leia o resumo da missão e os termos principais |
+| 🟢 2. Pratique | Faça as atividades daquela missão (correção automática) |
+| 🔁 3. Errou? | Leia a explicação, volte ao 📚 Relembre e tente de novo |
+
+Terminou o Básico de todas as missões? Siga para o 🟡 **Desafio** e o 🔴 **Turbo**: eles misturam as missões, como na prova.
+**Dica de prova:** tudo o que cai está nos **Resumos da Aula** e nas **Perguntas rápidas** de cada missão. Você pode abrir a missão no portal para reler quando quiser.
+
 ## 🏁 Projeto final – Meu Passaporte de Missões
 **Objetivo:** conferir as missões concluídas, completar o que faltou e registrar o que você aprendeu no bimestre.
 📅 **Data da aula:** ........ / ........

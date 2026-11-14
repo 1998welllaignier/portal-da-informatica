@@ -376,6 +376,20 @@ A **LGPD** (Lei Geral de Proteção de Dados) dá direitos a você: **saber** qu
 Os **termos de uso** são um **contrato**: clicar em “Aceito” é concordar com tudo. Neles e na **política de privacidade** procuramos a **idade mínima**, os **dados coletados**, o **compartilhamento** com parceiros, o uso para **publicidade**, a **licença** sobre o que publicamos e como **excluir a conta**. Serviço grátis costuma ser pago com **propaganda** e **dados**. A **LGPD** garante o direito de **saber, corrigir e pedir para apagar** os dados e de **retirar o consentimento**. Antes de aceitar: que dados pega, com quem compartilha e se dá para apagar a conta.
 **Palavras-chave:** termos de uso · política de privacidade · contrato · consentimento · compartilhamento · publicidade personalizada · licença · LGPD
 
+## 🔁 Revisão para a prova
+**Objetivo:** revisar, fazendo atividades, todas as missões que a sua turma estudou, para chegar preparado à prova.
+📅 **Data da aula:** ........ / ........
+### 💡 Para começar
+Hoje é dia de **revisão**, e a aula inteira tem atividade, como numa missão. O portal mostra **só as missões que a sua turma estudou**: é exatamente isso que cai na prova.
+Em cada missão, faça assim:
+| Passo | O que fazer |
+| 📚 1. Relembre | Leia o resumo da missão e os termos principais |
+| 🟢 2. Pratique | Faça as atividades daquela missão (correção automática) |
+| 🔁 3. Errou? | Leia a explicação, volte ao 📚 Relembre e tente de novo |
+
+Terminou o Básico de todas as missões? Siga para o 🟡 **Desafio** e o 🔴 **Turbo**: eles misturam as missões, como na prova.
+**Dica de prova:** tudo o que cai está nos **Resumos da Aula** e nas **Perguntas rápidas** de cada missão. Você pode abrir a missão no portal para reler quando quiser.
+
 ## 🏁 Projeto final – Meu Passaporte de Missões
 **Objetivo:** conferir as missões concluídas, completar o que faltou e registrar o que você aprendeu no bimestre.
 📅 **Data da aula:** ........ / ........

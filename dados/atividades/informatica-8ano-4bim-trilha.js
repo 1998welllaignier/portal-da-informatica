@@ -165,6 +165,20 @@ PORTAL.registrarAtividades("informatica-8ano-4bim-trilha", {
     vf: [{ v: true }, { v: false, why: "Aplicativo grátis costuma ganhar dinheiro com propaganda." }, { v: true }]
   },
 
+  /* ======================= 🔁 REVISÃO (só as missões que a turma estudou) ======================= */
+  rv: {
+    basico: [
+      { tipo: "relembre", de: "m1" },
+      { tipo: "escolha", de: "m1", titulo: "M1 · Responda", perguntas: [{ p: "A busca binária precisa da lista:", opcoes: ["Em ordem", "Bagunçada"], certo: 0 }], explicacao: "A busca binária precisa da lista: Em ordem." },
+      { tipo: "relembre", de: "m2" },
+      { tipo: "escolha", de: "m2", titulo: "M2 · Responda", perguntas: [{ p: "Guardar fotos na nuvem é guardar:", opcoes: ["Em servidores, pela internet", "No céu"], certo: 0 }], explicacao: "Guardar fotos na nuvem é guardar: Em servidores, pela internet." },
+      { tipo: "relembre", de: "m3" },
+      { tipo: "escolha", de: "m3", titulo: "M3 · Responda", perguntas: [{ p: "Meu telefone é um:", opcoes: ["Dado pessoal", "Dado de ninguém"], certo: 0 }], explicacao: "Meu telefone é um: Dado pessoal." },
+      { tipo: "relembre", de: "m4" },
+      { tipo: "escolha", de: "m4", titulo: "M4 · Responda", perguntas: [{ p: "“Li e aceito” é:", opcoes: ["Um contrato", "Nada"], certo: 0 }], explicacao: "“Li e aceito” é: Um contrato." },
+    ]
+  },
+
   /* ======================= PROJETO FINAL ======================= */
   pf: {
     basico: [

@@ -151,6 +151,16 @@ A IA **também erra**. Por isso eu **confiro** as respostas dela.
 A **IA** aprende com **exemplos**. Ela está no teclado, nos vídeos e no tradutor. Ela **erra**, então eu **confiro**, e **não coloco meus dados pessoais**.
 **Palavras-chave:** IA · exemplos · chatbot · conferir
 
+## 🔁 Revisão para a prova
+**Objetivo:** relembrar as missões que a sua turma estudou, um passo de cada vez.
+📅 **Data da aula:** ........ / ........
+### 💡 Para começar
+Hoje é dia de **revisão**. O portal mostra **só as missões que a sua turma estudou**.
+Em cada missão:
+- 📚 **leia** o resumo;
+- 🟢 **faça** as atividades;
+- 🔁 errou? Leia a explicação e tente de novo.
+
 ## 🏁 Projeto final – Meu Passaporte de Missões
 **Objetivo:** conferir as missões concluídas, completar o que faltou e mostrar o que você aprendeu no bimestre.
 📅 **Data da aula:** ........ / ........

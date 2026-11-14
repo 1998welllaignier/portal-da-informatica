@@ -333,6 +333,61 @@
       ]
     },
 
+    /* ======================= 🔁 REVISÃO PARA A PROVA =======================
+       Cada atividade tem "de" (a missão). O portal mostra só as missões que a turma estudou. */
+    rv: {
+      basico: [
+        { tipo: "relembre", de: "m1" },
+        { tipo: "tabela", de: "m1", titulo: "M1 · Grafo: Casa —3— Praça —2— Escola e Casa —4— Mercado —4— Escola",
+          linhas: [["Casa → Praça → Escola soma:", { r: "5", tipo: "num", w: 3 }], ["Casa → Mercado → Escola soma:", { r: "8", tipo: "num", w: 3 }], ["Qual é o mais curto?", { op: ["Pela Praça", "Pelo Mercado"], r: "Pela Praça" }]],
+          explicacao: "3 + 2 = 5 e 4 + 4 = 8: o mais curto é pela Praça (menor soma dos pesos)." },
+        { tipo: "escolha", de: "m1", titulo: "M1 · Árvores",
+          perguntas: [
+            { p: "Uma árvore é um grafo:", opcoes: ["Sem ciclos, que começa na raiz e termina nas folhas", "Com muitos ciclos", "Sem vértices"], certo: 0 },
+            { p: "Na árvore de pastas, a pasta onde tudo começa é a:", opcoes: ["Raiz", "Folha", "Aresta"], certo: 0 },
+            { p: "Na árvore de decisão, cada folha é:", opcoes: ["Uma resposta", "Uma pergunta", "Um peso"], certo: 0 }],
+          explicacao: "Árvore = grafo sem ciclos, da raiz às folhas. Na árvore de decisão, os vértices são perguntas de sim ou não e as folhas são respostas." },
+        { tipo: "relembre", de: "m2" },
+        { tipo: "tabela", de: "m2", titulo: "M2 · Cifra de César com chave 1 (cada letra anda 1 casa)",
+          linhas: [["Cifre a palavra CASA:", { r: ["DBTB"], tipo: "letras", w: 8, dica: "C → D, A → B, S → T, A → B" }], ["Decifre a palavra PJ (chave 1, volte 1 casa):", { r: ["OI"], tipo: "letras", w: 6 }]],
+          explicacao: "Com chave 1, cada letra anda 1 casa: CASA → DBTB. Para decifrar, volta 1 casa: PJ → OI." },
+        { tipo: "classificar", modo: "tabela", de: "m2", titulo: "M2 · Qual ataque é esse?", colunaItem: "Situação", colunaResp: "Ataque",
+          categorias: [{ id: "F", rot: "Força bruta" }, { id: "R", rot: "Ransomware" }, { id: "E", rot: "Engenharia social" }, { id: "D", rot: "DDoS" }],
+          itens: [{ t: "Um programa testa todas as senhas possíveis", c: "F" }, { t: "Os arquivos são criptografados e pedem resgate", c: "R" }, { t: "Alguém finge ser do suporte para pegar a sua senha", c: "E" }, { t: "Milhões de pedidos ao mesmo tempo derrubam o site", c: "D" }],
+          explicacao: "Força bruta testa senhas; ransomware sequestra arquivos (defesa: backup); engenharia social engana a pessoa; DDoS derruba o site." },
+        { tipo: "relembre", de: "m3" },
+        { tipo: "escolha", de: "m3", titulo: "M3 · Autoria e imagem",
+          perguntas: [
+            { p: "Copiar o trabalho de outra pessoa e dizer que é seu é:", opcoes: ["Plágio", "Domínio público", "Crédito"], certo: 0 },
+            { p: "Na licença CC BY, posso usar a obra desde que:", opcoes: ["Dê o crédito ao autor", "Diga que é minha", "Pague a escola"], certo: 0 },
+            { p: "Publicar a foto de um colega sem autorização desrespeita o:", opcoes: ["Direito de imagem", "DNS", "Backup"], certo: 0 }],
+          explicacao: "Plágio = apresentar como seu. CC BY = usar dando crédito. Direito de imagem = precisa de autorização." },
+        { tipo: "classificar", modo: "tabela", de: "m3", titulo: "M3 · Sinal de deepfake ou não prova nada?", colunaItem: "Observação", colunaResp: "Sinal?",
+          categorias: [{ id: "S", rot: "🚩 Sinal de alerta" }, { id: "N", rot: "Não prova nada" }],
+          itens: [{ t: "A boca não acompanha a fala", c: "S" }, { t: "Famoso “dando” celular por um link", c: "S" }, { t: "O vídeo tem imagem de ótima qualidade", c: "N", why: "Deepfake também pode ter ótima qualidade." }, { t: "Voz robótica", c: "S" }],
+          explicacao: "Boca fora de sincronia, voz robótica e promessa fácil por link são alertas. Boa qualidade não prova que é verdade." },
+        { tipo: "relembre", de: "m4" },
+        { tipo: "ordenar", de: "m4", titulo: "M4 · Como a IA aprende: em ordem",
+          itens: ["Coletar muitos exemplos (dados)", "Treinar: achar padrões", "Testar com exemplos novos", "Usar para fazer previsões"],
+          explicacao: "Coletar → treinar → testar → usar." },
+        { tipo: "escolha", de: "m4", titulo: "M4 · IA com responsabilidade",
+          perguntas: [{ p: "Exemplos poucos ou de um tipo só fazem a IA aprender errado. Isso é:", opcoes: ["Viés", "Backup", "Plágio"], certo: 0 }, { p: "O chatbot deu uma resposta. Eu:", opcoes: ["Confiro em outras fontes", "Copio sem ler", "Coloco os dados dos colegas"], certo: 0 }],
+          explicacao: "Viés vem de exemplos ruins. O chatbot pode inventar: sempre confira." }
+      ],
+      desafio: [
+        { tipo: "escolha", de: "m1", titulo: "Desafio M1", perguntas: [{ p: "Por que um grafo com ciclo não é uma árvore?", opcoes: ["Porque árvore nunca tem ciclo", "Porque tem pesos", "Porque tem mais de 3 vértices"], certo: 0 }] },
+        { tipo: "escolha", de: "m2", titulo: "Desafio M2", perguntas: [{ p: "Qual é a melhor defesa contra o ransomware?", opcoes: ["Ter backup dos arquivos", "Pagar o resgate", "Desligar o monitor"], certo: 0 }, { p: "Por que senhas longas são mais seguras contra a força bruta?", opcoes: ["Porque há muito mais combinações para testar", "Porque são mais bonitas", "Porque o site gosta"], certo: 0 }] },
+        { tipo: "escolha", de: "m3", titulo: "Desafio M3", perguntas: [{ p: "Uma notícia falsa feita para ganhar cliques e propaganda foi espalhada por:", opcoes: ["Dinheiro", "Humor", "Engano"], certo: 0 }] },
+        { tipo: "escolha", de: "m4", titulo: "Desafio M4", perguntas: [{ p: "Câmeras com reconhecimento facial na praça: qual é o maior cuidado?", opcoes: ["Proteger os dados do rosto das pessoas", "A cor da câmera", "O tamanho do poste"], certo: 0 }] }
+      ],
+      turbo: [
+        { tipo: "escolha", de: "m1", titulo: "Turbo · Simulado M1", perguntas: [{ p: "O caminho mais curto é o de:", opcoes: ["Menor soma dos pesos", "Menos paradas", "Mais ruas"], certo: 0 }] },
+        { tipo: "escolha", de: "m2", titulo: "Turbo · Simulado M2", perguntas: [{ p: "Só quem tem a chave consegue:", opcoes: ["Decifrar a mensagem", "Ver o cadeado", "Ligar o computador"], certo: 0 }] },
+        { tipo: "escolha", de: "m3", titulo: "Turbo · Simulado M3", perguntas: [{ p: "Obras de domínio público:", opcoes: ["Todos podem usar livremente", "Ninguém pode usar", "Só o autor pode ver"], certo: 0 }] },
+        { tipo: "escolha", de: "m4", titulo: "Turbo · Simulado M4", perguntas: [{ p: "A IA aprende com:", opcoes: ["Muitos exemplos", "Mágica", "Nenhum dado"], certo: 0 }] }
+      ]
+    },
+
     /* ======================= PROJETO FINAL ======================= */
     pf: {
       basico: [

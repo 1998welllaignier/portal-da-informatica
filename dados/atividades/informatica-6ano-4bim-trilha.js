@@ -164,6 +164,20 @@ PORTAL.registrarAtividades("informatica-6ano-4bim-trilha", {
     vf: [{ v: true }, { v: false, why: "O filme é MUITO maior que o texto." }, { v: true }]
   },
 
+  /* ======================= 🔁 REVISÃO (só as missões que a turma estudou) ======================= */
+  rv: {
+    basico: [
+      { tipo: "relembre", de: "m1" },
+      { tipo: "escolha", de: "m1", titulo: "M1 · Responda", perguntas: [{ p: "O teclado é de:", opcoes: ["Entrada", "Saída"], certo: 0 }], explicacao: "O teclado é de: Entrada." },
+      { tipo: "relembre", de: "m2" },
+      { tipo: "escolha", de: "m2", titulo: "M2 · Responda", perguntas: [{ p: "Repetir um passo várias vezes é:", opcoes: ["Repetição", "Seleção"], certo: 0 }], explicacao: "Repetir um passo várias vezes é: Repetição." },
+      { tipo: "relembre", de: "m3" },
+      { tipo: "escolha", de: "m3", titulo: "M3 · Responda", perguntas: [{ p: "Celular quebrado vai para:", opcoes: ["O ponto de coleta", "O lixo comum"], certo: 0 }], explicacao: "Celular quebrado vai para: O ponto de coleta." },
+      { tipo: "relembre", de: "m4" },
+      { tipo: "escolha", de: "m4", titulo: "M4 · Responda", perguntas: [{ p: "O computador guarda tudo com:", opcoes: ["0 e 1", "Desenhos"], certo: 0 }], explicacao: "O computador guarda tudo com: 0 e 1." },
+    ]
+  },
+
   /* ======================= PROJETO FINAL ======================= */
   pf: {
     basico: [

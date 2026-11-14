@@ -354,6 +354,65 @@ PORTAL.registrarAtividades("informatica-7ano-4bim", {
     };
   })(),
 
+  /* ======================= 🔁 REVISÃO PARA A PROVA =======================
+     Cada atividade tem "de" (a missão). O portal mostra só as missões que a turma estudou. */
+  rv: {
+    basico: [
+      { tipo: "relembre", de: "m1" },
+      { tipo: "ligar", de: "m1", titulo: "M1 · Ligue cada termo ao seu significado",
+        pares: [{ a: "Rede", b: "Aparelhos ligados para trocar informações" }, { a: "Internet", b: "Rede de redes que liga o mundo todo" }, { a: "Pacote", b: "Pedaço numerado da mensagem que viaja pela rede" }, { a: "Endereço IP", b: "Número que identifica cada aparelho na rede" }, { a: "Protocolo", b: "Regras que os aparelhos combinam para se entender" }],
+        explicacao: "Rede liga aparelhos; internet é a rede de redes; a mensagem viaja em pacotes; cada aparelho tem um IP; protocolos são as regras." },
+      { tipo: "escolha", de: "m1", titulo: "M1 · Como a mensagem viaja",
+        perguntas: [
+          { p: "O aparelho que encaminha os pacotes pelo melhor caminho é o:", opcoes: ["Roteador", "Monitor", "Teclado"], certo: 0 },
+          { p: "O cadeado e o https no navegador mostram que:", opcoes: ["A conexão é protegida", "O site é grátis", "O site é antigo"], certo: 0 },
+          { p: "Os pacotes chegam fora de ordem. O que acontece?", opcoes: ["São montados na ordem certa pelos números", "A mensagem se perde", "O computador desliga"], certo: 0 }],
+        explicacao: "Roteador encaminha os pacotes; https = conexão protegida; os pacotes são numerados e montados na ordem no destino." },
+      { tipo: "relembre", de: "m2" },
+      { tipo: "classificar", modo: "tabela", de: "m2", titulo: "M2 · Qual ideia é essa?", colunaItem: "Situação", colunaResp: "Ideia",
+        categorias: [{ id: "D", rot: "Decomposição" }, { id: "L", rot: "Lista" }, { id: "R", rot: "Reúso" }, { id: "B", rot: "Depuração" }],
+        itens: [{ t: "Dividir “organizar a festa” em convites, comida e música", c: "D" }, { t: "CORES = [azul, verde, amarelo]", c: "L" }, { t: "Usar o bloco DESENHAR CASA três vezes", c: "R" }, { t: "Testar o algoritmo e corrigir o passo errado", c: "B" }],
+        explicacao: "Decomposição divide; lista guarda em ordem; reúso chama o bloco pelo nome; depuração acha e corrige bugs." },
+      { tipo: "tabela", de: "m2", titulo: "M2 · A lista FRUTAS = [maçã, uva, pera, manga]",
+        linhas: [["Quem está na posição 2?", { r: ["uva"], tipo: "letras", w: 10 }], ["Qual é a posição de manga?", { r: "4", tipo: "num", w: 3 }], ["Quantos itens a lista tem?", { r: "4", tipo: "num", w: 3 }]],
+        explicacao: "A primeira posição é a 1: maçã (1), uva (2), pera (3), manga (4)." },
+      { tipo: "relembre", de: "m3" },
+      { tipo: "classificar", modo: "tabela", de: "m3", titulo: "M3 · Golpe ou seguro?", colunaItem: "Mensagem", colunaResp: "G ou S",
+        categorias: [{ id: "G", rot: "Golpe" }, { id: "S", rot: "Seguro" }],
+        itens: [{ t: "“Troquei de número, me passa o código que chegou aí?”", c: "G" }, { t: "“Você ganhou um prêmio! Clique em 10 minutos!”", c: "G" }, { t: "Você pediu o código no aplicativo e ele avisa: “não compartilhe”", c: "S" }, { t: "“Sua conta será bloqueada hoje: atualize no link”", c: "G" }],
+        explicacao: "Pedido de código, prêmio com pressa e link para “atualizar” são golpe. O aviso do próprio aplicativo, quando você pediu o código, é seguro." },
+      { tipo: "escolha", de: "m3", titulo: "M3 · Proteção e convivência",
+        perguntas: [
+          { p: "A verificação em duas etapas pede:", opcoes: ["A senha e mais um código", "Só o nome", "Duas senhas iguais"], certo: 0 },
+          { p: "Diante do cyberbullying, eu:", opcoes: ["Guardo provas, bloqueio, denuncio e conto a um adulto", "Respondo com ofensa", "Compartilho para todos verem"], certo: 0 }],
+        explicacao: "Duas etapas = senha + código. Cyberbullying: print, bloquear, denunciar, contar a um adulto." },
+      { tipo: "relembre", de: "m4" },
+      { tipo: "tabela", de: "m4", titulo: "M4 · O grafo: Casa —2— Feira —2— Escola e Casa —6— Escola",
+        linhas: [["Casa → Feira → Escola soma quantos minutos?", { r: "4", tipo: "num", w: 3 }], ["Qual é o caminho mais curto?", { op: ["Casa → Feira → Escola", "Casa → Escola (direto)"], r: "Casa → Feira → Escola" }], ["Quantos vértices tem o grafo?", { r: "3", tipo: "num", w: 3 }]],
+        explicacao: "2 + 2 = 4, menor que 6: o mais curto é pela Feira. Os vértices são Casa, Feira e Escola (3)." },
+      { tipo: "escolha", de: "m4", titulo: "M4 · Partes do grafo",
+        perguntas: [{ p: "No mapa, a rua que liga dois lugares é:", opcoes: ["Uma aresta", "Um vértice", "Um peso"], certo: 0 }, { p: "O grau de um vértice é:", opcoes: ["Quantas arestas chegam nele", "A distância até a escola", "A cor do vértice"], certo: 0 }],
+        explicacao: "Rua = aresta; lugar = vértice; número da rua = peso. Grau = quantas arestas chegam no vértice." }
+    ],
+    desafio: [
+      { tipo: "escolha", de: "m1", titulo: "Desafio M1",
+        perguntas: [{ p: "Por que os pacotes de uma mensagem são numerados?", opcoes: ["Para serem montados na ordem certa no destino", "Para ficarem mais bonitos", "Para pagar a internet"], certo: 0 }] },
+      { tipo: "escolha", de: "m2", titulo: "Desafio M2 · Caça ao bug",
+        enunciado: "<p><em>Repita 3 vezes: ande 5 passos e vire à direita</em> deveria desenhar um quadrado.</p>",
+        perguntas: [{ p: "Como fica o algoritmo corrigido?", opcoes: ["Repita 4 vezes: ande 5 passos e vire à direita", "Repita 3 vezes: ande 4 passos", "Repita 5 vezes: vire à esquerda"], certo: 0, why: "Quadrado tem 4 lados." }] },
+      { tipo: "escolha", de: "m3", titulo: "Desafio M3",
+        perguntas: [{ p: "Uma mensagem sem nenhum erro de português pode ser golpe?", opcoes: ["Sim: texto sem erro, sozinho, não prova que é verdade", "Não, nunca", "Só se tiver emoji"], certo: 0 }] },
+      { tipo: "escolha", de: "m4", titulo: "Desafio M4",
+        perguntas: [{ p: "Se uma rua do caminho mais curto for fechada, o que acontece?", opcoes: ["O caminho mais curto pode mudar, e o GPS calcula outro", "O grafo some", "Nada muda"], certo: 0 }] }
+    ],
+    turbo: [
+      { tipo: "escolha", de: "m1", titulo: "Turbo · Simulado M1", perguntas: [{ p: "A internet é:", opcoes: ["Uma rede de redes", "Um computador só", "Um programa"], certo: 0 }] },
+      { tipo: "escolha", de: "m2", titulo: "Turbo · Simulado M2", perguntas: [{ p: "Depois de corrigir um erro, eu:", opcoes: ["Testo de novo", "Não testo mais", "Apago o algoritmo"], certo: 0 }] },
+      { tipo: "escolha", de: "m3", titulo: "Turbo · Simulado M3", perguntas: [{ p: "Phishing é:", opcoes: ["Mensagem falsa com uma isca para roubar dados", "Um antivírus", "Um tipo de pacote"], certo: 0 }] },
+      { tipo: "escolha", de: "m4", titulo: "Turbo · Simulado M4", perguntas: [{ p: "O caminho mais curto é o de:", opcoes: ["Menor soma dos pesos", "Menos ruas", "Mais vértices"], certo: 0 }] }
+    ]
+  },
+
   /* ======================= PROJETO FINAL ======================= */
   pf: {
     basico: [

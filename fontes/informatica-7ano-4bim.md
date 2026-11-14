@@ -428,6 +428,20 @@ Grafos também mostram **pessoas**: cada pessoa é um vértice, e cada amizade �
 Um **grafo** mostra o que está ligado a quê: os **vértices** são os pontos (lugares, pessoas, computadores) e as **arestas** são as linhas que os ligam. O **peso** de uma aresta pode ser distância, tempo ou preço. Um **caminho** passa de vértice em vértice pelas arestas, e o **caminho mais curto** é o que tem a **menor soma de pesos**, que nem sempre é o que tem menos arestas. O **grau** mostra quantas conexões um vértice tem. É assim que o **GPS** calcula rotas e que as redes sociais sugerem amigos.
 **Palavras-chave:** grafo · vértice · aresta · peso · caminho · caminho mais curto · grau · rota
 
+## 🔁 Revisão para a prova
+**Objetivo:** revisar, fazendo atividades, todas as missões que a sua turma estudou, para chegar preparado à prova.
+📅 **Data da aula:** ........ / ........
+### 💡 Para começar
+Hoje é dia de **revisão**, e a aula inteira tem atividade, como numa missão. O portal mostra **só as missões que a sua turma estudou**: é exatamente isso que cai na prova.
+Em cada missão, faça assim:
+| Passo | O que fazer |
+| 📚 1. Relembre | Leia o resumo da missão e os termos principais |
+| 🟢 2. Pratique | Faça as atividades daquela missão (correção automática) |
+| 🔁 3. Errou? | Leia a explicação, volte ao 📚 Relembre e tente de novo |
+
+Terminou o Básico de todas as missões? Siga para o 🟡 **Desafio** e o 🔴 **Turbo**: eles misturam as missões, como na prova.
+**Dica de prova:** tudo o que cai está nos **Resumos da Aula** e nas **Perguntas rápidas** de cada missão. Você pode abrir a missão no portal para reler quando quiser.
+
 ## 🏁 Projeto final – Meu Passaporte de Missões
 **Objetivo:** conferir as missões concluídas, completar o que faltou e registrar o que você aprendeu no bimestre.
 📅 **Data da aula:** ........ / ........

@@ -156,6 +156,20 @@ PORTAL.registrarAtividades("informatica-9ano-4bim-trilha", {
     vf: [{ v: true }, { v: false, why: "A IA erra: por isso eu confiro." }, { v: true }]
   },
 
+  /* ======================= 🔁 REVISÃO (só as missões que a turma estudou) ======================= */
+  rv: {
+    basico: [
+      { tipo: "relembre", de: "m1" },
+      { tipo: "escolha", de: "m1", titulo: "M1 · Responda", perguntas: [{ p: "No grafo, cada lugar é um:", opcoes: ["Vértice", "Peso"], certo: 0 }], explicacao: "No grafo, cada lugar é um: Vértice." },
+      { tipo: "relembre", de: "m2" },
+      { tipo: "escolha", de: "m2", titulo: "M2 · Responda", perguntas: [{ p: "Só quem tem a chave consegue:", opcoes: ["Decifrar a mensagem", "Ver o cadeado"], certo: 0 }], explicacao: "Só quem tem a chave consegue: Decifrar a mensagem." },
+      { tipo: "relembre", de: "m3" },
+      { tipo: "escolha", de: "m3", titulo: "M3 · Responda", perguntas: [{ p: "Copiar e dizer que é meu é:", opcoes: ["Plágio", "Crédito"], certo: 0 }], explicacao: "Copiar e dizer que é meu é: Plágio." },
+      { tipo: "relembre", de: "m4" },
+      { tipo: "escolha", de: "m4", titulo: "M4 · Responda", perguntas: [{ p: "A IA aprende com:", opcoes: ["Muitos exemplos", "Mágica"], certo: 0 }], explicacao: "A IA aprende com: Muitos exemplos." },
+    ]
+  },
+
   /* ======================= PROJETO FINAL ======================= */
   pf: {
     basico: [

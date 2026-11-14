@@ -194,7 +194,14 @@
     const m = C.missoes.find(x => x.id === mid);
     const a = A[mid] || {};
     const pages = [];
-    const ativ = (lvl, arr) => (arr || []).map((x, i) => Object.assign({ nivel: lvl }, x, { id: x.id || (mid + "-" + lvl + "-" + (i + 1)) }));
+    /* 🔁 Revisão (rv): cada atividade diz de qual missão é (de: "m1"…). Só entram as missões que a turma estudou
+       (P.revisaAtual, carregado na tela da missão; no painel, sem filtro = todas). O id vem ANTES do filtro, para não mudar. */
+    const rvSet = mid === "rv" && Array.isArray(P.revisaAtual) && P.revisaAtual.length ? new Set(P.revisaAtual) : null;
+    const relembre = x => { const mm = C.missoes.find(y => y.id === x.de); if (!mm) return null;
+      return Object.assign({}, x, { tipo: "info", titulo: "📚 Relembre: " + mm.titulo,
+        html: `<p>${md(mm.resumo ? mm.resumo.texto : "")}</p>${(mm.termos || []).length ? `<ul>${mm.termos.map(t => `<li><strong>${esc(t.termo)}</strong>: ${t.def}</li>`).join("")}</ul>` : ""}` }); };
+    const ativ = (lvl, arr) => (arr || []).map((x, i) => Object.assign({ nivel: lvl }, x, { id: x.id || (mid + "-" + lvl + "-" + (i + 1)) }))
+      .filter(x => !rvSet || !x.de || rvSet.has(x.de)).map(x => x.tipo === "relembre" ? relembre(x) : x).filter(Boolean);
     if (m.comecar && m.comecar.length) pages.push({ id: "comecar", rotulo: "Para começar", icone: "💡", tipo: "leitura" });
     // 🎮 Mão na massa: simulação logo na abertura (todos fazem; conta no Básico)
     if (a.pratica && a.pratica.length) pages.push({ id: "pratica", rotulo: (apostila(aid) || {}).trilha ? "Praticar" : "Mão na massa", icone: "🎮", tipo: "missao", atividades: ativ("basico", a.pratica).map(x => Object.assign(x, { id: x.id.replace("-basico-", "-pratica-") })) });
@@ -591,6 +598,7 @@
     if (!s) return telaSerie(a.serie, "#/apostila/" + aid);
     await carregar(aid);
     await restaurarNuvem(aid);
+    await carregarRevisa(s);
     modoTrilha(a);
     const C = P.conteudo[aid]; const se = serie(a.serie);
     barra(`<span>${esc(a.titulo)}</span>`);
@@ -634,6 +642,30 @@
     await Promise.race([P.nuvem.restaurar(aid).catch(e => console.warn(e)), new Promise(ok => setTimeout(ok, 4000))]);
   }
 
+  /* 🔁 Revisão: quais missões a turma estudou (para a Revisão mostrar só elas). Ordem: o que o painel gravou hoje
+     (config/hoje_<turma>.revisa, no ▶️ Iniciar a aula) → o plano da turma (config/plano_<turma>.revisa) → o cronograma
+     do catálogo (missões com data até hoje). Sem nada: mostra todas. */
+  let _rvCache = { k: "", t: 0, v: null };
+  async function carregarRevisa(s) {
+    if (!s || !s.turma) { P.revisaAtual = null; return; }
+    if (_rvCache.k === s.turma && Date.now() - _rvCache.t < 120000) { P.revisaAtual = _rvCache.v; return; }
+    let v = null;
+    if (s.nuvem && P.nuvem && P.nuvem.pronto) {
+      try {
+        const db = P.nuvem.db(), hoje = P.nuvem.hoje();
+        const [h, pl] = await Promise.race([Promise.all([db.collection("config").doc("hoje_" + s.turma).get(), db.collection("config").doc("plano_" + s.turma).get()]), new Promise((_, no) => setTimeout(() => no(new Error("tempo")), 4000))]);
+        const hd = h.exists ? h.data() : {}, pd = pl.exists ? pl.data() : {};
+        if (hd.dia === hoje && Array.isArray(hd.revisa) && hd.revisa.length) v = hd.revisa;
+        else if (Array.isArray(pd.revisa) && pd.revisa.length) v = pd.revisa;
+      } catch (e) {}
+    }
+    if (!v) { const t = turma(s.turma), hj = (P.nuvem && P.nuvem.hoje) ? P.nuvem.hoje() : new Date().toISOString().slice(0, 10);
+      const ms = t && t.missoes4 ? [...new Set(Object.entries(t.missoes4).filter(([d]) => d <= hj).map(([, m]) => m))].filter(m => /^m\d+$/.test(m)) : [];
+      v = ms.length ? ms : null; }
+    _rvCache = { k: s.turma, t: Date.now(), v }; P.revisaAtual = v;
+  }
+  P.carregarRevisa = carregarRevisa;
+
   /* -------- página de missão -------- */
   async function telaMissao(aid, mid, pid) {
     const s = sess.get(); const a = apostila(aid); if (!a) return telaInicio();
@@ -641,6 +673,7 @@
     if (s.serie !== a.serie) { toast("Esta apostila é de outra série."); location.hash = "#/apostilas"; return; }
     await carregar(aid);
     await restaurarNuvem(aid);
+    if (mid === "rv") await carregarRevisa(s);
     modoTrilha(a);
     const { m, pages } = montarMissao(aid, mid);
     if (!pages.length) return telaApostila(aid);
@@ -1254,7 +1287,7 @@
   function rotMis(aid, mid) {
     const C = P.conteudo[aid] || {}, m = (C.missoes || []).find(x => x.id === mid);
     const t = m ? String(m.titulo || "").replace(/^[^–]*–\s*/, "") : "";
-    return String(mid || "").toUpperCase() + (t ? " · " + t : "");
+    return (mid === "rv" ? "🔁" : String(mid || "").toUpperCase()) + (t ? " · " + t : "");
   }
   /* ⏱️ cronômetro do estudo em casa (fica no canto da tela; quando zera, as tarefas fecham) */
   let casaTimer = null;

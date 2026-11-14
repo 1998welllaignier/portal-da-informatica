@@ -529,6 +529,49 @@ PORTAL.registrarConteudo("informatica-9ano-4bim-trilha", {
    "autoavaliacao": []
   },
   {
+   "id": "rv",
+   "icone": "🔁",
+   "titulo": "Revisão para a prova",
+   "objetivo": "relembrar as missões que a sua turma estudou, um passo de cada vez.",
+   "comecar": [
+    {
+     "t": "p",
+     "h": "Hoje é dia de <strong>revisão</strong>. O portal mostra <strong>só as missões que a sua turma estudou</strong>."
+    },
+    {
+     "t": "p",
+     "h": "Em cada missão:"
+    },
+    {
+     "t": "lista",
+     "ord": false,
+     "itens": [
+      {
+       "nivel": 0,
+       "h": "📚 <strong>leia</strong> o resumo;"
+      },
+      {
+       "nivel": 0,
+       "h": "🟢 <strong>faça</strong> as atividades;"
+      },
+      {
+       "nivel": 0,
+       "h": "🔁 errou? Leia a explicação e tente de novo."
+      }
+     ]
+    }
+   ],
+   "termos": [],
+   "ondeUso": {
+    "itens": [],
+    "reflexao": ""
+   },
+   "alertas": [],
+   "vf": [],
+   "resumo": null,
+   "autoavaliacao": []
+  },
+  {
    "id": "pf",
    "icone": "🏁",
    "titulo": "Projeto final – Meu Passaporte de Missões",

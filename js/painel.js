@@ -67,7 +67,8 @@
   const nomeTurma = id => { const t = todasTurmas().find(x => x.id === id); return t ? t.nome + (t.serie.id === "5" ? " (5º ano)" : "") : id; };
   // 🏷️ missão sempre com número e título: "M2 · Listas e grafos no dia a dia" (pedido em 14/11/2026)
   const tituloCurto = m => String((m && m.titulo) || "").replace(/^[^–]*–\s*/, "");
-  const rotMis = (C, mid) => { const m = C && (C.missoes || []).find(x => x.id === mid); return String(mid || "").toUpperCase() + (m ? " · " + tituloCurto(m) : ""); };
+  const SIG = mid => mid === "rv" ? "🔁" : String(mid || "").toUpperCase(); // 🔁 Revisão não vira "RV"
+  const rotMis = (C, mid) => { const m = C && (C.missoes || []).find(x => x.id === mid); return SIG(mid) + (m ? " · " + tituloCurto(m) : ""); };
   // 🕘 nas listas de turma: nome + dia e hora da aula (ex.: "6º A · qui 13:30"), em todo lugar (pedido em 14/11/2026)
   const rotuloTurma = id => { const t = todasTurmas().find(x => x.id === id); return nomeTurma(id) + (t && t.aula && t.aula.ini ? " · " + ["dom", "seg", "ter", "qua", "qui", "sex", "sáb"][t.aula.dia] + " " + t.aula.ini : ""); };
   const dataBR = d => { const [a, m, dd] = d.split("-"); return `${dd}/${m}/${a}`; };
@@ -360,7 +361,7 @@
     // faixa da marca (aparece nas fotos que os alunos tiram do placar e do pódio): professor em destaque, turma, data e hora
     const marca = `<div class="pl-marca"><img src="img/icone-192.png?v=f2" alt="" width="64" height="64"><div class="pl-marca-txt"><b>💻 Aula de Informática</b><span>com o <strong>${esc(cat().professor)}</strong> · ${esc(nomeTurma(t.id))}</span></div>
       <div class="pl-marca-data"><span class="pl-data">📅 ${dataHoje()}</span><span class="pl-hora" id="pl-hora">🕒 ${horaAgora()}</span></div></div>`;
-    const el = tela(`<div class="pl-tela">${marca}<header class="pl-cab"><div><p class="pl-sup">🏆 Placar ao vivo · ${esc(nomeTurma(t.id))}</p><h1 id="pl-h1">${esc(missao.icone || "")} ${esc(missao.titulo || mid.toUpperCase())}</h1>
+    const el = tela(`<div class="pl-tela">${marca}<header class="pl-cab"><div><p class="pl-sup">🏆 Placar ao vivo · ${esc(nomeTurma(t.id))}</p><h1 id="pl-h1">${esc(missao.icone || "")} ${esc(missao.titulo || SIG(mid))}</h1>
         <p class="pl-aviso">Pontos do pódio (não são nota) · ${esc(cat().professor)}</p></div>
         <div class="pl-dir"><div class="pl-relogio" id="pl-rel"></div><div class="pl-bts"><button type="button" class="btn btn-peq btn-sec pl-som" id="pl-som"></button><button type="button" class="btn btn-peq btn-sec" id="pl-tela">⛶ Tela cheia</button><button type="button" class="btn btn-peq" id="pl-fim">🏁 Finalizar aula</button><button type="button" class="btn btn-peq btn-sec" id="pl-volta" hidden>↩ Voltar ao placar</button></div></div></header>
       <div class="pl-corpo" id="pl-corpo"></div></div>`);
@@ -382,7 +383,7 @@
       if (congelado) { publicarRei(t, [], true); if (!jaCongelou) { jaCongelou = true; So && So.congelou(); } corpo.innerHTML = `<div class="pl-cong"><p>🤫</p><h2>Placar congelado!</h2><p>Faltam menos de 5 minutos. O resultado só aparece no pódio… Corram!</p></div>`; return; }
       // a missão do placar é a que a turma está fazendo de verdade hoje (se a turma ainda está na M1, conta a M1), a não ser que o professor tenha fixado a missão do dia
       const m2 = hj.fixo ? mid : missaoDaTurmaHoje(prog, mid);
-      if (m2 !== mid) { mid = m2; const mi = C.missoes.find(x => x.id === mid) || {}; el.querySelector("#pl-h1").textContent = `${mi.icone || ""} ${mi.titulo || mid.toUpperCase()}`; }
+      if (m2 !== mid) { mid = m2; const mi = C.missoes.find(x => x.id === mid) || {}; el.querySelector("#pl-h1").textContent = `${mi.icone || ""} ${mi.titulo || SIG(mid)}`; }
       const rk = P.podio.ranking(alunos, prog, mid, N.hoje());
       publicarRei(t, rk);
       const reiAgora = rk.filter(e => e.rei).map(e => e.ids.join("+")).join(",");
@@ -474,7 +475,7 @@
         return `<span class="pv-n ${cls} ${ok ? "ok" : ""}" title="${rot}: ${f} de ${tt}">${rot} ${ok ? "✔" : f + "/" + tt}<i style="width:${Math.round(100 * f / tt)}%"></i></span>`; };
       const nB = dentro.filter(x => x.pm && x.pm.basicoOk).length, nD = dentro.filter(x => x.pm && x.pm.desafio && x.pm.desafio[1] && x.pm.desafio[0] === x.pm.desafio[1]).length,
         nT = dentro.filter(x => x.pm && x.pm.turbo && x.pm.turbo[1] && x.pm.turbo[0] === x.pm.turbo[1]).length, nPar = dentro.filter(x => agora - x.ult > 600000).length;
-      dlg.querySelector("#pv-c").innerHTML = `<p class="pv-mis">📌 ${esc(missao.icone || "")} <b>${esc(missao.titulo || mid.toUpperCase())}</b></p>
+      dlg.querySelector("#pv-c").innerHTML = `<p class="pv-mis">📌 ${esc(missao.icone || "")} <b>${esc(missao.titulo || SIG(mid))}</b></p>
         <div class="pv-chips"><span class="pv-chip">👥 <b>${dentro.length}</b> de ${alunos.length} entraram hoje</span><span class="pv-chip ok">🟢 Básico ✔ <b>${nB}</b>/${dentro.length}</span>
           <span class="pv-chip">🟡 Desafio ✔ <b>${nD}</b></span><span class="pv-chip">🔴 Turbo ✔ <b>${nT}</b></span>${reisV.length ? `<span class="pv-chip rei">👑 ${reisV.map(e => `${P.podio.tituloRei(e.avatares).replace(/ da sala$/, "")}: <b>${e.nomes.map(esc).join(" & ")}</b> (${e.pontos} pts)`).join(" · ")}</span>` : ""}${nPar ? `<span class="pv-chip alerta">😴 Parados <b>${nPar}</b></span>` : ""}</div>
         ${dentro.length ? `${boxAtencao}<div class="tabela-wrap"><table class="pv-tab"><thead><tr><th>Aluno</th><th>⭐ XP</th><th>Entrou</th><th>Progresso na missão de hoje</th><th>Situação</th><th>Última atividade</th></tr></thead><tbody>${dentro.map(({ a, entrou, pm, ult, outra }) => {
@@ -585,7 +586,7 @@
         await P.carregarApostila(ap.id); const C = P.conteudo[ap.id];
         const [sug, alunos, sit] = await Promise.all([missaoSugerida(t, C), alunosDaTurma(t.id), situacaoMissoes(t)]);
         ctx = { t, ap, C, alunos: alunos.filter(a => a.ativo !== false && !a.teste) };
-        selM.innerHTML = `<option value="">— nenhuma: os alunos escolhem —</option>` + C.missoes.map(m => `<option value="${esc(m.id)}" ${m.id === sug ? "selected" : ""}>${esc(m.id.toUpperCase())} · ${esc(((m.titulo || "").replace(/^[^–]*–\s*/, "")).slice(0, 60))}${m.id === sug ? " · ⭐ sugerida" : ""}${esc(sitMis(sit, m.id))}</option>`).join("");
+        selM.innerHTML = `<option value="">— nenhuma: os alunos escolhem —</option>` + C.missoes.map(m => `<option value="${esc(m.id)}" ${m.id === sug ? "selected" : ""}>${esc(SIG(m.id))} · ${esc(((m.titulo || "").replace(/^[^–]*–\s*/, "")).slice(0, 60))}${m.id === sug ? " · ⭐ sugerida" : ""}${esc(sitMis(sit, m.id))}</option>`).join("");
         trav.disabled = !selM.value; if (!selM.value) trav.checked = false;
         const casa = ctx.alunos.filter(a => a.emCasa);
         const cx = c.querySelector("#ini-casa");
@@ -599,7 +600,8 @@
         try {
           const { t, ap, C } = ctx, v = selM.value, m = C.missoes.find(x => x.id === v), hoje = N.hoje();
           const titulo = m ? m.titulo.replace(/ –.*/, "") + " – " + m.titulo.replace(/^[^–]*– ?/, "") : "";
-          await db().collection("config").doc("hoje_" + t.id).set({ dia: hoje, aid: ap.base || ap.id, mid: v, titulo, travar: !!(v && trav.checked), iniciadaDia: hoje, iniciadaEm: Date.now() }, { merge: true });
+          const revisa = v === "rv" ? await revisaDaTurma(t) : [];
+          await db().collection("config").doc("hoje_" + t.id).set({ dia: hoje, aid: ap.base || ap.id, mid: v, titulo, travar: !!(v && trav.checked), iniciadaDia: hoje, iniciadaEm: Date.now(), revisa }, { merge: true });
           await db().collection("config").doc("liberar_" + t.id).set({ fechadaAte: 0 }, { merge: true });
           await sincronizarCasa(t, ctx.alunos).catch(() => {});
           if (v) await registrarMissaoDoDia(t.id, { mid: v, titulo, travar: !!trav.checked });
@@ -655,15 +657,18 @@
   /* 📅 plano para quem estuda em casa: em que semana fazer cada missão (mesmo cronograma dos presenciais,
      pelo histórico do Panorama) e o dia da prova. Gravado em config/plano_<turma> uma vez por dia. */
   const semanaDe = d => { const x = new Date(d + "T12:00:00"), dw = (x.getDay() + 6) % 7; const ini = new Date(x); ini.setDate(x.getDate() - dw); const fim = new Date(ini); fim.setDate(ini.getDate() + 6); const f = y => y.toISOString().slice(0, 10); return [f(ini), f(fim)]; };
+  // 🔁 missões que a turma já estudou (para a Revisão mostrar só elas aos alunos)
+  async function revisaDaTurma(t) { try { const h = await historicoTurma(t); return Object.keys(h.dadas).filter(m => /^m\d+$/.test(m)).sort(); } catch (e) { return []; } }
   async function gravarPlanoCasa(t) {
     const hst = await historicoTurma(t); const C = hst.base && P.conteudo[hst.base.id]; if (!C) return;
     const quando = m => (hst.dadas[m] || [])[0] || (hst.linhas.find(l => l.mid === m && l.d >= N.hoje()) || {}).d || "";
     const missoes = C.missoes.map(m => { const d = quando(m.id); const [ini, fim] = d ? semanaDe(d) : ["", ""]; return { mid: m.id, titulo: m.titulo, ini, fim }; }).sort((a, b) => (a.ini || "9") < (b.ini || "9") ? -1 : (a.ini || "9") > (b.ini || "9") ? 1 : 0);
-    await db().collection("config").doc("plano_" + t.id).set({ aid: hst.base.id, missoes, prova: hst.prova || "", atualizado: Date.now() });
+    const revisa = Object.keys(hst.dadas).filter(m => /^m\d+$/.test(m)).sort();
+    await db().collection("config").doc("plano_" + t.id).set({ aid: hst.base.id, missoes, prova: hst.prova || "", revisa, atualizado: Date.now() });
   }
   async function perguntarInicio(u) {
     // 🏠 uma vez por dia, atualiza em todas as turmas a lista de quem estuda em casa (fica sem trava)
-    if (!ss.get("painel:casa:" + N.hoje())) { ss.set("painel:casa:" + N.hoje(), "1"); todasTurmas().forEach(t => alunosDaTurma(t.id).then(al => sincronizarCasa(t, al).then(n => n ? gravarPlanoCasa(t) : null)).catch(() => {})); }
+    if (!ss.get("painel:casa:" + N.hoje())) { ss.set("painel:casa:" + N.hoje(), "1"); todasTurmas().forEach(t => alunosDaTurma(t.id).then(al => sincronizarCasa(t, al).then(() => gravarPlanoCasa(t))).catch(() => {})); }
     try {
       const g = await config(); if (g.modoAula === false) return;
       const t = turmaAgora(todasTurmas()); if (!t) return;
@@ -742,7 +747,7 @@
       };
       const dias = a => { const s = new Set(); (pm[a.id] || []).forEach(p => Object.keys(p.dias || {}).forEach(d => s.add(d))); return s.size; };
       corpo.innerHTML = `<div class="painel pp-tabela-wrap"><p class="ajuda">✔ Básico concluído · ⭐ Desafio completo · 3/5 = andamento do Básico · — não começou. Passe o mouse para ver os detalhes. <strong>${alunos.filter(a => a.ativo).length}</strong> alunos ativos.</p>
-        <table class="pp-tabela"><thead><tr><th>Aluno</th><th>Código</th><th title="dias em que entrou no portal">Dias</th>${missoes.map(x => `<th title="${esc(x.m.titulo)}">${esc(x.m.icone)}<br><small>${esc(x.m.id.toUpperCase())}</small><br><span class="pp-th-t">${esc(tituloCurto(x.m))}</span></th>`).join("")}<th></th></tr></thead>
+        <table class="pp-tabela"><thead><tr><th>Aluno</th><th>Código</th><th title="dias em que entrou no portal">Dias</th>${missoes.map(x => `<th title="${esc(x.m.titulo)}">${esc(x.m.icone)}<br><small>${esc(SIG(x.m.id))}</small><br><span class="pp-th-t">${esc(tituloCurto(x.m))}</span></th>`).join("")}<th></th></tr></thead>
         <tbody>${lista.map(a => `<tr class="${a.ativo ? "" : "inativo"}"><td>${a.atipico ? '<span title="Aluno atípico (tem PEI)">🧩</span> ' : ""}${esc(a.nome)}${a.trilha ? ' <span title="Usa a Trilha Passo a Passo">👣</span>' : ""}${a.emCasa ? ' <span title="Estuda em casa: lançar pela apostila">🏠</span>' : ""}${a.ativo ? "" : " <small>(desativado)</small>"}</td><td class="pp-cod">${esc(a.codigo)}</td><td>${dias(a)}</td>${missoes.map(x => cel(a, x)).join("")}
           <td><button class="btn btn-link btn-peq" data-a="${a.id}" type="button">⚙️</button></td></tr>`).join("")}</tbody></table></div>`;
       corpo.querySelectorAll("[data-a]").forEach(b => b.onclick = () => menuAluno(alunos.find(a => a.id === b.dataset.a)));
@@ -825,13 +830,13 @@
             let ms = null, lista = [];
             if (+d > 0) {
               try { const tt = todasTurmas().find(z => z.id === a.turma); const apx = cat().apostilas.find(y => y.serie === tt.serie.id && !y.oculta && !/trilha/.test(y.id)); await P.carregarApostila(apx.id); lista = P.conteudo[apx.id].missoes.map(m => ({ id: m.id, t: (m.titulo || "").replace(/^[^–]*–\s*/, "") })); } catch (e) {}
-              const r = await P.perguntar(`Qual missão ${a.nome} vai fazer? Ele só consegue abrir as tarefas dela (e as da missão de hoje da turma).\n${lista.map(m => m.id.toUpperCase() + " = " + m.t).join("\n")}\nDigite só o número (ex.: 1). Deixe em branco para liberar todas.`, "");
+              const r = await P.perguntar(`Qual missão ${a.nome} vai fazer? Ele só consegue abrir as tarefas dela (e as da missão de hoje da turma).\n${lista.map(m => SIG(m.id) + " = " + m.t).join("\n")}\nDigite só o número (ex.: 1). Deixe em branco para liberar todas.`, "");
               if (r === null) return;
               const n = String(r).trim().toLowerCase().replace(/^m/, "");
               if (n) { const mm = lista.find(m => m.id.toLowerCase() === "m" + n) || lista.find(m => m.id.toLowerCase() === n); if (!mm) { await P.aviso("Missão não encontrada. Digite só o número, como 1 ou 2."); return; } ms = mm.id; }
             }
             await db().collection("config").doc("liberar_" + a.turma).set({ alunos: { [a.id]: +d > 0 ? fim.getTime() : 0 }, alunosMissao: { [a.id]: ms } }, { merge: true });
-            await P.aviso(+d > 0 ? `Pronto! ${a.nome} pode fazer ${ms ? "só a " + ms.toUpperCase() + ((lista.find(m => m.id === ms) || {}).t ? " · " + (lista.find(m => m.id === ms) || {}).t : "") + " (e a missão de hoje da turma)" : "as tarefas de todas as missões"} até ${fim.toLocaleDateString("pt-BR")}, 23h59.` : "Liberação retirada."); dlg.close(); return;
+            await P.aviso(+d > 0 ? `Pronto! ${a.nome} pode fazer ${ms ? "só a " + SIG(ms) + ((lista.find(m => m.id === ms) || {}).t ? " · " + (lista.find(m => m.id === ms) || {}).t : "") + " (e a missão de hoje da turma)" : "as tarefas de todas as missões"} até ${fim.toLocaleDateString("pt-BR")}, 23h59.` : "Liberação retirada."); dlg.close(); return;
           }
           if (x === "outra") {
             const opc = todasTurmas().filter(y => y.id !== a.turma && y.serie.id === (todasTurmas().find(z => z.id === a.turma) || { serie: {} }).serie.id);
@@ -862,7 +867,7 @@
     };
     el.querySelector("#cart").onclick = () => imprimirCartoes(t, alunos.filter(a => a.ativo));
     el.querySelector("#csv").onclick = () => {
-      const lin = [["Aluno", "Código", "Situação", "Dias no portal"].concat(missoes.map(x => x.m.id.toUpperCase() + " — " + x.m.titulo))];
+      const lin = [["Aluno", "Código", "Situação", "Dias no portal"].concat(missoes.map(x => SIG(x.m.id) + " — " + x.m.titulo))];
       alunos.forEach(a => {
         const dd = new Set(); (pm[a.id] || []).forEach(p => Object.keys(p.dias || {}).forEach(d => dd.add(d)));
         lin.push([a.nome, a.codigo, a.ativo ? "ativo" : "desativado", dd.size].concat(missoes.map(x => {
@@ -939,14 +944,14 @@
       const nD = ids.filter(i => pres[i].missoes.some(p => (p.desafio || [0, 0])[1] && p.desafio[0] === p.desafio[1])).length;
       const linhas = ids.map(i => {
         const ms = pres[i].missoes;
-        return `- ${nome(i)} [${i}] — entrou ${hhmm(pres[i].ini)}` + (ms.length ? "\n" + ms.map(p => `    ${p.mid.toUpperCase()} (${tituloMissao(p)}): ${situacao(p)}`).join("\n") : "\n    (entrou, mas não fez atividades)");
+        return `- ${nome(i)} [${i}] — entrou ${hhmm(pres[i].ini)}` + (ms.length ? "\n" + ms.map(p => `    ${SIG(p.mid)} (${tituloMissao(p)}): ${situacao(p)}`).join("\n") : "\n    (entrou, mas não fez atividades)");
       });
       return [
         "📋 RELATÓRIO DA AULA — Portal da Informática",
         `Turma: ${nomeTurma(t.id)} (código no diário: ${t.id.toLowerCase()})`,
         `Data: ${dataBR(d)} (${semana(d)})`,
         `Horário registrado: ${hhmm(ini)} às ${hhmm(fim)}`,
-        `Missões trabalhadas: ${Object.entries(missoes).map(([k, v]) => k.toUpperCase() + " — " + v).join("; ") || "nenhuma"}`,
+        `Missões trabalhadas: ${Object.entries(missoes).map(([k, v]) => SIG(k) + " — " + v).join("; ") || "nenhuma"}`,
         `Resumo: ${ids.length} presentes · ${aus.length} ausentes · ${nB} concluíram o Básico · ${nD} completaram o Desafio`,
         "",
         `PRESENTES (${ids.length}):`,
@@ -1102,7 +1107,7 @@
     try { await db().collection(DIARIO + "/" + tid + "/aulas").doc(d).set({ data: d, missaoHoje: m ? { mid: m.mid, titulo: m.titulo || m.mid, travar: !!m.travar, em: new Date().toISOString() } : null }, { merge: true }); }
     catch (e) { console.warn("registro da missão do dia", e); }
   }
-  const missaoTxt = a => a && a.missaoHoje && a.missaoHoje.mid ? `📌 ${esc(String(a.missaoHoje.mid).toUpperCase())} · ${esc(String(a.missaoHoje.titulo || "").replace(/^[^–]*–\s*/, ""))}${a.missaoHoje.travar ? " 🔒" : ""}` : "";
+  const missaoTxt = a => a && a.missaoHoje && a.missaoHoje.mid ? `📌 ${esc(SIG(a.missaoHoje.mid))} · ${esc(String(a.missaoHoje.titulo || "").replace(/^[^–]*–\s*/, ""))}${a.missaoHoje.travar ? " 🔒" : ""}` : "";
   // 🚦 aula que não aconteceu normalmente. "ninguem" = falta para todos; os outros não contam na frequência de ninguém.
   const OCORR = { ninguem: "🚫 Nenhum aluno veio", professor: "🙋 O professor não pôde vir", feriado: "🎉 Feriado ou ponto facultativo", formacao: "🏫 Sem aula na escola (formação, evento, reunião)", outro: "📌 Sem aula por outro motivo" };
   const OCORR_CURTO = { ninguem: "🚫 Ninguém veio", professor: "🙋 Eu não fui", feriado: "🎉 Feriado", formacao: "🏫 Sem aula na escola", outro: "📌 Outro motivo" };
@@ -1141,7 +1146,7 @@
     const ids = new Set(alunos.map(a => a.id));
     const base = cat().apostilas.find(a => a.serie === t.serie.id && !a.oculta && !a.trilha);
     if (base) await P.carregarApostila(base.id).catch(() => null);
-    const tituloM = m => { const C = base && P.conteudo[base.id]; const x = C && C.missoes.find(y => y.id === m); return x ? x.titulo : String(m).toUpperCase(); };
+    const tituloM = m => { const C = base && P.conteudo[base.id]; const x = C && C.missoes.find(y => y.id === m); return x ? x.titulo : SIG(m); };
     const cron = cronComRede(t, (T.cronograma && T.cronograma.length ? T.cronograma : Object.entries(t.missoes4 || {}).map(([data, m]) => ({ data, encontro: tituloM(m), mid: m }))).slice().sort((a, b) => a.data < b.data ? -1 : 1));
     const ehDiaDeAula = d => !!aulas[d] || cron.some(c => c.data === d) || (t.aula && new Date(d + "T12:00:00").getDay() === t.aula.dia);
     const auto = T.auto !== false;
@@ -1171,19 +1176,32 @@
     const dadas = {}; linhas.filter(l => l.status === "dada" && l.mid).forEach(l => { (dadas[l.mid] = dadas[l.mid] || []).push(l.d); });
     // 🔁 próximas aulas se ajustam ao que já foi dado: na ordem do cronograma, entra a próxima missão que ainda falta
     // (se a turma repetiu a M1, a próxima aula vira M2, e assim por diante). Avaliação, Projeto final etc. ficam onde estão.
-    const ordem = [...new Set(cron.map(c => c.mid || midDoTexto(c.encontro)).filter(Boolean))];
+    const ordem = [...new Set(cron.map(c => c.mid || midDoTexto(c.encontro)).filter(m => m && m !== "rv"))];
     const faltam = ordem.filter(m => !dadas[m]);
-    linhas.filter(l => l.d >= hoje && (l.fonte === "cronograma" || l.vaga) && !l.ocorr && (l.status === "prevista" || l.status === "hoje")).forEach(l => {
-      const novo = faltam.shift() || null;
+    /* Regra combinada em 14/11/2026: a ÚLTIMA aula antes da prova é sempre a 🔁 Revisão (aula inteira de atividades,
+       só com as missões dadas). As outras recebem, em ordem, as missões que faltam; se ainda sobrar aula, entra a
+       missão extra da apostila (a M4). Missão que não couber fica para depois da prova (a prova só cobra o que foi dado). */
+    const Cb = base && P.conteudo[base.id], temRv = !!(Cb && Cb.missoes.some(m => m.id === "rv"));
+    const extras = Cb ? Cb.missoes.map(m => m.id).filter(m => /^m\d+$/.test(m) && !ordem.includes(m) && !dadas[m]) : [];
+    const lpd = (linhas.find(l => l.prova) || {}).d || "9999";
+    const futuras = linhas.filter(l => l.d >= hoje && l.d < lpd && (l.fonte === "cronograma" || l.vaga) && !l.ocorr && (l.status === "prevista" || l.status === "hoje"));
+    const fila = [...faltam, ...extras];
+    futuras.forEach((l, i) => {
+      const jaTem = Object.keys(dadas).some(m => m !== "rv") || i > 0; // revisão só se a turma tiver (ou for ter) alguma missão
+      const ultima = i === futuras.length - 1 && lpd !== "9999" && jaTem;
+      const novo = ultima ? null : (fila.shift() || null);
       if (novo === l.mid && !l.vaga) return;
-      if (!l.vaga) l.plano = l.mid;
+      if (!l.vaga && l.mid) l.plano = l.mid;
       l.mid = novo; l.vaga = false;
-      if (novo) { l.fonte = "cronograma"; l.titulo = tituloM(novo); } else { l.fonte = null; l.encontro = l.titulo = "Revisão para a prova"; }
+      if (novo) { l.fonte = "cronograma"; l.titulo = tituloM(novo); }
+      else if (temRv) { l.mid = "rv"; l.fonte = "cronograma"; l.titulo = tituloM("rv"); l.encontro = "Revisão para a prova"; }
+      else { l.fonte = null; l.encontro = l.titulo = "Revisão para a prova"; }
     });
+    const semVaga = fila.filter(m => faltam.includes(m) && !(Cb && /^m\d+$/.test(m) && !ordem.includes(m)));
     // nenhuma missão dada até o dia da prova → no lugar da prova, um trabalho avaliativo que começa e termina na aula
     const lp = linhas.find(l => l.prova);
-    if (lp && !Object.keys(dadas).length && !linhas.some(l => l.d < lp.d && l.d >= hoje && l.mid)) { lp.encontro = lp.titulo = "📝 Trabalho avaliativo em aula"; lp.trabalho = true; }
-    return { t, alunos, linhas, dadas, tituloM, base, semVaga: faltam, prova: lp ? lp.d : null };
+    if (lp && !Object.keys(dadas).length && !linhas.some(l => l.d < lp.d && l.d >= hoje && l.mid && l.mid !== "rv")) { lp.encontro = lp.titulo = "📝 Trabalho avaliativo em aula"; lp.trabalho = true; }
+    return { t, alunos, linhas, dadas, tituloM, base, semVaga, prova: lp ? lp.d : null };
   }
   const ST_PAN = { dada: ["✅", "Aula dada"], prevista: ["⏩", "Próxima aula"], hoje: ["⏳", "Hoje"], semregistro: ["❔", "Sem registro"] };
   const FONTE_M = { registrada: "📌 escolhida no painel", portal: "⚡ pelo que os alunos abriram", cronograma: "previsto no cronograma (sem registro do que foi dado)" };
@@ -1236,7 +1254,7 @@
     const st = l.ocorr ? [OCORR_CURTO[l.status] ? OCORR_CURTO[l.status].split(" ")[0] : "📌", OCORR_CURTO[l.status] ? OCORR_CURTO[l.status].replace(/^\S+\s/, "") : "Sem aula"] : ST_PAN[l.status];
     const classe = l.status === "dada" ? "ok" : l.status === "ninguem" ? "ninguem" : l.ocorr ? "sem" : l.status;
     const [, mm, dd] = l.d.split("-");
-    const missao = l.ocorr ? "" : l.prova ? `<span class="pan-m pan-m-prova">📝 ${l.trabalho ? "Trabalho" : "Prova"}</span>` : l.mid ? `<span class="pan-m${l.fonte === "cronograma" ? " pan-m-prev" : ""}" title="${esc(l.titulo)}${l.fonte ? " · " + FONTE_M[l.fonte] : ""}${l.plano ? " · ajustado (o cronograma previa " + esc(l.plano.toUpperCase()) + ")" : ""}">${esc(l.mid.toUpperCase())}${l.fonte === "cronograma" ? " <small>previsto</small>" : ""}</span><span class="pan-t">${esc(tituloCurto({ titulo: l.titulo }))}</span>` : (l.encontro ? `<span class="pan-m pan-m-txt" title="${esc(l.encontro)}">${esc(l.encontro.split(/ [–-] /)[0].trim())}</span>` : "");
+    const missao = l.ocorr ? "" : l.prova ? `<span class="pan-m pan-m-prova">📝 ${l.trabalho ? "Trabalho" : "Prova"}</span>` : l.mid ? `<span class="pan-m${l.fonte === "cronograma" ? " pan-m-prev" : ""}" title="${esc(l.titulo)}${l.fonte ? " · " + FONTE_M[l.fonte] : ""}${l.plano ? " · ajustado (o cronograma previa " + esc(l.plano.toUpperCase()) + ")" : ""}">${esc(SIG(l.mid))}${l.fonte === "cronograma" ? " <small>previsto</small>" : ""}</span><span class="pan-t">${esc(tituloCurto({ titulo: l.titulo }))}</span>` : (l.encontro ? `<span class="pan-m pan-m-txt" title="${esc(l.encontro)}">${esc(l.encontro.split(/ [–-] /)[0].trim())}</span>` : "");
     const pres = l.status === "dada" ? `<span class="pan-p">👥 ${l.presentes}</span>` : "";
     const nota = l.ocorr && l.ocorr.nota ? ` · ${l.ocorr.nota}` : "";
     return `<a class="pan-c pan-${classe}" href="#/painel/diario/${tid}/chamada" data-pan-dia="${l.d}" data-pan-t="${tid}" title="${esc(dataBR(l.d))} · ${esc(st[1] + nota)}${l.mid ? " · " + esc(l.titulo) : ""}">
@@ -1400,7 +1418,7 @@
     // cronograma: o do diário; se não houver, monta pelas missões do catálogo
     const base = cat().apostilas.find(a => a.serie === t.serie.id && !a.oculta && !a.trilha);
     if (base) await P.carregarApostila(base.id).catch(() => null);
-    const tituloM = m => { const C = base && P.conteudo[base.id]; const x = C && C.missoes.find(y => y.id === m); return x ? x.titulo : m.toUpperCase(); };
+    const tituloM = m => { const C = base && P.conteudo[base.id]; const x = C && C.missoes.find(y => y.id === m); return x ? x.titulo : SIG(m); };
     const cron = cronComRede(t, (T.cronograma && T.cronograma.length ? T.cronograma : Object.entries(t.missoes4 || {}).map(([data, m]) => ({ data, encontro: tituloM(m) }))).slice().sort((a, b) => a.data < b.data ? -1 : 1));
     const encontroDe = d => (aulas[d] && aulas[d].encontro) || (cron.find(c => c.data === d) || {}).encontro || "";
     // notas da prova feita no portal (maior entre a prova e a recuperação)
@@ -1747,12 +1765,12 @@
       const hRef = db().collection("config").doc("hoje_" + t.id), hs = await hRef.get();
       const hj0 = hs.exists && hs.data().dia === N.hoje() ? hs.data() : null, iniciada = !!(hj0 && hj0.iniciadaDia === N.hoje());
       const hj = hj0 && hj0.mid ? hj0 : null, sit = await situacaoMissoes(t);
-      const baseId = ap.base || ap.id, curto = m => (m.titulo || m.id.toUpperCase()).replace(/ –.*/, "");
+      const baseId = ap.base || ap.id, curto = m => (m.titulo || SIG(m.id)).replace(/ –.*/, "");
       // escolher QUALQUER missão numa lista (não só a que está aberta) e travar, tudo no mesmo quadro (pedido em 12/11/2026)
       const box = document.createElement("div"); box.className = "pp-trava pp-hoje";
       box.innerHTML = `<label>📌 <b>Missão de hoje:</b> <select data-hj="sel">
           <option value="" ${hj ? "" : "selected"}>— nenhuma (o aluno escolhe) —</option>
-          ${C.missoes.map(m => `<option value="${esc(m.id)}" ${hj && hj.mid === m.id ? "selected" : ""}>${esc(m.icone || "")} ${esc(m.id.toUpperCase())} · ${esc(((m.titulo || "").replace(/^[^–]*–\s*/, "") || curto(m)).slice(0, 60))}${esc(sitMis(sit, m.id))}</option>`).join("")}</select></label>
+          ${C.missoes.map(m => `<option value="${esc(m.id)}" ${hj && hj.mid === m.id ? "selected" : ""}>${esc(m.icone || "")} ${esc(SIG(m.id))} · ${esc(((m.titulo || "").replace(/^[^–]*–\s*/, "") || curto(m)).slice(0, 60))}${esc(sitMis(sit, m.id))}</option>`).join("")}</select></label>
         <label class="pp-auto" title="${hj ? "Só a missão de hoje fica com as tarefas abertas" : "Escolha primeiro a missão de hoje na lista"}"><input type="checkbox" data-hj="trav" ${hj && hj.travar ? "checked" : ""} ${hj ? "" : "disabled"}> 🔒 Travar só nela</label>
         <span class="st">${hj ? (hj.travar ? "🔒 os alunos só fazem as tarefas desta missão" : "✔ o aluno cai direto nela ao digitar o código") : "nenhuma missão definida para hoje"}</span>
         <span class="pp-ini-st ${iniciada ? "on" : "off"}">${iniciada ? `▶️ Aula iniciada às ${new Date(hj0.iniciadaEm || Date.now()).toTimeString().slice(0, 5)}` : `⏳ Aula não iniciada: tarefas fechadas <button class="btn btn-peq" type="button" data-hj="ini">▶️ Iniciar a aula</button>`}</span>`;
@@ -1766,7 +1784,7 @@
           const travar = hj ? !!hj.travar : true, titulo = m ? m.titulo.replace(/ –.*/, "") + " – " + m.titulo.replace(/^[^–]*– ?/, "") : v;
           // merge: não apaga o "aula iniciada" (iniciadaDia) ao trocar a missão no meio da aula
           if (!v) await hRef.set({ dia: N.hoje(), mid: "", titulo: "", travar: false }, { merge: true });
-          else await hRef.set({ dia: N.hoje(), aid: baseId, mid: v, titulo, travar }, { merge: true });
+          else await hRef.set({ dia: N.hoje(), aid: baseId, mid: v, titulo, travar, revisa: v === "rv" ? await revisaDaTurma(t) : [] }, { merge: true });
           // 📒 só anota no Diário depois que a aula foi INICIADA de verdade (testar/escolher antes não registra nada) — 14/11/2026
           if (iniciada) await registrarMissaoDoDia(t.id, v ? { mid: v, titulo, travar } : null);
           toast(v ? "Missão de hoje: " + rotMis(C, v) + (travar ? " · 🔒 travada" : "") + (iniciada ? " (anotado no Diário)" : " · vai para o Diário quando você iniciar a aula") : "Missão de hoje tirada."); telaAula(u, t.id, v || mid);

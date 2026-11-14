@@ -166,6 +166,20 @@ PORTAL.registrarAtividades("informatica-7ano-4bim-trilha", {
     };
   })(),
 
+  /* ======================= 🔁 REVISÃO (só as missões que a turma estudou) ======================= */
+  rv: {
+    basico: [
+      { tipo: "relembre", de: "m1" },
+      { tipo: "escolha", de: "m1", titulo: "M1 · Responda", perguntas: [{ p: "A mensagem viaja pela internet em:", opcoes: ["Pacotes", "Cartas"], certo: 0 }], explicacao: "A mensagem viaja pela internet em: Pacotes." },
+      { tipo: "relembre", de: "m2" },
+      { tipo: "escolha", de: "m2", titulo: "M2 · Responda", perguntas: [{ p: "Um erro no algoritmo se chama:", opcoes: ["Bug", "Pacote"], certo: 0 }], explicacao: "Um erro no algoritmo se chama: Bug." },
+      { tipo: "relembre", de: "m3" },
+      { tipo: "escolha", de: "m3", titulo: "M3 · Responda", perguntas: [{ p: "O código que chega no celular eu passo para:", opcoes: ["Ninguém", "Quem pedir"], certo: 0 }], explicacao: "O código que chega no celular eu passo para: Ninguém." },
+      { tipo: "relembre", de: "m4" },
+      { tipo: "escolha", de: "m4", titulo: "M4 · Responda", perguntas: [{ p: "O caminho mais curto é o de:", opcoes: ["Menor soma", "Menos ruas"], certo: 0 }], explicacao: "O caminho mais curto é o de: Menor soma." },
+    ]
+  },
+
   /* ======================= PROJETO FINAL ======================= */
   pf: {
     basico: [

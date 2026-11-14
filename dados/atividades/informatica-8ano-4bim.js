@@ -304,6 +304,61 @@ PORTAL.registrarAtividades("informatica-8ano-4bim", {
     ]
   },
 
+  /* ======================= 🔁 REVISÃO PARA A PROVA =======================
+     Cada atividade tem "de" (a missão). O portal mostra só as missões que a turma estudou. */
+  rv: {
+    basico: [
+      { tipo: "relembre", de: "m1" },
+      { tipo: "escolha", de: "m1", titulo: "M1 · Buscar e ordenar",
+        perguntas: [
+          { p: "A busca que olha um item de cada vez, do primeiro em diante, é a:", opcoes: ["Busca sequencial", "Busca binária", "Bolha"], certo: 0 },
+          { p: "A busca binária só funciona quando a lista está:", opcoes: ["Ordenada", "Vazia", "Com números repetidos"], certo: 0 },
+          { p: "A cada tentativa, a busca binária:", opcoes: ["Olha o meio e descarta metade", "Olha o último item", "Volta para o começo"], certo: 0 },
+          { p: "O método da bolha:", opcoes: ["Compara vizinhos e troca os que estão fora de ordem", "Apaga os itens repetidos", "Sorteia a ordem"], certo: 0 }],
+        explicacao: "Sequencial olha um por um; binária precisa da lista ordenada e descarta metade; bolha compara e troca vizinhos em passadas." },
+      { tipo: "tabela", de: "m1", titulo: "M1 · Lista [3, 8, 12, 20, 25, 31, 40] (ordenada)",
+        linhas: [["Para achar 31 pela busca binária, qual número ela olha primeiro (o do meio)?", { r: "20", tipo: "num", w: 4 }], ["Na busca sequencial, quantos números ela olha até achar o 31?", { r: "6", tipo: "num", w: 4 }]],
+        explicacao: "O meio da lista de 7 itens é o 4º: 20. Na sequencial: 3, 8, 12, 20, 25, 31 = 6 olhadas." },
+      { tipo: "relembre", de: "m2" },
+      { tipo: "ligar", de: "m2", titulo: "M2 · Ligue cada termo ao seu significado",
+        pares: [{ a: "DNS", b: "Traduz o nome do site no endereço IP" }, { a: "Data center", b: "Prédio cheio de servidores" }, { a: "Nuvem", b: "Usar servidores pela internet" }, { a: "Cabo submarino", b: "Liga os continentes por baixo do mar" }, { a: "Paralelismo", b: "Partes feitas ao mesmo tempo, em vários núcleos" }],
+        explicacao: "DNS = agenda da internet; data center = prédio de servidores; nuvem = usar esses servidores; cabos submarinos ligam continentes; paralelismo = ao mesmo tempo." },
+      { tipo: "escolha", de: "m2", titulo: "M2 · Internet por dentro",
+        perguntas: [
+          { p: "Duas pessoas mandam imprimir ao mesmo tempo e a impressora faz uma fila. Isso é:", opcoes: ["Concorrência", "Paralelismo", "DNS"], certo: 0 },
+          { p: "A empresa que liga as casas e a escola à internet é o:", opcoes: ["Provedor", "Backbone", "Navegador"], certo: 0 }],
+        explicacao: "Concorrência = disputa pelo mesmo recurso (fila de impressão). Provedor liga as casas à rede; backbone são as ligações principais." },
+      { tipo: "relembre", de: "m3" },
+      { tipo: "classificar", modo: "tabela", de: "m3", titulo: "M3 · Dado pessoal, dado sensível ou não é dado pessoal?", colunaItem: "Informação", colunaResp: "Tipo",
+        categorias: [{ id: "P", rot: "Dado pessoal" }, { id: "S", rot: "Dado sensível" }, { id: "N", rot: "Não é dado pessoal" }],
+        itens: [{ t: "Telefone", c: "P" }, { t: "Religião", c: "S" }, { t: "Impressão digital", c: "S" }, { t: "Endereço", c: "P" }, { t: "Previsão do tempo de amanhã", c: "N" }],
+        explicacao: "Dado pessoal identifica você; sensível pede cuidado extra (saúde, religião, biometria…); previsão do tempo não identifica ninguém." },
+      { tipo: "escolha", de: "m3", titulo: "M3 · Antes de compartilhar",
+        perguntas: [{ p: "Qual NÃO é uma das 4 perguntas do checador?", opcoes: ["Quantas curtidas tem?", "Quem publicou?", "Outros confirmam?"], certo: 0 }, { p: "O rastro de tudo o que publico, curto e comento é a:", opcoes: ["Pegada digital", "LGPD", "Permissão"], certo: 0 }],
+        explicacao: "As 4 perguntas: quem publicou, quando, outros confirmam e como está escrita. Curtidas não provam nada. Pegada digital = o rastro." },
+      { tipo: "relembre", de: "m4" },
+      { tipo: "classificar", modo: "tabela", de: "m4", titulo: "M4 · Frase dos termos: tranquila ou atenção?", colunaItem: "Frase", colunaResp: "👍 ou ⚠️",
+        categorias: [{ id: "T", rot: "👍 Tranquila" }, { id: "A", rot: "⚠️ Atenção" }],
+        itens: [{ t: "“Podemos vender seus dados.”", c: "A" }, { t: "“Você pode excluir sua conta e seus dados.”", c: "T" }, { t: "“Os termos podem mudar sem aviso.”", c: "A" }, { t: "“Coletamos só o seu e-mail.”", c: "T" }],
+        explicacao: "⚠️ vender dados e mudar sem aviso. 👍 excluir a conta e pedir só o necessário." },
+      { tipo: "escolha", de: "m4", titulo: "M4 · Termos de uso",
+        perguntas: [{ p: "Clicar em “Li e aceito” é:", opcoes: ["Concordar com um contrato", "Só fechar a janela", "Apagar a conta"], certo: 0 }, { p: "Pela LGPD, posso pedir para a empresa:", opcoes: ["Apagar os meus dados", "Me dar o aplicativo de graça", "Ler as mensagens dos outros"], certo: 0 }],
+        explicacao: "Os termos são um contrato. A LGPD dá o direito de saber, corrigir, pedir para apagar e retirar o consentimento." }
+    ],
+    desafio: [
+      { tipo: "escolha", de: "m1", titulo: "Desafio M1", perguntas: [{ p: "Numa lista de 1000 nomes em ordem alfabética, qual busca é mais rápida?", opcoes: ["Binária, porque descarta metade a cada tentativa", "Sequencial, porque olha um por um", "As duas são iguais"], certo: 0 }] },
+      { tipo: "escolha", de: "m2", titulo: "Desafio M2", perguntas: [{ p: "Você digita o nome de um site. Quem descobre o endereço IP do servidor?", opcoes: ["O DNS", "O monitor", "O cabo de energia"], certo: 0 }] },
+      { tipo: "escolha", de: "m3", titulo: "Desafio M3", perguntas: [{ p: "Uma lanterna pede acesso aos seus contatos. O que fazer?", opcoes: ["Negar: lanterna não precisa de contatos para funcionar", "Permitir, porque todo app pede", "Dar a senha também"], certo: 0 }] },
+      { tipo: "escolha", de: "m4", titulo: "Desafio M4", perguntas: [{ p: "O aplicativo é grátis. Quem costuma pagar?", opcoes: ["A propaganda, usando os seus dados", "Ninguém", "A escola"], certo: 0 }] }
+    ],
+    turbo: [
+      { tipo: "escolha", de: "m1", titulo: "Turbo · Simulado M1", perguntas: [{ p: "Ordenar é:", opcoes: ["Colocar os itens em ordem", "Apagar itens", "Procurar um item"], certo: 0 }] },
+      { tipo: "escolha", de: "m2", titulo: "Turbo · Simulado M2", perguntas: [{ p: "Guardar fotos na nuvem é guardar:", opcoes: ["Em servidores de um data center, pela internet", "No céu", "Só no pen drive"], certo: 0 }] },
+      { tipo: "escolha", de: "m3", titulo: "Turbo · Simulado M3", perguntas: [{ p: "Desinformação é:", opcoes: ["Informação falsa ou distorcida espalhada como verdade", "Uma lei", "Um tipo de cabo"], certo: 0 }] },
+      { tipo: "escolha", de: "m4", titulo: "Turbo · Simulado M4", perguntas: [{ p: "Chegou o aviso “Atualizamos nossos termos”. Isso quer dizer que:", opcoes: ["O contrato mudou", "O aplicativo acabou", "Nada mudou"], certo: 0 }] }
+    ]
+  },
+
   /* ======================= PROJETO FINAL ======================= */
   pf: {
     basico: [

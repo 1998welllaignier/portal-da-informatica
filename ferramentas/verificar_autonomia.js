@@ -40,7 +40,7 @@ for (const [aid, a] of Object.entries(A)) {
     const m = c.missoes.find(x => x.id === mid); if (!m) continue;
     const bl = []; blocos([m.comecar, m.termos, m.ondeUso, m.alertas, m.resumo && m.resumo.texto, m.objetivo], bl);
     // o projeto final usa o texto de todas as missões
-    if (mid === "pf") c.missoes.forEach(x => blocos([x.comecar, x.termos], bl));
+    if (mid === "pf" || mid === "rv") c.missoes.forEach(x => blocos([x.comecar, x.termos, x.resumo && x.resumo.texto], bl)); // a 🔁 Revisão também (Relembre + missões)
     // textos de apoio (info) e enunciados da própria missão também contam como lugar para procurar
     Object.values(acts).forEach(arr => Array.isArray(arr) && arr.forEach(x => { if (x.html) bl.push(x.html); if (x.enunciado) bl.push(x.enunciado); }));
     const B = bl.map(b => " " + norm(b) + " ");

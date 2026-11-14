@@ -335,6 +335,20 @@ Do menor para o maior: **bit → byte → KB → MB → GB → TB**.
 O computador guarda tudo em **bits** (0 ou 1). **8 bits** formam **1 byte**, mais ou menos uma letra. As medidas crescem de mil em mil: **byte → KB → MB → GB → TB**. Texto ocupa poucos KB; foto e música, alguns MB; filme, alguns GB. **Compactar** (.zip) diminui o tamanho e junta vários arquivos em um só; para usar, **descompactamos**. Para **achar** um arquivo: buscar pelo nome, olhar a **extensão** e ordenar por data ou tamanho, e sempre dar **nomes bons**.
 **Palavras-chave:** bit · byte · KB · MB · GB · TB · compactar · descompactar · extensão · buscar
 
+## 🔁 Revisão para a prova
+**Objetivo:** revisar, fazendo atividades, todas as missões que a sua turma estudou, para chegar preparado à prova.
+📅 **Data da aula:** ........ / ........
+### 💡 Para começar
+Hoje é dia de **revisão**, e a aula inteira tem atividade, como numa missão. O portal mostra **só as missões que a sua turma estudou**: é exatamente isso que cai na prova.
+Em cada missão, faça assim:
+| Passo | O que fazer |
+| 📚 1. Relembre | Leia o resumo da missão e os termos principais |
+| 🟢 2. Pratique | Faça as atividades daquela missão (correção automática) |
+| 🔁 3. Errou? | Leia a explicação, volte ao 📚 Relembre e tente de novo |
+
+Terminou o Básico de todas as missões? Siga para o 🟡 **Desafio** e o 🔴 **Turbo**: eles misturam as missões, como na prova.
+**Dica de prova:** tudo o que cai está nos **Resumos da Aula** e nas **Perguntas rápidas** de cada missão. Você pode abrir a missão no portal para reler quando quiser.
+
 ## 🏁 Projeto final – Meu Passaporte de Missões
 **Objetivo:** conferir as missões concluídas, completar o que faltou e mostrar o que você aprendeu no bimestre.
 📅 **Data da aula:** ........ / ........

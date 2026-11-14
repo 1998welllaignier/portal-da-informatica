@@ -151,6 +151,16 @@ Aplicativo **grátis** costuma ganhar dinheiro com **propaganda**.
 “**Li e aceito**” é um **contrato**. Antes de aceitar, eu pergunto: **que dados** ele pega, **com quem compartilha** e se dá para **apagar a conta**.
 **Palavras-chave:** termos de uso · contrato · dados · propaganda · LGPD
 
+## 🔁 Revisão para a prova
+**Objetivo:** relembrar as missões que a sua turma estudou, um passo de cada vez.
+📅 **Data da aula:** ........ / ........
+### 💡 Para começar
+Hoje é dia de **revisão**. O portal mostra **só as missões que a sua turma estudou**.
+Em cada missão:
+- 📚 **leia** o resumo;
+- 🟢 **faça** as atividades;
+- 🔁 errou? Leia a explicação e tente de novo.
+
 ## 🏁 Projeto final – Meu Passaporte de Missões
 **Objetivo:** conferir as missões concluídas, completar o que faltou e mostrar o que você aprendeu no bimestre.
 📅 **Data da aula:** ........ / ........

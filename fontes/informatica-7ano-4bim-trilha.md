@@ -150,6 +150,16 @@ Exemplo: Casa → Padaria → Escola = 3 + 2 = **5 minutos**. A rua direta Casa 
 Um **grafo** tem **vértices** (lugares) e **arestas** (ruas). O número da rua é o **peso**. O **caminho mais curto** é o de **menor soma**.
 **Palavras-chave:** grafo · vértice · aresta · peso · caminho mais curto
 
+## 🔁 Revisão para a prova
+**Objetivo:** relembrar as missões que a sua turma estudou, um passo de cada vez.
+📅 **Data da aula:** ........ / ........
+### 💡 Para começar
+Hoje é dia de **revisão**. O portal mostra **só as missões que a sua turma estudou**.
+Em cada missão:
+- 📚 **leia** o resumo;
+- 🟢 **faça** as atividades;
+- 🔁 errou? Leia a explicação e tente de novo.
+
 ## 🏁 Projeto final – Meu Passaporte de Missões
 **Objetivo:** conferir as missões concluídas, completar o que faltou e mostrar o que você aprendeu no bimestre.
 📅 **Data da aula:** ........ / ........

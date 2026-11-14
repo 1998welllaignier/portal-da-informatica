@@ -333,6 +333,74 @@ PORTAL.registrarAtividades("informatica-6ano-4bim", {
     ]
   },
 
+  /* ======================= 🔁 REVISÃO PARA A PROVA =======================
+     Cada atividade tem "de" (a missão). O portal mostra só as missões que a turma estudou. */
+  rv: {
+    basico: [
+      { tipo: "relembre", de: "m1" },
+      { tipo: "classificar", modo: "tabela", de: "m1", titulo: "M1 · Entrada, processamento ou saída?", colunaItem: "Peça", colunaResp: "Etapa",
+        categorias: [{ id: "E", rot: "Entrada" }, { id: "P", rot: "Processamento" }, { id: "S", rot: "Saída" }],
+        itens: [{ t: "Teclado", c: "E" }, { t: "Monitor", c: "S" }, { t: "Processador", c: "P" }, { t: "Microfone", c: "E" }, { t: "Impressora", c: "S" }, { t: "Mouse", c: "E" }],
+        explicacao: "Entrada recebe (teclado, mouse, microfone); processamento calcula (processador); saída mostra (monitor, impressora)." },
+      { tipo: "escolha", de: "m1", titulo: "M1 · Arquivos, pastas e metadados",
+        perguntas: [
+          { p: "O teclado e o mouse (as peças que dá para tocar) são:", opcoes: ["Hardware", "Software", "Pastas"], certo: 0 },
+          { p: "Qual é o atalho para salvar?", opcoes: ["Ctrl + S", "Ctrl + P", "Alt + F4"], certo: 0 },
+          { p: "Nome, tipo, tamanho e data de um arquivo são os:", opcoes: ["Metadados", "Programas", "Periféricos"], certo: 0 },
+          { p: "Para que serve uma pasta?", opcoes: ["Organizar os arquivos, como uma gaveta", "Desligar o computador", "Imprimir"], certo: 0 }],
+        explicacao: "Hardware = peças; software = programas. Ctrl + S salva. Metadados = nome, tipo, tamanho e data. Pasta organiza arquivos." },
+      { tipo: "relembre", de: "m2" },
+      { tipo: "ordenar", de: "m2", titulo: "M2 · Coloque o algoritmo do suco em ordem",
+        itens: ["Pegar as laranjas", "Cortar as laranjas ao meio", "Espremer as laranjas", "Colocar o suco no copo"],
+        explicacao: "Algoritmo é uma sequência de passos em ordem: se trocar a ordem, não dá certo." },
+      { tipo: "classificar", modo: "tabela", de: "m2", titulo: "M2 · Sequência, repetição ou seleção?", colunaItem: "Instrução", colunaResp: "Tipo",
+        categorias: [{ id: "Q", rot: "Sequência" }, { id: "R", rot: "Repetição" }, { id: "L", rot: "Seleção" }],
+        itens: [{ t: "Repita 4 vezes: ande 1 passo", c: "R" }, { t: "Se chover, então leve o guarda-chuva; senão, leve o boné", c: "L" }, { t: "Abra a porta, entre, feche a porta", c: "Q" }, { t: "Enquanto tiver louça, lave um prato", c: "R" }, { t: "Se a senha estiver certa, abra; senão, mostre erro", c: "L" }],
+        explicacao: "Sequência = um passo depois do outro. Repetição = repetir passos. Seleção = escolher com se… então… senão." },
+      { tipo: "relembre", de: "m3" },
+      { tipo: "classificar", modo: "tabela", de: "m3", titulo: "M3 · Atitude de cidadão digital ou não?", colunaItem: "Atitude", colunaResp: "Cidadão digital?",
+        categorias: [{ id: "S", rot: "👍 Sim" }, { id: "N", rot: "👎 Não" }],
+        itens: [{ t: "Discordar do colega sem ofender", c: "S" }, { t: "Espalhar uma foto para zombar de alguém", c: "N", why: "Isso é cyberbullying." }, { t: "Usar uma senha que mistura letras, números e símbolos", c: "S" }, { t: "Jogar o celular velho no lixo comum", c: "N", why: "Lixo eletrônico vai para o ponto de coleta." }, { t: "Consertar ou doar o aparelho que ainda funciona", c: "S" }],
+        explicacao: "Cidadão digital respeita, protege a senha e cuida do lixo eletrônico (consertar, doar, descartar no lugar certo)." },
+      { tipo: "escolha", de: "m3", titulo: "M3 · Respeito e consumo consciente",
+        perguntas: [
+          { p: "Trocar um aparelho que ainda funciona só porque ficou “velho” se chama:", opcoes: ["Obsolescência", "Reciclagem", "Processamento"], certo: 0 },
+          { p: "Estão me ofendendo na internet. O que eu faço?", opcoes: ["Tiro print, bloqueio e conto a um adulto de confiança", "Respondo com outra ofensa", "Apago o celular"], certo: 0 }],
+        explicacao: "Obsolescência = trocar o que ainda funciona. Diante de ofensa: print, bloquear e contar a um adulto." },
+      { tipo: "relembre", de: "m4" },
+      { tipo: "ordenar", de: "m4", titulo: "M4 · Do menor para o maior",
+        itens: ["bit", "byte", "KB", "MB", "GB", "TB"], explicacao: "bit → byte → KB → MB → GB → TB." },
+      { tipo: "escolha", de: "m4", titulo: "M4 · Bits, compactar e extensão",
+        perguntas: [
+          { p: "Quantos bits formam 1 byte?", opcoes: ["8", "2", "100"], certo: 0 },
+          { p: "O arquivo trabalhos.zip está:", opcoes: ["Compactado", "Apagado", "Impresso"], certo: 0 },
+          { p: "O que ocupa mais espaço?", opcoes: ["Um filme (2 GB)", "Uma foto (3 MB)", "Um texto (2 KB)"], certo: 0 }],
+        explicacao: "8 bits = 1 byte. .zip = compactado. GB é maior que MB, que é maior que KB." }
+    ],
+    desafio: [
+      { tipo: "escolha", de: "m1", titulo: "Desafio M1 · Pense",
+        perguntas: [{ p: "A tela sensível ao toque do celular é:", opcoes: ["De entrada e saída ao mesmo tempo", "Só de entrada", "Só de saída"], certo: 0, why: "Recebe o toque (entrada) e mostra a imagem (saída)." }] },
+      { tipo: "escolha", de: "m2", titulo: "Desafio M2 · Ache o erro",
+        enunciado: "<p>Algoritmo para calçar o tênis: <em>1. Calce o tênis. 2. Calce a meia. 3. Amarre o cadarço.</em></p>",
+        perguntas: [{ p: "Qual é o erro?", opcoes: ["A meia vem antes do tênis: os passos 1 e 2 estão trocados", "Falta repetir o passo 3", "Não tem erro"], certo: 0 }] },
+      { tipo: "escolha", de: "m3", titulo: "Desafio M3 · Qual senha é mais forte?",
+        perguntas: [{ p: "Qual senha é mais forte?", opcoes: ["Gat0#Azul72!", "123456", "joao2013"], certo: 0, why: "Mistura letras maiúsculas e minúsculas, números e símbolos." }] },
+      { tipo: "tabela", de: "m4", titulo: "Desafio M4 · Quanto cabe?",
+        linhas: [["Um pen drive de 1 GB (cerca de 1000 MB) guarda quantas músicas de 4 MB?", { r: "250", tipo: "num", w: 5, dica: "1000 ÷ 4" }]],
+        explicacao: "1000 ÷ 4 = 250 músicas." }
+    ],
+    turbo: [
+      { tipo: "escolha", de: "m1", titulo: "Turbo · Simulado M1",
+        perguntas: [{ p: "O processador fica em qual etapa?", opcoes: ["Processamento", "Entrada", "Saída"], certo: 0 }, { p: "Os programas, como o navegador, são:", opcoes: ["Software", "Hardware", "Metadados"], certo: 0 }] },
+      { tipo: "escolha", de: "m2", titulo: "Turbo · Simulado M2",
+        perguntas: [{ p: "“Se… então… senão” é:", opcoes: ["Seleção", "Repetição", "Sequência"], certo: 0 }, { p: "A pergunta “a porta está aberta?” num algoritmo é a:", opcoes: ["Condição", "Saída", "Repetição"], certo: 0 }] },
+      { tipo: "escolha", de: "m3", titulo: "Turbo · Simulado M3",
+        perguntas: [{ p: "Ofender alguém de forma repetida na internet é:", opcoes: ["Cyberbullying", "Obsolescência", "Algoritmo"], certo: 0 }, { p: "Aparelho quebrado que não tem conserto vai para:", opcoes: ["O ponto de coleta de lixo eletrônico", "O lixo comum", "O rio"], certo: 0 }] },
+      { tipo: "escolha", de: "m4", titulo: "Turbo · Simulado M4",
+        perguntas: [{ p: "Um bit pode valer:", opcoes: ["0 ou 1", "De 1 a 10", "Qualquer letra"], certo: 0 }, { p: "Para usar os arquivos de dentro de um .zip, eu:", opcoes: ["Descompacto (extraio)", "Apago o .zip", "Imprimo o .zip"], certo: 0 }] }
+    ]
+  },
+
   /* ======================= PROJETO FINAL ======================= */
   pf: {
     basico: [
