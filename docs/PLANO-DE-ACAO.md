@@ -154,7 +154,7 @@ Para decidir com o professor no salão. Cada item: manter, juntar ou desligar.
 - **Prova só com o que a turma viu** (nada de prova sem ter passado o assunto).
 - **Turmas de segunda (6º C, 7º C, 9º A, 9º B) — decidido em 14/11: caminho A.** 16/11 M2 · 23/11 🔁 Revisão (M1+M2) · 07/12 prova **só M1 e M2**. A M3 fica para depois da prova, como conteúdo.
 - **Regra da M4 (14/11):** só aprofunda o assunto **da própria série**; nunca adianta o que a turma vai ver na série seguinte em 2027 (nem programação em blocos, que está reservada para o editor do portal em 2027). Ao planejar 2027, conferir esta lista para não repetir com os mesmos alunos.
-- **Temas da M4 (decididos em 14/11; o Claude escolhe e só informa).** Conferidos com o documento "Informática 2027: proposta de assuntos por série": cada M4 usa uma habilidade da BNCC **da própria série** que a turma ainda não viu e que **não** está na série seguinte de 2027 — assim não repete para os mesmos alunos e o material já serve para a série em 2027.
+- **Temas da M4 (decididos em 14/11; **só desta vez** o Claude escolheu sozinho e informou — nas próximas, confirmar com o professor antes).** Conferidos com o documento "Informática 2027: proposta de assuntos por série": cada M4 usa uma habilidade da BNCC **da própria série** que a turma ainda não viu e que **não** está na série seguinte de 2027 — assim não repete para os mesmos alunos e o material já serve para a série em 2027.
   - 6º 💾 **Guardar, compactar e achar arquivos: bits, bytes e o tamanho dos arquivos** (EF06CO08) — reaproveita no 6º 2027, 4º bim · M2.
   - 7º 🗺️ **Grafos: mapas, caminhos e conexões** (EF07CO04) — reaproveita no 7º 2027, 2º bim · M2.
   - 8º 📜 **Termos de uso: o que eu aceitei?** (EF08CO09) — reaproveita no 8º 2027, 3º bim · M3.
