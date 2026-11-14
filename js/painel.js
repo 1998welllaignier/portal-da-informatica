@@ -144,7 +144,7 @@
   const topo = (u, ativo) => `<nav class="migalhas"><a href="#/">Início</a> › <a href="#/painel">Painel do professor</a></nav>
     <div class="pp-cab"><div><h1>📊 Painel do professor</h1><p class="lead">${esc(cat().professor)} · ${esc(cat().escola)}</p></div>
       <div class="pp-user"><button class="btn btn-peq pp-sino" id="pp-sino" type="button" title="Avisos de hoje: abre de novo os avisos, inclusive os que você deixou para ver depois">🔔<span class="pp-sino-n" id="pp-sino-n" hidden></span></button><button class="btn btn-peq pp-hor-btn" id="pp-hor" type="button">🗓️ Horários</button><button class="btn btn-peq pp-hor-btn" id="pp-cod" type="button">🔑 Códigos</button><button class="btn btn-peq pp-vivo-btn" id="pp-vivo" type="button">🔴 Ao vivo</button><button class="btn btn-peq pp-placar-btn" id="pp-placar" type="button" title="Abre numa aba nova, para deixar no projetor">🏆 Placar</button><button class="btn btn-peq pp-hor-btn" id="pp-tema" type="button" title="Decoração do portal por época do ano">🎨 Tema</button><button class="btn btn-peq pp-fim-btn" id="pp-fim" type="button" title="Finaliza a aula agora: fecha as tarefas e mostra o pódio">🏁 Finalizar aula</button><span>${esc(u.email)}</span><button class="btn btn-sec btn-peq" id="pp-sair" type="button">Sair do painel</button></div></div>
-    <nav class="pp-abas">${[["aula", "🎤 Aula"], ["", "🏫 Turmas"], ["diario", "📒 Diário"], ["presenca", "🗓️ Presença"], ["prova", "📝 Prova"], ["importar", "📥 Importar alunos"], ["ano", "📅 Ano letivo"]].map(([k, r]) =>
+    <nav class="pp-abas">${[["aula", "🎤 Aula"], ["", "🏫 Turmas"], ["diario", "📒 Diário"], ["panorama", "🗺️ Panorama"], ["presenca", "🗓️ Presença"], ["prova", "📝 Prova"], ["importar", "📥 Importar alunos"], ["ano", "📅 Ano letivo"]].map(([k, r]) =>
       `<a href="#/painel${k ? "/" + k : ""}" class="${ativo === k ? "atual" : ""}">${r}</a>`).join("")}</nav>${ajudaAba(ativo)}`;
   /* ❓ quadro "Para que serve e como usar" de cada aba (fica fechado; o professor abre quando quiser) */
   const AJUDA = {
@@ -178,8 +178,13 @@
       "Abra o dia para ver os presentes, os ausentes e quem concluiu o Básico.",
       "<b>🧩 Alunos atípicos que frequentam</b>: quantas vezes cada aluno com PEI entrou no portal.",
       "O <b>relatório da aula</b> era usado para lançar no diário antigo. Agora o 📒 Diário faz isso sozinho."]],
+    panorama: ["Ver de uma vez como foram as aulas de todas as turmas.", [
+      "Cada cartão é uma aula: a data, se aconteceu (✅) ou por que não (🚫 ninguém veio, 🙋 eu não fui, 🎉 feriado, 🏫 sem aula na escola), a missão dada e 👥 quantos alunos vieram.",
+      "<b>❔ Sem registro</b>: dia de aula que já passou sem nada anotado. Abra o cartão e registre no Diário.",
+      "<b>A missão de cada aula</b> vem, nesta ordem: 📌 a Missão de hoje escolhida no painel; ⚡ a missão que a maioria dos alunos abriu no portal naquele dia; 📅 o cronograma (só quando não há outra informação).",
+      "Toque no cartão para abrir a ✅ Chamada daquele dia (a lista de quem veio fica lá). A 📝 Prova usa este mesmo histórico para marcar as missões já dadas."]],
     prova: ["A prova do bimestre, feita no portal.", [
-      "<b>Antes de ligar</b>: confira as missões marcadas. A prova só cobra o que a turma estudou (o painel marca pelas aulas que já aconteceram).",
+      "<b>Antes de ligar</b>: confira as missões marcadas. O painel já marca as missões <b>dadas de verdade</b> (com a data de cada aula, mesmo fora da ordem) e deixa desmarcadas as que ainda não foram dadas. Você pode desmarcar ou marcar à vontade.",
       "<b>📝 Ligar o Dia de prova</b>: o aluno digita o código e cai direto na prova. O relógio vai até o horário-limite; quando acaba, a prova é enviada sozinha.",
       "<b>3 alternativas</b>: toque no aluno 🧩 cujo PEI pede prova adaptada.",
       "<b>Liberar recuperação</b>: abre uma 2ª tentativa só para aquele aluno. Vale a maior nota.",
@@ -439,7 +444,7 @@
     iv = setInterval(pinta, 30000);
     try { await carregarT(); } catch (err) { dlg.querySelector("#pv-c").innerHTML = `<p class="ajuda">Erro: ${esc(err.message || err)}</p>`; }
   }
-  document.addEventListener("click", e => { if (e.target.closest("#pp-sino")) mostrarAvisos({ manual: true }); if (e.target.closest("#pp-hor")) abrirHorarios(); if (e.target.closest("#pp-cod")) abrirCodigos(); if (e.target.closest("#pp-vivo")) abrirAoVivo(); if (e.target.closest("#pp-placar")) window.open("#/painel/placar/" + escolherTurma(null, todasTurmas()), "_blank"); if (e.target.closest("#pp-fim")) finalizarAgora(); if (e.target.closest("#pp-tema")) abrirTema(); });
+  document.addEventListener("click", e => { if (e.target.closest("#pp-sino")) mostrarAvisos({ manual: true }); { const pc = e.target.closest("[data-pan-dia]"); if (pc) try { sessionStorage.setItem("painel:diario:" + pc.dataset.panT, pc.dataset.panDia); } catch (x) {} } if (e.target.closest("#pp-hor")) abrirHorarios(); if (e.target.closest("#pp-cod")) abrirCodigos(); if (e.target.closest("#pp-vivo")) abrirAoVivo(); if (e.target.closest("#pp-placar")) window.open("#/painel/placar/" + escolherTurma(null, todasTurmas()), "_blank"); if (e.target.closest("#pp-fim")) finalizarAgora(); if (e.target.closest("#pp-tema")) abrirTema(); });
   // 🎨 tema do portal: automático pela data, ou ligado/desligado à mão (vale para todos os computadores)
   async function abrirTema() {
     if (document.querySelector(".pp-tema-dlg")) return;
@@ -825,10 +830,12 @@
     const acertos = d => { const Pv = P.provas[d.aid]; if (!Pv) return d.acertos || 0; const qs = d.qs ? Pv.questoes.filter(q => d.qs.includes(q.id)) : Pv.questoes; return qs.filter(q => d.respostas && d.respostas[q.id] != null && P.provaHash(d.aid, q.id, d.respostas[q.id]) === q.h).length; };
     const res = {}; provasSnap.docs.forEach(x => { const d = x.data(); const ac = acertos(d), nq = d.nq || (d.qs || []).length || 10; (res[d.alunoId] = res[d.alunoId] || {})[d.tentativa] = { ...d, ac, nq, nt: P.prova.notaDe(ac, nq) }; });
     const nota = n => n.toFixed(1).replace(".", ",");
-    // missões que a turma estudou (do cronograma): o painel já marca sozinho; o professor confere
+    // missões que a turma estudou DE VERDADE (pelo histórico das aulas: Missão de hoje › portal › cronograma), mesmo fora da ordem.
+    // O painel já marca sozinho; o professor confere e pode desmarcar.
     const nomesM = (P.provas[base && base.id] || {}).missoes || [];
-    const cron = Object.entries(t.missoes4 || {}).sort();
-    const estudadas = cfg.dia === hoje && cfg.missoes ? cfg.missoes : [...new Set(cron.filter(([d]) => d < hoje).map(([, m]) => m))];
+    const hist = await historicoTurma(t).catch(e => { console.warn("histórico", e); return { linhas: [], dadas: {} }; });
+    const dadas = hist.dadas;
+    const estudadas = cfg.dia === hoje && cfg.missoes ? cfg.missoes : nomesM.map(m => m.id).filter(id => dadas[id]);
     const tres = new Set(alunos.filter(a => a.prova3).map(a => a.id));
     const hhmm = d => d.enviadoEm && d.enviadoEm.toDate ? d.enviadoEm.toDate().toLocaleString("pt-BR").slice(0, 17) : (d.dia ? dataBR(d.dia) : "");
     const fizeram = alunos.filter(a => res[a.id]).length;
@@ -845,14 +852,21 @@
       const li = q => `<li>${q.tipo === "vf" ? "<em>V ou F:</em> " : ""}${esc(q.p)}<br>${q.opcoes.map(o => P.provaHash(x, q.id, o) === q.h ? `<span class="certa">✔ ${esc(o)}</span>` : `<span>${esc(o)}</span>`).join(" · ")}</li>`;
       const grupos = Pv.missoes ? Pv.missoes.map(m => `<h4>${esc(m.titulo)}${estudadas.includes(m.id) ? "" : " <small>(não entra na prova desta turma)</small>"}</h4><ol>${Pv.questoes.filter(q => q.m === m.id).map(li).join("")}</ol>`).join("") : `<ol>${Pv.questoes.map(li).join("")}</ol>`;
       return `<h3>${esc(ap ? ap.titulo : x)}</h3>${grupos}`; }).join("");
-    const aulasTxt = cron.length ? `<p><strong>Aulas da turma neste bimestre</strong> (do Diário de Classe):</p><ul class="pp-cron">${cron.map(([d, m]) => `<li>${d < hoje ? "✅" : "🔜"} ${esc(dataBR(d))} · ${esc((nomesM.find(x => x.id === m) || { titulo: m.toUpperCase() }).titulo)}</li>`).join("")}</ul>` : "";
-    const caixasM = nomesM.map(m => `<label class="pp-mis-ck"><input type="checkbox" data-m="${m.id}" ${estudadas.includes(m.id) ? "checked" : ""} ${ligada ? "disabled" : ""}> ${esc(m.titulo)}</label>`).join("");
+    const passadas = hist.linhas.filter(l => l.d <= hoje);
+    const aulasTxt = passadas.length ? `<details class="pp-cron-det"><summary><strong>Aulas da turma neste bimestre</strong> (${passadas.filter(l => l.status === "dada").length} dadas) · ver a lista</summary><div class="pan-fila">${hist.linhas.map(l => cartaoAula(l, t.id)).join("")}</div></details>` : "";
+    const dds = l => l.map(d => dataBR(d).slice(0, 5)).join(", ");
+    const ck = m => { const on = estudadas.includes(m.id), dd = dadas[m.id];
+      return `<label class="pp-mis-ck ${dd ? "dada" : "nao"}"><input type="checkbox" data-m="${m.id}" ${on ? "checked" : ""} ${ligada ? "disabled" : ""}>
+        <span><b>${esc(m.titulo)}</b><small>${dd ? `✅ dada em ${esc(dds(dd))}${hist.linhas.some(l => l.mid === m.id && l.status === "dada" && l.fonte === "cronograma") ? " <em>(📅 pelo cronograma)</em>" : ""}` : "⏳ ainda não foi dada"}</small></span></label>`; };
+    const jaM = nomesM.filter(m => dadas[m.id]), naoM = nomesM.filter(m => !dadas[m.id]);
+    const caixasM = `<div class="pp-mis-col"><h4>✅ Já dadas (${jaM.length})</h4>${jaM.map(ck).join("") || `<p class="ajuda">Nenhuma missão dada ainda.</p>`}</div>
+      <div class="pp-mis-col nao"><h4>⏳ Ainda não dadas (${naoM.length})</h4>${naoM.map(ck).join("") || `<p class="ajuda">Todas já foram dadas. 🎉</p>`}</div>`;
     const corpo = el.querySelector("#corpo");
     corpo.innerHTML = `<div class="painel"><h2>📝 Prova do bimestre · ${esc(nomeTurma(t.id))}</h2>
         <p>Situação: <span class="pp-prova-st ${ligada ? "on" : "off"}">${ligada ? `🟢 Dia de prova LIGADO · termina às ${cfg.ate ? hm(cfg.ate) : "fim do dia"}` : tempoAcabou ? "⏰ Tempo da prova acabou" : "⚪ Desligado"}</span></p>
         ${t.aula ? `<p class="ajuda">Aula da turma: ${["", "segunda", "terça", "quarta", "quinta", "sexta"][t.aula.dia]}, das ${t.aula.ini} às ${hm(new Date("2000-01-01T" + t.aula.ini + ":00").getTime() + (cat().duracaoAula || 75) * 60000)}.</p>` : ""}
         ${aulasTxt}
-        <div class="pp-missoes-prova"><p><strong>A prova cobra só estas missões</strong> (já marcadas pelas aulas que a turma teve; confira antes de ligar):</p>${caixasM}</div>
+        <div class="pp-missoes-prova"><p><strong>A prova cobra só as missões marcadas</strong>. O painel já marcou as que foram dadas nas aulas (com a data de cada uma); confira antes de ligar. Pode desmarcar ou marcar à vontade.</p><div class="pp-mis-grade">${caixasM}</div></div>
         <p class="ajuda">Ligado, o aluno digita o código e cai direto na prova. Um relógio mostra quanto falta até o horário-limite; quando o tempo acaba, a prova é enviada sozinha com as respostas marcadas. Ao terminar, o aluno vê a nota e o portal sai sozinho.</p>
         <div class="row-btns">${ligada ? `<button class="btn" id="pv-off" type="button">⏹️ Encerrar a prova</button>` : `<label>A prova termina às <input type="time" id="pv-ate" value="${hm(fimPadrao)}"></label><button class="btn btn-grande" id="pv-on" type="button">📝 Ligar o Dia de prova</button>`}
           <button class="btn btn-sec" id="pv-cp" type="button">📋 Copiar notas</button>
@@ -910,6 +924,91 @@
   const OCORR_CURTO = { ninguem: "🚫 Ninguém veio", professor: "🙋 Eu não fui", feriado: "🎉 Feriado", formacao: "🏫 Sem aula na escola", outro: "📌 Outro motivo" };
   const semAula = a => !!(a && a.ocorrencia && a.ocorrencia.tipo && a.ocorrencia.tipo !== "ninguem");
   const ocorrDe = a => (a && a.ocorrencia && a.ocorrencia.tipo) ? a.ocorrencia : null;
+  /* 🗺️ HISTÓRICO DA TURMA: para cada data de aula, se aconteceu (ou por que não), quantos vieram e qual missão foi dada.
+     Usado pelo 🗺️ Panorama e pela 📝 Prova (que marca sozinha as missões já dadas, mesmo fora da ordem).
+     De onde vem a missão de cada aula, nesta ordem:
+       1) 📌 a Missão de hoje escolhida no painel (fica gravada na aula do dia);
+       2) ⚡ a missão que a maioria dos alunos abriu no portal naquele dia;
+       3) 📅 o cronograma (o que estava previsto para a data). */
+  const midDoTexto = s => { const m = /Miss[aã]o\s*(\d+)/i.exec(s || ""); return m ? "m" + m[1] : null; };
+  async function historicoTurma(t) {
+    const hoje = N.hoje();
+    const [tSnap, aulasSnap, alunosTodos, progTodos] = await Promise.all([db().collection(DIARIO).doc(t.id).get(), db().collection(DIARIO + "/" + t.id + "/aulas").get(), alunosDaTurma(t.id), progressoDaTurma(t.id)]);
+    const T = tSnap.exists ? tSnap.data() : {};
+    const aulas = {}; aulasSnap.docs.forEach(d => { aulas[d.id] = d.data(); });
+    const alunos = alunosTodos.filter(a => a.ativo !== false && !a.teste);
+    const ids = new Set(alunos.map(a => a.id));
+    const base = cat().apostilas.find(a => a.serie === t.serie.id && !a.oculta && !a.trilha);
+    if (base) await P.carregarApostila(base.id).catch(() => null);
+    const tituloM = m => { const C = base && P.conteudo[base.id]; const x = C && C.missoes.find(y => y.id === m); return x ? x.titulo : String(m).toUpperCase(); };
+    const cron = (T.cronograma && T.cronograma.length ? T.cronograma : Object.entries(t.missoes4 || {}).map(([data, m]) => ({ data, encontro: tituloM(m), mid: m }))).slice().sort((a, b) => a.data < b.data ? -1 : 1);
+    const ehDiaDeAula = d => !!aulas[d] || cron.some(c => c.data === d) || (t.aula && new Date(d + "T12:00:00").getDay() === t.aula.dia);
+    const auto = T.auto !== false;
+    const VEIO = {}, MIS = {};   // VEIO[d] = Set(alunos que abriram o portal); MIS[d][mid] = Set(alunos naquela missão)
+    progTodos.forEach(p => { if (!ids.has(p.alunoId)) return;
+      Object.keys(p.dias || {}).filter(ehDiaDeAula).forEach(d => {
+        (VEIO[d] = VEIO[d] || new Set()).add(p.alunoId);
+        if (p.mid) { const M = MIS[d] = MIS[d] || {}; (M[p.mid] = M[p.mid] || new Set()).add(p.alunoId); } }); });
+    const inicio = cron.length ? cron[0].data : "";
+    const datas = [...new Set([...cron.map(c => c.data), ...Object.keys(aulas), ...(auto ? Object.keys(VEIO) : [])])].filter(d => /^\d{4}-\d\d-\d\d$/.test(d) && d >= inicio).sort();
+    const linhas = datas.map(d => {
+      const a = aulas[d], oc = ocorrDe(a);
+      const encontro = (a && a.encontro) || (cron.find(c => c.data === d) || {}).encontro || "";
+      let presentes = null;
+      if (!oc) presentes = alunos.filter(x => { const man = a && a.presencas && a.presencas[x.id]; return man ? man === "P" : (auto && VEIO[d] && VEIO[d].has(x.id)); }).length;
+      const status = oc ? oc.tipo : presentes > 0 ? "dada" : d > hoje ? "prevista" : d === hoje ? "hoje" : "semregistro";
+      let mid = null, fonte = null;
+      if (a && a.missaoHoje && a.missaoHoje.mid) { mid = a.missaoHoje.mid; fonte = "registrada"; }
+      else if (MIS[d]) { const top = Object.entries(MIS[d]).sort((x, y) => y[1].size - x[1].size)[0]; if (top) { mid = top[0]; fonte = "portal"; } }
+      const plano = (a && a.encontro) ? midDoTexto(a.encontro) : ((cron.find(c => c.data === d) || {}).mid || midDoTexto(encontro));
+      if (!mid && plano) { mid = plano; fonte = "cronograma"; }
+      return { d, status, ocorr: oc, presentes, mid, fonte, titulo: mid ? tituloM(mid) : encontro, encontro };
+    });
+    // missões efetivamente dadas: só nas aulas que aconteceram (veio pelo menos 1 aluno)
+    const dadas = {}; linhas.filter(l => l.status === "dada" && l.mid).forEach(l => { (dadas[l.mid] = dadas[l.mid] || []).push(l.d); });
+    return { t, alunos, linhas, dadas, tituloM, base };
+  }
+  const ST_PAN = { dada: ["✅", "Aula dada"], prevista: ["🔜", "Próxima aula"], hoje: ["⏳", "Hoje"], semregistro: ["❔", "Sem registro"] };
+  const FONTE_M = { registrada: "📌 escolhida no painel", portal: "⚡ pelo que os alunos abriram", cronograma: "📅 pelo cronograma" };
+  const curtoM = s => String(s || "").replace(/^[^–-]*[–-]\s*/, "");
+  const DIASEM = ["dom", "seg", "ter", "qua", "qui", "sex", "sáb"];
+  /* -------- 🗺️ Panorama: todas as turmas, uma linha de cartões por turma (uma aula por cartão) -------- */
+  async function telaPanorama(u) {
+    const turmas = todasTurmas().filter(t => t.aula || Object.keys(t.missoes4 || {}).length);
+    const el = tela(topo(u, "panorama") + `<div class="painel pp-barra"><label><input type="checkbox" id="pan-fut"> Mostrar também as próximas aulas</label>
+        <span class="pan-leg">✅ dada · 🚫 ninguém veio · 🙋 eu não fui · 🎉 feriado · 🏫 sem aula na escola · ❔ sem registro · M1, M2… = missão dada (<sup>📅</sup> = só pelo cronograma)</span></div>
+      <div id="corpo"><p class="painel">Carregando as aulas de todas as turmas…</p></div>`);
+    ligarSair(el);
+    const hoje = N.hoje();
+    const hs = await Promise.all(turmas.map(t => historicoTurma(t).catch(e => ({ t, erro: e }))));
+    let fut = false; try { fut = sessionStorage.getItem("painel:pan:fut") === "1"; } catch (e) {}
+    const cx = el.querySelector("#pan-fut"); cx.checked = fut;
+    const desenhar = () => {
+      el.querySelector("#corpo").innerHTML = hs.map(h => {
+        if (h.erro) return `<div class="painel"><h2>${esc(nomeTurma(h.t.id))}</h2><p>Não consegui carregar: ${esc(h.erro.message || h.erro)}</p></div>`;
+        const ls = h.linhas.filter(l => fut || l.d <= hoje);
+        const n = s => h.linhas.filter(l => l.d <= hoje && s(l)).length;
+        const dadas = n(l => l.status === "dada"), sem = n(l => l.ocorr), semReg = n(l => l.status === "semregistro");
+        const mis = Object.keys(h.dadas).sort((a, b) => (+a.slice(1) || 0) - (+b.slice(1) || 0));
+        return `<div class="painel pan-turma"><div class="pan-cab"><h2><a href="#/painel/diario/${h.t.id}/frequencia">${esc(nomeTurma(h.t.id))}</a></h2>
+          <span class="pan-res">✅ ${dadas} aula${dadas === 1 ? "" : "s"} dada${dadas === 1 ? "" : "s"}${sem ? ` · 🚫 ${sem} sem aula` : ""}${semReg ? ` · <b>❔ ${semReg} sem registro</b>` : ""}${mis.length ? ` · missões dadas: <b>${mis.map(m => m.toUpperCase()).join(", ")}</b>` : ""}</span></div>
+          ${ls.length ? `<div class="pan-fila">${ls.map(l => cartaoAula(l, h.t.id)).join("")}</div>` : `<p class="ajuda">Nenhuma aula registrada ainda.</p>`}</div>`;
+      }).join("") + `<p class="ajuda painel">Toque em um cartão para abrir a ✅ Chamada daquele dia no Diário (lá fica a lista de quem veio). No nome da turma, abre a 🗓️ Frequência.</p>`;
+    };
+    cx.onchange = () => { fut = cx.checked; try { sessionStorage.setItem("painel:pan:fut", fut ? "1" : ""); } catch (e) {} desenhar(); };
+    desenhar();
+  }
+  function cartaoAula(l, tid) {
+    const st = l.ocorr ? [OCORR_CURTO[l.status] ? OCORR_CURTO[l.status].split(" ")[0] : "📌", OCORR_CURTO[l.status] ? OCORR_CURTO[l.status].replace(/^\S+\s/, "") : "Sem aula"] : ST_PAN[l.status];
+    const classe = l.status === "dada" ? "ok" : l.status === "ninguem" ? "ninguem" : l.ocorr ? "sem" : l.status;
+    const [, mm, dd] = l.d.split("-");
+    const missao = l.ocorr ? "" : l.mid ? `<span class="pan-m" title="${esc(l.titulo)}${l.fonte ? " · " + FONTE_M[l.fonte] : ""}">${esc(l.mid.toUpperCase())}${l.fonte === "cronograma" ? "<sup>📅</sup>" : ""}</span>` : (l.encontro ? `<span class="pan-m pan-m-txt" title="${esc(l.encontro)}">${esc(l.encontro.split(/[–-]/)[0].trim().slice(0, 14))}</span>` : "");
+    const pres = l.status === "dada" ? `<span class="pan-p">👥 ${l.presentes}</span>` : "";
+    const nota = l.ocorr && l.ocorr.nota ? ` · ${l.ocorr.nota}` : "";
+    return `<a class="pan-c pan-${classe}" href="#/painel/diario/${tid}/chamada" data-pan-dia="${l.d}" data-pan-t="${tid}" title="${esc(dataBR(l.d))} · ${esc(st[1] + nota)}${l.mid ? " · " + esc(l.titulo) : ""}">
+      <span class="pan-d">${dd}/${mm}<small>${DIASEM[new Date(l.d + "T12:00:00").getDay()]}</small></span>
+      <span class="pan-s">${st[0]} ${esc(st[1])}</span>${missao}${pres}</a>`;
+  }
   // dias de aula já passados (desde o início do cronograma) em que não há nenhum registro: nem presença do portal,
   // nem chamada à mão, nem registro escrito, nem ocorrência. O painel pergunta logo que abre.
   async function aulasPendentes() {
@@ -1609,6 +1708,7 @@
         if (sub === "aula") return await telaAula(u, arg, arg2);
         if (sub === "placar") return await telaPlacar(u, arg);
         if (sub === "presenca") return await telaPresenca(u, arg);
+        if (sub === "panorama") return await telaPanorama(u);
         if (sub === "prova") return await telaProvaPainel(u, arg);
         if (sub === "diario") return await telaDiario(u, arg, arg2);
         if (sub === "importar") return await telaImportar(u);
