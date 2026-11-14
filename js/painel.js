@@ -565,9 +565,50 @@
     return fechado;
   }
   const semanaCurta = d => ["dom", "seg", "ter", "qua", "qui", "sex", "sáb"][d] || "";
+  /* 📣 AVISOS DO PROFESSOR PARA OS ALUNOS (14/11/2026): aparecem quando o aluno entra no portal, só se houver.
+     Para: todos · só presenciais · só os que estudam em casa · um aluno só. Fica em config/avisos_<turma>
+     (o aluno só guarda o id, nunca o nome). */
+  async function abrirAvisosAlunos(t, alunos) {
+    const ref = db().collection("config").doc("avisos_" + t.id);
+    const dlg = h(`<dialog class="pp-dlg pp-dlg-larga"><form method="dialog"><div class="pp-hor-top"><h2>📣 Avisos para os alunos · ${esc(nomeTurma(t.id))}</h2><button class="btn btn-sec btn-peq" value="x">Fechar</button></div><div id="av-c">Carregando…</div></form></dialog>`);
+    document.body.appendChild(dlg); dlg.showModal(); dlg.addEventListener("close", () => dlg.remove());
+    const c = dlg.querySelector("#av-c"), PARA = { todos: "👥 Todos", presencial: "🏫 Só os presenciais", casa: "🏠 Só os que estudam em casa", aluno: "👤 Um aluno" };
+    const nomeDe = id => (alunos.find(a => a.id === id) || { nome: "(aluno)" }).nome;
+    const desenhar = async () => {
+      const sn = await ref.get(), lista = (sn.exists ? sn.data().lista : null) || [], hoje = N.hoje();
+      c.innerHTML = `<p class="ajuda">O aviso aparece para o aluno quando ele digita o código e entra no portal. Some sozinho depois da data escolhida (ou quando você apagar). Não escreva nada sigiloso.</p>
+        ${lista.length ? `<ul class="pp-av-lista">${lista.map(a => `<li class="${a.ate && a.ate < hoje ? "venc" : ""}"><span><b>${esc(PARA[a.alvo] || a.alvo)}${a.alvo === "aluno" ? ": " + esc(nomeDe(a.alunoId)) : ""}</b>${a.ate ? ` · até ${esc(dataBR(a.ate))}` : ""}<br>${esc(a.texto)}</span><button class="btn btn-sec btn-peq" type="button" data-del="${a.id}">🗑️ Apagar</button></li>`).join("")}</ul>` : `<p>Nenhum aviso ativo nesta turma.</p>`}
+        <h3>Novo aviso</h3>
+        <p><label>Para <select id="av-para">${Object.entries(PARA).map(([k, v]) => `<option value="${k}">${v}</option>`).join("")}</select></label>
+          <label id="av-al" hidden> Aluno <select id="av-aluno">${alunos.map(a => `<option value="${a.id}">${a.emCasa ? "🏠 " : ""}${esc(a.nome)}</option>`).join("")}</select></label></p>
+        <p><label>Mensagem<br><textarea id="av-txt" rows="3" style="width:100%" placeholder="Ex.: Lembrem de terminar o Básico da Missão 2 até sexta!"></textarea></label></p>
+        <p><label>Mostrar até <input type="date" id="av-ate" min="${hoje}"></label> <small>(em branco = até você apagar)</small></p>
+        <div class="row-btns"><button class="btn" type="button" id="av-ok">📣 Publicar aviso</button></div>`;
+      const para = c.querySelector("#av-para"); para.onchange = () => { c.querySelector("#av-al").hidden = para.value !== "aluno"; };
+      c.querySelectorAll("[data-del]").forEach(b => b.onclick = async () => { if (!await P.confirmar("Apagar este aviso?")) return; await ref.set({ lista: lista.filter(x => x.id !== b.dataset.del) }); toast("Aviso apagado."); desenhar(); });
+      c.querySelector("#av-ok").onclick = async () => {
+        const texto = c.querySelector("#av-txt").value.trim(); if (!texto) { toast("Escreva a mensagem do aviso."); return; }
+        const novo = { id: "a" + Date.now(), texto, alvo: para.value, criadoEm: Date.now() };
+        if (para.value === "aluno") novo.alunoId = c.querySelector("#av-aluno").value;
+        const ate = c.querySelector("#av-ate").value; if (ate) novo.ate = ate;
+        await ref.set({ lista: [...lista.filter(x => !(x.ate && x.ate < hoje)), novo] });
+        toast("📣 Aviso publicado."); desenhar();
+      };
+    };
+    desenhar().catch(e => { c.textContent = "Não foi possível abrir os avisos: " + (e.message || e); });
+  }
+  /* 📅 plano para quem estuda em casa: em que semana fazer cada missão (mesmo cronograma dos presenciais,
+     pelo histórico do Panorama) e o dia da prova. Gravado em config/plano_<turma> uma vez por dia. */
+  const semanaDe = d => { const x = new Date(d + "T12:00:00"), dw = (x.getDay() + 6) % 7; const ini = new Date(x); ini.setDate(x.getDate() - dw); const fim = new Date(ini); fim.setDate(ini.getDate() + 6); const f = y => y.toISOString().slice(0, 10); return [f(ini), f(fim)]; };
+  async function gravarPlanoCasa(t) {
+    const hst = await historicoTurma(t); const C = hst.base && P.conteudo[hst.base.id]; if (!C) return;
+    const quando = m => (hst.dadas[m] || [])[0] || (hst.linhas.find(l => l.mid === m && l.d >= N.hoje()) || {}).d || "";
+    const missoes = C.missoes.map(m => { const d = quando(m.id); const [ini, fim] = d ? semanaDe(d) : ["", ""]; return { mid: m.id, titulo: m.titulo, ini, fim }; }).sort((a, b) => (a.ini || "9") < (b.ini || "9") ? -1 : (a.ini || "9") > (b.ini || "9") ? 1 : 0);
+    await db().collection("config").doc("plano_" + t.id).set({ aid: hst.base.id, missoes, prova: hst.prova || "", atualizado: Date.now() });
+  }
   async function perguntarInicio(u) {
     // 🏠 uma vez por dia, atualiza em todas as turmas a lista de quem estuda em casa (fica sem trava)
-    if (!ss.get("painel:casa:" + N.hoje())) { ss.set("painel:casa:" + N.hoje(), "1"); todasTurmas().forEach(t => alunosDaTurma(t.id).then(al => sincronizarCasa(t, al)).catch(() => {})); }
+    if (!ss.get("painel:casa:" + N.hoje())) { ss.set("painel:casa:" + N.hoje(), "1"); todasTurmas().forEach(t => alunosDaTurma(t.id).then(al => sincronizarCasa(t, al).then(n => n ? gravarPlanoCasa(t) : null)).catch(() => {})); }
     try {
       const g = await config(); if (g.modoAula === false) return;
       const t = turmaAgora(todasTurmas()); if (!t) return;
@@ -619,13 +660,14 @@
         <label>Turma <select id="sel">${turmas.map(x => `<option value="${x.id}" ${x.id === t.id ? "selected" : ""}>${esc(nomeTurma(x.id))}</option>`).join("")}</select></label>
         <label><input type="checkbox" id="inat"> mostrar desativados</label>
         <span class="pp-acoes"><button class="btn btn-sec btn-peq" id="add" type="button">➕ Adicionar aluno</button>
-        <button class="btn btn-sec btn-peq" id="cart" type="button">🖨️ Cartões com os códigos</button>
+        <button class="btn btn-sec btn-peq" id="avs" type="button">📣 Avisos para os alunos</button><button class="btn btn-sec btn-peq" id="cart" type="button">🖨️ Cartões com os códigos</button>
         <button class="btn btn-sec btn-peq" id="csv" type="button">📥 Planilha (CSV)</button>
         <button class="btn btn-sec btn-peq" id="att" type="button">🔄 Atualizar</button></span></div>
       <div id="corpo"><p class="painel">Carregando…</p></div>`);
     ligarSair(el);
     el.querySelector("#sel").onchange = e => { location.hash = "#/painel/turma/" + e.target.value; };
     el.querySelector("#att").onclick = () => telaTurmas(u, t.id);
+    el.querySelector("#avs").onclick = async () => abrirAvisosAlunos(t, (await alunosDaTurma(t.id)).filter(a => a.ativo !== false && !a.teste));
     const aps = cat().apostilas.filter(a => a.serie === t.serie.id && !a.oculta);
     await Promise.all(cat().apostilas.filter(a => a.serie === t.serie.id).map(a => P.carregarApostila(a.id).catch(() => null)));
     const [alunos, prog] = await Promise.all([alunosDaTurma(t.id), progressoDaTurma(t.id)]);
@@ -718,6 +760,7 @@
             else { const o = await P.perguntar("Observação (opcional). Ex.: entrega a apostila impressa; vem só para a prova.", ""); if (o === null) return; await db().collection("alunos").doc(a.id).update({ emCasa: true, emCasaObs: o.trim() }); }
             // 🏠 quem estuda em casa fica sem trava (o portal do aluno lê config/liberar_<turma>.casa)
             await db().collection("config").doc("liberar_" + a.turma).set({ casa: { [a.id]: !a.emCasa } }, { merge: true });
+            if (!a.emCasa) { const tt = todasTurmas().find(x => x.id === a.turma); if (tt) gravarPlanoCasa(tt).catch(e => console.warn("plano casa", e)); }
           }
           if (x === "teste") { await db().collection("alunos").doc(a.id).update({ teste: !a.teste }); }
           if (x === "libera") {

@@ -1172,6 +1172,55 @@
     const s = sess.get(); if (!s || !s.trilha) return null;
     const t = cat().apostilas.find(x => x.trilha && x.base === aid); return t ? t.id : null;
   }
+  /* 📣 avisos do professor (config/avisos_<turma>) que valem para este aluno; 🏠 tela de boas-vindas de quem estuda em casa */
+  async function avisosDoAluno(s, casa) {
+    try {
+      const sn = await P.nuvem.db().collection("config").doc("avisos_" + s.turma).get(), hoje = P.nuvem.hoje(), ids = s.alunoIds || [];
+      return ((sn.exists && sn.data().lista) || []).filter(a => !(a.ate && a.ate < hoje) && (a.alvo === "todos" || (a.alvo === "casa" && casa) || (a.alvo === "presencial" && !casa) || (a.alvo === "aluno" && ids.includes(a.alunoId))));
+    } catch (e) { return []; }
+  }
+  const avisoHtml = l => l.map(a => `<div class="aviso-prof"><p class="ap-tit">📣 Aviso do professor${a.alvo === "aluno" ? " (só para você)" : ""}</p><p>${esc(a.texto)}</p></div>`).join("");
+  async function aoEntrar(s) {
+    // uma vez por entrada (sessão): 🏠 em casa → tela de boas-vindas; senão, avisos (só se houver)
+    if (!s || !s.nuvem || !P.trava || !P.nuvem) return false;
+    const k = "portalJK:entrou:" + (s.entrou || "") + ":" + (s.alunoIds || []).join("+");
+    if (sessionStorage.getItem(k)) return false; try { sessionStorage.setItem(k, "1"); } catch (e) {}
+    const casa = await P.trava.casaEh(s).catch(() => false);
+    if (casa) { location.replace("#/casa"); return true; }
+    const l = await avisosDoAluno(s, false);
+    if (l.length) { const d = h(`<dialog class="dlg-aviso"><form method="dialog">${avisoHtml(l)}<div class="row-btns"><button class="btn">Entendi 👍</button></div></form></dialog>`); document.body.appendChild(d); d.showModal(); d.addEventListener("close", () => d.remove()); }
+    return false;
+  }
+  async function telaCasa() {
+    const s = sess.get(); if (!s || !s.nuvem) { location.replace("#/"); return; }
+    barra();
+    const db = P.nuvem.db();
+    const [avs, pl] = await Promise.all([avisosDoAluno(s, true), db.collection("config").doc("plano_" + s.turma).get().then(x => x.exists ? x.data() : {}).catch(() => ({}))]);
+    const br = d => d ? d.slice(8, 10) + "/" + d.slice(5, 7) : "";
+    const ultimo = (pl.missoes || []).map(m => m.fim).filter(Boolean).sort().pop() || "";
+    const prazo = pl.prova ? (() => { const x = new Date(pl.prova + "T12:00:00"); x.setDate(x.getDate() - 1); return x.toISOString().slice(0, 10); })() : ultimo;
+    const horas = Math.round((P.catalogo.casaMinutos || 120) / 60), vid = P.catalogo.videoCasa;
+    const nome = (s.apelidos || [])[0] || (s.nomes || [""])[0].split(" ")[0];
+    mount(`<section class="tela casa">
+      <h1>🏠 Olá, ${esc(nome)}! Bem-vindo ao estudo em casa</h1>
+      <p class="lead">Como você não pode vir à aula do contraturno, vai fazer as missões de Informática a distância, no seu ritmo, com o <strong>Prof. Welington Laignier</strong> acompanhando tudo pelo portal.</p>
+      ${avisoHtml(avs)}
+      ${vid ? `<div class="painel"><h2>🎬 Veja como usar o portal em casa</h2><div class="casa-player"><iframe src="https://www.youtube-nocookie.com/embed/${esc(vid)}?rel=0&playsinline=1" title="Como usar o portal em casa" allowfullscreen></iframe></div></div>` : ""}
+      <div class="painel"><h2>📋 Como funciona</h2><ol class="casa-passos">
+        <li><b>🔑 Seu código</b>: são os 4 números que você pega com o professor na sala de informática, no dia da sua aula regular. Anote e guarde.</li>
+        <li><b>⏱️ ${horas} horas por dia</b>: o cronômetro começa quando você abre a primeira tarefa do dia e fica no canto da tela. Quando acaba, as tarefas fecham e você continua no dia seguinte. Tudo o que fez fica salvo.</li>
+        <li><b>🎬 Vídeo primeiro</b>: em cada missão, assista ao vídeo até o fim (pode pausar, mas não pular). Só depois as tarefas abrem. Use o som do celular ou um fone.</li>
+        <li><b>🧭 Uma etapa de cada vez</b>: resolva cada tarefa e toque em <b>✔ Verificar</b>. A próxima etapa abre quando você termina a anterior.</li>
+        <li><b>🟢 Básico = visto</b>: terminando o Básico de uma missão, você ganha o visto dela. Desafio e Turbo dão pontos extras.</li>
+        <li><b>📖 Tudo está no material</b>: leia com calma <b>💡 Para começar</b>, <b>📖 O que significa?</b> e as dicas. Todas as respostas estão na apostila. Você consegue sozinho!</li>
+        ${prazo ? `<li><b>🏁 Prazo</b>: termine todas as missões até <b>${br(prazo)}</b>.</li>` : ""}
+      </ol></div>
+      ${(pl.missoes || []).length ? `<div class="painel"><h2>📅 Sugestão de quando fazer cada missão</h2>
+        <ul class="casa-plano">${pl.missoes.map(m => `<li><b>${esc(String(m.mid).toUpperCase())}</b> · ${esc(String(m.titulo || "").replace(/^[^–]*–\s*/, ""))}<br><span>${m.ini ? `semana de ${br(m.ini)} a ${br(m.fim)}` : prazo ? `até ${br(prazo)}` : "quando puder"}</span></li>`).join("")}</ul>
+        <p class="ajuda">É só uma sugestão: você escolhe o seu ritmo, desde que termine tudo no prazo.</p></div>` : ""}
+      <p class="row-btns"><a class="btn btn-grande" href="#/apostilas">📚 Ir para as minhas missões →</a></p>
+    </section>`);
+  }
   /* ⏱️ cronômetro do estudo em casa (fica no canto da tela; quando zera, as tarefas fecham) */
   let casaTimer = null;
   function cronometroCasa(fim) {
@@ -1226,10 +1275,12 @@
       }
       if (r === "prova") { barra(); if (!P.prova) return telaInicio(); return await P.prova.abrir(mount, a1); }
       if ((r === "apostilas" || r === "apostila" || r === "missao") && P.prova) { const d = await P.prova.destino(); if (d) { location.replace(d); return; } }
+      if (r === "casa") return await telaCasa();
+      if (r === "apostilas" && await aoEntrar(sess.get()).catch(() => false)) return;
       // 📌 Missão de hoje: logo depois do código, o aluno cai direto na missão que o professor escolheu (uma vez por dia)
       if (r === "apostilas" && P.trava) {
         const s = sess.get(), h = await P.trava.hoje(s).catch(() => null);
-        if (h && h.mid) {
+        if (h && h.mid && !(await P.trava.casaEh(s).catch(() => false))) {
           try { sessionStorage.setItem("portalJK:hoje", h.aid + "/" + h.mid); } catch (e) {}
           const k = "portalJK:hojeIr:" + h.dia + ":" + h.mid;
           if (!sessionStorage.getItem(k)) { try { sessionStorage.setItem(k, 1); } catch (e) {} location.replace("#/missao/" + h.aid + "/" + h.mid); return; }
