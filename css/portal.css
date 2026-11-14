@@ -1797,3 +1797,4 @@ button.tb-av:hover .avatar-svg, button.tb-av:focus-visible .avatar-svg { transfo
   .pv-tab .pv-xp small { display: inline; margin-left: 6px; }
   .painel-prof .tabela-wrap:has(.pv-tab)::before, .pp-vivo-dlg .tabela-wrap::before { content: none; }
 }
+.btn.pp-off, .btn:disabled.pp-off { background: #e5e7eb !important; border-color: #d1d5db !important; color: #6b7280 !important; cursor: not-allowed; } .btn.pp-off small { font-weight: 600; font-size: .75em; }

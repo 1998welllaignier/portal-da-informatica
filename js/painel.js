@@ -296,6 +296,14 @@
     let v = false; try { const g = await config(); if (g.modoAula === false) v = true; else { const sn = await db().collection("config").doc("hoje_" + tid).get(); v = !!(sn.exists && sn.data().iniciadaDia === N.hoje()); } } catch (e) {}
     _ini[tid] = { t: Date.now(), v }; return v;
   }
+  // 🏁 botão Finalizar só fica disponível se a aula da turma foi iniciada hoje (em todo o painel)
+  async function botaoFinalizar(btn, tid, rotulo) {
+    if (!btn) return; _ini[tid] = null; const ok = await aulaIniciadaHoje(tid);
+    btn.dataset.rot = btn.dataset.rot || rotulo || btn.innerHTML;
+    btn.disabled = !ok; btn.classList.toggle("pp-off", !ok);
+    btn.innerHTML = ok ? btn.dataset.rot : `🏁 Finalizar aula <small>(só depois de ▶️ Iniciar)</small>`;
+    btn.title = ok ? "Finaliza a aula agora: fecha as tarefas e mostra o pódio" : "A aula desta turma ainda não foi iniciada hoje: não há o que finalizar.";
+  }
   async function publicarRei(t, rk, congelado) {
     if (!await aulaIniciadaHoje(t.id)) return;
     let dados, chave;
@@ -394,6 +402,8 @@
     el.querySelector("#pl-tela").onclick = () => { const d = document.documentElement; (document.fullscreenElement ? document.exitFullscreen() : d.requestFullscreen()).catch(() => {}); };
     const finalizar = async auto => { if (finalizando) return; finalizando = true;
       try { await finalizarAula(t, alunos, prog, mid); if (!auto) toast("🏁 Aula finalizada!"); } catch (err) { toast("Não foi possível finalizar: " + (err.message || err)); } finalizando = false; };
+    botaoFinalizar(el.querySelector("#pl-fim"), t.id);
+    const ivFim = setInterval(() => { if (!document.body.contains(el)) { clearInterval(ivFim); return; } botaoFinalizar(el.querySelector("#pl-fim"), t.id); }, 30000);
     el.querySelector("#pl-fim").onclick = async () => { if (await P.confirmar("Finalizar a aula agora? As tarefas fecham e o pódio aparece aqui e na tela dos alunos.")) finalizar(false); };
     const u1 = db().collection("progresso").where("turma", "==", t.id).onSnapshot(async q => { prog = q.docs.map(d => ({ id: d.id, ...d.data() })); await carregarAids(prog); pintarPlacar(); }, err => toast("Placar: " + (err.message || err)));
     let jaVi = 0;
@@ -487,6 +497,7 @@
       const alunos = (await alunosDaTurma(tid)).filter(a => a.ativo !== false && !a.teste);
       let fixo = false; try { const hh = await db().collection("config").doc("hoje_" + t.id).get(); fixo = hh.exists && hh.data().dia === N.hoje() && hh.data().mid === mid; } catch (e) {}
       estado = { t, alunos, prog: [], C, mid, midPadrao: mid, fixo, aid: ap.id };
+      botaoFinalizar(dlg.querySelector("#pv-fim"), tid);
       unsub = db().collection("progresso").where("turma", "==", tid).onSnapshot(async q => { if (estado && estado.t.id === tid) { estado.prog = q.docs.map(d => ({ id: d.id, ...d.data() })); await carregarAids(estado.prog); pinta(); } },
         err => { dlg.querySelector("#pv-c").innerHTML = `<p class="ajuda">Não foi possível acompanhar ao vivo: ${esc(err.message || err)}</p>`; });
     };
@@ -494,7 +505,7 @@
     dlg.querySelector("#pv-placar").onclick = () => window.open("#/painel/placar/" + tid, "_blank");
     dlg.querySelector("#pv-fim").onclick = async () => { if (!estado || !await P.confirmar("Finalizar a aula agora? As tarefas fecham e o pódio aparece no placar e na tela dos alunos.")) return;
       try { await finalizarAula(estado.t, estado.alunos, estado.prog, estado.mid); toast("🏁 Aula finalizada! O pódio está no placar."); } catch (err) { toast("Não foi possível finalizar: " + (err.message || err)); } };
-    iv = setInterval(pinta, 30000);
+    iv = setInterval(() => { pinta(); if (estado) botaoFinalizar(dlg.querySelector("#pv-fim"), estado.t.id); }, 30000);
     try { await carregarT(); } catch (err) { dlg.querySelector("#pv-c").innerHTML = `<p class="ajuda">Erro: ${esc(err.message || err)}</p>`; }
   }
   document.addEventListener("click", e => { if (e.target.closest("#pp-sino")) mostrarAvisos({ manual: true }); if (e.target.closest("#pp-ini")) iniciarAula(null, { manual: true }); if (e.target.closest("#cfg-tema")) abrirTema(); { const pc = e.target.closest("[data-pan-dia]"); if (pc) try { sessionStorage.setItem("painel:diario:" + pc.dataset.panT, pc.dataset.panDia); } catch (x) {} } if (e.target.closest("#pp-hor")) abrirHorarios(); if (e.target.closest("#pp-cod")) abrirCodigos(); if (e.target.closest("#pp-vivo")) abrirAoVivo(); if (e.target.closest("#pp-placar")) window.open("#/painel/placar/" + escolherTurma(null, todasTurmas()), "_blank"); if (e.target.closest("#pp-fim")) finalizarAgora(); if (e.target.closest("#pp-tema")) abrirTema(); });
@@ -525,6 +536,9 @@
       <p class="erro" id="ff-e" hidden></p>
       <div class="row-btns"><button type="button" class="btn btn-grande" id="ff-ok">🏁 Sim, finalizar agora</button><button class="btn btn-sec" value="x">Cancelar</button></div></form></dialog>`);
     document.body.appendChild(dlg); dlg.showModal(); dlg.addEventListener("close", () => dlg.remove());
+    const conferir = async () => { const ok = dlg.querySelector("#ff-ok"), tt = dlg.querySelector("#ff-t").value; await botaoFinalizar(ok, tt, "🏁 Sim, finalizar agora");
+      const e = dlg.querySelector("#ff-e"); if (ok.disabled) { e.innerHTML = `A aula do <b>${esc(rotuloTurma(tt))}</b> não foi iniciada hoje, então não há o que finalizar.`; e.hidden = false; } else e.hidden = true; };
+    dlg.querySelector("#ff-t").onchange = conferir; conferir();
     dlg.querySelector("#ff-ok").onclick = async () => {
       const b = dlg.querySelector("#ff-ok"), t = turmas.find(x => x.id === dlg.querySelector("#ff-t").value); b.disabled = true; b.textContent = "Finalizando…";
       try { const [hj, alunos, q] = await Promise.all([missaoDeHoje(t), alunosDaTurma(t.id), db().collection("progresso").where("turma", "==", t.id).get()]);
