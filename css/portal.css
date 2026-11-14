@@ -1779,3 +1779,21 @@ button.tb-av:hover .avatar-svg, button.tb-av:focus-visible .avatar-svg { transfo
 .pp-reg li.reg-semreg { background: #f1f2f5; } .pp-reg li.reg-semreg .reg-selo { background: #8a8fa0; color: #fff; }
 .pp-reg li.reg-ninguem { background: var(--erro-bg); border-color: #f3b4ad; } .pp-reg li.reg-ninguem .reg-selo { background: var(--erro); color: #fff; }
 .pp-reg li.reg-sem { background: var(--aviso-bg); border-color: #f0d79b; } .pp-reg li.reg-sem .reg-selo { background: #c98a00; color: #fff; }
+/* 🔴 Ao vivo: quadro de atenção e XP (14/11/2026) */
+.pv-atencao { background: var(--erro-bg); border: 2px solid #f3b4ad; border-radius: 12px; padding: 8px 12px; margin: 8px 0; }
+.pv-atencao.ok { background: var(--ok-bg); border-color: #9fd5b1; }
+.pv-atencao p { margin: 4px 0; } .pv-at-tit { font-weight: 900; }
+.pv-xp b { font-size: 1.05rem; } .pv-xp small { display: block; color: var(--suave); }
+/* 📱 no celular, cada aluno vira um cartão colorido (no computador continua a tabela) */
+@media (max-width: 640px) {
+  .pv-tab, .pv-tab tbody, .pv-tab tr, .pv-tab td { display: block; width: 100%; }
+  .pv-tab thead { display: none; }
+  .pv-tab tr { border: 2px solid var(--linha); border-left-width: 7px; border-radius: 12px; padding: 8px 10px; margin: 0 0 10px; background: var(--aviso-bg); border-left-color: #f2a900; }
+  .pv-tab tr.feito { background: var(--ok-bg); border-left-color: var(--ok); }
+  .pv-tab tr.parado { background: var(--erro-bg); border-left-color: var(--erro); }
+  .pv-tab td { border: 0; padding: 3px 0; text-align: left; }
+  .pv-tab td[data-rot]:not([data-rot="Aluno"])::before { content: attr(data-rot) ": "; font-size: .75rem; font-weight: 800; color: var(--suave); text-transform: uppercase; }
+  .pv-tab td[data-rot="Aluno"] { font-weight: 800; font-size: 1.02rem; }
+  .pv-tab .pv-xp small { display: inline; margin-left: 6px; }
+  .painel-prof .tabela-wrap:has(.pv-tab)::before, .pp-vivo-dlg .tabela-wrap::before { content: none; }
+}
