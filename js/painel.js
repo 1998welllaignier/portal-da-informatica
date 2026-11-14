@@ -1185,7 +1185,7 @@
     if (lp && !Object.keys(dadas).length && !linhas.some(l => l.d < lp.d && l.d >= hoje && l.mid)) { lp.encontro = lp.titulo = "📝 Trabalho avaliativo em aula"; lp.trabalho = true; }
     return { t, alunos, linhas, dadas, tituloM, base, semVaga: faltam, prova: lp ? lp.d : null };
   }
-  const ST_PAN = { dada: ["✅", "Aula dada"], prevista: ["🔜", "Próxima aula"], hoje: ["⏳", "Hoje"], semregistro: ["❔", "Sem registro"] };
+  const ST_PAN = { dada: ["✅", "Aula dada"], prevista: ["⏩", "Próxima aula"], hoje: ["⏳", "Hoje"], semregistro: ["❔", "Sem registro"] };
   const FONTE_M = { registrada: "📌 escolhida no painel", portal: "⚡ pelo que os alunos abriram", cronograma: "previsto no cronograma (sem registro do que foi dado)" };
   const curtoM = s => String(s || "").replace(/^[^–-]*[–-]\s*/, "");
   const DIASEM = ["dom", "seg", "ter", "qua", "qui", "sex", "sáb"];
@@ -1529,7 +1529,7 @@
         if (d <= hoje && n > 0) return ["✅", "ok"]; if (d > hoje) return ["⏳", "prox"]; if (d === hoje) return ["⏳", "prox"]; return ["❔", "semreg"]; };
       const SELO = { ok: "✅ AULA DADA", prox: "⏳ AINDA VAI ACONTECER", semreg: "❔ PASSOU SEM REGISTRO", ninguem: "🚫 NINGUÉM VEIO", sem: "📌 NÃO TEVE AULA" };
       return `<div class="painel"><p class="pp-reg-leg">✅ aula dada · ⏳ ainda vai acontecer · ❔ passou sem registro · 🚫 ninguém veio · 🙋 eu não fui · 🎉 feriado · 🏫 sem aula na escola</p><ul class="pp-reg">${ds.map(d => { const a = aulas[d] || {}; const n = alunos.filter(x => pres(d, x.id).v === "P").length; const st = stReg(d, n);
-        return `<li class="reg-${st[1]}"><span class="reg-selo">${SELO[st[1]]}</span><div><strong><span class="reg-ic" aria-hidden="true">${st[0]}</span> ${dataBR(d)} (${semana(d)}) · ${esc(encCompleto(d) || "Aula")}</strong>${missaoTxt(a) ? ` <span class="pp-mdia">${missaoTxt(a)}</span>` : ""} <small>${ocorrDe(a) ? esc(OCORR[ocorrDe(a).tipo]) + (ocorrDe(a).nota ? " · " + esc(ocorrDe(a).nota) : "") : d <= hoje && temChamada(d) ? n + " presentes" : d > hoje ? "🔜 prevista" : ""}</small></div>${(a.registro || "").trim() ? `<p>${esc(a.registro).replace(/\n/g, "<br>")}</p>` : ""}<button type="button" class="btn btn-sec btn-peq" data-abrir="${d}">Abrir a chamada deste dia</button></li>`; }).join("")}</ul></div>`;
+        return `<li class="reg-${st[1]}"><span class="reg-selo">${SELO[st[1]]}</span><div><strong><span class="reg-ic" aria-hidden="true">${st[0]}</span> ${dataBR(d)} (${semana(d)}) · ${esc(encCompleto(d) || "Aula")}</strong>${missaoTxt(a) ? ` <span class="pp-mdia">${missaoTxt(a)}</span>` : ""} <small>${ocorrDe(a) ? esc(OCORR[ocorrDe(a).tipo]) + (ocorrDe(a).nota ? " · " + esc(ocorrDe(a).nota) : "") : d <= hoje && temChamada(d) ? n + " presentes" : d > hoje ? "⏩ prevista" : ""}</small></div>${(a.registro || "").trim() ? `<p>${esc(a.registro).replace(/\n/g, "<br>")}</p>` : ""}<button type="button" class="btn btn-sec btn-peq" data-abrir="${d}">Abrir a chamada deste dia</button></li>`; }).join("")}</ul></div>`;
     }
     function vLembretes() {
       return `<div class="painel"><p class="pp-so-voce">🔒 <b>Só você vê.</b> Lembretes seus sobre esta turma (aparecem também na aba 🎤 Aula). Os alunos não veem. Para mandar um recado <b>aos alunos</b>: <a href="#/painel/turma/${t.id}">🏫 Turmas › 📣 Avisos para os alunos</a>.</p><div class="row-btns"><input type="text" id="lb-novo" class="grow" placeholder="Ex.: na próxima aula, começar pela correção do labirinto"><button type="button" class="btn" id="lb-add">Adicionar</button></div>
