@@ -705,7 +705,7 @@
     if (trava.casa) {
       if (!trava.ini) { try { trava.ini = await P.trava.casaIniciar(s, mid); } catch (e) { trava.ini = Date.now(); } }
       cronometroCasa(trava.ini + trava.lim);
-      const vv = ((P.videosMissao || {})[a.base || aid] || {})[mid], vid = (Array.isArray(vv) ? vv[0] : vv);
+      const vv = ((P.videosMissao || {})[a.base || aid] || {})[mid], vid = (Array.isArray(vv) ? vv[vv.length - 1] : vv); // 🏠 em casa: o vídeo longo (passo a passo), quando existir
       if (vid && /^[\w-]{11}$/.test(vid) && !trava.videoVisto) casaVideo = vid;
     }
     if (casaVideo) {
