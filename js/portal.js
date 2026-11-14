@@ -1172,30 +1172,57 @@
     const s = sess.get(); if (!s || !s.trilha) return null;
     const t = cat().apostilas.find(x => x.trilha && x.base === aid); return t ? t.id : null;
   }
-  /* 📣 avisos do professor (config/avisos_<turma>) que valem para este aluno; 🏠 tela de boas-vindas de quem estuda em casa */
+  /* 📣 avisos do professor (config/avisos_<turma>) que valem para este aluno, um de cada vez, com um tempinho de leitura
+     antes do "OK, já li". Cada aviso aparece até o aluno ler o número de vezes que o professor escolheu (vezes; 0 = até
+     o professor apagar). Leituras em progresso/<aluno>_avisos.lidos. */
   async function avisosDoAluno(s, casa) {
     try {
-      const sn = await P.nuvem.db().collection("config").doc("avisos_" + s.turma).get(), hoje = P.nuvem.hoje(), ids = s.alunoIds || [];
-      return ((sn.exists && sn.data().lista) || []).filter(a => !(a.ate && a.ate < hoje) && (a.alvo === "todos" || (a.alvo === "casa" && casa) || (a.alvo === "presencial" && !casa) || (a.alvo === "aluno" && ids.includes(a.alunoId))));
+      const db = P.nuvem.db(), hoje = P.nuvem.hoje(), ids = s.alunoIds || [];
+      const [sn, ld] = await Promise.all([db.collection("config").doc("avisos_" + s.turma).get(), db.collection("progresso").doc(ids[0] + "_avisos").get().catch(() => null)]);
+      const lidos = (ld && ld.exists && ld.data().lidos) || {};
+      return ((sn.exists && sn.data().lista) || []).filter(a => !(a.ate && a.ate < hoje)
+        && (a.alvo === "todos" || (a.alvo === "casa" && casa) || (a.alvo === "presencial" && !casa) || (a.alvo === "aluno" && ids.includes(a.alunoId)))
+        && (!(a.vezes > 0) || (lidos[a.id] || 0) < a.vezes)).map(a => Object.assign({}, a, { lidos: lidos[a.id] || 0 }));
     } catch (e) { return []; }
   }
-  const avisoHtml = l => l.map(a => `<div class="aviso-prof"><p class="ap-tit">📣 Aviso do professor${a.alvo === "aluno" ? " (só para você)" : ""}</p><p>${esc(a.texto)}</p></div>`).join("");
+  const tempoLeitura = txt => Math.min(25, Math.max(4, Math.round(String(txt).trim().split(/\s+/).length / 130 * 60)));
+  function mostrarAvisos(s, lista) {
+    return new Promise(fim => {
+      const d = h(`<dialog class="dlg-aviso"><form method="dialog"><div id="av-u"></div></form></dialog>`); document.body.appendChild(d); d.showModal();
+      d.addEventListener("cancel", e => e.preventDefault());
+      let i = 0, tk = null;
+      const passo = () => {
+        const a = lista[i], ult = i === lista.length - 1; let r = tempoLeitura(a.texto);
+        d.querySelector("#av-u").innerHTML = `<div class="aviso-prof"><p class="ap-tit">📣 Aviso do professor${a.alvo === "aluno" ? " (só para você)" : ""}${lista.length > 1 ? ` · ${i + 1} de ${lista.length}` : ""}</p><p>${esc(a.texto)}</p></div>
+          <div class="row-btns"><button type="button" class="btn" id="av-ok" disabled>⏳ Leia com atenção… ${r}s</button></div>`;
+        const b = d.querySelector("#av-ok"); clearInterval(tk);
+        tk = setInterval(() => { r--; if (r > 0) b.textContent = `⏳ Leia com atenção… ${r}s`; else { clearInterval(tk); b.disabled = false; b.textContent = ult ? "✓ OK, já li · ▶️ Ir para as minhas tarefas" : "✓ OK, já li · próximo aviso →"; } }, 1000);
+        b.onclick = () => {
+          const ids = s.alunoIds || [];
+          ids.forEach(id => P.nuvem.db().collection("progresso").doc(id + "_avisos").set({ alunoId: id, turma: s.turma, tipo: "avisos", lidos: { [a.id]: (a.lidos || 0) + 1 }, atualizado: Date.now() }, { merge: true }).catch(() => {}));
+          if (ult) { clearInterval(tk); d.close(); d.remove(); fim(); } else { i++; passo(); }
+        };
+      };
+      passo();
+    });
+  }
   async function aoEntrar(s) {
-    // uma vez por entrada (sessão): 🏠 em casa → tela de boas-vindas; senão, avisos (só se houver)
+    // uma vez por entrada (sessão): primeiro os avisos (só se houver), depois 🏠 quem estuda em casa vai para a tela dele
     if (!s || !s.nuvem || !P.trava || !P.nuvem) return false;
     const k = "portalJK:entrou:" + (s.entrou || "") + ":" + (s.alunoIds || []).join("+");
     if (sessionStorage.getItem(k)) return false; try { sessionStorage.setItem(k, "1"); } catch (e) {}
     const casa = await P.trava.casaEh(s).catch(() => false);
+    const l = await avisosDoAluno(s, casa);
+    if (l.length) await mostrarAvisos(s, l);
     if (casa) { location.replace("#/casa"); return true; }
-    const l = await avisosDoAluno(s, false);
-    if (l.length) { const d = h(`<dialog class="dlg-aviso"><form method="dialog">${avisoHtml(l)}<div class="row-btns"><button class="btn">Entendi 👍</button></div></form></dialog>`); document.body.appendChild(d); d.showModal(); d.addEventListener("close", () => d.remove()); }
     return false;
   }
   async function telaCasa() {
     const s = sess.get(); if (!s || !s.nuvem) { location.replace("#/"); return; }
     barra();
     const db = P.nuvem.db();
-    const [avs, pl] = await Promise.all([avisosDoAluno(s, true), db.collection("config").doc("plano_" + s.turma).get().then(x => x.exists ? x.data() : {}).catch(() => ({}))]);
+    const [cd, pl] = await Promise.all([P.trava.casaDoc(s), db.collection("config").doc("plano_" + s.turma).get().then(x => x.exists ? x.data() : {}).catch(() => ({}))]);
+    const versao = P.catalogo.videoCasaVersao || 1, jaViu = (cd.instrucoes || 0) >= versao;
     const br = d => d ? d.slice(8, 10) + "/" + d.slice(5, 7) : "";
     const ultimo = (pl.missoes || []).map(m => m.fim).filter(Boolean).sort().pop() || "";
     const prazo = pl.prova ? (() => { const x = new Date(pl.prova + "T12:00:00"); x.setDate(x.getDate() - 1); return x.toISOString().slice(0, 10); })() : ultimo;
@@ -1204,9 +1231,8 @@
     mount(`<section class="tela casa">
       <h1>🏠 Olá, ${esc(nome)}! Bem-vindo ao estudo em casa</h1>
       <p class="lead">Como você não pode vir à aula do contraturno, vai fazer as missões de Informática a distância, no seu ritmo, com o <strong>Prof. Welington Laignier</strong> acompanhando tudo pelo portal.</p>
-      ${avisoHtml(avs)}
-      ${vid ? `<div class="painel"><h2>🎬 Veja como usar o portal em casa</h2><div class="casa-player"><iframe src="https://www.youtube-nocookie.com/embed/${esc(vid)}?rel=0&playsinline=1" title="Como usar o portal em casa" allowfullscreen></iframe></div></div>` : ""}
-      <div class="painel"><h2>📋 Como funciona</h2><ol class="casa-passos">
+      ${vid ? `<div class="painel"><h2>🎬 Como estudar em casa</h2>${jaViu ? `<details><summary class="btn btn-sec">🎬 Rever as instruções</summary><div class="casa-player"><iframe src="https://www.youtube-nocookie.com/embed/${esc(vid)}?rel=0&playsinline=1" title="Como estudar em casa" allowfullscreen></iframe></div></details>` : `<p>Assista até o fim (pode pausar, mas não pular). Depois, as suas missões abrem.</p><div class="casa-player"><div id="casa-inst"></div></div><p class="ajuda" id="casa-imsg"></p>`}</div>` : ""}
+      <div class="painel" ${vid ? "hidden" : ""}><h2>📋 Como funciona</h2><ol class="casa-passos">
         <li><b>🔑 Seu código</b>: são os 4 números que você pega com o professor na sala de informática, no dia da sua aula regular. Anote e guarde.</li>
         <li><b>⏱️ Uma missão por dia, até ${horas} horas</b>: o cronômetro começa quando você abre a primeira tarefa do dia e fica no canto da tela. Nesse dia você faz só essa missão: se terminar antes, a próxima fica para outro dia. Quando o tempo acaba, as tarefas fecham. Você pode entrar e ler os textos quando quiser. Tudo o que fez fica salvo.</li>
         <li><b>🎬 Vídeo primeiro</b>: em cada missão, assista ao vídeo até o fim (pode pausar, mas não pular). Só depois as tarefas abrem. Use o som do celular ou um fone.</li>
@@ -1218,8 +1244,9 @@
       ${(pl.missoes || []).length ? `<div class="painel"><h2>📅 Sugestão de quando fazer cada missão</h2>
         <ul class="casa-plano">${pl.missoes.map(m => `<li><b>${esc(String(m.mid).toUpperCase())}</b> · ${esc(String(m.titulo || "").replace(/^[^–]*–\s*/, ""))}<br><span>${m.ini ? `semana de ${br(m.ini)} a ${br(m.fim)}` : prazo ? `até ${br(prazo)}` : "quando puder"}</span></li>`).join("")}</ul>
         <p class="ajuda">É só uma sugestão: você escolhe o seu ritmo, desde que termine tudo no prazo.</p></div>` : ""}
-      <p class="row-btns"><a class="btn btn-grande" href="#/apostilas">📚 Ir para as minhas missões →</a></p>
+      <p class="row-btns" id="casa-ir" ${vid && !jaViu ? "hidden" : ""}><a class="btn btn-grande" href="#/apostilas">📚 Ir para as minhas missões →</a></p>
     </section>`);
+    if (vid && !jaViu) videoObrigatorio(document.getElementById("casa-inst"), vid, async () => { try { await P.trava.casaGravar(s, { instrucoes: versao }); } catch (e) {} document.getElementById("casa-ir").hidden = false; toast("✅ Instruções assistidas!"); }, m => { const x = document.getElementById("casa-imsg"); if (x) x.textContent = m; });
   }
   /* ⏱️ cronômetro do estudo em casa (fica no canto da tela; quando zera, as tarefas fecham) */
   let casaTimer = null;

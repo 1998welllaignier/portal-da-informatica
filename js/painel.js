@@ -575,20 +575,24 @@
     const c = dlg.querySelector("#av-c"), PARA = { todos: "👥 Todos", presencial: "🏫 Só os presenciais", casa: "🏠 Só os que estudam em casa", aluno: "👤 Um aluno" };
     const nomeDe = id => (alunos.find(a => a.id === id) || { nome: "(aluno)" }).nome;
     const desenhar = async () => {
-      const sn = await ref.get(), lista = (sn.exists ? sn.data().lista : null) || [], hoje = N.hoje();
+      const [sn, pg] = await Promise.all([ref.get(), progressoDaTurma(t.id).catch(() => [])]), lista = (sn.exists ? sn.data().lista : null) || [], hoje = N.hoje();
+      const leram = id => pg.filter(p => p.tipo === "avisos" && ((p.lidos || {})[id] || 0) > 0).map(p => nomeDe(p.alunoId));
+      const VZ = v => v > 0 ? `aparece ${v} vez${v > 1 ? "es" : ""}` : "aparece até você apagar";
       c.innerHTML = `<p class="ajuda">O aviso aparece para o aluno quando ele digita o código e entra no portal. Some sozinho depois da data escolhida (ou quando você apagar). Não escreva nada sigiloso.</p>
-        ${lista.length ? `<ul class="pp-av-lista">${lista.map(a => `<li class="${a.ate && a.ate < hoje ? "venc" : ""}"><span><b>${esc(PARA[a.alvo] || a.alvo)}${a.alvo === "aluno" ? ": " + esc(nomeDe(a.alunoId)) : ""}</b>${a.ate ? ` · até ${esc(dataBR(a.ate))}` : ""}<br>${esc(a.texto)}</span><button class="btn btn-sec btn-peq" type="button" data-del="${a.id}">🗑️ Apagar</button></li>`).join("")}</ul>` : `<p>Nenhum aviso ativo nesta turma.</p>`}
+        ${lista.length ? `<ul class="pp-av-lista">${lista.map(a => `<li class="${a.ate && a.ate < hoje ? "venc" : ""}"><span><b>${esc(PARA[a.alvo] || a.alvo)}${a.alvo === "aluno" ? ": " + esc(nomeDe(a.alunoId)) : ""}</b>${a.ate ? ` · até ${esc(dataBR(a.ate))}` : ""} · ${VZ(a.vezes || 0)}<br>${esc(a.texto)}<br><small title="${esc(leram(a.id).join(", "))}">👀 lido por ${leram(a.id).length} aluno${leram(a.id).length === 1 ? "" : "s"}${leram(a.id).length ? ": " + esc(leram(a.id).slice(0, 6).join(", ")) + (leram(a.id).length > 6 ? "…" : "") : ""}</small></span><button class="btn btn-sec btn-peq" type="button" data-del="${a.id}">🗑️ Apagar</button></li>`).join("")}</ul>` : `<p>Nenhum aviso ativo nesta turma.</p>`}
         <h3>Novo aviso</h3>
         <p><label>Para <select id="av-para">${Object.entries(PARA).map(([k, v]) => `<option value="${k}">${v}</option>`).join("")}</select></label>
           <label id="av-al" hidden> Aluno <select id="av-aluno">${alunos.map(a => `<option value="${a.id}">${a.emCasa ? "🏠 " : ""}${esc(a.nome)}</option>`).join("")}</select></label></p>
         <p><label>Mensagem<br><textarea id="av-txt" rows="3" style="width:100%" placeholder="Ex.: Lembrem de terminar o Básico da Missão 2 até sexta!"></textarea></label></p>
-        <p><label>Mostrar até <input type="date" id="av-ate" min="${hoje}"></label> <small>(em branco = até você apagar)</small></p>
+        <p><label>Quantas vezes aparece para cada aluno <select id="av-vz"><option value="1">1 vez</option><option value="2">2 vezes</option><option value="3" selected>3 vezes</option><option value="5">5 vezes</option><option value="0">Até eu apagar</option></select></label></p>
+        <p><label>Mostrar até <input type="date" id="av-ate" min="${hoje}"></label> <small>(em branco = sem data)</small></p>
+        <p class="ajuda">O aluno lê um aviso de cada vez e só pode tocar em "OK, já li" depois de um tempinho de leitura (calculado pelo tamanho do texto).</p>
         <div class="row-btns"><button class="btn" type="button" id="av-ok">📣 Publicar aviso</button></div>`;
       const para = c.querySelector("#av-para"); para.onchange = () => { c.querySelector("#av-al").hidden = para.value !== "aluno"; };
       c.querySelectorAll("[data-del]").forEach(b => b.onclick = async () => { if (!await P.confirmar("Apagar este aviso?")) return; await ref.set({ lista: lista.filter(x => x.id !== b.dataset.del) }); toast("Aviso apagado."); desenhar(); });
       c.querySelector("#av-ok").onclick = async () => {
         const texto = c.querySelector("#av-txt").value.trim(); if (!texto) { toast("Escreva a mensagem do aviso."); return; }
-        const novo = { id: "a" + Date.now(), texto, alvo: para.value, criadoEm: Date.now() };
+        const novo = { id: "a" + Date.now(), texto, alvo: para.value, vezes: +c.querySelector("#av-vz").value, criadoEm: Date.now() };
         if (para.value === "aluno") novo.alunoId = c.querySelector("#av-aluno").value;
         const ate = c.querySelector("#av-ate").value; if (ate) novo.ate = ate;
         await ref.set({ lista: [...lista.filter(x => !(x.ate && x.ate < hoje)), novo] });
