@@ -88,6 +88,21 @@ Faltam (história + prompt para o ChatGPT/HeyGen + montagem), nesta ordem:
 3. **9º · Missão 2 – Criptografia e ataques** → 9º D na **quinta 12/11, 9h**.
 Atenção: cada série tem turmas em missões diferentes (ver missoes4 no catálogo); conferir sempre o cronograma por turma antes de dizer qual vídeo falta.
 
+### 🧭 Pauta da conversa no salão, por urgência (combinada em 14/11/2026)
+🔴 **Esta semana (antes de 16–18/11)**
+1. Aba 🎤 Aula sugerir a Missão de hoje pela regra do Panorama (vale já na segunda 16/11).
+2. Revisão da Missão 1 do 8º ano (Listas: busca sequencial, binária e bolha) — aula em 18/11.
+🟠 **Até o fim de novembro (antes das revisões e da prova de 07–10/12)**
+3. **EAD / reposição a distância**: o aluno faz em casa quando falta ou precisa repor (trilha estilo AVA, com vídeo). Decidir: prazo; se a reposição conta como presença; vídeo obrigatório ou "Já assisti".
+4. **Pensar sempre no celular (mobile)**: quem faz em casa muitas vezes não tem computador, mas tem celular (nem que seja do pai ou da mãe). Testar as missões, tarefas e a prova no celular e ajustar o que não funcionar; virar regra do padrão de qualidade.
+5. Aula de "Revisão para a prova" (ideias abaixo).
+6. Trabalho avaliativo em aula (turma sem nenhuma missão dada até a prova).
+7. Atividade de recuperação e boletins em PDF.
+🟡 **Sem pressa**
+8. Levantamento de redundâncias do painel (13 itens abaixo) — idealmente antes do 1º bimestre de 2027.
+9. 14/12 (Conselho de Classe): tem aluno no contraturno?
+10. Portal decorado de Natal (partir do 🎨 Tema que já existe).
+
 ### 🗣️ Para decidir com o professor (anotado em 14/11/2026, conversa marcada para "quando estiver no salão")
 1. **Trabalho avaliativo em aula** (turma que chegar ao dia da prova sem nenhuma missão dada): quanto vale (até 5,0 como a prova?); conteúdo (sugestão: mini-missão curta da M1 da série, 45–50 min, correção automática); como liga (sugestão: igual à prova, pelo painel, código, horário-limite, nota no Boletim).
 2. **14/12 (segunda, Conselho de Classe)**: tem aluno no contraturno? Por ora ficou como 2ª chamada.
