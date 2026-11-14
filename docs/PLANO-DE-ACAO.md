@@ -1,6 +1,6 @@
 # Plano de ação — Portal da Informática (combinado em 07/11/2026)
 
-## 📌 Situação atual (atualizado em 08/11/2026, 19h)
+## 📌 Situação atual (atualizado em 14/11/2026, 13h)
 Claude Max (5x) assinado por um mês em 08/11 para adiantar tudo. **Voltar ao Pro antes de 08/12** (lembretes no celular em 01/12 e 05/12).
 
 ### 🗓️ Plano para usar bem o limite (combinado em 10/11/2026)
@@ -27,7 +27,7 @@ Ordem: primeiro o que tem data marcada; depois o que adianta o 1º bimestre de 2
 - [x] **Feito em 08/11:** 📝 Apoios gravados em 35 alunos com 🧩 (📍 sentar em 17, caminho sugerido, AEE, prova 3 alternativas, perfil, na aula). 👣 e “3 alternativas” marcados em 08/11, após aprovação.
 - [x] **Feito em 08/11:** Pedro Emanuel de Jesus Lima passou do 8º B para o 8º A no portal (como no SIGE desde 04/08), com 🧩 e apoio; código novo entregue ao professor no chat. 🧩 retirado do Pedro Henrique da Silva Sousa (8º A, sem AEE nem PEI).
 - [x] **Feito pelo professor (informado em 10/11):** Santiago Pinheiro Moraes Amaral (5º C, terça 9h) colocado no diário do painel, à mão.
-- [ ] **Professor (quando abrir o painel):** responder a janela 🗓️ "Aulas sem nenhum registro": 11/11 (qua) = 🙋 eu não fui (imprevisto, manhã e tarde); turmas de 10/11 e do resto da semana sem presença = 🚫 ninguém veio.
+- [x] **Feito (13/11):** responder a janela 🗓️ "Aulas sem nenhum registro": 11/11 (qua) = 🙋 eu não fui (imprevisto, manhã e tarde); turmas de 10/11 e do resto da semana sem presença = 🚫 ninguém veio.
 - [x] Painel (11/11): botões 🚦 na Chamada (🚫 nenhum aluno veio = falta para todos; 🙋 professor não foi, 🎉 feriado, 🏫 sem aula na escola, 📌 outro = não contam na frequência) + anotação; o painel pergunta sozinho, ao abrir, sobre aulas passadas sem nenhum registro.
 - [x] **Feito (informado em 11/11):** código novo entregue ao Pedro Emanuel de Jesus Lima (8º A) e cartão antigo recolhido.
 - [x] **Feito em 08/11:** diário antigo transferido para a aba 📒 Diário (17 turmas, 9 aulas, registros e lembretes; todos os alunos conferidos). A chamada passa a ser feita no painel.
@@ -36,8 +36,8 @@ Ordem: primeiro o que tem data marcada; depois o que adianta o 1º bimestre de 2
 - [ ] Revisar as questões das provas (arquivo “Gabarito-Provas-4bim.md”, reenviado no chat em 08/11 com as questões separadas por missão) e dizer se quer trocar alguma.
 - [ ] No dia de cada prova: na aba 📝 Prova, conferir as missões já marcadas (o painel marca pelas aulas que a turma teve) e, para o aluno 🧩 cujo PEI pede, tocar em “3 alternativas”.
 - [ ] Quando quiser, ligar a 🔒 trava de horário das tarefas (painel → 📅 Ano letivo) e testar com um aluno de teste.
-- [ ] Decidir a data da prova de cada turma (fim de novembro).
-- [ ] **9º D: ajustar o calendário (anotado em 12/11, 09h53):** na quinta 12/11 a turma refez a **Missão 1** em vez da M2 (veio mais aluno que o comum e, na aula de 05/11, as respostas de vários não foram contadas). Combinar com o professor: M2 em 19/11, M3 em 26/11 (?) e a data da prova; depois atualizar `missoes4` do 9D em dados/catalogo.js.
+- [x] **Resolvido em 14/11:** a prova cai no dia da turma na semana de Avaliação Bimestral da rede (07–11/12), automático no painel.
+- [x] **Resolvido em 14/11 (o Panorama ajusta sozinho as próximas missões):** 9º D: ajustar o calendário (anotado em 12/11, 09h53):** na quinta 12/11 a turma refez a **Missão 1** em vez da M2 (veio mais aluno que o comum e, na aula de 05/11, as respostas de vários não foram contadas). Combinar com o professor: M2 em 19/11, M3 em 26/11 (?) e a data da prova; depois atualizar `missoes4` do 9D em dados/catalogo.js.
 
 ### ✅ Feito
 - 07/11: Mão na massa, faixas do Básico, autonomia (sem carimbo), botão Página inicial, aviso da dupla, cartazes da porta, marcação 🧩 (36 alunos) e 👣 (8º B), Trilha do 8º adaptada ao PEI, botão Ouvir retirado.
