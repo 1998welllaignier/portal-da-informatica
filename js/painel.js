@@ -40,12 +40,19 @@
   // 🔁 missão sugerida pela mesma regra do Panorama: a da aula de hoje (registrada › portal › próxima que falta);
   // fora do dia da aula, a da próxima aula. Sem histórico, cai no cronograma antigo (missaoDoDia).
   const _sug = {};
+  // histórico da turma guardado por um dia (usado pela sugestão e pelas listas de missão)
+  const historicoCache = t => { const k = t.id + "|" + N.hoje(); if (!_sug[k]) _sug[k] = historicoTurma(t); return _sug[k]; };
+  // ✅/⏳ ao lado de cada missão nas listas: "(✅ dada em 03/11, 10/11)" ou "(⏳ ainda não dada)" (pedido em 14/11/2026)
+  async function situacaoMissoes(t) {
+    try { const h = await historicoCache(t); const r = {};
+      Object.keys(h.dadas || {}).forEach(m => { r[m] = "✅ dada em " + h.dadas[m].map(d => dataBR(d).slice(0, 5)).join(", "); });
+      return r; } catch (e) { return null; }
+  }
+  const sitMis = (sit, mid) => sit ? " (" + (sit[mid] || "⏳ ainda não dada") + ")" : "";
   async function missaoSugerida(t, C) {
     const ok = m => m && C.missoes.some(x => x.id === m);
     try {
-      const k = t.id + "|" + N.hoje();
-      if (!_sug[k]) _sug[k] = historicoTurma(t);
-      const h = await _sug[k], hoje = N.hoje();
+      const h = await historicoCache(t), hoje = N.hoje();
       const l = h.linhas.find(x => x.d === hoje && !x.ocorr && ok(x.mid)) || h.linhas.find(x => x.d > hoje && !x.ocorr && ok(x.mid));
       if (l) return l.mid;
     } catch (e) { console.warn("missão sugerida", e); }
@@ -540,9 +547,9 @@
         selM.innerHTML = `<option>Carregando…</option>`; c.querySelector("#ini-casa").hidden = true;
         const ap = cat().apostilas.find(a => a.serie === t.serie.id && !a.oculta && !a.trilha) || cat().apostilas.find(a => a.serie === t.serie.id);
         await P.carregarApostila(ap.id); const C = P.conteudo[ap.id];
-        const [sug, alunos] = await Promise.all([missaoSugerida(t, C), alunosDaTurma(t.id)]);
+        const [sug, alunos, sit] = await Promise.all([missaoSugerida(t, C), alunosDaTurma(t.id), situacaoMissoes(t)]);
         ctx = { t, ap, C, alunos: alunos.filter(a => a.ativo !== false && !a.teste) };
-        selM.innerHTML = `<option value="">— nenhuma: os alunos escolhem —</option>` + C.missoes.map(m => `<option value="${esc(m.id)}" ${m.id === sug ? "selected" : ""}>${esc(m.id.toUpperCase())} · ${esc(((m.titulo || "").replace(/^[^–]*–\s*/, "")).slice(0, 60))}${m.id === sug ? " (sugerida)" : ""}</option>`).join("");
+        selM.innerHTML = `<option value="">— nenhuma: os alunos escolhem —</option>` + C.missoes.map(m => `<option value="${esc(m.id)}" ${m.id === sug ? "selected" : ""}>${esc(m.id.toUpperCase())} · ${esc(((m.titulo || "").replace(/^[^–]*–\s*/, "")).slice(0, 60))}${m.id === sug ? " · ⭐ sugerida" : ""}${esc(sitMis(sit, m.id))}</option>`).join("");
         trav.disabled = !selM.value; if (!selM.value) trav.checked = false;
         const casa = ctx.alunos.filter(a => a.emCasa);
         const cx = c.querySelector("#ini-casa");
@@ -1694,13 +1701,13 @@
     try {
       const hRef = db().collection("config").doc("hoje_" + t.id), hs = await hRef.get();
       const hj0 = hs.exists && hs.data().dia === N.hoje() ? hs.data() : null, iniciada = !!(hj0 && hj0.iniciadaDia === N.hoje());
-      const hj = hj0 && hj0.mid ? hj0 : null;
+      const hj = hj0 && hj0.mid ? hj0 : null, sit = await situacaoMissoes(t);
       const baseId = ap.base || ap.id, curto = m => (m.titulo || m.id.toUpperCase()).replace(/ –.*/, "");
       // escolher QUALQUER missão numa lista (não só a que está aberta) e travar, tudo no mesmo quadro (pedido em 12/11/2026)
       const box = document.createElement("div"); box.className = "pp-trava pp-hoje";
       box.innerHTML = `<label>📌 <b>Missão de hoje:</b> <select data-hj="sel">
           <option value="" ${hj ? "" : "selected"}>— nenhuma (o aluno escolhe) —</option>
-          ${C.missoes.map(m => `<option value="${esc(m.id)}" ${hj && hj.mid === m.id ? "selected" : ""}>${esc(m.icone || "")} ${esc(m.id.toUpperCase())} · ${esc(((m.titulo || "").replace(/^[^–]*–\s*/, "") || curto(m)).slice(0, 60))}</option>`).join("")}</select></label>
+          ${C.missoes.map(m => `<option value="${esc(m.id)}" ${hj && hj.mid === m.id ? "selected" : ""}>${esc(m.icone || "")} ${esc(m.id.toUpperCase())} · ${esc(((m.titulo || "").replace(/^[^–]*–\s*/, "") || curto(m)).slice(0, 60))}${esc(sitMis(sit, m.id))}</option>`).join("")}</select></label>
         <label class="pp-auto" title="${hj ? "Só a missão de hoje fica com as tarefas abertas" : "Escolha primeiro a missão de hoje na lista"}"><input type="checkbox" data-hj="trav" ${hj && hj.travar ? "checked" : ""} ${hj ? "" : "disabled"}> 🔒 Travar só nela</label>
         <span class="st">${hj ? (hj.travar ? "🔒 os alunos só fazem as tarefas desta missão" : "✔ o aluno cai direto nela ao digitar o código") : "nenhuma missão definida para hoje"}</span>
         <span class="pp-ini-st ${iniciada ? "on" : "off"}">${iniciada ? `▶️ Aula iniciada às ${new Date(hj0.iniciadaEm || Date.now()).toTimeString().slice(0, 5)}` : `⏳ Aula não iniciada: tarefas fechadas <button class="btn btn-peq" type="button" data-hj="ini">▶️ Iniciar a aula</button>`}</span>`;
