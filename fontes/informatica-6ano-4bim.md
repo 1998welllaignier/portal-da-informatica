@@ -6,16 +6,17 @@ Prof. Welington · @Welington Laignier
 
 ## 📊 Quadro de notas do bimestre
 *Preenchido pelo professor. Esta apostila será entregue a você no final do bimestre.*
-| Encontro | 📅 Data (dia / mês) | 🟢 Básico (1,0) | 🟡 Desafio (0,25) | 🔴 Turbo (0,25) |
+| Encontro | 📅 Data (dia / mês) | 🟢 Básico | 🟡 Desafio (0,25) | 🔴 Turbo (0,25) |
 | Missão 1 | ........ / ........ |  |  |  |
 | Missão 2 | ........ / ........ |  |  |  |
 | Missão 3 | ........ / ........ |  |  |  |
 | Missão 4 | ........ / ........ |  |  |  |
+| 🔁 Revisão | ........ / ........ |  |  |  |
 | Projeto final | ........ / ........ |  |  |  |
 | **Total** |  |  |  |  |
 
 | Cálculo da nota | Pontos |
-| **A – Nota da apostila:** total do Básico + Desafio/Turbo (bônus até 1,0) — máximo 5,0 |  |
+| **A – Nota da apostila:** Básico até 4,0 (dividido pelas aulas de missão que a sua turma teve, incluindo a M4 e a Revisão quando houve) + Desafio/Turbo (bônus até 1,0) — máximo 5,0 |  |
 | **B – Nota da prova no Wayground:** ______ % de acertos ÷ 20 — máximo 5,0 |  |
 | **Nota do bimestre = A + B**** · média para aprovação: 5,0** (0 a 10) |  |
 

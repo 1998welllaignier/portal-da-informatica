@@ -1446,6 +1446,8 @@
     // 🏷️ encontro sempre com o título da missão ("Missão 1" → "Missão 1 – O computador e onde moram os dados")
     const encCompleto = d => { const e = encontroDe(d), m = midDoTexto(e); return m && !/ [–-] /.test(e) ? tituloM(m) : e; };
     const midDoDia = d => { const a = aulas[d]; return (a && a.missaoHoje && a.missaoHoje.mid) || midDoTexto(encontroDe(d)); };
+    // aula de missão = teve 📌 missão do dia (M1…M4 ou 🔁 Revisão) ou o encontro é Missão / Revisão / Projeto final
+    const ehAulaMissao = d => !!midDoDia(d) || /^(Missão|Projeto final|Revis)/.test(encontroDe(d));
     const fezMissao = {}; prog.forEach(p => { if (p.mid && p.basicoOk) (fezMissao[p.alunoId] = fezMissao[p.alunoId] || new Set()).add(p.mid); });
     const repos = (d, id) => { const m = midDoDia(d); return !!(m && fezMissao[id] && fezMissao[id].has(m)); };
     const pres = (d, id) => { const a = aulas[d]; if (semAula(a)) return { v: null };
@@ -1462,17 +1464,20 @@
     const boletim = id => {
       const dias = [...new Set([...Object.keys(aulas), ...Object.keys(AUTO)])];
       let bas = 0, ext = 0; dias.forEach(d => { bas += carimbo(d, id).v; ext += extra(d, id).v; });
-      const basC = Math.min(4, bas), bonus = Math.min(1, ext * 0.25), A = basC + bonus;
+      /* 📘 Apostila (combinado em 14/11/2026): o Básico vale até 4,0 dividido pelas aulas de missão que a TURMA teve
+         (M1, M2, M3, M4 e a 🔁 Revisão, quando a turma teve). Ex.: 5 aulas → 0,8 por visto; 3 aulas → 1,33. */
+      const nAulas = diasComChamada().filter(ehAulaMissao).length;
+      const basC = Math.round(100 * (nAulas ? Math.min(4, 4 * Math.min(bas, nAulas) / nAulas) : Math.min(4, bas))) / 100, bonus = Math.min(1, ext * 0.25), A = basC + bonus;
       const man = notas.prova[id], B = man != null && man !== "" ? +man : provaPortal[id] != null ? provaPortal[id] : null;
       const nota = A + (B || 0); const rv = notas.rec[id], r = rv == null || rv === "" ? null : +rv;
       const final = r != null && r > nota ? r : nota;
-      const encs = diasComChamada().filter(d => /^(Missão|Projeto final)/.test(encontroDe(d)));
+      const encs = diasComChamada().filter(ehAulaMissao);
       const deficit = Math.max(0, encs.length - bas), falta = [];
       if (deficit) falta.push(`Básico de ${deficit} aula${deficit > 1 ? "s" : ""}`);
       if (B == null && cron.some(c => /^Avalia/.test(c.encontro) && c.data <= hoje)) falta.push("fazer a prova (2ª chamada)");
       if (B != null && final < 5 && r == null) falta.push("recuperação");
       const sit = B == null && r == null ? { c: "wait", t: "Aguardando prova" } : final >= 5 ? { c: "ok", t: "Aprovado" } : r == null ? { c: "bad", t: "Fazer recuperação" } : { c: "bad", t: "Abaixo da média" };
-      return { bas, basC, ext, bonus, A, B, provaManual: man != null && man !== "", nota, r, final, sit, falta, recUsada: r != null && r > nota };
+      return { bas, basC, nAulas, ext, bonus, A, B, provaManual: man != null && man !== "", nota, r, final, sit, falta, recUsada: r != null && r > nota };
     };
     // dia da chamada: hoje se for dia de aula; senão, a última aula
     let dia = sessionStorage.getItem("painel:diario:" + t.id) || (ehDiaDeAula(hoje) ? hoje : ([...cron.map(c => c.data), ...Object.keys(aulas)].filter(d => d <= hoje).sort().pop() || hoje));
@@ -1529,9 +1534,9 @@
       const com = rows.filter(r => r.b.B != null || r.b.r != null);
       return `<div class="painel">
         <p class="pp-cont"><span>${alunos.length} alunos</span> <span>✅ ${com.filter(r => r.b.final >= 5).length} na média</span> <span>❌ ${com.filter(r => r.b.final < 5).length} abaixo de 5,0</span> <span>⏳ ${alunos.length - com.length} sem prova</span></p>
-        <p class="ajuda"><b>Nota:</b> Apostila (até 5,0) = 1,0 por visto do Básico (até 4) + 0,25 por Desafio/Turbo (bônus até 1,0). Prova (até 5,0) = nota da prova feita no portal (ou a que você digitar, para prova em papel). A Recuperação (0 a 10) substitui a nota quando for maior. Média mínima: 5,0.</p>
+        <p class="ajuda"><b>Nota:</b> Apostila (até 5,0) = Básico até 4,0, dividido pelas aulas de missão que a turma teve (M1 a M4 e a 🔁 Revisão, só as que a turma teve), + 0,25 por Desafio/Turbo (bônus até 1,0). Prova (até 5,0) = nota da prova feita no portal (ou a que você digitar, para prova em papel). A Recuperação (0 a 10) substitui a nota quando for maior. Média mínima: 5,0.</p>
         <div class="tabela-wrap"><table class="pp-bol"><thead><tr><th>Aluno</th><th>Freq.</th><th>Básico</th><th>Des./Turbo</th><th>Apostila</th><th>Prova<br><small>até 5,0</small></th><th>Nota</th><th>Recup.<br><small>0 a 10</small></th><th>Final</th><th>Situação</th><th>O que falta</th></tr></thead>
-        <tbody>${rows.map(({ a, b, fr }) => `<tr><td>${nomeA(a)}</td><td>${fr.pct == null ? "–" : fr.pct + "%"}</td><td>${b.basC}/4</td><td>${b.ext}</td><td><strong>${fmtN(b.A)}</strong></td>
+        <tbody>${rows.map(({ a, b, fr }) => `<tr><td>${nomeA(a)}</td><td>${fr.pct == null ? "–" : fr.pct + "%"}</td><td>${b.bas}/${b.nAulas || 4}</td><td>${b.ext}</td><td><strong>${fmtN(b.A)}</strong></td>
           <td><input class="num" data-np="${a.id}" value="${b.provaManual ? String(notas.prova[a.id]).replace(".", ",") : ""}" placeholder="${b.B != null && !b.provaManual ? fmtN(b.B) + " ⚡" : "–"}" inputmode="decimal" aria-label="Prova de ${esc(a.nome)}"></td>
           <td>${fmtN(b.nota)}</td><td><input class="num" data-nr="${a.id}" value="${b.r == null ? "" : String(b.r).replace(".", ",")}" placeholder="–" inputmode="decimal" aria-label="Recuperação de ${esc(a.nome)}"></td>
           <td><strong class="nota ${b.sit.c}">${fmtN(b.final)}</strong></td><td><span class="sit ${b.sit.c}">${b.sit.t}</span></td><td class="falta">${esc(b.falta.join(" · ") || "—")}</td></tr>`).join("")}</tbody></table></div>
@@ -1591,8 +1596,8 @@
         q("#xls-bol").onclick = () => {
           const c = v => { v = String(v == null ? "" : v); return /[;"\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v; };
           const csv = [["Prof. Welington Laignier · Informática · " + turmaTxt + " · " + bimTxt],
-            ["Nº", "Aluno", "Frequência", "Básico (de 4)", "Desafio/Turbo", "Apostila (até 5,0)", "Prova (até 5,0)", "Nota", "Recuperação (0 a 10)", "Final", "Situação", "O que falta"],
-            ...linhas().map(({ a, b, fr }, i) => [i + 1, a.nome, fr.pct == null ? "" : fr.pct + "%", b.basC, b.ext, fmtN(b.A), b.B == null ? "" : fmtN(b.B), fmtN(b.nota), b.r == null ? "" : fmtN(b.r), fmtN(b.final), b.sit.t, b.falta.join(" · ")])]
+            ["Nº", "Aluno", "Frequência", "Básico (vistos)", "Básico (nota até 4,0)", "Desafio/Turbo", "Apostila (até 5,0)", "Prova (até 5,0)", "Nota", "Recuperação (0 a 10)", "Final", "Situação", "O que falta"],
+            ...linhas().map(({ a, b, fr }, i) => [i + 1, a.nome, fr.pct == null ? "" : fr.pct + "%", b.bas + "/" + (b.nAulas || 4), fmtN(b.basC), b.ext, fmtN(b.A), b.B == null ? "" : fmtN(b.B), fmtN(b.nota), b.r == null ? "" : fmtN(b.r), fmtN(b.final), b.sit.t, b.falta.join(" · ")])]
             .map(l => l.map(c).join(";")).join("\r\n");
           const url = URL.createObjectURL(new Blob(["\ufeff" + csv], { type: "text/csv;charset=utf-8" }));
           const lk = document.createElement("a"); lk.href = url; lk.download = `Boletim-${t.id}-${hoje.slice(0, 4)}-4bim.csv`; document.body.appendChild(lk); lk.click(); lk.remove(); setTimeout(() => URL.revokeObjectURL(url), 2000);
@@ -1604,11 +1609,11 @@
           const turma = `<section class="pg">${cab}<h1>Boletim da turma</h1>
             <table class="t"><thead><tr><th>Nº</th><th>Aluno</th><th>Freq.</th><th>Apostila<br><small>até 5,0</small></th><th>Prova<br><small>até 5,0</small></th><th>Nota</th><th>Recup.</th><th>Final</th><th>Situação</th></tr></thead>
             <tbody>${L.map(({ a, b, fr }, i) => `<tr><td>${i + 1}</td><td class="nm">${e(a.nome)}</td><td>${fr.pct == null ? "–" : fr.pct + "%"}</td><td>${fmtN(b.A)}</td><td>${b.B == null ? "–" : fmtN(b.B)}</td><td>${fmtN(b.nota)}</td><td>${b.r == null ? "–" : fmtN(b.r)}</td><td><b>${fmtN(b.final)}</b></td><td style="color:${sitCor(b.sit.c)}"><b>${e(b.sit.t)}</b></td></tr>`).join("")}</tbody></table>
-            <p class="leg">Apostila = 1,0 por visto do Básico (até 4) + 0,25 por Desafio/Turbo (bônus até 1,0). Prova = até 5,0. Recuperação (0 a 10) substitui a nota quando for maior. Média mínima: 5,0.</p>
+            <p class="leg">Apostila = Básico até 4,0 (dividido pelas aulas de missão da turma, incluindo M4 e Revisão quando houve) + 0,25 por Desafio/Turbo (bônus até 1,0). Prova = até 5,0. Recuperação (0 a 10) substitui a nota quando for maior. Média mínima: 5,0.</p>
             <div class="ass"><span>Assinatura do professor</span><span>Data: ____/____/______</span></div></section>`;
           const ind = ({ a, b, fr }) => `<div class="bi">${cab}<h2>${e(a.nome)}</h2>
             <table class="t2"><tr><th>Frequência</th><td>${fr.pct == null ? "–" : fr.pct + "% (" + fr.p + (fr.p === 1 ? " presença" : " presenças") + (fr.j ? ", " + fr.j + (fr.j === 1 ? " justificada" : " justificadas") : "") + ", " + fr.f + (fr.f === 1 ? " falta" : " faltas") + ")"}</td></tr>
-            <tr><th>Apostila (Básico)</th><td>${b.basC} de 4 vistos = ${fmtN(b.basC)}</td></tr>
+            <tr><th>Apostila (Básico)</th><td>${b.bas} de ${b.nAulas || 4} vistos = ${fmtN(b.basC)}</td></tr>
             <tr><th>Desafio / Turbo</th><td>${b.ext} completo${b.ext === 1 ? "" : "s"} = +${fmtN(b.bonus)}</td></tr>
             <tr><th>Prova</th><td>${b.B == null ? "não fez" : fmtN(b.B) + " de 5,0"}</td></tr>
             <tr><th>Nota do bimestre</th><td>${fmtN(b.nota)}</td></tr>
@@ -1639,7 +1644,7 @@
         };
         q("#cp-bol").onclick = async () => {
           const txt = ["Aluno\tFrequência\tBásico\tDesafio/Turbo\tApostila\tProva\tNota\tRecuperação\tFinal\tSituação",
-            ...alunos.map(a => { const b = boletim(a.id), fr = freq(a.id); return [a.nome, fr.pct == null ? "" : fr.pct + "%", b.basC, b.ext, fmtN(b.A), b.B == null ? "" : fmtN(b.B), fmtN(b.nota), b.r == null ? "" : fmtN(b.r), fmtN(b.final), b.sit.t].join("\t"); })].join("\n");
+            ...alunos.map(a => { const b = boletim(a.id), fr = freq(a.id); return [a.nome, fr.pct == null ? "" : fr.pct + "%", b.bas + "/" + (b.nAulas || 4), b.ext, fmtN(b.A), b.B == null ? "" : fmtN(b.B), fmtN(b.nota), b.r == null ? "" : fmtN(b.r), fmtN(b.final), b.sit.t].join("\t"); })].join("\n");
           try { await navigator.clipboard.writeText(txt); toast("Boletim copiado."); } catch (e) { await P.perguntar("Copie o boletim:", txt); }
         };
       }
