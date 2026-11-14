@@ -1,0 +1,19 @@
+Grafos: o mapa secreto do GPS!
+
+O Caio precisa chegar à escola em cinco minutos. Ele abre o mapa do celular e, num piscar de olhos, aparece a rota. Como o celular sabe o caminho?
+
+O computador não enxerga as ruas como a gente. Ele guarda o mapa como pontos ligados por linhas. Isso se chama grafo.
+
+Cada lugar é um vértice: a casa, a padaria, a escola. Cada rua é uma aresta, a linha que liga dois lugares.
+
+E o número escrito na rua é o peso: quantos minutos você anda ali.
+
+Da casa até a escola, a rua direta leva nove minutos. Pela padaria, são três mais dois: cinco minutos!
+
+O caminho com menos ruas nem sempre é o mais curto. O mais curto é o de menor soma dos pesos.
+
+Grafos também mostram pessoas. Cada pessoa é um vértice, cada amizade é uma aresta. Quantas arestas chegam numa pessoa? Esse é o grau dela.
+
+Onde eu uso isso? No aplicativo de mapa, no aplicativo de transporte e na rede social que sugere amigos dos seus amigos.
+
+Agora é com vocês: abram a Missão 4 no portal!
