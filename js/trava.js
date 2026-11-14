@@ -106,6 +106,12 @@
         if (lib.ate && ms < lib.ate) return { aberta: true };
         const iniciada = h && h.iniciadaDia === N().hoje();
         if (!iniciada) return { aberta: false, aguardando: true };
+        // ⏰ fim automático (14/11/2026): sem o 🏁 Finalizar, as tarefas fecham sozinhas no fim do horário da aula
+        //    (+ tolerância). Aula iniciada fora do horário (reposição) dura o tempo de uma aula a partir do início.
+        const t = P.turma(s.turma), dur = (P.catalogo.duracaoAula || 75) * 60000, tl = (P.catalogo.toleranciaTarefas || 15) * 60000;
+        let fim = (h.iniciadaEm || ms) + dur + tl;
+        if (t && t.aula && t.aula.ini && noHorario(t, h.iniciadaEm || ms)) { const d = new Date(h.iniciadaEm || ms), [H, M] = t.aula.ini.split(":").map(Number); d.setHours(H, M, 0, 0); fim = d.getTime() + dur + tl; }
+        if (ms > fim) return { aberta: false, encerrada: true };
         if (h.travar && h.mid && mid && mid !== h.mid) return { aberta: false, hoje: h };
         return { aberta: true };
       }
