@@ -1704,7 +1704,7 @@ button.tb-av:hover .avatar-svg, button.tb-av:focus-visible .avatar-svg { transfo
   .mis-pag table.tab-completar td, .mis-pag table.classif-tab td { border: 0; padding: 4px 0; min-width: 0 !important; }
   .mis-pag td[data-rot]::before { content: attr(data-rot); display: block; font-size: .78rem; font-weight: 800; color: var(--suave); text-transform: uppercase; letter-spacing: .03em; }
   .mis-pag table.tab-completar input, .mis-pag table.tab-completar select { width: 100%; max-width: 100%; min-height: 40px; font-size: 16px; }
-  .mis-pag .tabela-wrap { overflow-x: visible; }
+  .mis-pag .tabela-wrap { overflow-x: auto; max-width: 100%; }
   .cesar, .ces-tira { overflow-x: auto; max-width: 100%; }
   .mis-pag input[type=radio], .mis-pag input[type=checkbox] { width: 22px; height: 22px; }
   .mis-pag .termo-link { padding: 5px 3px; }
