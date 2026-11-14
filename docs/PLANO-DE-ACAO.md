@@ -100,6 +100,7 @@ Atenção: cada série tem turmas em missões diferentes (ver missoes4 no catál
 5. Aula de "Revisão para a prova" (ideias abaixo).
 6. Trabalho avaliativo em aula (turma sem nenhuma missão dada até a prova).
 7. Atividade de recuperação e boletins em PDF.
+7b. **Documento interativo das senhas de Wi-Fi da escola** (no lugar de PDF): página que abre em qualquer celular; toca no roteador → nome da rede, senha, botão Copiar e QR Code. Decidir: link no portal (recomendado) ou arquivo .html; proteção (código numérico ou login do painel) e quem acessa (secretária? outros?); nomes e senhas das redes da Sala de Informática, Auditório/Biblioteca e Diretoria/Secretaria.
 🟡 **Sem pressa**
 8. Levantamento de redundâncias do painel (13 itens abaixo) — idealmente antes do 1º bimestre de 2027.
 9. 14/12 (Conselho de Classe): tem aluno no contraturno?
