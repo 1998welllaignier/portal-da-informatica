@@ -143,7 +143,7 @@
   const tela = html => mountFn(`<section class="tela painel-prof">${html}</section>`);
   const topo = (u, ativo) => `<nav class="migalhas"><a href="#/">Início</a> › <a href="#/painel">Painel do professor</a></nav>
     <div class="pp-cab"><div><h1>📊 Painel do professor</h1><p class="lead">${esc(cat().professor)} · ${esc(cat().escola)}</p></div>
-      <div class="pp-user"><button class="btn btn-peq pp-hor-btn" id="pp-hor" type="button">🗓️ Horários</button><button class="btn btn-peq pp-hor-btn" id="pp-cod" type="button">🔑 Códigos</button><button class="btn btn-peq pp-vivo-btn" id="pp-vivo" type="button">🔴 Ao vivo</button><button class="btn btn-peq pp-placar-btn" id="pp-placar" type="button" title="Abre numa aba nova, para deixar no projetor">🏆 Placar</button><button class="btn btn-peq pp-hor-btn" id="pp-tema" type="button" title="Decoração do portal por época do ano">🎨 Tema</button><button class="btn btn-peq pp-fim-btn" id="pp-fim" type="button" title="Finaliza a aula agora: fecha as tarefas e mostra o pódio">🏁 Finalizar aula</button><span>${esc(u.email)}</span><button class="btn btn-sec btn-peq" id="pp-sair" type="button">Sair do painel</button></div></div>
+      <div class="pp-user"><button class="btn btn-peq pp-sino" id="pp-sino" type="button" title="Avisos de hoje: abre de novo os avisos, inclusive os que você deixou para ver depois">🔔<span class="pp-sino-n" id="pp-sino-n" hidden></span></button><button class="btn btn-peq pp-hor-btn" id="pp-hor" type="button">🗓️ Horários</button><button class="btn btn-peq pp-hor-btn" id="pp-cod" type="button">🔑 Códigos</button><button class="btn btn-peq pp-vivo-btn" id="pp-vivo" type="button">🔴 Ao vivo</button><button class="btn btn-peq pp-placar-btn" id="pp-placar" type="button" title="Abre numa aba nova, para deixar no projetor">🏆 Placar</button><button class="btn btn-peq pp-hor-btn" id="pp-tema" type="button" title="Decoração do portal por época do ano">🎨 Tema</button><button class="btn btn-peq pp-fim-btn" id="pp-fim" type="button" title="Finaliza a aula agora: fecha as tarefas e mostra o pódio">🏁 Finalizar aula</button><span>${esc(u.email)}</span><button class="btn btn-sec btn-peq" id="pp-sair" type="button">Sair do painel</button></div></div>
     <nav class="pp-abas">${[["aula", "🎤 Aula"], ["", "🏫 Turmas"], ["diario", "📒 Diário"], ["presenca", "🗓️ Presença"], ["prova", "📝 Prova"], ["importar", "📥 Importar alunos"], ["ano", "📅 Ano letivo"]].map(([k, r]) =>
       `<a href="#/painel${k ? "/" + k : ""}" class="${ativo === k ? "atual" : ""}">${r}</a>`).join("")}</nav>${ajudaAba(ativo)}`;
   /* ❓ quadro "Para que serve e como usar" de cada aba (fica fechado; o professor abre quando quiser) */
@@ -439,7 +439,7 @@
     iv = setInterval(pinta, 30000);
     try { await carregarT(); } catch (err) { dlg.querySelector("#pv-c").innerHTML = `<p class="ajuda">Erro: ${esc(err.message || err)}</p>`; }
   }
-  document.addEventListener("click", e => { if (e.target.closest("#pp-hor")) abrirHorarios(); if (e.target.closest("#pp-cod")) abrirCodigos(); if (e.target.closest("#pp-vivo")) abrirAoVivo(); if (e.target.closest("#pp-placar")) window.open("#/painel/placar/" + escolherTurma(null, todasTurmas()), "_blank"); if (e.target.closest("#pp-fim")) finalizarAgora(); if (e.target.closest("#pp-tema")) abrirTema(); });
+  document.addEventListener("click", e => { if (e.target.closest("#pp-sino")) mostrarAvisos({ manual: true }); if (e.target.closest("#pp-hor")) abrirHorarios(); if (e.target.closest("#pp-cod")) abrirCodigos(); if (e.target.closest("#pp-vivo")) abrirAoVivo(); if (e.target.closest("#pp-placar")) window.open("#/painel/placar/" + escolherTurma(null, todasTurmas()), "_blank"); if (e.target.closest("#pp-fim")) finalizarAgora(); if (e.target.closest("#pp-tema")) abrirTema(); });
   // 🎨 tema do portal: automático pela data, ou ligado/desligado à mão (vale para todos os computadores)
   async function abrirTema() {
     if (document.querySelector(".pp-tema-dlg")) return;
@@ -976,7 +976,11 @@
       [f("11-05"), "🗣️ Dia Nacional da Língua Portuguesa", "data"], [f("11-19"), "🇧🇷 Dia da Bandeira", "data"]
     ];
   }
-  async function mostrarAvisos() {
+  /* 🔔 sininho (13/11/2026): abre os avisos de hoje a qualquer momento, sem sair e entrar de novo;
+     mostra também os já lidos (apagadinhos) e o número dos que faltam ler */
+  function contarSino(n) { const b = document.getElementById("pp-sino-n"); if (!b) return; b.hidden = !n; b.textContent = n > 9 ? "9+" : String(n || ""); }
+  async function mostrarAvisos(op = {}) {
+    if (op.manual && document.querySelector(".pp-avisos")) return;
     const hoje = N.hoje(), d0 = new Date(hoje + "T12:00:00"), ano = d0.getFullYear(), dif = d => Math.round((new Date(d + "T12:00:00") - d0) / 864e5);
     const TIPO = { feriado: "feriado", facultativo: "ponto facultativo", data: "data comemorativa" };
     const lista = [];
@@ -992,16 +996,19 @@
     let lidos = {}; const ref = db().collection("prof").doc("avisos");
     try { const sn = await ref.get(); lidos = (sn.exists && sn.data().lidos) || {}; } catch (e) {}
     const chave = id => id.replace(/[^\w-]/g, "_").slice(0, 120);
-    const mostrar = lista.filter(a => !lidos[chave(a.id)]);
-    if (!mostrar.length) return;
+    const naoLidos = lista.filter(a => !lidos[chave(a.id)]);
+    contarSino(naoLidos.length);
+    const mostrar = op.manual ? naoLidos.concat(lista.filter(a => lidos[chave(a.id)]).map(a => ({ ...a, jaLido: true }))) : naoLidos;
+    if (!mostrar.length) { if (op.manual) toast("🔔 Nenhum aviso para hoje."); return; }
+    if (op.contar) return;
     return new Promise(fim => {
       const dlg = h(`<dialog class="pp-dlg pp-dlg-larga pp-avisos"><form method="dialog"><h2>📣 Avisos de hoje · ${dataBR(hoje)}</h2>
-        <ul class="pp-av-lista">${mostrar.map((a, i) => `<li data-i="${i}"><span class="pp-av-ic">${a.ic}</span><span class="pp-av-txt">${a.txt}</span><button type="button" class="btn btn-sec btn-peq" data-lido="${i}" title="Não mostrar mais este aviso">✔ Já li</button></li>`).join("")}</ul>
+        <ul class="pp-av-lista">${mostrar.map((a, i) => `<li data-i="${i}"${a.jaLido ? ' class="lido"' : ""}><span class="pp-av-ic">${a.ic}</span><span class="pp-av-txt">${a.txt}</span>${a.jaLido ? '<span class="pp-av-ok">✔ lido</span>' : `<button type="button" class="btn btn-sec btn-peq" data-lido="${i}" title="Não mostrar mais este aviso">✔ Já li</button>`}</li>`).join("")}</ul>
         <div class="row-btns"><button type="button" class="btn" id="av-todos">✔ OK, já li tudo</button><button class="btn btn-sec" value="x">⏰ Ver depois</button></div>
-        <p class="ajuda">"Já li": o aviso não aparece mais. "Ver depois": aparece de novo da próxima vez que você entrar no painel.</p></form></dialog>`);
+        <p class="ajuda">"Já li": o aviso não aparece mais sozinho. "Ver depois": aparece de novo da próxima vez que você entrar no painel. A qualquer momento, o 🔔 lá em cima abre estes avisos de novo.</p></form></dialog>`);
       document.body.appendChild(dlg); dlg.showModal(); dlg.addEventListener("close", () => { dlg.remove(); fim(); });
       const marcar = async idx => {
-        try { await ref.set({ lidos: Object.fromEntries(idx.map(i => [chave(mostrar[i].id), Date.now()])) }, { merge: true }); } catch (e) { toast("Não foi possível salvar: " + (e.message || e)); } };
+        try { await ref.set({ lidos: Object.fromEntries(idx.map(i => [chave(mostrar[i].id), Date.now()])) }, { merge: true }); idx.forEach(i => { lidos[chave(mostrar[i].id)] = 1; }); contarSino(lista.filter(a => !lidos[chave(a.id)]).length); } catch (e) { toast("Não foi possível salvar: " + (e.message || e)); } };
       dlg.querySelectorAll("[data-lido]").forEach(b => b.onclick = async () => { const i = +b.dataset.lido; await marcar([i]); const li = b.closest("li"); li.classList.add("lido"); b.remove();
         if (!dlg.querySelector("li:not(.lido)")) dlg.close(); });
       dlg.querySelector("#av-todos").onclick = async () => { await marcar([...dlg.querySelectorAll("li:not(.lido)")].map(li => +li.dataset.i)); dlg.close(); };
@@ -1597,6 +1604,7 @@
       await new Promise(ok => { const x = auth().onAuthStateChanged(() => { x(); ok(); }); });
       const u = await entrar();
       if (!ss.get("painel:pendencias")) { ss.set("painel:pendencias", "1"); setTimeout(() => mostrarAvisos().finally(() => perguntarPendentes()), 1200); }
+      else setTimeout(() => mostrarAvisos({ contar: true }).catch(() => {}), 1200);
       try {
         if (sub === "aula") return await telaAula(u, arg, arg2);
         if (sub === "placar") return await telaPlacar(u, arg);

@@ -1617,3 +1617,9 @@ button.tb-av:hover .avatar-svg, button.tb-av:focus-visible .avatar-svg { transfo
 .btn-pulsa { animation: abriu 1.2s ease-out 2; }
 .pag-falta { margin: 10px 0 0; background: #fff6e0; border: 1px dashed #f2a900; border-radius: 10px; padding: 8px 12px; font-size: .95rem; }
 @media (prefers-reduced-motion: reduce) { .mn-trilha li.abriu a, .btn-pulsa { animation: none; } }
+
+/* 🔔 sininho dos avisos no painel (13/11/2026) */
+.pp-sino { position: relative; background: #fff; border: 1.5px solid #f2c14e; font-size: 1.05rem; padding-inline: .55rem; }
+.pp-sino:hover { background: #fff6e0; }
+.pp-sino-n { position: absolute; top: -6px; right: -6px; min-width: 18px; height: 18px; padding: 0 4px; border-radius: 9px; background: #dc2626; color: #fff; font-size: .7rem; font-weight: 800; line-height: 18px; text-align: center; }
+.pp-av-ok { font-size: .8rem; font-weight: 700; color: #157a3f; white-space: nowrap; }
