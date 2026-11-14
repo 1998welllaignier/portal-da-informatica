@@ -160,7 +160,8 @@
   }
   async function config() {
     const s = await db().collection("config").doc("geral").get();
-    return Object.assign({ ano: new Date().getFullYear() }, s.exists ? s.data() : {});
+    const d = s.exists ? s.data() : {}; if (d.periodo) P._periodo = d.periodo; P._periodoLido = true; // 🗓️ bimestre em uso
+    return Object.assign({ ano: new Date().getFullYear() }, d);
   }
 
   /* ============================================================
@@ -219,7 +220,7 @@
       "<b>⏹️ Encerrar</b> ao fim da aula. As notas vão sozinhas para o 🧮 Boletim do Diário."]],
     config: ["Configurações: importar alunos, ano letivo, “Iniciar a aula” e o 🎨 tema do portal.", [
       "<b>📥 Importar alunos</b>: cole a lista da turma (um nome por linha). Cada aluno ganha um código de 4 números.",
-      "<b>📅 Ano letivo e aulas</b>: liga/desliga o ▶️ “tarefas só depois de Iniciar a aula” e começa um ano novo.",
+      "<b>📅 Ano letivo e aulas</b>: 🗓️ escolhe o <b>bimestre em uso</b> (o que os alunos veem e o que o painel usa; os outros ficam guardados), liga/desliga o ▶️ “tarefas só depois de Iniciar a aula” e começa um ano novo.",
       "<b>🎨 Tema</b>: decoração do portal por época do ano."]],
     importar: ["Colocar as listas de alunos no portal.", [
       "Cole a lista da turma (um nome por linha). Cada aluno ganha um código de 4 números.",
@@ -285,7 +286,7 @@
     await carregarT(); dlg.querySelector("#pc-b").focus();
   }
   /* 🏁 finalizar a aula: grava o pódio (config/podio_<turma>, que os alunos leem) e fecha as tarefas até o fim da aula */
-  async function carregarSerie(t) { await Promise.all(cat().apostilas.filter(a => a.serie === t.serie.id).map(a => P.carregarApostila(a.id).catch(() => null))); }
+  async function carregarSerie(t) { await Promise.all(cat().apostilas.filter(a => a.serie === t.serie.id && P.doPeriodo(a)).map(a => P.carregarApostila(a.id).catch(() => null))); }
   /* 👑 rei da sala: o painel (placar ou ao vivo aberto) grava quem está em 1º lugar em config/rei_<turma>, que a tela do aluno lê */
   const reiGravado = {};
   function marcarRei(rk) { const rs = P.podio.reis(rk); rk.forEach(e => { e.rei = rs.includes(e); }); return rs; }
@@ -342,7 +343,7 @@
   async function carregarAids(prog) { const aids = [...new Set(prog.map(p => p.aid).filter(a => a && !P.conteudo[a]))];
     for (const a of aids) { try { await P.carregarApostila(a); } catch (e) {} } }
   async function missaoDeHoje(t) {
-    const ap = cat().apostilas.find(a => a.serie === t.serie.id && !a.oculta && !a.trilha) || cat().apostilas.find(a => a.serie === t.serie.id);
+    const ap = cat().apostilas.find(a => a.serie === t.serie.id && P.doPeriodo(a) && !a.oculta && !a.trilha) || cat().apostilas.find(a => a.serie === t.serie.id && P.doPeriodo(a));
     await P.carregarApostila(ap.id); const C = P.conteudo[ap.id];
     try { const h = await db().collection("config").doc("hoje_" + t.id).get(); if (h.exists && h.data().dia === N.hoje() && h.data().mid) return { mid: h.data().mid, C, fixo: true }; } catch (e) {}
     return { mid: (await missaoSugerida(t, C)) || C.missoes[0].id, C };
@@ -494,7 +495,7 @@
       if (unsub) { unsub(); unsub = null; }
       dlg.querySelector("#pv-c").innerHTML = `<p class="ajuda">Carregando…</p>`;
       const t = turmas.find(x => x.id === tid);
-      const ap = cat().apostilas.find(a => a.serie === t.serie.id && !a.oculta && !a.trilha) || cat().apostilas.find(a => a.serie === t.serie.id);
+      const ap = cat().apostilas.find(a => a.serie === t.serie.id && P.doPeriodo(a) && !a.oculta && !a.trilha) || cat().apostilas.find(a => a.serie === t.serie.id && P.doPeriodo(a));
       await P.carregarApostila(ap.id); await carregarSerie(t); const C = P.conteudo[ap.id], mid = (await missaoSugerida(t, C)) || C.missoes[0].id;
       const alunos = (await alunosDaTurma(tid)).filter(a => a.ativo !== false && !a.teste);
       let fixo = false; try { const hh = await db().collection("config").doc("hoje_" + t.id).get(); fixo = hh.exists && hh.data().dia === N.hoje() && hh.data().mid === mid; } catch (e) {}
@@ -583,7 +584,7 @@
       const carregar = async () => {
         const t = turmas.find(x => x.id === selT.value);
         selM.innerHTML = `<option>Carregando…</option>`; c.querySelector("#ini-casa").hidden = true;
-        const ap = cat().apostilas.find(a => a.serie === t.serie.id && !a.oculta && !a.trilha) || cat().apostilas.find(a => a.serie === t.serie.id);
+        const ap = cat().apostilas.find(a => a.serie === t.serie.id && P.doPeriodo(a) && !a.oculta && !a.trilha) || cat().apostilas.find(a => a.serie === t.serie.id && P.doPeriodo(a));
         await P.carregarApostila(ap.id); const C = P.conteudo[ap.id];
         const [sug, alunos, sit] = await Promise.all([missaoSugerida(t, C), alunosDaTurma(t.id), situacaoMissoes(t)]);
         ctx = { t, ap, C, alunos: alunos.filter(a => a.ativo !== false && !a.teste) };
@@ -729,8 +730,8 @@
     el.querySelector("#sel").onchange = e => { location.hash = "#/painel/turma/" + e.target.value; };
     el.querySelector("#att").onclick = () => telaTurmas(u, t.id);
     el.querySelector("#avs").onclick = async () => abrirAvisosAlunos(t, (await alunosDaTurma(t.id)).filter(a => a.ativo !== false && !a.teste));
-    const aps = cat().apostilas.filter(a => a.serie === t.serie.id && !a.oculta);
-    await Promise.all(cat().apostilas.filter(a => a.serie === t.serie.id).map(a => P.carregarApostila(a.id).catch(() => null)));
+    const aps = cat().apostilas.filter(a => a.serie === t.serie.id && P.doPeriodo(a) && !a.oculta);
+    await Promise.all(cat().apostilas.filter(a => a.serie === t.serie.id && P.doPeriodo(a)).map(a => P.carregarApostila(a.id).catch(() => null)));
     const [alunos, prog] = await Promise.all([alunosDaTurma(t.id), progressoDaTurma(t.id)]);
     const pm = {}; prog.forEach(p => { (pm[p.alunoId] = pm[p.alunoId] || []).push(p); });
     const missoes = []; aps.forEach(a => { const C = P.conteudo[a.id]; if (C) C.missoes.forEach(m => missoes.push({ aid: a.id, m })); });
@@ -830,7 +831,7 @@
             // pergunta QUAL missão liberar, para o aluno não entrar na missão dos outros dias (12/11/2026)
             let ms = null, lista = [];
             if (+d > 0) {
-              try { const tt = todasTurmas().find(z => z.id === a.turma); const apx = cat().apostilas.find(y => y.serie === tt.serie.id && !y.oculta && !/trilha/.test(y.id)); await P.carregarApostila(apx.id); lista = P.conteudo[apx.id].missoes.map(m => ({ id: m.id, t: (m.titulo || "").replace(/^[^–]*–\s*/, "") })); } catch (e) {}
+              try { const tt = todasTurmas().find(z => z.id === a.turma); const apx = cat().apostilas.find(y => y.serie === tt.serie.id && P.doPeriodo(y) && !y.oculta && !/trilha/.test(y.id)); await P.carregarApostila(apx.id); lista = P.conteudo[apx.id].missoes.map(m => ({ id: m.id, t: (m.titulo || "").replace(/^[^–]*–\s*/, "") })); } catch (e) {}
               const r = await P.perguntar(`Qual missão ${a.nome} vai fazer? Ele só consegue abrir as tarefas dela (e as da missão de hoje da turma).\n${lista.map(m => SIG(m.id) + " = " + m.t).join("\n")}\nDigite só o número (ex.: 1). Deixe em branco para liberar todas.`, "");
               if (r === null) return;
               const n = String(r).trim().toLowerCase().replace(/^m/, "");
@@ -913,7 +914,7 @@
     ligarSair(el);
     el.querySelector("#sel").onchange = e => { try { sessionStorage.setItem("painel:turma", e.target.value); } catch (x) {} location.hash = "#/painel/presenca/" + e.target.value; };
     ligarAtipicos(el);
-    const aps = cat().apostilas.filter(a => a.serie === t.serie.id);
+    const aps = cat().apostilas.filter(a => a.serie === t.serie.id && P.doPeriodo(a));
     await Promise.all(aps.map(a => P.carregarApostila(a.id).catch(() => null)));
     const [alunosTodos, prog] = await Promise.all([alunosDaTurma(t.id), progressoDaTurma(t.id)]);
     const alunos = alunosTodos.filter(a => !a.teste);
@@ -1010,7 +1011,7 @@
     })();
     const rec = new Set(cfg.recuperacao || []);
     const alunos = alunosTodos.filter(a => a.ativo && !a.teste);
-    const base = cat().apostilas.find(a => a.serie === t.serie.id && !a.oculta && !a.trilha);
+    const base = cat().apostilas.find(a => a.serie === t.serie.id && P.doPeriodo(a) && !a.oculta && !a.trilha);
     const trilha = base && cat().apostilas.find(a => a.trilha && a.base === base.id);
     const aidDe = a => (a.trilha && trilha ? trilha.id : base && base.id);
     const aids = [...new Set([base && base.id, trilha && alunos.some(a => a.trilha) ? trilha.id : null].filter(Boolean))];
@@ -1145,7 +1146,7 @@
     const aulas = {}; aulasSnap.docs.forEach(d => { aulas[d.id] = d.data(); });
     const alunos = alunosTodos.filter(a => a.ativo !== false && !a.teste);
     const ids = new Set(alunos.map(a => a.id));
-    const base = cat().apostilas.find(a => a.serie === t.serie.id && !a.oculta && !a.trilha);
+    const base = cat().apostilas.find(a => a.serie === t.serie.id && P.doPeriodo(a) && !a.oculta && !a.trilha);
     if (base) await P.carregarApostila(base.id).catch(() => null);
     const tituloM = m => { const C = base && P.conteudo[base.id]; const x = C && C.missoes.find(y => y.id === m); return x ? x.titulo : SIG(m); };
     const cron = cronComRede(t, (T.cronograma && T.cronograma.length ? T.cronograma : Object.entries(t.missoes4 || {}).map(([data, m]) => ({ data, encontro: tituloM(m), mid: m }))).slice().sort((a, b) => a.data < b.data ? -1 : 1));
@@ -1417,7 +1418,7 @@
     const ids = new Set(alunos.map(a => a.id)), emCasa = new Set(alunos.filter(a => a.emCasa).map(a => a.id));
     const prog = progTodos.filter(p => ids.has(p.alunoId));
     // cronograma: o do diário; se não houver, monta pelas missões do catálogo
-    const base = cat().apostilas.find(a => a.serie === t.serie.id && !a.oculta && !a.trilha);
+    const base = cat().apostilas.find(a => a.serie === t.serie.id && P.doPeriodo(a) && !a.oculta && !a.trilha);
     if (base) await P.carregarApostila(base.id).catch(() => null);
     const tituloM = m => { const C = base && P.conteudo[base.id]; const x = C && C.missoes.find(y => y.id === m); return x ? x.titulo : SIG(m); };
     const cron = cronComRede(t, (T.cronograma && T.cronograma.length ? T.cronograma : Object.entries(t.missoes4 || {}).map(([data, m]) => ({ data, encontro: tituloM(m) }))).slice().sort((a, b) => a.data < b.data ? -1 : 1));
@@ -1683,7 +1684,7 @@
     tid = escolherTurma(tid, turmas);
     try { sessionStorage.setItem("painel:turma", tid); } catch (e) {}
     const t = turmas.find(x => x.id === tid) || turmas[0];
-    const aps = cat().apostilas.filter(a => a.serie === t.serie.id);
+    const aps = cat().apostilas.filter(a => a.serie === t.serie.id && P.doPeriodo(a));
     const apId = sessionStorage.getItem("painel:ap:" + t.serie.id);
     const ap = aps.find(a => a.id === apId) || aps.find(a => !a.oculta && !/trilha/.test(a.id)) || aps[0];
     await P.carregarApostila(ap.id);
@@ -1950,12 +1951,23 @@
       <p>No começo de cada ano letivo:</p><ol><li>Clique em <strong>Começar novo ano</strong>: todos os alunos ativos são desativados (os códigos param de funcionar), mas o histórico fica guardado.</li>
       <li>Importe as listas novas em <a href="#/painel/importar">⚙️ Configurações › 📥 Importar alunos</a>.</li><li>Imprima os cartões com os códigos novos.</li></ol>
       <div class="row-btns"><button class="btn" id="novo" type="button">📅 Começar o ano ${esc(cfg.ano + 1)}</button></div></div>
+      <div class="painel"><h2>🗓️ Bimestre em uso</h2>
+        <p>O bimestre escolhido aqui é o que os alunos veem no portal e o que o painel usa (aula, missões, Panorama, Prova). Os outros bimestres ficam guardados; dá para voltar a qualquer um.</p>
+        <div class="pp-periodos" role="radiogroup" aria-label="Bimestre em uso">${(cat().periodos || []).map(pr => { const tem = cat().apostilas.some(a => (a.periodo || cat().periodoPadrao) === pr.id); const at = pr.id === P.periodoAtual();
+          return `<button type="button" class="btn ${at ? "" : "btn-sec"} pp-periodo" role="radio" aria-checked="${at}" data-per="${esc(pr.id)}" ${tem ? "" : "disabled"}>${at ? "✅ " : ""}${esc(pr.nome)}${tem ? "" : " <small>(em preparação)</small>"}</button>`; }).join("")}</div>
+        <p class="ajuda">Só dá para escolher um bimestre que já tem material pronto. Os de 2027 aparecem aqui assim que o material de cada um for criado.</p></div>
       <div class="painel"><h2>▶️ Tarefas só depois de "Iniciar a aula"</h2>
         <p>Situação: <span class="pp-prova-st ${cfg.modoAula !== false ? "on" : "off"}">${cfg.modoAula !== false ? "▶️ LIGADO" : "⚪ Desligado"}</span></p>
         <p>Ligado, as <strong>tarefas</strong> de cada turma ficam fechadas até você tocar em <strong>▶️ Iniciar a aula</strong> (o painel pergunta sozinho no horário da aula, ou pelo botão na barra de cima) e fecham de novo no <strong>🏁 Finalizar aula</strong>. Os textos ficam sempre abertos. Quem <strong>🏠 estuda em casa</strong> não tem trava.</p>
         <div class="row-btns"><button class="btn" id="modo" type="button">${cfg.modoAula !== false ? "⚪ Desligar" : "▶️ Ligar"}</button></div></div>
 `);
     ligarSair(el);
+    el.querySelectorAll("[data-per]").forEach(b => b.onclick = async () => {
+      const id = b.dataset.per, pr = (cat().periodos || []).find(x => x.id === id); if (id === P.periodoAtual()) return;
+      if (!await P.confirmar(`Trocar para o ${pr.nome}? Os alunos passam a ver só as apostilas desse bimestre, e o painel também.`)) return;
+      await db().collection("config").doc("geral").set({ periodo: id }, { merge: true }); P._periodo = id;
+      toast("🗓️ Bimestre em uso: " + pr.nome); telaAno(u);
+    });
     el.querySelector("#modo").onclick = async () => {
       const on = cfg.modoAula !== false;
       if (on && !await P.confirmar("Desligar? As tarefas de todas as turmas ficam sempre abertas, sem precisar iniciar a aula.")) return;
@@ -1989,6 +2001,7 @@
       await (N.app(0).pronto);
       await new Promise(ok => { const x = auth().onAuthStateChanged(() => { x(); ok(); }); });
       const u = await entrar();
+      await config().catch(() => null); // 🗓️ já sabe qual bimestre está em uso antes de abrir qualquer aba
       if (!ss.get("painel:pendencias")) { ss.set("painel:pendencias", "1"); setTimeout(() => perguntarInicio(u).finally(() => mostrarAvisos().finally(() => perguntarPendentes())), 900); }
       else setTimeout(() => { perguntarInicio(u); mostrarAvisos({ contar: true }).catch(() => {}); }, 900);
       try {

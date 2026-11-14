@@ -51,6 +51,13 @@
 
   /* ---------------- catálogo ---------------- */
   const cat = () => P.catalogo;
+  // 🗓️ bimestre em uso: config/geral.periodo (escolhido no painel) ou o padrão do catálogo
+  P.periodoAtual = () => P._periodo || cat().periodoPadrao;
+  P.doPeriodo = a => !cat().periodoPadrao || (a.periodo || cat().periodoPadrao) === P.periodoAtual();
+  P.carregarPeriodo = async () => {
+    if (P._periodoLido) return; P._periodoLido = true;
+    try { if (P.nuvem && P.nuvem.pronto) { const g = await Promise.race([P.nuvem.db().collection("config").doc("geral").get(), new Promise((_, no) => setTimeout(() => no(new Error("tempo")), 4000))]); if (g.exists && g.data().periodo) P._periodo = g.data().periodo; } } catch (e) {}
+  };
   const serie = id => cat().series.find(s => s.id === id);
   const turma = id => { for (const s of cat().series) { const t = s.turmas.find(x => x.id === id); if (t) return { ...t, serie: s }; } return null; };
   const apostila = id => cat().apostilas.find(a => a.id === id);
@@ -576,7 +583,8 @@
     const s = sess.get(); if (!s) return telaInicio();
     const se = serie(s.serie);
     barra();
-    const lista = cat().apostilas.filter(a => a.serie === s.serie && !a.oculta).map(a => trilhaDe(a.id) ? apostila(trilhaDe(a.id)) : a);
+    if (!P._periodoLido) { P.carregarPeriodo().then(() => { if (/^#\/apostilas/.test(location.hash)) telaApostilas(); }); }
+    const lista = cat().apostilas.filter(a => a.serie === s.serie && !a.oculta && P.doPeriodo(a)).map(a => trilhaDe(a.id) ? apostila(trilhaDe(a.id)) : a);
     const porDisc = {};
     lista.forEach(a => { (porDisc[a.disciplina] = porDisc[a.disciplina] || []).push(a); });
     const hoje = sessionStorage.getItem("portalJK:hoje");

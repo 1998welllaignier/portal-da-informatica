@@ -196,6 +196,13 @@ Para decidir com o professor no salão. Cada item: manter, juntar ou desligar.
 - [ ] Abrir o bimestre no diário com o cronograma de cada turma.
 - Durante o bimestre: presença, vistos e boletim automáticos; o professor confere o painel, faz o registro da aula e pede o vídeo da missão na semana da aula.
 
+## 🗓️ Material de 2027 (conversa de 14/11/2026, noite)
+- [x] Chave seletora de bimestre no painel (⚙️ Configurações › Ano letivo e aulas): feita em 14/11.
+- [ ] Separar Diário, Boletim e Prova por bimestre (cada bimestre com as suas aulas e notas), antes do 1º bimestre de 2027.
+- [ ] **Para decidir:** quantidade padrão de missões por bimestre, "para sempre sobrar e nunca faltar" (proposta do Claude: 6 missões principais + 2 de reserva + 🔁 Revisão por bimestre).
+- [ ] Revisar o documento "Informática 2027: proposta de assuntos por série" com essa quantidade (e com as M4 e Revisões de 2026) e mandar para o professor aprovar.
+- [ ] Depois de aprovado: material completo por bimestre, na ordem (1º bimestre primeiro). A 🔁 Revisão já nasce junto com cada bimestre (blocos por missão; o portal mostra só as missões dadas). Vídeos: perto da época, ou adiantados aos poucos para não estourar o limite semanal.
+
 ## 4. Início de 2027
 - [ ] Turmas novas, listas de alunos e códigos de acesso.
 - [ ] Novo quadro de horários.

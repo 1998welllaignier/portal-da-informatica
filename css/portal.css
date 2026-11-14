@@ -1799,3 +1799,4 @@ button.tb-av:hover .avatar-svg, button.tb-av:focus-visible .avatar-svg { transfo
 }
 .btn.pp-off, .btn:disabled.pp-off { background: #e5e7eb !important; border-color: #d1d5db !important; color: #6b7280 !important; cursor: not-allowed; } .btn.pp-off small { font-weight: 600; font-size: .75em; }
 .sim-bits { flex-wrap: wrap; justify-content: center; gap: 8px; } .sim-bits .sim-int { min-width: 64px; } .sim-bits .sim-bulbo { font-size: 2rem; }
+.pp-periodos { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 8px; margin: 8px 0; } .pp-periodo small { font-weight: 400; }

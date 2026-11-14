@@ -19,6 +19,17 @@ PORTAL.catalogo = {
   /* 📆 Calendário Escolar 2026 da rede (SEMED Curionópolis): a prova de cada turma cai no dia dela dentro da
      semana de Avaliação Bimestral, não importa quantas aulas tenham sido dadas. O painel reorganiza o resto sozinho.
      semAula = feriados/recessos em dias de aula (seg a qui). */
+  /* 🗓️ Bimestres (chave seletora em ⚙️ Configurações › Ano letivo e aulas, criada em 14/11/2026).
+     Cada apostila diz o seu "periodo" (sem o campo = periodoPadrao). O professor escolhe o bimestre em uso no painel
+     (fica em config/geral.periodo) e alunos e painel passam a usar só as apostilas daquele bimestre. */
+  periodoPadrao: "2026-4",
+  periodos: [
+    { id: "2026-4", nome: "4º bimestre de 2026" },
+    { id: "2027-1", nome: "1º bimestre de 2027" },
+    { id: "2027-2", nome: "2º bimestre de 2027" },
+    { id: "2027-3", nome: "3º bimestre de 2027" },
+    { id: "2027-4", nome: "4º bimestre de 2027" }
+  ],
   calendarioRede: {
     provaBimestral: ["2026-12-07", "2026-12-11"],
     fimAulas: "2026-12-18",

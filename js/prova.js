@@ -46,7 +46,7 @@
 
   /* ---------- utilidades ---------- */
   function aidDaProva(s) {
-    const base = cat().apostilas.find(a => a.serie === s.serie && !a.oculta && !a.trilha);
+    const base = cat().apostilas.find(a => a.serie === s.serie && !a.oculta && !a.trilha && (!P.doPeriodo || P.doPeriodo(a)));
     if (!base) return null;
     if (s.trilha) { const t = cat().apostilas.find(x => x.trilha && x.base === base.id); if (t) return t.id; }
     return base.id;
