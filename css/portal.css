@@ -1725,3 +1725,5 @@ button.tb-av:hover .avatar-svg, button.tb-av:focus-visible .avatar-svg { transfo
 .pp-barra select, .pp-trava select, .pp-dlg select { max-width: 100%; text-overflow: ellipsis; }
 .pp-trava > label:first-child { flex: 1 1 100%; display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
 .pp-trava > label:first-child select { flex: 1 1 200px; width: 100%; }
+.pp-so-voce { background: #fff; border: 1px dashed #c2410c; border-radius: 10px; padding: 6px 10px; font-size: .9rem; color: #7c2d12; margin: 4px 0 8px; }
+.pp-alunos-veem { background: var(--info-bg); border-radius: 10px; padding: 6px 10px; font-size: .9rem; }

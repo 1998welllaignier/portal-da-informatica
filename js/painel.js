@@ -176,7 +176,7 @@
   const AJUDA = {
     aula: ["Use durante a aula, projetando ou no seu computador.", [
       "<b>▶️ Iniciar a aula</b>: as tarefas da turma só abrem quando você inicia a aula. No horário, o painel pergunta sozinho (turma, 📌 missão, 🔒 travar). Fora do horário (reposição), use o botão verde <b>▶️ Iniciar aula</b> na barra de cima. O <b>🏁 Finalizar aula</b> fecha de novo. Antes de iniciar, os alunos entram e leem, mas veem “Aguardando o professor”.",
-      "<b>🟧 Recados para esta aula</b>: o quadro laranja no topo mostra os recados que você deixou para a turma (os mesmos do 📒 Diário › 🟧 Recados). Depois de ler, toque em “✔ Já li”: o recado sai do quadro em todos os computadores, mas não é apagado; vai para o “📜 Histórico de recados desta turma”, com a data em que foi anotado e a data em que foi lido. Para deixar um recado para a próxima aula, abra “✏️ Deixar um recado…” logo abaixo dos recados.",
+      "<b>🟧 Meus recados</b> (🔒 só você vê; os alunos não veem): o quadro laranja no topo mostra os lembretes que você deixou para você mesmo sobre esta turma. Para falar com os alunos, use 🏫 Turmas › 📣 Avisos para os alunos. O quadro mostra os recados (os mesmos do 📒 Diário › 🟧 Recados). Depois de ler, toque em “✔ Já li”: o recado sai do quadro em todos os computadores, mas não é apagado; vai para o “📜 Histórico de recados desta turma”, com a data em que foi anotado e a data em que foi lido. Para deixar um recado para a próxima aula, abra “✏️ Deixar um recado…” logo abaixo dos recados.",
       "<b>🗣️ Para falar à turma</b>: aparecem no topo com a fala pronta. Depois de falar, toque em “✔ Já avisei esta turma” (o aviso some só daquela turma, neste computador).",
       "<b>🕘 A turma já vem certa</b>: ao abrir o painel, ele escolhe sozinho a turma que está em aula agora (ou a próxima aula de hoje) e a missão do dia pela mesma regra do 🗺️ Panorama (a próxima missão que a turma ainda não fez). Para ver outra turma, é só trocar na lista; a sua escolha vale até a próxima aula começar.",
       "<b>A missão da aula</b> é a 📌 Missão de hoje (o roteiro abre nela). Para só olhar o roteiro de outra missão, abra “👁️ Só olhar o roteiro de outra missão”. Aparece o roteiro da aula com as falas, as respostas de cada atividade e quantos alunos já entraram e concluíram o Básico.",
@@ -593,7 +593,7 @@
       const [sn, pg] = await Promise.all([ref.get(), progressoDaTurma(t.id).catch(() => [])]), lista = (sn.exists ? sn.data().lista : null) || [], hoje = N.hoje();
       const leram = id => pg.filter(p => p.tipo === "avisos" && ((p.lidos || {})[id] || 0) > 0).map(p => nomeDe(p.alunoId));
       const VZ = v => v > 0 ? `aparece ${v} vez${v > 1 ? "es" : ""}` : "aparece até você apagar";
-      c.innerHTML = `<p class="ajuda">O aviso aparece para o aluno quando ele digita o código e entra no portal. Some sozinho depois da data escolhida (ou quando você apagar). Não escreva nada sigiloso.</p>
+      c.innerHTML = `<p class="pp-alunos-veem">👀 <b>Os alunos veem.</b> O aviso aparece para o aluno quando ele digita o código e entra no portal. Some sozinho depois da data escolhida (ou quando você apagar). Não escreva nada sigiloso.</p>
         ${lista.length ? `<ul class="pp-av-lista">${lista.map(a => `<li class="${a.ate && a.ate < hoje ? "venc" : ""}"><span><b>${esc(PARA[a.alvo] || a.alvo)}${a.alvo === "aluno" ? ": " + esc(nomeDe(a.alunoId)) : ""}</b>${a.ate ? ` · até ${esc(dataBR(a.ate))}` : ""} · ${VZ(a.vezes || 0)}<br>${esc(a.texto)}<br><small title="${esc(leram(a.id).join(", "))}">👀 lido por ${leram(a.id).length} aluno${leram(a.id).length === 1 ? "" : "s"}${leram(a.id).length ? ": " + esc(leram(a.id).slice(0, 6).join(", ")) + (leram(a.id).length > 6 ? "…" : "") : ""}</small></span><button class="btn btn-sec btn-peq" type="button" data-del="${a.id}">🗑️ Apagar</button></li>`).join("")}</ul>` : `<p>Nenhum aviso ativo nesta turma.</p>`}
         <h3>Novo aviso</h3>
         <p><label>Para <select id="av-para">${Object.entries(PARA).map(([k, v]) => `<option value="${k}">${v}</option>`).join("")}</select></label>
@@ -1347,7 +1347,7 @@
     try { sessionStorage.setItem("painel:turma", tid); } catch (e) {}
     const t = turmas.find(x => x.id === tid) || turmas[0];
     aba = aba || "chamada";
-    const ABAS = [["chamada", "✅ Chamada"], ["frequencia", "🗓️ Frequência"], ["boletim", "🧮 Boletim"], ["registro", "📝 Registro das aulas"], ["lembretes", "🟧 Recados"]];
+    const ABAS = [["chamada", "✅ Chamada"], ["frequencia", "🗓️ Frequência"], ["boletim", "🧮 Boletim"], ["registro", "📝 Registro das aulas"], ["lembretes", "🟧 Meus recados"]];
     const el = tela(topo(u, "diario") + `<div class="painel pp-barra"><label>Turma <select id="sel">${turmas.map(x => `<option value="${x.id}" ${x.id === t.id ? "selected" : ""}>${esc(rotuloTurma(x.id))}</option>`).join("")}</select></label>
         <span class="pp-missoes">${ABAS.map(([k, r]) => `<a class="pp-mis ${k === aba ? "atual" : ""}" href="#/painel/diario/${t.id}/${k}">${r}</a>`).join("")}</span></div>
       <div id="corpo"><p class="painel">Carregando o diário…</p></div>`);
@@ -1490,7 +1490,7 @@
         return `<li><div><strong>${dataBR(d)} (${semana(d)}) · ${esc(encCompleto(d) || "Aula")}</strong>${missaoTxt(a) ? ` <span class="pp-mdia">${missaoTxt(a)}</span>` : ""} <small>${ocorrDe(a) ? esc(OCORR[ocorrDe(a).tipo]) + (ocorrDe(a).nota ? " · " + esc(ocorrDe(a).nota) : "") : d <= hoje && temChamada(d) ? n + " presentes" : d > hoje ? "🔜 prevista" : ""}</small></div>${(a.registro || "").trim() ? `<p>${esc(a.registro).replace(/\n/g, "<br>")}</p>` : ""}<button type="button" class="btn btn-sec btn-peq" data-abrir="${d}">Abrir a chamada deste dia</button></li>`; }).join("")}</ul></div>`;
     }
     function vLembretes() {
-      return `<div class="painel"><div class="row-btns"><input type="text" id="lb-novo" class="grow" placeholder="Ex.: na próxima aula, começar pela correção do labirinto"><button type="button" class="btn" id="lb-add">Adicionar</button></div>
+      return `<div class="painel"><p class="pp-so-voce">🔒 <b>Só você vê.</b> Lembretes seus sobre esta turma (aparecem também na aba 🎤 Aula). Os alunos não veem. Para mandar um recado <b>aos alunos</b>: <a href="#/painel/turma/${t.id}">🏫 Turmas › 📣 Avisos para os alunos</a>.</p><div class="row-btns"><input type="text" id="lb-novo" class="grow" placeholder="Ex.: na próxima aula, começar pela correção do labirinto"><button type="button" class="btn" id="lb-add">Adicionar</button></div>
         <ul class="pp-lb">${lemb().map((l, i) => `<li class="${l.feito ? "feito" : ""}"><label><input type="checkbox" data-lb="${i}" ${l.feito ? "checked" : ""}> ${esc(l.texto)}</label> <small>${l.criadoEm ? dataBR(l.criadoEm.slice(0, 10)) : ""}</small></li>`).join("") || "<li class='ajuda'>Nenhum recado.</li>"}</ul></div>`;
     }
     function render() {
@@ -1673,7 +1673,8 @@
       const box = document.createElement("div"); box.className = "painel pp-recados";
       const desenhar = () => {
         const pend = lista.map((l, i) => ({ ...l, i })).filter(l => !l.feito);
-        box.innerHTML = `<h2>🟧 Recados para esta aula · ${esc(nomeTurma(t.id))}</h2>
+        box.innerHTML = `<h2>🟧 Meus recados para esta aula · ${esc(nomeTurma(t.id))}</h2>
+          <p class="pp-so-voce">🔒 <b>Só você vê.</b> São lembretes seus para a aula desta turma; os alunos não veem. Para mandar um recado <b>aos alunos</b>, use <a href="#/painel/turma/${t.id}">🏫 Turmas › 📣 Avisos para os alunos</a>.</p>
           ${pend.length ? pend.map(l => `<div class="pp-recado"><p>${esc(l.texto).replace(/\n/g, "<br>")}</p>
             <div class="pp-recado-pe"><small>${l.criadoEm ? "Anotado em " + dataBR(l.criadoEm.slice(0, 10)) : ""}</small>
             <button class="btn pp-recado-ok" type="button" data-rok="${l.i}">✔ Já li</button></div></div>`).join("")
