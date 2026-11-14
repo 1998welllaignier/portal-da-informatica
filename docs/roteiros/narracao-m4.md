@@ -2,6 +2,10 @@
 
 Professor Welington Laignier · criado em 14/11/2026. Cada bloco é colado inteiro na ferramenta de voz (ChatGPT). Depois, mande o MP3 e o vídeo 2D é montado no padrão (docs/PADRAO-VIDEOS-2D.md).
 
+**Combinado (14/11/2026):** a cada MP3 recebido, o Claude reenvia na conversa a PRÓXIMA narração da fila, para o professor nunca se perder.
+
+**Fila:** 1) 7º B · Grafos → 2) 8º · Termos de uso → 3) 6º A e B · Bits e bytes → 4) 9º D · Inteligência artificial.
+
 ## 7º ano · Missão 4 · Grafos (7º B, 24/11)
 ```
 Gere um áudio em MP3 com a narração abaixo, em português do Brasil, voz masculina, natural e animada, ritmo de professor contando uma história para alunos de 12 anos. Faça uma pausa de 2 segundos entre cada parágrafo. Leia exatamente o texto, sem acrescentar nada.
