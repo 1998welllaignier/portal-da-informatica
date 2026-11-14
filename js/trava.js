@@ -67,7 +67,7 @@
     async casaGravar(s, dados) {
       return N().db().collection("progresso").doc(s.alunoIds[0] + "_casa").set(Object.assign({ alunoId: s.alunoIds[0], turma: s.turma, tipo: "casa" }, dados), { merge: true });
     },
-    async casaIniciar(s) { const ms = await agora(); await this.casaGravar(s, { sessoes: { [N().hoje()]: ms } }); return ms; },
+    async casaIniciar(s, mid) { const ms = await agora(), d = N().hoje(); await this.casaGravar(s, { sessoes: { [d]: ms }, missaoDia: { [d]: mid || "" } }); return ms; },
     async casaVideo(s, mid) { await this.casaGravar(s, { videos: { [mid]: Date.now() } }); },
     agora,
     /* 📌 Missão de hoje da turma (config/hoje_<turma>), só vale no dia em que o professor marcou */
@@ -86,8 +86,11 @@
       // 🏠 quem estuda em casa não tem trava de aula: faz no próprio ritmo (config/liberar_<turma>.casa),
       //    com uma sessão de 2 horas por dia e o vídeo da missão antes das tarefas (14/11/2026)
       if (ids.length && ids.every(id => (lib.casa || {})[id])) {
-        const cd = await this.casaDoc(s), ini = (cd.sessoes || {})[N().hoje()], lim = this.casaLimite();
+        const cd = await this.casaDoc(s), hoje = N().hoje(), ini = (cd.sessoes || {})[hoje], lim = this.casaLimite();
         if (ini && ms > ini + lim) return { aberta: false, casaFim: true, ini, lim };
+        // uma sessão por dia = UMA missão por dia (pedido em 14/11/2026): terminou antes das 2 h, não abre outra missão hoje
+        const doDia = (cd.missaoDia || {})[hoje];
+        if (ini && doDia && mid && mid !== doDia) return { aberta: false, casaOutra: doDia, ini, lim };
         return { aberta: true, casa: true, ini: ini || 0, lim, videoVisto: !!(mid && (cd.videos || {})[mid]) };
       }
       if ((g.travaHorario || modoAula) && lib.fechadaAte && ms < lib.fechadaAte) return { aberta: false, fechada: true };
