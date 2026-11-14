@@ -168,6 +168,7 @@
   /* ❓ quadro "Para que serve e como usar" de cada aba (fica fechado; o professor abre quando quiser) */
   const AJUDA = {
     aula: ["Use durante a aula, projetando ou no seu computador.", [
+      "<b>▶️ Iniciar a aula</b>: as tarefas da turma só abrem quando você inicia a aula. No horário, o painel pergunta sozinho (turma, 📌 missão, 🔒 travar). Fora do horário (reposição), use o botão verde <b>▶️ Iniciar aula</b> na barra de cima. O <b>🏁 Finalizar aula</b> fecha de novo. Antes de iniciar, os alunos entram e leem, mas veem “Aguardando o professor”.",
       "<b>🟧 Recados para esta aula</b>: o quadro laranja no topo mostra os recados que você deixou para a turma (os mesmos do 📒 Diário › 🟧 Recados). Depois de ler, toque em “✔ Já li”: o recado sai do quadro em todos os computadores, mas não é apagado; vai para o “📜 Histórico de recados desta turma”, com a data em que foi anotado e a data em que foi lido. Para deixar um recado para a próxima aula, abra “✏️ Deixar um recado…” logo abaixo dos recados.",
       "<b>🗣️ Para falar à turma</b>: aparecem no topo com a fala pronta. Depois de falar, toque em “✔ Já avisei esta turma” (o aviso some só daquela turma, neste computador).",
       "<b>🕘 A turma já vem certa</b>: ao abrir o painel, ele escolhe sozinho a turma que está em aula agora (ou a próxima aula de hoje) e a missão do dia pela mesma regra do 🗺️ Panorama (a próxima missão que a turma ainda não fez). Para ver outra turma, é só trocar na lista; a sua escolha vale até a próxima aula começar.",
@@ -181,18 +182,21 @@
       "<b>🧩 Apoios</b>: o que fazer com cada aluno atípico da turma. Só você vê."]],
     "": ["A lista de alunos de cada turma, com códigos e progresso.", [
       "<b>Toque no nome do aluno</b> para: gerar novo código, corrigir o nome, mudar de turma, marcar 🧩 (tem PEI), escrever os 📝 Apoios, usar a 👣 Trilha Passo a Passo, marcar 🧪 aluno de teste, liberar as tarefas fora do horário só para ele e marcar que ele frequenta a aula de outra turma.",
-      "<b>🏠 Estuda em casa</b>: marque o aluno que faz as missões em casa e entrega a apostila. O nome dele ganha 🏠 em todas as listas e, no Diário, a presença fica J (justificada) sozinha; o Básico e o ★ você lança conferindo a apostila.",
+      "<b>🏠 Estuda em casa</b>: o aluno faz as missões de casa, sem trava de aula: ao entrar vê a tela “🏠 Estudo em casa” (vídeo de instruções na 1ª vez, prazo e sugestão de semanas), faz <b>uma missão por dia, até 2 horas</b> (cronômetro no canto), assiste ao vídeo da missão até o fim antes das tarefas (o longo, quando houver). No Diário fica J (justificada) sozinho.",
+      "<b>📣 Avisos para os alunos</b> (botão nesta aba): para todos, só presenciais, só os de casa ou um aluno; escolha quantas vezes aparece (1, 2, 3, 5 ou até apagar) e uma data para sumir. O aluno lê um aviso de cada vez, com um cronômetro de leitura antes do “OK, já li”. Aqui você vê 👀 quem já leu.",
       "<b>🧪 Aluno de teste</b> não conta na presença, no diário, nas notas nem nos relatórios. Use nos seus próprios cadastros.",
       "<b>👣 Trilha</b>: o aluno passa a abrir a apostila mais simples da série (e faz a prova da Trilha)."]],
     diario: ["O Diário de Classe: chamada, vistos, frequência, notas e registro das aulas.", [
       "<b>✅ Chamada</b>: escolha a data. O que veio do portal aparece com ⚡ (entrou com o código, concluiu o Básico, completou o Desafio ou o Turbo). Você só corrige: o que você marca vale mais que o ⚡.",
-      "<b>P</b> presente, <b>F</b> falta, <b>J</b> falta justificada. Quem veio mas não entrou no portal: toque em P.",
+      "<b>P</b> presente, <b>F</b> falta, <b>J</b> falta justificada (conta como presença na frequência). Quem veio mas não entrou no portal: toque em P. <b>J🔁</b>: faltou, mas depois concluiu o Básico da missão daquele dia (reposição) — vira justificada sozinha.",
       "<b>🚦 Aula que não aconteceu normalmente</b>: na Chamada, abra “Esta aula não aconteceu normalmente?”. <b>🚫 Nenhum aluno veio</b> dá falta para todos. <b>🙋 O professor não pôde vir</b>, <b>🎉 Feriado</b> (inclusive os municipais), <b>🏫 Sem aula na escola</b> (formação, evento) e <b>📌 Outro motivo</b> não contam na frequência de ninguém. Escreva uma anotação para lembrar depois.",
       "<b>❔ Aulas sem registro</b>: quando você abre o painel, ele pergunta sozinho sobre as aulas que já passaram sem nenhuma presença, chamada ou registro, para você responder na hora.",
       "<b>Básico</b>: toque para avançar — ◐ Parcial (não vale nota) → ✓ Básico (1,0) → ✓✓ ×2 (reposição) → sem visto. <b>Desafio/Turbo</b>: 0,25 cada.",
       "<b>🗓️ Frequência</b> e <b>🧮 Boletim</b> são calculados sozinhos. A nota da prova do portal entra sozinha; digite só a prova em papel (0 a 5) e a recuperação (0 a 10).",
       "<b>📝 Registro</b>: o que aconteceu em cada aula. <b>🟧 Recados</b>: aparecem no topo da chamada e na aba 🎤 Aula."]],
     panorama: ["Ver de uma vez como foram as aulas de todas as turmas.", [
+      "<b>Datas pelo calendário da rede</b>: a prova cai no dia da turma na semana de Avaliação Bimestral; antes dela, as aulas recebem as missões que faltam (ou Revisão); depois, 2ª chamada/recuperação.",
+      "<b>🧩 Alunos atípicos que frequentam</b>: abra o quadro no topo para ver quantas vezes cada aluno com PEI entrou no portal.",
       "Cada cartão é uma aula: a data, se aconteceu (✅) ou por que não (🚫 ninguém veio, 🙋 eu não fui, 🎉 feriado, 🏫 sem aula na escola), a missão dada e 👥 quantos alunos vieram.",
       "<b>❔ Sem registro</b>: dia de aula que já passou sem nada anotado. Abra o cartão e registre no Diário.",
       "<b>Próximas aulas se ajustam sozinhas</b>: mostram a próxima missão que ainda falta dar (se a turma repetiu a M1, a próxima vira M2). Se faltar aula para todas, aparece ⚠️ Não cabe no calendário.",

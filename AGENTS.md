@@ -3,6 +3,8 @@
 > Vale para o Claude, o ChatGPT/Codex ou qualquer outro assistente.
 > Leia este arquivo inteiro **antes** de mudar qualquer coisa.
 
+> ✅ **No fim de TODA mudança, siga `docs/CHECKLIST-DE-MUDANCAS.md`** (ajuda das abas, padrão de qualidade, plano, versão, celular, aluno de casa…). Pedido do professor em 14/11/2026: nada pode ficar para trás.
+
 > ⭐ **Leia primeiro `docs/PADRAO-DE-QUALIDADE.md`**: a lista viva de tudo o que o professor já aprovou. Todo material novo segue tudo de lá, e **cada melhoria aprovada entra lá no mesmo dia** (regra de 11/11/2026).
 
 ## 1. O que é o projeto
