@@ -1623,3 +1623,5 @@ button.tb-av:hover .avatar-svg, button.tb-av:focus-visible .avatar-svg { transfo
 .pp-sino:hover { background: #fff6e0; }
 .pp-sino-n { position: absolute; top: -6px; right: -6px; min-width: 18px; height: 18px; padding: 0 4px; border-radius: 9px; background: #dc2626; color: #fff; font-size: .7rem; font-weight: 800; line-height: 18px; text-align: center; }
 .pp-av-ok { font-size: .8rem; font-weight: 700; color: #157a3f; white-space: nowrap; }
+
+.pp-freq th .pp-vieram { font-weight: 800; color: #157a3f; }

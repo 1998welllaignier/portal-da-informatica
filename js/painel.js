@@ -1159,7 +1159,7 @@
       const ds = diasComChamada();
       if (!ds.length) return `<div class="painel"><p>Ainda não há chamada nesta turma.</p></div>`;
       const ab = e => (e || "").replace(/ –.*/, "").replace("Missão ", "M").replace("Projeto final", "PF").replace("Avaliação", "Aval.");
-      return `<div class="painel"><div class="tabela-wrap"><table class="pp-freq"><thead><tr><th>Aluno</th>${ds.map(d => `<th title="${esc(encontroDe(d))}">${dataBR(d).slice(0, 5)}<br><small>${ocorrDe(aulas[d]) ? "🚫 ninguém veio" : esc(ab(encontroDe(d)))}</small></th>`).join("")}<th>Frequência</th></tr></thead>
+      return `<div class="painel"><div class="tabela-wrap"><table class="pp-freq"><thead><tr><th>Aluno</th>${ds.map(d => `<th title="${esc(encontroDe(d))}">${dataBR(d).slice(0, 5)}<br><small>${ocorrDe(aulas[d]) ? "🚫 ninguém veio" : esc(ab(encontroDe(d)))}</small>${ocorrDe(aulas[d]) ? "" : (n => `<br><small class="pp-vieram">👥 ${n} ${n === 1 ? "veio" : "vieram"}</small>`)(alunos.filter(a => ["P", "J"].includes(pres(d, a.id).v)).length)}</th>`).join("")}<th>Frequência</th></tr></thead>
         <tbody>${alunos.map(a => { const fr = freq(a.id); return `<tr><td>${nomeA(a)}</td>${ds.map(d => { const p = pres(d, a.id), c = carimbo(d, a.id).v; return `<td><span class="m ${p.v || "x"} ${c ? "c" : ""} ${p.falta ? "au" : ""}">${p.v || "·"}</span></td>`; }).join("")}<td class="${fr.pct != null && fr.pct < 75 ? "baixa" : ""}"><strong>${fr.pct == null ? "–" : fr.pct + "%"}</strong></td></tr>`; }).join("")}</tbody></table></div>
         <p class="ajuda">P presente · F falta · J justificada · contorno = com visto do Básico. Frequência = presenças e justificadas ÷ aulas com chamada (abaixo de 75% fica em vermelho). É só informativa: não entra na nota.</p></div>`;
     }
