@@ -88,6 +88,17 @@ Faltam (história + prompt para o ChatGPT/HeyGen + montagem), nesta ordem:
 3. **9º · Missão 2 – Criptografia e ataques** → 9º D na **quinta 12/11, 9h**.
 Atenção: cada série tem turmas em missões diferentes (ver missoes4 no catálogo); conferir sempre o cronograma por turma antes de dizer qual vídeo falta.
 
+### 🗣️ Para decidir com o professor (anotado em 14/11/2026, conversa marcada para "quando estiver no salão")
+1. **Trabalho avaliativo em aula** (turma que chegar ao dia da prova sem nenhuma missão dada): quanto vale (até 5,0 como a prova?); conteúdo (sugestão: mini-missão curta da M1 da série, 45–50 min, correção automática); como liga (sugestão: igual à prova, pelo painel, código, horário-limite, nota no Boletim).
+2. **14/12 (segunda, Conselho de Classe)**: tem aluno no contraturno? Por ora ficou como 2ª chamada.
+3. **Aba 🎤 Aula** sugerir a Missão de hoje pela mesma regra do Panorama (próxima missão que falta)?
+4. **Aula de "Revisão para a prova"** — ideias do Claude para apresentar:
+   - **Quiz-pódio da revisão** no portal: perguntas no estilo da prova, só das missões dadas, pontos na hora e pódio 1º/2º/3º no placar (a turma é competitiva).
+   - **"Caça ao erro"**: telas/frases com um erro de propósito para o aluno achar e corrigir (revisa sem parecer prova).
+   - **Mapa da missão**: cartões de "o que significa?" + "onde eu uso isso?" de cada missão dada, para relembrar em 10 min antes do quiz.
+   - **Simulado curtinho** (5 questões) com a correção explicada logo depois de cada resposta; quem acertar tudo libera a recreação mais cedo.
+   - Painel mostra para cada aluno **o que falta** (Básico de alguma missão), para a revisão também servir de reposição.
+
 ### 💡 Ideias para amadurecer
 - **Barra da esquerda da missão (11/11/2026):** 4 modelos mostrados (mapa de fases, fliperama 8 bits, cores por parte, moderna com XP); esperando a escolha do professor.
 - **🎄 Portal decorado por época do ano (11/11/2026):** cronograma anual de festas com o portal inteiro no clima de cada data (luzes, enfeites, cores, avatar com acessório da época), troca automática pela data, leve (só CSS/SVG, sem imagens pesadas), botão para desligar, nunca atrapalhando a leitura. Começar pelo **Natal 2026** (dezembro). Sugestões de calendário: Carnaval, Páscoa, Povos Indígenas (19/04), Festa Junina, Folclore (22/08), Semana da Pátria (07/09), Dia das Crianças (12/10), Dia do Professor (15/10), Dia do Saci (31/10), Consciência Negra (20/11), Natal; datas religiosas sempre no tom cultural (escola pública).
