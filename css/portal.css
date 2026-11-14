@@ -1693,3 +1693,21 @@ button.tb-av:hover .avatar-svg, button.tb-av:focus-visible .avatar-svg { transfo
 .av-relogio i { flex: 1; height: 10px; border-radius: 999px; background: #e5e7eb; overflow: hidden; display: block; }
 .av-relogio i b { display: block; height: 100%; background: #2f7de1; border-radius: 999px; transition: width 1s linear; }
 .av-relogio.ok { color: var(--ok); } .av-relogio.ok i b { background: var(--ok); }
+
+/* 📱 Celular (14/11/2026): tabelas de completar viram cartões empilhados (sem rolar para o lado),
+   bolinhas e caixinhas maiores para o dedo, e nada fica cortado */
+@media (max-width: 600px) {
+  .mis-pag table.tab-completar, .mis-pag table.tab-completar tbody, .mis-pag table.tab-completar tr, .mis-pag table.tab-completar td,
+  .mis-pag table.classif-tab, .mis-pag table.classif-tab tbody, .mis-pag table.classif-tab tr, .mis-pag table.classif-tab td { display: block; width: 100%; }
+  .mis-pag table.tab-completar thead, .mis-pag table.classif-tab thead { display: none; }
+  .mis-pag table.tab-completar tr, .mis-pag table.classif-tab tr { border: 1px solid var(--linha); border-radius: 12px; margin: 0 0 10px; padding: 8px 12px; background: var(--papel); }
+  .mis-pag table.tab-completar td, .mis-pag table.classif-tab td { border: 0; padding: 4px 0; min-width: 0 !important; }
+  .mis-pag td[data-rot]::before { content: attr(data-rot); display: block; font-size: .78rem; font-weight: 800; color: var(--suave); text-transform: uppercase; letter-spacing: .03em; }
+  .mis-pag table.tab-completar input, .mis-pag table.tab-completar select { width: 100%; max-width: 100%; min-height: 40px; font-size: 16px; }
+  .mis-pag .tabela-wrap { overflow-x: visible; }
+  .cesar, .ces-tira { overflow-x: auto; max-width: 100%; }
+  .mis-pag input[type=radio], .mis-pag input[type=checkbox] { width: 22px; height: 22px; }
+  .mis-pag .termo-link { padding: 5px 3px; }
+  .mis-pag input[type=text], .mis-pag textarea, .mis-pag select { font-size: 16px; } /* evita o zoom automático do iPhone */
+}
+@media (max-width: 600px) { .mis-pag table.tab-mini { display: block; max-width: 100%; overflow-x: auto; font-size: .85rem; } }

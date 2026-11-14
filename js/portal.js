@@ -1342,5 +1342,10 @@
   }
 
   window.addEventListener("hashchange", rota);
+  // 📱 rótulo de cada célula (cabeçalho da coluna) para as tabelas virarem cartões no celular
+  (() => { let ag = 0; const rotular = () => { ag = 0; document.querySelectorAll("table.tab-completar, table.classif-tab").forEach(t => {
+      const hs = [...t.querySelectorAll("thead th")].map(th => th.textContent.trim()); if (!hs.length) return;
+      t.querySelectorAll("tbody tr").forEach(tr => [...tr.children].forEach((td, i) => { if (hs[i] && td.dataset.rot !== hs[i]) td.dataset.rot = hs[i]; })); }); };
+    new MutationObserver(() => { if (!ag) ag = requestAnimationFrame(rotular); }).observe(document.body, { childList: true, subtree: true }); })();
   window.addEventListener("DOMContentLoaded", () => { rodape(); rota(); });
 })();
