@@ -260,6 +260,79 @@ PORTAL.registrarAtividades("informatica-6ano-4bim", {
     ]
   },
 
+  /* ======================= MISSÃO 4 ======================= */
+  m4: {
+    pratica: [
+      { tipo: "bits", titulo: "Fale a língua do computador: números com lâmpadas",
+        enunciado: "<p>Cada lâmpada é um <strong>bit</strong>: <strong>acesa = 1</strong>, <strong>apagada = 0</strong>. Cada lâmpada vale um número (8, 4, 2 e 1). Acenda as lâmpadas certas para a <strong>soma</strong> dar o número pedido e clique em <strong>Pronto!</strong></p>",
+        valores: [8, 4, 2, 1],
+        fases: [
+          { alvo: 3, pede: "Escreva o número **3**.", dica: "3 = 2 + 1. Acenda as lâmpadas que valem 2 e 1." },
+          { alvo: 5, pede: "Escreva o número **5**.", dica: "5 = 4 + 1." },
+          { alvo: 10, pede: "Escreva o número **10**.", dica: "10 = 8 + 2." },
+          { alvo: 15, pede: "Escreva o número **15**: o maior que dá com 4 lâmpadas.", dica: "Acenda todas: 8 + 4 + 2 + 1." }],
+        okMsg: "Você escreveu números só com 0 e 1, como o computador faz!",
+        explicacao: "3 = 0011 · 5 = 0101 · 10 = 1010 · 15 = 1111. O computador guarda tudo assim, em bits (0 e 1)." }
+    ],
+    basico: [
+      { tipo: "ordenar", titulo: "Do menor para o maior: as medidas",
+        enunciado: "<p>Arraste (ou use as setas ▲▼) até ficar do <strong>menor</strong> para o <strong>maior</strong>.</p>",
+        itens: ["bit", "byte", "KB (quilobyte)", "MB (megabyte)", "GB (gigabyte)", "TB (terabyte)"],
+        dicas: ["O menor de todos é o bit, que vale 0 ou 1.", "Depois do byte, as medidas crescem de mil em mil: KB, MB, GB, TB."],
+        explicacao: "bit → byte (8 bits) → KB → MB → GB → TB. Cada medida, a partir do byte, é cerca de mil vezes maior que a anterior." },
+      { tipo: "ordenar", titulo: "Do menor para o maior: os arquivos",
+        enunciado: "<p>Coloque os arquivos do <strong>menor</strong> para o <strong>maior</strong>. Olhe o tamanho entre parênteses.</p>",
+        itens: ["📄 bilhete.txt (2 KB)", "🖼️ foto-da-turma.jpg (3 MB)", "🎵 musica.mp3 (4 MB)", "🎬 video-da-festa.mp4 (200 MB)", "🍿 filme.mp4 (2 GB)"],
+        dicas: ["KB é menor que MB, e MB é menor que GB.", "Entre a foto (3 MB) e a música (4 MB), qual número é menor?"],
+        explicacao: "2 KB < 3 MB < 4 MB < 200 MB < 2 GB. Texto ocupa pouco; vídeo e filme ocupam muito." },
+      { tipo: "tabela", titulo: "Contas de quanto cabe",
+        colunas: ["Pergunta", "Resposta"],
+        linhas: [["Quantos bits formam 1 byte?", { r: "8", tipo: "num", w: 4 }],
+          ["1 GB é cerca de quantos MB?", { r: "1000", tipo: "num", w: 6, dica: "Cada medida é cerca de mil vezes a anterior." }],
+          ["Um pen drive de 1 GB (cerca de 1000 MB) guarda quantas fotos de 5 MB?", { r: "200", tipo: "num", w: 5, dica: "1000 ÷ 5" }],
+          ["O que ocupa MAIS espaço?", { op: ["Um vídeo de 200 MB", "Um texto de 2 KB", "Uma foto de 3 MB"], r: "Um vídeo de 200 MB" }]],
+        explicacao: "1 byte = 8 bits. 1 GB ≈ 1000 MB. 1000 ÷ 5 = 200 fotos. O vídeo de 200 MB é o maior." },
+      { tipo: "escolha", titulo: "Compactar e descompactar",
+        perguntas: [
+          { p: "O que acontece quando eu compacto 10 arquivos de texto?", opcoes: ["Viram um arquivo .zip só, menor que os 10 juntos", "Os arquivos são apagados", "Os arquivos ficam maiores"], certo: 0, why: "Compactar junta tudo em um .zip e diminui o tamanho." },
+          { p: "Recebi um arquivo .zip. O que faço para usar os arquivos de dentro?", opcoes: ["Descompacto (extraio) o .zip", "Apago o .zip", "Mudo o nome para .jpg"], certo: 0 },
+          { p: "Por que compactar fotos quase não diminui o tamanho?", opcoes: ["Porque as fotos já vêm compactadas", "Porque foto não pode ir para .zip", "Porque o .zip só aceita texto"], certo: 0, why: "Fotos (.jpg) e vídeos (.mp4) já são compactados quando são criados." }],
+        explicacao: "Compactar junta e diminui; para usar, descompactamos (extraímos). Texto diminui bastante; foto e vídeo, quase nada, porque já vêm compactados." }
+    ],
+    desafio: [
+      { tipo: "classificar", modo: "tabela", titulo: "Que tipo de arquivo é? Olhe a extensão", colunaItem: "Arquivo", colunaResp: "Tipo",
+        categorias: [{ id: "F", rot: "🖼️ Foto" }, { id: "V", rot: "🎬 Vídeo" }, { id: "T", rot: "📄 Texto" }, { id: "Z", rot: "🗜️ Compactado" }],
+        itens: [
+          { t: "passeio.jpg", c: "F", why: ".jpg é foto." }, { t: "apresentacao.mp4", c: "V", why: ".mp4 é vídeo." },
+          { t: "resumo.txt", c: "T", why: ".txt é texto." }, { t: "trabalhos-6A.zip", c: "Z", why: ".zip é compactado." },
+          { t: "selfie.png", c: "F", why: ".png também é imagem." }],
+        explicacao: "A extensão, depois do ponto, mostra o tipo: .jpg e .png = imagem · .mp4 = vídeo · .txt = texto · .zip = compactado." },
+      { tipo: "escolha", titulo: "Ajude o colega a achar e organizar",
+        perguntas: [
+          { p: "O colega salvou o trabalho ontem e não lembra onde. Qual é o jeito mais rápido de achar?", opcoes: ["Digitar parte do nome na busca 🔍", "Abrir todas as pastas, uma por uma", "Desligar e ligar o computador"], certo: 0 },
+          { p: "Ele quer ver primeiro os arquivos mais novos. Como ordenar?", opcoes: ["Por data, do mais recente para o mais antigo", "Por nome, de A a Z", "Por cor do ícone"], certo: 0 },
+          { p: "Qual nome é melhor para achar depois?", opcoes: ["trabalho-ciencias-6A.docx", "documento1.docx", "aaaaa.docx"], certo: 0, why: "Um nome que diz o que é, a matéria e a turma se acha fácil na busca." },
+          { p: "O pen drive está cheio. O que libera MAIS espaço?", opcoes: ["Apagar 1 vídeo de 500 MB que já está salvo em outro lugar", "Apagar 1 texto de 2 KB", "Mudar o nome dos arquivos"], certo: 0 }],
+        explicacao: "Busca 🔍 pelo nome; ordenar por data para ver os mais novos; nomes que dizem o que o arquivo é; e, para liberar espaço, apagar o que é grande (vídeo), depois de guardar uma cópia." }
+    ],
+    turbo: [
+      { tipo: "tabela", titulo: "O celular com 10 GB livres",
+        enunciado: "<p>Use: <strong>1 GB ≈ 1000 MB</strong>. Então <strong>10 GB ≈ 10 000 MB</strong>.</p>",
+        colunas: ["Pergunta", "Resposta"],
+        linhas: [["Quantos vídeos de 500 MB cabem em 10 GB?", { r: "20", tipo: "num", w: 5, dica: "10 000 ÷ 500" }],
+          ["Quantas fotos de 5 MB cabem em 10 GB?", { r: "2000", tipo: "num", w: 6, dica: "10 000 ÷ 5" }],
+          ["Para guardar mais lembranças, o que ocupa menos espaço?", { op: ["Fotos", "Vídeos"], r: "Fotos" }]],
+        explicacao: "10 000 ÷ 500 = 20 vídeos. 10 000 ÷ 5 = 2000 fotos. Cada vídeo de 500 MB ocupa o espaço de 100 fotos de 5 MB." }
+    ],
+    vf: [
+      { v: true },
+      { v: true },
+      { v: false, corrigir: { trecho: "menor", opcoes: ["menor", "maior"], certo: "maior" }, why: "GB é cerca de um milhão de KB: muito maior." },
+      { v: true },
+      { v: false, corrigir: { trecho: "um texto", opcoes: ["um texto", "um vídeo", "uma foto"], certo: "um vídeo" }, why: ".mp4 é vídeo." }
+    ]
+  },
+
   /* ======================= PROJETO FINAL ======================= */
   pf: {
     basico: [

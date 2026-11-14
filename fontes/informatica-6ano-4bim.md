@@ -10,6 +10,7 @@ Prof. Welington · @Welington Laignier
 | Missão 1 | ........ / ........ |  |  |  |
 | Missão 2 | ........ / ........ |  |  |  |
 | Missão 3 | ........ / ........ |  |  |  |
+| Missão 4 | ........ / ........ |  |  |  |
 | Projeto final | ........ / ........ |  |  |  |
 | **Total** |  |  |  |  |
 
@@ -269,6 +270,71 @@ A repetição deixa o algoritmo **mais curto**: em vez de ➡️➡️➡️➡�
 ### 🧠 Resumo da Aula
 Um **cidadão digital** se comunica com **respeito**, protege seus **dados pessoais** e usa a tecnologia com **consciência**: conserta, doa e descarta os aparelhos no lugar certo para evitar o **lixo eletrônico**.
 **Palavras-chave:** respeito · cyberbullying · senha forte · obsolescência · lixo eletrônico
+## 💾 Missão 4 – Guardar, compactar e achar arquivos
+**Objetivo:** entender que o computador guarda tudo em bits, comparar o tamanho dos arquivos (KB, MB, GB), compactar arquivos e encontrar um arquivo rapidinho.
+📅 **Data da aula:** ........ / ........
+### 💡 Para começar
+Dentro do computador, tudo vira **0 e 1**: texto, foto, música e vídeo. Cada 0 ou 1 é um **bit**, como uma lâmpada **apagada (0)** ou **acesa (1)**. Juntando **8 bits**, temos **1 byte**, que é mais ou menos o espaço de **uma letra**.
+Como os arquivos têm muitos bytes, usamos medidas maiores, cada uma cerca de **mil vezes** maior que a anterior:
+| Medida | Quanto é | Exemplo do que cabe |
+| 🔹 Byte (B) | 8 bits | Uma letra |
+| 📄 KB (quilobyte) | cerca de mil bytes | Um texto curto (alguns KB) |
+| 🖼️ MB (megabyte) | cerca de mil KB | Uma foto do celular (2 a 5 MB), uma música (3 a 5 MB) |
+| 🎬 GB (gigabyte) | cerca de mil MB | Um filme (1 a 3 GB); um pen drive guarda 16, 32 ou 64 GB |
+| 🗄️ TB (terabyte) | cerca de mil GB | Um HD grande guarda 1 ou 2 TB |
+
+Do menor para o maior: **bit → byte → KB → MB → GB → TB**.
+**Compactar** é diminuir o tamanho dos arquivos e juntar vários em **um só**, o arquivo **.zip**. Fica mais fácil mandar por e-mail ou guardar. Para usar de novo, é preciso **descompactar** (ou **extrair**). Textos diminuem bastante; fotos e vídeos quase não diminuem, porque já vêm compactados.
+**Achar um arquivo** fica fácil com 3 truques: 🔍 **buscar** pelo nome (ou parte dele) na lupa da pasta; 🗂️ **filtrar pelo tipo**, olhando a **extensão** (.jpg e .png = foto ou imagem, .mp4 = vídeo, .txt = texto, .zip = compactado); 📅 **ordenar** por data (o mais recente primeiro) ou por tamanho. E dê **nomes bons**: “trabalho-ciencias-6A” se acha; “documento1” se perde.
+### 📖 O que significa?
+- **Bit** (de *binary digit*, dígito binário): a menor informação do computador; vale **0** ou **1**, como uma lâmpada apagada ou acesa.
+- **Binário**: o jeito de escrever tudo só com **0 e 1**.
+- **Byte**: um grupo de **8 bits**; guarda mais ou menos uma letra.
+- **KB** (quilobyte; *quilo* = mil): cerca de mil bytes.
+- **MB** (megabyte; *mega* = milhão): cerca de mil KB.
+- **GB** (gigabyte; *giga* = bilhão): cerca de mil MB.
+- **TB** (terabyte; *tera* = trilhão): cerca de mil GB.
+- **Armazenamento**: onde os arquivos ficam guardados: HD, SSD, pen drive, cartão de memória ou a nuvem.
+- **Compactar**: diminuir o tamanho e juntar vários arquivos em um só (o **.zip**).
+- **Descompactar** (ou **extrair**): tirar os arquivos de dentro do .zip para usar.
+- **Extensão**: as letras depois do ponto no nome do arquivo (.jpg, .mp4, .zip), que mostram o **tipo** do arquivo.
+- **Buscar**: procurar um arquivo digitando o nome dele na lupa 🔍.
+### 🌎 Onde eu uso isso?
+- O celular avisa **“armazenamento cheio”**: vídeos ocupam muito mais espaço que fotos, e fotos muito mais que mensagens.
+- Para mandar **várias fotos de uma vez** por e-mail, dá para juntar tudo num arquivo **.zip**.
+- Na hora de **achar o trabalho** salvo no computador, a busca 🔍 e o nome bem escolhido economizam tempo.
+| ✍️ O que ocupa mais espaço no seu celular (ou no de alguém da sua casa): fotos, vídeos ou aplicativos? |
+|  |
+|  |
+
+### 🎯 Missão
+🟢 **Básico**
+- [ ] No portal, acenda e apague as lâmpadas para escrever números só com **0 e 1**.
+- [ ] Coloque as medidas em ordem, do menor para o maior: bit, byte, KB, MB, GB, TB.
+- [ ] Coloque os arquivos em ordem de tamanho e faça as contas de quanto cabe no pen drive.
+🟡 **Desafio**
+- [ ] Ajude o colega a **achar** e a **organizar** os arquivos: escolha a busca certa, o tipo pela extensão e o nome melhor.
+🔴 **Turbo**
+- [ ] O celular está com **10 GB** livres. Quantos vídeos de **500 MB** cabem? E quantas fotos de **5 MB**?
+| ✍️ Minhas contas |
+|  |
+|  |
+
+**✅ Carimbo do professor**
+| 🟢 Básico | 🟡 Desafio | 🔴 Turbo |
+|  |  |  |
+|  |  |  |
+
+### ✅ Perguntas rápidas
+1. ( ) Um bit só pode valer 0 ou 1.
+2. ( ) Um byte é formado por 8 bits.
+3. ( ) Um GB é menor que um KB.
+4. ( ) Compactar junta vários arquivos em um só e diminui o tamanho.
+5. ( ) A extensão .mp4 mostra que o arquivo é um texto.
+### 🧠 Resumo da Aula
+O computador guarda tudo em **bits** (0 ou 1). **8 bits** formam **1 byte**, mais ou menos uma letra. As medidas crescem de mil em mil: **byte → KB → MB → GB → TB**. Texto ocupa poucos KB; foto e música, alguns MB; filme, alguns GB. **Compactar** (.zip) diminui o tamanho e junta vários arquivos em um só; para usar, **descompactamos**. Para **achar** um arquivo: buscar pelo nome, olhar a **extensão** e ordenar por data ou tamanho, e sempre dar **nomes bons**.
+**Palavras-chave:** bit · byte · KB · MB · GB · TB · compactar · descompactar · extensão · buscar
+
 ## 🏁 Projeto final – Meu Passaporte de Missões
 **Objetivo:** conferir as missões concluídas, completar o que faltou e mostrar o que você aprendeu no bimestre.
 📅 **Data da aula:** ........ / ........

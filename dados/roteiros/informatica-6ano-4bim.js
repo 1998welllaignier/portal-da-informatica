@@ -111,6 +111,48 @@ PORTAL.registrarRoteiro("informatica-6ano-4bim", {
       { p: "O que eu faço se estiverem me ofendendo na internet?", r: "Tire print, bloqueie quem ofende e conte a um adulto de confiança. Não responda com ofensa." }
     ]
   },
+  m4: {
+    datas: "6º A e 6º B: 26/11 (o 6º C não tem aula sobrando antes da prova)",
+    tempo: [
+      { min: 10, icone: "🎬", t: "Abertura e vídeo" },
+      { min: 10, icone: "🌎", t: "Onde eu uso isso?" },
+      { min: 5, icone: "🖥️", t: "Demonstração pelo Veyon" },
+      { min: 30, icone: "💻", t: "Missão no portal" },
+      { min: 10, icone: "📋", t: "Perguntas rápidas e Resumo" },
+      { min: 10, icone: "🎮", t: "Recreação (quem concluiu o Básico)" }
+    ],
+    abertura: [
+      { fala: "Quem já viu no celular o aviso “armazenamento cheio”? O que vocês apagaram para liberar espaço?" },
+      { acao: "Ouça 3 ou 4 respostas (fotos, vídeos, aplicativos)." },
+      { fala: "Por que um vídeo enche o celular muito mais rápido do que mil mensagens? Para entender, a gente precisa saber como o computador guarda as coisas: só com 0 e 1." }
+    ],
+    extras: [
+      {
+        titulo: "🎲 Dinâmica: os alunos-bits (5 min)", cor: "c-roxo",
+        itens: [
+          { acao: "Chame 4 alunos para a frente, lado a lado. Dê a cada um um papel com 8, 4, 2 e 1. Em pé = lâmpada acesa (1); agachado = apagada (0)." },
+          { fala: "Quero o número 5. Quem fica em pé?" },
+          { acao: "A turma descobre: o 4 e o 1 em pé (0101). Repita com 3 (0011) e 10 (1010)." },
+          { fala: "Cada um de vocês é um bit. Juntando 8 bits, temos 1 byte: mais ou menos o espaço de uma letra." }
+        ]
+      }
+    ],
+    onde: {
+      pergunta: "O que ocupa mais espaço no celular de vocês: fotos, vídeos ou aplicativos?",
+      dica: "No seu computador, mostre pelo projetor uma pasta com a coluna Tamanho e ordene por tamanho. Mostre também a busca 🔍 da pasta e um arquivo .zip sendo extraído."
+    },
+    atencao: [
+      "Use sempre “cerca de mil” (1 KB ≈ 1000 bytes). Se um aluno disser 1024, ele está certo: é o valor exato em muitos computadores. Elogie e siga com o “cerca de mil”.",
+      "Ordem das medidas: bit → byte → KB → MB → GB → TB. Escreva no quadro e deixe até o fim da aula.",
+      "Na Mão na massa, as lâmpadas valem 8, 4, 2 e 1: quem travar, peça para somar só as acesas."
+    ],
+    perguntas: [
+      { p: "Quantos bits tem um byte?", r: "8 bits. Um byte guarda mais ou menos uma letra." },
+      { p: "Por que um vídeo ocupa mais que uma foto?", r: "Porque o vídeo é como muitas fotos por segundo, com som: são muito mais bytes." },
+      { p: "Para que serve compactar?", r: "Para diminuir o tamanho e juntar vários arquivos em um só (.zip), mais fácil de mandar ou guardar." }
+    ],
+    curiosidade: "Os primeiros computadores guardavam bits em furinhos de cartões de papel: furo = 1, sem furo = 0. Hoje, um pen drive do tamanho de um dedo guarda bilhões de bits."
+  },
   pf: {
     datas: "Avaliação: 6º A e 6º B 26/11 · 6º C 23/11 · Projeto final: 6º A e 6º B 03/12 · 6º C 14/12",
     tempo: [

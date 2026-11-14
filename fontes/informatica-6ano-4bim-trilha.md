@@ -2,11 +2,12 @@
 Prof. Welington · @Welington Laignier
 
 ## 📘 Como usar esta apostila
-Neste bimestre você vai cumprir **3 missões** e um **projeto final**. São as mesmas missões da sua turma.
+Neste bimestre você vai cumprir **4 missões** e um **projeto final**. São as mesmas missões da sua turma.
 | Missão | Tema |
 | 🌐 Missão 1 – O computador e meus arquivos | Mundo Digital |
 | ⚙️ Missão 2 – Algoritmos: passos em ordem | Pensamento Computacional |
 | 🤝 Missão 3 – Cidadão digital | Cultura Digital |
+| 💾 Missão 4 – Guardar, compactar e achar arquivos | Mundo Digital |
 | 🏁 Projeto final – Meu Passaporte de Missões | Todos os temas |
 
 **Como funciona a Trilha Passo a Passo:**
@@ -108,6 +109,35 @@ O **celular velho** que não funciona mais **não vai para o lixo comum**: ele t
 ### 🧠 Resumo da Aula
 Na internet eu escrevo com **respeito**, guardo a minha **senha** em segredo e conto a um **adulto** quando algo me assusta. Aparelho velho **não vai para o lixo comum**.
 **Palavras-chave:** respeito · cyberbullying · senha forte · lixo eletrônico
+
+## 💾 Missão 4 – Guardar, compactar e achar arquivos
+**Objetivo:** saber que o computador guarda tudo com 0 e 1, comparar o tamanho dos arquivos e achar um arquivo.
+📅 **Data da aula:** ........ / ........
+### 💡 Para começar
+O computador guarda tudo com **0 e 1**. Cada 0 ou 1 é um **bit**: 💡 lâmpada **acesa = 1**, lâmpada **apagada = 0**.
+Os arquivos têm tamanhos diferentes:
+- 📄 **texto**: pequeno (**KB**);
+- 🖼️ **foto**: médio (**MB**);
+- 🎬 **filme**: grande (**GB**).
+
+Do menor para o maior: **KB → MB → GB**.
+**Compactar** é juntar vários arquivos em **um só**, menor: o **.zip**.
+Para **achar** um arquivo, digite o nome dele na **lupa 🔍**.
+### 📖 O que significa?
+- **Bit**: o 0 ou o 1 do computador.
+- **KB, MB, GB**: medidas do tamanho dos arquivos. KB é pequeno, MB é médio, GB é grande.
+- **Compactar**: juntar vários arquivos em um só, menor (o .zip).
+- **Buscar**: procurar o arquivo pelo nome, na lupa 🔍.
+### 🌎 Onde eu uso isso?
+- Quando o celular avisa **“armazenamento cheio”**.
+- Quando eu procuro o meu **trabalho** no computador.
+### ✅ Perguntas rápidas
+1. ( ) O computador guarda tudo com 0 e 1.
+2. ( ) Um filme é menor que um texto.
+3. ( ) Para achar um arquivo, posso usar a lupa 🔍.
+### 🧠 Resumo da Aula
+O computador guarda tudo em **bits** (0 e 1). **KB** é pequeno, **MB** é médio e **GB** é grande. **Compactar** junta arquivos num **.zip**. Para achar um arquivo, uso a **lupa 🔍**.
+**Palavras-chave:** bit · KB · MB · GB · compactar · buscar
 
 ## 🏁 Projeto final – Meu Passaporte de Missões
 **Objetivo:** conferir as missões concluídas, completar o que faltou e mostrar o que você aprendeu no bimestre.

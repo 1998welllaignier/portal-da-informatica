@@ -458,6 +458,163 @@ PORTAL.registrarConteudo("informatica-6ano-4bim", {
    "autoavaliacao": []
   },
   {
+   "id": "m4",
+   "icone": "💾",
+   "titulo": "Missão 4 – Guardar, compactar e achar arquivos",
+   "objetivo": "entender que o computador guarda tudo em bits, comparar o tamanho dos arquivos (KB, MB, GB), compactar arquivos e encontrar um arquivo rapidinho.",
+   "comecar": [
+    {
+     "t": "p",
+     "h": "Dentro do computador, tudo vira <strong>0 e 1</strong>: texto, foto, música e vídeo. Cada 0 ou 1 é um <strong>bit</strong>, como uma lâmpada <strong>apagada (0)</strong> ou <strong>acesa (1)</strong>. Juntando <strong>8 bits</strong>, temos <strong>1 byte</strong>, que é mais ou menos o espaço de <strong>uma letra</strong>."
+    },
+    {
+     "t": "p",
+     "h": "Como os arquivos têm muitos bytes, usamos medidas maiores, cada uma cerca de <strong>mil vezes</strong> maior que a anterior:"
+    },
+    {
+     "t": "tabela",
+     "cab": [
+      "Medida",
+      "Quanto é",
+      "Exemplo do que cabe"
+     ],
+     "linhas": [
+      [
+       "🔹 Byte (B)",
+       "8 bits",
+       "Uma letra"
+      ],
+      [
+       "📄 KB (quilobyte)",
+       "cerca de mil bytes",
+       "Um texto curto (alguns KB)"
+      ],
+      [
+       "🖼️ MB (megabyte)",
+       "cerca de mil KB",
+       "Uma foto do celular (2 a 5 MB), uma música (3 a 5 MB)"
+      ],
+      [
+       "🎬 GB (gigabyte)",
+       "cerca de mil MB",
+       "Um filme (1 a 3 GB); um pen drive guarda 16, 32 ou 64 GB"
+      ],
+      [
+       "🗄️ TB (terabyte)",
+       "cerca de mil GB",
+       "Um HD grande guarda 1 ou 2 TB"
+      ]
+     ]
+    },
+    {
+     "t": "p",
+     "h": "Do menor para o maior: <strong>bit → byte → KB → MB → GB → TB</strong>."
+    },
+    {
+     "t": "p",
+     "h": "<strong>Compactar</strong> é diminuir o tamanho dos arquivos e juntar vários em <strong>um só</strong>, o arquivo <strong>.zip</strong>. Fica mais fácil mandar por e-mail ou guardar. Para usar de novo, é preciso <strong>descompactar</strong> (ou <strong>extrair</strong>). Textos diminuem bastante; fotos e vídeos quase não diminuem, porque já vêm compactados."
+    },
+    {
+     "t": "p",
+     "h": "<strong>Achar um arquivo</strong> fica fácil com 3 truques: 🔍 <strong>buscar</strong> pelo nome (ou parte dele) na lupa da pasta; 🗂️ <strong>filtrar pelo tipo</strong>, olhando a <strong>extensão</strong> (.jpg e .png = foto ou imagem, .mp4 = vídeo, .txt = texto, .zip = compactado); 📅 <strong>ordenar</strong> por data (o mais recente primeiro) ou por tamanho. E dê <strong>nomes bons</strong>: “trabalho-ciencias-6A” se acha; “documento1” se perde."
+    }
+   ],
+   "termos": [
+    {
+     "termo": "Bit",
+     "rotulo": "<strong>Bit</strong> (de <em>binary digit</em>, dígito binário)",
+     "def": "a menor informação do computador; vale <strong>0</strong> ou <strong>1</strong>, como uma lâmpada apagada ou acesa."
+    },
+    {
+     "termo": "Binário",
+     "rotulo": "<strong>Binário</strong>",
+     "def": "o jeito de escrever tudo só com <strong>0 e 1</strong>."
+    },
+    {
+     "termo": "Byte",
+     "rotulo": "<strong>Byte</strong>",
+     "def": "um grupo de <strong>8 bits</strong>; guarda mais ou menos uma letra."
+    },
+    {
+     "termo": "KB",
+     "rotulo": "<strong>KB</strong> (quilobyte; <em>quilo</em> = mil)",
+     "def": "cerca de mil bytes."
+    },
+    {
+     "termo": "MB",
+     "rotulo": "<strong>MB</strong> (megabyte; <em>mega</em> = milhão)",
+     "def": "cerca de mil KB."
+    },
+    {
+     "termo": "GB",
+     "rotulo": "<strong>GB</strong> (gigabyte; <em>giga</em> = bilhão)",
+     "def": "cerca de mil MB."
+    },
+    {
+     "termo": "TB",
+     "rotulo": "<strong>TB</strong> (terabyte; <em>tera</em> = trilhão)",
+     "def": "cerca de mil GB."
+    },
+    {
+     "termo": "Armazenamento",
+     "rotulo": "<strong>Armazenamento</strong>",
+     "def": "onde os arquivos ficam guardados: HD, SSD, pen drive, cartão de memória ou a nuvem."
+    },
+    {
+     "termo": "Compactar",
+     "rotulo": "<strong>Compactar</strong>",
+     "def": "diminuir o tamanho e juntar vários arquivos em um só (o <strong>.zip</strong>)."
+    },
+    {
+     "termo": "Descompactar",
+     "rotulo": "<strong>Descompactar</strong> (ou <strong>extrair</strong>)",
+     "def": "tirar os arquivos de dentro do .zip para usar."
+    },
+    {
+     "termo": "Extensão",
+     "rotulo": "<strong>Extensão</strong>",
+     "def": "as letras depois do ponto no nome do arquivo (.jpg, .mp4, .zip), que mostram o <strong>tipo</strong> do arquivo."
+    },
+    {
+     "termo": "Buscar",
+     "rotulo": "<strong>Buscar</strong>",
+     "def": "procurar um arquivo digitando o nome dele na lupa 🔍."
+    }
+   ],
+   "ondeUso": {
+    "itens": [
+     "O celular avisa <strong>“armazenamento cheio”</strong>: vídeos ocupam muito mais espaço que fotos, e fotos muito mais que mensagens.",
+     "Para mandar <strong>várias fotos de uma vez</strong> por e-mail, dá para juntar tudo num arquivo <strong>.zip</strong>.",
+     "Na hora de <strong>achar o trabalho</strong> salvo no computador, a busca 🔍 e o nome bem escolhido economizam tempo."
+    ],
+    "reflexao": "O que ocupa mais espaço no seu celular (ou no de alguém da sua casa): fotos, vídeos ou aplicativos?"
+   },
+   "alertas": [],
+   "vf": [
+    "Um bit só pode valer 0 ou 1.",
+    "Um byte é formado por 8 bits.",
+    "Um GB é menor que um KB.",
+    "Compactar junta vários arquivos em um só e diminui o tamanho.",
+    "A extensão .mp4 mostra que o arquivo é um texto."
+   ],
+   "resumo": {
+    "texto": "O computador guarda tudo em **bits** (0 ou 1). **8 bits** formam **1 byte**, mais ou menos uma letra. As medidas crescem de mil em mil: **byte → KB → MB → GB → TB**. Texto ocupa poucos KB; foto e música, alguns MB; filme, alguns GB. **Compactar** (.zip) diminui o tamanho e junta vários arquivos em um só; para usar, **descompactamos**. Para **achar** um arquivo: buscar pelo nome, olhar a **extensão** e ordenar por data ou tamanho, e sempre dar **nomes bons**.",
+    "chaves": [
+     "bit",
+     "byte",
+     "KB",
+     "MB",
+     "GB",
+     "TB",
+     "compactar",
+     "descompactar",
+     "extensão",
+     "buscar"
+    ]
+   },
+   "autoavaliacao": []
+  },
+  {
    "id": "pf",
    "icone": "🏁",
    "titulo": "Projeto final – Meu Passaporte de Missões",

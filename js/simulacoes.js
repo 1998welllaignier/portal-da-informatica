@@ -3,7 +3,7 @@
    Tipos de atividade com correção automática, usados no início das
    missões da JK e no Modo Explorador.
    mensagens · cesar · grafo · bolha · adivinhe · permissoes ·
-   medidor_senha · lampadas · rota
+   medidor_senha · lampadas · bits · rota
    ============================================================ */
 (function () {
   "use strict";
@@ -186,6 +186,34 @@
       };
       draw();
     }
+  };
+
+  /* ---------- 8b. BITS: acender lâmpadas (1) e apagar (0) para formar um número ---------- */
+  T.bits = {
+    auto: true,
+    render(c, at, ctx) {
+      const val = at.valores || [8, 4, 2, 1];
+      const st = ctx.st; st.f = st.f || 0; st.s = st.s && st.s.length === val.length ? st.s : val.map(() => false);
+      const draw = () => {
+        const fase = at.fases[st.f];
+        if (!fase) { c.innerHTML = `<p class="sim-legenda">🎉 Todos os números certos!</p>`; return; }
+        const soma = val.reduce((t, v, i) => t + (st.s[i] ? v : 0), 0);
+        c.innerHTML = `<div class="sim-lamp"><p class="sim-fase">Fase ${st.f + 1} de ${at.fases.length}: ${md(fase.pede)}</p>
+          <div class="sim-circ sim-bits">${val.map((v, i) => `<button type="button" class="sim-int ${st.s[i] ? "on" : ""}" data-k="${i}" aria-pressed="${st.s[i]}" aria-label="Lâmpada que vale ${v}: ${st.s[i] ? "acesa, bit 1" : "apagada, bit 0"}"><span class="sim-bulbo ${st.s[i] ? "acesa" : ""}" aria-hidden="true">💡</span><br>vale ${v}<br><b>${st.s[i] ? 1 : 0}</b></button>`).join("")}</div>
+          <p class="sim-legenda">Bits: <strong>${st.s.map(x => x ? 1 : 0).join("")}</strong> · Soma das lâmpadas acesas: <strong>${soma}</strong></p>
+          <button type="button" class="btn btn-ok" data-ok>Pronto!</button></div>`;
+        c.querySelectorAll("[data-k]").forEach(x => x.onclick = () => { st.s[+x.dataset.k] = !st.s[+x.dataset.k]; ctx.salvar(); draw(); });
+        c.querySelector("[data-ok]").onclick = () => {
+          if (soma !== fase.alvo) { ctx.errou(fase.dica || `A soma está ${soma}. Precisa dar ${fase.alvo}: acenda e apague lâmpadas até somar ${fase.alvo}.`); return; }
+          ctx.feedback("ok", "Isso! " + (fase.why || `${fase.alvo} em bits é ${st.s.map(x => x ? 1 : 0).join("")}.`));
+          st.f++; st.s = val.map(() => false); ctx.salvar();
+          if (st.f >= at.fases.length) ctx.concluir("certo", at.okMsg || "Você escreveu números só com 0 e 1, como o computador!"); else draw();
+        };
+      };
+      ctx.resolver = () => { st.f = at.fases.length; ctx.salvar(); draw(); };
+      draw();
+    },
+    imprimir(at) { const val = at.valores || [8, 4, 2, 1]; return `<p>Lâmpadas que valem ${val.join(", ")}. Acesa = 1, apagada = 0.</p><table class="imp-t"><tr><th>Número</th><th>Bits</th></tr>${at.fases.map(f => `<tr><td>${f.alvo}</td><td></td></tr>`).join("")}</table>`; }
   };
 
   /* ---------- 9. ROTA: clicar nas etapas na ordem certa ---------- */

@@ -5,7 +5,7 @@ PORTAL.registrarConteudo("informatica-6ano-4bim-trilha", {
  "comoUsar": [
   {
    "t": "p",
-   "h": "Neste bimestre você vai cumprir <strong>3 missões</strong> e um <strong>projeto final</strong>. São as mesmas missões da sua turma."
+   "h": "Neste bimestre você vai cumprir <strong>4 missões</strong> e um <strong>projeto final</strong>. São as mesmas missões da sua turma."
   },
   {
    "t": "tabela",
@@ -25,6 +25,10 @@ PORTAL.registrarConteudo("informatica-6ano-4bim-trilha", {
     [
      "🤝 Missão 3 – Cidadão digital",
      "Cultura Digital"
+    ],
+    [
+     "💾 Missão 4 – Guardar, compactar e achar arquivos",
+     "Mundo Digital"
     ],
     [
      "🏁 Projeto final – Meu Passaporte de Missões",
@@ -356,6 +360,99 @@ PORTAL.registrarConteudo("informatica-6ano-4bim-trilha", {
      "cyberbullying",
      "senha forte",
      "lixo eletrônico"
+    ]
+   },
+   "autoavaliacao": []
+  },
+  {
+   "id": "m4",
+   "icone": "💾",
+   "titulo": "Missão 4 – Guardar, compactar e achar arquivos",
+   "objetivo": "saber que o computador guarda tudo com 0 e 1, comparar o tamanho dos arquivos e achar um arquivo.",
+   "comecar": [
+    {
+     "t": "p",
+     "h": "O computador guarda tudo com <strong>0 e 1</strong>. Cada 0 ou 1 é um <strong>bit</strong>: 💡 lâmpada <strong>acesa = 1</strong>, lâmpada <strong>apagada = 0</strong>."
+    },
+    {
+     "t": "p",
+     "h": "Os arquivos têm tamanhos diferentes:"
+    },
+    {
+     "t": "lista",
+     "ord": false,
+     "itens": [
+      {
+       "nivel": 0,
+       "h": "📄 <strong>texto</strong>: pequeno (<strong>KB</strong>);"
+      },
+      {
+       "nivel": 0,
+       "h": "🖼️ <strong>foto</strong>: médio (<strong>MB</strong>);"
+      },
+      {
+       "nivel": 0,
+       "h": "🎬 <strong>filme</strong>: grande (<strong>GB</strong>)."
+      }
+     ]
+    },
+    {
+     "t": "p",
+     "h": "Do menor para o maior: <strong>KB → MB → GB</strong>."
+    },
+    {
+     "t": "p",
+     "h": "<strong>Compactar</strong> é juntar vários arquivos em <strong>um só</strong>, menor: o <strong>.zip</strong>."
+    },
+    {
+     "t": "p",
+     "h": "Para <strong>achar</strong> um arquivo, digite o nome dele na <strong>lupa 🔍</strong>."
+    }
+   ],
+   "termos": [
+    {
+     "termo": "Bit",
+     "rotulo": "<strong>Bit</strong>",
+     "def": "o 0 ou o 1 do computador."
+    },
+    {
+     "termo": "KB, MB, GB",
+     "rotulo": "<strong>KB, MB, GB</strong>",
+     "def": "medidas do tamanho dos arquivos. KB é pequeno, MB é médio, GB é grande."
+    },
+    {
+     "termo": "Compactar",
+     "rotulo": "<strong>Compactar</strong>",
+     "def": "juntar vários arquivos em um só, menor (o .zip)."
+    },
+    {
+     "termo": "Buscar",
+     "rotulo": "<strong>Buscar</strong>",
+     "def": "procurar o arquivo pelo nome, na lupa 🔍."
+    }
+   ],
+   "ondeUso": {
+    "itens": [
+     "Quando o celular avisa <strong>“armazenamento cheio”</strong>.",
+     "Quando eu procuro o meu <strong>trabalho</strong> no computador."
+    ],
+    "reflexao": ""
+   },
+   "alertas": [],
+   "vf": [
+    "O computador guarda tudo com 0 e 1.",
+    "Um filme é menor que um texto.",
+    "Para achar um arquivo, posso usar a lupa 🔍."
+   ],
+   "resumo": {
+    "texto": "O computador guarda tudo em **bits** (0 e 1). **KB** é pequeno, **MB** é médio e **GB** é grande. **Compactar** junta arquivos num **.zip**. Para achar um arquivo, uso a **lupa 🔍**.",
+    "chaves": [
+     "bit",
+     "KB",
+     "MB",
+     "GB",
+     "compactar",
+     "buscar"
     ]
    },
    "autoavaliacao": []

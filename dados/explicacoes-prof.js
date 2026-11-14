@@ -45,7 +45,12 @@
       "V: misturar letras, números e símbolos deixa a senha mais difícil de adivinhar.",
       "F: aparelhos eletrônicos têm peças que poluem a terra e a água; devem ir para um ponto de coleta.",
       "V: consertar e doar faz o aparelho durar mais e diminui o lixo eletrônico.",
-      "V: na dúvida ou com medo, a atitude certa é contar a um adulto de confiança."]
+      "V: na dúvida ou com medo, a atitude certa é contar a um adulto de confiança."],
+    m4: ["V: o bit é a menor informação: 0 ou 1, como lâmpada apagada ou acesa.",
+      "V: 8 bits = 1 byte, mais ou menos o espaço de uma letra.",
+      "F: GB é muito MAIOR que KB. Ordem: byte → KB → MB → GB → TB, cada um cerca de mil vezes o anterior.",
+      "V: compactar junta tudo em um .zip e diminui o tamanho; para usar, descompacta (extrai).",
+      "F: .mp4 é vídeo. Texto é .txt (ou .docx)."]
   } };
 
   E["informatica-7ano-4bim"] = { vf: {
@@ -121,7 +126,8 @@
   E["informatica-6ano-4bim-trilha"] = { vf: {
     m1: ["V: o teclado manda o que eu digito para o computador: entrada.", "F: o monitor mostra a imagem: é de saída.", "V: a pasta guarda os arquivos organizados, como uma gaveta."],
     m2: ["V: algoritmo é uma lista de passos em ordem.", "F: a ordem importa: primeiro a meia, depois o sapato.", "V: “repita 3 vezes” faz o mesmo passo 3 vezes."],
-    m3: ["F: cyberbullying machuca. Se acontecer, conto a um adulto.", "V: letras, números e símbolos juntos deixam a senha forte.", "V: na dúvida ou com medo, conto a um adulto de confiança."]
+    m3: ["F: cyberbullying machuca. Se acontecer, conto a um adulto.", "V: letras, números e símbolos juntos deixam a senha forte.", "V: na dúvida ou com medo, conto a um adulto de confiança."],
+    m4: ["V: tudo no computador vira bits, 0 e 1.", "F: o filme (GB) é muito maior que o texto (KB).", "V: a lupa 🔍 busca o arquivo pelo nome."]
   } };
   E["informatica-7ano-4bim-trilha"] = { vf: {
     m1: ["V: a internet liga computadores e celulares do mundo todo.", "F: a mensagem é dividida em pedaços (pacotes) e montada no fim.", "V: o cadeado 🔒 mostra que o site protege os dados."],
@@ -163,7 +169,7 @@
     "pf-desafio-1": "Revisão do bimestre: aresta e folha (M1), chave e força bruta (M2), plágio e deepfake (M3). Peça um exemplo de cada um."
   });
   at("informatica-8ano-4bim-trilha", { "m4-basico-4": "A frase lembra a regra da missão: ler (ou pelo menos procurar o mais importante) antes de aceitar.", "m1-basico-5": "Do menor para o maior é a ordem crescente: 1, 2, 3, 4.", "m2-basico-4": "O caminho tem 3 desenhos: o celular manda, o roteador (Wi-Fi) leva, a nuvem guarda.", "m3-basico-4": "Digitar MEUS DADOS lembra que nome, endereço e telefone são meus e eu protejo." });
-  at("informatica-6ano-4bim-trilha", { "m1-basico-4": "Ctrl + S salva. O arquivo se chama EU: é o nome que ele digitou na hora de salvar.", "m3-basico-4": "Verde é a cor da natureza: o cartaz lembra de cuidar do planeta (lixo eletrônico no lugar certo)." });
+  at("informatica-6ano-4bim-trilha", { "m4-basico-4": "0 E 1: os dois únicos valores de um bit.", "m1-basico-4": "Ctrl + S salva. O arquivo se chama EU: é o nome que ele digitou na hora de salvar.", "m3-basico-4": "Verde é a cor da natureza: o cartaz lembra de cuidar do planeta (lixo eletrônico no lugar certo)." });
   at("informatica-7ano-4bim-trilha", { "m4-basico-2": "3 + 2 = 5 minutos pela Padaria; a rua direta é 9.", "m1-basico-4": "O portal usa https, por isso aparece o cadeado 🔒: os dados viajam protegidos.", "m3-basico-4": "A frase lembra a regra mais importante contra golpe: o código que chega no celular não se passa para ninguém." });
   at("informatica-9ano-4bim-trilha", { "m2-basico-4": "Com chave 1, cada letra anda 1 casa no alfabeto: S → T, O → P, L → M. SOL vira TPM.", "m3-basico-4": "Quem monta o cartaz é o autor: foi ele mesmo (Eu)." });
 })();
