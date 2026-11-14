@@ -99,6 +99,26 @@ Atenção: cada série tem turmas em missões diferentes (ver missoes4 no catál
    - **Simulado curtinho** (5 questões) com a correção explicada logo depois de cada resposta; quem acertar tudo libera a recreação mais cedo.
    - Painel mostra para cada aluno **o que falta** (Básico de alguma missão), para a revisão também servir de reposição.
 
+### 🔍 Levantamento de redundâncias do painel (14/11/2026, só análise — nada foi mudado)
+Para decidir com o professor no salão. Cada item: manter, juntar ou desligar.
+**Mesma coisa com nomes diferentes**
+1. 🟧 **Recados** (aba Aula) = 🔔 **Lembretes** (Diário): são os mesmos dados. Sugestão: um nome só ("Recados").
+2. **"Avisos"** com dois sentidos: 📣 Avisos para falar à turma (aba Aula) × 📣 Avisos de hoje / 🔔 sininho (datas). E o 🔔 também é o ícone dos Lembretes. Sugestão: sininho = só datas; Lembretes viram Recados.
+3. Ícone 🗓️ em 4 coisas diferentes: botão Horários, aba Presença, Frequência e "Aulas sem registro".
+**Funções que se sobrepõem**
+4. Aba 🗓️ **Presença** × Diário (Chamada/Frequência) × 🗺️ Panorama × 🔴 Ao vivo. O "📋 Relatório da aula" da Presença era para o diário antigo (a própria ajuda diz que não precisa mais). Sugestão: aposentar a aba e levar o "🧩 atípicos que frequentam" para o Diário ou o Panorama.
+5. **Duas listas de missão na aba Aula**: a escolha do roteiro (M1, M2…) e o 📌 Missão de hoje. Sugestão: escolher a Missão de hoje já abre o roteiro dela.
+6. **Quatro travas**: 🔒 trava de horário (Ano letivo), 🔒 travar na Missão de hoje, "Tarefas desta turma" (liberar/fechar) e liberar um aluno. Sugestão: juntar num quadro só "🔒 O que está aberto hoje" na aba Aula.
+7. **Três fontes de cronograma**: `missoes4` no catálogo + cronograma do Diário (Firebase) + calendário da rede/Panorama. A aba Aula ainda sugere a missão pelo `missoes4`. Sugestão: uma fonte só (o histórico do Panorama).
+8. **Três formatos de apresentação**: 🎬 Apresentar (slides), 🎞️ Modo história e 📺 Vídeo. O combinado é que os vídeos substituíram os slides. Sugestão: ver se ainda usa o Apresentar e o Modo história.
+9. 👀 Abrir a apostila do aluno × 🧪 aluno de teste: os dois servem para "ver como aluno". Manter os dois (o de teste testa a entrada com código), mas explicar a diferença.
+**Coisas do começo que talvez não façam mais sentido**
+10. "Importar arquivo de várias turmas (.json preparado pelo Claude)": foi para a migração inicial.
+11. 🧩 Marcar atípicos e 🧪 Alunos de teste na aba Importar: já existem no cadastro de cada aluno (aba Turmas).
+12. Abas pequenas: 📥 Importar + 📅 Ano letivo + botão 🎨 Tema poderiam virar uma aba só ⚙️ Configurações (e a barra de cima fica com menos botões).
+13. Comentário do catálogo diz que `missoes4` "vem do Diário" e marca a prova — não é mais assim (a prova usa o histórico real).
+**Observação:** o 🎨 Tema por época do ano já existe; a ideia do portal decorado no Natal pode partir dele.
+
 ### 💡 Ideias para amadurecer
 - **Barra da esquerda da missão (11/11/2026):** 4 modelos mostrados (mapa de fases, fliperama 8 bits, cores por parte, moderna com XP); esperando a escolha do professor.
 - **🎄 Portal decorado por época do ano (11/11/2026):** cronograma anual de festas com o portal inteiro no clima de cada data (luzes, enfeites, cores, avatar com acessório da época), troca automática pela data, leve (só CSS/SVG, sem imagens pesadas), botão para desligar, nunca atrapalhando a leitura. Começar pelo **Natal 2026** (dezembro). Sugestões de calendário: Carnaval, Páscoa, Povos Indígenas (19/04), Festa Junina, Folclore (22/08), Semana da Pátria (07/09), Dia das Crianças (12/10), Dia do Professor (15/10), Dia do Saci (31/10), Consciência Negra (20/11), Natal; datas religiosas sempre no tom cultural (escola pública).
