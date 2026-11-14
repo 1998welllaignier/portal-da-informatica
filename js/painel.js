@@ -58,6 +58,9 @@
     return ok.length ? ok[ok.length - 1][1] : null;
   }
   const nomeTurma = id => { const t = todasTurmas().find(x => x.id === id); return t ? t.nome + (t.serie.id === "5" ? " (5º ano)" : "") : id; };
+  // 🏷️ missão sempre com número e título: "M2 · Listas e grafos no dia a dia" (pedido em 14/11/2026)
+  const tituloCurto = m => String((m && m.titulo) || "").replace(/^[^–]*–\s*/, "");
+  const rotMis = (C, mid) => { const m = C && (C.missoes || []).find(x => x.id === mid); return String(mid || "").toUpperCase() + (m ? " · " + tituloCurto(m) : ""); };
   // 🕘 nas listas de turma: nome + dia e hora da aula (ex.: "6º A · qui 13:30"), em todo lugar (pedido em 14/11/2026)
   const rotuloTurma = id => { const t = todasTurmas().find(x => x.id === id); return nomeTurma(id) + (t && t.aula && t.aula.ini ? " · " + ["dom", "seg", "ter", "qua", "qui", "sex", "sáb"][t.aula.dia] + " " + t.aula.ini : ""); };
   const dataBR = d => { const [a, m, dd] = d.split("-"); return `${dd}/${m}/${a}`; };
@@ -554,7 +557,7 @@
           await sincronizarCasa(t, ctx.alunos).catch(() => {});
           if (v) await registrarMissaoDoDia(t.id, { mid: v, titulo, travar: !!trav.checked });
           try { sessionStorage.setItem("painel:turma", t.id); sessionStorage.setItem("painel:ini:" + t.id + ":" + hoje, "1"); } catch (e) {}
-          dlg.close(); toast("▶️ Aula iniciada: " + nomeTurma(t.id) + (v ? " · " + v.toUpperCase() + (trav.checked ? " 🔒" : "") : " · os alunos escolhem a missão"));
+          dlg.close(); toast("▶️ Aula iniciada: " + nomeTurma(t.id) + (v ? " · " + rotMis(C, v) + (trav.checked ? " 🔒" : "") : " · os alunos escolhem a missão"));
           location.hash = "#/painel/aula/" + t.id + (v ? "/" + v : "");
         } catch (err) { const e = c.querySelector("#ini-e"); e.textContent = "Não foi possível iniciar: " + (err.message || err); e.hidden = false; b.disabled = false; b.textContent = "▶️ Iniciar a aula"; }
       };
@@ -692,7 +695,7 @@
       };
       const dias = a => { const s = new Set(); (pm[a.id] || []).forEach(p => Object.keys(p.dias || {}).forEach(d => s.add(d))); return s.size; };
       corpo.innerHTML = `<div class="painel pp-tabela-wrap"><p class="ajuda">✔ Básico concluído · ⭐ Desafio completo · 3/5 = andamento do Básico · — não começou. Passe o mouse para ver os detalhes. <strong>${alunos.filter(a => a.ativo).length}</strong> alunos ativos.</p>
-        <table class="pp-tabela"><thead><tr><th>Aluno</th><th>Código</th><th title="dias em que entrou no portal">Dias</th>${missoes.map(x => `<th title="${esc(x.m.titulo)}">${esc(x.m.icone)}<br><small>${esc(x.m.id.toUpperCase())}</small></th>`).join("")}<th></th></tr></thead>
+        <table class="pp-tabela"><thead><tr><th>Aluno</th><th>Código</th><th title="dias em que entrou no portal">Dias</th>${missoes.map(x => `<th title="${esc(x.m.titulo)}">${esc(x.m.icone)}<br><small>${esc(x.m.id.toUpperCase())}</small><br><span class="pp-th-t">${esc(tituloCurto(x.m))}</span></th>`).join("")}<th></th></tr></thead>
         <tbody>${lista.map(a => `<tr class="${a.ativo ? "" : "inativo"}"><td>${a.atipico ? '<span title="Aluno atípico (tem PEI)">🧩</span> ' : ""}${esc(a.nome)}${a.trilha ? ' <span title="Usa a Trilha Passo a Passo">👣</span>' : ""}${a.emCasa ? ' <span title="Estuda em casa: lançar pela apostila">🏠</span>' : ""}${a.ativo ? "" : " <small>(desativado)</small>"}</td><td class="pp-cod">${esc(a.codigo)}</td><td>${dias(a)}</td>${missoes.map(x => cel(a, x)).join("")}
           <td><button class="btn btn-link btn-peq" data-a="${a.id}" type="button">⚙️</button></td></tr>`).join("")}</tbody></table></div>`;
       corpo.querySelectorAll("[data-a]").forEach(b => b.onclick = () => menuAluno(alunos.find(a => a.id === b.dataset.a)));
@@ -772,9 +775,8 @@
             const d = await P.perguntar(`Liberar as tarefas de ${a.nome} fora do horário por quantos dias? (1 = até o fim de hoje; 0 = tirar a liberação)`, "1"); if (d === null || isNaN(+d)) return;
             const fim = new Date(); fim.setHours(23, 59, 0, 0); fim.setDate(fim.getDate() + Math.max(0, +d - 1));
             // pergunta QUAL missão liberar, para o aluno não entrar na missão dos outros dias (12/11/2026)
-            let ms = null;
+            let ms = null, lista = [];
             if (+d > 0) {
-              let lista = [];
               try { const tt = todasTurmas().find(z => z.id === a.turma); const apx = cat().apostilas.find(y => y.serie === tt.serie.id && !y.oculta && !/trilha/.test(y.id)); await P.carregarApostila(apx.id); lista = P.conteudo[apx.id].missoes.map(m => ({ id: m.id, t: (m.titulo || "").replace(/^[^–]*–\s*/, "") })); } catch (e) {}
               const r = await P.perguntar(`Qual missão ${a.nome} vai fazer? Ele só consegue abrir as tarefas dela (e as da missão de hoje da turma).\n${lista.map(m => m.id.toUpperCase() + " = " + m.t).join("\n")}\nDigite só o número (ex.: 1). Deixe em branco para liberar todas.`, "");
               if (r === null) return;
@@ -782,7 +784,7 @@
               if (n) { const mm = lista.find(m => m.id.toLowerCase() === "m" + n) || lista.find(m => m.id.toLowerCase() === n); if (!mm) { await P.aviso("Missão não encontrada. Digite só o número, como 1 ou 2."); return; } ms = mm.id; }
             }
             await db().collection("config").doc("liberar_" + a.turma).set({ alunos: { [a.id]: +d > 0 ? fim.getTime() : 0 }, alunosMissao: { [a.id]: ms } }, { merge: true });
-            await P.aviso(+d > 0 ? `Pronto! ${a.nome} pode fazer ${ms ? "só a " + ms.toUpperCase() + " (e a missão de hoje da turma)" : "as tarefas de todas as missões"} até ${fim.toLocaleDateString("pt-BR")}, 23h59.` : "Liberação retirada."); dlg.close(); return;
+            await P.aviso(+d > 0 ? `Pronto! ${a.nome} pode fazer ${ms ? "só a " + ms.toUpperCase() + ((lista.find(m => m.id === ms) || {}).t ? " · " + (lista.find(m => m.id === ms) || {}).t : "") + " (e a missão de hoje da turma)" : "as tarefas de todas as missões"} até ${fim.toLocaleDateString("pt-BR")}, 23h59.` : "Liberação retirada."); dlg.close(); return;
           }
           if (x === "outra") {
             const opc = todasTurmas().filter(y => y.id !== a.turma && y.serie.id === (todasTurmas().find(z => z.id === a.turma) || { serie: {} }).serie.id);
@@ -1176,7 +1178,7 @@
         const dadas = n(l => l.status === "dada"), sem = n(l => l.ocorr), semReg = n(l => l.status === "semregistro");
         const mis = Object.keys(h.dadas).sort((a, b) => (+a.slice(1) || 0) - (+b.slice(1) || 0));
         return `<div class="painel pan-turma"><div class="pan-cab"><h2><a href="#/painel/diario/${h.t.id}/frequencia">${esc(nomeTurma(h.t.id))}</a></h2>
-          <span class="pan-res">✅ ${dadas} aula${dadas === 1 ? "" : "s"} dada${dadas === 1 ? "" : "s"}${sem ? ` · 🚫 ${sem} sem aula` : ""}${semReg ? ` · <b>❔ ${semReg} sem registro</b>` : ""}${mis.length ? ` · missões dadas: <b>${mis.map(m => m.toUpperCase()).join(", ")}</b>` : ""}${h.semVaga && h.semVaga.length ? ` · <b class="pan-alerta">⚠️ Não cabe${h.semVaga.length > 1 ? "m" : ""} no calendário: ${h.semVaga.map(m => m.toUpperCase()).join(", ")}</b> (falta${h.semVaga.length > 1 ? "m" : ""} ${h.semVaga.length} aula${h.semVaga.length > 1 ? "s" : ""})` : ""}</span></div>
+          <span class="pan-res">✅ ${dadas} aula${dadas === 1 ? "" : "s"} dada${dadas === 1 ? "" : "s"}${sem ? ` · 🚫 ${sem} sem aula` : ""}${semReg ? ` · <b>❔ ${semReg} sem registro</b>` : ""}${mis.length ? ` · missões dadas: <b>${mis.map(m => esc(rotMis(h.base && P.conteudo[h.base.id], m))).join(" · ")}</b>` : ""}${h.semVaga && h.semVaga.length ? ` · <b class="pan-alerta">⚠️ Não cabe${h.semVaga.length > 1 ? "m" : ""} no calendário: ${h.semVaga.map(m => esc(rotMis(h.base && P.conteudo[h.base.id], m))).join(" · ")}</b> (falta${h.semVaga.length > 1 ? "m" : ""} ${h.semVaga.length} aula${h.semVaga.length > 1 ? "s" : ""})` : ""}</span></div>
           ${ls.length ? `<div class="pan-fila">${ls.map(l => cartaoAula(l, h.t.id)).join("")}</div>` : `<p class="ajuda">Nenhuma aula registrada ainda.</p>`}</div>`;
       }).join("") + `<p class="ajuda painel">Toque em um cartão para abrir a ✅ Chamada daquele dia no Diário (lá fica a lista de quem veio). No nome da turma, abre a 🗓️ Frequência.</p>`;
     };
@@ -1187,7 +1189,7 @@
     const st = l.ocorr ? [OCORR_CURTO[l.status] ? OCORR_CURTO[l.status].split(" ")[0] : "📌", OCORR_CURTO[l.status] ? OCORR_CURTO[l.status].replace(/^\S+\s/, "") : "Sem aula"] : ST_PAN[l.status];
     const classe = l.status === "dada" ? "ok" : l.status === "ninguem" ? "ninguem" : l.ocorr ? "sem" : l.status;
     const [, mm, dd] = l.d.split("-");
-    const missao = l.ocorr ? "" : l.prova ? `<span class="pan-m pan-m-prova">📝 ${l.trabalho ? "Trabalho" : "Prova"}</span>` : l.mid ? `<span class="pan-m${l.fonte === "cronograma" ? " pan-m-prev" : ""}" title="${esc(l.titulo)}${l.fonte ? " · " + FONTE_M[l.fonte] : ""}${l.plano ? " · ajustado (o cronograma previa " + esc(l.plano.toUpperCase()) + ")" : ""}">${esc(l.mid.toUpperCase())}${l.fonte === "cronograma" ? " <small>previsto</small>" : ""}</span>` : (l.encontro ? `<span class="pan-m pan-m-txt" title="${esc(l.encontro)}">${esc(l.encontro.split(/ [–-] /)[0].trim())}</span>` : "");
+    const missao = l.ocorr ? "" : l.prova ? `<span class="pan-m pan-m-prova">📝 ${l.trabalho ? "Trabalho" : "Prova"}</span>` : l.mid ? `<span class="pan-m${l.fonte === "cronograma" ? " pan-m-prev" : ""}" title="${esc(l.titulo)}${l.fonte ? " · " + FONTE_M[l.fonte] : ""}${l.plano ? " · ajustado (o cronograma previa " + esc(l.plano.toUpperCase()) + ")" : ""}">${esc(l.mid.toUpperCase())}${l.fonte === "cronograma" ? " <small>previsto</small>" : ""}</span><span class="pan-t">${esc(tituloCurto({ titulo: l.titulo }))}</span>` : (l.encontro ? `<span class="pan-m pan-m-txt" title="${esc(l.encontro)}">${esc(l.encontro.split(/ [–-] /)[0].trim())}</span>` : "");
     const pres = l.status === "dada" ? `<span class="pan-p">👥 ${l.presentes}</span>` : "";
     const nota = l.ocorr && l.ocorr.nota ? ` · ${l.ocorr.nota}` : "";
     return `<a class="pan-c pan-${classe}" href="#/painel/diario/${tid}/chamada" data-pan-dia="${l.d}" data-pan-t="${tid}" title="${esc(dataBR(l.d))} · ${esc(st[1] + nota)}${l.mid ? " · " + esc(l.titulo) : ""}">
@@ -1451,7 +1453,8 @@
       const ab = e => (e || "").replace(/ –.*/, "").replace("Missão ", "M").replace("Projeto final", "PF").replace("Avaliação", "Aval.");
       return `<div class="painel"><div class="tabela-wrap"><table class="pp-freq"><thead><tr><th>Aluno</th>${ds.map(d => `<th title="${esc(encontroDe(d))}">${dataBR(d).slice(0, 5)}<br><small>${ocorrDe(aulas[d]) ? "🚫 ninguém veio" : esc(ab(encontroDe(d)))}</small>${ocorrDe(aulas[d]) ? "" : (n => `<br><small class="pp-vieram">👥 ${n} ${n === 1 ? "veio" : "vieram"}</small>`)(alunos.filter(a => pres(d, a.id).v === "P").length)}</th>`).join("")}<th>Frequência</th></tr></thead>
         <tbody>${alunos.map(a => { const fr = freq(a.id); return `<tr><td>${nomeA(a)}</td>${ds.map(d => { const p = pres(d, a.id), c = carimbo(d, a.id).v; return `<td><span class="m ${p.v || "x"} ${c ? "c" : ""} ${p.falta ? "au" : ""}" ${p.repos ? 'title="🔁 Faltou, mas repôs a missão depois (conta como falta justificada)"' : ""}>${p.v || "·"}${p.repos ? "🔁" : ""}</span></td>`; }).join("")}<td class="${fr.pct != null && fr.pct < 75 ? "baixa" : ""}"><strong>${fr.pct == null ? "–" : fr.pct + "%"}</strong></td></tr>`; }).join("")}</tbody></table></div>
-        <p class="ajuda">P presente · F falta · J justificada · contorno = com visto do Básico. Frequência = presenças e justificadas ÷ aulas com chamada (abaixo de 75% fica em vermelho). É só informativa: não entra na nota.</p></div>`;
+        ${(lg => lg.length ? `<p class="pp-leg-m">${lg.map(e => `<span><b>${esc(ab(e))}</b> = ${esc(e.replace(/^[^–]*–\s*/, ""))}</span>`).join("")}</p>` : "")([...new Set(ds.map(d => encontroDe(d)).filter(e => / – /.test(e)))])}
+        <p class="ajuda">P presente · F falta · J justificada · J🔁 repôs a missão depois · contorno = com visto do Básico. Frequência = presenças e justificadas ÷ aulas com chamada (abaixo de 75% fica em vermelho). É só informativa: não entra na nota.</p></div>`;
     }
     function vBoletim() {
       const rows = alunos.map(a => ({ a, b: boletim(a.id), fr: freq(a.id) }));
@@ -1610,7 +1613,7 @@
     const el = tela(topo(u, "aula") + `<div class="painel pp-barra">
         <label>Turma <select id="sel">${turmas.map(x => `<option value="${x.id}" ${x.id === t.id ? "selected" : ""}>${esc(rotuloTurma(x.id))}</option>`).join("")}</select></label>
         ${aps.length > 1 ? `<label>Apostila <select id="ap">${aps.map(a => `<option value="${a.id}" ${a.id === ap.id ? "selected" : ""}>${esc(a.titulo || a.id)}</option>`).join("")}</select></label>` : ""}
-        <details class="pp-outra"><summary>👁️ Só olhar o roteiro de outra missão (${esc(mid.toUpperCase())} aberta)</summary><span class="pp-missoes">${C.missoes.map(m => `<a class="pp-mis ${m.id === mid ? "atual" : ""}" href="#/painel/aula/${t.id}/${m.id}">${esc(m.icone)} ${esc(m.id.toUpperCase())}</a>`).join("")}</span></details>
+        <details class="pp-outra"><summary>👁️ Só olhar o roteiro de outra missão (aberta: ${esc(rotMis(C, mid))})</summary><span class="pp-missoes">${C.missoes.map(m => `<a class="pp-mis ${m.id === mid ? "atual" : ""}" href="#/painel/aula/${t.id}/${m.id}">${esc(m.icone)} ${esc(rotMis(C, m.id))}</a>`).join("")}</span></details>
         <a class="btn btn-sec" href="#/ver/${ap.id}/${mid}/${t.id}" target="_blank" rel="noopener" title="Abre numa aba nova a apostila exatamente como os alunos veem">👀 Abrir a apostila do aluno</a>
         <a class="btn btn-sec" href="cartaz.html?v=${window.PORTAL_VERSAO || ""}" target="_blank" rel="noopener" title="Abre numa aba nova o cartaz com o endereço do site e os passos para entrar, para projetar">🪧 Cartaz de entrada (projetar)</a></div>
       <div id="aula"></div>`);
@@ -1623,8 +1626,8 @@
       const vv = ((P.videosMissao || {})[ap.base || ap.id] || {})[mid], lista = (Array.isArray(vv) ? vv : [vv]).filter(v => v && /^[\w-]{11}$/.test(v));
       lista.forEach((vid, k) => {
         const box = document.createElement("details"); box.className = "painel pp-video"; box.open = !k;
-        box.innerHTML = `<summary><strong>📺 ${k ? "Vídeo extra" : "Vídeo"} da missão ${esc(mid.toUpperCase())}</strong> ${k ? "(passo a passo, para quando a turma tiver dificuldade)" : "(com a sua voz)"}</summary>
-          <div class="pp-video-quadro"><iframe src="https://www.youtube-nocookie.com/embed/${vid}?rel=0&modestbranding=1" title="Vídeo da missão ${esc(mid.toUpperCase())}" loading="lazy" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
+        box.innerHTML = `<summary><strong>📺 ${k ? "Vídeo extra" : "Vídeo"} da missão ${esc(rotMis(C, mid))}</strong> ${k ? "(passo a passo, para quando a turma tiver dificuldade)" : "(com a sua voz)"}</summary>
+          <div class="pp-video-quadro"><iframe src="https://www.youtube-nocookie.com/embed/${vid}?rel=0&modestbranding=1" title="Vídeo da missão ${esc(rotMis(C, mid))}" loading="lazy" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
           <p class="pp-video-acoes"><a class="btn btn-sec" href="https://www.youtube-nocookie.com/embed/${vid}?autoplay=1&rel=0&modestbranding=1" target="_blank" rel="noopener">↗️ Abrir player em nova aba</a>
             <a class="btn btn-link" href="https://youtu.be/${vid}" target="_blank" rel="noopener">Abrir no YouTube</a></p>
           <p class="ajuda">Dê o play aqui mesmo ou abra o player numa aba só dele (ocupa a tela toda, bom para projetar). Use o botão de tela cheia do player. Lembre da caixinha de som: os computadores dos alunos não têm áudio.</p>`;
@@ -1709,7 +1712,7 @@
           if (!v) await hRef.set({ dia: N.hoje(), mid: "", titulo: "", travar: false }, { merge: true });
           else await hRef.set({ dia: N.hoje(), aid: baseId, mid: v, titulo, travar }, { merge: true });
           await registrarMissaoDoDia(t.id, v ? { mid: v, titulo, travar } : null);
-          toast(v ? "Missão de hoje: " + v.toUpperCase() + (travar ? " · 🔒 travada" : "") + " (anotado no Diário)" : "Missão de hoje tirada."); telaAula(u, t.id, v || mid);
+          toast(v ? "Missão de hoje: " + rotMis(C, v) + (travar ? " · 🔒 travada" : "") + " (anotado no Diário)" : "Missão de hoje tirada."); telaAula(u, t.id, v || mid);
         } catch (err) { toast("Não foi possível salvar: " + (err.message || err)); }
       };
       trav.onchange = async () => {

@@ -1716,3 +1716,7 @@ button.tb-av:hover .avatar-svg, button.tb-av:focus-visible .avatar-svg { transfo
 .pp-outra[open] summary { margin-bottom: 6px; }
 .pp-hoje .pp-emerg { flex-basis: 100%; font-size: .88rem; border-top: 1px dashed var(--linha); padding-top: 6px; margin-top: 4px; background: none; }
 .opt-turma .opt-hora { display: block; font-size: .78rem; font-weight: 600; opacity: .8; }
+/* 🏷️ missão sempre com título */
+.pan-t { font-size: .72rem; line-height: 1.15; color: var(--suave); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.pp-th-t { display: inline-block; max-width: 7.5em; font-size: .68rem; font-weight: 600; line-height: 1.1; white-space: normal; }
+.pp-leg-m { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: .85rem; margin: 8px 0 0; }
