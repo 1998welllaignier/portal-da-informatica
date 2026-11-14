@@ -700,10 +700,26 @@
     // 🔒 trava de horário: os textos ficam abertos; as tarefas só no dia e na hora da aula (ou liberadas pelo professor)
     let trava = { aberta: true };
     if (pg.tipo === "missao" || pg.tipo === "revisao") trava = travaPre;
-    if (!trava.aberta) corpo.appendChild(h(`<div class="painel trava-aviso" role="note"><p class="trava-tit">🔒 ${trava.aguardando ? "Aguardando o professor iniciar a aula" : trava.fechada ? "As tarefas estão fechadas agora" : trava.so ? "Esta missão não está liberada para você hoje" : trava.hoje ? "Hoje a turma está em outra missão" : "As tarefas abrem na hora da sua aula"}</p>
-      ${trava.aguardando ? "<p>⏳ As tarefas abrem quando o professor iniciar a aula. Enquanto isso, leia os textos da missão. Esta página se atualiza sozinha.</p>" : trava.fechada ? "<p>O professor fechou as tarefas desta turma por enquanto.</p>" : trava.so ? `<p>🔓 O professor liberou para você a <strong>${esc(String(trava.so).toUpperCase())}</strong>${trava.hoje ? ` e a missão de hoje da turma (<strong>${esc(trava.hoje.titulo || trava.hoje.mid.toUpperCase())}</strong>)` : ""}. Faça essa missão primeiro.</p><p><a class="btn" href="#/missao/${aid}/${trava.so}">Ir para a ${esc(String(trava.so).toUpperCase())} →</a>${trava.hoje ? ` <a class="btn btn-sec" href="#/missao/${aid}/${trava.hoje.mid}">Ir para a missão de hoje →</a>` : ""}</p>` : trava.hoje ? `<p>📌 A missão de hoje é a <strong>${esc(trava.hoje.titulo || trava.hoje.mid.toUpperCase())}</strong>. <a class="btn" href="#/missao/${aid}/${trava.hoje.mid}">Ir para a missão de hoje →</a></p>` : `<p>Você pode fazer as tarefas no dia e na hora da aula:</p><ul>${(trava.horarios || []).map(x => `<li><strong>${esc(x)}</strong></li>`).join("")}</ul>`}
+    // 🏠 estudo em casa: cronômetro de 2 h por dia (começa na 1ª tarefa do dia) e vídeo da missão antes das tarefas
+    let casaVideo = null;
+    if (trava.casa) {
+      if (!trava.ini) { try { trava.ini = await P.trava.casaIniciar(s); } catch (e) { trava.ini = Date.now(); } }
+      cronometroCasa(trava.ini + trava.lim);
+      const vv = ((P.videosMissao || {})[a.base || aid] || {})[mid], vid = (Array.isArray(vv) ? vv[0] : vv);
+      if (vid && /^[\w-]{11}$/.test(vid) && !trava.videoVisto) casaVideo = vid;
+    }
+    if (casaVideo) {
+      const box = h(`<div class="painel casa-video"><p class="trava-tit">🎬 Primeiro, assista ao vídeo da missão</p>
+        <p>As tarefas abrem quando o vídeo terminar. Assista até o fim, sem pular (pode pausar). Use fone ou o som do celular.</p>
+        <div class="casa-player"><div id="casa-yt"></div></div><p class="ajuda" id="casa-vmsg"></p></div>`);
+      corpo.appendChild(box);
+      videoObrigatorio(box.querySelector("#casa-yt"), casaVideo, async () => { try { await P.trava.casaVideo(s, mid); } catch (e) {} toast("✅ Vídeo assistido! As tarefas foram abertas."); rota(); }, msg => { box.querySelector("#casa-vmsg").textContent = msg; });
+    } else
+    if (!trava.aberta) corpo.appendChild(h(`<div class="painel trava-aviso" role="note"><p class="trava-tit">🔒 ${trava.casaFim ? "Seu tempo de estudo de hoje acabou" : trava.aguardando ? "Aguardando o professor iniciar a aula" : trava.fechada ? "As tarefas estão fechadas agora" : trava.so ? "Esta missão não está liberada para você hoje" : trava.hoje ? "Hoje a turma está em outra missão" : "As tarefas abrem na hora da sua aula"}</p>
+      ${trava.casaFim ? `<p>⏰ Você já usou as ${Math.round(trava.lim / 3600000)} horas de hoje. Volte amanhã para continuar: o seu progresso fica salvo.</p>` : trava.aguardando ? "<p>⏳ As tarefas abrem quando o professor iniciar a aula. Enquanto isso, leia os textos da missão. Esta página se atualiza sozinha.</p>" : trava.fechada ? "<p>O professor fechou as tarefas desta turma por enquanto.</p>" : trava.so ? `<p>🔓 O professor liberou para você a <strong>${esc(String(trava.so).toUpperCase())}</strong>${trava.hoje ? ` e a missão de hoje da turma (<strong>${esc(trava.hoje.titulo || trava.hoje.mid.toUpperCase())}</strong>)` : ""}. Faça essa missão primeiro.</p><p><a class="btn" href="#/missao/${aid}/${trava.so}">Ir para a ${esc(String(trava.so).toUpperCase())} →</a>${trava.hoje ? ` <a class="btn btn-sec" href="#/missao/${aid}/${trava.hoje.mid}">Ir para a missão de hoje →</a>` : ""}</p>` : trava.hoje ? `<p>📌 A missão de hoje é a <strong>${esc(trava.hoje.titulo || trava.hoje.mid.toUpperCase())}</strong>. <a class="btn" href="#/missao/${aid}/${trava.hoje.mid}">Ir para a missão de hoje →</a></p>` : `<p>Você pode fazer as tarefas no dia e na hora da aula:</p><ul>${(trava.horarios || []).map(x => `<li><strong>${esc(x)}</strong></li>`).join("")}</ul>`}
       <p>📖 Enquanto isso, pode estudar à vontade: <a href="#/missao/${aid}/${mid}/comecar">💡 Para começar</a>, <a href="#/missao/${aid}/${mid}/termos">📖 O que significa?</a> e <a href="#/missao/${aid}/${mid}/onde">🌎 Onde eu uso isso?</a> ficam sempre abertos.</p>
       <p class="ajuda">Precisa fazer fora do horário (faltou, reposição, estuda em casa)? Peça ao professor para liberar.</p></div>`));
+    else (pg.atividades || []).forEach((at, i) => corpo.appendChild(cartaoAtividade(aid, mid, at, i, () => { barra(info()); atualizarStatus(); })));
     // ⏳ esperando o professor iniciar a aula: confere a cada 20 s e abre sozinho, sem o aluno recarregar
     if (!trava.aberta && trava.aguardando && P.trava) {
       const hashAgora = location.hash;
@@ -712,7 +728,6 @@
         try { P.trava.limpar(); const e = await P.trava.estado(sess.get(), mid); if (e.aberta || !e.aguardando) { clearInterval(vigia); rota(); } } catch (x) {}
       }, 20000);
     }
-    else (pg.atividades || []).forEach((at, i) => corpo.appendChild(cartaoAtividade(aid, mid, at, i, () => { barra(info()); atualizarStatus(); })));
     if (pg.tipo === "relatorio") corpo.appendChild(relatorio(aid, mid, pages));
     if (pg.id !== "termos") try { ligarTermos(el, (P.conteudo[aid].missoes || []).flatMap(x => x.termos || [])); } catch (e) { console.warn("termos", e); }
     const figs = figurasDaPagina(aid, mid, pg.id, pages.map(p => p.id));
@@ -1156,6 +1171,40 @@
   function trilhaDe(aid) {
     const s = sess.get(); if (!s || !s.trilha) return null;
     const t = cat().apostilas.find(x => x.trilha && x.base === aid); return t ? t.id : null;
+  }
+  /* ⏱️ cronômetro do estudo em casa (fica no canto da tela; quando zera, as tarefas fecham) */
+  let casaTimer = null;
+  function cronometroCasa(fim) {
+    let el = document.getElementById("casa-timer");
+    if (!el) { el = document.createElement("div"); el.id = "casa-timer"; el.className = "casa-timer"; el.setAttribute("role", "timer"); document.body.appendChild(el); }
+    clearInterval(casaTimer);
+    const tic = () => {
+      const r = fim - Date.now();
+      if (r <= 0) { clearInterval(casaTimer); el.remove(); toast("⏰ Seu tempo de estudo de hoje acabou."); rota(); return; }
+      const hh = Math.floor(r / 3600000), mm = Math.floor(r / 60000) % 60, sg = Math.floor(r / 1000) % 60;
+      el.innerHTML = `⏱️ <b>${hh}:${String(mm).padStart(2, "0")}:${String(sg).padStart(2, "0")}</b><small>para estudar hoje</small>`;
+      el.classList.toggle("pouco", r < 10 * 60000);
+    };
+    tic(); casaTimer = setInterval(tic, 1000);
+  }
+  /* 🎬 vídeo obrigatório: só conta se o aluno assistiu de verdade (sem pular para o fim) */
+  function ytApi() {
+    if (window.YT && window.YT.Player) return Promise.resolve();
+    return ytApi.p = ytApi.p || new Promise(ok => { const ant = window.onYouTubeIframeAPIReady; window.onYouTubeIframeAPIReady = () => { if (ant) ant(); ok(); };
+      const sc = document.createElement("script"); sc.src = "https://www.youtube.com/iframe_api"; document.head.appendChild(sc); });
+  }
+  async function videoObrigatorio(alvo, videoId, terminou, avisar) {
+    await ytApi();
+    let visto = 0, ult = null, tk = null, pl;
+    pl = new YT.Player(alvo, { videoId, width: "100%", playerVars: { rel: 0, modestbranding: 1, playsinline: 1 },
+      events: { onStateChange: e => {
+        if (e.data === YT.PlayerState.PLAYING) { clearInterval(tk); ult = pl.getCurrentTime(); tk = setInterval(() => { const t = pl.getCurrentTime(); if (ult != null && t - ult > 0 && t - ult < 2.5) visto += t - ult; ult = t; }, 1000); }
+        else { clearInterval(tk); ult = null; }
+        if (e.data === YT.PlayerState.ENDED) {
+          const dur = pl.getDuration() || 1;
+          if (visto >= dur * 0.85) terminou();
+          else { avisar("Parece que o vídeo foi pulado. Assista do começo ao fim para abrir as tarefas 😉"); visto = 0; pl.seekTo(0); }
+        } } } });
   }
   async function rota() {
     const hs = (location.hash || "#/").slice(1).split("/").filter(Boolean);

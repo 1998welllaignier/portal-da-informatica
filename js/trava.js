@@ -55,6 +55,21 @@
   }
   P.trava = {
     noHorario, horarioTxt, limpar() { Object.keys(cache).forEach(k => delete cache[k]); },
+    /* 🏠 estudo em casa: progresso/<alunoId>_casa = { sessoes: { dia: início }, videos: { mid: quando } } */
+    casaLimite() { return (P.catalogo.casaMinutos || 120) * 60000; },
+    async casaEh(s) {
+      if (!s || !s.nuvem || !N() || !N().pronto || !(s.alunoIds || []).length) return false;
+      const lib = await cfg("liberar_" + s.turma); return s.alunoIds.every(id => (lib.casa || {})[id]);
+    },
+    async casaDoc(s) {
+      try { const sn = await N().db().collection("progresso").doc(s.alunoIds[0] + "_casa").get(); return sn.exists ? sn.data() : {}; } catch (e) { return {}; }
+    },
+    async casaGravar(s, dados) {
+      return N().db().collection("progresso").doc(s.alunoIds[0] + "_casa").set(Object.assign({ alunoId: s.alunoIds[0], turma: s.turma, tipo: "casa" }, dados), { merge: true });
+    },
+    async casaIniciar(s) { const ms = await agora(); await this.casaGravar(s, { sessoes: { [N().hoje()]: ms } }); return ms; },
+    async casaVideo(s, mid) { await this.casaGravar(s, { videos: { [mid]: Date.now() } }); },
+    agora,
     /* 📌 Missão de hoje da turma (config/hoje_<turma>), só vale no dia em que o professor marcou */
     async hoje(s) {
       if (!s || !s.nuvem || !N() || !N().pronto) return null;
@@ -68,8 +83,13 @@
       const ms = await agora();
       const ids = s.alunoIds || [];
       const modoAula = g.modoAula !== false;   // ▶️ 14/11/2026: as tarefas só abrem depois que o professor INICIA a aula no painel
-      // 🏠 quem estuda em casa não tem trava nenhuma: faz no próprio ritmo (config/liberar_<turma>.casa)
-      if (ids.length && ids.every(id => (lib.casa || {})[id])) return { aberta: true, casa: true };
+      // 🏠 quem estuda em casa não tem trava de aula: faz no próprio ritmo (config/liberar_<turma>.casa),
+      //    com uma sessão de 2 horas por dia e o vídeo da missão antes das tarefas (14/11/2026)
+      if (ids.length && ids.every(id => (lib.casa || {})[id])) {
+        const cd = await this.casaDoc(s), ini = (cd.sessoes || {})[N().hoje()], lim = this.casaLimite();
+        if (ini && ms > ini + lim) return { aberta: false, casaFim: true, ini, lim };
+        return { aberta: true, casa: true, ini: ini || 0, lim, videoVisto: !!(mid && (cd.videos || {})[mid]) };
+      }
       if ((g.travaHorario || modoAula) && lib.fechadaAte && ms < lib.fechadaAte) return { aberta: false, fechada: true };
       // liberado só para ele: se o professor escolheu a missão, só ela (e a missão de hoje da turma) abre (12/11/2026)
       const lib1 = ids.filter(id => ((lib.alunos || {})[id] || 0) > ms);
