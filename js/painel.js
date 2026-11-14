@@ -58,6 +58,8 @@
     return ok.length ? ok[ok.length - 1][1] : null;
   }
   const nomeTurma = id => { const t = todasTurmas().find(x => x.id === id); return t ? t.nome + (t.serie.id === "5" ? " (5º ano)" : "") : id; };
+  // 🕘 nas listas de turma: nome + dia e hora da aula (ex.: "6º A · qui 13:30"), em todo lugar (pedido em 14/11/2026)
+  const rotuloTurma = id => { const t = todasTurmas().find(x => x.id === id); return nomeTurma(id) + (t && t.aula && t.aula.ini ? " · " + ["dom", "seg", "ter", "qua", "qui", "sex", "sáb"][t.aula.dia] + " " + t.aula.ini : ""); };
   const dataBR = d => { const [a, m, dd] = d.split("-"); return `${dd}/${m}/${a}`; };
   const semana = d => ["dom", "seg", "ter", "qua", "qui", "sex", "sáb"][new Date(d + "T12:00:00").getDay()];
   const novoId = () => "a" + Math.random().toString(36).slice(2, 9);
@@ -253,7 +255,7 @@
     if (document.querySelector(".pp-cod-dlg")) return;
     const turmas = todasTurmas(); let tid = escolherTurma(null, turmas);
     const dlg = h(`<dialog class="pp-dlg pp-dlg-larga pp-cod-dlg"><form method="dialog"><div class="pp-hor-top"><h2>🔑 Códigos dos alunos</h2><button class="btn btn-sec btn-peq" value="x">Fechar</button></div>
-      <div class="row-btns"><label>Turma <select id="pc-t">${turmas.map(x => `<option value="${x.id}" ${x.id === tid ? "selected" : ""}>${esc(nomeTurma(x.id))}</option>`).join("")}</select></label>
+      <div class="row-btns"><label>Turma <select id="pc-t">${turmas.map(x => `<option value="${x.id}" ${x.id === tid ? "selected" : ""}>${esc(rotuloTurma(x.id))}</option>`).join("")}</select></label>
       <input type="search" id="pc-b" class="pp-cod-busca grow" placeholder="Procurar pelo nome…" autocomplete="off"></div><div id="pc-l"><p class="ajuda">Carregando…</p></div>
       <p class="ajuda">Abre na turma do horário. O código é pessoal: mostre só para o próprio aluno.</p></form></dialog>`);
     document.body.appendChild(dlg); dlg.showModal(); dlg.addEventListener("close", () => dlg.remove());
@@ -391,7 +393,7 @@
     if (document.querySelector(".pp-vivo-dlg")) return;
     const turmas = todasTurmas(); let tid = escolherTurma(null, turmas), unsub = null, iv = null;
     const dlg = h(`<dialog class="pp-dlg pp-dlg-larga pp-vivo-dlg"><form method="dialog"><div class="pp-hor-top"><h2>🔴 Ao vivo</h2><button class="btn btn-sec btn-peq" value="x">Fechar</button></div>
-      <div class="row-btns"><label>Turma <select id="pv-t">${turmas.map(x => `<option value="${x.id}" ${x.id === tid ? "selected" : ""}>${esc(nomeTurma(x.id))}</option>`).join("")}</select></label><span class="grow" id="pv-rel"></span><button type="button" class="btn btn-peq pp-placar-btn" id="pv-placar">🏆 Placar no projetor</button><button type="button" class="btn btn-peq" id="pv-fim">🏁 Finalizar aula</button></div>
+      <div class="row-btns"><label>Turma <select id="pv-t">${turmas.map(x => `<option value="${x.id}" ${x.id === tid ? "selected" : ""}>${esc(rotuloTurma(x.id))}</option>`).join("")}</select></label><span class="grow" id="pv-rel"></span><button type="button" class="btn btn-peq pp-placar-btn" id="pv-placar">🏆 Placar no projetor</button><button type="button" class="btn btn-peq" id="pv-fim">🏁 Finalizar aula</button></div>
       <div id="pv-c"><p class="ajuda">Carregando…</p></div>
       <p class="ajuda">Atualiza sozinho quando um aluno avança. “Parado” = sem nenhuma atividade há mais de 10 minutos.</p></form></dialog>`);
     document.body.appendChild(dlg); dlg.showModal();
@@ -482,7 +484,7 @@
     if (document.querySelector(".pp-fim-dlg")) return;
     const turmas = todasTurmas(), tid = escolherTurma(null, turmas);
     const dlg = h(`<dialog class="pp-dlg pp-fim-dlg"><form method="dialog"><h2>🏁 Finalizar a aula agora?</h2>
-      <p><label>Turma <select id="ff-t">${turmas.map(x => `<option value="${x.id}" ${x.id === tid ? "selected" : ""}>${esc(nomeTurma(x.id))}</option>`).join("")}</select></label></p>
+      <p><label>Turma <select id="ff-t">${turmas.map(x => `<option value="${x.id}" ${x.id === tid ? "selected" : ""}>${esc(rotuloTurma(x.id))}</option>`).join("")}</select></label></p>
       <p class="ajuda">As tarefas fecham, o pódio aparece no placar (com confete) e cada aluno vê na tela a sua posição, também com confete. Os pontos do pódio não são nota.</p>
       <p class="erro" id="ff-e" hidden></p>
       <div class="row-btns"><button type="button" class="btn btn-grande" id="ff-ok">🏁 Sim, finalizar agora</button><button class="btn btn-sec" value="x">Cancelar</button></div></form></dialog>`);
@@ -517,7 +519,7 @@
     const c = dlg.querySelector("#ini-c");
     const passo2 = async () => {
       c.innerHTML = `<h2>▶️ Iniciar a aula</h2>
-        <p><label>Turma <select id="ini-t">${turmas.map(x => `<option value="${x.id}" ${atual && x.id === atual.id ? "selected" : ""}>${esc(nomeTurma(x.id))}${x.aula ? " · " + esc(semanaCurta(x.aula.dia)) + " " + esc(x.aula.ini) : ""}</option>`).join("")}</select></label></p>
+        <p><label>Turma <select id="ini-t">${turmas.map(x => `<option value="${x.id}" ${atual && x.id === atual.id ? "selected" : ""}>${esc(rotuloTurma(x.id))}</option>`).join("")}</select></label></p>
         <p class="pp-ini-casa" id="ini-casa" hidden></p>
         <p><label>📌 Missão de hoje <select id="ini-m"><option value="">Carregando…</option></select></label></p>
         <p><label class="pp-auto"><input type="checkbox" id="ini-trav" checked> 🔒 Travar nela (o aluno cai direto nesta missão e as outras ficam fechadas)</label></p>
@@ -660,7 +662,7 @@
     try { sessionStorage.setItem("painel:turma", tid); } catch (e) {}
     const t = turmas.find(x => x.id === tid) || turmas[0];
     const el = tela(topo(u, "") + `<div class="painel pp-barra">
-        <label>Turma <select id="sel">${turmas.map(x => `<option value="${x.id}" ${x.id === t.id ? "selected" : ""}>${esc(nomeTurma(x.id))}</option>`).join("")}</select></label>
+        <label>Turma <select id="sel">${turmas.map(x => `<option value="${x.id}" ${x.id === t.id ? "selected" : ""}>${esc(rotuloTurma(x.id))}</option>`).join("")}</select></label>
         <label><input type="checkbox" id="inat"> mostrar desativados</label>
         <span class="pp-acoes"><button class="btn btn-sec btn-peq" id="add" type="button">➕ Adicionar aluno</button>
         <button class="btn btn-sec btn-peq" id="avs" type="button">📣 Avisos para os alunos</button><button class="btn btn-sec btn-peq" id="cart" type="button">🖨️ Cartões com os códigos</button>
@@ -746,7 +748,7 @@
           if (x === "nome") { const n = arrumarNome(await P.perguntar("Nome completo:", a.nome)); if (!n || n === a.nome) return; await renomear(a, n); }
           if (x === "turma") {
             const opc = todasTurmas().filter(y => y.id !== a.turma);
-            const r = await P.perguntar("Para qual turma? Digite exatamente: " + opc.map(y => y.id).join(", "));
+            const r = await P.perguntar("Para qual turma? Digite o código da turma (antes do parêntese): " + opc.map(y => y.id + " (" + rotuloTurma(y.id) + ")").join(", "));
             const nt = opc.find(y => y.id.toLowerCase() === String(r || "").trim().toLowerCase()); if (!nt) { if (r) await P.aviso("Turma não encontrada."); return; }
             const c = await novoCodigo(a, nt.id); await P.aviso(`${a.nome} agora está no ${nomeTurma(nt.id)}. Novo código: ${c}. O histórico continua guardado.`);
           }
@@ -784,7 +786,7 @@
           }
           if (x === "outra") {
             const opc = todasTurmas().filter(y => y.id !== a.turma && y.serie.id === (todasTurmas().find(z => z.id === a.turma) || { serie: {} }).serie.id);
-            const r = await P.perguntar(`${a.nome} também frequenta a aula de qual turma? (as tarefas abrem no horário dela; a presença e as notas continuam na turma dele)\nDigite: ${opc.map(y => y.id).join(", ")}\nDeixe em branco para tirar.`, "");
+            const r = await P.perguntar(`${a.nome} também frequenta a aula de qual turma? (as tarefas abrem no horário dela; a presença e as notas continuam na turma dele)\nDigite o código (antes do parêntese): ${opc.map(y => y.id + " (" + rotuloTurma(y.id) + ")").join(", ")}\nDeixe em branco para tirar.`, "");
             if (r === null) return; const nt = opc.find(y => y.id.toLowerCase() === r.trim().toLowerCase());
             if (r.trim() && !nt) { await P.aviso("Turma não encontrada."); return; }
             await db().collection("config").doc("liberar_" + a.turma).set({ outra: { [a.id]: nt ? nt.id : null } }, { merge: true });
@@ -850,7 +852,7 @@
     const turmas = todasTurmas();
     tid = escolherTurma(tid, turmas);
     const t = turmas.find(x => x.id === tid) || turmas[0];
-    const el = tela(topo(u, "presenca") + `<div class="painel pp-barra"><label>Turma <select id="sel">${turmas.map(x => `<option value="${x.id}" ${x.id === t.id ? "selected" : ""}>${esc(nomeTurma(x.id))}</option>`).join("")}</select></label></div>
+    const el = tela(topo(u, "presenca") + `<div class="painel pp-barra"><label>Turma <select id="sel">${turmas.map(x => `<option value="${x.id}" ${x.id === t.id ? "selected" : ""}>${esc(rotuloTurma(x.id))}</option>`).join("")}</select></label></div>
       <details class="painel" id="atip"><summary><strong>🧩 Alunos atípicos que frequentam</strong> (todas as turmas)</summary><div id="atip-c"><p>Carregando…</p></div></details>
       <div id="corpo"><p class="painel">Carregando…</p></div>`);
     ligarSair(el);
@@ -933,7 +935,7 @@
     tid = escolherTurma(tid, turmas);
     try { sessionStorage.setItem("painel:turma", tid); } catch (e) {}
     const t = turmas.find(x => x.id === tid) || turmas[0];
-    const el = tela(topo(u, "prova") + `<div class="painel pp-barra"><label>Turma <select id="sel">${turmas.map(x => `<option value="${x.id}" ${x.id === t.id ? "selected" : ""}>${esc(nomeTurma(x.id))}</option>`).join("")}</select></label></div>
+    const el = tela(topo(u, "prova") + `<div class="painel pp-barra"><label>Turma <select id="sel">${turmas.map(x => `<option value="${x.id}" ${x.id === t.id ? "selected" : ""}>${esc(rotuloTurma(x.id))}</option>`).join("")}</select></label></div>
       <div id="corpo"><p class="painel">Carregando…</p></div>`);
     ligarSair(el);
     el.querySelector("#sel").onchange = e => { location.hash = "#/painel/prova/" + e.target.value; };
@@ -1333,7 +1335,7 @@
     const t = turmas.find(x => x.id === tid) || turmas[0];
     aba = aba || "chamada";
     const ABAS = [["chamada", "✅ Chamada"], ["frequencia", "🗓️ Frequência"], ["boletim", "🧮 Boletim"], ["registro", "📝 Registro das aulas"], ["lembretes", "🟧 Recados"]];
-    const el = tela(topo(u, "diario") + `<div class="painel pp-barra"><label>Turma <select id="sel">${turmas.map(x => `<option value="${x.id}" ${x.id === t.id ? "selected" : ""}>${esc(nomeTurma(x.id))}</option>`).join("")}</select></label>
+    const el = tela(topo(u, "diario") + `<div class="painel pp-barra"><label>Turma <select id="sel">${turmas.map(x => `<option value="${x.id}" ${x.id === t.id ? "selected" : ""}>${esc(rotuloTurma(x.id))}</option>`).join("")}</select></label>
         <span class="pp-missoes">${ABAS.map(([k, r]) => `<a class="pp-mis ${k === aba ? "atual" : ""}" href="#/painel/diario/${t.id}/${k}">${r}</a>`).join("")}</span></div>
       <div id="corpo"><p class="painel">Carregando o diário…</p></div>`);
     ligarSair(el);
@@ -1606,7 +1608,7 @@
     const C = P.conteudo[ap.id];
     mid = mid && C.missoes.some(m => m.id === mid) ? mid : ((await missaoSugerida(t, C)) || C.missoes[0].id);
     const el = tela(topo(u, "aula") + `<div class="painel pp-barra">
-        <label>Turma <select id="sel">${turmas.map(x => `<option value="${x.id}" ${x.id === t.id ? "selected" : ""}>${esc(nomeTurma(x.id))}</option>`).join("")}</select></label>
+        <label>Turma <select id="sel">${turmas.map(x => `<option value="${x.id}" ${x.id === t.id ? "selected" : ""}>${esc(rotuloTurma(x.id))}</option>`).join("")}</select></label>
         ${aps.length > 1 ? `<label>Apostila <select id="ap">${aps.map(a => `<option value="${a.id}" ${a.id === ap.id ? "selected" : ""}>${esc(a.titulo || a.id)}</option>`).join("")}</select></label>` : ""}
         <details class="pp-outra"><summary>👁️ Só olhar o roteiro de outra missão (${esc(mid.toUpperCase())} aberta)</summary><span class="pp-missoes">${C.missoes.map(m => `<a class="pp-mis ${m.id === mid ? "atual" : ""}" href="#/painel/aula/${t.id}/${m.id}">${esc(m.icone)} ${esc(m.id.toUpperCase())}</a>`).join("")}</span></details>
         <a class="btn btn-sec" href="#/ver/${ap.id}/${mid}/${t.id}" target="_blank" rel="noopener" title="Abre numa aba nova a apostila exatamente como os alunos veem">👀 Abrir a apostila do aluno</a>
@@ -1769,7 +1771,7 @@
     const cfg = await config();
     const el = tela(topo(u, "config") + subConfig("importar") + `
       <div class="painel"><h2>Colar uma lista</h2><p>Um aluno por linha, com nome completo. Nomes que já existem na turma são ignorados. Cada aluno novo recebe um código de 4 números.</p>
-        <label>Turma <select id="tt">${turmas.map(x => `<option value="${x.id}">${esc(nomeTurma(x.id))}</option>`).join("")}</select></label>
+        <label>Turma <select id="tt">${turmas.map(x => `<option value="${x.id}">${esc(rotuloTurma(x.id))}</option>`).join("")}</select></label>
         <textarea id="lista" rows="10" class="pp-area" placeholder="Ana Clara Souza&#10;Pedro Henrique Lima"></textarea>
         <div class="row-btns"><button class="btn" id="imp1" type="button">📥 Importar para esta turma</button></div></div>
       <div class="painel" hidden><h2>Importar arquivo de várias turmas</h2><p>Arquivo <strong>.json</strong> no formato preparado pelo Claude (todas as turmas de uma vez).</p>

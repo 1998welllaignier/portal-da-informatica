@@ -1715,3 +1715,4 @@ button.tb-av:hover .avatar-svg, button.tb-av:focus-visible .avatar-svg { transfo
 .pp-outra { display: inline-block; } .pp-outra summary { cursor: pointer; font-size: .9rem; color: var(--suave); }
 .pp-outra[open] summary { margin-bottom: 6px; }
 .pp-hoje .pp-emerg { flex-basis: 100%; font-size: .88rem; border-top: 1px dashed var(--linha); padding-top: 6px; margin-top: 4px; background: none; }
+.opt-turma .opt-hora { display: block; font-size: .78rem; font-weight: 600; opacity: .8; }

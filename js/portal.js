@@ -433,7 +433,7 @@
       <h1>${esc(s.nome)} — entrar no portal</h1>
       <form class="painel form-id" id="fcod" novalidate>
         <fieldset><legend>1. Turma</legend>
-          <div class="opcoes-turma">${s.turmas.map(t => `<label class="opt-turma"><input type="radio" name="turma" value="${t.id}" ${s.turmas.length === 1 ? "checked" : ""}><span>${esc(t.nome)}</span></label>`).join("")}</div>
+          <div class="opcoes-turma">${s.turmas.map(t => `<label class="opt-turma"><input type="radio" name="turma" value="${t.id}" ${s.turmas.length === 1 ? "checked" : ""}><span>${esc(t.nome)}${t.aula && t.aula.ini ? `<small class="opt-hora">${["dom", "seg", "ter", "qua", "qui", "sex", "sáb"][t.aula.dia]} ${t.aula.ini}</small>` : ""}</span></label>`).join("")}</div>
         </fieldset>
         <fieldset><legend>2. Vai fazer sozinho ou em dupla?</legend>
           <div class="opcoes-turma">
@@ -517,7 +517,7 @@
       <h1>${esc(s.nome)} — quem vai usar este computador?</h1>
       <form class="painel form-id" id="fid" novalidate>
         <fieldset><legend>1. Turma</legend>
-          <div class="opcoes-turma">${s.turmas.map((t, i) => `<label class="opt-turma"><input type="radio" name="turma" value="${t.id}" ${s.turmas.length === 1 ? "checked" : ""}><span>${esc(t.nome)}</span></label>`).join("")}</div>
+          <div class="opcoes-turma">${s.turmas.map((t, i) => `<label class="opt-turma"><input type="radio" name="turma" value="${t.id}" ${s.turmas.length === 1 ? "checked" : ""}><span>${esc(t.nome)}${t.aula && t.aula.ini ? `<small class="opt-hora">${["dom", "seg", "ter", "qua", "qui", "sex", "sáb"][t.aula.dia]} ${t.aula.ini}</small>` : ""}</span></label>`).join("")}</div>
         </fieldset>
         <fieldset><legend>2. Vai fazer sozinho ou em dupla?</legend>
           <div class="opcoes-turma">
