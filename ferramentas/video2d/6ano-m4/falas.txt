@@ -1,0 +1,17 @@
+Bits e bytes: o segredo do armazenamento cheio!
+
+O celular da Duda apitou: armazenamento cheio! Ela tem mil mensagens e só vinte vídeos. O que será que encheu o celular?
+
+Dentro do computador, tudo vira zero e um. Cada zero ou um é um bit, como uma lâmpada apagada ou acesa.
+
+Oito bits formam um byte, mais ou menos o espaço de uma letra.
+
+Os arquivos têm muitos bytes, então usamos medidas maiores, cada uma cerca de mil vezes maior: quilobyte, megabyte, gigabyte e terabyte.
+
+Um texto ocupa poucos quilobytes. Uma foto, alguns megabytes. Um vídeo, centenas de megabytes. Foi isso: os vídeos encheram o celular!
+
+Para mandar muitos arquivos de uma vez, dá para compactar: juntar tudo num arquivo ponto zip, menor. Para usar, é só descompactar.
+
+E para achar um arquivo rapidinho: busque pelo nome na lupa, olhe a extensão e dê sempre nomes bons.
+
+Agora é com vocês: abram a Missão 4 no portal!

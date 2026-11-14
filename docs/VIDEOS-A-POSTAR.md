@@ -9,15 +9,13 @@ e, no vídeo do estudo em casa, `catalogo.videoCasa`). Depois de ligado, o víde
 | Vídeo | Série / turmas | Arquivo | Pronto em |
 |---|---|---|---|
 | Missão 4 · Grafos: mapas, caminhos e conexões | 7º ano · Turma B | 7ano-M4-Grafos-4bim2026.mp4 (enviado na conversa em 14/11) | 14/11/2026 |
-
-## 🛠️ Áudio recebido, vídeo em montagem
-- 8º ano · M4 · Termos de uso (8º A–D, aula 25/11)
-- 6º ano · M4 · Guardar, compactar e achar arquivos (6º A e B, aula 26/11)
+| Missão 4 · Termos de uso: o que eu aceitei? | 8º ano · Turmas A, B, C e D | 8ano-M4-Termos-de-uso-4bim2026.mp4 | 14/11/2026 |
+| Missão 4 · Guardar, compactar e achar arquivos | 6º ano · Turmas A e B | 6ano-M4-Guardar-compactar-achar-arquivos-4bim2026.mp4 | 14/11/2026 |
+| Missão 4 · Inteligência artificial: impactos | 9º ano · Turma D | 9ano-M4-Inteligencia-artificial-4bim2026.mp4 | 14/11/2026 |
+| 🏠 Instruções do estudo em casa (vai no portal como `catalogo.videoCasa`) | 6º ao 9º ano | Estudo-em-casa-instrucoes-2026.mp4 | 14/11/2026 |
 
 ## ⏳ Esperando o áudio (MP3) do professor
-Fila das narrações em `docs/roteiros/narracao-m4.md` (a cada MP3 recebido, o Claude reenvia a próxima).
-1. 9º ano · M4 · Inteligência artificial (9º D, aula 26/11)
-2. 🏠 Vídeo de instruções do estudo em casa (roteiro em `docs/roteiros/video-estudo-em-casa.md`)
+_(nenhum: todos os áudios combinados chegaram)_
 
 ## ✅ No ar e ligados no portal
 | Série | M1 | M2 | M3 |
