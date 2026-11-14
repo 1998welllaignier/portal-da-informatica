@@ -1128,7 +1128,7 @@
       else if (MIS[d]) { const top = Object.entries(MIS[d]).sort((x, y) => y[1].size - x[1].size)[0]; if (top) { mid = top[0]; fonte = "portal"; } }
       const plano = cr.prova ? null : (a && a.encontro && d < hoje) ? midDoTexto(a.encontro) : (cr.mid || midDoTexto(encontro));
       if (!mid && plano) { mid = plano; fonte = "cronograma"; }
-      return { d, status, ocorr: oc, presentes, mid, fonte, titulo: mid ? tituloM(mid) : encontro, encontro, vaga: !!cr.vaga && !mid, prova: !!cr.prova, temAlgo: !!(a && (a.registro || (a.missaoHoje && a.missaoHoje.mid))) };
+      return { d, status, ocorr: oc, presentes, mid, fonte, titulo: mid ? tituloM(mid) : encontro, encontro, vaga: !!cr.vaga && !mid, prova: !!cr.prova, temAlgo: !!(a && String(a.registro || "").trim()) };
     // data solta fora do dia da turma, sem nada registrado (nem presença, nem ocorrência, nem missão, nem texto) = não houve aula: some
     }).filter(l => !(t.aula && new Date(l.d + "T12:00:00").getDay() !== t.aula.dia && !l.ocorr && !l.presentes && !l.temAlgo));
     // missões efetivamente dadas: só nas aulas que aconteceram (veio pelo menos 1 aluno)
@@ -1485,9 +1485,15 @@
         <p class="ajuda">🖨️ abre uma página pronta para imprimir: a lista da turma e, depois, o boletim de cada aluno (2 por folha A4). Na janela de impressão, escolha <b>Salvar como PDF</b>. 📥 baixa a mesma tabela num arquivo que abre no Excel ou no Google Planilhas.</p></div>`;
     }
     function vRegistro() {
-      const ds = [...new Set([...Object.keys(aulas), ...cron.map(c => c.data)])].sort().reverse();
-      return `<div class="painel"><ul class="pp-reg">${ds.map(d => { const a = aulas[d] || {}; const n = alunos.filter(x => pres(d, x.id).v === "P").length;
-        return `<li><div><strong>${dataBR(d)} (${semana(d)}) · ${esc(encCompleto(d) || "Aula")}</strong>${missaoTxt(a) ? ` <span class="pp-mdia">${missaoTxt(a)}</span>` : ""} <small>${ocorrDe(a) ? esc(OCORR[ocorrDe(a).tipo]) + (ocorrDe(a).nota ? " · " + esc(ocorrDe(a).nota) : "") : d <= hoje && temChamada(d) ? n + " presentes" : d > hoje ? "🔜 prevista" : ""}</small></div>${(a.registro || "").trim() ? `<p>${esc(a.registro).replace(/\n/g, "<br>")}</p>` : ""}<button type="button" class="btn btn-sec btn-peq" data-abrir="${d}">Abrir a chamada deste dia</button></li>`; }).join("")}</ul></div>`;
+      // ✅ dada · ⏳ ainda vai acontecer · ❔ sem registro · 🚫/🙋/🎉/🏫 não aconteceu (14/11/2026)
+      const foraDoDia = d => t.aula && new Date(d + "T12:00:00").getDay() !== t.aula.dia;
+      const temAlgoReg = d => { const a = aulas[d] || {}; return !!(ocorrDe(a) || String(a.registro || "").trim() || Object.values(a.presencas || {}).some(v => v) || (AUTO[d] && Object.keys(AUTO[d].p).length)); };
+      const ds = [...new Set([...Object.keys(aulas), ...cron.map(c => c.data)])].filter(d => !(foraDoDia(d) && !temAlgoReg(d))).sort().reverse();
+      const stReg = (d, n) => { const o = ocorrDe(aulas[d]); if (o) return [(OCORR_CURTO[o.tipo] || "📌").split(" ")[0], o.tipo === "ninguem" ? "ninguem" : "sem"];
+        if (d <= hoje && n > 0) return ["✅", "ok"]; if (d > hoje) return ["⏳", "prox"]; if (d === hoje) return ["⏳", "prox"]; return ["❔", "semreg"]; };
+      const SELO = { ok: "✅ AULA DADA", prox: "⏳ AINDA VAI ACONTECER", semreg: "❔ PASSOU SEM REGISTRO", ninguem: "🚫 NINGUÉM VEIO", sem: "📌 NÃO TEVE AULA" };
+      return `<div class="painel"><p class="pp-reg-leg">✅ aula dada · ⏳ ainda vai acontecer · ❔ passou sem registro · 🚫 ninguém veio · 🙋 eu não fui · 🎉 feriado · 🏫 sem aula na escola</p><ul class="pp-reg">${ds.map(d => { const a = aulas[d] || {}; const n = alunos.filter(x => pres(d, x.id).v === "P").length; const st = stReg(d, n);
+        return `<li class="reg-${st[1]}"><span class="reg-selo">${SELO[st[1]]}</span><div><strong><span class="reg-ic" aria-hidden="true">${st[0]}</span> ${dataBR(d)} (${semana(d)}) · ${esc(encCompleto(d) || "Aula")}</strong>${missaoTxt(a) ? ` <span class="pp-mdia">${missaoTxt(a)}</span>` : ""} <small>${ocorrDe(a) ? esc(OCORR[ocorrDe(a).tipo]) + (ocorrDe(a).nota ? " · " + esc(ocorrDe(a).nota) : "") : d <= hoje && temChamada(d) ? n + " presentes" : d > hoje ? "🔜 prevista" : ""}</small></div>${(a.registro || "").trim() ? `<p>${esc(a.registro).replace(/\n/g, "<br>")}</p>` : ""}<button type="button" class="btn btn-sec btn-peq" data-abrir="${d}">Abrir a chamada deste dia</button></li>`; }).join("")}</ul></div>`;
     }
     function vLembretes() {
       return `<div class="painel"><p class="pp-so-voce">🔒 <b>Só você vê.</b> Lembretes seus sobre esta turma (aparecem também na aba 🎤 Aula). Os alunos não veem. Para mandar um recado <b>aos alunos</b>: <a href="#/painel/turma/${t.id}">🏫 Turmas › 📣 Avisos para os alunos</a>.</p><div class="row-btns"><input type="text" id="lb-novo" class="grow" placeholder="Ex.: na próxima aula, começar pela correção do labirinto"><button type="button" class="btn" id="lb-add">Adicionar</button></div>
