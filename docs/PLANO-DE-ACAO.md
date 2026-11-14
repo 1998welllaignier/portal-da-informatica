@@ -89,6 +89,7 @@ Faltam (história + prompt para o ChatGPT/HeyGen + montagem), nesta ordem:
 Atenção: cada série tem turmas em missões diferentes (ver missoes4 no catálogo); conferir sempre o cronograma por turma antes de dizer qual vídeo falta.
 
 ### 🧭 Pauta da conversa no salão, por urgência (combinada em 14/11/2026)
+0. **Primeiro de tudo, quando ele disser "cheguei ao salão":** lembrar de anotar no 📒 Caderno Digital os pagamentos recebidos que ainda não foram anotados.
 🔴 **Esta semana (antes de 16–18/11)**
 1. Aba 🎤 Aula sugerir a Missão de hoje pela regra do Panorama (vale já na segunda 16/11).
 2. Revisão da Missão 1 do 8º ano (Listas: busca sequencial, binária e bolha) — aula em 18/11.
