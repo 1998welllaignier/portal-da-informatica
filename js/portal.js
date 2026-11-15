@@ -53,7 +53,7 @@
   const cat = () => P.catalogo;
   // 🗓️ bimestre em uso: config/geral.periodo (escolhido no painel) ou o padrão do catálogo
   P.periodoAtual = () => P._periodo || cat().periodoPadrao;
-  P.doPeriodo = a => !cat().periodoPadrao || (a.periodo || cat().periodoPadrao) === P.periodoAtual();
+  P.doPeriodo = a => a.periodo === "sempre" || !cat().periodoPadrao || (a.periodo || cat().periodoPadrao) === P.periodoAtual();
   P.carregarPeriodo = async () => {
     if (P._periodoLido) return; P._periodoLido = true;
     try { if (P.nuvem && P.nuvem.pronto) { const g = await Promise.race([P.nuvem.db().collection("config").doc("geral").get(), new Promise((_, no) => setTimeout(() => no(new Error("tempo")), 4000))]); if (g.exists && g.data().periodo) P._periodo = g.data().periodo; } } catch (e) {}

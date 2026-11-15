@@ -130,6 +130,8 @@ def parse_resumo(lines):
 
 
 def missao_id(titulo, idx):
+    if "Aula especial" in titulo:
+        return "ae"
     m = re.search(r"Missão\s+(\d+)", titulo)
     if m:
         return "m" + m.group(1)

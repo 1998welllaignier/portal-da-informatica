@@ -15,7 +15,9 @@ e, no vídeo do estudo em casa, `catalogo.videoCasa`). Depois de ligado, o víde
 | 🏠 Instruções do estudo em casa (vai no portal como `catalogo.videoCasa`) | 6º ao 9º ano | Estudo-em-casa-instrucoes-2026.mp4 | 14/11/2026 |
 
 ## ⏳ Esperando o áudio (MP3) do professor
-_(nenhum: todos os áudios combinados chegaram)_
+| Vídeo | Série / turmas | Narração | Pedido em |
+|---|---|---|---|
+| ⭐ Aula especial · Meu papel de parede (o caso da imagem rebelde) | 6º ao 9º ano (o mesmo vídeo) | `docs/roteiros/aula-especial-papel-de-parede.md` | 15/11/2026 |
 
 ## ✅ No ar e ligados no portal
 | Série | M1 | M2 | M3 |

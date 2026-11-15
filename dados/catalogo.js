@@ -101,7 +101,19 @@ PORTAL.catalogo = {
       trilha: true, oculta: true, base: "informatica-8ano-2027-1bim" },
     { id: "informatica-9ano-2027-1bim-trilha", serie: "9", disciplina: "informatica", unidade: "1º bimestre de 2027", periodo: "2027-1",
       titulo: "Informática — 9º ano — 1º bimestre de 2027 · Trilha Passo a Passo", modo: "individual", extras: ["m7", "m8"],
-      trilha: true, oculta: true, base: "informatica-9ano-2027-1bim" }
+      trilha: true, oculta: true, base: "informatica-9ano-2027-1bim" },
+    /* ⭐ Aula especial (vale em qualquer bimestre: periodo "sempre"; especial: true não vira a apostila da turma no painel) */
+    { id: "informatica-6ano-papel-de-parede", serie: "6", disciplina: "informatica", unidade: "⭐ Aula especial", periodo: "sempre", especial: true,
+      titulo: "Aula especial — Meu papel de parede", modo: "individual" },
+    /* ⭐ Aula especial (vale em qualquer bimestre: periodo "sempre"; especial: true não vira a apostila da turma no painel) */
+    { id: "informatica-7ano-papel-de-parede", serie: "7", disciplina: "informatica", unidade: "⭐ Aula especial", periodo: "sempre", especial: true,
+      titulo: "Aula especial — Meu papel de parede", modo: "individual" },
+    /* ⭐ Aula especial (vale em qualquer bimestre: periodo "sempre"; especial: true não vira a apostila da turma no painel) */
+    { id: "informatica-8ano-papel-de-parede", serie: "8", disciplina: "informatica", unidade: "⭐ Aula especial", periodo: "sempre", especial: true,
+      titulo: "Aula especial — Meu papel de parede", modo: "individual" },
+    /* ⭐ Aula especial (vale em qualquer bimestre: periodo "sempre"; especial: true não vira a apostila da turma no painel) */
+    { id: "informatica-9ano-papel-de-parede", serie: "9", disciplina: "informatica", unidade: "⭐ Aula especial", periodo: "sempre", especial: true,
+      titulo: "Aula especial — Meu papel de parede", modo: "individual" }
   ],
 
   /* Orientações curtas que aparecem na área do professor */

@@ -28,7 +28,7 @@ function blocos(x, out) {
   if (Array.isArray(x)) { x.forEach(y => blocos(y, out)); return; }
   if (typeof x === "object") { if (x.t === "tabela") { (x.linhas || []).forEach(l => out.push(l.join(" | "))); return; } Object.values(x).forEach(v => blocos(v, out)); }
 }
-const RUIM = /chame o professor(?! quando)|chamar o professor(?! quando)|mostre ao professor|levante a m[aã]o e chame|carimb|apostila impressa|no papel\b/i;
+const RUIM = /chame o professor(?! quando)|chamar o professor(?! quando)|mostre ao professor|levante a m[aã]o e chame|carimb|apostila impressa|no papel\b(?! de parede)/i;
 let total = { prof: 0, texto: 0, falta: 0 };
 for (const [aid, a] of Object.entries(A)) {
   if (so && aid !== so) continue;

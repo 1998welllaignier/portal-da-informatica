@@ -67,7 +67,7 @@
   const nomeTurma = id => { const t = todasTurmas().find(x => x.id === id); return t ? t.nome + (t.serie.id === "5" ? " (5º ano)" : "") : id; };
   // 🏷️ missão sempre com número e título: "M2 · Listas e grafos no dia a dia" (pedido em 14/11/2026)
   const tituloCurto = m => String((m && m.titulo) || "").replace(/^[^–]*–\s*/, "");
-  const SIG = mid => mid === "rv" ? "🔁" : String(mid || "").toUpperCase(); // 🔁 Revisão não vira "RV"
+  const SIG = mid => mid === "rv" ? "🔁" : mid === "ae" ? "⭐" : String(mid || "").toUpperCase(); // 🔁 Revisão não vira "RV"
   const rotMis = (C, mid) => { const m = C && (C.missoes || []).find(x => x.id === mid); return SIG(mid) + (m ? " · " + tituloCurto(m) : ""); };
   // 🕘 nas listas de turma: nome + dia e hora da aula (ex.: "6º A · qui 13:30"), em todo lugar (pedido em 14/11/2026)
   const rotuloTurma = id => { const t = todasTurmas().find(x => x.id === id); return nomeTurma(id) + (t && t.aula && t.aula.ini ? " · " + ["dom", "seg", "ter", "qua", "qui", "sex", "sáb"][t.aula.dia] + " " + t.aula.ini : ""); };
@@ -346,7 +346,10 @@
   async function missaoDeHoje(t) {
     const ap = cat().apostilas.find(a => a.serie === t.serie.id && P.doPeriodo(a) && !a.oculta && !a.trilha) || cat().apostilas.find(a => a.serie === t.serie.id && P.doPeriodo(a));
     await P.carregarApostila(ap.id); const C = P.conteudo[ap.id];
-    try { const h = await db().collection("config").doc("hoje_" + t.id).get(); if (h.exists && h.data().dia === N.hoje() && h.data().mid) return { mid: h.data().mid, C, fixo: true }; } catch (e) {}
+    try { const h = await db().collection("config").doc("hoje_" + t.id).get(); if (h.exists && h.data().dia === N.hoje() && h.data().mid) { const hd = h.data();
+      // ⭐ aula especial: a missão "ae" está na apostila especial gravada em hd.aid
+      if (hd.mid === "ae" && hd.aid && hd.aid !== ap.id) { await P.carregarApostila(hd.aid).catch(() => null); if (P.conteudo[hd.aid]) return { mid: "ae", C: P.conteudo[hd.aid], fixo: true, aid: hd.aid }; }
+      return { mid: hd.mid, C, fixo: true }; } } catch (e) {}
     return { mid: (await missaoSugerida(t, C)) || C.missoes[0].id, C };
   }
   /* 🏆 Placar ao vivo (para o projetor): ranking que muda na hora; congela nos últimos 5 min; vira pódio ao finalizar */
@@ -589,7 +592,7 @@
         await P.carregarApostila(ap.id); const C = P.conteudo[ap.id];
         const [sug, alunos, sit] = await Promise.all([missaoSugerida(t, C), alunosDaTurma(t.id), situacaoMissoes(t)]);
         ctx = { t, ap, C, alunos: alunos.filter(a => a.ativo !== false && !a.teste) };
-        selM.innerHTML = `<option value="">— nenhuma: os alunos escolhem —</option>` + C.missoes.filter(m => m.id !== "rc").map(m => `<option value="${esc(m.id)}" ${m.id === sug ? "selected" : ""}>${esc(SIG(m.id))} · ${esc(((m.titulo || "").replace(/^[^–]*–\s*/, "")).slice(0, 60))}${m.id === sug ? " · ⭐ sugerida" : ""}${esc(sitMis(sit, m.id))}</option>`).join("");
+        selM.innerHTML = `<option value="">— nenhuma: os alunos escolhem —</option>` + C.missoes.filter(m => m.id !== "rc").map(m => `<option value="${esc(m.id)}" ${m.id === sug ? "selected" : ""}>${esc(SIG(m.id))} · ${esc(((m.titulo || "").replace(/^[^–]*–\s*/, "")).slice(0, 60))}${m.id === sug ? " · ⭐ sugerida" : ""}${esc(sitMis(sit, m.id))}</option>`).join("") + (() => { const esp = cat().apostilas.filter(a => a.especial && a.serie === t.serie.id); return esp.length ? `<optgroup label="⭐ Aulas especiais">${esp.map(a => `<option value="esp|${esc(a.id)}">⭐ ${esc(a.titulo)}</option>`).join("")}</optgroup>` : ""; })();
         trav.disabled = !selM.value; if (!selM.value) trav.checked = false;
         const casa = ctx.alunos.filter(a => a.emCasa);
         const cx = c.querySelector("#ini-casa");
@@ -601,15 +604,17 @@
       c.querySelector("#ini-ok").onclick = async () => {
         const b = c.querySelector("#ini-ok"); b.disabled = true; b.textContent = "Iniciando…";
         try {
-          const { t, ap, C } = ctx, v = selM.value, m = C.missoes.find(x => x.id === v), hoje = N.hoje();
-          const titulo = m ? m.titulo.replace(/ –.*/, "") + " – " + m.titulo.replace(/^[^–]*– ?/, "") : "";
+          const { t, ap, C } = ctx, esp = selM.value.startsWith("esp|") ? selM.value.split("|")[1] : null, hoje = N.hoje();
+          if (esp) await P.carregarApostila(esp);   // ⭐ aula especial (15/11/2026): a missão "ae" da apostila especial da série
+          const v = esp ? "ae" : selM.value, m = esp ? (P.conteudo[esp].missoes.find(x => x.id === "ae")) : C.missoes.find(x => x.id === v);
+          const titulo = m ? (esp ? "⭐ Aula especial – " + m.titulo.replace(/^[^–]*– ?/, "") : m.titulo.replace(/ –.*/, "") + " – " + m.titulo.replace(/^[^–]*– ?/, "")) : "";
           const revisa = v === "rv" ? await revisaDaTurma(t) : [];
-          await db().collection("config").doc("hoje_" + t.id).set({ dia: hoje, aid: ap.base || ap.id, mid: v, titulo, travar: !!(v && trav.checked), iniciadaDia: hoje, iniciadaEm: Date.now(), revisa }, { merge: true });
+          await db().collection("config").doc("hoje_" + t.id).set({ dia: hoje, aid: esp || ap.base || ap.id, mid: v, titulo, travar: !!(v && trav.checked), iniciadaDia: hoje, iniciadaEm: Date.now(), revisa }, { merge: true });
           await db().collection("config").doc("liberar_" + t.id).set({ fechadaAte: 0 }, { merge: true });
           await sincronizarCasa(t, ctx.alunos).catch(() => {});
           if (v) await registrarMissaoDoDia(t.id, { mid: v, titulo, travar: !!trav.checked });
           try { sessionStorage.setItem("painel:turma", t.id); sessionStorage.setItem("painel:ini:" + t.id + ":" + hoje, "1"); } catch (e) {}
-          dlg.close(); toast("▶️ Aula iniciada: " + nomeTurma(t.id) + (v ? " · " + rotMis(C, v) + (trav.checked ? " 🔒" : "") : " · os alunos escolhem a missão"));
+          dlg.close(); toast("▶️ Aula iniciada: " + nomeTurma(t.id) + (v ? " · " + (esp ? "⭐ Aula especial" : rotMis(C, v)) + (trav.checked ? " 🔒" : "") : " · os alunos escolhem a missão"));
           location.hash = "#/painel/aula/" + t.id + (v ? "/" + v : "");
         } catch (err) { const e = c.querySelector("#ini-e"); e.textContent = "Não foi possível iniciar: " + (err.message || err); e.hidden = false; b.disabled = false; b.textContent = "▶️ Iniciar a aula"; }
       };
