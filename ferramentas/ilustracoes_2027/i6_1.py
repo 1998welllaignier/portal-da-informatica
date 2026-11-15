@@ -71,36 +71,41 @@ for i, (nome, como, lado, faz) in enumerate(paineis):
 fig("m1", "Ação do mouse Como fazer Para que serve", "As cinco ações do mouse: clique escolhe, duplo clique abre, clique direito mostra mais opções, arrastar muda de lugar e rolar sobe e desce a página.",
     744, 270, "".join(corpo), "Cada jeito de apertar o mouse faz uma coisa diferente.")
 
-# teclado com teclas destacadas
+# teclado com teclas destacadas (layout brasileiro ABNT2: Backspace no canto de cima à direita, acima do Enter)
 corpo = []
-kx, ky = 40, 70
-corpo.append(caixa(20, 50, 700, 230, cor="tinta", fundo="fundo", rx=16, larg=2))
-fileiras = [list("1234567890"), list("QWERTYUIOP"), list("ASDFGHJKLÇ"), list("ZXCVBNM,.")]
-for r, fil in enumerate(fileiras):
-    for c, k in enumerate(fil):
-        corpo.append(tecla(120 + r * 14 + c * 46, ky + r * 46, k, 42, 40, size=13))
-# especiais
-corpo.append(tecla(40, ky + 46 * 0, "⟵", 72, 40, destaque="vermelho", size=18))   # Backspace (à esquerda, para caber)
-corpo.append(tecla(40, ky + 46 * 2, "Caps", 78, 40, destaque="roxo"))
-corpo.append(tecla(30, ky + 46 * 3, "⇧ Shift", 100, 40, destaque="amarelo", size=13))
-corpo.append(tecla(612, ky + 46 * 1, "Enter ↵", 92, 86, destaque="verde"))
-corpo.append(tecla(214, ky + 46 * 4, "", 300, 34, destaque="azul"))
-corpo.append(tecla(560, ky + 46 * 4 - 4, "⬆", 40, 30, destaque="ciano", size=13))
-corpo.append(tecla(518, ky + 46 * 4 + 28, "⬅", 40, 26, destaque="ciano", size=13) + tecla(560, ky + 46 * 4 + 28, "⬇", 40, 26, destaque="ciano", size=13) + tecla(602, ky + 46 * 4 + 28, "➡", 40, 26, destaque="ciano", size=13))
-corpo.append(etiqueta(150, 30, "⟵ Backspace: apaga a letra antes do cursor", "vermelho", 12))
-corpo.append(seta(90, 38, 76, 66, "vermelho", 2.5))
-corpo.append(etiqueta(560, 30, "Enter: confirma / pula de linha", "verde", 12))
-corpo.append(seta(640, 38, 656, 112, "verde", 2.5))
-corpo.append(etiqueta(20, 320, "Caps Lock: liga/desliga AS MAIÚSCULAS", "roxo", 12, ancora="start"))
-corpo.append(seta(60, 306, 60, 208, "roxo", 2.5))
-corpo.append(etiqueta(20, 356, "⇧ Shift: segure + letra = maiúscula", "amarelo", 12, ancora="start"))
-corpo.append(seta(30, 352, 30, 260, "amarelo", 2.5, curva=0))
-corpo.append(etiqueta(440, 320, "Barra de espaço: separa as palavras", "azul", 12))
-corpo.append(seta(420, 304, 400, 294, "azul", 2.5))
-corpo.append(etiqueta(600, 356, "Setas: movem o cursor", "ciano", 12))
-corpo.append(seta(580, 340, 580, 318, "ciano", 2.5))
-fig("m1", "Tecla O que faz Enter Confirma", "Teclado com as teclas especiais coloridas e etiquetas: Backspace apaga, Enter confirma, Caps Lock liga as maiúsculas, Shift faz maiúscula segurando, barra de espaço separa palavras e as setas movem o cursor.",
-    744, 380, "".join(corpo), "Cada cor é uma tecla especial; a seta mostra onde ela fica.")
+K, G, X0, Y0 = 40, 4, 34, 70          # tamanho da tecla, espaço, início
+def lin(y, x, teclas):
+    s_ = ""
+    for rot, w, cor in teclas:
+        s_ += tecla(x, y, rot, w, 40, destaque=cor, size=13 if len(rot) < 3 else 11)
+        x += w + G
+    return s_
+corpo.append(caixa(20, 56, 720, 268, cor="tinta", fundo="fundo", rx=16, larg=2))
+corpo.append(lin(Y0, X0, [(k, K, None) for k in "'1234567890-="] + [("⟵", 102, "vermelho")]))
+corpo.append(lin(Y0 + 44, X0, [("Tab", 62, None)] + [(k, K, None) for k in "QWERTYUIOP´["]))
+corpo.append(lin(Y0 + 88, X0, [("Caps", 76, "roxo")] + [(k, K, None) for k in "ASDFGHJKLÇ~]"]))
+corpo.append(lin(Y0 + 132, X0, [("⇧ Shift", 56, "amarelo"), ("\\", K, None)] + [(k, K, None) for k in "ZXCVBNM,.;/"] + [("⇧ Shift", 72, "amarelo")]))
+# Enter em L (duas fileiras), no lado direito, logo abaixo do Backspace
+ex = X0 + 62 + G + 12 * (K + G)
+corpo.append(f'<path d="M{ex} {Y0+44} h{720+20-ex-14} v84 h-{720+20-ex-14-16} v-40 h-16 z" fill="{COR["verde_c"]}" stroke="{COR["verde"]}" stroke-width="2.5" stroke-linejoin="round"/>')
+corpo.append(t(ex + (720 + 20 - ex - 14) / 2, Y0 + 70, "Enter ↵", 13, "verde", 800))
+corpo.append(tecla(210, Y0 + 176, "", 300, 36, destaque="azul"))
+corpo.append(tecla(612, Y0 + 176, "⬆", 36, 18, destaque="ciano", size=11))
+corpo.append(tecla(572, Y0 + 196, "⬅", 36, 18, destaque="ciano", size=11) + tecla(612, Y0 + 196, "⬇", 36, 18, destaque="ciano", size=11) + tecla(652, Y0 + 196, "➡", 36, 18, destaque="ciano", size=11))
+bx = X0 + 13 * (K + G)
+corpo.append(etiqueta(560, 30, "⟵ Backspace: apaga a letra antes do cursor", "vermelho", 12))
+corpo.append(seta(640, 38, bx + 51, 68, "vermelho", 2.5))
+corpo.append(etiqueta(150, 352, "Caps Lock: liga/desliga AS MAIÚSCULAS", "roxo", 12))
+corpo.append(seta(70, 338, 66, 200, "roxo", 2.5))
+corpo.append(etiqueta(150, 388, "⇧ Shift: segure + letra = maiúscula", "amarelo", 12))
+corpo.append(seta(26, 384, 40, 246, "amarelo", 2.5))
+corpo.append(etiqueta(440, 352, "Barra de espaço: separa as palavras", "azul", 12))
+corpo.append(seta(400, 338, 380, 284, "azul", 2.5))
+corpo.append(etiqueta(640, 388, "Enter: confirma / pula de linha", "verde", 12))
+corpo.append(seta(700, 374, 712, 196, "verde", 2.5))
+corpo.append(etiqueta(560, 310, "Setas: movem o cursor", "ciano", 12) + seta(620, 296, 626, 288, "ciano", 2))
+fig("m1", "Tecla O que faz Enter Confirma", "Teclado brasileiro com as teclas especiais coloridas e etiquetas: Backspace (no canto de cima, à direita, acima do Enter) apaga, Enter confirma, Caps Lock liga as maiúsculas, Shift faz maiúscula segurando, barra de espaço separa palavras e as setas movem o cursor.",
+    760, 404, "".join(corpo), "Teclado brasileiro (ABNT2): cada cor é uma tecla especial; a seta mostra onde ela fica.")
 
 # janela e barra de tarefas
 corpo = []
