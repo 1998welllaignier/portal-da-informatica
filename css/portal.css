@@ -1800,3 +1800,18 @@ button.tb-av:hover .avatar-svg, button.tb-av:focus-visible .avatar-svg { transfo
 .btn.pp-off, .btn:disabled.pp-off { background: #e5e7eb !important; border-color: #d1d5db !important; color: #6b7280 !important; cursor: not-allowed; } .btn.pp-off small { font-weight: 600; font-size: .75em; }
 .sim-bits { flex-wrap: wrap; justify-content: center; gap: 8px; } .sim-bits .sim-int { min-width: 64px; } .sim-bits .sim-bulbo { font-size: 2rem; }
 .pp-periodos { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 8px; margin: 8px 0; } .pp-periodo small { font-weight: 400; }
+
+/* 🧱 Editor de blocos (js/blocos.js, 14/11/2026) */
+.blk { display: flex; flex-direction: column; gap: .6rem; }
+.blk-area { width: 100%; min-height: 300px; border: 2px solid #cbd5e1; border-radius: 12px; overflow: hidden; background: #f8fafc; position: relative; }
+.blk-carrega { padding: 1rem; color: #475569; }
+.blk-bts { display: flex; flex-wrap: wrap; gap: .5rem; }
+.blk-bts .btn { min-height: 44px; }
+.blk-tela { background: #0f172a; color: #e2e8f0; border-radius: 12px; padding: .6rem .8rem; }
+.blk-tela-tit { font-size: .85rem; color: #fbbf24; font-weight: 700; margin-bottom: .3rem; }
+.blk-saida { margin: 0; font: 600 1rem/1.4 ui-monospace, Consolas, monospace; white-space: pre-wrap; word-break: break-word; min-height: 1.4em; }
+.blk-saida.erro { color: #fca5a5; }
+.blk-meta pre { background: #fef9c3; color: #1e293b; padding: .5rem .7rem; border-radius: 8px; white-space: pre-wrap; margin: .4rem 0 0; }
+.blk-meta summary { cursor: pointer; font-weight: 700; padding: .3rem 0; }
+.blocklyToolboxDiv { font-size: 14px; }
+@media (max-width: 600px) { .blocklyTreeLabel { font-size: 13px; } }
