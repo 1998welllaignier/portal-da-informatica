@@ -223,7 +223,7 @@ Para decidir com o professor no salão. Cada item: manter, juntar ou desligar.
   - [x] 9º ano (14/11): apostila (`informatica-9ano-2027-1bim`): grafos, árvores, árvores de decisão, programar com grafos e árvores, autômatos, eventos + extras semáforo e mapa da escola; atividades (blocos com eventos testados), explicações, roteiro e prova.
   - **Material principal do 1º bimestre de 2027 pronto nas 4 séries (14/11/2026).**
   - [ ] Depois das 4 séries: desenhos coloridos e pedagógicos, 👣 Trilhas e recuperações (rodada única).
-    - [x] Desenhos do 6º ano (20 figuras, 14/11) · [x] 7º (15 figuras) · [x] 8º (15 figuras) · [ ] 9º · [ ] Trilhas · [ ] Recuperações
+    - [x] Desenhos do 6º ano (20 figuras, 14/11) · [x] 7º (15 figuras) · [x] 8º (15 figuras) · [x] 9º (13 figuras) · [ ] Trilhas · [ ] Recuperações
 - [x] **Editor de programação em blocos** pronto (14/11/2026): atividade `blocos` (js/blocos.js + lib/blockly). Conferir no computador da sala (Chrome/Edge) no 1º teste real. (o 7º ano usa no 1º bimestre; o 6º no 3º).
 - [ ] Depois de aprovado: material completo por bimestre, na ordem (1º bimestre primeiro). A 🔁 Revisão já nasce junto com cada bimestre (blocos por missão; o portal mostra só as missões dadas). Vídeos: perto da época, ou adiantados aos poucos para não estourar o limite semanal.
 
