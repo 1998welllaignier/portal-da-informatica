@@ -224,6 +224,9 @@ Todo arquivo tem um **nome** e uma **extensão**, o final depois do ponto, que m
 | .mp3 | Música ou áudio | Tocador de música |
 | .mp4 | Vídeo | Tocador de vídeo |
 | .pdf | Documento para ler e imprimir | Leitor de PDF ou navegador |
+| .jxl 🆕 | Imagem: o “novo JPEG” (JPEG XL) | Navegador (Chrome, Firefox) |
+
+🆕 **Novidade de 2026: o .jxl.** O **JPEG XL** é um formato de imagem novo, que os navegadores Chrome e Firefox começaram a abrir em 2026. Ele deixa a foto **menor** com a mesma qualidade, aceita **fundo transparente** (como o .png), tem **mais cores** e pode ser **animado** (como o .gif). Mas o **.jpg continua sendo o mais usado**: o celular, a câmera e o WhatsApp ainda salvam em .jpg, e muitos programas (como o papel de parede do Windows) ainda **não aceitam** .jxl. Formato novo demora para chegar a todo lugar.
 
 O lugar onde o arquivo está guardado é o **caminho**, como um endereço: **Documentos › Escola › Informática › trabalho.docx** quer dizer que o arquivo está na pasta Informática, que fica dentro de Escola, que fica dentro de Documentos.
 Para **salvar** um trabalho: **Arquivo → Salvar como**, escolha **onde** guardar, dê um **nome** e clique em **Salvar** (atalho: **Ctrl + S**). Depois, para achar, abra o **Explorador de Arquivos** (ícone de pasta amarela) e siga o caminho.
@@ -232,6 +235,7 @@ Para **salvar** um trabalho: **Arquivo → Salvar como**, escolha **onde** guard
 - **Arquivo**: qualquer trabalho ou informação guardada no computador com um nome. Onde eu vejo: fotos da galeria, músicas, documentos.
 - **Pasta**: “gaveta” que organiza arquivos e outras pastas. Ícone: pasta amarela.
 - **Extensão**: o final do nome do arquivo, depois do ponto, que diz o tipo dele (.jpg, .mp3, .docx).
+- **JPEG**: sigla em inglês de *Joint Photographic Experts Group* (Grupo Conjunto de Especialistas em Fotografia), o grupo que criou o formato de foto .jpg em 1992. O **JPEG XL** (.jxl) é a geração nova, criada pelo mesmo grupo.
 - **Caminho**: o “endereço” do arquivo: a lista de pastas, uma dentro da outra, até chegar nele.
 - **Explorador de Arquivos**: o programa do Windows para ver, abrir e organizar pastas e arquivos.
 - **Salvar**: guardar o trabalho no armazenamento para não perder.

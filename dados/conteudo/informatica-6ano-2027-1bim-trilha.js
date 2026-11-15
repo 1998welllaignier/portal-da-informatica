@@ -555,6 +555,10 @@ PORTAL.registrarConteudo("informatica-6ano-2027-1bim-trilha", {
     },
     {
      "t": "p",
+     "h": "🆕 <strong>Novidade:</strong> existe um formato de foto novo, o <strong>.jxl</strong> (JPEG XL). Ele deixa a foto menor, mas o <strong>.jpg</strong> ainda é o mais usado no celular e no computador."
+    },
+    {
+     "t": "p",
      "h": "O lugar onde o arquivo está guardado é o <strong>caminho</strong>, como um endereço: <strong>Documentos › Escola › Informática › trabalho.docx</strong> quer dizer que o arquivo está na pasta Informática, que fica dentro de Escola, que fica dentro de Documentos."
     },
     {

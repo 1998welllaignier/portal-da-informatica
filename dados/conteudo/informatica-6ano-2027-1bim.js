@@ -658,8 +658,17 @@ PORTAL.registrarConteudo("informatica-6ano-2027-1bim", {
        ".pdf",
        "Documento para ler e imprimir",
        "Leitor de PDF ou navegador"
+      ],
+      [
+       ".jxl 🆕",
+       "Imagem: o “novo JPEG” (JPEG XL)",
+       "Navegador (Chrome, Firefox)"
       ]
      ]
+    },
+    {
+     "t": "p",
+     "h": "🆕 <strong>Novidade de 2026: o .jxl.</strong> O <strong>JPEG XL</strong> é um formato de imagem novo, que os navegadores Chrome e Firefox começaram a abrir em 2026. Ele deixa a foto <strong>menor</strong> com a mesma qualidade, aceita <strong>fundo transparente</strong> (como o .png), tem <strong>mais cores</strong> e pode ser <strong>animado</strong> (como o .gif). Mas o <strong>.jpg continua sendo o mais usado</strong>: o celular, a câmera e o WhatsApp ainda salvam em .jpg, e muitos programas (como o papel de parede do Windows) ainda <strong>não aceitam</strong> .jxl. Formato novo demora para chegar a todo lugar."
     },
     {
      "t": "p",
@@ -689,6 +698,11 @@ PORTAL.registrarConteudo("informatica-6ano-2027-1bim", {
      "termo": "Extensão",
      "rotulo": "<strong>Extensão</strong>",
      "def": "o final do nome do arquivo, depois do ponto, que diz o tipo dele (.jpg, .mp3, .docx)."
+    },
+    {
+     "termo": "JPEG",
+     "rotulo": "<strong>JPEG</strong>",
+     "def": "sigla em inglês de <em>Joint Photographic Experts Group</em> (Grupo Conjunto de Especialistas em Fotografia), o grupo que criou o formato de foto .jpg em 1992. O <strong>JPEG XL</strong> (.jxl) é a geração nova, criada pelo mesmo grupo."
     },
     {
      "termo": "Caminho",

@@ -152,6 +152,8 @@ O final do nome, depois do ponto, mostra o **tipo** do arquivo. Esse final se ch
 | .mp4 | Vídeo | Tocador de vídeo |
 | .pdf | Documento para ler e imprimir | Leitor de PDF |
 
+🆕 **Novidade:** existe um formato de foto novo, o **.jxl** (JPEG XL). Ele deixa a foto menor, mas o **.jpg** ainda é o mais usado no celular e no computador.
+
 O lugar onde o arquivo está guardado é o **caminho**, como um endereço: **Documentos › Escola › Informática › trabalho.docx** quer dizer que o arquivo está na pasta Informática, que fica dentro de Escola, que fica dentro de Documentos.
 Para **salvar** um trabalho: clique em **Arquivo → Salvar como**, escolha **onde** guardar, dê um **nome bom** e clique em **Salvar**. O atalho é **Ctrl + S**.
 **Nome bom** diz o que tem dentro: “redacao-meio-ambiente” é melhor que “sem título 3”.
