@@ -83,7 +83,7 @@
       const ms = await agora();
       const ids = s.alunoIds || [];
       // 📝 atividade de recuperação (15/11/2026): abre a qualquer hora para quem o professor liberou, e só para ele
-      if (mid === "rc") { const pv = await cfg("prova_" + s.turma); return ids.length && ids.every(id => (pv.recAtv || []).includes(id)) ? { aberta: true } : { aberta: false, recFechada: true }; }
+      if (mid === "rc") { if (P.carregarPeriodo) await P.carregarPeriodo(); const pv = await cfg(P.docProva ? P.docProva(s.turma) : "prova_" + s.turma); return ids.length && ids.every(id => (pv.recAtv || []).includes(id)) ? { aberta: true } : { aberta: false, recFechada: true }; }
       const modoAula = g.modoAula !== false;   // ▶️ 14/11/2026: as tarefas só abrem depois que o professor INICIA a aula no painel
       // 🏠 quem estuda em casa não tem trava de aula: faz no próprio ritmo (config/liberar_<turma>.casa),
       //    com uma sessão de 2 horas por dia e o vídeo da missão antes das tarefas (14/11/2026)

@@ -54,6 +54,13 @@
   // 🗓️ bimestre em uso: config/geral.periodo (escolhido no painel) ou o padrão do catálogo
   P.periodoAtual = () => P._periodo || cat().periodoPadrao;
   P.doPeriodo = a => a.periodo === "sempre" || !cat().periodoPadrao || (a.periodo || cat().periodoPadrao) === P.periodoAtual();
+  /* 📒 separação por bimestre (15/11/2026) */
+  P.periodoInfo = pid => (cat().periodos || []).find(x => x.id === (pid || P.periodoAtual())) || {};
+  P.noPeriodo = (data, pid) => { const pr = P.periodoInfo(pid); return (!pr.inicio || data >= pr.inicio) && (!pr.fim || data <= pr.fim); };
+  P.periodoDoAid = aid => { const a = cat().apostilas.find(x => x.id === aid); return a ? (a.periodo || cat().periodoPadrao) : null; };
+  P.aidDoPeriodo = (aid, pid) => { const p = P.periodoDoAid(aid); return p === "sempre" || p === (pid || P.periodoAtual()); };
+  P.ehLegado = pid => (pid || P.periodoAtual()) === (cat().periodoLegado || cat().periodoPadrao);
+  P.docProva = (turma, pid) => P.ehLegado(pid) ? "prova_" + turma : "prova_" + turma + "_" + (pid || P.periodoAtual());   // config da prova do bimestre
   P.carregarPeriodo = async () => {
     if (P._periodoLido) return; P._periodoLido = true;
     try { if (P.nuvem && P.nuvem.pronto) { const g = await Promise.race([P.nuvem.db().collection("config").doc("geral").get(), new Promise((_, no) => setTimeout(() => no(new Error("tempo")), 4000))]); if (g.exists && g.data().periodo) P._periodo = g.data().periodo; } } catch (e) {}
@@ -672,7 +679,7 @@
       } catch (e) {}
     }
     if (!v) { const t = turma(s.turma), hj = (P.nuvem && P.nuvem.hoje) ? P.nuvem.hoje() : new Date().toISOString().slice(0, 10);
-      const ms = t && t.missoes4 ? [...new Set(Object.entries(t.missoes4).filter(([d]) => d <= hj).map(([, m]) => m))].filter(m => /^m\d+$/.test(m)) : [];
+      const ms = t && t.missoes4 && P.ehLegado() ? [...new Set(Object.entries(t.missoes4).filter(([d]) => d <= hj).map(([, m]) => m))].filter(m => /^m\d+$/.test(m)) : [];
       v = ms.length ? ms : null; }
     _rvCache = { k: s.turma, t: Date.now(), v }; P.revisaAtual = v;
   }
@@ -684,7 +691,7 @@
     P.recLiberada = false; P.recMissoes = null;
     if (!s || !s.turma || !s.nuvem || !P.nuvem || !P.nuvem.pronto) return;
     try {
-      const sn = await Promise.race([P.nuvem.db().collection("config").doc("prova_" + s.turma).get(), new Promise((_, no) => setTimeout(() => no(new Error("tempo")), 4000))]);
+      const sn = await Promise.race([(await P.carregarPeriodo(), P.nuvem.db().collection("config").doc(P.docProva(s.turma)).get()), new Promise((_, no) => setTimeout(() => no(new Error("tempo")), 4000))]);
       const d = sn.exists ? sn.data() : {}, ids = s.alunoIds || [];
       P.recLiberada = ids.length > 0 && ids.every(id => (d.recAtv || []).includes(id));
       P.recMissoes = Array.isArray(d.recMissoes) && d.recMissoes.length ? d.recMissoes : null;

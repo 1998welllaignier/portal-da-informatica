@@ -23,12 +23,16 @@ PORTAL.catalogo = {
      Cada apostila diz o seu "periodo" (sem o campo = periodoPadrao). O professor escolhe o bimestre em uso no painel
      (fica em config/geral.periodo) e alunos e painel passam a usar só as apostilas daquele bimestre. */
   periodoPadrao: "2026-4",
+  /* 📒 Diário, Boletim e Prova separados por bimestre (15/11/2026): cada bimestre tem as SUAS aulas (as datas entre
+     inicio e fim), o seu cronograma, as suas notas e a sua configuração de prova. O que foi registrado antes da separação
+     pertence ao periodoLegado. ⚠️ As datas de 2027 são provisórias: acertar quando sair o Calendário Escolar 2027 da SEMED. */
+  periodoLegado: "2026-4",
   periodos: [
-    { id: "2026-4", nome: "4º bimestre de 2026" },
-    { id: "2027-1", nome: "1º bimestre de 2027" },
-    { id: "2027-2", nome: "2º bimestre de 2027" },
-    { id: "2027-3", nome: "3º bimestre de 2027" },
-    { id: "2027-4", nome: "4º bimestre de 2027" }
+    { id: "2026-4", nome: "4º bimestre de 2026", inicio: "2026-09-28", fim: "2026-12-31" },
+    { id: "2027-1", nome: "1º bimestre de 2027", inicio: "2027-01-01", fim: "2027-04-04" },
+    { id: "2027-2", nome: "2º bimestre de 2027", inicio: "2027-04-05", fim: "2027-07-04" },
+    { id: "2027-3", nome: "3º bimestre de 2027", inicio: "2027-07-05", fim: "2027-09-12" },
+    { id: "2027-4", nome: "4º bimestre de 2027", inicio: "2027-09-13", fim: "2027-12-31" }
   ],
   calendarioRede: {
     provaBimestral: ["2026-12-07", "2026-12-11"],

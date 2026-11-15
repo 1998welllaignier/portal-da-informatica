@@ -198,7 +198,7 @@ Para decidir com o professor no salão. Cada item: manter, juntar ou desligar.
 
 ## 🗓️ Material de 2027 (conversa de 14/11/2026, noite)
 - [x] Chave seletora de bimestre no painel (⚙️ Configurações › Ano letivo e aulas): feita em 14/11.
-- [ ] Separar Diário, Boletim e Prova por bimestre (cada bimestre com as suas aulas e notas), antes do 1º bimestre de 2027.
+- [x] Separar Diário, Boletim e Prova por bimestre (feito em 15/11/2026): cada bimestre usa só as aulas com data dentro dele (`catalogo.periodos[].inicio/fim`), o seu cronograma (`cronogramaPor`), as suas notas (`notasPor`), o progresso e as provas das apostilas dele e a sua configuração de prova (`config/prova_<turma>_<bimestre>`; o 4º de 2026 continua em `prova_<turma>`). ⚠️ Acertar as datas de 2027 quando sair o Calendário Escolar da SEMED.
 - [x] **Decidido (14/11/2026):** por bimestre e por série, **6 missões fixas + 2 extras (reserva) + 🔁 Revisão**, depois prova e 2ª chamada/recuperação. Extras não usadas passam para o bimestre seguinte (são independentes), servem para reposição/🏠 em casa e para quem termina rápido. Ano: 24 fixas + 8 extras + 4 revisões por série.
 - [x] **Decidido (14/11/2026):** adiantar agora o conteúdo (enquanto o plano Max está ativo, até 08/12). O calendário da SEMED de 2027 **não** é necessário para produzir: só entra depois, em `calendarioRede`, para as datas, o dia da prova e a ordem automática no Panorama.
 - [x] Proposta v2 enviada (14/11/2026): Claude Doc "Informática 2027: assuntos por bimestre (v2)" (https://claude.ai/artifact/D12v1z76r3XbEide8BFbyp), com 6 fixas (F1–F6) + 2 extras (E1–E2) + 🔁 Revisão por bimestre, 128 missões com código BNCC.

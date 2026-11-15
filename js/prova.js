@@ -67,7 +67,7 @@
   const fmt = n => n.toFixed(1).replace(".", ",");
 
   async function estado(s) {
-    const cfgSnap = await db().collection("config").doc("prova_" + s.turma).get();
+    if (P.carregarPeriodo) await P.carregarPeriodo(); const cfgSnap = await db().collection("config").doc(P.docProva ? P.docProva(s.turma) : "prova_" + s.turma).get();
     const cfg = cfgSnap.exists ? cfgSnap.data() : {};
     const hojeStr = N.hoje();
     const ate = cfg.ate || null;

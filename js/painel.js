@@ -61,7 +61,7 @@
   // missão do dia pelo cronograma da turma (a de hoje ou a última que já passou)
   function missaoDoDia(t, C) {
     const ag = new Date(), hoje = `${ag.getFullYear()}-${String(ag.getMonth() + 1).padStart(2, "0")}-${String(ag.getDate()).padStart(2, "0")}`;
-    const ok = Object.entries(t.missoes4 || {}).filter(([d, m]) => d <= hoje && C.missoes.some(x => x.id === m)).sort();
+    const ok = Object.entries(missoes4Bim(t)).filter(([d, m]) => d <= hoje && C.missoes.some(x => x.id === m)).sort();
     return ok.length ? ok[ok.length - 1][1] : null;
   }
   const nomeTurma = id => { const t = todasTurmas().find(x => x.id === id); return t ? t.nome + (t.serie.id === "5" ? " (5º ano)" : "") : id; };
@@ -1002,7 +1002,12 @@
     ligarSair(el);
     el.querySelector("#sel").onchange = e => { location.hash = "#/painel/prova/" + e.target.value; };
     const hoje = N.hoje();
-    const cfgRef = db().collection("config").doc("prova_" + t.id);
+    const cfgRef0 = db().collection("config").doc(P.docProva(t.id));   // 📒 uma configuração de prova por bimestre
+    // as regras do Firebase conferem o envio da prova em config/prova_<turma>: fora do bimestre legado, os campos que
+    // liberam o envio (aberta, horário, recuperação) são copiados para lá também
+    const cfgRef = { get: () => cfgRef0.get(), set: async (patch, op) => { await cfgRef0.set(patch, op);
+      if (!P.ehLegado()) { const g = {}; ["aberta", "dia", "abertaEm", "ate", "ateTs", "recuperacao", "encerradaEm"].forEach(k => { if (k in patch) g[k] = patch[k]; });
+        if (Object.keys(g).length) await db().collection("config").doc("prova_" + t.id).set(g, { merge: true }); } } };
     const [cfgSnap, alunosTodos, provasSnap, progRc] = await Promise.all([cfgRef.get(), alunosDaTurma(t.id), db().collection("provas").where("turma", "==", t.id).get(),
       db().collection("progresso").where("turma", "==", t.id).where("mid", "==", "rc").get().catch(() => ({ docs: [] }))]);
     const cfg = cfgSnap.exists ? cfgSnap.data() : {};
@@ -1026,7 +1031,7 @@
     await Promise.all(aids.map(x => P.prova.carregar(x).catch(() => null)));
     // a nota é recalculada aqui, a partir das respostas (não depende do que o navegador do aluno calculou)
     const acertos = d => { const Pv = P.provas[d.aid]; if (!Pv) return d.acertos || 0; const qs = d.qs ? Pv.questoes.filter(q => d.qs.includes(q.id)) : Pv.questoes; return qs.filter(q => d.respostas && d.respostas[q.id] != null && P.provaHash(d.aid, q.id, d.respostas[q.id]) === q.h).length; };
-    const res = {}; provasSnap.docs.forEach(x => { const d = x.data(); const ac = acertos(d), nq = d.nq || (d.qs || []).length || 10; (res[d.alunoId] = res[d.alunoId] || {})[d.tentativa] = { ...d, ac, nq, nt: P.prova.notaDe(ac, nq) }; });
+    const res = {}; provasSnap.docs.filter(x => P.aidDoPeriodo(x.data().aid)).forEach(x => { const d = x.data(); const ac = acertos(d), nq = d.nq || (d.qs || []).length || 10; (res[d.alunoId] = res[d.alunoId] || {})[d.tentativa] = { ...d, ac, nq, nt: P.prova.notaDe(ac, nq) }; });
     const nota = n => n.toFixed(1).replace(".", ",");
     // missões que a turma estudou DE VERDADE (pelo histórico das aulas: Missão de hoje › portal › cronograma), mesmo fora da ordem.
     // O painel já marca sozinho; o professor confere e pode desmarcar.
@@ -1157,18 +1162,28 @@
     return out.sort((a, b) => a.data < b.data ? -1 : 1);
   }
   const midDoTexto = s => { const m = /Miss[aã]o\s*(\d+)/i.exec(s || ""); return m ? "m" + m[1] : null; };
+  /* 📒 Diário por bimestre (15/11/2026): só as aulas com data dentro do bimestre em uso, o cronograma, as notas
+     e o progresso das apostilas daquele bimestre. O que foi salvo antes da separação vale para o bimestre legado. */
+  const cronDoBim = T => { const pid = P.periodoAtual(); const c = (T.cronogramaPor || {})[pid] || (P.ehLegado(pid) ? T.cronograma : null); return c && c.length ? c : null; };
+  const missoes4Bim = t => P.ehLegado() ? (t.missoes4 || {}) : {};
+  const aulasDoBim = snap => { const o = {}; snap.docs.forEach(d => { if (P.noPeriodo(d.id)) o[d.id] = d.data(); }); return o; };
+  const progDoBim = prog => prog.filter(p => !p.aid || P.aidDoPeriodo(p.aid));
+  const notasDoBim = T => { const pid = P.periodoAtual(), leg = P.ehLegado(pid) ? (T.notas || {}) : {}, nv = (T.notasPor || {})[pid] || {};
+    return { prova: { ...(leg.prova || {}), ...(nv.prova || {}) }, rec: { ...(leg.rec || {}), ...(nv.rec || {}) } }; };
+  const cronFiltro = l => l.filter(c => P.noPeriodo(c.data));
   async function historicoTurma(t) {
     const hoje = N.hoje();
-    const [tSnap, aulasSnap, alunosTodos, progTodos] = await Promise.all([db().collection(DIARIO).doc(t.id).get(), db().collection(DIARIO + "/" + t.id + "/aulas").get(), alunosDaTurma(t.id), progressoDaTurma(t.id)]);
+    let [tSnap, aulasSnap, alunosTodos, progTodos] = await Promise.all([db().collection(DIARIO).doc(t.id).get(), db().collection(DIARIO + "/" + t.id + "/aulas").get(), alunosDaTurma(t.id), progressoDaTurma(t.id)]);
     const T = tSnap.exists ? tSnap.data() : {};
-    const aulas = {}; aulasSnap.docs.forEach(d => { aulas[d.id] = d.data(); });
+    const aulas = aulasDoBim(aulasSnap);
     const alunos = alunosTodos.filter(a => a.ativo !== false && !a.teste);
     const ids = new Set(alunos.map(a => a.id));
+    progTodos = progDoBim(progTodos);
     const base = cat().apostilas.find(a => a.serie === t.serie.id && P.doPeriodo(a) && !a.oculta && !a.trilha);
     if (base) await P.carregarApostila(base.id).catch(() => null);
     const tituloM = m => { const C = base && P.conteudo[base.id]; const x = C && C.missoes.find(y => y.id === m); return x ? x.titulo : SIG(m); };
-    const cron = cronComRede(t, (T.cronograma && T.cronograma.length ? T.cronograma : Object.entries(t.missoes4 || {}).map(([data, m]) => ({ data, encontro: tituloM(m), mid: m }))).slice().sort((a, b) => a.data < b.data ? -1 : 1));
-    const ehDiaDeAula = d => !!aulas[d] || cron.some(c => c.data === d) || (t.aula && new Date(d + "T12:00:00").getDay() === t.aula.dia);
+    const cron = cronFiltro(cronComRede(t, (cronDoBim(T) || Object.entries(missoes4Bim(t)).map(([data, m]) => ({ data, encontro: tituloM(m), mid: m }))).slice().sort((a, b) => a.data < b.data ? -1 : 1)));
+    const ehDiaDeAula = d => P.noPeriodo(d) && (!!aulas[d] || cron.some(c => c.data === d) || (t.aula && new Date(d + "T12:00:00").getDay() === t.aula.dia));
     const auto = T.auto !== false;
     const VEIO = {}, MIS = {};   // VEIO[d] = Set(alunos que abriram o portal); MIS[d][mid] = Set(alunos naquela missão)
     progTodos.forEach(p => { if (!ids.has(p.alunoId)) return;
@@ -1290,6 +1305,7 @@
       for (let d = new Date(ini + "T12:00:00"); ; d.setDate(d.getDate() + 1)) {
         const ds = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
         if (ds > hoje) break;
+        if (!P.noPeriodo(ds)) continue;   // 📒 só o bimestre em uso
         if (d.getDay() !== t.aula.dia && !(t.missoes4 || {})[ds]) continue;
         if (ds === hoje && min < hh * 60 + mm + 90) continue; // a aula de hoje ainda não terminou
         dias.push(ds);
@@ -1431,22 +1447,23 @@
     const tRef = db().collection(DIARIO).doc(t.id), aulasCol = db().collection(DIARIO + "/" + t.id + "/aulas");
     const [tSnap, aulasSnap, alunosTodos, progTodos, provasSnap] = await Promise.all([tRef.get(), aulasCol.get(), alunosDaTurma(t.id), progressoDaTurma(t.id), db().collection("provas").where("turma", "==", t.id).get().catch(() => ({ docs: [] }))]);
     const T = tSnap.exists ? tSnap.data() : {};
-    const aulas = {}; aulasSnap.docs.forEach(d => { aulas[d.id] = d.data(); });
+    const aulas = aulasDoBim(aulasSnap);   // 📒 só as aulas deste bimestre
     const alunos = alunosTodos.filter(a => a.ativo !== false && !a.teste);
     const ids = new Set(alunos.map(a => a.id)), emCasa = new Set(alunos.filter(a => a.emCasa).map(a => a.id));
-    const prog = progTodos.filter(p => ids.has(p.alunoId));
+    const prog = progDoBim(progTodos).filter(p => ids.has(p.alunoId));
     // cronograma: o do diário; se não houver, monta pelas missões do catálogo
     const base = cat().apostilas.find(a => a.serie === t.serie.id && P.doPeriodo(a) && !a.oculta && !a.trilha);
     if (base) await P.carregarApostila(base.id).catch(() => null);
     const tituloM = m => { const C = base && P.conteudo[base.id]; const x = C && C.missoes.find(y => y.id === m); return x ? x.titulo : SIG(m); };
-    const cron = cronComRede(t, (T.cronograma && T.cronograma.length ? T.cronograma : Object.entries(t.missoes4 || {}).map(([data, m]) => ({ data, encontro: tituloM(m) }))).slice().sort((a, b) => a.data < b.data ? -1 : 1));
+    const cron = cronFiltro(cronComRede(t, (cronDoBim(T) || Object.entries(missoes4Bim(t)).map(([data, m]) => ({ data, encontro: tituloM(m) }))).slice().sort((a, b) => a.data < b.data ? -1 : 1)));
     const encontroDe = d => (aulas[d] && aulas[d].encontro) || (cron.find(c => c.data === d) || {}).encontro || "";
     // notas da prova feita no portal (maior entre a prova e a recuperação)
-    const aidsProva = [...new Set(provasSnap.docs.map(x => x.data().aid))];
+    const provasBim = provasSnap.docs.filter(x => P.aidDoPeriodo(x.data().aid));   // 📒 só as provas das apostilas deste bimestre
+    const aidsProva = [...new Set(provasBim.map(x => x.data().aid))];
     await Promise.all(aidsProva.map(x => P.prova.carregar(x).catch(() => null)));
-    const provaPortal = {}; provasSnap.docs.forEach(x => { const d = x.data(); const n = notaProvaDoc(d); provaPortal[d.alunoId] = Math.max(provaPortal[d.alunoId] ?? -1, n); });
+    const provaPortal = {}; provasBim.forEach(x => { const d = x.data(); const n = notaProvaDoc(d); provaPortal[d.alunoId] = Math.max(provaPortal[d.alunoId] ?? -1, n); });
     // ⚡ automático do portal
-    const ehDiaDeAula = d => !!aulas[d] || cron.some(c => c.data === d) || (t.aula && new Date(d + "T12:00:00").getDay() === t.aula.dia);
+    const ehDiaDeAula = d => P.noPeriodo(d) && (!!aulas[d] || cron.some(c => c.data === d) || (t.aula && new Date(d + "T12:00:00").getDay() === t.aula.dia));
     const AUTO = {}; const ad = d => AUTO[d] = AUTO[d] || { p: {}, c: {}, x: {} };
     prog.forEach(p => {
       if (p.mid === "rc") return;   // 📝 a atividade de recuperação não conta presença nem visto
@@ -1480,7 +1497,7 @@
     const parcial = (d, id) => !!(((aulas[d] || {}).parciais || {})[id]);
     const diasComChamada = () => [...new Set([...Object.keys(aulas), ...(auto ? Object.keys(AUTO) : [])])].filter(d => d <= hoje && temChamada(d)).sort();
     const freq = id => { let p = 0, f = 0, j = 0; diasComChamada().forEach(d => { const v = pres(d, id).v; if (v === "P") p++; else if (v === "F") f++; else if (v === "J") j++; }); const tot = p + f + j; return { p, f, j, tot, pct: tot ? Math.round(100 * (p + j) / tot) : null }; };
-    const notas = { prova: { ...((T.notas || {}).prova || {}) }, rec: { ...((T.notas || {}).rec || {}) } };
+    const notas = notasDoBim(T);   // 📒 notas do bimestre em uso
     // 📝 nota da atividade de recuperação feita no portal (0 a 10), só das apostilas do bimestre em uso (15/11/2026)
     const aidsBim = new Set(cat().apostilas.filter(a => a.serie === t.serie.id && P.doPeriodo(a)).map(a => a.id));
     const recPortal = {}; prog.forEach(p => { if (p.mid === "rc" && p.notaRec != null && aidsBim.has(p.aid)) recPortal[p.alunoId] = Math.max(recPortal[p.alunoId] ?? -1, +p.notaRec); });
@@ -1612,7 +1629,7 @@
         corpo.querySelectorAll("[data-np],[data-nr]").forEach(inp => inp.onchange = () => {
           const id = inp.dataset.np || inp.dataset.nr, k = inp.dataset.np ? "prova" : "rec", v = num(inp.value), max = k === "prova" ? 5 : 10;
           if (v != null && (isNaN(v) || v < 0 || v > max)) { toast(`Digite um número de 0 a ${max}.`); inp.value = ""; return; }
-          notas[k][id] = v; salvarTurma({ notas: { [k]: { [id]: v } } }); render();
+          notas[k][id] = v; salvarTurma({ notasPor: { [P.periodoAtual()]: { [k]: { [id]: v } } } }); render();
         });
         const linhas = () => alunos.map(a => ({ a, b: boletim(a.id), fr: freq(a.id) }));
         const bimTxt = ((cat().periodos || []).find(x => x.id === P.periodoAtual()) || { nome: "4º bimestre de " + hoje.slice(0, 4) }).nome, turmaTxt = nomeTurma(t.id);
@@ -1974,7 +1991,7 @@
       <li>Importe as listas novas em <a href="#/painel/importar">⚙️ Configurações › 📥 Importar alunos</a>.</li><li>Imprima os cartões com os códigos novos.</li></ol>
       <div class="row-btns"><button class="btn" id="novo" type="button">📅 Começar o ano ${esc(cfg.ano + 1)}</button></div></div>
       <div class="painel"><h2>🗓️ Bimestre em uso</h2>
-        <p>O bimestre escolhido aqui é o que os alunos veem no portal e o que o painel usa (aula, missões, Panorama, Prova). Os outros bimestres ficam guardados; dá para voltar a qualquer um.</p>
+        <p>O bimestre escolhido aqui é o que os alunos veem no portal e o que o painel usa (aula, missões, Panorama, Prova). <strong>Cada bimestre tem o seu Diário, Boletim e Prova</strong>: as aulas (pelas datas do bimestre), as notas e a configuração da prova ficam separadas. Os outros bimestres ficam guardados; dá para voltar a qualquer um e consultar.</p>
         <div class="pp-periodos" role="radiogroup" aria-label="Bimestre em uso">${(cat().periodos || []).map(pr => { const tem = cat().apostilas.some(a => (a.periodo || cat().periodoPadrao) === pr.id); const at = pr.id === P.periodoAtual();
           return `<button type="button" class="btn ${at ? "" : "btn-sec"} pp-periodo" role="radio" aria-checked="${at}" data-per="${esc(pr.id)}" ${tem ? "" : "disabled"}>${at ? "✅ " : ""}${esc(pr.nome)}${tem ? "" : " <small>(em preparação)</small>"}</button>`; }).join("")}</div>
         <p class="ajuda">Só dá para escolher um bimestre que já tem material pronto. Os de 2027 aparecem aqui assim que o material de cada um for criado.</p></div>
