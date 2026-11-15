@@ -92,7 +92,10 @@ PORTAL.catalogo = {
     /* 👣 Trilhas Passo a Passo de 2027 (o aluno marcado com 👣 no painel abre a trilha no lugar da apostila da turma) */
     { id: "informatica-6ano-2027-1bim-trilha", serie: "6", disciplina: "informatica", unidade: "1º bimestre de 2027", periodo: "2027-1",
       titulo: "Informática — 6º ano — 1º bimestre de 2027 · Trilha Passo a Passo", modo: "individual", extras: ["m7", "m8"],
-      trilha: true, oculta: true, base: "informatica-6ano-2027-1bim" }
+      trilha: true, oculta: true, base: "informatica-6ano-2027-1bim" },
+    { id: "informatica-7ano-2027-1bim-trilha", serie: "7", disciplina: "informatica", unidade: "1º bimestre de 2027", periodo: "2027-1",
+      titulo: "Informática — 7º ano — 1º bimestre de 2027 · Trilha Passo a Passo", modo: "individual", extras: ["m7", "m8"],
+      trilha: true, oculta: true, base: "informatica-7ano-2027-1bim" }
   ],
 
   /* Orientações curtas que aparecem na área do professor */

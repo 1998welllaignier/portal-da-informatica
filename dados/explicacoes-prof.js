@@ -163,6 +163,16 @@
   } };
 
   /* ===== 2027 · 6º ano · 1º bimestre ===== */
+  E["informatica-7ano-2027-1bim-trilha"] = { vf: {
+    m1: ["V: os blocos são executados de cima para baixo, um de cada vez.", "F: o repita faz os blocos de dentro várias vezes; quem escolhe o caminho é o se.", "V: variável é uma caixinha com nome que guarda um valor."],
+    m2: ["V: a lista guarda vários itens numa variável só.", "F: a posição 2 é uva; maçã é a posição 1.", "V: tamanho de conta quantos itens a lista tem."],
+    m3: ["V: o registro (ficha) junta várias informações de uma mesma coisa.", "F: no registro, achamos pelo nome do campo; pela posição é na lista.", "V: o contato do celular é uma ficha: nome, telefone, aniversário."],
+    m4: ["V: bug (inseto, em inglês) é um erro no programa.", "F: mude uma coisa de cada vez, para saber o que resolveu.", "V: comparar o obtido com o esperado mostra onde começou o erro."],
+    m5: ["V: decompor é dividir o problema grande em partes menores.", "F: o bloco próprio é escrito uma vez só e chamado quando precisar.", "V: chamar é usar o bloco no programa."],
+    m6: ["V: o piloto fica com o mouse e o teclado e monta os blocos.", "F: o navegador não pega o mouse: lê, planeja e confere.", "V: os papéis se revezam a cada 10 minutos."],
+    m7: ["V: item errado da lista é pista de posição errada.", "V: hipótese é o palpite que a gente testa.", "F: mudando tudo de uma vez, não dá para saber o que resolveu."],
+    m8: ["V: gabarito é a lista das respostas certas.", "V: o contador começa em 0 e soma 1 a cada acerto.", "F: para corrigir, o programa compara as duas listas posição por posição."]
+  } };
   E["informatica-6ano-2027-1bim-trilha"] = { vf: {
     m1: ["V: o duplo clique (dois cliques rapidinhos) abre pastas e programas.", "F: o ❌ fecha o programa; quem esconde na barra de tarefas é o ➖ Minimizar.", "V: Backspace apaga a letra que está antes do cursor."],
     m2: ["F: o microfone manda a voz para o computador: é de entrada.", "V: o processador (CPU) é o “cérebro” que faz as contas.", "V: a impressora entrega o resultado no papel: é de saída."],
