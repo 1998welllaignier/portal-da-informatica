@@ -1,0 +1,19 @@
+Listas no programa: a playlist da festa!
+
+A Bia vai cuidar das músicas da festa da turma. Ela pensou em criar uma variável para cada música: música um, música dois, música três... São trinta músicas! Vai dar trabalho demais!
+
+Para isso existe a lista: uma variável só, que guarda vários itens em ordem. Como a playlist do celular.
+
+Cada item tem uma posição, contada a partir do um. Na lista frutas, com maçã, uva, caju e açaí, o item número três é o caju.
+
+O bloco tamanho conta quantos itens a lista tem: são quatro. E adicionar no fim coloca um item novo no final. Com a banana, agora são cinco.
+
+E o bloco para cada item repete os blocos de dentro uma vez para cada item da lista. Se a lista crescer, ele percorre os itens novos também.
+
+Cuidado: pedir o item número seis de uma lista com cinco itens dá problema, porque essa posição não existe.
+
+A Bia criou a lista festa e usou o para cada: o programa tocou as trinta músicas, uma por uma. Missão cumprida!
+
+Onde eu uso isso? Na playlist, no carrinho da loja on-line e no histórico do navegador. Tudo isso são listas!
+
+Agora é com vocês: abram a Missão 2 no portal!
