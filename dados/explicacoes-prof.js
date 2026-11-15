@@ -163,6 +163,16 @@
   } };
 
   /* ===== 2027 · 6º ano · 1º bimestre ===== */
+  E["informatica-8ano-2027-1bim-trilha"] = { vf: {
+    m1: ["V: a lista guarda vários itens em ordem, com um nome só.", "F: CHAMADA[2] é Bruno; Ana é a posição 1.", "V: tamanho é a quantidade de itens."],
+    m2: ["V: inserir no fim aumenta o tamanho em 1.", "V: quem estava atrás anda uma posição para a frente.", "F: remover diminui o tamanho."],
+    m3: ["V: a busca sequencial olha um por um, do primeiro ao último.", "F: ela funciona em qualquer lista, ordenada ou não.", "V: 5, 8, 2, 9: achou na 4ª comparação."],
+    m4: ["F: a busca binária só funciona em lista ordenada.", "V: começa sempre pelo meio.", "V: cada comparação joga fora metade."],
+    m5: ["V: a bolha compara vizinhos.", "V: o maior sobe para o final na 1ª passada.", "F: 9, 6, 3, 1 é decrescente (do maior para o menor)."],
+    m6: ["V: recursão resolve com uma versão menor do mesmo problema.", "F: o caso base é a bonequinha menor, que não abre.", "V: sem caso base, ela não para nunca."],
+    m7: ["V: a cada rodada, procuramos o menor do que sobrou.", "F: o menor vai para a 1ª posição.", "V: depois da 1ª rodada, a 1ª posição está pronta."],
+    m8: ["V: no fractal, a parte parece o todo.", "V: cada triângulo vira 3 menores.", "F: um pedaço da bola não parece a bola inteira."]
+  } };
   E["informatica-7ano-2027-1bim-trilha"] = { vf: {
     m1: ["V: os blocos são executados de cima para baixo, um de cada vez.", "F: o repita faz os blocos de dentro várias vezes; quem escolhe o caminho é o se.", "V: variável é uma caixinha com nome que guarda um valor."],
     m2: ["V: a lista guarda vários itens numa variável só.", "F: a posição 2 é uva; maçã é a posição 1.", "V: tamanho de conta quantos itens a lista tem."],
