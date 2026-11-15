@@ -30,6 +30,50 @@
       "F: a calculadora serve para fazer contas. Para desenhar, usamos um programa de desenho."]
   } };
 
+  /* ===== 2027 · 9º ano · 1º bimestre ===== */
+  E["informatica-9ano-2027-1bim"] = { vf: {
+    m1: ["V: no grafo de ruas, cada esquina (ou lugar) é um vértice e cada rua, uma aresta.",
+      "F: o caminho mais curto é o de menor soma dos pesos; a rua direta do exemplo tem 1 aresta, mas soma 9.",
+      "V: o peso é o número da aresta (minutos, metros).",
+      "V: o grau é quantas arestas saem do vértice.",
+      "V: o tamanho de um caminho é a soma dos pesos das arestas dele."],
+    m2: ["V: na computação, a árvore é desenhada de cabeça para baixo: raiz em cima.",
+      "F: folha é o vértice que NÃO tem filhos, no fim do galho.",
+      "V: cada pasta tem uma pasta-mãe e não há voltas: é uma árvore.",
+      "F: árvore não tem ciclos; se tiver uma volta, deixa de ser árvore.",
+      "V: numa árvore existe um único caminho entre dois vértices."],
+    m3: ["V: as folhas da árvore de decisão são as decisões finais.",
+      "V: cada galho é uma resposta (sim ou não).",
+      "F: “Ele é legal?” é opinião, sem resposta clara: pergunta ruim.",
+      "V: 3 perguntas de sim ou não separam 2 × 2 × 2 = 8 opções.",
+      "V: “digite 1 para…, 2 para…” é uma árvore de decisão."],
+    m4: ["V: a lista de vizinhos (adjacência) guarda, para cada vértice, os vértices ligados a ele.",
+      "V: o grau é o tamanho da lista de vizinhos.",
+      "V: no programa, a árvore de decisão vira se dentro de se (se aninhado).",
+      "F: vizinhos são vértices ligados por uma aresta.",
+      "V: a rede social guarda a lista de amigos (vizinhos) de cada pessoa."],
+    m5: ["V: o autômato está sempre em algum estado.",
+      "V: transição é a mudança de um estado para outro.",
+      "F: travada + empurrar continua travada; só gira depois do cartão.",
+      "V: a tabela de transição diz o próximo estado para cada estado e entrada.",
+      "V: o semáforo é um autômato de 3 estados."],
+    m6: ["V: o programa por eventos espera algo acontecer e reage.",
+      "F: o tratador roda toda vez que o evento acontece.",
+      "V: tocar no ícone é um evento.",
+      "V: o sensor percebe algo e gera um evento (ex.: porta automática).",
+      "V: uma variável guarda o estado e os eventos fazem as transições."],
+    m7: ["V: o semáforo tem verde, amarelo e vermelho.",
+      "F: depois do amarelo vem o vermelho; o verde vem depois do vermelho.",
+      "V: o temporizador gera o evento (tique) quando o tempo acaba.",
+      "V: na regra da missão, o botão de pedestre leva o verde para o amarelo.",
+      "V: o ciclo repete sempre: verde → amarelo → vermelho → verde."],
+    m8: ["V: cada lugar é um vértice e cada corredor, uma aresta.",
+      "V: o Pátio liga Portão, Cantina, Informática e Biblioteca: grau 4.",
+      "F: Portão → Pátio → Informática = 1 + 2 = 3 minutos.",
+      "V: sem a aresta, é preciso procurar outro caminho (ex.: 4 minutos pela Biblioteca).",
+      "F: a rota de fuga é o caminho mais curto e seguro até a saída."]
+  } };
+
   /* ===== 2027 · 8º ano · 1º bimestre ===== */
   E["informatica-8ano-2027-1bim"] = { vf: {
     m1: ["V: a lista guarda vários itens em ordem, com um nome só (também chamada de vetor ou array).",
