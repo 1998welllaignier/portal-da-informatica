@@ -155,10 +155,10 @@ Para decidir com o professor no salão. Cada item: manter, juntar ou desligar.
 - **Turmas de segunda (6º C, 7º C, 9º A, 9º B) — decidido em 14/11: caminho A.** 16/11 M2 · 23/11 🔁 Revisão (M1+M2) · 07/12 prova **só M1 e M2**. A M3 fica para depois da prova, como conteúdo.
 - **Regra da M4 (14/11):** só aprofunda o assunto **da própria série**; nunca adianta o que a turma vai ver na série seguinte em 2027 (nem programação em blocos, que está reservada para o editor do portal em 2027). Ao planejar 2027, conferir esta lista para não repetir com os mesmos alunos.
 - **Temas da M4 (decididos em 14/11; **só desta vez** o Claude escolheu sozinho e informou — nas próximas, confirmar com o professor antes).** Conferidos com o documento "Informática 2027: proposta de assuntos por série": cada M4 usa uma habilidade da BNCC **da própria série** que a turma ainda não viu e que **não** está na série seguinte de 2027 — assim não repete para os mesmos alunos e o material já serve para a série em 2027.
-  - 6º 💾 **Guardar, compactar e achar arquivos: bits, bytes e o tamanho dos arquivos** (EF06CO08) — reaproveita no 6º 2027, 4º bim · M2.
-  - 7º 🗺️ **Grafos: mapas, caminhos e conexões** (EF07CO04) — reaproveita no 7º 2027, 2º bim · M2.
-  - 8º 📜 **Termos de uso: o que eu aceitei?** (EF08CO09) — reaproveita no 8º 2027, 3º bim · M3.
-  - 9º 🤖 **Inteligência artificial: impactos na vida, no trabalho e na cidade** (EF09CO07) — reaproveita no 9º 2027, 3º bim · M3.
+  - 6º 💾 **Guardar, compactar e achar arquivos: bits, bytes e o tamanho dos arquivos** (EF06CO08) — reaproveita no 6º 2027, 4º bim · F3.
+  - 7º 🗺️ **Grafos: mapas, caminhos e conexões** (EF07CO04) — reaproveita no 7º 2027, 2º bim · F1.
+  - 8º 📜 **Termos de uso: o que eu aceitei?** (EF08CO09) — reaproveita no 8º 2027, 3º bim · F4.
+  - 9º 🤖 **Inteligência artificial: impactos na vida, no trabalho e na cidade** (EF09CO07) — reaproveita no 9º 2027, 3º bim · F5.
 - ✅ **Feito em 14/11/2026 (noite):** M4 do 6º, 7º, 8º e 9º (apostila, apostila ilustrada, atividades, Trilha 👣, prova, roteiro, explicações para o professor e narração do vídeo em `docs/roteiros/narracao-m4.md`); 🔁 Revisão de todas as séries e trilhas, filtrando só as missões da turma; Panorama/cronogramas com a Revisão na última aula e a M4 onde sobra aula.
 - **Falta:** os vídeos das M4 (o professor gera o áudio com as narrações e manda o MP3: 7º B 24/11, 8º 25/11, 6º e 9º D 26/11); conferir com o login de verdade, na segunda 16/11, a Missão de hoje sugerida e o Panorama de cada turma; a nota da apostila no Quadro de notas passa a ter a linha da Missão 4 (a decidir: se a M4 e a Revisão entram na nota da apostila).
 - **5º ano (atendimento individual, por vontade do professor): fora deste planejamento.** Sem prova; no dia da prova faz outra tarefa. Não gastar esforço com ele agora.
@@ -201,7 +201,8 @@ Para decidir com o professor no salão. Cada item: manter, juntar ou desligar.
 - [ ] Separar Diário, Boletim e Prova por bimestre (cada bimestre com as suas aulas e notas), antes do 1º bimestre de 2027.
 - [x] **Decidido (14/11/2026):** por bimestre e por série, **6 missões fixas + 2 extras (reserva) + 🔁 Revisão**, depois prova e 2ª chamada/recuperação. Extras não usadas passam para o bimestre seguinte (são independentes), servem para reposição/🏠 em casa e para quem termina rápido. Ano: 24 fixas + 8 extras + 4 revisões por série.
 - [x] **Decidido (14/11/2026):** adiantar agora o conteúdo (enquanto o plano Max está ativo, até 08/12). O calendário da SEMED de 2027 **não** é necessário para produzir: só entra depois, em `calendarioRede`, para as datas, o dia da prova e a ordem automática no Panorama.
-- [ ] Revisar o documento "Informática 2027: proposta de assuntos por série" com essa quantidade (e com as M4 e Revisões de 2026) e mandar para o professor aprovar.
+- [x] Proposta v2 enviada (14/11/2026): Claude Doc "Informática 2027: assuntos por bimestre (v2)" (https://claude.ai/artifact/D12v1z76r3XbEide8BFbyp), com 6 fixas (F1–F6) + 2 extras (E1–E2) + 🔁 Revisão por bimestre, 128 missões com código BNCC.
+- [ ] Professor aprovar ou ajustar os assuntos da v2; depois produzir o 1º bimestre das quatro séries.
 - [ ] Depois de aprovado: material completo por bimestre, na ordem (1º bimestre primeiro). A 🔁 Revisão já nasce junto com cada bimestre (blocos por missão; o portal mostra só as missões dadas). Vídeos: perto da época, ou adiantados aos poucos para não estourar o limite semanal.
 
 ## 4. Início de 2027
