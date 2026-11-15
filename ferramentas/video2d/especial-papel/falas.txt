@@ -1,0 +1,23 @@
+Meu papel de parede: o caso da imagem rebelde!
+
+O Lucas achou na internet a imagem perfeita: o estádio do time dele, à noite, com todas as luzes acesas. Baixou, abriu no navegador... linda! Mas, quando foi colocar no papel de parede, nada. A opção nem apareceu. O que aconteceu?
+
+O culpado tem nome: o formato da imagem. Todo arquivo tem um final, depois do ponto, chamado extensão. E a imagem do Lucas terminava em ponto webp.
+
+Mas, antes de resolver, descubra qual é o seu Windows. Olhe a barra de tarefas. O botão Iniciar está no centro? Windows 11. No canto esquerdo? Windows 10. Para ter certeza, aperte a tecla do Windows junto com a letra R, digite winver e aperte Enter. A janela mostra a versão!
+
+O papel de parede do Windows aceita imagens jpg, png, bmp e gif. Mas webp, não. E o jxl, o novo jpeg, também ainda não.
+
+E por que tanto site usa webp? Porque a imagem fica bem menor, e o site abre mais rápido. O navegador entende. O papel de parede, ainda não.
+
+Como descobrir o formato? Abra o Explorador de Arquivos, entre na pasta Downloads e olhe a coluna Tipo. Lá está escrito: Arquivo WEBP.
+
+Agora, a solução, em quatro passos. Um: clique com o botão direito na imagem, Abrir com, Paint. Dois: no Paint, clique em Arquivo, Salvar como, Imagem PNG. Três: clique em Salvar. Quatro: botão direito na imagem nova e Definir como plano de fundo da área de trabalho.
+
+Atenção: só trocar o nome de webp para png não adianta! Por dentro, a imagem continua sendo webp. Converter é salvar de novo, em outro formato.
+
+E o Lucas? Estádio aceso no papel de parede. Missão cumprida!
+
+Onde eu uso isso? No papel de parede, nos sites que avisam formato não suportado e sempre que um programa pede outro tipo de imagem.
+
+Agora é com vocês: abram a aula especial no portal e treinem no simulador!

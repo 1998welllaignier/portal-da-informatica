@@ -13,11 +13,10 @@ e, no vídeo do estudo em casa, `catalogo.videoCasa`). Depois de ligado, o víde
 | Missão 4 · Guardar, compactar e achar arquivos | 6º ano · Turmas A e B | 6ano-M4-Guardar-compactar-achar-arquivos-4bim2026.mp4 | 14/11/2026 |
 | Missão 4 · Inteligência artificial: impactos | 9º ano · Turma D | 9ano-M4-Inteligencia-artificial-4bim2026.mp4 | 14/11/2026 |
 | 🏠 Instruções do estudo em casa (vai no portal como `catalogo.videoCasa`) | 6º ao 9º ano | Estudo-em-casa-instrucoes-2026.mp4 | 14/11/2026 |
+| ⭐ Aula especial · Meu papel de parede: o caso da imagem rebelde (vai no roteiro da aula especial das 4 séries) | 6º ao 9º ano (o mesmo vídeo) | Aula-especial-Papel-de-parede-2026.mp4 | 15/11/2026 |
 
 ## ⏳ Esperando o áudio (MP3) do professor
-| Vídeo | Série / turmas | Narração | Pedido em |
-|---|---|---|---|
-| ⭐ Aula especial · Meu papel de parede (o caso da imagem rebelde) | 6º ao 9º ano (o mesmo vídeo) | `docs/roteiros/aula-especial-papel-de-parede.md` | 15/11/2026 |
+_(nenhum: todos os áudios combinados chegaram)_
 
 ## ✅ No ar e ligados no portal
 | Série | M1 | M2 | M3 |
