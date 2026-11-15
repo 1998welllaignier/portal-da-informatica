@@ -30,6 +30,50 @@
       "F: a calculadora serve para fazer contas. Para desenhar, usamos um programa de desenho."]
   } };
 
+  /* ===== 2027 · 8º ano · 1º bimestre ===== */
+  E["informatica-8ano-2027-1bim"] = { vf: {
+    m1: ["V: a lista guarda vários itens em ordem, com um nome só (também chamada de vetor ou array).",
+      "F: CHAMADA[1] é Ana; CHAMADA[2] é Bruno. As posições começam no 1.",
+      "V: tamanho = quantos itens a lista tem; a última posição é igual ao tamanho.",
+      "V: 3, 8, 12, 20 vai do menor para o maior: crescente.",
+      "F: percorrer é passar por todos os itens, do primeiro ao último."],
+    m2: ["V: inserir no fim acrescenta um item; ninguém muda de lugar.",
+      "V: quem estava atrás anda uma posição para a frente para ocupar o lugar vazio.",
+      "F: inserir na posição 1 empurra todos os outros uma posição para trás.",
+      "V: o contador começa em 0 e soma 1 a cada vez que o item passa no teste.",
+      "F: remover tira um item, então o tamanho diminui."],
+    m3: ["V: a busca sequencial olha um por um, em sequência.",
+      "F: a busca sequencial funciona em qualquer lista; quem precisa de lista ordenada é a binária.",
+      "V: 5, 8, 2, 9: o 9 aparece na 4ª comparação.",
+      "F: o primeiro da lista é o melhor caso (1 comparação); o pior é o último ou não estar na lista.",
+      "V: no pior caso, olha os 1.000 itens."],
+    m4: ["F: a busca binária só funciona em lista ordenada; sem ordem, não dá para saber que metade descartar.",
+      "V: começa sempre pelo item do meio.",
+      "V: a cada comparação, metade da lista é descartada.",
+      "V: 100 → 50 → 25 → 13 → 7 → 4 → 2 → 1: no máximo 7 comparações.",
+      "F: em lista grande e ordenada, a binária é muito mais rápida (1.000 itens: 10 comparações contra 1.000)."],
+    m5: ["V: o método da bolha compara sempre itens vizinhos.",
+      "F: para crescente, troca quando o da esquerda é MAIOR.",
+      "V: a cada passada, o maior que falta sobe para o final, como uma bolha.",
+      "V: uma passada sem trocas mostra que a lista já está ordenada.",
+      "F: 9, 6, 3, 1 vai do maior para o menor: é decrescente."],
+    m6: ["V: recursão resolve o problema com uma versão menor dele mesmo.",
+      "V: o caso base é a condição de parada; sem ele, não para.",
+      "F: o caso base da matrioska é a última bonequinha, a que não abre.",
+      "V: sem caso base, a recursão não para (como dois espelhos frente a frente).",
+      "V: cada pasta pode ter pastas dentro, do mesmo jeito: estrutura recursiva."],
+    m7: ["V: a cada rodada, procura o menor do que sobrou (o mínimo).",
+      "F: na 1ª rodada, o menor vai para a PRIMEIRA posição.",
+      "V: no máximo uma troca por rodada; por isso troca menos que a bolha.",
+      "V: a bolha compara sempre vizinhos.",
+      "V: depois da 1ª rodada, a 1ª posição já tem o menor de todos e não muda mais."],
+    m8: ["V: fractal tem autossemelhança: a parte parece o todo.",
+      "V: no triângulo de Sierpinski, cada triângulo vira 3 menores.",
+      "F: no nível 2 são 9 triângulos (3 × 3), não 6.",
+      "V: fractais repetem a mesma regra dentro de si: recursão.",
+      "F: a bola lisa não repete a forma do todo nas partes; não é fractal."]
+  } };
+
   /* ===== 2027 · 7º ano · 1º bimestre ===== */
   E["informatica-7ano-2027-1bim"] = { vf: {
     m1: ["V: o computador lê os blocos de cima para baixo, um de cada vez.",

@@ -159,7 +159,7 @@
     const dizer = v => { saida.push(mostrarValor(v)); if (saida.length > 200) throw new Error("MUITO"); };
     const campo = (f, k) => (f && typeof f === "object" && k in f) ? f[k] : "(sem " + k + ")";
     try { new Function("dizer", "campo", "let __lim = 5000;\n" + codigo)(dizer, campo); return { saida }; }
-    catch (e) { return { saida, erro: /LOOP|MUITO/.test(e.message) ? "O programa não parou: alguma repetição ficou sem fim." : "O programa travou: " + e.message }; }
+    catch (e) { return { saida, erro: /LOOP|MUITO/.test(e.message) ? "O programa não parou: alguma repetição ficou sem fim." : (e instanceof RangeError ? "O bloco chamou a si mesmo sem parar: falta a condição de parada (o caso base)." : "O programa travou: " + e.message) }; }
   }
   const norm = s => String(s == null ? "" : s).normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/\s+/g, " ").trim();
 
