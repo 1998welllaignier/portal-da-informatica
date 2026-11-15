@@ -163,6 +163,16 @@
   } };
 
   /* ===== 2027 · 6º ano · 1º bimestre ===== */
+  E["informatica-6ano-2027-1bim-trilha"] = { vf: {
+    m1: ["V: o duplo clique (dois cliques rapidinhos) abre pastas e programas.", "F: o ❌ fecha o programa; quem esconde na barra de tarefas é o ➖ Minimizar.", "V: Backspace apaga a letra que está antes do cursor."],
+    m2: ["F: o microfone manda a voz para o computador: é de entrada.", "V: o processador (CPU) é o “cérebro” que faz as contas.", "V: a impressora entrega o resultado no papel: é de saída."],
+    m3: ["V: o mouse é uma peça que dá para tocar: hardware.", "F: o navegador é um programa: software.", "V: o sistema operacional (Windows, Android) comanda o computador e os outros programas."],
+    m4: ["F: .mp3 é música; foto é .jpg.", "V: a pasta é a gaveta que guarda e organiza os arquivos.", "V: Ctrl + S salva (S de save, salvar em inglês)."],
+    m5: ["V: a idade serve para contas: é número.", "F: ninguém soma telefones: o telefone é texto.", "V: a tabela tem linhas (deitadas) e colunas (em pé)."],
+    m6: ["V: na internet, tudo em maiúsculas parece grito.", "F: a senha é como a chave de casa: não se passa nem para o melhor amigo.", "V: desconhecido pedindo segredo é perigo: parar e contar a um adulto de confiança."],
+    m7: ["V: o risquinho do F e do J ajuda a achar a fileira base sem olhar.", "F: no teclado brasileiro, o acento vem antes da letra.", "V: Shift + letra faz a maiúscula."],
+    m8: ["V: Ctrl + C copia e Ctrl + V cola.", "V: Ctrl + Z desfaz o último passo.", "F: recortar tira do lugar; quem deixa o original é copiar."]
+  } };
   E["informatica-6ano-2027-1bim"] = { vf: {
     m1: ["V: o duplo clique (dois cliques rapidinhos) abre pastas, arquivos e programas; um clique só apenas seleciona.",
       "F: o ❌ fecha a janela e o programa. Quem esconde na barra de tarefas é o ➖ Minimizar.",

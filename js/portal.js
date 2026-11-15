@@ -1164,7 +1164,7 @@
   /* -------- Trilhas Passo a Passo (só pela Área do professor) -------- */
   async function telaTrilhas() {
     barra();
-    const lista = cat().apostilas.filter(a => a.trilha);
+    const lista = cat().apostilas.filter(a => a.trilha).sort((a, b) => (P.doPeriodo(b) ? 1 : 0) - (P.doPeriodo(a) ? 1 : 0));  // as do bimestre em uso primeiro
     await Promise.all(lista.map(a => carregar(a.id).catch(() => null)));
     const base = location.href.split("#")[0];
     const el = mount(`<section class="tela">
