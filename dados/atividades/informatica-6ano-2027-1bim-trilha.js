@@ -353,3 +353,40 @@ PORTAL.registrarAtividades("informatica-6ano-2027-1bim-trilha", {
     ]
   }
 });
+
+/* ===== 📝 ATIVIDADE DE RECUPERAÇÃO (rc) — 15/11/2026 =====
+   Liberada por aluno no painel (📝 Prova › Atividade de recuperação). Entram só as missões que a turma estudou (de: "mN").
+   Por missão: perguntas novas + 1 atividade interativa do Básico da própria missão. Sem dica, sem resolução e sem refazer;
+   a nota (0 a 10) vai sozinha para o Boletim. Gerado por ferramentas/recuperacao_2027/gerar_rc.py; para mudar, edite aqui mesmo. */
+(function () {
+  const A = PORTAL.atividades["informatica-6ano-2027-1bim-trilha"]; if (!A) return;
+  const OK = ["classificar", "ligar", "ordenar", "tabela", "sinais", "lista_ops", "sequencial", "busca_binaria", "bolha", "arvore", "grafo_montar", "mensagens", "explorador_pastas", "rota"];
+  const pega = mid => { const x = ((A[mid] || {}).basico || []).find(a => OK.includes(a.tipo));
+    return x ? Object.assign({}, x, { de: mid, titulo: mid.toUpperCase() + " · " + String(x.titulo || "").replace(/^Passo \d+ · /, "") }) : null; };
+  A.rc = { basico: [
+    { tipo: "escolha", de: "m1", titulo: "M1 · Mouse, teclado e janelas", perguntas: [{"p": "Para abrir uma pasta, eu dou:", "opcoes": ["Duplo clique", "Clique direito"], "certo": 0}, {"p": "Qual botão fecha a janela?", "opcoes": ["➖ Minimizar", "❌ Fechar"], "certo": 1}],
+      explicacao: "Para abrir uma pasta, eu dou: → <strong>Duplo clique</strong> · Qual botão fecha a janela? → <strong>❌ Fechar</strong>" },
+    pega("m1"),
+    { tipo: "escolha", de: "m2", titulo: "M2 · Entrada e saída", perguntas: [{"p": "O mouse é de:", "opcoes": ["Entrada", "Saída"], "certo": 0}, {"p": "O monitor é de:", "opcoes": ["Entrada", "Saída"], "certo": 1}],
+      explicacao: "O mouse é de: → <strong>Entrada</strong> · O monitor é de: → <strong>Saída</strong>" },
+    pega("m2"),
+    { tipo: "escolha", de: "m3", titulo: "M3 · Hardware e software", perguntas: [{"p": "O teclado é:", "opcoes": ["Hardware", "Software"], "certo": 0}, {"p": "A calculadora do celular é:", "opcoes": ["Hardware", "Software"], "certo": 1}],
+      explicacao: "O teclado é: → <strong>Hardware</strong> · A calculadora do celular é: → <strong>Software</strong>" },
+    pega("m3"),
+    { tipo: "escolha", de: "m4", titulo: "M4 · Pastas e arquivos", perguntas: [{"p": "A extensão .mp3 é de:", "opcoes": ["Música", "Foto"], "certo": 0}, {"p": "Qual atalho salva?", "opcoes": ["Ctrl + Z", "Ctrl + S"], "certo": 1}],
+      explicacao: "A extensão .mp3 é de: → <strong>Música</strong> · Qual atalho salva? → <strong>Ctrl + S</strong>" },
+    pega("m4"),
+    { tipo: "escolha", de: "m5", titulo: "M5 · Tipos de dados", perguntas: [{"p": "O nome “Maria” é:", "opcoes": ["Texto", "Número"], "certo": 0}, {"p": "A lista de compras é:", "opcoes": ["Um vídeo", "Uma lista"], "certo": 1}],
+      explicacao: "O nome “Maria” é: → <strong>Texto</strong> · A lista de compras é: → <strong>Uma lista</strong>" },
+    pega("m5"),
+    { tipo: "escolha", de: "m6", titulo: "M6 · Boa convivência na rede", perguntas: [{"p": "Escrever TUDO EM MAIÚSCULAS parece:", "opcoes": ["Grito", "Elogio"], "certo": 0}, {"p": "A senha eu passo para:", "opcoes": ["O melhor amigo", "Ninguém"], "certo": 1}],
+      explicacao: "Escrever TUDO EM MAIÚSCULAS parece: → <strong>Grito</strong> · A senha eu passo para: → <strong>Ninguém</strong>" },
+    pega("m6"),
+    { tipo: "escolha", de: "m7", titulo: "M7 · Digitação", perguntas: [{"p": "Quais teclas têm o risquinho?", "opcoes": ["F e J", "A e L"], "certo": 0}, {"p": "Para a letra maiúscula, seguro:", "opcoes": ["Enter", "Shift"], "certo": 1}],
+      explicacao: "Quais teclas têm o risquinho? → <strong>F e J</strong> · Para a letra maiúscula, seguro: → <strong>Shift</strong>" },
+    pega("m7"),
+    { tipo: "escolha", de: "m8", titulo: "M8 · Atalhos", perguntas: [{"p": "Ctrl + C serve para:", "opcoes": ["Copiar", "Colar"], "certo": 0}, {"p": "Ctrl + V serve para:", "opcoes": ["Desfazer", "Colar"], "certo": 1}],
+      explicacao: "Ctrl + C serve para: → <strong>Copiar</strong> · Ctrl + V serve para: → <strong>Colar</strong>" },
+    pega("m8")
+  ].filter(Boolean) };
+})();

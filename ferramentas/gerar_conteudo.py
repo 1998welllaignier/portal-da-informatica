@@ -137,6 +137,8 @@ def missao_id(titulo, idx):
         return "pf"
     if "Revisão" in titulo:
         return "rv"
+    if "recuperação" in titulo.lower():
+        return "rc"
     return "s%d" % idx
 
 

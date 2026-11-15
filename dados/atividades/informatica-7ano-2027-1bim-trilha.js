@@ -377,3 +377,40 @@
   }
   });
 })();
+
+/* ===== 📝 ATIVIDADE DE RECUPERAÇÃO (rc) — 15/11/2026 =====
+   Liberada por aluno no painel (📝 Prova › Atividade de recuperação). Entram só as missões que a turma estudou (de: "mN").
+   Por missão: perguntas novas + 1 atividade interativa do Básico da própria missão. Sem dica, sem resolução e sem refazer;
+   a nota (0 a 10) vai sozinha para o Boletim. Gerado por ferramentas/recuperacao_2027/gerar_rc.py; para mudar, edite aqui mesmo. */
+(function () {
+  const A = PORTAL.atividades["informatica-7ano-2027-1bim-trilha"]; if (!A) return;
+  const OK = ["classificar", "ligar", "ordenar", "tabela", "sinais", "lista_ops", "sequencial", "busca_binaria", "bolha", "arvore", "grafo_montar", "mensagens", "explorador_pastas", "rota"];
+  const pega = mid => { const x = ((A[mid] || {}).basico || []).find(a => OK.includes(a.tipo));
+    return x ? Object.assign({}, x, { de: mid, titulo: mid.toUpperCase() + " · " + String(x.titulo || "").replace(/^Passo \d+ · /, "") }) : null; };
+  A.rc = { basico: [
+    { tipo: "escolha", de: "m1", titulo: "M1 · Programar com blocos", perguntas: [{"p": "O bloco repita serve para:", "opcoes": ["Fazer várias vezes", "Escolher um caminho"], "certo": 0}, {"p": "O computador lê os blocos:", "opcoes": ["De baixo para cima", "De cima para baixo"], "certo": 1}],
+      explicacao: "O bloco repita serve para: → <strong>Fazer várias vezes</strong> · O computador lê os blocos: → <strong>De cima para baixo</strong>" },
+    pega("m1"),
+    { tipo: "escolha", de: "m2", titulo: "M2 · Listas", perguntas: [{"p": "Lista maçã, uva, caju, açaí. O item da posição 3 é:", "opcoes": ["caju", "uva"], "certo": 0}, {"p": "O tamanho dessa lista é:", "opcoes": ["3", "4"], "certo": 1}],
+      explicacao: "Lista maçã, uva, caju, açaí. O item da posição 3 é: → <strong>caju</strong> · O tamanho dessa lista é: → <strong>4</strong>" },
+    pega("m2"),
+    { tipo: "escolha", de: "m3", titulo: "M3 · Registros", perguntas: [{"p": "No campo idade = 12, o valor é:", "opcoes": ["12", "idade"], "certo": 0}, {"p": "O contato do celular é:", "opcoes": ["Um bloco repita", "Uma ficha (registro)"], "certo": 1}],
+      explicacao: "No campo idade = 12, o valor é: → <strong>12</strong> · O contato do celular é: → <strong>Uma ficha (registro)</strong>" },
+    pega("m3"),
+    { tipo: "escolha", de: "m4", titulo: "M4 · Depurar", perguntas: [{"p": "Depurar é:", "opcoes": ["Achar e consertar o erro", "Apagar o programa"], "certo": 0}, {"p": "O método do detetive começa por:", "opcoes": ["Apagar tudo", "Rodar"], "certo": 1}],
+      explicacao: "Depurar é: → <strong>Achar e consertar o erro</strong> · O método do detetive começa por: → <strong>Rodar</strong>" },
+    pega("m4"),
+    { tipo: "escolha", de: "m5", titulo: "M5 · Decompor e reaproveitar", perguntas: [{"p": "Dividir um problema em partes é:", "opcoes": ["Decompor", "Depurar"], "certo": 0}, {"p": "Usar o bloco próprio no programa é:", "opcoes": ["Apagar", "Chamar"], "certo": 1}],
+      explicacao: "Dividir um problema em partes é: → <strong>Decompor</strong> · Usar o bloco próprio no programa é: → <strong>Chamar</strong>" },
+    pega("m5"),
+    { tipo: "escolha", de: "m6", titulo: "M6 · Programar em dupla", perguntas: [{"p": "Quem monta os blocos?", "opcoes": ["O piloto", "O navegador"], "certo": 0}, {"p": "O erro do programa é:", "opcoes": ["Só do piloto", "Da dupla"], "certo": 1}],
+      explicacao: "Quem monta os blocos? → <strong>O piloto</strong> · O erro do programa é: → <strong>Da dupla</strong>" },
+    pega("m6"),
+    { tipo: "escolha", de: "m7", titulo: "M7 · Desafios de depuração", perguntas: [{"p": "Apareceu o item errado da lista. O erro provável é:", "opcoes": ["Posição errada", "Nome do campo"], "certo": 0}, {"p": "Apareceu “(sem idade)”. O erro provável é:", "opcoes": ["Posição errada", "Nome do campo diferente"], "certo": 1}],
+      explicacao: "Apareceu o item errado da lista. O erro provável é: → <strong>Posição errada</strong> · Apareceu “(sem idade)”. O erro provável é: → <strong>Nome do campo diferente</strong>" },
+    pega("m7"),
+    { tipo: "escolha", de: "m8", titulo: "M8 · O placar do quiz", perguntas: [{"p": "O gabarito é:", "opcoes": ["A lista das respostas certas", "A lista dos jogadores"], "certo": 0}, {"p": "O contador começa em:", "opcoes": ["10", "0"], "certo": 1}],
+      explicacao: "O gabarito é: → <strong>A lista das respostas certas</strong> · O contador começa em: → <strong>0</strong>" },
+    pega("m8")
+  ].filter(Boolean) };
+})();

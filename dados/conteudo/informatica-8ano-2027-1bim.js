@@ -1336,6 +1336,56 @@ PORTAL.registrarConteudo("informatica-8ano-2027-1bim", {
    "vf": [],
    "resumo": null,
    "autoavaliacao": []
+  },
+  {
+   "id": "rc",
+   "icone": "📝",
+   "titulo": "Atividade de recuperação",
+   "objetivo": "mostrar o que você aprendeu nas missões que a sua turma estudou e recuperar a nota do bimestre.",
+   "comecar": [
+    {
+     "t": "p",
+     "h": "Esta atividade só aparece para quem o professor <strong>liberou</strong>. Ela vale <strong>nota de 0 a 10</strong>, que entra sozinha no boletim, no lugar da recuperação (quando for maior que a sua nota)."
+    },
+    {
+     "t": "tabela",
+     "cab": [
+      "Como funciona",
+      "O que quer dizer"
+     ],
+     "linhas": [
+      [
+       "📚 Só as missões estudadas",
+       "O portal mostra só as missões que a sua turma estudou"
+      ],
+      [
+       "🎯 Vale nota",
+       "Atividade certa de primeira vale o ponto inteiro; cada erro tira um pouco"
+      ],
+      [
+       "🚫 Sem dica",
+       "Aqui não tem 💡 Dica nem 📘 resolução comentada: é a hora de mostrar o que você sabe"
+      ],
+      [
+       "🔎 Pode consultar",
+       "Antes de responder, abra a missão e releia o 💡 Para começar e o 🧠 Resumo da Aula"
+      ]
+     ]
+    },
+    {
+     "t": "p",
+     "h": "<strong>Dica de ouro:</strong> leia com calma e só clique em <strong>Verificar</strong> quando tiver certeza."
+    }
+   ],
+   "termos": [],
+   "ondeUso": {
+    "itens": [],
+    "reflexao": ""
+   },
+   "alertas": [],
+   "vf": [],
+   "resumo": null,
+   "autoavaliacao": []
   }
  ]
 });

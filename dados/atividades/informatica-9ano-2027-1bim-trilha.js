@@ -347,3 +347,40 @@
   }
   });
 })();
+
+/* ===== 📝 ATIVIDADE DE RECUPERAÇÃO (rc) — 15/11/2026 =====
+   Liberada por aluno no painel (📝 Prova › Atividade de recuperação). Entram só as missões que a turma estudou (de: "mN").
+   Por missão: perguntas novas + 1 atividade interativa do Básico da própria missão. Sem dica, sem resolução e sem refazer;
+   a nota (0 a 10) vai sozinha para o Boletim. Gerado por ferramentas/recuperacao_2027/gerar_rc.py; para mudar, edite aqui mesmo. */
+(function () {
+  const A = PORTAL.atividades["informatica-9ano-2027-1bim-trilha"]; if (!A) return;
+  const OK = ["classificar", "ligar", "ordenar", "tabela", "sinais", "lista_ops", "sequencial", "busca_binaria", "bolha", "arvore", "grafo_montar", "mensagens", "explorador_pastas", "rota"];
+  const pega = mid => { const x = ((A[mid] || {}).basico || []).find(a => OK.includes(a.tipo));
+    return x ? Object.assign({}, x, { de: mid, titulo: mid.toUpperCase() + " · " + String(x.titulo || "").replace(/^Passo \d+ · /, "") }) : null; };
+  A.rc = { basico: [
+    { tipo: "escolha", de: "m1", titulo: "M1 · Grafos", perguntas: [{"p": "No grafo do mapa, uma esquina é um:", "opcoes": ["Vértice", "Peso"], "certo": 0}, {"p": "O caminho mais curto é o de:", "opcoes": ["Maior soma", "Menor soma"], "certo": 1}],
+      explicacao: "No grafo do mapa, uma esquina é um: → <strong>Vértice</strong> · O caminho mais curto é o de: → <strong>Menor soma</strong>" },
+    pega("m1"),
+    { tipo: "escolha", de: "m2", titulo: "M2 · Árvores", perguntas: [{"p": "Na árvore, o vértice sem filhos é a:", "opcoes": ["Folha", "Raiz"], "certo": 0}, {"p": "A raiz Documentos está no nível:", "opcoes": ["2", "0"], "certo": 1}],
+      explicacao: "Na árvore, o vértice sem filhos é a: → <strong>Folha</strong> · A raiz Documentos está no nível: → <strong>0</strong>" },
+    pega("m2"),
+    { tipo: "escolha", de: "m3", titulo: "M3 · Árvores de decisão", perguntas: [{"p": "É eletrônico? Sim. Tem tela? Não. O objeto é:", "opcoes": ["Teclado", "Monitor"], "certo": 0}, {"p": "Uma boa pergunta tem resposta:", "opcoes": ["Diferente para cada pessoa", "Clara (sim ou não)"], "certo": 1}],
+      explicacao: "É eletrônico? Sim. Tem tela? Não. O objeto é: → <strong>Teclado</strong> · Uma boa pergunta tem resposta: → <strong>Clara (sim ou não)</strong>" },
+    pega("m3"),
+    { tipo: "escolha", de: "m4", titulo: "M4 · Programar com grafos e árvores", perguntas: [{"p": "O Portão só se liga ao Pátio. O grau do Portão é:", "opcoes": ["1", "4"], "certo": 0}, {"p": "A árvore de decisão, no programa, vira:", "opcoes": ["Uma lista de compras", "Se dentro de se"], "certo": 1}],
+      explicacao: "O Portão só se liga ao Pátio. O grau do Portão é: → <strong>1</strong> · A árvore de decisão, no programa, vira: → <strong>Se dentro de se</strong>" },
+    pega("m4"),
+    { tipo: "escolha", de: "m5", titulo: "M5 · Autômatos", perguntas: [{"p": "Catraca liberada + empurrar:", "opcoes": ["Gira e fica travada", "Fica liberada"], "certo": 0}, {"p": "Travada e liberada são:", "opcoes": ["Entradas", "Estados"], "certo": 1}],
+      explicacao: "Catraca liberada + empurrar: → <strong>Gira e fica travada</strong> · Travada e liberada são: → <strong>Estados</strong>" },
+    pega("m5"),
+    { tipo: "escolha", de: "m6", titulo: "M6 · Eventos", perguntas: [{"p": "O botão foi apertado 3 vezes. O tratador roda:", "opcoes": ["Toda vez que o evento acontece", "Uma vez só"], "certo": 0}, {"p": "A porta automática abre quando o sensor:", "opcoes": ["Desliga", "Percebe alguém"], "certo": 1}],
+      explicacao: "O botão foi apertado 3 vezes. O tratador roda: → <strong>Toda vez que o evento acontece</strong> · A porta automática abre quando o sensor: → <strong>Percebe alguém</strong>" },
+    pega("m6"),
+    { tipo: "escolha", de: "m7", titulo: "M7 · O semáforo", perguntas: [{"p": "Está verde. Tique. Fica:", "opcoes": ["Amarelo", "Vermelho"], "certo": 0}, {"p": "Está vermelho e o pedestre aperta o botão. Fica:", "opcoes": ["Verde", "Vermelho"], "certo": 1}],
+      explicacao: "Está verde. Tique. Fica: → <strong>Amarelo</strong> · Está vermelho e o pedestre aperta o botão. Fica: → <strong>Vermelho</strong>" },
+    pega("m7"),
+    { tipo: "escolha", de: "m8", titulo: "M8 · O mapa da escola", perguntas: [{"p": "Portão → Pátio → Informática (1 + 2) leva:", "opcoes": ["3 minutos", "5 minutos"], "certo": 0}, {"p": "O lugar mais conectado da escola é:", "opcoes": ["O Portão", "O Pátio"], "certo": 1}],
+      explicacao: "Portão → Pátio → Informática (1 + 2) leva: → <strong>3 minutos</strong> · O lugar mais conectado da escola é: → <strong>O Pátio</strong>" },
+    pega("m8")
+  ].filter(Boolean) };
+})();

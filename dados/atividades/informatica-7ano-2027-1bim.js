@@ -665,3 +665,40 @@
   }
   });
 })();
+
+/* ===== 📝 ATIVIDADE DE RECUPERAÇÃO (rc) — 15/11/2026 =====
+   Liberada por aluno no painel (📝 Prova › Atividade de recuperação). Entram só as missões que a turma estudou (de: "mN").
+   Por missão: perguntas novas + 1 atividade interativa do Básico da própria missão. Sem dica, sem resolução e sem refazer;
+   a nota (0 a 10) vai sozinha para o Boletim. Gerado por ferramentas/recuperacao_2027/gerar_rc.py; para mudar, edite aqui mesmo. */
+(function () {
+  const A = PORTAL.atividades["informatica-7ano-2027-1bim"]; if (!A) return;
+  const OK = ["classificar", "ligar", "ordenar", "tabela", "sinais", "lista_ops", "sequencial", "busca_binaria", "bolha", "arvore", "grafo_montar", "mensagens", "explorador_pastas", "rota"];
+  const pega = mid => { const x = ((A[mid] || {}).basico || []).find(a => OK.includes(a.tipo));
+    return x ? Object.assign({}, x, { de: mid, titulo: mid.toUpperCase() + " · " + String(x.titulo || "").replace(/^Passo \d+ · /, "") }) : null; };
+  A.rc = { basico: [
+    { tipo: "escolha", de: "m1", titulo: "M1 · Programar com blocos", perguntas: [{"p": "Em que ordem o computador executa os blocos?", "opcoes": ["De cima para baixo", "De baixo para cima", "Em qualquer ordem"], "certo": 0}, {"p": "“Se chover, levar guarda-chuva; senão, levar boné” é:", "opcoes": ["Repetição", "Seleção", "Sequência"], "certo": 1}, {"p": "“definir nota para 7” guarda 7 numa:", "opcoes": ["Lista", "Repetição", "Variável"], "certo": 2}],
+      explicacao: "Em que ordem o computador executa os blocos? → <strong>De cima para baixo</strong> · “Se chover, levar guarda-chuva; senão, levar boné” é: → <strong>Seleção</strong> · “definir nota para 7” guarda 7 numa: → <strong>Variável</strong>" },
+    pega("m1"),
+    { tipo: "escolha", de: "m2", titulo: "M2 · Listas no programa", perguntas: [{"p": "Lista frutas = maçã, uva, caju, açaí. O tamanho é:", "opcoes": ["4", "3", "5"], "certo": 0}, {"p": "Qual bloco passa por todos os itens da lista, um de cada vez?", "opcoes": ["tamanho de", "para cada item … na lista", "mostrar na tela"], "certo": 1}, {"p": "Pedir o item nº 5 de uma lista com 4 itens:", "opcoes": ["Mostra o 1º item", "Mostra o tamanho", "Dá problema: a posição não existe"], "certo": 2}],
+      explicacao: "Lista frutas = maçã, uva, caju, açaí. O tamanho é: → <strong>4</strong> · Qual bloco passa por todos os itens da lista, um de cada vez? → <strong>para cada item … na lista</strong> · Pedir o item nº 5 de uma lista com 4 itens: → <strong>Dá problema: a posição não existe</strong>" },
+    pega("m2"),
+    { tipo: "escolha", de: "m3", titulo: "M3 · Registros", perguntas: [{"p": "Os dados de um aluno (nome, idade, turma) ficam melhor num:", "opcoes": ["Registro (ficha)", "Repita", "Número só"], "certo": 0}, {"p": "No campo turma = 7º A, o nome do campo é:", "opcoes": ["7º A", "turma", "ficha"], "certo": 1}, {"p": "Uma lista de fichas funciona como:", "opcoes": ["Um bloco repita", "Uma imagem", "Uma tabela"], "certo": 2}],
+      explicacao: "Os dados de um aluno (nome, idade, turma) ficam melhor num: → <strong>Registro (ficha)</strong> · No campo turma = 7º A, o nome do campo é: → <strong>turma</strong> · Uma lista de fichas funciona como: → <strong>Uma tabela</strong>" },
+    pega("m3"),
+    { tipo: "escolha", de: "m4", titulo: "M4 · Depurar", perguntas: [{"p": "Bug é:", "opcoes": ["Um erro no programa", "Um bloco de repetição", "Um tipo de lista"], "certo": 0}, {"p": "“fim” apareceu 3 vezes, mas devia aparecer 1. O erro provável é:", "opcoes": ["Falta de luz", "O bloco está dentro do repita", "A lista está vazia"], "certo": 1}, {"p": "No método do detetive, depois de rodar eu:", "opcoes": ["Apago tudo", "Desligo o computador", "Comparo com o que devia aparecer"], "certo": 2}],
+      explicacao: "Bug é: → <strong>Um erro no programa</strong> · “fim” apareceu 3 vezes, mas devia aparecer 1. O erro provável é: → <strong>O bloco está dentro do repita</strong> · No método do detetive, depois de rodar eu: → <strong>Comparo com o que devia aparecer</strong>" },
+    pega("m4"),
+    { tipo: "escolha", de: "m5", titulo: "M5 · Decompor e reaproveitar", perguntas: [{"p": "Dividir a festa em decoração, comida, música e brincadeiras é:", "opcoes": ["Decompor", "Depurar", "Recortar"], "certo": 0}, {"p": "Mudei o bloco refrão. A mudança vale:", "opcoes": ["Só no primeiro lugar", "Em todos os lugares onde ele é chamado", "Em nenhum lugar"], "certo": 1}, {"p": "Onde fica o bloco próprio no editor?", "opcoes": ["Na lixeira", "Na Tela do programa", "Na gaveta 🧩 Meus blocos"], "certo": 2}],
+      explicacao: "Dividir a festa em decoração, comida, música e brincadeiras é: → <strong>Decompor</strong> · Mudei o bloco refrão. A mudança vale: → <strong>Em todos os lugares onde ele é chamado</strong> · Onde fica o bloco próprio no editor? → <strong>Na gaveta 🧩 Meus blocos</strong>" },
+    pega("m5"),
+    { tipo: "escolha", de: "m6", titulo: "M6 · Programar em dupla", perguntas: [{"p": "Quem lê o enunciado e confere cada bloco?", "opcoes": ["O navegador", "O piloto", "Ninguém"], "certo": 0}, {"p": "De quanto em quanto tempo a dupla troca de papel?", "opcoes": ["Nunca", "A cada 10 minutos", "Só no fim do ano"], "certo": 1}, {"p": "Quando a dupla deve testar o programa?", "opcoes": ["Só no final", "Nunca", "Depois de cada parte"], "certo": 2}],
+      explicacao: "Quem lê o enunciado e confere cada bloco? → <strong>O navegador</strong> · De quanto em quanto tempo a dupla troca de papel? → <strong>A cada 10 minutos</strong> · Quando a dupla deve testar o programa? → <strong>Depois de cada parte</strong>" },
+    pega("m6"),
+    { tipo: "escolha", de: "m7", titulo: "M7 · Desafios de depuração", perguntas: [{"p": "Apareceu “(sem idade)”. O erro provável é:", "opcoes": ["O nome do campo está diferente", "A posição da lista", "O número do repita"], "certo": 0}, {"p": "O erro está dentro do bloco próprio. Onde conserto?", "opcoes": ["Em cada lugar onde ele é chamado", "Dentro do bloco, uma vez só", "Na lixeira"], "certo": 1}, {"p": "Hipótese é:", "opcoes": ["A resposta do gabarito", "Um bloco de repetição", "Um palpite sobre onde está o erro"], "certo": 2}],
+      explicacao: "Apareceu “(sem idade)”. O erro provável é: → <strong>O nome do campo está diferente</strong> · O erro está dentro do bloco próprio. Onde conserto? → <strong>Dentro do bloco, uma vez só</strong> · Hipótese é: → <strong>Um palpite sobre onde está o erro</strong>" },
+    pega("m7"),
+    { tipo: "escolha", de: "m8", titulo: "M8 · O placar do quiz", perguntas: [{"p": "Gabarito B, A, D, C e respostas B, C, D, C. Quantos acertos?", "opcoes": ["3", "2", "4"], "certo": 0}, {"p": "O bloco “alterar acertos por 1”:", "opcoes": ["Apaga a variável", "Soma 1 à variável acertos", "Mostra a lista"], "certo": 1}, {"p": "A variável contadora começa em:", "opcoes": ["1", "10", "0"], "certo": 2}],
+      explicacao: "Gabarito B, A, D, C e respostas B, C, D, C. Quantos acertos? → <strong>3</strong> · O bloco “alterar acertos por 1”: → <strong>Soma 1 à variável acertos</strong> · A variável contadora começa em: → <strong>0</strong>" },
+    pega("m8")
+  ].filter(Boolean) };
+})();

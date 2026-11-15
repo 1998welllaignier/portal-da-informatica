@@ -146,11 +146,12 @@
         await ref.set(limpo({
           alunoId, turma: s.turma, aid, mid: m.id, unidade: ap.unidade || "", ano: new Date().getFullYear(),
           leitura: st.leitura, basico: st.basico, desafio: st.desafio, turbo: st.turbo, revisao: st.revisao,
-          basicoOk: okB, atv: JSON.stringify(r.atv), vis: r.vis,  // atv em texto: o Firestore não aceita listas dentro de listas
+          basicoOk: m.id === "rc" ? false : okB, atv: JSON.stringify(r.atv), vis: r.vis,  // atv em texto: o Firestore não aceita listas dentro de listas
+          ...(m.id === "rc" && Array.isArray(P.recMissoes) && P.notaRecuperacao ? (x => x ? { notaRec: x.nota, recFeitas: x.feitas, recTotal: x.total, recMissoes: P.recMissoes } : {})(P.notaRecuperacao(aid)) : {}),
           dupla: s.alunoIds.length > 1 ? s.alunoIds.filter(x => x !== alunoId) : [],
           dias: { [dia]: Date.now() }, atualizado: Date.now()
         }), { merge: true });
-        if (okB) await ref.set({ basicoOkEm: { [dia]: Date.now() } }, { merge: true });
+        if (okB && m.id !== "rc") await ref.set({ basicoOkEm: { [dia]: Date.now() } }, { merge: true });
       }
       enviados[chave] = assinatura;
       N.ultimoEnvio = Date.now();

@@ -603,3 +603,40 @@
   }
   });
 })();
+
+/* ===== 📝 ATIVIDADE DE RECUPERAÇÃO (rc) — 15/11/2026 =====
+   Liberada por aluno no painel (📝 Prova › Atividade de recuperação). Entram só as missões que a turma estudou (de: "mN").
+   Por missão: perguntas novas + 1 atividade interativa do Básico da própria missão. Sem dica, sem resolução e sem refazer;
+   a nota (0 a 10) vai sozinha para o Boletim. Gerado por ferramentas/recuperacao_2027/gerar_rc.py; para mudar, edite aqui mesmo. */
+(function () {
+  const A = PORTAL.atividades["informatica-8ano-2027-1bim"]; if (!A) return;
+  const OK = ["classificar", "ligar", "ordenar", "tabela", "sinais", "lista_ops", "sequencial", "busca_binaria", "bolha", "arvore", "grafo_montar", "mensagens", "explorador_pastas", "rota"];
+  const pega = mid => { const x = ((A[mid] || {}).basico || []).find(a => OK.includes(a.tipo));
+    return x ? Object.assign({}, x, { de: mid, titulo: mid.toUpperCase() + " · " + String(x.titulo || "").replace(/^Passo \d+ · /, "") }) : null; };
+  A.rc = { basico: [
+    { tipo: "escolha", de: "m1", titulo: "M1 · Listas", perguntas: [{"p": "Lista CHAMADA = Ana, Bruno, Carla, Davi, Elisa. Qual é a última posição?", "opcoes": ["5", "1", "4"], "certo": 0}, {"p": "CHAMADA[1] é:", "opcoes": ["Bruno", "Ana", "Elisa"], "certo": 1}, {"p": "A lista 3, 8, 12, 20 está em ordem:", "opcoes": ["Decrescente", "Fora de ordem", "Crescente"], "certo": 2}],
+      explicacao: "Lista CHAMADA = Ana, Bruno, Carla, Davi, Elisa. Qual é a última posição? → <strong>5</strong> · CHAMADA[1] é: → <strong>Ana</strong> · A lista 3, 8, 12, 20 está em ordem: → <strong>Crescente</strong>" },
+    pega("m1"),
+    { tipo: "escolha", de: "m2", titulo: "M2 · Inserir, remover e contar", perguntas: [{"p": "FILA = Ana, Bia, Caio. Inserir Duda no fim. Qual é o tamanho agora?", "opcoes": ["4", "3", "2"], "certo": 0}, {"p": "FILA = Ana, Bia, Caio, Duda. Removendo Ana, quem fica na posição 1?", "opcoes": ["Caio", "Bia", "Duda"], "certo": 1}, {"p": "Notas 7, 2, 5, 9. Quantas são 5 ou mais?", "opcoes": ["2", "4", "3"], "certo": 2}],
+      explicacao: "FILA = Ana, Bia, Caio. Inserir Duda no fim. Qual é o tamanho agora? → <strong>4</strong> · FILA = Ana, Bia, Caio, Duda. Removendo Ana, quem fica na posição 1? → <strong>Bia</strong> · Notas 7, 2, 5, 9. Quantas são 5 ou mais? → <strong>3</strong>" },
+    pega("m2"),
+    { tipo: "escolha", de: "m3", titulo: "M3 · Busca sequencial", perguntas: [{"p": "Procurar o 4 em 6, 1, 4, 9 com a busca sequencial. Quantas comparações?", "opcoes": ["3", "1", "4"], "certo": 0}, {"p": "Numa lista de 1.000 itens, o melhor caso da busca sequencial tem:", "opcoes": ["1.000 comparações", "1 comparação", "500 comparações"], "certo": 1}, {"p": "A busca sequencial funciona em lista fora de ordem?", "opcoes": ["Não, nunca", "Só se for pequena", "Sim, em qualquer lista"], "certo": 2}],
+      explicacao: "Procurar o 4 em 6, 1, 4, 9 com a busca sequencial. Quantas comparações? → <strong>3</strong> · Numa lista de 1.000 itens, o melhor caso da busca sequencial tem: → <strong>1 comparação</strong> · A busca sequencial funciona em lista fora de ordem? → <strong>Sim, em qualquer lista</strong>" },
+    pega("m3"),
+    { tipo: "escolha", de: "m4", titulo: "M4 · Busca binária", perguntas: [{"p": "Na busca binária, o procurado é maior que o meio. Eu jogo fora:", "opcoes": ["A metade da esquerda", "A metade da direita", "A lista toda"], "certo": 0}, {"p": "Numa lista ordenada de 1.000 itens, a busca binária precisa de no máximo:", "opcoes": ["1.000 comparações", "10 comparações", "100 comparações"], "certo": 1}, {"p": "Procurar uma palavra no dicionário abrindo no meio parece a busca:", "opcoes": ["Sequencial", "Por seleção", "Binária"], "certo": 2}],
+      explicacao: "Na busca binária, o procurado é maior que o meio. Eu jogo fora: → <strong>A metade da esquerda</strong> · Numa lista ordenada de 1.000 itens, a busca binária precisa de no máximo: → <strong>10 comparações</strong> · Procurar uma palavra no dicionário abrindo no meio parece a busca: → <strong>Binária</strong>" },
+    pega("m4"),
+    { tipo: "escolha", de: "m5", titulo: "M5 · Método da bolha", perguntas: [{"p": "No método da bolha (crescente), vizinhos 3 e 8:", "opcoes": ["Ficam como estão", "Trocam de lugar", "Saem da lista"], "certo": 0}, {"p": "Uma volta inteira comparando vizinhos do começo ao fim se chama:", "opcoes": ["Rodada", "Passada", "Caso base"], "certo": 1}, {"p": "O método da bolha termina quando:", "opcoes": ["Faz a primeira troca", "A lista fica vazia", "Uma passada inteira não faz nenhuma troca"], "certo": 2}],
+      explicacao: "No método da bolha (crescente), vizinhos 3 e 8: → <strong>Ficam como estão</strong> · Uma volta inteira comparando vizinhos do começo ao fim se chama: → <strong>Passada</strong> · O método da bolha termina quando: → <strong>Uma passada inteira não faz nenhuma troca</strong>" },
+    pega("m5"),
+    { tipo: "escolha", de: "m6", titulo: "M6 · Recursão", perguntas: [{"p": "Na contagem regressiva recursiva, o caso base é:", "opcoes": ["n = 0: mostrar “Fogo!” e parar", "Mostrar n e contar de n − 1", "Começar do 10"], "certo": 0}, {"p": "Pastas dentro de pastas são um exemplo de:", "opcoes": ["Busca binária", "Estrutura recursiva", "Método da bolha"], "certo": 1}, {"p": "Sem caso base, a recursão:", "opcoes": ["Para logo de cara", "Vira uma lista", "Pode nunca parar"], "certo": 2}],
+      explicacao: "Na contagem regressiva recursiva, o caso base é: → <strong>n = 0: mostrar “Fogo!” e parar</strong> · Pastas dentro de pastas são um exemplo de: → <strong>Estrutura recursiva</strong> · Sem caso base, a recursão: → <strong>Pode nunca parar</strong>" },
+    pega("m6"),
+    { tipo: "escolha", de: "m7", titulo: "M7 · Ordenação por seleção", perguntas: [{"p": "Na seleção, a cada rodada eu procuro:", "opcoes": ["O menor do que sobrou", "O maior vizinho", "O item do meio"], "certo": 0}, {"p": "Lista 5, 1, 4. Depois da 1ª rodada, ela fica:", "opcoes": ["5, 4, 1", "1, 5, 4", "4, 1, 5"], "certo": 1}, {"p": "Quantas trocas a seleção faz por rodada, no máximo?", "opcoes": ["Nenhuma", "Todas as possíveis", "Uma"], "certo": 2}],
+      explicacao: "Na seleção, a cada rodada eu procuro: → <strong>O menor do que sobrou</strong> · Lista 5, 1, 4. Depois da 1ª rodada, ela fica: → <strong>1, 5, 4</strong> · Quantas trocas a seleção faz por rodada, no máximo? → <strong>Uma</strong>" },
+    pega("m7"),
+    { tipo: "escolha", de: "m8", titulo: "M8 · Fractais", perguntas: [{"p": "No triângulo de Sierpinski, quantos triângulos pintados há no nível 3?", "opcoes": ["27", "9", "12"], "certo": 0}, {"p": "Na árvore fractal, quantos galhos novos no nível 4?", "opcoes": ["8", "16", "12"], "certo": 1}, {"p": "Qual destes é um fractal da natureza?", "opcoes": ["Uma bola lisa", "Um cubo", "O brócolis"], "certo": 2}],
+      explicacao: "No triângulo de Sierpinski, quantos triângulos pintados há no nível 3? → <strong>27</strong> · Na árvore fractal, quantos galhos novos no nível 4? → <strong>16</strong> · Qual destes é um fractal da natureza? → <strong>O brócolis</strong>" },
+    pega("m8")
+  ].filter(Boolean) };
+})();

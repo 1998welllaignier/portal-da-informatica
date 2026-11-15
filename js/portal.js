@@ -204,7 +204,9 @@
     const pages = [];
     /* 🔁 Revisão (rv): cada atividade diz de qual missão é (de: "m1"…). Só entram as missões que a turma estudou
        (P.revisaAtual, carregado na tela da missão; no painel, sem filtro = todas). O id vem ANTES do filtro, para não mudar. */
-    const rvSet = mid === "rv" && Array.isArray(P.revisaAtual) && P.revisaAtual.length ? new Set(P.revisaAtual) : null;
+    /* 📝 Recuperação (rc, 15/11/2026): o mesmo filtro, com as missões gravadas pelo professor ao liberar (P.recMissoes). */
+    const filtroLista = mid === "rv" ? P.revisaAtual : mid === "rc" ? P.recMissoes : null;
+    const rvSet = (mid === "rv" || mid === "rc") && Array.isArray(filtroLista) && filtroLista.length ? new Set(filtroLista) : null;
     const relembre = x => { const mm = C.missoes.find(y => y.id === x.de); if (!mm) return null;
       return Object.assign({}, x, { tipo: "info", titulo: "📚 Relembre: " + mm.titulo,
         html: `<p>${md(mm.resumo ? mm.resumo.texto : "")}</p>${(mm.termos || []).length ? `<ul>${mm.termos.map(t => `<li><strong>${esc(t.termo)}</strong>: ${t.def}</li>`).join("")}</ul>` : ""}` }); };
@@ -608,6 +610,7 @@
     await carregar(aid);
     await restaurarNuvem(aid);
     await carregarRevisa(s);
+    await carregarRec(s);
     modoTrilha(a);
     const C = P.conteudo[aid]; const se = serie(a.serie);
     barra(`<span>${esc(a.titulo)}</span>`);
@@ -631,7 +634,7 @@
         <p class="capa-prof">${esc(cat().professor)}</p></div>
         ${(P.ilustracoes[aid] || {}).mascote ? `<div class="capa-masc">${P.ilustracoes[aid].mascote}</div>` : ""}
       </header>
-      <div class="grid-missoes">${C.missoes.map(card).join("")}</div>
+      <div class="grid-missoes">${C.missoes.filter(mm => mm.id !== "rc" || P.recLiberada || s.prof || !s.nuvem).map(card).join("")}</div>
       <details class="painel como-usar"><summary>📘 Como usar esta apostila</summary>${blocos(C.comoUsar.filter(b => !(b.t === "p" && /Tudo na apostila|escreve e desenha/.test(b.h))))}
         <p><strong>No portal:</strong> faça junto com o professor a missão do dia. Quando terminar o 🟢 Básico, aparece a faixa verde <strong>“Básico concluído”</strong>: tudo fica registrado sozinho, e você escolhe entre o Desafio (nota maior) e os jogos livres.</p></details>
       <div class="row-btns"><a class="btn btn-sec" href="#/imprimir/${aid}">🖨️ Versão para imprimir</a>
@@ -675,6 +678,31 @@
   }
   P.carregarRevisa = carregarRevisa;
 
+  /* 📝 Atividade de recuperação (15/11/2026): o professor libera por aluno no painel (📝 Prova › Atividade de recuperação).
+     config/prova_<turma>: recAtv = [alunoIds liberados], recMissoes = missões que a turma estudou (as únicas que entram). */
+  async function carregarRec(s) {
+    P.recLiberada = false; P.recMissoes = null;
+    if (!s || !s.turma || !s.nuvem || !P.nuvem || !P.nuvem.pronto) return;
+    try {
+      const sn = await Promise.race([P.nuvem.db().collection("config").doc("prova_" + s.turma).get(), new Promise((_, no) => setTimeout(() => no(new Error("tempo")), 4000))]);
+      const d = sn.exists ? sn.data() : {}, ids = s.alunoIds || [];
+      P.recLiberada = ids.length > 0 && ids.every(id => (d.recAtv || []).includes(id));
+      P.recMissoes = Array.isArray(d.recMissoes) && d.recMissoes.length ? d.recMissoes : null;
+    } catch (e) {}
+  }
+  P.carregarRec = carregarRec;
+  /* Nota da atividade de recuperação (0 a 10): cada atividade vale 1 ponto se sair certa de primeira; cada erro tira 0,25
+     (mínimo 0,25 para quem concluiu); não feita = 0. Na recuperação não há dica nem resolução comentada. */
+  P.notaRecuperacao = function (aid) {
+    const C = P.conteudo[aid]; if (!C || !C.missoes.some(m => m.id === "rc")) return null;
+    const { pages } = montarMissao(aid, "rc"), prog = getProg(aid);
+    const ats = pages.filter(p => p.tipo === "missao").flatMap(p => p.atividades).filter(a => !(P.tipos[a.tipo] || {}).semStatus);
+    if (!ats.length) return null;
+    let soma = 0, feitas = 0;
+    ats.forEach(a => { const st = prog.atv[a.id]; if (st && (st.status === "certo" || st.status === "ajuda")) { feitas++; soma += Math.max(0.25, 1 - 0.25 * (st.tentativas || 0)); } });
+    return { nota: Math.round(100 * soma / ats.length) / 10, feitas, total: ats.length };
+  };
+
   /* -------- página de missão -------- */
   async function telaMissao(aid, mid, pid) {
     const s = sess.get(); const a = apostila(aid); if (!a) return telaInicio();
@@ -683,6 +711,7 @@
     await carregar(aid);
     await restaurarNuvem(aid);
     if (mid === "rv") await carregarRevisa(s);
+    if (mid === "rc") await carregarRec(s);
     modoTrilha(a);
     const { m, pages } = montarMissao(aid, mid);
     if (!pages.length) return telaApostila(aid);
@@ -757,8 +786,8 @@
       corpo.appendChild(box);
       videoObrigatorio(box.querySelector("#casa-yt"), casaVideo, async () => { try { await P.trava.casaVideo(s, mid); } catch (e) {} toast("✅ Vídeo assistido! As tarefas foram abertas."); rota(); }, msg => { box.querySelector("#casa-vmsg").textContent = msg; });
     } else
-    if (!trava.aberta) corpo.appendChild(h(`<div class="painel trava-aviso" role="note"><p class="trava-tit">🔒 ${trava.encerrada ? "A aula de hoje já terminou" : trava.casaOutra ? "Hoje você já está em outra missão" : trava.casaFim ? "Seu tempo de estudo de hoje acabou" : trava.aguardando ? "Aguardando o professor iniciar a aula" : trava.fechada ? "As tarefas estão fechadas agora" : trava.so ? "Esta missão não está liberada para você hoje" : trava.hoje ? "Hoje a turma está em outra missão" : "As tarefas abrem na hora da sua aula"}</p>
-      ${trava.encerrada ? "<p>⏰ O horário da aula acabou e as tarefas fecharam. O que você fez ficou salvo.</p>" : trava.casaOutra ? `<p>📅 Em casa é <strong>uma missão por dia</strong>. Hoje a sua é a <strong>${esc(rotMis(aid, trava.casaOutra))}</strong>. Esta aqui você faz em outro dia (pode ler os textos à vontade).</p><p><a class="btn" href="#/missao/${aid}/${trava.casaOutra}">Ir para a ${esc(rotMis(aid, trava.casaOutra))} →</a></p>` : trava.casaFim ? `<p>⏰ Você já usou as ${Math.round(trava.lim / 3600000)} horas de hoje. Volte amanhã para continuar: o seu progresso fica salvo.</p>` : trava.aguardando ? "<p>⏳ As tarefas abrem quando o professor iniciar a aula. Enquanto isso, leia os textos da missão. Esta página se atualiza sozinha.</p>" : trava.fechada ? "<p>O professor fechou as tarefas desta turma por enquanto.</p>" : trava.so ? `<p>🔓 O professor liberou para você a <strong>${esc(rotMis(aid, trava.so))}</strong>${trava.hoje ? ` e a missão de hoje da turma (<strong>${esc(trava.hoje.titulo || rotMis(aid, trava.hoje.mid))}</strong>)` : ""}. Faça essa missão primeiro.</p><p><a class="btn" href="#/missao/${aid}/${trava.so}">Ir para a ${esc(rotMis(aid, trava.so))} →</a>${trava.hoje ? ` <a class="btn btn-sec" href="#/missao/${aid}/${trava.hoje.mid}">Ir para a missão de hoje →</a>` : ""}</p>` : trava.hoje ? `<p>📌 A missão de hoje é a <strong>${esc(trava.hoje.titulo || rotMis(aid, trava.hoje.mid))}</strong>. <a class="btn" href="#/missao/${aid}/${trava.hoje.mid}">Ir para a missão de hoje →</a></p>` : `<p>Você pode fazer as tarefas no dia e na hora da aula:</p><ul>${(trava.horarios || []).map(x => `<li><strong>${esc(x)}</strong></li>`).join("")}</ul>`}
+    if (!trava.aberta) corpo.appendChild(h(`<div class="painel trava-aviso" role="note"><p class="trava-tit">🔒 ${trava.encerrada ? "A aula de hoje já terminou" : trava.recFechada ? "A atividade de recuperação não está liberada para você" : trava.casaOutra ? "Hoje você já está em outra missão" : trava.casaFim ? "Seu tempo de estudo de hoje acabou" : trava.aguardando ? "Aguardando o professor iniciar a aula" : trava.fechada ? "As tarefas estão fechadas agora" : trava.so ? "Esta missão não está liberada para você hoje" : trava.hoje ? "Hoje a turma está em outra missão" : "As tarefas abrem na hora da sua aula"}</p>
+      ${trava.recFechada ? "<p>📝 A recuperação abre só quando o professor libera para você. Enquanto isso, estude pelos resumos das missões.</p>" : trava.encerrada ? "<p>⏰ O horário da aula acabou e as tarefas fecharam. O que você fez ficou salvo.</p>" : trava.casaOutra ? `<p>📅 Em casa é <strong>uma missão por dia</strong>. Hoje a sua é a <strong>${esc(rotMis(aid, trava.casaOutra))}</strong>. Esta aqui você faz em outro dia (pode ler os textos à vontade).</p><p><a class="btn" href="#/missao/${aid}/${trava.casaOutra}">Ir para a ${esc(rotMis(aid, trava.casaOutra))} →</a></p>` : trava.casaFim ? `<p>⏰ Você já usou as ${Math.round(trava.lim / 3600000)} horas de hoje. Volte amanhã para continuar: o seu progresso fica salvo.</p>` : trava.aguardando ? "<p>⏳ As tarefas abrem quando o professor iniciar a aula. Enquanto isso, leia os textos da missão. Esta página se atualiza sozinha.</p>" : trava.fechada ? "<p>O professor fechou as tarefas desta turma por enquanto.</p>" : trava.so ? `<p>🔓 O professor liberou para você a <strong>${esc(rotMis(aid, trava.so))}</strong>${trava.hoje ? ` e a missão de hoje da turma (<strong>${esc(trava.hoje.titulo || rotMis(aid, trava.hoje.mid))}</strong>)` : ""}. Faça essa missão primeiro.</p><p><a class="btn" href="#/missao/${aid}/${trava.so}">Ir para a ${esc(rotMis(aid, trava.so))} →</a>${trava.hoje ? ` <a class="btn btn-sec" href="#/missao/${aid}/${trava.hoje.mid}">Ir para a missão de hoje →</a>` : ""}</p>` : trava.hoje ? `<p>📌 A missão de hoje é a <strong>${esc(trava.hoje.titulo || rotMis(aid, trava.hoje.mid))}</strong>. <a class="btn" href="#/missao/${aid}/${trava.hoje.mid}">Ir para a missão de hoje →</a></p>` : `<p>Você pode fazer as tarefas no dia e na hora da aula:</p><ul>${(trava.horarios || []).map(x => `<li><strong>${esc(x)}</strong></li>`).join("")}</ul>`}
       <p>📖 Enquanto isso, pode estudar à vontade: <a href="#/missao/${aid}/${mid}/comecar">💡 Para começar</a>, <a href="#/missao/${aid}/${mid}/termos">📖 O que significa?</a> e <a href="#/missao/${aid}/${mid}/onde">🌎 Onde eu uso isso?</a> ficam sempre abertos.</p>
       <p class="ajuda">Precisa fazer fora do horário (faltou, reposição, estuda em casa)? Peça ao professor para liberar.</p></div>`));
     else (pg.atividades || []).forEach((at, i) => corpo.appendChild(cartaoAtividade(aid, mid, at, i, () => { barra(info()); atualizarStatus(); })));
@@ -945,21 +974,22 @@
     const corpo = el.querySelector(".atv-corpo"), fb = el.querySelector(".atv-fb"), dicasEl = el.querySelector(".atv-dicas");
     const bV = el.querySelector('[data-a="verificar"]'), bD = el.querySelector('[data-a="dica"]'), bR = el.querySelector('[data-a="resolucao"]'), bRef = el.querySelector('[data-a="refazer"]');
     const statusEl = el.querySelector(".atv-status");
-    const dicas = at.dicas || [];
+    const emRec = mid === "rc";   // 📝 recuperação: vale nota, então sem dica, sem resolução comentada e sem refazer
+    const dicas = emRec ? [] : (at.dicas || []);
 
     const salvar = () => { const p = getProg(aid); p.atv[at.id] = st; setProg(aid, p); };
     const feedback = (kind, html) => { fb.innerHTML = html ? `<div class="fb fb-${kind}">${kind === "ok" ? "✔ " : kind === "erro" ? "✖ " : ""}${html}</div>` : ""; };
     const mostrarStatus = () => {
       const m = { certo: "✔ Concluída", ajuda: "✔ Concluída com ajuda", enviado: "📝 Enviada — o professor confere", feito: "✔ Feita" }[st.status] || "";
       statusEl.textContent = m; el.classList.toggle("concluida", !!st.status);
-      bRef.hidden = !st.status || at.semRefazer;
+      bRef.hidden = !st.status || at.semRefazer || emRec;
     };
     const atualizarAjuda = () => {
       bD.hidden = !dicas.length || st.dicas >= dicas.length || !!st.status;
       bD.textContent = `💡 Dica ${Math.min(st.dicas + 1, dicas.length)} de ${dicas.length}`;
       dicasEl.innerHTML = dicas.slice(0, st.dicas).map((d, k) => `<p class="dica"><strong>Dica ${k + 1}:</strong> ${d}</p>`).join("");
       const liberou = st.tentativas >= 2 || (dicas.length > 0 && st.dicas >= dicas.length);
-      bR.hidden = !!st.status || !ctx.resolver || !liberou;
+      bR.hidden = emRec || !!st.status || !ctx.resolver || !liberou;
     };
     const ctx = {
       at, st, el, corpo, salvar, feedback,
@@ -973,7 +1003,7 @@
       },
       errou(msg) {
         st.tentativas++; salvar();
-        feedback("erro", msg + (st.tentativas >= 2 && (dicas.length || ctx.resolver) ? " <br><small>Se quiser, peça uma dica ou veja a resolução comentada.</small>" : " <br><small>Sua resposta foi mantida: ajuste e tente de novo.</small>"));
+        feedback("erro", msg + (!emRec && st.tentativas >= 2 && (dicas.length || ctx.resolver) ? " <br><small>Se quiser, peça uma dica ou veja a resolução comentada.</small>" : " <br><small>Sua resposta foi mantida: ajuste e tente de novo.</small>"));
         atualizarAjuda();
       },
       esconderVerificar() { bV.hidden = true; },

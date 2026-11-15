@@ -552,3 +552,40 @@
   }
   });
 })();
+
+/* ===== 📝 ATIVIDADE DE RECUPERAÇÃO (rc) — 15/11/2026 =====
+   Liberada por aluno no painel (📝 Prova › Atividade de recuperação). Entram só as missões que a turma estudou (de: "mN").
+   Por missão: perguntas novas + 1 atividade interativa do Básico da própria missão. Sem dica, sem resolução e sem refazer;
+   a nota (0 a 10) vai sozinha para o Boletim. Gerado por ferramentas/recuperacao_2027/gerar_rc.py; para mudar, edite aqui mesmo. */
+(function () {
+  const A = PORTAL.atividades["informatica-9ano-2027-1bim"]; if (!A) return;
+  const OK = ["classificar", "ligar", "ordenar", "tabela", "sinais", "lista_ops", "sequencial", "busca_binaria", "bolha", "arvore", "grafo_montar", "mensagens", "explorador_pastas", "rota"];
+  const pega = mid => { const x = ((A[mid] || {}).basico || []).find(a => OK.includes(a.tipo));
+    return x ? Object.assign({}, x, { de: mid, titulo: mid.toUpperCase() + " · " + String(x.titulo || "").replace(/^Passo \d+ · /, "") }) : null; };
+  A.rc = { basico: [
+    { tipo: "escolha", de: "m1", titulo: "M1 · Grafos", perguntas: [{"p": "No grafo de ruas, a rua entre duas esquinas é uma:", "opcoes": ["Aresta", "Vértice", "Folha"], "certo": 0}, {"p": "Casa → Praça → Escola tem pesos 4 e 4. Qual é a soma?", "opcoes": ["4", "8", "9"], "certo": 1}, {"p": "O grau de um vértice é:", "opcoes": ["O maior peso", "O nome do lugar", "Quantas arestas saem dele"], "certo": 2}],
+      explicacao: "No grafo de ruas, a rua entre duas esquinas é uma: → <strong>Aresta</strong> · Casa → Praça → Escola tem pesos 4 e 4. Qual é a soma? → <strong>8</strong> · O grau de um vértice é: → <strong>Quantas arestas saem dele</strong>" },
+    pega("m1"),
+    { tipo: "escolha", de: "m2", titulo: "M2 · Árvores", perguntas: [{"p": "Na árvore de pastas, Documentos é a:", "opcoes": ["Raiz", "Folha", "Aresta"], "certo": 0}, {"p": "Os arquivos no fim dos galhos (como mapa.png) são as:", "opcoes": ["Raízes", "Folhas", "Arestas"], "certo": 1}, {"p": "Uma árvore pode ter ciclos (voltas)?", "opcoes": ["Sim, sempre", "Só se for grande", "Não"], "certo": 2}],
+      explicacao: "Na árvore de pastas, Documentos é a: → <strong>Raiz</strong> · Os arquivos no fim dos galhos (como mapa.png) são as: → <strong>Folhas</strong> · Uma árvore pode ter ciclos (voltas)? → <strong>Não</strong>" },
+    pega("m2"),
+    { tipo: "escolha", de: "m3", titulo: "M3 · Árvores de decisão", perguntas: [{"p": "É eletrônico? Não. Serve para escrever? Não. O objeto é:", "opcoes": ["🪑 Cadeira", "✏️ Lápis", "🖥️ Monitor"], "certo": 0}, {"p": "Com 3 perguntas de sim ou não, dá para separar até:", "opcoes": ["3 opções", "8 opções", "6 opções"], "certo": 1}, {"p": "Na árvore de decisão, cada galho é:", "opcoes": ["Uma decisão final", "Um peso", "Uma resposta (sim ou não)"], "certo": 2}],
+      explicacao: "É eletrônico? Não. Serve para escrever? Não. O objeto é: → <strong>🪑 Cadeira</strong> · Com 3 perguntas de sim ou não, dá para separar até: → <strong>8 opções</strong> · Na árvore de decisão, cada galho é: → <strong>Uma resposta (sim ou não)</strong>" },
+    pega("m3"),
+    { tipo: "escolha", de: "m4", titulo: "M4 · Programar com grafos e árvores", perguntas: [{"p": "Vizinhos do Pátio: Portão, Cantina, Informática, Biblioteca. O grau do Pátio é:", "opcoes": ["4", "2", "1"], "certo": 0}, {"p": "Guardar, para cada vértice, os vértices ligados a ele é a:", "opcoes": ["Árvore de decisão", "Lista de vizinhos", "Tabela de transição"], "certo": 1}, {"p": "No programa, a árvore de decisão vira:", "opcoes": ["Repita dentro de repita", "Uma lista de frutas", "Se dentro de se"], "certo": 2}],
+      explicacao: "Vizinhos do Pátio: Portão, Cantina, Informática, Biblioteca. O grau do Pátio é: → <strong>4</strong> · Guardar, para cada vértice, os vértices ligados a ele é a: → <strong>Lista de vizinhos</strong> · No programa, a árvore de decisão vira: → <strong>Se dentro de se</strong>" },
+    pega("m4"),
+    { tipo: "escolha", de: "m5", titulo: "M5 · Autômatos", perguntas: [{"p": "A catraca começa travada. Entradas: empurrar → cartão. Como ela fica?", "opcoes": ["Liberada", "Travada", "Quebrada"], "certo": 0}, {"p": "Qual tabela diz o próximo estado para cada estado e entrada?", "opcoes": ["Lista de vizinhos", "Tabela de transição", "Tabela do campeonato"], "certo": 1}, {"p": "Em que estado a catraca começa (estado inicial)?", "opcoes": ["Liberada", "Girando", "Travada"], "certo": 2}],
+      explicacao: "A catraca começa travada. Entradas: empurrar → cartão. Como ela fica? → <strong>Liberada</strong> · Qual tabela diz o próximo estado para cada estado e entrada? → <strong>Tabela de transição</strong> · Em que estado a catraca começa (estado inicial)? → <strong>Travada</strong>" },
+    pega("m5"),
+    { tipo: "escolha", de: "m6", titulo: "M6 · Programação por eventos", perguntas: [{"p": "O conjunto de blocos que roda quando o evento acontece é o:", "opcoes": ["Tratador", "Sensor", "Estado"], "certo": 0}, {"p": "O botão foi apertado 3 vezes. O tratador “alterar cliques por 1; mostrar cliques” mostra:", "opcoes": ["3", "1, 2, 3", "1, 1, 1"], "certo": 1}, {"p": "Chegar uma mensagem no celular é um:", "opcoes": ["Vértice", "Caso base", "Evento"], "certo": 2}],
+      explicacao: "O conjunto de blocos que roda quando o evento acontece é o: → <strong>Tratador</strong> · O botão foi apertado 3 vezes. O tratador “alterar cliques por 1; mostrar cliques” mostra: → <strong>1, 2, 3</strong> · Chegar uma mensagem no celular é um: → <strong>Evento</strong>" },
+    pega("m6"),
+    { tipo: "escolha", de: "m7", titulo: "M7 · O semáforo", perguntas: [{"p": "Está amarelo. Tique. Fica:", "opcoes": ["🔴 Vermelho", "🟢 Verde", "🟡 Amarelo"], "certo": 0}, {"p": "Está amarelo e o pedestre aperta o botão. Fica:", "opcoes": ["🟢 Verde", "🟡 Amarelo", "🔴 Vermelho"], "certo": 1}, {"p": "O que conta o tempo e avisa quando ele acaba?", "opcoes": ["O pedestre", "A aresta", "O temporizador"], "certo": 2}],
+      explicacao: "Está amarelo. Tique. Fica: → <strong>🔴 Vermelho</strong> · Está amarelo e o pedestre aperta o botão. Fica: → <strong>🟡 Amarelo</strong> · O que conta o tempo e avisa quando ele acaba? → <strong>O temporizador</strong>" },
+    pega("m7"),
+    { tipo: "escolha", de: "m8", titulo: "M8 · O mapa da escola", perguntas: [{"p": "O corredor Pátio–Informática está em reforma. O caminho mais curto do Portão à Informática leva:", "opcoes": ["4 minutos", "3 minutos", "2 minutos"], "certo": 0}, {"p": "Onde colocar o bebedouro, para mais gente passar?", "opcoes": ["No Portão", "No vértice de maior grau (Pátio)", "Na Cantina"], "certo": 1}, {"p": "Quando uma aresta some, o caminho mais curto:", "opcoes": ["Nunca muda", "Some também", "Pode mudar"], "certo": 2}],
+      explicacao: "O corredor Pátio–Informática está em reforma. O caminho mais curto do Portão à Informática leva: → <strong>4 minutos</strong> · Onde colocar o bebedouro, para mais gente passar? → <strong>No vértice de maior grau (Pátio)</strong> · Quando uma aresta some, o caminho mais curto: → <strong>Pode mudar</strong>" },
+    pega("m8")
+  ].filter(Boolean) };
+})();

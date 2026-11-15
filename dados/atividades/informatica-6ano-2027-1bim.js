@@ -743,3 +743,40 @@ PORTAL.registrarAtividades("informatica-6ano-2027-1bim", {
     ]
   }
 });
+
+/* ===== 📝 ATIVIDADE DE RECUPERAÇÃO (rc) — 15/11/2026 =====
+   Liberada por aluno no painel (📝 Prova › Atividade de recuperação). Entram só as missões que a turma estudou (de: "mN").
+   Por missão: perguntas novas + 1 atividade interativa do Básico da própria missão. Sem dica, sem resolução e sem refazer;
+   a nota (0 a 10) vai sozinha para o Boletim. Gerado por ferramentas/recuperacao_2027/gerar_rc.py; para mudar, edite aqui mesmo. */
+(function () {
+  const A = PORTAL.atividades["informatica-6ano-2027-1bim"]; if (!A) return;
+  const OK = ["classificar", "ligar", "ordenar", "tabela", "sinais", "lista_ops", "sequencial", "busca_binaria", "bolha", "arvore", "grafo_montar", "mensagens", "explorador_pastas", "rota"];
+  const pega = mid => { const x = ((A[mid] || {}).basico || []).find(a => OK.includes(a.tipo));
+    return x ? Object.assign({}, x, { de: mid, titulo: mid.toUpperCase() + " · " + String(x.titulo || "").replace(/^Passo \d+ · /, "") }) : null; };
+  A.rc = { basico: [
+    { tipo: "escolha", de: "m1", titulo: "M1 · Mouse, teclado e janelas", perguntas: [{"p": "Você quer ver mais opções de um ícone. Qual ação do mouse usa?", "opcoes": ["Clique direito", "Duplo clique", "Rolar a rodinha"], "certo": 0}, {"p": "Qual tecla confirma ou pula para a linha de baixo?", "opcoes": ["Shift", "Enter", "Backspace"], "certo": 1}, {"p": "Qual botão faz a janela ocupar a tela toda?", "opcoes": ["➖ Minimizar", "❌ Fechar", "⬜ Maximizar"], "certo": 2}],
+      explicacao: "Você quer ver mais opções de um ícone. Qual ação do mouse usa? → <strong>Clique direito</strong> · Qual tecla confirma ou pula para a linha de baixo? → <strong>Enter</strong> · Qual botão faz a janela ocupar a tela toda? → <strong>⬜ Maximizar</strong>" },
+    pega("m1"),
+    { tipo: "escolha", de: "m2", titulo: "M2 · Entrada, processamento e saída", perguntas: [{"p": "A câmera do celular é uma peça de:", "opcoes": ["Entrada", "Saída", "Armazenamento"], "certo": 0}, {"p": "A caixa de som é uma peça de:", "opcoes": ["Entrada", "Saída", "Processamento"], "certo": 1}, {"p": "O pen drive serve para:", "opcoes": ["Fazer as contas", "Mostrar a imagem", "Guardar os arquivos para depois"], "certo": 2}],
+      explicacao: "A câmera do celular é uma peça de: → <strong>Entrada</strong> · A caixa de som é uma peça de: → <strong>Saída</strong> · O pen drive serve para: → <strong>Guardar os arquivos para depois</strong>" },
+    pega("m2"),
+    { tipo: "escolha", de: "m3", titulo: "M3 · Hardware e software", perguntas: [{"p": "O monitor é:", "opcoes": ["Hardware", "Software", "Sistema operacional"], "certo": 0}, {"p": "O jogo instalado no celular é:", "opcoes": ["Hardware", "Software", "Uma peça"], "certo": 1}, {"p": "Qual destes é um sistema operacional de celular?", "opcoes": ["Navegador", "Calculadora", "Android"], "certo": 2}],
+      explicacao: "O monitor é: → <strong>Hardware</strong> · O jogo instalado no celular é: → <strong>Software</strong> · Qual destes é um sistema operacional de celular? → <strong>Android</strong>" },
+    pega("m3"),
+    { tipo: "escolha", de: "m4", titulo: "M4 · Pastas e arquivos", perguntas: [{"p": "A extensão .mp4 é de:", "opcoes": ["Vídeo", "Foto", "Texto"], "certo": 0}, {"p": "Documentos › Escola › Informática › trabalho.docx. O trabalho está na pasta:", "opcoes": ["Documentos", "Informática", "Downloads"], "certo": 1}, {"p": "Qual é o melhor nome para um arquivo?", "opcoes": ["sem título 3", "IMG_0001", "redacao-meio-ambiente"], "certo": 2}],
+      explicacao: "A extensão .mp4 é de: → <strong>Vídeo</strong> · Documentos › Escola › Informática › trabalho.docx. O trabalho está na pasta: → <strong>Informática</strong> · Qual é o melhor nome para um arquivo? → <strong>redacao-meio-ambiente</strong>" },
+    pega("m4"),
+    { tipo: "escolha", de: "m5", titulo: "M5 · Tipos de dados", perguntas: [{"p": "A data 10/05/2027 é um dado do tipo:", "opcoes": ["Data", "Imagem", "Lógico"], "certo": 0}, {"p": "O CEP é um dado do tipo:", "opcoes": ["Número para contas", "Texto", "Vídeo"], "certo": 1}, {"p": "O boletim (aluno, nota, faltas) é organizado como:", "opcoes": ["Uma lista só de nomes", "Uma imagem", "Uma tabela"], "certo": 2}],
+      explicacao: "A data 10/05/2027 é um dado do tipo: → <strong>Data</strong> · O CEP é um dado do tipo: → <strong>Texto</strong> · O boletim (aluno, nota, faltas) é organizado como: → <strong>Uma tabela</strong>" },
+    pega("m5"),
+    { tipo: "escolha", de: "m6", titulo: "M6 · Boa convivência na rede", perguntas: [{"p": "Antes de postar a foto de um amigo, eu:", "opcoes": ["Peço permissão a ele", "Posto sem perguntar", "Mando para desconhecidos"], "certo": 0}, {"p": "Viu um colega sendo ofendido no grupo. O que fazer?", "opcoes": ["Compartilhar para todos verem", "Não compartilhar, apoiar e contar a um adulto", "Rir junto"], "certo": 1}, {"p": "Qual destes é um dado pessoal?", "opcoes": ["A cor favorita", "O nome do time favorito", "O endereço de casa"], "certo": 2}],
+      explicacao: "Antes de postar a foto de um amigo, eu: → <strong>Peço permissão a ele</strong> · Viu um colega sendo ofendido no grupo. O que fazer? → <strong>Não compartilhar, apoiar e contar a um adulto</strong> · Qual destes é um dado pessoal? → <strong>O endereço de casa</strong>" },
+    pega("m6"),
+    { tipo: "escolha", de: "m7", titulo: "M7 · Digitação sem medo", perguntas: [{"p": "Em que fileira os dedos descansam?", "opcoes": ["Na fileira base (A S D F … J K L Ç)", "Na fileira dos números", "Na barra de espaço"], "certo": 0}, {"p": "Para escrever “ã”, aperto primeiro:", "opcoes": ["A letra a", "A tecla do til ( ~ )", "A tecla Enter"], "certo": 1}, {"p": "Para várias letras maiúsculas seguidas, uso:", "opcoes": ["Backspace", "Enter", "Caps Lock"], "certo": 2}],
+      explicacao: "Em que fileira os dedos descansam? → <strong>Na fileira base (A S D F … J K L Ç)</strong> · Para escrever “ã”, aperto primeiro: → <strong>A tecla do til ( ~ )</strong> · Para várias letras maiúsculas seguidas, uso: → <strong>Caps Lock</strong>" },
+    pega("m7"),
+    { tipo: "escolha", de: "m8", titulo: "M8 · Atalhos do teclado e do mouse", perguntas: [{"p": "Qual atalho seleciona tudo?", "opcoes": ["Ctrl + A", "Ctrl + Z", "Ctrl + V"], "certo": 0}, {"p": "Qual atalho troca de janela?", "opcoes": ["Ctrl + S", "Alt + Tab", "Ctrl + C"], "certo": 1}, {"p": "Recortar um texto (Ctrl + X):", "opcoes": ["Deixa o original e faz uma cópia", "Salva o trabalho", "Tira do lugar para colar em outro"], "certo": 2}],
+      explicacao: "Qual atalho seleciona tudo? → <strong>Ctrl + A</strong> · Qual atalho troca de janela? → <strong>Alt + Tab</strong> · Recortar um texto (Ctrl + X): → <strong>Tira do lugar para colar em outro</strong>" },
+    pega("m8")
+  ].filter(Boolean) };
+})();

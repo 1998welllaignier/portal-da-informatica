@@ -294,3 +294,14 @@ Em cada missão:
 - 📚 **leia** o resumo;
 - 🟢 **faça** as atividades;
 - 🔁 errou? Leia a explicação e tente de novo.
+
+## 📝 Atividade de recuperação
+**Objetivo:** mostrar o que você aprendeu e recuperar a nota do bimestre.
+### 💡 Para começar
+Esta atividade só aparece quando o professor **libera** para você. Ela vale **nota de 0 a 10**.
+- 📚 Tem só as missões que a sua turma estudou.
+- 🎯 Certa de primeira vale o ponto inteiro; cada erro tira um pouco.
+- 🚫 Aqui **não tem dica**: é a hora de mostrar o que você sabe.
+- 🔎 Antes de responder, pode reler o 🧠 Resumo da Aula da missão.
+
+**Dica de ouro:** leia com calma e só clique em **Verificar** quando tiver certeza.

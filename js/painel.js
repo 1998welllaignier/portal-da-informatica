@@ -202,7 +202,7 @@
       "<b>🚦 Aula que não aconteceu normalmente</b>: na Chamada, abra “Esta aula não aconteceu normalmente?”. <b>🚫 Nenhum aluno veio</b> dá falta para todos. <b>🙋 O professor não pôde vir</b>, <b>🎉 Feriado</b> (inclusive os municipais), <b>🏫 Sem aula na escola</b> (formação, evento) e <b>📌 Outro motivo</b> não contam na frequência de ninguém. Escreva uma anotação para lembrar depois.",
       "<b>❔ Aulas sem registro</b>: quando você abre o painel, ele pergunta sozinho sobre as aulas que já passaram sem nenhuma presença, chamada ou registro, para você responder na hora.",
       "<b>Básico</b>: toque para avançar — ◐ Parcial (não vale nota) → ✓ Básico (1,0) → ✓✓ ×2 (reposição) → sem visto. <b>Desafio/Turbo</b>: 0,25 cada.",
-      "<b>🗓️ Frequência</b> e <b>🧮 Boletim</b> são calculados sozinhos. A nota da prova do portal entra sozinha; digite só a prova em papel (0 a 5) e a recuperação (0 a 10).",
+      "<b>🗓️ Frequência</b> e <b>🧮 Boletim</b> são calculados sozinhos. A nota da prova e a da 📝 atividade de recuperação do portal entram sozinhas (⚡); se digitar outra nota, vale a sua (prova em papel de 0 a 5, recuperação de 0 a 10).",
       "<b>📝 Registro</b>: o que aconteceu em cada aula. <b>🟧 Recados</b>: aparecem no topo da chamada e na aba 🎤 Aula."]],
     panorama: ["Ver de uma vez como foram as aulas de todas as turmas.", [
       "<b>Datas pelo calendário da rede</b>: a prova cai no dia da turma na semana de Avaliação Bimestral. A <b>última aula antes da prova é sempre a 🔁 Revisão</b> (aula inteira de atividades, só com as missões que a turma estudou: escolha 🔁 Revisão na Missão de hoje ao ▶️ Iniciar). As aulas antes dela recebem as missões que faltam; se ainda sobrar aula, entra a <b>M4</b>. Missão que não couber fica para depois da prova, e a prova só cobra o que foi dado. Depois da prova: 2ª chamada/recuperação.",
@@ -216,7 +216,8 @@
       "<b>Antes de ligar</b>: confira as missões marcadas. O painel já marca as missões <b>dadas de verdade</b> (com a data de cada aula, mesmo fora da ordem) e deixa desmarcadas as que ainda não foram dadas. Você pode desmarcar ou marcar à vontade.",
       "<b>📝 Ligar o Dia de prova</b>: o aluno digita o código e cai direto na prova. O relógio vai até o horário-limite; quando acaba, a prova é enviada sozinha.",
       "<b>3 alternativas</b>: toque no aluno 🧩 cujo PEI pede prova adaptada.",
-      "<b>Liberar recuperação</b>: abre uma 2ª tentativa só para aquele aluno. Vale a maior nota.",
+      "<b>Liberar recuperação</b>: abre uma 2ª tentativa da prova só para aquele aluno. Vale a maior nota.",
+      "<b>📝 Atividade de recuperação</b> (📝 Prova › coluna Atividade de recuperação): libere por aluno; ele faz a missão 📝 Recuperação no portal (só das missões que a turma estudou, sem dica) e a nota de 0 a 10 entra sozinha no Boletim.",
       "<b>⏹️ Encerrar</b> ao fim da aula. As notas vão sozinhas para o 🧮 Boletim do Diário."]],
     config: ["Configurações: importar alunos, ano letivo, “Iniciar a aula” e o 🎨 tema do portal.", [
       "<b>📥 Importar alunos</b>: cole a lista da turma (um nome por linha). Cada aluno ganha um código de 4 números.",
@@ -588,7 +589,7 @@
         await P.carregarApostila(ap.id); const C = P.conteudo[ap.id];
         const [sug, alunos, sit] = await Promise.all([missaoSugerida(t, C), alunosDaTurma(t.id), situacaoMissoes(t)]);
         ctx = { t, ap, C, alunos: alunos.filter(a => a.ativo !== false && !a.teste) };
-        selM.innerHTML = `<option value="">— nenhuma: os alunos escolhem —</option>` + C.missoes.map(m => `<option value="${esc(m.id)}" ${m.id === sug ? "selected" : ""}>${esc(SIG(m.id))} · ${esc(((m.titulo || "").replace(/^[^–]*–\s*/, "")).slice(0, 60))}${m.id === sug ? " · ⭐ sugerida" : ""}${esc(sitMis(sit, m.id))}</option>`).join("");
+        selM.innerHTML = `<option value="">— nenhuma: os alunos escolhem —</option>` + C.missoes.filter(m => m.id !== "rc").map(m => `<option value="${esc(m.id)}" ${m.id === sug ? "selected" : ""}>${esc(SIG(m.id))} · ${esc(((m.titulo || "").replace(/^[^–]*–\s*/, "")).slice(0, 60))}${m.id === sug ? " · ⭐ sugerida" : ""}${esc(sitMis(sit, m.id))}</option>`).join("");
         trav.disabled = !selM.value; if (!selM.value) trav.checked = false;
         const casa = ctx.alunos.filter(a => a.emCasa);
         const cx = c.querySelector("#ini-casa");
@@ -664,7 +665,7 @@
   async function gravarPlanoCasa(t) {
     const hst = await historicoTurma(t); const C = hst.base && P.conteudo[hst.base.id]; if (!C) return;
     const quando = m => (hst.dadas[m] || [])[0] || (hst.linhas.find(l => l.mid === m && l.d >= N.hoje()) || {}).d || "";
-    const missoes = C.missoes.map(m => { const d = quando(m.id); const [ini, fim] = d ? semanaDe(d) : ["", ""]; return { mid: m.id, titulo: m.titulo, ini, fim }; }).sort((a, b) => (a.ini || "9") < (b.ini || "9") ? -1 : (a.ini || "9") > (b.ini || "9") ? 1 : 0);
+    const missoes = C.missoes.filter(m => m.id !== "rc").map(m => { const d = quando(m.id); const [ini, fim] = d ? semanaDe(d) : ["", ""]; return { mid: m.id, titulo: m.titulo, ini, fim }; }).sort((a, b) => (a.ini || "9") < (b.ini || "9") ? -1 : (a.ini || "9") > (b.ini || "9") ? 1 : 0);
     const revisa = Object.keys(hst.dadas).filter(m => /^m\d+$/.test(m)).sort();
     await db().collection("config").doc("plano_" + t.id).set({ aid: hst.base.id, missoes, prova: hst.prova || "", revisa, atualizado: Date.now() });
   }
@@ -734,7 +735,7 @@
     await Promise.all(cat().apostilas.filter(a => a.serie === t.serie.id && P.doPeriodo(a)).map(a => P.carregarApostila(a.id).catch(() => null)));
     const [alunos, prog] = await Promise.all([alunosDaTurma(t.id), progressoDaTurma(t.id)]);
     const pm = {}; prog.forEach(p => { (pm[p.alunoId] = pm[p.alunoId] || []).push(p); });
-    const missoes = []; aps.forEach(a => { const C = P.conteudo[a.id]; if (C) C.missoes.forEach(m => missoes.push({ aid: a.id, m })); });
+    const missoes = []; aps.forEach(a => { const C = P.conteudo[a.id]; if (C) C.missoes.filter(m => m.id !== "rc").forEach(m => missoes.push({ aid: a.id, m })); });
     const corpo = el.querySelector("#corpo");
     function desenhar() {
       const verInat = el.querySelector("#inat").checked;
@@ -920,7 +921,7 @@
     const alunos = alunosTodos.filter(a => !a.teste);
     const testes = new Set(alunosTodos.filter(a => a.teste).map(a => a.id));
     const porDia = {};
-    prog.filter(p => !testes.has(p.alunoId)).forEach(p => Object.entries(p.dias || {}).forEach(([d, ts]) => {
+    prog.filter(p => !testes.has(p.alunoId) && p.mid !== "rc").forEach(p => Object.entries(p.dias || {}).forEach(([d, ts]) => {
       const x = (porDia[d] = porDia[d] || {}); const r = (x[p.alunoId] = x[p.alunoId] || { ini: ts, fim: ts, basico: false, missoes: [] });
       r.ini = Math.min(r.ini, ts); r.fim = Math.max(r.fim, ts);
       if (p.basicoOkEm && p.basicoOkEm[d]) r.basico = true;
@@ -997,7 +998,8 @@
     el.querySelector("#sel").onchange = e => { location.hash = "#/painel/prova/" + e.target.value; };
     const hoje = N.hoje();
     const cfgRef = db().collection("config").doc("prova_" + t.id);
-    const [cfgSnap, alunosTodos, provasSnap] = await Promise.all([cfgRef.get(), alunosDaTurma(t.id), db().collection("provas").where("turma", "==", t.id).get()]);
+    const [cfgSnap, alunosTodos, provasSnap, progRc] = await Promise.all([cfgRef.get(), alunosDaTurma(t.id), db().collection("provas").where("turma", "==", t.id).get(),
+      db().collection("progresso").where("turma", "==", t.id).where("mid", "==", "rc").get().catch(() => ({ docs: [] }))]);
     const cfg = cfgSnap.exists ? cfgSnap.data() : {};
     const agora = Date.now();
     const ligada = !!cfg.aberta && cfg.dia === hoje && !(cfg.ate && agora > cfg.ate + 3 * 60000);
@@ -1010,6 +1012,7 @@
       return agora + dur;
     })();
     const rec = new Set(cfg.recuperacao || []);
+    const recAtv = new Set(cfg.recAtv || []);   // 📝 atividade de recuperação liberada (15/11/2026)
     const alunos = alunosTodos.filter(a => a.ativo && !a.teste);
     const base = cat().apostilas.find(a => a.serie === t.serie.id && P.doPeriodo(a) && !a.oculta && !a.trilha);
     const trilha = base && cat().apostilas.find(a => a.trilha && a.base === base.id);
@@ -1029,6 +1032,8 @@
     const tres = new Set(alunos.filter(a => a.prova3).map(a => a.id));
     const hhmm = d => d.enviadoEm && d.enviadoEm.toDate ? d.enviadoEm.toDate().toLocaleString("pt-BR").slice(0, 17) : (d.dia ? dataBR(d.dia) : "");
     const fizeram = alunos.filter(a => res[a.id]).length;
+    const aidsBim = new Set([base && base.id, trilha && trilha.id].filter(Boolean));
+    const rcNota = {}; progRc.docs.forEach(x => { const d = x.data(); if (d.notaRec != null && aidsBim.has(d.aid)) rcNota[d.alunoId] = { n: +d.notaRec, f: d.recFeitas, tot: d.recTotal }; });
     const linhas = alunos.map(a => {
       const r = res[a.id] || {}; const t1 = r[1], t2 = r[2];
       const fin = Math.max(t1 ? t1.nt : -1, t2 ? t2.nt : -1);
@@ -1036,7 +1041,8 @@
         <td>${t1 ? `<strong>${nota(t1.nt)}</strong> <small>(${t1.ac}/${t1.nq} · ${esc(hhmm(t1))})</small>` : "—"}</td>
         <td>${t2 ? `<strong>${nota(t2.nt)}</strong> <small>(${t2.ac}/${t2.nq})</small>` : rec.has(a.id) ? "<small>liberada</small>" : "—"}</td>
         <td>${fin >= 0 ? `<strong>${nota(fin)}</strong>` : "—"}</td>
-        <td>${t1 && !t2 ? `<button class="btn btn-sec btn-peq" data-rec="${a.id}" type="button">${rec.has(a.id) ? "Cancelar recuperação" : "Liberar recuperação"}</button>` : ""}</td></tr>`;
+        <td>${t1 && !t2 ? `<button class="btn btn-sec btn-peq" data-rec="${a.id}" type="button">${rec.has(a.id) ? "Cancelar recuperação" : "Liberar recuperação"}</button>` : ""}</td>
+        <td>${rcNota[a.id] ? `<strong>${nota(rcNota[a.id].n)}</strong> <small>(${rcNota[a.id].f} de ${rcNota[a.id].tot})</small><br>` : ""}<button class="btn btn-sec btn-peq" data-recatv="${a.id}" type="button">${recAtv.has(a.id) ? "🔓 Liberada · fechar" : "📝 Liberar"}</button></td></tr>`;
     }).join("");
     const gab = aids.map(x => { const Pv = P.provas[x]; if (!Pv) return ""; const ap = P.apostila(x);
       const li = q => `<li>${q.tipo === "vf" ? "<em>V ou F:</em> " : ""}${esc(q.p)}<br>${q.opcoes.map(o => P.provaHash(x, q.id, o) === q.h ? `<span class="certa">✔ ${esc(o)}</span>` : `<span>${esc(o)}</span>`).join(" · ")}</li>`;
@@ -1064,8 +1070,9 @@
           <button class="btn btn-sec" id="pv-gab" type="button">👁️ Mostrar gabarito</button></div></div>
       <div class="painel pp-gab" id="gab"><h2>Gabarito</h2>${gab}</div>
       <div class="painel"><h2>Notas (${fizeram} de ${alunos.length} fizeram)</h2>
-        <div class="tabela-wrap"><table><thead><tr><th>Aluno</th><th>1ª tentativa</th><th>Recuperação</th><th>Nota final</th><th></th></tr></thead><tbody>${linhas}</tbody></table></div>
-        <p class="ajuda">A prova tem até 10 questões, só das missões marcadas, e vale até 5,0 (nota proporcional aos acertos). 🧩 <strong>3 alternativas</strong>: para o aluno cujo PEI pede, a prova mostra só 3 opções em cada questão. Na nota final vale a maior entre a prova e a recuperação. A recuperação abre só para quem você liberar, quando o Dia de prova estiver ligado.</p></div>`;
+        <div class="tabela-wrap"><table><thead><tr><th>Aluno</th><th>1ª tentativa</th><th>Recuperação</th><th>Nota final</th><th></th><th>📝 Atividade de recuperação (0 a 10)</th></tr></thead><tbody>${linhas}</tbody></table></div>
+        <p class="ajuda">A prova tem até 10 questões, só das missões marcadas, e vale até 5,0 (nota proporcional aos acertos). 🧩 <strong>3 alternativas</strong>: para o aluno cujo PEI pede, a prova mostra só 3 opções em cada questão. Na nota final vale a maior entre a prova e a recuperação. A recuperação abre só para quem você liberar, quando o Dia de prova estiver ligado.</p>
+        <p class="ajuda">📝 <strong>Atividade de recuperação</strong>: é uma missão do portal, só com as missões marcadas acima, sem dica nem resolução. Abre a qualquer hora (na aula ou em casa) só para quem você liberar. Vale de 0 a 10 (certa de primeira = ponto inteiro; cada erro tira um pouco) e a nota entra sozinha no 🧮 Boletim, no lugar da recuperação, quando for maior que a nota do aluno. Se você digitar outra nota no Boletim, vale a sua.</p></div>`;
     const recarregar = () => telaProvaPainel(u, t.id);
     const on = corpo.querySelector("#pv-on"), off = corpo.querySelector("#pv-off");
     if (on) on.onclick = async () => {
@@ -1076,7 +1083,7 @@
       if (!missoes.length) { toast("Marque pelo menos uma missão que a turma estudou."); return; }
       on.disabled = true;
       const ts = firebase.firestore.Timestamp ? firebase.firestore.Timestamp.fromMillis(fim.getTime()) : fim.getTime();
-      await cfgRef.set({ aberta: true, dia: hoje, abertaEm: Date.now(), ate: fim.getTime(), ateTs: ts, recuperacao: [...rec], missoes, tres: [...tres] });
+      await cfgRef.set({ aberta: true, dia: hoje, abertaEm: Date.now(), ate: fim.getTime(), ateTs: ts, recuperacao: [...rec], missoes, tres: [...tres], recAtv: [...recAtv], ...(cfg.recMissoes ? { recMissoes: cfg.recMissoes } : {}) });
       toast("Dia de prova ligado até as " + hm(fim.getTime())); recarregar(); };
     if (off) off.onclick = async () => { off.disabled = true; await cfgRef.set({ aberta: false, encerradaEm: Date.now() }, { merge: true }); toast("Prova encerrada."); recarregar(); };
     corpo.querySelector("#pv-gab").onclick = e => { const g = corpo.querySelector("#gab"); g.classList.toggle("on"); e.target.textContent = g.classList.contains("on") ? "🙈 Esconder gabarito" : "👁️ Mostrar gabarito"; };
@@ -1090,6 +1097,12 @@
       if (v) tres.add(id); else tres.delete(id);
       if (cfgSnap.exists) await cfgRef.set({ tres: [...tres] }, { merge: true });
       recarregar();
+    });
+    corpo.querySelectorAll("[data-recatv]").forEach(b => b.onclick = async () => {
+      const id = b.dataset.recatv; if (recAtv.has(id)) recAtv.delete(id); else recAtv.add(id);
+      const ms = [...corpo.querySelectorAll("[data-m]:checked")].map(c => c.dataset.m);
+      b.disabled = true; await cfgRef.set({ recAtv: [...recAtv], ...(ms.length ? { recMissoes: ms } : {}) }, { merge: true });
+      toast(recAtv.has(id) ? "📝 Atividade de recuperação liberada (só com as missões marcadas)." : "Atividade de recuperação fechada para este aluno."); recarregar();
     });
     corpo.querySelectorAll("[data-rec]").forEach(b => b.onclick = async () => {
       const id = b.dataset.rec; if (rec.has(id)) rec.delete(id); else rec.add(id);
@@ -1431,6 +1444,7 @@
     const ehDiaDeAula = d => !!aulas[d] || cron.some(c => c.data === d) || (t.aula && new Date(d + "T12:00:00").getDay() === t.aula.dia);
     const AUTO = {}; const ad = d => AUTO[d] = AUTO[d] || { p: {}, c: {}, x: {} };
     prog.forEach(p => {
+      if (p.mid === "rc") return;   // 📝 a atividade de recuperação não conta presença nem visto
       const ds = Object.keys(p.dias || {}).filter(ehDiaDeAula).sort(); if (!ds.length) return;
       ds.forEach(d => { ad(d).p[p.alunoId] = "P"; });
       if (!p.mid) return;
@@ -1449,7 +1463,7 @@
     const midDoDia = d => { const a = aulas[d]; return (a && a.missaoHoje && a.missaoHoje.mid) || midDoTexto(encontroDe(d)); };
     // aula de missão = teve 📌 missão do dia (M1…M4 ou 🔁 Revisão) ou o encontro é Missão / Revisão / Projeto final
     const ehAulaMissao = d => !!midDoDia(d) || /^(Missão|Projeto final|Revis)/.test(encontroDe(d));
-    const fezMissao = {}; prog.forEach(p => { if (p.mid && p.basicoOk) (fezMissao[p.alunoId] = fezMissao[p.alunoId] || new Set()).add(p.mid); });
+    const fezMissao = {}; prog.forEach(p => { if (p.mid && p.mid !== "rc" && p.basicoOk) (fezMissao[p.alunoId] = fezMissao[p.alunoId] || new Set()).add(p.mid); });
     const repos = (d, id) => { const m = midDoDia(d); return !!(m && fezMissao[id] && fezMissao[id].has(m)); };
     const pres = (d, id) => { const a = aulas[d]; if (semAula(a)) return { v: null };
       if (temManual(a, "presencas", id)) return a.presencas[id] === "F" && repos(d, id) ? { v: "J", auto: true, repos: true } : { v: a.presencas[id], auto: false };
@@ -1462,6 +1476,9 @@
     const diasComChamada = () => [...new Set([...Object.keys(aulas), ...(auto ? Object.keys(AUTO) : [])])].filter(d => d <= hoje && temChamada(d)).sort();
     const freq = id => { let p = 0, f = 0, j = 0; diasComChamada().forEach(d => { const v = pres(d, id).v; if (v === "P") p++; else if (v === "F") f++; else if (v === "J") j++; }); const tot = p + f + j; return { p, f, j, tot, pct: tot ? Math.round(100 * (p + j) / tot) : null }; };
     const notas = { prova: { ...((T.notas || {}).prova || {}) }, rec: { ...((T.notas || {}).rec || {}) } };
+    // 📝 nota da atividade de recuperação feita no portal (0 a 10), só das apostilas do bimestre em uso (15/11/2026)
+    const aidsBim = new Set(cat().apostilas.filter(a => a.serie === t.serie.id && P.doPeriodo(a)).map(a => a.id));
+    const recPortal = {}; prog.forEach(p => { if (p.mid === "rc" && p.notaRec != null && aidsBim.has(p.aid)) recPortal[p.alunoId] = Math.max(recPortal[p.alunoId] ?? -1, +p.notaRec); });
     const boletim = id => {
       const dias = [...new Set([...Object.keys(aulas), ...Object.keys(AUTO)])];
       let bas = 0, ext = 0; dias.forEach(d => { bas += carimbo(d, id).v; ext += extra(d, id).v; });
@@ -1470,7 +1487,7 @@
       const nAulas = diasComChamada().filter(ehAulaMissao).length;
       const basC = Math.round(100 * (nAulas ? Math.min(4, 4 * Math.min(bas, nAulas) / nAulas) : Math.min(4, bas))) / 100, bonus = Math.min(1, ext * 0.25), A = basC + bonus;
       const man = notas.prova[id], B = man != null && man !== "" ? +man : provaPortal[id] != null ? provaPortal[id] : null;
-      const nota = A + (B || 0); const rv = notas.rec[id], r = rv == null || rv === "" ? null : +rv;
+      const nota = A + (B || 0); const rv = notas.rec[id], recManual = !(rv == null || rv === ""), r = recManual ? +rv : recPortal[id] != null ? recPortal[id] : null;
       const final = r != null && r > nota ? r : nota;
       const encs = diasComChamada().filter(ehAulaMissao);
       const deficit = Math.max(0, encs.length - bas), falta = [];
@@ -1478,7 +1495,7 @@
       if (B == null && cron.some(c => /^Avalia/.test(c.encontro) && c.data <= hoje)) falta.push("fazer a prova (2ª chamada)");
       if (B != null && final < 5 && r == null) falta.push("recuperação");
       const sit = B == null && r == null ? { c: "wait", t: "Aguardando prova" } : final >= 5 ? { c: "ok", t: "Aprovado" } : r == null ? { c: "bad", t: "Fazer recuperação" } : { c: "bad", t: "Abaixo da média" };
-      return { bas, basC, nAulas, ext, bonus, A, B, provaManual: man != null && man !== "", nota, r, final, sit, falta, recUsada: r != null && r > nota };
+      return { bas, basC, nAulas, ext, bonus, A, B, provaManual: man != null && man !== "", recManual, nota, r, final, sit, falta, recUsada: r != null && r > nota };
     };
     // dia da chamada: hoje se for dia de aula; senão, a última aula
     let dia = sessionStorage.getItem("painel:diario:" + t.id) || (ehDiaDeAula(hoje) ? hoje : ([...cron.map(c => c.data), ...Object.keys(aulas)].filter(d => d <= hoje).sort().pop() || hoje));
@@ -1535,11 +1552,11 @@
       const com = rows.filter(r => r.b.B != null || r.b.r != null);
       return `<div class="painel">
         <p class="pp-cont"><span>${alunos.length} alunos</span> <span>✅ ${com.filter(r => r.b.final >= 5).length} na média</span> <span>❌ ${com.filter(r => r.b.final < 5).length} abaixo de 5,0</span> <span>⏳ ${alunos.length - com.length} sem prova</span></p>
-        <p class="ajuda"><b>Nota:</b> Apostila (até 5,0) = Básico até 4,0, dividido pelas aulas de missão que a turma teve (M1 a M4 e a 🔁 Revisão, só as que a turma teve), + 0,25 por Desafio/Turbo (bônus até 1,0). Prova (até 5,0) = nota da prova feita no portal (ou a que você digitar, para prova em papel). A Recuperação (0 a 10) substitui a nota quando for maior. Média mínima: 5,0.</p>
+        <p class="ajuda"><b>Nota:</b> Apostila (até 5,0) = Básico até 4,0, dividido pelas aulas de missão que a turma teve (M1 a M4 e a 🔁 Revisão, só as que a turma teve), + 0,25 por Desafio/Turbo (bônus até 1,0). Prova (até 5,0) = nota da prova feita no portal (ou a que você digitar, para prova em papel). A Recuperação (0 a 10) substitui a nota quando for maior: a da 📝 atividade de recuperação do portal entra sozinha (⚡); se você digitar outra, vale a sua. Média mínima: 5,0.</p>
         <div class="tabela-wrap"><table class="pp-bol"><thead><tr><th>Aluno</th><th>Freq.</th><th>Básico</th><th>Des./Turbo</th><th>Apostila</th><th>Prova<br><small>até 5,0</small></th><th>Nota</th><th>Recup.<br><small>0 a 10</small></th><th>Final</th><th>Situação</th><th>O que falta</th></tr></thead>
         <tbody>${rows.map(({ a, b, fr }) => `<tr><td>${nomeA(a)}</td><td>${fr.pct == null ? "–" : fr.pct + "%"}</td><td>${b.bas}/${b.nAulas || 4}</td><td>${b.ext}</td><td><strong>${fmtN(b.A)}</strong></td>
           <td><input class="num" data-np="${a.id}" value="${b.provaManual ? String(notas.prova[a.id]).replace(".", ",") : ""}" placeholder="${b.B != null && !b.provaManual ? fmtN(b.B) + " ⚡" : "–"}" inputmode="decimal" aria-label="Prova de ${esc(a.nome)}"></td>
-          <td>${fmtN(b.nota)}</td><td><input class="num" data-nr="${a.id}" value="${b.r == null ? "" : String(b.r).replace(".", ",")}" placeholder="–" inputmode="decimal" aria-label="Recuperação de ${esc(a.nome)}"></td>
+          <td>${fmtN(b.nota)}</td><td><input class="num" data-nr="${a.id}" value="${b.recManual ? String(b.r).replace(".", ",") : ""}" placeholder="${b.r != null && !b.recManual ? fmtN(b.r) + " ⚡" : "–"}" inputmode="decimal" aria-label="Recuperação de ${esc(a.nome)}"></td>
           <td><strong class="nota ${b.sit.c}">${fmtN(b.final)}</strong></td><td><span class="sit ${b.sit.c}">${b.sit.t}</span></td><td class="falta">${esc(b.falta.join(" · ") || "—")}</td></tr>`).join("")}</tbody></table></div>
         <p class="ajuda">A prova feita no portal aparece sozinha (⚡). Digite na coluna Prova só se o aluno fez a prova em papel (de 0 a 5); apague o número para voltar à nota do portal.</p>
         <div class="row-btns"><button type="button" class="btn" id="pdf-bol">🖨️ Boletim em PDF (turma + individuais)</button><button type="button" class="btn btn-sec" id="xls-bol">📥 Baixar planilha (Excel)</button><button type="button" class="btn btn-sec" id="cp-bol">📋 Copiar boletim</button></div>
@@ -1593,7 +1610,7 @@
           notas[k][id] = v; salvarTurma({ notas: { [k]: { [id]: v } } }); render();
         });
         const linhas = () => alunos.map(a => ({ a, b: boletim(a.id), fr: freq(a.id) }));
-        const bimTxt = "4º bimestre de " + hoje.slice(0, 4), turmaTxt = nomeTurma(t.id);
+        const bimTxt = ((cat().periodos || []).find(x => x.id === P.periodoAtual()) || { nome: "4º bimestre de " + hoje.slice(0, 4) }).nome, turmaTxt = nomeTurma(t.id);
         q("#xls-bol").onclick = () => {
           const c = v => { v = String(v == null ? "" : v); return /[;"\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v; };
           const csv = [["Prof. Welington Laignier · Informática · " + turmaTxt + " · " + bimTxt],
@@ -1777,7 +1794,7 @@
       const box = document.createElement("div"); box.className = "pp-trava pp-hoje";
       box.innerHTML = `<label>📌 <b>Missão de hoje:</b> <select data-hj="sel">
           <option value="" ${hj ? "" : "selected"}>— nenhuma (o aluno escolhe) —</option>
-          ${C.missoes.map(m => `<option value="${esc(m.id)}" ${hj && hj.mid === m.id ? "selected" : ""}>${esc(m.icone || "")} ${esc(SIG(m.id))} · ${esc(((m.titulo || "").replace(/^[^–]*–\s*/, "") || curto(m)).slice(0, 60))}${esc(sitMis(sit, m.id))}</option>`).join("")}</select></label>
+          ${C.missoes.filter(m => m.id !== "rc").map(m => `<option value="${esc(m.id)}" ${hj && hj.mid === m.id ? "selected" : ""}>${esc(m.icone || "")} ${esc(SIG(m.id))} · ${esc(((m.titulo || "").replace(/^[^–]*–\s*/, "") || curto(m)).slice(0, 60))}${esc(sitMis(sit, m.id))}</option>`).join("")}</select></label>
         <label class="pp-auto" title="${hj ? "Só a missão de hoje fica com as tarefas abertas" : "Escolha primeiro a missão de hoje na lista"}"><input type="checkbox" data-hj="trav" ${hj && hj.travar ? "checked" : ""} ${hj ? "" : "disabled"}> 🔒 Travar só nela</label>
         <span class="st">${hj ? (hj.travar ? "🔒 os alunos só fazem as tarefas desta missão" : "✔ o aluno cai direto nela ao digitar o código") : "nenhuma missão definida para hoje"}</span>
         <span class="pp-ini-st ${iniciada ? "on" : "off"}">${iniciada ? `▶️ Aula iniciada às ${new Date(hj0.iniciadaEm || Date.now()).toTimeString().slice(0, 5)}` : `⏳ Aula não iniciada: tarefas fechadas <button class="btn btn-peq" type="button" data-hj="ini">▶️ Iniciar a aula</button>`}</span>`;

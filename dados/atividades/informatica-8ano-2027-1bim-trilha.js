@@ -314,3 +314,40 @@
   }
   });
 })();
+
+/* ===== 📝 ATIVIDADE DE RECUPERAÇÃO (rc) — 15/11/2026 =====
+   Liberada por aluno no painel (📝 Prova › Atividade de recuperação). Entram só as missões que a turma estudou (de: "mN").
+   Por missão: perguntas novas + 1 atividade interativa do Básico da própria missão. Sem dica, sem resolução e sem refazer;
+   a nota (0 a 10) vai sozinha para o Boletim. Gerado por ferramentas/recuperacao_2027/gerar_rc.py; para mudar, edite aqui mesmo. */
+(function () {
+  const A = PORTAL.atividades["informatica-8ano-2027-1bim-trilha"]; if (!A) return;
+  const OK = ["classificar", "ligar", "ordenar", "tabela", "sinais", "lista_ops", "sequencial", "busca_binaria", "bolha", "arvore", "grafo_montar", "mensagens", "explorador_pastas", "rota"];
+  const pega = mid => { const x = ((A[mid] || {}).basico || []).find(a => OK.includes(a.tipo));
+    return x ? Object.assign({}, x, { de: mid, titulo: mid.toUpperCase() + " · " + String(x.titulo || "").replace(/^Passo \d+ · /, "") }) : null; };
+  A.rc = { basico: [
+    { tipo: "escolha", de: "m1", titulo: "M1 · Listas", perguntas: [{"p": "CHAMADA = Ana, Bruno, Carla. CHAMADA[2] é:", "opcoes": ["Bruno", "Ana"], "certo": 0}, {"p": "O tamanho de Ana, Bruno, Carla é:", "opcoes": ["2", "3"], "certo": 1}],
+      explicacao: "CHAMADA = Ana, Bruno, Carla. CHAMADA[2] é: → <strong>Bruno</strong> · O tamanho de Ana, Bruno, Carla é: → <strong>3</strong>" },
+    pega("m1"),
+    { tipo: "escolha", de: "m2", titulo: "M2 · Inserir e remover", perguntas: [{"p": "Inserir no fim faz o tamanho:", "opcoes": ["Aumentar 1", "Diminuir 1"], "certo": 0}, {"p": "Quando alguém sai, quem estava atrás:", "opcoes": ["Fica no mesmo lugar", "Anda uma posição para a frente"], "certo": 1}],
+      explicacao: "Inserir no fim faz o tamanho: → <strong>Aumentar 1</strong> · Quando alguém sai, quem estava atrás: → <strong>Anda uma posição para a frente</strong>" },
+    pega("m2"),
+    { tipo: "escolha", de: "m3", titulo: "M3 · Busca sequencial", perguntas: [{"p": "A busca sequencial olha os itens:", "opcoes": ["Um por um", "Sempre pelo meio"], "certo": 0}, {"p": "O melhor caso é quando o item é:", "opcoes": ["O último", "O primeiro"], "certo": 1}],
+      explicacao: "A busca sequencial olha os itens: → <strong>Um por um</strong> · O melhor caso é quando o item é: → <strong>O primeiro</strong>" },
+    pega("m3"),
+    { tipo: "escolha", de: "m4", titulo: "M4 · Busca binária", perguntas: [{"p": "No jogo de 1 a 100, o primeiro chute esperto é:", "opcoes": ["50", "1"], "certo": 0}, {"p": "A busca binária precisa de lista:", "opcoes": ["Fora de ordem", "Ordenada"], "certo": 1}],
+      explicacao: "No jogo de 1 a 100, o primeiro chute esperto é: → <strong>50</strong> · A busca binária precisa de lista: → <strong>Ordenada</strong>" },
+    pega("m4"),
+    { tipo: "escolha", de: "m5", titulo: "M5 · Método da bolha", perguntas: [{"p": "Vizinhos 9 e 4 (crescente):", "opcoes": ["Trocam de lugar", "Ficam como estão"], "certo": 0}, {"p": "No fim da 1ª passada, o maior fica:", "opcoes": ["No começo", "No final"], "certo": 1}],
+      explicacao: "Vizinhos 9 e 4 (crescente): → <strong>Trocam de lugar</strong> · No fim da 1ª passada, o maior fica: → <strong>No final</strong>" },
+    pega("m5"),
+    { tipo: "escolha", de: "m6", titulo: "M6 · Recursão", perguntas: [{"p": "Na matrioska, a bonequinha que não abre é o:", "opcoes": ["Caso base", "Passo recursivo"], "certo": 0}, {"p": "Contar a partir de 2 mostra:", "opcoes": ["1, 2, 3", "2, 1, Fogo!"], "certo": 1}],
+      explicacao: "Na matrioska, a bonequinha que não abre é o: → <strong>Caso base</strong> · Contar a partir de 2 mostra: → <strong>2, 1, Fogo!</strong>" },
+    pega("m6"),
+    { tipo: "escolha", de: "m7", titulo: "M7 · Ordenação por seleção", perguntas: [{"p": "Lista 6, 3, 8. O menor é:", "opcoes": ["3", "8"], "certo": 0}, {"p": "Na 1ª rodada, o menor vai para:", "opcoes": ["A última posição", "A 1ª posição"], "certo": 1}],
+      explicacao: "Lista 6, 3, 8. O menor é: → <strong>3</strong> · Na 1ª rodada, o menor vai para: → <strong>A 1ª posição</strong>" },
+    pega("m7"),
+    { tipo: "escolha", de: "m8", titulo: "M8 · Fractais", perguntas: [{"p": "Na samambaia, cada folhinha parece:", "opcoes": ["A samambaia inteira", "Uma bola"], "certo": 0}, {"p": "Na árvore fractal, a cada nível o número de galhos:", "opcoes": ["Fica igual", "Dobra"], "certo": 1}],
+      explicacao: "Na samambaia, cada folhinha parece: → <strong>A samambaia inteira</strong> · Na árvore fractal, a cada nível o número de galhos: → <strong>Dobra</strong>" },
+    pega("m8")
+  ].filter(Boolean) };
+})();

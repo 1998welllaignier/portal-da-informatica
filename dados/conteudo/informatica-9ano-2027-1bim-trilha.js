@@ -1001,6 +1001,53 @@ PORTAL.registrarConteudo("informatica-9ano-2027-1bim-trilha", {
    "vf": [],
    "resumo": null,
    "autoavaliacao": []
+  },
+  {
+   "id": "rc",
+   "icone": "📝",
+   "titulo": "Atividade de recuperação",
+   "objetivo": "mostrar o que você aprendeu e recuperar a nota do bimestre.",
+   "comecar": [
+    {
+     "t": "p",
+     "h": "Esta atividade só aparece quando o professor <strong>libera</strong> para você. Ela vale <strong>nota de 0 a 10</strong>."
+    },
+    {
+     "t": "lista",
+     "ord": false,
+     "itens": [
+      {
+       "nivel": 0,
+       "h": "📚 Tem só as missões que a sua turma estudou."
+      },
+      {
+       "nivel": 0,
+       "h": "🎯 Certa de primeira vale o ponto inteiro; cada erro tira um pouco."
+      },
+      {
+       "nivel": 0,
+       "h": "🚫 Aqui <strong>não tem dica</strong>: é a hora de mostrar o que você sabe."
+      },
+      {
+       "nivel": 0,
+       "h": "🔎 Antes de responder, pode reler o 🧠 Resumo da Aula da missão."
+      }
+     ]
+    },
+    {
+     "t": "p",
+     "h": "<strong>Dica de ouro:</strong> leia com calma e só clique em <strong>Verificar</strong> quando tiver certeza."
+    }
+   ],
+   "termos": [],
+   "ondeUso": {
+    "itens": [],
+    "reflexao": ""
+   },
+   "alertas": [],
+   "vf": [],
+   "resumo": null,
+   "autoavaliacao": []
   }
  ]
 });

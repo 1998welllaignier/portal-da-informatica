@@ -137,7 +137,7 @@
     document.body.classList.toggle("modo-trilha", !!(apost && apost.trilha));
 
     const el = mount(`<section class="tela prova">
-      <header class="prova-cab"><h1>📝 Prova do 4º bimestre${e.tentativa === 2 ? " · Recuperação" : ""}</h1>
+      <header class="prova-cab"><h1>📝 Prova do ${esc(((cat().periodos || []).find(x => x.id === (apost && apost.periodo || cat().periodoPadrao)) || { nome: "bimestre" }).nome)}${e.tentativa === 2 ? " · Recuperação" : ""}</h1>
         <p class="lead">${esc(s.nomes[0])} · ${esc(apost ? apost.titulo : "")}</p>
         <ul class="prova-regras"><li>✏️ <strong>${NQ} questões</strong>. No fim, você vê a sua nota de <strong>0 a 10</strong>.</li><li>☝️ Escolha <strong>uma</strong> resposta em cada questão.</li><li>🔒 Você só pode enviar <strong>uma vez</strong>. Confira antes de finalizar.</li></ul></header>
       <ol class="prova-lista">${ordem.map((q, i) => `<li class="prova-q" data-q="${q.id}"><p class="prova-p"><span class="prova-n">${i + 1}</span>${q.tipo === "vf" ? "<em>Verdadeiro ou falso?</em> " : ""}${esc(q.p)}</p>

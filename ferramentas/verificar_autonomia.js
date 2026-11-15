@@ -15,7 +15,7 @@
 const fs = require("fs"), path = require("path");
 const RAIZ = path.join(__dirname, "..");
 global.window = global; const C = {}, A = {};
-global.PORTAL = { registrarConteudo: (id, c) => C[id] = c, registrarAtividades: (id, a) => A[id] = a };
+global.PORTAL = { atividades: A, registrarConteudo: (id, c) => C[id] = c, registrarAtividades: (id, a) => A[id] = a };  // atividades: o bloco 📝 rc lê PORTAL.atividades
 for (const f of fs.readdirSync(path.join(RAIZ, "dados/conteudo"))) require(path.join(RAIZ, "dados/conteudo", f));
 for (const f of fs.readdirSync(path.join(RAIZ, "dados/atividades"))) if (!f.startsWith("_")) require(path.join(RAIZ, "dados/atividades", f));
 const so = process.argv[2];
@@ -40,7 +40,7 @@ for (const [aid, a] of Object.entries(A)) {
     const m = c.missoes.find(x => x.id === mid); if (!m) continue;
     const bl = []; blocos([m.comecar, m.termos, m.ondeUso, m.alertas, m.resumo && m.resumo.texto, m.objetivo], bl);
     // o projeto final usa o texto de todas as missões
-    if (mid === "pf" || mid === "rv") c.missoes.forEach(x => blocos([x.comecar, x.termos, x.resumo && x.resumo.texto], bl)); // a 🔁 Revisão também (Relembre + missões)
+    if (mid === "pf" || mid === "rv" || mid === "rc") c.missoes.forEach(x => blocos([x.comecar, x.termos, x.resumo && x.resumo.texto], bl)); // a 🔁 Revisão também (Relembre + missões)
     // textos de apoio (info) e enunciados da própria missão também contam como lugar para procurar
     Object.values(acts).forEach(arr => Array.isArray(arr) && arr.forEach(x => { if (x.html) bl.push(x.html); if (x.enunciado) bl.push(x.enunciado); }));
     const B = bl.map(b => " " + norm(b) + " ");
