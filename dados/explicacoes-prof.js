@@ -163,6 +163,16 @@
   } };
 
   /* ===== 2027 · 6º ano · 1º bimestre ===== */
+  E["informatica-9ano-2027-1bim-trilha"] = { vf: {
+    m1: ["V: cada esquina pode ser um vértice (um ponto).", "F: o mais curto é o de menor soma, nem sempre o de menos paradas.", "V: o peso é o número escrito na aresta."],
+    m2: ["V: na computação, a árvore é desenhada com a raiz em cima.", "F: folha é o vértice sem filhos.", "V: pasta dentro de pasta forma uma árvore."],
+    m3: ["V: as folhas são as respostas finais.", "F: “Ele é legal?” não tem resposta clara.", "V: “digite 1, digite 2” é uma árvore de decisão."],
+    m4: ["V: a lista de vizinhos guarda, para cada lugar, os lugares ligados a ele.", "V: grau é quantos vizinhos o lugar tem.", "F: vizinhos são lugares ligados por uma aresta."],
+    m5: ["V: o autômato está sempre em algum estado.", "F: na catraca travada, empurrar não faz girar.", "V: o semáforo muda de estado: é um autômato."],
+    m6: ["V: o programa espera o evento e reage.", "F: o tratador roda toda vez que o evento acontece.", "V: tocar no ícone é um evento."],
+    m7: ["V: verde, amarelo e vermelho.", "F: depois do amarelo vem o vermelho.", "V: o ciclo se repete sempre na mesma ordem."],
+    m8: ["V: lugar = vértice; corredor = aresta.", "V: o Pátio liga a 4 lugares: grau 4.", "F: a rota de fuga é o caminho mais curto e seguro."]
+  } };
   E["informatica-8ano-2027-1bim-trilha"] = { vf: {
     m1: ["V: a lista guarda vários itens em ordem, com um nome só.", "F: CHAMADA[2] é Bruno; Ana é a posição 1.", "V: tamanho é a quantidade de itens."],
     m2: ["V: inserir no fim aumenta o tamanho em 1.", "V: quem estava atrás anda uma posição para a frente.", "F: remover diminui o tamanho."],

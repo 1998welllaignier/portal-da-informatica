@@ -98,7 +98,10 @@ PORTAL.catalogo = {
       trilha: true, oculta: true, base: "informatica-7ano-2027-1bim" },
     { id: "informatica-8ano-2027-1bim-trilha", serie: "8", disciplina: "informatica", unidade: "1º bimestre de 2027", periodo: "2027-1",
       titulo: "Informática — 8º ano — 1º bimestre de 2027 · Trilha Passo a Passo", modo: "individual", extras: ["m7", "m8"],
-      trilha: true, oculta: true, base: "informatica-8ano-2027-1bim" }
+      trilha: true, oculta: true, base: "informatica-8ano-2027-1bim" },
+    { id: "informatica-9ano-2027-1bim-trilha", serie: "9", disciplina: "informatica", unidade: "1º bimestre de 2027", periodo: "2027-1",
+      titulo: "Informática — 9º ano — 1º bimestre de 2027 · Trilha Passo a Passo", modo: "individual", extras: ["m7", "m8"],
+      trilha: true, oculta: true, base: "informatica-9ano-2027-1bim" }
   ],
 
   /* Orientações curtas que aparecem na área do professor */
