@@ -43,7 +43,22 @@ PORTAL.registrarAtividades("informatica-6ano-4bim-trilha", {
       { tipo: "pc", titulo: "Passo 4 · No computador: Bloco de Notas", programa: "Bloco de Notas",
         passos: ["Clique no botão <strong>Iniciar</strong> e digite <strong>bloco</strong>. Clique em <strong>Bloco de Notas</strong>.", "Digite o seu <strong>primeiro nome</strong>.", "Aperte <strong>Ctrl</strong> e <strong>S</strong> juntos. No nome do arquivo, digite <strong>EU</strong> e clique em <strong>Salvar</strong>."],
         conferir: [{ rot: "Que nome você deu ao arquivo?", opcoes: ["CASA", "EU", "JOGO"], gab: "EU", re: "^EU$", dica: "O nome do arquivo é <strong>EU</strong>." }],
-        okMsg: "Muito bem! Seu trabalho está salvo." }
+        okMsg: "Muito bem! Seu trabalho está salvo." },
+      { id: "m1-sim-pasta", opcional: true, tipo: "sim_pc", titulo: "🖥️ Simulador: crie a sua pasta e salve o seu primeiro arquivo",
+        enunciado: "<p>Treine no <strong>computador de mentira</strong> o caminho completo: criar uma pasta, escrever no Bloco de Notas e salvar o arquivo dentro da pasta. O <strong>Bit</strong>, o seu ajudante, diz o que fazer e corrige na hora. Depois faça igualzinho no computador de verdade!</p>",
+        area: [{ nome: "Lixeira", app: "lixeira" }],
+        pastas: { "Documentos": [{ nome: "lista-de-chamada", ext: "txt" }] },
+        passos: [
+          { faca: "Abra o <b>Explorador de Arquivos</b>: clique na pastinha amarela 📁 da <b>barra de tarefas</b>, lá embaixo.", ok: ["clique:bar:exp", "abrir:app:exp"], onde: "bar:exp" },
+          { faca: "No painel da esquerda, clique em <b>Documentos</b>.", ok: "abrir:pasta:Documentos", onde: "nav:Documentos" },
+          { faca: "Clique com o <b>botão direito</b> num espaço vazio (a parte branca embaixo dos arquivos) e escolha <b>Novo › Pasta</b>.", ok: "criar:pasta:Documentos", dica: "Botão direito na parte branca, onde não tem nenhum arquivo. No menu: Novo › Pasta." },
+          { faca: "Digite o nome <b>Meus trabalhos</b> e aperte <b>Enter</b>.", ok: "/^renomear:pasta:.*>meus trabalhos$/", dica: "Se o nome saiu errado: botão direito na pasta › Renomear." },
+          { faca: "Agora abra o <b>Bloco de Notas</b>: clique no botão <b>Iniciar ⊞</b> e depois em <b>Bloco de Notas</b> 📝.", ok: "abrir:app:notas", onde: "bar:iniciar", dica: "O Iniciar é o ⊞ da barra de tarefas. Ele abre a lista de programas." },
+          { faca: "Escreva uma frase sobre você começando com <b>Sobre mim:</b> (exemplo: <i>Sobre mim: eu gosto de futebol.</i>)", ok: { estado: "notas", texto: "Sobre mim:", contem: true }, onde: "notas:texto" },
+          { faca: "Salve com <b>Ctrl + S</b>. Na janela <b>Salvar como</b>, escolha a pasta <b>Meus trabalhos</b>, dê o nome <b>sobre-mim</b> e clique em <b>Salvar</b>.", ok: { estado: "salvo", nome: "sobre-mim", pasta: "Meus trabalhos" }, erros: { "salvar:*": "Quase! Confira: o nome é <b>sobre-mim</b> e a pasta é <b>Meus trabalhos</b>. Aperte <b>Ctrl + S</b> e salve de novo." }, dica: "Ctrl + S abre a janela Salvar como. Em Pasta, escolha Meus trabalhos. Em Nome, digite sobre-mim." },
+        ],
+        fimMsg: "Pasta criada, texto escrito e arquivo salvo no lugar certo. Agora faça o mesmo no computador da sala!",
+        explicacao: "Para salvar um arquivo no lugar certo: crie a pasta (botão direito › Novo › Pasta), escreva no programa e use Ctrl + S (Salvar como), escolhendo a pasta e o nome." }
     ],
     vf: [{ v: true }, { v: false, why: "O monitor <strong>mostra</strong>: é de saída." }, { v: true }]
   },
@@ -143,7 +158,25 @@ PORTAL.registrarAtividades("informatica-6ano-4bim-trilha", {
         enunciado: "<p>Clique nas lâmpadas para <strong>acender (1)</strong> ou <strong>apagar (0)</strong>. A soma das acesas tem que dar o número pedido.</p>",
         valores: [4, 2, 1],
         fases: [{ alvo: 1, pede: "Faça o número **1**.", dica: "Acenda só a lâmpada que vale 1." }, { alvo: 3, pede: "Faça o número **3**.", dica: "3 = 2 + 1." }],
-        explicacao: "1 = 001 e 3 = 011. Acesa é 1, apagada é 0." }
+        explicacao: "1 = 001 e 3 = 011. Acesa é 1, apagada é 0." },
+      { id: "m4-sim-zip", opcional: true, tipo: "sim_pc", titulo: "🗜️ Simulador: compacte, descompacte e ache arquivos",
+        enunciado: "<p>No <strong>computador de mentira</strong>, compacte uma pasta em <strong>.zip</strong>, descompacte o .zip que um colega mandou e ache um arquivo pela pesquisa. O <strong>Bit</strong> confere cada passo.</p>",
+        abertas: ["exp"], inicioPasta: "Downloads",
+        pastas: {
+          "Downloads": [{ nome: "Trabalho de Ciências", tipo: "pasta" }, { nome: "video-da-festa", ext: "mp4", kb: 48600 }, { nome: "foto-da-turma", ext: "jpg", kb: 3200, figura: "🧑‍🤝‍🧑" }, { nome: "fotos-da-excursao", ext: "zip", kb: 9800, tem: [{ nome: "cachoeira", ext: "jpg", kb: 4100, figura: "🏞️" }, { nome: "onibus", ext: "jpg", kb: 3900, figura: "🚌" }, { nome: "lanche", ext: "jpg", kb: 3500, figura: "🥪" }] }],
+          "Trabalho de Ciências": [{ nome: "capa", ext: "docx", kb: 820 }, { nome: "pesquisa-planetas", ext: "docx", kb: 1450 }, { nome: "cartaz", ext: "pptx", kb: 2600 }],
+          "Documentos": [{ nome: "receita-de-bolo", ext: "txt", kb: 2, texto: "Bolo de cenoura\n- 3 cenouras\n- 3 ovos\n- 2 xícaras de farinha\n- 1 xícara de açúcar" }]
+        },
+        passos: [
+          { faca: "Primeiro ligue as <b>Extensões</b> (botão lá em cima, à direita): assim você vê o <b>.zip</b> no fim do nome.", ok: "extensoes:sim", onde: "exp:ext" },
+          { faca: "A pasta <b>Trabalho de Ciências</b> é grande para mandar ao professor. Clique nela com o <b>botão direito</b> e escolha <b>Compactar</b> (no Windows 10: Enviar para › Pasta compactada).", ok: "compactar:arq:Trabalho de Ciências", onde: "arq:Trabalho de Ciências", dica: "No Windows 11 o menu diz <b>Compactar para arquivo ZIP</b>; no Windows 10, <b>Enviar para › Pasta compactada</b>." },
+          { faca: "Apareceu o <b>Trabalho de Ciências.zip</b> 🗜️: compare o tamanho dele com os arquivos lá de dentro (2,6 MB + 1,4 MB + 820 KB). Dê <b>duplo clique</b> no .zip para ver o que tem dentro.", ok: "/^abrir:arq:trabalho de ci.ncias(\\.zip)?$/", onde: "arq:Trabalho de Ciências.zip" },
+          { faca: "Feche essa janela no <b>X</b>.", ok: "fechar:jan:ver", onde: "jan:ver:fechar" },
+          { faca: "Um colega mandou <b>fotos-da-excursao.zip</b>. Para usar as fotos, descompacte: <b>botão direito</b> nele › <b>Extrair Tudo...</b>", ok: "extrair:arq:fotos-da-excursao*", onde: "arq:fotos-da-excursao.zip" },
+          { faca: "Agora ache a <b>receita-de-bolo</b> pela <b>pesquisa</b> 🔍: digite <b>bolo</b> e aperte <b>Enter</b>.", ok: "/^buscar:.*bolo/", onde: "exp:busca" }
+        ],
+        fimMsg: "Você compactou uma pasta (o .zip ficou menor), descompactou outro .zip e achou um arquivo pela pesquisa!",
+        explicacao: "Compactar junta arquivos num só .zip e diminui o tamanho, bom para mandar pela internet. Descompactar (Extrair Tudo) tira os arquivos do .zip. A pesquisa 🔍 do Explorador acha um arquivo pelo nome." }
     ],
     basico: [
       { tipo: "classificar", titulo: "Passo 1 · Pequeno, médio ou grande?",
