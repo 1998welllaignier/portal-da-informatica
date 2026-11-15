@@ -1,0 +1,17 @@
+Programar com blocos: o robô que só obedece!
+
+O Caio montou um programa para o robô dar três pulos e depois dizer fim. Apertou o play, e o robô gritou fim três vezes! O que deu errado?
+
+Um programa é um algoritmo numa linguagem que o computador entende. Aqui, essa linguagem são blocos que se encaixam como peças de montar.
+
+O computador lê os blocos de cima para baixo, um de cada vez, e faz exatamente o que eles mandam. Isso é a sequência.
+
+O bloco repita faz os blocos de dentro dele várias vezes. Repita três vezes: pular. E o robô pula, pula, pula!
+
+O bloco se escolhe um caminho. Se a nota for maior ou igual a cinco, mostrar passou. Senão, mostrar recuperação.
+
+E o programa do Caio? O bloco fim estava dentro do repita! Ele tirou o bloco lá de dentro e colocou embaixo. Agora, três pulos e um fim só. A posição do bloco muda o resultado!
+
+Onde eu uso isso? O despertador usa seleção: se for seis horas, ele toca. E, no jogo, a vida do personagem é uma variável, uma caixinha que guarda um número.
+
+Agora é com vocês: abram a Missão 1 no portal!
