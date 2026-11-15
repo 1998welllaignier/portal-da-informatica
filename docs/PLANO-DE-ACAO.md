@@ -216,6 +216,9 @@ Para decidir com o professor no salão. Cada item: manter, juntar ou desligar.
   | 23/08/2027 | 🎬 3º bim · leva 2 |
   | 13/09/2027 | 🎬 4º bim · leva 1 + fim do 3º bim (formatura do 9º) |
   | 01/11/2027 | 🎬 4º bim · leva 2 + prazos do fim do ano |
+- [ ] **Produção do 1º bimestre de 2027:**
+  - [x] 6º ano (14/11): apostila (`informatica-6ano-2027-1bim`, período 2027-1), atividades M1–M8 + 🔁 Revisão (autonomia 0/0, fracos 0), explicações do professor, roteiro e banco da prova. Falta: ilustrações (desenhos do Para começar), 👣 Trilha e atividade de recuperação.
+  - [ ] 7º ano · [ ] 8º ano · [ ] 9º ano
 - [ ] **Editor de programação em blocos** no portal antes de fev/2027 (o 7º ano usa no 1º bimestre; o 6º no 3º).
 - [ ] Depois de aprovado: material completo por bimestre, na ordem (1º bimestre primeiro). A 🔁 Revisão já nasce junto com cada bimestre (blocos por missão; o portal mostra só as missões dadas). Vídeos: perto da época, ou adiantados aos poucos para não estourar o limite semanal.
 

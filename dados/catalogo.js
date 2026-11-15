@@ -78,7 +78,11 @@ PORTAL.catalogo = {
       trilha: true, oculta: true, base: "informatica-7ano-4bim" },
     { id: "informatica-9ano-4bim-trilha", serie: "9", disciplina: "informatica", unidade: "4º bimestre",
       titulo: "Informática — 9º ano — 4º bimestre · Trilha Passo a Passo", modo: "individual",
-      trilha: true, oculta: true, base: "informatica-9ano-4bim" }
+      trilha: true, oculta: true, base: "informatica-9ano-4bim" },
+
+    /* ===== 2027 — 6 missões fixas (m1–m6) + 2 extras (m7, m8) + 🔁 Revisão (rv) por bimestre ===== */
+    { id: "informatica-6ano-2027-1bim", serie: "6", disciplina: "informatica", unidade: "1º bimestre de 2027", periodo: "2027-1",
+      titulo: "Informática — 6º ano — 1º bimestre de 2027", modo: "individual ou dupla", extras: ["m7", "m8"] }
   ],
 
   /* Orientações curtas que aparecem na área do professor */

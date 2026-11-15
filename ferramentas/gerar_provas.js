@@ -19,7 +19,7 @@ const limpa = s => String(s).replace(/<[^>]+>/g, "").replace(/\*\*/g, "").trim()
 for (const [aid, porMissao] of Object.entries(spec)) {
   const { C, A } = carregar(aid);
   const questoes = [], missoes = [];
-  C.missoes.filter(m => m.id !== "pf").forEach(m => {
+  C.missoes.filter(m => m.id !== "pf" && m.id !== "rv").forEach(m => {
     missoes.push({ id: m.id, titulo: limpa(m.titulo) });
     (porMissao[m.id] || []).forEach((q, i) => {
       const id = m.id + "e" + (i + 1);

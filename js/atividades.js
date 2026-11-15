@@ -27,6 +27,8 @@
   };
   P.util.igual = igual;
   // confere um campo por expressão regular (ex.: formato de IP, de data, nome de arquivo)
+  // igualzinho: confere acento, maiúscula e pontuação (só junta espaços repetidos) — usado na digitação
+  const exato = (resp, aceitas) => { const f = x => String(x || "").trim().replace(/\s+/g, " "); return (Array.isArray(aceitas) ? aceitas : [aceitas]).some(a => f(a) === f(resp)); };
   const confere = (resp, re) => { try { return new RegExp(re, "i").test(String(resp || "").trim()); } catch (e) { return false; } };
   // texto contém alguma das alternativas? (sem acento, sem maiúscula)
   const contem = (txt, alts) => { const t = " " + norm(txt) + " "; return (Array.isArray(alts) ? alts : [alts]).some(a => t.includes(norm(a))); };
@@ -390,7 +392,7 @@
         const falta = cels.filter(([id]) => !(st.cel[id] || "").trim()).length;
         if (falta) { ctx.feedback("info", `Faltam ${falta} campo${falta > 1 ? "s" : ""}.`); return; }
         marcas = {}; let err = 0; const dicasErro = [];
-        cels.forEach(([id, cel]) => { const ok = cel.re ? confere(st.cel[id], cel.re) : igual(st.cel[id], cel.r, cel.tipo); marcas[id] = ok ? "certo" : "errado"; if (!ok) { err++; if (cel.dica) dicasErro.push(cel.dica); } });
+        cels.forEach(([id, cel]) => { const ok = cel.re ? confere(st.cel[id], cel.re) : cel.exato ? exato(st.cel[id], cel.r) : igual(st.cel[id], cel.r, cel.tipo); marcas[id] = ok ? "certo" : "errado"; if (!ok) { err++; if (cel.dica) dicasErro.push(cel.dica); } });
         draw();
         err ? ctx.errou(`${err} campo${err > 1 ? "s" : ""} para rever (✖).${dicasErro.length ? " Pista: " + md(dicasErro[0]) : ""}`) : ctx.concluir("certo", "Tabela completa e certa!");
       };

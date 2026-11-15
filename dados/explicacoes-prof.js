@@ -30,6 +30,50 @@
       "F: a calculadora serve para fazer contas. Para desenhar, usamos um programa de desenho."]
   } };
 
+  /* ===== 2027 · 6º ano · 1º bimestre ===== */
+  E["informatica-6ano-2027-1bim"] = { vf: {
+    m1: ["V: o duplo clique (dois cliques rapidinhos) abre pastas, arquivos e programas; um clique só apenas seleciona.",
+      "F: o ❌ fecha a janela e o programa. Quem esconde na barra de tarefas é o ➖ Minimizar.",
+      "V: Backspace é o “espaço para trás”: apaga a letra que está antes do cursor.",
+      "V: segurando Shift, a letra sai maiúscula (e os números viram os símbolos de cima).",
+      "V: girar a rodinha do meio sobe e desce a página."],
+    m2: ["F: o microfone recebe a nossa voz e leva para dentro do computador: é de entrada.",
+      "V: o processador (CPU, Unidade Central de Processamento) faz os cálculos; é o “cérebro”.",
+      "V: a impressora entrega o resultado no papel: é de saída.",
+      "V: a tela touchscreen recebe o toque (entrada) e mostra a imagem (saída).",
+      "F: a RAM apaga tudo quando o computador desliga. Quem guarda com o computador desligado é o armazenamento (HD, SSD)."],
+    m3: ["V: o mouse é uma peça física, dá para pegar com a mão: hardware.",
+      "F: o navegador é um programa (aplicativo): software.",
+      "V: o sistema operacional liga primeiro e comanda as peças e os outros programas.",
+      "V: Android (celular) e Windows (computador) são sistemas operacionais.",
+      "F: sem software o hardware não faz nada; um precisa do outro."],
+    m4: ["F: .mp3 é áudio (música). Imagem é .jpg ou .png.",
+      "V: pastas podem ter outras pastas dentro, como gavetas dentro de um armário.",
+      "V: o caminho é o endereço do arquivo: Documentos › Escola › trabalho.docx.",
+      "V: Ctrl + S salva (S de save, salvar em inglês).",
+      "F: “sem título 3” não diz nada do que tem dentro. Nome bom diz o assunto, como redacao-meio-ambiente."],
+    m5: ["V: idade serve para contas (daqui a 3 anos, por exemplo): é número.",
+      "F: ninguém soma telefones. Telefone é texto feito de algarismos.",
+      "V: dado lógico só pode ser verdadeiro ou falso (sim ou não).",
+      "V: tabela tem linhas (deitadas) e colunas (em pé).",
+      "V: na playlist as músicas vêm uma depois da outra, em ordem: é uma lista."],
+    m6: ["V: na internet, tudo em maiúsculas parece grito.",
+      "F: a senha é como a chave de casa: não se passa para ninguém, nem para o melhor amigo.",
+      "V: a imagem é da pessoa; ela decide se pode postar.",
+      "V: desconhecido pedindo segredo é sinal de perigo: parar a conversa e contar para um adulto de confiança.",
+      "F: compartilhar espalha a ofensa e piora. O certo é apoiar o colega, guardar o print e contar a um adulto ou denunciar."],
+    m7: ["V: os risquinhos do F e do J guiam os indicadores para a fileira base sem olhar.",
+      "F: no teclado ABNT2 o acento vem primeiro e depois a letra (´ e depois e).",
+      "V: na fileira base da mão direita: J K L Ç.",
+      "V: Shift segurado + letra = maiúscula.",
+      "V: os polegares ficam na barra de espaço."],
+    m8: ["V: Ctrl + C copia e Ctrl + V cola.",
+      "V: Ctrl + Z desfaz o último passo.",
+      "F: recortar (Ctrl + X) tira o original do lugar. Quem deixa o original é copiar (Ctrl + C).",
+      "V: Alt + Tab troca de uma janela aberta para outra.",
+      "V: Ctrl + A seleciona tudo (A de all, tudo em inglês)."]
+  } };
+
   E["informatica-6ano-4bim"] = { vf: {
     m1: ["V: o teclado manda o que digitamos para dentro do computador: é de entrada.",
       "F: o monitor mostra o resultado para nós. Ele é de saída, não de entrada.",
