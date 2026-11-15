@@ -218,7 +218,9 @@ Para decidir com o professor no salão. Cada item: manter, juntar ou desligar.
   | 01/11/2027 | 🎬 4º bim · leva 2 + prazos do fim do ano |
 - [ ] **Produção do 1º bimestre de 2027:**
   - [x] 6º ano (14/11): apostila (`informatica-6ano-2027-1bim`, período 2027-1), atividades M1–M8 + 🔁 Revisão (autonomia 0/0, fracos 0), explicações do professor, roteiro e banco da prova. Falta: ilustrações (desenhos do Para começar), 👣 Trilha e atividade de recuperação.
-  - [ ] 7º ano · [ ] 8º ano · [ ] 9º ano
+  - [x] 7º ano (14/11): apostila (`informatica-7ano-2027-1bim`), 8 missões de programação em blocos + 🔁 Revisão (37 atividades de blocos testadas: o programa inicial falha e a solução passa), explicações, roteiro e prova. Faltam: desenhos, 👣 Trilha e recuperação.
+  - [ ] 8º ano · [ ] 9º ano
+  - [ ] Depois das 4 séries: desenhos coloridos e pedagógicos, 👣 Trilhas e recuperações (rodada única).
 - [x] **Editor de programação em blocos** pronto (14/11/2026): atividade `blocos` (js/blocos.js + lib/blockly). Conferir no computador da sala (Chrome/Edge) no 1º teste real. (o 7º ano usa no 1º bimestre; o 6º no 3º).
 - [ ] Depois de aprovado: material completo por bimestre, na ordem (1º bimestre primeiro). A 🔁 Revisão já nasce junto com cada bimestre (blocos por missão; o portal mostra só as missões dadas). Vídeos: perto da época, ou adiantados aos poucos para não estourar o limite semanal.
 

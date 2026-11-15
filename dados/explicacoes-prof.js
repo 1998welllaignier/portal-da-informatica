@@ -30,6 +30,50 @@
       "F: a calculadora serve para fazer contas. Para desenhar, usamos um programa de desenho."]
   } };
 
+  /* ===== 2027 · 7º ano · 1º bimestre ===== */
+  E["informatica-7ano-2027-1bim"] = { vf: {
+    m1: ["V: o computador lê os blocos de cima para baixo, um de cada vez.",
+      "F: quem escolhe um caminho é o se … faça … senão. O repita faz os blocos de dentro várias vezes.",
+      "V: dentro do repita, tudo se repete; fora (embaixo), aparece uma vez só.",
+      "V: variável é uma caixinha com nome que guarda um valor (ex.: nota = 7).",
+      "V: programa é um algoritmo escrito numa linguagem que o computador entende; aqui, blocos."],
+    m2: ["V: a lista guarda vários itens numa variável só, em ordem.",
+      "F: posição 1 = maçã, posição 2 = uva. As posições começam no 1.",
+      "V: tamanho de conta quantos itens a lista tem.",
+      "V: o para cada dá uma volta para cada item da lista.",
+      "F: numa lista de 4 itens só existem as posições de 1 a 4; a 5 não existe."],
+    m3: ["V: registro (ficha) junta informações diferentes de uma mesma coisa, como nome, idade e turma.",
+      "F: no registro achamos pelo nome do campo (nome, idade); a posição é coisa da lista.",
+      "V: “idade” é o nome do campo e 12 é o valor guardado nele.",
+      "V: lista de fichas = tabela: cada ficha é uma linha e cada campo, uma coluna.",
+      "V: o contato tem campos: nome, telefone, foto, aniversário."],
+    m4: ["V: bug (inseto, em inglês) é um erro no programa.",
+      "V: depurar (debug) é achar e consertar os erros.",
+      "F: mudando tudo de uma vez, não dá para saber o que resolveu. Muda-se uma coisa de cada vez e testa.",
+      "V: comparar obtido × esperado mostra em que linha começou a diferença.",
+      "V: a repetição sem fim não termina porque a condição de parar nunca acontece."],
+    m5: ["V: decompor é dividir o problema grande em partes menores.",
+      "F: o bloco próprio é escrito uma vez só e chamado quando precisar; essa é a vantagem.",
+      "V: mudou o bloco próprio, muda em todo lugar onde ele é chamado.",
+      "V: chamar o bloco é usá-lo no programa.",
+      "V: dividir o trabalho em grupo em partes é decompor."],
+    m6: ["V: o piloto fica com o mouse e o teclado e monta os blocos.",
+      "F: o navegador não pega o mouse: ele lê, planeja, confere e procura erros.",
+      "V: a dupla reveza os papéis (a cada 10 minutos).",
+      "F: o certo é testar depois de cada parte; testando só no fim, os erros se acumulam.",
+      "V: o erro é da dupla; ninguém culpa o colega."],
+    m7: ["V: item errado da lista costuma ser posição errada (lembrar que começa no 1).",
+      "V: hipótese é o palpite sobre onde está o erro, que testamos mudando uma coisa.",
+      "F: basta consertar dentro do bloco próprio, uma vez só; todas as chamadas ficam certas.",
+      "V: uma mudança por vez mostra o que resolveu.",
+      "V: “(sem idade)” aparece quando o campo pedido não existe com aquele nome (ex.: idadee)."],
+    m8: ["V: gabarito é a lista das respostas certas.",
+      "V: contador começa em 0 e soma 1 a cada vez que conta algo.",
+      "V: comparamos item 1 com item 1, item 2 com item 2, e assim por diante.",
+      "F: alterar acertos por 1 soma 1 à variável; não apaga nada.",
+      "V: placar de jogo é um contador de pontos."]
+  } };
+
   /* ===== 2027 · 6º ano · 1º bimestre ===== */
   E["informatica-6ano-2027-1bim"] = { vf: {
     m1: ["V: o duplo clique (dois cliques rapidinhos) abre pastas, arquivos e programas; um clique só apenas seleciona.",

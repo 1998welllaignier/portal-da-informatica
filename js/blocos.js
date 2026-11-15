@@ -8,6 +8,7 @@
      tipo: "blocos", titulo, enunciado,
      caixa: ["mostrar","texto","numero","conta","repita","se","comparar","logica",
              "variavel","lista","paracada","enquanto","ficha"]   (gavetas de blocos)
+     solucao: [ comandos ]  programa certo (o botão de resposta do professor monta ele no editor)
      inicio: [ comandos ]   programa que já vem montado (ex.: com erro, para depurar)
      esperado: ["linha 1", "linha 2"]   o que o programa precisa mostrar na tela
      exige: ["repita"]     blocos que precisam ser usados (nomes das gavetas)
@@ -15,7 +16,7 @@
      dicas, explicacao, okMsg
 
    Mini-linguagem de "inicio" (para escrever programas prontos sem JSON do Blockly):
-     comandos:  ["mostrar", e] · ["repita", n, [..]] · ["se", cond, [..], [..]?] · ["definir", "var", e]
+     comandos:  ["funcao", "nome", [..]] (bloco criado, fica separado) · ["chamar", "nome"] · ["mostrar", e] · ["repita", n, [..]] · ["se", cond, [..], [..]?] · ["definir", "var", e]
                 ["mudar", "var", n] · ["paracada", "var", listaE, [..]] · ["enquanto", cond, [..]]
                 ["ficha_por", "var", "campo", e] · ["adicionar", "var", e]
      expressões: "texto" · 12 · {v:"var"} · ["lista", e…] · ["item", listaE, n] · ["tamanho", listaE]
@@ -78,7 +79,8 @@
     variavel: { nome: "📦 Variáveis", cor: 330, custom: "VARIABLE" },
     lista: { nome: "📝 Listas", cor: 260, blocos: [{ type: "lists_create_with", extraState: { itemCount: 3 } }, { type: "lists_getIndex", inputs: { AT: num(1) } }, { type: "lists_length" }, { type: "lista_adicionar" }] },
     paracada: { nome: "👉 Para cada", cor: 120, blocos: [{ type: "controls_forEach" }] },
-    ficha: { nome: "🗂️ Fichas", cor: 290, blocos: [{ type: "ficha_nova" }, { type: "ficha_por", inputs: { VAL: txt("Ana") } }, { type: "ficha_campo" }] }
+    ficha: { nome: "🗂️ Fichas", cor: 290, blocos: [{ type: "ficha_nova" }, { type: "ficha_por", inputs: { VAL: txt("Ana") } }, { type: "ficha_campo" }] },
+    funcao: { nome: "🧩 Meus blocos", cor: 290, custom: "PROCEDURE" }
   };
   const caixaDe = lista => ({ kind: "categoryToolbox", contents: lista.filter(k => GAVETAS[k]).map(k => {
     const g = GAVETAS[k];
@@ -90,7 +92,7 @@
     controls_repeat_ext: "repita", controls_whileUntil: "enquanto", controls_if: "se", logic_compare: "comparar", logic_boolean: "comparar",
     logic_operation: "logica", logic_negate: "logica", variables_set: "variavel", variables_get: "variavel", math_change: "variavel",
     lists_create_with: "lista", lists_getIndex: "lista", lists_length: "lista", lista_adicionar: "lista", controls_forEach: "paracada",
-    ficha_nova: "ficha", ficha_por: "ficha", ficha_campo: "ficha" };
+    ficha_nova: "ficha", ficha_por: "ficha", ficha_campo: "ficha", procedures_defnoreturn: "funcao", procedures_callnoreturn: "funcao" };
 
   /* ---------- mini-linguagem → JSON do Blockly ---------- */
   function montarJSON(cmds) {
@@ -127,16 +129,22 @@
       if (op === "enquanto") return { type: "controls_whileUntil", fields: { MODE: "WHILE" }, inputs: { BOOL: ex(a[0]), DO: seq(a[1]) } };
       if (op === "ficha_por") return { type: "ficha_por", fields: { VAR: vid(a[0]), CAMPO: a[1] }, inputs: { VAL: ex(a[2]) } };
       if (op === "adicionar") return { type: "lista_adicionar", fields: { VAR: vid(a[0]) }, inputs: { VAL: ex(a[1]) } };
+      if (op === "chamar") return { type: "procedures_callnoreturn", extraState: { name: a[0] } };
       throw new Error("comando desconhecido: " + op);
     };
+    const limpa = b => { if (b && b.inputs) { Object.keys(b.inputs).forEach(k => { if (b.inputs[k] === undefined) delete b.inputs[k]; }); if (!Object.keys(b.inputs).length) delete b.inputs; } return b; };
     const seq = lista => {
       if (!lista || !lista.length) return undefined;
-      const blocos = lista.map(st);
+      const blocos = lista.map(c => limpa(st(c)));
       for (let i = blocos.length - 2; i >= 0; i--) blocos[i].next = { block: blocos[i + 1] };
       return { block: blocos[0] };
     };
-    const raiz = seq(cmds);
-    const json = { blocks: { languageVersion: 0, blocks: raiz ? [Object.assign({ x: 20, y: 20 }, raiz.block)] : [] } };
+    const defs = (cmds || []).filter(c => c[0] === "funcao"), prog = (cmds || []).filter(c => c[0] !== "funcao");
+    const raiz = seq(prog), tops = [];
+    const lim = x => { if (x && x.block) { limpa(x.block); Object.values(x.block.inputs || {}).forEach(lim); if (x.block.next) lim(x.block.next); } return x; };
+    if (raiz) tops.push(Object.assign({ x: 20, y: 20 }, lim(raiz).block));
+    defs.forEach((d, i) => tops.push({ type: "procedures_defnoreturn", x: 20, y: 260 + i * 200, fields: { NAME: d[1] }, inputs: d[2] && d[2].length ? { STACK: seq(d[2]) } : undefined }));
+    const json = { blocks: { languageVersion: 0, blocks: tops } };
     json.variables = [...vars].map(n => ({ name: n, id: "v_" + n }));
     return json;
   }
@@ -160,6 +168,7 @@
     auto: true,
     render(c, at, ctx) {
       const st = ctx.st;
+      try { if (c._blkWs) c._blkWs.dispose(); } catch (e) { /* já descartado */ }
       c.innerHTML = `<div class="blk"><div class="blk-area" style="height:${at.altura || 380}px"><p class="blk-carrega">🧱 Abrindo o editor de blocos…</p></div>
         <div class="blk-bts"><button type="button" class="btn btn-ok" data-rodar>▶️ Rodar o programa</button>
         <button type="button" class="btn" data-limpar>${at.inicio ? "↩️ Voltar ao programa inicial" : "🧹 Limpar tudo"}</button></div>
@@ -170,7 +179,9 @@
         area.innerHTML = "";
         const ws = B.inject(area, { toolbox: caixaDe(at.caixa || ["mostrar", "texto", "numero", "repita"]), trashcan: true, scrollbars: true,
           zoom: { controls: true, startScale: window.innerWidth < 600 ? 0.65 : 0.9 }, move: { scrollbars: true, drag: true, wheel: false }, renderer: "zelos", maxBlocks: at.maxBlocos || Infinity });
+        c._blkWs = ws;
         const inicial = () => { ws.clear(); if (at.inicio) B.serialization.workspaces.load(montarJSON(at.inicio), ws); };
+        if (at.solucao) ctx.resolver = () => { ws.clear(); B.serialization.workspaces.load(montarJSON(at.solucao), ws); st.prog = B.serialization.workspaces.save(ws); ctx.salvar(); };
         try { if (st.prog) B.serialization.workspaces.load(st.prog, ws); else inicial(); } catch (e) { inicial(); }
         let t = null;
         ws.addChangeListener(ev => { if (ev.isUiEvent) return; clearTimeout(t); t = setTimeout(() => { st.prog = B.serialization.workspaces.save(ws); ctx.salvar(); }, 400); });
