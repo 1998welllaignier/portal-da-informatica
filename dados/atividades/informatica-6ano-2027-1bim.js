@@ -15,9 +15,52 @@ PORTAL.registrarAtividades("informatica-6ano-2027-1bim", {
       { tipo: "duplo_clique", titulo: "Abra a pasta com duplo clique",
         alvo: "Jogos", itens: ["Fotos", "Jogos", "Músicas", "Trabalhos"],
         enunciado: "<p>Agora dê um <strong>duplo clique</strong> (dois cliques rapidinhos, sem mexer o mouse) na pasta <strong>Jogos</strong>.</p>",
-        explicacao: "O <strong>duplo clique</strong> abre pastas, arquivos e programas. Um clique só apenas seleciona (escolhe)." }
+        explicacao: "O <strong>duplo clique</strong> abre pastas, arquivos e programas. Um clique só apenas seleciona (escolhe)." },
+      { tipo: "sim_pc", titulo: "🖥️ No computador: abra a pasta e cuide da janela",
+        enunciado: "<p>Este é um computador de treino, igualzinho ao de verdade. O <strong>Bit</strong>, o seu ajudante, diz o que fazer, um passo de cada vez, e avisa se algo sair diferente. Se ficar em dúvida, toque em <strong>💡 Mostre onde</strong>.</p>",
+        area: [{ nome: "Lixeira", app: "lixeira" }, { nome: "Jogos", tipo: "pasta" }, { nome: "Fotos", tipo: "pasta" }, { nome: "Músicas", tipo: "pasta" }, { nome: "Navegador", app: "web" }],
+        pastas: { "Jogos": [{ nome: "jogo-da-velha", ext: "exe" }, { nome: "quebra-cabeca", ext: "exe" }, { nome: "corrida", ext: "exe" }], "Fotos": [{ nome: "passeio", ext: "jpg" }] },
+        passos: [
+          { faca: "Dê <b>um clique</b> no ícone da pasta <b>Jogos</b>, na área de trabalho. Um clique só <b>seleciona</b> (ele fica marcado).", ok: "clique:ic:Jogos", onde: "ic:Jogos", dica: "A pasta Jogos é a amarela com o nome Jogos embaixo." },
+          { faca: "Agora <b>abra</b> a pasta <b>Jogos</b> com um <b>duplo clique</b>: dois cliques rapidinhos, sem mexer o mouse.", ok: "duplo:ic:Jogos", onde: "ic:Jogos" },
+          { faca: "A pasta abriu numa <b>janela</b>! Faça a janela ocupar a tela toda: clique em <b>Maximizar</b> (o quadradinho ☐ no canto de cima, à direita).", ok: "max:jan:exp", onde: "jan:exp:max" },
+          { faca: "Agora volte a janela ao tamanho de antes: clique em <b>Restaurar</b> (os dois quadradinhos ❐, no mesmo lugar).", ok: "restaurarTam:jan:exp", onde: "jan:exp:max", erros: { "max:jan:exp": "Esse é o mesmo botão, mas agora ele se chama Restaurar. Clique nele de novo." } },
+          { faca: "<b>Arraste</b> a janela para outro lugar: segure o botão esquerdo na <b>barra de cima</b> da janela (onde está escrito Jogos), mova o mouse e solte.", ok: "arrastar:jan:exp", dica: "Segure em cima do nome Jogos, na faixa de cima da janela, e mova sem soltar." },
+          { faca: "Esconda a janela sem fechar: clique em <b>Minimizar</b> (o tracinho —).", ok: "min:jan:exp", onde: "jan:exp:min" },
+          { faca: "Cadê a janela? Ela foi para a <b>barra de tarefas</b>, lá embaixo. Clique no ícone 📁 dela para ela voltar.", ok: "restaurar:jan:exp", onde: "bar:exp", dica: "A barra de tarefas é a faixa no pé da tela. O ícone da pasta tem um risquinho embaixo: é a janela aberta." },
+          { faca: "Terminamos! Agora <b>feche</b> a janela no <b>X</b>, no canto de cima, à direita.", ok: "fechar:jan:exp", onde: "jan:exp:fechar" }
+        ],
+        fimMsg: "Você abriu a pasta com duplo clique, maximizou, restaurou, arrastou, minimizou, trouxe de volta pela barra de tarefas e fechou a janela. Igualzinho ao computador de verdade!",
+        explicacao: "Clique seleciona; duplo clique abre. Na janela: ➖ Minimizar esconde na barra de tarefas, ☐ Maximizar ocupa a tela toda (e vira ❐ Restaurar), ❌ Fechar fecha. Para mudar a janela de lugar, arraste pela barra de cima." },
+      { tipo: "sim_pc", titulo: "🖱️ No computador: botão direito, menu Iniciar e rodinha",
+        enunciado: "<p>Mais um treino no computador de mentira. Siga o <strong>Bit</strong>!</p>",
+        area: [{ nome: "Lixeira", app: "lixeira" }, { nome: "Trabalhos", tipo: "pasta" }],
+        web: { "historia.com": { titulo: "A história do mouse", palavras: "mouse historia computador", resumo: "Quem inventou o mouse?", html: "<p>O primeiro <b>mouse</b> foi feito de madeira, em 1964, pelo americano Douglas Engelbart. Ele tinha duas rodinhas por baixo e um botão só.</p>" + "<p>Com o tempo, o mouse ganhou dois botões: o <b>esquerdo</b>, para escolher e abrir, e o <b>direito</b>, para ver mais opções.</p>".repeat(1) + "<p>Depois veio a <b>rodinha</b> do meio, que serve para rolar a página para cima e para baixo, como você está fazendo agora.</p><p>Hoje existem mouses sem fio, que funcionam com pilha ou bateria, e o <b>touchpad</b> dos notebooks, em que o dedo faz o papel do mouse.</p><p>No celular, a tela de toque substitui o mouse: tocar é como clicar, e segurar o dedo é como o botão direito.</p><p>Continue rolando...</p><p style='margin-top:300px'>🏁 <b>Você chegou ao fim da página!</b></p>" } },
+        passos: [
+          { faca: "Clique com o <b>botão direito</b> do mouse num lugar vazio da <b>área de trabalho</b> (o fundo da tela). Vai aparecer um menu de opções.", ok: "direito:area", dica: "O botão direito é o do lado direito do mouse. Clique no fundo azul, longe dos ícones." },
+          { faca: "No menu que abriu, clique em <b>Atualizar</b>.", ok: "menu:Atualizar", onde: "menu:Atualizar" },
+          { faca: "Agora abra o <b>menu Iniciar</b>: clique no botão <b>⊞</b> na barra de tarefas.", ok: "clique:bar:iniciar", onde: "bar:iniciar" },
+          { faca: "No menu Iniciar, clique em <b>Navegador</b> 🌐 para abrir.", ok: "abrir:app:web", onde: "start:web" },
+          { faca: "No navegador, clique na <b>barra de endereço</b> (lá em cima), digite <b>historia.com</b> e aperte <b>Enter</b>.", ok: "url:historia.com", onde: "web:url", dica: "A barra de endereço é a faixa comprida em cima da página. Digite historia.com (sem espaço) e aperte Enter." },
+          { faca: "Use a <b>rodinha do mouse</b> para <b>rolar</b> a página até o fim, até aparecer 🏁.", ok: "rolar:fim:historia.com", dica: "Deixe o ponteiro em cima do texto da página e gire a rodinha do meio do mouse para baixo." }
+        ],
+        fimMsg: "Botão direito abriu o menu, o ⊞ abriu o Iniciar, você digitou um endereço e rolou a página com a rodinha!",
+        explicacao: "Botão direito = menu de opções. ⊞ Iniciar = lista dos programas. A rodinha rola a página para cima e para baixo." }
     ],
     basico: [
+      { tipo: "sim_pc", titulo: "⌨️ No computador: Enter, espaço, Backspace e Shift no Bloco de Notas",
+        enunciado: "<p>O Bloco de Notas é um programa de escrever. Digite de verdade e siga o <strong>Bit</strong>: ele confere cada passo.</p>",
+        so: undefined, area: [{ nome: "Lixeira", app: "lixeira" }], abertas: ["notas"],
+        passos: [
+          { faca: "Clique dentro da folha branca do Bloco de Notas e digite <b>oi</b> (tudo minúsculo).", ok: { estado: "notas", texto: "oi" }, onde: "notas:texto" },
+          { faca: "Aperte a <b>barra de espaço</b> e digite <b>pedro</b>. A folha deve ficar: <b>oi pedro</b>", ok: { estado: "notas", texto: "oi pedro" }, dica: "A barra de espaço é a tecla comprida, embaixo das letras." },
+          { faca: "Ops, faltou a vírgula! Aperte <b>Backspace ⟵</b> até apagar a palavra <b>pedro</b> (o Backspace apaga a letra <b>antes</b> do cursor).", ok: ["/^texto:oi ?$/"], dica: "O Backspace fica em cima do Enter, com uma seta para a esquerda. Aperte 5 ou 6 vezes." },
+          { faca: "Agora deixe assim: <b>Oi, Pedro</b> — com <b>O</b> e <b>P</b> maiúsculos. Para a maiúscula, <b>segure Shift ⇧</b> e aperte a letra.", ok: { estado: "notas", texto: "Oi, Pedro" }, dica: "Apague tudo com Backspace. Depois: segure Shift e aperte O, solte, digite i e a vírgula, espaço, segure Shift e aperte P, solte e digite edro." },
+          { faca: "Aperte <b>Enter ↵</b> para pular de linha e escreva <b>Tchau!</b> na linha de baixo.", ok: { estado: "notas", texto: "Oi, Pedro\nTchau!" }, dica: "O ponto de exclamação: segure Shift e aperte a tecla do número 1." },
+          { faca: "Salve! Aperte <b>Ctrl + S</b> (segure Ctrl e aperte S). Na janela <b>Salvar como</b>, escreva o nome <b>bilhete</b> e clique em <b>Salvar</b>.", ok: { estado: "salvo", nome: "bilhete" }, dica: "Ctrl fica no canto de baixo, à esquerda do teclado. Ou clique em Arquivo, no Bloco de Notas." }
+        ],
+        fimMsg: "Você usou espaço, Backspace, Shift e Enter e salvou o arquivo bilhete. Agora é só usar isso nos seus trabalhos!",
+        explicacao: "Espaço separa palavras; Backspace apaga a letra antes do cursor; segurando Shift a letra sai maiúscula (e o 1 vira !); Enter pula de linha; Ctrl + S salva." },
       { tipo: "ligar", titulo: "Ligue cada ação do mouse ao que ela faz",
         enunciado: "<p>Clique na ação e depois no que ela faz. Releia a tabela <strong>Ação do mouse</strong> no 💡 Para começar.</p>",
         pares: [
@@ -106,6 +149,18 @@ PORTAL.registrarAtividades("informatica-6ano-2027-1bim", {
   /* ============ MISSÃO 2 — Entrada, processamento e saída ============ */
   m2: {
     pratica: [
+      { tipo: "sim_pc", titulo: "🧮 No computador: entrada, processamento e saída na Calculadora",
+        enunciado: "<p>Faça a conta na Calculadora do computador de treino e observe as três etapas. O <strong>Bit</strong> guia você.</p>",
+        area: [{ nome: "Lixeira", app: "lixeira" }, { nome: "Calculadora", app: "calc" }],
+        passos: [
+          { faca: "Abra a <b>Calculadora</b>: dê um <b>duplo clique</b> no ícone 🧮 dela, na área de trabalho.", ok: "duplo:ic:Calculadora", onde: "ic:Calculadora" },
+          { faca: "<b>ENTRADA</b>: clique nos botões para digitar <b>2 + 3</b> (o 2, depois o +, depois o 3).", ok: "calc:3", onde: "calc:2", erros: { "calc:=*": "Calma! Antes do =, digite a conta toda: 2, depois +, depois 3." } },
+          { faca: "<b>PROCESSAMENTO</b>: clique em <b>=</b> para o processador fazer a conta. Veja a <b>SAÍDA</b> aparecer na tela: <b>5</b>.", ok: { estado: "calc", resultado: "5" }, onde: "calc:=", erros: { "calc:=*": "O resultado não deu 5. Clique em C para limpar e digite de novo: 2 + 3 =" } },
+          { faca: "Agora a conta da merenda: <b>4 × 6</b> e <b>=</b>. Clique em <b>C</b> antes, para limpar.", ok: { estado: "calc", resultado: "24" }, onde: "calc:×", dica: "O sinal de vezes é o ×. Clique: C, 4, ×, 6, =." },
+          { faca: "Para terminar, feche a Calculadora no <b>X</b>.", ok: "fechar:jan:calc", onde: "jan:calc:fechar" }
+        ],
+        fimMsg: "Entrada (os botões), processamento (o =, feito pelo processador) e saída (o resultado na tela). Você viu as três etapas!",
+        explicacao: "Entrada: você digita a conta. Processamento: o processador (CPU) calcula. Saída: o resultado aparece na tela (monitor)." },
       { tipo: "rota", titulo: "A calculadora por dentro",
         enunciado: "<p>Você vai fazer <strong>2 + 3</strong> na calculadora. Clique nas etapas <strong>na ordem</strong> em que acontecem.</p>",
         etapas: [
@@ -279,6 +334,34 @@ PORTAL.registrarAtividades("informatica-6ano-2027-1bim", {
   /* ============ MISSÃO 4 — Pastas e arquivos ============ */
   m4: {
     pratica: [
+      { tipo: "sim_pc", titulo: "📁 No computador: crie a sua pasta e organize os arquivos",
+        enunciado: "<p>No Explorador de Arquivos do computador de treino, você vai criar uma pasta, dar nome, guardar arquivos nela e usar a Lixeira. O <strong>Bit</strong> confere cada passo.</p>",
+        area: [{ nome: "Lixeira", app: "lixeira" }], abertas: ["exp"], inicioPasta: "Documentos",
+        pastas: { "Documentos": [{ nome: "redacao", ext: "docx" }, { nome: "desenho-da-escola", ext: "png" }, { nome: "rascunho", ext: "txt", texto: "Ideias para a redação:\n- a escola\n- os amigos" }, { nome: "pesquisa-animais", ext: "pdf" }] },
+        passos: [
+          { faca: "Clique com o <b>botão direito</b> num espaço vazio da lista de arquivos (a parte branca) e escolha <b>Novo › Pasta</b>.", ok: "criar:pasta:Documentos", dica: "Clique com o botão direito embaixo dos arquivos, onde não tem nada. No menu, clique em Novo › Pasta." },
+          { faca: "A pasta nova está com o nome selecionado. Digite <b>Escola</b> e aperte <b>Enter</b>.", ok: "/^renomear:pasta:.*>escola$/", dica: "Se o nome não estiver selecionado: botão direito na Nova pasta › Renomear." },
+          { faca: "<b>Arraste</b> o arquivo <b>redacao</b> para dentro da pasta <b>Escola</b>: segure o botão esquerdo nele, leve até a pasta e solte.", ok: "mover:arq:redacao*>Escola", onde: "arq:redacao", dica: "Segure em cima de redacao, mova até a linha da pasta Escola (ela fica azul) e solte." },
+          { faca: "Arraste também a <b>pesquisa-animais</b> para a pasta <b>Escola</b>.", ok: "mover:arq:pesquisa-animais*>Escola", onde: "arq:pesquisa-animais" },
+          { faca: "O <b>rascunho</b> não serve mais. Clique com o <b>botão direito</b> nele e escolha <b>Excluir</b>.", ok: "excluir:arq:rascunho*", onde: "arq:rascunho" },
+          { faca: "Ops, você precisava do rascunho! Abra a <b>Lixeira</b> 🗑️ (duplo clique no ícone da área de trabalho).", ok: ["duplo:ic:Lixeira", "abrir:app:lixeira"], onde: "ic:Lixeira", dica: "Minimize o Explorador (—) para ver a área de trabalho e dê duplo clique na Lixeira." },
+          { faca: "Na Lixeira, clique com o <b>botão direito</b> no <b>rascunho</b> e escolha <b>Restaurar</b>. Ele volta para a pasta de antes!", ok: "restaurar:arq:rascunho*", onde: "lix:rascunho" }
+        ],
+        fimMsg: "Você criou a pasta Escola, guardou os trabalhos dentro dela, excluiu e depois restaurou um arquivo da Lixeira!",
+        explicacao: "Botão direito › Novo › Pasta cria uma pasta. Arrastar um arquivo até a pasta guarda o arquivo nela. Excluir manda para a Lixeira, de onde ainda dá para Restaurar." },
+      { tipo: "sim_pc", titulo: "🔎 No computador: extensões, renomear e pesquisar",
+        enunciado: "<p>Mais um treino no Explorador de Arquivos. Siga o <strong>Bit</strong>.</p>",
+        abertas: ["exp"], inicioPasta: "Downloads",
+        pastas: { "Downloads": [{ nome: "IMG_20270310_0932", ext: "jpg", figura: "🏫" }, { nome: "musica-da-festa", ext: "mp3" }, { nome: "trabalho", ext: "docx" }, { nome: "video-da-turma", ext: "mp4" }], "Documentos": [{ nome: "lista-de-compras", ext: "txt", texto: "Lista de compras\n- arroz\n- feijão\n- banana\n- caderno" }] },
+        passos: [
+          { faca: "Os nomes estão sem o final. Ligue as <b>extensões</b>: clique no botão <b>☐ Extensões</b>, lá em cima, à direita.", ok: "extensoes:sim", onde: "exp:ext" },
+          { faca: "Agora aparece o tipo depois do ponto. Qual é a foto? Clique com o <b>botão direito</b> no arquivo <b>.jpg</b> e escolha <b>Renomear</b>.", ok: "direito:arq:IMG_20270310_0932*", onde: "arq:IMG_20270310_0932.jpg", erros: { "direito:arq:*": "Esse não é a foto. Procure o arquivo que termina em .jpg." } },
+          { faca: "Escolha <b>Renomear</b> no menu, apague o nome e digite <b>passeio-da-escola</b>. Aperte <b>Enter</b>.", ok: "/^renomear:arq:img_20270310_0932[^>]*>passeio-da-escola(\\.jpg)?$/", dica: "Se o menu fechou: botão direito no arquivo .jpg › Renomear. Digite o nome novo e aperte Enter." },
+          { faca: "Onde está a <b>lista-de-compras</b>? Use a <b>pesquisa</b> 🔍: clique na caixa <b>Pesquisar</b>, digite <b>lista</b> e aperte <b>Enter</b>.", ok: "/^buscar:.*lista/", onde: "exp:busca" },
+          { faca: "Achou! Abra a <b>lista-de-compras</b> com um <b>duplo clique</b>.", ok: "/^abrir:arq:lista-de-compras/", onde: "arq:lista-de-compras.txt" }
+        ],
+        fimMsg: "Você ligou as extensões, renomeou a foto com um nome bom e achou um arquivo pela pesquisa!",
+        explicacao: "A extensão (o final depois do ponto) mostra o tipo: .jpg foto, .mp3 música, .docx texto do Word, .mp4 vídeo. Renomear dá um nome que ajuda a achar. A pesquisa 🔍 procura em todas as pastas." },
       { tipo: "explorador_pastas", titulo: "Organize os arquivos pela extensão",
         enunciado: "<p>Arraste cada arquivo para a pasta certa (ou clique no arquivo e depois na pasta). Olhe a <strong>extensão</strong>: o final depois do ponto.</p>",
         pastas: [{ id: "fotos", nome: "Imagens", ic: "🖼️" }, { id: "musicas", nome: "Músicas", ic: "🎵" }, { id: "textos", nome: "Trabalhos", ic: "📝" }, { id: "videos", nome: "Vídeos", ic: "🎬" }],
@@ -524,6 +607,16 @@ PORTAL.registrarAtividades("informatica-6ano-2027-1bim", {
   /* ============ MISSÃO 7 — Extra: Digitação sem medo ============ */
   m7: {
     pratica: [
+      { tipo: "sim_pc", titulo: "⌨️ No computador: digite com acento no Bloco de Notas",
+        enunciado: "<p>Digite de verdade no Bloco de Notas. O <strong>Bit</strong> confere letra por letra, com acento e maiúscula.</p>",
+        abertas: ["notas"],
+        passos: [
+          { faca: "Digite: <b>A escola é nossa.</b> (O <b>é</b>: aperte a tecla do acento agudo <b>´</b>, solte e aperte <b>e</b>.)", ok: { estado: "notas", texto: "A escola é nossa." }, onde: "notas:texto", dica: "O acento agudo ´ fica do lado direito do P, no teclado brasileiro. Aperte o acento, solte, depois a letra." },
+          { faca: "Aperte <b>Enter</b> e escreva na linha de baixo: <b>Você está aqui?</b> (o <b>ê</b>: segure <b>Shift</b> e aperte a tecla <b>~</b>, solte e aperte <b>e</b>; o <b>?</b>: Shift + a tecla do <b>/</b>.)", ok: { estado: "notas", texto: "A escola é nossa.\nVocê está aqui?" }, dica: "Você: V maiúsculo (Shift + V), o, c, ê. O circunflexo ^ é Shift + a tecla do ~." },
+          { faca: "Mais uma linha (Enter): <b>Ação, coração e pão.</b> (o <b>ç</b> tem tecla própria, ao lado do L; o <b>ã</b>: tecla <b>~</b>, solte, <b>a</b>.)", ok: { estado: "notas", texto: "A escola é nossa.\nVocê está aqui?\nAção, coração e pão." } }
+        ],
+        fimMsg: "Agudo, circunflexo, til e cedilha: tudo certinho no teclado!",
+        explicacao: "No teclado brasileiro (ABNT2): acento agudo ´ e til ~ têm teclas próprias; o circunflexo ^ é Shift + ~; a crase ` é Shift + ´; o Ç tem tecla própria. Primeiro o acento, depois a letra." },
       { tipo: "info", titulo: "Posição das mãos",
         html: "<p>Coloque os dedos na <strong>fileira base</strong>: mão esquerda em <strong>A S D F</strong>, mão direita em <strong>J K L Ç</strong>. Sinta o <strong>risquinho</strong> no F e no J. Polegares na barra de espaço. Depois de cada letra, volte para a fileira base.</p>" }
     ],
@@ -588,6 +681,18 @@ PORTAL.registrarAtividades("informatica-6ano-2027-1bim", {
   /* ============ MISSÃO 8 — Extra: Atalhos do teclado e do mouse ============ */
   m8: {
     pratica: [
+      { tipo: "sim_pc", titulo: "⚡ No computador: copiar, colar, recortar e desfazer com atalhos",
+        enunciado: "<p>No Bloco de Notas do computador de treino, use <strong>só atalhos</strong> do teclado. O <strong>Bit</strong> confere.</p>",
+        abertas: ["notas"], notas: "Bom dia, turma!",
+        passos: [
+          { faca: "Selecione <b>todo</b> o texto: clique na folha e aperte <b>Ctrl + A</b> (segure Ctrl e aperte A).", ok: "atalho:Ctrl+A", onde: "notas:texto" },
+          { faca: "Copie o texto: <b>Ctrl + C</b>.", ok: "atalho:Ctrl+C" },
+          { faca: "Aperte a seta <b>→</b> (ou <b>End</b>) para ir para o fim, aperte <b>Enter</b> e cole: <b>Ctrl + V</b>. O texto deve aparecer duas vezes.", ok: { estado: "notas", texto: "Bom dia, turma!\nBom dia, turma!" }, dica: "Depois do Ctrl + A, o texto todo fica selecionado; uma seta → tira a seleção e leva o cursor para o fim." },
+          { faca: "Ops! Desfaça a última coisa com <b>Ctrl + Z</b>.", ok: "atalho:Ctrl+Z" },
+          { faca: "Por fim, salve com <b>Ctrl + S</b>, com o nome <b>atalhos</b>.", ok: { estado: "salvo", nome: "atalhos" } }
+        ],
+        fimMsg: "Ctrl + A seleciona tudo, Ctrl + C copia, Ctrl + V cola, Ctrl + Z desfaz e Ctrl + S salva. Você usou todos!",
+        explicacao: "Ctrl + A: selecionar tudo · Ctrl + C: copiar · Ctrl + X: recortar · Ctrl + V: colar · Ctrl + Z: desfazer · Ctrl + S: salvar." },
       { tipo: "info", titulo: "Como apertar um atalho",
         html: "<p>Segure a primeira tecla (<strong>Ctrl</strong>, <strong>Alt</strong> ou <strong>Windows</strong>), aperte a segunda e solte as duas. Experimente agora: selecione esta frase arrastando o mouse e aperte <strong>Ctrl + C</strong>. Pronto, você copiou!</p>" }
     ],
