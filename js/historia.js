@@ -23,10 +23,13 @@
   // NÃO LISTADOS e "conteúdo para crianças". Aparecem só no painel do professor (aba Aula), nunca para os alunos.
   // Para acrescentar um vídeo: apostila base → missão → id do YouTube (o que vem depois de youtu.be/).
   P.videosMissao = {
-    "informatica-6ano-4bim": { m1: "c6VL4LyYfoU", m2: "tewalJ_tQyA", m3: "8HyYA5FcGaQ" },
-    "informatica-7ano-4bim": { m1: "H-I9rr3zvcA", m2: "GZV5XHt8ffQ", m3: "pXqdg8IYbMI" },
-    "informatica-8ano-4bim": { m1: ["147fmYY0uNU", "PKB6Wp09WP8"], m2: "TIIizqcGvQ4", m3: "gDbjAzGVP3k" }, // m1: [principal, extra passo a passo]
-    "informatica-9ano-4bim": { m1: "9kQjYVojNag", m2: "epiTtUxQ3Yg", m3: "0blVJESjpzs" }
+    "informatica-6ano-4bim": { m1: "c6VL4LyYfoU", m2: "tewalJ_tQyA", m3: "8HyYA5FcGaQ", m4: "t8OrHlUPoKE" },
+    "informatica-7ano-4bim": { m1: "H-I9rr3zvcA", m2: "GZV5XHt8ffQ", m3: "pXqdg8IYbMI", m4: "KZi4Yco_RwI" },
+    "informatica-8ano-4bim": { m1: ["147fmYY0uNU", "PKB6Wp09WP8"], m2: "TIIizqcGvQ4", m3: "gDbjAzGVP3k", m4: "TBagAmKBMew" }, // m1: [principal, extra passo a passo]
+    "informatica-9ano-4bim": { m1: "9kQjYVojNag", m2: "epiTtUxQ3Yg", m3: "0blVJESjpzs", m4: "jLz6jur-msY" },
+    // ⭐ Aula especial "Meu papel de parede" (o mesmo vídeo nas 4 séries)
+    "informatica-6ano-papel-de-parede": { ae: "Owm5cWrejQU" }, "informatica-7ano-papel-de-parede": { ae: "Owm5cWrejQU" },
+    "informatica-8ano-papel-de-parede": { ae: "Owm5cWrejQU" }, "informatica-9ano-papel-de-parede": { ae: "Owm5cWrejQU" }
   };
   const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 

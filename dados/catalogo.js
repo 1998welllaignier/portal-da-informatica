@@ -8,6 +8,7 @@ PORTAL.catalogo = {
   professor: "Professor Welington Laignier",
   escola: "EMEF Juscelino Kubitschek — Escola JK",
   cidade: "Curionópolis/PA",
+  videoCasa: "zxVceWH7iAk", // 🏠 vídeo de instruções do estudo em casa (YouTube, não listado)
 
   disciplinas: [
     { id: "informatica", nome: "Informática", icone: "💻" }

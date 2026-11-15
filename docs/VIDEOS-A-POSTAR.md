@@ -6,14 +6,7 @@ playlist da série e do bimestre, ex.: "7º ano · 4º bimestre 2026") e o Claud
 e, no vídeo do estudo em casa, `catalogo.videoCasa`). Depois de ligado, o vídeo passa para "✅ No ar".
 
 ## 🎬 Prontos, esperando postar
-| Vídeo | Série / turmas | Arquivo | Pronto em |
-|---|---|---|---|
-| Missão 4 · Grafos: mapas, caminhos e conexões | 7º ano · Turma B | 7ano-M4-Grafos-4bim2026.mp4 (enviado na conversa em 14/11) | 14/11/2026 |
-| Missão 4 · Termos de uso: o que eu aceitei? | 8º ano · Turmas A, B, C e D | 8ano-M4-Termos-de-uso-4bim2026.mp4 | 14/11/2026 |
-| Missão 4 · Guardar, compactar e achar arquivos | 6º ano · Turmas A e B | 6ano-M4-Guardar-compactar-achar-arquivos-4bim2026.mp4 | 14/11/2026 |
-| Missão 4 · Inteligência artificial: impactos | 9º ano · Turma D | 9ano-M4-Inteligencia-artificial-4bim2026.mp4 | 14/11/2026 |
-| 🏠 Instruções do estudo em casa (vai no portal como `catalogo.videoCasa`) | 6º ao 9º ano | Estudo-em-casa-instrucoes-2026.mp4 | 14/11/2026 |
-| ⭐ Aula especial · Meu papel de parede: o caso da imagem rebelde (vai no roteiro da aula especial das 4 séries) | 6º ao 9º ano (o mesmo vídeo) | Aula-especial-Papel-de-parede-2026.mp4 | 15/11/2026 |
+_(nenhum: os 6 da lista subiram em 15/11/2026 à noite, pelo próprio Claude, no computador de mesa)_
 
 ## ⏳ Esperando o áudio (MP3) do professor
 _(nenhum: todos os áudios combinados chegaram)_
@@ -25,3 +18,13 @@ _(nenhum: todos os áudios combinados chegaram)_
 | 7º | H-I9rr3zvcA | GZV5XHt8ffQ | pXqdg8IYbMI |
 | 8º | 147fmYY0uNU (+ passo a passo PKB6Wp09WP8) | TIIizqcGvQ4 | gDbjAzGVP3k |
 | 9º | 9kQjYVojNag | epiTtUxQ3Yg | 0blVJESjpzs |
+
+| Série | M4 (subidos em 15/11/2026) |
+|---|---|
+| 6º | t8OrHlUPoKE |
+| 7º | KZi4Yco_RwI |
+| 8º | TBagAmKBMew |
+| 9º | jLz6jur-msY |
+
+- 🏠 Instruções do estudo em casa: `zxVceWH7iAk` (`catalogo.videoCasa`, nas 4 playlists).
+- ⭐ Aula especial · Meu papel de parede: `Owm5cWrejQU` (missão `ae` das 4 apostilas de papel de parede, nas 4 playlists).
