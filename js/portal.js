@@ -104,7 +104,8 @@
       const el = h(`<div class="ilustracao">${f.html}</div>`);
       const anc = soLetras(f.ancora).slice(0, 40);
       let achou = null;
-      if (anc.length >= 8) achou = candidatos.find(c => soLetras(c.textContent).includes(anc)) || candidatos.find(c => soLetras(c.textContent).includes(anc.slice(0, 20)));
+      const txtC = c => soLetras(((c.dataset && c.dataset.cab) || "") + " " + c.textContent);
+      if (anc.length >= 8) achou = candidatos.find(c => txtC(c).includes(anc)) || candidatos.find(c => txtC(c).includes(anc.slice(0, 20)));
       if (!anc && ultima) { ultima.after(el); ultima = el; return; }
       if (achou) {
         if (modo === "cartao") { const corpo = achou.querySelector(".atv-corpo"); achou.insertBefore(el, corpo); }
@@ -821,7 +822,7 @@
       if (b.t === "tabela") {
         // tabela de 3 colunas vira cartões, para leitura mais visual
         if (enriquecer && b.cab.length === 3 && b.linhas.length <= 7 && b.linhas.every(l => l.length === 3)) {
-          return `<div class="cartoes-leitura">${b.linhas.map(l => `<div class="cl"><h3>${l[0]}</h3><p>${l[1]}</p><p class="cl-ex"><span>${b.cab[2]}:</span> ${l[2]}</p></div>`).join("")}</div>`;
+          return `<div class="cartoes-leitura" data-cab="${String(b.cab.join(" ")).replace(/<[^>]+>/g, "").replace(/"/g, "&quot;")}">${b.linhas.map(l => `<div class="cl"><h3>${l[0]}</h3><p>${l[1]}</p><p class="cl-ex"><span>${b.cab[2]}:</span> ${l[2]}</p></div>`).join("")}</div>`;
         }
         return `<div class="tabela-wrap"><table><thead><tr>${b.cab.map(c => `<th scope="col">${c}</th>`).join("")}</tr></thead>
           <tbody>${b.linhas.map(l => `<tr>${l.map(c => `<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`;
