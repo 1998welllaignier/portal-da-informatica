@@ -222,7 +222,7 @@ Para decidir com o professor no salão. Cada item: manter, juntar ou desligar.
   - [x] 8º ano (14/11): apostila (`informatica-8ano-2027-1bim`): listas, inserir/remover/contar, busca sequencial, busca binária, bolha, recursão + extras seleção e fractais; atividades (blocos testados), explicações, roteiro e prova.
   - [x] 9º ano (14/11): apostila (`informatica-9ano-2027-1bim`): grafos, árvores, árvores de decisão, programar com grafos e árvores, autômatos, eventos + extras semáforo e mapa da escola; atividades (blocos com eventos testados), explicações, roteiro e prova.
   - **Material principal do 1º bimestre de 2027 pronto nas 4 séries (14/11/2026).**
-  - [ ] Depois das 4 séries: desenhos coloridos e pedagógicos, 👣 Trilhas e recuperações (rodada única).
+  - [x] Depois das 4 séries: desenhos coloridos e pedagógicos, 👣 Trilhas e recuperações (rodada única).
     - [x] Desenhos do 6º ano (20 figuras, 14/11) · [x] 7º (15 figuras) · [x] 8º (15 figuras) · [x] 9º (13 figuras) · [x] Trilhas · [x] Recuperações
     - [x] 👣 Trilhas Passo a Passo das 4 séries (14 e 15/11): `informatica-{6,7,8,9}ano-2027-1bim-trilha` (M1–M8 + Revisão, 4 passos por missão, 3 V/F, roteiro, prova com 3 alternativas, explicações e os desenhos da turma reaproveitados por `ferramentas/ilustracoes_2027/trilha.py`). Autonomia 0/0/0 e fracos 0 nas quatro.
     - [x] 📝 Atividade de recuperação (15/11, escolha do professor: missão no portal + nota automática): missão `rc` em cada apostila e trilha, liberada por aluno no painel (📝 Prova › coluna Atividade de recuperação), só com as missões marcadas, sem dica nem resolução, nota 0 a 10 que entra sozinha (⚡) no 🧮 Boletim; nota digitada pelo professor vale no lugar. Perguntas em `ferramentas/recuperacao_2027/`.
