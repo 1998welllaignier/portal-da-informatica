@@ -202,7 +202,21 @@ Para decidir com o professor no salão. Cada item: manter, juntar ou desligar.
 - [x] **Decidido (14/11/2026):** por bimestre e por série, **6 missões fixas + 2 extras (reserva) + 🔁 Revisão**, depois prova e 2ª chamada/recuperação. Extras não usadas passam para o bimestre seguinte (são independentes), servem para reposição/🏠 em casa e para quem termina rápido. Ano: 24 fixas + 8 extras + 4 revisões por série.
 - [x] **Decidido (14/11/2026):** adiantar agora o conteúdo (enquanto o plano Max está ativo, até 08/12). O calendário da SEMED de 2027 **não** é necessário para produzir: só entra depois, em `calendarioRede`, para as datas, o dia da prova e a ordem automática no Panorama.
 - [x] Proposta v2 enviada (14/11/2026): Claude Doc "Informática 2027: assuntos por bimestre (v2)" (https://claude.ai/artifact/D12v1z76r3XbEide8BFbyp), com 6 fixas (F1–F6) + 2 extras (E1–E2) + 🔁 Revisão por bimestre, 128 missões com código BNCC.
-- [ ] Professor aprovar ou ajustar os assuntos da v2; depois produzir o 1º bimestre das quatro séries.
+- [x] **Assuntos da v2 aprovados (14/11/2026, 21h).** Produção começa pelo 1º bimestre das quatro séries.
+- [x] **Vídeos de 2027 em 2 levas por bimestre (aprovado em 14/11/2026)**, com lembrete por notificação do Claude (tarefas agendadas, 19h10). Datas estimadas; quando o calendário da SEMED sair, ajustar as tarefas:
+  | Data | Lembrete |
+  |---|---|
+  | 11/01/2027 | Preparar o ano: calendário SEMED, horários e alunos de 2027, PEIs novos, editor de blocos, Diário por bimestre |
+  | 18/01/2027 | 🎬 1º bim · leva 1 (F1–F3, 12 vídeos) |
+  | 01/02/2027 | Virar o portal: Começar novo ano, bimestre em uso 2027-1, importar alunos, cronograma |
+  | 01/03/2027 | 🎬 1º bim · leva 2 (F4–F6 + E1–E2, 20 vídeos) |
+  | 05/04/2027 | 🎬 2º bim · leva 1 + fim do 1º bim (prova, recuperação, boletim, SIGE do 6º) |
+  | 24/05/2027 | 🎬 2º bim · leva 2 + conferir editor de blocos |
+  | 05/07/2027 | 🎬 3º bim · leva 1 + fim do 2º bim |
+  | 23/08/2027 | 🎬 3º bim · leva 2 |
+  | 13/09/2027 | 🎬 4º bim · leva 1 + fim do 3º bim (formatura do 9º) |
+  | 01/11/2027 | 🎬 4º bim · leva 2 + prazos do fim do ano |
+- [ ] **Editor de programação em blocos** no portal antes de fev/2027 (o 7º ano usa no 1º bimestre; o 6º no 3º).
 - [ ] Depois de aprovado: material completo por bimestre, na ordem (1º bimestre primeiro). A 🔁 Revisão já nasce junto com cada bimestre (blocos por missão; o portal mostra só as missões dadas). Vídeos: perto da época, ou adiantados aos poucos para não estourar o limite semanal.
 
 ## 4. Início de 2027
