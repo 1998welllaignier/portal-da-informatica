@@ -116,9 +116,11 @@ function barraWin(x, y, w, o) { o = o || {}; const h = 58; g.fillStyle = "rgba(2
     const sx = ix + 30, sy = y + 30; g.lineJoin = "round"; g.beginPath(); g.moveTo(sx, sy - 5); g.lineTo(sx + 6, sy - 5); g.lineTo(sx + 14, sy - 12); g.lineTo(sx + 14, sy + 12); g.lineTo(sx + 6, sy + 5); g.lineTo(sx, sy + 5); g.closePath(); g.fill(); // alto-falante
     g.lineWidth = 2.6; [7, 13].forEach(r => { g.beginPath(); g.arc(sx + 15, sy, r, -.8, .8); g.stroke(); }); g.restore(); }
   return h; }
+/* posição de cada ícone da área de trabalho (mesma conta do desktop): o ponteiro clica exatamente aqui */
+function posIcone(x, y, h, i, n) { n = n || 3; const passo = Math.min(120, (h - 100) / n), esc = Math.min(1, passo / 108); return { x: x + 62 * Math.max(esc, .8), y: y + 58 * esc + i * passo, esc, cx: x + 62 * Math.max(esc, .8), cy: y + 58 * esc + i * passo - 8 * esc }; }
 function desktop(x, y, w, h, o) { o = o || {}; g.save(); rr(x, y, w, h, 10); g.clip(); papelParede(x, y, w, h);
   const ic = o.icones || [["lixeira", "Lixeira"], ["pasta", "Trabalhos"], ["jogo", "Jogo da escola"]];
-  const passo = Math.min(120, (h - 100) / ic.length), esc = Math.min(1, passo / 108); ic.forEach(([tp, n], i) => iconeMesa(tp, n, x + 62 * Math.max(esc, .8), y + 58 * esc + i * passo, o.sel === i, (o.iconesK || [])[i], esc));
+  ic.forEach(([tp, n], i) => { const P = posIcone(x, y, h, i, ic.length); iconeMesa(tp, n, P.x, P.y, o.sel === i, (o.iconesK || [])[i], P.esc); });
   if (o.antes) o.antes();
   barraWin(x, y + h - 58, w, o.barra); g.restore(); g.strokeStyle = "#0f172a"; g.lineWidth = 4; rr(x, y, w, h, 10); g.stroke(); }
 function monitorPC(x, y, w, h, tela) { g.fillStyle = "rgba(0,0,0,.35)"; rr(x - 18 + 8, y - 18 + 10, w + 36, h + 36, 18); g.fill(); g.fillStyle = "#111827"; rr(x - 18, y - 18, w + 36, h + 36, 18); g.fill();
@@ -184,7 +186,7 @@ const CENAS = [
  // 1 — o problema do Pedro
  { chip: "O PROBLEMA", fala: FL[1], sfx: [[.1, "whoosh"], [E(1, "clicou"), "click"], [E(1, "sumiu"), "alerta"], [E(1, "Calma"), "ding"]],
    draw(t) { fundoEscuro(t, "#1e3a8a"); const tc = E(1, "clicou"), ts = E(1, "sumiu"), k = io(seg(t, ts - .2, ts + .5));
-     monitorPC(560, 110, 560, 320, (x, y, w, h) => { papelParede(x, y, w, h); if (k < 1) { g.save(); g.translate(lerp(x + w / 2, barX(x, w, "jogo"), k), lerp(y + 140, y + h - 20, k)); g.scale(1 - k, 1 - k); janelaWin(-200, -110, 400, 220, "Jogo da escola", { hover: t > tc - .3 && t < ts ? "min" : null, conteudo: (a, b, c, d) => jogoConteudo(a, b, c, d, t) }); g.restore(); if (t > tc - .9 && t < ts) cursor(lerp(x + w / 2 + 60, x + w / 2 + 90, seg(t, tc - .9, tc - .2)), y + 40, t > tc); }
+     monitorPC(560, 110, 560, 320, (x, y, w, h) => { papelParede(x, y, w, h); if (k < 1) { g.save(); g.translate(lerp(x + w / 2, barX(x, w, "jogo"), k), lerp(y + 140, y + h - 20, k)); g.scale(1 - k, 1 - k); janelaWin(-200, -110, 400, 220, "Jogo da escola", { hover: t > tc - .3 && t < ts ? "min" : null, conteudo: (a, b, c, d) => jogoConteudo(a, b, c, d, t) }); g.restore(); if (t > tc - .9 && t < ts) cursor(lerp(x + w / 2 + 150, x + w / 2 + 57, io(seg(t, tc - .9, tc - .2))), lerp(y + 120, y + 56, io(seg(t, tc - .9, tc - .2))), t > tc && t < tc + .25); }
        barraWin(x, y + h - 58, w, { jogoAberto: true }); });
      if (t < 1.6) placa("PEDRO · veio do 5º ano", 300, 140, seg(t, .3, .7), LJ, 22);
      pedro({ x: 290, y: 560, s: 1.05, braco: t > ts ? -2.4 : -.8, bracoE: t > ts ? 2.4 : .3, olhar: 1, boca: t > ts ? "o" : "", pisca: pisca(t) });
@@ -213,8 +215,8 @@ const CENAS = [
      const ap = (t > ta && t < ta + .25) || (t > tv && t < tv + .25);
      mouseTopo(230, 330, .85, { esq: true, esqCor: ap ? AMAR : AZ }); placa(ap ? "CLIQUE!" : "BOTÃO DA ESQUERDA", 230, 120, 1, ap ? LJ : AZ, 22);
      if (t > ta) placa("1× apertar e soltar = ESCOLHE", 230, 520, seg(t, ta, ta + .4), AZ, 22);
-     monitorPC(560, 110, 620, 340, (x, y, w, h) => { desktop(x, y, w, h, { sel: t > tv + .05 ? 2 : -1 }); const cx = lerp(x + 380, x + 70, io(seg(t, tv - 1, tv - .1))), cy = lerp(y + 120, y + 300, io(seg(t, tv - 1, tv - .1))); cursor(cx, cy, ap);
-       if (t > tv + .1) rotulo2("MARCADO DE AZUL", x + 330, y + 240, x + 130, y + 300, seg(t, tv + .1, tv + .5), AZ, 20); }); } },
+     monitorPC(560, 110, 620, 340, (x, y, w, h) => { desktop(x, y, w, h, { sel: t > tv + .05 ? 2 : -1 }); const J = posIcone(x, y, h, 2), cx = lerp(x + 380, J.cx + 4, io(seg(t, tv - 1, tv - .1))), cy = lerp(y + 120, J.cy - 8, io(seg(t, tv - 1, tv - .1))); cursor(cx, cy, ap);
+       if (t > tv + .1) rotulo2("MARCADO DE AZUL", x + 330, y + 200, J.x + 42, J.cy, seg(t, tv + .1, tv + .5), AZ, 20); }); } },
  // 5 — duplo clique
  { chip: "O DUPLO CLIQUE", fala: FL[5], sfx: [[.1, "whoosh"], [E(5, "dois"), "click"], [E(5, "dois") + .18, "click"], [E(5, "abre"), "pop"], [E(5, "devagar"), "click"], [E(5, "devagar") + 1.1, "click"], [E(5, "nada"), "erro"]],
    draw(t) { fundoEscuro(t, "#14532d"); const td = E(5, "dois"), tab = E(5, "abre"), tdv = E(5, "devagar");
@@ -223,7 +225,7 @@ const CENAS = [
      mouseTopo(220, 330, .85, { esq: true, esqCor: ap ? AMAR : AZ });
      placa(t < tdv ? "CLIQUE-CLIQUE rapidinho!" : "clique ..... clique (devagar)", 220, 120, 1, t < tdv ? VD : VM, 21);
      monitorPC(560, 110, 620, 340, (x, y, w, h) => { const aberta = t > tab && t < tdv; desktop(x, y, w, h, { sel: t > td ? 1 : -1, barra: { pastaAberta: aberta } });
-       cursor(x + 74, y + 186, ap);
+       { const T = posIcone(x, y, h, 1); cursor(T.cx + 4, T.cy - 8, ap); }
        if (aberta) { const k = back(seg(t, tab, tab + .4)); g.save(); g.translate(x + 360, y + 150); g.scale(k, k); janelaWin(-190, -110, 380, 220, "Trabalhos", { icone: "pasta", conteudo: (a, b, c, d) => { g.fillStyle = "#fff"; g.fillRect(a, b, c, d); iconeApp("notas", a + 60, b + 60, 1.2); iconeApp("notas", a + 150, b + 60, 1.2); } }); g.restore(); } });
      if (t > tab && t < tdv) placa("ABRIU!", 870, 520, seg(t, tab, tab + .4), VD, 28);
      if (t > tdv) { xVermelho(870, 260, 60, seg(t, E(5, "nada"), E(5, "nada") + .3)); placa("devagar demais: NADA ABRE", 870, 520, seg(t, E(5, "nada"), E(5, "nada") + .4), VM, 24); } } },
@@ -234,7 +236,7 @@ const CENAS = [
      placa(t < te ? "BOTÃO DA DIREITA" : "agora: botão da ESQUERDA", 220, 120, 1, t < te ? RS : AZ, 21);
      monitorPC(560, 110, 620, 340, (x, y, w, h) => { desktop(x, y, w, h, { sel: t > td ? 1 : -1 }); const hv = t > te ? Math.min(2, Math.floor((t - te) * 4)) : -1;
        if (t > tmn - .3) menuCtx(x + 150, y + 120, ["Abrir", "Renomear", "Copiar", "Excluir", "Propriedades"], hv, seg(t, tmn - .3, tmn));
-       cursor(t > te ? x + 170 : x + 92, t > te ? y + 145 + Math.max(0, hv) * 42 : y + 200, t > te + .4 && t < te + .7); });
+       const T = posIcone(x, y, h, 1); cursor(t > te ? x + 170 : T.cx + 4, t > te ? y + 145 + Math.max(0, hv) * 42 : T.cy - 8, (t > td && t < td + .25) || (t > te + .4 && t < te + .7)); });
      if (t > tmn) rotulo2("MAIS OPÇÕES", 960, 520, 830, 300, seg(t, tmn, tmn + .4), RS, 22); } },
  // 7 — rodinha
  { chip: "A RODINHA", fala: FL[7], sfx: [[.1, "whoosh"], [E(7, "rodinha"), "pop"], [E(7, "baixo"), "whoosh"], [E(7, "cima"), "whoosh"]],

@@ -141,3 +141,4 @@ Apostila no portal + ilustrada (PDF só para quem estuda em casa) · guia do pro
 - Ícones da área de trabalho encolhem para caber (`esc`) e o nome nunca invade o ícone de baixo.
 - Etiquetas com setas: setas não cruzam outras etiquetas; textos grandes longe do selo do professor e da legenda.
 - Ícones da bandeja reconhecíveis (wi-fi com 3 ondas + ponto; alto-falante com ondas).
+- O ponteiro sempre clica EXATAMENTE em cima do ícone/botão que é selecionado ou aberto (posição calculada pela mesma função que desenha: `posIcone`, `barX`, botões do `janelaWin`). Para quem nunca usou o computador, isso faz diferença.
