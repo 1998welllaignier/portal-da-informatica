@@ -1,0 +1,29 @@
+Portal da Informática: a aula de Informática inteira em um só lugar.
+
+Toda escola conhece este desafio. A aula de Informática acontece no contraturno, a presença oscila, e muitos alunos chegam sem nunca ter usado um computador. A apostila de papel se perde, a correção demora, e, no fim do bimestre, a única prova do que cada aluno fez é o diário de classe.
+
+Foi para resolver isso que nasceu o Portal da Informática, criado pelo professor Welington Laignier. Ele funciona no navegador, nos computadores que a escola já tem. Não precisa instalar nada e não tem custo de licença.
+
+Cada aula é uma missão, alinhada à BNCC Computação. O aluno lê o conteúdo, e toda palavra técnica pode ser clicada para ver o significado. Na seção Onde eu uso isso?, ele descobre para que aquilo serve no dia a dia.
+
+Depois, ele pratica. Os simuladores reproduzem o Windows, o Paint, o e-mail e o navegador, dentro da própria página. O aluno treina sem medo de errar e sem risco para os computadores da escola.
+
+As atividades têm correção automática. O aluno sabe na hora se acertou, e, quando trava, clica em: me ajuda, robô! O Bit, o robozinho assistente, mostra como se faz, numa pequena simulação, e o aluno repete.
+
+O resultado é autonomia. O aluno avança sozinho, no próprio ritmo, e o professor deixa de ser o único caminho. Ele passa a ser o mediador, livre para atender quem mais precisa.
+
+E tem um ingrediente a mais: o engajamento. Cada acerto vale pontos. Quem lidera a turma ganha a coroa de rei da sala, e, no fim da aula, o pódio aparece no projetor. Quem termina tudo ainda desbloqueia o bônus relâmpago. O aluno quer participar.
+
+Agora, a parte da gestão. Tudo o que o aluno faz fica registrado, com data e hora. A chamada é feita sozinha: quem entrou no portal já aparece como presente.
+
+Durante a aula, o painel Ao vivo mostra quem está avançando, quem está parado há mais de dez minutos e quem saiu da tela cheia. O professor sabe exatamente onde intervir.
+
+O Panorama mostra, turma por turma, o que já foi estudado e o que falta. A prova e a recuperação são feitas no próprio portal, e a nota vai direto para o boletim.
+
+Ninguém fica para trás. Alunos que precisam de mais apoio usam a Trilha Passo a Passo, uma versão mais detalhada da mesma missão. Os alunos com plano educacional individualizado ganham anotações de apoio que só o professor vê. E quem estuda em casa recebe as tarefas e é acompanhado do mesmo jeito.
+
+Segurança e foco também foram pensados. O aluno entra só com um código de quatro números, sem e-mail e sem senha. Nomes e notas ficam visíveis apenas no painel do professor. As tarefas abrem só no horário da aula, e o professor pode exigir tela cheia, para que a atenção fique na atividade.
+
+Em resumo: mais autonomia para o aluno, mais tempo de qualidade para o professor e mais informação para a gestão. Tudo isso com os recursos que a escola já tem.
+
+O Portal da Informática já funciona na nossa escola e pode chegar a outras escolas e a toda a rede municipal. Professor Welington Laignier: tecnologia a serviço da aprendizagem.
