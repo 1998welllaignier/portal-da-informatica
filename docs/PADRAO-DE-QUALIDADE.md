@@ -150,3 +150,5 @@ Apostila no portal + ilustrada (PDF só para quem estuda em casa) · guia do pro
 
 ### Vídeos longos podem (16/11/2026)
 - Duração não é problema (até ~16 min), desde que prenda a atenção: historinha com missão/tesouro, personagens (bairros, moradores, elevador do Shift), desafios relâmpago para a turma responder em voz alta (3, 2, 1...), humor leve e recompensas visuais (baú, estrelas).
+- Jogos de teclado (js/teclado.js, tipo `teclado`): teclado ABNT2 **espelho** (acende a tecla que o aluno aperta, com as luzinhas Num/Caps), correção automática exata (maiúscula, acento, símbolo) e conferência de **qual tecla** foi usada (Delete × Backspace, Home, setas, teclado numérico). O ajudante é o **Bit** (o mesmo robô dos simuladores).
+- Vídeos com narração longa (mais de ~5 min): alinhar a voz com `ferramentas/video2d/alinhar_paragrafos.py <pasta>` e depois `finalizar.py ... --usar-cortes` (o alinhamento do finalizar fica lento demais).

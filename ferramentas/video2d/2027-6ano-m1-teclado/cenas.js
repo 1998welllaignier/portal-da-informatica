@@ -83,7 +83,8 @@ function tk(cx, cy, s, o) { o = o || {}; g.save(); g.translate(cx, cy); g.scale(
   TK.LED.forEach(l => { const on = (o.leds || {})[l.id]; g.fillStyle = on ? "#4ade80" : "#14532d"; g.beginPath(); g.arc(l.x, l.y - 4, 7, 0, 7); g.fill();
     if (on) { g.save(); g.globalAlpha = .45; g.fillStyle = "#86efac"; g.beginPath(); g.arc(l.x, l.y - 4, 15, 0, 7); g.fill(); g.restore(); }
     g.fillStyle = "#cbd5e1"; g.font = `700 10px ${F}`; g.textAlign = "center"; g.textBaseline = "middle"; g.fillText(l.n, l.x, l.y + 12); });
-  TK.L.forEach(k => { const dest = (o.cor || {})[k.id], ap = (o.ap || {})[k.id], dim = (o.dim && !dest) || (o.so && !o.so.includes(k.reg) && !dest);
+  TK.L.forEach(k => { if (o.lim) { const X1 = cx + s * (k.x - TK.W / 2), Y1 = cy + s * (k.y - TK.H / 2), X2 = X1 + s * k.w, Y2 = Y1 + s * k.h; if (X2 < o.lim[0] || X1 > o.lim[2] || Y2 < o.lim[1] || Y1 > o.lim[3]) return; if (Y2 > 548) return; }
+    const dest = (o.cor || {})[k.id], ap = (o.ap || {})[k.id], dim = (o.dim && !dest) || (o.so && !o.so.includes(k.reg) && !dest);
     const X = k.x, Y = k.y + (ap ? 3 : 0);
     let fundo = dest || (o.regioes && o.regioes.includes(k.reg) ? REGCOR[k.reg] : "#e5e7eb"); if (dim) fundo = "#475569";
     if (!ap) { g.fillStyle = "#94a3b8"; rr(X, Y + 3, k.w, k.h, 6); g.fill(); }
@@ -204,8 +205,8 @@ const E = (i, w, n) => em(FL[i], w, n);
 const TX = 640, TY = 250, TS = 1.05;
 /* zoom suave do teclado inteiro até um ponto (fx, fy em unidades do teclado) */
 /* lupa: o teclado ampliado aparece dentro de uma moldura (nada vaza pelas bordas nem passa por baixo do selo) */
-function tkClip(cx, cy, s, o, R, a) { if (!R) return tk(cx, cy, s, o); a = a == null ? 1 : a; const x = lerp(0, R[0], a), y = lerp(0, R[1], a), w = lerp(W, R[2], a), h = lerp(H, R[3], a);
-  g.save(); rr(x, y, w, h, 24 * a); g.clip(); tk(cx, cy, s, o); g.restore(); if (a > .02) { g.save(); g.globalAlpha = cl(a * 2); g.strokeStyle = "#e2e8f0"; g.lineWidth = 5; rr(x, y, w, h, 24); g.stroke(); g.restore(); } }
+function tkClip(cx, cy, s, o, R, a) { if (!R) return tk(cx, cy, s, o); a = a == null ? 1 : a; const x = lerp(0, R[0], a), y = lerp(0, R[1], a), w = lerp(W, R[2], a), h = lerp(540, R[3], a);
+  g.save(); rr(x, y, w, h, 24 * a); g.clip(); tk(cx, cy, s, Object.assign({}, o, { lim: [x, y, x + w, y + h] })); g.restore(); if (a > .02) { g.save(); g.globalAlpha = cl(a * 2); g.strokeStyle = "#e2e8f0"; g.lineWidth = 5; rr(x, y, w, h, 24); g.stroke(); g.restore(); } }
 function tkZoom(k, fx, fy, s2, sx, sy, o, R) { const a = io(cl(k)), s = lerp(TS, s2, a), [zx, zy] = tkCam(fx * TK.u, fy * TK.u, s2, sx, sy), cx = lerp(TX, zx, a), cy = lerp(TY, zy, a); tkClip(cx, cy, s, o, R, a); return [cx, cy, s]; }
 const P = (id, c) => tkPos(id, c[0], c[1], c[2]);
 const piscaTecla = (t, t0, d) => t > t0 && t < t0 + (d || .5);
