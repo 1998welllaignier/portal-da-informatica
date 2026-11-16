@@ -1823,3 +1823,4 @@ button.tb-av:hover .avatar-svg, button.tb-av:focus-visible .avatar-svg { transfo
 .tela-cheia-dlg{max-width:520px;text-align:center;border:4px solid #7c3aed;border-radius:22px;padding:28px}
 .tela-cheia-dlg::backdrop{background:rgba(15,23,42,.92)}
 .tela-cheia-dlg .tc-ic{font-size:4rem}.tela-cheia-dlg h2{margin:.2em 0}
+.pv-tela{display:inline-block;background:#fee2e2;color:#991b1b;border:1px solid #fca5a5;border-radius:999px;padding:0 .5em;font-size:.8em;font-weight:700;white-space:nowrap}

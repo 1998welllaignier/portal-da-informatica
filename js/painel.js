@@ -464,7 +464,8 @@
         const pm = ps.filter(p => p.mid === mid).sort((x, y) => (y.atualizado || 0) - (x.atualizado || 0))[0];
         const ult = Math.max(entrou || 0, ...daHoje.map(p => +p.atualizado || 0));
         const outra = daHoje[0] && daHoje[0].mid !== mid ? daHoje[0] : null;
-        return { a, entrou, pm, ult, outra };
+        const tl = ps.find(p => p.tipo === "tela"), saidas = (tl && tl.saidas && +tl.saidas[hoje]) || 0;   // 🖥️ saídas da tela cheia hoje
+        return { a, entrou, pm, ult, outra, saidas };
       });
       const dentro = linhas.filter(x => x.entrou).sort((x, y) => x.a.nome.localeCompare(y.a.nome, "pt-BR")), fora = linhas.filter(x => !x.entrou);
       // ⭐ XP e posição de cada aluno (mesma pontuação do placar) e ⚠️ quem precisa de atenção (14/11/2026)
@@ -474,8 +475,10 @@
       const atencao = { parados: dentro.filter(par10), semComecar: dentro.filter(x => !x.pm && !par10(x)),
         atras: dentro.filter(x => metade && x.pm && !x.pm.basicoOk && !par10(x) && x.pm.basico && x.pm.basico[1] && x.pm.basico[0] / x.pm.basico[1] < .5) };
       const nomesA = l => l.map(x => esc(x.a.nome.split(" ").slice(0, 2).join(" "))).join(", ");
-      const boxAtencao = (atencao.parados.length + atencao.semComecar.length + atencao.atras.length)
-        ? `<div class="pv-atencao"><p class="pv-at-tit">⚠️ Precisam de atenção agora</p>${atencao.parados.length ? `<p><b>😴 Parados há mais de 10 min:</b> ${nomesA(atencao.parados)}</p>` : ""}${atencao.semComecar.length ? `<p><b>🚫 Entraram, mas não começaram a missão:</b> ${nomesA(atencao.semComecar)}</p>` : ""}${atencao.atras.length ? `<p><b>🐢 Atrasados</b> (passou da metade da aula e fizeram menos da metade do Básico): ${nomesA(atencao.atras)}</p>` : ""}</div>`
+      atencao.tela = dentro.filter(x => x.saidas > 0).sort((x, y) => y.saidas - x.saidas);
+      const nomesTela = atencao.tela.map(x => `${esc(x.a.nome.split(" ").slice(0, 2).join(" "))} (${x.saidas}×)`).join(", ");
+      const boxAtencao = (atencao.parados.length + atencao.semComecar.length + atencao.atras.length + atencao.tela.length)
+        ? `<div class="pv-atencao"><p class="pv-at-tit">⚠️ Precisam de atenção agora</p>${atencao.tela.length ? `<p><b>🖥️ Saíram da tela cheia hoje:</b> ${nomesTela}</p>` : ""}${atencao.parados.length ? `<p><b>😴 Parados há mais de 10 min:</b> ${nomesA(atencao.parados)}</p>` : ""}${atencao.semComecar.length ? `<p><b>🚫 Entraram, mas não começaram a missão:</b> ${nomesA(atencao.semComecar)}</p>` : ""}${atencao.atras.length ? `<p><b>🐢 Atrasados</b> (passou da metade da aula e fizeram menos da metade do Básico): ${nomesA(atencao.atras)}</p>` : ""}</div>`
         : (dentro.length ? `<div class="pv-atencao ok"><p class="pv-at-tit">✅ Ninguém precisa de atenção agora</p></div>` : "");
       const fr = (v, rot, cls) => { const [f, tt] = v || [0, 0]; if (!tt) return ""; const ok = f === tt;
         return `<span class="pv-n ${cls} ${ok ? "ok" : ""}" title="${rot}: ${f} de ${tt}">${rot} ${ok ? "✔" : f + "/" + tt}<i style="width:${Math.round(100 * f / tt)}%"></i></span>`; };
@@ -484,12 +487,12 @@
       dlg.querySelector("#pv-c").innerHTML = `<p class="pv-mis">📌 ${esc(missao.icone || "")} <b>${esc(missao.titulo || SIG(mid))}</b></p>
         <div class="pv-chips"><span class="pv-chip">👥 <b>${dentro.length}</b> de ${alunos.length} entraram hoje</span><span class="pv-chip ok">🟢 Básico ✔ <b>${nB}</b>/${dentro.length}</span>
           <span class="pv-chip">🟡 Desafio ✔ <b>${nD}</b></span><span class="pv-chip">🔴 Turbo ✔ <b>${nT}</b></span>${reisV.length ? `<span class="pv-chip rei">👑 ${reisV.map(e => `${P.podio.tituloRei(e.avatares).replace(/ da sala$/, "")}: <b>${e.nomes.map(esc).join(" & ")}</b> (${e.pontos} pts)`).join(" · ")}</span>` : ""}${nPar ? `<span class="pv-chip alerta">😴 Parados <b>${nPar}</b></span>` : ""}</div>
-        ${dentro.length ? `${boxAtencao}<div class="tabela-wrap"><table class="pv-tab"><thead><tr><th>Aluno</th><th>⭐ XP</th><th>Entrou</th><th>Progresso na missão de hoje</th><th>Situação</th><th>Última atividade</th></tr></thead><tbody>${dentro.map(({ a, entrou, pm, ult, outra }) => {
+        ${dentro.length ? `${boxAtencao}<div class="tabela-wrap"><table class="pv-tab"><thead><tr><th>Aluno</th><th>⭐ XP</th><th>Entrou</th><th>Progresso na missão de hoje</th><th>Situação</th><th>Última atividade</th></tr></thead><tbody>${dentro.map(({ a, entrou, pm, ult, outra, saidas }) => {
           const p = pm || {}, okB = !!p.basicoOk, falta = p.basico && p.basico[1] ? p.basico[1] - p.basico[0] : null, par = agora - ult > 600000;
           const sit = okB ? (p.turbo && p.turbo[1] && p.turbo[0] === p.turbo[1] ? `<span class="sit ok">🏆 Missão completa</span>` : `<span class="sit ok">✔ Básico feito (visto)</span>`)
             : falta != null ? `<span class="sit wait">Faltam ${falta} do Básico</span>` : `<span class="sit bad">Ainda não começou a missão</span>`;
           const xa = xp[a.id];
-          return `<tr class="${okB ? "feito" : par ? "parado" : "fazendo"}"><td data-rot="Aluno">${ehRei.has(a.id) ? `<span class="pv-coroa" title="Rei da sala: 1º lugar">${P.podio.coroa(22)}</span>` : ""}${a.atipico ? "🧩 " : ""}${esc(a.nome)}${a.trilha ? " 👣" : ""}${outra ? `<br><small>está na ${esc(rotMis(C, outra.mid))}</small>` : ""}</td><td data-rot="⭐ XP" class="pv-xp">${xa && xa.pontos ? `<b>${xa.pontos}</b> XP <small>${xa.pos}º lugar</small>` : "<b>0</b> XP"}</td><td data-rot="Entrou">${hhmm(entrou)}</td>
+          return `<tr class="${okB ? "feito" : par ? "parado" : "fazendo"}"><td data-rot="Aluno">${ehRei.has(a.id) ? `<span class="pv-coroa" title="Rei da sala: 1º lugar">${P.podio.coroa(22)}</span>` : ""}${a.atipico ? "🧩 " : ""}${esc(a.nome)}${a.trilha ? " 👣" : ""}${saidas ? ` <span class="pv-tela" title="Saiu da tela cheia ${saidas} vez(es) hoje">🖥️ saiu ${saidas}×</span>` : ""}${outra ? `<br><small>está na ${esc(rotMis(C, outra.mid))}</small>` : ""}</td><td data-rot="⭐ XP" class="pv-xp">${xa && xa.pontos ? `<b>${xa.pontos}</b> XP <small>${xa.pos}º lugar</small>` : "<b>0</b> XP"}</td><td data-rot="Entrou">${hhmm(entrou)}</td>
             <td class="pv-bars" data-rot="Progresso">${fr(p.leitura, "📖 Leitura", "l")}${fr(p.basico, "🟢 Básico", "b")}${fr(p.desafio, "🟡 Desafio", "d")}${fr(p.turbo, "🔴 Turbo", "t")}${!pm ? "<small>—</small>" : ""}</td>
             <td data-rot="Situação">${sit}</td><td data-rot="Última atividade">${par ? "😴 " : ""}há ${Math.max(0, Math.round((agora - ult) / 60000))} min</td></tr>`; }).join("")}</tbody></table></div>`
         : `<p class="ajuda">Nenhum aluno desta turma entrou hoje ainda.</p>`}

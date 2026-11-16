@@ -393,7 +393,7 @@
     const s = sess.get(); if (!telaOn || tcCasa || !s || !s.nuvem || !P.nuvem || !P.nuvem.app) return;
     const fora = !emTelaCheia(); if (telaEstava === true && fora) {
       const hoje = P.nuvem.hoje();
-      (s.alunoIds || []).forEach((id, i) => { try { P.nuvem.app(i).db.collection("progresso").doc(id + "_tela").set({ alunoId: id, turma: s.turma, tipo: "tela", dias: { [hoje]: firebase.firestore.FieldValue.increment(1) } }, { merge: true }).catch(() => {}); } catch (e) {} });
+      (s.alunoIds || []).forEach((id, i) => { try { P.nuvem.app(i).db.collection("progresso").doc(id + "_tela").set({ alunoId: id, turma: s.turma, tipo: "tela", saidas: { [hoje]: firebase.firestore.FieldValue.increment(1) } }, { merge: true }).catch(() => {}); } catch (e) {} });
     }
     telaEstava = !fora;
   }
