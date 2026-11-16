@@ -799,6 +799,7 @@
           <button class="btn btn-sec" type="button" data-x="casa">${a.emCasa ? "🏠 Tirar “estuda em casa”" : "🏠 Marcar: estuda em casa (entrega a apostila)"}</button>
           <button class="btn btn-sec" type="button" data-x="teste">${a.teste ? "🧪 Voltar a ser aluno comum" : "🧪 Marcar como aluno de teste (não conta na presença, no diário, nas notas e nos relatórios)"}</button>
           <button class="btn btn-sec" type="button" data-x="libera">🔓 Liberar as tarefas fora do horário (só este aluno)</button>
+          <button class="btn btn-sec" type="button" data-x="avatar">🧍 Deixar montar o avatar de novo (salvou sem querer)</button>
           <button class="btn btn-sec" type="button" data-x="outra">🏫 Frequenta a aula de outra turma</button>
           <button class="btn btn-sec" type="button" data-x="ativo">${a.ativo ? "⛔ Desativar (saiu da escola)" : "✅ Reativar"}</button>
           <button class="btn" value="x">Fechar</button></div></form></dialog>`);
@@ -815,6 +816,8 @@
             const nt = opc.find(y => y.id.toLowerCase() === String(r || "").trim().toLowerCase()); if (!nt) { if (r) await P.aviso("Turma não encontrada."); return; }
             const c = await novoCodigo(a, nt.id); await P.aviso(`${a.nome} agora está no ${nomeTurma(nt.id)}. Novo código: ${c}. O histórico continua guardado.`);
           }
+          if (x === "avatar") { if (!await P.confirmar(`Apagar o avatar de ${a.nome}? Na próxima entrada com o código, ${a.nome.split(" ")[0]} monta um avatar novo (só desta vez). Se já estiver na aula, peça para clicar em Sair e entrar de novo.`)) return;
+            await db().collection("progresso").doc(a.id + "_avatar").delete(); await P.aviso(`Pronto! ${a.nome.split(" ")[0]} pode sair e entrar de novo com o código: o portal abre a tela de montar o avatar. Os pontos e as tarefas não mudam.`); }
           if (x === "atipico") { await db().collection("alunos").doc(a.id).update({ atipico: !a.atipico }); }
           if (x === "apoio") { const v = await P.perguntar("Apoios para este aluno na aula (aparecem na Tela da aula, só para você):", a.apoio || ""); if (v === null) return; await db().collection("alunos").doc(a.id).update({ apoio: v.trim() }); }
           if (x === "trilha") {
