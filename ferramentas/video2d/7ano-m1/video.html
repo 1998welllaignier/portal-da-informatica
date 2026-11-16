@@ -256,10 +256,10 @@ function inicio() { const a = [0]; DUR.forEach(d => a.push(a[a.length - 1] + d))
 let INI = inicio(), T = INI[INI.length - 1];
 window.definirDuracoes = d => { DUR = d; INI = inicio(); T = INI[INI.length - 1]; window.T = T; };
 
-function legenda(txt, k) { // legenda embaixo, acendendo palavra por palavra
-  const pal = txt.split(" "), n = Math.floor(pal.length * cl(k * 1.08)); g.font = `700 26px ${F}`;
-  const linhas = [[]]; let w = 0; pal.forEach((p, i) => { const pw = g.measureText(p + " ").width; if (w + pw > 1080) { linhas.push([]); w = 0; } linhas[linhas.length - 1].push([p, i]); w += pw; });
-  const lh = 36, y0 = H - 22 - linhas.length * lh; g.fillStyle = "rgba(10,16,36,.72)"; rr(70, y0 - 10, W - 140, linhas.length * lh + 18, 14); g.fill();
+function legenda(txt, k, tam) { // legenda embaixo, acendendo palavra por palavra (tam: letra menor para falas longas)
+  tam = tam || 26; const pal = txt.split(" "), n = Math.floor(pal.length * cl(k * 1.08)); g.font = `700 ${tam}px ${F}`;
+  const linhas = [[]]; let w = 0; pal.forEach((p, i) => { const pw = g.measureText(p + " ").width; if (w + pw > (tam < 26 ? 1110 : 1080)) { linhas.push([]); w = 0; } linhas[linhas.length - 1].push([p, i]); w += pw; });
+  const lh = Math.round(tam * 1.38), y0 = H - 22 - linhas.length * lh; g.fillStyle = "rgba(10,16,36,.72)"; rr(70, y0 - 10, W - 140, linhas.length * lh + 18, 14); g.fill();
   linhas.forEach((ln, j) => { const tw = ln.reduce((s, [p]) => s + g.measureText(p + " ").width, 0); let x = (W - tw) / 2; ln.forEach(([p, i]) => { g.fillStyle = i < n ? "#fff" : "rgba(255,255,255,.45)"; g.textAlign = "left"; g.fillText(p, x, y0 + 18 + j * lh); x += g.measureText(p + " ").width; }); });
 }
 function render(t) {
@@ -272,7 +272,7 @@ function render(t) {
   g.setTransform(1, 0, 0, 1, 0, 0); g.globalAlpha = 1; g.textAlign = "left";
   if (cena.chip) chip(cena.chip, 0, tt);
   selo(t);
-  if (i > 0 && i < CENAS.length - 1) legenda(cena.legenda || cena.fala, tl / Math.max(.1, D - .9));
+  if (i > 0 && i < CENAS.length - 1) { const Fw = window.FALA && window.FALA[i] && window.FALA[i].w; legenda(cena.legenda || cena.fala, Fw ? Fw.filter(x => x <= tl).length / Fw.length / 1.08 : tl / Math.max(.1, D - .9), cena.legTam); }
   // transição suave
   const tr = cl(1 - tl / .25); if (i > 0 && tr > 0) { g.fillStyle = `rgba(13,22,49,${tr})`; g.fillRect(0, 0, W, H); }
 }
