@@ -130,7 +130,34 @@
       { tipo: "sim_cesar", titulo: "Desafio: agora ninguém contou a chave!",
         enunciado: "<p>Teste chave por chave até achar a mensagem. Testar todas as possibilidades tem nome: <strong>ataque de força bruta</strong>.</p>",
         cifrada: "F XJSMF J XJLWJIT", resposta: "A SENHA E SEGREDO",
-        explicacao: "Com só 25 chaves possíveis, a força bruta quebra a Cifra de César em segundos. Por isso a criptografia de hoje (como no HTTPS) usa chaves enormes." }
+        explicacao: "Com só 25 chaves possíveis, a força bruta quebra a Cifra de César em segundos. Por isso a criptografia de hoje (como no HTTPS) usa chaves enormes." },
+      { id: "m2-sim-golpes", opcional: true, tipo: "sim_pc", titulo: "🎣 Simulador: pesque o golpe na caixa de email",
+        enunciado: "<p>Na caixa de email do computador de mentira há <strong>golpes</strong> misturados com mensagem verdadeira. Olhe o <strong>remetente</strong>, desconfie da pressa e proteja a sua conta. O <strong>Bit</strong> confere.</p>",
+        area: [{ nome: "Lixeira", app: "lixeira" }, { nome: "Email", app: "email" }, { nome: "Navegador", app: "web" }],
+        emails: [
+          { id: "pix", nome: "Banco do Brasil", de: "seguranca@banco-do-brasill.com.br", assunto: "⚠️ Seu Pix foi BLOQUEADO",
+            html: "<p>Detectamos uma movimentação suspeita. Seu Pix será cancelado em 1 hora.</p><p>Para desbloquear, <a data-link='bb-desbloqueio-pix.xyz' data-k='pg:linkpix'>clique aqui e confirme sua senha</a>.</p>" },
+          { id: "codigo", nome: "Primo Lucas", de: "lucas.primo2009@email.com", assunto: "me passa o código que chegou aí",
+            html: "<p>Oi! Mandei sem querer um código de 6 números pro seu celular. Me passa ele rapidinho? 🙏</p>" },
+          { id: "escola", nome: "Secretaria da Escola", de: "secretaria@escola.edu.br", assunto: "Ative a verificação em duas etapas",
+            html: "<p>Turma, protejam a conta do portal da escola: ativem a verificação em duas etapas.</p><p><a data-link='conta.escola.edu.br/seguranca' data-k='pg:linkconta'>conta.escola.edu.br/seguranca</a></p>" }
+        ],
+        web: {
+          "bb-desbloqueio-pix.xyz": { titulo: "Desbloqueio Pix", seguro: false, html: "<p>Digite sua senha do banco:</p><label class='campo'>Senha<input data-campo='senhabanco'></label>" },
+          "conta.escola.edu.br/seguranca": { titulo: "Conta da escola: segurança", html: "<p>🔐 Segurança da conta</p><p><label><input type='checkbox' data-ev='2fa' data-k='pg:2fa'> Ativar verificação em duas etapas (senha + código no celular)</label></p><button data-ev='salvar2fa' data-k='pg:salvar2fa' class='pri'>Salvar</button>" }
+        },
+        passos: [
+          { faca: "Abra o <b>Email</b> (duplo clique no 📧 da área de trabalho).", ok: "abrir:app:email", onde: "ic:Email" },
+          { faca: "Abra o email <b>⚠️ Seu Pix foi BLOQUEADO</b>.", ok: "email:abrir:pix", onde: "email:pix" },
+          { faca: "Olhe o <b>remetente</b> com lupa: <i>banco-do-brasil<b>l</b></i>, com dois L! Pressa (1 hora) e pedido de senha. Não clique no link: <b>🚩 Denunciar golpe</b>.", ok: ["email:denunciar:pix", "email:excluir:pix"], onde: "email:denunciar", erros: { "link:bb*": "Você clicou no link do golpe (é <b>phishing</b>: “pescaria” de senha). Feche essa guia, volte ao Email (📧 na barra) e denuncie." } },
+          { faca: "Abra o email do <b>Primo Lucas</b>.", ok: "email:abrir:codigo", onde: "email:codigo" },
+          { faca: "Ninguém manda código “sem querer”: é golpe para <b>roubar a sua conta</b> (o código é a 2ª etapa da senha). Nunca passe o código! Clique em <b>🚩 Denunciar golpe</b>.", ok: ["email:denunciar:codigo", "email:excluir:codigo"], onde: "email:denunciar" },
+          { faca: "Abra o email da <b>Secretaria da Escola</b> e clique no link <b>conta.escola.edu.br/seguranca</b>.", ok: "link:conta.escola.edu.br/seguranca", onde: "email:escola" },
+          { faca: "Na página de segurança, marque <b>Ativar verificação em duas etapas</b>.", ok: { estado: "marcado", nome: "2fa" }, onde: "pg:2fa" },
+          { faca: "Clique em <b>Salvar</b>. Agora, mesmo quem descobrir a sua senha não entra sem o código do seu celular.", ok: "pagina:salvar2fa", onde: "pg:salvar2fa" }
+        ],
+        fimMsg: "Você pescou os dois golpes pelo remetente e pela pressa e ativou a verificação em duas etapas. Conta protegida!",
+        explicacao: "Phishing é o golpe que imita banco, loja ou amigo para pescar senha ou código. Confira o remetente letra por letra, desconfie de pressa e nunca passe senha ou código. A verificação em duas etapas protege mesmo se a senha vazar." }
       ],
       basico: [
         { tipo: "cesar", titulo: "Cifra de César com chave 3", chaveInicial: 3,
@@ -192,7 +219,24 @@
           { de: "@arte_livre", t: "🖼️ Ilustração com licença CC BY — Autora: Ana Lima. Pode compartilhar dando crédito.", c: "S", why: "Licença Creative Commons com crédito à autora: pode!" },
           { de: "@prefeitura_oficial", t: "📢 Campanha de vacinação no posto do centro até sexta.", c: "S" },
           { de: "@memes_br", t: "🎵 Música inteira de um cantor famoso, baixada e repostada como se fosse sua", c: "N", why: "Isso é plágio e fere o direito autoral." }],
-        okMsg: "Você pensa antes de compartilhar: autoria, imagem e verdade!" }
+        okMsg: "Você pensa antes de compartilhar: autoria, imagem e verdade!" },
+      { id: "m3-sim-credito", opcional: true, tipo: "sim_pc", titulo: "🖼️ Simulador: ache a autora da foto e escreva o crédito",
+        enunciado: "<p>Você quer usar uma foto de castanheira num trabalho. No computador de mentira, ache a <strong>autora</strong>, o <strong>site</strong> e a <strong>licença</strong>, e escreva o crédito no Bloco de Notas. O <strong>Bit</strong> confere.</p>",
+        abertas: ["web"],
+        web: {
+          "imagenslivres.org/castanheira": { titulo: "Banco de Imagens Livres: castanheira", palavras: "castanheira foto arvore imagem livre", resumo: "Foto de castanheira com licença CC BY.", html: "<p style='font-size:90px;text-align:center;margin:6px'>🌳</p><p style='text-align:center'>Castanheira no Pará</p><button data-ev='info' data-k='pg:info' data-ir='imagenslivres.org/castanheira/info'>ℹ️ Informações da imagem</button>" },
+          "imagenslivres.org/castanheira/info": { titulo: "Banco de Imagens Livres: informações", html: "<p><b>Autora:</b> Maria Souza</p><p><b>Site:</b> Banco de Imagens Livres</p><p><b>Licença:</b> CC BY (pode usar, mas tem que dar o crédito)</p>" },
+          "fotos-sem-dono.net": { titulo: "Fotos sem dono: baixe tudo!", palavras: "castanheira foto arvore baixe", resumo: "Baixe qualquer foto, sem crédito!!!", html: "<p>Baixe qualquer foto sem dar crédito!!! (sem autor, sem licença)</p>" }
+        },
+        passos: [
+          { faca: "No Buscador, pesquise <b>foto castanheira</b> e aperte <b>Enter</b>.", ok: "/^buscar:.*castanheira/", onde: "web:busca" },
+          { faca: "Abra o resultado do <b>Banco de Imagens Livres</b> (site que mostra a licença).", ok: "link:imagenslivres.org/castanheira", erros: { "link:fotos*": "Site que diz “sem crédito” não respeita a autoria. Volte (←) e abra o Banco de Imagens Livres." } },
+          { faca: "Clique em <b>ℹ️ Informações da imagem</b> para ver quem tirou a foto.", ok: "pagina:info", onde: "pg:info" },
+          { faca: "Anote! Abra o <b>Bloco de Notas</b> pelo botão <b>Iniciar ⊞</b>.", ok: "abrir:app:notas", onde: "bar:iniciar" },
+          { faca: "Escreva o crédito no modelo: <b>Foto: autora, site, licença.</b>", ok: { estado: "notas", texto: "Maria Souza", contem: true }, onde: "notas:texto", dica: "Fica assim: Foto: Maria Souza, Banco de Imagens Livres, CC BY." }
+        ],
+        fimMsg: "Crédito certo: Foto: Maria Souza, Banco de Imagens Livres, CC BY. Respeitar a autoria é lei e é educação!",
+        explicacao: "Antes de usar uma imagem, veja a licença. CC BY deixa usar dando o crédito: autor, site e licença. “Todos os direitos reservados” precisa de autorização." }
       ],
       basico: [
         { tipo: "classificar", modo: "tabela", titulo: "Pode ou não pode?", colunaItem: "Situação", colunaResp: "P ou N",

@@ -51,7 +51,30 @@ PORTAL.registrarAtividades("informatica-9ano-4bim-trilha", {
       { tipo: "sim_cesar", titulo: "Descubra a palavra secreta",
         enunciado: "<p>Cada letra andou <strong>1 casa</strong> no alfabeto. Mude a <strong>chave</strong> com as setas até aparecer uma palavra.</p>",
         cifrada: "TPM", resposta: "SOL",
-        explicacao: "Com a chave 1, voltando 1 casa: T → S, P → O, M → L. A palavra é <strong>SOL</strong>." }
+        explicacao: "Com a chave 1, voltando 1 casa: T → S, P → O, M → L. A palavra é <strong>SOL</strong>." },
+      { id: "m2-sim-golpes", opcional: true, tipo: "sim_pc", titulo: "🎣 Simulador: pesque o golpe na caixa de email",
+        enunciado: "<p>Na caixa de email do computador de mentira há <strong>golpes</strong> misturados com mensagem verdadeira. Olhe o <strong>remetente</strong>, desconfie da pressa e proteja a sua conta. O <strong>Bit</strong> confere.</p>",
+        area: [{ nome: "Lixeira", app: "lixeira" }, { nome: "Email", app: "email" }, { nome: "Navegador", app: "web" }],
+        emails: [
+          { id: "pix", nome: "Banco do Brasil", de: "seguranca@banco-do-brasill.com.br", assunto: "⚠️ Seu Pix foi BLOQUEADO",
+            html: "<p>Detectamos uma movimentação suspeita. Seu Pix será cancelado em 1 hora.</p><p>Para desbloquear, <a data-link='bb-desbloqueio-pix.xyz' data-k='pg:linkpix'>clique aqui e confirme sua senha</a>.</p>" },
+          { id: "codigo", nome: "Primo Lucas", de: "lucas.primo2009@email.com", assunto: "me passa o código que chegou aí",
+            html: "<p>Oi! Mandei sem querer um código de 6 números pro seu celular. Me passa ele rapidinho? 🙏</p>" },
+          { id: "escola", nome: "Secretaria da Escola", de: "secretaria@escola.edu.br", assunto: "Ative a verificação em duas etapas",
+            html: "<p>Turma, protejam a conta do portal da escola: ativem a verificação em duas etapas.</p><p><a data-link='conta.escola.edu.br/seguranca' data-k='pg:linkconta'>conta.escola.edu.br/seguranca</a></p>" }
+        ],
+        web: {
+          "bb-desbloqueio-pix.xyz": { titulo: "Desbloqueio Pix", seguro: false, html: "<p>Digite sua senha do banco:</p><label class='campo'>Senha<input data-campo='senhabanco'></label>" },
+          "conta.escola.edu.br/seguranca": { titulo: "Conta da escola: segurança", html: "<p>🔐 Segurança da conta</p><p><label><input type='checkbox' data-ev='2fa' data-k='pg:2fa'> Ativar verificação em duas etapas (senha + código no celular)</label></p><button data-ev='salvar2fa' data-k='pg:salvar2fa' class='pri'>Salvar</button>" }
+        },
+        passos: [
+          { faca: "Abra o <b>Email</b> (duplo clique no 📧 da área de trabalho).", ok: "abrir:app:email", onde: "ic:Email" },
+          { faca: "Abra o email <b>⚠️ Seu Pix foi BLOQUEADO</b>.", ok: "email:abrir:pix", onde: "email:pix" },
+          { faca: "Olhe o <b>remetente</b> com lupa: <i>banco-do-brasil<b>l</b></i>, com dois L! Pressa (1 hora) e pedido de senha. Não clique no link: <b>🚩 Denunciar golpe</b>.", ok: ["email:denunciar:pix", "email:excluir:pix"], onde: "email:denunciar", erros: { "link:bb*": "Você clicou no link do golpe (é <b>phishing</b>: “pescaria” de senha). Feche essa guia, volte ao Email (📧 na barra) e denuncie." } },
+          { faca: "Abra o email da <b>Secretaria da Escola</b> e clique no link <b>conta.escola.edu.br/seguranca</b>.", ok: "link:conta.escola.edu.br/seguranca", onde: "email:escola" },
+        ],
+        fimMsg: "Você pescou o golpe pelo remetente e pela pressa. Conta protegida!",
+        explicacao: "Phishing é o golpe que imita banco, loja ou amigo para pescar senha ou código. Confira o remetente letra por letra, desconfie de pressa e nunca passe senha ou código. A verificação em duas etapas protege mesmo se a senha vazar." }
     ],
     basico: [
       { tipo: "escolha", titulo: "Passo 1 · A cifra de César com chave 1",

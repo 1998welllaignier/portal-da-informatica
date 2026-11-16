@@ -15,7 +15,18 @@ PORTAL.registrarAtividades("informatica-6ano-2027-1bim-trilha", {
       { tipo: "duplo_clique", titulo: "Abra a pasta com duplo clique",
         alvo: "Jogos", itens: ["Fotos", "Jogos", "Músicas"],
         enunciado: "<p>Dê <strong>dois cliques rapidinhos</strong> na pasta <strong>Jogos</strong>.</p>",
-        explicacao: "O <strong>duplo clique</strong> abre pastas, arquivos e programas." }
+        explicacao: "O <strong>duplo clique</strong> abre pastas, arquivos e programas." },
+      { id: "m1-sim-janela", tipo: "sim_pc", titulo: "🖥️ No computador: abra a pasta e feche a janela",
+        enunciado: "<p>Treine no computador de mentira. O <strong>Bit</strong> diz o que fazer, um passo de cada vez.</p>",
+        area: [{ nome: "Lixeira", app: "lixeira" }, { nome: "Jogos", tipo: "pasta" }],
+        pastas: { "Jogos": [{ nome: "xadrez", ext: "exe" }, { nome: "quebra-cabeca", ext: "exe" }] },
+        passos: [
+          { faca: "Abra a pasta <b>Jogos</b> com <b>dois cliques rapidinhos</b>.", ok: "duplo:ic:Jogos", onde: "ic:Jogos" },
+          { faca: "Aumente a janela: clique no <b>quadradinho ☐</b> (Maximizar), lá em cima à direita.", ok: "max:jan:exp", onde: "jan:exp:max" },
+          { faca: "Agora feche a janela no <b>X</b>.", ok: "fechar:jan:exp", onde: "jan:exp:fechar" }
+        ],
+        fimMsg: "Abriu, maximizou e fechou. Muito bem!",
+        explicacao: "Dois cliques abrem. ☐ aumenta a janela. X fecha." }
     ],
     basico: [
       { tipo: "ligar", titulo: "Passo 1 · O que cada ação do mouse faz?",
@@ -141,7 +152,18 @@ PORTAL.registrarAtividades("informatica-6ano-2027-1bim-trilha", {
         enunciado: "<p>Clique no arquivo e depois na pasta certa. Olhe o final do nome (a <strong>extensão</strong>).</p>",
         pastas: [{ id: "fotos", nome: "Fotos", ic: "🖼️" }, { id: "musicas", nome: "Músicas", ic: "🎵" }],
         arquivos: [{ nome: "🖼️ passeio.jpg", p: "fotos" }, { nome: "🎵 forro.mp3", p: "musicas" }, { nome: "🖼️ meu-time.jpg", p: "fotos" }, { nome: "🎵 hino.mp3", p: "musicas" }],
-        explicacao: ".jpg é foto e vai para Fotos. .mp3 é música e vai para Músicas." }
+        explicacao: ".jpg é foto e vai para Fotos. .mp3 é música e vai para Músicas." },
+      { id: "m4-sim-pasta", tipo: "sim_pc", titulo: "📁 No computador: crie uma pasta e guarde um arquivo",
+        enunciado: "<p>No computador de mentira, crie a sua pasta e guarde um arquivo nela. O <strong>Bit</strong> ajuda.</p>",
+        abertas: ["exp"], inicioPasta: "Documentos",
+        pastas: { "Documentos": [{ nome: "redacao", ext: "docx" }] },
+        passos: [
+          { faca: "Clique com o <b>botão direito</b> na parte branca e escolha <b>Novo › Pasta</b>.", ok: "criar:pasta:Documentos", dica: "Botão direito embaixo do arquivo, onde está vazio." },
+          { faca: "Digite <b>Escola</b> e aperte <b>Enter</b>.", ok: "/^renomear:pasta:.*>escola$/" },
+          { faca: "Arraste a <b>redacao</b> para dentro da pasta <b>Escola</b>.", ok: "mover:arq:redacao*>Escola", onde: "arq:redacao" }
+        ],
+        fimMsg: "Pasta criada e arquivo guardado!",
+        explicacao: "Botão direito › Novo › Pasta cria a pasta. Arrastar guarda o arquivo nela." }
     ],
     basico: [
       { tipo: "ligar", titulo: "Passo 1 · Cada extensão e o seu tipo",
@@ -263,7 +285,16 @@ PORTAL.registrarAtividades("informatica-6ano-2027-1bim-trilha", {
       { tipo: "tabela", titulo: "Aquecimento: a fileira base",
         enunciado: "<p>Ponha os dedos na fileira base e digite: <strong>asdf jklç</strong></p>",
         linhas: [["Digite aqui:", { r: "asdf jklç", exato: true, w: 12, ph: "asdf jklç", dica: "Os indicadores ficam no F e no J (os do risquinho)." }]],
-        explicacao: "A fileira base é <strong>A S D F</strong> (mão esquerda) e <strong>J K L Ç</strong> (mão direita)." }
+        explicacao: "A fileira base é <strong>A S D F</strong> (mão esquerda) e <strong>J K L Ç</strong> (mão direita)." },
+      { id: "m7-sim-acento", tipo: "sim_pc", titulo: "⌨️ No computador: digite com acento",
+        enunciado: "<p>Digite no Bloco de Notas de treino. O <strong>Bit</strong> confere.</p>",
+        abertas: ["notas"],
+        passos: [
+          { faca: "Digite: <b>Eu sou da escola.</b> (com E maiúsculo: segure <b>Shift</b> e aperte E)", ok: { estado: "notas", texto: "Eu sou da escola." }, onde: "notas:texto" },
+          { faca: "Aperte <b>Enter</b> e digite: <b>Você é legal.</b> (o <b>é</b>: aperte o acento <b>´</b>, solte e aperte <b>e</b>)", ok: { estado: "notas", texto: "Eu sou da escola.\nVocê é legal." }, dica: "O ê de Você: Shift + a tecla do ~, depois e." }
+        ],
+        fimMsg: "Maiúscula e acento certinhos!",
+        explicacao: "Shift + letra = maiúscula. Primeiro o acento, depois a letra." }
     ],
     basico: [
       { tipo: "escolha", titulo: "Passo 1 · O risquinho",
@@ -302,7 +333,17 @@ PORTAL.registrarAtividades("informatica-6ano-2027-1bim-trilha", {
           { ic: "📍", t: "Clicar no lugar novo" },
           { ic: "📌", t: "Ctrl + V (colar)", dica: "Colar vem por último." }],
         okMsg: "Copiou e colou! ⚡",
-        explicacao: "Selecionar → <strong>Ctrl + C</strong> → clicar no lugar novo → <strong>Ctrl + V</strong>." }
+        explicacao: "Selecionar → <strong>Ctrl + C</strong> → clicar no lugar novo → <strong>Ctrl + V</strong>." },
+      { id: "m8-sim-atalhos", tipo: "sim_pc", titulo: "⚡ No computador: copiar e colar com atalhos",
+        enunciado: "<p>Use os atalhos no Bloco de Notas de treino. O <strong>Bit</strong> confere.</p>",
+        abertas: ["notas"], notas: "Bom dia!",
+        passos: [
+          { faca: "Clique no texto e aperte <b>Ctrl + A</b> para selecionar tudo.", ok: "atalho:Ctrl+A", onde: "notas:texto" },
+          { faca: "Aperte <b>Ctrl + C</b> para copiar.", ok: "atalho:Ctrl+C" },
+          { faca: "Aperte a seta <b>→</b>, depois <b>Enter</b> e <b>Ctrl + V</b> para colar.", ok: { estado: "notas", texto: "Bom dia!\nBom dia!" } }
+        ],
+        fimMsg: "Ctrl + A, Ctrl + C e Ctrl + V: você copiou e colou!",
+        explicacao: "Ctrl + A seleciona tudo, Ctrl + C copia, Ctrl + V cola." }
     ],
     basico: [
       { tipo: "ligar", titulo: "Passo 1 · Cada atalho e o que ele faz",

@@ -39,16 +39,17 @@ def inserir_fim(p, missao, secao, bloco, marcador):
     o progresso dos alunos usa a posição). Use sempre em apostila que já está em uso."""
     s = open(p).read()
     if marcador in s: return "já tinha"
-    m = re.search(r"\n  %s: \{" % re.escape(missao), s)
+    m = re.search(r"\n[ \t]*%s: \{" % re.escape(missao), s)
     assert m, (p, missao)
     fimM = _fecha(s, s.index("{", m.start()))
-    k = s.find("    %s: [" % secao, m.end(), fimM)
-    if k < 0:
-        k2 = s.find("    basico: [", m.end(), fimM); assert k2 > 0, (p, missao, secao)
-        s = s[:k2] + "    %s: [\n%s\n    ],\n" % (secao, bloco.rstrip().rstrip(",")) + s[k2:]
+    ks = re.compile(r"\n([ \t]*)%s: \[" % re.escape(secao)).search(s, m.end(), fimM)
+    if not ks:
+        kb = re.compile(r"\n([ \t]*)basico: \[").search(s, m.end(), fimM); assert kb, (p, missao, secao)
+        k2 = kb.start() + 1; ind = kb.group(1)
+        s = s[:k2] + "%s%s: [\n%s\n%s],\n" % (ind, secao, bloco.rstrip().rstrip(","), ind) + s[k2:]
     else:
-        a = s.index("[", k); f = _fecha(s, a)
+        a = s.index("[", ks.start()); f = _fecha(s, a)
         antes = s[:f].rstrip()
         sep = "" if antes.endswith("[") or antes.endswith(",") else ","
-        s = antes + sep + "\n" + bloco.rstrip().rstrip(",") + "\n    " + s[f:]
+        s = antes + sep + "\n" + bloco.rstrip().rstrip(",") + "\n" + ks.group(1) + s[f:]
     open(p, "w").write(s); return "ok"

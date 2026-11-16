@@ -98,7 +98,23 @@ PORTAL.registrarAtividades("informatica-8ano-4bim-trilha", {
           { ic: "🗺️", app: "Mapas", pede: "sua localização", c: "S", why: "O mapa precisa saber onde você está." },
           { ic: "🃏", app: "Jogo de cartas", pede: "o microfone", c: "N" },
           { ic: "📷", app: "Câmera", pede: "a câmera", c: "S" }],
-        explicacao: "Só permita o que o aplicativo <strong>precisa</strong>. Seus dados são seus!" }
+        explicacao: "Só permita o que o aplicativo <strong>precisa</strong>. Seus dados são seus!" },
+      { id: "m3-sim-noticia", opcional: true, tipo: "sim_pc", titulo: "📰 Simulador: confira a notícia antes de compartilhar",
+        enunciado: "<p>Chegou uma notícia assustadora. Faça o que um <strong>checador</strong> faz, no navegador de mentira: leia até o fim, procure em outro site e confie na <strong>fonte oficial</strong>. O <strong>Bit</strong> acompanha.</p>",
+        abertas: ["web"], inicioWeb: "zapnoticias-urgente.blog",
+        web: {
+          "zapnoticias-urgente.blog": { titulo: "URGENTE!!! Escolas vão fechar", seguro: false, palavras: "escolas fechar dezembro urgente", resumo: "Fiquei sabendo por um amigo de um primo...", html: "<p style='color:#c5221f;font-weight:800;font-size:18px'>🚨 URGENTE!!! TODAS AS ESCOLAS VÃO FECHAR EM DEZEMBRO!!!</p><p>Fiquei sabendo por um amigo de um primo que o governo vai fechar todas as escolas já no mês que vem. A mídia está escondendo isso de você!!! COMPARTILHE COM TODOS OS GRUPOS ANTES QUE APAGUEM!!!</p><p>⚠️ Compartilhe! Compartilhe! Compartilhe!</p><p>⚠️ Compartilhe! Compartilhe! Compartilhe!</p><p>⚠️ Compartilhe! Compartilhe! Compartilhe!</p><p>⚠️ Compartilhe! Compartilhe! Compartilhe!</p><p>⚠️ Compartilhe! Compartilhe! Compartilhe!</p><p>⚠️ Compartilhe! Compartilhe! Compartilhe!</p><p>⚠️ Compartilhe! Compartilhe! Compartilhe!</p><p>⚠️ Compartilhe! Compartilhe! Compartilhe!</p><p>⚠️ Compartilhe! Compartilhe! Compartilhe!</p><p>⚠️ Compartilhe! Compartilhe! Compartilhe!</p><p>⚠️ Compartilhe! Compartilhe! Compartilhe!</p><p>⚠️ Compartilhe! Compartilhe! Compartilhe!</p><p style='color:#777'>Sem autor · sem data · sem fonte</p>" },
+          "noticias-bombasticas.com": { titulo: "BOMBA: escolas fechadas?", palavras: "escolas fechar dezembro bomba", resumo: "Veja o vídeo que estão tentando apagar!!!", html: "<p>Veja o vídeo que estão tentando apagar!!! (sem autor, sem data)</p>" },
+          "seduc.pa.gov.br/calendario": { titulo: "Secretaria de Educação: calendário escolar", palavras: "escolas calendario dezembro aulas secretaria educacao fechar", resumo: "Calendário oficial: as aulas seguem até o fim do ano letivo.", html: "<p><b>Calendário escolar oficial.</b> As aulas seguem normalmente até o fim do ano letivo, com férias em janeiro. Nenhuma escola será fechada.</p><p style='color:#555'>Publicado pela Secretaria de Educação · 10/11/2026</p>" }
+        },
+        passos: [
+          { faca: "Leia a notícia <b>até o fim</b>: role a página com a <b>rodinha do mouse</b> (ou a barra de rolagem).", ok: "rolar:fim:zapnoticias-urgente.blog", dica: "Coloque o mouse em cima do texto e gire a rodinha para baixo." },
+          { faca: "Viu? Sem autor, sem data, sem fonte, cheia de pressa e <b>⚠️ Não seguro</b>. Antes de compartilhar, confira em outro lugar: abra uma <b>nova guia</b> no <b>+</b>.", ok: "novaAba", onde: "web:novaaba" },
+          { faca: "No Buscador, pesquise <b>escolas fechar dezembro</b> e aperte <b>Enter</b>.", ok: "/^buscar:.*escola/", onde: "web:busca" },
+          { faca: "Entre no resultado da <b>fonte oficial</b>: o site do governo (termina em <b>.gov.br</b>).", ok: "link:seduc.pa.gov.br/calendario", erros: { "link:*": "Esse não é fonte oficial: sem autor nem data. Volte (←) e procure o site que termina em <b>.gov.br</b>." } },
+        ],
+        fimMsg: "Você checou como um profissional: leu até o fim, desconfiou da falta de autor e data, pesquisou e confiou na fonte oficial. Notícia falsa não passa por você!",
+        explicacao: "Antes de compartilhar: leia até o fim, veja quem escreveu e quando, desconfie de pressa e letras maiúsculas, pesquise em outros sites e procure a fonte oficial." }
     ],
     basico: [
       { tipo: "classificar", titulo: "Passo 1 · Guardo comigo ou posso mostrar?",
@@ -142,7 +158,26 @@ PORTAL.registrarAtividades("informatica-8ano-4bim-trilha", {
       { tipo: "escolha", titulo: "Apareceu o botão “Li e aceito”",
         enunciado: "<p>Você vai criar uma conta num jogo novo e aparece um texto comprido com o botão <strong>Li e aceito</strong>.</p>",
         perguntas: [{ p: "Clicar em “Li e aceito” é:", opcoes: ["Aceitar um contrato", "Só fechar a janela"], certo: 0, why: "Os termos de uso são um contrato." }],
-        explicacao: "Clicar em <strong>Li e aceito</strong> é aceitar o <strong>contrato</strong> (os termos de uso)." }
+        explicacao: "Clicar em <strong>Li e aceito</strong> é aceitar o <strong>contrato</strong> (os termos de uso)." },
+      { id: "m4-sim-termos", opcional: true, tipo: "sim_pc", titulo: "📜 Simulador: cookies e termos de uso do FotoTop",
+        enunciado: "<p>Você vai baixar o aplicativo inventado <strong>FotoTop</strong>. Antes, decida os <strong>cookies</strong> e leia os <strong>termos de uso</strong> no navegador de mentira. O <strong>Bit</strong> guia você.</p>",
+        abertas: ["web"], inicioWeb: "fototop.app",
+        campos: { "ck:anuncios": true, "ck:parceiros": true, "ck:essenciais": true },
+        web: {
+          "fototop.app": { titulo: "FotoTop: baixe grátis", html: "<p style='font-size:40px'>📸✨</p><p>Edite e publique fotos com filtros incríveis!</p><div style='position:sticky;bottom:0;background:#fff;border:2px solid #1a73e8;border-radius:10px;padding:10px 12px;margin-top:30px'><b>🍪 Nós usamos cookies</b><br>Para anúncios personalizados e para compartilhar dados com parceiros.<br><button data-ev='aceitar' data-k='pg:aceitar' class='pri'>Aceitar tudo</button><button data-ev='personalizar' data-k='pg:personalizar' data-ir='fototop.app/cookies'>Personalizar</button></div>" },
+          "fototop.app/cookies": { titulo: "FotoTop: escolha os cookies", html: "<p><label><input type='checkbox' data-ev='essenciais' disabled> Essenciais (o site precisa para funcionar)</label></p><p><label><input type='checkbox' data-ev='anuncios' data-k='pg:anuncios'> Anúncios personalizados</label></p><p><label><input type='checkbox' data-ev='parceiros' data-k='pg:parceiros'> Compartilhar meus dados com parceiros</label></p><button data-ev='salvar' data-k='pg:salvar' data-ir='fototop.app/termos' class='pri'>Salvar escolhas</button>" },
+          "fototop.app/termos": { titulo: "FotoTop: termos de uso", html: "<p data-ev='cl-conta' data-k='pg:cl-conta'>1. Você pode apagar a sua conta a qualquer momento em Configurações.</p><p data-ev='cl-idade' data-k='pg:cl-idade'>2. Uso permitido a partir de 13 anos.</p><p data-ev='cl-coleta' data-k='pg:cl-coleta'>3. Coletamos nome, email e data de nascimento para criar a sua conta.</p><p style='color:#666'>4. Regras gerais de uso, privacidade, segurança e atualizações do aplicativo.</p><p style='color:#666'>5. Regras gerais de uso, privacidade, segurança e atualizações do aplicativo.</p><p style='color:#666'>6. Regras gerais de uso, privacidade, segurança e atualizações do aplicativo.</p><p style='color:#666'>7. Regras gerais de uso, privacidade, segurança e atualizações do aplicativo.</p><p style='color:#666'>8. Regras gerais de uso, privacidade, segurança e atualizações do aplicativo.</p><p style='color:#666'>Parágrafo 1: a empresa pode atualizar estes termos e avisará por email.</p><p style='color:#666'>Parágrafo 2: a empresa pode atualizar estes termos e avisará por email.</p><p style='color:#666'>Parágrafo 3: a empresa pode atualizar estes termos e avisará por email.</p><p style='color:#666'>Parágrafo 4: a empresa pode atualizar estes termos e avisará por email.</p><p style='color:#666'>Parágrafo 5: a empresa pode atualizar estes termos e avisará por email.</p><p data-ev='cl-venda' data-k='pg:cl-venda'>9. Podemos <b>compartilhar suas fotos e sua localização com empresas parceiras de publicidade</b>.</p><p style='margin-top:16px'><button data-ev='aceitar-termos' data-k='pg:aceitar-termos'>Li e aceito</button><button data-ev='recusar' data-k='pg:recusar' class='pri'>Não aceito</button></p>" }
+        },
+        passos: [
+          { faca: "Apareceu o aviso de <b>cookies</b>. Em vez de aceitar tudo sem pensar, clique em <b>Personalizar</b>.", ok: "pagina:personalizar", onde: "pg:personalizar", erros: { "pagina:aceitar": "Calma! <b>Aceitar tudo</b> libera anúncios e o envio dos seus dados para parceiros. Clique em <b>Personalizar</b> para escolher." } },
+          { faca: "Desmarque <b>Anúncios personalizados</b> (clique na caixinha para tirar o ✔).", ok: { estado: "marcado", nome: "anuncios", valor: false }, onde: "pg:anuncios" },
+          { faca: "Desmarque também <b>Compartilhar meus dados com parceiros</b>.", ok: { estado: "marcado", nome: "parceiros", valor: false }, onde: "pg:parceiros" },
+          { faca: "Clique em <b>Salvar escolhas</b>. Os essenciais ficam: sem eles o site não funciona.", ok: "pagina:salvar", onde: "pg:salvar" },
+          { faca: "Agora os <b>termos de uso</b>. Role <b>até o fim</b> antes de decidir.", ok: "rolar:fim:fototop.app/termos" },
+          { faca: "Os termos falam em compartilhar suas fotos e localização com publicidade. Você não é obrigado a aceitar: clique em <b>Não aceito</b>.", ok: "pagina:recusar", onde: "pg:recusar", erros: { "pagina:aceitar-termos": "Você aceitou sem concordar com a frase 9! Neste treino, clique em <b>Não aceito</b>. Na vida real, converse com a família antes de aceitar." } }
+        ],
+        fimMsg: "Você personalizou os cookies, leu os termos até o fim, achou a frase perigosa e decidiu com consciência. Isso é cuidar dos seus dados!",
+        explicacao: "Cookies: “Personalizar” deixa você escolher; só os essenciais são necessários. Termos de uso: leia até o fim, procure o que coletam e com quem compartilham. Pela LGPD, você tem direito de saber e de apagar os seus dados." }
     ],
     basico: [
       { tipo: "classificar", titulo: "Passo 1 · Bom para mim ou atenção?",

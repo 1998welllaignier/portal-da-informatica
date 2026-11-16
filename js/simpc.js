@@ -172,7 +172,7 @@
       (at.area || []).forEach((ic, i) => { if (ic.tipo === "pasta" && !fs[ic.nome]) fs[ic.nome] = (at.pastas || {})[ic.nome] ? fs[ic.nome] : []; });
       const area = (at.area || []).map((ic, i) => Object.assign({ x: 12 + Math.floor(i / 5) * 92, y: 10 + (i % 5) * 92 }, ic));
       const S = { jan: [], z: 1, sel: null, menu: null, start: false, lix: [], clip: null, ext: false,
-        notas: at.notas || "", notasNome: null, calc: { vis: "0", conta: "", novo: true }, web: { abas: [{ url: at.inicioWeb || "busca", hist: [] }], at: 0 }, exp: { pasta: at.inicioPasta || "Documentos", sel: null, busca: "", ren: null }, dlg: null, campos: {}, cad: false, mail: { sel: null, lidos: {}, fora: {} } };
+        notas: at.notas || "", notasNome: null, calc: { vis: "0", conta: "", novo: true }, web: { abas: [{ url: at.inicioWeb || "busca", hist: [] }], at: 0 }, exp: { pasta: at.inicioPasta || "Documentos", sel: null, busca: "", ren: null }, dlg: null, campos: Object.assign({}, at.campos || {}), cad: false, mail: { sel: null, lidos: {}, fora: {} } };
       const POS = { exp: [110, 40, 760, 440], notas: [180, 60, 620, 400], calc: [620, 40, 300, 440], web: [60, 20, 860, 500], lixeira: [200, 80, 560, 360], jogo: [240, 70, 520, 340], ver: [220, 50, 600, 420], email: [90, 30, 820, 470] };
       let erros = 0, mostrando = false, fimMostrado = !!st.status;
 
@@ -206,7 +206,7 @@
         }
         if (aOk === "email" && a === "email" && tOk.startsWith("abrir:") && t.startsWith("abrir:")) { const m = (at.emails || []).find(x => x.id === tOk.slice(6)); return errou(`Esse não é o email pedido. Procure o email <b>${esc(m ? m.assunto : tOk.slice(6))}</b> na lista da esquerda.`); }
         if (aOk === "pagina" && a === "pagina") return errou(`Hum, não é esse botão. Leia com calma o que o ${nomeBit} pediu.`);
-        if (aOk === a && tOk && t && !casa(tOk, t) && !tOk.includes("*") && !["email", "campo", "marcar"].includes(a)) return errou(`Opa! Esse é <b>${esc(nome(t))}</b>. Procure <b>${esc(nome(tOk))}</b>.`);
+        if (aOk === a && tOk && t && !casa(tOk, t) && !tOk.includes("*") && !["email", "campo", "marcar"].includes(a) && (tOk.split(":").length < 2 || t.split(":")[0] === tOk.split(":")[0])) return errou(`Opa! Esse é <b>${esc(nome(t))}</b>. Procure <b>${esc(nome(tOk))}</b>.`);
       }
       function checar(o, e, extra) {
         if (o.estado === "notas") { const want = o.texto, got = S.notas; return o.contem ? norm(got).includes(norm(want)) : got.replace(/\s+$/, "") === want; }
@@ -215,6 +215,7 @@
         if (o.estado === "pastaNaoTem") return !(fs[o.pasta] || []).some(x => norm(x.nome) === norm(o.item));
         if (o.estado === "janela") { const j = jan(o.id); if (!j) return o.fechada === true; return (o.min == null || j.min === o.min) && (o.max == null || j.max === o.max) && !o.fechada; }
         if (o.estado === "salvo") return S.notasNome && norm(S.notasNome) === norm(o.nome) && (o.pasta ? (fs[o.pasta] || []).some(x => norm(x.nome) === norm(o.nome)) : true);
+        if (o.estado === "fechadas") return o.ids.every(id => !jan(id));
         if (o.estado === "campo") { const v = S.campos[o.nome] || ""; return o.regex ? new RegExp(o.regex, "i").test(v) : norm(v) === norm(o.valor); }
         if (o.estado === "senhaForte") { const v = S.campos[o.campo || "senha"] || ""; return v.length >= (o.min || 8) && /[a-z]/.test(v) && /[A-Z]/.test(v) && /\d/.test(v) && /[^A-Za-z0-9]/.test(v); }
         if (o.estado === "marcado") return !!S.campos["ck:" + o.nome] === (o.valor !== false);
@@ -354,7 +355,7 @@
       function abrirArqObj(f) { ev("abrir:arq:" + nomeArq(f)); if (f.ext === "txt") { S.notas = f.texto || ""; S.notasNome = f.nome; abrir("notas", f.nome + " - Bloco de Notas"); } else if (f.ext === "zip") { S.verArq = f; const j = abrir("ver", f.nome + ".zip"); j.titulo = f.nome + ".zip - Pasta compactada"; } else { const prog = { jpg: "Fotos", png: "Fotos", webp: "Fotos", pdf: "Leitor de PDF", docx: "Word", pptx: "PowerPoint", xlsx: "Excel", mp3: "Media Player", mp4: "Media Player" }[f.ext]; if (prog) { S.verArq = f; const j = abrir("ver", f.nome + " - " + prog); j.titulo = f.nome + " - " + prog; } } draw(); }
       /* ---------- eventos ---------- */
       function ligar() {
-        tela.querySelectorAll("[data-a]").forEach(b => b.addEventListener("click", e => { e.stopPropagation(); acao(b.dataset.a, e); }));
+        tela.querySelectorAll("[data-a]:not(form)").forEach(b => b.addEventListener("click", e => { e.stopPropagation(); acao(b.dataset.a, e); }));
         tela.querySelectorAll("[data-m]").forEach(b => b.onclick = e => { e.stopPropagation(); if (!b.classList.contains("off")) { const t = b.dataset.k.slice(5); if (b.dataset.m) { acaoMenu(b.dataset.m); ev("menu:" + t); } else { S.menu = null; ev("menu:" + t); draw(); } } });
         // o clique só é avisado ao ajudante depois de um instante: se virar duplo clique, conta só o duplo
         tela.querySelectorAll(".sp-ic").forEach(b => { b.onclick = e => { e.stopPropagation(); const ic = area[+b.dataset.ic]; S.sel = "ic:" + ic.nome; S.menu = null; S.start = false; tela.querySelectorAll(".sp-ic.sel").forEach(x => x.classList.remove("sel")); b.classList.add("sel"); adiar("clique:ic:" + ic.nome); }; b.ondblclick = e => { e.stopPropagation(); clearTimeout(tClique); abrirIcone(+b.dataset.ic); }; });
@@ -374,7 +375,8 @@
         tela.querySelectorAll("[data-link]").forEach(l => l.onclick = e => { e.stopPropagation(); e.preventDefault(); if (!jan("web") || l.closest(".sp-mail")) { const j = abrir("web"); j.z = ++S.z; } ev("link:" + l.dataset.link); ir(l.dataset.link); });
         tela.querySelectorAll(".sp-pag [data-ev], .sp-mail [data-ev]").forEach(b => { if (b.type === "checkbox") { b.checked = !!S.campos["ck:" + b.dataset.ev]; b.onchange = e => { e.stopPropagation(); S.campos["ck:" + b.dataset.ev] = b.checked; ev("marcar:" + b.dataset.ev + ":" + (b.checked ? "sim" : "nao")); }; b.onclick = e => e.stopPropagation(); } else b.onclick = e => { e.stopPropagation(); e.preventDefault(); ev("pagina:" + b.dataset.ev); if (b.dataset.ir) ir(b.dataset.ir); }; });
         tela.querySelectorAll(".sp-pag [data-campo]").forEach(i => { const n = i.dataset.campo; if (S.campos[n] != null) i.value = S.campos[n]; i.oninput = () => { S.campos[n] = i.value; clearTimeout(i._t); i._t = setTimeout(() => ev("campo:" + n + ":" + i.value), 250); }; i.onkeydown = e => e.stopPropagation(); });
-        const pg = tela.querySelector(".sp-pag"); if (pg) pg.onscroll = () => { if (pg.scrollTop + pg.clientHeight >= pg.scrollHeight - 8 && !pg.dataset.fim) { pg.dataset.fim = 1; ev("rolar:fim:" + pg.dataset.rolar); } else if (pg.scrollTop > 30) ev("rolar:" + pg.dataset.rolar); };
+        const pg = tela.querySelector(".sp-pag"); if (pg) pg.onwheel = () => { if (pg.scrollHeight <= pg.clientHeight + 8 && !pg.dataset.fim) { pg.dataset.fim = 1; ev("rolar:fim:" + pg.dataset.rolar); } }; /* página curta (tela grande): a rodinha já conta como "cheguei ao fim" */
+        if (pg) pg.onscroll = () => { if (pg.scrollTop + pg.clientHeight >= pg.scrollHeight - 8 && !pg.dataset.fim) { pg.dataset.fim = 1; ev("rolar:fim:" + pg.dataset.rolar); } else if (pg.scrollTop > 30) ev("rolar:" + pg.dataset.rolar); };
         // Salvar como
         const dn = tela.querySelector('[data-k="dlg:nome"]'); if (dn) { dn.oninput = () => S.dlg.nome = dn.value; dn.onkeydown = e => { e.stopPropagation(); if (e.key === "Enter") acao("dlgSalvar"); }; dn.focus(); dn.select(); const dp = tela.querySelector('[data-k="dlg:pasta"]'); dp.onchange = () => S.dlg.pasta = dp.value; }
       }

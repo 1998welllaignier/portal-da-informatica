@@ -20,7 +20,20 @@ PORTAL.registrarAtividades("informatica-5ano-4bim", {
           { de: "", t: "🎮 Um jogo de corrida", c: "S" },
           { de: "", t: "⌨️ Teclado", c: "H" },
           { de: "", t: "🌐 Navegador de internet", c: "S" }],
-        okMsg: "Você separou hardware e software!" }
+        okMsg: "Você separou hardware e software!" },
+      { id: "m1-sim-explorador", opcional: true, tipo: "sim_pc", titulo: "🖥️ Simulador: onde moram os arquivos?",
+        enunciado: "<p>No <strong>computador de mentira</strong>, visite as pastas e abra os arquivos que moram nelas. O <strong>Bit</strong>, o robozinho ajudante, mostra o caminho.</p>",
+        area: [{ nome: "Lixeira", app: "lixeira" }],
+        pastas: { "Imagens": [{ nome: "meu-desenho", ext: "png", figura: "🌈" }, { nome: "gatinho", ext: "jpg", figura: "🐱" }], "Documentos": [{ nome: "poema-da-turma", ext: "txt", texto: "O computador guarda\nmeu desenho e meu poema\nnas pastas certinhas,\nsem nenhum problema!" }], "Músicas": [{ nome: "parabens", ext: "mp3" }] },
+        passos: [
+          { faca: "Abra o <b>Explorador de Arquivos</b>: clique na pastinha 📁 da <b>barra de tarefas</b>.", ok: ["clique:bar:exp", "abrir:app:exp"], onde: "bar:exp" },
+          { faca: "Na lista da esquerda, clique em <b>Imagens</b> 🖼️.", ok: "abrir:pasta:Imagens", onde: "nav:Imagens" },
+          { faca: "Abra o <b>meu-desenho</b> com <b>dois cliques rapidinhos</b>.", ok: "/^abrir:arq:meu-desenho/", onde: "arq:meu-desenho" },
+          { faca: "Muito bem! Feche o desenho no <b>X</b> vermelho, lá em cima à direita.", ok: "fechar:jan:ver", onde: "jan:ver:fechar" },
+          { faca: "Agora clique em <b>Documentos</b> 📄 e abra o <b>poema-da-turma</b> com dois cliques.", ok: "/^abrir:arq:poema-da-turma/", onde: "nav:Documentos" }
+        ],
+        fimMsg: "Você achou o desenho na pasta Imagens e o poema na pasta Documentos. Cada arquivo mora na sua pasta, guardada no armazenamento!",
+        explicacao: "Os arquivos ficam guardados no armazenamento (HD ou SSD), organizados em pastas: Imagens, Documentos, Músicas... O Explorador de Arquivos mostra onde cada um mora." }
     ],
     basico: [
       { tipo: "classificar", titulo: "Cada parte no seu lugar: E, S, P ou A",
@@ -202,7 +215,21 @@ PORTAL.registrarAtividades("informatica-5ano-4bim", {
           { de: "Escola JK", t: "Lembrete: a reunião de pais será quinta, às 18h, na escola. Mais informações na secretaria.", c: "C", why: "Diz quem enviou, quando e onde confirmar." },
           { de: "Desconhecido", t: "Cientistas descobriram que comer chocolate deixa a pessoa invisível. Repassem!", c: "D", why: "Não tem fonte e é impossível." },
           { de: "Prima Ana", t: "Vi no site oficial da prefeitura: a vacinação vai até sexta no posto do centro.", c: "C", why: "Cita uma fonte oficial que dá para conferir." }],
-        okMsg: "Você sabe desconfiar! Antes de compartilhar, confira quem escreveu e a fonte." }
+        okMsg: "Você sabe desconfiar! Antes de compartilhar, confira quem escreveu e a fonte." },
+      { id: "m4-sim-confiavel", opcional: true, tipo: "sim_pc", titulo: "🔎 Simulador: pesquise num site confiável",
+        enunciado: "<p>Para o trabalho de Ciências, pesquise <strong>quanto tempo vive uma tartaruga</strong>. Escolha o site confiável, no navegador de mentira. O <strong>Bit</strong> ajuda.</p>",
+        abertas: ["web"],
+        web: {
+          "museu-goeldi.br/tartarugas": { titulo: "Museu Goeldi: as tartarugas da Amazônia", palavras: "tartaruga tartarugas vive anos amazonia", resumo: "Texto de cientistas do museu, com data e autores.", html: "<p>🐢 A tartaruga-da-amazônia pode viver <b>mais de 50 anos</b>.</p><p style='color:#555'>Texto da equipe de cientistas do museu · atualizado em 2026</p>" },
+          "curiosidades-loucas.net": { titulo: "VOCÊ NÃO VAI ACREDITAR: tartaruga imortal!!!", seguro: false, palavras: "tartaruga tartarugas vive imortal", resumo: "Clique e ganhe um brinde!!!", html: "<p>TARTARUGAS VIVEM PARA SEMPRE!!! 🎁 Clique e ganhe um brinde!!!</p>" }
+        },
+        passos: [
+          { faca: "No Buscador, digite <b>tartaruga vive quantos anos</b> e aperte <b>Enter</b>.", ok: "/^buscar:.*tartaruga/", onde: "web:busca" },
+          { faca: "Qual site é confiável? O que tem <b>cientistas, data e nada de brinde</b>. Clique nele.", ok: "link:museu-goeldi.br/tartarugas", erros: { "link:curiosidades*": "Hum! Muitas exclamações, brinde e “Não seguro”: não é confiável. Clique na seta ← para voltar e escolha o outro." } },
+          { faca: "Confira o <b>cadeado 🔒</b> ao lado do endereço: clique nele.", ok: "cadeado:museu-goeldi.br/tartarugas", onde: "web:cadeado" }
+        ],
+        fimMsg: "Você escolheu o site com autores, data e cadeado. Resposta: a tartaruga-da-amazônia pode viver mais de 50 anos!",
+        explicacao: "Site confiável mostra quem escreveu e quando, não promete brinde, não grita com exclamações e tem o cadeado 🔒. Na dúvida, pergunte a um adulto." }
     ],
     basico: [
       { tipo: "classificar", modo: "tabela", titulo: "Confiável ou não?", colunaItem: "Mensagem", colunaResp: "C ou N",
