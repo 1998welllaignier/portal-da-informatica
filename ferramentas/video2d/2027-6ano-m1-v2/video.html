@@ -1,0 +1,601 @@
+<!doctype html><html><head><meta charset="utf-8"><title>6º ano · Missão 1 · v4</title>
+<style>html,body{margin:0;background:#000}canvas{display:block}</style></head><body>
+<canvas id="c" width="1280" height="720"></canvas>
+<script>const W = 1280, H = 720, c = document.getElementById("c"), g = c.getContext("2d"); const F = "Poppins, 'DejaVu Sans', sans-serif"; window.SELO_SERIE = "6º ano · 1º bimestre 2027";</script>
+<script src="../lib.js"></script>
+<script>
+/* ================= peças de cenário ================= */
+const NAVY = "#14213d", AZUL = "#2f7be0", AMAR = "#ffd23f", ROSA = "#ff6fa5", VERDE = "#2fc26f";
+const ANA = { camisa: ROSA, cabelo: "longo" };
+const ana = o => boneco(Object.assign({}, ANA, o));
+function fundoSala(t) {
+  g.fillStyle = "#f6e7c8"; g.fillRect(0, 0, W, H);
+  g.fillStyle = "#e9d3a6"; g.fillRect(0, 500, W, 220);
+  g.fillStyle = "#2f5d4a"; rr(120, 70, 520, 250, 14); g.fill(); g.strokeStyle = "#b07a3c"; g.lineWidth = 12; g.stroke();
+  g.fillStyle = "rgba(255,255,255,.75)"; g.font = `700 30px ${F}`; g.textAlign = "left"; g.fillText("Informática", 160, 130);
+  g.fillStyle = "#fff"; g.beginPath(); g.arc(1090, 120, 46, 0, 7); g.fill(); g.strokeStyle = NAVY; g.lineWidth = 6; g.stroke();
+  g.beginPath(); g.moveTo(1090, 120); g.lineTo(1090, 92); g.moveTo(1090, 120); g.lineTo(1112, 128); g.stroke();
+}
+function mesa(x, y) { g.fillStyle = "#b07a3c"; g.fillRect(x - 230, y, 460, 26); g.fillStyle = "#8a5a28"; g.fillRect(x - 210, y + 26, 20, 190); g.fillRect(x + 190, y + 26, 20, 190); }
+function monitor(x, y, s, tela) { // tela(x0,y0,w,h)
+  g.save(); g.translate(x, y); g.scale(s, s);
+  g.fillStyle = "#2b2f3a"; rr(-150, -200, 300, 190, 16); g.fill();
+  g.fillStyle = "#3a3f4d"; g.fillRect(-14, -12, 28, 34); rr(-70, 18, 140, 14, 7); g.fill();
+  g.save(); rr(-136, -186, 272, 160, 8); g.clip(); g.fillStyle = "#eaf6ff"; g.fillRect(-136, -186, 272, 160); if (tela) tela(-136, -186, 272, 160); g.restore();
+  g.restore();
+}
+function teclado(x, y, s, pressK) {
+  g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = "#3a3f4d"; rr(-130, -20, 260, 46, 10); g.fill();
+  g.fillStyle = "#e9edf5"; for (let r = 0; r < 3; r++) for (let k = 0; k < 11; k++) { rr(-120 + k * 22, -14 + r * 13, 18, 10, 2); g.fill(); }
+  g.restore();
+}
+function mouse(x, y, s) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = "#e9edf5"; g.beginPath(); g.ellipse(0, 0, 22, 32, 0, 0, 7); g.fill(); g.strokeStyle = "#3a3f4d"; g.lineWidth = 3; g.stroke(); g.beginPath(); g.moveTo(0, -32); g.lineTo(0, -6); g.stroke(); g.restore(); }
+function microfone(x, y, s) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = "#3a3f4d"; rr(-18, -60, 36, 62, 18); g.fill(); g.strokeStyle = "#3a3f4d"; g.lineWidth = 6; g.beginPath(); g.arc(0, -20, 30, .1 * Math.PI, .9 * Math.PI); g.stroke(); g.beginPath(); g.moveTo(0, 10); g.lineTo(0, 34); g.moveTo(-20, 34); g.lineTo(20, 34); g.stroke(); g.restore(); }
+function gabinete(x, y, s, luz) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = "#2b2f3a"; rr(-60, -200, 120, 200, 12); g.fill(); g.fillStyle = "#3a3f4d"; rr(-44, -184, 88, 18, 4); g.fill(); rr(-44, -158, 88, 18, 4); g.fill(); g.fillStyle = luz ? "#3dff8b" : "#555"; g.beginPath(); g.arc(0, -40, 9, 0, 7); g.fill(); g.restore(); }
+function caixaSom(x, y, s, t) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = "#2b2f3a"; rr(-40, -110, 80, 110, 12); g.fill(); g.fillStyle = "#555"; g.beginPath(); g.arc(0, -40, 26, 0, 7); g.fill(); g.beginPath(); g.arc(0, -88, 12, 0, 7); g.fill();
+  if (t != null) { g.strokeStyle = AMAR; g.lineWidth = 5; for (let i = 0; i < 3; i++) { const r = 40 + ((t * 60 + i * 22) % 66); g.globalAlpha = 1 - (r - 40) / 66; g.beginPath(); g.arc(30, -50, r, -.6, .6); g.stroke(); } g.globalAlpha = 1; } g.restore(); }
+function impressora(x, y, s, k) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = "#fff"; g.fillRect(-50, -70 + 60 * (1 - k), 100, 70); g.strokeStyle = "#ccd"; g.lineWidth = 3; for (let i = 0; i < 3; i++) { g.beginPath(); g.moveTo(-34, -50 + i * 16 + 60 * (1 - k)); g.lineTo(34, -50 + i * 16 + 60 * (1 - k)); g.stroke(); }
+  g.fillStyle = "#3a3f4d"; rr(-90, -40, 180, 80, 14); g.fill(); g.fillStyle = "#2b2f3a"; g.fillRect(-60, 0, 120, 10); g.fillStyle = "#3dff8b"; g.beginPath(); g.arc(66, -20, 6, 0, 7); g.fill(); g.restore(); }
+function celular(x, y, s, tela) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = "#1c1f27"; rr(-80, -160, 160, 320, 26); g.fill(); g.save(); rr(-70, -146, 140, 292, 16); g.clip(); g.fillStyle = "#dff3ff"; g.fillRect(-70, -146, 140, 292); if (tela) tela(); g.restore(); g.restore(); }
+function pasta(x, y, s, cor, nome, aberta) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = cor || "#f5b82e"; rr(-60, -50, 50, 20, 6); g.fill(); rr(-60, -40, 120, 84, 10); g.fill(); if (aberta) { g.fillStyle = "#ffd977"; g.beginPath(); g.moveTo(-60, 44); g.lineTo(-44, -12); g.lineTo(70, -12); g.lineTo(60, 44); g.fill(); }
+  if (nome) { g.fillStyle = NAVY; g.font = `800 22px ${F}`; g.textAlign = "center"; g.fillText(nome, 0, 74); } g.restore(); }
+function arquivo(x, y, s, rot, cor, txt) { g.save(); g.translate(x, y); g.rotate(rot || 0); g.scale(s, s); g.fillStyle = "#fff"; g.beginPath(); g.moveTo(-34, -44); g.lineTo(18, -44); g.lineTo(34, -28); g.lineTo(34, 44); g.lineTo(-34, 44); g.closePath(); g.fill(); g.strokeStyle = cor || AZUL; g.lineWidth = 4; g.stroke();
+  g.fillStyle = cor || AZUL; g.fillRect(-22, -14, 44, 6); g.fillRect(-22, 0, 44, 6); g.fillRect(-22, 14, 30, 6); if (txt) { g.font = `800 16px ${F}`; g.textAlign = "center"; g.fillText(txt, 0, 36); } g.restore(); }
+function desenhoAna(x0, y0, w, h, k) { // sol, casa e grama, aparecendo conforme k
+  if (k <= 0) return; g.save(); g.lineCap = "round";
+  g.fillStyle = "#7ed957"; g.fillRect(x0, y0 + h * .78, w * cl(k * 3), h * .22);
+  if (k > .25) { const kk = cl((k - .25) * 3); g.fillStyle = "#ffcc33"; g.beginPath(); g.arc(x0 + w * .8, y0 + h * .25, 22 * kk, 0, 7); g.fill(); }
+  if (k > .5) { const kk = cl((k - .5) * 3); g.fillStyle = "#e8553d"; g.globalAlpha = kk; g.fillRect(x0 + w * .22, y0 + h * .48, w * .32, h * .3); g.fillStyle = "#8a3b20"; g.beginPath(); g.moveTo(x0 + w * .18, y0 + h * .5); g.lineTo(x0 + w * .38, y0 + h * .26); g.lineTo(x0 + w * .58, y0 + h * .5); g.fill(); }
+  g.restore();
+}
+function cursor(x, y, clique) { g.save(); g.translate(x, y); g.fillStyle = "#fff"; g.strokeStyle = "#111"; g.lineWidth = 2.5; g.beginPath(); g.moveTo(0, 0); g.lineTo(0, 30); g.lineTo(8, 23); g.lineTo(14, 36); g.lineTo(19, 34); g.lineTo(13, 21); g.lineTo(23, 21); g.closePath(); g.fill(); g.stroke();
+  if (clique > 0 && clique < 1) { g.strokeStyle = `rgba(255,210,63,${1 - clique})`; g.lineWidth = 4; g.beginPath(); g.arc(0, 0, 10 + clique * 30, 0, 7); g.stroke(); } g.restore(); }
+function seta(x1, y1, x2, y2, k, cor) { if (k <= 0) return; const x = lerp(x1, x2, k), y = lerp(y1, y2, k), an = Math.atan2(y2 - y1, x2 - x1); g.strokeStyle = cor || "#fff"; g.fillStyle = cor || "#fff"; g.lineWidth = 7; g.lineCap = "round"; g.beginPath(); g.moveTo(x1, y1); g.lineTo(x, y); g.stroke();
+  g.beginPath(); g.moveTo(x + 6 * Math.cos(an), y + 6 * Math.sin(an)); g.lineTo(x - 20 * Math.cos(an - .5), y - 20 * Math.sin(an - .5)); g.lineTo(x - 20 * Math.cos(an + .5), y - 20 * Math.sin(an + .5)); g.fill(); }
+function pacotes(x1, y1, x2, y2, t, n, cor) { g.save(); g.globalCompositeOperation = "lighter"; for (let i = 0; i < n; i++) { const k = ((t * .9 + i / n) % 1), x = lerp(x1, x2, k), y = lerp(y1, y2, k); const gr = g.createRadialGradient(x, y, 0, x, y, 24); gr.addColorStop(0, cor || "rgba(140,240,255,1)"); gr.addColorStop(1, "rgba(60,190,255,0)"); g.fillStyle = gr; g.beginPath(); g.arc(x, y, 24, 0, 7); g.fill(); } g.restore(); }
+function cartao(txt, x, y, w, cor, k, sub) { if (k <= 0) return; const s = back(cl(k)); g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = cor; g.shadowColor = "rgba(0,0,0,.25)"; g.shadowBlur = 14; rr(-w / 2, -56, w, 112, 22); g.fill(); g.shadowBlur = 0;
+  g.fillStyle = "#fff"; g.font = `800 34px ${F}`; g.textAlign = "center"; g.textBaseline = "middle"; g.fillText(txt, 0, sub ? -14 : 0); if (sub) { g.font = `600 19px ${F}`; g.fillText(sub, 0, 24); } g.restore(); }
+function fundoEscuro(t, cor) { const gr = g.createLinearGradient(0, 0, 0, H); gr.addColorStop(0, cor || "#1b2c5a"); gr.addColorStop(1, "#0d1631"); g.fillStyle = gr; g.fillRect(0, 0, W, H);
+  g.fillStyle = "rgba(255,255,255,.05)"; for (let i = 0; i < 40; i++) { const x = (rnd(i) * W + t * 10 * (1 + rnd(i + 3))) % W, y = rnd(i + 9) * H; g.beginPath(); g.arc(x, y, 2 + rnd(i + 1) * 3, 0, 7); g.fill(); } }
+function confete(t, t0) { const k = t - t0; if (k < 0 || k > 2.6) return; for (let i = 0; i < 70; i++) { const x = rnd(i) * W + Math.sin(k * 3 + i) * 30, y = -20 + k * (220 + rnd(i + 4) * 260) - rnd(i + 8) * 200; g.save(); g.translate(x, y); g.rotate(k * 5 + i); g.fillStyle = [AMAR, ROSA, VERDE, AZUL, "#fff"][i % 5]; g.fillRect(-6, -3, 12, 6); g.restore(); } }
+function maoApontando(x, y, ang, s, espelho, manga) { // mãozinha de desenho animado; ponta do indicador em (x,y)
+  g.save(); g.translate(x, y); g.rotate(ang); g.scale(s, espelho ? -s : s);
+  const PELE = "#f6cfa8", CONT = "#b9825c";
+  const partes = () => { // mesmas formas para o contorno e para o preenchimento
+    rr(-76, -12, 76, 24, 12); g.fill();                                   // indicador
+    g.beginPath(); g.ellipse(-98, 12, 40, 34, 0, 0, 7); g.fill();          // palma
+    g.beginPath(); g.ellipse(-66, 26, 20, 23, 0, 0, 7); g.fill();          // dedos dobrados
+    g.beginPath(); g.ellipse(-84, -14, 24, 12, -.35, 0, 7); g.fill();      // polegar
+  };
+  // punho da camiseta
+  g.fillStyle = CONT; rr(-176, -26, 54, 76, 16); g.fill();
+  g.fillStyle = manga || ROSA; rr(-172, -22, 46, 68, 13); g.fill();
+  g.fillStyle = "#ffffff"; rr(-134, -24, 14, 72, 7); g.fill();
+  // contorno macio (mesmas formas, um pouco maiores, por baixo)
+  g.save(); g.fillStyle = CONT; g.strokeStyle = CONT; g.lineWidth = 7; g.lineJoin = "round";
+  [[-76,-12,76,24]].forEach(()=>{}); g.translate(0, 0);
+  const contorno = () => { rr(-79, -15, 82, 30, 15); g.fill(); g.beginPath(); g.ellipse(-98, 12, 44, 38, 0, 0, 7); g.fill(); g.beginPath(); g.ellipse(-66, 26, 24, 27, 0, 0, 7); g.fill(); g.beginPath(); g.ellipse(-84, -14, 28, 16, -.35, 0, 7); g.fill(); };
+  contorno(); g.restore();
+  g.fillStyle = PELE; partes();
+  // dobrinhas dos dedos e unha
+  g.strokeStyle = CONT; g.lineWidth = 3; g.lineCap = "round";
+  [[14, 18], [27, 30], [39, 40]].forEach(([a, b]) => { g.beginPath(); g.moveTo(-78, a); g.quadraticCurveTo(-64, a + 5, -50, b); g.stroke(); });
+  g.beginPath(); g.moveTo(-70, -2); g.lineTo(-60, -2); g.stroke();
+  g.fillStyle = "rgba(255,255,255,.55)"; g.beginPath(); g.ellipse(-12, -3, 7, 5, 0, 0, 7); g.fill();
+  g.fillStyle = "rgba(255,255,255,.35)"; g.beginPath(); g.ellipse(-104, 0, 14, 9, -.4, 0, 7); g.fill();
+  g.fillStyle = "rgba(240,120,120,.25)"; g.beginPath(); g.ellipse(-110, 26, 12, 8, 0, 0, 7); g.fill();
+  g.restore();
+}
+const pisca = (t, p) => (t % (p || 2.3)) < .11;
+
+/* ================= peças extras do 7º ano ================= */
+const LEO = { camisa: AZUL }, BIA = { camisa: "#22c55e", cabelo: "longo" };
+const leo = o => boneco(Object.assign({}, LEO, o)), bia = o => boneco(Object.assign({}, BIA, o));
+function roteador(x, y, s, t, bone) { g.save(); g.translate(x, y); g.scale(s, s);
+  g.strokeStyle = "#3a3f4d"; g.lineWidth = 7; g.lineCap = "round"; g.beginPath(); g.moveTo(-40, -30); g.lineTo(-52, -80); g.moveTo(40, -30); g.lineTo(52, -80); g.stroke();
+  g.fillStyle = "#e9edf5"; rr(-80, -34, 160, 56, 14); g.fill(); g.strokeStyle = "#94a3b8"; g.lineWidth = 3; g.stroke();
+  for (let i = 0; i < 4; i++) { g.fillStyle = (Math.floor((t || 0) * 6) + i) % 3 ? "#22c55e" : "#bbf7d0"; g.beginPath(); g.arc(-48 + i * 22, -6, 5, 0, 7); g.fill(); }
+  if (bone) { g.fillStyle = "#1d4ed8"; g.beginPath(); g.ellipse(0, -40, 46, 22, 0, Math.PI, 0); g.fill(); g.fillRect(-46, -42, 92, 8); g.fillStyle = "#1e3a8a"; rr(0, -40, 66, 10, 5); g.fill(); g.fillStyle = AMAR; g.beginPath(); g.arc(0, -52, 7, 0, 7); g.fill(); }
+  g.restore(); }
+function rack(x, y, s, t) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = "#1e293b"; rr(-70, -220, 140, 220, 10); g.fill();
+  for (let i = 0; i < 7; i++) { g.fillStyle = "#334155"; rr(-58, -206 + i * 29, 116, 22, 4); g.fill(); g.fillStyle = (Math.floor(t * 5 + i * 1.7) % 4) ? "#22c55e" : "#fde047"; g.beginPath(); g.arc(44, -195 + i * 29, 4, 0, 7); g.fill(); g.fillStyle = "#38bdf8"; g.beginPath(); g.arc(32, -195 + i * 29, 4, 0, 7); g.fill(); } g.restore(); }
+function pacote(x, y, s, num, cor, rot) { g.save(); g.translate(x, y); g.rotate(rot || 0); g.scale(s, s); g.fillStyle = cor || "#fff7d6"; rr(-36, -26, 72, 52, 8); g.fill(); g.strokeStyle = "#b45309"; g.lineWidth = 3; g.stroke();
+  g.beginPath(); g.moveTo(-36, -24); g.lineTo(0, 4); g.lineTo(36, -24); g.stroke(); if (num != null) { g.fillStyle = "#b45309"; g.beginPath(); g.arc(24, 14, 13, 0, 7); g.fill(); g.fillStyle = "#fff"; g.font = `800 16px ${F}`; g.textAlign = "center"; g.textBaseline = "middle"; g.fillText(num, 24, 15); g.textBaseline = "alphabetic"; } g.restore(); }
+function casa(x, y, s, cor, placa) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = cor; g.fillRect(-60, -80, 120, 80); g.fillStyle = "#8a3b20"; g.beginPath(); g.moveTo(-74, -78); g.lineTo(0, -140); g.lineTo(74, -78); g.fill();
+  g.fillStyle = "#5b3a1e"; g.fillRect(-16, -46, 32, 46); g.fillStyle = "#bfe3ff"; g.fillRect(24, -64, 24, 20); if (placa) { g.fillStyle = "#fff"; rr(-56, -112 + 140, 112, 30, 6); g.fill(); g.fillStyle = NAVY; g.font = `800 16px ${F}`; g.textAlign = "center"; g.fillText(placa, 0, 48); } g.restore(); }
+function no(x, y, r, cor) { g.fillStyle = cor || "#60a5fa"; g.beginPath(); g.arc(x, y, r, 0, 7); g.fill(); g.strokeStyle = "#fff"; g.lineWidth = 3; g.stroke(); }
+function linha(x1, y1, x2, y2, cor, w) { g.strokeStyle = cor || "rgba(255,255,255,.5)"; g.lineWidth = w || 4; g.beginPath(); g.moveTo(x1, y1); g.lineTo(x2, y2); g.stroke(); }
+function ondaAudio(x, y, w, t, cor) { g.strokeStyle = cor || AMAR; g.lineWidth = 5; g.lineCap = "round"; for (let i = 0; i < 12; i++) { const h = 8 + Math.abs(Math.sin(t * 7 + i * 1.3)) * 26; g.beginPath(); g.moveTo(x + i * w / 12, y - h / 2); g.lineTo(x + i * w / 12, y + h / 2); g.stroke(); } }
+function carro(x, y, cor, s) { g.save(); g.translate(x, y); g.scale(s || 1, s || 1); g.fillStyle = cor; rr(-40, -26, 80, 26, 10); g.fill(); rr(-24, -42, 46, 20, 8); g.fill(); g.fillStyle = "#bfe3ff"; rr(-18, -38, 16, 12, 3); g.fill(); rr(4, -38, 14, 12, 3); g.fill(); g.fillStyle = "#111"; g.beginPath(); g.arc(-22, 0, 9, 0, 7); g.arc(22, 0, 9, 0, 7); g.fill(); g.restore(); }
+
+/* ================= cenas ================= */
+/* peças extras reaproveitáveis (vídeos v4) */
+function bola(x, y, r) { g.save(); g.translate(x, y); g.fillStyle = "#fff"; g.strokeStyle = NAVY; g.lineWidth = 4; g.beginPath(); g.arc(0, 0, r, 0, 7); g.fill(); g.stroke();
+  g.fillStyle = NAVY; g.beginPath(); for (let i = 0; i < 5; i++) { const a = -Math.PI / 2 + i * 2 * Math.PI / 5; g.lineTo(Math.cos(a) * r * .38, Math.sin(a) * r * .38); } g.fill();
+  g.lineWidth = 3; for (let i = 0; i < 5; i++) { const a = -Math.PI / 2 + i * 2 * Math.PI / 5; g.beginPath(); g.moveTo(Math.cos(a) * r * .38, Math.sin(a) * r * .38); g.lineTo(Math.cos(a) * r * .95, Math.sin(a) * r * .95); g.stroke(); } g.restore(); }
+function livro(x, y, s, cor) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = cor || AZUL; rr(-46, -34, 92, 68, 8); g.fill(); g.fillStyle = "#fff"; rr(-40, -28, 38, 56, 4); g.fill(); rr(2, -28, 38, 56, 4); g.fill();
+  g.strokeStyle = "#94a3b8"; g.lineWidth = 3; for (let i = 0; i < 4; i++) { g.beginPath(); g.moveTo(-34, -16 + i * 12); g.lineTo(-8, -16 + i * 12); g.moveTo(8, -16 + i * 12); g.lineTo(34, -16 + i * 12); g.stroke(); } g.restore(); }
+function robo(x, y, s) { g.save(); g.translate(x, y); g.scale(s, s); g.strokeStyle = NAVY; g.lineWidth = 5; g.lineJoin = "round"; g.fillStyle = "#e0f2fe";
+  rr(-34, -70, 68, 52, 10); g.fill(); g.stroke(); rr(-40, -12, 80, 66, 10); g.fill(); g.stroke(); g.beginPath(); g.moveTo(0, -70); g.lineTo(0, -88); g.stroke(); g.fillStyle = "#ef4444"; g.beginPath(); g.arc(0, -92, 7, 0, 7); g.fill();
+  g.fillStyle = NAVY; g.beginPath(); g.arc(-14, -46, 6, 0, 7); g.arc(14, -46, 6, 0, 7); g.fill(); g.beginPath(); g.moveTo(-12, -30); g.lineTo(12, -30); g.stroke();
+  g.beginPath(); g.moveTo(-40, 6); g.lineTo(-60, 30); g.moveTo(40, 6); g.lineTo(60, 30); g.moveTo(-18, 54); g.lineTo(-18, 76); g.moveTo(18, 54); g.lineTo(18, 76); g.stroke(); g.restore(); }
+function lapis(x, y, s, rot) { g.save(); g.translate(x, y); g.rotate(rot || 0); g.scale(s, s); g.fillStyle = "#facc15"; g.fillRect(-8, -70, 16, 70); g.fillStyle = "#f1c7a0"; g.beginPath(); g.moveTo(-8, 0); g.lineTo(8, 0); g.lineTo(0, 22); g.fill(); g.fillStyle = NAVY; g.beginPath(); g.moveTo(-3, 14); g.lineTo(3, 14); g.lineTo(0, 22); g.fill(); g.fillStyle = "#f472b6"; g.fillRect(-8, -84, 16, 14); g.restore(); }
+function calendario(x, y, s, txt, cor) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = "#fff"; g.strokeStyle = NAVY; g.lineWidth = 4; rr(-70, -60, 140, 120, 12); g.fill(); g.stroke();
+  g.fillStyle = cor || "#ef4444"; rr(-70, -60, 140, 36, 12); g.fill(); g.fillRect(-70, -36, 140, 12); g.fillStyle = "#fff"; g.font = `800 20px ${F}`; g.textAlign = "center"; g.textBaseline = "middle"; g.fillText(txt, 0, -41);
+  g.strokeStyle = NAVY; g.lineWidth = 3; g.beginPath(); g.moveTo(-40, -70); g.lineTo(-40, -50); g.moveTo(40, -70); g.lineTo(40, -50); g.stroke();
+  g.strokeStyle = "#cbd5e1"; g.lineWidth = 2; for (let i = 0; i < 3; i++) for (let j = 0; j < 4; j++) g.strokeRect(-56 + j * 29, -14 + i * 22, 24, 18); g.fillStyle = "rgba(255,210,63,.9)"; g.fillRect(31, 30, 24, 18); g.restore(); }
+function pensamento(x, y, w, h) { g.save(); g.fillStyle = "#fff"; g.strokeStyle = NAVY; g.lineWidth = 4; g.beginPath(); g.ellipse(x, y, w / 2, h / 2, 0, 0, 7); g.fill(); g.stroke();
+  const ax = arguments[4] || x - w * .45, ay = arguments[5] || y + h * .97, ex = x - w * .5, ey = y + h * .12; [[.3, 16], [.6, 11], [.85, 7]].forEach(([k, r]) => { g.beginPath(); g.arc(lerp(ex, ax, k), lerp(ey, ay, k), r, 0, 7); g.fill(); g.stroke(); }); g.restore(); }
+function banana(x, y, s, rot) { g.save(); g.translate(x, y); g.rotate(rot || 0); g.scale(s, s); g.fillStyle = "#facc15"; g.strokeStyle = "#a16207"; g.lineWidth = 4; g.beginPath(); g.moveTo(-50, -10); g.quadraticCurveTo(0, 50, 50, -10); g.quadraticCurveTo(0, 22, -50, -10); g.fill(); g.stroke();
+  g.fillStyle = "#713f12"; g.fillRect(46, -18, 8, 10); g.restore(); }
+function passaro(x, y, s, t) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = "#38bdf8"; g.strokeStyle = NAVY; g.lineWidth = 3; g.beginPath(); g.ellipse(0, 0, 30, 22, 0, 0, 7); g.fill(); g.stroke(); g.beginPath(); g.arc(26, -16, 15, 0, 7); g.fill(); g.stroke();
+  g.fillStyle = "#f59e0b"; g.beginPath(); g.moveTo(40, -18); g.lineTo(54, -13); g.lineTo(40, -8); g.fill(); g.fillStyle = NAVY; g.beginPath(); g.arc(30, -19, 3, 0, 7); g.fill();
+  g.fillStyle = "#0ea5e9"; g.beginPath(); g.moveTo(-8, -6); g.quadraticCurveTo(-20, -40, 10, -30); g.closePath(); g.fill(); g.stroke(); g.restore(); }
+function arvore(x, y, s) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = "#a16207"; g.fillRect(-10, -70, 20, 70); g.fillStyle = "#86efac"; g.strokeStyle = "#15803d"; g.lineWidth = 4;
+  g.beginPath(); g.arc(0, -110, 52, 0, 7); g.arc(-40, -80, 36, 0, 7); g.arc(40, -80, 36, 0, 7); g.fill(); g.restore(); }
+function olho(x, y, s) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = "#fff"; g.strokeStyle = NAVY; g.lineWidth = 5; g.beginPath(); g.moveTo(-50, 0); g.quadraticCurveTo(0, -46, 50, 0); g.quadraticCurveTo(0, 46, -50, 0); g.fill(); g.stroke(); g.fillStyle = "#2f7be0"; g.beginPath(); g.arc(0, 0, 18, 0, 7); g.fill(); g.fillStyle = NAVY; g.beginPath(); g.arc(0, 0, 8, 0, 7); g.fill(); g.restore(); }
+function cama(x, y, s, quem) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = "#fff"; g.strokeStyle = NAVY; g.lineWidth = 5; rr(-150, -40, 300, 60, 10); g.fill(); g.stroke(); g.fillStyle = "#c4b5fd"; rr(-150, -100, 24, 150, 8); g.fill(); g.stroke(); rr(126, -70, 24, 120, 8); g.fill(); g.stroke();
+  if (quem) { g.fillStyle = "#fff"; rr(-120, -64, 60, 28, 12); g.fill(); g.stroke(); g.fillStyle = quem.pele || "#f1c7a0"; g.beginPath(); g.arc(-80, -68, 30, 0, 7); g.fill(); g.fillStyle = quem.cab || "#3b2416"; g.beginPath(); g.arc(-84, -74, 30, Math.PI * .6, Math.PI * 1.45); g.closePath(); g.fill();
+    g.strokeStyle = NAVY; g.lineWidth = 3; g.beginPath(); g.arc(-74, -66, 6, 0, Math.PI); g.stroke(); g.beginPath(); g.arc(-90, -66, 6, 0, Math.PI); g.stroke(); }
+  g.fillStyle = "#bfdbfe"; g.strokeStyle = NAVY; g.lineWidth = 4; g.beginPath(); g.moveTo(-60, -40); g.quadraticCurveTo(30, -70, 140, -40); g.lineTo(140, 0); g.lineTo(-60, 0); g.closePath(); g.fill(); g.stroke(); g.restore(); }
+function zzz(x, y, s) { g.save(); g.fillStyle = "#6366f1"; g.font = `800 ${34 * s}px ${F}`; g.fillText("z", x, y); g.font = `800 ${46 * s}px ${F}`; g.fillText("z", x + 28 * s, y - 30 * s); g.font = `800 ${60 * s}px ${F}`; g.fillText("Z", x + 62 * s, y - 70 * s); g.restore(); }
+function lua(x, y, r) { g.save(); g.fillStyle = "#fde047"; g.strokeStyle = "#a16207"; g.lineWidth = 3; g.beginPath(); g.arc(x, y, r, Math.PI * .35, Math.PI * 1.65); g.quadraticCurveTo(x - r * .1, y, x + r * .58, y + r * .8); g.fill(); g.stroke(); g.restore(); }
+function texto(txt, x, y, cor, tam2) { g.save(); g.font = `800 ${tam2 || 30}px ${F}`; g.textAlign = "center"; g.textBaseline = "middle"; g.lineJoin = "round"; g.lineWidth = 8; g.strokeStyle = "#fff"; g.strokeText(txt, x, y); g.fillStyle = cor || NAVY; g.fillText(txt, x, y); g.restore(); }
+function setaCurva(x1, y1, x2, y2, cor) { g.save(); g.strokeStyle = cor || NAVY; g.fillStyle = cor || NAVY; g.lineWidth = 5; g.lineCap = "round"; const mx = (x1 + x2) / 2, my = Math.min(y1, y2) - 50; g.beginPath(); g.moveTo(x1, y1); g.quadraticCurveTo(mx, my, x2, y2); g.stroke();
+  const an = Math.atan2(y2 - my, x2 - mx); g.beginPath(); g.moveTo(x2, y2); g.lineTo(x2 - 18 * Math.cos(an - .45), y2 - 18 * Math.sin(an - .45)); g.lineTo(x2 - 18 * Math.cos(an + .45), y2 - 18 * Math.sin(an + .45)); g.fill(); g.restore(); }
+
+function predio(x, y, s, cor, nome) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = cor || "#64748b"; g.fillRect(-60, -200, 120, 200); g.fillStyle = "#e0f2fe"; for (let r = 0; r < 6; r++) for (let c = 0; c < 3; c++) g.fillRect(-46 + c * 34, -186 + r * 30, 22, 18); if (nome) { g.fillStyle = AMAR; rr(-80, -244, 160, 36, 10); g.fill(); g.fillStyle = NAVY; g.font = `800 20px ${F}`; g.textAlign = "center"; g.fillText(nome, 0, -219); } g.restore(); }
+function nuvem(x, y, s) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = "#fff"; g.beginPath(); g.arc(-60, 10, 50, 0, 7); g.arc(0, -20, 70, 0, 7); g.arc(70, 10, 50, 0, 7); g.fill(); g.fillRect(-60, 10, 130, 50); g.restore(); }
+function foto(x, y, s, rot) { g.save(); g.translate(x, y); g.rotate(rot || 0); g.scale(s, s); g.fillStyle = "#fff"; rr(-40, -32, 80, 64, 8); g.fill(); g.fillStyle = "#7dd3fc"; g.fillRect(-32, -24, 64, 40); g.fillStyle = "#4ade80"; g.beginPath(); g.moveTo(-32, 16); g.lineTo(-8, -6); g.lineTo(10, 10); g.lineTo(32, -10); g.lineTo(32, 16); g.fill(); g.fillStyle = "#fde047"; g.beginPath(); g.arc(18, -12, 6, 0, 7); g.fill(); g.restore(); }
+function barra(x, y, w, k, cor, rot) { g.fillStyle = "rgba(255,255,255,.12)"; rr(x, y, w, 40, 20); g.fill(); g.fillStyle = cor; rr(x, y, Math.max(40, w * k), 40, 20); g.fill(); if (rot) { g.fillStyle = "#fff"; g.font = `800 22px ${F}`; g.textAlign = "left"; g.fillText(rot, x, y - 12); } }
+// fundo do mar (do teste aprovado)
+function escola(x, y, s) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = "#fde68a"; g.fillRect(-90, -110, 180, 110); g.fillStyle = "#b91c1c"; g.beginPath(); g.moveTo(-104, -108); g.lineTo(0, -170); g.lineTo(104, -108); g.fill();
+  g.fillStyle = "#5b3a1e"; g.fillRect(-18, -52, 36, 52); g.fillStyle = "#bfe3ff"; g.fillRect(-70, -86, 34, 26); g.fillRect(36, -86, 34, 26); g.restore(); }
+function cronometro(x, y, s, t) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = "#e5e7eb"; g.fillRect(-10, -78, 20, 16); g.fillStyle = "#fff"; g.beginPath(); g.arc(0, 0, 64, 0, 7); g.fill(); g.strokeStyle = NAVY; g.lineWidth = 8; g.stroke();
+  g.strokeStyle = "#ef4444"; g.lineWidth = 6; g.lineCap = "round"; g.beginPath(); g.moveTo(0, 0); g.lineTo(Math.sin(t * 4) * 48, -Math.cos(t * 4) * 48); g.stroke(); g.fillStyle = NAVY; g.beginPath(); g.arc(0, 0, 7, 0, 7); g.fill(); g.restore(); }
+// mapa visto de cima: escola (esq.) e praça (dir.) com 3 ruas
+function pessoa(x, y, s, cor) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = cor; g.beginPath(); g.arc(0, -10, 26, Math.PI, 0); g.fill(); g.fillRect(-26, -10, 52, 24); g.fillStyle = "#f1c7a0"; g.beginPath(); g.arc(0, -50, 20, 0, 7); g.fill();
+  g.fillStyle = "#222"; g.beginPath(); g.arc(-7, -52, 3, 0, 7); g.arc(7, -52, 3, 0, 7); g.fill(); g.strokeStyle = "#222"; g.lineWidth = 2.5; g.beginPath(); g.arc(0, -46, 8, .2, Math.PI - .2); g.stroke(); g.restore(); }
+
+function noDecisao(txt, x, y, k, cor) { if (k <= 0) return; const s = back(cl(k)); g.save(); g.translate(x, y); g.scale(s, s); g.font = `800 22px ${F}`; const w = g.measureText(txt).width + 34; g.fillStyle = cor || "#fff"; rr(-w / 2, -28, w, 56, 16); g.fill(); g.strokeStyle = NAVY; g.lineWidth = 3; g.stroke();
+  g.fillStyle = NAVY; g.textAlign = "center"; g.textBaseline = "middle"; g.fillText(txt, 0, 2); g.restore(); g.textBaseline = "alphabetic"; }
+function rotulo(txt, x, y, cor, k) { if (k <= 0) return; g.save(); g.globalAlpha = cl(k); g.fillStyle = cor; g.font = `800 20px ${F}`; g.textAlign = "center"; g.fillText(txt, x, y); g.restore(); }
+function fonteAgua(x, y, s, t) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = "#94a3b8"; g.beginPath(); g.ellipse(0, 0, 70, 20, 0, 0, 7); g.fill(); g.fillStyle = "#38bdf8"; g.beginPath(); g.ellipse(0, -4, 56, 12, 0, 0, 7); g.fill();
+  g.fillStyle = "#94a3b8"; g.fillRect(-8, -60, 16, 56); g.strokeStyle = "#7dd3fc"; g.lineWidth = 4; for (let i = -1; i <= 1; i += 2) { g.beginPath(); g.moveTo(0, -60); g.quadraticCurveTo(i * 30, -90 - Math.sin(t * 6) * 4, i * 46, -10); g.stroke(); } g.restore(); }
+function arvoreDesenho(x, y, s) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = "#8a5a28"; g.fillRect(-10, -60, 20, 60); g.fillStyle = "#22c55e"; g.beginPath(); g.arc(0, -90, 50, 0, 7); g.arc(-34, -66, 34, 0, 7); g.arc(34, -66, 34, 0, 7); g.fill(); g.restore(); }
+// ---- abertura padrão "digna de Oscar": nome da missão no alto, mini cena (desenhada antes), faixa com o problema e o nome do professor ----
+function abertura(t, rotuloSerie, titulo, l1, l2, t1) { t1 = t1 || 1.6;
+  const kt = out(seg(t, .1, .6)); g.save(); g.globalAlpha = kt; g.textAlign = "center"; g.fillStyle = AMAR; g.font = `800 24px ${F}`; g.fillText(rotuloSerie, 640, 70); g.fillStyle = "#fff"; g.font = `800 48px ${F}`; g.fillText(titulo, 640, 122); g.restore();
+  const km = seg(t, t1, t1 + .5); if (km > 0) { g.fillStyle = "rgba(10,16,36,.62)"; g.globalAlpha = out(km); rr(130, 420, 1020, 150, 26); g.fill(); g.globalAlpha = 1; palavra(l1, 640, 478, km, 54); palavra(l2, 640, 546, seg(t, t1 + .2, t1 + .7), 60); }
+  const kp = back(seg(t, .3, .8)); if (kp > 0) { g.save(); g.translate(640, 662); g.scale(kp, kp); g.fillStyle = AMAR; rr(-250, -30, 500, 60, 30); g.fill(); g.fillStyle = NAVY; g.font = `800 28px ${F}`; g.textAlign = "center"; g.textBaseline = "middle"; g.fillText("Prof. Welington Laignier", 0, 1); g.restore(); g.textBaseline = "alphabetic"; } }
+function fimCartao(t, linha, pessoas) { fundoEscuro(t); g.textAlign = "center"; g.globalAlpha = out(seg(t, 0, .6)); g.fillStyle = AMAR; g.font = `800 62px ${F}`; g.fillText("Prof. Welington Laignier", 640, 300);
+  g.fillStyle = "#fff"; g.font = `700 30px ${F}`; g.fillText(linha, 640, 350); g.font = `800 40px ${F}`; g.fillStyle = "#cfe0ff"; g.fillText(linha.match(/Missão \d/)[0].replace("Missão", "Abram a Missão") + " no portal!", 640, 430); g.globalAlpha = 1;
+  (pessoas || []).forEach((p, i) => boneco(Object.assign({ x: i ? 1040 : 240, y: 700, s: .9, braco: -2.8 + Math.sin(t * 10 + i) * .25, bracoE: 2.8, pisca: pisca(t + i * .7) }, p))); confete(t, .9); }
+function cumprida(t, t0) { if (t > t0) { g.fillStyle = "#1b2c5a"; g.globalAlpha = out(seg(t, t0, t0 + .3)); rr(250, 58, 780, 118, 26); g.fill(); g.globalAlpha = 1; } palavra("MISSÃO CUMPRIDA!", 640, 120, seg(t, t0, t0 + .4), 72); confete(t, t0); }
+function estrela(x, y, r, cor) { g.save(); g.translate(x, y); g.fillStyle = cor || AMAR; g.strokeStyle = "#b45309"; g.lineWidth = 3; g.beginPath(); for (let i = 0; i < 10; i++) { const a = -Math.PI / 2 + i * Math.PI / 5, rr2 = i % 2 ? r * .45 : r; g.lineTo(Math.cos(a) * rr2, Math.sin(a) * rr2); } g.closePath(); g.fill(); g.stroke(); g.restore(); }
+function robozinho(x, y, s, t, feliz) { g.save(); g.translate(x, y); g.scale(s, s); const b = Math.sin((t || 0) * 6) * 3;
+  g.fillStyle = "#64748b"; g.fillRect(-4, -78 + b, 8, 16); g.fillStyle = "#ef4444"; g.beginPath(); g.arc(0, -82 + b, 7, 0, 7); g.fill();
+  g.fillStyle = "#e2e8f0"; g.strokeStyle = NAVY; g.lineWidth = 4; rr(-34, -64 + b, 68, 50, 14); g.fill(); g.stroke(); g.fillStyle = "#1e293b"; rr(-26, -56 + b, 52, 30, 8); g.fill();
+  g.fillStyle = "#67e8f9"; if (feliz) { g.lineWidth = 4; g.strokeStyle = "#67e8f9"; g.beginPath(); g.arc(-11, -38 + b, 6, Math.PI, 0); g.arc(11, -38 + b, 6, Math.PI, 0); g.stroke(); } else { g.beginPath(); g.arc(-11, -41 + b, 6, 0, 7); g.arc(11, -41 + b, 6, 0, 7); g.fill(); }
+  g.fillStyle = "#3b82f6"; g.strokeStyle = NAVY; rr(-28, -12, 56, 44, 12); g.fill(); g.stroke(); g.fillStyle = "#fde047"; g.beginPath(); g.arc(0, 10, 7, 0, 7); g.fill();
+  g.fillStyle = "#334155"; rr(-26, 32, 20, 12, 5); g.fill(); rr(6, 32, 20, 12, 5); g.fill(); g.restore(); }
+function tabuleiro(x0, y0, cols, rows, cel, paredes) { for (let r = 0; r < rows; r++) for (let c2 = 0; c2 < cols; c2++) { const p = paredes && paredes.includes(r * cols + c2); g.fillStyle = p ? "#9a3412" : ((r + c2) % 2 ? "#dbeafe" : "#eff6ff"); rr(x0 + c2 * cel + 2, y0 + r * cel + 2, cel - 4, cel - 4, 8); g.fill();
+  if (p) { g.strokeStyle = "#7c2d12"; g.lineWidth = 2; for (let k = 1; k < 3; k++) { g.beginPath(); g.moveTo(x0 + c2 * cel + 4, y0 + r * cel + k * cel / 3); g.lineTo(x0 + c2 * cel + cel - 4, y0 + r * cel + k * cel / 3); g.stroke(); } } } }
+function comando(txt, x, y, k, cor, w) { if (k <= 0) return; const s = back(cl(k)); g.save(); g.translate(x, y); g.scale(s, s); g.font = `800 24px ${F}`; const ww = w || g.measureText(txt).width + 36; g.fillStyle = cor || "#2563eb"; rr(-ww / 2, -26, ww, 52, 14); g.fill(); g.fillStyle = "rgba(0,0,0,.15)"; rr(-ww / 2, 16, ww, 10, 6); g.fill();
+  g.fillStyle = "#fff"; g.textAlign = "center"; g.textBaseline = "middle"; g.fillText(txt, 0, 1); g.restore(); g.textBaseline = "alphabetic"; }
+function xVermelho(x, y, r, k) { if (k <= 0) return; g.save(); g.globalAlpha = cl(k); g.strokeStyle = "#ef4444"; g.lineWidth = 12; g.lineCap = "round"; g.beginPath(); g.moveTo(x - r, y - r); g.lineTo(x + r, y + r); g.moveTo(x + r, y - r); g.lineTo(x - r, y + r); g.stroke(); g.restore(); }
+function visto(x, y, r, k) { if (k <= 0) return; g.save(); g.globalAlpha = cl(k); g.fillStyle = "#16a34a"; g.beginPath(); g.arc(x, y, r, 0, 7); g.fill(); g.strokeStyle = "#fff"; g.lineWidth = r * .22; g.lineCap = "round"; g.beginPath(); g.moveTo(x - r * .45, y); g.lineTo(x - r * .1, y + r * .35); g.lineTo(x + r * .5, y - r * .35); g.stroke(); g.restore(); }
+function cadeado(x, y, s, aberto) { g.save(); g.translate(x, y); g.scale(s, s); g.strokeStyle = "#64748b"; g.lineWidth = 12; g.beginPath(); g.arc(0, -30 - (aberto ? 16 : 0), 26, Math.PI, 0); g.stroke(); g.fillStyle = "#f59e0b"; g.strokeStyle = "#b45309"; g.lineWidth = 4; rr(-40, -30, 80, 66, 12); g.fill(); g.stroke(); g.fillStyle = "#78350f"; g.beginPath(); g.arc(0, 0, 9, 0, 7); g.fill(); g.fillRect(-4, 0, 8, 18); g.restore(); }
+function lupa(x, y, s) { g.save(); g.translate(x, y); g.scale(s, s); g.strokeStyle = "#fde047"; g.lineWidth = 10; g.beginPath(); g.arc(0, 0, 34, 0, 7); g.stroke(); g.lineCap = "round"; g.lineWidth = 14; g.beginPath(); g.moveTo(24, 24); g.lineTo(56, 56); g.stroke(); g.restore(); }
+function escudo(x, y, s) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = "#16a34a"; g.beginPath(); g.moveTo(0, -70); g.lineTo(60, -46); g.lineTo(56, 10); g.quadraticCurveTo(40, 52, 0, 70); g.quadraticCurveTo(-40, 52, -56, 10); g.lineTo(-60, -46); g.closePath(); g.fill(); g.restore(); }
+
+/* ================= 6º ano · 2027 · 1º bimestre · Missão 1 · Primeiros passos (VERSÃO 2, detalhada) =================
+   Pedido do professor (16/11/2026): a turma chega do 5º ano sem nunca ter usado computador. Tudo passo a passo:
+   onde fica cada tecla, como segurar o mouse, barra de tarefas realista e cores fortes (contraste) em setas e etiquetas. */
+const PEDRO = { camisa: "#f97316" }, LARA = { camisa: "#8b5cf6", cabelo: "longo" };
+const pedro = o => boneco(Object.assign({}, PEDRO, o));
+const em = (f, w, n) => { const p = f.split(/\s+/); let c = 0; const i = p.findIndex(x => x.toLowerCase().replace(/[^\wà-ú]/g, "").startsWith(w.toLowerCase()) && c++ === (n || 0)); return Math.max(0, i) / 2.55 + .35; };
+const PELE = "#f1c27d", AZ = "#2563eb", VD = "#16a34a", RS = "#db2777", LJ = "#ea580c", RX = "#7c3aed", VM = "#dc2626";
+
+/* ---------- etiqueta de alto contraste: placa colorida com texto branco e seta com contorno escuro ---------- */
+function placa(txt, x, y, k, cor, tam) { if (k <= 0) return; const s = back(cl(k)); g.save(); g.translate(x, y); g.scale(s, s); g.font = `800 ${tam || 24}px ${F}`;
+  const w = g.measureText(txt).width + 34, h = (tam || 24) + 22; g.fillStyle = "rgba(0,0,0,.35)"; rr(-w / 2 + 4, -h / 2 + 5, w, h, 14); g.fill();
+  g.fillStyle = cor || AZ; rr(-w / 2, -h / 2, w, h, 14); g.fill(); g.strokeStyle = "#fff"; g.lineWidth = 3; rr(-w / 2, -h / 2, w, h, 14); g.stroke();
+  g.fillStyle = "#fff"; g.textAlign = "center"; g.textBaseline = "middle"; g.fillText(txt, 0, 2); g.restore(); }
+function flecha(x1, y1, x2, y2, k, cor) { if (k <= 0) return; const a = out(cl(k)), x = lerp(x1, x2, a), y = lerp(y1, y2, a), an = Math.atan2(y2 - y1, x2 - x1);
+  g.save(); g.lineCap = "round"; [["#0b1020", 12], [cor || AMAR, 6]].forEach(([c, w]) => { g.strokeStyle = c; g.lineWidth = w; g.beginPath(); g.moveTo(x1, y1); g.lineTo(x - 10 * Math.cos(an), y - 10 * Math.sin(an)); g.stroke(); });
+  if (a > .9) { const p = (r, d) => [x - r * Math.cos(an + d), y - r * Math.sin(an + d)]; g.fillStyle = "#0b1020"; g.beginPath(); g.moveTo(x + 4 * Math.cos(an), y + 4 * Math.sin(an)); g.lineTo(...p(30, .5)); g.lineTo(...p(30, -.5)); g.fill();
+    g.fillStyle = cor || AMAR; g.beginPath(); g.moveTo(x, y); g.lineTo(...p(24, .45)); g.lineTo(...p(24, -.45)); g.fill(); } g.restore(); }
+function rotulo2(txt, x, y, ax, ay, k, cor, tam) { flecha(x, y, ax, ay, k, cor); placa(txt, x, y, k, cor, tam); }
+function anel(x, y, r, t, cor) { g.save(); g.strokeStyle = cor || AMAR; g.lineWidth = 6; g.globalAlpha = .55 + .45 * Math.sin(t * 8); g.beginPath(); g.arc(x, y, r + 4 * Math.sin(t * 8), 0, 7); g.stroke(); g.restore(); }
+function texto2(txt, x, y, tam, cor, al) { g.save(); g.font = `800 ${tam}px ${F}`; g.textAlign = al || "center"; g.textBaseline = "middle"; g.lineJoin = "round"; g.lineWidth = 8; g.strokeStyle = "#0b1020"; g.strokeText(txt, x, y); g.fillStyle = cor || "#fff"; g.fillText(txt, x, y); g.restore(); }
+
+/* ---------- mouse realista visto de cima (esq/dir/roda acendem) ---------- */
+function mouseTopo(x, y, s, o) { o = o || {}; g.save(); g.translate(x, y); g.scale(s, s);
+  g.strokeStyle = "#334155"; g.lineWidth = 6; g.lineCap = "round"; g.beginPath(); g.moveTo(0, -118); g.bezierCurveTo(0, -170, 70, -160, 90, -210); g.stroke();
+  g.fillStyle = "rgba(0,0,0,.3)"; g.beginPath(); g.ellipse(8, 10, 82, 122, 0, 0, 7); g.fill();
+  g.fillStyle = "#f8fafc"; g.beginPath(); g.ellipse(0, 0, 80, 120, 0, 0, 7); g.fill();
+  const bt = (lado, cor) => { g.save(); g.beginPath(); g.ellipse(0, 0, 80, 120, 0, 0, 7); g.clip(); g.fillStyle = cor; if (lado < 0) g.fillRect(-82, -122, 82, 112); else g.fillRect(0, -122, 82, 112); g.restore(); };
+  if (o.esq) bt(-1, o.esqCor || AZ); if (o.dir) bt(1, o.dirCor || RS);
+  g.strokeStyle = "#0f172a"; g.lineWidth = 6; g.beginPath(); g.ellipse(0, 0, 80, 120, 0, 0, 7); g.stroke();
+  g.lineWidth = 4; g.beginPath(); g.moveTo(-80, -10); g.quadraticCurveTo(0, 0, 80, -10); g.moveTo(0, -120); g.lineTo(0, -10); g.stroke();
+  g.fillStyle = o.roda ? LJ : "#475569"; rr(-12, -88, 24, 48, 11); g.fill(); g.strokeStyle = "#0f172a"; g.lineWidth = 3; rr(-12, -88, 24, 48, 11); g.stroke();
+  if (o.roda) { g.strokeStyle = "#fff"; g.lineWidth = 2; for (let i = 0; i < 4; i++) { const yy = -80 + ((i * 10 + (o.giro || 0) * 40) % 40); g.beginPath(); g.moveTo(-8, yy); g.lineTo(8, yy); g.stroke(); } }
+  g.restore(); }
+/* mão por cima do mouse: indicador no botão esquerdo, dedo do meio no direito */
+function maoMouse(x, y, s, aperta, dirAperta) { g.save(); g.globalAlpha = .82; g.translate(x, y); g.scale(s, s); g.fillStyle = PELE; g.strokeStyle = "#7c4a1e"; g.lineWidth = 4;
+  g.beginPath(); g.ellipse(0, 60, 92, 78, 0, 0, 7); g.fill(); g.stroke(); // palma
+  const dedo = (dx, dy, w, h, rot) => { g.save(); g.translate(dx, dy); g.rotate(rot); rr(-w / 2, -h, w, h, w / 2); g.fill(); g.stroke(); g.restore(); };
+  dedo(-40, 20 + (aperta ? 8 : 0), 32, 112, -.05); dedo(32, 22 + (dirAperta ? 8 : 0), 32, 118, .04); dedo(80, 50, 28, 82, .35); dedo(-90, 70, 30, 70, -1.1);
+  g.restore(); }
+
+/* ---------- teclado ABNT2 (o dos computadores da escola). mapa de teclas para apontar ---------- */
+const KB = (() => { const u = 46, L = []; let y = 0;
+  const lin = (teclas) => { let x = 0; teclas.forEach(([n, w]) => { L.push({ n, x, y, w: w * u - 6, h: u - 6 }); x += w * u; }); y += u; };
+  lin([["'", 1], ["1", 1], ["2", 1], ["3", 1], ["4", 1], ["5", 1], ["6", 1], ["7", 1], ["8", 1], ["9", 1], ["0", 1], ["-", 1], ["=", 1], ["⟵", 2]]);
+  lin([["Tab", 1.5], ["Q", 1], ["W", 1], ["E", 1], ["R", 1], ["T", 1], ["Y", 1], ["U", 1], ["I", 1], ["O", 1], ["P", 1], ["´", 1], ["[", 1], ["", 1.5]]);
+  lin([["Caps", 1.75], ["A", 1], ["S", 1], ["D", 1], ["F", 1], ["G", 1], ["H", 1], ["J", 1], ["K", 1], ["L", 1], ["Ç", 1], ["~", 1], ["]", 1], ["", 1.25]]);
+  lin([["⇧", 1.25], ["\\", 1], ["Z", 1], ["X", 1], ["C", 1], ["V", 1], ["B", 1], ["N", 1], ["M", 1], [",", 1], [".", 1], [";", 1], ["/", 1], ["⇧ ", 1.75]]);
+  lin([["Ctrl", 1.5], ["⊞", 1.25], ["Alt", 1.25], ["", 6.25], ["AltGr", 1.25], ["Fn", 1.25], ["Ctrl ", 1.5]]);
+  const by = n => L.find(k => k.n === n);
+  by("")["id"] = "enter"; L.filter(k => k.n === "")[1].id = "enter2"; L.filter(k => k.n === "")[2].id = "espaco"; by("⟵").id = "back"; by("⇧").id = "shiftE"; by("⇧ ").id = "shiftD";
+  return { L, u, W: 15 * u, H: 5 * u }; })();
+function tecladoABNT(x, y, s, o) { o = o || {}; const K = KB; g.save(); g.translate(x, y); g.scale(s, s);
+  g.fillStyle = "rgba(0,0,0,.35)"; rr(-K.W / 2 - 14 + 8, -K.H / 2 - 14 + 10, K.W + 28, K.H + 28, 18); g.fill();
+  g.fillStyle = "#1f2937"; rr(-K.W / 2 - 14, -K.H / 2 - 14, K.W + 28, K.H + 28, 18); g.fill();
+  K.L.forEach(k => { const id = k.id || k.n, dest = (o.cores || {})[id], ap = (o.apert || {})[id], dim = o.apagar && !dest;
+    const X = -K.W / 2 + k.x, Y = -K.H / 2 + k.y + (ap ? 3 : 0);
+    if (k.id === "enter") { // Enter em L (ocupa duas linhas)
+      g.fillStyle = dest || (dim ? "#475569" : "#e5e7eb"); g.beginPath(); g.moveTo(X, Y); g.lineTo(X + k.w, Y); g.lineTo(X + k.w, Y + 2 * K.u - 6); g.lineTo(X + 12, Y + 2 * K.u - 6); g.lineTo(X + 12, Y + K.u - 6); g.lineTo(X, Y + K.u - 6); g.closePath(); g.fill();
+      g.strokeStyle = dest ? "#fff" : "#0f172a"; g.lineWidth = 3; g.beginPath(); const cx = X + k.w / 2 + 6, cy = Y + K.u - 3; g.moveTo(cx + 12, cy - 16); g.lineTo(cx + 12, cy + 2); g.lineTo(cx - 12, cy + 2); g.stroke();
+      g.beginPath(); g.moveTo(cx - 12, cy + 2); g.lineTo(cx - 4, cy - 5); g.moveTo(cx - 12, cy + 2); g.lineTo(cx - 4, cy + 9); g.stroke(); return; }
+    if (k.id === "enter2") return;
+    g.fillStyle = dest || (dim ? "#475569" : "#e5e7eb"); rr(X, Y, k.w, k.h, 7); g.fill();
+    g.fillStyle = dest ? "#fff" : (dim ? "#94a3b8" : "#0f172a"); g.font = `800 ${k.n.length > 2 ? 13 : 17}px ${F}`; g.textAlign = "center"; g.textBaseline = "middle";
+    if (k.id === "back") { g.strokeStyle = g.fillStyle; g.lineWidth = 3; g.beginPath(); g.moveTo(X + k.w / 2 + 18, Y + k.h / 2); g.lineTo(X + k.w / 2 - 18, Y + k.h / 2); g.moveTo(X + k.w / 2 - 18, Y + k.h / 2); g.lineTo(X + k.w / 2 - 8, Y + k.h / 2 - 8); g.moveTo(X + k.w / 2 - 18, Y + k.h / 2); g.lineTo(X + k.w / 2 - 8, Y + k.h / 2 + 8); g.stroke(); }
+    else if (k.id === "shiftE" || k.id === "shiftD") { g.strokeStyle = g.fillStyle; g.lineWidth = 3; const cx = X + k.w / 2, cy = Y + k.h / 2; g.beginPath(); g.moveTo(cx, cy - 12); g.lineTo(cx + 11, cy); g.lineTo(cx + 5, cy); g.lineTo(cx + 5, cy + 10); g.lineTo(cx - 5, cy + 10); g.lineTo(cx - 5, cy); g.lineTo(cx - 11, cy); g.closePath(); g.stroke(); }
+    else if (k.n === "⊞") { const cx = X + k.w / 2, cy = Y + k.h / 2; [[-7, -7], [1, -7], [-7, 1], [1, 1]].forEach(([a, b]) => g.fillRect(cx + a, cy + b, 6, 6)); }
+    else g.fillText(k.n.trim(), X + k.w / 2, Y + k.h / 2 + 1); });
+  g.restore(); }
+/* centro de uma tecla (em coordenadas da tela) para apontar a seta */
+function kc(id, x, y, s) { const k = KB.L.find(q => (q.id || q.n) === id); return [x + s * (-KB.W / 2 + k.x + k.w / 2), y + s * (-KB.H / 2 + k.y + (k.id === "enter" ? KB.u : k.h / 2))]; }
+
+/* ---------- caixa de texto com cursor piscando ---------- */
+function caixaTexto(x, y, w, linhas, t, cursorOn) { const lh = 46, h = Math.max(1, linhas.length) * lh + 26; g.fillStyle = "rgba(0,0,0,.3)"; rr(x + 5, y + 6, w, h, 12); g.fill();
+  g.fillStyle = "#fff"; rr(x, y, w, h, 12); g.fill(); g.strokeStyle = "#0f172a"; g.lineWidth = 3; rr(x, y, w, h, 12); g.stroke();
+  g.fillStyle = "#0f172a"; g.font = `700 34px ${F}`; g.textAlign = "left"; g.textBaseline = "alphabetic";
+  linhas.forEach((l, i) => g.fillText(l, x + 22, y + 48 + i * lh));
+  if (cursorOn !== false && Math.floor(t * 2.4) % 2 === 0) { const ul = linhas[linhas.length - 1] || "", cw = g.measureText(ul).width; g.fillStyle = "#0f172a"; g.fillRect(x + 24 + cw, y + 18 + (linhas.length - 1) * lh, 4, 38); } }
+
+/* ---------- área de trabalho, ícones e barra de tarefas no estilo do Windows 11 ---------- */
+function papelParede(x, y, w, h) { const gr = g.createLinearGradient(x, y, x + w, y + h); gr.addColorStop(0, "#1d4ed8"); gr.addColorStop(.55, "#3b82f6"); gr.addColorStop(1, "#93c5fd"); g.fillStyle = gr; g.fillRect(x, y, w, h);
+  g.save(); g.globalAlpha = .35; g.fillStyle = "#bfdbfe"; g.beginPath(); g.ellipse(x + w * .72, y + h * .62, w * .35, h * .26, -.4, 0, 7); g.fill(); g.globalAlpha = .25; g.beginPath(); g.ellipse(x + w * .6, y + h * .7, w * .3, h * .2, -.4, 0, 7); g.fill(); g.restore(); }
+function iconeApp(tipo, x, y, s) { g.save(); g.translate(x, y); g.scale(s, s);
+  if (tipo === "pasta") { g.fillStyle = "#f59e0b"; rr(-22, -16, 18, 8, 3); g.fill(); g.fillStyle = "#fbbf24"; rr(-22, -12, 44, 30, 5); g.fill(); g.fillStyle = "#fcd34d"; rr(-22, -4, 44, 22, 5); g.fill(); }
+  else if (tipo === "jogo") { g.fillStyle = VD; rr(-20, -20, 40, 40, 9); g.fill(); estrela(0, 0, 12); }
+  else if (tipo === "lixeira") { g.fillStyle = "#e2e8f0"; g.strokeStyle = "#334155"; g.lineWidth = 3; rr(-15, -12, 30, 32, 4); g.fill(); g.stroke(); g.fillRect(-19, -18, 38, 6); g.strokeRect(-19, -18, 38, 6); }
+  else if (tipo === "web") { g.fillStyle = "#0ea5e9"; g.beginPath(); g.arc(0, 0, 19, 0, 7); g.fill(); g.strokeStyle = "#fff"; g.lineWidth = 2.5; g.beginPath(); g.ellipse(0, 0, 8, 19, 0, 0, 7); g.moveTo(-19, 0); g.lineTo(19, 0); g.stroke(); }
+  else if (tipo === "win") { g.fillStyle = "#38bdf8"; [[-17, -17], [1, -17], [-17, 1], [1, 1]].forEach(([a, b]) => rr(a, b, 16, 16, 2) || g.fill()); }
+  else if (tipo === "notas") { g.fillStyle = "#fff"; g.strokeStyle = "#334155"; g.lineWidth = 2.5; rr(-15, -19, 30, 38, 4); g.fill(); g.stroke(); g.fillStyle = "#38bdf8"; g.fillRect(-15, -19, 30, 8); }
+  g.restore(); }
+function iconeMesa(tipo, nome, x, y, sel, k) { if (k === 0) return; g.save(); g.globalAlpha = k == null ? 1 : cl(k);
+  if (sel) { g.fillStyle = "rgba(147,197,253,.55)"; rr(x - 52, y - 44, 104, 104, 8); g.fill(); g.strokeStyle = "#dbeafe"; g.lineWidth = 2; rr(x - 52, y - 44, 104, 104, 8); g.stroke(); }
+  iconeApp(tipo, x, y - 8, 1.45); g.font = `700 16px ${F}`; g.textAlign = "center"; g.textBaseline = "middle"; g.lineWidth = 4; g.strokeStyle = "rgba(0,0,0,.6)"; g.strokeText(nome, x, y + 40); g.fillStyle = "#fff"; g.fillText(nome, x, y + 40); g.restore(); }
+function barraWin(x, y, w, o) { o = o || {}; const h = 58; g.fillStyle = "rgba(226,232,240,.96)"; g.fillRect(x, y, w, h); g.fillStyle = "#cbd5e1"; g.fillRect(x, y, w, 2);
+  const cx = x + w / 2; const itens = [["win", -186], ["busca", -118], ["pasta", 2], ["web", 56], ["jogo", 110]];
+  itens.forEach(([tp, dx]) => { const ix = cx + dx; const destaque = (o.luz || {})[tp];
+    if (destaque) { g.fillStyle = "rgba(250,204,21,.55)"; rr(ix - 30, y + 5, tp === "busca" ? 150 : 60, h - 10, 8); g.fill(); }
+    if (tp === "busca") { g.fillStyle = "#fff"; rr(ix - 24, y + 13, 140, 32, 16); g.fill(); g.strokeStyle = "#94a3b8"; g.lineWidth = 1.5; rr(ix - 24, y + 13, 140, 32, 16); g.stroke(); g.strokeStyle = "#334155"; g.lineWidth = 2.5; g.beginPath(); g.arc(ix - 4, y + 28, 7, 0, 7); g.moveTo(ix + 1, y + 33); g.lineTo(ix + 7, y + 39); g.stroke(); g.fillStyle = "#475569"; g.font = `600 15px ${F}`; g.textAlign = "left"; g.textBaseline = "middle"; g.fillText("Pesquisar", ix + 14, y + 30); return; }
+    if (tp === "jogo" && !o.jogoAberto && !o.jogoNaBarra) return;
+    iconeApp(tp, ix, y + h / 2 - 2, tp === "win" ? .95 : .9);
+    if ((tp === "jogo" && o.jogoAberto) || (tp === "pasta" && o.pastaAberta)) { g.fillStyle = o.jogoAtivo && tp === "jogo" ? AZ : "#64748b"; rr(ix - (o.jogoAtivo ? 10 : 4), y + h - 8, o.jogoAtivo ? 20 : 8, 4, 2); g.fill(); } });
+  const rx = x + w - 14; g.fillStyle = "#0f172a"; g.font = `600 15px ${F}`; g.textAlign = "right"; g.textBaseline = "middle"; g.fillText("10:30", rx, y + 20); g.fillText("16/11/2026", rx, y + 40);
+  if ((o.luz || {}).relogio) { g.strokeStyle = AMAR; g.lineWidth = 4; rr(rx - 96, y + 4, 100, h - 8, 8); g.stroke(); }
+  g.strokeStyle = "#0f172a"; g.lineWidth = 2.5; const ix = rx - 130; g.beginPath(); g.arc(ix, y + 36, 12, -2.4, -.75); g.arc(ix, y + 36, 6, -2.4, -.75); g.stroke(); // wi-fi
+  g.beginPath(); g.moveTo(ix + 24, y + 26); g.lineTo(ix + 30, y + 26); g.lineTo(ix + 37, y + 20); g.lineTo(ix + 37, y + 40); g.lineTo(ix + 30, y + 34); g.lineTo(ix + 24, y + 34); g.closePath(); g.stroke(); // som
+  return h; }
+function desktop(x, y, w, h, o) { o = o || {}; g.save(); rr(x, y, w, h, 10); g.clip(); papelParede(x, y, w, h);
+  const ic = o.icones || [["lixeira", "Lixeira"], ["pasta", "Trabalhos"], ["jogo", "Jogo da escola"]];
+  const passo = Math.min(120, (h - 110) / ic.length); ic.forEach(([tp, n], i) => iconeMesa(tp, n, x + 70, y + 60 + i * passo, o.sel === i, (o.iconesK || [])[i]));
+  if (o.antes) o.antes();
+  barraWin(x, y + h - 58, w, o.barra); g.restore(); g.strokeStyle = "#0f172a"; g.lineWidth = 4; rr(x, y, w, h, 10); g.stroke(); }
+function monitorPC(x, y, w, h, tela) { g.fillStyle = "rgba(0,0,0,.35)"; rr(x - 18 + 8, y - 18 + 10, w + 36, h + 36, 18); g.fill(); g.fillStyle = "#111827"; rr(x - 18, y - 18, w + 36, h + 36, 18); g.fill();
+  g.fillStyle = "#374151"; g.fillRect(x + w / 2 - 30, y + h + 18, 60, 40); rr(x + w / 2 - 110, y + h + 52, 220, 16, 8); g.fill(); g.save(); g.beginPath(); g.rect(x, y, w, h); g.clip(); tela(x, y, w, h); g.restore(); }
+
+/* ---------- janela no estilo do Windows 11, botões grandes e com contraste ---------- */
+function janelaWin(x, y, w, h, titulo, o) { o = o || {}; g.save(); g.fillStyle = "rgba(0,0,0,.35)"; rr(x + 8, y + 10, w, h, 12); g.fill();
+  g.fillStyle = "#fff"; rr(x, y, w, h, 12); g.fill(); g.fillStyle = "#e2e8f0"; rr(x, y, w, 48, 12); g.fill(); g.fillRect(x, y + 30, w, 18);
+  g.strokeStyle = "#0f172a"; g.lineWidth = 3; rr(x, y, w, h, 12); g.stroke(); g.beginPath(); g.moveTo(x, y + 48); g.lineTo(x + w, y + 48); g.stroke();
+  iconeApp(o.icone || "jogo", x + 28, y + 24, .62); g.fillStyle = "#0f172a"; g.font = `700 18px ${F}`; g.textAlign = "left"; g.textBaseline = "middle"; g.fillText(titulo, x + 52, y + 25);
+  const bw = 58; ["min", "max", "x"].forEach((b, i) => { const bx = x + w - bw * (3 - i), by = y; const hv = o.hover === b, lz = o.luz === b;
+    if (hv) { g.fillStyle = b === "x" ? "#e81123" : "#cbd5e1"; if (b === "x") { g.save(); rr(x, y, w, 48, 12); g.clip(); g.fillRect(bx, by, bw, 48); g.restore(); } else g.fillRect(bx, by + 1, bw, 46); }
+    g.strokeStyle = hv && b === "x" ? "#fff" : "#0f172a"; g.lineWidth = 2.5; const cx = bx + bw / 2, cy = by + 24;
+    g.beginPath(); if (b === "min") { g.moveTo(cx - 9, cy); g.lineTo(cx + 9, cy); } else if (b === "max") { if (o.maximizada) { g.rect(cx - 6, cy - 9, 13, 13); g.moveTo(cx - 9, cy - 4); g.lineTo(cx - 9, cy + 8); g.lineTo(cx + 3, cy + 8); } else g.rect(cx - 8, cy - 8, 16, 16); } else { g.moveTo(cx - 8, cy - 8); g.lineTo(cx + 8, cy + 8); g.moveTo(cx + 8, cy - 8); g.lineTo(cx - 8, cy + 8); } g.stroke();
+    if (lz) anel(cx, cy, 30, o.t || 0, AMAR); });
+  if (o.conteudo) { g.save(); g.beginPath(); g.rect(x + 3, y + 50, w - 6, h - 53); g.clip(); o.conteudo(x, y + 48, w, h - 48); g.restore(); }
+  g.restore(); return { min: [x + w - 58 * 2.5, y + 24], max: [x + w - 58 * 1.5, y + 24], x: [x + w - 29, y + 24] }; }
+function jogoConteudo(x, y, w, h, t) { g.fillStyle = "#dcfce7"; g.fillRect(x, y, w, h); const s = Math.min(w, h) / 200;
+  estrela(x + w * .25, y + h * .4, 22 * s); estrela(x + w * .55, y + h * .65, 18 * s, "#38bdf8"); estrela(x + w * .78, y + h * .32, 20 * s, "#f472b6");
+  g.fillStyle = VD; g.beginPath(); g.arc(x + w / 2 + Math.sin(t * 2) * w * .25, y + h * .78, 12 * s, 0, 7); g.fill(); }
+function menuCtx(x, y, itens, hover, k) { if (k <= 0) return; g.save(); g.globalAlpha = cl(k); const w = 250, lh = 42; g.fillStyle = "rgba(0,0,0,.3)"; rr(x + 6, y + 8, w, itens.length * lh + 14, 10); g.fill();
+  g.fillStyle = "#fff"; rr(x, y, w, itens.length * lh + 14, 10); g.fill(); g.strokeStyle = "#0f172a"; g.lineWidth = 2.5; rr(x, y, w, itens.length * lh + 14, 10); g.stroke();
+  itens.forEach((it, i) => { if (hover === i) { g.fillStyle = "#bfdbfe"; rr(x + 6, y + 7 + i * lh, w - 12, lh, 6); g.fill(); } g.fillStyle = "#0f172a"; g.font = `600 19px ${F}`; g.textAlign = "left"; g.textBaseline = "middle"; g.fillText(it, x + 20, y + 7 + i * lh + lh / 2); });
+  g.restore(); }
+
+const FL = [
+ "Primeiros passos: o mistério da janela que sumiu!",
+ "O Pedro chegou do quinto ano e nunca tinha usado um computador. Ele abriu o jogo da escola, clicou num botãozinho e a janela sumiu! Ele achou que tinha apagado tudo. Calma, Pedro! Hoje você vai aprender, passo a passo, a conversar com o computador.",
+ "Para conversar com o computador, usamos duas peças: o mouse e o teclado. Com o mouse, você aponta e clica. Com o teclado, você escreve.",
+ "Primeiro, o mouse. Coloque a mão em cima dele, com o dedo indicador no botão da esquerda e o dedo do meio no botão da direita. Quando você arrasta o mouse na mesa, a setinha da tela anda junto. Essa setinha se chama ponteiro.",
+ "O botão da esquerda é o mais usado. Apertar e soltar uma vez é o clique: ele escolhe uma coisa. Veja: o ícone clicado fica marcado de azul.",
+ "Agora, dois cliques bem rapidinho, sem mexer o mouse: é o duplo clique. Ele abre pastas e programas. Se você clicar devagar demais, o computador entende como dois cliques separados, e nada abre.",
+ "O botão da direita mostra um menu com mais opções. Depois, é só escolher a opção com um clique do botão da esquerda.",
+ "No meio do mouse fica a rodinha. Girando para baixo, a página desce. Girando para cima, a página sobe.",
+ "E para arrastar: aperte o botão da esquerda, segure, leve a coisa até outro lugar e só então solte. Assim você muda um arquivo de lugar.",
+ "Agora, o teclado. Ele tem letras, números e algumas teclas especiais. Vamos achar as mais importantes.",
+ "A barra de espaço é a tecla mais comprida, lá embaixo, no meio do teclado. Você aperta com o polegar. Ela coloca um espaço entre uma palavra e outra.",
+ "O Enter fica do lado direito das letras. É uma tecla grande, com uma setinha que desce e vira para a esquerda. Ele pula para a linha de baixo e também confirma o que você digitou.",
+ "Bem em cima do Enter fica o Backspace, com uma setinha apontando para trás. Ele apaga a letra que está antes do cursor, uma de cada vez. Errou? Calma: aperte o Backspace e digite de novo.",
+ "O Shift tem uma seta grossa para cima, e existe um de cada lado do teclado. Segure o Shift e aperte uma letra: ela sai maiúscula. Solte o Shift, e as letras voltam a sair minúsculas.",
+ "Atenção para não confundir: o ponteiro é a setinha do mouse. O cursor é o tracinho que pisca dentro do texto, mostrando onde a próxima letra vai aparecer.",
+ "Quando o computador liga, aparece a área de trabalho. Lá embaixo fica a barra de tarefas: o botão Iniciar, com o símbolo do Windows, a pesquisa, os programas abertos e, no canto, o relógio.",
+ "Todo programa abre numa janela. Em cima fica a barra de título, com o nome do programa. No canto de cima, à direita, ficam três botões.",
+ "O tracinho é o minimizar: ele esconde a janela na barra de tarefas, mas o programa continua aberto.",
+ "O quadradinho é o maximizar: a janela cresce e ocupa a tela toda. Clicando de novo, ela volta ao tamanho de antes.",
+ "E o xis, que fica vermelho quando o ponteiro passa em cima, é o fechar: ele fecha o programa de verdade.",
+ "Agora o mistério está resolvido! O Pedro tinha clicado em minimizar. A janela foi para a barra de tarefas, lá embaixo, e o ícone do jogo ganhou um tracinho, mostrando que ele estava aberto. Um clique no ícone, e o jogo voltou. Ufa!",
+ "Onde eu uso isso? No celular, tocar na tela é como clicar, e segurar o dedo é como o botão direito. No caixa eletrônico e no totem da lanchonete, você também aperta botões na tela.",
+ "Agora é com vocês: abram a Missão 1 no portal e treinem no computador de mentira, com o robô Bit!"
+];
+const E = (i, w, n) => em(FL[i], w, n);
+
+const CENAS = [
+ // 0 — abertura: a janela do jogo some girando para dentro da barra de tarefas
+ { chip: "", fala: FL[0], sfx: [[.05, "whoosh"], [1.0, "click"], [1.3, "misterio"], [2.4, "pop"]],
+   draw(t) { fundoEscuro(t, "#1e3a8a");
+     monitorPC(390, 180, 500, 290, (x, y, w, h) => { papelParede(x, y, w, h); const k = io(seg(t, 1.0, 1.8));
+       if (k < 1) { g.save(); g.translate(lerp(x + w / 2, x + w / 2 + 50, k), lerp(y + 130, y + h - 20, k)); g.scale(1 - k, 1 - k); janelaWin(-170, -100, 340, 200, "Jogo da escola", { hover: t > .8 && t < 1.05 ? "min" : null, conteudo: (a, b, c, d) => jogoConteudo(a, b, c, d, t) }); g.restore(); }
+       else { g.save(); g.setLineDash([12, 9]); g.strokeStyle = "#fff"; g.lineWidth = 3; rr(x + 80, y + 30, 340, 200, 12); g.stroke(); g.restore(); }
+       barraWin(x, y + h - 58, w, { jogoAberto: true }); });
+     if (t > 1.7) texto2("?", 640, 300, 120 * back(seg(t, 1.7, 2.1)), AMAR);
+     abertura(t, "6º ANO · MISSÃO 1", "Primeiros passos: mouse, teclado e janelas", "O MISTÉRIO DA", "JANELA QUE SUMIU!", 2.0); } },
+ // 1 — o problema do Pedro
+ { chip: "O PROBLEMA", fala: FL[1], sfx: [[.1, "whoosh"], [E(1, "clicou"), "click"], [E(1, "sumiu"), "alerta"], [E(1, "Calma"), "ding"]],
+   draw(t) { fundoEscuro(t, "#1e3a8a"); const tc = E(1, "clicou"), ts = E(1, "sumiu"), k = io(seg(t, ts - .2, ts + .5));
+     monitorPC(560, 110, 560, 320, (x, y, w, h) => { papelParede(x, y, w, h); if (k < 1) { g.save(); g.translate(lerp(x + w / 2, x + w / 2 + 110, k), lerp(y + 140, y + h - 20, k)); g.scale(1 - k, 1 - k); janelaWin(-200, -110, 400, 220, "Jogo da escola", { hover: t > tc - .3 && t < ts ? "min" : null, conteudo: (a, b, c, d) => jogoConteudo(a, b, c, d, t) }); g.restore(); if (t > tc - .9 && t < ts) cursor(lerp(x + w / 2 + 60, x + w / 2 + 110, seg(t, tc - .9, tc - .2)), y + 40, t > tc); }
+       barraWin(x, y + h - 58, w, { jogoAberto: true }); });
+     if (t < 1.6) placa("PEDRO · veio do 5º ano", 300, 140, seg(t, .3, .7), LJ, 22);
+     pedro({ x: 290, y: 560, s: 1.05, braco: t > ts ? -2.4 : -.8, bracoE: t > ts ? 2.4 : .3, olhar: 1, boca: t > ts ? "o" : "", pisca: pisca(t) });
+     if (t > ts + .2 && t < E(1, "Calma")) balao("Apaguei tudo?!", 320, 170, seg(t, ts + .2, ts + .6));
+     if (t > E(1, "Calma")) palavra("PASSO A PASSO!", 840, 520, seg(t, E(1, "passo"), E(1, "passo") + .4), 56); } },
+ // 2 — mouse e teclado
+ { chip: "AS DUAS PEÇAS", fala: FL[2], sfx: [[.1, "whoosh"], [E(2, "mouse"), "pop"], [E(2, "teclado"), "pop"], [E(2, "aponta"), "click"], [E(2, "escreve"), "click"]],
+   draw(t) { fundoEscuro(t, "#0e7490"); const tm = E(2, "mouse"), tt = E(2, "teclado");
+     const km = back(seg(t, tm, tm + .4)); if (km > 0) { mouseTopo(260, 330, .9 * km, { esq: t > E(2, "clica") && Math.floor(t * 4) % 2 }); placa("MOUSE: aponta e clica", 260, 120, seg(t, E(2, "aponta"), E(2, "aponta") + .4), AZ, 24); }
+     const kt = back(seg(t, tt, tt + .4)); if (kt > 0) { tecladoABNT(830, 340, .78 * kt, {}); placa("TECLADO: escreve", 810, 160, seg(t, E(2, "escreve"), E(2, "escreve") + .4), VD, 24); }
+     if (t > E(2, "escreve")) caixaTexto(640, 470, 330, ["Oi!".slice(0, Math.floor((t - E(2, "escreve")) * 4))], t); } },
+ // 3 — como segurar o mouse; ponteiro anda junto
+ { chip: "SEGURANDO O MOUSE", fala: FL[3], sfx: [[.1, "whoosh"], [E(3, "indicador"), "pop"], [E(3, "meio"), "pop"], [E(3, "arrasta"), "whoosh"], [E(3, "ponteiro"), "ding"]],
+   draw(t) { fundoEscuro(t, "#3b1c6e"); const ti = E(3, "indicador"), tm = E(3, "meio"), ta = E(3, "arrasta"), tp = E(3, "ponteiro");
+     const dx = t > ta ? Math.sin((t - ta) * 2.2) * 70 : 0, dy = t > ta ? Math.cos((t - ta) * 2.2) * 30 - 30 : 0;
+     g.fillStyle = "#7c5a3c"; rr(70, 470, 440, 26, 8); g.fill(); placa("MESA", 290, 520, t > ta ? 1 : 0, "#7c5a3c", 18);
+     mouseTopo(290 + dx, 330 + dy, .85, { esq: t > ti && t < tm + .3, dir: t > tm && t < tm + .9 }); if (t > E(3, "mão")) maoMouse(290 + dx, 360 + dy, .82 * out(seg(t, E(3, "mão"), E(3, "mão") + .4)));
+     rotulo2("INDICADOR: botão da esquerda", 300, 110, 255 + dx, 255 + dy, seg(t, ti, ti + .4), AZ, 20);
+     if (t > tm) rotulo2("DEDO DO MEIO: botão da direita", 300, 168, 325 + dx, 262 + dy, seg(t, tm, tm + .4), RS, 20);
+     monitorPC(660, 120, 520, 300, (x, y, w, h) => { papelParede(x, y, w, h); const px = x + 250 + dx * 1.6, py = y + 140 + dy * 1.6; cursor(px, py, false); if (t > tp) anel(px + 8, py + 14, 30, t, AMAR); });
+     if (t > ta) flecha(470, 470, 640, 330, seg(t, ta, ta + .5), AMAR);
+     if (t > tp) { palavra("PONTEIRO", 920, 500, seg(t, tp, tp + .4), 64); } } },
+ // 4 — o clique
+ { chip: "O CLIQUE", fala: FL[4], sfx: [[.1, "whoosh"], [E(4, "Apertar"), "click"], [E(4, "Veja"), "click"], [E(4, "azul"), "ding"]],
+   draw(t) { fundoEscuro(t, "#1e3a8a"); const ta = E(4, "Apertar"), tv = E(4, "Veja");
+     const ap = (t > ta && t < ta + .25) || (t > tv && t < tv + .25);
+     mouseTopo(230, 330, .85, { esq: true, esqCor: ap ? AMAR : AZ }); placa(ap ? "CLIQUE!" : "BOTÃO DA ESQUERDA", 230, 120, 1, ap ? LJ : AZ, 22);
+     if (t > ta) placa("1× apertar e soltar = ESCOLHE", 230, 520, seg(t, ta, ta + .4), AZ, 22);
+     monitorPC(560, 110, 620, 340, (x, y, w, h) => { desktop(x, y, w, h, { sel: t > tv + .05 ? 2 : -1 }); const cx = lerp(x + 380, x + 70, io(seg(t, tv - 1, tv - .1))), cy = lerp(y + 120, y + 300, io(seg(t, tv - 1, tv - .1))); cursor(cx, cy, ap);
+       if (t > tv + .1) rotulo2("MARCADO DE AZUL", x + 330, y + 240, x + 130, y + 300, seg(t, tv + .1, tv + .5), AZ, 20); }); } },
+ // 5 — duplo clique
+ { chip: "O DUPLO CLIQUE", fala: FL[5], sfx: [[.1, "whoosh"], [E(5, "dois"), "click"], [E(5, "dois") + .18, "click"], [E(5, "abre"), "pop"], [E(5, "devagar"), "click"], [E(5, "devagar") + 1.1, "click"], [E(5, "nada"), "erro"]],
+   draw(t) { fundoEscuro(t, "#14532d"); const td = E(5, "dois"), tab = E(5, "abre"), tdv = E(5, "devagar");
+     const pisc = (t0, gap) => (t > t0 && t < t0 + .14) || (t > t0 + gap && t < t0 + gap + .14);
+     const ap = t < tdv ? pisc(td, .2) || pisc(tab - .1, .2) : pisc(tdv + .1, 1.1);
+     mouseTopo(220, 330, .85, { esq: true, esqCor: ap ? AMAR : AZ });
+     placa(t < tdv ? "CLIQUE-CLIQUE rapidinho!" : "clique ..... clique (devagar)", 220, 120, 1, t < tdv ? VD : VM, 21);
+     monitorPC(560, 110, 620, 340, (x, y, w, h) => { const aberta = t > tab && t < tdv; desktop(x, y, w, h, { sel: t > td ? 1 : -1, barra: { pastaAberta: aberta } });
+       cursor(x + 74, y + 186, ap);
+       if (aberta) { const k = back(seg(t, tab, tab + .4)); g.save(); g.translate(x + 360, y + 150); g.scale(k, k); janelaWin(-190, -110, 380, 220, "Trabalhos", { icone: "pasta", conteudo: (a, b, c, d) => { g.fillStyle = "#fff"; g.fillRect(a, b, c, d); iconeApp("notas", a + 60, b + 60, 1.2); iconeApp("notas", a + 150, b + 60, 1.2); } }); g.restore(); } });
+     if (t > tab && t < tdv) placa("ABRIU!", 870, 520, seg(t, tab, tab + .4), VD, 28);
+     if (t > tdv) { xVermelho(870, 260, 60, seg(t, E(5, "nada"), E(5, "nada") + .3)); placa("devagar demais: NADA ABRE", 870, 520, seg(t, E(5, "nada"), E(5, "nada") + .4), VM, 24); } } },
+ // 6 — botão direito e menu
+ { chip: "O BOTÃO DIREITO", fala: FL[6], sfx: [[.1, "whoosh"], [E(6, "direita"), "click"], [E(6, "menu"), "pop"], [E(6, "escolher"), "click"]],
+   draw(t) { fundoEscuro(t, "#701a75"); const td = E(6, "direita"), tmn = E(6, "menu"), te = E(6, "escolher");
+     mouseTopo(220, 330, .85, { dir: t > td && t < td + .5, esq: t > te + .4 && t < te + .7, esqCor: AMAR, dirCor: t > td && t < td + .25 ? AMAR : RS });
+     placa(t < te ? "BOTÃO DA DIREITA" : "agora: botão da ESQUERDA", 220, 120, 1, t < te ? RS : AZ, 21);
+     monitorPC(560, 110, 620, 340, (x, y, w, h) => { desktop(x, y, w, h, { sel: t > td ? 1 : -1 }); const hv = t > te ? Math.min(2, Math.floor((t - te) * 4)) : -1;
+       if (t > tmn - .3) menuCtx(x + 150, y + 120, ["Abrir", "Renomear", "Copiar", "Excluir", "Propriedades"], hv, seg(t, tmn - .3, tmn));
+       cursor(t > te ? x + 170 : x + 92, t > te ? y + 145 + Math.max(0, hv) * 42 : y + 200, t > te + .4 && t < te + .7); });
+     if (t > tmn) rotulo2("MAIS OPÇÕES", 960, 520, 830, 300, seg(t, tmn, tmn + .4), RS, 22); } },
+ // 7 — rodinha
+ { chip: "A RODINHA", fala: FL[7], sfx: [[.1, "whoosh"], [E(7, "rodinha"), "pop"], [E(7, "baixo"), "whoosh"], [E(7, "cima"), "whoosh"]],
+   draw(t) { fundoEscuro(t, "#7c2d12"); const tr = E(7, "rodinha"), tb = E(7, "baixo"), tc = E(7, "cima");
+     const dir = t > tc ? -1 : t > tb ? 1 : 0, giro = t * (dir || 0);
+     mouseTopo(240, 330, .95, { roda: t > tr, giro }); if (t > tr) rotulo2("RODINHA", 440, 160, 252, 260, seg(t, tr, tr + .4), LJ, 24);
+     if (t > tb) texto2(dir > 0 ? "▼ desce" : "▲ sobe", 240, 520, 34, AMAR);
+     const rol = t > tc ? lerp(260, 0, io(seg(t, tc, tc + 1.6))) : lerp(0, 260, io(seg(t, tb, tb + 1.8)));
+     monitorPC(600, 110, 560, 340, (x, y, w, h) => { g.fillStyle = "#fff"; g.fillRect(x, y, w, h); g.fillStyle = "#0f172a"; g.font = `800 26px ${F}`; g.textAlign = "left"; g.textBaseline = "alphabetic";
+       g.save(); g.translate(0, -rol); g.fillText("📖 A história do computador", x + 30, y + 50);
+       for (let i = 0; i < 16; i++) { g.fillStyle = i % 4 === 3 ? "#bfdbfe" : "#cbd5e1"; rr(x + 30, y + 80 + i * 34, i % 4 === 3 ? 300 : 480 - (i % 3) * 60, 16, 8); g.fill(); }
+       g.restore(); g.fillStyle = "#e2e8f0"; g.fillRect(x + w - 18, y, 18, h); g.fillStyle = "#64748b"; rr(x + w - 15, y + 6 + rol / 260 * (h - 120), 12, 108, 6); g.fill(); }); } },
+ // 8 — arrastar
+ { chip: "ARRASTAR", fala: FL[8], sfx: [[.1, "whoosh"], [E(8, "aperte"), "click"], [E(8, "segure"), "pop"], [E(8, "solte"), "ding"]],
+   draw(t) { fundoEscuro(t, "#1e3a8a"); const ta = E(8, "aperte"), tl = E(8, "leve"), ts = E(8, "solte");
+     const k = io(seg(t, tl, ts)), segura = t > ta && t < ts;
+     mouseTopo(200, 330, .8, { esq: segura, esqCor: AMAR }); placa(segura ? "SEGURANDO..." : t > ts ? "SOLTOU!" : "botão da esquerda", 200, 120, 1, segura ? LJ : t > ts ? VD : AZ, 22);
+     const passos = [["1", "APERTE", ta, AZ], ["2", "SEGURE e LEVE", tl, LJ], ["3", "SOLTE", ts, VD]];
+     passos.forEach(([n, tx, t0, c], i) => placa(n + ". " + tx, 200, 470 + i * 0 + 0, 0, c)); // (os passos aparecem na tela, abaixo)
+     monitorPC(500, 110, 680, 340, (x, y, w, h) => { papelParede(x, y, w, h); iconeMesa("pasta", "Trabalhos", x + 520, y + 140, t > ts && t < ts + 1, 1);
+       const ax = lerp(x + 120, x + 520, k), ay = lerp(y + 140, y + 140, k) - Math.sin(k * Math.PI) * 60;
+       if (t < ts + .2) { g.save(); g.globalAlpha = segura ? .8 : 1; iconeMesa("notas", "redação", ax, ay, segura, 1); g.restore(); }
+       cursor(ax + 14, ay + 10, segura); if (segura && k > .05) { g.save(); g.setLineDash([8, 8]); g.strokeStyle = AMAR; g.lineWidth = 4; g.beginPath(); g.moveTo(x + 120, y + 140); g.lineTo(ax, ay); g.stroke(); g.restore(); }
+       if (t > ts + .3) placa("guardado na pasta!", x + 520, y + 260, seg(t, ts + .3, ts + .7), VD, 20); });
+     passos.forEach(([n, tx, t0, c], i) => placa(n + ". " + tx, 640 + i * 200, 520, seg(t, t0, t0 + .4), c, 20)); } },
+ // 9 — o teclado inteiro
+ { chip: "O TECLADO", fala: FL[9], sfx: [[.1, "whoosh"], [E(9, "letras"), "pop"], [E(9, "números"), "pop"], [E(9, "especiais"), "pop"]],
+   draw(t) { fundoEscuro(t, "#14532d"); const tl = E(9, "letras"), tn = E(9, "números"), te = E(9, "especiais"); const cores = {};
+     if (t > tl) "QWERTYUIOPASDFGHJKLÇZXCVBNM".split("").forEach(c => cores[c] = AZ);
+     if (t > tn) "1234567890".split("").forEach(c => cores[c] = VD);
+     if (t > te) Object.assign(cores, { espaco: LJ, enter: RX, back: VM, shiftE: RS, shiftD: RS });
+     const s = 1.05 * back(seg(t, 0, .5)); tecladoABNT(640, 270, s, { cores });
+     placa("LETRAS", 360, 470, seg(t, tl, tl + .4), AZ, 22); placa("NÚMEROS", 640, 470, seg(t, tn, tn + .4), VD, 22); placa("TECLAS ESPECIAIS", 930, 470, seg(t, te, te + .4), LJ, 22); } },
+ // 10 — barra de espaço
+ { chip: "BARRA DE ESPAÇO", fala: FL[10], sfx: [[.1, "whoosh"], [E(10, "comprida"), "pop"], [E(10, "polegar"), "click"], [E(10, "espaço", 1), "click"]],
+   draw(t) { fundoEscuro(t, "#7c2d12"); const tc = E(10, "comprida"), tp = E(10, "polegar"), te = E(10, "espaço", 1);
+     const ap = (t > te && t < te + .25); const s = .95; tecladoABNT(640, 240, s, { apagar: true, cores: t > tc ? { espaco: LJ } : {}, apert: { espaco: ap } });
+     const [ex, ey] = kc("espaco", 640, 240, s); if (t > tc) { anel(ex, ey, 80, t, AMAR); rotulo2("a mais comprida: lá embaixo, no meio", 900, 450, ex + 60, ey + 24, seg(t, tc, tc + .4), LJ, 21); }
+     if (t > tp) { g.save(); g.translate(ex + 10, ey + 50); g.fillStyle = PELE; g.strokeStyle = "#7c4a1e"; g.lineWidth = 4; g.rotate(-.3); rr(-20, -46, 40, 70, 20); g.fill(); g.stroke(); g.restore(); placa("POLEGAR", ex + 130, ey + 34, seg(t, tp, tp + .4), "#92400e", 18); }
+     const txt = t > te + .1 ? (t > te + .6 ? "oi pedro" : "oi ") : "oi"; caixaTexto(120, 410, 420, [txt], t);
+     if (t > te + .1) { g.fillStyle = "rgba(234,88,12,.45)"; rr(185, 425, 18, 44, 4); g.fill(); placa("o espaço!", 194, 400, seg(t, te + .1, te + .5), LJ, 17); } } },
+ // 11 — Enter
+ { chip: "ENTER", fala: FL[11], sfx: [[.1, "whoosh"], [E(11, "direito"), "pop"], [E(11, "setinha"), "pop"], [E(11, "pula"), "click"], [E(11, "confirma"), "ding"]],
+   draw(t) { fundoEscuro(t, "#4c1d95"); const td = E(11, "direito"), ts = E(11, "setinha"), tp = E(11, "pula"), tc = E(11, "confirma");
+     const ap = (t > tp && t < tp + .25) || (t > tc && t < tc + .25), s = .95; tecladoABNT(600, 240, s, { apagar: true, cores: t > td ? { enter: RX } : {}, apert: { enter: ap } });
+     const [ex, ey] = kc("enter", 600, 240, s); if (t > td) { anel(ex, ey, 56, t, AMAR); rotulo2("ENTER ↵", 1140, 250, ex + 30, ey, seg(t, td, td + .4), RX, 26); }
+     if (t > ts && t < tc) placa("setinha que desce e vira para a esquerda", 900, 430, seg(t, ts, ts + .4), "#334155", 19);
+     const linhas = t > tp + .1 ? ["Meu nome é Pedro.", "Eu gosto de futebol."].slice(0, t > tp + .7 ? 2 : 1).concat(t > tp + .7 ? [] : [""]) : ["Meu nome é Pedro."];
+     caixaTexto(150, 400, 480, t > tp + .1 && t < tp + .7 ? ["Meu nome é Pedro.", ""] : linhas, t);
+     if (t > tp) placa("pula de linha", 390, 392, seg(t, tp, tp + .4), RX, 18);
+     if (t > tc) { g.fillStyle = "#fff"; rr(700, 420, 430, 54, 27); g.fill(); g.strokeStyle = "#0f172a"; g.lineWidth = 3; rr(700, 420, 430, 54, 27); g.stroke(); g.fillStyle = "#0f172a"; g.font = `700 24px ${F}`; g.textAlign = "left"; g.textBaseline = "middle"; g.fillText("🔍  jogos de matemática", 722, 448);
+       placa("Enter = CONFIRMA (pesquisa)", 915, 510, seg(t, tc, tc + .4), VD, 20); } } },
+ // 12 — Backspace
+ { chip: "BACKSPACE", fala: FL[12], sfx: [[.1, "whoosh"], [E(12, "cima"), "pop"], [E(12, "apaga"), "click"], [E(12, "apaga") + .4, "click"], [E(12, "Errou"), "erro"], [E(12, "digite"), "click"]],
+   draw(t) { fundoEscuro(t, "#7f1d1d"); const tc = E(12, "cima"), ta = E(12, "apaga"), te = E(12, "Errou"), tdg = E(12, "digite"), s = .95;
+     const apertos = [ta, ta + .4, te + .5, te + .8].some(x => t > x && t < x + .2); const s2 = 0;
+     tecladoABNT(590, 240, s, { apagar: true, cores: t > tc ? { back: VM, enter: "#6d28d9" } : {}, apert: { back: apertos } });
+     const [bx, by] = kc("back", 590, 240, s), [ex, ey] = kc("enter", 590, 240, s);
+     if (t > tc) { anel(bx, by, 50, t, AMAR); rotulo2("BACKSPACE ⟵", 1130, 140, bx + 44, by, seg(t, tc, tc + .4), VM, 24); placa("fica em cima do ENTER", 1120, 330, seg(t, tc + .3, tc + .7), "#6d28d9", 19); flecha(ex + 36, ey + 30, bx + 30, by + 22, seg(t, tc + .3, tc + .8), "#fff"); }
+     let txt = "Pedro"; if (t > ta) txt = "Pedr"; if (t > ta + .4) txt = "Ped"; if (t > ta + 1) txt = "Pedro"; if (t > te) txt = "Peddro"; if (t > te + .5) txt = "Pedd"; if (t > te + .8) txt = "Ped"; if (t > tdg) txt = "Pedro".slice(0, 3 + Math.min(2, Math.floor((t - tdg) * 3)));
+     caixaTexto(160, 410, 380, [txt], t); if (t > te && t < te + .5) placa("ERROU: Peddro", 800, 446, 1, VM, 22); if (t > ta && t < te) placa("apaga 1 letra por vez", 800, 446, seg(t, ta, ta + .4), "#334155", 22); if (t > tdg) placa("e digita de novo", 800, 446, seg(t, tdg, tdg + .4), VD, 22); } },
+ // 13 — Shift
+ { chip: "SHIFT", fala: FL[13], sfx: [[.1, "whoosh"], [E(13, "seta"), "pop"], [E(13, "cada"), "pop"], [E(13, "Segure"), "click"], [E(13, "Solte"), "click"]],
+   draw(t) { fundoEscuro(t, "#831843"); const tsa = E(13, "seta"), tl = E(13, "cada"), tsg = E(13, "Segure"), tso = E(13, "Solte"), s = .95;
+     const seg2 = t > tsg && t < tso; tecladoABNT(640, 240, s, { apagar: true, cores: t > tsa ? Object.assign({ shiftE: RS }, t > tl ? { shiftD: RS } : {}, seg2 ? { P: AZ } : {}) : {}, apert: { shiftE: seg2, P: seg2 && Math.floor(t * 3) % 2 } });
+     const [lx, ly] = kc("shiftE", 640, 240, s), [rx2, ry] = kc("shiftD", 640, 240, s);
+     if (t > tsa) { anel(lx, ly, 46, t, AMAR); rotulo2("SHIFT ⇧", 160, 420, lx - 10, ly + 24, seg(t, tsa, tsa + .4), RS, 26); }
+     if (t > tl) { anel(rx2, ry, 46, t, AMAR); rotulo2("SHIFT ⇧", 1120, 420, rx2 + 10, ry + 24, seg(t, tl, tl + .4), RS, 26); }
+     const txt = t > tso ? "Pedro" : t > tsg + .4 ? "P" : ""; caixaTexto(440, 400, 400, [txt], t);
+     if (seg2) placa("Shift + p = P (maiúscula)", 640, 510, seg(t, tsg, tsg + .4), AZ, 21); if (t > tso) placa("soltou: “edro” em minúsculas", 640, 510, seg(t, tso, tso + .4), VD, 21); } },
+ // 14 — ponteiro x cursor
+ { chip: "NÃO CONFUNDA!", fala: FL[14], sfx: [[.1, "whoosh"], [E(14, "ponteiro"), "pop"], [E(14, "cursor"), "pop"]],
+   draw(t) { fundoEscuro(t, "#1e3a8a"); const tp = E(14, "ponteiro"), tc = E(14, "cursor");
+     monitorPC(240, 120, 800, 330, (x, y, w, h) => { g.fillStyle = "#fff"; g.fillRect(x, y, w, h); caixaTexto(x + 60, y + 150, 520, ["Eu gosto de jogar"], t, t > tc ? true : true);
+       const px = x + 640 + Math.sin(t * 1.8) * 40, py = y + 80 + Math.cos(t * 1.8) * 20; g.save(); g.translate(px, py); g.scale(1.6, 1.6); cursor(0, 0, false); g.restore();
+       if (t > tp) anel(px + 12, py + 22, 44, t, AZ); if (t > tc) { g.font = `700 34px ${F}`; const cw = g.measureText("Eu gosto de jogar").width; anel(x + 86 + cw, y + 190, 34, t, VD); } });
+     if (t > tp) rotulo2("PONTEIRO: a setinha do mouse", 330, 90, 880, 200, seg(t, tp, tp + .4), AZ, 22);
+     if (t > tc) rotulo2("CURSOR: o tracinho que pisca", 700, 520, 680, 330, seg(t, tc, tc + .4), VD, 22); } },
+ // 15 — área de trabalho e barra de tarefas
+ { chip: "A BARRA DE TAREFAS", fala: FL[15], sfx: [[.1, "whoosh"], [E(15, "área"), "pop"], [E(15, "barra"), "pop"], [E(15, "Iniciar"), "pop"], [E(15, "pesquisa"), "pop"], [E(15, "abertos"), "pop"], [E(15, "relógio"), "ding"]],
+   draw(t) { fundoEscuro(t, "#0f172a"); const ta = E(15, "área"), tb = E(15, "barra"), ti = E(15, "Iniciar"), tps = E(15, "pesquisa"), tab = E(15, "abertos"), tr = E(15, "relógio");
+     const x = 80, y = 100, w = 1120, h = 420; const luz = { win: t > ti && t < tps, busca: t > tps && t < tab, pasta: t > tab && t < tr, web: t > tab && t < tr, jogo: t > tab && t < tr, relogio: t > tr };
+     desktop(x, y, w, h, { barra: { luz, jogoAberto: true, pastaAberta: true } });
+     if (t > ta && t < tb) placa("ÁREA DE TRABALHO", 640, 250, seg(t, ta, ta + .4), AZ, 28);
+     if (t > tb && t < ti) rotulo2("BARRA DE TAREFAS", 640, 380, 640, y + h - 40, seg(t, tb, tb + .4), LJ, 26);
+     const cx = x + w / 2, by = y + h - 29;
+     if (t > ti) rotulo2("INICIAR (símbolo do Windows)", 330, 300, cx - 186, by - 18, seg(t, ti, ti + .4), AZ, 23);
+     if (t > tps) rotulo2("PESQUISA", 560, 236, cx - 60, by - 22, seg(t, tps, tps + .4), RX, 23);
+     if (t > tab) rotulo2("PROGRAMAS ABERTOS", 860, 300, cx + 60, by - 20, seg(t, tab, tab + .4), VD, 23);
+     if (t > tr) rotulo2("RELÓGIO e DATA", 1040, 380, x + w - 60, by - 20, seg(t, tr, tr + .4), "#334155", 23); } },
+ // 16 — a janela e a barra de título
+ { chip: "A JANELA", fala: FL[16], sfx: [[.1, "whoosh"], [E(16, "janela"), "pop"], [E(16, "título"), "pop"], [E(16, "três"), "ding"]],
+   draw(t) { fundoEscuro(t, "#1e3a8a"); const tj = E(16, "janela"), tt = E(16, "título"), t3 = E(16, "três");
+     const k = back(seg(t, tj, tj + .5)); if (k <= 0) return; g.save(); g.translate(640, 320); g.scale(k, k);
+     const B = janelaWin(-380, -200, 760, 400, "Jogo da escola", { conteudo: (a, b, c, d) => jogoConteudo(a, b, c, d, t), luz: null }); g.restore();
+     if (t > tt) { g.save(); g.strokeStyle = AMAR; g.lineWidth = 5; g.setLineDash([12, 8]); rr(256, 116, 768, 56, 12); g.stroke(); g.restore(); rotulo2("BARRA DE TÍTULO: o nome do programa", 470, 76, 400, 120, seg(t, tt, tt + .4), "#334155", 21); }
+     if (t > t3) { g.save(); g.strokeStyle = AMAR; g.lineWidth = 6; rr(1020 - 174, 120, 174, 48, 10); g.stroke(); g.restore(); rotulo2("3 BOTÕES", 1120, 260, 940, 172, seg(t, t3, t3 + .4), LJ, 24); } } },
+ // 17 — minimizar
+ { chip: "MINIMIZAR", fala: FL[17], sfx: [[.1, "whoosh"], [E(17, "tracinho"), "pop"], [E(17, "esconde"), "whoosh"], [E(17, "continua"), "ding"]],
+   draw(t) { fundoEscuro(t, "#0f172a"); const tr = E(17, "tracinho"), te = E(17, "esconde"), tc = E(17, "continua");
+     const x = 120, y = 90, w = 1040, h = 440; const k = io(seg(t, te, te + .9));
+     desktop(x, y, w, h, { barra: { jogoAberto: true, jogoAtivo: k < 1, luz: { jogo: t > tc } }, antes: () => {
+       if (k < 1) { g.save(); g.translate(lerp(x + w / 2, x + w / 2 + 110, k), lerp(y + 190, y + h - 30, k)); g.scale(1 - k * .95, 1 - k * .95);
+         janelaWin(-330, -150, 660, 300, "Jogo da escola", { luz: t > tr && t < te ? "min" : null, hover: t > te - .3 && t < te ? "min" : null, t, conteudo: (a, b, c, d) => jogoConteudo(a, b, c, d, t) }); g.restore(); } } });
+     if (t > tr && t < te + .3) { rotulo2("MINIMIZAR ( — )", 900, 80, x + w / 2 + 330 - 58 * 2.5, y + 190 - 150 + 22, seg(t, tr, tr + .4), AZ, 22); cursor(x + w / 2 + 330 - 58 * 2.5 + 4, y + 190 - 150 + 30, t > te - .15 && t < te); }
+     if (t > te + .6) rotulo2("foi para a BARRA DE TAREFAS", 860, 400, x + w / 2 + 110, y + h - 34, seg(t, te + .6, te + 1), AZ, 21);
+     if (t > tc) placa("o programa CONTINUA ABERTO (tem o tracinho)", 520, 250, seg(t, tc, tc + .4), VD, 22); } },
+ // 18 — maximizar e restaurar
+ { chip: "MAXIMIZAR", fala: FL[18], sfx: [[.1, "whoosh"], [E(18, "quadradinho"), "pop"], [E(18, "cresce"), "whoosh"], [E(18, "Clicando"), "click"], [E(18, "volta"), "whoosh"]],
+   draw(t) { fundoEscuro(t, "#0f172a"); const tq = E(18, "quadradinho"), tcr = E(18, "cresce"), tcl = E(18, "Clicando"), tv = E(18, "volta");
+     const x = 120, y = 90, w = 1040, h = 440; const kM = io(seg(t, tcr, tcr + .7)) * (1 - io(seg(t, tv, tv + .7)));
+     desktop(x, y, w, h, { barra: { jogoAberto: true, jogoAtivo: true }, antes: () => {
+       const jw = lerp(560, w, kM), jh = lerp(270, h - 58, kM), jx = lerp(x + 240, x, kM), jy = lerp(y + 50, y, kM);
+       const B = janelaWin(jx, jy, jw, jh, "Jogo da escola", { maximizada: kM > .5, luz: (t > tq && t < tcr) || (t > tcl && t < tv) ? "max" : null, hover: (t > tcr - .3 && t < tcr) || (t > tv - .3 && t < tv) ? "max" : null, t, conteudo: (a, b, c, d) => jogoConteudo(a, b, c, d, t) });
+       if ((t > tq && t < tcr + .2) || (t > tcl && t < tv + .2)) cursor(B.max[0] + 3, B.max[1] + 6, (t > tcr - .15 && t < tcr) || (t > tv - .15 && t < tv)); } });
+     if (t > tq && t < tcr) rotulo2("MAXIMIZAR ( ☐ )", 520, 470, x + 240 + 560 - 58 * 1.5, y + 50 + 30, seg(t, tq, tq + .4), VD, 22);
+     if (t > tcr + .5 && t < tcl) placa("OCUPA A TELA TODA", 640, 300, seg(t, tcr + .5, tcr + .9), VD, 30);
+     if (t > tcl) placa("de novo: volta ao tamanho de antes", 640, 300, seg(t, tcl, tcl + .4), "#334155", 19); } },
+ // 19 — fechar
+ { chip: "FECHAR", fala: FL[19], sfx: [[.1, "whoosh"], [E(19, "vermelho"), "pop"], [E(19, "fechar"), "click"], [E(19, "verdade"), "whoosh"]],
+   draw(t) { fundoEscuro(t, "#0f172a"); const tv = E(19, "vermelho"), tf = E(19, "fechar"), tvd = E(19, "verdade");
+     const x = 120, y = 90, w = 1040, h = 440; const kf = seg(t, tf + .2, tf + .7); const fechou = kf >= 1;
+     desktop(x, y, w, h, { barra: { jogoAberto: !fechou, jogoAtivo: !fechou }, antes: () => {
+       if (!fechou) { g.save(); g.globalAlpha = 1 - kf; g.translate(x + w / 2, y + 200); g.scale(1 - kf * .1, 1 - kf * .1);
+         const B = janelaWin(-300, -150, 600, 290, "Jogo da escola", { hover: t > tv ? "x" : null, luz: t > tv ? "x" : null, t, conteudo: (a, b, c, d) => jogoConteudo(a, b, c, d, t) }); g.restore();
+         cursor(lerp(x + w / 2, x + w / 2 + 300 - 29 + 4, io(seg(t, .2, tv))), lerp(y + 260, y + 200 - 150 + 30, io(seg(t, .2, tv))), t > tf && t < tf + .2); } } });
+     if (t > tv && !fechou) rotulo2("FECHAR ( ✕ ) fica VERMELHO", 640, 440, x + w / 2 + 271, y + 84, seg(t, tv, tv + .4), VM, 22);
+     if (fechou) { placa("PROGRAMA FECHADO (sumiu da barra de tarefas)", 640, 300, seg(t, tf + .7, tf + 1.1), VM, 22); } } },
+ // 20 — a solução
+ { chip: "A SOLUÇÃO", fala: FL[20], sfx: [[.1, "whoosh"], [E(20, "minimizar"), "ding"], [E(20, "tracinho"), "pop"], [E(20, "clique"), "click"], [E(20, "Ufa"), "festa"]],
+   draw(t) { fundoEscuro(t, "#1e3a8a"); const tm = E(20, "minimizar"), ttr = E(20, "tracinho"), tcq = E(20, "clique"), tvt = E(20, "voltou");
+     const x = 280, y = 90, w = 900, h = 420, cx = x + w / 2 + 110, by = y + h - 29; const k = io(seg(t, tcq, tvt));
+     desktop(x, y, w, h, { barra: { jogoAberto: true, jogoAtivo: k > .5, luz: { jogo: t > ttr && t < tcq + .3 } }, antes: () => {
+       if (k > 0) { g.save(); g.translate(lerp(cx, x + w / 2, k), lerp(by, y + 180, k)); g.scale(k, k); janelaWin(-260, -130, 520, 260, "Jogo da escola", { conteudo: (a, b, c, d) => jogoConteudo(a, b, c, d, t) }); g.restore(); } } });
+     if (t > tm && t < tcq) palavra("ELE MINIMIZOU!", x + w / 2, 230, seg(t, tm, tm + .4), 60);
+     if (t > ttr && t < tcq) rotulo2("o TRACINHO = programa aberto", x + w / 2 - 120, 400, cx, by + 18, seg(t, ttr, ttr + .4), VD, 20);
+     if (t > tcq - .7 && t < tvt + .3) cursor(lerp(cx + 120, cx + 2, io(seg(t, tcq - .7, tcq))), lerp(by - 120, by - 4, io(seg(t, tcq - .7, tcq))), t > tcq && t < tcq + .2);
+     pedro({ x: 150, y: 560, s: .9, braco: t > tvt ? -2.6 : -.6, bracoE: t > tvt ? 2.6 : .3, olhar: 1, boca: t > tvt ? "riso" : "", pisca: pisca(t) });
+     if (t > E(20, "Ufa")) { palavra("UFA!", 640, 90, seg(t, E(20, "Ufa"), E(20, "Ufa") + .4), 90); confete(t, E(20, "Ufa")); } } },
+ // 21 — onde eu uso isso?
+ { chip: "ONDE EU USO ISSO?", fala: FL[21], sfx: [[.1, "whoosh"], [E(21, "celular"), "pop"], [E(21, "tocar"), "click"], [E(21, "segurar"), "pop"], [E(21, "caixa"), "pop"], [E(21, "totem"), "pop"]],
+   draw(t) { fundoEscuro(t, "#0e7490"); const a = E(21, "celular"), b = E(21, "tocar"), c = E(21, "segurar"), d = E(21, "caixa"), e = E(21, "totem");
+     const kc2 = back(seg(t, a, a + .4)); if (kc2 > 0) { g.save(); g.translate(250, 320); g.scale(kc2 * .85, kc2 * .85); celular(0, 0, 1, () => { g.fillStyle = "#38bdf8"; [[-40, -90], [40, -90], [-40, -10], [40, -10]].forEach(([x, y]) => { rr(x - 26, y - 26, 52, 52, 12); g.fill(); }); }); g.restore();
+       if (t > b) { const toque = t > c ? 1 : (Math.floor((t - b) * 3) % 2); g.fillStyle = `rgba(250,204,21,${.3 + .4 * toque})`; g.beginPath(); g.arc(216, 244, 24 + 10 * toque, 0, 7); g.fill(); maoApontando(240, 280, -1.9, .7); } }
+     placa("TOCAR = CLICAR", 250, 490, seg(t, b, b + .4) * (t < c ? 1 : 0), AZ, 22); if (t > c) placa("SEGURAR = BOTÃO DIREITO", 250, 490, seg(t, c, c + .4), RS, 22);
+     const ke = back(seg(t, d, d + .4)); if (ke > 0) { g.save(); g.translate(660, 320); g.scale(ke * .9, ke * .9); g.fillStyle = "#0f766e"; rr(-90, -150, 180, 300, 16); g.fill(); g.fillStyle = "#ccfbf1"; rr(-66, -120, 132, 96, 8); g.fill(); g.fillStyle = "#0f766e"; g.font = `800 16px ${F}`; g.textAlign = "center"; g.fillText("SAQUE", -30, -82); g.fillText("SALDO", 30, -82); g.fillStyle = "#134e4a"; for (let r = 0; r < 3; r++) for (let c3 = 0; c3 < 3; c3++) { rr(-48 + c3 * 34, -4 + r * 30, 28, 22, 4); g.fill(); } g.restore(); placa("CAIXA ELETRÔNICO", 660, 490, seg(t, d + .2, d + .6), "#0f766e", 20); }
+     const kt = back(seg(t, e, e + .4)); if (kt > 0) { g.save(); g.translate(1040, 320); g.scale(kt * .9, kt * .9); g.fillStyle = "#b91c1c"; rr(-80, -170, 160, 320, 14); g.fill(); g.fillStyle = "#fff"; rr(-62, -150, 124, 190, 8); g.fill(); g.font = `800 34px ${F}`; g.textAlign = "center"; g.fillText("🍔", -30, -95); g.fillText("🥤", 30, -95); g.fillText("🍟", -30, -30); g.fillText("🍦", 30, -30); g.restore(); placa("TOTEM DA LANCHONETE", 1040, 490, seg(t, e + .2, e + .6), VM, 20); }
+     palavra("ONDE EU USO ISSO?", 640, 110, seg(t, 0, .4), 50); } },
+ // 22 — fim
+ { chip: "", fala: FL[22], sfx: [[.1, "whoosh"], [1.0, "festa"]],
+   draw(t) { fimCartao(t, "6º ano · 1º bimestre de 2027 · Missão 1", [PEDRO, LARA]); } }
+];
+
+
+/* ================= tempo das cenas ================= */
+// Sem o MP3: estimativa pelo número de palavras. Com o MP3: window.DURS = [...] (segundos de cada cena, vindos das pausas da voz).
+const est = f => Math.max(4.2, f.split(/\s+/).length / 2.55 + 1.3);
+let DUR = CENAS.map((s, i) => (window.DURS && window.DURS[i]) || est(s.fala));
+function inicio() { const a = [0]; DUR.forEach(d => a.push(a[a.length - 1] + d)); return a; }
+let INI = inicio(), T = INI[INI.length - 1];
+window.definirDuracoes = d => { DUR = d; INI = inicio(); T = INI[INI.length - 1]; window.T = T; };
+
+function legenda(txt, k) { // legenda embaixo, acendendo palavra por palavra
+  const pal = txt.split(" "), n = Math.floor(pal.length * cl(k * 1.08)); g.font = `700 26px ${F}`;
+  const linhas = [[]]; let w = 0; pal.forEach((p, i) => { const pw = g.measureText(p + " ").width; if (w + pw > 1080) { linhas.push([]); w = 0; } linhas[linhas.length - 1].push([p, i]); w += pw; });
+  const lh = 36, y0 = H - 22 - linhas.length * lh; g.fillStyle = "rgba(10,16,36,.72)"; rr(70, y0 - 10, W - 140, linhas.length * lh + 18, 14); g.fill();
+  linhas.forEach((ln, j) => { const tw = ln.reduce((s, [p]) => s + g.measureText(p + " ").width, 0); let x = (W - tw) / 2; ln.forEach(([p, i]) => { g.fillStyle = i < n ? "#fff" : "rgba(255,255,255,.45)"; g.textAlign = "left"; g.fillText(p, x, y0 + 18 + j * lh); x += g.measureText(p + " ").width; }); });
+}
+function render(t) {
+  g.setTransform(1, 0, 0, 1, 0, 0); g.globalAlpha = 1; g.textBaseline = "alphabetic";
+  let i = INI.findIndex((s, k) => t >= s && t < INI[k + 1]); if (i < 0) i = CENAS.length - 1;
+  const tl = t - INI[i], D = DUR[i], cena = CENAS[i];
+  // as animações foram pensadas no tempo estimado; com a voz real, o tempo da cena estica ou encolhe junto
+  const esc = est(cena.fala) / D, tt = tl * esc;
+  g.save(); cena.draw(tt, D); g.restore();
+  g.setTransform(1, 0, 0, 1, 0, 0); g.globalAlpha = 1; g.textAlign = "left";
+  if (cena.chip) chip(cena.chip, 0, tt);
+  selo(t);
+  if (i > 0 && i < CENAS.length - 1) legenda(cena.legenda || cena.fala, tl / Math.max(.1, D - .9));
+  // transição suave
+  const tr = cl(1 - tl / .25); if (i > 0 && tr > 0) { g.fillStyle = `rgba(13,22,49,${tr})`; g.fillRect(0, 0, W, H); }
+}
+window.listaSfx = () => { const o = []; CENAS.forEach((s, i) => (s.sfx || []).forEach(([tt, tipo]) => o.push([INI[i] + tt * DUR[i] / est(s.fala), tipo]))); return o; };
+window.render = render; window.T = T; window.CENAS = CENAS;
+document.fonts.load(`800 40px Poppins`).then(() => { window.pronto = true; render(0); });
+</script></body></html>
