@@ -5,7 +5,7 @@ em cada troca de parágrafo (sem esticar a voz); 4) grava, gera música/efeitos 
 import sys, os, re, json, math, subprocess, shutil
 import numpy as np
 from scipy.io import wavfile
-pasta, mp3, saida = sys.argv[1:4]; so = "--so-alinhar" in sys.argv
+pasta, mp3, saida = sys.argv[1:4]; saida = os.path.abspath(saida); so = "--so-alinhar" in sys.argv
 os.makedirs(f"{pasta}/voz", exist_ok=True); shutil.copy(mp3, f"{pasta}/voz/voz.mp3")
 run = lambda c: subprocess.run(c, shell=True, check=True, capture_output=True, text=True)
 END = float(run(f"ffprobe -v error -show_entries format=duration -of csv=p=0 {pasta}/voz/voz.mp3").stdout)
