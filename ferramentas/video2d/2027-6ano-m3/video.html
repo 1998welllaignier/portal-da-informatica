@@ -1,0 +1,294 @@
+<!doctype html><html><head><meta charset="utf-8"><title>6º ano · Missão 3 · v4</title>
+<style>html,body{margin:0;background:#000}canvas{display:block}</style></head><body>
+<canvas id="c" width="1280" height="720"></canvas>
+<script>const W = 1280, H = 720, c = document.getElementById("c"), g = c.getContext("2d"); const F = "Poppins, 'DejaVu Sans', sans-serif"; window.SELO_SERIE = "6º ano · 1º bimestre 2027";</script>
+<script src="../lib.js"></script>
+<script>
+/* ================= peças de cenário ================= */
+const NAVY = "#14213d", AZUL = "#2f7be0", AMAR = "#ffd23f", ROSA = "#ff6fa5", VERDE = "#2fc26f";
+const ANA = { camisa: ROSA, cabelo: "longo" };
+const ana = o => boneco(Object.assign({}, ANA, o));
+function fundoSala(t) {
+  g.fillStyle = "#f6e7c8"; g.fillRect(0, 0, W, H);
+  g.fillStyle = "#e9d3a6"; g.fillRect(0, 500, W, 220);
+  g.fillStyle = "#2f5d4a"; rr(120, 70, 520, 250, 14); g.fill(); g.strokeStyle = "#b07a3c"; g.lineWidth = 12; g.stroke();
+  g.fillStyle = "rgba(255,255,255,.75)"; g.font = `700 30px ${F}`; g.textAlign = "left"; g.fillText("Informática", 160, 130);
+  g.fillStyle = "#fff"; g.beginPath(); g.arc(1090, 120, 46, 0, 7); g.fill(); g.strokeStyle = NAVY; g.lineWidth = 6; g.stroke();
+  g.beginPath(); g.moveTo(1090, 120); g.lineTo(1090, 92); g.moveTo(1090, 120); g.lineTo(1112, 128); g.stroke();
+}
+function mesa(x, y) { g.fillStyle = "#b07a3c"; g.fillRect(x - 230, y, 460, 26); g.fillStyle = "#8a5a28"; g.fillRect(x - 210, y + 26, 20, 190); g.fillRect(x + 190, y + 26, 20, 190); }
+function monitor(x, y, s, tela) { // tela(x0,y0,w,h)
+  g.save(); g.translate(x, y); g.scale(s, s);
+  g.fillStyle = "#2b2f3a"; rr(-150, -200, 300, 190, 16); g.fill();
+  g.fillStyle = "#3a3f4d"; g.fillRect(-14, -12, 28, 34); rr(-70, 18, 140, 14, 7); g.fill();
+  g.save(); rr(-136, -186, 272, 160, 8); g.clip(); g.fillStyle = "#eaf6ff"; g.fillRect(-136, -186, 272, 160); if (tela) tela(-136, -186, 272, 160); g.restore();
+  g.restore();
+}
+function teclado(x, y, s, pressK) {
+  g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = "#3a3f4d"; rr(-130, -20, 260, 46, 10); g.fill();
+  g.fillStyle = "#e9edf5"; for (let r = 0; r < 3; r++) for (let k = 0; k < 11; k++) { rr(-120 + k * 22, -14 + r * 13, 18, 10, 2); g.fill(); }
+  g.restore();
+}
+function mouse(x, y, s) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = "#e9edf5"; g.beginPath(); g.ellipse(0, 0, 22, 32, 0, 0, 7); g.fill(); g.strokeStyle = "#3a3f4d"; g.lineWidth = 3; g.stroke(); g.beginPath(); g.moveTo(0, -32); g.lineTo(0, -6); g.stroke(); g.restore(); }
+function microfone(x, y, s) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = "#3a3f4d"; rr(-18, -60, 36, 62, 18); g.fill(); g.strokeStyle = "#3a3f4d"; g.lineWidth = 6; g.beginPath(); g.arc(0, -20, 30, .1 * Math.PI, .9 * Math.PI); g.stroke(); g.beginPath(); g.moveTo(0, 10); g.lineTo(0, 34); g.moveTo(-20, 34); g.lineTo(20, 34); g.stroke(); g.restore(); }
+function gabinete(x, y, s, luz) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = "#2b2f3a"; rr(-60, -200, 120, 200, 12); g.fill(); g.fillStyle = "#3a3f4d"; rr(-44, -184, 88, 18, 4); g.fill(); rr(-44, -158, 88, 18, 4); g.fill(); g.fillStyle = luz ? "#3dff8b" : "#555"; g.beginPath(); g.arc(0, -40, 9, 0, 7); g.fill(); g.restore(); }
+function caixaSom(x, y, s, t) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = "#2b2f3a"; rr(-40, -110, 80, 110, 12); g.fill(); g.fillStyle = "#555"; g.beginPath(); g.arc(0, -40, 26, 0, 7); g.fill(); g.beginPath(); g.arc(0, -88, 12, 0, 7); g.fill();
+  if (t != null) { g.strokeStyle = AMAR; g.lineWidth = 5; for (let i = 0; i < 3; i++) { const r = 40 + ((t * 60 + i * 22) % 66); g.globalAlpha = 1 - (r - 40) / 66; g.beginPath(); g.arc(30, -50, r, -.6, .6); g.stroke(); } g.globalAlpha = 1; } g.restore(); }
+function impressora(x, y, s, k) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = "#fff"; g.fillRect(-50, -70 + 60 * (1 - k), 100, 70); g.strokeStyle = "#ccd"; g.lineWidth = 3; for (let i = 0; i < 3; i++) { g.beginPath(); g.moveTo(-34, -50 + i * 16 + 60 * (1 - k)); g.lineTo(34, -50 + i * 16 + 60 * (1 - k)); g.stroke(); }
+  g.fillStyle = "#3a3f4d"; rr(-90, -40, 180, 80, 14); g.fill(); g.fillStyle = "#2b2f3a"; g.fillRect(-60, 0, 120, 10); g.fillStyle = "#3dff8b"; g.beginPath(); g.arc(66, -20, 6, 0, 7); g.fill(); g.restore(); }
+function celular(x, y, s, tela) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = "#1c1f27"; rr(-80, -160, 160, 320, 26); g.fill(); g.save(); rr(-70, -146, 140, 292, 16); g.clip(); g.fillStyle = "#dff3ff"; g.fillRect(-70, -146, 140, 292); if (tela) tela(); g.restore(); g.restore(); }
+function pasta(x, y, s, cor, nome, aberta) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = cor || "#f5b82e"; rr(-60, -50, 50, 20, 6); g.fill(); rr(-60, -40, 120, 84, 10); g.fill(); if (aberta) { g.fillStyle = "#ffd977"; g.beginPath(); g.moveTo(-60, 44); g.lineTo(-44, -12); g.lineTo(70, -12); g.lineTo(60, 44); g.fill(); }
+  if (nome) { g.fillStyle = NAVY; g.font = `800 22px ${F}`; g.textAlign = "center"; g.fillText(nome, 0, 74); } g.restore(); }
+function arquivo(x, y, s, rot, cor, txt) { g.save(); g.translate(x, y); g.rotate(rot || 0); g.scale(s, s); g.fillStyle = "#fff"; g.beginPath(); g.moveTo(-34, -44); g.lineTo(18, -44); g.lineTo(34, -28); g.lineTo(34, 44); g.lineTo(-34, 44); g.closePath(); g.fill(); g.strokeStyle = cor || AZUL; g.lineWidth = 4; g.stroke();
+  g.fillStyle = cor || AZUL; g.fillRect(-22, -14, 44, 6); g.fillRect(-22, 0, 44, 6); g.fillRect(-22, 14, 30, 6); if (txt) { g.font = `800 16px ${F}`; g.textAlign = "center"; g.fillText(txt, 0, 36); } g.restore(); }
+function desenhoAna(x0, y0, w, h, k) { // sol, casa e grama, aparecendo conforme k
+  if (k <= 0) return; g.save(); g.lineCap = "round";
+  g.fillStyle = "#7ed957"; g.fillRect(x0, y0 + h * .78, w * cl(k * 3), h * .22);
+  if (k > .25) { const kk = cl((k - .25) * 3); g.fillStyle = "#ffcc33"; g.beginPath(); g.arc(x0 + w * .8, y0 + h * .25, 22 * kk, 0, 7); g.fill(); }
+  if (k > .5) { const kk = cl((k - .5) * 3); g.fillStyle = "#e8553d"; g.globalAlpha = kk; g.fillRect(x0 + w * .22, y0 + h * .48, w * .32, h * .3); g.fillStyle = "#8a3b20"; g.beginPath(); g.moveTo(x0 + w * .18, y0 + h * .5); g.lineTo(x0 + w * .38, y0 + h * .26); g.lineTo(x0 + w * .58, y0 + h * .5); g.fill(); }
+  g.restore();
+}
+function cursor(x, y, clique) { g.save(); g.translate(x, y); g.fillStyle = "#fff"; g.strokeStyle = "#111"; g.lineWidth = 2.5; g.beginPath(); g.moveTo(0, 0); g.lineTo(0, 30); g.lineTo(8, 23); g.lineTo(14, 36); g.lineTo(19, 34); g.lineTo(13, 21); g.lineTo(23, 21); g.closePath(); g.fill(); g.stroke();
+  if (clique > 0 && clique < 1) { g.strokeStyle = `rgba(255,210,63,${1 - clique})`; g.lineWidth = 4; g.beginPath(); g.arc(0, 0, 10 + clique * 30, 0, 7); g.stroke(); } g.restore(); }
+function seta(x1, y1, x2, y2, k, cor) { if (k <= 0) return; const x = lerp(x1, x2, k), y = lerp(y1, y2, k), an = Math.atan2(y2 - y1, x2 - x1); g.strokeStyle = cor || "#fff"; g.fillStyle = cor || "#fff"; g.lineWidth = 7; g.lineCap = "round"; g.beginPath(); g.moveTo(x1, y1); g.lineTo(x, y); g.stroke();
+  g.beginPath(); g.moveTo(x + 6 * Math.cos(an), y + 6 * Math.sin(an)); g.lineTo(x - 20 * Math.cos(an - .5), y - 20 * Math.sin(an - .5)); g.lineTo(x - 20 * Math.cos(an + .5), y - 20 * Math.sin(an + .5)); g.fill(); }
+function pacotes(x1, y1, x2, y2, t, n, cor) { g.save(); g.globalCompositeOperation = "lighter"; for (let i = 0; i < n; i++) { const k = ((t * .9 + i / n) % 1), x = lerp(x1, x2, k), y = lerp(y1, y2, k); const gr = g.createRadialGradient(x, y, 0, x, y, 24); gr.addColorStop(0, cor || "rgba(140,240,255,1)"); gr.addColorStop(1, "rgba(60,190,255,0)"); g.fillStyle = gr; g.beginPath(); g.arc(x, y, 24, 0, 7); g.fill(); } g.restore(); }
+function cartao(txt, x, y, w, cor, k, sub) { if (k <= 0) return; const s = back(cl(k)); g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = cor; g.shadowColor = "rgba(0,0,0,.25)"; g.shadowBlur = 14; rr(-w / 2, -56, w, 112, 22); g.fill(); g.shadowBlur = 0;
+  g.fillStyle = "#fff"; g.font = `800 34px ${F}`; g.textAlign = "center"; g.textBaseline = "middle"; g.fillText(txt, 0, sub ? -14 : 0); if (sub) { g.font = `600 19px ${F}`; g.fillText(sub, 0, 24); } g.restore(); }
+function fundoEscuro(t, cor) { const gr = g.createLinearGradient(0, 0, 0, H); gr.addColorStop(0, cor || "#1b2c5a"); gr.addColorStop(1, "#0d1631"); g.fillStyle = gr; g.fillRect(0, 0, W, H);
+  g.fillStyle = "rgba(255,255,255,.05)"; for (let i = 0; i < 40; i++) { const x = (rnd(i) * W + t * 10 * (1 + rnd(i + 3))) % W, y = rnd(i + 9) * H; g.beginPath(); g.arc(x, y, 2 + rnd(i + 1) * 3, 0, 7); g.fill(); } }
+function confete(t, t0) { const k = t - t0; if (k < 0 || k > 2.6) return; for (let i = 0; i < 70; i++) { const x = rnd(i) * W + Math.sin(k * 3 + i) * 30, y = -20 + k * (220 + rnd(i + 4) * 260) - rnd(i + 8) * 200; g.save(); g.translate(x, y); g.rotate(k * 5 + i); g.fillStyle = [AMAR, ROSA, VERDE, AZUL, "#fff"][i % 5]; g.fillRect(-6, -3, 12, 6); g.restore(); } }
+function maoApontando(x, y, ang, s, espelho, manga) { // mãozinha de desenho animado; ponta do indicador em (x,y)
+  g.save(); g.translate(x, y); g.rotate(ang); g.scale(s, espelho ? -s : s);
+  const PELE = "#f6cfa8", CONT = "#b9825c";
+  const partes = () => { // mesmas formas para o contorno e para o preenchimento
+    rr(-76, -12, 76, 24, 12); g.fill();                                   // indicador
+    g.beginPath(); g.ellipse(-98, 12, 40, 34, 0, 0, 7); g.fill();          // palma
+    g.beginPath(); g.ellipse(-66, 26, 20, 23, 0, 0, 7); g.fill();          // dedos dobrados
+    g.beginPath(); g.ellipse(-84, -14, 24, 12, -.35, 0, 7); g.fill();      // polegar
+  };
+  // punho da camiseta
+  g.fillStyle = CONT; rr(-176, -26, 54, 76, 16); g.fill();
+  g.fillStyle = manga || ROSA; rr(-172, -22, 46, 68, 13); g.fill();
+  g.fillStyle = "#ffffff"; rr(-134, -24, 14, 72, 7); g.fill();
+  // contorno macio (mesmas formas, um pouco maiores, por baixo)
+  g.save(); g.fillStyle = CONT; g.strokeStyle = CONT; g.lineWidth = 7; g.lineJoin = "round";
+  [[-76,-12,76,24]].forEach(()=>{}); g.translate(0, 0);
+  const contorno = () => { rr(-79, -15, 82, 30, 15); g.fill(); g.beginPath(); g.ellipse(-98, 12, 44, 38, 0, 0, 7); g.fill(); g.beginPath(); g.ellipse(-66, 26, 24, 27, 0, 0, 7); g.fill(); g.beginPath(); g.ellipse(-84, -14, 28, 16, -.35, 0, 7); g.fill(); };
+  contorno(); g.restore();
+  g.fillStyle = PELE; partes();
+  // dobrinhas dos dedos e unha
+  g.strokeStyle = CONT; g.lineWidth = 3; g.lineCap = "round";
+  [[14, 18], [27, 30], [39, 40]].forEach(([a, b]) => { g.beginPath(); g.moveTo(-78, a); g.quadraticCurveTo(-64, a + 5, -50, b); g.stroke(); });
+  g.beginPath(); g.moveTo(-70, -2); g.lineTo(-60, -2); g.stroke();
+  g.fillStyle = "rgba(255,255,255,.55)"; g.beginPath(); g.ellipse(-12, -3, 7, 5, 0, 0, 7); g.fill();
+  g.fillStyle = "rgba(255,255,255,.35)"; g.beginPath(); g.ellipse(-104, 0, 14, 9, -.4, 0, 7); g.fill();
+  g.fillStyle = "rgba(240,120,120,.25)"; g.beginPath(); g.ellipse(-110, 26, 12, 8, 0, 0, 7); g.fill();
+  g.restore();
+}
+const pisca = (t, p) => (t % (p || 2.3)) < .11;
+
+/* ================= peças extras do 7º ano ================= */
+const LEO = { camisa: AZUL }, BIA = { camisa: "#22c55e", cabelo: "longo" };
+const leo = o => boneco(Object.assign({}, LEO, o)), bia = o => boneco(Object.assign({}, BIA, o));
+function roteador(x, y, s, t, bone) { g.save(); g.translate(x, y); g.scale(s, s);
+  g.strokeStyle = "#3a3f4d"; g.lineWidth = 7; g.lineCap = "round"; g.beginPath(); g.moveTo(-40, -30); g.lineTo(-52, -80); g.moveTo(40, -30); g.lineTo(52, -80); g.stroke();
+  g.fillStyle = "#e9edf5"; rr(-80, -34, 160, 56, 14); g.fill(); g.strokeStyle = "#94a3b8"; g.lineWidth = 3; g.stroke();
+  for (let i = 0; i < 4; i++) { g.fillStyle = (Math.floor((t || 0) * 6) + i) % 3 ? "#22c55e" : "#bbf7d0"; g.beginPath(); g.arc(-48 + i * 22, -6, 5, 0, 7); g.fill(); }
+  if (bone) { g.fillStyle = "#1d4ed8"; g.beginPath(); g.ellipse(0, -40, 46, 22, 0, Math.PI, 0); g.fill(); g.fillRect(-46, -42, 92, 8); g.fillStyle = "#1e3a8a"; rr(0, -40, 66, 10, 5); g.fill(); g.fillStyle = AMAR; g.beginPath(); g.arc(0, -52, 7, 0, 7); g.fill(); }
+  g.restore(); }
+function rack(x, y, s, t) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = "#1e293b"; rr(-70, -220, 140, 220, 10); g.fill();
+  for (let i = 0; i < 7; i++) { g.fillStyle = "#334155"; rr(-58, -206 + i * 29, 116, 22, 4); g.fill(); g.fillStyle = (Math.floor(t * 5 + i * 1.7) % 4) ? "#22c55e" : "#fde047"; g.beginPath(); g.arc(44, -195 + i * 29, 4, 0, 7); g.fill(); g.fillStyle = "#38bdf8"; g.beginPath(); g.arc(32, -195 + i * 29, 4, 0, 7); g.fill(); } g.restore(); }
+function pacote(x, y, s, num, cor, rot) { g.save(); g.translate(x, y); g.rotate(rot || 0); g.scale(s, s); g.fillStyle = cor || "#fff7d6"; rr(-36, -26, 72, 52, 8); g.fill(); g.strokeStyle = "#b45309"; g.lineWidth = 3; g.stroke();
+  g.beginPath(); g.moveTo(-36, -24); g.lineTo(0, 4); g.lineTo(36, -24); g.stroke(); if (num != null) { g.fillStyle = "#b45309"; g.beginPath(); g.arc(24, 14, 13, 0, 7); g.fill(); g.fillStyle = "#fff"; g.font = `800 16px ${F}`; g.textAlign = "center"; g.textBaseline = "middle"; g.fillText(num, 24, 15); g.textBaseline = "alphabetic"; } g.restore(); }
+function casa(x, y, s, cor, placa) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = cor; g.fillRect(-60, -80, 120, 80); g.fillStyle = "#8a3b20"; g.beginPath(); g.moveTo(-74, -78); g.lineTo(0, -140); g.lineTo(74, -78); g.fill();
+  g.fillStyle = "#5b3a1e"; g.fillRect(-16, -46, 32, 46); g.fillStyle = "#bfe3ff"; g.fillRect(24, -64, 24, 20); if (placa) { g.fillStyle = "#fff"; rr(-56, -112 + 140, 112, 30, 6); g.fill(); g.fillStyle = NAVY; g.font = `800 16px ${F}`; g.textAlign = "center"; g.fillText(placa, 0, 48); } g.restore(); }
+function no(x, y, r, cor) { g.fillStyle = cor || "#60a5fa"; g.beginPath(); g.arc(x, y, r, 0, 7); g.fill(); g.strokeStyle = "#fff"; g.lineWidth = 3; g.stroke(); }
+function linha(x1, y1, x2, y2, cor, w) { g.strokeStyle = cor || "rgba(255,255,255,.5)"; g.lineWidth = w || 4; g.beginPath(); g.moveTo(x1, y1); g.lineTo(x2, y2); g.stroke(); }
+function ondaAudio(x, y, w, t, cor) { g.strokeStyle = cor || AMAR; g.lineWidth = 5; g.lineCap = "round"; for (let i = 0; i < 12; i++) { const h = 8 + Math.abs(Math.sin(t * 7 + i * 1.3)) * 26; g.beginPath(); g.moveTo(x + i * w / 12, y - h / 2); g.lineTo(x + i * w / 12, y + h / 2); g.stroke(); } }
+function carro(x, y, cor, s) { g.save(); g.translate(x, y); g.scale(s || 1, s || 1); g.fillStyle = cor; rr(-40, -26, 80, 26, 10); g.fill(); rr(-24, -42, 46, 20, 8); g.fill(); g.fillStyle = "#bfe3ff"; rr(-18, -38, 16, 12, 3); g.fill(); rr(4, -38, 14, 12, 3); g.fill(); g.fillStyle = "#111"; g.beginPath(); g.arc(-22, 0, 9, 0, 7); g.arc(22, 0, 9, 0, 7); g.fill(); g.restore(); }
+
+/* ================= cenas ================= */
+/* peças extras reaproveitáveis (vídeos v4) */
+function bola(x, y, r) { g.save(); g.translate(x, y); g.fillStyle = "#fff"; g.strokeStyle = NAVY; g.lineWidth = 4; g.beginPath(); g.arc(0, 0, r, 0, 7); g.fill(); g.stroke();
+  g.fillStyle = NAVY; g.beginPath(); for (let i = 0; i < 5; i++) { const a = -Math.PI / 2 + i * 2 * Math.PI / 5; g.lineTo(Math.cos(a) * r * .38, Math.sin(a) * r * .38); } g.fill();
+  g.lineWidth = 3; for (let i = 0; i < 5; i++) { const a = -Math.PI / 2 + i * 2 * Math.PI / 5; g.beginPath(); g.moveTo(Math.cos(a) * r * .38, Math.sin(a) * r * .38); g.lineTo(Math.cos(a) * r * .95, Math.sin(a) * r * .95); g.stroke(); } g.restore(); }
+function livro(x, y, s, cor) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = cor || AZUL; rr(-46, -34, 92, 68, 8); g.fill(); g.fillStyle = "#fff"; rr(-40, -28, 38, 56, 4); g.fill(); rr(2, -28, 38, 56, 4); g.fill();
+  g.strokeStyle = "#94a3b8"; g.lineWidth = 3; for (let i = 0; i < 4; i++) { g.beginPath(); g.moveTo(-34, -16 + i * 12); g.lineTo(-8, -16 + i * 12); g.moveTo(8, -16 + i * 12); g.lineTo(34, -16 + i * 12); g.stroke(); } g.restore(); }
+function robo(x, y, s) { g.save(); g.translate(x, y); g.scale(s, s); g.strokeStyle = NAVY; g.lineWidth = 5; g.lineJoin = "round"; g.fillStyle = "#e0f2fe";
+  rr(-34, -70, 68, 52, 10); g.fill(); g.stroke(); rr(-40, -12, 80, 66, 10); g.fill(); g.stroke(); g.beginPath(); g.moveTo(0, -70); g.lineTo(0, -88); g.stroke(); g.fillStyle = "#ef4444"; g.beginPath(); g.arc(0, -92, 7, 0, 7); g.fill();
+  g.fillStyle = NAVY; g.beginPath(); g.arc(-14, -46, 6, 0, 7); g.arc(14, -46, 6, 0, 7); g.fill(); g.beginPath(); g.moveTo(-12, -30); g.lineTo(12, -30); g.stroke();
+  g.beginPath(); g.moveTo(-40, 6); g.lineTo(-60, 30); g.moveTo(40, 6); g.lineTo(60, 30); g.moveTo(-18, 54); g.lineTo(-18, 76); g.moveTo(18, 54); g.lineTo(18, 76); g.stroke(); g.restore(); }
+function lapis(x, y, s, rot) { g.save(); g.translate(x, y); g.rotate(rot || 0); g.scale(s, s); g.fillStyle = "#facc15"; g.fillRect(-8, -70, 16, 70); g.fillStyle = "#f1c7a0"; g.beginPath(); g.moveTo(-8, 0); g.lineTo(8, 0); g.lineTo(0, 22); g.fill(); g.fillStyle = NAVY; g.beginPath(); g.moveTo(-3, 14); g.lineTo(3, 14); g.lineTo(0, 22); g.fill(); g.fillStyle = "#f472b6"; g.fillRect(-8, -84, 16, 14); g.restore(); }
+function calendario(x, y, s, txt, cor) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = "#fff"; g.strokeStyle = NAVY; g.lineWidth = 4; rr(-70, -60, 140, 120, 12); g.fill(); g.stroke();
+  g.fillStyle = cor || "#ef4444"; rr(-70, -60, 140, 36, 12); g.fill(); g.fillRect(-70, -36, 140, 12); g.fillStyle = "#fff"; g.font = `800 20px ${F}`; g.textAlign = "center"; g.textBaseline = "middle"; g.fillText(txt, 0, -41);
+  g.strokeStyle = NAVY; g.lineWidth = 3; g.beginPath(); g.moveTo(-40, -70); g.lineTo(-40, -50); g.moveTo(40, -70); g.lineTo(40, -50); g.stroke();
+  g.strokeStyle = "#cbd5e1"; g.lineWidth = 2; for (let i = 0; i < 3; i++) for (let j = 0; j < 4; j++) g.strokeRect(-56 + j * 29, -14 + i * 22, 24, 18); g.fillStyle = "rgba(255,210,63,.9)"; g.fillRect(31, 30, 24, 18); g.restore(); }
+function pensamento(x, y, w, h) { g.save(); g.fillStyle = "#fff"; g.strokeStyle = NAVY; g.lineWidth = 4; g.beginPath(); g.ellipse(x, y, w / 2, h / 2, 0, 0, 7); g.fill(); g.stroke();
+  const ax = arguments[4] || x - w * .45, ay = arguments[5] || y + h * .97, ex = x - w * .5, ey = y + h * .12; [[.3, 16], [.6, 11], [.85, 7]].forEach(([k, r]) => { g.beginPath(); g.arc(lerp(ex, ax, k), lerp(ey, ay, k), r, 0, 7); g.fill(); g.stroke(); }); g.restore(); }
+function banana(x, y, s, rot) { g.save(); g.translate(x, y); g.rotate(rot || 0); g.scale(s, s); g.fillStyle = "#facc15"; g.strokeStyle = "#a16207"; g.lineWidth = 4; g.beginPath(); g.moveTo(-50, -10); g.quadraticCurveTo(0, 50, 50, -10); g.quadraticCurveTo(0, 22, -50, -10); g.fill(); g.stroke();
+  g.fillStyle = "#713f12"; g.fillRect(46, -18, 8, 10); g.restore(); }
+function passaro(x, y, s, t) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = "#38bdf8"; g.strokeStyle = NAVY; g.lineWidth = 3; g.beginPath(); g.ellipse(0, 0, 30, 22, 0, 0, 7); g.fill(); g.stroke(); g.beginPath(); g.arc(26, -16, 15, 0, 7); g.fill(); g.stroke();
+  g.fillStyle = "#f59e0b"; g.beginPath(); g.moveTo(40, -18); g.lineTo(54, -13); g.lineTo(40, -8); g.fill(); g.fillStyle = NAVY; g.beginPath(); g.arc(30, -19, 3, 0, 7); g.fill();
+  g.fillStyle = "#0ea5e9"; g.beginPath(); g.moveTo(-8, -6); g.quadraticCurveTo(-20, -40, 10, -30); g.closePath(); g.fill(); g.stroke(); g.restore(); }
+function arvore(x, y, s) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = "#a16207"; g.fillRect(-10, -70, 20, 70); g.fillStyle = "#86efac"; g.strokeStyle = "#15803d"; g.lineWidth = 4;
+  g.beginPath(); g.arc(0, -110, 52, 0, 7); g.arc(-40, -80, 36, 0, 7); g.arc(40, -80, 36, 0, 7); g.fill(); g.restore(); }
+function olho(x, y, s) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = "#fff"; g.strokeStyle = NAVY; g.lineWidth = 5; g.beginPath(); g.moveTo(-50, 0); g.quadraticCurveTo(0, -46, 50, 0); g.quadraticCurveTo(0, 46, -50, 0); g.fill(); g.stroke(); g.fillStyle = "#2f7be0"; g.beginPath(); g.arc(0, 0, 18, 0, 7); g.fill(); g.fillStyle = NAVY; g.beginPath(); g.arc(0, 0, 8, 0, 7); g.fill(); g.restore(); }
+function cama(x, y, s, quem) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = "#fff"; g.strokeStyle = NAVY; g.lineWidth = 5; rr(-150, -40, 300, 60, 10); g.fill(); g.stroke(); g.fillStyle = "#c4b5fd"; rr(-150, -100, 24, 150, 8); g.fill(); g.stroke(); rr(126, -70, 24, 120, 8); g.fill(); g.stroke();
+  if (quem) { g.fillStyle = "#fff"; rr(-120, -64, 60, 28, 12); g.fill(); g.stroke(); g.fillStyle = quem.pele || "#f1c7a0"; g.beginPath(); g.arc(-80, -68, 30, 0, 7); g.fill(); g.fillStyle = quem.cab || "#3b2416"; g.beginPath(); g.arc(-84, -74, 30, Math.PI * .6, Math.PI * 1.45); g.closePath(); g.fill();
+    g.strokeStyle = NAVY; g.lineWidth = 3; g.beginPath(); g.arc(-74, -66, 6, 0, Math.PI); g.stroke(); g.beginPath(); g.arc(-90, -66, 6, 0, Math.PI); g.stroke(); }
+  g.fillStyle = "#bfdbfe"; g.strokeStyle = NAVY; g.lineWidth = 4; g.beginPath(); g.moveTo(-60, -40); g.quadraticCurveTo(30, -70, 140, -40); g.lineTo(140, 0); g.lineTo(-60, 0); g.closePath(); g.fill(); g.stroke(); g.restore(); }
+function zzz(x, y, s) { g.save(); g.fillStyle = "#6366f1"; g.font = `800 ${34 * s}px ${F}`; g.fillText("z", x, y); g.font = `800 ${46 * s}px ${F}`; g.fillText("z", x + 28 * s, y - 30 * s); g.font = `800 ${60 * s}px ${F}`; g.fillText("Z", x + 62 * s, y - 70 * s); g.restore(); }
+function lua(x, y, r) { g.save(); g.fillStyle = "#fde047"; g.strokeStyle = "#a16207"; g.lineWidth = 3; g.beginPath(); g.arc(x, y, r, Math.PI * .35, Math.PI * 1.65); g.quadraticCurveTo(x - r * .1, y, x + r * .58, y + r * .8); g.fill(); g.stroke(); g.restore(); }
+function texto(txt, x, y, cor, tam2) { g.save(); g.font = `800 ${tam2 || 30}px ${F}`; g.textAlign = "center"; g.textBaseline = "middle"; g.lineJoin = "round"; g.lineWidth = 8; g.strokeStyle = "#fff"; g.strokeText(txt, x, y); g.fillStyle = cor || NAVY; g.fillText(txt, x, y); g.restore(); }
+function setaCurva(x1, y1, x2, y2, cor) { g.save(); g.strokeStyle = cor || NAVY; g.fillStyle = cor || NAVY; g.lineWidth = 5; g.lineCap = "round"; const mx = (x1 + x2) / 2, my = Math.min(y1, y2) - 50; g.beginPath(); g.moveTo(x1, y1); g.quadraticCurveTo(mx, my, x2, y2); g.stroke();
+  const an = Math.atan2(y2 - my, x2 - mx); g.beginPath(); g.moveTo(x2, y2); g.lineTo(x2 - 18 * Math.cos(an - .45), y2 - 18 * Math.sin(an - .45)); g.lineTo(x2 - 18 * Math.cos(an + .45), y2 - 18 * Math.sin(an + .45)); g.fill(); g.restore(); }
+
+function predio(x, y, s, cor, nome) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = cor || "#64748b"; g.fillRect(-60, -200, 120, 200); g.fillStyle = "#e0f2fe"; for (let r = 0; r < 6; r++) for (let c = 0; c < 3; c++) g.fillRect(-46 + c * 34, -186 + r * 30, 22, 18); if (nome) { g.fillStyle = AMAR; rr(-80, -244, 160, 36, 10); g.fill(); g.fillStyle = NAVY; g.font = `800 20px ${F}`; g.textAlign = "center"; g.fillText(nome, 0, -219); } g.restore(); }
+function nuvem(x, y, s) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = "#fff"; g.beginPath(); g.arc(-60, 10, 50, 0, 7); g.arc(0, -20, 70, 0, 7); g.arc(70, 10, 50, 0, 7); g.fill(); g.fillRect(-60, 10, 130, 50); g.restore(); }
+function foto(x, y, s, rot) { g.save(); g.translate(x, y); g.rotate(rot || 0); g.scale(s, s); g.fillStyle = "#fff"; rr(-40, -32, 80, 64, 8); g.fill(); g.fillStyle = "#7dd3fc"; g.fillRect(-32, -24, 64, 40); g.fillStyle = "#4ade80"; g.beginPath(); g.moveTo(-32, 16); g.lineTo(-8, -6); g.lineTo(10, 10); g.lineTo(32, -10); g.lineTo(32, 16); g.fill(); g.fillStyle = "#fde047"; g.beginPath(); g.arc(18, -12, 6, 0, 7); g.fill(); g.restore(); }
+function barra(x, y, w, k, cor, rot) { g.fillStyle = "rgba(255,255,255,.12)"; rr(x, y, w, 40, 20); g.fill(); g.fillStyle = cor; rr(x, y, Math.max(40, w * k), 40, 20); g.fill(); if (rot) { g.fillStyle = "#fff"; g.font = `800 22px ${F}`; g.textAlign = "left"; g.fillText(rot, x, y - 12); } }
+// fundo do mar (do teste aprovado)
+function escola(x, y, s) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = "#fde68a"; g.fillRect(-90, -110, 180, 110); g.fillStyle = "#b91c1c"; g.beginPath(); g.moveTo(-104, -108); g.lineTo(0, -170); g.lineTo(104, -108); g.fill();
+  g.fillStyle = "#5b3a1e"; g.fillRect(-18, -52, 36, 52); g.fillStyle = "#bfe3ff"; g.fillRect(-70, -86, 34, 26); g.fillRect(36, -86, 34, 26); g.restore(); }
+function cronometro(x, y, s, t) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = "#e5e7eb"; g.fillRect(-10, -78, 20, 16); g.fillStyle = "#fff"; g.beginPath(); g.arc(0, 0, 64, 0, 7); g.fill(); g.strokeStyle = NAVY; g.lineWidth = 8; g.stroke();
+  g.strokeStyle = "#ef4444"; g.lineWidth = 6; g.lineCap = "round"; g.beginPath(); g.moveTo(0, 0); g.lineTo(Math.sin(t * 4) * 48, -Math.cos(t * 4) * 48); g.stroke(); g.fillStyle = NAVY; g.beginPath(); g.arc(0, 0, 7, 0, 7); g.fill(); g.restore(); }
+// mapa visto de cima: escola (esq.) e praça (dir.) com 3 ruas
+function pessoa(x, y, s, cor) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = cor; g.beginPath(); g.arc(0, -10, 26, Math.PI, 0); g.fill(); g.fillRect(-26, -10, 52, 24); g.fillStyle = "#f1c7a0"; g.beginPath(); g.arc(0, -50, 20, 0, 7); g.fill();
+  g.fillStyle = "#222"; g.beginPath(); g.arc(-7, -52, 3, 0, 7); g.arc(7, -52, 3, 0, 7); g.fill(); g.strokeStyle = "#222"; g.lineWidth = 2.5; g.beginPath(); g.arc(0, -46, 8, .2, Math.PI - .2); g.stroke(); g.restore(); }
+
+function noDecisao(txt, x, y, k, cor) { if (k <= 0) return; const s = back(cl(k)); g.save(); g.translate(x, y); g.scale(s, s); g.font = `800 22px ${F}`; const w = g.measureText(txt).width + 34; g.fillStyle = cor || "#fff"; rr(-w / 2, -28, w, 56, 16); g.fill(); g.strokeStyle = NAVY; g.lineWidth = 3; g.stroke();
+  g.fillStyle = NAVY; g.textAlign = "center"; g.textBaseline = "middle"; g.fillText(txt, 0, 2); g.restore(); g.textBaseline = "alphabetic"; }
+function rotulo(txt, x, y, cor, k) { if (k <= 0) return; g.save(); g.globalAlpha = cl(k); g.fillStyle = cor; g.font = `800 20px ${F}`; g.textAlign = "center"; g.fillText(txt, x, y); g.restore(); }
+function fonteAgua(x, y, s, t) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = "#94a3b8"; g.beginPath(); g.ellipse(0, 0, 70, 20, 0, 0, 7); g.fill(); g.fillStyle = "#38bdf8"; g.beginPath(); g.ellipse(0, -4, 56, 12, 0, 0, 7); g.fill();
+  g.fillStyle = "#94a3b8"; g.fillRect(-8, -60, 16, 56); g.strokeStyle = "#7dd3fc"; g.lineWidth = 4; for (let i = -1; i <= 1; i += 2) { g.beginPath(); g.moveTo(0, -60); g.quadraticCurveTo(i * 30, -90 - Math.sin(t * 6) * 4, i * 46, -10); g.stroke(); } g.restore(); }
+function arvoreDesenho(x, y, s) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = "#8a5a28"; g.fillRect(-10, -60, 20, 60); g.fillStyle = "#22c55e"; g.beginPath(); g.arc(0, -90, 50, 0, 7); g.arc(-34, -66, 34, 0, 7); g.arc(34, -66, 34, 0, 7); g.fill(); g.restore(); }
+// ---- abertura padrão "digna de Oscar": nome da missão no alto, mini cena (desenhada antes), faixa com o problema e o nome do professor ----
+function abertura(t, rotuloSerie, titulo, l1, l2, t1) { t1 = t1 || 1.6;
+  const kt = out(seg(t, .1, .6)); g.save(); g.globalAlpha = kt; g.textAlign = "center"; g.fillStyle = AMAR; g.font = `800 24px ${F}`; g.fillText(rotuloSerie, 640, 70); g.fillStyle = "#fff"; g.font = `800 48px ${F}`; g.fillText(titulo, 640, 122); g.restore();
+  const km = seg(t, t1, t1 + .5); if (km > 0) { g.fillStyle = "rgba(10,16,36,.62)"; g.globalAlpha = out(km); rr(130, 420, 1020, 150, 26); g.fill(); g.globalAlpha = 1; palavra(l1, 640, 478, km, 54); palavra(l2, 640, 546, seg(t, t1 + .2, t1 + .7), 60); }
+  const kp = back(seg(t, .3, .8)); if (kp > 0) { g.save(); g.translate(640, 662); g.scale(kp, kp); g.fillStyle = AMAR; rr(-250, -30, 500, 60, 30); g.fill(); g.fillStyle = NAVY; g.font = `800 28px ${F}`; g.textAlign = "center"; g.textBaseline = "middle"; g.fillText("Prof. Welington Laignier", 0, 1); g.restore(); g.textBaseline = "alphabetic"; } }
+function fimCartao(t, linha, pessoas) { fundoEscuro(t); g.textAlign = "center"; g.globalAlpha = out(seg(t, 0, .6)); g.fillStyle = AMAR; g.font = `800 62px ${F}`; g.fillText("Prof. Welington Laignier", 640, 300);
+  g.fillStyle = "#fff"; g.font = `700 30px ${F}`; g.fillText(linha, 640, 350); g.font = `800 40px ${F}`; g.fillStyle = "#cfe0ff"; g.fillText(linha.match(/Missão \d/)[0].replace("Missão", "Abram a Missão") + " no portal!", 640, 430); g.globalAlpha = 1;
+  (pessoas || []).forEach((p, i) => boneco(Object.assign({ x: i ? 1040 : 240, y: 700, s: .9, braco: -2.8 + Math.sin(t * 10 + i) * .25, bracoE: 2.8, pisca: pisca(t + i * .7) }, p))); confete(t, .9); }
+function cumprida(t, t0) { if (t > t0) { g.fillStyle = "#1b2c5a"; g.globalAlpha = out(seg(t, t0, t0 + .3)); rr(250, 58, 780, 118, 26); g.fill(); g.globalAlpha = 1; } palavra("MISSÃO CUMPRIDA!", 640, 120, seg(t, t0, t0 + .4), 72); confete(t, t0); }
+function estrela(x, y, r, cor) { g.save(); g.translate(x, y); g.fillStyle = cor || AMAR; g.strokeStyle = "#b45309"; g.lineWidth = 3; g.beginPath(); for (let i = 0; i < 10; i++) { const a = -Math.PI / 2 + i * Math.PI / 5, rr2 = i % 2 ? r * .45 : r; g.lineTo(Math.cos(a) * rr2, Math.sin(a) * rr2); } g.closePath(); g.fill(); g.stroke(); g.restore(); }
+function robozinho(x, y, s, t, feliz) { g.save(); g.translate(x, y); g.scale(s, s); const b = Math.sin((t || 0) * 6) * 3;
+  g.fillStyle = "#64748b"; g.fillRect(-4, -78 + b, 8, 16); g.fillStyle = "#ef4444"; g.beginPath(); g.arc(0, -82 + b, 7, 0, 7); g.fill();
+  g.fillStyle = "#e2e8f0"; g.strokeStyle = NAVY; g.lineWidth = 4; rr(-34, -64 + b, 68, 50, 14); g.fill(); g.stroke(); g.fillStyle = "#1e293b"; rr(-26, -56 + b, 52, 30, 8); g.fill();
+  g.fillStyle = "#67e8f9"; if (feliz) { g.lineWidth = 4; g.strokeStyle = "#67e8f9"; g.beginPath(); g.arc(-11, -38 + b, 6, Math.PI, 0); g.arc(11, -38 + b, 6, Math.PI, 0); g.stroke(); } else { g.beginPath(); g.arc(-11, -41 + b, 6, 0, 7); g.arc(11, -41 + b, 6, 0, 7); g.fill(); }
+  g.fillStyle = "#3b82f6"; g.strokeStyle = NAVY; rr(-28, -12, 56, 44, 12); g.fill(); g.stroke(); g.fillStyle = "#fde047"; g.beginPath(); g.arc(0, 10, 7, 0, 7); g.fill();
+  g.fillStyle = "#334155"; rr(-26, 32, 20, 12, 5); g.fill(); rr(6, 32, 20, 12, 5); g.fill(); g.restore(); }
+function tabuleiro(x0, y0, cols, rows, cel, paredes) { for (let r = 0; r < rows; r++) for (let c2 = 0; c2 < cols; c2++) { const p = paredes && paredes.includes(r * cols + c2); g.fillStyle = p ? "#9a3412" : ((r + c2) % 2 ? "#dbeafe" : "#eff6ff"); rr(x0 + c2 * cel + 2, y0 + r * cel + 2, cel - 4, cel - 4, 8); g.fill();
+  if (p) { g.strokeStyle = "#7c2d12"; g.lineWidth = 2; for (let k = 1; k < 3; k++) { g.beginPath(); g.moveTo(x0 + c2 * cel + 4, y0 + r * cel + k * cel / 3); g.lineTo(x0 + c2 * cel + cel - 4, y0 + r * cel + k * cel / 3); g.stroke(); } } } }
+function comando(txt, x, y, k, cor, w) { if (k <= 0) return; const s = back(cl(k)); g.save(); g.translate(x, y); g.scale(s, s); g.font = `800 24px ${F}`; const ww = w || g.measureText(txt).width + 36; g.fillStyle = cor || "#2563eb"; rr(-ww / 2, -26, ww, 52, 14); g.fill(); g.fillStyle = "rgba(0,0,0,.15)"; rr(-ww / 2, 16, ww, 10, 6); g.fill();
+  g.fillStyle = "#fff"; g.textAlign = "center"; g.textBaseline = "middle"; g.fillText(txt, 0, 1); g.restore(); g.textBaseline = "alphabetic"; }
+function xVermelho(x, y, r, k) { if (k <= 0) return; g.save(); g.globalAlpha = cl(k); g.strokeStyle = "#ef4444"; g.lineWidth = 12; g.lineCap = "round"; g.beginPath(); g.moveTo(x - r, y - r); g.lineTo(x + r, y + r); g.moveTo(x + r, y - r); g.lineTo(x - r, y + r); g.stroke(); g.restore(); }
+function visto(x, y, r, k) { if (k <= 0) return; g.save(); g.globalAlpha = cl(k); g.fillStyle = "#16a34a"; g.beginPath(); g.arc(x, y, r, 0, 7); g.fill(); g.strokeStyle = "#fff"; g.lineWidth = r * .22; g.lineCap = "round"; g.beginPath(); g.moveTo(x - r * .45, y); g.lineTo(x - r * .1, y + r * .35); g.lineTo(x + r * .5, y - r * .35); g.stroke(); g.restore(); }
+function cadeado(x, y, s, aberto) { g.save(); g.translate(x, y); g.scale(s, s); g.strokeStyle = "#64748b"; g.lineWidth = 12; g.beginPath(); g.arc(0, -30 - (aberto ? 16 : 0), 26, Math.PI, 0); g.stroke(); g.fillStyle = "#f59e0b"; g.strokeStyle = "#b45309"; g.lineWidth = 4; rr(-40, -30, 80, 66, 12); g.fill(); g.stroke(); g.fillStyle = "#78350f"; g.beginPath(); g.arc(0, 0, 9, 0, 7); g.fill(); g.fillRect(-4, 0, 8, 18); g.restore(); }
+function lupa(x, y, s) { g.save(); g.translate(x, y); g.scale(s, s); g.strokeStyle = "#fde047"; g.lineWidth = 10; g.beginPath(); g.arc(0, 0, 34, 0, 7); g.stroke(); g.lineCap = "round"; g.lineWidth = 14; g.beginPath(); g.moveTo(24, 24); g.lineTo(56, 56); g.stroke(); g.restore(); }
+function escudo(x, y, s) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = "#16a34a"; g.beginPath(); g.moveTo(0, -70); g.lineTo(60, -46); g.lineTo(56, 10); g.quadraticCurveTo(40, 52, 0, 70); g.quadraticCurveTo(-40, 52, -56, 10); g.lineTo(-60, -46); g.closePath(); g.fill(); g.restore(); }
+
+/* ================= 6º ano · 2027 · 1º bimestre · Missão 3 · Hardware e software ================= */
+const PEDRO = { camisa: "#f97316" }, IRMA = { camisa: "#ec4899", cabelo: "longo" };
+const pedro = o => boneco(Object.assign({}, PEDRO, o)), irma = o => boneco(Object.assign({}, IRMA, o));
+const em = (f, w, n) => { const p = f.split(/\s+/); let c = 0; const i = p.findIndex(x => x.toLowerCase().replace(/[^\wà-ú]/g, "").startsWith(w.toLowerCase()) && c++ === (n || 0)); return Math.max(0, i) / 2.55 + .35; };
+// tela de celular: jogo, travado (ampulheta) ou rachada
+function telaCel(modo, t) { if (modo === "jogo") { g.fillStyle = "#dcfce7"; g.fillRect(-70, -146, 140, 292); estrela(-30, -60, 22); estrela(30, 10, 18, "#38bdf8"); g.fillStyle = "#16a34a"; g.beginPath(); g.arc(Math.sin(t * 3) * 40, 70, 14, 0, 7); g.fill(); }
+  if (modo === "travado") { g.fillStyle = "#e2e8f0"; g.fillRect(-70, -146, 140, 292); g.fillStyle = "rgba(15,23,42,.7)"; g.fillRect(-70, -146, 140, 292); g.save(); g.rotate(t * 2); g.fillStyle = "#facc15"; g.font = `800 60px ${F}`; g.textAlign = "center"; g.fillText("⏳", 0, 20); g.restore(); }
+  if (modo === "rachada") { g.fillStyle = "#cbd5e1"; g.fillRect(-70, -146, 140, 292); g.strokeStyle = "#0f172a"; g.lineWidth = 3; g.beginPath(); g.moveTo(-20, -40); g.lineTo(-60, -120); g.moveTo(-20, -40); g.lineTo(40, -100); g.moveTo(-20, -40); g.lineTo(-50, 60); g.moveTo(-20, -40); g.lineTo(60, 30); g.moveTo(-20, -40); g.lineTo(10, 130); g.stroke(); } }
+// ícone de aplicativo
+function app(x, y, s, cor, simb, nome, k) { if (k <= 0) return; const z = back(cl(k)); g.save(); g.translate(x, y); g.scale(s * z, s * z); g.fillStyle = cor; rr(-46, -46, 92, 92, 22); g.fill(); g.fillStyle = "#fff"; g.font = `800 44px ${F}`; g.textAlign = "center"; g.fillText(simb, 0, 16);
+  g.font = `800 20px ${F}`; g.fillText(nome, 0, 80); g.restore(); }
+// caixa de ferramentas (oficina)
+function ferramenta(x, y, s) { g.save(); g.translate(x, y); g.scale(s, s); g.strokeStyle = "#94a3b8"; g.lineWidth = 14; g.lineCap = "round"; g.beginPath(); g.moveTo(-40, 40); g.lineTo(30, -30); g.stroke(); g.fillStyle = "#94a3b8"; g.beginPath(); g.arc(38, -38, 22, 0, 7); g.fill(); g.fillStyle = "#0e7490"; g.beginPath(); g.arc(46, -46, 10, 0, 7); g.fill(); g.restore(); }
+
+const F0 = "Hardware e software: o celular que travou!",
+  F1 = "O celular do Pedro travou bem no meio do jogo. A irmã dele, que estava junto, disse: vamos levar no conserto! Mas será que alguma peça quebrou mesmo?",
+  F2 = "Todo computador tem duas partes. O hardware são as peças, que dá para tocar: teclado, mouse, monitor, processador e cabo.",
+  F3 = "O software são os programas, que não dá para pegar com a mão: o navegador, os jogos, a calculadora e os aplicativos do celular.",
+  F4 = "Um precisa do outro. O hardware sem software não faz nada, e o software precisa das peças para funcionar.",
+  F5 = "Existe um software especial, o sistema operacional. Ele liga primeiro e comanda todo o resto. No computador, é o Windows ou o Linux. No celular, é o Android ou o ái ô ésse.",
+  F6 = "E o celular do Pedro? Ele fechou o jogo, reiniciou e tudo voltou ao normal. Era problema de software! Se a tela tivesse quebrado, aí sim seria hardware.",
+  F7 = "Onde eu uso isso? Quando você instala um jogo, está colocando um software novo. E, na oficina de celular, o técnico troca peças ou atualiza o sistema.",
+  F8 = "Agora é com vocês: abram a Missão 3 no portal!";
+
+const CENAS = [
+ { chip: "", fala: F0, sfx: [[.05, "whoosh"], [.8, "alerta"], [1.6, "misterio"], [2.6, "pop"]],
+   draw(t, D) { fundoEscuro(t, "#7f1d1d"); const trav = t > .8; g.save(); g.translate(640 + (trav && t < 1.6 ? Math.sin(t * 60) * 6 : 0), 300); celular(0, 0, .95, () => telaCel(trav ? "travado" : "jogo", t)); g.restore();
+     abertura(t, "6º ANO · MISSÃO 3", "Hardware e software", "O CELULAR", "QUE TRAVOU!", 1.9); } },
+ { chip: "O PROBLEMA", fala: F1, sfx: [[.1, "whoosh"], [em(F1, "travou"), "alerta"], [em(F1, "conserto"), "pop"], [em(F1, "Mas"), "misterio"]],
+   draw(t, D) { fundoEscuro(t, "#1e3a8a"); const a = em(F1, "travou"), b = em(F1, "disse"), c = em(F1, "Mas");
+     celular(640, 300, .95, () => telaCel(t > a ? "travado" : "jogo", t));
+     pedro({ x: 330, y: 560, s: 1.05, braco: -.9, bracoE: .4, olhar: 1, boca: t > a ? "o" : "", pisca: pisca(t) });
+     irma({ x: 960, y: 560, s: 1.05, braco: t > b ? -2.4 : -.4, bracoE: .3, olhar: -1, pisca: pisca(t + .5) });
+     if (t > b && t < c) balao("Vamos levar no conserto!", 960, 170, seg(t, b, b + .4));
+     if (t > c) palavra("QUEBROU MESMO?", 640, 100, seg(t, c, c + .4), 60); } },
+ { chip: "HARDWARE", fala: F2, sfx: [[.1, "whoosh"], [em(F2, "hardware"), "ding"], [em(F2, "teclado"), "pop"], [em(F2, "mouse"), "pop"], [em(F2, "monitor"), "pop"], [em(F2, "processador"), "pop"], [em(F2, "cabo"), "pop"]],
+   draw(t, D) { fundoEscuro(t, "#9a3412"); const h = em(F2, "hardware"); palavra("HARDWARE", 640, 110, seg(t, h, h + .4), 80); if (t > h + .3) comando("AS PEÇAS: DÁ PARA TOCAR 🔧", 640, 190, seg(t, h + .3, h + .7), "#ea580c", 520);
+     const it = [["teclado", x => teclado(x, 360, .9)], ["mouse", x => mouse(x, 360, 1.5)], ["monitor", x => monitor(x, 420, .7, null)], ["processador", x => { g.fillStyle = "#334155"; rr(x - 45, 315, 90, 90, 10); g.fill(); g.fillStyle = "#fff"; g.font = `800 22px ${F}`; g.textAlign = "center"; g.fillText("CPU", x, 368); }], ["cabo", x => { g.strokeStyle = "#0f172a"; g.lineWidth = 10; g.beginPath(); g.moveTo(x - 60, 320); g.bezierCurveTo(x - 10, 420, x + 10, 300, x + 60, 400); g.stroke(); g.fillStyle = "#64748b"; rr(x + 50, 392, 26, 18, 4); g.fill(); }]];
+     it.forEach(([n, f], i) => { const t0 = em(F2, n), k = back(seg(t, t0, t0 + .4)); if (k <= 0) return; const x = 170 + i * 235; g.save(); g.translate(x, 370); g.scale(k, k); g.translate(-x, -370); f(x); g.restore(); comando(n.toUpperCase(), x, 490, seg(t, t0 + .1, t0 + .5), "#ea580c", 200); }); } },
+ { chip: "SOFTWARE", fala: F3, sfx: [[.1, "whoosh"], [em(F3, "software"), "ding"], [em(F3, "navegador"), "pop"], [em(F3, "jogos"), "pop"], [em(F3, "calculadora"), "pop"], [em(F3, "aplicativos"), "pop"]],
+   draw(t, D) { fundoEscuro(t, "#1e3a8a"); const s0 = em(F3, "software"); palavra("SOFTWARE", 640, 110, seg(t, s0, s0 + .4), 80); if (t > s0 + .3) comando("OS PROGRAMAS: NÃO DÁ PARA PEGAR 💿", 640, 190, seg(t, s0 + .3, s0 + .7), "#2563eb", 600);
+     app(230, 340, 1.2, "#2563eb", "🌐", "NAVEGADOR", seg(t, em(F3, "navegador"), em(F3, "navegador") + .4)); app(500, 340, 1.2, "#16a34a", "🎮", "JOGOS", seg(t, em(F3, "jogos"), em(F3, "jogos") + .4));
+     app(770, 340, 1.2, "#ea580c", "🧮", "CALCULADORA", seg(t, em(F3, "calculadora"), em(F3, "calculadora") + .4)); app(1040, 340, 1.2, "#9333ea", "📱", "APLICATIVOS", seg(t, em(F3, "aplicativos"), em(F3, "aplicativos") + .4)); } },
+ { chip: "UM PRECISA DO OUTRO", fala: F4, sfx: [[.1, "whoosh"], [em(F4, "nada"), "alerta"], [em(F4, "funcionar"), "festa"]],
+   draw(t, D) { fundoEscuro(t, "#3b1c6e"); const a = em(F4, "nada"), b = em(F4, "precisa", 1);
+     // computador sem programa: tela preta; depois, com programa: tela acende
+     monitor(380, 430, 1.1, (x0, y0, w, h) => { g.fillStyle = "#0f172a"; g.fillRect(x0, y0, w, h); g.fillStyle = "#64748b"; g.font = `800 26px ${F}`; g.textAlign = "center"; g.fillText("sem programa...", x0 + w / 2, y0 + h / 2 + 8); });
+     if (t > a) { xVermelho(380, 300, 60, seg(t, a, a + .4)); comando("HARDWARE SEM SOFTWARE = NADA", 380, 500, seg(t, a, a + .4), "#dc2626", 480); }
+     if (t > b) { monitor(900, 430, 1.1, (x0, y0, w, h) => { g.fillStyle = "#dcfce7"; g.fillRect(x0, y0, w, h); estrela(x0 + 80, y0 + 70, 26); estrela(x0 + 190, y0 + 90, 22, "#38bdf8"); }); comando("OS DOIS JUNTOS = FUNCIONA!", 900, 500, seg(t, b, b + .4), "#16a34a", 480); visto(900, 300, 60, seg(t, b + .3, b + .7)); }
+     palavra("UM PRECISA DO OUTRO", 640, 110, seg(t, 0, .4), 60); } },
+ { chip: "SISTEMA OPERACIONAL", fala: F5, legenda: "Existe um software especial, o sistema operacional. Ele liga primeiro e comanda todo o resto. No computador, é o Windows ou o Linux. No celular, é o Android ou o iOS.", sfx: [[.1, "whoosh"], [em(F5, "sistema"), "ding"], [em(F5, "comanda"), "pop"], [em(F5, "Windows"), "pop"], [em(F5, "Linux"), "pop"], [em(F5, "Android"), "pop"], [em(F5, "ái"), "pop"]],
+   draw(t, D) { fundoEscuro(t, "#0e7490"); const s0 = em(F5, "sistema"); palavra("SISTEMA OPERACIONAL", 640, 110, seg(t, s0, s0 + .4), 64);
+     if (t > em(F5, "comanda")) { cartao("O CHEFE DOS PROGRAMAS", 640, 220, 520, "#0f766e", seg(t, em(F5, "comanda"), em(F5, "comanda") + .4)); }
+     comando("💻 COMPUTADOR", 330, 340, seg(t, em(F5, "Windows") - .3, em(F5, "Windows")), "#334155", 300); comando("WINDOWS", 240, 420, seg(t, em(F5, "Windows"), em(F5, "Windows") + .4), "#2563eb", 170); comando("LINUX", 430, 420, seg(t, em(F5, "Linux"), em(F5, "Linux") + .4), "#ca8a04", 170);
+     comando("📱 CELULAR", 950, 340, seg(t, em(F5, "Android") - .3, em(F5, "Android")), "#334155", 300); comando("ANDROID", 860, 420, seg(t, em(F5, "Android"), em(F5, "Android") + .4), "#16a34a", 170); comando("iOS", 1050, 420, seg(t, em(F5, "ái"), em(F5, "ái") + .4), "#0f172a", 170); } },
+ { chip: "A SOLUÇÃO", fala: F6, sfx: [[.1, "whoosh"], [em(F6, "reiniciou"), "click"], [em(F6, "normal"), "festa"], [em(F6, "software"), "ding"], [em(F6, "quebrado"), "alerta"]],
+   draw(t, D) { fundoEscuro(t, "#1e3a8a"); const a = em(F6, "reiniciou"), b = em(F6, "normal"), c = em(F6, "software"), d = em(F6, "quebrado");
+     const modo = t > b ? "jogo" : t > a ? "travado" : "travado"; celular(400, 300, .95, () => { if (t > a && t < b) { g.fillStyle = "#0f172a"; g.fillRect(-70, -146, 140, 292); g.fillStyle = "#fff"; g.font = `800 18px ${F}`; g.textAlign = "center"; g.fillText("reiniciando...", 0, 6); } else telaCel(modo, t); });
+     pedro({ x: 170, y: 560, s: .85, braco: t > b ? -2.6 : -.6, bracoE: t > b ? 2.6 : .3, olhar: 1, boca: t > b ? "riso" : "", pisca: pisca(t) });
+     if (t > c) cartao("ERA SOFTWARE!", 400, 520, 360, "#2563eb", seg(t, c, c + .4));
+     if (t > d) { celular(920, 300, .95, () => telaCel("rachada", t)); cartao("TELA QUEBRADA = HARDWARE", 920, 520, 460, "#ea580c", seg(t, d, d + .4)); } } },
+ { chip: "ONDE EU USO ISSO?", fala: F7, sfx: [[.1, "whoosh"], [em(F7, "instala"), "pop"], [em(F7, "oficina"), "pop"], [em(F7, "troca"), "click"], [em(F7, "atualiza"), "ding"]],
+   draw(t, D) { fundoEscuro(t, "#0e7490"); palavra("ONDE EU USO ISSO?", 640, 110, seg(t, 0, .4), 50); const a = em(F7, "instala"), b = em(F7, "oficina");
+     celular(330, 330, .8, () => { g.fillStyle = "#e0f2fe"; g.fillRect(-70, -146, 140, 292); if (t > a) { const k = cl((t - a) / 2); g.fillStyle = "#16a34a"; rr(-50, 40, 100 * k, 16, 8); g.fill(); g.fillStyle = NAVY; g.font = `800 16px ${F}`; g.textAlign = "center"; g.fillText(k < 1 ? "instalando..." : "pronto!", 0, 20); app(0, -50, .8, "#16a34a", "🎮", "", 1); } });
+     comando("INSTALAR JOGO = SOFTWARE NOVO", 330, 520, seg(t, a + .2, a + .6), "#2563eb", 470);
+     if (t > b) { ferramenta(900, 300, 1.4); comando("TROCA PEÇAS = HARDWARE", 900, 430, seg(t, em(F7, "troca"), em(F7, "troca") + .4), "#ea580c", 420); comando("ATUALIZA O SISTEMA = SOFTWARE", 900, 520, seg(t, em(F7, "atualiza"), em(F7, "atualiza") + .4), "#2563eb", 470); } } },
+ { chip: "", fala: F8, sfx: [[.1, "whoosh"], [1.0, "festa"]],
+   draw(t, D) { fimCartao(t, "6º ano · 1º bimestre de 2027 · Missão 3", [PEDRO, IRMA]); } }
+];
+
+
+/* ================= tempo das cenas ================= */
+// Sem o MP3: estimativa pelo número de palavras. Com o MP3: window.DURS = [...] (segundos de cada cena, vindos das pausas da voz).
+const est = f => Math.max(4.2, f.split(/\s+/).length / 2.55 + 1.3);
+let DUR = CENAS.map((s, i) => (window.DURS && window.DURS[i]) || est(s.fala));
+function inicio() { const a = [0]; DUR.forEach(d => a.push(a[a.length - 1] + d)); return a; }
+let INI = inicio(), T = INI[INI.length - 1];
+window.definirDuracoes = d => { DUR = d; INI = inicio(); T = INI[INI.length - 1]; window.T = T; };
+
+function legenda(txt, k) { // legenda embaixo, acendendo palavra por palavra
+  const pal = txt.split(" "), n = Math.floor(pal.length * cl(k * 1.08)); g.font = `700 26px ${F}`;
+  const linhas = [[]]; let w = 0; pal.forEach((p, i) => { const pw = g.measureText(p + " ").width; if (w + pw > 1080) { linhas.push([]); w = 0; } linhas[linhas.length - 1].push([p, i]); w += pw; });
+  const lh = 36, y0 = H - 22 - linhas.length * lh; g.fillStyle = "rgba(10,16,36,.72)"; rr(70, y0 - 10, W - 140, linhas.length * lh + 18, 14); g.fill();
+  linhas.forEach((ln, j) => { const tw = ln.reduce((s, [p]) => s + g.measureText(p + " ").width, 0); let x = (W - tw) / 2; ln.forEach(([p, i]) => { g.fillStyle = i < n ? "#fff" : "rgba(255,255,255,.45)"; g.textAlign = "left"; g.fillText(p, x, y0 + 18 + j * lh); x += g.measureText(p + " ").width; }); });
+}
+function render(t) {
+  g.setTransform(1, 0, 0, 1, 0, 0); g.globalAlpha = 1; g.textBaseline = "alphabetic";
+  let i = INI.findIndex((s, k) => t >= s && t < INI[k + 1]); if (i < 0) i = CENAS.length - 1;
+  const tl = t - INI[i], D = DUR[i], cena = CENAS[i];
+  // as animações foram pensadas no tempo estimado; com a voz real, o tempo da cena estica ou encolhe junto
+  const esc = est(cena.fala) / D, tt = tl * esc;
+  g.save(); cena.draw(tt, D); g.restore();
+  g.setTransform(1, 0, 0, 1, 0, 0); g.globalAlpha = 1; g.textAlign = "left";
+  if (cena.chip) chip(cena.chip, 0, tt);
+  selo(t);
+  if (i > 0 && i < CENAS.length - 1) legenda(cena.legenda || cena.fala, tl / Math.max(.1, D - .9));
+  // transição suave
+  const tr = cl(1 - tl / .25); if (i > 0 && tr > 0) { g.fillStyle = `rgba(13,22,49,${tr})`; g.fillRect(0, 0, W, H); }
+}
+window.listaSfx = () => { const o = []; CENAS.forEach((s, i) => (s.sfx || []).forEach(([tt, tipo]) => o.push([INI[i] + tt * DUR[i] / est(s.fala), tipo]))); return o; };
+window.render = render; window.T = T; window.CENAS = CENAS;
+document.fonts.load(`800 40px Poppins`).then(() => { window.pronto = true; render(0); });
+</script></body></html>
