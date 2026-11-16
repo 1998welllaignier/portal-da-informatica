@@ -148,6 +148,15 @@ PORTAL.registrarAtividades("informatica-7ano-4bim", {
         dicas: ["Execute e veja em qual passo o robô bate.", "No 3º bloco, o robô anda para a direita pouco demais."],
         explicacao: "O bug estava no 3º bloco: era <strong>repita 2× ➡️</strong>, não 1×. Testar, achar o erro e corrigir é <strong>depurar</strong>." }
     ],
+    bonus: [
+      { id: "m2-bonus-1", tipo: "escolha", titulo: "⭐ Bônus: detetive de algoritmos",
+        perguntas: [
+          { p: "Dividir “organizar a festa da turma” em <b>convites, comida, música e decoração</b> é…", opcoes: ["Decomposição", "Depuração", "Reúso"], certo: 0, why: "Decompor é quebrar um problema grande em partes menores." },
+          { p: "Na lista <b>cores = [azul, verde, amarelo]</b>, qual item está na posição 2?", opcoes: ["verde", "azul", "amarelo"], certo: 0, why: "Contando do 1: azul é o 1, verde é o 2." },
+          { p: "O robô deveria andar 4 casas, mas o programa diz “repita 3 vezes: ande”. Achar e corrigir esse erro é…", opcoes: ["Depuração (achar o bug)", "Decomposição", "Reúso"], certo: 0, why: "Depurar é achar e corrigir o erro: trocar 3 por 4." },
+          { p: "Criar o bloco “desenhar casa” uma vez e usar nas 3 casas da rua é…", opcoes: ["Reúso", "Depuração", "Lista"], certo: 0, why: "Reúso: escreve uma vez, usa várias." }
+        ] }
+    ],
     basico: [
       { tipo: "aberta", titulo: "Decomponha: “Organizar um lanche coletivo da turma”",
         campos: [{ rot: "Parte 1", linhas: 1 }, { rot: "Parte 2", linhas: 1 }, { rot: "Parte 3", linhas: 1 }, { rot: "Parte 4", linhas: 1 }],

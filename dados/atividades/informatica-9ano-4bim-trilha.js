@@ -51,8 +51,10 @@ PORTAL.registrarAtividades("informatica-9ano-4bim-trilha", {
       { tipo: "sim_cesar", titulo: "Descubra a palavra secreta",
         enunciado: "<p>Cada letra andou <strong>1 casa</strong> no alfabeto. Mude a <strong>chave</strong> com as setas até aparecer uma palavra.</p>",
         cifrada: "TPM", resposta: "SOL",
-        explicacao: "Com a chave 1, voltando 1 casa: T → S, P → O, M → L. A palavra é <strong>SOL</strong>." },
-      { id: "m2-sim-golpes", opcional: true, tipo: "sim_pc", titulo: "🎣 Simulador: pesque o golpe na caixa de email",
+        explicacao: "Com a chave 1, voltando 1 casa: T → S, P → O, M → L. A palavra é <strong>SOL</strong>." }
+    ],
+    bonus: [
+      { id: "m2-sim-golpes", tipo: "sim_pc", titulo: "🎣 Simulador: pesque o golpe na caixa de email",
         enunciado: "<p>Na caixa de email do computador de mentira há <strong>golpes</strong> misturados com mensagem verdadeira. Olhe o <strong>remetente</strong>, desconfie da pressa e proteja a sua conta. O <strong>Bit</strong> confere.</p>",
         area: [{ nome: "Lixeira", app: "lixeira" }, { nome: "Email", app: "email" }, { nome: "Navegador", app: "web" }],
         emails: [

@@ -149,7 +149,8 @@
     if (iB < 0 || i <= iB) req = pages.slice(0, i).map((_, j) => j);
     else if (p.id === "desafio") req = pages.slice(0, iB + 1).map((_, j) => j);
     else if (p.id === "turbo") { req = pages.slice(0, iB + 1).map((_, j) => j); if (iD >= 0) req.push(iD); }
-    else req = pages.slice(0, i).map((_, j) => j).filter(j => j <= iB || !["desafio", "turbo"].includes(pages[j].id));
+    else if (p.id === "bonus") req = pages.slice(0, i).map((_, j) => j);
+    else req = pages.slice(0, i).map((_, j) => j).filter(j => j <= iB || !["desafio", "turbo", "bonus"].includes(pages[j].id));
     const j = req.find(k => pages[k].id !== "relatorio" && !paginaFeita(pages[k], mid, prog));
     return j == null ? null : pages[j];
   }
@@ -168,7 +169,8 @@
       if (i >= 0 && !bloqueioPagina(pages, i, mid, prog)) { const a = document.createElement("a"); a.className = "btn btn-pulsa"; a.id = "pag-prox"; a.href = `#/missao/${aid}/${mid}/${pages[i].id}`; a.textContent = "🔓 " + pages[i].rotulo + " →"; bx.replaceWith(a); const av = document.getElementById("pag-falta"); if (av) av.remove(); } } }
     const xp = pontosDaMissao(aid, mid, prog.atv), cheio = xp >= 1000, antes = +box.dataset.xp || 0;
     box.dataset.xp = xp; box.classList.toggle("cheio", cheio);
-    box.innerHTML = `<div class="xp-cab"><span>⚡ XP da missão</span><b>${cheio ? "🏆 COMPLETA!" : `${xp} / 1000`}</b></div><div class="xp-trilho"><i style="width:${Math.max(xp ? 3 : 0, xp / 10)}%"></i></div>`;
+    const bon = xp > 1000 ? xp - 1000 : 0;
+    box.innerHTML = `<div class="xp-cab"><span>⚡ XP da missão</span><b>${cheio ? `🏆 COMPLETA!${bon ? ` <span class="xp-bonus">⭐ +${bon}</span>` : ""}` : `${xp} / 1000`}</b></div><div class="xp-trilho"><i style="width:${Math.max(xp ? 3 : 0, Math.min(100, xp / 10))}%"></i></div>`;
     if (xp > antes && antes) { box.classList.remove("subiu"); void box.offsetWidth; box.classList.add("subiu"); }
   }
   function getProg(aid) { const k = progressoKey(aid); return (k && store.get(k, null)) || { visitas: {}, atv: {}, atualizado: 0 }; }
@@ -234,6 +236,9 @@
           msg: "Resposta conferida! Você contou uma situação com as palavras da missão. O professor pode ler a sua resposta no painel." } : { minPalavras: 8 } }] : [] });
     const lv = [["basico", "Missão — Básico", "🟢"], ["desafio", "Desafio", "🟡"], ["turbo", "Turbo", "🔴"]];
     lv.forEach(([k, r, i]) => { const arr = ativ(k, a[k]); if (arr.length) pages.push({ id: k, rotulo: r, icone: i, tipo: "missao", atividades: arr }); });
+    /* ⭐ Bônus relâmpago (16/11/2026, pedido do professor): tarefinha curta (5 a 10 min) que só abre quando o aluno terminou
+       TUDO da aula (Básico, Desafio e Turbo). Não entra na nota nem no visto: vale XP a mais e a medalha ⭐ no placar. */
+    { const bz = ativ("bonus", a.bonus); if (bz.length) pages.push({ id: "bonus", rotulo: "Bônus relâmpago", icone: "⭐", tipo: "missao", atividades: bz }); }
     if (m.vf && m.vf.length && a.vf) pages.push({ id: "vf", rotulo: "Perguntas rápidas", icone: "✅", tipo: "revisao",
       atividades: [{ id: mid + "-vf", nivel: "revisao", tipo: "vf", titulo: "Verdadeiro ou falso — e corrija as falsas",
         itens: m.vf.map((t, i) => Object.assign({ t }, a.vf[i] || {})) }] });
@@ -871,7 +876,7 @@
   /* ============================================================
      CARTÃO DE ATIVIDADE (estrutura comum)
      ============================================================ */
-  const NIVEL = { basico: ["🟢", "Básico"], desafio: ["🟡", "Desafio"], turbo: ["🔴", "Turbo"], treino: ["🔁", "Treino"], revisao: ["✅", "Revisão"] };
+  const NIVEL = { basico: ["🟢", "Básico"], desafio: ["🟡", "Desafio"], turbo: ["🔴", "Turbo"], bonus: ["⭐", "Bônus"], treino: ["🔁", "Treino"], revisao: ["✅", "Revisão"] };
   /* 🪟 modal simples (abre por cima da página, fecha com o botão ou com Esc) */
   function modal(titulo, html, cls) {
     const d = h(`<dialog class="pp-dlg ${cls || ""}"><form method="dialog"><h2>${titulo}</h2><div class="modal-corpo">${html}</div><div class="row-btns"><button class="btn" value="x">Fechar</button></div></form></dialog>`);

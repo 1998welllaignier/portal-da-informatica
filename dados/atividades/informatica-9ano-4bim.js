@@ -130,8 +130,10 @@
       { tipo: "sim_cesar", titulo: "Desafio: agora ninguém contou a chave!",
         enunciado: "<p>Teste chave por chave até achar a mensagem. Testar todas as possibilidades tem nome: <strong>ataque de força bruta</strong>.</p>",
         cifrada: "F XJSMF J XJLWJIT", resposta: "A SENHA E SEGREDO",
-        explicacao: "Com só 25 chaves possíveis, a força bruta quebra a Cifra de César em segundos. Por isso a criptografia de hoje (como no HTTPS) usa chaves enormes." },
-      { id: "m2-sim-golpes", opcional: true, tipo: "sim_pc", titulo: "🎣 Simulador: pesque o golpe na caixa de email",
+        explicacao: "Com só 25 chaves possíveis, a força bruta quebra a Cifra de César em segundos. Por isso a criptografia de hoje (como no HTTPS) usa chaves enormes." }
+      ],
+      bonus: [
+      { id: "m2-sim-golpes", tipo: "sim_pc", titulo: "🎣 Simulador: pesque o golpe na caixa de email",
         enunciado: "<p>Na caixa de email do computador de mentira há <strong>golpes</strong> misturados com mensagem verdadeira. Olhe o <strong>remetente</strong>, desconfie da pressa e proteja a sua conta. O <strong>Bit</strong> confere.</p>",
         area: [{ nome: "Lixeira", app: "lixeira" }, { nome: "Email", app: "email" }, { nome: "Navegador", app: "web" }],
         emails: [
@@ -238,6 +240,13 @@
           { de: "@memes_br", t: "🎵 Música inteira de um cantor famoso, baixada e repostada como se fosse sua", c: "N", why: "Isso é plágio e fere o direito autoral." }],
         okMsg: "Você pensa antes de compartilhar: autoria, imagem e verdade!" }
       ],
+      bonus: [
+      { id: "m3-bonus-1", tipo: "escolha", titulo: "⭐ Bônus: licença relâmpago",
+        perguntas: [
+          { p: "A foto tem licença <b>CC BY</b>. Posso usar no trabalho?", opcoes: ["Sim, dando o crédito (autor, site e licença)", "Não, nunca", "Sim, e posso dizer que é minha"], certo: 0, why: "CC BY deixa usar, desde que dê o crédito." },
+          { p: "E se a foto diz <b>“Todos os direitos reservados”</b>?", opcoes: ["Só com autorização do autor", "Pode usar à vontade", "Basta mudar a cor"], certo: 0, why: "Todos os direitos reservados: precisa pedir autorização." }
+        ] }
+      ],
       basico: [
         { id: "m3-basico-1", tipo: "classificar", modo: "tabela", titulo: "Pode ou não pode?", colunaItem: "Situação", colunaResp: "P ou N",
           categorias: [{ id: "P", rot: "Pode" }, { id: "N", rot: "Não pode" }],
@@ -330,6 +339,13 @@
             { de: "ofertas@ganhe.com", t: "Só hoje: clique no link e ganhe um celular", c: "S", why: "Pressa + prêmio + link: padrão de spam." },
             { de: "Prima Ana", t: "Mandei as fotos do aniversário no grupo da família.", c: "N" }],
           okMsg: "Você fez o que a IA faz: aprendeu um padrão com exemplos e usou nos e-mails novos!" }
+      ],
+      bonus: [
+      { id: "m4-bonus-1", tipo: "escolha", titulo: "⭐ Bônus: a IA aprendeu certo?",
+        perguntas: [
+          { p: "Uma IA só viu fotos de gatos <b>brancos</b>. O que pode acontecer com um gato preto?", opcoes: ["Ela pode errar: é o viés", "Ela acerta sempre", "Ela vira um gato"], certo: 0, why: "A IA aprende com os exemplos; exemplos de um tipo só causam viés." },
+          { p: "Qual é a ordem de como a IA aprende?", opcoes: ["Coletar, treinar, testar, usar", "Usar, testar, coletar, treinar", "Treinar, usar, coletar, testar"], certo: 0 }
+        ] }
       ],
       basico: [
         { tipo: "ordenar", titulo: "Como a IA aprende: coloque as etapas em ordem",

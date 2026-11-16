@@ -91,6 +91,14 @@ PORTAL.registrarAtividades("informatica-5ano-4bim", {
         valores: ["Pedro", "Ana", "Luíza", "Carlos", "Bia"],
         explicacao: "Trocar vizinhos até tudo ficar em ordem é um jeito que o computador usa para <strong>ordenar listas</strong>." }
     ],
+    bonus: [
+      { id: "m2-bonus-1", tipo: "escolha", titulo: "⭐ Bônus: enigmas da lista e do grafo",
+        perguntas: [
+          { p: "Na lista <b>🍎, 🍌, 🍇, 🍓</b>, qual fruta está na <b>3ª posição</b>?", opcoes: ["🍇 Uva", "🍌 Banana", "🍓 Morango"], certo: 0, why: "Contando do começo: 1ª maçã, 2ª banana, 3ª uva." },
+          { p: "Num grafo de amizades, Ana está ligada a Bia e a Caio. Quantas <b>arestas</b> (linhas) saem da Ana?", opcoes: ["2", "1", "3"], certo: 0, why: "Uma linha até a Bia e outra até o Caio: 2 arestas." },
+          { p: "O que é um <b>vértice</b> no grafo?", opcoes: ["A bolinha (por exemplo, uma pessoa ou um lugar)", "A linha que liga duas bolinhas", "O nome do grafo"], certo: 0, why: "Vértice é a bolinha; aresta é a linha que liga." }
+        ] }
+    ],
     basico: [
       { tipo: "lista_ops", titulo: "A lista de compras", nome: "COMPRAS",
         inicial: ["arroz", "feijão", "leite", "pão"],

@@ -153,6 +153,19 @@ PORTAL.registrarAtividades("informatica-6ano-4bim", {
         okMsg: "Algoritmo na ordem certa! Se trocar a ordem, não funciona: tente cobrir com terra antes de cavar… 😅",
         explicacao: "No computador é igual: as <strong>instruções</strong> precisam estar na <strong>sequência</strong> certa." }
     ],
+    bonus: [
+      { id: "m2-bonus-1", tipo: "ordenar", titulo: "⭐ Bônus: o algoritmo do pão com manteiga",
+        enunciado: "<p>Coloque os passos na ordem certa (sequência).</p>",
+        itens: ["Pegar o pão", "Abrir o pão com a faca", "Passar a manteiga", "Fechar o pão", "Comer"],
+        alternativas: [[0, 1, 2, 3, 4]],
+        explicacao: "Sequência: cada passo depois do outro. Se trocar a ordem, o pão fica sem manteiga!" },
+      { id: "m2-bonus-2", tipo: "escolha", titulo: "⭐ Bônus: repetição ou seleção?",
+        perguntas: [
+          { p: "“Bata palmas <b>5 vezes</b>.” Isso é…", opcoes: ["Repetição", "Seleção", "Sequência"], certo: 0, why: "Fazer a mesma coisa várias vezes é repetição." },
+          { p: "“<b>SE</b> estiver frio, <b>ENTÃO</b> vista o casaco.” Isso é…", opcoes: ["Seleção (uma escolha)", "Repetição", "Sequência"], certo: 0, why: "SE... ENTÃO escolhe um caminho: seleção." },
+          { p: "No labirinto, o robô anda 3 casas para a frente. Qual comando é mais curto?", opcoes: ["repita 3 vezes: ande", "ande, ande, ande, ande", "vire, vire, vire"], certo: 0, why: "A repetição escreve o mesmo passo uma vez só e repete." }
+        ] }
+    ],
     basico: [
       { tipo: "ordenar", titulo: "Algoritmo de escovar os dentes",
         enunciado: "<p>Os passos estão fora de ordem. Organize do 1º ao 6º.</p>",

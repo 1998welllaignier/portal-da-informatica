@@ -349,7 +349,16 @@
   }
 
   /* ======================= 🏆 PONTOS ======================= */
-  const BASE = { pratica: 60, basico: 100, desafio: 150, turbo: 200 }, BONUS = 300;
+  const BASE = { pratica: 60, basico: 100, desafio: 150, turbo: 200 }, BONUS = 300, XP_BONUS = 150;
+  /* ⭐ Bônus relâmpago: XP a mais por cima (até +150, além dos 1000) e a medalha ⭐ quando o aluno faz todas as tarefas do bônus */
+  function bonusDe(mm, atv) {
+    const pg = mm.pages.find(x => x.id === "bonus"); if (!pg) return { xp: 0, ok: false };
+    const lst = (pg.atividades || []).filter(at => !((P.tipos || {})[at.tipo] || {}).semStatus); if (!lst.length) return { xp: 0, ok: false };
+    let raw = 0, n = 0; lst.forEach(at => { const st = (atv || {})[at.id]; if (!st || !st.status) return; n++;
+      let f = st.status === "certo" ? 1 : st.status === "ajuda" ? .6 : st.status === "enviado" ? .8 : .5;
+      f -= .12 * (st.tentativas || 0) + .15 * (st.dicas || 0) + (st.viuResolucao ? .2 : 0); raw += Math.max(.3, Math.min(1, f)); });
+    return { xp: Math.round(XP_BONUS * raw / lst.length), ok: n === lst.length };
+  }
   function pontosDoc(p, entradaTs, hoje) {
     if (!p || !p.aid || !p.mid || !P.montarMissao || !P.conteudo[p.aid]) return null;
     let mm; try { mm = P.montarMissao(p.aid, p.mid); } catch (e) { return null; }
@@ -364,7 +373,8 @@
     const dur = (P.catalogo.duracaoAula || 75) * 60000, okEm = (p.basicoOkEm || {})[hoje];
     if (p.basicoOk && okEm && entradaTs) raw += BONUS * Math.max(.1, Math.min(1, 1 - (okEm - entradaTs) / dur));
     max += BONUS;
-    return { pontos: max ? Math.round(1000 * raw / max) : 0, okB: !!p.basicoOk, okEm: okEm || null };
+    const bz = bonusDe(mm, atv);
+    return { pontos: (max ? Math.round(1000 * raw / max) : 0) + bz.xp, okB: !!p.basicoOk, okEm: okEm || null, bonusOk: bz.ok };
   }
   // ⚡ XP da missão (0 a 1000): só as atividades que dão pontos (sem o bônus de rapidez, que fica no placar)
   function xpDoc(aid, mid, atv) {
@@ -377,7 +387,7 @@
         let f = st.status === "certo" ? 1 : st.status === "ajuda" ? .6 : st.status === "enviado" ? .8 : .5;
         f -= .12 * (st.tentativas || 0) + .15 * (st.dicas || 0) + (st.viuResolucao ? .2 : 0);
         raw += base * Math.max(.3, Math.min(1, f)); }); });
-    return max ? Math.round(1000 * raw / max) : 0;
+    return (max ? Math.round(1000 * raw / max) : 0) + bonusDe(mm, atv).xp;
   }
   const nomeCurto = n => { const p = String(n || "").trim().split(/\s+/); return p.length > 1 ? p[0] + " " + p[p.length - 1][0] + "." : p[0] || "?"; };
   /* ranking da missão do dia. alunos = cadastro da turma; prog = documentos de progresso da turma */
@@ -391,7 +401,7 @@
       const p = docs[id], par = ((p && p.dupla) || []).filter(x => porId[x]), ids = [id].concat(par);
       ids.forEach(x => vistos.add(x));
       const r = (p && pontosDoc(p, Math.min(...ids.map(x => ent[x] || Infinity).filter(isFinite)) || ent[id], hoje)) || { pontos: 0, okB: false, okEm: null };
-      out.push({ ids, nomes: ids.map(x => nomeCurto(porId[x].nome)), avatares: ids.map(x => av[x] || null), pontos: r.pontos, okB: r.okB, okEm: r.okEm, trilha: ids.some(x => porId[x].trilha), ult: p ? p.atualizado || 0 : 0 });
+      out.push({ ids, nomes: ids.map(x => nomeCurto(porId[x].nome)), avatares: ids.map(x => av[x] || null), pontos: r.pontos, okB: r.okB, okEm: r.okEm, bonusOk: !!r.bonusOk, trilha: ids.some(x => porId[x].trilha), ult: p ? p.atualizado || 0 : 0 });
     });
     out.sort((x, y) => y.pontos - x.pontos || (x.okEm || 9e15) - (y.okEm || 9e15) || x.nomes[0].localeCompare(y.nomes[0], "pt-BR"));
     out.forEach((e, i) => { e.pos = i > 0 && out[i - 1].pontos === e.pontos && out[i - 1].okEm === e.okEm ? out[i - 1].pos : i + 1; });
@@ -414,7 +424,7 @@
   function linhaPlacar(e, i) {
     return `<div class="pl-lin ${e.pontos && e.pos <= 3 ? "top top" + e.pos : ""}" data-k="${esc(e.ids.join("+"))}" style="top:${i * 4.6}rem">
       <span class="pl-pos">${!e.pontos ? "–" : e.pos <= 3 ? MED[e.pos - 1] : e.pos + "º"}</span><span class="pl-av${e.rei ? " rei" : ""}">${e.rei ? coroa(38) : ""}${e.avatares.map(a => svg(a, 38)).join("")}</span>
-      <span class="pl-nome">${e.nomes.map(esc).join(" & ")}${e.trilha ? " 👣" : ""}${e.rei ? ` <small class="pl-rei">👑 ${tituloRei(e.avatares)}</small>` : ""}${e.okB ? ` <small class="pl-ok">✔ Básico</small>` : ""}</span>
+      <span class="pl-nome">${e.nomes.map(esc).join(" & ")}${e.trilha ? " 👣" : ""}${e.rei ? ` <small class="pl-rei">👑 ${tituloRei(e.avatares)}</small>` : ""}${e.okB ? ` <small class="pl-ok">✔ Básico</small>` : ""}${e.bonusOk ? ` <small class="pl-ok pl-bonus" title="Fez o Bônus relâmpago">⭐ Bônus</small>` : ""}</span>
       <span class="pl-pts">${e.pontos}<small> pts</small></span></div>`;
   }
   function podioHTML(rk) {

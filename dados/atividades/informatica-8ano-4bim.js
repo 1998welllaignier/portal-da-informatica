@@ -15,6 +15,14 @@ PORTAL.registrarAtividades("informatica-8ano-4bim", {
         valores: [42, 7, 19, 3, 25],
         explicacao: "No método da bolha, o computador compara vizinhos e troca quando estão fora de ordem, passada por passada, até não precisar mais trocar." }
     ],
+    bonus: [
+      { id: "m1-bonus-1", tipo: "escolha", titulo: "⭐ Bônus: corrida de buscas",
+        perguntas: [
+          { p: "Lista em ordem de 1 a 100. Na busca binária, qual número você olha primeiro?", opcoes: ["O do meio (50)", "O 1", "O 100"], certo: 0, why: "A binária sempre começa pelo meio e descarta metade." },
+          { p: "Procurando o 80 e o meio é 50, qual metade você descarta?", opcoes: ["De 1 a 50", "De 51 a 100", "Nenhuma"], certo: 0, why: "80 é maior que 50, então ele só pode estar na metade de cima." },
+          { p: "Na lista <b>4, 1</b>, o método da bolha faz o quê?", opcoes: ["Troca: fica 1, 4", "Nada", "Apaga o 4"], certo: 0, why: "Vizinhos fora de ordem trocam de lugar." }
+        ] }
+    ],
     basico: [
       { tipo: "tabela", titulo: "Busca sequencial: procure o 31",
         enunciado: "<p>Lista ordenada: <strong>NÚMEROS = [3, 7, 12, 18, 25, 31, 40, 52]</strong></p>",
@@ -140,8 +148,10 @@ PORTAL.registrarAtividades("informatica-8ano-4bim", {
           { ic: "🃏", app: "Jogo de cartas", pede: "o microfone", c: "N", why: "Para que um jogo de cartas ouviria você?" },
           { ic: "📷", app: "Câmera", pede: "a câmera", c: "S" },
           { ic: "🧮", app: "Calculadora", pede: "sua localização", c: "N", why: "Calculadora não precisa saber onde você está." }],
-        explicacao: "Cada permissão é um <strong>dado pessoal</strong> que você entrega. A <strong>LGPD</strong> diz que o app só deve pedir o que precisa." },
-      { id: "m3-sim-noticia", opcional: true, tipo: "sim_pc", titulo: "📰 Simulador: confira a notícia antes de compartilhar",
+        explicacao: "Cada permissão é um <strong>dado pessoal</strong> que você entrega. A <strong>LGPD</strong> diz que o app só deve pedir o que precisa." }
+    ],
+    bonus: [
+      { id: "m3-sim-noticia", tipo: "sim_pc", titulo: "📰 Simulador: confira a notícia antes de compartilhar",
         enunciado: "<p>Chegou uma notícia assustadora. Faça o que um <strong>checador</strong> faz, no navegador de mentira: leia até o fim, procure em outro site e confie na <strong>fonte oficial</strong>. O <strong>Bit</strong> acompanha.</p>",
         abertas: ["web"], inicioWeb: "zapnoticias-urgente.blog",
         web: {
@@ -282,6 +292,13 @@ PORTAL.registrarAtividades("informatica-8ano-4bim", {
           { t: "Ele nunca mostra propaganda, porque é grátis", certo: false, why: "O item 2 diz que ele mostra anúncios personalizados." },
           { t: "Não dá para apagar a conta", certo: false, why: "O item 6 diz que dá: Configurações → Conta." }],
         explicacao: "Itens 2, 3, 4 e 5: propaganda personalizada, licença sobre o que você publica, compartilhamento com parceiros e termos que mudam. O jogo é grátis, mas é pago com <strong>propaganda e dados</strong>." }
+    ],
+    bonus: [
+      { id: "m4-bonus-1", tipo: "escolha", titulo: "⭐ Bônus: quem paga o grátis?",
+        perguntas: [
+          { p: "Um aplicativo é grátis. Como a empresa ganha dinheiro?", opcoes: ["Com anúncios e com os dados dos usuários", "Não ganha nada", "Com o dinheiro da escola"], certo: 0, why: "Quando é grátis, quem paga é a propaganda (feita com os seus dados)." },
+          { p: "Qual direito da LGPD você usa ao pedir: “apaguem a minha conta”?", opcoes: ["Apagar (eliminação)", "Corrigir", "Saber"], certo: 0, why: "A LGPD garante o direito de pedir que apaguem os seus dados." }
+        ] }
     ],
     basico: [
       { id: "m4-basico-1", tipo: "classificar", modo: "tabela", titulo: "Cada frase dos termos: tranquila ou atenção?", colunaItem: "Frase nos termos", colunaResp: "👍 ou ⚠️",

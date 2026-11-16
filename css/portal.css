@@ -1431,6 +1431,8 @@ body.modo-placar .tela.painel-prof { max-width: none; padding: 0; }
 .pl-av { display: flex; gap: 2px; }
 .pl-nome { flex: 1; font-size: 1.35rem; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .pl-ok { font-size: .8rem; background: #16a34a; border-radius: 999px; padding: 2px 8px; vertical-align: middle; }
+.pl-ok.pl-bonus { background: #f59e0b; color: #1c1917; }
+.xp-bonus { background: #f59e0b; color: #1c1917; border-radius: 999px; padding: 1px 8px; font-size: .85em; margin-left: 4px; }
 .pl-pts { font-size: 1.6rem; font-weight: 900; color: #fde68a; font-variant-numeric: tabular-nums; }
 .pl-pts small { font-size: .8rem; color: #c7d2fe; }
 .pl-cong { text-align: center; padding: 60px 20px; } .pl-cong p:first-child { font-size: 5rem; margin: 0; } .pl-cong h2 { font-size: 2.6rem; margin: 6px 0; }
