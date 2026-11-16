@@ -42,10 +42,23 @@ for (i, j), c in D.items():
     tini = t0 if i < 0 else S[i][1]; cc = c + sum(pen[q] for q in range(i + 1, M)) + custo(j, NB, END - tini)
     if cc < fc: fc, fim = cc, (i, j)
 mapa = {}; st = fim
-while st and st[0] >= 0: mapa[st[1]] = st[0]; st = B[st]
+segs = []   # trechos falados: frases j1..j2-1, da pausa ii até a pausa i (para fala_sync.py)
+par_de = []
+for k, p in enumerate(par):
+    for f in [x for x in re.split(r"(?<=[.,:;?!…])\s+", p) if x.strip()]: par_de.append(k)
+def trecho(ii, i, j1, j2):
+    a = t0 if ii < 0 else S[ii][1]; b = END if i is None else S[i][0]
+    iv, cur = [], a
+    for q in range((ii + 1) if ii >= 0 else 0, (i if i is not None else M)):
+        if S[q][0] > a and S[q][1] < b: iv.append([cur, S[q][0]]); cur = S[q][1]
+    iv.append([cur, b]); segs.append({"j": [j1, j2], "par": par_de[j1], "iv": [[round(x, 3), round(y, 3)] for x, y in iv]})
+trecho(fim[0], None, fim[1], NB)
+while st and st[0] >= 0: mapa[st[1]] = st[0]; ant = B[st]; trecho(ant[0], st[0], ant[1], st[1]); st = ant
+segs.sort(key=lambda g: g["j"][0])
 falt = [b for b in sorted(pb) if b not in mapa]; print("custo", round(fc, 2), "faltando", falt)
 cortes = [list(S[mapa[b]]) for b in sorted(pb)]
 json.dump(cortes, open(f"{pasta}/voz/cortes.json", "w"))
+json.dump(segs, open(f"{pasta}/voz/frases.json", "w"))   # para fala_sync.py (início real de cada palavra)
 ini = t0
 for k, p in enumerate(par):
     e = cortes[k][0] if k < len(cortes) else END; print(f"{k:2d} {ini:6.1f}-{e:6.1f} ({e-ini:4.1f}s) pausa {(cortes[k][1]-cortes[k][0]) if k < len(cortes) else 0:.2f} | {p[:50]}"); ini = cortes[k][1] if k < len(cortes) else END
