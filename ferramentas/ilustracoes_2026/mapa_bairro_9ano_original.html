@@ -1,0 +1,75 @@
+<figure style="margin:6px 0"><svg aria-label="Mapa do bairro da escola desenhado como grafo, com os pesos em quadras" role="img" style="display:block;width:100%;max-width:400px;margin:0 auto" viewbox="30 22 515 480">
+<defs><pattern height="10" id="ptbairro" patternunits="userSpaceOnUse" width="10"><circle cx="1" cy="1" fill="#d6dade" r="1"></circle></pattern></defs>
+<rect fill="url(#ptbairro)" height="520" width="560"></rect>
+<!-- ruas (cinza claro, largas) -->
+<g stroke="#d6dade" stroke-linecap="round" stroke-width="16">
+<path d="M40 70H530M40 430H530M40 250H530M40 340H530M40 160H530"></path>
+<path d="M70 40V490M240 40V490M450 40V490"></path>
+</g>
+<!-- nomes das ruas -->
+<g fill="#4a5056" font-family="Atkinson Hyperlegible" font-size="15">
+<text x="290" y="58">Av. Carlos Santos</text>
+<text x="300" y="148">Av. Pernambuco</text>
+<text x="300" y="238">Av. Bahia</text>
+<text x="300" y="328">Av. Alagoas</text>
+<text x="80" y="458">Av. Mato Grosso</text>
+<text transform="translate(58 300) rotate(-90)">R. Açaí</text>
+<text transform="translate(228 210) rotate(-90)">R. Tucupi</text>
+<text transform="translate(470 410) rotate(-90)">R. Cedro</text>
+</g>
+<!-- arestas do grafo -->
+<g stroke="#1c1f22" stroke-linecap="round" stroke-width="4">
+<path d="M330 430H240M330 430H450"></path>
+<path d="M240 430V340M240 340V250M240 250V70"></path>
+<path d="M450 430V250M450 250V70"></path>
+<path d="M240 250H450M240 70H450M240 70H150"></path>
+</g>
+<!-- pesos -->
+<g font-family="Baloo 2" font-size="17" font-weight="800" text-anchor="middle">
+<g fill="#fff" stroke="#1c1f22" stroke-width="2">
+<rect height="22" rx="11" width="30" x="265" y="440"></rect><rect height="22" rx="11" width="30" x="375" y="440"></rect>
+<rect height="22" rx="11" width="30" x="250" y="374"></rect><rect height="22" rx="11" width="30" x="250" y="284"></rect>
+<rect height="22" rx="11" width="30" x="250" y="150"></rect>
+<rect height="22" rx="11" width="30" x="460" y="330"></rect><rect height="22" rx="11" width="30" x="460" y="150"></rect>
+<rect height="22" rx="11" width="30" x="330" y="259"></rect><rect height="22" rx="11" width="30" x="330" y="79"></rect>
+<rect height="22" rx="11" width="30" x="180" y="79"></rect>
+</g>
+<g fill="#1c1f22">
+<text x="280" y="457">½</text><text x="390" y="457">1</text>
+<text x="265" y="391">1</text><text x="265" y="301">1</text>
+<text x="265" y="167">2</text>
+<text x="475" y="347">2</text><text x="475" y="167">2</text>
+<text x="345" y="276">1</text><text x="345" y="96">1</text>
+<text x="195" y="96">½</text>
+</g>
+</g>
+<!-- vértices (esquinas) -->
+<g font-family="Baloo 2" font-size="15" font-weight="800" text-anchor="middle">
+<g fill="#fff" stroke="#1c1f22" stroke-width="3">
+<circle cx="240" cy="430" r="13"></circle><circle cx="450" cy="430" r="13"></circle>
+<circle cx="240" cy="250" r="13"></circle><circle cx="450" cy="250" r="13"></circle>
+<circle cx="240" cy="70" r="13"></circle><circle cx="450" cy="70" r="13"></circle>
+</g>
+<g fill="#1c1f22"><text x="240" y="435">A</text><text x="450" y="435">B</text><text x="240" y="255">C</text><text x="450" y="255">D</text><text x="240" y="75">F</text><text x="450" y="75">G</text></g>
+</g>
+<!-- ESCOLA -->
+<g transform="translate(330 430)">
+<circle fill="#f2c14e" r="19" stroke="#1c1f22" stroke-width="3"></circle>
+<path d="M-10 -1 0 -8 10 -1M-7 -2v9h14v-9" fill="none" stroke="#1c1f22" stroke-linejoin="round" stroke-width="2.5"></path>
+<text font-family="Baloo 2" font-size="16" font-weight="800" text-anchor="middle" y="-27">E · Escola</text>
+</g>
+<!-- MERCADO MUNICIPAL -->
+<g transform="translate(150 70)">
+<circle fill="#fff" r="19" stroke="#1c1f22" stroke-width="3"></circle>
+<path d="M-10 -7h3l3 11h10l2-8h-14" fill="none" stroke="#1c1f22" stroke-linejoin="round" stroke-width="2.5"></path><circle cx="-2" cy="8" fill="#1c1f22" r="2"></circle><circle cx="6" cy="8" fill="#1c1f22" r="2"></circle>
+<text font-family="Baloo 2" font-size="16" font-weight="800" text-anchor="start" x="-18" y="-26">M · Mercado Municipal</text>
+</g>
+<!-- COMERCIAL UNIÃO -->
+<g transform="translate(240 340)">
+<circle fill="#fff" r="19" stroke="#1c1f22" stroke-width="3"></circle>
+<path d="M-10 -7h3l3 11h10l2-8h-14" fill="none" stroke="#1c1f22" stroke-linejoin="round" stroke-width="2.5"></path><circle cx="-2" cy="8" fill="#1c1f22" r="2"></circle><circle cx="6" cy="8" fill="#1c1f22" r="2"></circle>
+<text font-family="Baloo 2" font-size="16" font-weight="800" text-anchor="end" x="-26" y="5">U · Comercial União</text>
+</g>
+</svg>
+<figcaption><b>E</b> = Escola · <b>M</b> = Mercado Municipal · <b>U</b> = Comercial União · <b>A, B, C, D, F, G</b> = esquinas · <b>½ · 1 · 2</b> = quadras</figcaption>
+</figure>

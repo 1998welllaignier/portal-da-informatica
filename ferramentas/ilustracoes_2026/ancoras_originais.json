@@ -1,0 +1,348 @@
+{
+ "informatica-5ano-4bim": [
+  {
+   "missao": "m1",
+   "pagina": "comecar",
+   "ancora": "O computador tem 4 tipos de partes , e cada uma tem uma função:",
+   "rotulo": "Entrada: teclado, mouse e microfone; processamento: gabinete com processador; saída: monitor, caixa de som e impressora; armazenamento embaixo"
+  },
+  {
+   "missao": "m2",
+   "pagina": "comecar",
+   "ancora": "Exemplo de grafo: Ana é amiga de Bia e de Caio. Os três são vértices e cada amizade é uma ",
+   "rotulo": "Grafo: Ana ligada a Bia e a Caio"
+  },
+  {
+   "missao": "m3",
+   "pagina": "comecar",
+   "ancora": "Os computadores usam isso para fazer escolhas nos algoritmos: SE uma condição for verdadei",
+   "rotulo": "Duas lâmpadas: com E, a lâmpada acende só se os dois interruptores estiverem ligados; com OU, basta um"
+  },
+  {
+   "missao": "pf",
+   "pagina": "resumo",
+   "ancora": "",
+   "rotulo": "Robô mascote acenando com um capelo"
+  }
+ ],
+ "informatica-6ano-4bim": [
+  {
+   "missao": "m1",
+   "pagina": "comecar",
+   "ancora": "Todo computador trabalha em três etapas :",
+   "rotulo": "Entrada: teclado, mouse e microfone; processamento: gabinete com processador; saída: monitor, caixa de som e impressora; armazenamento embaixo"
+  },
+  {
+   "missao": "m1",
+   "pagina": "comecar",
+   "ancora": "Um arquivo é qualquer trabalho guardado no computador. Uma pasta é como uma gaveta que org",
+   "rotulo": "Pasta como gaveta de arquivos, janela Salvar como e as teclas Ctrl e S"
+  },
+  {
+   "missao": "m1",
+   "pagina": "comecar",
+   "ancora": "Ação do mouse Para que serve Duplo clique Abrir pastas e arquivos Arrastar Mudar algo de l",
+   "rotulo": "Mouse com o botão esquerdo para clique e duplo clique, botão direito para mais opções e a seta de arrastar"
+  },
+  {
+   "missao": "m2",
+   "pagina": "comecar",
+   "ancora": "Instrução O que faz Exemplo Sequência Um passo depois do outro Ande, vire, ande Repetição ",
+   "rotulo": "Sequência: passos em linha; repetição: um passo com seta de volta 4 vezes; seleção: pergunta com caminhos sim e não"
+  },
+  {
+   "missao": "m2",
+   "pagina": "basico",
+   "ancora": "Leve o robô até a estrela sem passar pelas paredes. Use as setas ↑ ↓ ← →, uma por casa.",
+   "rotulo": "Labirinto 5 por 5: robô em A1, estrela em E5, paredes em D1, A2, B2, D2, B4, C4 e D4"
+  },
+  {
+   "missao": "m3",
+   "pagina": "comecar",
+   "ancora": "Escreva como se a pessoa estivesse na sua frente. Ofender, zombar ou espalhar fotos de alg",
+   "rotulo": "Três atitudes: falar com respeito, proteger os dados com senha forte e contar a um adulto quando algo assustar"
+  },
+  {
+   "missao": "m3",
+   "pagina": "comecar",
+   "ancora": "Celulares e computadores são feitos com metais e plásticos retirados da natureza. Muitos a",
+   "rotulo": "Ciclo consciente do celular: usar por mais tempo, consertar, doar e levar ao ponto de coleta; lixo comum, não"
+  },
+  {
+   "missao": "m4",
+   "pagina": "comecar",
+   "ancora": "Dentro do computador, tudo vira 0 e 1 : texto, foto, música e vídeo. Cada 0 ou 1 é um bit ",
+   "rotulo": "Quatro lâmpadas que valem 8, 4, 2 e 1; acesas a de 4 e a de 1: os bits 0101 formam o número 5"
+  },
+  {
+   "missao": "m4",
+   "pagina": "comecar",
+   "ancora": "Do menor para o maior: bit → byte → KB → MB → GB → TB .",
+   "rotulo": "Escada das medidas, do menor para o maior: bit (0 ou 1), byte (uma letra), KB (um texto), MB (uma foto), GB (um filme), TB (um HD); cada degrau, a partir do byte, cerca de mil vezes maior"
+  },
+  {
+   "missao": "m4",
+   "pagina": "comecar",
+   "ancora": "Compactar é diminuir o tamanho dos arquivos e juntar vários em um só , o arquivo .zip . Fi",
+   "rotulo": "Compactar: três arquivos entram e viram um arquivo .zip menor; descompactar faz o caminho de volta"
+  },
+  {
+   "missao": "pf",
+   "pagina": "resumo",
+   "ancora": "",
+   "rotulo": "Robô mascote acenando com um capelo"
+  }
+ ],
+ "informatica-7ano-4bim": [
+  {
+   "missao": "m1",
+   "pagina": "comecar",
+   "ancora": "Parte da rede O que faz Exemplos Dispositivos Enviam e recebem dados Computador, celular, ",
+   "rotulo": "Dispositivos ligados por cabo e Wi-Fi ao roteador, que leva à internet e ao servidor"
+  },
+  {
+   "missao": "m1",
+   "pagina": "comecar",
+   "ancora": "Quando você envia uma mensagem, ela é dividida em pedaços chamados pacotes . Cada pacote l",
+   "rotulo": "A mensagem Boa aula, 7º ano! é dividida em 3 pacotes numerados que viajam por caminhos diferentes e são montados em ordem no destino"
+  },
+  {
+   "missao": "m1",
+   "pagina": "comecar",
+   "ancora": "Para tudo isso funcionar, os aparelhos seguem protocolos : regras combinadas para que todo",
+   "rotulo": "Barra de endereço com cadeado e https"
+  },
+  {
+   "missao": "m1",
+   "pagina": "basico",
+   "ancora": "A nossa escola também é uma rede. Veja as peças que levam a internet da rua até o computad",
+   "rotulo": "Peças da rede da escola: fibra óptica, rack com roteador, switch, cabo de rede, tomada de rede e ponto de acesso"
+  },
+  {
+   "missao": "m2",
+   "pagina": "comecar",
+   "ancora": "Ideia O que é Exemplo Decomposição Dividir um problema grande em partes menores, mais fáce",
+   "rotulo": "Quatro ideias: decomposição de um bolo em partes, lista com posições, bloco reaproveitado para desenhar casas e lupa procurando um bug"
+  },
+  {
+   "missao": "m3",
+   "pagina": "comecar",
+   "ancora": "Golpe (ou phishing ) é uma mensagem falsa que finge ser de um banco, loja, jogo ou amigo p",
+   "rotulo": "Celular com mensagem falsa e setas apontando os sinais de golpe: pressa, prêmio fácil, link estranho, erro de português e pedido de código"
+  },
+  {
+   "missao": "m3",
+   "pagina": "comecar",
+   "ancora": "",
+   "rotulo": "Verificação em duas etapas: senha mais código extra abrem a conta"
+  },
+  {
+   "missao": "m3",
+   "pagina": "comecar",
+   "ancora": "Discordar é normal. Critique a ideia , nunca a pessoa . Leia com calma antes de responder.",
+   "rotulo": "Diante do cyberbullying: guardar provas com print, bloquear, denunciar e contar a um adulto de confiança"
+  },
+  {
+   "missao": "m4",
+   "pagina": "comecar",
+   "ancora": "O aplicativo de mapa do celular mostra o caminho mais rápido até a casa de um amigo. Como ",
+   "rotulo": "Grafo do bairro: Casa, Padaria, Praça e Escola são vértices; as ruas são arestas; os minutos escritos nas ruas são os pesos"
+  },
+  {
+   "missao": "m4",
+   "pagina": "comecar",
+   "ancora": "O caminho com menos arestas nem sempre é o mais curto : para achar o mais curto, somamos o",
+   "rotulo": "Comparando caminhos: pela Padaria 3 mais 2 igual a 5 minutos, o mais curto; pela rua direta 9 minutos"
+  },
+  {
+   "missao": "m4",
+   "pagina": "comecar",
+   "ancora": "Grafos também mostram pessoas : cada pessoa é um vértice, e cada amizade é uma aresta. O n",
+   "rotulo": "Rede de amigos: Ana ligada a Bia, Caio e Davi tem grau 3; Bia e Caio grau 2; Davi grau 1"
+  },
+  {
+   "missao": "pf",
+   "pagina": "resumo",
+   "ancora": "",
+   "rotulo": "Robô mascote acenando com um capelo"
+  }
+ ],
+ "informatica-8ano-4bim": [
+  {
+   "missao": "m1",
+   "pagina": "comecar",
+   "ancora": "Algoritmo Como funciona Quando usar Busca sequencial Olha os itens um por um, do começo ao",
+   "rotulo": "Busca sequencial olhando item por item; busca binária olhando o meio e descartando metade da lista"
+  },
+  {
+   "missao": "m1",
+   "pagina": "comecar",
+   "ancora": "Compara 5 e 2 → fora de ordem → troca → [2, 5, 8, 1] Compara 5 e 8 → em ordem → não troca ",
+   "rotulo": "Primeira passada do método da bolha com a lista 5, 2, 8, 1: trocas entre vizinhos até o 8 chegar ao final"
+  },
+  {
+   "missao": "m2",
+   "pagina": "comecar",
+   "ancora": "Parte da internet O que é Comparação Provedor Empresa que liga a sua casa ou a escola à in",
+   "rotulo": "Peças da internet: provedor, backbone, cabo submarino, DNS, data center e nuvem; o DNS traduz laignier.exemplo para um endereço IP"
+  },
+  {
+   "missao": "m2",
+   "pagina": "comecar",
+   "ancora": "Paralelismo: partes de uma tarefa são feitas ao mesmo tempo por vários processadores ou nú",
+   "rotulo": "Paralelismo: processador com 4 núcleos dividindo a tarefa; concorrência: fila de documentos para uma impressora; sistema distribuído: a mesma foto guardada em três data centers"
+  },
+  {
+   "missao": "m3",
+   "pagina": "comecar",
+   "ancora": "Dado pessoal é tudo o que identifica você: nome, data de nascimento, endereço, telefone, C",
+   "rotulo": "Celular com aviso: Lanterna quer acessar seus contatos, com os botões Permitir e Não permitir; ao lado, pegadas digitais com curtida, comentário e foto"
+  },
+  {
+   "missao": "m3",
+   "pagina": "comecar",
+   "ancora": "Pergunta O que observar Quem publicou? Há autor ou veículo conhecido? Uma fonte anônima é ",
+   "rotulo": "As quatro perguntas do checador: quem publicou, quando, outros confirmam e como está escrita"
+  },
+  {
+   "missao": "m4",
+   "pagina": "comecar",
+   "ancora": "Quase ninguém lê os termos de uso antes de clicar em “Li e aceito” . Mas aquele clique é u",
+   "rotulo": "Tela de cadastro com os termos de uso e setas apontando as partes importantes escondidas no texto: dados coletados, compartilhamento com parceiros, licença sobre as fotos e mudanças nos termos; embaixo, o botão Li e aceito"
+  },
+  {
+   "missao": "m4",
+   "pagina": "comecar",
+   "ancora": "Quando o serviço é grátis, quem paga? Muitas vezes, quem paga é a propaganda , e os seus d",
+   "rotulo": "Ciclo do aplicativo grátis: você usa e curte, o aplicativo guarda seus dados, empresas pagam anúncios, e você vê propaganda feita para você"
+  },
+  {
+   "missao": "m4",
+   "pagina": "comecar",
+   "ancora": "A LGPD (Lei Geral de Proteção de Dados) dá direitos a você: saber quais dados a empresa te",
+   "rotulo": "Os quatro direitos da LGPD: saber, corrigir, apagar e retirar o consentimento"
+  },
+  {
+   "missao": "pf",
+   "pagina": "resumo",
+   "ancora": "",
+   "rotulo": "Robô mascote acenando com um capelo"
+  }
+ ],
+ "informatica-9ano-4bim": [
+  {
+   "missao": "m1",
+   "pagina": "comecar",
+   "ancora": "No 8º ano você trabalhou com listas, em que cada item ocupa uma posição, um depois do outr",
+   "rotulo": "Quatro desenhos: grafo, grafo com pesos, árvore e árvore de decisão"
+  },
+  {
+   "missao": "m1",
+   "pagina": "comecar",
+   "ancora": "Palavras importantes Caminho: a sequência de arestas que leva de um vértice a outro. Compr",
+   "rotulo": "Exemplo: de A até D pelo caminho A, B, D soma 7; por A, C, D soma 8"
+  },
+  {
+   "missao": "m1",
+   "pagina": "basico",
+   "ancora": "Aresta (ligação) Peso (min) Casa – Padaria 4 Casa – Praça 3 Padaria – Escola 5 Praça – Esc",
+   "rotulo": "Os cinco lugares do bairro, sem as ligações"
+  },
+  {
+   "missao": "m1",
+   "pagina": "basico",
+   "ancora": "Agora o grafo é o bairro da nossa escola , desenhado a partir do mapa do celular. Cada esq",
+   "rotulo": "Mapa do bairro da escola desenhado como grafo, com os pesos em quadras"
+  },
+  {
+   "missao": "m1",
+   "pagina": "basico",
+   "ancora": "Observe a árvore de pastas de um computador e responda:",
+   "rotulo": "Árvore de pastas: Documentos contém Escola e Fotos; Escola contém redação.txt e mapa.png; Fotos contém aniversário.jpg"
+  },
+  {
+   "missao": "m1",
+   "pagina": "desafio",
+   "ancora": "Observe a árvore de decisão para adivinhar um objeto da sala:",
+   "rotulo": "Árvore de decisão: É eletrônico? Sim: Tem tela? Sim Monitor, Não Teclado. Não: Serve para escrever? Sim Lápis, Não Cadeira"
+  },
+  {
+   "missao": "m1",
+   "pagina": "turbo",
+   "ancora": "Turbo",
+   "rotulo": "Cinco pessoas desenhadas como vértices, sem ligações: Ana, Bruno, Carla, Davi e Elisa"
+  },
+  {
+   "missao": "m2",
+   "pagina": "comecar",
+   "ancora": "No 7º ano você aprendeu a reconhecer golpes e a criar senhas fortes. Agora vamos ver o que",
+   "rotulo": "Caminho da mensagem: texto claro SOL passa pelo cadeado com a chave 3 e vira VRO; com a mesma chave volta a ser SOL"
+  },
+  {
+   "missao": "m2",
+   "pagina": "comecar",
+   "ancora": "Curiosidade: o autor desta apostila assinou em código, com a chave 3: ZHOLQJWRQ ODLJQLHU .",
+   "rotulo": "Barra de endereço de um site com cadeado e https"
+  },
+  {
+   "missao": "m2",
+   "pagina": "comecar",
+   "ancora": "Por que a senha longa protege: cada posição de uma senha só de números tem 10 opções (0 a ",
+   "rotulo": "Senha de 2 dígitos: 100 combinações. Senha de 4 dígitos: 10.000 combinações"
+  },
+  {
+   "missao": "m2",
+   "pagina": "basico",
+   "ancora": "Situação F, R, E ou D Os arquivos do computador ficaram ilegíveis e apareceu uma mensagem ",
+   "rotulo": "Caixa do portal com três linhas"
+  },
+  {
+   "missao": "m3",
+   "pagina": "comecar",
+   "ancora": "Direito autoral Quem cria uma música, foto, texto, desenho ou vídeo é o autor e decide com",
+   "rotulo": "Foto de uma árvore com a legenda de crédito embaixo"
+  },
+  {
+   "missao": "m3",
+   "pagina": "comecar",
+   "ancora": "A inteligência artificial (IA) generativa cria textos, imagens, vozes e vídeos novos a par",
+   "rotulo": "Celular mostrando um vídeo suspeito, com setas apontando os sinais de alerta de deepfake"
+  },
+  {
+   "missao": "m3",
+   "pagina": "basico",
+   "ancora": "Mensagem D, P, H ou O “Você não vai acreditar no que aconteceu! Clique aqui” (o link abre ",
+   "rotulo": "Exemplo de cartaz com título, desenho e a linha de crédito"
+  },
+  {
+   "missao": "m4",
+   "pagina": "comecar",
+   "ancora": "Como a IA aprende? Ela não “pensa” como uma pessoa. Ela aprende com muitos exemplos (os da",
+   "rotulo": "Como a IA aprende: 1 coletar muitos exemplos, 2 treinar achando padrões, 3 testar com exemplos novos, 4 usar para fazer previsões"
+  },
+  {
+   "missao": "m4",
+   "pagina": "comecar",
+   "ancora": "A IA também erra:",
+   "rotulo": "Viés: exemplos de um tipo só levam a IA a errar com quem ficou de fora; exemplos variados ensinam melhor"
+  },
+  {
+   "missao": "m4",
+   "pagina": "comecar",
+   "ancora": "Impactos da IA na sociedade:",
+   "rotulo": "Impactos da IA: ajuda na saúde, na acessibilidade, no campo e no trânsito; pede cuidado com dados pessoais, empregos, deepfakes e energia"
+  },
+  {
+   "missao": "pf",
+   "pagina": "comecar",
+   "ancora": "Data da aula: ........ / ........",
+   "rotulo": "Passaporte aberto com três espaços de carimbo, um para cada missão"
+  },
+  {
+   "missao": "pf",
+   "pagina": "resumo",
+   "ancora": "Resumo do Bimestre Neste bimestre você aprendeu a representar mapas, pastas e decisões com",
+   "rotulo": "Robô mascote acenando com um capelo de formatura"
+  }
+ ]
+}
