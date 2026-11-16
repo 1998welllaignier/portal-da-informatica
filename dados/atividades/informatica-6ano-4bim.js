@@ -264,6 +264,14 @@ PORTAL.registrarAtividades("informatica-6ano-4bim", {
         enunciado: "<p>Digite uma senha <strong>inventada</strong> e veja o medidor mudar. Complete todos os itens da lista para chegar em <strong>Muito forte</strong>.</p>",
         explicacao: "Senha forte: comprida, com maiúscula, minúscula, número e símbolo, e sem sequências fáceis. E nunca conte para ninguém!" }
     ],
+    bonus: [
+      { id: "m3-bonus-1", tipo: "escolha", titulo: "⭐ Bônus: qual senha é mais forte?",
+        perguntas: [
+          { p: "Qual destas senhas é a <b>mais forte</b>?", opcoes: ["Tr3m#Az7ul!", "123456", "pedro2013"], certo: 0, why: "Mistura maiúsculas, minúsculas, números e símbolos, e não tem o seu nome." },
+          { p: "O colega pediu a sua senha emprestada. O que você faz?", opcoes: ["Não empresto: senha é só minha", "Empresto só hoje", "Escrevo na lousa"], certo: 0 },
+          { p: "O celular velho parou de funcionar. Para onde ele vai?", opcoes: ["Ponto de coleta de eletrônicos", "Lixo comum", "Rio"], certo: 0, why: "Eletrônico tem peças que podem ser recicladas e materiais que poluem: ponto de coleta." }
+        ] }
+    ],
     basico: [
       { id: "m3-basico-1", tipo: "aberta", titulo: "Reescreva as mensagens de forma respeitosa",
         enunciado: "<p>Mantenha a ideia, mas sem ofender. O portal avisa se ainda sobrar alguma palavra ofensiva.</p>",
@@ -373,6 +381,14 @@ PORTAL.registrarAtividades("informatica-6ano-4bim", {
           { alvo: 15, pede: "Escreva o número **15**: o maior que dá com 4 lâmpadas.", dica: "Acenda todas: 8 + 4 + 2 + 1." }],
         okMsg: "Você escreveu números só com 0 e 1, como o computador faz!",
         explicacao: "3 = 0011 · 5 = 0101 · 10 = 1010 · 15 = 1111. O computador guarda tudo assim, em bits (0 e 1)." }
+    ],
+    bonus: [
+      { id: "m4-bonus-1", tipo: "escolha", titulo: "⭐ Bônus: bits e bytes relâmpago",
+        perguntas: [
+          { p: "Lâmpadas que valem 8, 4, 2 e 1. Acesas: a de <b>8</b> e a de <b>1</b>. Que número é?", opcoes: ["9", "81", "5"], certo: 0, why: "8 + 1 = 9." },
+          { p: "O que é maior?", opcoes: ["1 GB", "1 MB", "1 KB"], certo: 0, why: "KB < MB < GB: o GB é o maior." },
+          { p: "Qual extensão é de <b>vídeo</b>?", opcoes: [".mp4", ".txt", ".jpg"], certo: 0 }
+        ] }
     ],
     basico: [
       { id: "m4-basico-1", tipo: "ordenar", titulo: "Do menor para o maior: as medidas",

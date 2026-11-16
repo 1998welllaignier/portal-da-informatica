@@ -72,6 +72,41 @@ B[("9ano-4bim", "m4")] = '''      { id: "m4-bonus-1", tipo: "escolha", titulo: "
           { p: "Qual é a ordem de como a IA aprende?", opcoes: ["Coletar, treinar, testar, usar", "Usar, testar, coletar, treinar", "Treinar, usar, coletar, testar"], certo: 0 }
         ] }'''
 
+B[("5ano-4bim", "m3")] = '''      { id: "m3-bonus-1", tipo: "escolha", titulo: "⭐ Bônus: verdadeiro ou falso relâmpago",
+        perguntas: [
+          { p: "“O sol é quente <b>E</b> o gelo é frio.” Essa frase é…", opcoes: ["Verdadeira (as duas partes são verdadeiras)", "Falsa"], certo: 0, why: "Com E, as duas partes precisam ser verdadeiras: e são!" },
+          { p: "“O peixe voa <b>OU</b> o pássaro voa.” Essa frase é…", opcoes: ["Verdadeira (basta uma parte ser verdadeira)", "Falsa"], certo: 0, why: "Com OU, basta uma parte verdadeira: o pássaro voa." },
+          { p: "<b>SE</b> chover, <b>ENTÃO</b> levo o guarda-chuva. Hoje choveu. O que eu faço?", opcoes: ["Levo o guarda-chuva", "Levo o boné", "Fico em casa"], certo: 0 }
+        ] }'''
+B[("5ano-4bim", "m4")] = '''      { id: "m4-bonus-1", tipo: "escolha", titulo: "⭐ Bônus: internet com cuidado",
+        perguntas: [
+          { p: "Um site diz “VOCÊ GANHOU UM CELULAR!!! CLIQUE AQUI!!!”. O que você faz?", opcoes: ["Não clico e conto a um adulto", "Clico rápido", "Mando meu endereço"], certo: 0, why: "Prêmio que você não pediu e muitas exclamações são sinais de golpe." },
+          { p: "Quer usar o desenho que a Maria fez. O que é certo?", opcoes: ["Pedir para a Maria e dizer que foi ela que fez", "Dizer que foi você", "Usar sem falar nada"], certo: 0, why: "Respeitar a autoria é dar o crédito a quem fez." }
+        ] }'''
+B[("6ano-4bim", "m3")] = '''      { id: "m3-bonus-1", tipo: "escolha", titulo: "⭐ Bônus: qual senha é mais forte?",
+        perguntas: [
+          { p: "Qual destas senhas é a <b>mais forte</b>?", opcoes: ["Tr3m#Az7ul!", "123456", "pedro2013"], certo: 0, why: "Mistura maiúsculas, minúsculas, números e símbolos, e não tem o seu nome." },
+          { p: "O colega pediu a sua senha emprestada. O que você faz?", opcoes: ["Não empresto: senha é só minha", "Empresto só hoje", "Escrevo na lousa"], certo: 0 },
+          { p: "O celular velho parou de funcionar. Para onde ele vai?", opcoes: ["Ponto de coleta de eletrônicos", "Lixo comum", "Rio"], certo: 0, why: "Eletrônico tem peças que podem ser recicladas e materiais que poluem: ponto de coleta." }
+        ] }'''
+B[("6ano-4bim", "m4")] = '''      { id: "m4-bonus-1", tipo: "escolha", titulo: "⭐ Bônus: bits e bytes relâmpago",
+        perguntas: [
+          { p: "Lâmpadas que valem 8, 4, 2 e 1. Acesas: a de <b>8</b> e a de <b>1</b>. Que número é?", opcoes: ["9", "81", "5"], certo: 0, why: "8 + 1 = 9." },
+          { p: "O que é maior?", opcoes: ["1 GB", "1 MB", "1 KB"], certo: 0, why: "KB < MB < GB: o GB é o maior." },
+          { p: "Qual extensão é de <b>vídeo</b>?", opcoes: [".mp4", ".txt", ".jpg"], certo: 0 }
+        ] }'''
+B[("7ano-4bim", "m3")] = '''      { id: "m3-bonus-1", tipo: "escolha", titulo: "⭐ Bônus: golpe ou não?",
+        perguntas: [
+          { p: "SMS: “Seu pacote está preso. Pague R$ 2 neste link: correios-entrega.xyz”. É…", opcoes: ["Golpe: link estranho e pressa", "Seguro"], certo: 0, why: "Site oficial não termina em .xyz; pedido de pagamento por link é golpe comum." },
+          { p: "Chegou um código de 6 números que você não pediu e alguém pede para você mandar. Você…", opcoes: ["Não manda para ninguém", "Manda rápido", "Posta no grupo"], certo: 0, why: "Esse código é a 2ª etapa da sua senha: passar o código entrega a sua conta." }
+        ] }'''
+# 7º M4 é montada por função: o bônus foi colocado à mão no arquivo
+_B7M4 = '''      { id: "m4-bonus-1", tipo: "escolha", titulo: "⭐ Bônus: o GPS relâmpago",
+        perguntas: [
+          { p: "Caminho A: 2 + 5 = 7 min. Caminho B: 3 + 3 = 6 min. Qual o GPS escolhe?", opcoes: ["O B (6 min)", "O A (7 min)"], certo: 0, why: "O mais curto é o de menor soma dos pesos." },
+          { p: "Num grafo, a Escola está ligada à Casa, à Praça e à Padaria. Qual é o <b>grau</b> da Escola?", opcoes: ["3", "1", "4"], certo: 0, why: "Grau é quantas arestas chegam no vértice: 3." }
+        ] }'''
+
 MOVER = [("8ano-4bim", "m3", "pratica", "m3-sim-noticia"), ("8ano-4bim-trilha", "m3", "pratica", "m3-sim-noticia"),
          ("9ano-4bim", "m2", "pratica", "m2-sim-golpes"), ("9ano-4bim-trilha", "m2", "pratica", "m2-sim-golpes")]
 

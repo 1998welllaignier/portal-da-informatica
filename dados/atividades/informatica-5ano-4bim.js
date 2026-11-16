@@ -160,6 +160,14 @@ PORTAL.registrarAtividades("informatica-5ano-4bim", {
           { op: "NAO", pede: "Circuito **NÃO**: ele inverte. A lâmpada acende quando A está desligado. **Deixe a lâmpada apagada.**", quer: a => a, dica: "Para apagar, ligue o A.", why: "O NÃO troca: ligado vira apagado." }],
         explicacao: "<strong>E</strong>: as duas precisam ser verdade. <strong>OU</strong>: basta uma. <strong>NÃO</strong>: inverte." }
     ],
+    bonus: [
+      { id: "m3-bonus-1", tipo: "escolha", titulo: "⭐ Bônus: verdadeiro ou falso relâmpago",
+        perguntas: [
+          { p: "“O sol é quente <b>E</b> o gelo é frio.” Essa frase é…", opcoes: ["Verdadeira (as duas partes são verdadeiras)", "Falsa"], certo: 0, why: "Com E, as duas partes precisam ser verdadeiras: e são!" },
+          { p: "“O peixe voa <b>OU</b> o pássaro voa.” Essa frase é…", opcoes: ["Verdadeira (basta uma parte ser verdadeira)", "Falsa"], certo: 0, why: "Com OU, basta uma parte verdadeira: o pássaro voa." },
+          { p: "<b>SE</b> chover, <b>ENTÃO</b> levo o guarda-chuva. Hoje choveu. O que eu faço?", opcoes: ["Levo o guarda-chuva", "Levo o boné", "Fico em casa"], certo: 0 }
+        ] }
+    ],
     basico: [
       { tipo: "classificar", modo: "tabela", titulo: "Verdadeira ou falsa?", colunaItem: "Sentença", colunaResp: "V ou F",
         categorias: [{ id: "V", rot: "Verdadeira" }, { id: "F", rot: "Falsa" }],
@@ -238,6 +246,13 @@ PORTAL.registrarAtividades("informatica-5ano-4bim", {
           { de: "Desconhecido", t: "Cientistas descobriram que comer chocolate deixa a pessoa invisível. Repassem!", c: "D", why: "Não tem fonte e é impossível." },
           { de: "Prima Ana", t: "Vi no site oficial da prefeitura: a vacinação vai até sexta no posto do centro.", c: "C", why: "Cita uma fonte oficial que dá para conferir." }],
         okMsg: "Você sabe desconfiar! Antes de compartilhar, confira quem escreveu e a fonte." }
+    ],
+    bonus: [
+      { id: "m4-bonus-1", tipo: "escolha", titulo: "⭐ Bônus: internet com cuidado",
+        perguntas: [
+          { p: "Um site diz “VOCÊ GANHOU UM CELULAR!!! CLIQUE AQUI!!!”. O que você faz?", opcoes: ["Não clico e conto a um adulto", "Clico rápido", "Mando meu endereço"], certo: 0, why: "Prêmio que você não pediu e muitas exclamações são sinais de golpe." },
+          { p: "Quer usar o desenho que a Maria fez. O que é certo?", opcoes: ["Pedir para a Maria e dizer que foi ela que fez", "Dizer que foi você", "Usar sem falar nada"], certo: 0, why: "Respeitar a autoria é dar o crédito a quem fez." }
+        ] }
     ],
     basico: [
       { id: "m4-basico-1", tipo: "classificar", modo: "tabela", titulo: "Confiável ou não?", colunaItem: "Mensagem", colunaResp: "C ou N",

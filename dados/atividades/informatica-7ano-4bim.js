@@ -248,6 +248,13 @@ PORTAL.registrarAtividades("informatica-7ano-4bim", {
           { de: "Escola JK", t: "Amanhã não haverá aula por causa da reunião pedagógica.", c: "S" }],
         okMsg: "Você não cai em golpe! Na dúvida: não clique, não passe código e pergunte a um adulto." }
     ],
+    bonus: [
+      { id: "m3-bonus-1", tipo: "escolha", titulo: "⭐ Bônus: golpe ou não?",
+        perguntas: [
+          { p: "SMS: “Seu pacote está preso. Pague R$ 2 neste link: correios-entrega.xyz”. É…", opcoes: ["Golpe: link estranho e pressa", "Seguro"], certo: 0, why: "Site oficial não termina em .xyz; pedido de pagamento por link é golpe comum." },
+          { p: "Chegou um código de 6 números que você não pediu e alguém pede para você mandar. Você…", opcoes: ["Não manda para ninguém", "Manda rápido", "Posta no grupo"], certo: 0, why: "Esse código é a 2ª etapa da sua senha: passar o código entrega a sua conta." }
+        ] }
+    ],
     basico: [
       { id: "m3-basico-1", tipo: "classificar", modo: "tabela", titulo: "Golpe ou seguro?", colunaItem: "Mensagem", colunaResp: "G ou S",
         categorias: [{ id: "G", rot: "Golpe" }, { id: "S", rot: "Seguro" }],
@@ -408,6 +415,13 @@ PORTAL.registrarAtividades("informatica-7ano-4bim", {
           linhas: [["Quantos minutos leva a entrega inteira (parte 1 + parte 2)?", { r: "10", tipo: "num", w: 4 }],
             ["Por que o entregador não usou as ruas diretas?", { op: ["Porque os caminhos com mais paradas tinham uma soma menor", "Porque as ruas diretas estavam fechadas", "Porque o grafo não tinha ruas diretas"], r: "Porque os caminhos com mais paradas tinham uma soma menor" }]],
           explicacao: "5 + 5 = 10 minutos. Pelas ruas diretas seria 6 + 7 = 13. De novo: o caminho mais curto é o de menor soma dos pesos." }
+      ],
+      bonus: [
+      { id: "m4-bonus-1", tipo: "escolha", titulo: "⭐ Bônus: o GPS relâmpago",
+        perguntas: [
+          { p: "Caminho A: 2 + 5 = 7 min. Caminho B: 3 + 3 = 6 min. Qual o GPS escolhe?", opcoes: ["O B (6 min)", "O A (7 min)"], certo: 0, why: "O mais curto é o de menor soma dos pesos." },
+          { p: "Num grafo, a Escola está ligada à Casa, à Praça e à Padaria. Qual é o <b>grau</b> da Escola?", opcoes: ["3", "1", "4"], certo: 0, why: "Grau é quantas arestas chegam no vértice: 3." }
+        ] }
       ],
       vf: [
         { v: true },
