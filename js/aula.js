@@ -95,6 +95,14 @@
         const nome = id => { const v = (at.vertices || []).find(y => y.id === id); return v ? (v.nome || v.t || v.rot || id) : id; };
         html = dist[at.para] == null ? `<p class="aula-obs">${limpo(at.explicacao || "")}</p>` : `<p>Caminho mais curto: ${forte(cam.map(nome).join(" → "))} = ${forte(dist[at.para] + " " + (at.unidade || ""))}</p>`; break;
       }
+      case "teclado": {
+        const como = ch => (P.teclado ? P.teclado.passosDe(ch) : []).map(p => (p.teclas || []).map(c => ({ ShiftLeft: "Shift", ShiftRight: "Shift", AltRight: "AltGr", BracketLeft: "´", Quote: "~" }[c] || ((P.teclado.INFO[c] || {}).b || c))).join(" + ")).join(", depois ");
+        if (at.modo === "cacar") html = `<ul class="aula-lista">${at.alvos.map(a => `<li>${esc(a)} → ${forte(como(a))}</li>`).join("")}</ul>`;
+        else if (at.modo === "copiar") html = `<ul class="aula-lista">${at.frases.map(f => `<li>${forte(esc(f))}</li>`).join("")}</ul><p class="aula-obs">O portal confere letra por letra (maiúscula, acento e símbolo).</p>`;
+        else if (at.modo === "teclas") html = `<ul class="aula-lista">${at.tarefas.map(t => `<li>${limpo(t.pede)} → ${forte(t.fim)}${t.tecla ? ` (com a tecla ${esc(t.tecla)})` : ""}</li>`).join("")}</ul>`;
+        else html = `<p class="aula-obs">${limpo(at.explicacao || "")}</p>`;
+        html += `<p class="aula-obs">🤖 Se o aluno travar, ele clica em “Me ajuda, robô!” e o Bit mostra a mini simulação.</p>`; break;
+      }
       default:
         html = `<p class="aula-obs">Atividade interativa: o portal confere sozinho.${at.explicacao ? " " + limpo(at.explicacao) : ""}</p>`;
     }

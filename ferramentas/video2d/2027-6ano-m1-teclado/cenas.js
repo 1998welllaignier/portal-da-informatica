@@ -1,0 +1,533 @@
+/* ================= 6º ano · 2027 · 1º bimestre · Missão 1 · ESPECIAL TECLADO — a caça ao tesouro na Cidade Teclado =================
+   Pedido do professor (16/11/2026): varredura completa do teclado ABNT2 da escola (Esc, F1–F12, Print Screen, acentos, Shift,
+   AltGr, Ç, Backspace, Delete, Insert, setas, numérico, Num/Caps/Scroll Lock com as luzinhas), lúdico, problema → solução.
+   O robozinho assistente aparece aqui e depois nos jogos do portal ("Me ajuda, robô!"). */
+const PEDRO = { camisa: "#f97316" };
+const pedro = o => boneco(Object.assign({}, PEDRO, o));
+const em = (f, w, n) => { const p = f.split(/\s+/); let c = 0; const i = p.findIndex(x => x.toLowerCase().replace(/[^\wà-ú]/g, "").startsWith(w.toLowerCase()) && c++ === (n || 0)); return Math.max(0, i) / 2.55 + .35; };
+const PELE = "#f1c27d", AZ = "#2563eb", VD = "#16a34a", RS = "#db2777", LJ = "#ea580c", RX = "#7c3aed", VM = "#dc2626", OURO = "#f59e0b";
+
+/* ---------- etiquetas de alto contraste (mesmo padrão do vídeo v2) ---------- */
+function placa(txt, x, y, k, cor, tam) { if (k <= 0) return; const s = back(cl(k)); g.save(); g.translate(x, y); g.scale(s, s); g.font = `800 ${tam || 24}px ${F}`;
+  const w = g.measureText(txt).width + 34, h = (tam || 24) + 22; g.fillStyle = "rgba(0,0,0,.35)"; rr(-w / 2 + 4, -h / 2 + 5, w, h, 14); g.fill();
+  g.fillStyle = cor || AZ; rr(-w / 2, -h / 2, w, h, 14); g.fill(); g.strokeStyle = "#fff"; g.lineWidth = 3; rr(-w / 2, -h / 2, w, h, 14); g.stroke();
+  g.fillStyle = "#fff"; g.textAlign = "center"; g.textBaseline = "middle"; g.fillText(txt, 0, 2); g.restore(); }
+function flecha(x1, y1, x2, y2, k, cor) { if (k <= 0) return; const a = out(cl(k)), x = lerp(x1, x2, a), y = lerp(y1, y2, a), an = Math.atan2(y2 - y1, x2 - x1);
+  g.save(); g.lineCap = "round"; [["#0b1020", 12], [cor || AMAR, 6]].forEach(([c, w]) => { g.strokeStyle = c; g.lineWidth = w; g.beginPath(); g.moveTo(x1, y1); g.lineTo(x - 10 * Math.cos(an), y - 10 * Math.sin(an)); g.stroke(); });
+  if (a > .9) { const p = (r, d) => [x - r * Math.cos(an + d), y - r * Math.sin(an + d)]; g.fillStyle = "#0b1020"; g.beginPath(); g.moveTo(x + 4 * Math.cos(an), y + 4 * Math.sin(an)); g.lineTo(...p(30, .5)); g.lineTo(...p(30, -.5)); g.fill();
+    g.fillStyle = cor || AMAR; g.beginPath(); g.moveTo(x, y); g.lineTo(...p(24, .45)); g.lineTo(...p(24, -.45)); g.fill(); } g.restore(); }
+function rotulo2(txt, x, y, ax, ay, k, cor, tam) { flecha(x, y, ax, ay, k, cor); placa(txt, x, y, k, cor, tam); }
+function anel(x, y, r, t, cor) { g.save(); g.strokeStyle = cor || AMAR; g.lineWidth = 6; g.globalAlpha = .55 + .45 * Math.sin(t * 8); g.beginPath(); g.arc(x, y, r + 4 * Math.sin(t * 8), 0, 7); g.stroke(); g.restore(); }
+function texto2(txt, x, y, tam, cor, al) { g.save(); g.font = `800 ${tam}px ${F}`; g.textAlign = al || "center"; g.textBaseline = "middle"; g.lineJoin = "round"; g.lineWidth = 8; g.strokeStyle = "#0b1020"; g.strokeText(txt, x, y); g.fillStyle = cor || "#fff"; g.fillText(txt, x, y); g.restore(); }
+function caixaTexto(x, y, w, linhas, t, cursorOn, o) { o = o || {}; const lh = 46, h = Math.max(1, linhas.length) * lh + 26; g.fillStyle = "rgba(0,0,0,.3)"; rr(x + 5, y + 6, w, h, 12); g.fill();
+  g.fillStyle = "#fff"; rr(x, y, w, h, 12); g.fill(); g.strokeStyle = o.borda || "#0f172a"; g.lineWidth = 3; rr(x, y, w, h, 12); g.stroke();
+  g.fillStyle = "#0f172a"; g.font = `700 34px ${F}`; g.textAlign = "left"; g.textBaseline = "alphabetic";
+  linhas.forEach((l, i) => g.fillText(l, x + 22, y + 48 + i * lh));
+  const ul = linhas[linhas.length - 1] || "", cw = g.measureText(o.cursorAntes != null ? ul.slice(0, o.cursorAntes) : ul).width;
+  if (cursorOn !== false && Math.floor(t * 2.4) % 2 === 0) { g.fillStyle = o.corCursor || "#0f172a"; g.fillRect(x + 24 + cw, y + 18 + (linhas.length - 1) * lh, 4, 38); }
+  return { x: x + 24 + cw, y: y + 18 + (linhas.length - 1) * lh + 19 }; }
+/* um símbolo grande que "nasce" com brilho */
+function simbolo(ch, x, y, k, tam, cor) { if (k <= 0) return; const s = back(cl(k)); g.save(); g.translate(x, y); g.scale(s, s);
+  g.globalAlpha = .35 * cl(k); g.fillStyle = cor || AMAR; g.beginPath(); g.arc(0, 0, tam * .75, 0, 7); g.fill(); g.globalAlpha = 1;
+  texto2(ch, 0, tam * .04, tam, cor || AMAR); g.restore(); }
+function contagem(t, t3, t2, t1) { const n = t > t1 ? 1 : t > t2 ? 2 : t > t3 ? 3 : 0; if (!n) return; const t0 = n === 3 ? t3 : n === 2 ? t2 : t1, k = seg(t, t0, t0 + .35);
+  g.save(); g.globalAlpha = 1 - seg(t, t0 + .5, t0 + .9) * .7; texto2(String(n), 640, 300, 170 * back(k), n === 1 ? VM : AMAR); g.restore(); }
+
+/* ================= TECLADO ABNT2 COMPLETO (o da escola) =================
+   ids = KeyboardEvent.code (os mesmos que o portal usa nos jogos). Cada tecla: base, shift (andar de cima), altgr (cantinho). */
+const TK = (() => { const L = [], u = 40;
+  const add = (id, x, y, w, h, b, s, a, reg) => L.push({ id, x: x * u, y: y * u, w: w * u - 5, h: (h || 1) * u - 5, b, s, a, reg });
+  // fileira das funções
+  add("Escape", 0, 0, 1, 1, "Esc", null, null, "fun");
+  for (let i = 1; i <= 12; i++) add("F" + i, 2 + (i - 1) + (i > 4 ? .5 : 0) + (i > 8 ? .5 : 0), 0, 1, 1, "F" + i, null, null, "fun");
+  add("PrintScreen", 15.5, 0, 1, 1, "PrtSc", null, null, "fun"); add("ScrollLock", 16.5, 0, 1, 1, "ScrLk", null, null, "fun"); add("Pause", 17.5, 0, 1, 1, "Pause", null, null, "fun");
+  // bloco principal
+  const r1 = [["Backquote", "'", "\""], ["Digit1", "1", "!", "¹"], ["Digit2", "2", "@", "²"], ["Digit3", "3", "#", "³"], ["Digit4", "4", "$", "£"], ["Digit5", "5", "%", "¢"], ["Digit6", "6", "¨", "¬"],
+    ["Digit7", "7", "&"], ["Digit8", "8", "*"], ["Digit9", "9", "("], ["Digit0", "0", ")"], ["Minus", "-", "_"], ["Equal", "=", "+", "§"]];
+  r1.forEach(([id, b, s, a], i) => add(id, i, 1.5, 1, 1, b, s, a, "num")); add("Backspace", 13, 1.5, 2, 1, "⟵", null, null, "mod");
+  add("Tab", 0, 2.5, 1.5, 1, "Tab", null, null, "mod");
+  "QWERTYUIOP".split("").forEach((c, i) => add("Key" + c, 1.5 + i, 2.5, 1, 1, c, null, { Q: "/", W: "?", E: "°" }[c], "let"));
+  add("BracketLeft", 11.5, 2.5, 1, 1, "´", "`", null, "let"); add("BracketRight", 12.5, 2.5, 1, 1, "[", "{", "ª", "let");
+  add("Enter", 13.5, 2.5, 1.5, 2, "Enter", null, null, "mod");
+  add("CapsLock", 0, 3.5, 1.75, 1, "Caps", null, null, "mod");
+  "ASDFGHJKL".split("").forEach((c, i) => add("Key" + c, 1.75 + i, 3.5, 1, 1, c, null, null, "let"));
+  add("Semicolon", 10.75, 3.5, 1, 1, "Ç", null, null, "let"); add("Quote", 11.75, 3.5, 1, 1, "~", "^", null, "let"); add("Backslash", 12.75, 3.5, 1, 1, "]", "}", "º", "let");
+  add("ShiftLeft", 0, 4.5, 1.25, 1, "⇧", null, null, "mod"); add("IntlBackslash", 1.25, 4.5, 1, 1, "\\", "|", null, "let");
+  "ZXCVBNM".split("").forEach((c, i) => add("Key" + c, 2.25 + i, 4.5, 1, 1, c, null, null, "let"));
+  add("Comma", 9.25, 4.5, 1, 1, ",", "<", null, "let"); add("Period", 10.25, 4.5, 1, 1, ".", ">", null, "let"); add("Slash", 11.25, 4.5, 1, 1, ";", ":", null, "let"); add("IntlRo", 12.25, 4.5, 1, 1, "/", "?", "°", "let");
+  add("ShiftRight", 13.25, 4.5, 1.75, 1, "⇧", null, null, "mod");
+  [["ControlLeft", 1.5, "Ctrl"], ["MetaLeft", 1.25, "win"], ["AltLeft", 1.25, "Alt"], ["Space", 5.75, ""], ["AltRight", 1.25, "AltGr"], ["MetaRight", 1.25, "win"], ["ContextMenu", 1.25, "menu"], ["ControlRight", 1.5, "Ctrl"]]
+    .reduce((x, [id, w, b]) => { add(id, x, 5.5, w, 1, b, null, null, id === "Space" ? "let" : "mod"); return x + w; }, 0);
+  // bloco de edição e setas (a Praça das Setas)
+  [["Insert", "Ins"], ["Home", "Home"], ["PageUp", "PgUp"]].forEach(([id, b], i) => add(id, 15.5 + i, 1.5, 1, 1, b, null, null, "ed"));
+  [["Delete", "Del"], ["End", "End"], ["PageDown", "PgDn"]].forEach(([id, b], i) => add(id, 15.5 + i, 2.5, 1, 1, b, null, null, "ed"));
+  add("ArrowUp", 16.5, 4.5, 1, 1, "▲", null, null, "ed"); add("ArrowLeft", 15.5, 5.5, 1, 1, "◀", null, null, "ed"); add("ArrowDown", 16.5, 5.5, 1, 1, "▼", null, null, "ed"); add("ArrowRight", 17.5, 5.5, 1, 1, "▶", null, null, "ed");
+  // teclado numérico (o Bairro da Calculadora)
+  [["NumLock", "Num"], ["NumpadDivide", "/"], ["NumpadMultiply", "*"], ["NumpadSubtract", "-"]].forEach(([id, b], i) => add(id, 19 + i, 1.5, 1, 1, b, null, null, "np"));
+  [["7", "Home"], ["8", "▲"], ["9", "PgUp"]].forEach(([n, s], i) => add("Numpad" + n, 19 + i, 2.5, 1, 1, n, null, s, "np")); add("NumpadAdd", 22, 2.5, 1, 1, "+", null, null, "np");
+  [["4", "◀"], ["5", ""], ["6", "▶"]].forEach(([n, s], i) => add("Numpad" + n, 19 + i, 3.5, 1, 1, n, null, s, "np")); add("NumpadComma", 22, 3.5, 1, 1, ".", null, null, "np");
+  [["1", "End"], ["2", "▼"], ["3", "PgDn"]].forEach(([n, s], i) => add("Numpad" + n, 19 + i, 4.5, 1, 1, n, null, s, "np")); add("NumpadEnter", 22, 4.5, 1, 2, "Ent", null, null, "np");
+  add("Numpad0", 19, 5.5, 2, 1, "0", null, "Ins", "np"); add("NumpadDecimal", 21, 5.5, 1, 1, ",", null, "Del", "np");
+  const by = {}; L.forEach(k => by[k.id] = k);
+  return { L, u, by, W: 23 * u, H: 6.5 * u, LED: [["num", "Num", 19.4], ["caps", "Caps", 20.9], ["scroll", "Scroll", 22.4]].map(([id, n, x]) => ({ id, n, x: x * u, y: .5 * u })) }; })();
+const REGCOR = { fun: "#facc15", num: "#60a5fa", let: "#60a5fa", mod: "#fb923c", ed: "#4ade80", np: "#c084fc" };
+/* posição na tela do centro de uma tecla; câmera: (cx, cy) = onde fica o centro do teclado; s = escala */
+function tkPos(id, cx, cy, s) { const k = TK.by[id]; return [cx + s * (k.x + k.w / 2 - TK.W / 2), cy + s * (k.y + k.h / 2 - TK.H / 2)]; }
+/* câmera que centraliza (fx, fy) em coordenadas do teclado no ponto (sx, sy) da tela */
+function tkCam(fx, fy, s, sx, sy) { return [sx - s * (fx - TK.W / 2), sy - s * (fy - TK.H / 2)]; }
+function tkCamId(id, s, sx, sy) { const k = TK.by[id]; return tkCam(k.x + k.w / 2, k.y + k.h / 2, s, sx, sy); }
+function tk(cx, cy, s, o) { o = o || {}; g.save(); g.translate(cx, cy); g.scale(s, s); g.translate(-TK.W / 2, -TK.H / 2);
+  g.fillStyle = "rgba(0,0,0,.35)"; rr(-16 + 10, -16 + 12, TK.W + 32, TK.H + 32, 20); g.fill(); g.fillStyle = "#1f2937"; rr(-16, -16, TK.W + 32, TK.H + 32, 20); g.fill();
+  g.strokeStyle = "#0b1020"; g.lineWidth = 4; rr(-16, -16, TK.W + 32, TK.H + 32, 20); g.stroke();
+  // luzinhas (postes de luz)
+  TK.LED.forEach(l => { const on = (o.leds || {})[l.id]; g.fillStyle = on ? "#4ade80" : "#14532d"; g.beginPath(); g.arc(l.x, l.y - 4, 7, 0, 7); g.fill();
+    if (on) { g.save(); g.globalAlpha = .45; g.fillStyle = "#86efac"; g.beginPath(); g.arc(l.x, l.y - 4, 15, 0, 7); g.fill(); g.restore(); }
+    g.fillStyle = "#cbd5e1"; g.font = `700 10px ${F}`; g.textAlign = "center"; g.textBaseline = "middle"; g.fillText(l.n, l.x, l.y + 12); });
+  TK.L.forEach(k => { const dest = (o.cor || {})[k.id], ap = (o.ap || {})[k.id], dim = (o.dim && !dest) || (o.so && !o.so.includes(k.reg) && !dest);
+    const X = k.x, Y = k.y + (ap ? 3 : 0);
+    let fundo = dest || (o.regioes && o.regioes.includes(k.reg) ? REGCOR[k.reg] : "#e5e7eb"); if (dim) fundo = "#475569";
+    if (!ap) { g.fillStyle = "#94a3b8"; rr(X, Y + 3, k.w, k.h, 6); g.fill(); }
+    g.fillStyle = fundo; rr(X, Y, k.w, k.h, 6); g.fill();
+    if (ap) { g.strokeStyle = AMAR; g.lineWidth = 3; rr(X, Y, k.w, k.h, 6); g.stroke(); }
+    const ink = dest && dest !== "#fde047" && dest !== AMAR && dest !== "#4ade80" ? "#fff" : (dim ? "#94a3b8" : "#0f172a");
+    g.fillStyle = ink; g.textAlign = "center"; g.textBaseline = "middle";
+    const big = k.b.length <= 1 && !k.s;
+    if (k.id === "ShiftLeft" || k.id === "ShiftRight") { g.strokeStyle = ink; g.lineWidth = 2.5; const cx2 = X + 16, cy2 = Y + k.h / 2; g.beginPath(); g.moveTo(cx2, cy2 - 10); g.lineTo(cx2 + 9, cy2); g.lineTo(cx2 + 4, cy2); g.lineTo(cx2 + 4, cy2 + 8); g.lineTo(cx2 - 4, cy2 + 8); g.lineTo(cx2 - 4, cy2); g.lineTo(cx2 - 9, cy2); g.closePath(); g.stroke();
+      g.font = `700 10px ${F}`; g.fillText("Shift", X + k.w / 2 + 10, cy2 + 1); }
+    else if (k.b === "win") { const cx2 = X + k.w / 2, cy2 = Y + k.h / 2; [[-8, -8], [1, -8], [-8, 1], [1, 1]].forEach(([a, b]) => g.fillRect(cx2 + a, cy2 + b, 7, 7)); }
+    else if (k.b === "menu") { const cx2 = X + k.w / 2, cy2 = Y + k.h / 2; g.strokeStyle = ink; g.lineWidth = 2; rr(cx2 - 8, cy2 - 10, 16, 20, 2); g.stroke(); [-4, 0, 4].forEach(d => { g.beginPath(); g.moveTo(cx2 - 4, cy2 + d); g.lineTo(cx2 + 4, cy2 + d); g.stroke(); }); }
+    else if (k.s) { g.font = `800 15px ${F}`; g.fillText(k.s, X + 11, Y + 11); g.fillText(k.b, X + 11, Y + k.h - 10); }
+    else { g.font = `800 ${big ? 18 : k.b.length > 4 ? 10 : 12}px ${F}`; g.fillText(k.b, X + k.w / 2, Y + k.h / 2 + 1); }
+    if (k.a) { const brilha = o.altgr; g.fillStyle = brilha ? "#1d4ed8" : (dim ? "#64748b" : "#2563eb"); g.font = `800 ${k.reg === "np" ? 8 : brilha ? 14 : 11}px ${F}`; g.fillText(k.a, X + k.w - (k.reg === "np" ? 11 : 9), Y + k.h - 9);
+      if (brilha && k.reg !== "np") { g.save(); g.strokeStyle = AMAR; g.lineWidth = 2; g.beginPath(); g.arc(X + k.w - 9, Y + k.h - 9, 9, 0, 7); g.stroke(); g.restore(); } }
+    if (o.numOff && k.reg === "np" && k.a && !["NumpadDecimal", "Numpad0"].includes(k.id) && k.a) { g.fillStyle = "rgba(124,58,237,.85)"; rr(X, Y, k.w, k.h, 6); g.fill(); g.fillStyle = "#fff"; g.font = `800 ${k.a.length > 2 ? 10 : 16}px ${F}`; g.fillText(k.a, X + k.w / 2, Y + k.h / 2); }
+  });
+  g.restore(); }
+/* tecla gigante (zoom): mostra os andares (térreo, andar de cima, terceiro andar) */
+function teclaGrande(x, y, L, o) { o = o || {}; const k = TK.by[o.id] || {}; const b = o.b || k.b, s1 = o.s != null ? o.s : k.s, a = o.a != null ? o.a : k.a; g.save(); g.translate(x, y); const sc = o.sc || 1; g.scale(sc, sc);
+  g.fillStyle = "rgba(0,0,0,.35)"; rr(-L / 2 + 8, -L / 2 + 12, L, L, 26); g.fill(); g.fillStyle = "#94a3b8"; rr(-L / 2, -L / 2 + 10, L, L, 26); g.fill();
+  g.fillStyle = o.cor || "#f1f5f9"; rr(-L / 2, -L / 2, L, L, 26); g.fill(); g.strokeStyle = "#0f172a"; g.lineWidth = 5; rr(-L / 2, -L / 2, L, L, 26); g.stroke();
+  const andar = o.andar; // 0 térreo, 1 de cima, 2 terceiro
+  const ce = (lx, ly, txt, n, cor) => { if (andar === n) { g.fillStyle = "rgba(250,204,21,.55)"; g.beginPath(); g.arc(lx, ly, L * .17, 0, 7); g.fill(); } g.fillStyle = cor; g.textAlign = "center"; g.textBaseline = "middle"; g.font = `800 ${L * .26}px ${F}`; g.fillText(txt, lx, ly); };
+  if (s1) { ce(-L * .22, -L * .2, s1, 1, "#0f172a"); ce(-L * .22, L * .22, b, 0, "#0f172a"); } else ce(-L * .1, -L * .05, b, 0, "#0f172a");
+  if (a) { g.save(); ce(L * .26, L * .26, a, 2, "#2563eb"); g.restore(); }
+  g.restore(); }
+
+/* ---------- robozinho assistente: cabeça-tela, antena, braços que apontam e acenam ---------- */
+function ajudante(x, y, s, t, o) { o = o || {}; g.save(); g.translate(x, y); g.scale(s, s); const b = Math.sin(t * 5) * 4; g.translate(0, b);
+  g.fillStyle = "rgba(0,0,0,.25)"; g.beginPath(); g.ellipse(0, 112 - b, 60, 12, 0, 0, 7); g.fill();
+  // braços
+  const braco = (lado, ang) => { g.save(); g.translate(lado * 52, 18); g.rotate(ang); g.strokeStyle = "#0b1020"; g.lineWidth = 16; g.lineCap = "round"; g.beginPath(); g.moveTo(0, 0); g.lineTo(0, 52); g.stroke(); g.strokeStyle = "#94a3b8"; g.lineWidth = 10; g.beginPath(); g.moveTo(0, 0); g.lineTo(0, 52); g.stroke();
+    g.fillStyle = "#38bdf8"; g.strokeStyle = "#0b1020"; g.lineWidth = 4; g.beginPath(); g.arc(0, 58, 11, 0, 7); g.fill(); g.stroke(); g.restore(); };
+  braco(-1, o.bracoE != null ? o.bracoE : .35 + Math.sin(t * 3) * .08); braco(1, o.bracoD != null ? o.bracoD : -.35 - Math.sin(t * 3) * .08);
+  // corpo
+  g.fillStyle = "#3b82f6"; g.strokeStyle = "#0b1020"; g.lineWidth = 5; rr(-50, -6, 100, 92, 24); g.fill(); g.stroke();
+  g.fillStyle = "#fde047"; g.beginPath(); g.arc(0, 30, 13, 0, 7); g.fill(); g.stroke(); g.fillStyle = "#0b1020"; g.font = `800 14px ${F}`; g.textAlign = "center"; g.textBaseline = "middle"; g.fillText("@", 0, 31);
+  g.fillStyle = "#1e3a8a"; rr(-34, 92, 24, 18, 6); g.fill(); rr(10, 92, 24, 18, 6); g.fill();
+  // cabeça
+  g.fillStyle = "#e2e8f0"; rr(-62, -100, 124, 92, 28); g.fill(); g.stroke(); g.fillStyle = "#0f172a"; rr(-48, -86, 96, 64, 18); g.fill();
+  g.strokeStyle = "#0b1020"; g.lineWidth = 5; g.beginPath(); g.moveTo(0, -100); g.lineTo(0, -126); g.stroke(); g.fillStyle = Math.sin(t * 6) > 0 ? "#ef4444" : "#f87171"; g.beginPath(); g.arc(0, -132, 10, 0, 7); g.fill(); g.stroke();
+  const pisc = pisca(t * 1.1); g.fillStyle = "#67e8f9";
+  if (o.feliz) { g.strokeStyle = "#67e8f9"; g.lineWidth = 6; g.lineCap = "round"; g.beginPath(); g.arc(-20, -50, 10, Math.PI, 0); g.stroke(); g.beginPath(); g.arc(20, -50, 10, Math.PI, 0); g.stroke(); }
+  else { const eh = pisc ? 2 : 13; g.beginPath(); g.ellipse(-20 + (o.olhar || 0) * 4, -56, 9, eh, 0, 0, 7); g.ellipse(20 + (o.olhar || 0) * 4, -56, 9, eh, 0, 0, 7); g.fill(); }
+  g.strokeStyle = "#67e8f9"; g.lineWidth = 4; g.lineCap = "round"; g.beginPath(); if (o.boca === "o") g.arc(0, -34, 6, 0, 7); else g.arc(0, -40, 12, .3, Math.PI - .3); g.stroke();
+  g.fillStyle = "#f472b6"; g.globalAlpha = .6; g.beginPath(); g.arc(-40, -38, 7, 0, 7); g.arc(40, -38, 7, 0, 7); g.fill();
+  g.restore(); }
+
+/* ---------- baú do tesouro com 5 espaços ---------- */
+const TESOURO = ["@", "#", "%", "&", "°"];
+function bau(x, y, s, quantos, t, o) { o = o || {}; g.save(); g.translate(x, y); g.scale(s, s);
+  const ab = o.aberto == null ? 1 : o.aberto;
+  g.fillStyle = "rgba(0,0,0,.3)"; g.beginPath(); g.ellipse(6, 92, 150, 16, 0, 0, 7); g.fill();
+  if (quantos >= 5) { g.save(); g.globalAlpha = .4 + .2 * Math.sin(t * 6); const gr = g.createRadialGradient(0, -20, 10, 0, -20, 200); gr.addColorStop(0, "#fde047"); gr.addColorStop(1, "rgba(253,224,71,0)"); g.fillStyle = gr; g.beginPath(); g.arc(0, -20, 200, 0, 7); g.fill(); g.restore(); }
+  // tampa
+  g.save(); g.translate(0, -10); g.scale(1, lerp(1, -.55, ab)); g.fillStyle = "#92400e"; g.strokeStyle = "#0b1020"; g.lineWidth = 5; g.beginPath(); g.moveTo(-140, 0); g.lineTo(-140, -40); g.quadraticCurveTo(0, -95, 140, -40); g.lineTo(140, 0); g.closePath(); g.fill(); g.stroke(); g.restore();
+  // caixa
+  g.fillStyle = "#b45309"; g.strokeStyle = "#0b1020"; g.lineWidth = 5; rr(-140, -10, 280, 100, 10); g.fill(); g.stroke();
+  g.fillStyle = OURO; g.fillRect(-140, 20, 280, 12); g.strokeRect(-140, 20, 280, 12); rr(-16, 6, 32, 40, 6); g.fill(); g.stroke();
+  // espaços dos símbolos (em cima do baú aberto)
+  TESOURO.forEach((c, i) => { const sx = -120 + i * 60, sy = -60; const tem = i < quantos;
+    g.fillStyle = tem ? "#fef3c7" : "rgba(255,255,255,.18)"; g.strokeStyle = tem ? OURO : "rgba(255,255,255,.55)"; g.lineWidth = 4; g.setLineDash(tem ? [] : [6, 5]); rr(sx - 25, sy - 25, 50, 50, 12); g.fill(); g.stroke(); g.setLineDash([]);
+    g.fillStyle = tem ? "#92400e" : "rgba(255,255,255,.45)"; g.font = `800 30px ${F}`; g.textAlign = "center"; g.textBaseline = "middle"; g.fillText(c, sx, sy + 2); });
+  if (o.contador !== false) { g.fillStyle = "#fff"; g.font = `800 22px ${F}`; g.textAlign = "center"; g.fillText(`${quantos} de 5`, 0, 70); }
+  g.restore(); }
+/* símbolo voando da tecla até o baú */
+function voa(ch, x1, y1, x2, y2, k) { if (k <= 0 || k >= 1) return; const a = io(k), x = lerp(x1, x2, a), y = lerp(y1, y2, a) - Math.sin(a * Math.PI) * 140; simbolo(ch, x, y, 1, 54 - 14 * a); }
+
+/* ---------- monitor simples com conteúdo ---------- */
+function telaPC(x, y, w, h, conteudo) { g.fillStyle = "rgba(0,0,0,.35)"; rr(x - 14 + 8, y - 14 + 10, w + 28, h + 28, 16); g.fill(); g.fillStyle = "#111827"; rr(x - 14, y - 14, w + 28, h + 28, 16); g.fill();
+  g.fillStyle = "#374151"; g.fillRect(x + w / 2 - 24, y + h + 14, 48, 30); rr(x + w / 2 - 90, y + h + 40, 180, 12, 6); g.fill(); g.save(); g.beginPath(); g.rect(x, y, w, h); g.clip(); g.fillStyle = "#fff"; g.fillRect(x, y, w, h); conteudo(x, y, w, h); g.restore(); }
+function emailTela(x, y, w, h, para, t, o) { o = o || {}; g.fillStyle = "#f1f5f9"; g.fillRect(x, y, w, h); g.fillStyle = "#2563eb"; g.fillRect(x, y, w, 46); g.fillStyle = "#fff"; g.font = `800 20px ${F}`; g.textAlign = "left"; g.textBaseline = "middle"; g.fillText("Novo e-mail", x + 18, y + 24);
+  g.fillStyle = "#0f172a"; g.font = `700 20px ${F}`; g.fillText("Para:", x + 18, y + 84); const c = caixaTexto(x + 80, y + 60, w - 100, [para], t, o.cursor, { corCursor: o.corCursor });
+  g.fillStyle = "#0f172a"; g.font = `700 20px ${F}`; g.fillText("Assunto: Trabalho de Informática", x + 18, y + 158);
+  g.fillStyle = o.enviado ? VD : "#2563eb"; rr(x + w - 170, y + h - 64, 150, 46, 12); g.fill(); g.fillStyle = "#fff"; g.font = `800 20px ${F}`; g.textAlign = "center"; g.fillText(o.enviado ? "✓ Enviado" : "Enviar", x + w - 95, y + h - 40);
+  return c; }
+
+const FL = [
+ "Especial teclado: a caça ao tesouro na Cidade Teclado!",
+ "O Pedro precisava mandar o trabalho para o e-mail do professor. Ele escreveu o nome, chegou na hora do arroba e travou. Cadê o arroba? Ele procurou no teclado inteiro e nada! Já ia desistir, quando a tela piscou.",
+ "Olá, Pedro! Eu sou o robozinho assistente do professor Welington. O seu arroba está escondido aqui dentro, na Cidade Teclado. Vamos fazer uma caça ao tesouro? Nosso baú precisa de cinco símbolos: o arroba, o jogo da velha, a porcentagem, o e comercial e o símbolo de grau. Bora!",
+ "Este é o mapa da cidade. O teclado da nossa escola é do tipo ABNT2, o padrão do Brasil, aquele que tem a tecla do cê-cedilha. Ele tem bairros: lá em cima, a Avenida das Funções; no centro, o Bairro das Letras e dos Números; à direita, a Praça das Setas; e, no canto, o Bairro da Calculadora.",
+ "Primeira parada, no cantinho de cima, à esquerda: o Esc. Esc vem de escape, que quer dizer escapar. Ele é o porteiro da saída: cancela as coisas e tira um vídeo da tela cheia. Travou em alguma tela? Chame o porteiro!",
+ "Ao lado dele moram doze irmãos: as teclas de função, do F1 até o F12. Cada irmão tem uma profissão. O F1 é o ajudante e abre a ajuda. O F2 renomeia arquivos. O F5 atualiza a página da internet. E o F11 deixa tudo em tela cheia.",
+ "No fim da avenida, à direita, moram três vizinhos. O Print Screen é o fotógrafo: ele tira uma foto da tela inteira. O Scroll Lock é o vizinho aposentado, quase ninguém usa mais. E o Pause, como o nome diz, pausa algumas coisas.",
+ "Agora, o Bairro dos Números, logo acima das letras. Cada tecla daqui é um prédio de dois andares. No térreo fica o número. No andar de cima mora um símbolo. E para subir até o andar de cima, a gente usa o elevador: a tecla Shift!",
+ "O Shift é a tecla com a setinha grossa para cima, e a cidade tem dois elevadores, um de cada lado. Segure o Shift e aperte a tecla: sai o desenho de cima.",
+ "Olha o tesouro aparecendo! Shift com 2: o arroba! Shift com 3: o jogo da velha! Shift com 5: a porcentagem! Shift com 7: o e comercial! Já são quatro símbolos no baú!",
+ "E os outros moradores do andar de cima? Shift com 1 faz a exclamação. Shift com 4, o cifrão do dinheiro. Shift com 8, o asterisco. E Shift com 9 e com 0, os parênteses, que abrem e fecham.",
+ "Desafio relâmpago! Turma, respondam em voz alta: para fazer o arroba, qual é o elevador e qual é o prédio? Três, dois, um... Shift com 2! Muito bem!",
+ "No Bairro das Letras, o Shift também funciona: segurando o Shift, a letra sai maiúscula. E aqui mora uma letra que só o teclado brasileiro tem: o cê-cedilha, ao lado do L. É só apertar e pronto.",
+ "Ali do lado esquerdo tem um cadeado: o Caps Lock. Ele tranca as letras maiúsculas. Apertou uma vez, o cadeado fecha e acende uma luzinha no teclado: tudo sai maiúsculo. Apertou de novo, a luz apaga. Mas cuidado: o cadeado só tranca as letras. O arroba continua sendo Shift com 2.",
+ "Agora, as teclas mágicas: os acentos! Elas são tímidas. Você aperta, solta, e nada aparece na tela. Elas só aparecem quando chega a vogal. A tecla do agudo mora ao lado do P. Agudo e depois a letra a: á. Com o Shift, ela vira a crase.",
+ "Ao lado do cê-cedilha mora o til, outra tecla mágica. Til e depois a letra a: ã. Til e depois a letra o: õ. Subindo de elevador, com o Shift, ela vira o chapéu: o circunflexo. Circunflexo e depois a letra e: ê.",
+ "E sabe aqueles dois pontinhos que às vezes aparecem sem querer? É o trema, que mora no andar de cima do 6. Hoje quase não se usa. Se aparecer, foi o Shift com 6.",
+ "Lá embaixo, perto do elevador da direita, fica a Rua da Pontuação. A vírgula e o ponto são vizinhos. Com o Shift, a vírgula vira menor que, e o ponto vira maior que. O ponto e vírgula, com o Shift, vira dois pontos. E a tecla da barra, com o Shift, faz o ponto de interrogação.",
+ "Mais moradores escondidos: o hífen, com o Shift, vira o sublinhado. O igual, com o Shift, vira o mais. A tecla ao lado do 1 faz o apóstrofo e, com o Shift, as aspas. E a tecla ao lado do elevador da esquerda faz a barra invertida e, com o Shift, a barra em pé.",
+ "E o último tesouro, o símbolo de grau? Ele mora num lugar secreto: o terceiro andar! Para chegar lá, a gente usa a chave secreta, o AltGr, que fica à direita da barra de espaço. O terceiro andar é aquele desenho pequenininho no cantinho da tecla.",
+ "AltGr com E: o símbolo de grau, para escrever trinta graus! O quinto tesouro está no baú! E tem mais no terceiro andar: AltGr com 2 faz o dois pequenininho do metro quadrado, e AltGr com Q faz a barra.",
+ "Desafio relâmpago! Turma: e o grau, como faz? Três, dois, um... AltGr com E! Vocês são demais!",
+ "Agora, as ruas grandes da cidade. A barra de espaço é a avenida mais comprida: ela separa as palavras. O Enter confirma e pula de linha. E o Tab pula para o próximo espaço de um formulário.",
+ "Na cidade também moram dois apagadores. O Backspace, em cima do Enter, olha para trás: apaga a letra antes do cursor, para a esquerda. O Delete olha para frente: apaga a letra depois do cursor, para a direita.",
+ "Nos cantos de baixo moram as teclas que trabalham em dupla, os atalhos. O Ctrl com C copia e o Ctrl com V cola. A tecla do Windows abre o menu Iniciar. O Alt também faz atalhos. E a tecla do menu, perto do Ctrl da direita, faz a mesma coisa que o botão direito do mouse!",
+ "Na Praça das Setas mora o bloco de edição. O Home leva o cursor para o começo da linha, e o End leva para o fim. O Page Up sobe uma página inteira, e o Page Down desce uma página.",
+ "E o Insert é o encrenqueiro: se você apertar sem querer, as letras novas escrevem por cima das velhas. Aconteceu isso? Aperte o Insert de novo e tudo volta ao normal.",
+ "No meio da praça, as quatro setas: elas passeiam com o cursor para cima, para baixo, para a esquerda e para a direita, sem apagar nada.",
+ "Último bairro: a Calculadora, no canto direito. Números, mais, menos, vezes, dividir e até um Enter só dele. Mas ele tem um interruptor: o Num Lock. Com a luzinha acesa, saem os números. Com a luz apagada, os números viram setas.",
+ "Olhe para cima do Bairro da Calculadora: são os três postes de luz da cidade. O primeiro é o Num Lock, dos números. O segundo é o Caps Lock, das maiúsculas. O terceiro é o Scroll Lock. Se o teclado começar a fazer coisa estranha, olhe os postes de luz!",
+ "E não esqueça do nosso amigo mouse: o botão da esquerda escolhe e abre, e o botão da direita mostra o menu de opções. Teclado e mouse são uma dupla!",
+ "Baú completo! Arroba, jogo da velha, porcentagem, e comercial e grau. O Pedro voltou para o e-mail, segurou o Shift, apertou o 2 e... enviado! Ufa!",
+ "Onde eu uso isso? O arroba está em todo e-mail. O jogo da velha aparece nas hashtags das redes sociais. A porcentagem está nos descontos da loja. E o grau, na previsão do tempo.",
+ "Agora é a sua vez de caçar tesouros! No portal, tem o jogo da caça aos símbolos. E se você travar, é só clicar em: me ajuda, robô! Eu mostro como faz, e você faz igualzinho. Até lá!"
+];
+const E = (i, w, n) => em(FL[i], w, n);
+/* layout padrão: teclado inteiro em cima, espaço livre embaixo para as demonstrações */
+const TX = 640, TY = 250, TS = 1.05;
+/* zoom suave do teclado inteiro até um ponto (fx, fy em unidades do teclado) */
+/* lupa: o teclado ampliado aparece dentro de uma moldura (nada vaza pelas bordas nem passa por baixo do selo) */
+function tkClip(cx, cy, s, o, R, a) { if (!R) return tk(cx, cy, s, o); a = a == null ? 1 : a; const x = lerp(0, R[0], a), y = lerp(0, R[1], a), w = lerp(W, R[2], a), h = lerp(H, R[3], a);
+  g.save(); rr(x, y, w, h, 24 * a); g.clip(); tk(cx, cy, s, o); g.restore(); if (a > .02) { g.save(); g.globalAlpha = cl(a * 2); g.strokeStyle = "#e2e8f0"; g.lineWidth = 5; rr(x, y, w, h, 24); g.stroke(); g.restore(); } }
+function tkZoom(k, fx, fy, s2, sx, sy, o, R) { const a = io(cl(k)), s = lerp(TS, s2, a), [zx, zy] = tkCam(fx * TK.u, fy * TK.u, s2, sx, sy), cx = lerp(TX, zx, a), cy = lerp(TY, zy, a); tkClip(cx, cy, s, o, R, a); return [cx, cy, s]; }
+const P = (id, c) => tkPos(id, c[0], c[1], c[2]);
+const piscaTecla = (t, t0, d) => t > t0 && t < t0 + (d || .5);
+function painelEscuro(x, y, w, h) { g.fillStyle = "rgba(11,16,32,.82)"; rr(x, y, w, h, 22); g.fill(); g.strokeStyle = "rgba(255,255,255,.25)"; g.lineWidth = 2; rr(x, y, w, h, 22); g.stroke(); }
+function predioFundo(t) { for (let i = 0; i < 16; i++) { const x = 40 + i * 78, h = 120 + (rnd(i) * 180 | 0); g.fillStyle = i % 2 ? "rgba(96,165,250,.16)" : "rgba(192,132,252,.14)"; rr(x, 560 - h, 64, h, 10); g.fill();
+    g.fillStyle = "rgba(253,224,71,.28)"; for (let j = 0; j < h / 34 - 1; j++) if ((i * 7 + j * 3 + Math.floor(t * 1.5)) % 5) g.fillRect(x + 14 + (j % 2) * 22, 560 - h + 14 + j * 30, 12, 12); } }
+function chaveDesenho(x, y, s, cor) { g.save(); g.translate(x, y); g.scale(s, s); g.strokeStyle = "#0b1020"; g.lineWidth = 4; g.fillStyle = cor || OURO; g.beginPath(); g.arc(-26, 0, 18, 0, 7); g.fill(); g.stroke();
+  g.fillRect(-10, -6, 56, 12); g.strokeRect(-10, -6, 56, 12); g.fillRect(30, 6, 8, 12); g.fillRect(42, 6, 6, 10); g.fillStyle = "#0b1020"; g.beginPath(); g.arc(-26, 0, 6, 0, 7); g.fill(); g.restore(); }
+function cartaoUso(x, y, k, cor, titulo, grande) { if (k <= 0) return; const s = back(cl(k)); g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = "rgba(0,0,0,.35)"; rr(-110 + 6, -130 + 8, 220, 250, 20); g.fill();
+  g.fillStyle = "#fff"; rr(-110, -130, 220, 250, 20); g.fill(); g.fillStyle = cor; rr(-110, -130, 220, 56, 20); g.fill(); g.fillRect(-110, -96, 220, 22);
+  g.fillStyle = "#fff"; g.font = `800 22px ${F}`; g.textAlign = "center"; g.textBaseline = "middle"; g.fillText(titulo, 0, -100); texto2(grande, 0, 20, grande.length > 4 ? 46 : 70, cor); g.restore(); }
+
+/* ---------- mouse visto de cima (do vídeo v2) ---------- */
+function mouseTopo(x, y, s, o) { o = o || {}; g.save(); g.translate(x, y); g.scale(s, s);
+  g.strokeStyle = "#334155"; g.lineWidth = 6; g.lineCap = "round"; g.beginPath(); g.moveTo(0, -118); g.bezierCurveTo(0, -170, 70, -160, 90, -210); g.stroke();
+  g.fillStyle = "rgba(0,0,0,.3)"; g.beginPath(); g.ellipse(8, 10, 82, 122, 0, 0, 7); g.fill(); g.fillStyle = "#f8fafc"; g.beginPath(); g.ellipse(0, 0, 80, 120, 0, 0, 7); g.fill();
+  const bt = (lado, cor) => { g.save(); g.beginPath(); g.ellipse(0, 0, 80, 120, 0, 0, 7); g.clip(); g.fillStyle = cor; if (lado < 0) g.fillRect(-82, -122, 82, 112); else g.fillRect(0, -122, 82, 112); g.restore(); };
+  if (o.esq) bt(-1, o.esqCor || AZ); if (o.dir) bt(1, o.dirCor || RS);
+  g.strokeStyle = "#0f172a"; g.lineWidth = 6; g.beginPath(); g.ellipse(0, 0, 80, 120, 0, 0, 7); g.stroke(); g.lineWidth = 4; g.beginPath(); g.moveTo(-80, -10); g.quadraticCurveTo(0, 0, 80, -10); g.moveTo(0, -120); g.lineTo(0, -10); g.stroke();
+  g.fillStyle = "#475569"; rr(-12, -88, 24, 48, 11); g.fill(); g.restore(); }
+
+const CENAS = [
+ // 0 — abertura: a Cidade Teclado à noite, com o baú brilhando
+ { chip: "", fala: FL[0], sfx: [[.05, "whoosh"], [.8, "misterio"], [1.6, "sino"], [2.4, "pop"]],
+   draw(t) { fundoEscuro(t, "#1e1b4b"); predioFundo(t);
+     const kb = back(seg(t, .5, 1.1)); if (kb > 0) { g.save(); g.translate(640, 300); g.scale(kb, kb); tk(0, 0, .62, { regioes: ["fun", "num", "let", "ed", "np", "mod"] }); g.restore(); }
+     const kc = back(seg(t, 1.2, 1.7)); if (kc > 0) { g.save(); g.translate(640, 260); g.scale(kc, kc); bau(0, 0, .55, 0, t, { contador: false }); g.restore(); }
+     TESOURO.forEach((c, i) => { const a = t * .9 + i * 1.256; simbolo(c, 640 + Math.cos(a) * 330, 270 + Math.sin(a) * 90, seg(t, 1.4 + i * .12, 1.8 + i * .12), 40); });
+     abertura(t, "6º ANO · MISSÃO 1 · ESPECIAL", "Especial teclado", "A CAÇA AO TESOURO", "NA CIDADE TECLADO!", 2.0); } },
+ // 1 — o problema: cadê o arroba?
+ { chip: "O PROBLEMA", fala: FL[1], sfx: [[.1, "whoosh"], [E(1, "escreveu"), "tec"], [E(1, "travou"), "alerta"], [E(1, "procurou"), "misterio"], [E(1, "piscou"), "sumiu"]],
+   draw(t) { fundoEscuro(t, "#1e3a8a"); const te = E(1, "escreveu"), tt = E(1, "travou"), tp = E(1, "procurou"), tpi = E(1, "piscou");
+     const nome = "prof.welington"; const n = Math.round(seg(t, te, tt) * nome.length);
+     telaPC(500, 100, 660, 330, (x, y, w, h) => emailTela(x, y, w, h, nome.slice(0, n), t, { corCursor: t > tt ? VM : null }));
+     if (t > tt) { anel(500 + 80 + 24 + 4 + 200, 100 + 60 + 37, 34, t, VM); }
+     pedro({ x: 270, y: 560, s: 1.05, braco: t > tt ? -2.5 : -.6, bracoE: t > tt ? 2.5 : .4, olhar: 1, boca: t > tt ? "o" : "", pisca: pisca(t) });
+     if (t > tt && t < tpi) balao("Cadê o arroba?!", 300, 190, seg(t, E(1, "cadê"), E(1, "cadê") + .4));
+     if (t > tp && t < tpi) for (let i = 0; i < 6; i++) texto2("?", 560 + i * 110 + Math.sin(t * 4 + i) * 10, 480 - ((t - tp) * 60 + i * 23) % 60, 44, i % 2 ? AMAR : "#fff");
+     if (t > tpi) { const k = seg(t, tpi, tpi + .5); g.save(); g.globalAlpha = Math.sin(k * Math.PI) * .9; g.fillStyle = "#fff"; g.fillRect(490, 90, 680, 350); g.restore(); estrela(830, 260, 40 * back(k)); } } },
+ // 2 — o robozinho aparece
+ { chip: "O ROBOZINHO", fala: FL[2], sfx: [[.1, "zum"], [E(2, "olá"), "ding"], [E(2, "caça"), "misterio"], [E(2, "baú"), "pop"], [E(2, "arroba"), "pop"], [E(2, "jogo"), "pop"], [E(2, "porcentagem"), "pop"], [E(2, "comercial"), "pop"], [E(2, "grau"), "pop"], [E(2, "bora"), "festa"]],
+   draw(t) { fundoEscuro(t, "#312e81"); const tb = E(2, "baú"), tbo = E(2, "bora");
+     telaPC(80, 150, 300, 190, (x, y, w, h) => { g.fillStyle = "#1e1b4b"; g.fillRect(x, y, w, h); for (let i = 0; i < 12; i++) { g.fillStyle = "rgba(103,232,249,.4)"; g.fillRect(x + rnd(i) * w, y + ((rnd(i + 9) * h + t * 90) % h), 3, 10); } });
+     const kr = back(seg(t, .1, .9)); g.save(); g.translate(lerp(230, 560, io(seg(t, .1, .9))), lerp(250, 330, io(seg(t, .1, .9)))); g.scale(.2 + .8 * kr, .2 + .8 * kr); ajudante(0, 0, 1.25, t, { bracoD: t < E(2, "eu") ? -2.6 + Math.sin(t * 10) * .4 : t > tb ? -1.9 : -.4, feliz: t > tbo }); g.restore();
+     if (t > E(2, "olá") && t < E(2, "eu")) balao("Olá, Pedro!", 560, 130, seg(t, E(2, "olá"), E(2, "olá") + .3));
+     if (t > E(2, "eu") && t < tb) placa("ROBOZINHO ASSISTENTE do Prof. Welington", 640, 520, seg(t, E(2, "eu"), E(2, "eu") + .4), RX, 22);
+     if (t > E(2, "caça")) palavra("CAÇA AO TESOURO!", 640, 110, seg(t, E(2, "caça"), E(2, "caça") + .4), 56);
+     const kb = back(seg(t, tb, tb + .5)); if (kb > 0) { g.save(); g.translate(990, 380); g.scale(kb, kb); bau(0, 0, .9, 0, t); g.restore();
+       ["arroba", "jogo", "porcentagem", "comercial", "grau"].forEach((w, i) => { const tw = E(2, w); if (t > tw && t < tw + 1.2) anel(990 + .9 * (-120 + i * 60), 380 + .9 * -60, 30, t, AMAR); }); }
+     confete(t, tbo); } },
+ // 3 — o mapa da cidade
+ { chip: "O MAPA", fala: FL[3], sfx: [[.1, "whoosh"], [E(3, "abnt2"), "ding"], [E(3, "cê"), "pop"], [E(3, "avenida"), "pop"], [E(3, "bairro", 1), "pop"], [E(3, "praça"), "pop"], [E(3, "calculadora"), "pop"]],
+   draw(t) { fundoEscuro(t, "#0f172a"); const ta = E(3, "avenida"), tb = E(3, "bairro", 1), tp = E(3, "praça"), tc = E(3, "calculadora");
+     const reg = []; if (t > ta) reg.push("fun"); if (t > tb) reg.push("num", "let"); if (t > tp) reg.push("ed"); if (t > tc) reg.push("np");
+     const c = [TX, TY, TS]; tk(TX, TY, TS, { regioes: reg, cor: t > E(3, "cê") && t < ta ? { Semicolon: VD } : {} });
+     if (t < ta) placa("MAPA DA CIDADE TECLADO", 640, 470, seg(t, 0, .4), "#334155", 26);
+     if (t > E(3, "abnt2") && t < ta) { placa("ABNT2 = padrão do Brasil", 640, 66, seg(t, E(3, "abnt2"), E(3, "abnt2") + .4), VD, 24); }
+     if (t > E(3, "cê") && t < ta) { const [x, y] = P("Semicolon", c); anel(x, y, 30, t, AMAR); rotulo2("Ç", 760, 470, x, y + 18, 1, VD, 30); }
+     if (t > ta) rotulo2("AVENIDA DAS FUNÇÕES", 420, 66, 420, 100, seg(t, ta, ta + .4), "#a16207", 22);
+     if (t > tb) rotulo2("BAIRRO DAS LETRAS E DOS NÚMEROS", 375, 470, 420, 330, seg(t, tb, tb + .4), AZ, 22);
+     if (t > tp) rotulo2("PRAÇA DAS SETAS", 775, 470, 880, 360, seg(t, tp, tp + .4), VD, 22);
+     if (t > tc) rotulo2("BAIRRO DA CALCULADORA", 1080, 470, 1080, 330, seg(t, tc, tc + .4), RX, 22); } },
+ // 4 — Esc, o porteiro da saída
+ { chip: "ESC", fala: FL[4], sfx: [[.1, "whoosh"], [E(4, "esc"), "pop"], [E(4, "porteiro"), "ding"], [E(4, "tira"), "click"], [E(4, "chame"), "ding"]],
+   draw(t) { fundoEscuro(t, "#7f1d1d"); const te = E(4, "esc"), tpo = E(4, "porteiro"), tti = E(4, "tira");
+     const c = tkZoom(seg(t, .1, 1), .5, .5, 2.6, 250, 180, { so: ["fun"], cor: t > te ? { Escape: VM } : {}, ap: { Escape: piscaTecla(t, tti, .4) } }, [30, 76, 590, 460]);
+     const [x, y] = P("Escape", c); if (t > te) anel(x, y, 56, t, AMAR);
+     if (t > E(4, "escape")) placa("ESC = escape = ESCAPAR", 300, 360, seg(t, E(4, "escape"), E(4, "escape") + .4), VM, 26);
+     if (t > tpo) placa("PORTEIRO DA SAÍDA", 300, 440, seg(t, tpo, tpo + .4), "#334155", 24);
+     painelEscuro(640, 80, 600, 440);
+     const kv = io(seg(t, tti, tti + .6)); const vx = lerp(660, 760, kv), vy = lerp(100, 170, kv), vw = lerp(560, 360, kv), vh = lerp(400, 240, kv);
+     g.fillStyle = "#0ea5e9"; rr(vx, vy, vw, vh, 10); g.fill(); g.fillStyle = "#14532d"; g.fillRect(vx, vy + vh * .7, vw, vh * .3); g.fillStyle = "#fde047"; g.beginPath(); g.arc(vx + vw * .8, vy + vh * .25, vh * .1, 0, 7); g.fill();
+     g.fillStyle = "#fff"; g.beginPath(); g.moveTo(vx + vw / 2 - 18, vy + vh / 2 - 24); g.lineTo(vx + vw / 2 + 26, vy + vh / 2); g.lineTo(vx + vw / 2 - 18, vy + vh / 2 + 24); g.fill();
+     placa(kv < .5 ? "TELA CHEIA" : "SAIU DA TELA CHEIA!", 940, 470, 1, kv < .5 ? "#334155" : VD, 22); } },
+ // 5 — os 12 irmãos F
+ { chip: "TECLAS DE FUNÇÃO", fala: FL[5], sfx: [[.1, "whoosh"], [E(5, "doze"), "pop"], [E(5, "f1", 1), "pop"], [E(5, "f2"), "pop"], [E(5, "f5"), "pop"], [E(5, "f11"), "pop"]],
+   draw(t) { fundoEscuro(t, "#713f12"); const td = E(5, "doze");
+     const cor = {}; for (let i = 1; i <= 12; i++) if (t > td + i * .08) cor["F" + i] = "#fde047";
+     const ativos = [["F1", E(5, "f1", 1), "AJUDA", 290], ["F2", E(5, "f2"), "RENOMEAR", 420], ["F5", E(5, "f5"), "ATUALIZAR A PÁGINA", 330], ["F11", E(5, "f11"), "TELA CHEIA", 420]];
+     ativos.forEach(([id, tw]) => { if (t > tw) cor[id] = LJ; });
+     const c = tkZoom(seg(t, .1, 1), 8.5, 1.2, 1.55, 640, 190, { cor, so: ["fun"] }, [24, 70, 1232, 460]); const dx = { F1: [0, 300], F2: [90, 410], F5: [60, 300], F11: [0, 410] };
+     if (t > td && t < E(5, "f1", 1)) placa("12 IRMÃOS: F1 até F12", 640, 420, seg(t, td, td + .4), "#a16207", 28);
+     ativos.forEach(([id, tw, txt, yy]) => { if (t > tw) { const [x, y] = P(id, c); rotulo2(txt, x + dx[id][0], dx[id][1], x, y + 22, seg(t, tw, tw + .4), LJ, 22); } }); } },
+ // 6 — Print Screen, Scroll Lock e Pause
+ { chip: "TRÊS VIZINHOS", fala: FL[6], sfx: [[.1, "whoosh"], [E(6, "print"), "foto"], [E(6, "scroll"), "pop"], [E(6, "pause"), "pop"]],
+   draw(t) { fundoEscuro(t, "#1e293b"); const tp = E(6, "print"), ts = E(6, "scroll"), tpa = E(6, "pause");
+     const cor = {}; if (t > tp) cor.PrintScreen = AZ; if (t > ts) cor.ScrollLock = "#64748b"; if (t > tpa) cor.Pause = VD;
+     const c = tkZoom(seg(t, .1, 1), 17, .5, 2.3, 640, 150, { cor, so: ["fun"] }, [24, 70, 1232, 460]);
+     if (t > tp) { const [x, y] = P("PrintScreen", c); rotulo2("FOTÓGRAFO: foto da tela", 260, 330, x, y + 30, seg(t, tp, tp + .4), AZ, 22);
+       const kf = seg(t, E(6, "foto"), E(6, "foto") + .5); if (kf > 0 && kf < 1) { g.save(); g.globalAlpha = Math.sin(kf * Math.PI); g.fillStyle = "#fff"; g.fillRect(0, 0, W, H); g.restore(); }
+       if (kf >= .5 && t < ts + 1.5) { g.save(); g.translate(260, 450); g.rotate(-.08); g.fillStyle = "#fff"; rr(-90, -60, 180, 130, 6); g.fill(); g.fillStyle = "#3b82f6"; g.fillRect(-78, -48, 156, 90); g.fillStyle = "#e2e8f0"; g.fillRect(-78, 30, 156, 12); g.restore(); } }
+     if (t > ts) { const [x, y] = P("ScrollLock", c); rotulo2("APOSENTADO", 640, 400, x, y + 30, seg(t, ts, ts + .4), "#475569", 22); zzz(x + 20, y - 30, .8); }
+     if (t > tpa) { const [x, y] = P("Pause", c); rotulo2("PAUSA", 1010, 330, x, y + 30, seg(t, tpa, tpa + .4), VD, 22); g.fillStyle = "#fff"; g.fillRect(1120, 300, 18, 60); g.fillRect(1148, 300, 18, 60); } } },
+ // 7 — o prédio de dois andares
+ { chip: "BAIRRO DOS NÚMEROS", fala: FL[7], sfx: [[.1, "whoosh"], [E(7, "prédio"), "pop"], [E(7, "térreo"), "pop"], [E(7, "andar", 1), "pop"], [E(7, "elevador"), "zum"]],
+   draw(t) { fundoEscuro(t, "#1e3a8a"); const tpr = E(7, "prédio"), tte = E(7, "térreo"), tan = E(7, "andar", 1), tel = E(7, "elevador");
+     if (t < tpr + .3) { const cor = {}; for (let i = 0; i <= 9; i++) cor["Digit" + i] = t > .6 + i * .06 ? "#60a5fa" : undefined; tkZoom(seg(t, .1, .9), 6.5, 2, 1.5, 640, 260, { cor }); if (t > .9) placa("BAIRRO DOS NÚMEROS", 640, 480, seg(t, .9, 1.3), AZ, 26); }
+     else { const k = back(seg(t, tpr, tpr + .5)); g.save(); g.translate(640, 300); g.scale(k, k); teclaGrande(0, 0, 260, { id: "Digit2", andar: t > tan ? 1 : t > tte ? 0 : null }); g.restore();
+       if (t > tte) rotulo2("TÉRREO: o número", 330, 420, 560, 360, seg(t, tte, tte + .4), AZ, 24);
+       if (t > tan) rotulo2("ANDAR DE CIMA: o símbolo", 330, 170, 565, 245, seg(t, tan, tan + .4), LJ, 24);
+       if (t > tel) { const ke = io(seg(t, tel + .3, tel + 1.5)); g.fillStyle = "#334155"; rr(870, 160, 130, 290, 14); g.fill(); g.strokeStyle = "#0b1020"; g.lineWidth = 4; rr(870, 160, 130, 290, 14); g.stroke();
+         const ey = lerp(380, 200, ke); g.fillStyle = LJ; rr(880, ey, 110, 70, 10); g.fill(); g.fillStyle = "#fff"; g.font = `800 24px ${F}`; g.textAlign = "center"; g.textBaseline = "middle"; g.fillText("⇧ Shift", 935, ey + 36);
+         placa("ELEVADOR", 935, 120, seg(t, tel, tel + .4), LJ, 26); } } } },
+ // 8 — o Shift, dois elevadores
+ { chip: "SHIFT", fala: FL[8], sfx: [[.1, "whoosh"], [E(8, "dois"), "pop"], [E(8, "segure"), "click"]],
+   draw(t) { fundoEscuro(t, "#7c2d12"); const td = E(8, "dois"), ts = E(8, "segure"); const pulso = Math.sin(t * 6) > 0;
+     const c = [TX, TY, TS]; tk(TX, TY, TS, { cor: t > .5 ? { ShiftLeft: pulso ? LJ : "#fb923c", ShiftRight: pulso ? LJ : "#fb923c", Digit2: t > ts ? AZ : undefined } : {}, ap: { ShiftLeft: t > ts + .2, Digit2: t > ts + .6 && t < ts + 1.2 } });
+     if (t > .5) { const [x, y] = P("ShiftLeft", c); anel(x, y, 30, t, AMAR); } if (t > td) { const [a, b] = P("ShiftLeft", c), [x2, y2] = P("ShiftRight", c); rotulo2("ELEVADOR 1", 250, 470, a, b + 18, seg(t, td, td + .4), LJ, 22); rotulo2("ELEVADOR 2", 1000, 470, x2, y2 + 18, seg(t, td + .3, td + .7), LJ, 22); }
+     if (t > ts) { placa("SEGURE O SHIFT + APERTE A TECLA", 640, 470, seg(t, ts, ts + .4), "#334155", 22); const [x, y] = P("Digit2", c); simbolo("@", x, y - 70, seg(t, ts + .6, ts + 1), 70); } } },
+ // 9 — o tesouro aparecendo (4 símbolos)
+ { chip: "O TESOURO", fala: FL[9], sfx: [[.1, "whoosh"], [E(9, "arroba"), "ding"], [E(9, "jogo"), "ding"], [E(9, "porcentagem"), "ding"], [E(9, "comercial"), "ding"], [E(9, "quatro"), "festa"]],
+   draw(t) { fundoEscuro(t, "#14532d"); const mom = [["Digit2", E(9, "arroba"), "@"], ["Digit3", E(9, "jogo"), "#"], ["Digit5", E(9, "porcentagem"), "%"], ["Digit7", E(9, "comercial"), "&"]];
+     const cor = { ShiftLeft: LJ }, ap = {}; let quantos = 0; mom.forEach(([id, tw], i) => { if (t > tw - .5 && t < tw + .7) { cor[id] = AZ; ap[id] = t > tw - .2; ap.ShiftLeft = true; } if (t > tw + 1) quantos = i + 1; });
+     const c = [470, 270, 1.15], [cx, cy, s] = tkCam(5 * TK.u, 3.5 * TK.u, 1.15, 470, 270).concat(1.15); tkClip(cx, cy, s, { cor, ap }, [24, 76, 790, 470]); const cc = [cx, cy, s];
+     painelEscuro(830, 150, 420, 380); bau(1040, 380, .95, quantos, t);
+     mom.forEach(([id, tw, ch], i) => { const [x, y] = P(id, cc); if (t > tw - .2 && t < tw + 1) { const k = seg(t, tw, tw + 1); if (k <= 0) simbolo(ch, x, y - 60, seg(t, tw - .2, tw), 60); voa(ch, x, y - 60, 1040 + .95 * (-120 + i * 60), 380 - .95 * 60, k); } });
+     mom.forEach(([id, tw, ch]) => { if (t > tw - .5 && t < tw + .9) placa(`SHIFT + ${id.slice(-1)} = ${ch}`, 420, 500, seg(t, tw - .5, tw - .1), "#334155", 26); });
+     if (t > E(9, "quatro")) palavra("4 DE 5!", 1040, 190, seg(t, E(9, "quatro"), E(9, "quatro") + .4), 50); } },
+ // 10 — os outros moradores do andar de cima
+ { chip: "ANDAR DE CIMA", fala: FL[10], sfx: [[.1, "whoosh"], [E(10, "exclamação"), "pop"], [E(10, "cifrão"), "pop"], [E(10, "asterisco"), "pop"], [E(10, "parênteses"), "pop"]],
+   draw(t) { fundoEscuro(t, "#1e3a8a"); const mor = [["Digit1", E(10, "exclamação"), "!", "exclamação"], ["Digit4", E(10, "cifrão"), "$", "cifrão"], ["Digit8", E(10, "asterisco"), "*", "asterisco"], ["Digit9", E(10, "parênteses"), "( )", "parênteses"], ["Digit0", E(10, "parênteses"), "", ""]];
+     const cor = {}, ap = {}; mor.forEach(([id, tw]) => { if (t > tw - .3) cor[id] = AZ; if (t > tw - .3 && t < tw + .3) { ap[id] = true; ap.ShiftLeft = true; } }); cor.ShiftLeft = LJ;
+     const [cx, cy] = tkCam(6.5 * TK.u, 3.5 * TK.u, 1.15, 640, 340); const cc = [cx, cy, 1.15]; tkClip(cx, cy, 1.15, { cor, ap }, [24, 150, 1232, 360]);
+     mor.forEach(([id, tw, ch, nome], i) => { if (t > tw - .3) { const [x, y] = P(id, cc); if (ch) simbolo(ch, x + (id === "Digit9" ? 34 : id === "Digit8" ? -14 : 0), 105, seg(t, tw - .3, tw + .1), id === "Digit8" ? 48 : 60, i % 2 ? "#fde047" : "#fff"); } }); } },
+ // 11 — desafio relâmpago 1
+ { chip: "DESAFIO RELÂMPAGO", fala: FL[11], sfx: [[.1, "alerta"], [E(11, "três"), "tec"], [E(11, "dois"), "tec"], [E(11, "um"), "tec"], [E(11, "shift"), "festa"]],
+   draw(t) { fundoEscuro(t, Math.floor(t * 3) % 2 && t < E(11, "três") ? "#7c2d12" : "#0f172a"); const tr = E(11, "shift");
+     palavra("DESAFIO RELÂMPAGO!", 640, 110, seg(t, .05, .45), 64);
+     if (t < E(11, "três")) placa("ARROBA: qual é o elevador? E o prédio?", 640, 330, seg(t, E(11, "turma"), E(11, "turma") + .4), RX, 30);
+     if (t < tr) contagem(t, E(11, "três"), E(11, "dois"), E(11, "um"));
+     if (t > tr) { const k = back(seg(t, tr, tr + .5)); g.save(); g.translate(640, 330); g.scale(k, k); tk(0, 0, .7, { cor: { ShiftLeft: LJ, Digit2: AZ }, dim: true }); g.restore(); placa("SHIFT + 2 = @", 640, 500, seg(t, tr + .2, tr + .6), VD, 34); simbolo("@", 1060, 200, seg(t, tr + .3, tr + .7), 90); confete(t, tr); } } },
+ // 12 — maiúsculas e o Ç
+ { chip: "BAIRRO DAS LETRAS", fala: FL[12], sfx: [[.1, "whoosh"], [E(12, "maiúscula"), "pop"], [E(12, "cê"), "ding"]],
+   draw(t) { fundoEscuro(t, "#1e3a8a"); const tm = E(12, "maiúscula"), tc = E(12, "cê"), tap = E(12, "apertar");
+     const cor = {}, ap = {}; if (t < tc) { cor.KeyA = AZ; if (t > tm - .6) { cor.ShiftLeft = LJ; ap.ShiftLeft = true; ap.KeyA = t > tm - .2 && t < tm + .3; } } else { cor.Semicolon = VD; ap.Semicolon = t > tap && t < tap + .4; }
+     const c = [TX, TY, TS]; tk(TX, TY, TS, { cor, ap });
+     if (t < tc) { caixaTexto(330, 430, 300, [t > tm ? "Aa" : "a"], t); placa(t > tm ? "SHIFT + A = A (maiúscula)" : "só o A = a (minúscula)", 900, 470, 1, t > tm ? LJ : AZ, 24); }
+     else { const [x, y] = P("Semicolon", c); anel(x, y, 30, t, AMAR); rotulo2("Ç: só no teclado brasileiro!", 640, 470, x, y + 18, seg(t, tc, tc + .4), VD, 24); if (t > tap) caixaTexto(150, 430, 200, ["ç"], t); } } },
+ // 13 — o cadeado Caps Lock
+ { chip: "CAPS LOCK", fala: FL[13], sfx: [[.1, "whoosh"], [E(13, "cadeado"), "pop"], [E(13, "acende"), "ding"], [E(13, "apaga"), "click"], [E(13, "cuidado"), "alerta"], [E(13, "arroba"), "ding"]],
+   draw(t) { fundoEscuro(t, "#0f766e"); const tca = E(13, "cadeado"), ta = E(13, "acende"), tap = E(13, "apaga"), tcu = E(13, "cuidado"), tar = E(13, "arroba");
+     const ligado = t > ta && t < tap; const cor = { CapsLock: ligado ? "#0d9488" : "#5eead4" }, ap = { CapsLock: piscaTecla(t, ta - .3, .3) || piscaTecla(t, tap - .3, .3) };
+     if (t > tcu && t < tar) { cor.Digit2 = VM; } if (t > tar) { cor.ShiftLeft = LJ; cor.Digit2 = AZ; }
+     const c = [TX, TY, TS]; tk(TX, TY, TS, { cor, ap, leds: { num: true, caps: ligado } });
+     const [x, y] = P("CapsLock", c); if (t > tca) { cadeado(70, y + 10, .6, !ligado); flecha(100, y, x - 40, y, 1, "#0d9488"); } if (t > ta && t < tap) { const [lx, ly] = [TX + TS * (TK.LED[1].x - TK.W / 2), TY + TS * (TK.LED[1].y - 4 - TK.H / 2)]; rotulo2("LUZINHA ACESA", 1060, 460, lx, ly + 8, seg(t, ta, ta + .4), "#0d9488", 22); }
+     if (t < tcu) caixaTexto(260, 430, 420, [ligado ? "ESCOLA" : "escola"], t);
+     else if (t < tar) { caixaTexto(260, 430, 200, ["2"], t); placa("CAPS LOCK + 2 = 2 (não sai o @)", 760, 470, seg(t, tcu, tcu + .4), VM, 22); }
+     else { caixaTexto(260, 430, 200, ["@"], t); placa("SHIFT + 2 = @  ✓", 760, 470, seg(t, tar, tar + .4), VD, 26); } } },
+ // 14 — os acentos, teclas mágicas
+ { chip: "ACENTOS", fala: FL[14], sfx: [[.1, "whoosh"], [E(14, "aperta"), "click"], [E(14, "nada"), "misterio"], [E(14, "agudo", 1), "click"], [E(14, "letra"), "ding"], [E(14, "crase"), "ding"]],
+   draw(t) { fundoEscuro(t, "#581c87"); const tap = E(14, "aperta"), tn = E(14, "nada"), tv = E(14, "vogal"), tag = E(14, "agudo", 1), tl = E(14, "letra"), tcr = E(14, "crase");
+     const brilho = .5 + .5 * Math.sin(t * 5); const cor = { BracketLeft: `rgba(168,85,247,${.6 + .4 * brilho})` }, ap = {};
+     ap.BracketLeft = piscaTecla(t, tap, .4) || piscaTecla(t, tag, .4) || piscaTecla(t, tcr - .6, .4); if (t > tl - .1 && t < tcr) { cor.KeyA = AZ; ap.KeyA = piscaTecla(t, tl, .4); } if (t > tcr - .8) { cor.ShiftLeft = LJ; ap.ShiftLeft = piscaTecla(t, tcr - .7, .6); cor.KeyA = AZ; ap.KeyA = piscaTecla(t, tcr, .4); }
+     const c = [TX, TY, TS]; tk(TX, TY, TS, { cor, ap }); const [x, y] = P("BracketLeft", c); for (let i = 0; i < 5; i++) estrela(x + Math.cos(t * 3 + i * 1.3) * 34, y + Math.sin(t * 3 + i * 1.3) * 26, 6 + 2 * Math.sin(t * 6 + i), "#e9d5ff");
+     if (t > .6) rotulo2("TECLA MÁGICA ( ´ )", 920, 470, x, y + 18, seg(t, .6, 1), RX, 22);
+     const txt = t > tcr ? "á à" : t > tl ? "á" : ""; const cur = caixaTexto(240, 430, 300, [txt], t);
+     if (t > tn && t < tl) { texto2("?", cur.x + 30, cur.y - 10, 50, AMAR); placa("nada apareceu… ainda!", 560, 520, 1, "#334155", 18); }
+     if (t > tl) simbolo(t > tcr ? "à" : "á", 640, 470, seg(t, t > tcr ? tcr : tl, (t > tcr ? tcr : tl) + .4), 64); } },
+ // 15 — o til e o chapéu
+ { chip: "TIL E CIRCUNFLEXO", fala: FL[15], sfx: [[.1, "whoosh"], [E(15, "ã"), "ding"], [E(15, "õ"), "ding"], [E(15, "chapéu"), "pop"], [E(15, "ê"), "ding"]],
+   draw(t) { fundoEscuro(t, "#581c87"); const ta = E(15, "ã"), to = E(15, "õ"), tch = E(15, "chapéu"), te = E(15, "ê");
+     const cor = { Quote: `rgba(168,85,247,${.75 + .25 * Math.sin(t * 5)})` }, ap = {};
+     if (t < tch) { ap.Quote = piscaTecla(t, ta - .6, .4) || piscaTecla(t, to - .6, .4); if (t > ta - .3 && t < ta + .5) { cor.KeyA = AZ; ap.KeyA = true; } if (t > to - .3 && t < to + .5) { cor.KeyO = AZ; ap.KeyO = true; } }
+     else { cor.ShiftRight = LJ; ap.ShiftRight = piscaTecla(t, tch, .8) || piscaTecla(t, te - .7, .5); ap.Quote = piscaTecla(t, tch + .2, .4) || piscaTecla(t, te - .6, .4); if (t > te - .3) { cor.KeyE = AZ; ap.KeyE = piscaTecla(t, te - .2, .4); } }
+     const c = [TX, TY, TS]; tk(TX, TY, TS, { cor, ap }); const [x, y] = P("Quote", c); rotulo2(t < tch ? "TIL ( ~ )" : "SHIFT + ~ = CHAPÉU ( ^ )", 980, 470, x, y + 18, 1, RX, 22);
+     const txt = (t > ta ? "ã" : "") + (t > to ? " õ" : "") + (t > te ? " ê" : ""); caixaTexto(200, 430, 380, [txt], t);
+     if (t > tch) { g.save(); g.translate(640, 470); const k = back(seg(t, tch, tch + .4)); g.scale(k, k); g.fillStyle = "#0b1020"; g.beginPath(); g.moveTo(-50, 20); g.lineTo(0, -40); g.lineTo(50, 20); g.lineTo(34, 20); g.lineTo(0, -18); g.lineTo(-34, 20); g.fill(); g.fillStyle = AMAR; g.beginPath(); g.moveTo(-42, 14); g.lineTo(0, -32); g.lineTo(42, 14); g.lineTo(32, 14); g.lineTo(0, -20); g.lineTo(-32, 14); g.fill(); g.restore(); } } },
+ // 16 — o trema
+ { chip: "TREMA", fala: FL[16], sfx: [[.1, "whoosh"], [E(16, "pontinhos"), "misterio"], [E(16, "trema"), "pop"], [E(16, "shift"), "click"]],
+   draw(t) { fundoEscuro(t, "#334155"); const tpo = E(16, "pontinhos"), ttr = E(16, "trema"), ts = E(16, "shift");
+     const cor = {}, ap = {}; if (t > ttr) { cor.Digit6 = RX; cor.ShiftLeft = LJ; ap.ShiftLeft = piscaTecla(t, ts, .7); ap.Digit6 = piscaTecla(t, ts + .2, .4); }
+     const c = [TX, TY, TS]; tk(TX, TY, TS, { cor, ap });
+     if (t > tpo) { simbolo("¨", 900, 470, seg(t, tpo, tpo + .4), 90); texto2("?!", 990, 440, 44, AMAR); }
+     pedro({ x: 230, y: 580, s: .75, braco: -2.4, bracoE: 2.4, boca: "o", pisca: pisca(t) });
+     if (t > ttr) { const [x, y] = P("Digit6", c); rotulo2("TREMA ( ¨ ) = SHIFT + 6", 560, 470, x, y + 18, seg(t, ttr, ttr + .4), RX, 22); }
+     if (t > E(16, "quase")) placa("quase não se usa", 560, 530, seg(t, E(16, "quase"), E(16, "quase") + .4), "#475569", 18); } },
+ // 17 — a Rua da Pontuação
+ { chip: "PONTUAÇÃO", fala: FL[17], sfx: [[.1, "whoosh"], [E(17, "menor"), "pop"], [E(17, "maior"), "pop"], [E(17, "dois"), "pop"], [E(17, "interrogação"), "ding"]],
+   draw(t) { fundoEscuro(t, "#0c4a6e"); const it = [["Comma", E(17, "menor"), "<", ","], ["Period", E(17, "maior"), ">", "."], ["Slash", E(17, "dois"), ":", ";"], ["IntlRo", E(17, "interrogação"), "?", "/"]];
+     const cor = {}, ap = {}; it.forEach(([id, tw]) => { if (t > tw - .4) cor[id] = AZ; if (piscaTecla(t, tw - .4, .7)) { ap[id] = true; ap.ShiftRight = true; } }); if (t > E(17, "shift")) cor.ShiftRight = LJ;
+     const c = tkZoom(seg(t, .1, 1), 11.5, 5, 1.7, 640, 250, { cor, ap }, [24, 70, 1232, 330]); if (t > .8 && t < it[0][1] - .4) placa("RUA DA PONTUAÇÃO", 640, 470, seg(t, .8, 1.2), AZ, 28);
+     it.forEach(([id, tw, s1, b], i) => { if (t > tw - .4) { const [x, y] = P(id, c); placa(`${b} → ${s1}`, x, 440 + (i % 2) * 64, seg(t, tw - .4, tw), i % 2 ? RX : AZ, 30); } }); } },
+ // 18 — mais moradores escondidos
+ { chip: "MAIS SÍMBOLOS", fala: FL[18], sfx: [[.1, "whoosh"], [E(18, "sublinhado"), "pop"], [E(18, "mais"), "pop"], [E(18, "aspas"), "pop"], [E(18, "pé"), "pop"]],
+   draw(t) { fundoEscuro(t, "#1e3a8a"); const it = [["Minus", E(18, "sublinhado"), "- → _"], ["Equal", E(18, "mais", 1), "= → +"], ["Backquote", E(18, "aspas"), "' → \""], ["IntlBackslash", E(18, "pé"), "\\ → |"]];
+     const cor = {}, ap = {}; it.forEach(([id, tw]) => { if (t > tw - .4) cor[id] = AZ; if (piscaTecla(t, tw - .4, .7)) { ap[id] = true; ap.ShiftLeft = true; } }); cor.ShiftLeft = LJ;
+     const c = [TX, TY, TS]; tk(TX, TY, TS, { cor, ap });
+     it.forEach(([id, tw, txt], i) => { if (t > tw - .4) { const [x, y] = P(id, c); rotulo2(txt, [980, 1140, 300, 420][i], [470, 470, 470, 520][i] - (i === 1 ? 60 : 0), x, y + 18, seg(t, tw - .4, tw), [AZ, RX, VD, LJ][i], 26); } }); } },
+ // 19 — o terceiro andar e a chave secreta AltGr
+ { chip: "ALTGR", fala: FL[19], sfx: [[.1, "misterio"], [E(19, "terceiro"), "pop"], [E(19, "chave"), "sino"], [E(19, "desenho"), "ding"]],
+   draw(t) { fundoEscuro(t, "#422006"); const tte = E(19, "terceiro"), tch = E(19, "chave"), tde = E(19, "desenho");
+     if (t < tch) { const k = back(seg(t, tte, tte + .5)); if (k > 0) { g.save(); g.translate(640, 300); g.scale(k, k); teclaGrande(0, 0, 260, { id: "KeyE", andar: 2 }); g.restore(); rotulo2("TERCEIRO ANDAR", 330, 450, 700, 370, seg(t, tte + .3, tte + .7), OURO, 26); }
+       if (t < tte) { simbolo("°", 640, 300, seg(t, .2, .6), 140); texto2("?", 760, 220, 70, "#fff"); } }
+     else { const c = [TX, TY, TS]; tk(TX, TY, TS, { cor: { AltRight: OURO }, altgr: t > tde, ap: { AltRight: Math.sin(t * 6) > .6 } }); const [x, y] = P("AltRight", c); chaveDesenho(380, 470, 1.1);
+       rotulo2("CHAVE SECRETA: AltGr", 640, 470, x, y + 18, seg(t, tch, tch + .4), OURO, 26);
+       if (t > tde) placa("o desenho do CANTINHO da tecla", 980, 520, seg(t, tde, tde + .4), AZ, 20); } } },
+ // 20 — AltGr + E = ° (5º tesouro!)
+ { chip: "O 5º TESOURO", fala: FL[20], sfx: [[.1, "whoosh"], [E(20, "altgr"), "click"], [E(20, "grau"), "ding"], [E(20, "quinto"), "festa"], [E(20, "quadrado"), "pop"], [E(20, "barra"), "pop"]],
+   draw(t) { fundoEscuro(t, "#14532d"); const tg = E(20, "grau"), tq = E(20, "quinto"), tm = E(20, "quadrado"), tb = E(20, "barra");
+     const fase = t < tm - .8 ? "E" : t < tb - .8 ? "2" : "Q"; const id = fase === "E" ? "KeyE" : fase === "2" ? "Digit2" : "KeyQ";
+     const t0 = fase === "E" ? .3 : fase === "2" ? tm - .8 : tb - .8;
+     const c = [TX, TY, TS]; tk(TX, TY, TS, { cor: { AltRight: OURO, [id]: AZ }, ap: { AltRight: piscaTecla(t, t0, 1), [id]: piscaTecla(t, t0 + .4, .4) }, altgr: true });
+     const [x, y] = P(id, c); const ch = { KeyE: "°", Digit2: "²", KeyQ: "/" }[id];
+     if (fase === "E") { simbolo("°", x, y - 70, seg(t, .7, 1.1), 70); placa("AltGr + E = °", 330, 470, seg(t, .5, .9), OURO, 30); if (t > tg) { texto2("30°", 560, 470, 60, "#fff"); }
+       bau(1040, 470, .55, t > tq ? 5 : 4, t); voa("°", x, y - 70, 1040 + .55 * 120, 470 - .55 * 60, seg(t, tq - .6, tq)); if (t > tq) { palavra("5 DE 5!", 830, 470, seg(t, tq, tq + .4), 50); confete(t, tq); } }
+     else { simbolo(ch, x, y - 70, seg(t, t0 + .4, t0 + .8), 70); placa(fase === "2" ? "AltGr + 2 = ²   (metro quadrado: m²)" : "AltGr + Q = /", 640, 470, seg(t, t0, t0 + .4), OURO, 28); } } },
+ // 21 — desafio relâmpago 2
+ { chip: "DESAFIO RELÂMPAGO", fala: FL[21], sfx: [[.1, "alerta"], [E(21, "três"), "tec"], [E(21, "dois"), "tec"], [E(21, "um"), "tec"], [E(21, "altgr"), "festa"]],
+   draw(t) { fundoEscuro(t, Math.floor(t * 3) % 2 && t < E(21, "três") ? "#7c2d12" : "#0f172a"); const tr = E(21, "altgr");
+     palavra("DESAFIO RELÂMPAGO!", 640, 110, seg(t, .05, .45), 64);
+     if (t < E(21, "três")) placa("E o símbolo de GRAU ( ° ), como faz?", 640, 330, seg(t, E(21, "turma"), E(21, "turma") + .4), RX, 30);
+     if (t < tr) contagem(t, E(21, "três"), E(21, "dois"), E(21, "um"));
+     if (t > tr) { const k = back(seg(t, tr, tr + .5)); g.save(); g.translate(640, 330); g.scale(k, k); tk(0, 0, .7, { cor: { AltRight: OURO, KeyE: AZ }, dim: true }); g.restore(); placa("AltGr + E = °", 640, 500, seg(t, tr + .2, tr + .6), VD, 34); simbolo("°", 1060, 200, seg(t, tr + .3, tr + .7), 100); confete(t, tr); } } },
+ // 22 — as ruas grandes: espaço, Enter e Tab
+ { chip: "ESPAÇO, ENTER E TAB", fala: FL[22], sfx: [[.1, "whoosh"], [E(22, "barra"), "pop"], [E(22, "separa"), "tec"], [E(22, "enter"), "click"], [E(22, "tab"), "click"]],
+   draw(t) { fundoEscuro(t, "#1e3a8a"); const tb = E(22, "barra"), tse = E(22, "separa"), ten = E(22, "enter"), tta = E(22, "tab");
+     const cor = {}, ap = {}; if (t > tb && t < ten) { cor.Space = LJ; ap.Space = piscaTecla(t, tse, .4); } if (t > ten - .2 && t < tta) { cor.Enter = VD; ap.Enter = piscaTecla(t, E(22, "pula"), .4); } if (t > tta - .2) { cor.Tab = RX; ap.Tab = piscaTecla(t, tta + .5, .3) || piscaTecla(t, tta + 1.5, .3); }
+     const c = [TX, TY, TS]; tk(TX, TY, TS, { cor, ap });
+     if (t > tb && t < ten) { const [x, y] = P("Space", c); rotulo2("AVENIDA MAIS COMPRIDA", 980, 470, x + 60, y + 18, seg(t, tb, tb + .4), LJ, 22); caixaTexto(150, 430, 420, [t > tse ? "oi pedro" : "oipedro"], t); }
+     if (t > ten - .2 && t < tta) { const [x, y] = P("Enter", c); rotulo2("CONFIRMA e PULA LINHA", 980, 470, x, y + 18, seg(t, ten, ten + .4), VD, 22); caixaTexto(150, 410, 420, t > E(22, "pula") ? ["Bom dia,", "turma!"] : ["Bom dia,"], t); }
+     if (t > tta - .2) { const [x, y] = P("Tab", c); rotulo2("TAB: próximo espaço", 300, 470, x, y + 18, seg(t, tta, tta + .4), RX, 22); const f = t > tta + 1.5 ? 2 : t > tta + .5 ? 1 : 0;
+       ["Nome", "Turma", "Idade"].forEach((n, i) => { g.fillStyle = "#fff"; g.font = `700 18px ${F}`; g.textAlign = "left"; g.textBaseline = "middle"; g.fillText(n, 560 + i * 190, 432); g.fillStyle = "#fff"; rr(560 + i * 190, 446, 170, 46, 10); g.fill(); g.strokeStyle = f === i ? RX : "#94a3b8"; g.lineWidth = f === i ? 5 : 2; rr(560 + i * 190, 446, 170, 46, 10); g.stroke(); if (f === i && Math.floor(t * 2.4) % 2 === 0) { g.fillStyle = "#0f172a"; g.fillRect(572 + i * 190, 455, 3, 28); } }); } } },
+ // 23 — os dois apagadores
+ { chip: "BACKSPACE E DELETE", fala: FL[23], sfx: [[.1, "whoosh"], [E(23, "backspace"), "pop"], [E(23, "apaga"), "tec"], [E(23, "delete"), "pop"], [E(23, "apaga", 1), "tec"]],
+   draw(t) { fundoEscuro(t, "#7f1d1d"); const tbk = E(23, "backspace"), ta1 = E(23, "apaga"), tdl = E(23, "delete"), ta2 = E(23, "apaga", 1);
+     const fase2 = t > tdl - .2; const cor = fase2 ? { Delete: VM } : { Backspace: LJ }, ap = { Backspace: piscaTecla(t, ta1, .4), Delete: piscaTecla(t, ta2, .4) };
+     const c = [TX, TY, TS]; tk(TX, TY, TS, { cor, ap }); const id = fase2 ? "Delete" : "Backspace"; const [x, y] = P(id, c);
+     if (t > tbk) rotulo2(fase2 ? "DELETE: olha para FRENTE ▶" : "◀ BACKSPACE: olha para TRÁS", fase2 ? 900 : 860, 470, x, y + 18, seg(t, fase2 ? tdl : tbk, (fase2 ? tdl : tbk) + .4), fase2 ? VM : LJ, 22);
+     if (!fase2) { const apagou = t > ta1; caixaTexto(150, 430, 340, [apagou ? "casa" : "caasa"], t, true, { cursorAntes: apagou ? 2 : 3 }); if (t > ta1 - .3 && t < ta1 + .6) texto2("◀", 230, 400, 40, LJ); }
+     else { const apagou = t > ta2; caixaTexto(150, 430, 340, [apagou ? "bola" : "bolxa"], t, true, { cursorAntes: 3 }); if (t > ta2 - .3 && t < ta2 + .6) texto2("▶", 260, 400, 40, VM); } } },
+ // 24 — atalhos: Ctrl, Windows, Alt e a tecla do menu
+ { chip: "ATALHOS", fala: FL[24], sfx: [[.1, "whoosh"], [E(24, "copia"), "click"], [E(24, "cola"), "pop"], [E(24, "windows"), "pop"], [E(24, "alt"), "pop"], [E(24, "menu"), "click"]],
+   draw(t) { fundoEscuro(t, "#1e293b"); const tco = E(24, "copia"), tcl = E(24, "cola"), tw = E(24, "windows"), tal = E(24, "alt", 0), tm = E(24, "menu");
+     const cor = {}, ap = {}; let fase = t < tw - .3 ? "ctrl" : t < tal - .2 ? "win" : t < tm - .3 ? "alt" : "menu";
+     if (fase === "ctrl") { cor.ControlLeft = AZ; cor.KeyC = t < tcl - .2 ? AZ : undefined; cor.KeyV = t > tcl - .2 ? AZ : undefined; ap.ControlLeft = piscaTecla(t, tco - .4, .9) || piscaTecla(t, tcl - .4, .9); ap.KeyC = piscaTecla(t, tco - .1, .4); ap.KeyV = piscaTecla(t, tcl - .1, .4); }
+     if (fase === "win") { cor.MetaLeft = AZ; ap.MetaLeft = piscaTecla(t, tw, .4); } if (fase === "alt") cor.AltLeft = AZ; if (fase === "menu") { cor.ContextMenu = RS; ap.ContextMenu = piscaTecla(t, tm + .3, .4); }
+     const c = [TX, TY, TS]; tk(TX, TY, TS, { cor, ap });
+     if (fase === "ctrl") { placa(t > tcl ? "CTRL + V = COLAR" : "CTRL + C = COPIAR", 860, 470, 1, AZ, 26); caixaTexto(150, 430, 380, [t > tcl ? "Oi! Oi!" : "Oi!"], t); if (t > tco && t < tcl) { g.fillStyle = "rgba(37,99,235,.35)"; g.fillRect(172, 448, 50, 40); } }
+     if (fase === "win") { const k = back(seg(t, tw, tw + .4)); g.save(); g.translate(400, 470); g.scale(k, k); g.fillStyle = "#e2e8f0"; rr(-170, -60, 340, 120, 14); g.fill(); g.strokeStyle = "#0f172a"; g.lineWidth = 3; rr(-170, -60, 340, 120, 14); g.stroke(); g.fillStyle = "#0f172a"; g.font = `800 20px ${F}`; g.textAlign = "center"; g.textBaseline = "middle"; g.fillText("Menu Iniciar", 0, -30); [-100, -33, 33, 100].forEach((dx, i) => { g.fillStyle = [AZ, VD, LJ, RX][i]; rr(dx - 22, 0, 44, 44, 10); g.fill(); }); g.restore(); placa("WINDOWS = MENU INICIAR", 900, 470, 1, AZ, 22); }
+     if (fase === "alt") placa("ALT: mais atalhos", 640, 470, seg(t, tal, tal + .4), AZ, 26);
+     if (fase === "menu") { const [x, y] = P("ContextMenu", c); rotulo2("TECLA DO MENU", 980, 470, x, y + 18, seg(t, tm - .3, tm + .1), RS, 22); mouseTopo(220, 450, .45, { dir: true, dirCor: RS }); placa("= BOTÃO DIREITO", 440, 470, seg(t, E(24, "botão"), E(24, "botão") + .4), RS, 24); } } },
+ // 25 — Home, End, Page Up e Page Down
+ { chip: "BLOCO DE EDIÇÃO", fala: FL[25], sfx: [[.1, "whoosh"], [E(25, "home"), "click"], [E(25, "end"), "click"], [E(25, "page"), "whoosh"], [E(25, "page", 1), "whoosh"]],
+   draw(t) { fundoEscuro(t, "#14532d"); const th = E(25, "home"), te = E(25, "end"), tu = E(25, "page"), td = E(25, "page", 1);
+     const cor = { Home: t > th ? VD : undefined, End: t > te ? VD : undefined, PageUp: t > tu ? AZ : undefined, PageDown: t > td ? AZ : undefined };
+     const ap = { Home: piscaTecla(t, th + .3, .4), End: piscaTecla(t, te + .3, .4), PageUp: piscaTecla(t, tu + .3, .4), PageDown: piscaTecla(t, td + .3, .4) };
+     const c = tkZoom(seg(t, .1, 1), 16.5, 2.5, 2.5, 330, 290, { cor, ap }, [24, 76, 600, 460]); painelEscuro(650, 80, 600, 450);
+     const rol = t > td + .3 ? lerp(0, 1, io(seg(t, td + .3, td + 1))) : t > tu + .3 ? 0 : 0; const linhaY = 160;
+     telaPC(690, 110, 520, 330, (x, y, w, h) => { const off = (t > td + .3 ? io(seg(t, td + .3, td + 1)) : 1 - io(seg(t, tu + .3, tu + 1)) * (t > tu ? 1 : 0)) * 0; g.fillStyle = "#0f172a"; g.font = `700 26px ${F}`; g.textAlign = "left"; g.textBaseline = "middle";
+       const pag = t > td + .3 ? 2 : t > tu + .3 ? 0 : 1; const sc = lerp(0, -1, 0); g.fillText(`Página ${pag + 1}`, x + 20, y + 30); for (let i = 0; i < 5; i++) { g.fillStyle = "#cbd5e1"; rr(x + 20, y + 90 + i * 44, 380 - (i % 3) * 60, 16, 8); g.fill(); }
+       g.fillStyle = "#0f172a"; g.font = `700 26px ${F}`; g.fillText("Era uma vez...", x + 20, y + 66); const curX = t > te + .3 && t < tu ? x + 22 + g.measureText("Era uma vez...").width : x + 20; if (t > th + .3 && t < tu && Math.floor(t * 2.4) % 2 === 0) { g.fillStyle = VM; g.fillRect(curX, y + 50, 4, 32); } });
+     if (t > th && t < tu) placa(t > te ? "END: vai para o FIM da linha" : "HOME: vai para o COMEÇO da linha", 950, 490, 1, VD, 22);
+     if (t > tu) placa(t > td ? "PAGE DOWN: desce uma página" : "PAGE UP: sobe uma página", 950, 490, 1, AZ, 22); } },
+ // 26 — o Insert encrenqueiro
+ { chip: "INSERT", fala: FL[26], sfx: [[.1, "whoosh"], [E(26, "encrenqueiro"), "alerta"], [E(26, "escrevem"), "tec"], [E(26, "insert", 1), "click"], [E(26, "normal"), "ding"]],
+   draw(t) { fundoEscuro(t, "#450a0a"); const ten = E(26, "encrenqueiro"), tes = E(26, "escrevem"), tno = E(26, "insert", 1), tnor = E(26, "normal");
+     const ligado = t > ten && t < tno + .3; const c = tkZoom(seg(t, .1, 1), 16.5, 2.5, 2.3, 330, 260, { cor: { Insert: ligado ? VM : VD }, ap: { Insert: piscaTecla(t, ten, .4) || piscaTecla(t, tno, .4) } }, [24, 76, 590, 460]);
+     const [x, y] = P("Insert", c); if (ligado) { texto2("!", x + 40, y - 50, 60, VM); anel(x, y, 50, t, VM); }
+     painelEscuro(640, 80, 600, 450); placa(ligado ? "INSERT LIGADO: escreve POR CIMA" : "INSERT DESLIGADO: normal", 940, 130, 1, ligado ? VM : VD, 22);
+     const p = t > tes ? (t > tno + .3 ? "pato" : "pato") : "gato"; const cur = caixaTexto(760, 220, 360, [p], t, true, { cursorAntes: t > tes ? 1 : 0 });
+     if (t > tes && t < tno + .3) { g.fillStyle = "rgba(220,38,38,.35)"; g.fillRect(782, 238, 22, 40); placa("o G sumiu! virou P", 940, 360, seg(t, tes, tes + .4), VM, 22); }
+     if (t > tnor) placa("Insert de novo = tudo normal", 940, 430, seg(t, tnor, tnor + .4), VD, 22); } },
+ // 27 — as quatro setas
+ { chip: "SETAS", fala: FL[27], sfx: [[.1, "whoosh"], [E(27, "cima"), "click"], [E(27, "baixo"), "click"], [E(27, "esquerda"), "click"], [E(27, "direita"), "click"]],
+   draw(t) { fundoEscuro(t, "#14532d"); const seq = [["ArrowUp", E(27, "cima"), 0, -1], ["ArrowDown", E(27, "baixo"), 0, 1], ["ArrowLeft", E(27, "esquerda"), -1, 0], ["ArrowRight", E(27, "direita"), 1, 0]];
+     const cor = {}, ap = {}; seq.forEach(([id, tw]) => { cor[id] = t > .6 ? "#4ade80" : undefined; if (piscaTecla(t, tw, .45)) { ap[id] = true; cor[id] = VD; } });
+     tkZoom(seg(t, .1, 1), 16.5, 5.5, 2.6, 330, 250, { cor, ap }, [24, 76, 590, 460]); painelEscuro(640, 80, 600, 450);
+     let cx = 1, cy = 1; seq.forEach(([id, tw, dx, dy]) => { if (t > tw) { cx += dx; cy += dy; } });
+     const L = ["CASA", "BOLA", "GATO"]; L.forEach((w, r) => w.split("").forEach((ch, i) => { const X = 760 + i * 90, Y = 170 + r * 100; g.fillStyle = "#fff"; rr(X, Y, 70, 76, 10); g.fill(); g.fillStyle = "#0f172a"; g.font = `800 40px ${F}`; g.textAlign = "center"; g.textBaseline = "middle"; g.fillText(ch, X + 35, Y + 40); }));
+     const X = 760 + cx * 90, Y = 170 + cy * 100; g.strokeStyle = VM; g.lineWidth = 6; rr(X - 4, Y - 4, 78, 84, 12); g.stroke();
+     placa("passeia SEM APAGAR NADA", 940, 490, seg(t, E(27, "sem"), E(27, "sem") + .4), VD, 22); } },
+ // 28 — o Bairro da Calculadora e o Num Lock
+ { chip: "TECLADO NUMÉRICO", fala: FL[28], sfx: [[.1, "whoosh"], [E(28, "números"), "tec"], [E(28, "enter"), "click"], [E(28, "interruptor"), "pop"], [E(28, "acesa"), "ding"], [E(28, "apagada"), "click"]],
+   draw(t) { fundoEscuro(t, "#3b0764"); const tnu = E(28, "números"), ten = E(28, "enter"), tin = E(28, "interruptor"), tac = E(28, "acesa"), tap = E(28, "apagada");
+     const on = t < tap; const cor = { NumLock: t > tin ? OURO : undefined }; if (t > ten && t < tin) cor.NumpadEnter = RX; const ap = { NumLock: piscaTecla(t, tap - .3, .4), Numpad2: piscaTecla(t, tac + .2, .3), Numpad5: piscaTecla(t, tac + .6, .3), Numpad8: piscaTecla(t, tap + .6, .3) };
+     const c = tkZoom(seg(t, .1, 1), 21, 3.5, 2.3, 380, 300, { cor, ap, leds: { num: on, caps: false }, regioes: ["np"], numOff: !on }, [24, 96, 650, 440]);
+     if (t > tin) { const [x, y] = P("NumLock", c); rotulo2("INTERRUPTOR: NUM LOCK", 400, 64, x, y - 26, seg(t, tin, tin + .4), OURO, 22); }
+     painelEscuro(700, 120, 540, 400);
+     if (on) { const txt = t > tac + .6 ? "25" : t > tac + .2 ? "2" : ""; caixaTexto(760, 200, 420, [txt || ""], t); placa(t > tac ? "LUZ ACESA = NÚMEROS" : "uma calculadora no teclado", 970, 400, 1, t > tac ? VD : RX, 22); }
+     else { caixaTexto(760, 200, 420, ["25"], t, true, { cursorAntes: t > tap + .6 ? 1 : 2 }); placa("LUZ APAGADA = SETAS", 970, 400, seg(t, tap, tap + .4), VM, 22); } } },
+ // 29 — os três postes de luz
+ { chip: "AS LUZINHAS", fala: FL[29], sfx: [[.1, "whoosh"], [E(29, "primeiro"), "ding"], [E(29, "segundo"), "ding"], [E(29, "terceiro"), "ding"], [E(29, "estranha"), "alerta"]],
+   draw(t) { fundoEscuro(t, "#0b1020"); const t1 = E(29, "primeiro"), t2 = E(29, "segundo"), t3 = E(29, "terceiro"), te = E(29, "estranha");
+     const piscaTudo = t > te && Math.floor(t * 3) % 2 === 0; const leds = { num: t > t1 || piscaTudo, caps: (t > t2 && t < te) || piscaTudo, scroll: (t > t3 && t < te) || piscaTudo };
+     const c = tkZoom(seg(t, .1, 1), 20.9, 1.2, 2.2, 640, 360, { leds }, [24, 70, 1232, 370]); painelEscuro(70, 448, 1140, 92);
+     TK.LED.forEach((l, i) => { const x = c[0] + c[2] * (l.x - TK.W / 2), y = c[1] + c[2] * (l.y - 4 - TK.H / 2); const on = leds[l.id];
+       g.strokeStyle = "#475569"; g.lineWidth = 10; g.beginPath(); g.moveTo(x, y - 30); g.lineTo(x, y - 170); g.lineTo(x + 30, y - 190); g.stroke(); g.fillStyle = on ? "#fde047" : "#334155"; g.beginPath(); g.arc(x + 34, y - 186, 16, 0, 7); g.fill();
+       if (on) { g.save(); g.globalAlpha = .25; g.fillStyle = "#fde047"; g.beginPath(); g.moveTo(x + 24, y - 176); g.lineTo(x - 30, y - 40); g.lineTo(x + 90, y - 40); g.fill(); g.restore(); }
+       const tw = [t1, t2, t3][i]; if (t > tw && t < te) placa(["NUM LOCK: números", "CAPS LOCK: maiúsculas", "SCROLL LOCK"][i], [260, 640, 1020][i], 494, seg(t, tw, tw + .4), [VD, "#0d9488", "#475569"][i], 22); });
+     if (t > te) palavra("ALGO ESTRANHO? OLHE AS LUZINHAS!", 640, 494, seg(t, te, te + .4), 44); } },
+ // 30 — o mouse, parceiro do teclado
+ { chip: "E O MOUSE?", fala: FL[30], sfx: [[.1, "whoosh"], [E(30, "esquerda"), "click"], [E(30, "direita"), "click"], [E(30, "dupla"), "festa"]],
+   draw(t) { fundoEscuro(t, "#1e3a8a"); const te = E(30, "esquerda"), td = E(30, "direita"), tdu = E(30, "dupla");
+     mouseTopo(330, 330, .95, { esq: t > te && t < td + .2, dir: t > td }); if (t > te) rotulo2("ESQUERDO: escolhe e abre", 300, 90, 290, 210, seg(t, te, te + .4), AZ, 22); if (t > td) rotulo2("DIREITO: menu de opções", 380, 520, 380, 420, seg(t, td, td + .4), RS, 22);
+     if (t > td) { const k = back(seg(t, td + .2, td + .6)); g.save(); g.translate(520, 260); g.scale(k, k); g.fillStyle = "#fff"; rr(0, 0, 200, 140, 10); g.fill(); g.strokeStyle = "#0f172a"; g.lineWidth = 2.5; rr(0, 0, 200, 140, 10); g.stroke(); ["Abrir", "Copiar", "Renomear"].forEach((s2, i) => { g.fillStyle = "#0f172a"; g.font = `600 20px ${F}`; g.textAlign = "left"; g.textBaseline = "middle"; g.fillText(s2, 20, 28 + i * 42); }); g.restore(); }
+     tk(990, 300, .42, { regioes: ["fun", "num", "let", "ed", "np", "mod"] });
+     if (t > tdu) { texto2("+", 790, 300, 80, AMAR); palavra("UMA DUPLA!", 990, 450, seg(t, tdu, tdu + .4), 56); } } },
+ // 31 — baú completo e o e-mail enviado
+ { chip: "MISSÃO CUMPRIDA", fala: FL[31], sfx: [[.1, "festa"], [E(31, "voltou"), "whoosh"], [E(31, "segurou"), "click"], [E(31, "apertou"), "click"], [E(31, "enviado"), "festa"], [E(31, "ufa"), "ding"]],
+   draw(t) { fundoEscuro(t, "#14532d"); const tv = E(31, "voltou"), ta = E(31, "apertou"), ten = E(31, "enviado"), tu = E(31, "ufa");
+     if (t < tv) { bau(640, 330, 1.2, 5, t); palavra("BAÚ COMPLETO!", 640, 110, seg(t, .1, .5), 64); }
+     else { bau(1090, 210, .55, 5, t, { contador: false }); const para = t > ta + .2 ? "prof.welington@escola.com" : "prof.welington";
+       telaPC(110, 100, 760, 330, (x, y, w, h) => emailTela(x, y, w, h, para, t, { enviado: t > ten, cursor: t < ten }));
+       if (t > ta - .3 && t < ten) placa("SHIFT + 2 = @", 490, 500, 1, LJ, 28);
+       pedro({ x: 1060, y: 560, s: .95, braco: t > tu ? -2.6 : -.6, bracoE: t > tu ? 2.6 : .4, boca: t > ten ? "" : "", pisca: pisca(t) });
+       if (t > ten) { visto(490, 280, 70, seg(t, ten, ten + .4)); confete(t, ten); } if (t > tu) balao("Ufa!", 1060, 300, seg(t, tu, tu + .3)); } } },
+ // 32 — onde eu uso isso?
+ { chip: "ONDE EU USO ISSO?", fala: FL[32], sfx: [[.1, "whoosh"], [E(32, "arroba"), "pop"], [E(32, "jogo"), "pop"], [E(32, "porcentagem"), "pop"], [E(32, "grau"), "pop"]],
+   draw(t) { fundoEscuro(t, "#0e7490"); palavra("ONDE EU USO ISSO?", 640, 100, seg(t, 0, .4), 56);
+     cartaoUso(220, 330, seg(t, E(32, "arroba"), E(32, "arroba") + .4), AZ, "E-MAIL", "@");
+     cartaoUso(500, 330, seg(t, E(32, "jogo"), E(32, "jogo") + .4), RX, "HASHTAG", "#festa");
+     cartaoUso(780, 330, seg(t, E(32, "porcentagem"), E(32, "porcentagem") + .4), VM, "LOJA", "-50%");
+     cartaoUso(1060, 330, seg(t, E(32, "grau"), E(32, "grau") + .4), LJ, "PREVISÃO", "30°C"); } },
+ // 33 — agora é com vocês: o jogo e o "Me ajuda, robô!"
+ { chip: "AGORA É COM VOCÊS", fala: FL[33], sfx: [[.1, "whoosh"], [E(33, "jogo"), "pop"], [E(33, "clicar"), "click"], [E(33, "mostro"), "ding"], [E(33, "até"), "festa"]],
+   draw(t) { const tat = E(33, "até"); if (t > tat) return fimCartao(t - tat, "6º ano · 1º bimestre de 2027 · Missão 1", [PEDRO]);
+     fundoEscuro(t, "#312e81"); const tj = E(33, "jogo"), tcl = E(33, "clicar"), tm = E(33, "mostro");
+     const k = back(seg(t, tj - .3, tj + .2)); if (k > 0) { g.save(); g.translate(470, 300); g.scale(k, k); g.fillStyle = "#fff"; rr(-360, -210, 720, 420, 22); g.fill(); g.fillStyle = "#2563eb"; rr(-360, -210, 720, 60, 22); g.fill(); g.fillRect(-360, -170, 720, 20);
+       g.fillStyle = "#fff"; g.font = `800 26px ${F}`; g.textAlign = "center"; g.textBaseline = "middle"; g.fillText("Caça aos símbolos", 0, -178); g.fillStyle = "#0f172a"; g.font = `800 34px ${F}`; g.fillText("Digite o  @  (arroba)", 0, -100);
+       g.strokeStyle = "#0f172a"; g.lineWidth = 3; g.fillStyle = "#f8fafc"; rr(-200, -60, 400, 70, 12); g.fill(); g.stroke();
+       const bo = t > tcl && t < tcl + .25; g.fillStyle = bo ? "#6d28d9" : RX; rr(-170, 50, 340, 70, 18); g.fill(); g.fillStyle = "#fff"; g.font = `800 28px ${F}`; g.fillText("Me ajuda, robô!", 20, 86); robozinho(-128, 106, .42, t, false);
+       if (t > tm) { tk(0, 175, .32, { cor: { ShiftLeft: LJ, Digit2: AZ }, ap: { ShiftLeft: Math.sin(t * 4) > 0, Digit2: Math.sin(t * 4) > .5 }, dim: true }); g.fillStyle = "#0f172a"; g.font = `800 40px ${F}`; g.fillText(Math.sin(t * 4) > .5 ? "@" : "", 0, -24); }
+       g.restore(); if (t > tcl - .8 && t < tcl + .6) cursor(lerp(700, 480, io(seg(t, tcl - .8, tcl))), lerp(520, 395, io(seg(t, tcl - .8, tcl))), bo); }
+     ajudante(1060, 330, 1.1, t, { bracoE: -1.0 + Math.sin(t * 8) * .2, feliz: t > tm }); if (t < tj) balao("Sua vez!", 1060, 140, seg(t, .2, .6)); } }
+];
