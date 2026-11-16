@@ -278,25 +278,38 @@ function iconeApp(tipo, x, y, s) { g.save(); g.translate(x, y); g.scale(s, s);
   else if (tipo === "win") { g.fillStyle = "#38bdf8"; [[-17, -17], [1, -17], [-17, 1], [1, 1]].forEach(([a, b]) => rr(a, b, 16, 16, 2) || g.fill()); }
   else if (tipo === "notas") { g.fillStyle = "#fff"; g.strokeStyle = "#334155"; g.lineWidth = 2.5; rr(-15, -19, 30, 38, 4); g.fill(); g.stroke(); g.fillStyle = "#38bdf8"; g.fillRect(-15, -19, 30, 8); }
   g.restore(); }
-function iconeMesa(tipo, nome, x, y, sel, k) { if (k === 0) return; g.save(); g.globalAlpha = k == null ? 1 : cl(k);
+function iconeMesa(tipo, nome, x, y, sel, k, esc) { if (k === 0) return; g.save(); g.globalAlpha = k == null ? 1 : cl(k); if (esc && esc !== 1) { g.translate(x, y); g.scale(esc, esc); g.translate(-x, -y); }
   if (sel) { g.fillStyle = "rgba(147,197,253,.55)"; rr(x - 52, y - 44, 104, 104, 8); g.fill(); g.strokeStyle = "#dbeafe"; g.lineWidth = 2; rr(x - 52, y - 44, 104, 104, 8); g.stroke(); }
   iconeApp(tipo, x, y - 8, 1.45); g.font = `700 16px ${F}`; g.textAlign = "center"; g.textBaseline = "middle"; g.lineWidth = 4; g.strokeStyle = "rgba(0,0,0,.6)"; g.strokeText(nome, x, y + 40); g.fillStyle = "#fff"; g.fillText(nome, x, y + 40); g.restore(); }
+/* barra de tarefas: itens em sequência, centralizados na área livre à esquerda da bandeja (nada se sobrepõe).
+   As posições ficam em BARPOS para as cenas apontarem setas e animações. */
+let BARPOS = {};
+/* centro de um item da barra (mesma conta do barraWin), para usar antes de desenhar a barra */
+function barX(x, w, tp) { const pil = w >= 760, L = { win: 50, busca: pil ? 156 : 50, pasta: 54, web: 54, jogo: 54 }, ord = ["win", "busca", "pasta", "web", "jogo"], tot = ord.reduce((s, k) => s + L[k], 0) + 40;
+  let px = x + 10 + Math.max(0, (w - 210 - tot) / 2); for (const k of ord) { if (k === tp) return px + L[k] / 2; px += L[k] + 10; } }
 function barraWin(x, y, w, o) { o = o || {}; const h = 58; g.fillStyle = "rgba(226,232,240,.96)"; g.fillRect(x, y, w, h); g.fillStyle = "#cbd5e1"; g.fillRect(x, y, w, 2);
-  const cx = x + w / 2; const itens = [["win", -186], ["busca", -118], ["pasta", 2], ["web", 56], ["jogo", 110]];
-  itens.forEach(([tp, dx]) => { const ix = cx + dx; const destaque = (o.luz || {})[tp];
-    if (destaque) { g.fillStyle = "rgba(250,204,21,.55)"; rr(ix - 30, y + 5, tp === "busca" ? 150 : 60, h - 10, 8); g.fill(); }
-    if (tp === "busca") { g.fillStyle = "#fff"; rr(ix - 24, y + 13, 140, 32, 16); g.fill(); g.strokeStyle = "#94a3b8"; g.lineWidth = 1.5; rr(ix - 24, y + 13, 140, 32, 16); g.stroke(); g.strokeStyle = "#334155"; g.lineWidth = 2.5; g.beginPath(); g.arc(ix - 4, y + 28, 7, 0, 7); g.moveTo(ix + 1, y + 33); g.lineTo(ix + 7, y + 39); g.stroke(); g.fillStyle = "#475569"; g.font = `600 15px ${F}`; g.textAlign = "left"; g.textBaseline = "middle"; g.fillText("Pesquisar", ix + 14, y + 30); return; }
+  const bandejaW = 190, livre = w - bandejaW - 20, pilula = w >= 760; const gap = 10;
+  const larg = { win: 50, busca: pilula ? 156 : 50, pasta: 54, web: 54, jogo: 54 };
+  const ordem = ["win", "busca", "pasta", "web", "jogo"]; const tot = ordem.reduce((s, k) => s + larg[k], 0) + gap * (ordem.length - 1);
+  let px = x + 10 + Math.max(0, (livre - tot) / 2); BARPOS = { y: y + h / 2 };
+  ordem.forEach(tp => { const lw = larg[tp], ix = px + lw / 2; BARPOS[tp] = ix; px += lw + gap; const destaque = (o.luz || {})[tp];
+    if (destaque) { g.fillStyle = "rgba(250,204,21,.6)"; rr(ix - lw / 2 - 3, y + 5, lw + 6, h - 10, 8); g.fill(); }
+    if (tp === "busca") { if (pilula) { const bx = ix - lw / 2 + 4; g.fillStyle = "#fff"; rr(bx, y + 13, lw - 8, 32, 16); g.fill(); g.strokeStyle = "#94a3b8"; g.lineWidth = 1.5; rr(bx, y + 13, lw - 8, 32, 16); g.stroke(); g.strokeStyle = "#334155"; g.lineWidth = 2.5; g.beginPath(); g.arc(bx + 20, y + 28, 7, 0, 7); g.moveTo(bx + 25, y + 33); g.lineTo(bx + 31, y + 39); g.stroke(); g.fillStyle = "#475569"; g.font = `600 15px ${F}`; g.textAlign = "left"; g.textBaseline = "middle"; g.fillText("Pesquisar", bx + 38, y + 30); }
+      else { g.strokeStyle = "#334155"; g.lineWidth = 3; g.beginPath(); g.arc(ix - 3, y + 26, 9, 0, 7); g.moveTo(ix + 4, y + 33); g.lineTo(ix + 11, y + 40); g.stroke(); } return; }
     if (tp === "jogo" && !o.jogoAberto && !o.jogoNaBarra) return;
     iconeApp(tp, ix, y + h / 2 - 2, tp === "win" ? .95 : .9);
-    if ((tp === "jogo" && o.jogoAberto) || (tp === "pasta" && o.pastaAberta)) { g.fillStyle = o.jogoAtivo && tp === "jogo" ? AZ : "#64748b"; rr(ix - (o.jogoAtivo ? 10 : 4), y + h - 8, o.jogoAtivo ? 20 : 8, 4, 2); g.fill(); } });
+    if ((tp === "jogo" && o.jogoAberto) || (tp === "pasta" && o.pastaAberta)) { g.fillStyle = o.jogoAtivo && tp === "jogo" ? AZ : "#64748b"; rr(ix - (o.jogoAtivo && tp === "jogo" ? 10 : 4), y + h - 8, o.jogoAtivo && tp === "jogo" ? 20 : 8, 4, 2); g.fill(); } });
   const rx = x + w - 14; g.fillStyle = "#0f172a"; g.font = `600 15px ${F}`; g.textAlign = "right"; g.textBaseline = "middle"; g.fillText("10:30", rx, y + 20); g.fillText("16/11/2026", rx, y + 40);
+  BARPOS.relogio = rx - 44;
   if ((o.luz || {}).relogio) { g.strokeStyle = AMAR; g.lineWidth = 4; rr(rx - 96, y + 4, 100, h - 8, 8); g.stroke(); }
-  g.strokeStyle = "#0f172a"; g.lineWidth = 2.5; const ix = rx - 130; g.beginPath(); g.arc(ix, y + 36, 12, -2.4, -.75); g.arc(ix, y + 36, 6, -2.4, -.75); g.stroke(); // wi-fi
-  g.beginPath(); g.moveTo(ix + 24, y + 26); g.lineTo(ix + 30, y + 26); g.lineTo(ix + 37, y + 20); g.lineTo(ix + 37, y + 40); g.lineTo(ix + 30, y + 34); g.lineTo(ix + 24, y + 34); g.closePath(); g.stroke(); // som
+  { const ix = rx - 168, wy = y + 40; g.save(); g.strokeStyle = "#0f172a"; g.fillStyle = "#0f172a"; g.lineCap = "round"; g.lineWidth = 3; // wi-fi: 3 ondas + ponto
+    [6, 12, 18].forEach(r => { g.beginPath(); g.arc(ix, wy, r, -Math.PI * .78, -Math.PI * .22); g.stroke(); }); g.beginPath(); g.arc(ix, wy, 2.8, 0, 7); g.fill();
+    const sx = ix + 30, sy = y + 30; g.lineJoin = "round"; g.beginPath(); g.moveTo(sx, sy - 5); g.lineTo(sx + 6, sy - 5); g.lineTo(sx + 14, sy - 12); g.lineTo(sx + 14, sy + 12); g.lineTo(sx + 6, sy + 5); g.lineTo(sx, sy + 5); g.closePath(); g.fill(); // alto-falante
+    g.lineWidth = 2.6; [7, 13].forEach(r => { g.beginPath(); g.arc(sx + 15, sy, r, -.8, .8); g.stroke(); }); g.restore(); }
   return h; }
 function desktop(x, y, w, h, o) { o = o || {}; g.save(); rr(x, y, w, h, 10); g.clip(); papelParede(x, y, w, h);
   const ic = o.icones || [["lixeira", "Lixeira"], ["pasta", "Trabalhos"], ["jogo", "Jogo da escola"]];
-  const passo = Math.min(120, (h - 110) / ic.length); ic.forEach(([tp, n], i) => iconeMesa(tp, n, x + 70, y + 60 + i * passo, o.sel === i, (o.iconesK || [])[i]));
+  const passo = Math.min(120, (h - 100) / ic.length), esc = Math.min(1, passo / 108); ic.forEach(([tp, n], i) => iconeMesa(tp, n, x + 62 * Math.max(esc, .8), y + 58 * esc + i * passo, o.sel === i, (o.iconesK || [])[i], esc));
   if (o.antes) o.antes();
   barraWin(x, y + h - 58, w, o.barra); g.restore(); g.strokeStyle = "#0f172a"; g.lineWidth = 4; rr(x, y, w, h, 10); g.stroke(); }
 function monitorPC(x, y, w, h, tela) { g.fillStyle = "rgba(0,0,0,.35)"; rr(x - 18 + 8, y - 18 + 10, w + 36, h + 36, 18); g.fill(); g.fillStyle = "#111827"; rr(x - 18, y - 18, w + 36, h + 36, 18); g.fill();
@@ -362,12 +375,12 @@ const CENAS = [
  // 1 — o problema do Pedro
  { chip: "O PROBLEMA", fala: FL[1], sfx: [[.1, "whoosh"], [E(1, "clicou"), "click"], [E(1, "sumiu"), "alerta"], [E(1, "Calma"), "ding"]],
    draw(t) { fundoEscuro(t, "#1e3a8a"); const tc = E(1, "clicou"), ts = E(1, "sumiu"), k = io(seg(t, ts - .2, ts + .5));
-     monitorPC(560, 110, 560, 320, (x, y, w, h) => { papelParede(x, y, w, h); if (k < 1) { g.save(); g.translate(lerp(x + w / 2, x + w / 2 + 110, k), lerp(y + 140, y + h - 20, k)); g.scale(1 - k, 1 - k); janelaWin(-200, -110, 400, 220, "Jogo da escola", { hover: t > tc - .3 && t < ts ? "min" : null, conteudo: (a, b, c, d) => jogoConteudo(a, b, c, d, t) }); g.restore(); if (t > tc - .9 && t < ts) cursor(lerp(x + w / 2 + 60, x + w / 2 + 110, seg(t, tc - .9, tc - .2)), y + 40, t > tc); }
+     monitorPC(560, 110, 560, 320, (x, y, w, h) => { papelParede(x, y, w, h); if (k < 1) { g.save(); g.translate(lerp(x + w / 2, barX(x, w, "jogo"), k), lerp(y + 140, y + h - 20, k)); g.scale(1 - k, 1 - k); janelaWin(-200, -110, 400, 220, "Jogo da escola", { hover: t > tc - .3 && t < ts ? "min" : null, conteudo: (a, b, c, d) => jogoConteudo(a, b, c, d, t) }); g.restore(); if (t > tc - .9 && t < ts) cursor(lerp(x + w / 2 + 60, x + w / 2 + 90, seg(t, tc - .9, tc - .2)), y + 40, t > tc); }
        barraWin(x, y + h - 58, w, { jogoAberto: true }); });
      if (t < 1.6) placa("PEDRO · veio do 5º ano", 300, 140, seg(t, .3, .7), LJ, 22);
      pedro({ x: 290, y: 560, s: 1.05, braco: t > ts ? -2.4 : -.8, bracoE: t > ts ? 2.4 : .3, olhar: 1, boca: t > ts ? "o" : "", pisca: pisca(t) });
      if (t > ts + .2 && t < E(1, "Calma")) balao("Apaguei tudo?!", 320, 170, seg(t, ts + .2, ts + .6));
-     if (t > E(1, "Calma")) palavra("PASSO A PASSO!", 840, 478, seg(t, E(1, "passo"), E(1, "passo") + .4), 56); } },
+     if (t > E(1, "Calma")) palavra("PASSO A PASSO!", 300, 150, seg(t, E(1, "passo"), E(1, "passo") + .4), 56); } },
  // 2 — mouse e teclado
  { chip: "AS DUAS PEÇAS", fala: FL[2], sfx: [[.1, "whoosh"], [E(2, "mouse"), "pop"], [E(2, "teclado"), "pop"], [E(2, "aponta"), "click"], [E(2, "escreve"), "click"]],
    draw(t) { fundoEscuro(t, "#0e7490"); const tm = E(2, "mouse"), tt = E(2, "teclado");
@@ -499,10 +512,10 @@ const CENAS = [
      if (t > ta && t < tb) placa("ÁREA DE TRABALHO", 640, 250, seg(t, ta, ta + .4), AZ, 28);
      if (t > tb && t < ti) rotulo2("BARRA DE TAREFAS", 640, 380, 640, y + h - 40, seg(t, tb, tb + .4), LJ, 26);
      const cx = x + w / 2, by = y + h - 29;
-     if (t > ti) rotulo2("INICIAR (símbolo do Windows)", 330, 300, cx - 186, by - 18, seg(t, ti, ti + .4), AZ, 23);
-     if (t > tps) rotulo2("PESQUISA", 560, 236, cx - 60, by - 22, seg(t, tps, tps + .4), RX, 23);
-     if (t > tab) rotulo2("PROGRAMAS ABERTOS", 860, 300, cx + 60, by - 20, seg(t, tab, tab + .4), VD, 23);
-     if (t > tr) rotulo2("RELÓGIO e DATA", 1040, 380, x + w - 60, by - 20, seg(t, tr, tr + .4), "#334155", 23); } },
+     if (t > ti) rotulo2("INICIAR (símbolo do Windows)", 420, 290, barX(x, w, "win"), by - 18, seg(t, ti, ti + .4), AZ, 23);
+     if (t > tps) rotulo2("PESQUISA", 580, 420, barX(x, w, "busca"), by - 22, seg(t, tps, tps + .4), RX, 23);
+     if (t > tab) rotulo2("PROGRAMAS ABERTOS", 860, 330, barX(x, w, "web"), by - 20, seg(t, tab, tab + .4), VD, 23);
+     if (t > tr) rotulo2("RELÓGIO e DATA", 1080, 410, x + w - 60, by - 20, seg(t, tr, tr + .4), "#334155", 23); } },
  // 16 — a janela e a barra de título
  { chip: "A JANELA", fala: FL[16], sfx: [[.1, "whoosh"], [E(16, "janela"), "pop"], [E(16, "título"), "pop"], [E(16, "três"), "ding"]],
    draw(t) { fundoEscuro(t, "#1e3a8a"); const tj = E(16, "janela"), tt = E(16, "título"), t3 = E(16, "três");
@@ -515,10 +528,10 @@ const CENAS = [
    draw(t) { fundoEscuro(t, "#0f172a"); const tr = E(17, "tracinho"), te = E(17, "esconde"), tc = E(17, "continua");
      const x = 120, y = 90, w = 1040, h = 440; const k = io(seg(t, te, te + .9));
      desktop(x, y, w, h, { barra: { jogoAberto: true, jogoAtivo: k < 1, luz: { jogo: t > tc } }, antes: () => {
-       if (k < 1) { g.save(); g.translate(lerp(x + w / 2, x + w / 2 + 110, k), lerp(y + 190, y + h - 30, k)); g.scale(1 - k * .95, 1 - k * .95);
+       if (k < 1) { g.save(); g.translate(lerp(x + w / 2, barX(x, w, "jogo"), k), lerp(y + 190, y + h - 30, k)); g.scale(1 - k * .95, 1 - k * .95);
          janelaWin(-330, -150, 660, 300, "Jogo da escola", { luz: t > tr && t < te ? "min" : null, hover: t > te - .3 && t < te ? "min" : null, t, conteudo: (a, b, c, d) => jogoConteudo(a, b, c, d, t) }); g.restore(); } } });
      if (t > tr && t < te + .3) { rotulo2("MINIMIZAR ( — )", 900, 80, x + w / 2 + 330 - 58 * 2.5, y + 190 - 150 + 22, seg(t, tr, tr + .4), AZ, 22); cursor(x + w / 2 + 330 - 58 * 2.5 + 4, y + 190 - 150 + 30, t > te - .15 && t < te); }
-     if (t > te + .6) rotulo2("foi para a BARRA DE TAREFAS", 860, 400, x + w / 2 + 110, y + h - 34, seg(t, te + .6, te + 1), AZ, 21);
+     if (t > te + .6) rotulo2("foi para a BARRA DE TAREFAS", 860, 400, barX(x, w, "jogo"), y + h - 34, seg(t, te + .6, te + 1), AZ, 21);
      if (t > tc) placa("o programa CONTINUA ABERTO (tem o tracinho)", 520, 250, seg(t, tc, tc + .4), VD, 22); } },
  // 18 — maximizar e restaurar
  { chip: "MAXIMIZAR", fala: FL[18], sfx: [[.1, "whoosh"], [E(18, "quadradinho"), "pop"], [E(18, "cresce"), "whoosh"], [E(18, "Clicando"), "click"], [E(18, "volta"), "whoosh"]],
@@ -544,7 +557,7 @@ const CENAS = [
  // 20 — a solução
  { chip: "A SOLUÇÃO", fala: FL[20], sfx: [[.1, "whoosh"], [E(20, "minimizar"), "ding"], [E(20, "tracinho"), "pop"], [E(20, "clique"), "click"], [E(20, "Ufa"), "festa"]],
    draw(t) { fundoEscuro(t, "#1e3a8a"); const tm = E(20, "minimizar"), ttr = E(20, "tracinho"), tcq = E(20, "clique"), tvt = E(20, "voltou");
-     const x = 280, y = 90, w = 900, h = 420, cx = x + w / 2 + 110, by = y + h - 29; const k = io(seg(t, tcq, tvt));
+     const x = 280, y = 90, w = 900, h = 420, cx = barX(x, w, "jogo"), by = y + h - 29; const k = io(seg(t, tcq, tvt));
      desktop(x, y, w, h, { barra: { jogoAberto: true, jogoAtivo: k > .5, luz: { jogo: t > ttr && t < tcq + .3 } }, antes: () => {
        if (k > 0) { g.save(); g.translate(lerp(cx, x + w / 2, k), lerp(by, y + 180, k)); g.scale(k, k); janelaWin(-260, -130, 520, 260, "Jogo da escola", { conteudo: (a, b, c, d) => jogoConteudo(a, b, c, d, t) }); g.restore(); } } });
      if (t > tm && t < tcq) palavra("ELE MINIMIZOU!", x + w / 2, 230, seg(t, tm, tm + .4), 60);
