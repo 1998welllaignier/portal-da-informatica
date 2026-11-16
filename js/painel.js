@@ -1757,10 +1757,11 @@
     // 📺 vídeo da missão (YouTube não listado do professor): player só aqui no painel, para projetar
     try {
       // pode ser um ID ou uma lista [principal, extra]: o 2º em diante aparece como vídeo extra (passo a passo)
-      const vv = ((P.videosMissao || {})[ap.base || ap.id] || {})[mid], lista = (Array.isArray(vv) ? vv : [vv]).filter(v => v && /^[\w-]{11}$/.test(v));
-      lista.forEach((vid, k) => {
+      const vv = ((P.videosMissao || {})[ap.base || ap.id] || {})[mid], lista = (Array.isArray(vv) ? vv : [vv]).filter(v => v && /^[\w-]{11}$/.test(v.id || v));
+      // item pode ser {id, nome, sub} para dar nome ao vídeo extra (ex.: Especial Teclado)
+      lista.forEach((it, k) => { const vid = it.id || it;
         const box = document.createElement("details"); box.className = "painel pp-video"; box.open = !k;
-        box.innerHTML = `<summary><strong>📺 ${k ? "Vídeo extra" : "Vídeo"} da missão ${esc(rotMis(C, mid))}</strong> ${k ? "(passo a passo, para quando a turma tiver dificuldade)" : "(com a sua voz)"}</summary>
+        box.innerHTML = `<summary><strong>📺 ${it.nome ? esc(it.nome) : k ? "Vídeo extra" : "Vídeo"} da missão ${esc(rotMis(C, mid))}</strong> ${it.sub ? "(" + esc(it.sub) + ")" : k ? "(passo a passo, para quando a turma tiver dificuldade)" : "(com a sua voz)"}</summary>
           <div class="pp-video-quadro"><iframe src="https://www.youtube-nocookie.com/embed/${vid}?rel=0&modestbranding=1" title="Vídeo da missão ${esc(rotMis(C, mid))}" loading="lazy" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
           <p class="pp-video-acoes"><a class="btn btn-sec" href="https://www.youtube-nocookie.com/embed/${vid}?autoplay=1&rel=0&modestbranding=1" target="_blank" rel="noopener">↗️ Abrir player em nova aba</a>
             <a class="btn btn-link" href="https://youtu.be/${vid}" target="_blank" rel="noopener">Abrir no YouTube</a></p>

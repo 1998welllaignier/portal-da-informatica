@@ -6,12 +6,23 @@ playlist da série e do bimestre, ex.: "7º ano · 4º bimestre 2026") e o Claud
 e, no vídeo do estudo em casa, `catalogo.videoCasa`). Depois de ligado, o vídeo passa para "✅ No ar".
 
 ## 🎬 Prontos, esperando postar
-_(nenhum: os 6 da lista subiram em 15/11/2026 à noite, pelo próprio Claude, no computador de mesa)_
+O YouTube travou no **limite diário de envios** em 16/11/2026 (canal sem verificação por telefone). Faltam:
+- 7º ano · 1º bim. 2027 · Missão 1: Programar com blocos (`2027-7ano-m1`)
+- 7º ano · 1º bim. 2027 · Missão 2: Listas no programa (`2027-7ano-m2`)
+- Portal da Informática · Apresentação para gestores (`apresentacao-gestores`, **não** é conteúdo para crianças)
+- Portal da Informática · Apresentação para alunos e famílias (`apresentacao-pais`)
+
+Como subir: os MP4 ficam no ramo temporário `envio-videos` do GitHub (v5–v8); no YouTube Studio, a página busca o arquivo
+(`raw.githubusercontent.com/.../envio-videos/vN.mp4`) e coloca no campo de envio. Apagar o ramo quando os 4 subirem.
 
 ## ⏳ Esperando o áudio (MP3) do professor
 _(nenhum: todos os áudios combinados chegaram)_
 
 ## ✅ No ar e ligados no portal
+| 2027 · 6º ano · 1º bim. | M1 | M1 extra | M2 | M3 |
+|---|---|---|---|---|
+| (privados até o professor aprovar; depois "Não listado") | 9sPLQiecnHc | MGRoBzcxwX8 (⌨️ Especial Teclado) | oLgO5Zz0Bbg | Z7urMeervDQ |
+
 | Série | M1 | M2 | M3 |
 |---|---|---|---|
 | 6º | c6VL4LyYfoU | tewalJ_tQyA | 8HyYA5FcGaQ |
