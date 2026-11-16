@@ -737,11 +737,23 @@
         <span class="pp-acoes"><button class="btn btn-sec btn-peq" id="add" type="button">➕ Adicionar aluno</button>
         <button class="btn btn-sec btn-peq" id="avs" type="button">📣 Avisos para os alunos</button><button class="btn btn-sec btn-peq" id="cart" type="button">🖨️ Cartões com os códigos</button>
         <button class="btn btn-sec btn-peq" id="csv" type="button">📥 Planilha (CSV)</button>
-        <button class="btn btn-sec btn-peq" id="att" type="button">🔄 Atualizar</button></span></div>
+        <button class="btn btn-sec btn-peq" id="att" type="button">🔄 Atualizar</button>${Object.values(P.catalogo.videosApresentacao || {}).some(Boolean) ? `<button class="btn btn-sec btn-peq" id="apr" type="button" title="Vídeos de apresentação do portal, para mostrar à direção, à Secretaria ou às famílias">🎬 Apresentação do portal</button>` : ""}</span></div>
       <div id="corpo"><p class="painel">Carregando…</p></div>`);
     ligarSair(el);
     el.querySelector("#sel").onchange = e => { location.hash = "#/painel/turma/" + e.target.value; };
     el.querySelector("#att").onclick = () => telaTurmas(u, t.id);
+    const apr = el.querySelector("#apr"); if (apr) apr.onclick = () => {
+      const V = P.catalogo.videosApresentacao || {}, dlg = document.createElement("dialog"); dlg.className = "dlg-apresentacao";
+      const bloco = (id, tit, sub) => id ? P.videoLeve(id, { titulo: tit, sub }) + `<p class="pp-video-acoes"><a class="btn btn-sec btn-peq" href="https://youtu.be/${id}" target="_blank" rel="noopener">↗️ Abrir no YouTube</a> <button class="btn btn-link btn-peq" type="button" data-copia="https://youtu.be/${id}">🔗 Copiar link</button></p>` : "";
+      dlg.innerHTML = `<h2>🎬 Apresentação do Portal da Informática</h2>
+        ${bloco(V.gestores, "🏛️ Para gestores", "Direção, coordenação e Secretaria de Educação (3:53).")}
+        ${bloco(V.familias, "👨‍👩‍👧 Para alunos e famílias", "O mesmo vídeo que aparece na página inicial do portal (3:09).")}
+        <p class="ajuda">Para enviar pelo WhatsApp, use “Copiar link”: o vídeo é não listado, só abre quem tem o link.</p>
+        <div class="dlg-acoes"><button class="btn" type="button" data-fecha>Fechar</button></div>`;
+      document.body.appendChild(dlg); P.ligarVideoLeve(dlg);
+      dlg.querySelectorAll("[data-copia]").forEach(b => b.onclick = async () => { try { await navigator.clipboard.writeText(b.dataset.copia); toast("Link copiado!"); } catch (e) { toast(b.dataset.copia); } });
+      dlg.querySelector("[data-fecha]").onclick = () => dlg.close(); dlg.onclose = () => dlg.remove(); dlg.showModal();
+    };
     el.querySelector("#avs").onclick = async () => abrirAvisosAlunos(t, (await alunosDaTurma(t.id)).filter(a => a.ativo !== false && !a.teste));
     const aps = cat().apostilas.filter(a => a.serie === t.serie.id && P.doPeriodo(a) && !a.oculta);
     await Promise.all(cat().apostilas.filter(a => a.serie === t.serie.id && P.doPeriodo(a)).map(a => P.carregarApostila(a.id).catch(() => null)));

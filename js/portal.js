@@ -470,6 +470,19 @@
      ============================================================ */
 
   /* -------- início -------- */
+  /* 🎬 vídeo leve: mostra só a miniatura (uma imagem pequena); o player do YouTube só carrega quando a pessoa clica no play */
+  P.videoLeve = (id, o = {}) => {
+    if (!id || !/^[\w-]{11}$/.test(id)) return "";
+    return `<section class="painel video-leve">${o.titulo ? `<h2>${esc(o.titulo)}</h2>` : ""}${o.sub ? `<p class="ajuda">${esc(o.sub)}</p>` : ""}
+      <button type="button" class="vl-quadro" data-vl="${id}" aria-label="Assistir ao vídeo${o.titulo ? ": " + esc(o.titulo.replace(/^\W+/, "")) : ""}">
+        <img src="https://i.ytimg.com/vi/${id}/hqdefault.jpg" alt="" loading="lazy" decoding="async" width="480" height="360" onerror="this.remove()"><span class="vl-play" aria-hidden="true">▶</span></button></section>`;
+  };
+  P.ligarVideoLeve = el => el.querySelectorAll("[data-vl]").forEach(b => b.onclick = () => {
+    const id = b.dataset.vl, q = document.createElement("div"); q.className = "vl-quadro vl-on";
+    q.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&modestbranding=1" title="Vídeo de apresentação do Portal da Informática" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>`;
+    b.replaceWith(q);
+  });
+
   function telaInicio() {
     barra();
     const el = mount(`<section class="tela">
@@ -484,7 +497,9 @@
       <div class="grid-cards">${cat().series.map(s => `<a class="card-serie" href="#/serie/${s.id}" style="--cor:${s.cor}">
         <span class="cs-num">${esc(s.nome.split(" ")[0])}</span><span class="cs-nome">${esc(s.nome)}</span>
         <span class="cs-turmas">${s.nota ? esc(s.nota) : s.turmas.map(t => esc(t.nome)).join(" · ")}</span></a>`).join("")}</div>
+      ${P.videoLeve ? P.videoLeve((cat().videosApresentacao || {}).familias, { titulo: "🎬 Conheça o Portal da Informática", sub: "Para pais, responsáveis e alunos: em 3 minutos, veja como funcionam as aulas. Assista com o som ligado." }) : ""}
     </section>`);
+    P.ligarVideoLeve && P.ligarVideoLeve(el);
     return el;
   }
 
