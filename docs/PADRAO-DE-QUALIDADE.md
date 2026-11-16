@@ -142,3 +142,11 @@ Apostila no portal + ilustrada (PDF só para quem estuda em casa) · guia do pro
 - Etiquetas com setas: setas não cruzam outras etiquetas; textos grandes longe do selo do professor e da legenda.
 - Ícones da bandeja reconhecíveis (wi-fi com 3 ondas + ponto; alto-falante com ondas).
 - O ponteiro sempre clica EXATAMENTE em cima do ícone/botão que é selecionado ou aberto (posição calculada pela mesma função que desenha: `posIcone`, `barX`, botões do `janelaWin`). Para quem nunca usou o computador, isso faz diferença.
+
+### Robozinho assistente (16/11/2026) — o aluno resolve sozinho
+- Toda tarefa prática nova tem o botão **"🤖 Me ajuda, robô!"**. O robô NÃO dá a resposta escrita: ele faz uma **mini simulação** (ex.: um teclado virtual em que acende o Shift, depois o 2, e o @ aparece na caixinha) e o aluno repete o que viu.
+- Depois de 2 erros, o robô se oferece sozinho ("Quer que eu mostre?").
+- O professor é mediador, não o ponto principal: nada pode depender de explicação dele para o aluno avançar.
+
+### Vídeos longos podem (16/11/2026)
+- Duração não é problema (até ~16 min), desde que prenda a atenção: historinha com missão/tesouro, personagens (bairros, moradores, elevador do Shift), desafios relâmpago para a turma responder em voz alta (3, 2, 1...), humor leve e recompensas visuais (baú, estrelas).
