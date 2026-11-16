@@ -580,6 +580,7 @@
         <p class="pp-ini-casa" id="ini-casa" hidden></p>
         <p><label>📌 Missão de hoje <select id="ini-m"><option value="">Carregando…</option></select></label></p>
         <p><label class="pp-auto"><input type="checkbox" id="ini-trav" checked> 🔒 Travar nela (o aluno cai direto nesta missão e as outras ficam fechadas)</label></p>
+        <p><label class="pp-auto"><input type="checkbox" id="ini-tela"> 🖥️ Exigir tela cheia dos alunos (fora da tela cheia, a apostila trava)</label></p>
         <p class="ajuda">Antes de você iniciar, os alunos já podem entrar e ler os textos, mas as tarefas ficam fechadas.</p>
         <p class="erro" id="ini-e" hidden></p>
         <div class="row-btns"><button type="button" class="btn btn-grande" id="ini-ok">▶️ Iniciar a aula</button><button class="btn btn-sec" value="x">Cancelar</button></div>`;
@@ -598,6 +599,8 @@
         const cx = c.querySelector("#ini-casa");
         if (casa.length) { cx.innerHTML = `🏠 Esta turma tem <strong>${casa.length} aluno${casa.length > 1 ? "s" : ""} que estuda${casa.length > 1 ? "m" : ""} em casa</strong>: ${casa.map(a => esc(a.nome)).join(", ")}. Para ${casa.length > 1 ? "eles" : "ele"} as tarefas ficam sempre abertas.`; cx.hidden = false; }
       };
+      const lerTela = () => db().collection("config").doc("tela_" + selT.value).get().then(sn => { const d = sn.exists ? sn.data() : {}; c.querySelector("#ini-tela").checked = !!d.cheia; }).catch(() => {});
+      lerTela(); selT.addEventListener("change", lerTela);
       selT.onchange = () => carregar().catch(e => console.warn(e));
       selM.onchange = () => { trav.disabled = !selM.value; trav.checked = !!selM.value; };
       await carregar();
@@ -611,6 +614,7 @@
           const revisa = v === "rv" ? await revisaDaTurma(t) : [];
           await db().collection("config").doc("hoje_" + t.id).set({ dia: hoje, aid: esp || ap.base || ap.id, mid: v, titulo, travar: !!(v && trav.checked), iniciadaDia: hoje, iniciadaEm: Date.now(), revisa }, { merge: true });
           await db().collection("config").doc("liberar_" + t.id).set({ fechadaAte: 0 }, { merge: true });
+          await db().collection("config").doc("tela_" + t.id).set({ cheia: !!c.querySelector("#ini-tela").checked, dia: hoje, em: Date.now() }, { merge: true });
           await sincronizarCasa(t, ctx.alunos).catch(() => {});
           if (v) await registrarMissaoDoDia(t.id, { mid: v, titulo, travar: !!trav.checked });
           try { sessionStorage.setItem("painel:turma", t.id); sessionStorage.setItem("painel:ini:" + t.id + ":" + hoje, "1"); } catch (e) {}
@@ -1737,9 +1741,14 @@
         ${aps.length > 1 ? `<label>Apostila <select id="ap">${aps.map(a => `<option value="${a.id}" ${a.id === ap.id ? "selected" : ""}>${esc(a.titulo || a.id)}</option>`).join("")}</select></label>` : ""}
         <details class="pp-outra"><summary>👁️ Só olhar o roteiro de outra missão (aberta: ${esc(rotMis(C, mid))})</summary><span class="pp-missoes">${C.missoes.map(m => `<a class="pp-mis ${m.id === mid ? "atual" : ""}" href="#/painel/aula/${t.id}/${m.id}">${esc(m.icone)} ${esc(rotMis(C, m.id))}</a>`).join("")}</span></details>
         <a class="btn btn-sec" href="#/ver/${ap.id}/${mid}/${t.id}" target="_blank" rel="noopener" title="Abre numa aba nova a apostila exatamente como os alunos veem">👀 Abrir a apostila do aluno</a>
-        <a class="btn btn-sec" href="cartaz.html?v=${window.PORTAL_VERSAO || ""}" target="_blank" rel="noopener" title="Abre numa aba nova o cartaz com o endereço do site e os passos para entrar, para projetar">🪧 Cartaz de entrada (projetar)</a></div>
+        <a class="btn btn-sec" href="cartaz.html?v=${window.PORTAL_VERSAO || ""}" target="_blank" rel="noopener" title="Abre numa aba nova o cartaz com o endereço do site e os passos para entrar, para projetar">🪧 Cartaz de entrada (projetar)</a>
+        <button type="button" class="btn btn-sec" id="tc-bt" title="Ligado: o portal dos alunos desta turma só funciona em tela cheia (vale só hoje). Quem estuda em casa não é afetado.">🖥️ Tela cheia dos alunos…</button></div>
       <div id="aula"></div>`);
     ligarSair(el);
+    { const bt = el.querySelector("#tc-bt"), ref = db().collection("config").doc("tela_" + t.id); let on = false;
+      const pinta = () => { bt.innerHTML = on ? "🖥️ Tela cheia obrigatória: <b>LIGADA</b>" : "🖥️ Exigir tela cheia dos alunos"; bt.classList.toggle("btn-ok", on); bt.classList.toggle("btn-sec", !on); };
+      ref.get().then(sn => { const d = sn.exists ? sn.data() : {}; on = !!(d.cheia && d.dia === N.hoje()); pinta(); }).catch(() => pinta());
+      bt.onclick = async () => { try { on = !on; await ref.set({ cheia: on, dia: N.hoje(), em: Date.now() }, { merge: true }); pinta(); toast(on ? "🖥️ Tela cheia obrigatória LIGADA: quem sair da tela cheia fica com a apostila travada até voltar." : "🖥️ Tela cheia obrigatória desligada."); } catch (err) { on = !on; pinta(); toast("Não foi possível: " + (err.message || err)); } }; }
     el.querySelector("#sel").onchange = e => { location.hash = "#/painel/aula/" + e.target.value + "/" + mid; };
     const sa = el.querySelector("#ap"); if (sa) sa.onchange = e => { try { sessionStorage.setItem("painel:ap:" + t.serie.id, e.target.value); } catch (x) {} telaAula(u, t.id); };
     // 📺 vídeo da missão (YouTube não listado do professor): player só aqui no painel, para projetar

@@ -366,8 +366,50 @@
       else if (!novo && antes) aviso(`<span class="rei-ic">😮</span><div><b>Alguém passou na sua frente!</b><span>Responda certo e rápido para pegar a coroa de volta 👑</span></div>`, "perdeu");
     }, () => {}); } catch (e) {}
   }
+  /* 🖥️ TELA CHEIA OBRIGATÓRIA (16/11/2026): o professor liga no painel (config/tela_<turma> = { cheia, dia }).
+     Ligada (só no dia em que foi ligada), o portal do aluno fica bloqueado enquanto a janela não estiver em tela cheia:
+     aparece um aviso com o botão "Entrar em tela cheia" (o navegador exige esse clique). Saiu (Esc), bloqueia de novo.
+     Quem estuda em casa (🏠) e o professor (painel) não são afetados. Conta quantas vezes o aluno saiu (progresso/<id>_tela). */
+  let telaUnsub = null, telaTurma = null, telaOn = false, tcCasa = false, telaDlg = null, telaIv = null;
+  const emTelaCheia = () => !!document.fullscreenElement || (Math.abs(innerHeight - screen.height) < 6 && Math.abs(innerWidth - screen.width) < 6);
+  function checarTela() {
+    const s = sess.get(), deve = telaOn && !tcCasa && s && s.nuvem && !/^#\/painel/.test(location.hash) && !emTelaCheia();
+    if (!deve) { if (telaDlg && telaDlg.open) telaDlg.close(); return; }
+    if (!telaDlg) {
+      telaDlg = h(`<dialog class="tela-cheia-dlg" aria-labelledby="tc-h"><div class="tc-ic">🖥️</div><h2 id="tc-h">Aula em TELA CHEIA</h2>
+        <p>O professor pediu: durante a aula, o portal funciona só em <b>tela cheia</b>.</p>
+        <button type="button" class="btn btn-grande btn-ok" id="tc-ok">⛶ Entrar em tela cheia</button>
+        <p class="ajuda">Se sair da tela cheia (tecla Esc), a apostila para de funcionar até você voltar.</p></dialog>`);
+      telaDlg.addEventListener("cancel", e => e.preventDefault());
+      telaDlg.querySelector("#tc-ok").onclick = () => { const d = document.documentElement; (d.requestFullscreen ? d.requestFullscreen({ navigationUI: "hide" }) : Promise.reject()).catch(() => {}).finally(() => setTimeout(checarTela, 300)); };
+      document.body.appendChild(telaDlg);
+    }
+    // fica sempre por cima de qualquer outra janela do portal
+    const abertos = [...document.querySelectorAll("dialog[open]")];
+    if (!telaDlg.open || abertos[abertos.length - 1] !== telaDlg) { if (telaDlg.open) telaDlg.close(); document.body.appendChild(telaDlg); telaDlg.showModal(); }
+  }
+  let telaEstava = null;
+  function contarSaida() {
+    const s = sess.get(); if (!telaOn || tcCasa || !s || !s.nuvem || !P.nuvem || !P.nuvem.app) return;
+    const fora = !emTelaCheia(); if (telaEstava === true && fora) {
+      const hoje = P.nuvem.hoje();
+      (s.alunoIds || []).forEach((id, i) => { try { P.nuvem.app(i).db.collection("progresso").doc(id + "_tela").set({ alunoId: id, turma: s.turma, tipo: "tela", dias: { [hoje]: firebase.firestore.FieldValue.increment(1) } }, { merge: true }).catch(() => {}); } catch (e) {} });
+    }
+    telaEstava = !fora;
+  }
+  function ouvirTela(s) {
+    if (!s || !s.nuvem || !P.nuvem || !P.nuvem.app || telaTurma === s.turma) return;
+    if (telaUnsub) telaUnsub(); telaTurma = s.turma;
+    try {
+      const db = P.nuvem.app(0).db;
+      db.collection("config").doc("liberar_" + s.turma).get().then(sn => { const c = (sn.exists && sn.data().casa) || {}; tcCasa = (s.alunoIds || []).length > 0 && (s.alunoIds || []).every(id => c[id]); checarTela(); }).catch(() => {});
+      telaUnsub = db.collection("config").doc("tela_" + s.turma).onSnapshot(sn => { const d = sn.exists ? sn.data() : {}; telaOn = !!(d.cheia && d.dia === P.nuvem.hoje()); telaEstava = emTelaCheia(); checarTela(); }, () => {});
+    } catch (e) {}
+    if (!telaIv) { telaIv = setInterval(checarTela, 1500); ["fullscreenchange", "resize"].forEach(ev => addEventListener(ev, () => { contarSaida(); checarTela(); })); addEventListener("hashchange", checarTela); }
+  }
   function relogioAula() {
     try { ouvirPodio(sess.get()); } catch (e) {}
+    try { ouvirTela(sess.get()); } catch (e) {}
     try { ouvirRei(sess.get()); } catch (e) {}
     clearInterval(relogioIv);
     const tick = () => {
