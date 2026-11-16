@@ -168,7 +168,7 @@ const FL = [
  "Portal da Informática: a aula de Informática inteira em um só lugar.",
  "Toda escola conhece este desafio. A aula de Informática acontece no contraturno, a presença oscila, e muitos alunos chegam sem nunca ter usado um computador. A apostila de papel se perde, a correção demora, e, no fim do bimestre, a única prova do que cada aluno fez é o diário de classe.",
  "Foi para resolver isso que nasceu o Portal da Informática, criado pelo professor Welington Laignier. Ele funciona no navegador, nos computadores que a escola já tem. Não precisa instalar nada e não tem custo de licença.",
- "Cada aula é uma missão, alinhada à BNCC Computação. O aluno lê o conteúdo, e toda palavra técnica pode ser clicada para ver o significado. Na seção Onde eu uso isso?, ele descobre para que aquilo serve no dia a dia.",
+ "Cada aula é uma missão, alinhada à BNCC Computação, e começa com um vídeo animado, feito pelo professor para cada missão. Em seguida, o aluno lê o conteúdo, e toda palavra técnica pode ser clicada para ver o significado. Na seção Onde eu uso isso?, ele descobre para que aquilo serve no dia a dia.",
  "Depois, ele pratica. Os simuladores reproduzem o Windows, o Paint, o e-mail e o navegador, dentro da própria página. O aluno treina sem medo de errar e sem risco para os computadores da escola.",
  "As atividades têm correção automática. O aluno sabe na hora se acertou, e, quando trava, clica em: me ajuda, robô! O Bit, o robozinho assistente, mostra como se faz, numa pequena simulação, e o aluno repete.",
  "O resultado é autonomia. O aluno avança sozinho, no próprio ritmo, e o professor deixa de ser o único caminho. Ele passa a ser o mediador, livre para atender quem mais precisa.",
@@ -244,13 +244,22 @@ const CENAS = [
      if (t > E(2, "criado")) placa("Prof. Welington Laignier", 440, 532, seg(t, E(2, "criado"), E(2, "criado") + .4), OURO, 24);
      [["navegador", "✔ Funciona no navegador", AZ], ["instalar", "✔ Não precisa instalar nada", RX], ["licença", "✔ Sem custo de licença", VD]].forEach(([w, txt, c], i) => { const tw = E(2, w); if (t > tw) placa(txt, 1020, 190 + i * 110, seg(t, tw, tw + .4), c, 22); }); } },
  // 3 — a missão: BNCC, palavra explicada, onde eu uso isso
- { chip: "CADA AULA, UMA MISSÃO", fala: FL[3], sfxF: () => [[.1, "whoosh"], [E(3, "bncc"), "ding"], [E(3, "palavra"), "click"], [E(3, "onde"), "pop"]],
-   draw(t) { fundoEscuro(t, "#1e3a8a"); const tb = E(3, "bncc"), tp = E(3, "palavra"), to = E(3, "onde");
+ { chip: "CADA AULA, UMA MISSÃO", legTam: 22, fala: FL[3], sfxF: () => [[.1, "whoosh"], [E(3, "bncc"), "ding"], [E(3, "vídeo"), "sino"], [E(3, "lê"), "pop"], [E(3, "palavra"), "click"], [E(3, "onde"), "pop"]],
+   draw(t) { fundoEscuro(t, "#1e3a8a"); const tb = E(3, "bncc"), tv = E(3, "vídeo"), tl = E(3, "lê"), tp = E(3, "palavra"), to = E(3, "onde");
+     if (t < tl) { palavra("🎯 CADA AULA, UMA MISSÃO", 600, 100, seg(t, .1, .5), 40);
+       if (t > tb) placa("✔ Alinhada à BNCC Computação", 640, 190, seg(t, tb, tb + .4), VD, 26);
+       if (t > tv) { const k = back(seg(t, tv, tv + .5)); g.save(); g.translate(640, 350); g.scale(k * .75, k * .75);
+         g.fillStyle = "#e5e7eb"; rr(-300, -170, 600, 340, 10); g.fill(); g.fillStyle = "#111827"; rr(-290, -160, 580, 320, 6); g.fill();
+         const gr = g.createLinearGradient(0, -160, 0, 160); gr.addColorStop(0, "#1b2c5a"); gr.addColorStop(1, "#0d1631"); g.fillStyle = gr; rr(-285, -155, 570, 310, 6); g.fill();
+         boneco({ x: -90 + Math.sin(t * 2) * 30, y: 110, s: .9, camisa: "#f97316", braco: -1.2 + Math.sin(t * 5) * .4, pisca: pisca(t) }); ajudante(130, 40, .55, t, { feliz: true });
+         g.save(); g.font = `800 34px ${F}`; g.textAlign = "center"; g.lineWidth = 8; g.strokeStyle = "#1e2a4a"; g.strokeText("MISSÃO 1", 0, -110); g.fillStyle = AMAR; g.fillText("MISSÃO 1", 0, -110); g.restore(); g.restore();
+         placa("🎬 vídeo animado, feito pelo professor para cada missão", 640, 505, seg(t, tv + .3, tv + .7), RS, 20); }
+       return; }
      const nome = t > to ? "3-onde" : t > tp + .4 ? "2-termo" : "1-comecar"; const z = t > to ? Z0 : t > tp + .4 ? { x: .55, y: .4, s: 1.4 } : zl(Z0, { x: .6, y: .38, s: 1.45 }, seg(t, tp - .6, tp + .2));
-     navegador(150, 80, 980, 400, nome, seg(t, .05, .5), z);
-     if (t > tb && t < tp) placa("✔ Alinhada à BNCC Computação", 640, 518, seg(t, tb, tb + .4), VD, 26);
-     if (t > tp && t < to) placa("👆 Clicou na palavra: o significado aparece", 640, 518, seg(t, tp + .4, tp + .8), AZ, 24);
-     if (t > to) placa("🌎 Onde eu uso isso?: o sentido no dia a dia", 640, 518, seg(t, to, to + .4), RX, 24); } },
+     navegador(150, 60, 980, 400, nome, seg(t, tl, tl + .5), z);
+     if (t < tp) placa("📖 o aluno lê o conteúdo", 640, 500, seg(t, tl, tl + .4), VD, 24);
+     if (t > tp && t < to) placa("👆 Clicou na palavra: o significado aparece", 640, 500, seg(t, tp + .4, tp + .8), AZ, 24);
+     if (t > to) placa("🌎 Onde eu uso isso?: o sentido no dia a dia", 640, 500, seg(t, to, to + .4), RX, 24); } },
  // 4 — simuladores
  { chip: "SIMULADORES", fala: FL[4], sfxF: () => [[.1, "whoosh"], [E(4, "windows"), "pop"], [E(4, "paint"), "pop"], [E(4, "navegador"), "pop"], [E(4, "risco"), "ding"]],
    draw(t) { fundoEscuro(t, "#0f172a"); navegador(60, 70, 780, 430, "4-simulador", seg(t, .05, .5), zl(Z0, { x: .62, y: .55, s: 1.35 }, seg(t, .6, 1.8)));

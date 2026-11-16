@@ -4,7 +4,7 @@ Toda escola conhece este desafio. A aula de Informática acontece no contraturno
 
 Foi para resolver isso que nasceu o Portal da Informática, criado pelo professor Welington Laignier. Ele funciona no navegador, nos computadores que a escola já tem. Não precisa instalar nada e não tem custo de licença.
 
-Cada aula é uma missão, alinhada à BNCC Computação. O aluno lê o conteúdo, e toda palavra técnica pode ser clicada para ver o significado. Na seção Onde eu uso isso?, ele descobre para que aquilo serve no dia a dia.
+Cada aula é uma missão, alinhada à BNCC Computação, e começa com um vídeo animado, feito pelo professor para cada missão. Em seguida, o aluno lê o conteúdo, e toda palavra técnica pode ser clicada para ver o significado. Na seção Onde eu uso isso?, ele descobre para que aquilo serve no dia a dia.
 
 Depois, ele pratica. Os simuladores reproduzem o Windows, o Paint, o e-mail e o navegador, dentro da própria página. O aluno treina sem medo de errar e sem risco para os computadores da escola.
 

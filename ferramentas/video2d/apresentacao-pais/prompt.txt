@@ -1,0 +1,33 @@
+Gere um áudio em MP3 com a narração abaixo, em português do Brasil, voz masculina, o mais natural possível, como um apresentador simpático falando para alunos de 11 a 15 anos e para as famílias deles. Use tom animado, alegre e empolgado nas partes sobre o aluno (missões, simuladores, níveis, robô, pontos, rei da sala, pódio e temas das datas); tom calmo, acolhedor e confiante nas partes sobre o professor, as famílias, a segurança e o encerramento. Faça uma pausa de 2 segundos entre cada parágrafo. Leia exatamente o texto, sem acrescentar nada.
+
+Portal da Informática: aprender tecnologia agora é uma aventura!
+
+Lembra da apostila de papel? Ela amassava, sumia na mochila, e a tarefa ficava dias esperando a correção. Quem tinha dúvida levantava a mão e esperava a sua vez. E, em casa, era difícil saber o que tinha acontecido na aula.
+
+Agora é diferente. Chegou o Portal da Informática, criado pelo professor Welington Laignier. Ele abre no navegador, nos computadores da sala de informática da escola.
+
+Para entrar, o aluno digita só um código de quatro números, sem e-mail e sem senha. No primeiro dia, ele monta o seu avatar, um bonequinho do seu jeito, que vai junto em todas as aulas.
+
+Cada aula é uma missão, e começa com um videozinho animado no projetor, que conta uma historinha e explica o assunto do dia. Depois, o aluno lê o conteúdo com calma e, se aparecer uma palavra difícil, é só clicar nela para ver o significado. Na parte Onde eu uso isso?, ele descobre para que aquilo serve na vida real.
+
+Depois, é hora de pôr a mão na massa. Os simuladores imitam o Windows, o Paint, o e-mail e o navegador, direto na página. Pode errar à vontade: nada quebra e ninguém perde nada.
+
+As tarefas têm três níveis. O Básico, verde, é o que todo mundo faz. O Desafio, amarelo, é para quem quer mais. E o Turbo, vermelho, é para quem quer ir longe.
+
+Errou? O portal avisa na hora e explica o porquê. Travou? É só clicar em: me ajuda, robô! O Bit, o robozinho assistente, mostra como se faz, e o aluno repete sozinho.
+
+E cada acerto vale pontos! Quem lidera a turma vira o rei da sala e ganha a coroa. No fim da aula, o pódio aparece no projetor. E quem termina tudo ainda desbloqueia o bônus relâmpago.
+
+Nas datas importantes, o portal entra no clima. Agora, na Semana da Consciência Negra, ele muda de visual, mostra cartões com curiosidades e, para começar a aula, o aluno resolve um desafio sobre o tema.
+
+Enquanto isso, o professor acompanha tudo pelo painel. Ele vê, ao vivo, quem está avançando e quem precisa de ajuda, e vai direto até quem mais precisa.
+
+A chamada é feita sozinha: quem entrou no portal já fica com presença. E a prova também é feita no portal, com a nota indo direto para o boletim.
+
+Ninguém fica para trás. Quem precisa de mais apoio usa a Trilha Passo a Passo, com a mesma missão em passinhos menores. E quem estuda em casa também recebe as tarefas e é acompanhado.
+
+Para as famílias, uma tranquilidade a mais. O portal é seguro: o nome e as notas do aluno só aparecem no painel do professor. As tarefas abrem só no horário da aula, e o portal pode pedir tela cheia, para a atenção ficar na atividade.
+
+O resultado? O aluno aprende fazendo, no seu ritmo e com vontade de participar. E tudo o que ele faz fica registrado.
+
+Portal da Informática, na Escola Municipal de Ensino Fundamental Juscelino Kubitschek, em Curionópolis. Professor Welington Laignier: aprender tecnologia pode ser divertido!
