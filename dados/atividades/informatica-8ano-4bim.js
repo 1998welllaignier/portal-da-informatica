@@ -148,9 +148,7 @@ PORTAL.registrarAtividades("informatica-8ano-4bim", {
           { ic: "🃏", app: "Jogo de cartas", pede: "o microfone", c: "N", why: "Para que um jogo de cartas ouviria você?" },
           { ic: "📷", app: "Câmera", pede: "a câmera", c: "S" },
           { ic: "🧮", app: "Calculadora", pede: "sua localização", c: "N", why: "Calculadora não precisa saber onde você está." }],
-        explicacao: "Cada permissão é um <strong>dado pessoal</strong> que você entrega. A <strong>LGPD</strong> diz que o app só deve pedir o que precisa." }
-    ],
-    bonus: [
+        explicacao: "Cada permissão é um <strong>dado pessoal</strong> que você entrega. A <strong>LGPD</strong> diz que o app só deve pedir o que precisa." },
       { id: "m3-sim-noticia", tipo: "sim_pc", titulo: "📰 Simulador: confira a notícia antes de compartilhar",
         enunciado: "<p>Chegou uma notícia assustadora. Faça o que um <strong>checador</strong> faz, no navegador de mentira: leia até o fim, procure em outro site e confie na <strong>fonte oficial</strong>. O <strong>Bit</strong> acompanha.</p>",
         abertas: ["web"], inicioWeb: "zapnoticias-urgente.blog",
@@ -168,6 +166,9 @@ PORTAL.registrarAtividades("informatica-8ano-4bim", {
         ],
         fimMsg: "Você checou como um profissional: leu até o fim, desconfiou da falta de autor e data, pesquisou e confiou na fonte oficial. Notícia falsa não passa por você!",
         explicacao: "Antes de compartilhar: leia até o fim, veja quem escreveu e quando, desconfie de pressa e letras maiúsculas, pesquise em outros sites e procure a fonte oficial." }
+    ],
+    bonus: [
+      
     ],
     basico: [
       { tipo: "classificar", modo: "tabela", titulo: "O aplicativo precisa dessa permissão para funcionar?", colunaItem: "Aplicativo e permissão pedida", colunaResp: "S ou N",

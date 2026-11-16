@@ -22,12 +22,12 @@
     m1: {
       datas: "1ª aula do ano · BNCC EF06CO05 · datas pelo calendário da SEMED 2027",
       tempo: [
-        { min: 15, icone: "👋", t: "Boas-vindas, combinados e códigos de entrada" },
-        { min: 5, icone: "🎬", t: "Vídeo da missão" },
-        { min: 5, icone: "🖥️", t: "Demonstração pelo Veyon (janelas)" },
-        { min: 35, icone: "💻", t: "Missão no portal (com o diagnóstico)" },
+        { min: 12, icone: "👋", t: "Boas-vindas, combinados e códigos de entrada" },
+        { min: 13, icone: "🎬", t: "Os 2 vídeos: janelas e mouse (5) + Especial Teclado (8)" },
+        { min: 15, icone: "🖱️", t: "Mão na massa: balões, duplo clique e 2 simuladores" },
+        { min: 20, icone: "🟢", t: "Básico: simulador do teclado e jogos (caça, teclas e mouse)" },
         { min: 5, icone: "📋", t: "Perguntas rápidas e Resumo" },
-        { min: 10, icone: "🎮", t: "Recreação (quem concluiu o Básico)" }
+        { min: 10, icone: "🎮", t: "Quem terminou: 🟡 Desafio (≈8) e 🔴 Turbo (≈6), depois recreação" }
       ],
       abertura: [
         { fala: "Sejam bem-vindos à Informática! Eu sou o professor Welington. Aqui cada aula é uma missão no Portal da Informática, e tudo o que vocês fizerem fica registrado sozinho no meu painel." },
@@ -44,9 +44,9 @@
       },
       demonstracao: "Pelo Veyon, abra uma janela e mostre devagar: ➖ minimizar (ela vai para a barra de tarefas), clicar no ícone para voltar, ⬜ maximizar e ❌ fechar.",
       atencao: [
-        "Primeira aula do ano: muitos alunos novos nunca usaram computador. Observe o diagnóstico no painel (🏫 Turmas → resposta da última atividade do Básico) para descobrir quem precisa da 👣 Trilha.",
+        "Primeira aula do ano: muitos alunos novos nunca usaram computador. No 🔴 Ao vivo, veja quem trava nos simuladores e nos jogos do teclado (muitos erros ou muito tempo parado): esses são os candidatos à 👣 Trilha.",
         "Duplo clique: muitos mexem o mouse entre os dois cliques. Peça para segurar o mouse parado.",
-        "Na digitação do Desafio, o portal confere acento e maiúscula: é de propósito."
+        "No 🟡 Desafio (copiar frases), o portal confere acento, maiúscula e símbolo: é de propósito. Quem travar clica em “Me ajuda, robô!” e copia a simulação, sem precisar chamar o professor."
       ],
       perguntas: [
         { p: "Fechei sem querer, perdi tudo?", r: "Se o trabalho não foi salvo, sim; por isso a gente vai aprender a salvar. Os programas em si não se apagam ao fechar." },

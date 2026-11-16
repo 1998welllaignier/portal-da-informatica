@@ -130,9 +130,7 @@
       { tipo: "sim_cesar", titulo: "Desafio: agora ninguém contou a chave!",
         enunciado: "<p>Teste chave por chave até achar a mensagem. Testar todas as possibilidades tem nome: <strong>ataque de força bruta</strong>.</p>",
         cifrada: "F XJSMF J XJLWJIT", resposta: "A SENHA E SEGREDO",
-        explicacao: "Com só 25 chaves possíveis, a força bruta quebra a Cifra de César em segundos. Por isso a criptografia de hoje (como no HTTPS) usa chaves enormes." }
-      ],
-      bonus: [
+        explicacao: "Com só 25 chaves possíveis, a força bruta quebra a Cifra de César em segundos. Por isso a criptografia de hoje (como no HTTPS) usa chaves enormes." },
       { id: "m2-sim-golpes", tipo: "sim_pc", titulo: "🎣 Simulador: pesque o golpe na caixa de email",
         enunciado: "<p>Na caixa de email do computador de mentira há <strong>golpes</strong> misturados com mensagem verdadeira. Olhe o <strong>remetente</strong>, desconfie da pressa e proteja a sua conta. O <strong>Bit</strong> confere.</p>",
         area: [{ nome: "Lixeira", app: "lixeira" }, { nome: "Email", app: "email" }, { nome: "Navegador", app: "web" }],
@@ -160,6 +158,9 @@
         ],
         fimMsg: "Você pescou os dois golpes pelo remetente e pela pressa e ativou a verificação em duas etapas. Conta protegida!",
         explicacao: "Phishing é o golpe que imita banco, loja ou amigo para pescar senha ou código. Confira o remetente letra por letra, desconfie de pressa e nunca passe senha ou código. A verificação em duas etapas protege mesmo se a senha vazar." }
+      ],
+      bonus: [
+      
       ],
       basico: [
         { tipo: "cesar", titulo: "Cifra de César com chave 3", chaveInicial: 3,

@@ -98,9 +98,7 @@ PORTAL.registrarAtividades("informatica-8ano-4bim-trilha", {
           { ic: "🗺️", app: "Mapas", pede: "sua localização", c: "S", why: "O mapa precisa saber onde você está." },
           { ic: "🃏", app: "Jogo de cartas", pede: "o microfone", c: "N" },
           { ic: "📷", app: "Câmera", pede: "a câmera", c: "S" }],
-        explicacao: "Só permita o que o aplicativo <strong>precisa</strong>. Seus dados são seus!" }
-    ],
-    bonus: [
+        explicacao: "Só permita o que o aplicativo <strong>precisa</strong>. Seus dados são seus!" },
       { id: "m3-sim-noticia", tipo: "sim_pc", titulo: "📰 Simulador: confira a notícia antes de compartilhar",
         enunciado: "<p>Chegou uma notícia assustadora. Faça o que um <strong>checador</strong> faz, no navegador de mentira: leia até o fim, procure em outro site e confie na <strong>fonte oficial</strong>. O <strong>Bit</strong> acompanha.</p>",
         abertas: ["web"], inicioWeb: "zapnoticias-urgente.blog",
@@ -117,6 +115,9 @@ PORTAL.registrarAtividades("informatica-8ano-4bim-trilha", {
         ],
         fimMsg: "Você checou como um profissional: leu até o fim, desconfiou da falta de autor e data, pesquisou e confiou na fonte oficial. Notícia falsa não passa por você!",
         explicacao: "Antes de compartilhar: leia até o fim, veja quem escreveu e quando, desconfie de pressa e letras maiúsculas, pesquise em outros sites e procure a fonte oficial." }
+    ],
+    bonus: [
+      
     ],
     basico: [
       { tipo: "classificar", titulo: "Passo 1 · Guardo comigo ou posso mostrar?",

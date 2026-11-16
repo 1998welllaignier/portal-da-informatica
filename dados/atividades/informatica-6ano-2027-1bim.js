@@ -67,11 +67,7 @@ PORTAL.registrarAtividades("informatica-6ano-2027-1bim", {
         alvos: ["@", "#", "%", "&", "°", "!", "?", "$", "*", "(", ")", "_", "+", ":", "²"],
         dicas: ["Os símbolos de cima das teclas de número saem segurando o <b>Shift ⇧</b>: Shift + 2 = @, Shift + 3 = #, Shift + 5 = %, Shift + 7 = &.", "O desenho do <b>cantinho</b> da tecla sai com o <b>AltGr</b> (à direita da barra de espaço): AltGr + E = °, AltGr + 2 = ²."],
         explicacao: "No teclado ABNT2, cada tecla é um prédio: <b>térreo</b> (aperta direto), <b>andar de cima</b> (Shift + tecla: @ # % & ! $ * ( ) _ + ? :) e <b>terceiro andar</b> (AltGr + tecla: ° ²)." },
-      { tipo: "teclado", modo: "copiar", titulo: "✍️ Copie igualzinho: maiúsculas, acentos e símbolos",
-        enunciado: "<p>Copie cada frase <b>igualzinho</b>. O portal confere letra por letra: <span style='color:#15803d'>verde</span> = certo, <span style='color:#b91c1c'>vermelho</span> = apague com o Backspace e corrija. Acento: aperte a tecla do acento, <b>solte</b>, e depois a vogal.</p>",
-        frases: ["Meu e-mail é pedro@escola.com", "Ação! 50% de desconto & frete grátis.", "Hoje fez 30°C em Curionópolis.", "Você já viu a #CampanhaDoLixo?", "Pão, maçã e café: R$ 12,00 (doze reais)."],
-        dicas: ["Maiúscula: segure o Shift e aperte a letra. Ç: a tecla ao lado do L.", "ã e õ: til ( ~, ao lado do Ç ) e depois a vogal. é, á: agudo ( ´, ao lado do P ) e depois a vogal. ê, â: Shift + til e depois a vogal."],
-        explicacao: "O computador entende cada detalhe: <b>A</b> e <b>a</b> são diferentes, <b>e</b> e <b>é</b> também. Por isso a senha, o e-mail e o nome do arquivo precisam ser digitados igualzinho." },
+      
       { tipo: "teclado", modo: "teclas", titulo: "🎛️ Teclas especiais: Caps Lock, Num Lock, Delete, Home e setas",
         enunciado: "<p>Agora o portal confere <b>qual tecla</b> você usou. Olhe as <b>luzinhas</b> do teclado espelho (Num e Caps): elas mostram o que está ligado.</p>",
         tarefas: [
@@ -92,82 +88,30 @@ PORTAL.registrarAtividades("informatica-6ano-2027-1bim", {
         explicacao: "Caps Lock tranca as maiúsculas (luzinha Caps). Num Lock liga os números da direita (luzinha Num). Backspace apaga para trás; Delete apaga para frente. Home vai ao começo da linha; as setas movem o cursor sem apagar." },
       { tipo: "teclado", modo: "mouse", titulo: "🖱️ Mouse certeiro: clique, duplo clique e botão direito",
         enunciado: "<p>O teclado e o mouse são uma dupla! Faça o que cada desafio pede. Se travar, o <b>Bit</b> mostra como faz.</p>",
-        explicacao: "1 clique (esquerdo) escolhe; duplo clique abre; o botão direito mostra o menu de opções (e a tecla do menu, perto do Ctrl da direita, faz o mesmo)." },
-      { tipo: "ligar", titulo: "Ligue cada ação do mouse ao que ela faz",
-        enunciado: "<p>Clique na ação e depois no que ela faz. Releia a tabela <strong>Ação do mouse</strong> no 💡 Para começar.</p>",
-        pares: [
-          { a: "Clique", b: "Escolher um ícone ou apertar um botão" },
-          { a: "Duplo clique", b: "Abrir pastas, arquivos e programas" },
-          { a: "Clique direito", b: "Ver mais opções (menu)" },
-          { a: "Arrastar", b: "Mudar algo de lugar" },
-          { a: "Rolar a rodinha", b: "Subir e descer a página" }],
-        explicacao: "Clique escolhe; duplo clique abre; clique direito mostra o menu de opções; arrastar muda de lugar; a rodinha rola a página." },
-
-      { tipo: "classificar", modo: "tabela", titulo: "Qual tecla eu aperto?",
-        colunaItem: "O que eu quero fazer", colunaResp: "Tecla",
-        categorias: [{ id: "EN", cod: "↵", rot: "Enter" }, { id: "ES", cod: "␣", rot: "Barra de espaço" }, { id: "BK", cod: "⟵", rot: "Backspace" }, { id: "SH", cod: "⇧", rot: "Shift" }],
-        itens: [
-          { t: "Apagar a letra que digitei errado (antes do cursor)", c: "BK", why: "Backspace apaga a letra que está antes do cursor." },
-          { t: "Separar uma palavra da outra", c: "ES", why: "A barra de espaço coloca um espaço entre as palavras." },
-          { t: "Pular para a linha de baixo", c: "EN", why: "Enter confirma ou pula para a linha de baixo." },
-          { t: "Escrever só a primeira letra do meu nome maiúscula", c: "SH", why: "Segurando Shift, a letra sai maiúscula." },
-          { t: "Confirmar a busca que eu digitei", c: "EN", why: "Enter também confirma." }],
-        dicas: ["Releia a tabela das teclas no 💡 Para começar."],
-        explicacao: "Enter confirma ou pula de linha; espaço separa palavras; Backspace apaga a letra antes do cursor; Shift (segurando) faz maiúscula." },
-
-      { tipo: "escolha", titulo: "Os botões da janela",
-        enunciado: "<p>No canto de cima, à direita, toda janela tem ➖ ⬜ ❌.</p>",
-        perguntas: [
-          { p: "Quero que a janela ocupe a tela toda. Qual botão?", opcoes: ["⬜ Maximizar", "➖ Minimizar", "❌ Fechar"], certo: 0, why: "Maximizar faz a janela ocupar a tela toda." },
-          { p: "Quero esconder a janela sem fechar o programa. Qual botão?", opcoes: ["❌ Fechar", "➖ Minimizar", "⬜ Maximizar"], certo: 1, why: "Minimizar esconde na barra de tarefas; o programa continua aberto." },
-          { p: "Terminei e quero fechar o programa. Qual botão?", opcoes: ["➖ Minimizar", "⬜ Maximizar", "❌ Fechar"], certo: 2, why: "O ❌ fecha a janela e o programa." },
-          { p: "Minimizei a janela. Como faço para ela voltar?", opcoes: ["Clico no ícone dela na barra de tarefas", "Desligo o computador", "Aperto Backspace"], certo: 0, why: "Os programas abertos ficam na barra de tarefas, lá embaixo." }],
-        explicacao: "➖ Minimizar esconde na barra de tarefas; ⬜ Maximizar ocupa a tela toda; ❌ Fechar fecha o programa. Para voltar a uma janela minimizada, clique no ícone dela na barra de tarefas." },
-
-      { tipo: "escolha", titulo: "🔎 Diagnóstico: o que você já sabe?",
-        enunciado: "<p>Responda com calma. Tudo está no 💡 Para começar e no 📖 O que significa? desta missão.</p>",
-        perguntas: [
-          { p: "A setinha que anda na tela quando mexo o mouse se chama:", opcoes: ["Ponteiro", "Cursor", "Ícone"], certo: 0, why: "Ponteiro é a seta; cursor é a barrinha que pisca onde a letra vai aparecer." },
-          { p: "A barrinha que pisca no lugar onde a letra vai aparecer é o:", opcoes: ["Ícone", "Cursor", "Ponteiro"], certo: 1, why: "O cursor pisca no lugar onde vou digitar." },
-          { p: "O desenho pequeno que representa um programa ou pasta é o:", opcoes: ["Ícone", "Gabinete", "Cursor"], certo: 0, why: "Ícones ficam na área de trabalho e na tela do celular." },
-          { p: "A tela de fundo do computador, com os ícones, é a:", opcoes: ["Área de trabalho", "Barra de tarefas", "Janela"], certo: 0, why: "Em inglês, desktop." },
-          { p: "O Caps Lock ligado faz:", opcoes: ["Todas as letras saírem maiúsculas", "O computador desligar", "A janela fechar"], certo: 0, why: "Caps Lock trava as maiúsculas; acende uma luzinha no teclado." }],
-        explicacao: "Ponteiro = seta; cursor = barrinha que pisca; ícone = desenho do programa/pasta; área de trabalho = tela de fundo; Caps Lock = trava das maiúsculas." },
-
-      { tipo: "aberta", titulo: "Conte o que você já sabe fazer no computador",
-        enunciado: "<p>Isso ajuda o professor a conhecer a turma. Não existe resposta errada: escreva com as suas palavras.</p>",
-        campos: [{ rot: "O que eu já sei fazer no computador ou no celular:", linhas: 2 }, { rot: "O que eu quero aprender na Informática:", linhas: 2 }],
-        criterios: ["Escreve pelo menos uma frase em cada campo."],
-        exemplo: "Eu sei ligar o celular, mandar mensagem e jogar. Quero aprender a digitar rápido e fazer trabalhos no computador.",
-        conferir: { minPalavras: 4, msg: "Obrigado! O professor lê as respostas no painel." } }
+        explicacao: "1 clique (esquerdo) escolhe; duplo clique abre; o botão direito mostra o menu de opções (e a tecla do menu, perto do Ctrl da direita, faz o mesmo)." }
     ],
     desafio: [
-      { tipo: "tabela", titulo: "Digite exatamente igual",
-        enunciado: "<p>Digite as frases <strong>igualzinho</strong>: letra maiúscula (Shift), espaço, vírgula, acento e ponto. O portal confere tudo, até o acento!</p>",
-        colunas: ["Frase", "Digite aqui"],
-        linhas: [
-          ["Bom dia, turma!", { r: "Bom dia, turma!", exato: true, dica: "Comece com B maiúsculo (Shift + B) e termine com o ponto de exclamação (Shift + 1)." }],
-          ["Eu gosto de Informática.", { r: "Eu gosto de Informática.", exato: true, dica: "Informática tem I maiúsculo e acento no a: aperte a tecla do acento ( ´ ) e depois a letra a." }],
-          ["Curionópolis é a minha cidade.", { r: "Curionópolis é a minha cidade.", exato: true, dica: "Para ó e é: primeiro a tecla do acento ( ´ ), depois a vogal." }]],
-        explicacao: "Shift + letra faz maiúscula; o acento vem antes da vogal (´ depois o); a frase termina com ponto." },
-      { tipo: "escolha", titulo: "Socorro, a janela sumiu!",
-        perguntas: [
-          { p: "Ana estava fazendo o trabalho e a janela sumiu, mas o programa aparece na barra de tarefas. O que aconteceu?", opcoes: ["Ela minimizou a janela", "Ela fechou o programa", "O computador quebrou"], certo: 0, why: "Se o programa aparece na barra de tarefas, ele está aberto: a janela só foi minimizada." },
-          { p: "O que Ana deve fazer?", opcoes: ["Clicar no ícone do programa na barra de tarefas", "Abrir o programa de novo do zero", "Apertar Backspace"], certo: 0, why: "Clicar no ícone na barra de tarefas traz a janela de volta." },
-          { p: "João quer ver duas janelas lado a lado, mas uma ocupa a tela toda. O que ela está?", opcoes: ["Maximizada", "Minimizada", "Fechada"], certo: 0, why: "Maximizada = ocupa a tela toda." }],
-        explicacao: "Janela minimizada continua aberta na barra de tarefas; é só clicar no ícone para voltar. Maximizada ocupa a tela toda." }
+      { tipo: "teclado", modo: "copiar", titulo: "✍️ Copie igualzinho: maiúsculas, acentos e símbolos",
+        enunciado: "<p>Copie cada frase <b>igualzinho</b>. O portal confere letra por letra: <span style='color:#15803d'>verde</span> = certo, <span style='color:#b91c1c'>vermelho</span> = apague com o Backspace e corrija. Acento: aperte a tecla do acento, <b>solte</b>, e depois a vogal.</p>",
+        frases: ["Meu e-mail é pedro@escola.com", "Ação! 50% de desconto & frete grátis.", "Hoje fez 30°C em Curionópolis.", "Você já viu a #CampanhaDoLixo?", "Pão, maçã e café: R$ 12,00 (doze reais)."],
+        dicas: ["Maiúscula: segure o Shift e aperte a letra. Ç: a tecla ao lado do L.", "ã e õ: til ( ~, ao lado do Ç ) e depois a vogal. é, á: agudo ( ´, ao lado do P ) e depois a vogal. ê, â: Shift + til e depois a vogal."],
+        explicacao: "O computador entende cada detalhe: <b>A</b> e <b>a</b> são diferentes, <b>e</b> e <b>é</b> também. Por isso a senha, o e-mail e o nome do arquivo precisam ser digitados igualzinho." }
     ],
     turbo: [
-      { tipo: "ligar", titulo: "Mouse × toque no celular",
-        enunciado: "<p>Releia o 🌎 Onde eu uso isso? e ligue cada ação do mouse ao jeito de fazer no celular.</p>",
-        pares: [
-          { a: "Clique", b: "Tocar na tela" },
-          { a: "Clique direito", b: "Tocar e segurar" },
-          { a: "Rolar a rodinha", b: "Arrastar o dedo para cima ou para baixo" }],
-        explicacao: "No celular, o toque é o clique; tocar e segurar é como o clique direito; arrastar o dedo rola a página." },
-      { tipo: "escolha", titulo: "Pense",
-        perguntas: [{ p: "Por que é bom fechar (❌) os programas que você não está usando?", opcoes: ["Para o computador não ficar lento com muita coisa aberta", "Porque o programa se apaga do computador", "Para o mouse funcionar"], certo: 0, why: "Cada programa aberto usa um pouco do computador; com muitos abertos, ele fica lento. Fechar não apaga o programa." }],
-        explicacao: "Fechar o programa não apaga nada: só deixa o computador mais livre (mais rápido)." }
+      { tipo: "sim_pc", titulo: "🔴 Turbo no computador: socorro, a janela sumiu!",
+        enunciado: "<p>Desafio de verdade: agora o <strong>Bit</strong> dá menos pistas. Lembre-se do que você treinou: duplo clique abre, o tracinho esconde, a barra de tarefas traz de volta.</p>",
+        area: [{ nome: "Lixeira", app: "lixeira" }, { nome: "Jogos", tipo: "pasta" }, { nome: "Trabalhos", tipo: "pasta" }],
+        pastas: { "Jogos": [{ nome: "jogo-da-velha", ext: "exe" }, { nome: "corrida", ext: "exe" }], "Trabalhos": [{ nome: "redacao", ext: "txt" }] },
+        passos: [
+          { faca: "Abra a pasta <b>Jogos</b>.", ok: "duplo:ic:Jogos", dica: "Lembra? Dois cliques rapidinhos." },
+          { faca: "Esconda a janela <b>sem fechar</b>.", ok: "min:jan:exp", dica: "É o botão do tracinho —, no canto de cima." },
+          { faca: "Ops! A janela sumiu. Traga a pasta <b>Jogos</b> de volta.", ok: "restaurar:jan:exp", dica: "Ela está na barra de tarefas, lá embaixo, com um risquinho embaixo do ícone." },
+          { faca: "Faça a janela ocupar a <b>tela toda</b>.", ok: "max:jan:exp", dica: "É o quadradinho ☐." },
+          { faca: "Pelo <b>menu Iniciar</b>, abra a <b>Calculadora</b>.", ok: "abrir:app:calc", dica: "O botão ⊞ fica no canto da barra de tarefas." },
+          { faca: "Terminou: <b>feche</b> as duas janelas (a Calculadora e a pasta Jogos).", ok: { estado: "fechadas", ids: ["calc", "exp"] }, dica: "O X fica no canto de cima, à direita, de cada janela." }
+        ],
+        fimMsg: "Você abriu, escondeu, achou na barra de tarefas, maximizou, abriu um programa pelo Iniciar e fechou tudo, quase sem pistas. Turbo completo!",
+        explicacao: "Janela minimizada continua aberta na barra de tarefas: é só clicar no ícone para ela voltar. ☐ ocupa a tela toda; ⊞ abre o Iniciar; X fecha." }
     ],
     vf: [
       { v: true, why: "Duplo clique abre pastas, arquivos e programas." },
