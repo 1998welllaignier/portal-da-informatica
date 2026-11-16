@@ -14,6 +14,8 @@ O resultado é autonomia. O aluno avança sozinho, no próprio ritmo, e o profes
 
 E tem um ingrediente a mais: o engajamento. Cada acerto vale pontos. Quem lidera a turma ganha a coroa de rei da sala, e, no fim da aula, o pódio aparece no projetor. Quem termina tudo ainda desbloqueia o bônus relâmpago. O aluno quer participar.
 
+O portal também acompanha o calendário escolar. Nas datas importantes, como agora, na Semana da Consciência Negra, o tema entra sozinho: o portal muda de visual e, ao entrar, o aluno lê cartões com curiosidades sobre a data. Para começar a aula, ele resolve um pequeno desafio, que pode ser um caça-palavras, um jogo da memória ou um quiz, e só consegue quem leu. Assim, cada data comemorativa vira aprendizado, em todas as turmas.
+
 Agora, a parte da gestão. Tudo o que o aluno faz fica registrado, com data e hora. A chamada é feita sozinha: quem entrou no portal já aparece como presente.
 
 Durante a aula, o painel Ao vivo mostra quem está avançando, quem está parado há mais de dez minutos e quem saiu da tela cheia. O professor sabe exatamente onde intervir.
@@ -26,4 +28,4 @@ Segurança e foco também foram pensados. O aluno entra só com um código de qu
 
 Em resumo: mais autonomia para o aluno, mais tempo de qualidade para o professor e mais informação para a gestão. Tudo isso com os recursos que a escola já tem.
 
-O Portal da Informática já funciona na nossa escola e pode chegar a outras escolas e a toda a rede municipal. Professor Welington Laignier: tecnologia a serviço da aprendizagem.
+O Portal da Informática já funciona na Escola Municipal de Ensino Fundamental Juscelino Kubitschek, em Curionópolis, e pode chegar a outras escolas e a toda a rede municipal. Professor Welington Laignier: tecnologia a serviço da aprendizagem.

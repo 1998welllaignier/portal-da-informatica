@@ -6,7 +6,7 @@ s = open(f"{B}/7ano-m1/video.html").read().split("\n")  # motor v4 (cabeçalho +
 head = s[:89]; head[0] = head[0].replace("7º ano · Missão 1", titulo); head[3] = head[3].replace("7º ano · Turmas A, B, C e D", selo)
 extra = s[89:111]  # LEO, leo, roteador, rack, pacote, casa, no, linha, ondaAudio, carro
 i = [k for k, l in enumerate(s) if "tempo das cenas" in l][0]
-open(f"{pasta}/video.html", "w").write("\n".join(head + extra) + "\n" + open(f"{B}/pecas2.js").read() + "\n" + open(f"{pasta}/cenas.js").read() + "\n\n" + "\n".join(s[i:]))
+open(f"{pasta}/video.html", "w").write("\n".join(head + extra) + "\n" + open(f"{B}/pecas2.js").read() + "\n" + (open(f"{pasta}/telas.js").read() + "\n" if os.path.exists(f"{pasta}/telas.js") else "") + open(f"{pasta}/cenas.js").read() + "\n\n" + "\n".join(s[i:]))
 for f in ("lib.js", "audio.py"): shutil.copy(f"{B}/{f}", pasta)
 shutil.copy(f"{B}/gravar_v4.py", f"{pasta}/gravar.py")
 print("ok", pasta)
