@@ -66,7 +66,7 @@
 .sp10 .sp-bar button:hover{background:#3a3a3a}.sp11 .sp-bar button{border-radius:6px;height:38px;margin:0 2px}.sp11 .sp-bar button:hover{background:#fff}
 .sp-bar button.ab::after{content:"";position:absolute;left:32%;right:32%;bottom:2px;height:3px;border-radius:2px;background:#76b9ed}
 .sp-bar button.fr::after{left:20%;right:20%;background:#0078d4}
-.sp-busca10{width:250px;background:#f2f2f2!important;color:#555!important;font-size:13px!important;text-align:left;padding:0 10px!important;height:100%!important}
+.sp-busca10{box-sizing:border-box;border:0;outline:0;font-family:inherit;width:250px;background:#f2f2f2!important;color:#555!important;font-size:13px!important;text-align:left;padding:0 10px!important;height:100%!important}
 .sp-rel{position:absolute;right:10px;font-size:12px;text-align:center;line-height:1.3}
 .sp-jan{position:absolute;background:#fff;box-shadow:0 8px 28px rgba(0,0,0,.35);display:flex;flex-direction:column}
 .sp11 .sp-jan{border-radius:8px;overflow:hidden}.sp10 .sp-jan{border:1px solid #1883d7}.sp-jan.max{border-radius:0!important}
@@ -134,14 +134,15 @@
 .sp-fant{position:absolute;z-index:990;pointer-events:none;opacity:.8;font-size:28px}
 .sp-fim{position:absolute;inset:0;background:rgba(15,23,42,.6);z-index:999;display:flex;align-items:center;justify-content:center}
 .sp-fim div{background:#fff;border-radius:18px;padding:22px 30px;text-align:center;font-size:20px;font-weight:700;box-shadow:0 10px 40px rgba(0,0,0,.4)}.sp-fim div span{font-size:54px;display:block}
-`;
+` + ((P.winui && P.winui.css) || "");
     document.head.appendChild(st);
   }
 
   /* ---------- peças fixas ---------- */
+  const WU = (window.PORTAL || {}).winui;
   const APPS = {
     exp: { nome: "Explorador de Arquivos", ic: "📁" }, notas: { nome: "Bloco de Notas", ic: "📝" }, calc: { nome: "Calculadora", ic: "🧮" },
-    web: { nome: "Navegador", ic: "🌐" }, lixeira: { nome: "Lixeira", ic: "🗑️" }, jogo: { nome: "Jogo da escola", ic: "🎮" }, ver: { nome: "Visualizador", ic: "🖼️" }, email: { nome: "Email", ic: "📧" }
+    web: { nome: "Google Chrome", ic: "🌐" }, lixeira: { nome: "Lixeira", ic: "🗑️" }, jogo: { nome: "Jogo da escola", ic: "🎮" }, ver: { nome: "Fotos", ic: "🖼️" }, email: { nome: "Email", ic: "📧" }
   };
   const ICEXT = { txt: "📄", docx: "📘", pdf: "📕", jpg: "🖼️", png: "🖼️", webp: "🖼️", mp3: "🎵", mp4: "🎬", zip: "🗜️", exe: "⚙️", pptx: "📙", xlsx: "📗" };
   const TIPOEXT = { txt: "Documento de Texto", docx: "Documento do Word", pdf: "Documento PDF", jpg: "Arquivo JPG", png: "Arquivo PNG", webp: "Arquivo WEBP", mp3: "Arquivo MP3", mp4: "Arquivo MP4", zip: "Pasta compactada (zip)", exe: "Aplicativo", pptx: "Apresentação", xlsx: "Planilha" };
@@ -172,7 +173,7 @@
       (at.area || []).forEach((ic, i) => { if (ic.tipo === "pasta" && !fs[ic.nome]) fs[ic.nome] = (at.pastas || {})[ic.nome] ? fs[ic.nome] : []; });
       const area = (at.area || []).map((ic, i) => Object.assign({ x: 12 + Math.floor(i / 5) * 92, y: 10 + (i % 5) * 92 }, ic));
       const S = { jan: [], z: 1, sel: null, menu: null, start: false, lix: [], clip: null, ext: false,
-        notas: at.notas || "", notasNome: null, calc: { vis: "0", conta: "", novo: true }, web: { abas: [{ url: at.inicioWeb || "busca", hist: [] }], at: 0 }, exp: { pasta: at.inicioPasta || "Documentos", sel: null, busca: "", ren: null }, dlg: null, campos: Object.assign({}, at.campos || {}), cad: false, mail: { sel: null, lidos: {}, fora: {} } };
+        notas: at.notas || "", notasNome: null, calc: { vis: "0", conta: "", novo: true }, web: { abas: [{ url: at.inicioWeb || "busca", hist: [] }], at: 0 }, exp: { pasta: at.inicioPasta || "Documentos", sel: null, busca: "", ren: null }, dlg: null, wu: (window.PORTAL.winui || { novoEstado: () => ({}) }).novoEstado(), busca: "", campos: Object.assign({}, at.campos || {}), cad: false, mail: { sel: null, lidos: {}, fora: {} } };
       const POS = { exp: [110, 40, 760, 440], notas: [180, 60, 620, 400], calc: [620, 40, 300, 440], web: [60, 20, 860, 500], lixeira: [200, 80, 560, 360], jogo: [240, 70, 520, 340], ver: [220, 50, 600, 420], email: [90, 30, 820, 470] };
       let erros = 0, mostrando = false, fimMostrado = !!st.status;
 
@@ -307,11 +308,11 @@
           ${ordem.filter(j => !j.min).map(j => `<div class="sp-jan ${j.max ? "max" : ""}" data-jan="${j.id}" style="${j.max ? "left:0;top:0;width:1000px;height:" + (w11() ? 556 : 560) + "px" : `left:${j.x}px;top:${j.y}px;width:${j.w}px;height:${j.h}px`};z-index:${10 + j.z}">
             <div class="sp-tit" data-arrasta="${j.id}"><span>${APPS[j.app] ? APPS[j.app].ic : ""}</span><span class="t">${esc(j.titulo)}</span><button type="button" data-a="min:${j.id}" data-k="jan:${j.id}:min" title="Minimizar">—</button><button type="button" data-a="max:${j.id}" data-k="jan:${j.id}:max" title="${j.max ? "Restaurar" : "Maximizar"}">${j.max ? "❐" : "☐"}</button><button type="button" class="x" data-a="fechar:${j.id}" data-k="jan:${j.id}:fechar" title="Fechar">✕</button></div>
             <div class="sp-corpo">${corpoApp(j)}</div></div>`).join("")}
-          <div class="sp-bar">${w11() ? "" : `<button type="button" data-a="iniciar" data-k="bar:iniciar" title="Iniciar" style="font-size:22px">⊞</button><button type="button" class="sp-busca10">🔍 Digite aqui para pesquisar</button>`}
-            ${w11() ? `<button type="button" data-a="iniciar" data-k="bar:iniciar" title="Iniciar" style="color:#0067c0;font-size:22px">⊞</button><button type="button" title="Pesquisar">🔍</button>` : ""}
+          <div class="sp-bar">${w11() && WU ? WU.widget11() : ""}${w11() ? "" : `<button type="button" data-a="iniciar" data-k="bar:iniciar" title="Iniciar" class="sp-ini">${WU ? WU.logo("10") : "⊞"}</button><input class="sp-busca10" data-k="bar:busca" placeholder="Digite aqui para pesquisar" value="${esc(S.busca || "")}" aria-label="Pesquisar"><button type="button" title="Visão de Tarefas" class="wu-tv">⧉</button>`}
+            ${w11() ? `<button type="button" data-a="iniciar" data-k="bar:iniciar" title="Iniciar" class="sp-ini">${WU ? WU.logo("11") : "⊞"}</button><button type="button" data-a="iniciar" title="Pesquisar">🔍</button><button type="button" title="Visão de Tarefas" class="wu-tv">⧉</button>` : ""}
             ${["exp", "web", ...S.jan.map(j => j.app).filter(a => !["exp", "web"].includes(a))].map(a => { const j = jan(a); return `<button type="button" class="${j ? "ab" : ""} ${j && !j.min && j.z === S.z ? "fr" : ""}" data-a="barra:${a}" data-k="bar:${a}" title="${APPS[a].nome}">${APPS[a].ic}</button>`; }).join("")}
-            <div class="sp-rel">10:30<br>15/03/2027</div></div>
-          ${S.start ? `<div class="sp-start" data-k="start">${w11() ? `<h4>Fixado</h4><div class="grade">${Object.entries(APPS).filter(([k]) => k !== "jogo").map(([k, a]) => `<div data-a="abrirApp:${k}" data-k="start:${k}"><span class="e">${a.ic}</span>${a.nome}</div>`).join("")}</div>` : `<small>Aplicativos</small>${Object.entries(APPS).filter(([k]) => k !== "jogo").map(([k, a]) => `<div data-a="abrirApp:${k}" data-k="start:${k}"><span>${a.ic}</span>${a.nome}</div>`).join("")}`}</div>` : ""}
+            ${WU ? WU.bandeja(w11() ? "11" : "10", "10:30", "15/03/2027") : `<div class="sp-rel">10:30<br>15/03/2027</div>`}</div>
+          ${S.start && WU ? WU.iniciar(w11() ? "11" : "10", { estado: S.wu, busca: S.busca, buscaId: w11() ? "sp-busca11" : null, attr: id => { const a = { exp: "exp", notas: "notas", calc: "calc", chrome: "web", email: "email" }[id]; return a ? `data-a="abrirApp:${a}" data-k="start:${a}"` : ""; } }) : ""}
           ${S.menu ? `<div class="sp-menu" style="left:${S.menu.x}px;top:${S.menu.y}px">${S.menu.itens.map(m => m === "-" ? "<hr>" : `<div class="${m.off ? "off" : ""}" data-m="${esc(m.id || "")}" data-k="menu:${esc(m.t)}"><span class="i">${m.i || ""}</span>${esc(m.t)}${m.s ? `<span class="s">${m.s}</span>` : ""}</div>`).join("")}</div>` : ""}
           ${S.dlg ? `<div class="sp-dlg"><div class="c"><div class="tt">💾 Salvar como</div><div class="cc"><span>Pasta:</span><select data-k="dlg:pasta">${Object.keys(fs).map(p => `<option ${p === S.dlg.pasta ? "selected" : ""}>${esc(p)}</option>`).join("")}</select><span>Nome:</span><input value="${esc(S.dlg.nome)}" data-k="dlg:nome" aria-label="Nome do arquivo"><span>Tipo:</span><span>Documentos de texto (*.txt)</span></div><div class="bb"><button type="button" class="sp-bt pri" data-a="dlgSalvar" data-k="dlg:salvar">Salvar</button><button type="button" class="sp-bt" data-a="dlgCancelar">Cancelar</button></div></div></div>` : ""}`;
         if (S.fim) { const d = document.createElement("div"); d.className = "sp-fim"; d.innerHTML = `<div><span>🏆</span>Missão no computador cumprida!<br><small style="font-weight:500;font-size:14px">${nomeBit} está orgulhoso(a) de você. Toque para continuar treinando.</small></div>`; tela.appendChild(d); d.onclick = e => { e.stopPropagation(); S.fim = false; draw(); }; }
@@ -374,6 +375,11 @@
         const fb = tela.querySelector("form[data-a=buscar]"); if (fb) { fb.onsubmit = e => { e.preventDefault(); const v = fb.q.value.trim(); const a = S.web.abas[S.web.at]; a.termo = v; ev("buscar:" + v); draw(); }; fb.q.onkeydown = e => e.stopPropagation(); }
         tela.querySelectorAll("[data-link]").forEach(l => l.onclick = e => { e.stopPropagation(); e.preventDefault(); if (!jan("web") || l.closest(".sp-mail")) { const j = abrir("web"); j.z = ++S.z; } ev("link:" + l.dataset.link); ir(l.dataset.link); });
         tela.querySelectorAll(".sp-pag [data-ev], .sp-mail [data-ev]").forEach(b => { if (b.type === "checkbox") { b.checked = !!S.campos["ck:" + b.dataset.ev]; b.onchange = e => { e.stopPropagation(); S.campos["ck:" + b.dataset.ev] = b.checked; ev("marcar:" + b.dataset.ev + ":" + (b.checked ? "sim" : "nao")); }; b.onclick = e => e.stopPropagation(); } else b.onclick = e => { e.stopPropagation(); e.preventDefault(); ev("pagina:" + b.dataset.ev); if (b.dataset.ir) ir(b.dataset.ir); }; });
+        if (WU) WU.ligar(tela, S.wu, draw);
+        { const bx = tela.querySelector("#sp-busca11") || tela.querySelector(".sp-busca10"); if (bx) { if (S.start && S.busca) { bx.focus(); bx.setSelectionRange(bx.value.length, bx.value.length); }
+          bx.onclick = e => { e.stopPropagation(); if (!S.start && bx.classList.contains("sp-busca10")) { S.start = true; draw(); const n = tela.querySelector(".sp-busca10"); if (n) n.focus(); } };
+          bx.onkeydown = e => { e.stopPropagation(); if (e.key === "Enter") { const r = tela.querySelector(".wu-start .res [data-a]"); if (r) r.click(); } };
+          bx.oninput = () => { S.busca = bx.value; S.start = true; ev("buscarIniciar:" + bx.value); draw(); }; } }
         tela.querySelectorAll(".sp-pag [data-campo]").forEach(i => { const n = i.dataset.campo; if (S.campos[n] != null) i.value = S.campos[n]; i.oninput = () => { S.campos[n] = i.value; clearTimeout(i._t); i._t = setTimeout(() => ev("campo:" + n + ":" + i.value), 250); }; i.onkeydown = e => e.stopPropagation(); });
         const pg = tela.querySelector(".sp-pag"); if (pg) pg.onwheel = () => { if (pg.scrollHeight <= pg.clientHeight + 8 && !pg.dataset.fim) { pg.dataset.fim = 1; ev("rolar:fim:" + pg.dataset.rolar); } }; /* página curta (tela grande): a rodinha já conta como "cheguei ao fim" */
         if (pg) pg.onscroll = () => { if (pg.scrollTop + pg.clientHeight >= pg.scrollHeight - 8 && !pg.dataset.fim) { pg.dataset.fim = 1; ev("rolar:fim:" + pg.dataset.rolar); } else if (pg.scrollTop > 30) ev("rolar:" + pg.dataset.rolar); };
@@ -388,7 +394,7 @@
         else if (k === "max") { const j = jan(v); j.max = !j.max; ev((j.max ? "max" : "restaurarTam") + ":jan:" + v); }
         else if (k === "fechar") { S.jan = S.jan.filter(j => j.id !== v); ev("fechar:jan:" + v); }
         else if (k === "barra") { const j = jan(v); if (!j) { abrir(v); } else if (j.min) { j.min = false; j.z = ++S.z; ev("restaurar:jan:" + v); } else if (j.z === S.z) { j.min = true; ev("min:jan:" + v); } else { j.z = ++S.z; ev("frente:jan:" + v); } ev("clique:bar:" + v); }
-        else if (k === "iniciar") { S.start = !S.start; S.menu = null; ev("clique:bar:iniciar"); }
+        else if (k === "iniciar") { S.start = !S.start; S.menu = null; S.busca = ""; if (S.wu) { S.wu.todos = false; S.wu.energia = false; } ev("clique:bar:iniciar"); }
         else if (k === "abrirApp") { abrir(v); }
         else if (k === "calc") { calcTecla(v); return; }
         else if (k === "expIr") { S.exp.pasta = v; S.exp.busca = ""; S.exp.sel = null; jan("exp").titulo = v; ev("abrir:pasta:" + v); }
@@ -427,7 +433,7 @@
         else ev("direito:" + alvo);
         menuPara(alvo, x, y);
       });
-      tela.addEventListener("click", e => { if (S.menu || S.start || S.sel) { if (!e.target.closest(".sp-menu,.sp-start")) { const tinha = S.menu || S.start; S.menu = null; S.start = false; if (!e.target.closest(".sp-ic")) { S.sel = null; tela.querySelectorAll(".sp-ic.sel").forEach(x => x.classList.remove("sel")); } if (tinha) draw(); } } }); /* só redesenha se fechou menu: redesenhar tiraria o foco da caixa de texto clicada */
+      tela.addEventListener("click", e => { if (S.menu || S.start || S.sel) { if (!e.target.closest(".sp-menu,.sp-start,.wu-start,.sp-busca10")) { const tinha = S.menu || S.start; S.menu = null; S.start = false; if (!e.target.closest(".sp-ic")) { S.sel = null; tela.querySelectorAll(".sp-ic.sel").forEach(x => x.classList.remove("sel")); } if (tinha) draw(); } } }); /* só redesenha se fechou menu: redesenhar tiraria o foco da caixa de texto clicada */
       // arrastar: janelas (pela barra de título), ícones da área de trabalho e arquivos do Explorador
       let drag = null;
       tela.addEventListener("pointerdown", e => {

@@ -59,7 +59,7 @@
 .sw10 .sw-bar button:hover{background:#3a3a3a}.sw11 .sw-bar button{border-radius:6px;height:38px;margin:0 2px}.sw11 .sw-bar button:hover{background:#fff}
 .sw-bar button.ativo::after{content:"";position:absolute;left:30%;right:30%;bottom:2px;height:3px;border-radius:2px;background:#76b9ed}
 .sw-ini{font-size:22px!important}.sw10 .sw-ini{color:#fff}.sw11 .sw-ini{color:#0067c0}
-.sw-busca10{height:100%!important;width:270px;background:#f2f2f2!important;color:#555!important;font-size:13px!important;text-align:left;padding:0 10px!important}
+.sw-busca10{height:100%;box-sizing:border-box;border:0;outline:0;width:270px;font-family:inherit;background:#f2f2f2!important;color:#555!important;font-size:13px!important;text-align:left;padding:0 10px!important}
 .sw-relogio{position:absolute;right:10px;font-size:12px;text-align:center;line-height:1.3}
 .sw-jan{position:absolute;background:#fff;box-shadow:0 8px 28px rgba(0,0,0,.35);display:flex;flex-direction:column;z-index:10}
 .sw11 .sw-jan{border-radius:8px;overflow:hidden}.sw10 .sw-jan{border:1px solid #1883d7}
@@ -135,7 +135,7 @@
 .sw-exp10fita .painel{background:#fff;padding:10px 14px;border-top:1px solid #dadbdc;display:flex;gap:24px;align-items:center}
 .sw-exp11cmd{display:flex;gap:4px;align-items:center;padding:4px 8px;border-bottom:1px solid #e5e5e5;flex:none;background:#f9f9f9}.sw-exp11cmd span{padding:5px 10px;border-radius:4px;cursor:pointer}.sw-exp11cmd span:hover{background:#ebebeb}
 .sw-q{margin-top:12px;padding:10px 12px;border:2px solid var(--cor,#3b82f6);border-radius:10px}.sw-q p{margin:0 0 8px}.sw-q .bts{display:flex;gap:8px;flex-wrap:wrap}
-.sw-acoes{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}`;
+.sw-acoes{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}` + ((P.winui && P.winui.css) || "");
     document.head.appendChild(st);
   }
 
@@ -149,7 +149,7 @@
         st.p = { desk: [], down: [], docs: [{ nome: "trabalho-de-ciencias", ext: "docx" }], imgs: [{ nome: "ferias-na-praia", ext: "jpg", arte: "sol" }] };
       };
       if (!st.so) inicia(at.so || (Math.random() < 0.5 ? "10" : "11"));
-      const ui = { jan: [], menu: null, start: false, busca: "", run: false, runTxt: "", dlg: null, chrSel: null, dl: null, exp: "down", expSel: null, fita: false, cfg: "home", paint: null, pm: false, pmSub: false, fotos: null, wv: false, dica: "" };
+      const ui = { jan: [], menu: null, start: false, wu: (P.winui ? P.winui.novoEstado() : {}), busca: "", run: false, runTxt: "", dlg: null, chrSel: null, dl: null, exp: "down", expSel: null, fita: false, cfg: "home", paint: null, pm: false, pmSub: false, fotos: null, wv: false, dica: "" };
       const so = () => st.so, w11 = () => st.so === "11";
       const nomeArq = f => f.nome + (st.ext ? "." + f.ext : "");
       const imgDe = f => ARTE[f.arte] || "";
@@ -266,12 +266,10 @@
       }
       function htmlStart() {
         if (!ui.start) return "";
-        const apps = [["cfg", "⚙️", "Configurações"], ["exp", "📁", "Explorador de Arquivos"], ["chrome", "🌐", "Google Chrome"], ["paint", "🎨", "Paint"], ["fotos", "🖼️", "Fotos"]];
-        const q = ui.busca.trim().toLowerCase();
-        const res = q ? [...(/^win/.test(q) ? [["winver", "▶️", "winver — Executar comando"]] : []), ...apps.filter(a => a[2].toLowerCase().includes(q) || (q === "paint" && a[0] === "paint"))] : null;
-        const lista = res ? `<div class="res">${res.length ? res.map(a => `<div data-a="app:${a[0]}"><span style="font-size:20px">${a[1]}</span>${a[2]}</div>`).join("") : "<div>Nenhum resultado</div>"}</div>` : "";
-        if (w11()) return `<div class="sw-start"><input id="sw-busca" placeholder="Pesquisar aplicativos, configurações e documentos" value="${esc(ui.busca)}">${lista || `<h4>Fixado</h4><div class="grade">${apps.map(a => `<div data-a="app:${a[0]}"><span class="e">${a[1]}</span>${a[2]}</div>`).join("")}</div><h4>Recomendado</h4><p style="color:#666">ferias-na-praia.jpg · trabalho-de-ciencias.docx</p>`}<div style="position:absolute;bottom:12px;left:24px">👤 Aluno</div><div style="position:absolute;bottom:12px;right:24px">⏻</div></div>`;
-        return `<div class="sw-start"><div class="rail"><span title="Conta">👤</span><span title="Documentos">📄</span><span title="Imagens">🖼️</span><span data-a="app:cfg" title="Configurações">⚙️</span><span title="Ligar/Desligar">⏻</span></div><div class="lista">${lista || `<small>Mais usados</small>${apps.map(a => `<div data-a="app:${a[0]}"><span style="font-size:20px">${a[1]}</span>${a[2]}</div>`).join("")}`}</div></div>`;
+        const WU = P.winui; if (!WU) return "";
+        return WU.iniciar(so(), { estado: ui.wu, busca: ui.busca, buscaId: w11() ? "sw-busca" : null,
+          extraRes: [{ casa: q => /^win/.test(q), attr: 'data-a="app:winver"', ic: "▶️", nome: "winver — Executar comando" }],
+          attr: id => ["cfg", "exp", "chrome", "paint", "fotos"].includes(id) ? `data-a="app:${id}"` : "" });
       }
       function htmlMenu() {
         const m = ui.menu; if (!m) return "";
@@ -312,9 +310,10 @@
         const icDesk = [`<div class="sw-ic" data-dbl="app:lixeira"><span class="e">🗑️</span>Lixeira</div>`, `<div class="sw-ic" data-dbl="app:chrome"><span class="e">🌐</span>Google Chrome</div>`, `<div class="sw-ic" data-dbl="app:exp"><span class="e">📁</span>Explorador de Arquivos</div>`,
           ...st.p.desk.map((f, i) => `<div class="sw-ic" data-dbl="desk:${i}" data-ctx="arq:desk:${i}">${f.arte ? `<img src="${imgDe(f)}" alt="">` : `<span class="e">📄</span>`}${esc(nomeArq(f))}</div>`)].join("");
         const tb = id => ui.jan.includes(id) ? "ativo" : "";
+        const WU = P.winui, LG = WU ? WU.logo(so()) : "⊞", abertos = `<button class="${tb("exp")}" data-a="app:exp" title="Explorador de Arquivos">📁</button><button class="${tb("chrome")}" data-a="app:chrome" title="Google Chrome">🌐</button>${ui.jan.includes("cfg") ? `<button class="ativo" data-a="app:cfg" title="Configurações">⚙️</button>` : ""}${ui.jan.includes("paint") ? `<button class="ativo" data-a="app:paint" title="Paint">🎨</button>` : ""}${ui.jan.includes("fotos") ? `<button class="ativo" data-a="app:fotos" title="Fotos">🖼️</button>` : ""}`;
         const bar = w11()
-          ? `<div class="sw-bar"><button class="sw-ini" data-a="start" data-ctx="winx" title="Iniciar">⊞</button><button data-a="start" title="Pesquisar">🔍</button><button class="${tb("exp")}" data-a="app:exp" title="Explorador de Arquivos">📁</button><button class="${tb("chrome")}" data-a="app:chrome" title="Google Chrome">🌐</button>${ui.jan.includes("cfg") ? `<button class="ativo" data-a="app:cfg">⚙️</button>` : ""}${ui.jan.includes("paint") ? `<button class="ativo" data-a="app:paint">🎨</button>` : ""}${ui.jan.includes("fotos") ? `<button class="ativo" data-a="app:fotos">🖼️</button>` : ""}<span class="sw-relogio">10:35<br>15/11/2026</span></div>`
-          : `<div class="sw-bar"><button class="sw-ini" data-a="start" data-ctx="winx" title="Iniciar">⊞</button><button class="sw-busca10" data-a="start">🔍 Digite aqui para pesquisar</button><button class="${tb("exp")}" data-a="app:exp" title="Explorador de Arquivos">📁</button><button class="${tb("chrome")}" data-a="app:chrome" title="Google Chrome">🌐</button>${ui.jan.includes("cfg") ? `<button class="ativo" data-a="app:cfg">⚙️</button>` : ""}${ui.jan.includes("paint") ? `<button class="ativo" data-a="app:paint">🎨</button>` : ""}${ui.jan.includes("fotos") ? `<button class="ativo" data-a="app:fotos">🖼️</button>` : ""}<span class="sw-relogio">10:35<br>15/11/2026</span></div>`;
+          ? `<div class="sw-bar">${WU ? WU.widget11() : ""}<button class="sw-ini" data-a="start" data-ctx="winx" title="Iniciar">${LG}</button><button data-a="start" title="Pesquisar">🔍</button><button title="Visão de Tarefas" class="wu-tv">⧉</button>${abertos}${WU ? WU.bandeja("11", "10:35", "15/11/2026") : `<span class="sw-relogio">10:35<br>15/11/2026</span>`}</div>`
+          : `<div class="sw-bar"><button class="sw-ini" data-a="start" data-ctx="winx" title="Iniciar">${LG}</button><input class="sw-busca10" id="sw-busca10" placeholder="Digite aqui para pesquisar" value="${esc(ui.busca)}" autocomplete="off" aria-label="Pesquisar"><button title="Visão de Tarefas" class="wu-tv">⧉</button>${abertos}${WU ? WU.bandeja("10", "10:35", "15/11/2026") : `<span class="sw-relogio">10:35<br>15/11/2026</span>`}</div>`;
         return `<img class="sw-fundo" src="${fundo}" alt="" data-ctx="desk"><div class="sw-icons">${icDesk}</div>${jan}${htmlDlg()}${htmlRun()}${htmlWinver()}${htmlStart()}${htmlMenu()}${bar}`;
       }
 
@@ -332,8 +331,9 @@
         const mold = c.querySelector(".sw-moldura"), tela = c.querySelector(".sw-tela");
         const ajusta = () => { const k = mold.clientWidth / 1000; tela.style.transform = `scale(${k})`; mold.style.height = (600 * k) + "px"; };
         ajusta(); if (window.ResizeObserver) { if (c._ro) c._ro.disconnect(); c._ro = new ResizeObserver(ajusta); c._ro.observe(mold); }
-        const bus = c.querySelector("#sw-busca");
-        if (bus) { bus.focus(); bus.setSelectionRange(bus.value.length, bus.value.length); bus.oninput = () => { ui.busca = bus.value; draw(); }; bus.onkeydown = e => { if (e.key === "Enter") { const r = c.querySelector(".res [data-a]"); if (r) acao(r.dataset.a); } }; }
+        if (P.winui) P.winui.ligar(c, ui.wu, draw);
+        const bus = c.querySelector("#sw-busca") || c.querySelector("#sw-busca10");
+        if (bus) { if (ui.start) { bus.focus(); bus.setSelectionRange(bus.value.length, bus.value.length); } bus.onclick = e => { e.stopPropagation(); if (!ui.start) { ui.start = true; ui.menu = null; draw(); } }; bus.oninput = () => { ui.busca = bus.value; ui.start = true; draw(); }; bus.onkeydown = e => { if (e.key === "Enter") { const r = c.querySelector(".res [data-a]"); if (r) acao(r.dataset.a); } }; }
         const rn = c.querySelector("#sw-run");
         if (rn) { rn.focus(); rn.setSelectionRange(rn.value.length, rn.value.length); rn.oninput = () => { ui.runTxt = rn.value; }; rn.onkeydown = e => { if (e.key === "Enter") acao("runok"); }; }
         const nm = c.querySelector("#sw-nome"); if (nm) nm.oninput = () => { ui.dlg.nome = nm.value; };
@@ -344,7 +344,7 @@
         const [cmd, x1, x2] = a.split(":");
         if (cmd !== "m" && cmd !== "pmsub" && cmd !== "expexibir") ui.menu = null;
         switch (cmd) {
-          case "start": ui.start = !ui.start; ui.busca = ""; ui.menu = null; break;
+          case "start": ui.start = !ui.start; ui.busca = ""; ui.menu = null; if (ui.wu) { ui.wu.todos = false; ui.wu.energia = false; } break;
           case "app":
             if (x1 === "lixeira") break;
             if (x1 === "winver") { ui.wv = true; ui.start = false; marca("sobre"); break; }
@@ -447,7 +447,7 @@
           if (a.startsWith("chrimg:") || a === "expexibir") { acao(a, e); return; }
           acao(a, e); return;
         }
-        if (ui.menu || ui.start) { ui.menu = null; if (!e.target.closest(".sw-start")) ui.start = false; draw(); }
+        if (ui.menu || ui.start) { ui.menu = null; if (!e.target.closest(".sw-start,.wu-start,.sw-busca10")) ui.start = false; draw(); }
       };
       c.ondblclick = e => {
         const t = e.target.closest("[data-dbl]"); if (!t || !e.target.closest(".sw-tela")) return;

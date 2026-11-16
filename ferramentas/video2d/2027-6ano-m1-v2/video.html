@@ -367,7 +367,7 @@ const CENAS = [
      if (t < 1.6) placa("PEDRO · veio do 5º ano", 300, 140, seg(t, .3, .7), LJ, 22);
      pedro({ x: 290, y: 560, s: 1.05, braco: t > ts ? -2.4 : -.8, bracoE: t > ts ? 2.4 : .3, olhar: 1, boca: t > ts ? "o" : "", pisca: pisca(t) });
      if (t > ts + .2 && t < E(1, "Calma")) balao("Apaguei tudo?!", 320, 170, seg(t, ts + .2, ts + .6));
-     if (t > E(1, "Calma")) palavra("PASSO A PASSO!", 840, 520, seg(t, E(1, "passo"), E(1, "passo") + .4), 56); } },
+     if (t > E(1, "Calma")) palavra("PASSO A PASSO!", 840, 478, seg(t, E(1, "passo"), E(1, "passo") + .4), 56); } },
  // 2 — mouse e teclado
  { chip: "AS DUAS PEÇAS", fala: FL[2], sfx: [[.1, "whoosh"], [E(2, "mouse"), "pop"], [E(2, "teclado"), "pop"], [E(2, "aponta"), "click"], [E(2, "escreve"), "click"]],
    draw(t) { fundoEscuro(t, "#0e7490"); const tm = E(2, "mouse"), tt = E(2, "teclado");
