@@ -245,24 +245,7 @@ PORTAL.registrarAtividades("informatica-8ano-4bim", {
   /* ======================= MISSÃO 4 ======================= */
   m4: {
     pratica: [
-      { tipo: "sinais", titulo: "Antes de clicar em “Li e aceito”: o que o JogoMania faz?",
-        enunciado: `<div class="regra"><p><strong>📜 Termos de uso do JogoMania</strong> (jogo inventado, para treinar)</p><ol>
-          <li>O JogoMania é <strong>gratuito</strong> e destinado a maiores de <strong>13 anos</strong>.</li>
-          <li>Usamos o que você joga, curte e pesquisa para mostrar <strong>anúncios personalizados</strong>.</li>
-          <li>Ao publicar fotos e vídeos no JogoMania, você nos concede <strong>licença para usar esse conteúdo</strong> na divulgação do jogo.</li>
-          <li>Podemos <strong>compartilhar seus dados com parceiros</strong> de publicidade.</li>
-          <li>Os termos podem <strong>mudar a qualquer momento</strong>; avisaremos por e-mail.</li>
-          <li>Você pode <strong>excluir sua conta</strong> em Configurações → Conta.</li></ol></div>
-          <p>Marque <strong>tudo o que é verdade</strong> sobre o JogoMania, segundo os termos.</p>`,
-        opcoes: [
-          { t: "Ele mostra propaganda escolhida pelo que eu jogo e pesquiso", certo: true },
-          { t: "Ele pode usar as fotos e vídeos que eu publicar para divulgar o jogo", certo: true },
-          { t: "Ele pode passar os meus dados para parceiros de publicidade", certo: true },
-          { t: "As regras podem mudar depois que eu aceitar", certo: true },
-          { t: "Ele nunca mostra propaganda, porque é grátis", certo: false, why: "O item 2 diz que ele mostra anúncios personalizados." },
-          { t: "Não dá para apagar a conta", certo: false, why: "O item 6 diz que dá: Configurações → Conta." }],
-        explicacao: "Itens 2, 3, 4 e 5: propaganda personalizada, licença sobre o que você publica, compartilhamento com parceiros e termos que mudam. O jogo é grátis, mas é pago com <strong>propaganda e dados</strong>." },
-      { id: "m4-sim-termos", opcional: true, tipo: "sim_pc", titulo: "📜 Simulador: cookies e termos de uso do FotoTop",
+      { id: "m4-sim-termos", tipo: "sim_pc", titulo: "📜 Simulador: cookies e termos de uso do FotoTop",
         enunciado: "<p>Você vai baixar o aplicativo inventado <strong>FotoTop</strong>. Antes, decida os <strong>cookies</strong> e leia os <strong>termos de uso</strong> no navegador de mentira. O <strong>Bit</strong> guia você.</p>",
         abertas: ["web"], inicioWeb: "fototop.app",
         campos: { "ck:anuncios": true, "ck:parceiros": true, "ck:essenciais": true },
@@ -281,10 +264,27 @@ PORTAL.registrarAtividades("informatica-8ano-4bim", {
           { faca: "Os termos compartilhar suas fotos e localização com publicidade. Você não é obrigado a aceitar: clique em <b>Não aceito</b>.", ok: "pagina:recusar", onde: "pg:recusar", erros: { "pagina:aceitar-termos": "Você aceitou sem concordar com a frase 9! Neste treino, clique em <b>Não aceito</b>. Na vida real, converse com a família antes de aceitar." } }
         ],
         fimMsg: "Você personalizou os cookies, leu os termos até o fim, achou a frase perigosa e decidiu com consciência. Isso é cuidar dos seus dados!",
-        explicacao: "Cookies: “Personalizar” deixa você escolher; só os essenciais são necessários. Termos de uso: leia até o fim, procure o que coletam e com quem compartilham. Pela LGPD, você tem direito de saber e de apagar os seus dados." }
+        explicacao: "Cookies: “Personalizar” deixa você escolher; só os essenciais são necessários. Termos de uso: leia até o fim, procure o que coletam e com quem compartilham. Pela LGPD, você tem direito de saber e de apagar os seus dados." },
+      { id: "m4-pratica-1", tipo: "sinais", titulo: "Antes de clicar em “Li e aceito”: o que o JogoMania faz?",
+        enunciado: `<div class="regra"><p><strong>📜 Termos de uso do JogoMania</strong> (jogo inventado, para treinar)</p><ol>
+          <li>O JogoMania é <strong>gratuito</strong> e destinado a maiores de <strong>13 anos</strong>.</li>
+          <li>Usamos o que você joga, curte e pesquisa para mostrar <strong>anúncios personalizados</strong>.</li>
+          <li>Ao publicar fotos e vídeos no JogoMania, você nos concede <strong>licença para usar esse conteúdo</strong> na divulgação do jogo.</li>
+          <li>Podemos <strong>compartilhar seus dados com parceiros</strong> de publicidade.</li>
+          <li>Os termos podem <strong>mudar a qualquer momento</strong>; avisaremos por e-mail.</li>
+          <li>Você pode <strong>excluir sua conta</strong> em Configurações → Conta.</li></ol></div>
+          <p>Marque <strong>tudo o que é verdade</strong> sobre o JogoMania, segundo os termos.</p>`,
+        opcoes: [
+          { t: "Ele mostra propaganda escolhida pelo que eu jogo e pesquiso", certo: true },
+          { t: "Ele pode usar as fotos e vídeos que eu publicar para divulgar o jogo", certo: true },
+          { t: "Ele pode passar os meus dados para parceiros de publicidade", certo: true },
+          { t: "As regras podem mudar depois que eu aceitar", certo: true },
+          { t: "Ele nunca mostra propaganda, porque é grátis", certo: false, why: "O item 2 diz que ele mostra anúncios personalizados." },
+          { t: "Não dá para apagar a conta", certo: false, why: "O item 6 diz que dá: Configurações → Conta." }],
+        explicacao: "Itens 2, 3, 4 e 5: propaganda personalizada, licença sobre o que você publica, compartilhamento com parceiros e termos que mudam. O jogo é grátis, mas é pago com <strong>propaganda e dados</strong>." }
     ],
     basico: [
-      { tipo: "classificar", modo: "tabela", titulo: "Cada frase dos termos: tranquila ou atenção?", colunaItem: "Frase nos termos", colunaResp: "👍 ou ⚠️",
+      { id: "m4-basico-1", tipo: "classificar", modo: "tabela", titulo: "Cada frase dos termos: tranquila ou atenção?", colunaItem: "Frase nos termos", colunaResp: "👍 ou ⚠️",
         categorias: [{ id: "T", rot: "👍 Tranquila" }, { id: "A", rot: "⚠️ Atenção" }],
         itens: [
           { t: "“Você pode excluir sua conta e seus dados em Configurações.”", c: "T", why: "Dá para sair e apagar os dados: bom para você." },
@@ -294,12 +294,29 @@ PORTAL.registrarAtividades("informatica-8ano-4bim", {
           { t: "“Você nos concede licença para usar suas fotos em propagandas.”", c: "A", why: "A sua foto pode aparecer em propaganda." },
           { t: "“Coletamos apenas o seu e-mail para criar a conta.”", c: "T", why: "Pede só o necessário." }],
         explicacao: "⚠️ Atenção: vender dados, localização o tempo todo, licença para usar suas fotos. 👍 Tranquila: dá para excluir a conta, avisa antes de mudar, pede só o necessário." },
-      { tipo: "ligar", titulo: "Os seus direitos pela LGPD: ligue cada direito ao que ele permite",
+      { id: "m4-sim-direitos", tipo: "sim_pc", titulo: "⚖️ Simulador: use os seus direitos da LGPD",
+        enunciado: "<p>Na conta do aplicativo inventado <strong>FotoTop</strong>, use os seus direitos: saber, corrigir e apagar. O <strong>Bit</strong> guia você.</p>",
+        abertas: ["web"], inicioWeb: "fototop.app/conta",
+        web: {
+          "fototop.app/conta": { titulo: "FotoTop: minha conta", html: "<p>👤 <b>Minha conta</b></p><button data-ev='ver' data-k='pg:ver' data-ir='fototop.app/meus-dados'>👁️ Ver meus dados</button><button data-ev='apagar' data-k='pg:apagar' data-ir='fototop.app/apagar'>🗑️ Apagar minha conta</button>" },
+          "fototop.app/meus-dados": { titulo: "FotoTop: meus dados", html: "<p><b>Dados que guardamos sobre você:</b></p><p>Nome: Ana Souza</p><p>Data de nascimento: <b>01/01/1990</b> (errada!)</p><label class='campo'>Corrigir data de nascimento<input data-campo='nasc' data-k='pg:nasc' placeholder='dd/mm/aaaa'></label><button data-ev='corrigir' data-k='pg:corrigir' data-ir='fototop.app/conta' class='pri'>Salvar correção</button>" },
+          "fototop.app/apagar": { titulo: "FotoTop: apagar conta", html: "<p>Tem certeza? Suas fotos e dados serão apagados.</p><button data-ev='confirmar' data-k='pg:confirmar' class='pri'>Sim, apagar meus dados</button>" }
+        },
+        passos: [
+          { faca: "Direito de <b>SABER</b>: clique em <b>👁️ Ver meus dados</b>.", ok: "pagina:ver", onde: "pg:ver" },
+          { faca: "A data de nascimento está errada! Direito de <b>CORRIGIR</b>: digite uma data no formato <b>dd/mm/aaaa</b> (ex.: 15/03/2013).", ok: { estado: "campo", nome: "nasc", regex: "^\\d{2}/\\d{2}/\\d{4}$" }, onde: "pg:nasc" },
+          { faca: "Clique em <b>Salvar correção</b>.", ok: "pagina:corrigir", onde: "pg:corrigir" },
+          { faca: "Você desistiu do FotoTop. Direito de <b>APAGAR</b>: clique em <b>🗑️ Apagar minha conta</b>.", ok: "pagina:apagar", onde: "pg:apagar" },
+          { faca: "Confirme: <b>Sim, apagar meus dados</b>.", ok: "pagina:confirmar", onde: "pg:confirmar" }
+        ],
+        fimMsg: "Você usou três direitos da LGPD: saber, corrigir e apagar os seus dados!",
+        explicacao: "Pela LGPD (Lei Geral de Proteção de Dados), você tem direito de saber quais dados guardam, corrigir, apagar e retirar o consentimento." },
+      { id: "m4-basico-2", tipo: "ligar", titulo: "Os seus direitos pela LGPD: ligue cada direito ao que ele permite",
         enunciado: "<p>Clique no direito e depois no que ele permite fazer.</p>",
         pares: [{ a: "Saber", b: "Perguntar quais dados a empresa tem sobre mim" }, { a: "Corrigir", b: "Pedir para arrumar um dado errado, como o endereço" },
           { a: "Apagar", b: "Pedir para a empresa excluir os meus dados" }, { a: "Retirar o consentimento", b: "Desistir da autorização que eu dei" }],
         explicacao: "A LGPD (Lei Geral de Proteção de Dados) garante: saber, corrigir, pedir para apagar e retirar o consentimento." },
-      { tipo: "escolha", titulo: "Grátis mesmo?",
+      { id: "m4-basico-3", tipo: "escolha", titulo: "Grátis mesmo?",
         perguntas: [
           { p: "Se o aplicativo é grátis, como ele costuma ganhar dinheiro?", opcoes: ["Com propaganda, usando os meus dados para escolher os anúncios", "Ele nunca ganha dinheiro", "Cobrando da escola"], certo: 0, why: "Serviço grátis costuma ser pago com propaganda e dados." },
           { p: "Clicar em “Li e aceito” sem ler significa:", opcoes: ["Concordar com tudo o que está escrito, mesmo sem ter lido", "Não concordar com nada", "Que posso mudar as regras depois"], certo: 0, why: "É um contrato: o clique vale como concordância." },

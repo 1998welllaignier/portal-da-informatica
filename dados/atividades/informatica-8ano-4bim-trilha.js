@@ -155,11 +155,7 @@ PORTAL.registrarAtividades("informatica-8ano-4bim-trilha", {
   /* ======================= MISSÃO 4 ======================= */
   m4: {
     pratica: [
-      { tipo: "escolha", titulo: "Apareceu o botão “Li e aceito”",
-        enunciado: "<p>Você vai criar uma conta num jogo novo e aparece um texto comprido com o botão <strong>Li e aceito</strong>.</p>",
-        perguntas: [{ p: "Clicar em “Li e aceito” é:", opcoes: ["Aceitar um contrato", "Só fechar a janela"], certo: 0, why: "Os termos de uso são um contrato." }],
-        explicacao: "Clicar em <strong>Li e aceito</strong> é aceitar o <strong>contrato</strong> (os termos de uso)." },
-      { id: "m4-sim-termos", opcional: true, tipo: "sim_pc", titulo: "📜 Simulador: cookies e termos de uso do FotoTop",
+      { id: "m4-sim-termos", tipo: "sim_pc", titulo: "📜 Simulador: cookies e termos de uso do FotoTop",
         enunciado: "<p>Você vai baixar o aplicativo inventado <strong>FotoTop</strong>. Antes, decida os <strong>cookies</strong> e leia os <strong>termos de uso</strong> no navegador de mentira. O <strong>Bit</strong> guia você.</p>",
         abertas: ["web"], inicioWeb: "fototop.app",
         campos: { "ck:anuncios": true, "ck:parceiros": true, "ck:essenciais": true },
@@ -177,23 +173,27 @@ PORTAL.registrarAtividades("informatica-8ano-4bim-trilha", {
           { faca: "Os termos falam em compartilhar suas fotos e localização com publicidade. Você não é obrigado a aceitar: clique em <b>Não aceito</b>.", ok: "pagina:recusar", onde: "pg:recusar", erros: { "pagina:aceitar-termos": "Você aceitou sem concordar com a frase 9! Neste treino, clique em <b>Não aceito</b>. Na vida real, converse com a família antes de aceitar." } }
         ],
         fimMsg: "Você personalizou os cookies, leu os termos até o fim, achou a frase perigosa e decidiu com consciência. Isso é cuidar dos seus dados!",
-        explicacao: "Cookies: “Personalizar” deixa você escolher; só os essenciais são necessários. Termos de uso: leia até o fim, procure o que coletam e com quem compartilham. Pela LGPD, você tem direito de saber e de apagar os seus dados." }
+        explicacao: "Cookies: “Personalizar” deixa você escolher; só os essenciais são necessários. Termos de uso: leia até o fim, procure o que coletam e com quem compartilham. Pela LGPD, você tem direito de saber e de apagar os seus dados." },
+      { id: "m4-pratica-1", tipo: "escolha", titulo: "Apareceu o botão “Li e aceito”",
+        enunciado: "<p>Você vai criar uma conta num jogo novo e aparece um texto comprido com o botão <strong>Li e aceito</strong>.</p>",
+        perguntas: [{ p: "Clicar em “Li e aceito” é:", opcoes: ["Aceitar um contrato", "Só fechar a janela"], certo: 0, why: "Os termos de uso são um contrato." }],
+        explicacao: "Clicar em <strong>Li e aceito</strong> é aceitar o <strong>contrato</strong> (os termos de uso)." }
     ],
     basico: [
-      { tipo: "classificar", titulo: "Passo 1 · Bom para mim ou atenção?",
+      { id: "m4-basico-1", tipo: "classificar", titulo: "Passo 1 · Bom para mim ou atenção?",
         categorias: [{ id: "B", rot: "Bom para mim", ic: "👍", desc: "protege você" }, { id: "A", rot: "Atenção", ic: "⚠️", desc: "pode prejudicar" }],
         itens: [{ t: "Dá para apagar a conta", ic: "🗑️", c: "B" }, { t: "Passa os seus dados para outras empresas", ic: "🤝", c: "A" },
           { t: "Pega a sua localização o tempo todo", ic: "📍", c: "A" }, { t: "Pede só o e-mail", ic: "📧", c: "B" }],
         explicacao: "👍 Apagar a conta e pedir só o necessário. ⚠️ Passar dados para outras empresas e pegar a localização o tempo todo." },
-      { tipo: "escolha", titulo: "Passo 2 · Grátis mesmo?",
+      { id: "m4-basico-2", tipo: "escolha", titulo: "Passo 2 · Grátis mesmo?",
         perguntas: [{ p: "Como o aplicativo grátis costuma ganhar dinheiro?", opcoes: ["Com propaganda", "Com nada"], certo: 0 }],
         explicacao: "Aplicativo grátis costuma ganhar dinheiro com <strong>propaganda</strong>." },
-      { tipo: "sinais", titulo: "Passo 3 · As 3 perguntas antes de aceitar",
+      { id: "m4-basico-3", tipo: "sinais", titulo: "Passo 3 · As 3 perguntas antes de aceitar",
         enunciado: "<p>Marque as <strong>3 perguntas</strong> que eu faço antes de aceitar os termos.</p>",
         opcoes: [{ t: "📋 Que dados ele pega?", certo: true }, { t: "🤝 Com quem ele compartilha?", certo: true }, { t: "🗑️ Consigo apagar a minha conta?", certo: true },
           { t: "🎨 De que cor é o botão?", certo: false, why: "A cor do botão não protege os seus dados." }],
         explicacao: "As 3 perguntas: que dados pega, com quem compartilha e se dá para apagar a conta." },
-      { tipo: "tabela", titulo: "Passo 4 · Digite aqui no portal",
+      { id: "m4-basico-4", tipo: "tabela", titulo: "Passo 4 · Digite aqui no portal",
         enunciado: "<p>Digite na caixa: <strong>LEIO ANTES DE ACEITAR</strong></p>",
         linhas: [["Digite aqui:", { r: "LEIO ANTES DE ACEITAR", tipo: "letras", w: 24, ph: "LEIO ANTES DE ACEITAR", dica: "Digite: LEIO ANTES DE ACEITAR." }]] }
     ],

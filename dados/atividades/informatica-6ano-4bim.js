@@ -221,19 +221,7 @@ PORTAL.registrarAtividades("informatica-6ano-4bim", {
   /* ======================= MISSÃO 3 ======================= */
   m3: {
     pratica: [
-      { tipo: "mensagens", titulo: "No grupo da turma: respeito ou cyberbullying?", app: "💬 Grupo do 6º ano",
-        botoes: [{ id: "R", rot: "😊 Respeitosa" }, { id: "B", rot: "🚫 Cyberbullying" }],
-        enunciado: "<p>Leia cada mensagem do grupo de mentira e decida.</p>",
-        itens: [
-          { de: "Lucas", t: "Parabéns, Maria, sua apresentação ficou muito boa! 👏", c: "R" },
-          { de: "Anônimo", t: "Olha a foto que eu tirei do João dormindo na aula kkkk espalhem 😂", c: "B", why: "Expor alguém sem permissão para rirem dele é cyberbullying." },
-          { de: "Bia", t: "Alguém pode me explicar a tarefa de matemática?", c: "R" },
-          { de: "Pedro", t: "Ninguém aqui gosta da Júlia, vamos tirar ela do grupo.", c: "B", why: "Excluir e humilhar de propósito também é cyberbullying." }],
-        okMsg: "Você reconhece o cyberbullying. Se acontecer: não compartilhe, guarde o print e conte para um adulto." },
-      { tipo: "medidor_senha", titulo: "Laboratório de senhas: monte uma senha muito forte",
-        enunciado: "<p>Digite uma senha <strong>inventada</strong> e veja o medidor mudar. Complete todos os itens da lista para chegar em <strong>Muito forte</strong>.</p>",
-        explicacao: "Senha forte: comprida, com maiúscula, minúscula, número e símbolo, e sem sequências fáceis. E nunca conte para ninguém!" },
-      { id: "m3-sim-conta", opcional: true, tipo: "sim_pc", titulo: "🔐 Simulador: crie uma conta segura no site da biblioteca",
+      { id: "m3-sim-conta", tipo: "sim_pc", titulo: "🔐 Simulador: crie uma conta segura no site da biblioteca",
         enunciado: "<p>Treine no <strong>navegador de mentira</strong>: confira se o site é seguro, crie um usuário sem dados pessoais e uma senha forte. Nada aqui vai para a internet de verdade.</p>",
         abertas: ["web"],
         web: {
@@ -249,17 +237,50 @@ PORTAL.registrarAtividades("informatica-6ano-4bim", {
           { faca: "Tudo certo! Clique em <b>Criar conta</b>.", ok: "pagina:criar", onde: "pg:criar" }
         ],
         fimMsg: "Conta criada com segurança: site com cadeado, usuário sem dados pessoais e senha forte. E lembre: senha não se empresta para ninguém!",
-        explicacao: "Antes de digitar uma senha, confira o endereço e o cadeado. Senha forte tem 8 ou mais caracteres misturando maiúsculas, minúsculas, números e símbolos. Nome de usuário não deve mostrar nome completo, idade ou endereço." }
+        explicacao: "Antes de digitar uma senha, confira o endereço e o cadeado. Senha forte tem 8 ou mais caracteres misturando maiúsculas, minúsculas, números e símbolos. Nome de usuário não deve mostrar nome completo, idade ou endereço." },
+      { id: "m3-pratica-1", tipo: "mensagens", titulo: "No grupo da turma: respeito ou cyberbullying?", app: "💬 Grupo do 6º ano",
+        botoes: [{ id: "R", rot: "😊 Respeitosa" }, { id: "B", rot: "🚫 Cyberbullying" }],
+        enunciado: "<p>Leia cada mensagem do grupo de mentira e decida.</p>",
+        itens: [
+          { de: "Lucas", t: "Parabéns, Maria, sua apresentação ficou muito boa! 👏", c: "R" },
+          { de: "Anônimo", t: "Olha a foto que eu tirei do João dormindo na aula kkkk espalhem 😂", c: "B", why: "Expor alguém sem permissão para rirem dele é cyberbullying." },
+          { de: "Bia", t: "Alguém pode me explicar a tarefa de matemática?", c: "R" },
+          { de: "Pedro", t: "Ninguém aqui gosta da Júlia, vamos tirar ela do grupo.", c: "B", why: "Excluir e humilhar de propósito também é cyberbullying." }],
+        okMsg: "Você reconhece o cyberbullying. Se acontecer: não compartilhe, guarde o print e conte para um adulto." },
+      { id: "m3-pratica-2", tipo: "medidor_senha", titulo: "Laboratório de senhas: monte uma senha muito forte",
+        enunciado: "<p>Digite uma senha <strong>inventada</strong> e veja o medidor mudar. Complete todos os itens da lista para chegar em <strong>Muito forte</strong>.</p>",
+        explicacao: "Senha forte: comprida, com maiúscula, minúscula, número e símbolo, e sem sequências fáceis. E nunca conte para ninguém!" }
     ],
     basico: [
-      { tipo: "aberta", titulo: "Reescreva as mensagens de forma respeitosa",
+      { id: "m3-basico-1", tipo: "aberta", titulo: "Reescreva as mensagens de forma respeitosa",
         enunciado: "<p>Mantenha a ideia, mas sem ofender. O portal avisa se ainda sobrar alguma palavra ofensiva.</p>",
         campos: [{ rot: "“Seu desenho ficou horrível, kkkk”", linhas: 2 }, { rot: "“Sai do grupo, ninguém gosta de você”", linhas: 2 }, { rot: "“Você é burro, errou tudo”", linhas: 2 }],
         detector: { palavras: ["horrivel", "kkkk", "kkk", "burro", "burra", "ninguem gosta", "sai do grupo", "idiota", "feio"], msg: "Escreva como se a pessoa estivesse na sua frente." },
         criterios: ["Não tem apelido, xingamento nem risada de deboche.", "Dá para entender o que a pessoa quis dizer.", "Ajuda ou incentiva em vez de humilhar."],
         exemplo: "“Acho que o seu desenho pode ficar ainda melhor com mais cores!” · “Vamos combinar as regras do grupo juntos?” · “Errar faz parte. Quer ajuda para revisar?”",
         conferir: { minPalavras: 4, msg: "Mensagens reescritas com respeito! O professor pode ler as suas respostas no painel." } },
-      { tipo: "classificar", modo: "tabela", titulo: "O que fazer com um celular que não funciona mais?",
+      { id: "m3-sim-senha", tipo: "sim_pc", titulo: "📧 Simulador: alguém pediu a sua senha",
+        enunciado: "<p>No computador de mentira, chegou um pedido de senha. O que um cidadão digital faz? O <strong>Bit</strong> confere.</p>",
+        area: [{ nome: "Lixeira", app: "lixeira" }, { nome: "Email", app: "email" }],
+        emails: [
+          { id: "senha", nome: "Colega da turma?", de: "colega.turma6@email-gratis.net", assunto: "me empresta sua senha do jogo?",
+            html: "<p>oi, é seu colega! me passa a sua <b>senha</b> do jogo rapidinho? prometo que devolvo hoje 😅</p>" },
+          { id: "zoeira", nome: "Grupo da Zoeira", de: "zoeira@email-gratis.net", assunto: "vamos zoar o Pedro?",
+            html: "<p>kkkk vamos mandar a foto do Pedro caindo para todo mundo? repassa!!</p>" },
+          { id: "escola", nome: "Coordenação da Escola", de: "coordenacao@escola.edu.br", assunto: "Semana do respeito na internet",
+            html: "<p>Nesta semana vamos falar de respeito na internet. Participe! 💬</p>" }
+        ],
+        passos: [
+          { faca: "Abra o <b>Email</b> (dois cliques no 📧).", ok: "abrir:app:email", onde: "ic:Email" },
+          { faca: "Abra a mensagem <b>me empresta sua senha do jogo?</b>.", ok: "email:abrir:senha", onde: "email:senha" },
+          { faca: "Senha não se empresta, nem para amigo! E você nem sabe se é mesmo o colega. Clique em <b>🚩 Denunciar golpe</b>.", ok: ["email:denunciar:senha", "email:excluir:senha"], onde: "email:denunciar" },
+          { faca: "Abra a mensagem <b>vamos zoar o Pedro?</b>.", ok: "email:abrir:zoeira", onde: "email:zoeira" },
+          { faca: "Isso é <b>cyberbullying</b>: não repasse! Clique em <b>🚩 Denunciar</b> e conte a um adulto.", ok: "email:denunciar:zoeira", onde: "email:denunciar", erros: { "email:excluir:zoeira": "Só excluir deixa o Pedro sozinho. <b>Denunciar</b> ajuda a parar a zoeira. Clique em ↺ Recomeçar e denuncie." } },
+          { faca: "Por fim, abra a mensagem da <b>Coordenação da Escola</b>.", ok: "email:abrir:escola", onde: "email:escola" }
+        ],
+        fimMsg: "Não emprestou a senha, não repassou a zoeira e denunciou. Isso é ser cidadão digital!",
+        explicacao: "Senha é como escova de dente: cada um tem a sua e não se empresta. Diante de cyberbullying: não repasse, denuncie e conte a um adulto." },
+      { id: "m3-basico-2", tipo: "classificar", modo: "tabela", titulo: "O que fazer com um celular que não funciona mais?",
         colunaItem: "Atitude", colunaResp: "Certo ou errado?",
         categorias: [{ id: "C", rot: "Certo" }, { id: "E", rot: "Errado" }],
         itens: [
@@ -268,7 +289,7 @@ PORTAL.registrarAtividades("informatica-6ano-4bim", {
           { t: "Tentar consertar antes de trocar", c: "C", why: "Consertar faz o aparelho durar mais." },
           { t: "Jogar no rio ou no mato", c: "E", why: "Os metais do aparelho contaminam a natureza." }],
         explicacao: "Atitudes conscientes: consertar, doar, usar por mais tempo e descartar em pontos de coleta." },
-      { tipo: "sinais", titulo: "Quais atitudes protegem você na internet?",
+      { id: "m3-basico-3", tipo: "sinais", titulo: "Quais atitudes protegem você na internet?",
         opcoes: [
           { t: "Não divulgar endereço, telefone nem senhas", certo: true },
           { t: "Usar senha forte, com letras, números e símbolos", certo: true },
@@ -278,7 +299,7 @@ PORTAL.registrarAtividades("informatica-6ano-4bim", {
           { t: "Espalhar uma foto engraçada de um colega", certo: false, why: "Isso pode ser cyberbullying." },
           { t: "Conversar em segredo com estranhos que oferecem presentes", certo: false, why: "Desconfie de estranhos e conte a um adulto." }],
         explicacao: "Respeito, dados protegidos e desconfiança de prêmios e estranhos: é assim que um cidadão digital se protege." },
-      { tipo: "cartaz", titulo: "Monte aqui o cartaz Cidadão Digital", tituloCartaz: "Cidadão Digital",
+      { id: "m3-basico-4", tipo: "cartaz", titulo: "Monte aqui o cartaz Cidadão Digital", tituloCartaz: "Cidadão Digital",
         campos: [
           { rot: "Escreva no cartaz uma frase sobre respeito na internet ou consumo consciente (pelo menos 4 palavras):", ph: "Ex.: Na internet eu respeito todo mundo", gab: "uma frase sobre respeito na internet ou consumo consciente", exemplo: "Na internet eu respeito todo mundo.", re: "\\S+\\s+\\S+\\s+\\S+\\s+\\S+", dica: "Escreva a frase inteira (pelo menos 4 palavras)." }],
         okMsg: "Cartaz pronto e conferido! Ficou registrado para o professor." }
@@ -310,17 +331,7 @@ PORTAL.registrarAtividades("informatica-6ano-4bim", {
   /* ======================= MISSÃO 4 ======================= */
   m4: {
     pratica: [
-      { tipo: "bits", titulo: "Fale a língua do computador: números com lâmpadas",
-        enunciado: "<p>Cada lâmpada é um <strong>bit</strong>: <strong>acesa = 1</strong>, <strong>apagada = 0</strong>. Cada lâmpada vale um número (8, 4, 2 e 1). Acenda as lâmpadas certas para a <strong>soma</strong> dar o número pedido e clique em <strong>Pronto!</strong></p>",
-        valores: [8, 4, 2, 1],
-        fases: [
-          { alvo: 3, pede: "Escreva o número **3**.", dica: "3 = 2 + 1. Acenda as lâmpadas que valem 2 e 1." },
-          { alvo: 5, pede: "Escreva o número **5**.", dica: "5 = 4 + 1." },
-          { alvo: 10, pede: "Escreva o número **10**.", dica: "10 = 8 + 2." },
-          { alvo: 15, pede: "Escreva o número **15**: o maior que dá com 4 lâmpadas.", dica: "Acenda todas: 8 + 4 + 2 + 1." }],
-        okMsg: "Você escreveu números só com 0 e 1, como o computador faz!",
-        explicacao: "3 = 0011 · 5 = 0101 · 10 = 1010 · 15 = 1111. O computador guarda tudo assim, em bits (0 e 1)." },
-      { id: "m4-sim-zip", opcional: true, tipo: "sim_pc", titulo: "🗜️ Simulador: compacte, descompacte e ache arquivos",
+      { id: "m4-sim-zip", tipo: "sim_pc", titulo: "🗜️ Simulador: compacte, descompacte e ache arquivos",
         enunciado: "<p>No <strong>computador de mentira</strong>, compacte uma pasta em <strong>.zip</strong>, descompacte o .zip que um colega mandou e ache um arquivo pela pesquisa. O <strong>Bit</strong> confere cada passo.</p>",
         abertas: ["exp"], inicioPasta: "Downloads",
         pastas: {
@@ -338,27 +349,48 @@ PORTAL.registrarAtividades("informatica-6ano-4bim", {
           { faca: "Achou! Abra a <b>receita-de-bolo</b> com <b>duplo clique</b>.", ok: "/^abrir:arq:receita-de-bolo/", onde: "arq:receita-de-bolo.txt" }
         ],
         fimMsg: "Você compactou uma pasta (o .zip ficou menor), descompactou outro .zip e achou um arquivo pela pesquisa!",
-        explicacao: "Compactar junta arquivos num só .zip e diminui o tamanho, bom para mandar pela internet. Descompactar (Extrair Tudo) tira os arquivos do .zip. A pesquisa 🔍 do Explorador acha um arquivo pelo nome." }
+        explicacao: "Compactar junta arquivos num só .zip e diminui o tamanho, bom para mandar pela internet. Descompactar (Extrair Tudo) tira os arquivos do .zip. A pesquisa 🔍 do Explorador acha um arquivo pelo nome." },
+      { id: "m4-pratica-1", tipo: "bits", titulo: "Fale a língua do computador: números com lâmpadas",
+        enunciado: "<p>Cada lâmpada é um <strong>bit</strong>: <strong>acesa = 1</strong>, <strong>apagada = 0</strong>. Cada lâmpada vale um número (8, 4, 2 e 1). Acenda as lâmpadas certas para a <strong>soma</strong> dar o número pedido e clique em <strong>Pronto!</strong></p>",
+        valores: [8, 4, 2, 1],
+        fases: [
+          { alvo: 3, pede: "Escreva o número **3**.", dica: "3 = 2 + 1. Acenda as lâmpadas que valem 2 e 1." },
+          { alvo: 5, pede: "Escreva o número **5**.", dica: "5 = 4 + 1." },
+          { alvo: 10, pede: "Escreva o número **10**.", dica: "10 = 8 + 2." },
+          { alvo: 15, pede: "Escreva o número **15**: o maior que dá com 4 lâmpadas.", dica: "Acenda todas: 8 + 4 + 2 + 1." }],
+        okMsg: "Você escreveu números só com 0 e 1, como o computador faz!",
+        explicacao: "3 = 0011 · 5 = 0101 · 10 = 1010 · 15 = 1111. O computador guarda tudo assim, em bits (0 e 1)." }
     ],
     basico: [
-      { tipo: "ordenar", titulo: "Do menor para o maior: as medidas",
+      { id: "m4-basico-1", tipo: "ordenar", titulo: "Do menor para o maior: as medidas",
         enunciado: "<p>Arraste (ou use as setas ▲▼) até ficar do <strong>menor</strong> para o <strong>maior</strong>.</p>",
         itens: ["bit", "byte", "KB (quilobyte)", "MB (megabyte)", "GB (gigabyte)", "TB (terabyte)"],
         dicas: ["O menor de todos é o bit, que vale 0 ou 1.", "Depois do byte, as medidas crescem de mil em mil: KB, MB, GB, TB."],
         explicacao: "bit → byte (8 bits) → KB → MB → GB → TB. Cada medida, a partir do byte, é cerca de mil vezes maior que a anterior." },
-      { tipo: "ordenar", titulo: "Do menor para o maior: os arquivos",
+      { id: "m4-sim-espaco", tipo: "sim_pc", titulo: "💾 Simulador: o computador está sem espaço!",
+        enunciado: "<p>O computador de mentira está cheio. Descubra quem ocupa mais espaço olhando a coluna <strong>Tamanho</strong> e libere espaço. O <strong>Bit</strong> ajuda.</p>",
+        abertas: ["exp"], inicioPasta: "Downloads",
+        pastas: { "Downloads": [{ nome: "bilhete", ext: "txt", kb: 1 }, { nome: "foto-do-gato", ext: "jpg", kb: 2800, figura: "🐱" }, { nome: "filme-da-festa", ext: "mp4", kb: 2400000 }, { nome: "filme-da-festa (copia)", ext: "mp4", kb: 2400000 }, { nome: "musica", ext: "mp3", kb: 4200 }] },
+        passos: [
+          { faca: "Ligue as <b>Extensões</b> (botão lá em cima, à direita).", ok: "extensoes:sim", onde: "exp:ext" },
+          { faca: "Olhe a coluna <b>Tamanho</b>: KB é pequeno, MB é médio, GB é grande. Clique <b>uma vez</b> no arquivo <b>menor</b>.", ok: "clique:arq:bilhete*", onde: "arq:bilhete.txt", erros: { "clique:arq:*": "Esse não é o menor. O menor tem o tamanho em <b>KB</b> com número pequeno." } },
+          { faca: "Tem um filme <b>repetido</b>, a <b>(copia)</b>, gastando 2,3 GB à toa! Clique nele com o <b>botão direito</b> e escolha <b>Excluir</b>.", ok: "excluir:arq:filme-da-festa (copia)*", onde: "arq:filme-da-festa (copia).mp4", erros: { "excluir:arq:*": "Ops! Esse não é a cópia. Abra a Lixeira, restaure o arquivo e exclua o que tem <b>(copia)</b> no nome." } }
+        ],
+        fimMsg: "Você liberou 2,3 GB apagando só a cópia repetida. Olhar o tamanho ajuda a cuidar do espaço!",
+        explicacao: "Do menor para o maior: KB, MB, GB, TB. Vídeos ocupam muito espaço; arquivos repetidos gastam espaço à toa." },
+      { id: "m4-basico-2", tipo: "ordenar", titulo: "Do menor para o maior: os arquivos",
         enunciado: "<p>Coloque os arquivos do <strong>menor</strong> para o <strong>maior</strong>. Olhe o tamanho entre parênteses.</p>",
         itens: ["📄 bilhete.txt (2 KB)", "🖼️ foto-da-turma.jpg (3 MB)", "🎵 musica.mp3 (4 MB)", "🎬 video-da-festa.mp4 (200 MB)", "🍿 filme.mp4 (2 GB)"],
         dicas: ["KB é menor que MB, e MB é menor que GB.", "Entre a foto (3 MB) e a música (4 MB), qual número é menor?"],
         explicacao: "2 KB < 3 MB < 4 MB < 200 MB < 2 GB. Texto ocupa pouco; vídeo e filme ocupam muito." },
-      { tipo: "tabela", titulo: "Contas de quanto cabe",
+      { id: "m4-basico-3", tipo: "tabela", titulo: "Contas de quanto cabe",
         colunas: ["Pergunta", "Resposta"],
         linhas: [["Quantos bits formam 1 byte?", { r: "8", tipo: "num", w: 4 }],
           ["1 GB é cerca de quantos MB?", { r: "1000", tipo: "num", w: 6, dica: "Cada medida é cerca de mil vezes a anterior." }],
           ["Um pen drive de 1 GB (cerca de 1000 MB) guarda quantas fotos de 5 MB?", { r: "200", tipo: "num", w: 5, dica: "1000 ÷ 5" }],
           ["O que ocupa MAIS espaço?", { op: ["Um vídeo de 200 MB", "Um texto de 2 KB", "Uma foto de 3 MB"], r: "Um vídeo de 200 MB" }]],
         explicacao: "1 byte = 8 bits. 1 GB ≈ 1000 MB. 1000 ÷ 5 = 200 fotos. O vídeo de 200 MB é o maior." },
-      { tipo: "escolha", titulo: "Compactar e descompactar",
+      { id: "m4-basico-4", tipo: "escolha", titulo: "Compactar e descompactar",
         perguntas: [
           { p: "O que acontece quando eu compacto 10 arquivos de texto?", opcoes: ["Viram um arquivo .zip só, menor que os 10 juntos", "Os arquivos são apagados", "Os arquivos ficam maiores"], certo: 0, why: "Compactar junta tudo em um .zip e diminui o tamanho." },
           { p: "Recebi um arquivo .zip. O que faço para usar os arquivos de dentro?", opcoes: ["Descompacto (extraio) o .zip", "Apago o .zip", "Mudo o nome para .jpg"], certo: 0 },

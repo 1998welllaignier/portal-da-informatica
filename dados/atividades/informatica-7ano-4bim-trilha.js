@@ -105,15 +105,7 @@ PORTAL.registrarAtividades("informatica-7ano-4bim-trilha", {
   /* ======================= MISSÃO 3 ======================= */
   m3: {
     pratica: [
-      { tipo: "mensagens", titulo: "Chegou mensagem: golpe ou segura?", app: "📱 Mensagens",
-        botoes: [{ id: "G", rot: "🚩 Golpe" }, { id: "S", rot: "✅ Segura" }],
-        enunciado: "<p>Leia cada mensagem e clique na resposta.</p>",
-        itens: [
-          { de: "Número desconhecido", t: "PARABÉNS! Você ganhou um celular. Clique em 10 minutos: bit.ly/premio", c: "G", why: "Prêmio + pressa + link estranho = golpe." },
-          { de: "Mãe", t: "Filho, chego às 18h.", c: "S" },
-          { de: "Número novo", t: "Oi, é a sua tia, troquei de número. Me passa o código que chegou aí?", c: "G", why: "Nunca passe o código." }],
-        okMsg: "Você não cai em golpe! Na dúvida, pergunte a um adulto." },
-      { id: "m3-sim-email", opcional: true, tipo: "sim_pc", titulo: "📧 Simulador: na caixa de email, golpe ou mensagem segura?",
+      { id: "m3-sim-email", tipo: "sim_pc", titulo: "📧 Simulador: na caixa de email, golpe ou mensagem segura?",
         enunciado: "<p>Você tem emails novos no <strong>computador de mentira</strong>. Descubra quais são <strong>golpe</strong> e denuncie, sem clicar nos links perigosos. O <strong>Bit</strong> confere.</p>",
         area: [{ nome: "Lixeira", app: "lixeira" }, { nome: "Email", app: "email" }, { nome: "Navegador", app: "web" }],
         emails: [
@@ -136,10 +128,18 @@ PORTAL.registrarAtividades("informatica-7ano-4bim-trilha", {
           { faca: "Esse é seguro: remetente da escola, sem pressa e sem pedir dados. Clique no link <b>escola.edu.br/feira</b> para ver o mapa.", ok: "link:escola.edu.br/feira", onde: "pg:linkfeira" }
         ],
         fimMsg: "Você denunciou o golpe sem clicar nos links perigosos e abriu só o link seguro da escola. Detetive de golpes!",
-        explicacao: "Sinais de golpe: prêmio que você não pediu, pressa, pedido de senha ou documentos, remetente estranho ou escrito errado, links esquisitos. Na dúvida, não clique: denuncie e mostre a um adulto." }
+        explicacao: "Sinais de golpe: prêmio que você não pediu, pressa, pedido de senha ou documentos, remetente estranho ou escrito errado, links esquisitos. Na dúvida, não clique: denuncie e mostre a um adulto." },
+      { id: "m3-pratica-1", tipo: "mensagens", titulo: "Chegou mensagem: golpe ou segura?", app: "📱 Mensagens",
+        botoes: [{ id: "G", rot: "🚩 Golpe" }, { id: "S", rot: "✅ Segura" }],
+        enunciado: "<p>Leia cada mensagem e clique na resposta.</p>",
+        itens: [
+          { de: "Número desconhecido", t: "PARABÉNS! Você ganhou um celular. Clique em 10 minutos: bit.ly/premio", c: "G", why: "Prêmio + pressa + link estranho = golpe." },
+          { de: "Mãe", t: "Filho, chego às 18h.", c: "S" },
+          { de: "Número novo", t: "Oi, é a sua tia, troquei de número. Me passa o código que chegou aí?", c: "G", why: "Nunca passe o código." }],
+        okMsg: "Você não cai em golpe! Na dúvida, pergunte a um adulto." }
     ],
     basico: [
-      { tipo: "sinais", titulo: "Passo 1 · Marque os sinais de golpe",
+      { id: "m3-basico-1", tipo: "sinais", titulo: "Passo 1 · Marque os sinais de golpe",
         enunciado: "<p class=\"regra\">“<strong>Só hoje!</strong> Você ganhou um prêmio. <strong>Clique aqui:</strong> premio-ja.xyz e me passe o <strong>código</strong> que chegou no seu celular.”</p>",
         opcoes: [
           { t: "⏰ Tem pressa (só hoje!)", certo: true },
@@ -148,13 +148,13 @@ PORTAL.registrarAtividades("informatica-7ano-4bim-trilha", {
           { t: "😊 Tem o nome da sua mãe", certo: false, why: "A mensagem não tem o nome de ninguém da família." }],
         explicacao: "Pressa, prêmio e pedido de código: é <strong>golpe</strong>. Não clique e não passe o código." },
 
-      { tipo: "escolha", titulo: "Passo 2 · Responda",
+      { id: "m3-basico-2", tipo: "escolha", titulo: "Passo 2 · Responda",
         perguntas: [
           { p: "🔢 Chegou um código no meu celular. Para quem eu passo?", opcoes: ["Para ninguém", "Para quem pedir", "Para o grupo da turma"], certo: 0 },
           { p: "💬 Não concordo com o colega. O que eu faço?", opcoes: ["Discordo sem ofender", "Xingo o colega", "Espalho a foto dele"], certo: 0 }],
         explicacao: "O código é só seu. Discordar é normal, mas <strong>sem ofender</strong>." },
 
-      { tipo: "classificar", titulo: "Passo 3 · Cyberbullying: faço ou não faço?",
+      { id: "m3-basico-3", tipo: "classificar", titulo: "Passo 3 · Cyberbullying: faço ou não faço?",
         categorias: [{ id: "F", rot: "Faço", ic: "✅", desc: "ajuda a resolver" }, { id: "N", rot: "Não faço", ic: "❌", desc: "piora a situação" }],
         itens: [
           { t: "Tirar print (a foto da tela)", ic: "📸", c: "F" },
@@ -163,7 +163,7 @@ PORTAL.registrarAtividades("informatica-7ano-4bim-trilha", {
           { t: "Bloquear e denunciar", ic: "🚫", c: "F" }],
         explicacao: "No cyberbullying: <strong>print</strong>, <strong>bloquear</strong>, <strong>denunciar</strong> e <strong>contar a um adulto</strong>. Nunca responder com ofensa." },
 
-      { tipo: "tabela", titulo: "Passo 4 · Digite aqui no portal",
+      { id: "m3-basico-4", tipo: "tabela", titulo: "Passo 4 · Digite aqui no portal",
         enunciado: "<p>Digite na caixa: <strong>NAO PASSO MEU CODIGO</strong></p>",
         linhas: [["Digite aqui:", { r: "NAO PASSO MEU CODIGO", tipo: "letras", w: 24, ph: "NAO PASSO MEU CODIGO", dica: "Digite: NAO PASSO MEU CODIGO." }]] }
     ],

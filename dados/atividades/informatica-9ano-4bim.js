@@ -210,17 +210,7 @@
     /* ======================= MISSÃO 3 ======================= */
     m3: {
       pratica: [
-        { tipo: "mensagens", titulo: "No seu feed: compartilhar ou não?", app: "📲 Feed",
-        botoes: [{ id: "S", rot: "🔁 Pode compartilhar" }, { id: "N", rot: "🛑 Não compartilhe" }],
-        enunciado: "<p>Pense em <strong>autoria</strong>, <strong>direito de imagem</strong> e se pode ser <strong>deepfake</strong>.</p>",
-        itens: [
-          { de: "@zoeira_9ano", t: "📸 Foto do colega fazendo careta no recreio, postada sem ele saber kkk", c: "N", why: "Direito de imagem: precisa de autorização da pessoa." },
-          { de: "@noticias_ja", t: "🎥 Vídeo do prefeito dizendo que vai acabar com as férias! (sem fonte, voz meio robótica)", c: "N", why: "Pode ser deepfake. Confira em fontes confiáveis antes." },
-          { de: "@arte_livre", t: "🖼️ Ilustração com licença CC BY — Autora: Ana Lima. Pode compartilhar dando crédito.", c: "S", why: "Licença Creative Commons com crédito à autora: pode!" },
-          { de: "@prefeitura_oficial", t: "📢 Campanha de vacinação no posto do centro até sexta.", c: "S" },
-          { de: "@memes_br", t: "🎵 Música inteira de um cantor famoso, baixada e repostada como se fosse sua", c: "N", why: "Isso é plágio e fere o direito autoral." }],
-        okMsg: "Você pensa antes de compartilhar: autoria, imagem e verdade!" },
-      { id: "m3-sim-credito", opcional: true, tipo: "sim_pc", titulo: "🖼️ Simulador: ache a autora da foto e escreva o crédito",
+        { id: "m3-sim-credito", tipo: "sim_pc", titulo: "🖼️ Simulador: ache a autora da foto e escreva o crédito",
         enunciado: "<p>Você quer usar uma foto de castanheira num trabalho. No computador de mentira, ache a <strong>autora</strong>, o <strong>site</strong> e a <strong>licença</strong>, e escreva o crédito no Bloco de Notas. O <strong>Bit</strong> confere.</p>",
         abertas: ["web"],
         web: {
@@ -236,10 +226,20 @@
           { faca: "Escreva o crédito no modelo: <b>Foto: autora, site, licença.</b>", ok: { estado: "notas", texto: "Maria Souza", contem: true }, onde: "notas:texto", dica: "Fica assim: Foto: Maria Souza, Banco de Imagens Livres, CC BY." }
         ],
         fimMsg: "Crédito certo: Foto: Maria Souza, Banco de Imagens Livres, CC BY. Respeitar a autoria é lei e é educação!",
-        explicacao: "Antes de usar uma imagem, veja a licença. CC BY deixa usar dando o crédito: autor, site e licença. “Todos os direitos reservados” precisa de autorização." }
+        explicacao: "Antes de usar uma imagem, veja a licença. CC BY deixa usar dando o crédito: autor, site e licença. “Todos os direitos reservados” precisa de autorização." },
+        { id: "m3-pratica-1", tipo: "mensagens", titulo: "No seu feed: compartilhar ou não?", app: "📲 Feed",
+        botoes: [{ id: "S", rot: "🔁 Pode compartilhar" }, { id: "N", rot: "🛑 Não compartilhe" }],
+        enunciado: "<p>Pense em <strong>autoria</strong>, <strong>direito de imagem</strong> e se pode ser <strong>deepfake</strong>.</p>",
+        itens: [
+          { de: "@zoeira_9ano", t: "📸 Foto do colega fazendo careta no recreio, postada sem ele saber kkk", c: "N", why: "Direito de imagem: precisa de autorização da pessoa." },
+          { de: "@noticias_ja", t: "🎥 Vídeo do prefeito dizendo que vai acabar com as férias! (sem fonte, voz meio robótica)", c: "N", why: "Pode ser deepfake. Confira em fontes confiáveis antes." },
+          { de: "@arte_livre", t: "🖼️ Ilustração com licença CC BY — Autora: Ana Lima. Pode compartilhar dando crédito.", c: "S", why: "Licença Creative Commons com crédito à autora: pode!" },
+          { de: "@prefeitura_oficial", t: "📢 Campanha de vacinação no posto do centro até sexta.", c: "S" },
+          { de: "@memes_br", t: "🎵 Música inteira de um cantor famoso, baixada e repostada como se fosse sua", c: "N", why: "Isso é plágio e fere o direito autoral." }],
+        okMsg: "Você pensa antes de compartilhar: autoria, imagem e verdade!" }
       ],
       basico: [
-        { tipo: "classificar", modo: "tabela", titulo: "Pode ou não pode?", colunaItem: "Situação", colunaResp: "P ou N",
+        { id: "m3-basico-1", tipo: "classificar", modo: "tabela", titulo: "Pode ou não pode?", colunaItem: "Situação", colunaResp: "P ou N",
           categorias: [{ id: "P", rot: "Pode" }, { id: "N", rot: "Não pode" }],
           itens: [
             { t: "Usar uma foto com licença CC BY em um trabalho, escrevendo o nome do autor.", c: "P" },
@@ -248,25 +248,39 @@
             { t: "Usar um poema de Machado de Assis, que está em domínio público.", c: "P" },
             { t: "Baixar a música de um cantor e publicar no seu canal como se fosse sua.", c: "N" },
             { t: "Fazer um áudio com a voz de um professor, criada por IA, avisando que não vai ter aula.", c: "N", why: "É um deepfake: desrespeita o direito de imagem e engana as pessoas." }] },
-        { tipo: "info", titulo: "Leia a situação", html: "<p class=\"regra\">Um vídeo mostra um jogador famoso dizendo que vai dar celulares para quem clicar em um link. A boca não acompanha a fala, a voz parece robótica e o vídeo não aparece em nenhum site de notícias.</p>" },
-        { tipo: "sinais", titulo: "Que sinais mostram que pode ser um deepfake?",
+        { id: "m3-sim-checagem", tipo: "sim_pc", titulo: "🎭 Simulador: o vídeo viral é verdade ou deepfake?",
+        enunciado: "<p>Um vídeo estranho está circulando. No navegador de mentira, procure uma <strong>agência de checagem</strong> antes de compartilhar. O <strong>Bit</strong> confere.</p>",
+        abertas: ["web"],
+        web: {
+          "checagem.org/video-cantor": { titulo: "Agência de checagem: vídeo do cantor é falso", palavras: "video cantor escola fechar viral deepfake", resumo: "FALSO: vídeo foi criado com inteligência artificial.", html: "<p><b style='color:#c5221f'>❌ FALSO</b></p><p>O vídeo em que o cantor diz que vai fechar escolas foi feito com <b>inteligência artificial (deepfake)</b>. A boca não acompanha a voz e as mãos aparecem deformadas.</p><p style='color:#555'>Checado por jornalistas · 15/11/2026</p>" },
+          "viraliza-ja.net": { titulo: "VEJA O VÍDEO QUE ESTÃO ESCONDENDO!!!", seguro: false, palavras: "video cantor escola viral", resumo: "Compartilhe antes que apaguem!!!", html: "<p>COMPARTILHE ANTES QUE APAGUEM!!!</p>" }
+        },
+        passos: [
+          { faca: "No Buscador, pesquise <b>video cantor escola</b> e aperte <b>Enter</b>.", ok: "/^buscar:.*(video|v.deo)/", onde: "web:busca" },
+          { faca: "Abra o resultado da <b>agência de checagem</b> (jornalistas que conferem notícias).", ok: "link:checagem.org/video-cantor", erros: { "link:viraliza*": "Site que grita “compartilhe antes que apaguem” não checa nada. Volte (←) e abra a agência de checagem." } },
+          { faca: "Veredito: <b>FALSO</b>, era deepfake. Feche a guia no <b>✕</b> sem compartilhar.", ok: "fecharAba", onde: "aba:x:0" }
+        ],
+        fimMsg: "Você checou numa agência antes de compartilhar e descobriu o deepfake. Muito bem!",
+        explicacao: "Deepfake é vídeo ou áudio falso feito com IA. Antes de compartilhar, procure em agências de checagem e em sites de notícias confiáveis." },
+        { id: "m3-basico-2", tipo: "info", titulo: "Leia a situação", html: "<p class=\"regra\">Um vídeo mostra um jogador famoso dizendo que vai dar celulares para quem clicar em um link. A boca não acompanha a fala, a voz parece robótica e o vídeo não aparece em nenhum site de notícias.</p>" },
+        { id: "m3-basico-3", tipo: "sinais", titulo: "Que sinais mostram que pode ser um deepfake?",
           opcoes: [
             { t: "A boca não acompanha a fala", certo: true }, { t: "A voz parece robótica", certo: true },
             { t: "Nenhum site de notícias confirma", certo: true }, { t: "Uma promessa de presente fácil por link", certo: true },
             { t: "O jogador é famoso", certo: false, why: "Ser famoso não é sinal de falsidade (mas famosos são muito imitados)." },
             { t: "O vídeo tem boa qualidade de imagem", certo: false, why: "Deepfakes também podem ter boa qualidade." }] },
-        { tipo: "escolha", titulo: "Motivo e atitude",
+        { id: "m3-basico-4", tipo: "escolha", titulo: "Motivo e atitude",
           perguntas: [
             { p: "Qual é o motivo de quem espalhou esse vídeo?", opcoes: ["Dinheiro: é um golpe com link", "Humor: é uma piada inocente", "Engano: o jogador errou ao falar"], certo: 0 },
             { p: "O que você faria ao receber esse vídeo?", opcoes: ["Não clico, não compartilho e aviso quem me mandou que pode ser golpe", "Clico rápido para garantir o celular", "Compartilho com a família para todos ganharem"], certo: 0 }] },
-        { tipo: "classificar", modo: "tabela", titulo: "Qual é o motivo?", colunaItem: "Mensagem", colunaResp: "D, P, H ou O",
+        { id: "m3-basico-5", tipo: "classificar", modo: "tabela", titulo: "Qual é o motivo?", colunaItem: "Mensagem", colunaResp: "D, P, H ou O",
           categorias: [{ id: "D", rot: "Dinheiro" }, { id: "P", rot: "Política" }, { id: "H", rot: "Humor" }, { id: "O", rot: "Ódio" }],
           itens: [
             { t: "“Você não vai acreditar no que aconteceu! Clique aqui” (o link abre um site cheio de propagandas).", c: "D" },
             { t: "Montagem de um candidato fazendo algo que nunca fez, publicada na véspera da eleição.", c: "P" },
             { t: "Um site de humor publica “Escola troca a merenda por pizza todos os dias” e muita gente acredita.", c: "H" },
             { t: "Um perfil falso publica fotos de um colega com apelidos ofensivos.", c: "O" }] },
-        { tipo: "cartaz", titulo: "Monte aqui o cartaz Eu respeito a autoria", tituloCartaz: "Eu respeito a autoria",
+        { id: "m3-basico-6", tipo: "cartaz", titulo: "Monte aqui o cartaz Eu respeito a autoria", tituloCartaz: "Eu respeito a autoria",
           campos: [
             { rot: "Embaixo dos desenhos, escreva <strong>Criado por:</strong> com o seu primeiro nome e <strong>Licença: CC BY</strong>:", ph: "Criado por: … · Licença: CC BY", gab: "Criado por: (seu primeiro nome) · Licença: CC BY", exemplo: "Criado por: Ana · Licença: CC BY", re: "criado\\s+por[\\s\\S]*cc\\s*-?\\s*by", dica: "Precisa ter <strong>Criado por:</strong> com o seu nome e <strong>Licença: CC BY</strong>." },
             { rot: "O que a licença CC BY deixa as outras pessoas fazerem? (esta resposta não vai para o cartaz)", cartaz: false, ph: "…", gab: "usar e compartilhar, desde que deem crédito ao autor", exemplo: "Usar e compartilhar, desde que deem crédito ao autor.", re: "cr[eé]dito|nome do autor|citar|citando|autor", dica: "Procure <strong>CC BY</strong> no <strong>💡 Para começar</strong>: o BY quer dizer “dar crédito”." }],

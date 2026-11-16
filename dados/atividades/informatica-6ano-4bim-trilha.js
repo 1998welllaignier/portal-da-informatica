@@ -154,12 +154,7 @@ PORTAL.registrarAtividades("informatica-6ano-4bim-trilha", {
   /* ======================= MISSÃO 4 ======================= */
   m4: {
     pratica: [
-      { tipo: "bits", titulo: "Acenda as lâmpadas",
-        enunciado: "<p>Clique nas lâmpadas para <strong>acender (1)</strong> ou <strong>apagar (0)</strong>. A soma das acesas tem que dar o número pedido.</p>",
-        valores: [4, 2, 1],
-        fases: [{ alvo: 1, pede: "Faça o número **1**.", dica: "Acenda só a lâmpada que vale 1." }, { alvo: 3, pede: "Faça o número **3**.", dica: "3 = 2 + 1." }],
-        explicacao: "1 = 001 e 3 = 011. Acesa é 1, apagada é 0." },
-      { id: "m4-sim-zip", opcional: true, tipo: "sim_pc", titulo: "🗜️ Simulador: compacte, descompacte e ache arquivos",
+      { id: "m4-sim-zip", tipo: "sim_pc", titulo: "🗜️ Simulador: compacte, descompacte e ache arquivos",
         enunciado: "<p>No <strong>computador de mentira</strong>, compacte uma pasta em <strong>.zip</strong>, descompacte o .zip que um colega mandou e ache um arquivo pela pesquisa. O <strong>Bit</strong> confere cada passo.</p>",
         abertas: ["exp"], inicioPasta: "Downloads",
         pastas: {
@@ -176,21 +171,26 @@ PORTAL.registrarAtividades("informatica-6ano-4bim-trilha", {
           { faca: "Agora ache a <b>receita-de-bolo</b> pela <b>pesquisa</b> 🔍: digite <b>bolo</b> e aperte <b>Enter</b>.", ok: "/^buscar:.*bolo/", onde: "exp:busca" }
         ],
         fimMsg: "Você compactou uma pasta (o .zip ficou menor), descompactou outro .zip e achou um arquivo pela pesquisa!",
-        explicacao: "Compactar junta arquivos num só .zip e diminui o tamanho, bom para mandar pela internet. Descompactar (Extrair Tudo) tira os arquivos do .zip. A pesquisa 🔍 do Explorador acha um arquivo pelo nome." }
+        explicacao: "Compactar junta arquivos num só .zip e diminui o tamanho, bom para mandar pela internet. Descompactar (Extrair Tudo) tira os arquivos do .zip. A pesquisa 🔍 do Explorador acha um arquivo pelo nome." },
+      { id: "m4-pratica-1", tipo: "bits", titulo: "Acenda as lâmpadas",
+        enunciado: "<p>Clique nas lâmpadas para <strong>acender (1)</strong> ou <strong>apagar (0)</strong>. A soma das acesas tem que dar o número pedido.</p>",
+        valores: [4, 2, 1],
+        fases: [{ alvo: 1, pede: "Faça o número **1**.", dica: "Acenda só a lâmpada que vale 1." }, { alvo: 3, pede: "Faça o número **3**.", dica: "3 = 2 + 1." }],
+        explicacao: "1 = 001 e 3 = 011. Acesa é 1, apagada é 0." }
     ],
     basico: [
-      { tipo: "classificar", titulo: "Passo 1 · Pequeno, médio ou grande?",
+      { id: "m4-basico-1", tipo: "classificar", titulo: "Passo 1 · Pequeno, médio ou grande?",
         categorias: [{ id: "K", rot: "KB", ic: "📄", desc: "pequeno" }, { id: "M", rot: "MB", ic: "🖼️", desc: "médio" }, { id: "G", rot: "GB", ic: "🎬", desc: "grande" }],
         itens: [{ t: "Um texto", ic: "📄", c: "K" }, { t: "Uma foto", ic: "🖼️", c: "M" }, { t: "Um filme", ic: "🎬", c: "G" }],
         explicacao: "Texto = KB (pequeno). Foto = MB (médio). Filme = GB (grande)." },
-      { tipo: "ordenar", titulo: "Passo 2 · Do menor para o maior",
+      { id: "m4-basico-2", tipo: "ordenar", titulo: "Passo 2 · Do menor para o maior",
         enunciado: "<p>Use as setas ▲▼ até ficar do <strong>menor</strong> para o <strong>maior</strong>.</p>",
         itens: ["KB", "MB", "GB"], explicacao: "KB → MB → GB." },
-      { tipo: "escolha", titulo: "Passo 3 · Achar e compactar",
+      { id: "m4-basico-3", tipo: "escolha", titulo: "Passo 3 · Achar e compactar",
         perguntas: [{ p: "🔍 Como acho o meu trabalho?", opcoes: ["Digito o nome dele na lupa", "Desligo o computador"], certo: 0 },
           { p: "🗜️ Compactar é:", opcoes: ["Juntar arquivos em um só, menor", "Apagar os arquivos"], certo: 0 }],
         explicacao: "A lupa 🔍 acha o arquivo pelo nome. Compactar junta tudo num .zip menor." },
-      { tipo: "tabela", titulo: "Passo 4 · Digite aqui no portal",
+      { id: "m4-basico-4", tipo: "tabela", titulo: "Passo 4 · Digite aqui no portal",
         enunciado: "<p>Digite na caixa: <strong>0 E 1</strong></p>",
         linhas: [["Digite aqui:", { r: "0 E 1", tipo: "letras", w: 10, ph: "0 E 1", dica: "Digite: 0 E 1." }]] }
     ],

@@ -207,16 +207,7 @@ PORTAL.registrarAtividades("informatica-5ano-4bim", {
   /* ======================= MISSÃO 4 ======================= */
   m4: {
     pratica: [
-      { tipo: "mensagens", titulo: "Chegou no grupo da família: confiar ou desconfiar?", app: "💬 Grupo da Família",
-        botoes: [{ id: "D", rot: "🚩 Desconfiar" }, { id: "C", rot: "✅ Confiável" }],
-        enunciado: "<p>Leia cada mensagem e decida. Pense: <strong>quem escreveu?</strong> Tem <strong>fonte</strong>? Pede para espalhar com pressa?</p>",
-        itens: [
-          { de: "Tio Zé", t: "URGENTE!!! Compartilhe com 10 pessoas senão seu celular vai travar amanhã!!!", c: "D", why: "Pressa, muitas exclamações e sem autor: sinais de fake news." },
-          { de: "Escola JK", t: "Lembrete: a reunião de pais será quinta, às 18h, na escola. Mais informações na secretaria.", c: "C", why: "Diz quem enviou, quando e onde confirmar." },
-          { de: "Desconhecido", t: "Cientistas descobriram que comer chocolate deixa a pessoa invisível. Repassem!", c: "D", why: "Não tem fonte e é impossível." },
-          { de: "Prima Ana", t: "Vi no site oficial da prefeitura: a vacinação vai até sexta no posto do centro.", c: "C", why: "Cita uma fonte oficial que dá para conferir." }],
-        okMsg: "Você sabe desconfiar! Antes de compartilhar, confira quem escreveu e a fonte." },
-      { id: "m4-sim-confiavel", opcional: true, tipo: "sim_pc", titulo: "🔎 Simulador: pesquise num site confiável",
+      { id: "m4-sim-confiavel", tipo: "sim_pc", titulo: "🔎 Simulador: pesquise num site confiável",
         enunciado: "<p>Para o trabalho de Ciências, pesquise <strong>quanto tempo vive uma tartaruga</strong>. Escolha o site confiável, no navegador de mentira. O <strong>Bit</strong> ajuda.</p>",
         abertas: ["web"],
         web: {
@@ -229,25 +220,51 @@ PORTAL.registrarAtividades("informatica-5ano-4bim", {
           { faca: "Confira o <b>cadeado 🔒</b> ao lado do endereço: clique nele.", ok: "cadeado:museu-goeldi.br/tartarugas", onde: "web:cadeado" }
         ],
         fimMsg: "Você escolheu o site com autores, data e cadeado. Resposta: a tartaruga-da-amazônia pode viver mais de 50 anos!",
-        explicacao: "Site confiável mostra quem escreveu e quando, não promete brinde, não grita com exclamações e tem o cadeado 🔒. Na dúvida, pergunte a um adulto." }
+        explicacao: "Site confiável mostra quem escreveu e quando, não promete brinde, não grita com exclamações e tem o cadeado 🔒. Na dúvida, pergunte a um adulto." },
+      { id: "m4-pratica-1", tipo: "mensagens", titulo: "Chegou no grupo da família: confiar ou desconfiar?", app: "💬 Grupo da Família",
+        botoes: [{ id: "D", rot: "🚩 Desconfiar" }, { id: "C", rot: "✅ Confiável" }],
+        enunciado: "<p>Leia cada mensagem e decida. Pense: <strong>quem escreveu?</strong> Tem <strong>fonte</strong>? Pede para espalhar com pressa?</p>",
+        itens: [
+          { de: "Tio Zé", t: "URGENTE!!! Compartilhe com 10 pessoas senão seu celular vai travar amanhã!!!", c: "D", why: "Pressa, muitas exclamações e sem autor: sinais de fake news." },
+          { de: "Escola JK", t: "Lembrete: a reunião de pais será quinta, às 18h, na escola. Mais informações na secretaria.", c: "C", why: "Diz quem enviou, quando e onde confirmar." },
+          { de: "Desconhecido", t: "Cientistas descobriram que comer chocolate deixa a pessoa invisível. Repassem!", c: "D", why: "Não tem fonte e é impossível." },
+          { de: "Prima Ana", t: "Vi no site oficial da prefeitura: a vacinação vai até sexta no posto do centro.", c: "C", why: "Cita uma fonte oficial que dá para conferir." }],
+        okMsg: "Você sabe desconfiar! Antes de compartilhar, confira quem escreveu e a fonte." }
     ],
     basico: [
-      { tipo: "classificar", modo: "tabela", titulo: "Confiável ou não?", colunaItem: "Mensagem", colunaResp: "C ou N",
+      { id: "m4-basico-1", tipo: "classificar", modo: "tabela", titulo: "Confiável ou não?", colunaItem: "Mensagem", colunaResp: "C ou N",
         categorias: [{ id: "C", rot: "Confiável" }, { id: "N", rot: "Não confiável" }],
         itens: [
           { t: "“URGENTE!!! Amanhã não vai ter aula em nenhuma escola do Brasil. Compartilhe!”", c: "N", why: "“URGENTE!!!” e “compartilhe” são sinais de alerta." },
           { t: "Aviso no site da prefeitura sobre a vacinação, com data e horário", c: "C" },
           { t: "Vídeo que diz que comer chocolate faz crescer 10 centímetros em uma semana", c: "N", why: "Exagerado demais para ser verdade." },
           { t: "Informação do livro didático da escola", c: "C" }] },
-      { tipo: "aberta", titulo: "Maria fez um desenho lindo de uma árvore. Você quer usar no seu cartaz.",
+      { id: "m4-sim-mensagens", tipo: "sim_pc", titulo: "📧 Simulador: mensagem de quem você não conhece",
+        enunciado: "<p>Chegaram emails no computador de mentira. Descubra qual é perigoso. O <strong>Bit</strong> ajuda você.</p>",
+        area: [{ nome: "Lixeira", app: "lixeira" }, { nome: "Email", app: "email" }],
+        emails: [
+          { id: "estranho", nome: "Amigo_Secreto_10", de: "amigosecreto10@email.com", assunto: "manda uma foto sua?",
+            html: "<p>oi! eu sou legal 😄 me manda uma <b>foto</b> sua e o <b>endereço</b> da sua casa? não conta pra ninguém!</p>" },
+          { id: "prof", nome: "Prof. Welington Laignier", de: "professor@escola.edu.br", assunto: "Parabéns pela aula!",
+            html: "<p>Você foi muito bem na aula de Informática. Continue assim! 🌟</p>" }
+        ],
+        passos: [
+          { faca: "Abra o <b>Email</b> com <b>dois cliques rapidinhos</b> no ícone 📧.", ok: "abrir:app:email", onde: "ic:Email" },
+          { faca: "Leia a mensagem <b>manda uma foto sua?</b>.", ok: "email:abrir:estranho", onde: "email:estranho" },
+          { faca: "Pessoa que você não conhece pedindo <b>foto e endereço</b>, e ainda pede segredo: perigo! Não responda. Clique em <b>🚩 Denunciar golpe</b> e conte a um adulto.", ok: ["email:denunciar:estranho", "email:excluir:estranho"], onde: "email:denunciar" },
+          { faca: "Agora leia a mensagem do <b>Prof. Welington Laignier</b>: essa é do bem!", ok: "email:abrir:prof", onde: "email:prof" }
+        ],
+        fimMsg: "Você não respondeu ao desconhecido e leu a mensagem do professor. Internet com cuidado!",
+        explicacao: "Nunca mande foto, endereço ou senha para quem você não conhece. Pedido de segredo é sinal de perigo: conte a um adulto." },
+      { id: "m4-basico-2", tipo: "aberta", titulo: "Maria fez um desenho lindo de uma árvore. Você quer usar no seu cartaz.",
         campos: [{ rot: "O que você precisa fazer?", linhas: 2 }, { rot: "Escreva o crédito: Desenho: ____", linhas: 1 }],
         criterios: ["Pedi autorização à Maria.", "Escrevi o crédito com o nome dela."],
         conferir: { porCampo: [["autoriza", "permiss", "pedir", "peco", "pergunt", "deixa"], ["maria"]], msg: "Isso mesmo: pedir autorização e dar o crédito!" },
         exemplo: "Peço autorização para a Maria e escrevo o crédito no cartaz: Desenho: Maria." },
-      { tipo: "classificar", modo: "tabela", titulo: "Ligue cada problema à tecnologia certa", colunaItem: "Problema", colunaResp: "Tecnologia",
+      { id: "m4-basico-3", tipo: "classificar", modo: "tabela", titulo: "Ligue cada problema à tecnologia certa", colunaItem: "Problema", colunaResp: "Tecnologia",
         categorias: [{ id: "A", rot: "Programa de desenho" }, { id: "B", rot: "Bloco de Notas" }, { id: "C", rot: "Calculadora" }, { id: "D", rot: "Chamada de vídeo" }],
         itens: [{ t: "Fazer uma conta difícil bem rápido", c: "C" }, { t: "Falar com a avó que mora em outra cidade", c: "D" }, { t: "Escrever um texto no computador", c: "B" }, { t: "Fazer um desenho no computador", c: "A" }] },
-      { tipo: "cartaz", titulo: "Monte aqui o cartaz Eu navego com cuidado", tituloCartaz: "Eu navego com cuidado",
+      { id: "m4-basico-4", tipo: "cartaz", titulo: "Monte aqui o cartaz Eu navego com cuidado", tituloCartaz: "Eu navego com cuidado",
         campos: [
           { rot: "Escreva no cartaz 1 cuidado que você tem na internet (está no 💡 Para começar):", ph: "Ex.: confiro quem escreveu antes de acreditar", gab: "conferir o autor e a fonte, desconfiar de mensagem urgente, dar crédito…", exemplo: "Eu confiro quem escreveu antes de acreditar.", re: "confi|fonte|autor|desconfi|compartilh|urgente|cr[eé]dito|adulto|verdade|pergunt|cuidado|link|senha|plágio|plagio", dica: "Releia o <strong>💡 Para começar</strong>: conferir quem escreveu, desconfiar de mensagem urgente, dar crédito…" },
           { rot: "Embaixo, escreva <strong>Criado por:</strong> e o seu primeiro nome:", ph: "Criado por: …", gab: "Criado por: (seu primeiro nome)", exemplo: "Criado por: Ana", re: "criado\\s+por\\s*:?\\s*\\S+", dica: "Escreva <strong>Criado por:</strong> e, depois, o seu primeiro nome." }],

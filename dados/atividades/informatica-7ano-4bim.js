@@ -202,17 +202,7 @@ PORTAL.registrarAtividades("informatica-7ano-4bim", {
   /* ======================= MISSÃO 3 ======================= */
   m3: {
     pratica: [
-      { tipo: "mensagens", titulo: "Chegou SMS: golpe ou mensagem segura?", app: "📱 Mensagens",
-        botoes: [{ id: "G", rot: "🚩 Golpe" }, { id: "S", rot: "✅ Segura" }],
-        enunciado: "<p>Leia cada mensagem como se fosse no seu celular. Procure os sinais: <strong>pressa</strong>, <strong>prêmio</strong>, <strong>link estranho</strong>, <strong>pedido de código ou senha</strong>.</p>",
-        itens: [
-          { de: "+55 11 9xxxx-0000", t: "PARABÉNS! Você ganhou um iPhone. Clique para resgatar em 10 min: bit.ly/premio-ja", c: "G", why: "Prêmio + pressa + link encurtado = phishing." },
-          { de: "Mãe", t: "Filho, chego 18h. Já tirou a carne do congelador?", c: "S" },
-          { de: "Número novo", t: "Oi, é a sua tia, troquei de número. Me passa o código de 6 dígitos que chegou aí?", c: "G", why: "Nunca passe códigos: é assim que roubam o WhatsApp." },
-          { de: "Banco Oficial", t: "Sua conta será BLOQUEADA hoje. Atualize seus dados: banco-atualiza.xyz", c: "G", why: "Banco não manda link para pedir dados." },
-          { de: "Escola JK", t: "Amanhã não haverá aula por causa da reunião pedagógica.", c: "S" }],
-        okMsg: "Você não cai em golpe! Na dúvida: não clique, não passe código e pergunte a um adulto." },
-      { id: "m3-sim-email", opcional: true, tipo: "sim_pc", titulo: "📧 Simulador: na caixa de email, golpe ou mensagem segura?",
+      { id: "m3-sim-email", tipo: "sim_pc", titulo: "📧 Simulador: na caixa de email, golpe ou mensagem segura?",
         enunciado: "<p>Você tem emails novos no <strong>computador de mentira</strong>. Descubra quais são <strong>golpe</strong> e denuncie, sem clicar nos links perigosos. O <strong>Bit</strong> confere.</p>",
         area: [{ nome: "Lixeira", app: "lixeira" }, { nome: "Email", app: "email" }, { nome: "Navegador", app: "web" }],
         emails: [
@@ -237,10 +227,20 @@ PORTAL.registrarAtividades("informatica-7ano-4bim", {
           { faca: "Esse é seguro: remetente da escola, sem pressa e sem pedir dados. Clique no link <b>escola.edu.br/feira</b> para ver o mapa.", ok: "link:escola.edu.br/feira", onde: "pg:linkfeira" }
         ],
         fimMsg: "Você denunciou os golpes sem clicar nos links perigosos e abriu só o link seguro da escola. Detetive de golpes!",
-        explicacao: "Sinais de golpe: prêmio que você não pediu, pressa, pedido de senha ou documentos, remetente estranho ou escrito errado, links esquisitos. Na dúvida, não clique: denuncie e mostre a um adulto." }
+        explicacao: "Sinais de golpe: prêmio que você não pediu, pressa, pedido de senha ou documentos, remetente estranho ou escrito errado, links esquisitos. Na dúvida, não clique: denuncie e mostre a um adulto." },
+      { id: "m3-pratica-1", tipo: "mensagens", titulo: "Chegou SMS: golpe ou mensagem segura?", app: "📱 Mensagens",
+        botoes: [{ id: "G", rot: "🚩 Golpe" }, { id: "S", rot: "✅ Segura" }],
+        enunciado: "<p>Leia cada mensagem como se fosse no seu celular. Procure os sinais: <strong>pressa</strong>, <strong>prêmio</strong>, <strong>link estranho</strong>, <strong>pedido de código ou senha</strong>.</p>",
+        itens: [
+          { de: "+55 11 9xxxx-0000", t: "PARABÉNS! Você ganhou um iPhone. Clique para resgatar em 10 min: bit.ly/premio-ja", c: "G", why: "Prêmio + pressa + link encurtado = phishing." },
+          { de: "Mãe", t: "Filho, chego 18h. Já tirou a carne do congelador?", c: "S" },
+          { de: "Número novo", t: "Oi, é a sua tia, troquei de número. Me passa o código de 6 dígitos que chegou aí?", c: "G", why: "Nunca passe códigos: é assim que roubam o WhatsApp." },
+          { de: "Banco Oficial", t: "Sua conta será BLOQUEADA hoje. Atualize seus dados: banco-atualiza.xyz", c: "G", why: "Banco não manda link para pedir dados." },
+          { de: "Escola JK", t: "Amanhã não haverá aula por causa da reunião pedagógica.", c: "S" }],
+        okMsg: "Você não cai em golpe! Na dúvida: não clique, não passe código e pergunte a um adulto." }
     ],
     basico: [
-      { tipo: "classificar", modo: "tabela", titulo: "Golpe ou seguro?", colunaItem: "Mensagem", colunaResp: "G ou S",
+      { id: "m3-basico-1", tipo: "classificar", modo: "tabela", titulo: "Golpe ou seguro?", colunaItem: "Mensagem", colunaResp: "G ou S",
         categorias: [{ id: "G", rot: "Golpe" }, { id: "S", rot: "Seguro" }],
         itens: [
           { t: "“Parabéns! Você ganhou um celular. Clique no link em até 10 minutos!”", c: "G", why: "Prêmio fácil, pressa e link." },
@@ -248,19 +248,31 @@ PORTAL.registrarAtividades("informatica-7ano-4bim", {
           { t: "“Ganhe 10.000 moedas no jogo grátis: é só informar a sua senha.”", c: "G", why: "Nenhum jogo de verdade pede a sua senha." },
           { t: "Você acabou de entrar no aplicativo e ele mostra: “Seu código chegou. Não compartilhe com ninguém.”", c: "S", why: "Foi você quem pediu, e o aviso manda não compartilhar." }],
         explicacao: "Sinais de golpe: pressa, prêmio fácil, link estranho e pedido de senha ou código." },
-      { tipo: "sinais", titulo: "Quais sinais de golpe apareceram nessas mensagens?",
+      { id: "m3-sim-2etapas", tipo: "sim_pc", titulo: "🔐 Simulador: senha forte e verificação em duas etapas",
+        enunciado: "<p>Proteja a conta do jogo no navegador de mentira: troque a senha por uma forte e ligue a verificação em duas etapas. O <strong>Bit</strong> confere.</p>",
+        abertas: ["web"], inicioWeb: "conta.jogodaescola.com.br",
+        web: { "conta.jogodaescola.com.br": { titulo: "Minha conta: segurança", html: "<p>🎮 <b>Segurança da conta</b></p><label class='campo'>Nova senha<input data-campo='senha' data-k='pg:senha' placeholder='8 ou mais: letras, números e símbolos'></label><p><label><input type='checkbox' data-ev='2fa' data-k='pg:2fa'> Ativar verificação em duas etapas (código no celular)</label></p><button data-ev='salvar' data-k='pg:salvar' class='pri'>Salvar</button>" } },
+        passos: [
+          { faca: "Confira o <b>cadeado 🔒</b> ao lado do endereço antes de mexer na senha: clique nele.", ok: "cadeado:conta.jogodaescola.com.br", onde: "web:cadeado" },
+          { faca: "Crie uma <b>senha forte</b> na caixa <b>Nova senha</b>: 8 ou mais caracteres, com maiúscula, minúscula, número e símbolo.", ok: { estado: "senhaForte", campo: "senha" }, onde: "pg:senha", dica: "Exemplo (invente a sua!): Pipa#Azul27" },
+          { faca: "Marque <b>Ativar verificação em duas etapas</b>.", ok: { estado: "marcado", nome: "2fa" }, onde: "pg:2fa" },
+          { faca: "Clique em <b>Salvar</b>.", ok: "pagina:salvar", onde: "pg:salvar" }
+        ],
+        fimMsg: "Conta blindada: senha forte + código no celular. Mesmo que alguém descubra a senha, não entra!",
+        explicacao: "Verificação em duas etapas = senha + um código que chega no seu celular. Senha forte mistura maiúsculas, minúsculas, números e símbolos." },
+      { id: "m3-basico-2", tipo: "sinais", titulo: "Quais sinais de golpe apareceram nessas mensagens?",
         opcoes: [
           { t: "Pressa (“em até 10 minutos!”)", certo: true }, { t: "Prêmio fácil (celular, moedas grátis)", certo: true },
           { t: "Pedido de senha ou de código", certo: true }, { t: "Alguém dizendo que trocou de número", certo: true },
           { t: "O aviso “não compartilhe com ninguém” logo depois de você pedir o código", certo: false, why: "Esse aviso é do próprio aplicativo e protege você." },
           { t: "Mensagem escrita sem nenhum erro", certo: false, why: "Erros de português são um sinal; texto sem erro, sozinho, não prova nada." }] },
-      { tipo: "aberta", titulo: "Reescreva os comentários com empatia (mantendo a opinião)",
+      { id: "m3-basico-3", tipo: "aberta", titulo: "Reescreva os comentários com empatia (mantendo a opinião)",
         campos: [{ rot: "“Quem gosta desse time não entende nada de futebol.”", linhas: 2 }, { rot: "“Que opinião ridícula, apaga isso.”", linhas: 2 }, { rot: "“Só gente sem noção gosta dessa música.”", linhas: 2 }],
         detector: { palavras: ["nao entende nada", "ridicula", "ridiculo", "apaga isso", "sem nocao", "idiota", "burro"], msg: "Critique a ideia, nunca a pessoa." },
         criterios: ["A minha opinião continua lá.", "Critico a ideia, não a pessoa.", "A pessoa não vai se sentir humilhada ao ler."],
         exemplo: "“Eu torço para outro time, mas respeito quem gosta desse.” · “Penso diferente: na minha opinião…” · “Essa música não faz o meu estilo, mas entendo quem curte.”",
         conferir: { minPalavras: 4, msg: "Comentários reescritos com empatia! O professor pode ler as suas respostas no painel." } },
-      { tipo: "cartaz", titulo: "Monte aqui o cartaz Alerta de golpe!", tituloCartaz: "Alerta de golpe!",
+      { id: "m3-basico-4", tipo: "cartaz", titulo: "Monte aqui o cartaz Alerta de golpe!", tituloCartaz: "Alerta de golpe!",
         campos: [
           { rot: "Dica 1 do seu cartaz:", ph: "Ex.: nunca passe códigos…", gab: "uma das dicas do 💡 Para começar", exemplo: "Nunca passe códigos que chegam por SMS.", re: "senha|c[oó]digo|link|desconfi|duas etapas|verifica|pressa|pr[eê]mio|n[aã]o clique|sair da conta|bloque|denunc|adulto|baix", dica: "As dicas estão no <strong>💡 Para começar</strong>, em “Proteja-se”." },
           { rot: "Dica 2 do seu cartaz:", ph: "Ex.: use senha forte…", gab: "outra dica do 💡 Para começar", exemplo: "Use senha forte e não conte a ninguém.", re: "senha|c[oó]digo|link|desconfi|duas etapas|verifica|pressa|pr[eê]mio|n[aã]o clique|sair da conta|bloque|denunc|adulto|baix", dica: "Escreva uma dica diferente da primeira." },
