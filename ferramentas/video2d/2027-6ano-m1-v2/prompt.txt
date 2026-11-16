@@ -1,0 +1,47 @@
+Gere um áudio em MP3 com a narração abaixo, em português do Brasil, voz masculina, natural e animada, ritmo de professor explicando com calma para alunos de 11 anos que nunca usaram um computador. Faça uma pausa de 2 segundos entre cada parágrafo. Leia exatamente o texto, sem acrescentar nada.
+
+Primeiros passos: o mistério da janela que sumiu!
+
+O Pedro chegou do quinto ano e nunca tinha usado um computador. Ele abriu o jogo da escola, clicou num botãozinho e a janela sumiu! Ele achou que tinha apagado tudo. Calma, Pedro! Hoje você vai aprender, passo a passo, a conversar com o computador.
+
+Para conversar com o computador, usamos duas peças: o mouse e o teclado. Com o mouse, você aponta e clica. Com o teclado, você escreve.
+
+Primeiro, o mouse. Coloque a mão em cima dele, com o dedo indicador no botão da esquerda e o dedo do meio no botão da direita. Quando você arrasta o mouse na mesa, a setinha da tela anda junto. Essa setinha se chama ponteiro.
+
+O botão da esquerda é o mais usado. Apertar e soltar uma vez é o clique: ele escolhe uma coisa. Veja: o ícone clicado fica marcado de azul.
+
+Agora, dois cliques bem rapidinho, sem mexer o mouse: é o duplo clique. Ele abre pastas e programas. Se você clicar devagar demais, o computador entende como dois cliques separados, e nada abre.
+
+O botão da direita mostra um menu com mais opções. Depois, é só escolher a opção com um clique do botão da esquerda.
+
+No meio do mouse fica a rodinha. Girando para baixo, a página desce. Girando para cima, a página sobe.
+
+E para arrastar: aperte o botão da esquerda, segure, leve a coisa até outro lugar e só então solte. Assim você muda um arquivo de lugar.
+
+Agora, o teclado. Ele tem letras, números e algumas teclas especiais. Vamos achar as mais importantes.
+
+A barra de espaço é a tecla mais comprida, lá embaixo, no meio do teclado. Você aperta com o polegar. Ela coloca um espaço entre uma palavra e outra.
+
+O Enter fica do lado direito das letras. É uma tecla grande, com uma setinha que desce e vira para a esquerda. Ele pula para a linha de baixo e também confirma o que você digitou.
+
+Bem em cima do Enter fica o Backspace, com uma setinha apontando para trás. Ele apaga a letra que está antes do cursor, uma de cada vez. Errou? Calma: aperte o Backspace e digite de novo.
+
+O Shift tem uma seta grossa para cima, e existe um de cada lado do teclado. Segure o Shift e aperte uma letra: ela sai maiúscula. Solte o Shift, e as letras voltam a sair minúsculas.
+
+Atenção para não confundir: o ponteiro é a setinha do mouse. O cursor é o tracinho que pisca dentro do texto, mostrando onde a próxima letra vai aparecer.
+
+Quando o computador liga, aparece a área de trabalho. Lá embaixo fica a barra de tarefas: o botão Iniciar, com o símbolo do Windows, a pesquisa, os programas abertos e, no canto, o relógio.
+
+Todo programa abre numa janela. Em cima fica a barra de título, com o nome do programa. No canto de cima, à direita, ficam três botões.
+
+O tracinho é o minimizar: ele esconde a janela na barra de tarefas, mas o programa continua aberto.
+
+O quadradinho é o maximizar: a janela cresce e ocupa a tela toda. Clicando de novo, ela volta ao tamanho de antes.
+
+E o xis, que fica vermelho quando o ponteiro passa em cima, é o fechar: ele fecha o programa de verdade.
+
+Agora o mistério está resolvido! O Pedro tinha clicado em minimizar. A janela foi para a barra de tarefas, lá embaixo, e o ícone do jogo ganhou um tracinho, mostrando que ele estava aberto. Um clique no ícone, e o jogo voltou. Ufa!
+
+Onde eu uso isso? No celular, tocar na tela é como clicar, e segurar o dedo é como o botão direito. No caixa eletrônico e no totem da lanchonete, você também aperta botões na tela.
+
+Agora é com vocês: abram a Missão 1 no portal e treinem no computador de mentira, com o robô Bit!
