@@ -88,7 +88,7 @@ PORTAL.registrarAtividades("informatica-6ano-4bim", {
           { rot: "Dentro da sua pasta, quantas pastas existem agora?", ph: "Digite um número", gab: "2 (Textos e Desenhos)", re: "^(2|duas)$", dica: "Você criou a pasta Textos e a pasta Desenhos." },
           { rot: "Em qual pasta está agora o arquivo <strong>Sobre mim</strong>?", ph: "Nome da pasta", gab: "Textos", re: "^textos$", dica: "Você arrastou o arquivo para a pasta de textos." }],
         okMsg: "Arquivos organizados em pastas!" },
-      { tipo: "tabela", titulo: "Anote os metadados do arquivo “Sobre mim”",
+      { tipo: "tabela", titulo: "Anote os metadados do arquivo “Sobre mim”", robo: {"paineis": ["🖱️ O que eu faço", "🪟 O que aparece na janela"], "passos": [{"fala": "Olha como eu faço com <b>outro</b> arquivo, o “Lista de compras”. Clico nele com o <b>botão direito</b> do mouse:", "painel": 0, "linha": "Botão direito no arquivo"}, {"fala": "No menu, escolho <b>Propriedades</b>:", "painel": 0, "linha": "Propriedades"}, {"fala": "Abre a janela com os <b>metadados</b>: as informações sobre o arquivo.", "painel": 1, "linha": "Tipo: Documento de Texto (.txt)"}, {"fala": "", "painel": 1, "linha": "Tamanho: 120 bytes", "marca": true, "espera": 900}, {"fala": "", "painel": 1, "linha": "Criado em: 03/11/2026 09:15", "marca": true, "espera": 1600}, {"fala": "Eu só copio o que está escrito na janela. Os do <b>seu</b> arquivo vão ser diferentes!", "painel": null, "espera": 2400}], "fim": "Agora é a sua vez: abra as Propriedades do <b>seu</b> arquivo “Sobre mim” e copie o tipo, o tamanho e a data! 💪"},
         enunciado: "<p>Copie o que aparece na janela <strong>Propriedades</strong> do arquivo (botão direito → Propriedades).</p>",
         colunas: ["Metadado", "O que aparece no seu computador"],
         linhas: [
@@ -200,7 +200,7 @@ PORTAL.registrarAtividades("informatica-6ano-4bim", {
         explicacao: "Os quadrados pares (2º, 4º e 6º) ficam pretos e formam um padrão alternado: branco, preto, branco, preto… Repetição + seleção." }
     ],
     desafio: [
-      { tipo: "tabela", titulo: "Complete as instruções de seleção",
+      { tipo: "tabela", titulo: "Complete as instruções de seleção", robo: {"paineis": ["🔀 Se… então… senão…"], "passos": [{"fala": "Olha como eu penso com um exemplo <b>diferente</b>. Primeiro a <b>condição</b>, uma pergunta de sim ou não:", "painel": 0, "linha": "Se estiver chovendo,"}, {"fala": "Se a resposta for <b>SIM</b>, faço o “então”:", "painel": 0, "linha": "então levo o guarda-chuva,", "marca": true}, {"fala": "Se for <b>NÃO</b>, faço o “senão”:", "painel": 0, "linha": "senão vou de boné.", "marca": true}, {"fala": "O “então” e o “senão” são ações <b>diferentes</b>, e as duas combinam com a condição!", "painel": null, "espera": 2400}], "fim": "Agora é a sua vez: para cada condição da tarefa, escolha o que acontece no SIM (então) e no NÃO (senão)! 💪"},
         colunas: ["Se...", "então...", "senão..."],
         linhas: [
           ["Se o sinal estiver verde,", { op: ["atravesso com cuidado", "espero o sinal abrir", "coloco para carregar"], r: "atravesso com cuidado", rot: "então" }, { op: ["atravesso com cuidado", "espero o sinal abrir", "o celular desbloqueia"], r: "espero o sinal abrir", rot: "senão" }],
@@ -208,7 +208,7 @@ PORTAL.registrarAtividades("informatica-6ano-4bim", {
           ["Se eu acertar a senha,", { op: ["o celular desbloqueia", "aparece uma mensagem de erro", "a bateria acaba"], r: "o celular desbloqueia", rot: "então" }, { op: ["o celular desbloqueia", "aparece uma mensagem de erro", "atravesso com cuidado"], r: "aparece uma mensagem de erro", rot: "senão" }]],
         dicas: ["O “então” acontece quando a condição é verdadeira; o “senão”, quando é falsa."],
         explicacao: "Na seleção, a <strong>condição</strong> é uma pergunta de sim ou não. Sim → então. Não → senão." },
-      { tipo: "aberta", titulo: "Crie a sua instrução de seleção", campos: [{ rot: "Se...", linhas: 1 }, { rot: "então...", linhas: 1 }, { rot: "senão...", linhas: 1 }],
+      { tipo: "aberta", titulo: "Crie a sua instrução de seleção", robo: {"paineis": ["🔀 Se…", "✅ então…", "❌ senão…"], "passos": [{"fala": "Olha como eu crio uma instrução <b>minha</b>. A condição é uma pergunta de sim ou não:", "painel": 0, "linha": "a fila da cantina estiver grande"}, {"fala": "Se for SIM:", "painel": 1, "linha": "como o lanche que trouxe de casa", "marca": true}, {"fala": "Se for NÃO:", "painel": 2, "linha": "compro um suco na cantina", "marca": true}, {"fala": "Pronto: “Se a fila estiver grande, então como o lanche de casa, senão compro um suco.”", "painel": null, "espera": 2600}], "fim": "Agora é a sua vez: invente a <b>sua</b> instrução, com outra situação! 💪"}, campos: [{ rot: "Se...", linhas: 1 }, { rot: "então...", linhas: 1 }, { rot: "senão...", linhas: 1 }],
         criterios: ["A condição é uma pergunta de sim ou não.", "O “então” e o “senão” são ações diferentes."], opcional: true,
         conferir: { minPalavras: 2, diferentes: [1, 2], msg: "Instrução de seleção criada! Condição, então e senão no lugar certo." },
         exemplo: "Se estiver chovendo, então levo o guarda-chuva, senão vou de boné." }
@@ -273,7 +273,7 @@ PORTAL.registrarAtividades("informatica-6ano-4bim", {
         ] }
     ],
     basico: [
-      { id: "m3-basico-1", tipo: "aberta", titulo: "Reescreva as mensagens de forma respeitosa",
+      { id: "m3-basico-1", tipo: "aberta", titulo: "Reescreva as mensagens de forma respeitosa", robo: {"paineis": ["😠 Mensagem que ofende", "💬 Mesma ideia, com respeito"], "passos": [{"fala": "Olha como eu faço com <b>outra</b> mensagem:", "painel": 0, "linha": "“Que goleiro ruim, kkk, sai do time”"}, {"fala": "A <b>ideia</b> é: o goleiro precisa melhorar. O que <b>ofende</b>: “ruim”, “kkk” e “sai do time”.", "painel": 0, "linha": "Ideia: ele pode melhorar na defesa", "marca": true}, {"fala": "Reescrevo mantendo a ideia, sem deboche e ajudando:", "painel": 1, "linha": "“Hoje não deu, mas se você treinar"}, {"fala": "", "painel": 1, "linha": "a defesa, vai pegar todas na próxima!”", "espera": 2600}], "fim": "Agora é a sua vez: reescreva as 3 mensagens mantendo a ideia, sem ofender ninguém! 💪"},
         enunciado: "<p>Mantenha a ideia, mas sem ofender. O portal avisa se ainda sobrar alguma palavra ofensiva.</p>",
         campos: [{ rot: "“Seu desenho ficou horrível, kkkk”", linhas: 2 }, { rot: "“Sai do grupo, ninguém gosta de você”", linhas: 2 }, { rot: "“Você é burro, errou tudo”", linhas: 2 }],
         detector: { palavras: ["horrivel", "kkkk", "kkk", "burro", "burra", "ninguem gosta", "sai do grupo", "idiota", "feio"], msg: "Escreva como se a pessoa estivesse na sua frente." },
@@ -330,7 +330,7 @@ PORTAL.registrarAtividades("informatica-6ano-4bim", {
         explicacao: "Senha forte é longa e mistura letras maiúsculas e minúsculas, números e símbolos. Nada de 123456, nome ou data de nascimento." }
     ],
     turbo: [
-      { tipo: "aberta", titulo: "Mensagem para um colega que está sofrendo cyberbullying", linhas: 4,
+      { tipo: "aberta", titulo: "Mensagem para um colega que está sofrendo cyberbullying", robo: {"paineis": ["💙 Como montar a mensagem"], "passos": [{"fala": "Olha como eu monto uma mensagem de apoio, em <b>3 partes</b>. 1️⃣ Mostro que me importo:", "painel": 0, "linha": "“Eu vi o que fizeram e sinto muito. Você não está sozinho.”"}, {"fala": "2️⃣ Digo o que a pessoa pode fazer: <b>print</b>, <b>bloquear</b> e <b>contar a um adulto</b>:", "painel": 0, "linha": "“Tire print, bloqueie e conte para alguém da sua família.”", "marca": true}, {"fala": "3️⃣ Fecho me colocando à disposição:", "painel": 0, "linha": "“Se quiser, eu vou com você falar com o professor.”"}, {"fala": "Repare: é respeitosa e traz um <b>plano</b> para ajudar.", "painel": null, "espera": 2400}], "fim": "Agora é a sua vez: escreva a <b>sua</b> mensagem, com as suas palavras! 💪"}, linhas: 4,
         criterios: ["Mostro que me importo com ele.", "Digo o que ele pode fazer: guardar provas (print), bloquear e contar a um adulto de confiança.", "A mensagem é respeitosa."],
         exemplo: "“Sinto muito pelo que estão fazendo com você. Não é culpa sua. Tire print das mensagens, bloqueie quem está te ofendendo e conte para o professor ou para alguém da sua família. Conte comigo!”",
         detector: { palavras: ["burro", "burra", "idiota", "feio", "kkkk", "otario"], msg: "A mensagem precisa ser respeitosa." },
@@ -412,7 +412,7 @@ PORTAL.registrarAtividades("informatica-6ano-4bim", {
         itens: ["📄 bilhete.txt (2 KB)", "🖼️ foto-da-turma.jpg (3 MB)", "🎵 musica.mp3 (4 MB)", "🎬 video-da-festa.mp4 (200 MB)", "🍿 filme.mp4 (2 GB)"],
         dicas: ["KB é menor que MB, e MB é menor que GB.", "Entre a foto (3 MB) e a música (4 MB), qual número é menor?"],
         explicacao: "2 KB < 3 MB < 4 MB < 200 MB < 2 GB. Texto ocupa pouco; vídeo e filme ocupam muito." },
-      { id: "m4-basico-3", tipo: "tabela", titulo: "Contas de quanto cabe",
+      { id: "m4-basico-3", tipo: "tabela", titulo: "Contas de quanto cabe", robo: {"paineis": ["🧮 Quanto cabe?"], "passos": [{"fala": "Olha como eu calculo com <b>outro</b> exemplo: um cartão de memória de 2 GB.", "painel": 0, "linha": "2 GB ≈ 2000 MB"}, {"fala": "Quantas músicas de 4 MB cabem? Eu <b>divido</b> o espaço pelo tamanho de uma música:", "painel": 0, "linha": "2000 ÷ 4 = 500 músicas", "marca": true}, {"fala": "Lembre: 1 byte = 8 bits, e cada medida (KB → MB → GB) é cerca de <b>mil vezes</b> a anterior.", "painel": 0, "linha": "1 GB ≈ 1000 MB", "espera": 2600}], "fim": "Agora é a sua vez: faça as contas da tarefa dividindo o espaço pelo tamanho de cada arquivo! 💪"},
         colunas: ["Pergunta", "Resposta"],
         linhas: [["Quantos bits formam 1 byte?", { r: "8", tipo: "num", w: 4 }],
           ["1 GB é cerca de quantos MB?", { r: "1000", tipo: "num", w: 6, dica: "Cada medida é cerca de mil vezes a anterior." }],
@@ -443,7 +443,7 @@ PORTAL.registrarAtividades("informatica-6ano-4bim", {
         explicacao: "Busca 🔍 pelo nome; ordenar por data para ver os mais novos; nomes que dizem o que o arquivo é; e, para liberar espaço, apagar o que é grande (vídeo), depois de guardar uma cópia." }
     ],
     turbo: [
-      { tipo: "tabela", titulo: "O celular com 10 GB livres",
+      { tipo: "tabela", titulo: "O celular com 10 GB livres", robo: {"paineis": ["📱 Outro celular: 4 GB livres"], "passos": [{"fala": "Primeiro eu passo para MB:", "painel": 0, "linha": "4 GB ≈ 4000 MB"}, {"fala": "Músicas de 8 MB? Divido:", "painel": 0, "linha": "4000 ÷ 8 = 500 músicas", "marca": true}, {"fala": "Vídeos de 400 MB? Divido de novo:", "painel": 0, "linha": "4000 ÷ 400 = 10 vídeos", "marca": true}, {"fala": "O arquivo menor cabe <b>muito mais</b> vezes!", "painel": null, "espera": 2400}], "fim": "Agora é a sua vez: passe 10 GB para MB e divida! 💪"},
         enunciado: "<p>Use: <strong>1 GB ≈ 1000 MB</strong>. Então <strong>10 GB ≈ 10 000 MB</strong>.</p>",
         colunas: ["Pergunta", "Resposta"],
         linhas: [["Quantos vídeos de 500 MB cabem em 10 GB?", { r: "20", tipo: "num", w: 5, dica: "10 000 ÷ 500" }],
@@ -512,7 +512,7 @@ PORTAL.registrarAtividades("informatica-6ano-4bim", {
         perguntas: [{ p: "Qual é o erro?", opcoes: ["A meia vem antes do tênis: os passos 1 e 2 estão trocados", "Falta repetir o passo 3", "Não tem erro"], certo: 0 }] },
       { tipo: "escolha", de: "m3", titulo: "Desafio M3 · Qual senha é mais forte?",
         perguntas: [{ p: "Qual senha é mais forte?", opcoes: ["Gat0#Azul72!", "123456", "joao2013"], certo: 0, why: "Mistura letras maiúsculas e minúsculas, números e símbolos." }] },
-      { tipo: "tabela", de: "m4", titulo: "Desafio M4 · Quanto cabe?",
+      { tipo: "tabela", de: "m4", titulo: "Desafio M4 · Quanto cabe?", robo: {"paineis": ["🧮 Outro exemplo"], "passos": [{"fala": "Pen drive de 1 GB e fotos de 5 MB:", "painel": 0, "linha": "1 GB ≈ 1000 MB"}, {"fala": "Divido o espaço pelo tamanho de uma foto:", "painel": 0, "linha": "1000 ÷ 5 = 200 fotos", "marca": true, "espera": 2400}], "fim": "Agora é a sua vez: faça a conta com as músicas de 4 MB! 💪"},
         linhas: [["Um pen drive de 1 GB (cerca de 1000 MB) guarda quantas músicas de 4 MB?", { r: "250", tipo: "num", w: 5, dica: "1000 ÷ 4" }]],
         explicacao: "1000 ÷ 4 = 250 músicas." }
     ],
@@ -532,7 +532,7 @@ PORTAL.registrarAtividades("informatica-6ano-4bim", {
   pf: {
     basico: [
       { tipo: "info", titulo: "Confira as suas missões", html: "<p>Volte à lista de missões da apostila: cada missão com o <strong>Básico concluído</strong> aparece com ✔. Se faltar alguma (por exemplo, porque você faltou à aula), faça o Básico dela agora. O professor acompanha tudo pelo painel.</p>" },
-      { tipo: "aberta", titulo: "Escreva uma frase sobre o que você aprendeu em cada tema",
+      { tipo: "aberta", titulo: "Escreva uma frase sobre o que você aprendeu em cada tema", robo: {"paineis": ["✍️ Exemplo com outra matéria"], "passos": [{"fala": "Olha como eu escrevo uma boa frase, sobre <b>outra</b> matéria (Matemática):", "painel": 0, "titulo": "🧮 Frações"}, {"fala": "Começo com letra maiúscula, uso uma <b>palavra-chave</b> do tema e termino com ponto final:", "painel": 0, "linha": "Aprendi que a fração mostra partes de um inteiro.", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: uma frase para cada tema, com uma palavra-chave dele! 💪"},
         campos: [{ rot: "🌐 O computador e meus arquivos", linhas: 2 }, { rot: "⚙️ Algoritmos", linhas: 2 }, { rot: "🤝 Cidadão digital", linhas: 2 }],
         criterios: ["Cada frase usa pelo menos uma palavra-chave do tema.", "Frase completa, com letra maiúscula e ponto final."],
         conferir: { minPalavras: 4, porCampo: [
