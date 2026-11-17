@@ -21,6 +21,9 @@ Detalhes técnicos: `AGENTS.md` (checklist do bimestre), `docs/PADRAO-ATIVIDADES
 > ✍️ **Regra de ouro 2 — Revisão ortográfica e gramatical sempre (17/11/2026)**
 > Todo texto (apostila, legenda, narração, desenho, simulador, prova, documento) passa por revisão de ortografia, acentuação, concordância e pontuação antes de publicar, no português do Brasil. Siglas e termos em inglês escritos do jeito certo (CAT5e, RJ45, Wi-Fi, HTTPS).
 
+> 👀 **Regra de ouro 3 — Ver com os olhos do aluno (17/11/2026)**
+> Toda explicação tem que **chegar ao aluno**: linguagem que ele entende, ajustada à série (e à idade que ela indica: 6º ano ≈ 11 anos, 7º ≈ 12, 8º ≈ 13, 9º ≈ 14; 5º ≈ 10). Antes de publicar, ler o material **como o aluno leria**: "um aluno dessa idade entende sozinho? Que palavra ele não conhece? Que pergunta ele faria?". Nunca deixar nada por alto nem pensar "assim já está bom": se pode ficar mais claro, fica (exemplo do dia a dia, comparação, desenho com setas, frase mais curta).
+
 ---
 
 ## 1. Conteúdo da apostila (cada missão)

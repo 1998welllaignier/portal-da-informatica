@@ -52,6 +52,7 @@ Em tudo o que for criado (portal, ícones, nomes de app, vídeos, capas, materia
 6. **Modernizar ao máximo (diretriz do professor, 17/11/2026):** simuladores e recursos interativos bons são tarefa obrigatória; o que for menos moderno vira opcional ou sai para abrir espaço. Sempre de forma saudável, educativa e pedagógica. Veja o topo de `docs/PADRAO-DE-QUALIDADE.md`.
 7. **Só fatos verificados (17/11/2026):** nenhuma informação entra no material (texto, vídeo, narração, imagem, simulador) sem ser conferida em fonte confiável; imagens e vídeos da internet são só inspiração. Na dúvida, não entra.
 8. **Revisão ortográfica sempre (17/11/2026):** todo texto é revisado (ortografia, acentuação, concordância, pontuação) antes de publicar.
+9. **Ver com os olhos do aluno (17/11/2026):** linguagem que o aluno da série entende (6º ≈ 11 anos … 9º ≈ 14); ler o material como o aluno leria e nunca deixar nada por alto.
 
 ## 3. Onde fica cada coisa
 | Quero mudar… | Arquivo |
