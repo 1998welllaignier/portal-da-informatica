@@ -163,6 +163,8 @@ Os computadores também precisam **dividir o trabalho**:
 - **IP** (*Internet Protocol*, Protocolo de Internet): o número que identifica cada aparelho na rede, visto no 7º ano.
 - **Data center** (em inglês, centro de dados): prédio com milhares de servidores ligados 24 horas, com energia reserva e refrigeração.
 - **CAT6, CAT6a, CAT7 e CAT8** (*CAT* = categoria): categorias de cabo de rede de cobre; quanto maior o número, mais rápido e mais protegido contra interferência. O CAT8 chega a 40 Gbps, mas só em até 30 metros. Onde eu vejo: escrito na capa do cabo.
+- **Blindagem**: capa fina de metal em volta dos pares de fios do cabo, que protege o sinal da interferência (o "barulho" elétrico de motores, lâmpadas e outros cabos). Aparece no CAT7 e no CAT8.
+- **Gbps** (gigabits por segundo): mede quantos dados passam por segundo; 1 Gbps = 1.000 Mbps = 1 bilhão de bits por segundo.
 - **Nuvem** (em inglês, *cloud*): guardar arquivos e usar programas em servidores de data centers, pela internet. Onde eu vejo: Google Fotos, Google Drive, iCloud e OneDrive.
 - **Paralelismo** (*paralelo* = lado a lado, ao mesmo tempo): partes de uma tarefa feitas ao mesmo tempo por vários processadores ou núcleos.
 - **Núcleo** (em inglês, *core*): cada “cérebro” dentro do processador. Onde eu vejo: “processador de 8 núcleos” (*octa-core*) na caixa do celular.

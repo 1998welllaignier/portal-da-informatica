@@ -198,12 +198,12 @@ PORTAL.registrarConteudo("informatica-7ano-4bim", {
       [
        "2",
        "Roteador MikroTik no rack da cozinha",
-       "Distribui a internet para a escola toda (ele não tem antenas: não faz Wi-Fi)"
+       "Distribui a internet para a escola toda (ele não tem antenas: não faz Wi-Fi). MikroTik é a marca"
       ],
       [
        "3",
        "Switch gigabit de 24 portas",
-       "<strong>Switch</strong> é o aparelho que divide a rede por cabo para vários aparelhos; <strong>gigabit</strong> quer dizer até 1 Gbps (1.000 Mbps)"
+       "<strong>Switch</strong> (em inglês, comutador: o aparelho que liga e troca caminhos) é a caixa cheia de entradas de cabo que divide a rede para vários aparelhos; cada entrada é uma <strong>porta</strong>; <strong>gigabit</strong> quer dizer que cada porta vai até 1 Gbps (1.000 Mbps)"
       ],
       [
        "4",
@@ -218,7 +218,7 @@ PORTAL.registrarConteudo("informatica-7ano-4bim", {
       [
        "6",
        "Switch Fast Ethernet da baia",
-       "Switch pequeno, perto dos computadores; vai só até <strong>100 Mbps</strong>"
+       "<strong>Baia</strong> é cada bancada de computadores da nossa sala (são 4 baias, com até 6 computadores cada). Cada baia tem um switch pequeno, do tipo <strong>Fast Ethernet</strong> (<em>Ethernet</em> é o nome da rede por cabo; <em>Fast</em>, rápida, era o nome do tipo de 100 Mbps): ele vai só até <strong>100 Mbps</strong>"
       ],
       [
        "7",
@@ -233,7 +233,7 @@ PORTAL.registrarConteudo("informatica-7ano-4bim", {
     },
     {
      "t": "p",
-     "h": "<strong>Mbps</strong> (megabits por segundo) mede quantos dados passam por segundo: quanto maior, mais rápido. <strong>A parte mais lenta manda:</strong> a velocidade de todo o caminho fica limitada pela parte mais lenta, como uma estrada larga que termina numa ponte estreita (os carros passam na velocidade da ponte). O cabo do chão aguenta até 1 Gbps, mas o switch da baia vai só até 100 Mbps; por isso, chegam <strong>no máximo 100 Mbps</strong> ao seu computador."
+     "h": "<strong>Mbps</strong> (megabits por segundo) mede quantos dados passam por segundo: quanto maior, mais rápido. O <strong>bit</strong> é o menor pedacinho de informação do computador (um 0 ou um 1); <strong>1 Mbps</strong> é 1 milhão de bits por segundo, e <strong>1 Gbps</strong> (gigabit por segundo) é 1.000 Mbps. <strong>A parte mais lenta manda:</strong> a velocidade de todo o caminho fica limitada pela parte mais lenta, como uma estrada larga que termina numa ponte estreita (os carros passam na velocidade da ponte). O cabo do chão aguenta até 1 Gbps, mas o switch da baia vai só até 100 Mbps; por isso, chegam <strong>no máximo 100 Mbps</strong> ao seu computador."
     },
     {
      "t": "p",
@@ -426,6 +426,66 @@ PORTAL.registrarConteudo("informatica-7ano-4bim", {
      "termo": "Navegador",
      "rotulo": "<strong>Navegador</strong>",
      "def": "o programa que abre os sites, como Chrome, Edge e Firefox."
+    },
+    {
+     "termo": "Switch",
+     "rotulo": "<strong>Switch</strong> (em inglês, <em>comutador</em>, o que liga e troca caminhos)",
+     "def": "caixa com várias entradas de cabo (portas) que divide a rede para vários aparelhos. Onde eu vejo: no rack da escola (o de 24 portas) e em cada baia da nossa sala. Para quê: ligar muitos computadores na mesma rede, por cabo."
+    },
+    {
+     "termo": "Porta",
+     "rotulo": "<strong>Porta</strong>",
+     "def": "cada entrada onde se encaixa um cabo de rede, no switch, no roteador ou no computador."
+    },
+    {
+     "termo": "Baia",
+     "rotulo": "<strong>Baia</strong>",
+     "def": "cada bancada de computadores da sala de informática. A nossa sala tem 4 baias, com até 6 computadores cada, e cada uma tem o seu switch."
+    },
+    {
+     "termo": "Rack",
+     "rotulo": "<strong>Rack</strong> (em inglês, prateleira)",
+     "def": "armário de metal onde ficam os aparelhos da rede. O da escola fica na cozinha."
+    },
+    {
+     "termo": "Fibra óptica",
+     "rotulo": "<strong>Fibra óptica</strong>",
+     "def": "cabo com fios finíssimos de vidro que levam os dados em forma de luz. Onde eu vejo: no cabo que chega da rua até a escola ou até a sua casa."
+    },
+    {
+     "termo": "AP",
+     "rotulo": "<strong>AP</strong> (<em>Access Point</em>, ponto de acesso)",
+     "def": "aparelho que recebe a rede pelo cabo e a transforma em Wi-Fi. Onde eu vejo: nas salas de aula comuns."
+    },
+    {
+     "termo": "Ethernet e Fast Ethernet",
+     "rotulo": "<strong>Ethernet e Fast Ethernet</strong>",
+     "def": "Ethernet é o nome da rede por cabo; Fast Ethernet é o tipo que vai até 100 Mbps, como o switch das baias."
+    },
+    {
+     "termo": "Bit",
+     "rotulo": "<strong>Bit</strong> (de <em>binary digit</em>, dígito binário)",
+     "def": "o menor pedacinho de informação do computador, um 0 ou um 1."
+    },
+    {
+     "termo": "Mbps e Gbps",
+     "rotulo": "<strong>Mbps e Gbps</strong> (megabits e gigabits por segundo)",
+     "def": "medem quantos dados passam por segundo. 1 Mbps = 1 milhão de bits por segundo; 1 Gbps = 1.000 Mbps. Onde eu vejo: na velocidade do plano de internet e no teste de velocidade."
+    },
+    {
+     "termo": "Gigabit",
+     "rotulo": "<strong>Gigabit</strong>",
+     "def": "aparelho ou cabo que vai até 1 Gbps (1.000 Mbps), como o switch do rack da escola."
+    },
+    {
+     "termo": "Data center",
+     "rotulo": "<strong>Data center</strong> (em inglês, centro de dados)",
+     "def": "prédio cheio de servidores ligados 24 horas."
+    },
+    {
+     "termo": "Provedor",
+     "rotulo": "<strong>Provedor</strong> (de <em>prover</em> = fornecer)",
+     "def": "a empresa que vende e leva a internet até a casa ou a escola. Onde eu vejo: no nome da empresa da internet e na caixinha (roteador) que ela instala."
     },
     {
      "termo": "Cabo de par trançado",

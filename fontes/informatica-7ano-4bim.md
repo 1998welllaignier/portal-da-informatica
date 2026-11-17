@@ -68,15 +68,15 @@ Para tudo isso funcionar, os aparelhos seguem **protocolos**: regras combinadas 
 **A rede da nossa escola, por dentro:** a internet chega da rua por um cabo de **fibra óptica** (cabo que leva os dados em forma de luz) e entra pela cozinha, onde fica o **rack** (o armário dos aparelhos de rede). O caminho até o computador da sala de informática é este:
 | Ordem | Parte do caminho | O que faz |
 | 1 | Fibra óptica chegando da rua | Traz a internet do provedor até a escola |
-| 2 | Roteador MikroTik no rack da cozinha | Distribui a internet para a escola toda (ele não tem antenas: não faz Wi-Fi) |
-| 3 | Switch gigabit de 24 portas | **Switch** é o aparelho que divide a rede por cabo para vários aparelhos; **gigabit** quer dizer até 1 Gbps (1.000 Mbps) |
+| 2 | Roteador MikroTik no rack da cozinha | Distribui a internet para a escola toda (ele não tem antenas: não faz Wi-Fi). MikroTik é a marca |
+| 3 | Switch gigabit de 24 portas | **Switch** (em inglês, comutador: o aparelho que liga e troca caminhos) é a caixa cheia de entradas de cabo que divide a rede para vários aparelhos; cada entrada é uma **porta**; **gigabit** quer dizer que cada porta vai até 1 Gbps (1.000 Mbps) |
 | 4 | Cabo CAT6 por baixo do chão | Cabo de rede que leva a internet até as salas |
 | 5 | Tomada de rede na parede ou no chão da sala | Onde o cabo chega na sala |
-| 6 | Switch Fast Ethernet da baia | Switch pequeno, perto dos computadores; vai só até **100 Mbps** |
+| 6 | Switch Fast Ethernet da baia | **Baia** é cada bancada de computadores da nossa sala (são 4 baias, com até 6 computadores cada). Cada baia tem um switch pequeno, do tipo **Fast Ethernet** (*Ethernet* é o nome da rede por cabo; *Fast*, rápida, era o nome do tipo de 100 Mbps): ele vai só até **100 Mbps** |
 | 7 | Computador da sala de informática | Onde você usa a internet |
 
 Nas **salas de aula comuns**, o cabo chega a um **AP** (*Access Point*, ponto de acesso): o aparelho que recebe a rede pelo cabo e a transforma em **Wi-Fi** para os celulares.
-**Mbps** (megabits por segundo) mede quantos dados passam por segundo: quanto maior, mais rápido. **A parte mais lenta manda:** a velocidade de todo o caminho fica limitada pela parte mais lenta, como uma estrada larga que termina numa ponte estreita (os carros passam na velocidade da ponte). O cabo do chão aguenta até 1 Gbps, mas o switch da baia vai só até 100 Mbps; por isso, chegam **no máximo 100 Mbps** ao seu computador.
+**Mbps** (megabits por segundo) mede quantos dados passam por segundo: quanto maior, mais rápido. O **bit** é o menor pedacinho de informação do computador (um 0 ou um 1); **1 Mbps** é 1 milhão de bits por segundo, e **1 Gbps** (gigabit por segundo) é 1.000 Mbps. **A parte mais lenta manda:** a velocidade de todo o caminho fica limitada pela parte mais lenta, como uma estrada larga que termina numa ponte estreita (os carros passam na velocidade da ponte). O cabo do chão aguenta até 1 Gbps, mas o switch da baia vai só até 100 Mbps; por isso, chegam **no máximo 100 Mbps** ao seu computador.
 🔌 **Você sabia? O cabo de rede por dentro**
 Por fora, o cabo de rede parece um fio só. Por dentro, ele tem **8 fios de cobre** coloridos, enrolados de dois em dois: são **4 pares trançados** (laranja, verde, azul e marrom, cada um com o seu par branco listrado). Na ponta fica o **conector RJ45**, o plugue transparente com uma trava, que se encaixa no computador, no switch e na tomada de rede.
 **Por que os fios são trançados?** Os dados viajam pelos fios como sinais elétricos. Motores, lâmpadas e outros cabos fazem um "barulho" elétrico, a **interferência**, que pode bagunçar o sinal. Como os dois fios do par estão enrolados juntos, a interferência atinge os dois do mesmo jeito e o computador consegue cancelar esse barulho. A ideia é antiga: **Alexander Graham Bell**, um dos inventores do telefone, registrou essa invenção em **1881**, para os fios de telefone.
@@ -119,6 +119,18 @@ Quanto mais alta a categoria, mais **proteção** contra o vazamento e a interfe
 - **HTTP** (*HyperText Transfer Protocol*, Protocolo de Transferência de Hipertexto): as regras que o navegador usa para pedir e receber páginas. *Hipertexto* é texto com links.
 - **HTTPS** (o *S* é de *Secure*, seguro): o HTTP com os dados embaralhados (criptografados) no caminho. Onde eu vejo: no começo do endereço do site e no cadeado 🔒 ao lado. Para quê: ninguém no caminho conseguir ler sua senha ou seus dados.
 - **Navegador**: o programa que abre os sites, como Chrome, Edge e Firefox.
+- **Switch** (em inglês, *comutador*, o que liga e troca caminhos): caixa com várias entradas de cabo (portas) que divide a rede para vários aparelhos. Onde eu vejo: no rack da escola (o de 24 portas) e em cada baia da nossa sala. Para quê: ligar muitos computadores na mesma rede, por cabo.
+- **Porta**: cada entrada onde se encaixa um cabo de rede, no switch, no roteador ou no computador.
+- **Baia**: cada bancada de computadores da sala de informática. A nossa sala tem 4 baias, com até 6 computadores cada, e cada uma tem o seu switch.
+- **Rack** (em inglês, prateleira): armário de metal onde ficam os aparelhos da rede. O da escola fica na cozinha.
+- **Fibra óptica**: cabo com fios finíssimos de vidro que levam os dados em forma de luz. Onde eu vejo: no cabo que chega da rua até a escola ou até a sua casa.
+- **AP** (*Access Point*, ponto de acesso): aparelho que recebe a rede pelo cabo e a transforma em Wi-Fi. Onde eu vejo: nas salas de aula comuns.
+- **Ethernet e Fast Ethernet**: Ethernet é o nome da rede por cabo; Fast Ethernet é o tipo que vai até 100 Mbps, como o switch das baias.
+- **Bit** (de *binary digit*, dígito binário): o menor pedacinho de informação do computador, um 0 ou um 1.
+- **Mbps e Gbps** (megabits e gigabits por segundo): medem quantos dados passam por segundo. 1 Mbps = 1 milhão de bits por segundo; 1 Gbps = 1.000 Mbps. Onde eu vejo: na velocidade do plano de internet e no teste de velocidade.
+- **Gigabit**: aparelho ou cabo que vai até 1 Gbps (1.000 Mbps), como o switch do rack da escola.
+- **Data center** (em inglês, centro de dados): prédio cheio de servidores ligados 24 horas.
+- **Provedor** (de *prover* = fornecer): a empresa que vende e leva a internet até a casa ou a escola. Onde eu vejo: no nome da empresa da internet e na caixinha (roteador) que ela instala.
 - **Cabo de par trançado**: o cabo de rede comum, com 8 fios de cobre enrolados de dois em dois (4 pares). Onde eu vejo: no cabo azul ou cinza ligado atrás do computador. Para quê: levar os dados por cabo, protegidos da interferência.
 - **RJ45** (*Registered Jack 45*, conector registrado número 45): o plugue transparente com trava na ponta do cabo de rede. Onde eu vejo: na entrada de rede do computador, do switch e da tomada de rede.
 - **CAT5, CAT5e e CAT6** (*CAT* = categoria): categorias de cabo de rede. O CAT5 vai até 100 Mbps, o CAT5e até 1 Gbps e o CAT6 até 10 Gbps em trechos curtos. Depois vêm o CAT6a, o CAT7 e o CAT8 (até 40 Gbps, nos data centers). O CAT6 tem a trança mais apertada e uma cruz de plástico entre os pares, por isso aguenta sinais mais rápidos. Onde eu vejo: escrito na capa do cabo.

@@ -400,6 +400,16 @@ PORTAL.registrarConteudo("informatica-8ano-4bim", {
      "def": "categorias de cabo de rede de cobre; quanto maior o número, mais rápido e mais protegido contra interferência. O CAT8 chega a 40 Gbps, mas só em até 30 metros. Onde eu vejo: escrito na capa do cabo."
     },
     {
+     "termo": "Blindagem",
+     "rotulo": "<strong>Blindagem</strong>",
+     "def": "capa fina de metal em volta dos pares de fios do cabo, que protege o sinal da interferência (o \"barulho\" elétrico de motores, lâmpadas e outros cabos). Aparece no CAT7 e no CAT8."
+    },
+    {
+     "termo": "Gbps",
+     "rotulo": "<strong>Gbps</strong> (gigabits por segundo)",
+     "def": "mede quantos dados passam por segundo; 1 Gbps = 1.000 Mbps = 1 bilhão de bits por segundo."
+    },
+    {
      "termo": "Nuvem",
      "rotulo": "<strong>Nuvem</strong> (em inglês, <em>cloud</em>)",
      "def": "guardar arquivos e usar programas em servidores de data centers, pela internet. Onde eu vejo: Google Fotos, Google Drive, iCloud e OneDrive."
