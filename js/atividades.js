@@ -34,6 +34,35 @@
   const contem = (txt, alts) => { const t = " " + norm(txt) + " "; return (Array.isArray(alts) ? alts : [alts]).some(a => t.includes(norm(a))); };
   const palavras = t => String(t || "").trim().split(/\s+/).filter(Boolean).length;
 
+
+  /* 🤖 BIT, o robô ajudante (17/11/2026): em qualquer tarefa com "robo", o botão "Me ajuda, robô!" abre uma mini simulação
+     em que o Bit monta, letra por letra, um exemplo DIFERENTE do pedido (o aluno nunca recebe a resposta pronta).
+     robo = { paineis: ["título", ...], passos: [{ fala, painel, titulo | linha, marca, espera }], fim }.
+     Depois de 2 erros, o Bit se oferece sozinho. */
+  function bitAjuda(c, at, ctx) {
+    if (!at.robo) return; const R = at.robo;
+    let wrap = c.nextElementSibling && c.nextElementSibling.classList.contains("ab-bit") ? c.nextElementSibling : null;
+    if (!wrap) { wrap = document.createElement("div"); wrap.className = "ab-bit"; wrap.innerHTML = `<div class="tg-acoes"><button type="button" class="btn tg-robo ab-robo">🤖 Me ajuda, robô!</button></div><div class="ab-demo" hidden></div>`; c.after(wrap); }
+    const box = wrap.querySelector(".ab-demo"), botao = wrap.querySelector(".ab-robo"); let id = 0, erros = 0;
+    const abrir = () => { const BIT = (P.robo && P.robo.BIT) || "🤖"; botao.classList.remove("tg-pulsa");
+      box.innerHTML = `<div class="bit-demo" role="region" aria-label="O Bit mostra como faz"><div class="bit-topo">${BIT}<div class="bit-fala" aria-live="polite"><strong>Bit:</strong> <span class="bf"></span></div></div>
+        <div class="ab-paineis${R.paineis.length === 1 ? " um" : ""}">${R.paineis.map((t, i) => `<div class="ab-painel"><b>${md(t)}</b><div class="ab-tit" data-t="${i}"></div><ol class="ab-lin${R.semNumero ? " sem" : ""}" data-p="${i}"></ol></div>`).join("")}</div>
+        <div class="bit-bts"><button type="button" class="btn bit-de-novo">🔁 Ver de novo</button><button type="button" class="btn btn-ok bit-entendi">👍 Entendi! Agora eu faço o meu</button></div></div>`;
+      box.hidden = false; const fala = box.querySelector(".bf");
+      const digita = async (el, txt, meu) => { for (let k = 1; k <= txt.length; k++) { if (meu !== id) return false; el.textContent = txt.slice(0, k); await new Promise(r => setTimeout(r, 30)); } return true; };
+      const tocar = async () => { const meu = ++id; box.querySelectorAll(".ab-lin, .ab-tit").forEach(o => o.innerHTML = "");
+        for (const p of R.passos) { if (meu !== id) return; fala.innerHTML = md(p.fala || "");
+          if (p.titulo && !await digita(box.querySelector(`.ab-tit[data-t="${p.painel || 0}"]`), p.titulo, meu)) return;
+          if (p.linha != null) { const li = document.createElement("li"); if (p.marca) li.className = "ab-marca"; box.querySelector(`.ab-lin[data-p="${p.painel || 0}"]`).appendChild(li); if (!await digita(li, p.linha, meu)) return; }
+          await new Promise(r => setTimeout(r, p.espera || 1800)); }
+        if (meu === id) fala.innerHTML = md(R.fim || "Agora é a sua vez: faça o seu! 💪"); };
+      box.querySelector(".bit-de-novo").onclick = tocar;
+      box.querySelector(".bit-entendi").onclick = () => { id++; box.innerHTML = ""; box.hidden = true; const t = c.querySelector("textarea, input"); if (t) t.focus(); };
+      tocar(); };
+    botao.onclick = abrir;
+    const errou0 = ctx.errou; ctx.errou = m => { erros++; errou0(m + (erros >= 2 ? " <br>🤖 <b>Quer que o Bit mostre como faz?</b> Toque em “Me ajuda, robô!”." : "")); if (erros >= 2) botao.classList.add("tg-pulsa"); };
+  }
+  P.bitAjuda = bitAjuda;
   /* ------------------------------------------------------------
      ORDENAR — passos, etapas, pacotes
      ------------------------------------------------------------ */
@@ -313,27 +342,9 @@
           <textarea rows="${f.linhas || 3}" data-i="${i}" aria-label="${esc(f.rot || at.titulo || "Resposta")}" placeholder="${esc(f.ph || "Escreva aqui...")}">${esc(st.resposta[i] || "")}</textarea></label>`).join("")}
         ${at.criterios ? `<div class="criterios"><p><strong>Antes de enviar, confira:</strong></p><ul>${at.criterios.map(k => `<li>☐ ${md(k)}</li>`).join("")}</ul></div>` : ""}
         ${at.exemplo ? `<details class="exemplo"><summary>Ver um exemplo de resposta (depois de tentar)</summary><p>${md(at.exemplo)}</p></details>` : ""}
-        ${at.robo ? `<div class="tg-acoes"><button type="button" class="btn tg-robo ab-robo">🤖 Me ajuda, robô!</button></div><div class="ab-demo" hidden></div>` : ""}`;
+`;
       c.querySelectorAll("textarea").forEach(t => t.oninput = () => { st.resposta[t.dataset.i] = t.value; ctx.salvar(); });
-      /* 🤖 Bit (17/11/2026): mostra numa mini simulação um exemplo DIFERENTE sendo montado, passo a passo, e o aluno faz o dele.
-         at.robo = { paineis: ["título do painel 1", ...], passos: [{ txt, painel, linha, marca }], fim } */
-      let errosRobo = 0;
-      const abrirRobo = () => { if (!at.robo) return; const box = c.querySelector(".ab-demo"), R = at.robo, BIT = (P.robo && P.robo.BIT) || "🤖";
-        box.innerHTML = `<div class="bit-demo" role="region" aria-label="O Bit mostra como faz"><div class="bit-topo">${BIT}<div class="bit-fala" aria-live="polite"><strong>Bit:</strong> <span class="bf"></span></div></div>
-          <div class="ab-paineis">${R.paineis.map((t, i) => `<div class="ab-painel"><b>${md(t)}</b><div class="ab-tit" data-t="${i}"></div><ol class="ab-lin" data-p="${i}"></ol></div>`).join("")}</div>
-          <div class="bit-bts"><button type="button" class="btn bit-de-novo">🔁 Ver de novo</button><button type="button" class="btn btn-ok bit-entendi">👍 Entendi! Agora eu faço o meu</button></div></div>`;
-        box.hidden = false; const fala = box.querySelector(".bf"); let id = 0;
-        const tocar = async () => { const meu = ++id; box.querySelectorAll(".ab-lin, .ab-tit").forEach(o => o.innerHTML = "");
-          for (const p of R.passos) { if (meu !== id) return; fala.innerHTML = md(p.fala || "");
-            if (p.titulo) { const el = box.querySelector(`.ab-tit[data-t="${p.painel || 0}"]`); for (let k = 1; k <= p.titulo.length; k++) { if (meu !== id) return; el.textContent = p.titulo.slice(0, k); await new Promise(r => setTimeout(r, 35)); } }
-            if (p.linha != null) { const li = document.createElement("li"); if (p.marca) li.className = "ab-marca"; box.querySelector(`.ab-lin[data-p="${p.painel || 0}"]`).appendChild(li);
-              for (let k = 1; k <= p.linha.length; k++) { if (meu !== id) return; li.textContent = p.linha.slice(0, k); await new Promise(r => setTimeout(r, 35)); } }
-            await new Promise(r => setTimeout(r, p.espera || 1800)); }
-          if (meu === id) fala.innerHTML = md(R.fim || "Agora é a sua vez: invente o seu, com outro nome! 💪"); };
-        box.querySelector(".bit-de-novo").onclick = tocar; box.querySelector(".bit-entendi").onclick = () => { id++; box.innerHTML = ""; box.hidden = true; const t = c.querySelector("textarea"); if (t) t.focus(); };
-        tocar(); };
-      if (at.robo) c.querySelector(".ab-robo").onclick = abrirRobo;
-      if (at.robo) { const errou0 = ctx.errou; ctx.errou = m => { errosRobo++; errou0(m + (errosRobo >= 2 ? " <br>🤖 <b>Quer que o Bit mostre como faz?</b> Toque em “Me ajuda, robô!”." : "")); if (errosRobo >= 2) { const b = c.querySelector(".ab-robo"); if (b) b.classList.add("tg-pulsa"); } }; }
+      bitAjuda(c, at, ctx);
       ctx.verificar = () => {
         const vazios = campos.filter((_, i) => !(st.resposta[i] || "").trim()).length;
         if (vazios) { ctx.feedback("info", `Preencha ${vazios > 1 ? "todos os campos" : "a resposta"} antes de enviar.`); return; }
@@ -417,7 +428,7 @@
         err ? ctx.errou(`${err} campo${err > 1 ? "s" : ""} para rever (✖).${dicasErro.length ? " Pista: " + md(dicasErro[0]) : ""}`) : ctx.concluir("certo", "Tabela completa e certa!");
       };
       ctx.resolver = () => { at.linhas.forEach((ln, r) => ln.forEach((cel, k) => { if (cel && typeof cel === "object") { const id = r + "-" + k; st.cel[id] = cel.exemplo || (Array.isArray(cel.r) ? cel.r[0] : cel.r); marcas[id] = "certo"; } })); draw(); };
-      draw();
+      draw(); bitAjuda(c, at, ctx);
     },
     imprimir(at) { return `<table class="imp-t">${at.colunas ? `<tr>${at.colunas.map(k => `<th>${md(k)}</th>`).join("")}</tr>` : ""}${at.linhas.map(ln => `<tr>${ln.map(cel => `<td>${typeof cel === "object" ? (cel.op ? cel.op.map(esc).join(" / ") : "") : md(String(cel))}</td>`).join("")}</tr>`).join("")}</table>`; },
     resumoResposta(at, st) { return Object.values(st.cel || {}).map(esc).join(" · "); }
