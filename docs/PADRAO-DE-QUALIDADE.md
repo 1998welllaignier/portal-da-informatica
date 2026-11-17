@@ -5,6 +5,8 @@ nasce seguindo **tudo** daqui, sem o professor precisar relembrar.
 Regra combinada em 11/11/2026: **cada melhoria aprovada entra nesta lista no mesmo dia**, com a data.
 Detalhes técnicos: `AGENTS.md` (checklist do bimestre), `docs/PADRAO-ATIVIDADES.md` e `docs/PADRAO-VIDEOS-2D.md`.
 
+> 🚀 **DIRETRIZ PERMANENTE (17/11/2026): modernizar ao máximo.** O professor quer o material dos alunos o mais moderno possível, **de forma saudável, educativa e pedagógica**. Simulador ou recurso interativo bom é **tarefa obrigatória**, não opcional. Quando não couber no tempo da aula, **troca de lugar**: o que for menos moderno ou menos atual (tabela para preencher, classificação simples, pergunta que o simulador já cobre) vira opcional ou sai. Em toda missão nova ou revisada, perguntar: "o que aqui ainda dá para modernizar?"
+
 ---
 
 ## 1. Conteúdo da apostila (cada missão)

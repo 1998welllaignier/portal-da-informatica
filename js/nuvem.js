@@ -45,7 +45,7 @@
 
   const hoje = () => { const d = new Date(); return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); };
   N.hoje = hoje;
-  const restaurados = {}, enviados = {};
+  const restaurados = {}, enviados = {}, jaOk = {};
   const limpo = o => JSON.parse(JSON.stringify(o == null ? null : o));
   const esperarAuth = auth => new Promise(ok => { const u = auth.onAuthStateChanged(x => { u(); ok(x); }); });
 
@@ -143,10 +143,13 @@
       for (let i = 0; i < s.alunoIds.length; i++) {
         const alunoId = s.alunoIds[i];
         const ref = app(i).db.collection("progresso").doc(alunoId + "_" + aid + "_" + m.id);
+        if (!okB && m.id !== "rc" && jaOk[chave + alunoId] === undefined) { try { const sn = await ref.get(); jaOk[chave + alunoId] = !!(sn.exists && sn.data().basicoOk); } catch (e) { jaOk[chave + alunoId] = true; } }
         await ref.set(limpo({
           alunoId, turma: s.turma, aid, mid: m.id, unidade: ap.unidade || "", ano: new Date().getFullYear(),
           leitura: st.leitura, basico: st.basico, desafio: st.desafio, turbo: st.turbo, revisao: st.revisao,
-          basicoOk: m.id === "rc" ? false : okB, atv: JSON.stringify(r.atv), vis: r.vis,  // atv em texto: o Firestore não aceita listas dentro de listas
+          // 🔒 o visto não volta atrás (17/11/2026): se entrar tarefa obrigatória nova numa missão já concluída, quem já tinha
+          //    o Básico continua com ele (só grava basicoOk:false em quem nunca concluiu)
+          ...(okB || m.id === "rc" || !jaOk[chave + alunoId] ? { basicoOk: m.id === "rc" ? false : okB } : {}), atv: JSON.stringify(r.atv), vis: r.vis,  // atv em texto: o Firestore não aceita listas dentro de listas
           ...(m.id === "rc" && Array.isArray(P.recMissoes) && P.notaRecuperacao ? (x => x ? { notaRec: x.nota, recFeitas: x.feitas, recTotal: x.total, recMissoes: P.recMissoes } : {})(P.notaRecuperacao(aid)) : {}),
           dupla: s.alunoIds.length > 1 ? s.alunoIds.filter(x => x !== alunoId) : [],
           dias: { [dia]: Date.now() }, atualizado: Date.now()

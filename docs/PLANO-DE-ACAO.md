@@ -199,6 +199,10 @@ Para decidir com o professor no salão. Cada item: manter, juntar ou desligar.
 - [ ] Abrir o bimestre no diário com o cronograma de cada turma.
 - Durante o bimestre: presença, vistos e boletim automáticos; o professor confere o painel, faz o registro da aula e pede o vídeo da missão na semana da aula.
 
+## 🚀 Modernização contínua (diretriz de 17/11/2026)
+- Em cada missão (2026 e 2027), trocar o que for menos moderno por simuladores e recursos interativos, que passam a ser obrigatórios. Primeiro caso: 7º M1 (🔌 simulador do cabo de rede).
+- Ao revisar cada bimestre, fazer a análise "o que é menos moderno aqui?" e propor as trocas ao professor.
+
 ## 🗓️ Material de 2027 (conversa de 14/11/2026, noite)
 - [x] Chave seletora de bimestre no painel (⚙️ Configurações › Ano letivo e aulas): feita em 14/11.
 - [x] Separar Diário, Boletim e Prova por bimestre (feito em 15/11/2026): cada bimestre usa só as aulas com data dentro dele (`catalogo.periodos[].inicio/fim`), o seu cronograma (`cronogramaPor`), as suas notas (`notasPor`), o progresso e as provas das apostilas dele e a sua configuração de prova (`config/prova_<turma>_<bimestre>`; o 4º de 2026 continua em `prova_<turma>`). ⚠️ Acertar as datas de 2027 quando sair o Calendário Escolar da SEMED.
