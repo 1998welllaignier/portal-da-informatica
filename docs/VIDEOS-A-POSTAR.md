@@ -11,6 +11,7 @@ O YouTube travou no **limite diário de envios** em 16/11/2026 (canal sem verifi
 - 7º ano · 1º bim. 2027 · Missão 2: Listas no programa (`2027-7ano-m2`)
 - Portal da Informática · Apresentação para gestores (`apresentacao-gestores`, **não** é conteúdo para crianças)
 - Portal da Informática · Apresentação para alunos e famílias (`apresentacao-pais`)
+- 7º ano · 4º bim. 2026 · 🔌 Curiosidade da Missão 1: O cabo de rede por dentro (`7ano-m1-cabo`, voz gerada no ChatGPT/HeyGen em 17/11; entra em `P.videosMissao["informatica-7ano-4bim"].m1` como `{ id, nome: "🔌 Curiosidade: o cabo de rede por dentro", sub, curiosidade: true }`; **privado** até o professor revisar)
 
 Como subir: os MP4 ficam no ramo temporário `envio-videos` do GitHub (v5–v8); no YouTube Studio, a página busca o arquivo
 (`raw.githubusercontent.com/.../envio-videos/vN.mp4`) e coloca no campo de envio. Apagar o ramo quando os 4 subirem.

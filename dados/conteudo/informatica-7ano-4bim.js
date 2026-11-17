@@ -234,6 +234,124 @@ PORTAL.registrarConteudo("informatica-7ano-4bim", {
     {
      "t": "p",
      "h": "<strong>Mbps</strong> (megabits por segundo) mede quantos dados passam por segundo: quanto maior, mais rápido. <strong>A parte mais lenta manda:</strong> a velocidade de todo o caminho fica limitada pela parte mais lenta, como uma estrada larga que termina numa ponte estreita (os carros passam na velocidade da ponte). O cabo do chão aguenta até 1 Gbps, mas o switch da baia vai só até 100 Mbps; por isso, chegam <strong>no máximo 100 Mbps</strong> ao seu computador."
+    },
+    {
+     "t": "p",
+     "h": "🔌 <strong>Você sabia? O cabo de rede por dentro</strong>"
+    },
+    {
+     "t": "p",
+     "h": "Por fora, o cabo de rede parece um fio só. Por dentro, ele tem <strong>8 fios de cobre</strong> coloridos, enrolados de dois em dois: são <strong>4 pares trançados</strong> (laranja, verde, azul e marrom, cada um com o seu par branco listrado). Na ponta fica o <strong>conector RJ45</strong>, o plugue transparente com uma trava, que se encaixa no computador, no switch e na tomada de rede."
+    },
+    {
+     "t": "p",
+     "h": "<strong>Por que os fios são trançados?</strong> Os dados viajam pelos fios como sinais elétricos. Motores, lâmpadas e outros cabos fazem um \"barulho\" elétrico, a <strong>interferência</strong>, que pode bagunçar o sinal. Como os dois fios do par estão enrolados juntos, a interferência atinge os dois do mesmo jeito e o computador consegue cancelar esse barulho. A ideia é antiga: <strong>Alexander Graham Bell</strong>, um dos inventores do telefone, registrou essa invenção em <strong>1881</strong>, para os fios de telefone."
+    },
+    {
+     "t": "p",
+     "h": "O outro problema é a <strong>diafonia</strong> (em inglês, <em>crosstalk</em>): o sinal de um par \"vaza\" para o par vizinho, como a conversa da mesa ao lado num restaurante. Quanto mais rápido o sinal, mais ele vaza. É por isso que existem <strong>categorias</strong> de cabo (CAT vem de categoria). O antigo <strong>CAT5</strong> ia só até <strong>100 Mbps</strong>; o <strong>CAT5e</strong> (o <em>e</em> é de <em>enhanced</em>, melhorado, em inglês) e o <strong>CAT6</strong> são os usados hoje:"
+    },
+    {
+     "t": "tabela",
+     "cab": [
+      "",
+      "CAT5e",
+      "CAT6"
+     ],
+     "linhas": [
+      [
+       "Plugue e fios",
+       "RJ45, 8 fios em 4 pares trançados",
+       "RJ45, 8 fios em 4 pares trançados (iguais por fora)"
+      ],
+      [
+       "Trança",
+       "Normal",
+       "Mais apertada (mais voltas por metro)"
+      ],
+      [
+       "Cruz de plástico entre os pares",
+       "Não tem",
+       "Tem: separa os 4 pares para um não vazar no outro"
+      ],
+      [
+       "Frequência que aguenta",
+       "Até 100 MHz",
+       "Até 250 MHz"
+      ],
+      [
+       "Velocidade",
+       "Até 1 Gbps, em até 100 metros",
+       "Até 1 Gbps em até 100 metros, e até 10 Gbps em trechos de até uns 55 metros"
+      ]
+     ]
+    },
+    {
+     "t": "p",
+     "h": "🚀 <strong>Para no CAT6? Não! As categorias continuam subindo:</strong>"
+    },
+    {
+     "t": "tabela",
+     "cab": [
+      "Categoria",
+      "Frequência",
+      "Velocidade",
+      "Onde se usa"
+     ],
+     "linhas": [
+      [
+       "<strong>CAT6a</strong> (<em>a</em> de <em>augmented</em>, ampliado)",
+       "Até 500 MHz",
+       "10 Gbps em até 100 metros",
+       "Escritórios e escolas novas"
+      ],
+      [
+       "<strong>CAT7</strong>",
+       "Até 600 MHz",
+       "10 Gbps em até 100 metros",
+       "Redes com muita interferência; cada par tem a sua própria <strong>blindagem</strong> (uma capinha de metal)"
+      ],
+      [
+       "<strong>CAT8</strong>",
+       "Até 2.000 MHz",
+       "25 a 40 Gbps em até 30 metros",
+       "<strong>Data centers</strong>: liga um servidor ao outro, bem pertinho"
+      ]
+     ]
+    },
+    {
+     "t": "p",
+     "h": "Quanto mais alta a categoria, mais <strong>proteção</strong> contra o vazamento e a interferência: trança mais apertada, separadores e <strong>blindagem</strong> de metal em volta dos pares. Por isso os cabos ficam mais grossos, mais duros de dobrar e mais caros. E, para distâncias grandes (entre prédios, cidades e países), quem leva os dados é a <strong>fibra óptica</strong>, que usa luz em vez de eletricidade."
+    },
+    {
+     "t": "p",
+     "h": "<strong>MHz</strong> (megahertz) quer dizer <strong>milhões de vezes por segundo</strong>: é o quanto o sinal \"vibra\" no fio a cada segundo. Quanto mais MHz o cabo aguenta, mais dados ele consegue levar."
+    },
+    {
+     "t": "p",
+     "h": "<strong>Na nossa escola:</strong> o cabo do chão é CAT6. A internet da escola é de uns 300 a 400 Mbps e o switch da baia vai só até 100 Mbps: o cabo está sobrando! Para uma internet de até 1 Gbps, um cabo CAT5e também daria conta."
+    },
+    {
+     "t": "p",
+     "h": "🧪 <strong>No portal:</strong> no simulador <strong>🔌 Qual cabo é mais rápido?</strong>, você liga cada cabo no computador e vê a velocidade aparecer no monitor."
+    },
+    {
+     "t": "p",
+     "h": "🔎 <strong>Como saber qual é o seu cabo?</strong> O nome vem <strong>escrito na capa</strong> do cabo, repetido de tempos em tempos (por exemplo: <em>CAT6</em> ou <em>CAT5e</em>)."
+    },
+    {
+     "t": "tabela",
+     "cab": [
+      "✍️ Olhe a capa do cabo de rede do seu computador (sem puxar nem desencaixar!). O que está escrito nela? É CAT5e ou CAT6?"
+     ],
+     "linhas": [
+      [
+       ""
+      ],
+      [
+       ""
+      ]
+     ]
     }
    ],
    "termos": [
