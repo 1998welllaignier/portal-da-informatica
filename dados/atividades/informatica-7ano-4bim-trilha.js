@@ -180,7 +180,7 @@ PORTAL.registrarAtividades("informatica-7ano-4bim-trilha", {
           { t: "Bloquear e denunciar", ic: "🚫", c: "F" }],
         explicacao: "No cyberbullying: <strong>print</strong>, <strong>bloquear</strong>, <strong>denunciar</strong> e <strong>contar a um adulto</strong>. Nunca responder com ofensa." },
 
-      { id: "m3-basico-4", tipo: "tabela", titulo: "Passo 4 · Digite aqui no portal",
+      { id: "m3-basico-4", tipo: "tabela", titulo: "Passo 4 · Digite aqui no portal", robo: {"paineis": ["⌨️ Como eu digito"], "passos": [{"fala": "Olha como eu faço com <b>outra</b> frase. Clico na caixa. Para as letras grandes, aperto uma vez o <b>Caps Lock</b> (a luzinha acende):", "painel": 0, "linha": "Caps Lock ligado 💡"}, {"fala": "Digito letra por letra. Entre uma palavra e outra, aperto a <b>barra de espaço</b>, a tecla comprida:", "painel": 0, "linha": "EU GOSTO DE APRENDER", "marca": true}, {"fala": "No fim, confiro se ficou igualzinho e aperto <b>Verificar</b>.", "painel": null, "espera": 2400}], "fim": "Agora é a sua vez: digite a frase da tarefa, igualzinho! 💪"},
         enunciado: "<p>Digite na caixa: <strong>NAO PASSO MEU CODIGO</strong></p>",
         linhas: [["Digite aqui:", { r: "NAO PASSO MEU CODIGO", tipo: "letras", w: 24, ph: "NAO PASSO MEU CODIGO", dica: "Digite: NAO PASSO MEU CODIGO." }]] }
     ],
@@ -208,7 +208,7 @@ PORTAL.registrarAtividades("informatica-7ano-4bim-trilha", {
           categorias: [{ id: "V", rot: "Vértice", ic: "⚪", desc: "é um lugar" }, { id: "A", rot: "Aresta", ic: "➖", desc: "é uma rua (linha)" }],
           itens: [{ t: "A escola", ic: "🏫", c: "V" }, { t: "A rua da padaria", ic: "🛣️", c: "A" }, { t: "A praça", ic: "🌳", c: "V" }, { t: "A rua da escola", ic: "🛣️", c: "A" }],
           explicacao: "Lugar = <strong>vértice</strong>. Rua = <strong>aresta</strong>." },
-        { tipo: "tabela", titulo: "Passo 2 · Some os números",
+        { tipo: "tabela", titulo: "Passo 2 · Some os números", robo: {"paineis": ["➕ Outra conta"], "passos": [{"fala": "Olha como eu somo os números de <b>outro</b> caminho:", "painel": 0, "linha": "Casa → Praça → Escola = 4 + 1"}, {"fala": "Somo devagar, número por número:", "painel": 0, "linha": "4 + 1 = 5", "marca": true, "espera": 2400}], "fim": "Agora é a sua vez: some os números da tarefa! 💪"},
           linhas: [["Casa → Padaria → Escola = 3 + 2 =", { r: "5", tipo: "num", w: 3 }], ["Casa → Escola (rua direta) =", { r: "9", tipo: "num", w: 3 }]],
           explicacao: "3 + 2 = 5 e a rua direta é 9." },
         { tipo: "escolha", titulo: "Passo 3 · Qual é o mais curto?",

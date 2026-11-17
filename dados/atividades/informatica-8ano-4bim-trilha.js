@@ -37,7 +37,7 @@ PORTAL.registrarAtividades("informatica-8ano-4bim-trilha", {
         enunciado: "<p>Use as setas <strong>▲</strong> (subir) e <strong>▼</strong> (descer) para arrumar os nomes em <strong>ordem alfabética</strong>, como nos contatos do celular.</p>",
         explicacao: "Ana, Bia, Caio, Davi: de A até Z, como na lista de chamada." },
 
-      { tipo: "tabela", titulo: "Passo 5 · Digite aqui no portal",
+      { tipo: "tabela", titulo: "Passo 5 · Digite aqui no portal", robo: {"paineis": ["⌨️ Como eu digito"], "passos": [{"fala": "Olha como eu faço com <b>outra</b> frase. Clico na caixa. Para as letras grandes, aperto uma vez o <b>Caps Lock</b> (a luzinha acende):", "painel": 0, "linha": "Caps Lock ligado 💡"}, {"fala": "Digito letra por letra. Entre uma palavra e outra, aperto a <b>barra de espaço</b>, a tecla comprida:", "painel": 0, "linha": "EU GOSTO DE APRENDER", "marca": true}, {"fala": "No fim, confiro se ficou igualzinho e aperto <b>Verificar</b>.", "painel": null, "espera": 2400}], "fim": "Agora é a sua vez: digite a frase da tarefa, igualzinho! 💪"},
         enunciado: "<p>Digite os números em ordem, do menor para o maior: <strong>1 2 3 4</strong></p>",
         linhas: [["Digite aqui:", { r: "1 2 3 4", tipo: "letras", w: 12, ph: "1 2 3 4", dica: "Do menor para o maior: 1, 2, 3, 4." }]] }
     ],
@@ -148,7 +148,7 @@ PORTAL.registrarAtividades("informatica-8ano-4bim-trilha", {
           { t: "📰 Tem o nome de um jornal e a data", certo: false, why: "A mensagem não tem jornal nem data." }],
         explicacao: "Três sinais de alerta: é melhor <strong>não compartilhar</strong>." },
 
-      { tipo: "tabela", titulo: "Passo 4 · Digite aqui no portal",
+      { tipo: "tabela", titulo: "Passo 4 · Digite aqui no portal", robo: {"paineis": ["⌨️ Como eu digito"], "passos": [{"fala": "Olha como eu faço com <b>outra</b> frase. Clico na caixa. Para as letras grandes, aperto uma vez o <b>Caps Lock</b> (a luzinha acende):", "painel": 0, "linha": "Caps Lock ligado 💡"}, {"fala": "Digito letra por letra. Entre uma palavra e outra, aperto a <b>barra de espaço</b>, a tecla comprida:", "painel": 0, "linha": "EU GOSTO DE APRENDER", "marca": true}, {"fala": "No fim, confiro se ficou igualzinho e aperto <b>Verificar</b>.", "painel": null, "espera": 2400}], "fim": "Agora é a sua vez: digite a frase da tarefa, igualzinho! 💪"},
         enunciado: "<p>Digite na caixa: <strong>MEUS DADOS</strong></p>",
         linhas: [["Digite aqui:", { r: "MEUS DADOS", tipo: "letras", w: 16, ph: "MEUS DADOS", dica: "Digite: MEUS DADOS." }]] }
     ],
@@ -196,7 +196,7 @@ PORTAL.registrarAtividades("informatica-8ano-4bim-trilha", {
         opcoes: [{ t: "📋 Que dados ele pega?", certo: true }, { t: "🤝 Com quem ele compartilha?", certo: true }, { t: "🗑️ Consigo apagar a minha conta?", certo: true },
           { t: "🎨 De que cor é o botão?", certo: false, why: "A cor do botão não protege os seus dados." }],
         explicacao: "As 3 perguntas: que dados pega, com quem compartilha e se dá para apagar a conta." },
-      { id: "m4-basico-4", tipo: "tabela", titulo: "Passo 4 · Digite aqui no portal",
+      { id: "m4-basico-4", tipo: "tabela", titulo: "Passo 4 · Digite aqui no portal", robo: {"paineis": ["⌨️ Como eu digito"], "passos": [{"fala": "Olha como eu faço com <b>outra</b> frase. Clico na caixa. Para as letras grandes, aperto uma vez o <b>Caps Lock</b> (a luzinha acende):", "painel": 0, "linha": "Caps Lock ligado 💡"}, {"fala": "Digito letra por letra. Entre uma palavra e outra, aperto a <b>barra de espaço</b>, a tecla comprida:", "painel": 0, "linha": "EU GOSTO DE APRENDER", "marca": true}, {"fala": "No fim, confiro se ficou igualzinho e aperto <b>Verificar</b>.", "painel": null, "espera": 2400}], "fim": "Agora é a sua vez: digite a frase da tarefa, igualzinho! 💪"},
         enunciado: "<p>Digite na caixa: <strong>LEIO ANTES DE ACEITAR</strong></p>",
         linhas: [["Digite aqui:", { r: "LEIO ANTES DE ACEITAR", tipo: "letras", w: 24, ph: "LEIO ANTES DE ACEITAR", dica: "Digite: LEIO ANTES DE ACEITAR." }]] }
     ],

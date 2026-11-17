@@ -190,7 +190,7 @@ PORTAL.registrarAtividades("informatica-6ano-4bim-trilha", {
         perguntas: [{ p: "🔍 Como acho o meu trabalho?", opcoes: ["Digito o nome dele na lupa", "Desligo o computador"], certo: 0 },
           { p: "🗜️ Compactar é:", opcoes: ["Juntar arquivos em um só, menor", "Apagar os arquivos"], certo: 0 }],
         explicacao: "A lupa 🔍 acha o arquivo pelo nome. Compactar junta tudo num .zip menor." },
-      { id: "m4-basico-4", tipo: "tabela", titulo: "Passo 4 · Digite aqui no portal",
+      { id: "m4-basico-4", tipo: "tabela", titulo: "Passo 4 · Digite aqui no portal", robo: {"paineis": ["⌨️ Como eu digito"], "passos": [{"fala": "Olha como eu faço com <b>outra</b> frase. Clico na caixa. Para as letras grandes, aperto uma vez o <b>Caps Lock</b> (a luzinha acende):", "painel": 0, "linha": "Caps Lock ligado 💡"}, {"fala": "Digito letra por letra. Entre uma palavra e outra, aperto a <b>barra de espaço</b>, a tecla comprida:", "painel": 0, "linha": "EU GOSTO DE APRENDER", "marca": true}, {"fala": "No fim, confiro se ficou igualzinho e aperto <b>Verificar</b>.", "painel": null, "espera": 2400}], "fim": "Agora é a sua vez: digite a frase da tarefa, igualzinho! 💪"},
         enunciado: "<p>Digite na caixa: <strong>0 E 1</strong></p>",
         linhas: [["Digite aqui:", { r: "0 E 1", tipo: "letras", w: 10, ph: "0 E 1", dica: "Digite: 0 E 1." }]] }
     ],

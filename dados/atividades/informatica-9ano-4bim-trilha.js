@@ -100,7 +100,7 @@ PORTAL.registrarAtividades("informatica-9ano-4bim-trilha", {
           { t: "Alguém diz ser do banco e pede o código do celular", c: "E", why: "Enganar a pessoa para ela entregar o código é engenharia social." }],
         explicacao: "Força bruta tenta todas as senhas. Ransomware tranca os arquivos. Engenharia social engana a pessoa." },
 
-      { tipo: "tabela", titulo: "Passo 4 · Digite aqui no portal",
+      { tipo: "tabela", titulo: "Passo 4 · Digite aqui no portal", robo: {"paineis": ["🔐 Outra palavra: LUA"], "passos": [{"fala": "Com a chave 1, cada letra anda <b>1 casa para a frente</b> no alfabeto:", "painel": 0, "linha": "L → M"}, {"fala": "", "painel": 0, "linha": "U → V", "espera": 700}, {"fala": "", "painel": 0, "linha": "A → B", "espera": 900}, {"fala": "LUA vira:", "painel": 0, "linha": "MVB", "marca": true, "espera": 2400}], "fim": "Agora é a sua vez: faça o mesmo com SOL! 💪"},
         enunciado: "<p>Com a chave 1, cada letra anda 1 casa: S → T, O → P, L → M. Digite como fica a palavra <strong>SOL</strong>.</p>",
         linhas: [["SOL com a chave 1:", { r: "TPM", tipo: "letras", w: 8, ph: "_ _ _", dica: "Cada letra anda 1 casa: S → T, O → P, L → M." }]] }
     ],
@@ -175,7 +175,7 @@ PORTAL.registrarAtividades("informatica-9ano-4bim-trilha", {
         enunciado: "<p>Marque <strong>onde tem IA</strong>.</p>",
         opcoes: [{ t: "⌨️ Corretor do teclado", certo: true }, { t: "🌐 Tradutor", certo: true }, { t: "📺 Vídeo recomendado", certo: true }, { t: "✏️ Lápis", certo: false, why: "O lápis não tem programa." }],
         explicacao: "Teclado, tradutor e vídeo recomendado usam IA." },
-      { tipo: "tabela", titulo: "Passo 4 · Digite aqui no portal",
+      { tipo: "tabela", titulo: "Passo 4 · Digite aqui no portal", robo: {"paineis": ["⌨️ Como eu digito"], "passos": [{"fala": "Olha como eu faço com <b>outra</b> frase. Clico na caixa. Para as letras grandes, aperto uma vez o <b>Caps Lock</b> (a luzinha acende):", "painel": 0, "linha": "Caps Lock ligado 💡"}, {"fala": "Digito letra por letra. Entre uma palavra e outra, aperto a <b>barra de espaço</b>, a tecla comprida:", "painel": 0, "linha": "EU GOSTO DE APRENDER", "marca": true}, {"fala": "No fim, confiro se ficou igualzinho e aperto <b>Verificar</b>.", "painel": null, "espera": 2400}], "fim": "Agora é a sua vez: digite a frase da tarefa, igualzinho! 💪"},
         enunciado: "<p>Digite na caixa: <strong>EU CONFIRO A IA</strong></p>",
         linhas: [["Digite aqui:", { r: "EU CONFIRO A IA", tipo: "letras", w: 20, ph: "EU CONFIRO A IA", dica: "Digite: EU CONFIRO A IA." }]] }
     ],
