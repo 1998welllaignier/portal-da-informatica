@@ -24,7 +24,7 @@ PORTAL.registrarAtividades("informatica-8ano-4bim", {
         ] }
     ],
     basico: [
-      { tipo: "tabela", titulo: "Busca sequencial: procure o 31",
+      { tipo: "tabela", titulo: "Busca sequencial: procure o 31", robo: {"paineis": ["🔎 Outra lista: [4, 9, 15, 22, 30]"], "passos": [{"fala": "Olha como eu conto com <b>outra</b> lista. Quero achar o <b>22</b>, olhando um por um desde a posição 1:", "painel": 0, "linha": "4? não (1ª comparação)"}, {"fala": "", "painel": 0, "linha": "9? não (2ª comparação)", "espera": 700}, {"fala": "", "painel": 0, "linha": "15? não (3ª comparação)", "espera": 700}, {"fala": "", "painel": 0, "linha": "22? ACHEI! (4ª comparação)", "marca": true}, {"fala": "Foram <b>4 comparações</b>: conto cada número que eu olhei, inclusive o que eu achei.", "painel": null, "espera": 2400}], "fim": "Agora é a sua vez: conte as comparações até achar o 31! 💪"},
         enunciado: "<p>Lista ordenada: <strong>NÚMEROS = [3, 7, 12, 18, 25, 31, 40, 52]</strong></p>",
         linhas: [["Quantas comparações você fez, olhando um por um desde a posição 1, até achar o 31?", { r: "6", tipo: "num", w: 4 }]],
         dicas: ["Conte: 3 (1ª comparação), 7 (2ª), 12 (3ª)… até chegar no 31."],
@@ -38,7 +38,7 @@ PORTAL.registrarAtividades("informatica-8ano-4bim", {
         enunciado: "<p>Compare os vizinhos destacados e decida: <strong>trocar</strong> (se estão fora de ordem) ou <strong>manter</strong>.</p>",
         explicacao: "1ª passada: [3, 6, 1, 9] · 2ª passada: [3, 1, 6, 9] · 3ª passada: [1, 3, 6, 9]. A cada passada, o maior número que ainda falta “sobe” para o final, como uma bolha." },
 
-      { tipo: "tabela", titulo: "Agora sem ajuda: escreva as passadas de [5, 2, 8, 1]",
+      { tipo: "tabela", titulo: "Agora sem ajuda: escreva as passadas de [5, 2, 8, 1]", robo: {"paineis": ["🫧 Bolha com outra lista: [4, 1, 3, 2]"], "passos": [{"fala": "Olha como eu faço o método da bolha com <b>outra</b> lista. Comparo só <b>dois vizinhos</b> por vez:", "painel": 0, "titulo": "Original: 4, 1, 3, 2"}, {"fala": "4 e 1: o da esquerda é maior, <b>troca</b>! 4 e 3: troca! 4 e 2: troca!", "painel": 0, "linha": "Passada 1: 1, 3, 2, 4  (3 trocas)", "marca": true}, {"fala": "O maior (4) já foi para o fim. Agora de novo: 1 e 3 ficam; 3 e 2 <b>trocam</b>; 3 e 4 ficam.", "painel": 0, "linha": "Passada 2: 1, 2, 3, 4  (1 troca)", "marca": true}, {"fala": "Ficou em ordem! Em cada passada eu escrevo como a lista ficou <b>no fim</b>.", "painel": null, "espera": 2600}], "fim": "Agora é a sua vez: faça as passadas de [5, 2, 8, 1]! 💪"},
         enunciado: "<p>Faça o método da bolha na cabeça (ou no rascunho) e digite como a lista fica <strong>no fim de cada passada</strong>. Separe os números com vírgula.</p>",
         colunas: ["Etapa", "Lista"],
         linhas: [["Original", "5, 2, 8, 1"], ["Passada 1", { r: "2, 5, 1, 8", tipo: "letras", w: 14, ph: "_, _, _, _" }], ["Passada 2", { r: "2, 1, 5, 8", tipo: "letras", w: 14, ph: "_, _, _, _" }], ["Passada 3", { r: "1, 2, 5, 8", tipo: "letras", w: 14, ph: "_, _, _, _" }],
@@ -52,7 +52,7 @@ PORTAL.registrarAtividades("informatica-8ano-4bim", {
         explicacao: "50 (maior) → 75 (menor) → 62 (maior) → 68 (maior) → 71 (maior) → 73 (acertou): 6 tentativas para um número de 1 a 100." }
     ],
     turbo: [
-      { tipo: "tabela", titulo: "Quantas tentativas, no máximo, para achar um número de 1 a 1.000?",
+      { tipo: "tabela", titulo: "Quantas tentativas, no máximo, para achar um número de 1 a 1.000?", robo: {"paineis": ["✂️ Outro exemplo: de 1 a 100"], "passos": [{"fala": "Olha como eu conto com <b>outro</b> tamanho. A cada tentativa, a lista cai pela <b>metade</b>:", "painel": 0, "linha": "100 → 50 → 25 → 13 → 7 → 4 → 2 → 1"}, {"fala": "Conto as divisões até sobrar <b>1 número</b>: são 7 setas.", "painel": 0, "linha": "De 1 a 100: no máximo 7 tentativas", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: faça o mesmo com 1.000! 💪"},
         linhas: [["Tentativas no máximo", { r: "10", tipo: "num", w: 4 }]],
         dicas: ["A cada tentativa a lista cai pela metade: 1.000 → 500 → 250 → 125 → …", "Conte quantas vezes dá para dividir por 2 até sobrar 1 número."],
         explicacao: "No máximo 10 tentativas, porque 2 × 2 × … (10 vezes) = 1.024, que já é mais do que 1.000." },
@@ -113,7 +113,7 @@ PORTAL.registrarAtividades("informatica-8ano-4bim", {
         explicacao: "Celular ou computador → roteador → provedor → backbone ou cabo submarino → data center (nuvem). Ao lado, o DNS (<em>Domain Name System</em>, Sistema de Nomes de Domínio) troca o nome do site pelo endereço IP. Impressora e teclado não fazem parte do caminho." }
     ],
     desafio: [
-      { tipo: "tabela", titulo: "Uma tarefa leva 60 minutos em um núcleo. Quanto tempo leva com mais núcleos?",
+      { tipo: "tabela", titulo: "Uma tarefa leva 60 minutos em um núcleo. Quanto tempo leva com mais núcleos?", robo: {"paineis": ["⚙️ Outra tarefa: 40 minutos em 1 núcleo"], "passos": [{"fala": "Olha como eu calculo com <b>outro</b> tempo. Os núcleos dividem o trabalho igualmente, então eu <b>divido</b>:", "painel": 0, "linha": "2 núcleos: 40 ÷ 2 = 20 minutos"}, {"fala": "", "painel": 0, "linha": "4 núcleos: 40 ÷ 4 = 10 minutos", "marca": true, "espera": 2400}], "fim": "Agora é a sua vez: divida os 60 minutos pelo número de núcleos! 💪"},
         colunas: ["Núcleos", "Tempo (minutos)"],
         linhas: [["1", "60 minutos"], ["2", { r: "30", tipo: "num", w: 6 }], ["3", { r: "20", tipo: "num", w: 6 }], ["6", { r: "10", tipo: "num", w: 6 }]],
         dicas: ["Divida os 60 minutos pelo número de núcleos."],
@@ -190,7 +190,7 @@ PORTAL.registrarAtividades("informatica-8ano-4bim", {
           { t: "Resultado do jogo de futebol de ontem", c: "N" }],
         dicas: ["Dado sensível pede cuidado extra: saúde, religião, opinião política, origem étnica e biometria."] },
 
-      { tipo: "tabela", titulo: "Faça as perguntas do checador",
+      { tipo: "tabela", titulo: "Faça as perguntas do checador", robo: {"paineis": ["📰 Outra notícia", "🔍 Perguntas do checador"], "passos": [{"fala": "Olha como eu checo uma notícia <b>diferente</b>:", "painel": 0, "linha": "“ATENÇÃO!!! Beber água gelada causa gripe na hora! Repasse!” (sem autor, sem data)"}, {"fala": "Quem publicou? Não tem nome nenhum:", "painel": 1, "linha": "Quem publicou? Ninguém: fonte anônima", "marca": true}, {"fala": "Tem data? Procuro e não acho:", "painel": 1, "linha": "Tem data? Não tem", "marca": true}, {"fala": "O título é exagerado? Tem “ATENÇÃO!!!” e “Repasse!”:", "painel": 1, "linha": "Exagerado? Sim: quer que eu espalhe sem pensar", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: faça as mesmas perguntas para a notícia da tarefa! 💪"},
         enunciado: "<p class=\"regra\">“URGENTE!!! Cientistas confirmam que celular carregando na tomada explode se for usado à noite. Compartilhe antes que apaguem!” <em>(sem autor, sem data, sem link de jornal)</em></p>",
         colunas: ["Pergunta do checador", "Resposta"],
         linhas: [
@@ -214,7 +214,7 @@ PORTAL.registrarAtividades("informatica-8ano-4bim", {
           { t: "Não mexer no computador nem nos arquivos dos colegas.", c: "B" },
           { t: "Chamar o professor quando o computador travar.", c: "B" }],
         dicas: ["Uma boa regra protege os computadores, os dados e os colegas."] },
-      { tipo: "aberta", titulo: "Termos de uso da nossa sala de informática",
+      { tipo: "aberta", titulo: "Termos de uso da nossa sala de informática", robo: {"paineis": ["📜 Termos de uso de OUTRO lugar: a biblioteca"], "passos": [{"fala": "Olha como eu escrevo regras para <b>outro</b> lugar, a biblioteca. Cada regra é curta e protege alguma coisa:", "painel": 0, "linha": "Devolver o livro no prazo"}, {"fala": "", "painel": 0, "linha": "Não riscar nem dobrar as páginas", "espera": 800}, {"fala": "", "painel": 0, "linha": "Falar baixinho para não atrapalhar", "espera": 800}, {"fala": "Repare: linguagem simples, que qualquer colega entende.", "painel": null, "espera": 2400}], "fim": "Agora é a sua vez: escreva 5 regras para a <b>sala de informática</b>! 💪"},
         enunciado: "<p><strong>Ao usar este computador, eu concordo em:</strong></p>",
         campos: [{ rot: "Regra 1", linhas: 1 }, { rot: "Regra 2", linhas: 1 }, { rot: "Regra 3", linhas: 1 }, { rot: "Regra 4", linhas: 1 }, { rot: "Regra 5", linhas: 1 }],
         criterios: ["Cada regra está em linguagem simples, que qualquer colega entende.", "As regras protegem os computadores, os dados ou os colegas."], minPalavras: 3,
@@ -236,7 +236,7 @@ PORTAL.registrarAtividades("informatica-8ano-4bim", {
         explicacao: "Ler os termos de uso mostra o que você está aceitando antes de clicar em “Aceito”." }
     ],
     turbo: [
-      { tipo: "aberta", titulo: "O que é pegada digital? Dê um exemplo de publicação que poderia atrapalhar alguém daqui a 5 anos.",
+      { tipo: "aberta", titulo: "O que é pegada digital? Dê um exemplo de publicação que poderia atrapalhar alguém daqui a 5 anos.", robo: {"paineis": ["👣 Como montar a resposta"], "passos": [{"fala": "Primeiro eu explico <b>o que é</b>, com as minhas palavras:", "painel": 0, "linha": "É o rastro que deixo na internet com o que publico, curto e comento."}, {"fala": "Depois dou um <b>exemplo</b> e digo <b>por que</b> atrapalharia. Vou usar um exemplo meu:", "painel": 0, "linha": "Um vídeo zoando um colega pode aparecer quando eu procurar um estágio.", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: explique com as suas palavras e dê um exemplo <b>seu</b>! 💪"},
         campos: [{ rot: "O que é pegada digital?", linhas: 2 }, { rot: "Exemplo de publicação e por que ela atrapalharia daqui a 5 anos", linhas: 3 }],
         criterios: ["Expliquei que é o rastro do que publicamos, curtimos e comentamos.", "Dei um exemplo concreto e disse por que atrapalharia."],
         conferir: { minPalavras: 6, porCampo: [
@@ -357,7 +357,7 @@ PORTAL.registrarAtividades("informatica-8ano-4bim", {
         explicacao: "O Jogo A pede só o necessário, não compartilha, deixa apagar a conta e avisa antes de mudar. O Jogo B pega contatos e localização, compartilha com parceiros, não diz como apagar e muda sem aviso." }
     ],
     turbo: [
-      { tipo: "aberta", titulo: "As minhas 3 perguntas antes de aceitar os termos",
+      { tipo: "aberta", titulo: "As minhas 3 perguntas antes de aceitar os termos", robo: {"paineis": ["❓ Perguntas antes de aceitar"], "passos": [{"fala": "Olha como eu penso. Cada pergunta é sobre uma coisa <b>diferente</b>. Uma sobre os <b>dados</b>:", "painel": 0, "linha": "Ele usa a minha localização?"}, {"fala": "Uma sobre <b>propaganda</b>:", "painel": 0, "linha": "Vai me mostrar anúncios pelo que eu faço?"}, {"fala": "E uma sobre o que eu <b>publico</b>:", "painel": 0, "linha": "As minhas fotos ficam públicas?", "espera": 2400}], "fim": "Agora é a sua vez: escreva 3 perguntas <b>suas</b>, cada uma sobre um assunto diferente! 💪"},
         campos: [{ rot: "Pergunta 1", linhas: 1 }, { rot: "Pergunta 2", linhas: 1 }, { rot: "Pergunta 3", linhas: 1 }],
         criterios: ["Cada pergunta é sobre os dados, o compartilhamento, a conta, a propaganda ou o que eu publico.", "As três perguntas são diferentes."],
         exemplo: "1. Que dados ele pega? 2. Com quem ele compartilha os meus dados? 3. Consigo apagar a minha conta?",
@@ -388,7 +388,7 @@ PORTAL.registrarAtividades("informatica-8ano-4bim", {
           { p: "A cada tentativa, a busca binária:", opcoes: ["Olha o meio e descarta metade", "Olha o último item", "Volta para o começo"], certo: 0 },
           { p: "O método da bolha:", opcoes: ["Compara vizinhos e troca os que estão fora de ordem", "Apaga os itens repetidos", "Sorteia a ordem"], certo: 0 }],
         explicacao: "Sequencial olha um por um; binária precisa da lista ordenada e descarta metade; bolha compara e troca vizinhos em passadas." },
-      { tipo: "tabela", de: "m1", titulo: "M1 · Lista [3, 8, 12, 20, 25, 31, 40] (ordenada)",
+      { tipo: "tabela", de: "m1", titulo: "M1 · Lista [3, 8, 12, 20, 25, 31, 40] (ordenada)", robo: {"paineis": ["🔎 Outra lista: [2, 5, 9, 14, 20]"], "passos": [{"fala": "Na busca <b>binária</b>, eu começo pelo número do <b>meio</b>. São 5 números; o do meio é o 3º:", "painel": 0, "linha": "Meio: 9", "marca": true}, {"fala": "Na <b>sequencial</b>, para achar o 14 eu olho um por um: 2, 5, 9, 14.", "painel": 0, "linha": "Sequencial até o 14: 4 números", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: ache o meio e conte com a lista da tarefa! 💪"},
         linhas: [["Para achar 31 pela busca binária, qual número ela olha primeiro (o do meio)?", { r: "20", tipo: "num", w: 4 }], ["Na busca sequencial, quantos números ela olha até achar o 31?", { r: "6", tipo: "num", w: 4 }]],
         explicacao: "O meio da lista de 7 itens é o 4º: 20. Na sequencial: 3, 8, 12, 20, 25, 31 = 6 olhadas." },
       { tipo: "relembre", de: "m2" },
@@ -435,7 +435,7 @@ PORTAL.registrarAtividades("informatica-8ano-4bim", {
   pf: {
     basico: [
       { tipo: "info", titulo: "Confira as suas missões", html: "<p>Volte à lista de missões da apostila: cada missão com o <strong>Básico concluído</strong> aparece com ✔. Se faltar alguma (por exemplo, porque você faltou à aula), faça o Básico dela agora. O professor acompanha tudo pelo painel.</p>" },
-      { tipo: "aberta", titulo: "Escreva uma frase sobre o que você aprendeu em cada tema",
+      { tipo: "aberta", titulo: "Escreva uma frase sobre o que você aprendeu em cada tema", robo: {"paineis": ["✍️ Exemplo com outra matéria"], "passos": [{"fala": "Olha como eu escrevo uma boa frase, sobre <b>outra</b> matéria (Matemática):", "painel": 0, "titulo": "🧮 Frações"}, {"fala": "Começo com letra maiúscula, uso uma <b>palavra-chave</b> do tema e termino com ponto final:", "painel": 0, "linha": "Aprendi que a fração mostra partes de um inteiro.", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: uma frase para cada tema, com uma palavra-chave dele! 💪"},
         campos: [{ rot: "🗂️ Listas, busca e ordenação", linhas: 2 }, { rot: "☁️ Internet, nuvem e paralelismo", linhas: 2 }, { rot: "🔍 Dados pessoais e informação confiável", linhas: 2 }],
         criterios: ["Cada frase usa pelo menos uma palavra-chave do tema.", "Frase completa, com letra maiúscula e ponto final."],
         conferir: { minPalavras: 4, porCampo: [
