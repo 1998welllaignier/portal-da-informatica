@@ -22,7 +22,7 @@
         explicacao: "CHAMADA[3] = Carla. Davi está na posição 4. Tamanho = 5 itens; a última posição é igual ao tamanho." }
     ],
     basico: [
-      { tipo: "tabela", titulo: "Leia a lista NOTAS",
+      { tipo: "tabela", titulo: "Leia a lista NOTAS", robo: {"paineis": ["📋 Outra lista: IDADES = 12 · 15 · 11"], "passos": [{"fala": "Olha como eu leio uma lista <b>diferente</b>. As posições começam no <b>1</b>:", "painel": 0, "linha": "IDADES[1] = 12"}, {"fala": "", "painel": 0, "linha": "IDADES[2] = 15", "marca": true, "espera": 900}, {"fala": "", "painel": 0, "linha": "IDADES[3] = 11", "espera": 900}, {"fala": "Tamanho = quantos itens: <b>3</b>. Em que posição está o 11? Na <b>3</b>.", "painel": 0, "linha": "Tamanho 3 · o 11 está na posição 3", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: leia a lista da tarefa do mesmo jeito! 💪"},
         enunciado: "<p><strong>NOTAS</strong> = 7 · 9 · 4 · 10 · 6 · 8 (posições 1 a 6)</p>",
         colunas: ["Pergunta", "Resposta"],
         linhas: [
@@ -113,7 +113,7 @@
           { tipo: "pergunta", instr: "Quantos itens o carrinho tem?", r: "3", num: true }],
         explicacao: "Ao remover a capinha (posição 2), o carregador andou para a posição 2. O número no ícone do carrinho é o tamanho: 3." },
 
-      { tipo: "tabela", titulo: "Inserir no meio: todo mundo anda",
+      { tipo: "tabela", titulo: "Inserir no meio: todo mundo anda", robo: {"paineis": ["🚶 Outra fila: Léo · Mia"], "passos": [{"fala": "Olha o que acontece quando o Rui entra na <b>posição 1</b> de outra fila:", "painel": 0, "titulo": "Antes: 1 Léo · 2 Mia"}, {"fala": "O Rui ocupa a posição 1, e <b>todo mundo dali para trás anda uma posição</b>:", "painel": 0, "linha": "1 Rui", "marca": true}, {"fala": "", "painel": 0, "linha": "2 Léo", "espera": 700}, {"fala": "", "painel": 0, "linha": "3 Mia", "espera": 2400}], "fim": "Agora é a sua vez: faça a Gabi entrar na fila da tarefa! 💪"},
         enunciado: "<p>FILA = Ana · Caio · Duda. <strong>Gabi</strong> entra na <strong>posição 1</strong>.</p>",
         colunas: ["Pergunta", "Resposta"],
         linhas: [
@@ -123,7 +123,7 @@
           ["Qual é o novo tamanho?", { r: "4", tipo: "num" }]],
         explicacao: "Inserir na posição 1: Gabi, Ana, Caio, Duda. Todos andaram uma posição para trás e o tamanho aumentou 1." },
 
-      { tipo: "tabela", titulo: "Conte na mão: quantas notas azuis?",
+      { tipo: "tabela", titulo: "Conte na mão: quantas notas azuis?", robo: {"paineis": ["🔢 Outra lista: 6 · 2 · 7 (azul = 5 ou mais)"], "passos": [{"fala": "O contador começa em <b>0</b>. Para cada nota, eu pergunto: passa no teste?", "painel": 0, "linha": "6 ≥ 5? sim → contador 1", "marca": true}, {"fala": "", "painel": 0, "linha": "2 ≥ 5? não → contador continua 1", "espera": 1200}, {"fala": "", "painel": 0, "linha": "7 ≥ 5? sim → contador 2", "marca": true, "espera": 2400}], "fim": "Agora é a sua vez: teste cada nota da tarefa e atualize o contador! 💪"},
         enunciado: "<p>NOTAS = 8 · 4 · 6 · 3 · 9 · 5. Nota azul = maior ou igual a 5. O contador começa em 0.</p>",
         colunas: ["Item", "Passa no teste (≥ 5)?", "Contador depois"],
         linhas: [
@@ -145,7 +145,7 @@
         explicacao: "Contador começa em 0 e soma 1 a cada nota ≥ 5: 8, 6, 9, 5 → 4." }
     ],
     desafio: [
-      { tipo: "tabela", titulo: "Várias operações seguidas",
+      { tipo: "tabela", titulo: "Várias operações seguidas", robo: {"paineis": ["📋 Outra lista: 1, 2"], "passos": [{"fala": "Faço <b>uma operação de cada vez</b>, na ordem, e escrevo como a lista ficou:", "painel": 0, "linha": "(1) inserir 3 no fim → 1, 2, 3"}, {"fala": "", "painel": 0, "linha": "(2) remover o 1 → 2, 3", "espera": 1200}, {"fala": "", "painel": 0, "linha": "(3) inserir 0 na posição 1 → 0, 2, 3", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: faça as operações da tarefa, uma por vez! 💪"},
         enunciado: "<p>LISTA = 10 · 20 · 30. Faça na cabeça, na ordem: (1) inserir 40 no fim; (2) remover o 10; (3) inserir 5 na posição 1. Escreva como a lista fica depois de cada passo, separando por vírgula.</p>",
         colunas: ["Depois de", "Lista"],
         linhas: [
@@ -190,7 +190,7 @@
         enunciado: "<p>Lista fora de ordem. Vire uma por uma até achar o <strong>31</strong>.</p>",
         explicacao: "12, 40, 7, 31: achou na 4ª comparação. Em lista desordenada, só a busca sequencial funciona." },
 
-      { tipo: "tabela", titulo: "Conte as comparações",
+      { tipo: "tabela", titulo: "Conte as comparações", robo: {"paineis": ["🔎 Outra lista: 5 · 8 · 2 · 6"], "passos": [{"fala": "Na busca sequencial eu olho <b>um por um</b> e conto. Procurando o 2:", "painel": 0, "linha": "5? não · 8? não · 2? ACHEI → 3 comparações", "marca": true}, {"fala": "E se o número <b>não está</b> na lista, como o 9? Tenho que olhar <b>todos</b> para ter certeza:", "painel": 0, "linha": "9 → 4 comparações (a lista toda)", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: conte as comparações da tarefa! 💪"},
         enunciado: "<p>LISTA = 6 · 14 · 3 · 22 · 9 · 17 · 1 · 30 (8 itens). Busca sequencial.</p>",
         colunas: ["Procurando", "Comparações"],
         linhas: [
@@ -218,7 +218,7 @@
         explicacao: "A cada item compara com 9 (uma comparação); pos acompanha a posição; no 4º item a condição é verdadeira." }
     ],
     desafio: [
-      { tipo: "tabela", titulo: "Listas grandes",
+      { tipo: "tabela", titulo: "Listas grandes", robo: {"paineis": ["🔎 Outra lista: 50 nomes"], "passos": [{"fala": "Na busca sequencial, se o meu nome é o <b>12º</b>, eu olho 12 nomes:", "painel": 0, "linha": "O 12º → 12 comparações"}, {"fala": "Se o nome <b>não está</b>, olho a lista toda. Esse é o <b>pior caso</b>:", "painel": 0, "linha": "Não está → 50 comparações", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: pense do mesmo jeito com as listas da tarefa! 💪"},
         colunas: ["Situação", "Comparações"],
         linhas: [
           ["Lista de 500 nomes; o seu é o 320º", { r: "320", tipo: "num" }],
@@ -272,7 +272,7 @@
           { p: "Por que se chama binária?", opcoes: ["Porque divide em duas partes a cada vez", "Porque usa só 0 e 1", "Porque é para dois jogadores"], certo: 0 }],
         explicacao: "Binária = em duas partes. Só funciona em lista ordenada. Maior que o meio → descarta a esquerda. 1.000 itens → no máximo 10 comparações." },
 
-      { tipo: "tabela", titulo: "Compare as buscas",
+      { tipo: "tabela", titulo: "Compare as buscas", robo: {"paineis": ["⚖️ Outra lista: 4 itens (ordenada)"], "passos": [{"fala": "<b>Sequencial</b>, no pior caso: olho todos.", "painel": 0, "linha": "Sequencial: 4"}, {"fala": "<b>Binária</b>: a cada olhada a lista cai pela metade. Conto os números da corrente:", "painel": 0, "linha": "Binária: 4 → 2 → 1 = 3 olhadas", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: faça o mesmo com 8, 100 e 1.000 itens (o 💡 Para começar ajuda)! 💪"},
         colunas: ["Itens na lista (ordenada)", "Pior caso sequencial", "Pior caso binária"],
         linhas: [
           ["8", { r: "8", tipo: "num" }, { r: "4", tipo: "num" }],
@@ -282,7 +282,7 @@
         explicacao: "A sequencial pode olhar todos; a binária corta pela metade: 8 → 4, 100 → 7, 1.000 → 10." }
     ],
     desafio: [
-      { tipo: "tabela", titulo: "Escreva os meios",
+      { tipo: "tabela", titulo: "Escreva os meios", robo: {"paineis": ["🎯 Outra lista: 1 · 3 · 5 · 7 · 9 · 11 · 13 (7 itens), procurando o 11"], "passos": [{"fala": "1ª tentativa: o meio de 1 a 7 é a posição 4:", "painel": 0, "linha": "Posições 1 a 7 → meio = 7"}, {"fala": "11 é maior que 7, então jogo fora a metade da esquerda. Sobram as posições 5 a 7:", "painel": 0, "linha": "Posições 5 a 7 → meio = 11", "marca": true}, {"fala": "Achei o 11 na 2ª tentativa!", "painel": null, "espera": 2400}], "fim": "Agora é a sua vez: ache os meios procurando o 89! 💪"},
         enunciado: "<p>LISTA = 2 · 5 · 8 · 13 · 21 · 34 · 55 · 89 · 144 (9 itens). Procurando o <strong>89</strong> com busca binária. Meio = posição do meio da parte que sobrou (com número par de itens, a da esquerda).</p>",
         colunas: ["Tentativa", "Parte que sobrou (posições)", "Item do meio"],
         linhas: [
@@ -292,7 +292,7 @@
         explicacao: "1ª: meio 5 = 21 → 89 é maior → sobra 6 a 9. 2ª: meio 7 = 55 → maior → sobra 8 a 9. 3ª: meio 8 = 89 → achou em 3 comparações." }
     ],
     turbo: [
-      { tipo: "tabela", titulo: "Listas enormes",
+      { tipo: "tabela", titulo: "Listas enormes", robo: {"paineis": ["✂️ Outro tamanho: 8 itens"], "passos": [{"fala": "A cada comparação a lista cai pela metade. Escrevo a corrente até sobrar 1:", "painel": 0, "linha": "8 → 4 → 2 → 1"}, {"fala": "Conto os números da corrente: são <b>4 olhadas</b> no pior caso.", "painel": 0, "linha": "8 itens → 4 comparações", "marca": true, "espera": 2400}], "fim": "Agora é a sua vez: faça a corrente de 16, 32… e conte! 💪"},
         enunciado: "<p>A cada comparação, a lista cai pela metade. Conte quantas vezes dá para dividir por 2 até sobrar 1 item.</p>",
         colunas: ["Itens", "Comparações no pior caso (binária)"],
         linhas: [
@@ -326,7 +326,7 @@
       { tipo: "bolha", titulo: "Ordene 5, 2, 8, 1, 4", lista: [5, 2, 8, 1, 4],
         explicacao: "1ª passada: 2, 5, 1, 4, 8 · 2ª: 2, 1, 4, 5, 8 · 3ª: 1, 2, 4, 5, 8 · 4ª: sem trocas, terminou." },
 
-      { tipo: "tabela", titulo: "Escreva as passadas de 4, 3, 2, 1",
+      { tipo: "tabela", titulo: "Escreva as passadas de 4, 3, 2, 1", robo: {"paineis": ["🫧 Bolha com outra lista: 3, 1, 2"], "passos": [{"fala": "Comparo dois vizinhos; se o da esquerda for <b>maior</b>, troco:", "painel": 0, "titulo": "Original: 3, 1, 2"}, {"fala": "3 e 1: troca! 3 e 2: troca!", "painel": 0, "linha": "Passada 1: 1, 2, 3", "marca": true}, {"fala": "Na passada 2 ninguém troca: está em ordem!", "painel": 0, "linha": "Passada 2: 1, 2, 3", "espera": 2400}], "fim": "Agora é a sua vez: escreva as passadas de 4, 3, 2, 1! 💪"},
         enunciado: "<p>Faça o método da bolha (crescente) e escreva a lista no fim de cada passada, com vírgulas.</p>",
         colunas: ["Etapa", "Lista"],
         linhas: [["Original", "4, 3, 2, 1"], ["Passada 1", { r: "3, 2, 1, 4", tipo: "letras", ph: "_, _, _, _" }], ["Passada 2", { r: "2, 1, 3, 4", tipo: "letras", ph: "_, _, _, _" }], ["Passada 3", { r: "1, 2, 3, 4", tipo: "letras", ph: "_, _, _, _" }]],
@@ -341,7 +341,7 @@
         explicacao: "Troca quando o da esquerda é maior; o maior sobe para o fim; termina numa passada sem trocas." }
     ],
     desafio: [
-      { tipo: "tabela", titulo: "Agora decrescente: 2, 7, 4, 9",
+      { tipo: "tabela", titulo: "Agora decrescente: 2, 7, 4, 9", robo: {"paineis": ["🫧 Decrescente com outra lista: 1, 3, 2"], "passos": [{"fala": "Em ordem <b>decrescente</b>, a regra vira: troco quando o da esquerda for <b>menor</b>.", "painel": 0, "titulo": "Original: 1, 3, 2"}, {"fala": "1 e 3: o 1 é menor, troca! Depois 1 e 2: troca de novo!", "painel": 0, "linha": "Passada 1: 3, 2, 1", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: faça as passadas de 2, 7, 4, 9 em ordem decrescente! 💪"},
         enunciado: "<p>Ordem <strong>decrescente</strong> (do maior para o menor): troque quando o da esquerda for <strong>menor</strong>.</p>",
         colunas: ["Etapa", "Lista"],
         linhas: [["Original", "2, 7, 4, 9"], ["Passada 1", { r: "7, 4, 9, 2", tipo: "letras", ph: "_, _, _, _" }], ["Passada 2", { r: "7, 9, 4, 2", tipo: "letras", ph: "_, _, _, _" }], ["Passada 3", { r: "9, 7, 4, 2", tipo: "letras", ph: "_, _, _, _" }], ["Quantas trocas ao todo?", { r: "5", tipo: "num", dica: "Passada 1: 3 trocas; passada 2: 1; passada 3: 1." }]],
@@ -401,7 +401,7 @@
           { p: "Por que pastas dentro de pastas são recursivas?", opcoes: ["Cada pasta pode ter pastas dentro, do mesmo jeito", "Porque são amarelas", "Porque não têm arquivos"], certo: 0 }],
         explicacao: "Recursão = o problema dentro do problema, com caso base. Sem caso base, não para (espelhos)." },
 
-      { tipo: "tabela", titulo: "Siga a contagem recursiva",
+      { tipo: "tabela", titulo: "Siga a contagem recursiva", robo: {"paineis": ["🔁 Outra função: pular(n)"], "passos": [{"fala": "pular(n): <b>se n = 0</b>, mostra “Chegou!”; <b>senão</b>, mostra n e chama pular(n − 1). Começo com pular(2):", "painel": 0, "linha": "pular(2) → mostra 2"}, {"fala": "", "painel": 0, "linha": "pular(1) → mostra 1", "espera": 1000}, {"fala": "Chegou no zero: é o <b>caso base</b>, que faz a função parar!", "painel": 0, "linha": "pular(0) → mostra “Chegou!”", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: siga contar(3)! 💪"},
         enunciado: "<p>contar(n): <strong>se n = 0</strong>, mostrar “Fogo!”; <strong>senão</strong>, mostrar n e contar(n − 1). Começando com contar(3):</p>",
         colunas: ["Chamada", "O que mostra"],
         linhas: [["contar(3)", { r: "3" }], ["contar(2)", { r: "2" }], ["contar(1)", { r: "1" }], ["contar(0)", { r: "Fogo!", tipo: "letras" }]],
@@ -418,7 +418,7 @@
         explicacao: "Sem caso base, a recursão não para. O se n = 0 é a condição de parada." }
     ],
     turbo: [
-      { tipo: "tabela", titulo: "Recursão da soma",
+      { tipo: "tabela", titulo: "Recursão da soma", robo: {"paineis": ["🔁 Outra função: dobro(n)"], "passos": [{"fala": "dobro(n): <b>se n = 1</b>, a resposta é 2 (caso base); <b>senão</b>, 2 + dobro(n − 1). Eu calculo <b>de baixo para cima</b>:", "painel": 0, "linha": "dobro(1) = 2"}, {"fala": "", "painel": 0, "linha": "dobro(2) = 2 + dobro(1) = 2 + 2 = 4", "espera": 1200}, {"fala": "", "painel": 0, "linha": "dobro(3) = 2 + dobro(2) = 2 + 4 = 6", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: calcule soma(1), soma(2)… de baixo para cima! 💪"},
         enunciado: "<p>soma(n) = <strong>se n = 1</strong>, a resposta é 1 (caso base); <strong>senão</strong>, n + soma(n − 1). Calcule de baixo para cima.</p>",
         colunas: ["Chamada", "Resultado"],
         linhas: [["soma(1)", { r: "1", tipo: "num" }], ["soma(2) = 2 + soma(1)", { r: "3", tipo: "num" }], ["soma(3) = 3 + soma(2)", { r: "6", tipo: "num" }], ["soma(4) = 4 + soma(3)", { r: "10", tipo: "num" }]],
@@ -436,13 +436,13 @@
   /* ============ MISSÃO 7 — Extra: Ordenação por seleção ============ */
   m7: {
     pratica: [
-      { tipo: "tabela", titulo: "Mão na massa: ache o menor",
+      { tipo: "tabela", titulo: "Mão na massa: ache o menor", robo: {"paineis": ["🔎 Outros exemplos"], "passos": [{"fala": "Olho todos os itens e guardo o menor que eu já vi:", "painel": 0, "linha": "6, 3, 8 → o menor é 3", "marca": true}, {"fala": "Com nomes, o “menor” é o que vem <b>primeiro no alfabeto</b>:", "painel": 0, "linha": "Téo, Lia, Rui → Lia", "marca": true, "espera": 2400}], "fim": "Agora é a sua vez: ache o menor de cada lista da tarefa! 💪"},
         colunas: ["Lista", "Menor item (mínimo)"],
         linhas: [["7, 2, 9, 4", { r: "2", tipo: "num" }], ["15, 8, 23, 11", { r: "8", tipo: "num" }], ["Caio, Ana, Bia (alfabético)", { r: "Ana" }]],
         explicacao: "O mínimo é o menor valor (ou o primeiro em ordem alfabética). A seleção começa sempre achando o mínimo." }
     ],
     basico: [
-      { tipo: "tabela", titulo: "Seleção passo a passo: 8, 3, 6, 1",
+      { tipo: "tabela", titulo: "Seleção passo a passo: 8, 3, 6, 1", robo: {"paineis": ["🏅 Seleção com outra lista: 3, 1, 2"], "passos": [{"fala": "A cada rodada, eu acho o <b>menor do que sobrou</b> e troco com a próxima posição.", "painel": 0, "titulo": "Original: 3, 1, 2"}, {"fala": "1ª rodada: o menor é o 1. Troco com a posição 1 (o 3):", "painel": 0, "linha": "1ª: 1, 3, 2", "marca": true}, {"fala": "2ª rodada: do que sobrou (3, 2), o menor é o 2. Troco com a posição 2:", "painel": 0, "linha": "2ª: 1, 2, 3", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: faça as rodadas com a lista da tarefa! 💪"},
         enunciado: "<p>A cada rodada, ache o menor do que sobrou e troque com a próxima posição. Escreva a lista depois de cada rodada, com vírgulas.</p>",
         colunas: ["Rodada", "Menor do que sobrou", "Lista depois da troca"],
         linhas: [
@@ -451,7 +451,7 @@
           ["3ª", { r: "6", tipo: "num" }, { r: "1, 3, 6, 8", tipo: "letras", ph: "_, _, _, _" }]],
         explicacao: "1ª rodada: menor 1, troca com o 8 → 1, 3, 6, 8. Nas outras rodadas o menor já estava no lugar: nenhuma troca." },
 
-      { tipo: "tabela", titulo: "Seleção: 7, 2, 9, 4",
+      { tipo: "tabela", titulo: "Seleção: 7, 2, 9, 4", robo: {"paineis": ["🏅 Seleção com outra lista: 3, 1, 2"], "passos": [{"fala": "A cada rodada, eu acho o <b>menor do que sobrou</b> e troco com a próxima posição.", "painel": 0, "titulo": "Original: 3, 1, 2"}, {"fala": "1ª rodada: o menor é o 1. Troco com a posição 1 (o 3):", "painel": 0, "linha": "1ª: 1, 3, 2", "marca": true}, {"fala": "2ª rodada: do que sobrou (3, 2), o menor é o 2. Troco com a posição 2:", "painel": 0, "linha": "2ª: 1, 2, 3", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: faça as rodadas com a lista da tarefa! 💪"},
         colunas: ["Rodada", "Lista depois da troca"],
         linhas: [["1ª", { r: "2, 7, 9, 4", tipo: "letras", ph: "_, _, _, _" }], ["2ª", { r: "2, 4, 9, 7", tipo: "letras", ph: "_, _, _, _" }], ["3ª", { r: "2, 4, 7, 9", tipo: "letras", ph: "_, _, _, _" }]],
         dicas: ["Releia o exemplo do 💡 Para começar: é esta mesma lista."],
@@ -469,7 +469,7 @@
         explicacao: "Bolha: vizinhos, o maior sobe, muitas trocas. Seleção: procura o mínimo, poucas trocas, como escolher times." }
     ],
     desafio: [
-      { tipo: "tabela", titulo: "Seleção em ordem alfabética",
+      { tipo: "tabela", titulo: "Seleção em ordem alfabética", robo: {"paineis": ["🔤 Outra lista: Rui, Ana, Lia"], "passos": [{"fala": "Com nomes, o menor é o que vem <b>primeiro no alfabeto</b>. 1ª rodada: Ana. Troco com a posição 1:", "painel": 0, "linha": "1ª: Ana, Rui, Lia", "marca": true}, {"fala": "2ª rodada: do que sobrou (Rui, Lia), o menor é Lia. Troco com a posição 2:", "painel": 0, "linha": "2ª: Ana, Lia, Rui", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: ordene Davi, Bia, Elisa, Ana e Caio! 💪"},
         enunciado: "<p>Ordene por seleção: <strong>Davi, Bia, Elisa, Ana, Caio</strong>.</p>",
         colunas: ["Rodada", "Lista depois da troca"],
         linhas: [
@@ -479,7 +479,7 @@
         explicacao: "Ana ↔ Davi; Bia fica; Caio ↔ Elisa. Na 4ª rodada, Davi já está no lugar: Ana, Bia, Caio, Davi, Elisa." }
     ],
     turbo: [
-      { tipo: "tabela", titulo: "Quem troca menos?",
+      { tipo: "tabela", titulo: "Quem troca menos?", robo: {"paineis": ["⚖️ Outra lista: 3, 2, 1"], "passos": [{"fala": "🫧 <b>Bolha</b>: conto cada troca de vizinhos.", "painel": 0, "linha": "Passada 1: 2 trocas · Passada 2: 1 troca = 3 trocas"}, {"fala": "🏅 <b>Seleção</b>: conto as trocas de cada rodada.", "painel": 0, "linha": "Rodada 1: 1 ↔ 3 · depois já está em ordem = 1 troca", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: conte as trocas com 4, 3, 2, 1! 💪"},
         enunciado: "<p>Lista <strong>4, 3, 2, 1</strong> em ordem crescente.</p>",
         colunas: ["Método", "Número de trocas"],
         linhas: [["🫧 Bolha", { r: "6", tipo: "num", dica: "Passada 1: 3 trocas; passada 2: 2; passada 3: 1." }], ["🏅 Seleção", { r: "2", tipo: "num", dica: "1ª rodada: 1 ↔ 4; 2ª: 2 ↔ 3; depois já está ordenada." }]],
@@ -497,7 +497,7 @@
   /* ============ MISSÃO 8 — Extra: Fractais ============ */
   m8: {
     pratica: [
-      { tipo: "tabela", titulo: "Mão na massa: o triângulo de Sierpinski",
+      { tipo: "tabela", titulo: "Mão na massa: o triângulo de Sierpinski", robo: {"paineis": ["🔺 Outro fractal: o quadrado que vira 4"], "passos": [{"fala": "Olha um fractal <b>diferente</b>: a cada nível, cada quadrado vira <b>4</b> quadrados menores. Então eu <b>multiplico por 4</b>:", "painel": 0, "linha": "Nível 0: 1"}, {"fala": "", "painel": 0, "linha": "Nível 1: 1 × 4 = 4", "espera": 900}, {"fala": "", "painel": 0, "linha": "Nível 2: 4 × 4 = 16", "marca": true, "espera": 900}, {"fala": "", "painel": 0, "linha": "Nível 3: 16 × 4 = 64", "marca": true, "espera": 2400}], "fim": "Agora é a sua vez: descubra por quanto multiplicar no fractal da tarefa e continue a conta! 💪"},
         colunas: ["Nível", "Triângulos pintados"],
         linhas: [["0", "1"], ["1", { r: "3", tipo: "num" }], ["2", { r: "9", tipo: "num" }], ["3", { r: "27", tipo: "num", dica: "9 × 3." }]],
         explicacao: "Cada triângulo vira 3 menores: 1 → 3 → 9 → 27 (× 3 por nível)." }
@@ -513,7 +513,7 @@
           { t: "Uma bola lisa", c: "N", why: "As partes não repetem a forma do todo." },
           { t: "Um tijolo", c: "N", why: "Não tem autossemelhança." }],
         explicacao: "Fractal: uma parte parecida com o todo (autossemelhança). Bola e tijolo não têm isso." },
-      { tipo: "tabela", titulo: "A árvore fractal",
+      { tipo: "tabela", titulo: "A árvore fractal", robo: {"paineis": ["🔺 Outro fractal: o quadrado que vira 4"], "passos": [{"fala": "Olha um fractal <b>diferente</b>: a cada nível, cada quadrado vira <b>4</b> quadrados menores. Então eu <b>multiplico por 4</b>:", "painel": 0, "linha": "Nível 0: 1"}, {"fala": "", "painel": 0, "linha": "Nível 1: 1 × 4 = 4", "espera": 900}, {"fala": "", "painel": 0, "linha": "Nível 2: 4 × 4 = 16", "marca": true, "espera": 900}, {"fala": "", "painel": 0, "linha": "Nível 3: 16 × 4 = 64", "marca": true, "espera": 2400}], "fim": "Agora é a sua vez: descubra por quanto multiplicar no fractal da tarefa e continue a conta! 💪"},
         enunciado: "<p>Cada galho se divide em <strong>2</strong> galhos menores.</p>",
         colunas: ["Nível", "Galhos novos"],
         linhas: [["1", { r: "2", tipo: "num" }], ["2", { r: "4", tipo: "num" }], ["3", { r: "8", tipo: "num" }], ["4", { r: "16", tipo: "num" }], ["5", { r: "32", tipo: "num" }]],
@@ -526,7 +526,7 @@
         explicacao: "Fractal = autossemelhança, feito com recursão; no desenho, o nível final é o caso base." }
     ],
     desafio: [
-      { tipo: "tabela", titulo: "Níveis maiores",
+      { tipo: "tabela", titulo: "Níveis maiores", robo: {"paineis": ["🔺 Outro fractal: o quadrado que vira 4"], "passos": [{"fala": "Olha um fractal <b>diferente</b>: a cada nível, cada quadrado vira <b>4</b> quadrados menores. Então eu <b>multiplico por 4</b>:", "painel": 0, "linha": "Nível 0: 1"}, {"fala": "", "painel": 0, "linha": "Nível 1: 1 × 4 = 4", "espera": 900}, {"fala": "", "painel": 0, "linha": "Nível 2: 4 × 4 = 16", "marca": true, "espera": 900}, {"fala": "", "painel": 0, "linha": "Nível 3: 16 × 4 = 64", "marca": true, "espera": 2400}], "fim": "Agora é a sua vez: descubra por quanto multiplicar no fractal da tarefa e continue a conta! 💪"},
         colunas: ["Pergunta", "Resposta"],
         linhas: [["Triângulo de Sierpinski, nível 4", { r: "81", tipo: "num" }], ["Triângulo de Sierpinski, nível 5", { r: "243", tipo: "num" }], ["Árvore fractal, nível 6", { r: "64", tipo: "num" }]],
         explicacao: "Sierpinski × 3: 27 → 81 → 243. Árvore × 2: 32 → 64." }
@@ -554,14 +554,14 @@
   rv: {
     basico: [
       { tipo: "relembre", de: "m1" },
-      { tipo: "tabela", de: "m1", titulo: "M1 · Lista", enunciado: "<p>CORES = azul · verde · rosa · preto</p>", colunas: ["Pergunta", "Resposta"],
+      { tipo: "tabela", de: "m1", titulo: "M1 · Lista", robo: {"paineis": ["📋 Outra lista: IDADES = 12 · 15 · 11"], "passos": [{"fala": "Olha como eu leio uma lista <b>diferente</b>. As posições começam no <b>1</b>:", "painel": 0, "linha": "IDADES[1] = 12"}, {"fala": "", "painel": 0, "linha": "IDADES[2] = 15", "marca": true, "espera": 900}, {"fala": "", "painel": 0, "linha": "IDADES[3] = 11", "espera": 900}, {"fala": "Tamanho = quantos itens: <b>3</b>. Em que posição está o 11? Na <b>3</b>.", "painel": 0, "linha": "Tamanho 3 · o 11 está na posição 3", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: leia a lista da tarefa do mesmo jeito! 💪"}, enunciado: "<p>CORES = azul · verde · rosa · preto</p>", colunas: ["Pergunta", "Resposta"],
         linhas: [["CORES[3]", { r: "rosa" }], ["Tamanho", { r: "4", tipo: "num" }]], explicacao: "Posição 3 = rosa; 4 itens." },
       { tipo: "relembre", de: "m2" },
       { tipo: "lista_ops", de: "m2", titulo: "M2 · Inserir e remover", nome: "FILA", inicial: ["Ana", "Bia", "Caio"],
         passos: [{ tipo: "remover", instr: "Remova Ana.", esperado: ["Bia", "Caio"] }, { tipo: "pergunta", instr: "Em que posição o Caio ficou?", r: "2", num: true }],
         explicacao: "Remover Ana: todo mundo anda uma posição para a frente." },
       { tipo: "relembre", de: "m3" },
-      { tipo: "tabela", de: "m3", titulo: "M3 · Busca sequencial", enunciado: "<p>LISTA = 4 · 9 · 1 · 7 · 3</p>", colunas: ["Procurando", "Comparações"],
+      { tipo: "tabela", de: "m3", titulo: "M3 · Busca sequencial", robo: {"paineis": ["🔎 Outra lista: 5 · 8 · 2 · 6"], "passos": [{"fala": "Na busca sequencial eu olho <b>um por um</b> e conto. Procurando o 2:", "painel": 0, "linha": "5? não · 8? não · 2? ACHEI → 3 comparações", "marca": true}, {"fala": "E se o número <b>não está</b> na lista, como o 9? Tenho que olhar <b>todos</b> para ter certeza:", "painel": 0, "linha": "9 → 4 comparações (a lista toda)", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: conte as comparações da tarefa! 💪"}, enunciado: "<p>LISTA = 4 · 9 · 1 · 7 · 3</p>", colunas: ["Procurando", "Comparações"],
         linhas: [["o 7", { r: "4", tipo: "num" }], ["o 8 (não está)", { r: "5", tipo: "num" }]], explicacao: "O 7 está na posição 4; o 8 não está: olha todos os 5." },
       { tipo: "relembre", de: "m4" },
       { tipo: "busca_binaria", de: "m4", titulo: "M4 · Busca binária", lista: [2, 6, 10, 14, 18, 22, 26], alvo: 22,
@@ -574,10 +574,10 @@
         itens: [{ t: "A bonequinha que não abre", c: "B" }, { t: "Abrir e repetir com a de dentro", c: "P" }, { t: "n = 0 → “Fogo!”", c: "B" }],
         explicacao: "Caso base para; passo recursivo repete com o problema menor." },
       { tipo: "relembre", de: "m7" },
-      { tipo: "tabela", de: "m7", titulo: "M7 · Seleção", colunas: ["Lista", "Depois da 1ª rodada"], linhas: [["5, 9, 2, 7", { r: "2, 9, 5, 7", tipo: "letras" }]],
+      { tipo: "tabela", de: "m7", titulo: "M7 · Seleção", robo: {"paineis": ["🏅 Seleção com outra lista: 3, 1, 2"], "passos": [{"fala": "A cada rodada, eu acho o <b>menor do que sobrou</b> e troco com a próxima posição.", "painel": 0, "titulo": "Original: 3, 1, 2"}, {"fala": "1ª rodada: o menor é o 1. Troco com a posição 1 (o 3):", "painel": 0, "linha": "1ª: 1, 3, 2", "marca": true}, {"fala": "2ª rodada: do que sobrou (3, 2), o menor é o 2. Troco com a posição 2:", "painel": 0, "linha": "2ª: 1, 2, 3", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: faça as rodadas com a lista da tarefa! 💪"}, colunas: ["Lista", "Depois da 1ª rodada"], linhas: [["5, 9, 2, 7", { r: "2, 9, 5, 7", tipo: "letras" }]],
         explicacao: "O menor (2) troca com a 1ª posição (5)." },
       { tipo: "relembre", de: "m8" },
-      { tipo: "tabela", de: "m8", titulo: "M8 · Fractais", colunas: ["Pergunta", "Resposta"], linhas: [["Sierpinski, nível 3", { r: "27", tipo: "num" }], ["Árvore (× 2), nível 3", { r: "8", tipo: "num" }]],
+      { tipo: "tabela", de: "m8", titulo: "M8 · Fractais", robo: {"paineis": ["🔺 Outro fractal: o quadrado que vira 4"], "passos": [{"fala": "Olha um fractal <b>diferente</b>: a cada nível, cada quadrado vira <b>4</b> quadrados menores. Então eu <b>multiplico por 4</b>:", "painel": 0, "linha": "Nível 0: 1"}, {"fala": "", "painel": 0, "linha": "Nível 1: 1 × 4 = 4", "espera": 900}, {"fala": "", "painel": 0, "linha": "Nível 2: 4 × 4 = 16", "marca": true, "espera": 900}, {"fala": "", "painel": 0, "linha": "Nível 3: 16 × 4 = 64", "marca": true, "espera": 2400}], "fim": "Agora é a sua vez: descubra por quanto multiplicar no fractal da tarefa e continue a conta! 💪"}, colunas: ["Pergunta", "Resposta"], linhas: [["Sierpinski, nível 3", { r: "27", tipo: "num" }], ["Árvore (× 2), nível 3", { r: "8", tipo: "num" }]],
         explicacao: "× 3: 1, 3, 9, 27. × 2: 2, 4, 8." }
     ],
     desafio: [
@@ -620,7 +620,7 @@
     { tipo: "escolha", de: "m2", titulo: "M2 · Inserir, remover e contar", perguntas: [{"p": "FILA = Ana, Bia, Caio. Inserir Duda no fim. Qual é o tamanho agora?", "opcoes": ["4", "3", "2"], "certo": 0}, {"p": "FILA = Ana, Bia, Caio, Duda. Removendo Ana, quem fica na posição 1?", "opcoes": ["Caio", "Bia", "Duda"], "certo": 1}, {"p": "Notas 7, 2, 5, 9. Quantas são 5 ou mais?", "opcoes": ["2", "4", "3"], "certo": 2}],
       explicacao: "FILA = Ana, Bia, Caio. Inserir Duda no fim. Qual é o tamanho agora? → <strong>4</strong> · FILA = Ana, Bia, Caio, Duda. Removendo Ana, quem fica na posição 1? → <strong>Bia</strong> · Notas 7, 2, 5, 9. Quantas são 5 ou mais? → <strong>3</strong>" },
     pega("m2"),
-    { tipo: "escolha", de: "m3", titulo: "M3 · Busca sequencial", perguntas: [{"p": "Procurar o 4 em 6, 1, 4, 9 com a busca sequencial. Quantas comparações?", "opcoes": ["3", "1", "4"], "certo": 0}, {"p": "Numa lista de 1.000 itens, o melhor caso da busca sequencial tem:", "opcoes": ["1.000 comparações", "1 comparação", "500 comparações"], "certo": 1}, {"p": "A busca sequencial funciona em lista fora de ordem?", "opcoes": ["Não, nunca", "Só se for pequena", "Sim, em qualquer lista"], "certo": 2}],
+    { tipo: "escolha", de: "m3", titulo: "M3 · Busca sequencial", robo: {"paineis": ["🔎 Outra lista: 5 · 8 · 2 · 6"], "passos": [{"fala": "Na busca sequencial eu olho <b>um por um</b> e conto. Procurando o 2:", "painel": 0, "linha": "5? não · 8? não · 2? ACHEI → 3 comparações", "marca": true}, {"fala": "E se o número <b>não está</b> na lista, como o 9? Tenho que olhar <b>todos</b> para ter certeza:", "painel": 0, "linha": "9 → 4 comparações (a lista toda)", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: conte as comparações da tarefa! 💪"}, perguntas: [{"p": "Procurar o 4 em 6, 1, 4, 9 com a busca sequencial. Quantas comparações?", "opcoes": ["3", "1", "4"], "certo": 0}, {"p": "Numa lista de 1.000 itens, o melhor caso da busca sequencial tem:", "opcoes": ["1.000 comparações", "1 comparação", "500 comparações"], "certo": 1}, {"p": "A busca sequencial funciona em lista fora de ordem?", "opcoes": ["Não, nunca", "Só se for pequena", "Sim, em qualquer lista"], "certo": 2}],
       explicacao: "Procurar o 4 em 6, 1, 4, 9 com a busca sequencial. Quantas comparações? → <strong>3</strong> · Numa lista de 1.000 itens, o melhor caso da busca sequencial tem: → <strong>1 comparação</strong> · A busca sequencial funciona em lista fora de ordem? → <strong>Sim, em qualquer lista</strong>" },
     pega("m3"),
     { tipo: "escolha", de: "m4", titulo: "M4 · Busca binária", perguntas: [{"p": "Na busca binária, o procurado é maior que o meio. Eu jogo fora:", "opcoes": ["A metade da esquerda", "A metade da direita", "A lista toda"], "certo": 0}, {"p": "Numa lista ordenada de 1.000 itens, a busca binária precisa de no máximo:", "opcoes": ["1.000 comparações", "10 comparações", "100 comparações"], "certo": 1}, {"p": "Procurar uma palavra no dicionário abrindo no meio parece a busca:", "opcoes": ["Sequencial", "Por seleção", "Binária"], "certo": 2}],
@@ -635,7 +635,7 @@
     { tipo: "escolha", de: "m7", titulo: "M7 · Ordenação por seleção", perguntas: [{"p": "Na seleção, a cada rodada eu procuro:", "opcoes": ["O menor do que sobrou", "O maior vizinho", "O item do meio"], "certo": 0}, {"p": "Lista 5, 1, 4. Depois da 1ª rodada, ela fica:", "opcoes": ["5, 4, 1", "1, 5, 4", "4, 1, 5"], "certo": 1}, {"p": "Quantas trocas a seleção faz por rodada, no máximo?", "opcoes": ["Nenhuma", "Todas as possíveis", "Uma"], "certo": 2}],
       explicacao: "Na seleção, a cada rodada eu procuro: → <strong>O menor do que sobrou</strong> · Lista 5, 1, 4. Depois da 1ª rodada, ela fica: → <strong>1, 5, 4</strong> · Quantas trocas a seleção faz por rodada, no máximo? → <strong>Uma</strong>" },
     pega("m7"),
-    { tipo: "escolha", de: "m8", titulo: "M8 · Fractais", perguntas: [{"p": "No triângulo de Sierpinski, quantos triângulos pintados há no nível 3?", "opcoes": ["27", "9", "12"], "certo": 0}, {"p": "Na árvore fractal, quantos galhos novos no nível 4?", "opcoes": ["8", "16", "12"], "certo": 1}, {"p": "Qual destes é um fractal da natureza?", "opcoes": ["Uma bola lisa", "Um cubo", "O brócolis"], "certo": 2}],
+    { tipo: "escolha", de: "m8", titulo: "M8 · Fractais", robo: {"paineis": ["🔺 Outro fractal: o quadrado que vira 4"], "passos": [{"fala": "Olha um fractal <b>diferente</b>: a cada nível, cada quadrado vira <b>4</b> quadrados menores. Então eu <b>multiplico por 4</b>:", "painel": 0, "linha": "Nível 0: 1"}, {"fala": "", "painel": 0, "linha": "Nível 1: 1 × 4 = 4", "espera": 900}, {"fala": "", "painel": 0, "linha": "Nível 2: 4 × 4 = 16", "marca": true, "espera": 900}, {"fala": "", "painel": 0, "linha": "Nível 3: 16 × 4 = 64", "marca": true, "espera": 2400}], "fim": "Agora é a sua vez: descubra por quanto multiplicar no fractal da tarefa e continue a conta! 💪"}, perguntas: [{"p": "No triângulo de Sierpinski, quantos triângulos pintados há no nível 3?", "opcoes": ["27", "9", "12"], "certo": 0}, {"p": "Na árvore fractal, quantos galhos novos no nível 4?", "opcoes": ["8", "16", "12"], "certo": 1}, {"p": "Qual destes é um fractal da natureza?", "opcoes": ["Uma bola lisa", "Um cubo", "O brócolis"], "certo": 2}],
       explicacao: "No triângulo de Sierpinski, quantos triângulos pintados há no nível 3? → <strong>27</strong> · Na árvore fractal, quantos galhos novos no nível 4? → <strong>16</strong> · Qual destes é um fractal da natureza? → <strong>O brócolis</strong>" },
     pega("m8")
   ].filter(Boolean) };
