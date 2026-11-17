@@ -53,7 +53,7 @@ PORTAL.registrarAtividades("informatica-5ano-4bim", {
           { t: "Vídeo assistido no YouTube", c: "N", why: "O vídeo fica nos computadores da empresa e chega pela internet." },
           { t: "Arquivo guardado no Google Drive", c: "N" }, { t: "Jogo instalado no computador da escola", c: "A" }],
         explicacao: "No aparelho: fica no próprio computador, celular ou pen drive. Na nuvem: fica em computadores de empresas e você acessa pela internet." },
-      { tipo: "tabela", titulo: "Digite aqui no portal",
+      { tipo: "tabela", titulo: "Digite aqui no portal", robo: {"paineis": ["⌨️ Como eu digito"], "passos": [{"fala": "Olha como eu faço. Clico dentro da caixa e digito letra por letra. Para separar as palavras, aperto a <b>barra de espaço</b> (a tecla comprida embaixo):", "painel": 0, "linha": "Meu nome é Bit e eu sou um robô."}, {"fala": "Para a letra maiúscula do começo, seguro o <b>Shift</b> e aperto a letra. E o <b>é</b> com acento: aperto o acento <b>´</b> e depois o <b>e</b>.", "painel": null, "espera": 3000}], "fim": "Agora é a sua vez: digite a frase com o <b>seu</b> nome! 💪"},
         enunciado: "<p>Digite nas caixas abaixo. Use as letras do teclado e a barra de espaço para separar as palavras.</p>",
         colunas: ["O que digitar", "Digite aqui"],
         linhas: [
@@ -115,7 +115,7 @@ PORTAL.registrarAtividades("informatica-5ano-4bim", {
           { tipo: "remover", instr: "Caio foi ao banheiro e saiu da fila: remova Caio.", esperado: ["Ana", "Bia", "Duda", "Enzo"] },
           { tipo: "pergunta", instr: "Quem fica na posição 3 agora?", r: "Duda" }],
         explicacao: "Quando Caio sai, Duda anda uma posição e fica em 3º lugar." },
-      { tipo: "tabela", titulo: "O grafo das amizades",
+      { tipo: "tabela", titulo: "O grafo das amizades", robo: {"paineis": ["👥 Outra turma de amigos"], "passos": [{"fala": "Olha como eu conto com <b>outros</b> amigos: Lia — Téo, Lia — Rui, Lia — Ivo, Téo — Rui.", "painel": 0, "titulo": "Cada amizade é uma linha"}, {"fala": "Conto as linhas que saem de cada nome:", "painel": 0, "linha": "Lia: 3 amigos", "marca": true}, {"fala": "", "painel": 0, "linha": "Téo: 2 amigos", "espera": 700}, {"fala": "", "painel": 0, "linha": "Rui: 2 amigos", "espera": 700}, {"fala": "", "painel": 0, "linha": "Ivo: 1 amigo", "marca": true, "espera": 1600}, {"fala": "Quem tem mais amigos é a Lia. Quem tem só um é o Ivo!", "painel": null, "espera": 2400}], "fim": "Agora é a sua vez: conte as linhas de cada nome da tarefa! 💪"},
         enunciado: "<p>Amizades: <strong>Ana — Bia · Ana — Caio · Bia — Duda · Caio — Duda · Duda — Enzo</strong>. Imagine o grafo: cada nome é um círculo (vértice) e cada amizade é uma linha (aresta) ligando dois nomes. Conte quantas linhas saem de cada nome e responda:</p>",
         linhas: [["Quem tem mais amigos no grafo?", { r: "Duda", w: 10 }], ["Quantos amigos essa pessoa tem?", { r: "3", tipo: "num", w: 4 }], ["Quem tem só um amigo?", { r: "Enzo", w: 10 }]],
         dicas: ["Conte quantas linhas saem de cada nome."],
@@ -134,7 +134,7 @@ PORTAL.registrarAtividades("informatica-5ano-4bim", {
         explicacao: "Para ir de Parauapebas a Marabá, usando só essas estradas, é preciso passar por Curionópolis e por Eldorado dos Carajás." }
     ],
     turbo: [
-      { tipo: "aberta", titulo: "2 coisas que viram lista e 2 coisas que viram grafo",
+      { tipo: "aberta", titulo: "2 coisas que viram lista e 2 coisas que viram grafo", robo: {"paineis": ["📋 Lista: um depois do outro", "🕸️ Grafo: coisas ligadas"], "passos": [{"fala": "Olha como eu penso. Numa <b>lista</b>, as coisas ficam em fila, uma depois da outra:", "painel": 0, "linha": "a fila da merenda"}, {"fala": "Num <b>grafo</b>, as coisas estão <b>ligadas</b> entre si:", "painel": 1, "linha": "as estações do metrô ligadas pelos trilhos", "espera": 2400}], "fim": "Agora é a sua vez: pense em 2 listas e 2 grafos <b>seus</b>, diferentes dos meus! 💪"},
         campos: [{ rot: "Viram lista:", linhas: 1 }, { rot: "Viram grafo:", linhas: 1 }],
         criterios: ["Nas listas, os itens ficam um depois do outro.", "Nos grafos, as coisas estão ligadas entre si."],
         exemplo: "Lista: a playlist e a chamada da turma. Grafo: os amigos de uma rede social e as ruas do bairro.",
@@ -181,7 +181,7 @@ PORTAL.registrarAtividades("informatica-5ano-4bim", {
         categorias: [{ id: "S", rot: "Sim" }, { id: "N", rot: "Não" }],
         itens: [{ t: "Léo — terminou: Sim · guardou: Não", c: "N" }, { t: "Mia — terminou: Sim · guardou: Sim", c: "S" }, { t: "Davi — terminou: Não · guardou: Sim", c: "N" }],
         explicacao: "Com E, só pode jogar quem fez as duas coisas: Mia." },
-      { tipo: "aberta", titulo: "Complete os algoritmos de escolha",
+      { tipo: "aberta", titulo: "Complete os algoritmos de escolha", robo: {"paineis": ["🔀 SE… ENTÃO… SENÃO…"], "passos": [{"fala": "Olha como eu completo um <b>outro</b>:", "painel": 0, "titulo": "SE estiver frio,"}, {"fala": "No ENTÃO vai o que eu faço se for SIM:", "painel": 0, "linha": "ENTÃO visto o casaco,", "marca": true}, {"fala": "No SENÃO, o que eu faço se for NÃO:", "painel": 0, "linha": "SENÃO vou de camiseta.", "marca": true, "espera": 2400}], "fim": "Agora é a sua vez: complete os seus, sempre com ENTÃO e SENÃO! 💪"},
         campos: [{ rot: "SE estiver com fome, ENTÃO… SENÃO…", linhas: 1 }, { rot: "SE o celular estiver com pouca bateria, ENTÃO… SENÃO…", linhas: 1 }, { rot: "SE eu terminar a tarefa, ENTÃO… SENÃO…", linhas: 1 }],
         criterios: ["Cada linha tem uma ação para o ENTÃO e outra para o SENÃO."],
         enunciado: "<p>Escreva o que acontece no <strong>ENTÃO</strong> e no <strong>SENÃO</strong>, usando essas duas palavras.</p>",
@@ -196,7 +196,7 @@ PORTAL.registrarAtividades("informatica-5ano-4bim", {
         explicacao: "Só o 1º e o 5º (o último) ficam pretos. Mudando a condição do SE, o mesmo algoritmo faz um desenho diferente." }
     ],
     desafio: [
-      { tipo: "tabela", titulo: "Complete a tabela do E e do OU",
+      { tipo: "tabela", titulo: "Complete a tabela do E e do OU", robo: {"paineis": ["🤔 O jeito de pensar"], "passos": [{"fala": "Olha com frases de verdade. A: “Hoje é sábado”. B: “Está chovendo”.", "painel": 0, "titulo": "A E B · A OU B"}, {"fala": "Com <b>E</b>, a frase toda só é <b>V</b> se as <b>duas</b> partes forem V. Se uma for F, tudo vira F.", "painel": 0, "linha": "E: precisa das DUAS verdadeiras", "marca": true}, {"fala": "Com <b>OU</b>, basta <b>uma</b> ser V para a frase toda ser V. Só é F se as duas forem F.", "painel": 0, "linha": "OU: basta UMA verdadeira", "marca": true, "espera": 2800}], "fim": "Agora é a sua vez: use essas duas regras em cada linha da tabela! 💪"},
         colunas: ["Frase A", "Frase B", "A E B", "A OU B"],
         linhas: [
           ["V", "V", { op: ["V", "F"], r: "V" }, { op: ["V", "F"], r: "V" }],
@@ -206,7 +206,7 @@ PORTAL.registrarAtividades("informatica-5ano-4bim", {
         explicacao: "E só é V quando as duas são V. OU só é F quando as duas são F." }
     ],
     turbo: [
-      { tipo: "aberta", titulo: "Crie frases sobre você com NÃO, E e OU, e diga se cada uma é V ou F",
+      { tipo: "aberta", titulo: "Crie frases sobre você com NÃO, E e OU, e diga se cada uma é V ou F", robo: {"paineis": ["✍️ Frases sobre o Bit"], "passos": [{"fala": "Olha as minhas frases, sobre <b>mim</b>, o Bit:", "painel": 0, "linha": "Eu NÃO tenho pernas. (V)"}, {"fala": "", "painel": 0, "linha": "Eu tenho antena E olhos azuis. (V)", "espera": 1000}, {"fala": "", "painel": 0, "linha": "Eu moro no Portal OU na Lua. (V)", "espera": 1000}, {"fala": "No fim de cada uma, digo se é <b>V</b> ou <b>F</b>.", "painel": null, "espera": 2400}], "fim": "Agora é a sua vez: crie frases sobre <b>você</b>! 💪"},
         campos: [{ rot: "Frase com NÃO (V ou F?)", linhas: 1 }, { rot: "Frase com E (V ou F?)", linhas: 1 }, { rot: "Frase com OU (V ou F?)", linhas: 1 }],
         criterios: ["Cada frase usa a palavra pedida.", "Disse se é V ou F."],
         conferir: { minPalavras: 3, porCampo: [["nao"], [" e "], [" ou "]], vf: true, msg: "Frases com NÃO, E e OU criadas e avaliadas!" },
@@ -279,7 +279,7 @@ PORTAL.registrarAtividades("informatica-5ano-4bim", {
         ],
         fimMsg: "Você não respondeu ao desconhecido e leu a mensagem do professor. Internet com cuidado!",
         explicacao: "Nunca mande foto, endereço ou senha para quem você não conhece. Pedido de segredo é sinal de perigo: conte a um adulto." },
-      { id: "m4-basico-2", tipo: "aberta", titulo: "Maria fez um desenho lindo de uma árvore. Você quer usar no seu cartaz.",
+      { id: "m4-basico-2", tipo: "aberta", titulo: "Maria fez um desenho lindo de uma árvore. Você quer usar no seu cartaz.", robo: {"paineis": ["🎨 Outro caso: a foto do João"], "passos": [{"fala": "O João tirou uma foto bonita do rio. Para usar no meu trabalho, primeiro eu <b>peço autorização</b>:", "painel": 0, "linha": "Pergunto ao João se posso usar a foto"}, {"fala": "Depois escrevo o <b>crédito</b> com o nome dele:", "painel": 0, "linha": "Foto: João", "marca": true, "espera": 2400}], "fim": "Agora é a sua vez: o que você faz com o desenho da <b>Maria</b>? 💪"},
         campos: [{ rot: "O que você precisa fazer?", linhas: 2 }, { rot: "Escreva o crédito: Desenho: ____", linhas: 1 }],
         criterios: ["Pedi autorização à Maria.", "Escrevi o crédito com o nome dela."],
         conferir: { porCampo: [["autoriza", "permiss", "pedir", "peco", "pergunt", "deixa"], ["maria"]], msg: "Isso mesmo: pedir autorização e dar o crédito!" },
@@ -294,7 +294,7 @@ PORTAL.registrarAtividades("informatica-5ano-4bim", {
         okMsg: "Cartaz pronto e conferido! Ficou registrado para o professor." }
     ],
     desafio: [
-      { tipo: "aberta", titulo: "Escolha 2 profissões: qual tecnologia cada uma usa e como ajuda?",
+      { tipo: "aberta", titulo: "Escolha 2 profissões: qual tecnologia cada uma usa e como ajuda?", robo: {"paineis": ["👩‍⚕️ Profissão — tecnologia — como ajuda"], "passos": [{"fala": "Olha como eu escrevo, em 3 partes: a profissão, a tecnologia e como ela ajuda:", "painel": 0, "linha": "Médica — termômetro digital — mede a febre rapidinho"}, {"fala": "", "painel": 0, "linha": "Motorista — GPS no celular — mostra o melhor caminho", "espera": 2400}], "fim": "Agora é a sua vez: escolha 2 profissões <b>diferentes</b> das minhas! 💪"},
         campos: [{ rot: "Profissão 1 — tecnologia — como ajuda", linhas: 2 }, { rot: "Profissão 2 — tecnologia — como ajuda", linhas: 2 }],
         criterios: ["Disse a profissão, a tecnologia e como ela ajuda."], exemplo: "Agricultor — previsão do tempo no celular — ajuda a saber o melhor dia para plantar.",
         conferir: { minPalavras: 5, diferentes: "todos", msg: "Profissões e tecnologias registradas! O professor pode ler no painel." } }
@@ -304,7 +304,7 @@ PORTAL.registrarAtividades("informatica-5ano-4bim", {
         itens: ["Leio com calma e vejo se parece exagerada", "Procuro quem escreveu e a data", "Procuro se ela aparece em outros sites sérios", "Só compartilho se for confiável"],
         alternativas: [[1, 0, 2, 3], [0, 2, 1, 3], [1, 2, 0, 3], [2, 1, 0, 3], [2, 0, 1, 3]],
         explicacao: "A ordem das três conferências pode variar, mas compartilhar vem sempre por último, e só se for confiável." },
-      { tipo: "aberta", titulo: "Escreva os seus 3 passos antes de compartilhar", campos: [{ rot: "1.", linhas: 1 }, { rot: "2.", linhas: 1 }, { rot: "3.", linhas: 1 }], opcional: true,
+      { tipo: "aberta", titulo: "Escreva os seus 3 passos antes de compartilhar", robo: {"paineis": ["🛡️ Antes de compartilhar"], "passos": [{"fala": "Olha como eu penso antes de mandar uma mensagem para o grupo:", "painel": 0, "linha": "Quem escreveu isso?"}, {"fala": "", "painel": 0, "linha": "Tem data?", "espera": 800}, {"fala": "", "painel": 0, "linha": "Outros sites falam a mesma coisa?", "espera": 2200}], "fim": "Agora é a sua vez: escreva os <b>seus</b> 3 passos, com as suas palavras! 💪"}, campos: [{ rot: "1.", linhas: 1 }, { rot: "2.", linhas: 1 }, { rot: "3.", linhas: 1 }], opcional: true,
         conferir: { minPalavras: 2, diferentes: "todos", msg: "Seus 3 passos estão registrados!" } }
     ],
     vf: [
@@ -318,7 +318,7 @@ PORTAL.registrarAtividades("informatica-5ano-4bim", {
   pf: {
     basico: [
       { tipo: "info", titulo: "Faltou alguma missão?", html: "<p>Se você faltou em alguma missão, faça agora o <strong>Básico</strong> dela. Quando terminar, aparece a faixa verde <strong>Básico concluído</strong> e tudo fica registrado sozinho para o professor.</p>" },
-      { tipo: "aberta", titulo: "Complete o seu passaporte: uma frase sobre cada missão",
+      { tipo: "aberta", titulo: "Complete o seu passaporte: uma frase sobre cada missão", robo: {"paineis": ["✍️ Exemplo com outra matéria"], "passos": [{"fala": "Olha como eu escrevo sobre uma aula de <b>Ciências</b>: falo de algo que eu aprendi.", "painel": 0, "linha": "Aprendi que as plantas precisam de luz para crescer.", "marca": true, "espera": 2400}], "fim": "Agora é a sua vez: uma frase sobre cada missão! 💪"},
         campos: [{ rot: "🖥️ Missão 1 – O computador e onde moram os dados", linhas: 2 }, { rot: "📋 Missão 2 – Listas e grafos", linhas: 2 }, { rot: "🤔 Missão 3 – Verdadeiro ou falso e escolhas", linhas: 2 }, { rot: "🛡️ Missão 4 – Internet com cuidado", linhas: 2 }],
         criterios: ["Cada frase fala de algo que eu aprendi naquela missão."],
         conferir: { minPalavras: 3, porCampo: [
@@ -332,7 +332,7 @@ PORTAL.registrarAtividades("informatica-5ano-4bim", {
         conferir: { minPalavras: 2, porCampo: [["missao", "1", "2", "3", "4", "comput", "lista", "grafo", "verdadeir", "escolha", "internet", "cuidado"], null], msg: "Obrigado por contar! O professor pode ler no painel." } }
     ],
     desafio: [
-      { tipo: "aberta", titulo: "Crie um algoritmo com SE… ENTÃO… SENÃO para decidir se você pode compartilhar uma mensagem",
+      { tipo: "aberta", titulo: "Crie um algoritmo com SE… ENTÃO… SENÃO para decidir se você pode compartilhar uma mensagem", robo: {"paineis": ["🔀 Outro algoritmo: posso abrir um link?"], "passos": [{"fala": "Olha como eu monto um algoritmo para <b>outra</b> decisão:", "painel": 0, "linha": "SE o link veio de alguém que eu conheço"}, {"fala": "", "painel": 0, "linha": "E o endereço tem o cadeado 🔒,", "espera": 900}, {"fala": "", "painel": 0, "linha": "ENTÃO eu abro,", "marca": true}, {"fala": "", "painel": 0, "linha": "SENÃO eu pergunto a um adulto.", "marca": true, "espera": 2400}], "fim": "Agora é a sua vez: crie o <b>seu</b>, para decidir se pode compartilhar uma mensagem! 💪"},
         linhas: 4, criterios: ["A condição usa as perguntas de confiança (quem escreveu, quando, outros lugares, exagero)."],
         conferir: { minPalavras: 10, grupos: [{ dica: "a palavra SE", alts: ["se "] }, { dica: "a palavra ENTÃO", alts: ["entao"] }, { dica: "a palavra SENÃO", alts: ["senao"] },
           { dica: "uma pergunta de confiança (quem escreveu, a data, outros sites, exagero)", alts: ["autor", "quem escreveu", "data", "quando", "outros sites", "outro site", "fonte", "exager", "confiavel", "seri"] }],
@@ -340,7 +340,7 @@ PORTAL.registrarAtividades("informatica-5ano-4bim", {
         exemplo: "SE a mensagem tem autor E data E aparece em outros sites sérios, ENTÃO posso compartilhar, SENÃO não compartilho." }
     ],
     turbo: [
-      { tipo: "aberta", titulo: "O grafo do caminho até a escola",
+      { tipo: "aberta", titulo: "O grafo do caminho até a escola", robo: {"paineis": ["📍 Vértices (lugares)", "➖ Arestas (ligações)"], "passos": [{"fala": "Olha como eu faço com o caminho da minha casa até o <b>parque</b>. Primeiro os lugares, em ordem:", "painel": 0, "linha": "Casa, Mercado, Igreja, Praça, Parque"}, {"fala": "Depois ligo os lugares de <b>dois em dois</b>, como as ruas:", "painel": 1, "linha": "Casa – Mercado"}, {"fala": "", "painel": 1, "linha": "Mercado – Igreja", "espera": 700}, {"fala": "", "painel": 1, "linha": "Igreja – Praça", "espera": 700}, {"fala": "", "painel": 1, "linha": "Praça – Parque", "espera": 2200}], "fim": "Agora é a sua vez: faça o grafo do <b>seu</b> caminho até a escola! 💪"},
         enunciado: "<p>Pense no caminho da sua casa até a escola. Cada lugar é um <strong>vértice</strong> (círculo) e cada rua que liga dois lugares é uma <strong>aresta</strong> (linha).</p>",
         campos: [{ rot: "5 lugares do caminho, em ordem (os vértices):", linhas: 1 }, { rot: "As ligações entre eles (as arestas), assim: Casa – Padaria:", linhas: 2 }],
         criterios: ["Escreveu 5 lugares.", "Ligou os lugares de dois em dois, como as ruas."],
