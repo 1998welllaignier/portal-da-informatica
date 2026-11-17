@@ -45,7 +45,7 @@
       Object.assign({ tipo: "grafo_montar", titulo: "Monte o grafo do bairro", descricao: "Grafo do bairro para montar: Casa, Padaria, Praça e Escola" }, bairro,
         { enunciado: "<p>Ligue os lugares seguindo a tabela de arestas do 💡 Para começar: clique num lugar e depois no lugar ligado a ele.</p>",
           dicas: ["A Casa se liga à Padaria, à Praça e à Escola."], explicacao: "4 vértices e 5 arestas, cada uma com o seu peso em minutos." }),
-      { tipo: "tabela", titulo: "Os caminhos da Casa até a Escola",
+      { tipo: "tabela", titulo: "Os caminhos da Casa até a Escola", robo: {"paineis": ["🗺️ Outro grafo: A —1— B —2— C e A —4— C"], "passos": [{"fala": "Olha como eu analiso um grafo <b>diferente</b>. Vértices são os lugares; arestas, as ligações:", "painel": 0, "linha": "3 vértices (A, B, C) · 3 arestas"}, {"fala": "O <b>grau</b> é quantas arestas saem de um vértice:", "painel": 0, "linha": "Grau de A = 2 (A–B e A–C)", "marca": true}, {"fala": "Para o <b>caminho mais curto</b>, eu somo os pesos de cada caminho e fico com o menor:", "painel": 0, "linha": "A → B → C = 1 + 2 = 3 · A → C direto = 4", "marca": true, "espera": 2800}], "fim": "Agora é a sua vez: faça o mesmo com o grafo da tarefa! 💪"},
         colunas: ["Pergunta", "Resposta"],
         linhas: [
           ["Quantos vértices o grafo tem?", { r: "4", tipo: "num" }],
@@ -68,7 +68,7 @@
         explicacao: "Vértice = ponto; aresta = ligação; peso = número da aresta; grau = quantas arestas saem do vértice." }
     ],
     desafio: [
-      { tipo: "tabela", titulo: "A rua fechada",
+      { tipo: "tabela", titulo: "A rua fechada", robo: {"paineis": ["🚧 No grafo A —1— B —2— C e A —4— C, a rua B–C fechou"], "passos": [{"fala": "Quando uma aresta <b>some</b>, os caminhos que passavam por ela não valem mais:", "painel": 0, "linha": "A → B → C: não dá mais (B–C fechou)"}, {"fala": "Sobra o outro caminho:", "painel": 0, "linha": "A → C direto = 4 min", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: ache o caminho que sobrou no bairro da tarefa! 💪"},
         enunciado: "<p>No grafo do bairro, a rua <strong>Padaria — Escola</strong> foi interditada (a aresta sumiu).</p>",
         colunas: ["Pergunta", "Resposta"],
         linhas: [
@@ -129,7 +129,7 @@
         explicacao: "Árvore: sem ciclos, um único caminho entre dois vértices, cada vértice com um só pai." }
     ],
     desafio: [
-      { tipo: "tabela", titulo: "O mata-mata como árvore",
+      { tipo: "tabela", titulo: "O mata-mata como árvore", robo: {"paineis": ["🏆 Outro torneio: 4 times"], "passos": [{"fala": "As <b>folhas</b> são os times do começo:", "painel": 0, "linha": "Folhas: 4 times"}, {"fala": "Cada jogo junta 2 times, e o vencedor sobe um nível:", "painel": 0, "linha": "Semifinal: 2 jogos"}, {"fala": "", "painel": 0, "linha": "Final: 1 jogo", "espera": 900}, {"fala": "Somo todos os jogos:", "painel": 0, "linha": "Total: 2 + 1 = 3 jogos", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: faça com os 8 times das quartas de final! 💪"},
         enunciado: "<p>Quartas de final com 8 times. Quem ganha sobe um nível até a final.</p>",
         colunas: ["Pergunta", "Resposta"],
         linhas: [
@@ -179,7 +179,7 @@
           { t: "É legal?", c: "R", why: "Opinião, não tem resposta clara." },
           { t: "Pesa mais de 10 kg?", c: "B", why: "Dá para medir." }],
         explicacao: "Boa pergunta tem resposta clara (sim ou não) e divide as opções. Opinião não serve." },
-      { tipo: "tabela", titulo: "Quantas opções cabem?",
+      { tipo: "tabela", titulo: "Quantas opções cabem?", robo: {"paineis": ["❓ O jeito de pensar"], "passos": [{"fala": "Cada pergunta de sim ou não <b>divide</b> as opções em 2 grupos. Então cada pergunta a mais <b>dobra</b> o que dá para separar.", "painel": 0, "linha": "Cada pergunta: × 2"}, {"fala": "Exemplo com 5 perguntas:", "painel": 0, "linha": "2 × 2 × 2 × 2 × 2 = 32 opções", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: dobre para 1, 2, 3 e 4 perguntas! 💪"},
         colunas: ["Perguntas de sim ou não", "Opções que dá para separar"],
         linhas: [["1", { r: "2", tipo: "num" }], ["2", { r: "4", tipo: "num" }], ["3", { r: "8", tipo: "num" }], ["4", { r: "16", tipo: "num" }]],
         explicacao: "Cada pergunta a mais dobra as opções: 2, 4, 8, 16." }
@@ -196,7 +196,7 @@
         explicacao: "Não → febre há mais de 3 dias? sim → 🟡. A árvore tem 3 folhas. O caso grave decide logo na 1ª pergunta: a árvore não precisa ser simétrica." }
     ],
     turbo: [
-      { tipo: "tabela", titulo: "Quantas perguntas?",
+      { tipo: "tabela", titulo: "Quantas perguntas?", robo: {"paineis": ["❓ Outro exemplo: 8 opções"], "passos": [{"fala": "A cada pergunta, as opções caem pela <b>metade</b>. Escrevo até sobrar 1:", "painel": 0, "linha": "8 → 4 → 2 → 1"}, {"fala": "Conto as setas: são as perguntas.", "painel": 0, "linha": "8 opções → 3 perguntas", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: faça com 16, 32 e 1.000! 💪"},
         colunas: ["Opções", "Perguntas de sim ou não, no mínimo"],
         linhas: [["16 animais", { r: "4", tipo: "num" }], ["32 objetos", { r: "5", tipo: "num" }], ["1.000 palavras", { r: "10", tipo: "num", dica: "2 elevado a 10 = 1.024." }]],
         explicacao: "Cada pergunta dobra: 4 perguntas → 16; 5 → 32; 10 → 1.024. É a mesma ideia da busca binária." }
@@ -213,7 +213,7 @@
   /* ============ MISSÃO 4 — Programar com grafos e árvores ============ */
   m4: {
     pratica: [
-      { tipo: "tabela", titulo: "Mão na massa: lista de vizinhos",
+      { tipo: "tabela", titulo: "Mão na massa: lista de vizinhos", robo: {"paineis": ["🕸️ Outras arestas: Casa–Rua · Rua–Praça · Rua–Loja"], "passos": [{"fala": "Os <b>vizinhos</b> de um vértice são os que estão ligados a ele por uma aresta. Procuro o nome em todas as arestas:", "painel": 0, "linha": "Vizinhos da Rua: Casa, Praça, Loja", "marca": true}, {"fala": "", "painel": 0, "linha": "Vizinhos da Casa: Rua", "espera": 2400}], "fim": "Agora é a sua vez: ache os vizinhos de cada lugar da escola! 💪"},
         enunciado: "<p>Arestas da escola: Portão–Pátio · Pátio–Cantina · Pátio–Informática · Pátio–Biblioteca · Informática–Biblioteca</p>",
         colunas: ["Vértice", "Vizinhos (separe com vírgula)"],
         linhas: [
@@ -223,7 +223,7 @@
         explicacao: "Os vizinhos de um vértice são os ligados diretamente a ele: Portão → Pátio; Cantina → Pátio; Biblioteca → Pátio e Informática." }
     ],
     basico: [
-      { tipo: "tabela", titulo: "Grau = tamanho da lista de vizinhos",
+      { tipo: "tabela", titulo: "Grau = tamanho da lista de vizinhos", robo: {"paineis": ["🔢 Usando a lista de vizinhos"], "passos": [{"fala": "O grau é só <b>contar</b> quantos vizinhos tem na lista:", "painel": 0, "linha": "Rua: Casa, Praça, Loja → grau 3", "marca": true}, {"fala": "", "painel": 0, "linha": "Casa: Rua → grau 1", "espera": 2400}], "fim": "Agora é a sua vez: conte os vizinhos de cada lugar da tarefa! 💪"},
         colunas: ["Vértice", "Grau"],
         linhas: [["Pátio", { r: "4", tipo: "num" }], ["Sala de Informática", { r: "2", tipo: "num" }], ["Portão", { r: "1", tipo: "num" }]],
         explicacao: "Pátio: Portão, Cantina, Informática, Biblioteca (4). Informática: Pátio, Biblioteca (2). Portão: Pátio (1)." },
@@ -296,7 +296,7 @@
         explicacao: "Estado travada + cartão → liberada; liberada + empurrar → travada (a pessoa passou)." }
     ],
     basico: [
-      { tipo: "tabela", titulo: "Complete a tabela de transição da catraca",
+      { tipo: "tabela", titulo: "Complete a tabela de transição da catraca", robo: {"paineis": ["💡 Outro autômato: a lâmpada com interruptor"], "passos": [{"fala": "Um autômato tem <b>estados</b> e <b>entradas</b>. A lâmpada tem 2 estados: Apagada e Acesa. A entrada é “apertar”.", "painel": 0, "linha": "Apagada + apertar → Acesa", "marca": true}, {"fala": "", "painel": 0, "linha": "Acesa + apertar → Apagada", "marca": true, "espera": 1200}, {"fala": "Para seguir várias entradas, eu vou <b>uma de cada vez</b>, sempre a partir do estado de agora. Começando apagada:", "painel": 0, "linha": "apertar → Acesa · apertar → Apagada · apertar → Acesa", "espera": 2800}], "fim": "Agora é a sua vez: siga as regras do autômato da tarefa, uma entrada de cada vez! 💪"},
         colunas: ["Estado atual", "Entrada", "Próximo estado"],
         linhas: [
           ["🔒 Travada", "💳 cartão", { op: ["Travada", "Liberada"], r: "Liberada" }],
@@ -304,7 +304,7 @@
           ["🔓 Liberada", "🚶 empurrar", { op: ["Travada", "Liberada"], r: "Travada" }],
           ["🔓 Liberada", "💳 cartão", { op: ["Travada", "Liberada"], r: "Liberada" }]],
         explicacao: "Cartão libera; empurrar travada não gira; empurrar liberada gira e trava de novo; cartão em liberada continua liberada." },
-      { tipo: "tabela", titulo: "Siga as entradas",
+      { tipo: "tabela", titulo: "Siga as entradas", robo: {"paineis": ["💡 Outro autômato: a lâmpada com interruptor"], "passos": [{"fala": "Um autômato tem <b>estados</b> e <b>entradas</b>. A lâmpada tem 2 estados: Apagada e Acesa. A entrada é “apertar”.", "painel": 0, "linha": "Apagada + apertar → Acesa", "marca": true}, {"fala": "", "painel": 0, "linha": "Acesa + apertar → Apagada", "marca": true, "espera": 1200}, {"fala": "Para seguir várias entradas, eu vou <b>uma de cada vez</b>, sempre a partir do estado de agora. Começando apagada:", "painel": 0, "linha": "apertar → Acesa · apertar → Apagada · apertar → Acesa", "espera": 2800}], "fim": "Agora é a sua vez: siga as regras do autômato da tarefa, uma entrada de cada vez! 💪"},
         enunciado: "<p>A catraca começa <strong>travada</strong>. Entradas: <strong>cartão → empurrar → empurrar → cartão</strong>.</p>",
         colunas: ["Depois da entrada", "Estado"],
         linhas: [["1ª (cartão)", { op: ["Travada", "Liberada"], r: "Liberada" }], ["2ª (empurrar)", { op: ["Travada", "Liberada"], r: "Travada" }], ["3ª (empurrar)", { op: ["Travada", "Liberada"], r: "Travada" }], ["4ª (cartão)", { op: ["Travada", "Liberada"], r: "Liberada" }],
@@ -323,7 +323,7 @@
         explicacao: "Estado = a situação atual. Entrada = o que acontece e pode mudar o estado." }
     ],
     desafio: [
-      { tipo: "tabela", titulo: "O autômato da porta automática",
+      { tipo: "tabela", titulo: "O autômato da porta automática", robo: {"paineis": ["🚰 Outro autômato: a torneira automática"], "passos": [{"fala": "Estados: <b>fechada</b> e <b>aberta</b>. Entradas: “mão chega” e “mão sai”.", "painel": 0, "linha": "Fechada + mão chega → Aberta", "marca": true}, {"fala": "", "painel": 0, "linha": "Aberta + mão chega → continua Aberta", "espera": 1000}, {"fala": "", "painel": 0, "linha": "Aberta + mão sai → Fechada", "marca": true, "espera": 1000}, {"fala": "", "painel": 0, "linha": "Fechada + mão sai → continua Fechada", "espera": 2400}], "fim": "Agora é a sua vez: complete a tabela da porta automática! 💪"},
         enunciado: "<p>Estados: <strong>fechada</strong> e <strong>aberta</strong>. Entradas: <strong>alguém chega</strong> (sensor) e <strong>ninguém por 5 segundos</strong>. Começa fechada.</p>",
         colunas: ["Estado atual", "Entrada", "Próximo estado"],
         linhas: [
@@ -334,7 +334,7 @@
         explicacao: "A porta abre quando o sensor percebe alguém e fecha depois de 5 segundos sem ninguém. Em todos os outros casos, continua como está." }
     ],
     turbo: [
-      { tipo: "tabela", titulo: "O personagem do jogo",
+      { tipo: "tabela", titulo: "O personagem do jogo", robo: {"paineis": ["🐶 Outro personagem: o cachorro do jogo"], "passos": [{"fala": "Estados: <b>em pé</b>, <b>sentado</b> e <b>deitado</b>. Para cada comando, eu olho a regra e mudo o estado:", "painel": 0, "linha": "Começa em pé"}, {"fala": "", "painel": 0, "linha": "“senta” → sentado", "espera": 900}, {"fala": "", "painel": 0, "linha": "“deita” → deitado", "espera": 900}, {"fala": "", "painel": 0, "linha": "“levanta” → em pé", "marca": true, "espera": 2400}], "fim": "Agora é a sua vez: siga as entradas do personagem da tarefa, uma por vez! 💪"},
         enunciado: "<p>Estados: <strong>parado</strong>, <strong>correndo</strong>, <strong>pulando</strong>. Regras: ➡️ (seta) faz correr; ⬆️ (pular) faz pular de qualquer estado; ao cair, quem pulou volta a ficar <strong>parado</strong>; soltar a seta faz parar quem está correndo. Começa parado.</p>",
         colunas: ["Entrada", "Estado depois"],
         linhas: [["➡️ seta", { op: ["parado", "correndo", "pulando"], r: "correndo" }], ["⬆️ pular", { op: ["parado", "correndo", "pulando"], r: "pulando" }], ["caiu no chão", { op: ["parado", "correndo", "pulando"], r: "parado" }], ["➡️ seta", { op: ["parado", "correndo", "pulando"], r: "correndo" }], ["soltar a seta", { op: ["parado", "correndo", "pulando"], r: "parado" }]],
@@ -424,7 +424,7 @@
         okMsg: "Ciclo completo!", explicacao: "Verde → amarelo → vermelho → verde: um ciclo que se repete sempre." }
     ],
     basico: [
-      { tipo: "tabela", titulo: "Siga os tiques",
+      { tipo: "tabela", titulo: "Siga os tiques", robo: {"paineis": ["🔁 Outro ciclo: manhã → tarde → noite"], "passos": [{"fala": "Um ciclo de <b>3 estados</b> volta ao começo a cada 3 tiques. Começa de manhã:", "painel": 0, "linha": "1 tique: tarde"}, {"fala": "", "painel": 0, "linha": "2 tiques: noite", "espera": 800}, {"fala": "", "painel": 0, "linha": "3 tiques: manhã de novo", "marca": true}, {"fala": "Para muitos tiques, eu tiro os grupos de 3: 5 tiques = 3 + 2 → igual a 2 tiques:", "painel": 0, "linha": "5 tiques: noite", "marca": true, "espera": 2800}], "fim": "Agora é a sua vez: siga os tiques do semáforo! 💪"},
         enunciado: "<p>O semáforo começa <strong>verde</strong>.</p>",
         colunas: ["Depois de", "Luz"],
         linhas: [["1 tique", { op: ["verde", "amarelo", "vermelho"], r: "amarelo" }], ["2 tiques", { op: ["verde", "amarelo", "vermelho"], r: "vermelho" }], ["3 tiques", { op: ["verde", "amarelo", "vermelho"], r: "verde" }], ["7 tiques", { op: ["verde", "amarelo", "vermelho"], r: "amarelo", dica: "A cada 3 tiques volta ao verde: 6 tiques = verde; mais 1 = amarelo." }]],
@@ -451,7 +451,7 @@
         explicacao: "O botão só muda o semáforo quando está verde; o tique continua o ciclo. Dois eventos mexendo no mesmo estado." }
     ],
     turbo: [
-      { tipo: "tabela", titulo: "O semáforo de 4 estados",
+      { tipo: "tabela", titulo: "O semáforo de 4 estados", robo: {"paineis": ["🔁 Ciclo de 3 estados: manhã → tarde → noite"], "passos": [{"fala": "Com 3 estados, o ciclo se repete a cada 3 tiques. Para 4 tiques, tiro um ciclo inteiro (3) e sobra 1:", "painel": 0, "linha": "4 tiques = 3 + 1 → tarde", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: no semáforo de 4 estados, o ciclo se repete a cada 4! 💪"},
         enunciado: "<p>Em alguns cruzamentos há um estado a mais: <strong>verde → amarelo → vermelho → vermelho com seta verde ↱</strong> → verde… Começa verde.</p>",
         colunas: ["Depois de", "Estado"],
         linhas: [["4 tiques", { op: ["verde", "amarelo", "vermelho", "seta"], r: "verde" }], ["6 tiques", { op: ["verde", "amarelo", "vermelho", "seta"], r: "vermelho" }], ["Quantos tiques para um ciclo completo?", { r: "4", tipo: "num" }]],
@@ -476,20 +476,20 @@
     basico: [
       Object.assign({ tipo: "grafo", titulo: "Trace: do Portão até a Sala de Informática", de: "Po", para: "In", unidade: "minutos", descricao: "Grafo da escola" }, escola,
         { explicacao: "Portão → Pátio → Informática = 1 + 2 = 3 minutos." }),
-      { tipo: "tabela", titulo: "Perguntas sobre o grafo da escola",
+      { tipo: "tabela", titulo: "Perguntas sobre o grafo da escola", robo: {"paineis": ["🏫 Outro grafo: Entrada —1— Quadra —2— Sala · Quadra —2— Refeitório —1— Sala"], "passos": [{"fala": "<b>Maior grau</b>: quem tem mais ligações?", "painel": 0, "linha": "Quadra: 3 ligações", "marca": true}, {"fala": "<b>Mais curto</b> da Entrada até a Sala: somo os pesos.", "painel": 0, "linha": "Entrada → Quadra → Sala = 1 + 2 = 3 min"}, {"fala": "Se um corredor <b>fecha</b> (Quadra–Sala), procuro outro caminho e somo de novo:", "painel": 0, "linha": "Entrada → Quadra → Refeitório → Sala = 1 + 2 + 1 = 4 min", "marca": true, "espera": 2800}], "fim": "Agora é a sua vez: faça o mesmo com o grafo da escola da tarefa! 💪"},
         colunas: ["Pergunta", "Resposta"],
         linhas: [["Lugar mais conectado (maior grau)", { op: ["Portão", "Pátio", "Cantina", "Biblioteca"], r: "Pátio" }], ["Grau do Pátio", { r: "4", tipo: "num" }], ["Minutos do Portão até a Biblioteca (mais curto)", { r: "3", tipo: "num", dica: "Portão → Pátio → Biblioteca." }], ["Minutos da Cantina até a Informática (mais curto)", { r: "3", tipo: "num", dica: "Cantina → Pátio → Informática." }]],
         explicacao: "Pátio, grau 4. Portão → Pátio → Biblioteca = 1 + 2 = 3. Cantina → Pátio → Informática = 1 + 2 = 3." }
     ],
     desafio: [
-      { tipo: "tabela", titulo: "O corredor em reforma",
+      { tipo: "tabela", titulo: "O corredor em reforma", robo: {"paineis": ["🏫 Outro grafo: Entrada —1— Quadra —2— Sala · Quadra —2— Refeitório —1— Sala"], "passos": [{"fala": "<b>Maior grau</b>: quem tem mais ligações?", "painel": 0, "linha": "Quadra: 3 ligações", "marca": true}, {"fala": "<b>Mais curto</b> da Entrada até a Sala: somo os pesos.", "painel": 0, "linha": "Entrada → Quadra → Sala = 1 + 2 = 3 min"}, {"fala": "Se um corredor <b>fecha</b> (Quadra–Sala), procuro outro caminho e somo de novo:", "painel": 0, "linha": "Entrada → Quadra → Refeitório → Sala = 1 + 2 + 1 = 4 min", "marca": true, "espera": 2800}], "fim": "Agora é a sua vez: faça o mesmo com o grafo da escola da tarefa! 💪"},
         enunciado: "<p>O corredor <strong>Pátio — Informática</strong> está em reforma (a aresta sumiu).</p>",
         colunas: ["Pergunta", "Resposta"],
         linhas: [["Minutos do Portão até a Informática agora", { r: "4", tipo: "num", dica: "Portão → Pátio → Biblioteca → Informática." }], ["Novo grau do Pátio", { r: "3", tipo: "num" }]],
         explicacao: "Sem a aresta Pátio–Informática: Portão → Pátio → Biblioteca → Informática = 1 + 2 + 1 = 4. O Pátio perde uma aresta: grau 3." }
     ],
     turbo: [
-      { tipo: "tabela", titulo: "A rota de fuga",
+      { tipo: "tabela", titulo: "A rota de fuga", robo: {"paineis": ["🚪 Outro grafo: todos saem pela Entrada"], "passos": [{"fala": "Para cada lugar, eu acho o caminho <b>mais curto até a Entrada</b> e somo os pesos:", "painel": 0, "linha": "Quadra → Entrada = 1 min"}, {"fala": "", "painel": 0, "linha": "Sala → Quadra → Entrada = 2 + 1 = 3 min", "marca": true, "espera": 1200}, {"fala": "", "painel": 0, "linha": "Refeitório → Quadra → Entrada = 2 + 1 = 3 min", "espera": 2600}], "fim": "Agora é a sua vez: ache o tempo de cada lugar até o Portão! 💪"},
         enunciado: "<p>Numa emergência, todos saem pelo <strong>Portão</strong>. Ache o tempo do caminho mais curto de cada lugar até o Portão.</p>",
         colunas: ["De", "Minutos até o Portão"],
         linhas: [["Cantina", { r: "2", tipo: "num" }], ["Biblioteca", { r: "3", tipo: "num" }], ["Sala de Informática", { r: "3", tipo: "num" }]],
@@ -508,7 +508,7 @@
   rv: {
     basico: [
       { tipo: "relembre", de: "m1" },
-      { tipo: "tabela", de: "m1", titulo: "M1 · Caminho mais curto", enunciado: "<p>Arestas: A–B (2) · B–D (2) · A–C (1) · C–D (5) · A–D (6)</p>", colunas: ["Pergunta", "Resposta"],
+      { tipo: "tabela", de: "m1", titulo: "M1 · Caminho mais curto", robo: {"paineis": ["🗺️ Outro grafo: A —1— B —2— C e A —4— C"], "passos": [{"fala": "Olha como eu analiso um grafo <b>diferente</b>. Vértices são os lugares; arestas, as ligações:", "painel": 0, "linha": "3 vértices (A, B, C) · 3 arestas"}, {"fala": "O <b>grau</b> é quantas arestas saem de um vértice:", "painel": 0, "linha": "Grau de A = 2 (A–B e A–C)", "marca": true}, {"fala": "Para o <b>caminho mais curto</b>, eu somo os pesos de cada caminho e fico com o menor:", "painel": 0, "linha": "A → B → C = 1 + 2 = 3 · A → C direto = 4", "marca": true, "espera": 2800}], "fim": "Agora é a sua vez: faça o mesmo com o grafo da tarefa! 💪"}, enunciado: "<p>Arestas: A–B (2) · B–D (2) · A–C (1) · C–D (5) · A–D (6)</p>", colunas: ["Pergunta", "Resposta"],
         linhas: [["Caminho mais curto de A até D (soma)", { r: "4", tipo: "num", dica: "A → B → D = 2 + 2." }], ["Grau de A", { r: "3", tipo: "num" }]],
         explicacao: "A → B → D = 4; A → C → D = 6; A → D direto = 6. O mais curto soma 4. A tem 3 arestas: grau 3." },
       { tipo: "relembre", de: "m2" },
@@ -518,7 +518,7 @@
       { tipo: "relembre", de: "m4" },
       { tipo: "escolha", de: "m4", titulo: "M4 · Programar estruturas", perguntas: [{ p: "O grau de um vértice é o tamanho da:", opcoes: ["Lista de vizinhos", "Árvore inteira", "Tabela de transição"], certo: 0 }, { p: "Árvore de decisão no programa vira:", opcoes: ["Se aninhado", "Repita", "Contador"], certo: 0 }], explicacao: "Grau = tamanho da lista de vizinhos; árvore de decisão = se aninhado." },
       { tipo: "relembre", de: "m5" },
-      { tipo: "tabela", de: "m5", titulo: "M5 · Catraca", colunas: ["Estado + entrada", "Próximo estado"], linhas: [["Travada + cartão", { op: ["Travada", "Liberada"], r: "Liberada" }], ["Liberada + empurrar", { op: ["Travada", "Liberada"], r: "Travada" }]], explicacao: "Cartão libera; empurrar com liberada gira e trava." },
+      { tipo: "tabela", de: "m5", titulo: "M5 · Catraca", robo: {"paineis": ["💡 Outro autômato: a lâmpada com interruptor"], "passos": [{"fala": "Um autômato tem <b>estados</b> e <b>entradas</b>. A lâmpada tem 2 estados: Apagada e Acesa. A entrada é “apertar”.", "painel": 0, "linha": "Apagada + apertar → Acesa", "marca": true}, {"fala": "", "painel": 0, "linha": "Acesa + apertar → Apagada", "marca": true, "espera": 1200}, {"fala": "Para seguir várias entradas, eu vou <b>uma de cada vez</b>, sempre a partir do estado de agora. Começando apagada:", "painel": 0, "linha": "apertar → Acesa · apertar → Apagada · apertar → Acesa", "espera": 2800}], "fim": "Agora é a sua vez: siga as regras do autômato da tarefa, uma entrada de cada vez! 💪"}, colunas: ["Estado + entrada", "Próximo estado"], linhas: [["Travada + cartão", { op: ["Travada", "Liberada"], r: "Liberada" }], ["Liberada + empurrar", { op: ["Travada", "Liberada"], r: "Travada" }]], explicacao: "Cartão libera; empurrar com liberada gira e trava." },
       { tipo: "relembre", de: "m6" },
       { tipo: "blocos", de: "m6", titulo: "M6 · Eventos", enunciado: "<p>Quando o <strong>🔔 sino</strong> tocar, mostrar <strong>Recreio!</strong>. O portal toca o sino 2 vezes.</p>",
         caixa: ["mostrar", "texto", "evento"], eventos: [["🔔 sino", "sino"]], disparos: ["sino", "sino"],
