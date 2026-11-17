@@ -218,7 +218,18 @@ PORTAL.registrarAtividades("informatica-7ano-4bim", {
         campos: [{ rot: "Nome do bloco e os passos dele", linhas: 3, ph: "Bloco ACENAR: 1. levante a mão. 2. ..." }, { rot: "Algoritmo principal que usa o bloco duas vezes", linhas: 2 }],
         criterios: ["O bloco tem nome e passos em ordem.", "O algoritmo principal chama o bloco duas vezes pelo nome."],
         conferir: { minPalavras: 4, blocoDuasVezes: true, msg: "Bloco criado e usado duas vezes pelo nome!" },
-        exemplo: "Bloco ACENAR: 1. levante a mão. 2. balance a mão. 3. abaixe a mão. · Algoritmo: entrar na sala, ACENAR, sentar, ACENAR." }
+        exemplo: "Bloco ACENAR: 1. levante a mão. 2. balance a mão. 3. abaixe a mão. · Algoritmo: entrar na sala, ACENAR, sentar, ACENAR.",
+        robo: { paineis: ["1️⃣ Nome do bloco e os passos dele", "2️⃣ Algoritmo principal"],
+          passos: [
+            { fala: "Olha só como eu faço! Primeiro eu escolho um <b>nome</b> para o bloco. Vou chamar de <b>PULAR</b>.", painel: 0, titulo: "Bloco PULAR:" },
+            { fala: "Agora escrevo os <b>passos do bloco</b>, em ordem, um embaixo do outro.", painel: 0, linha: "dobrar os joelhos" },
+            { fala: "", painel: 0, linha: "pular bem alto", espera: 900 },
+            { fala: "", painel: 0, linha: "cair em pé", espera: 1200 },
+            { fala: "Pronto, o bloco está criado! Agora vem o <b>algoritmo principal</b>: os passos da tarefa toda.", painel: 1, linha: "aquecer o corpo" },
+            { fala: "Quando eu preciso do bloco, eu só <b>escrevo o nome dele</b>. Não preciso repetir os passos! 😎", painel: 1, linha: "PULAR", marca: true },
+            { fala: "", painel: 1, linha: "correr até a linha", espera: 900 },
+            { fala: "E uso o bloco <b>de novo</b>, pelo nome: é o <b>reúso</b>! Usei o PULAR <b>duas vezes</b>.", painel: 1, linha: "PULAR", marca: true, espera: 2400 }],
+          fim: "Agora é a sua vez: invente o <b>seu</b> bloco, com <b>outro nome</b> (não vale PULAR nem ACENAR 😉), e use ele <b>duas vezes</b> no algoritmo principal! 💪" } }
     ],
     vf: [
       { v: true },
