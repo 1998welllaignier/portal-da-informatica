@@ -1673,6 +1673,8 @@ button.tb-av:hover .avatar-svg, button.tb-av:focus-visible .avatar-svg { transfo
 .pp-ini-st.on { background: var(--ok-bg); color: var(--ok); }
 .pp-ini-st.off { background: var(--aviso-bg); color: #8a5a00; }
 .pp-ini-casa { background: var(--info-bg); border-radius: 10px; padding: 8px 12px; }
+.pp-ini-dupla { background: var(--info-bg); border: 2px solid #9DB8F0; border-radius: 10px; padding: 8px 12px; margin: 8px 0; }
+.pp-ini-dupla p { margin: 4px 0; }
 .pp-ini-dlg select { max-width: 100%; }
 
 /* 🏠 Estudo em casa: cronômetro e vídeo obrigatório (14/11/2026) */

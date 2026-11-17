@@ -408,7 +408,7 @@
     el.querySelector("#pl-volta").onclick = () => { vendoPodio = false; el.querySelector("#pl-volta").hidden = true; corpo.innerHTML = ""; pintarPlacar(); };
     el.querySelector("#pl-tela").onclick = () => { const d = document.documentElement; (document.fullscreenElement ? document.exitFullscreen() : d.requestFullscreen()).catch(() => {}); };
     const finalizar = async auto => { if (finalizando) return; finalizando = true;
-      try { await finalizarAula(t, alunos, prog, mid); if (!auto) toast("🏁 Aula finalizada!"); } catch (err) { toast("Não foi possível finalizar: " + (err.message || err)); } finalizando = false; };
+      try { await finalizarAula(t, alunos, prog, mid); if (!auto) { toast("🏁 Aula finalizada!"); finalizarJuntas(t).catch(() => {}); } } catch (err) { toast("Não foi possível finalizar: " + (err.message || err)); } finalizando = false; };
     botaoFinalizar(el.querySelector("#pl-fim"), t.id);
     const ivFim = setInterval(() => { if (!document.body.contains(el)) { clearInterval(ivFim); return; } botaoFinalizar(el.querySelector("#pl-fim"), t.id); }, 30000);
     el.querySelector("#pl-fim").onclick = async () => { if (await P.confirmar("Finalizar a aula agora? As tarefas fecham e o pódio aparece aqui e na tela dos alunos.")) finalizar(false); };
@@ -520,7 +520,7 @@
     dlg.querySelector("#pv-t").onchange = e => { tid = e.target.value; carregarT(); };
     dlg.querySelector("#pv-placar").onclick = () => window.open("#/painel/placar/" + tid, "_blank");
     dlg.querySelector("#pv-fim").onclick = async () => { if (!estado || !await P.confirmar("Finalizar a aula agora? As tarefas fecham e o pódio aparece no placar e na tela dos alunos.")) return;
-      try { await finalizarAula(estado.t, estado.alunos, estado.prog, estado.mid); toast("🏁 Aula finalizada! O pódio está no placar."); } catch (err) { toast("Não foi possível finalizar: " + (err.message || err)); } };
+      try { await finalizarAula(estado.t, estado.alunos, estado.prog, estado.mid); toast("🏁 Aula finalizada! O pódio está no placar."); finalizarJuntas(estado.t).catch(() => {}); } catch (err) { toast("Não foi possível finalizar: " + (err.message || err)); } };
     iv = setInterval(() => { pinta(); if (estado) botaoFinalizar(dlg.querySelector("#pv-fim"), estado.t.id); }, 30000);
     try { await carregarT(); } catch (err) { dlg.querySelector("#pv-c").innerHTML = `<p class="ajuda">Erro: ${esc(err.message || err)}</p>`; }
   }
@@ -542,6 +542,25 @@
       try { await db().collection("config").doc("tema").set({ modo: v, em: Date.now() }); P.aplicarTemaGlobal && P.aplicarTemaGlobal(v); dlg.close(); toast("🎨 Tema salvo! Os alunos veem ao abrir ou recarregar a página."); }
       catch (err) { const e = dlg.querySelector("#tm-e"); e.textContent = "Não foi possível salvar: " + (err.message || err); e.hidden = false; } };
   }
+  // 👥 aula dupla: ao finalizar uma turma iniciada junto com outra(s), pergunta se finaliza as outras também (17/11/2026)
+  async function finalizarJuntas(t) {
+    const hoje = N.hoje(), sn = await db().collection("config").doc("hoje_" + t.id).get(), hd = sn.exists ? sn.data() : {};
+    if (hd.dia !== hoje || !(hd.junto || []).length) return;   // (o finalizarAula já apagou o iniciadaDia desta turma)
+    const outras = [];
+    for (const id of hd.junto) {
+      if (id === t.id) continue;
+      const [h2, l2] = await Promise.all([db().collection("config").doc("hoje_" + id).get(), db().collection("config").doc("liberar_" + id).get()]);
+      if (h2.exists && h2.data().iniciadaDia === hoje && !(((l2.exists ? l2.data() : {}).fechadaAte || 0) > Date.now())) outras.push(id);
+    }
+    if (!outras.length || !await P.confirmar(`Esta aula foi iniciada junto com ${outras.map(nomeTurma).join(" e ")}. Finalizar ${outras.length > 1 ? "essas turmas" : "essa turma"} também?`)) return;
+    for (const id of outras) {
+      const t2 = todasTurmas().find(x => x.id === id); if (!t2) continue;
+      const [hj, alunos, q] = await Promise.all([missaoDeHoje(t2), alunosDaTurma(t2.id), db().collection("progresso").where("turma", "==", t2.id).get()]);
+      const prog = q.docs.map(x => ({ id: x.id, ...x.data() })); await carregarAids(prog);
+      await finalizarAula(t2, alunos.filter(a => a.ativo !== false && !a.teste), prog, hj.fixo ? hj.mid : missaoDaTurmaHoje(prog, hj.mid));
+    }
+    toast("🏁 Finalizada também: " + outras.map(nomeTurma).join(" e ") + ".");
+  }
   // 🏁 finalizar à força pelo cabeçalho do painel (turma do horário; dá para trocar)
   async function finalizarAgora() {
     if (document.querySelector(".pp-fim-dlg")) return;
@@ -560,7 +579,7 @@
       try { const [hj, alunos, q] = await Promise.all([missaoDeHoje(t), alunosDaTurma(t.id), db().collection("progresso").where("turma", "==", t.id).get()]);
         const prog = q.docs.map(d => ({ id: d.id, ...d.data() })); await carregarAids(prog);
         await finalizarAula(t, alunos.filter(a => a.ativo !== false && !a.teste), prog, hj.fixo ? hj.mid : missaoDaTurmaHoje(prog, hj.mid));
-        dlg.close(); toast("🏁 Aula finalizada! Abra o 🏆 Placar para ver o pódio.");
+        dlg.close(); toast("🏁 Aula finalizada! Abra o 🏆 Placar para ver o pódio."); finalizarJuntas(t).catch(() => {});
       } catch (err) { const e = dlg.querySelector("#ff-e"); e.textContent = "Não foi possível finalizar: " + (err.message || err); e.hidden = false; b.disabled = false; b.textContent = "🏁 Sim, finalizar agora"; }
     };
   }
@@ -589,6 +608,7 @@
         <p class="pp-ini-casa" id="ini-casa" hidden></p>
         <p><label>📌 Missão de hoje <select id="ini-m"><option value="">Carregando…</option></select></label></p>
         <p><label class="pp-auto"><input type="checkbox" id="ini-trav" checked> 🔒 Travar nela (o aluno cai direto nesta missão e as outras ficam fechadas)</label></p>
+        <div class="pp-ini-dupla" id="ini-dupla" hidden></div>
         <p><label class="pp-auto"><input type="checkbox" id="ini-tela"> 🖥️ Exigir tela cheia dos alunos (fora da tela cheia, a apostila trava)</label></p>
         <p class="ajuda">Antes de você iniciar, os alunos já podem entrar e ler os textos, mas as tarefas ficam fechadas.</p>
         <p class="erro" id="ini-e" hidden></p>
@@ -606,7 +626,49 @@
         trav.disabled = !selM.value; if (!selM.value) trav.checked = false;
         const casa = ctx.alunos.filter(a => a.emCasa);
         const cx = c.querySelector("#ini-casa");
+        await montarDupla(t).catch(e => console.warn("aula dupla", e));
         if (casa.length) { cx.innerHTML = `🏠 Esta turma tem <strong>${casa.length} aluno${casa.length > 1 ? "s" : ""} que estuda${casa.length > 1 ? "m" : ""} em casa</strong>: ${casa.map(a => esc(a.nome)).join(", ")}. Para ${casa.length > 1 ? "eles" : "ele"} as tarefas ficam sempre abertas.`; cx.hidden = false; }
+      };
+      // 👥 AULA DUPLA (17/11/2026): turmas com aula no mesmo dia e horário podem ser iniciadas juntas
+      //    (cada uma com a sua missão e o seu diário) ou separadas. Desliga em Configurações › "Nunca juntar turmas".
+      let dupla = null;
+      const montarDupla = async t => {
+        const bx = c.querySelector("#ini-dupla"); dupla = null; bx.hidden = true; bx.innerHTML = "";
+        const g = await config(); if (g.nuncaJuntar) return;
+        const par = turmas.filter(x => x.id !== t.id && x.aula && t.aula && x.aula.ini && x.aula.dia === t.aula.dia && x.aula.ini === t.aula.ini);
+        if (!par.length) return;
+        const hojeD = N.hoje(), jaIni = {};
+        await Promise.all(par.map(x => db().collection("config").doc("hoje_" + x.id).get().then(sn => { jaIni[x.id] = sn.exists && sn.data().iniciadaDia === hojeD; }).catch(() => {})));
+        const livres = par.filter(x => !jaIni[x.id]); if (!livres.length) return;
+        bx.innerHTML = `<p><b>👥 No mesmo horário também tem aula ${livres.length > 1 ? "das turmas" : "da turma"} ${livres.map(x => esc(nomeTurma(x.id))).join(", ")}.</b></p>
+          <p><label class="pp-auto"><input type="radio" name="ini-dp" value="so" checked> Iniciar só ${esc(nomeTurma(t.id))}</label></p>
+          <p><label class="pp-auto"><input type="radio" name="ini-dp" value="juntas"> Iniciar ${livres.length > 1 ? "todas" : "as duas"} juntas (cada turma com a sua missão e o seu diário)</label></p>
+          <div id="ini-dp-ms" hidden>${livres.map(x => `<p><label>📌 Missão ${esc(nomeTurma(x.id))} <select data-dpm="${esc(x.id)}"><option>Carregando…</option></select></label></p>`).join("")}</div>
+          <p class="ajuda">Juntas, as turmas fazem a aula ao mesmo tempo, mas a presença, o placar e o diário continuam separados por turma. Se ninguém de uma turma vier, ela fica com todos ausentes, normalmente.</p>`;
+        bx.hidden = false; dupla = { livres, ctx: {} };
+        await Promise.all(livres.map(async x => {
+          const apx = cat().apostilas.find(a => a.serie === x.serie.id && P.doPeriodo(a) && !a.oculta && !a.trilha) || cat().apostilas.find(a => a.serie === x.serie.id && P.doPeriodo(a));
+          await P.carregarApostila(apx.id); const Cx = P.conteudo[apx.id];
+          const [sg, al] = await Promise.all([missaoSugerida(x, Cx), alunosDaTurma(x.id)]);
+          dupla.ctx[x.id] = { t: x, ap: apx, C: Cx, alunos: al.filter(a => a.ativo !== false && !a.teste) };
+          const sel = bx.querySelector(`[data-dpm="${x.id}"]`);
+          sel.innerHTML = `<option value="">— nenhuma: os alunos escolhem —</option>` + Cx.missoes.filter(m => m.id !== "rc").map(m => `<option value="${esc(m.id)}" ${m.id === sg ? "selected" : ""}>${esc(SIG(m.id))} · ${esc(((m.titulo || "").replace(/^[^–]*–\s*/, "")).slice(0, 60))}${m.id === sg ? " · ⭐ sugerida" : ""}</option>`).join("");
+        }));
+        bx.querySelectorAll('input[name="ini-dp"]').forEach(r => r.onchange = () => { bx.querySelector("#ini-dp-ms").hidden = bx.querySelector('input[name="ini-dp"]:checked').value !== "juntas"; });
+      };
+      // grava o início de UMA turma (o mesmo que o botão sempre fez)
+      const gravarInicio = async (t, ap, C, alunos, v, esp, travar, tela, junto) => {
+        const hoje = N.hoje();
+        if (esp) await P.carregarApostila(esp);
+        const m = esp ? (P.conteudo[esp].missoes.find(x => x.id === "ae")) : C.missoes.find(x => x.id === v);
+        const titulo = m ? (esp ? "⭐ Aula especial – " + m.titulo.replace(/^[^–]*– ?/, "") : m.titulo.replace(/ –.*/, "") + " – " + m.titulo.replace(/^[^–]*– ?/, "")) : "";
+        const revisa = v === "rv" ? await revisaDaTurma(t) : [];
+        await db().collection("config").doc("hoje_" + t.id).set({ dia: hoje, aid: esp || ap.base || ap.id, mid: v, titulo, travar: !!(v && travar), iniciadaDia: hoje, iniciadaEm: Date.now(), revisa, junto: junto || [] }, { merge: true });
+        await db().collection("config").doc("liberar_" + t.id).set({ fechadaAte: 0 }, { merge: true });
+        await db().collection("config").doc("tela_" + t.id).set({ cheia: !!tela, dia: hoje, em: Date.now() }, { merge: true });
+        await sincronizarCasa(t, alunos).catch(() => {});
+        if (v) await registrarMissaoDoDia(t.id, { mid: v, titulo, travar: !!travar });
+        try { sessionStorage.setItem("painel:ini:" + t.id + ":" + hoje, "1"); } catch (e) {}
       };
       const lerTela = () => db().collection("config").doc("tela_" + selT.value).get().then(sn => { const d = sn.exists ? sn.data() : {}; c.querySelector("#ini-tela").checked = !!d.cheia; }).catch(() => {});
       lerTela(); selT.addEventListener("change", lerTela);
@@ -616,18 +678,19 @@
       c.querySelector("#ini-ok").onclick = async () => {
         const b = c.querySelector("#ini-ok"); b.disabled = true; b.textContent = "Iniciando…";
         try {
-          const { t, ap, C } = ctx, esp = selM.value.startsWith("esp|") ? selM.value.split("|")[1] : null, hoje = N.hoje();
-          if (esp) await P.carregarApostila(esp);   // ⭐ aula especial (15/11/2026): a missão "ae" da apostila especial da série
-          const v = esp ? "ae" : selM.value, m = esp ? (P.conteudo[esp].missoes.find(x => x.id === "ae")) : C.missoes.find(x => x.id === v);
-          const titulo = m ? (esp ? "⭐ Aula especial – " + m.titulo.replace(/^[^–]*– ?/, "") : m.titulo.replace(/ –.*/, "") + " – " + m.titulo.replace(/^[^–]*– ?/, "")) : "";
-          const revisa = v === "rv" ? await revisaDaTurma(t) : [];
-          await db().collection("config").doc("hoje_" + t.id).set({ dia: hoje, aid: esp || ap.base || ap.id, mid: v, titulo, travar: !!(v && trav.checked), iniciadaDia: hoje, iniciadaEm: Date.now(), revisa }, { merge: true });
-          await db().collection("config").doc("liberar_" + t.id).set({ fechadaAte: 0 }, { merge: true });
-          await db().collection("config").doc("tela_" + t.id).set({ cheia: !!c.querySelector("#ini-tela").checked, dia: hoje, em: Date.now() }, { merge: true });
-          await sincronizarCasa(t, ctx.alunos).catch(() => {});
-          if (v) await registrarMissaoDoDia(t.id, { mid: v, titulo, travar: !!trav.checked });
-          try { sessionStorage.setItem("painel:turma", t.id); sessionStorage.setItem("painel:ini:" + t.id + ":" + hoje, "1"); } catch (e) {}
-          dlg.close(); toast("▶️ Aula iniciada: " + nomeTurma(t.id) + (v ? " · " + (esp ? "⭐ Aula especial" : rotMis(C, v)) + (trav.checked ? " 🔒" : "") : " · os alunos escolhem a missão"));
+          const { t, ap, C } = ctx, esp = selM.value.startsWith("esp|") ? selM.value.split("|")[1] : null;
+          const v = esp ? "ae" : selM.value, tela = !!c.querySelector("#ini-tela").checked;
+          const juntas = dupla && (c.querySelector('input[name="ini-dp"]:checked') || {}).value === "juntas" ? dupla.livres : [];
+          const grupo = [t.id, ...juntas.map(x => x.id)];
+          await gravarInicio(t, ap, C, ctx.alunos, v, esp, trav.checked, tela, grupo.length > 1 ? grupo : []);
+          for (const x of juntas) {
+            const cx = dupla.ctx[x.id]; if (!cx) continue;
+            const vx = (c.querySelector(`[data-dpm="${x.id}"]`) || {}).value || "";
+            await gravarInicio(x, cx.ap, cx.C, cx.alunos, vx, null, !!vx, tela, grupo);
+          }
+          try { sessionStorage.setItem("painel:turma", t.id); } catch (e) {}
+          const outras = juntas.length ? " + " + juntas.map(x => nomeTurma(x.id)).join(" + ") : "";
+          dlg.close(); toast("▶️ Aula iniciada: " + nomeTurma(t.id) + outras + (v ? " · " + (esp ? "⭐ Aula especial" : rotMis(C, v)) + (trav.checked ? " 🔒" : "") : " · os alunos escolhem a missão"));
           location.hash = "#/painel/aula/" + t.id + (v ? "/" + v : "");
         } catch (err) { const e = c.querySelector("#ini-e"); e.textContent = "Não foi possível iniciar: " + (err.message || err); e.hidden = false; b.disabled = false; b.textContent = "▶️ Iniciar a aula"; }
       };
@@ -2048,6 +2111,10 @@
         <p>Situação: <span class="pp-prova-st ${cfg.modoAula !== false ? "on" : "off"}">${cfg.modoAula !== false ? "▶️ LIGADO" : "⚪ Desligado"}</span></p>
         <p>Ligado, as <strong>tarefas</strong> de cada turma ficam fechadas até você tocar em <strong>▶️ Iniciar a aula</strong> (o painel pergunta sozinho no horário da aula, ou pelo botão na barra de cima) e fecham de novo no <strong>🏁 Finalizar aula</strong>. Os textos ficam sempre abertos. Quem <strong>🏠 estuda em casa</strong> não tem trava.</p>
         <div class="row-btns"><button class="btn" id="modo" type="button">${cfg.modoAula !== false ? "⚪ Desligar" : "▶️ Ligar"}</button></div></div>
+      <div class="painel"><h2>👥 Turmas no mesmo horário</h2>
+        <p>Situação: <span class="pp-prova-st ${cfg.nuncaJuntar ? "off" : "on"}">${cfg.nuncaJuntar ? "🚫 Nunca juntar" : "👥 Perguntar se inicia juntas"}</span></p>
+        <p>Quando duas turmas têm aula no mesmo dia e horário, o <strong>▶️ Iniciar a aula</strong> pergunta se você quer iniciar só uma ou as duas juntas (cada turma com a sua missão, a sua presença e o seu diário). Ao finalizar uma, ele pergunta se finaliza a outra também. Escolha <strong>Nunca juntar</strong> para o painel não perguntar mais e você iniciar sempre uma turma de cada vez.</p>
+        <div class="row-btns"><button class="btn btn-sec" id="juntar" type="button">${cfg.nuncaJuntar ? "👥 Voltar a perguntar" : "🚫 Nunca juntar"}</button></div></div>
 `);
     ligarSair(el);
     el.querySelectorAll("[data-per]").forEach(b => b.onclick = async () => {
@@ -2056,6 +2123,10 @@
       await db().collection("config").doc("geral").set({ periodo: id }, { merge: true }); P._periodo = id;
       toast("🗓️ Bimestre em uso: " + pr.nome); telaAno(u);
     });
+    el.querySelector("#juntar").onclick = async () => {
+      await db().collection("config").doc("geral").set({ nuncaJuntar: !cfg.nuncaJuntar }, { merge: true });
+      toast(cfg.nuncaJuntar ? "👥 O painel volta a perguntar se inicia as turmas juntas." : "🚫 Pronto: as turmas do mesmo horário serão sempre iniciadas separadas."); telaAno(u);
+    };
     el.querySelector("#modo").onclick = async () => {
       const on = cfg.modoAula !== false;
       if (on && !await P.confirmar("Desligar? As tarefas de todas as turmas ficam sempre abertas, sem precisar iniciar a aula.")) return;
