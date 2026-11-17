@@ -310,7 +310,12 @@ PORTAL.registrarConteudo("informatica-7ano-4bim", {
     {
      "termo": "CAT5, CAT5e e CAT6",
      "rotulo": "<strong>CAT5, CAT5e e CAT6</strong> (<em>CAT</em> = categoria)",
-     "def": "categorias de cabo de rede. O CAT5 vai até 100 Mbps, o CAT5e até 1 Gbps e o CAT6 até 10 Gbps em trechos curtos. O CAT6 tem a trança mais apertada e uma cruz de plástico entre os pares, por isso aguenta sinais mais rápidos. Onde eu vejo: escrito na capa do cabo."
+     "def": "categorias de cabo de rede. O CAT5 vai até 100 Mbps, o CAT5e até 1 Gbps e o CAT6 até 10 Gbps em trechos curtos. Depois vêm o CAT6a, o CAT7 e o CAT8 (até 40 Gbps, nos data centers). O CAT6 tem a trança mais apertada e uma cruz de plástico entre os pares, por isso aguenta sinais mais rápidos. Onde eu vejo: escrito na capa do cabo."
+    },
+    {
+     "termo": "Blindagem",
+     "rotulo": "<strong>Blindagem</strong>",
+     "def": "capa fina de metal (alumínio ou malha de cobre) em volta dos pares, que protege o sinal da interferência. Aparece nos cabos CAT7 e CAT8 e em alguns CAT6a."
     },
     {
      "termo": "Interferência",

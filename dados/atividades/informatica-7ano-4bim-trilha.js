@@ -48,11 +48,13 @@ PORTAL.registrarAtividades("informatica-7ano-4bim-trilha", {
         cabos: [
           { id: "c5", nome: "CAT5", cor: "#9ca3af", max: 100 },
           { id: "c5e", nome: "CAT5e", cor: "#3b82f6", max: 1000 },
-          { id: "c6", nome: "CAT6", cor: "#eab308", max: 10000 }],
+          { id: "c6", nome: "CAT6", cor: "#eab308", max: 10000 },
+          { id: "c8", nome: "CAT8", cor: "#a855f7", max: 40000 }],
         equip: [
           { id: "giga", nome: "Switch gigabit", max: 1000, info: "Como o do rack da escola: até 1.000 Mbps." },
           { id: "baia", nome: "Switch da nossa baia", max: 100, info: "<em>Fast Ethernet</em>, o da sala de informática: até 100 Mbps." },
-          { id: "dez", nome: "Equipamento de 10 gigabits", max: 10000, info: "Até 10.000 Mbps. O CAT6 só aguenta isso em trechos de até uns 55 metros." }],
+          { id: "dez", nome: "Equipamento de 10 gigabits", max: 10000, info: "Até 10.000 Mbps. O CAT6 só aguenta isso em trechos de até uns 55 metros." },
+          { id: "dc", nome: "Servidor de data center", max: 40000, info: "Até 40.000 Mbps, com cabos curtos (até 30 metros)." }],
         perguntas: [
           { p: "1. Qual cabo é o <strong>mais lento</strong>?", opcoes: ["CAT5", "CAT6"], certo: 0, why: "O CAT5 vai só até 100 Mbps." },
           { p: "2. Cabo <strong>CAT6</strong> no <strong>switch da nossa baia</strong>: quanto aparece no monitor?", teste: ["c6", "baia"], opcoes: ["100 Mbps", "10.000 Mbps"], certo: 0, why: "O switch da baia vai só até 100 Mbps: a parte mais lenta manda." }],

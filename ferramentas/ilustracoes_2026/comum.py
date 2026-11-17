@@ -225,3 +225,27 @@ def eps(com_armazenamento=True):
         s += f'<path d="M370 192 V214" stroke="{COR["roxo"]}" stroke-width="3" stroke-dasharray="5 4"/>'
         s += hd(270, 214, 200, 40, rotulo="ARMAZENAMENTO") + t(590, 240, "guarda os arquivos (HD ou SSD)", 13, "roxo", 700)
     return s
+
+
+def escada_cabos(w=744):
+    """Escada das categorias de cabo de rede (17/11/2026): cada degrau, um cabo em corte, cada vez mais protegido."""
+    degraus = [("CAT5e", "1 Gbps", "100 m", "azul", 0), ("CAT6", "até 10 Gbps", "55 m (10 Gbps)", "amarelo", 1),
+               ("CAT6a", "10 Gbps", "100 m", "verde", 2), ("CAT7", "10 Gbps", "100 m", "ciano", 3), ("CAT8", "40 Gbps", "30 m", "roxo", 4)]
+    pares = ["#ea580c", "#16a34a", "#2563eb", "#92400e"]
+    s = ""; n = len(degraus); larg = (w - 20) / n
+    for k, (nome, vel, dist, cor, nivel) in enumerate(degraus):
+        x = 10 + k * larg; topo = 250 - k * 34
+        s += f'<rect x="{x}" y="{topo}" width="{larg - 6}" height="{322 - topo}" rx="8" fill="{COR[cor + "_c"]}" stroke="{COR[cor]}" stroke-width="2.5"/>'
+        cx, cy, r = x + (larg - 6) / 2, topo - 52, 30 + nivel * 3
+        s += f'<circle cx="{cx}" cy="{cy}" r="{r}" fill="{"#94a3b8" if nivel >= 4 else "#60a5fa"}" stroke="#1c1f22" stroke-width="2.5"/>'
+        if nivel >= 3: s += f'<circle cx="{cx}" cy="{cy}" r="{r - 5}" fill="#cbd5e1" stroke="#64748b" stroke-width="2" stroke-dasharray="3 2"/>'
+        s += f'<circle cx="{cx}" cy="{cy}" r="{r - (9 if nivel >= 3 else 5)}" fill="#eff6ff" stroke="#1c1f22" stroke-width="1.5"/>'
+        if nivel >= 1: s += f'<path d="M{cx - r + 12} {cy} H{cx + r - 12} M{cx} {cy - r + 12} V{cy + r - 12}" stroke="#64748b" stroke-width="4" stroke-linecap="round"/>'
+        for j, (dx, dy) in enumerate([(-1, -1), (1, -1), (-1, 1), (1, 1)]):
+            px, py = cx + dx * r * 0.36, cy + dy * r * 0.36
+            if nivel >= 3: s += f'<circle cx="{px}" cy="{py}" r="{r * 0.3}" fill="#e2e8f0" stroke="#64748b" stroke-width="1.5"/>'
+            s += f'<circle cx="{px - 4}" cy="{py}" r="4.5" fill="{pares[j]}" stroke="#1c1f22" stroke-width="1"/><circle cx="{px + 4}" cy="{py}" r="4.5" fill="#fff" stroke="#1c1f22" stroke-width="1"/>'
+        s += t(cx, topo + 26, nome, 17, cor, 800) + t(cx, topo + 48, vel, 14, "tinta", 800) + t(cx, topo + 66, "até " + dist, 12, "suave", 600)
+    s += etiqueta(170, 34, "mais rápido e mais protegido ↗", "roxo", 13)
+    s += t(w / 2, 344, "Anéis cinza = blindagem de metal (CAT7 e CAT8) · cruz = separador dos pares", 12, "suave", 600)
+    return s

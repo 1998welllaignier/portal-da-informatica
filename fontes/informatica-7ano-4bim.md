@@ -92,7 +92,8 @@ Nas **salas de aula comuns**, o cabo chega a um **AP** (*Access Point*, ponto de
 - **Navegador**: o programa que abre os sites, como Chrome, Edge e Firefox.
 - **Cabo de par trançado**: o cabo de rede comum, com 8 fios de cobre enrolados de dois em dois (4 pares). Onde eu vejo: no cabo azul ou cinza ligado atrás do computador. Para quê: levar os dados por cabo, protegidos da interferência.
 - **RJ45** (*Registered Jack 45*, conector registrado número 45): o plugue transparente com trava na ponta do cabo de rede. Onde eu vejo: na entrada de rede do computador, do switch e da tomada de rede.
-- **CAT5, CAT5e e CAT6** (*CAT* = categoria): categorias de cabo de rede. O CAT5 vai até 100 Mbps, o CAT5e até 1 Gbps e o CAT6 até 10 Gbps em trechos curtos. O CAT6 tem a trança mais apertada e uma cruz de plástico entre os pares, por isso aguenta sinais mais rápidos. Onde eu vejo: escrito na capa do cabo.
+- **CAT5, CAT5e e CAT6** (*CAT* = categoria): categorias de cabo de rede. O CAT5 vai até 100 Mbps, o CAT5e até 1 Gbps e o CAT6 até 10 Gbps em trechos curtos. Depois vêm o CAT6a, o CAT7 e o CAT8 (até 40 Gbps, nos data centers). O CAT6 tem a trança mais apertada e uma cruz de plástico entre os pares, por isso aguenta sinais mais rápidos. Onde eu vejo: escrito na capa do cabo.
+- **Blindagem**: capa fina de metal (alumínio ou malha de cobre) em volta dos pares, que protege o sinal da interferência. Aparece nos cabos CAT7 e CAT8 e em alguns CAT6a.
 - **Interferência**: "barulho" elétrico de motores, lâmpadas e outros cabos que atrapalha o sinal. A trança dos fios ajuda a cancelar.
 - **Diafonia** (em inglês, *crosstalk*): quando o sinal de um par de fios vaza para o par vizinho, como a conversa da mesa ao lado.
 - **MHz** (megahertz): milhões de vezes por segundo; mede o quanto o sinal vibra no fio. O CAT5e aguenta até 100 MHz e o CAT6, até 250 MHz.
@@ -155,6 +156,13 @@ O outro problema é a **diafonia** (em inglês, *crosstalk*): o sinal de um par 
 | Frequência que aguenta | Até 100 MHz | Até 250 MHz |
 | Velocidade | Até 1 Gbps, em até 100 metros | Até 1 Gbps em até 100 metros, e até 10 Gbps em trechos de até uns 55 metros |
 
+🚀 **Para no CAT6? Não! As categorias continuam subindo:**
+| Categoria | Frequência | Velocidade | Onde se usa |
+| **CAT6a** (*a* de *augmented*, ampliado) | Até 500 MHz | 10 Gbps em até 100 metros | Escritórios e escolas novas |
+| **CAT7** | Até 600 MHz | 10 Gbps em até 100 metros | Redes com muita interferência; cada par tem a sua própria **blindagem** (uma capinha de metal) |
+| **CAT8** | Até 2.000 MHz | 25 a 40 Gbps em até 30 metros | **Data centers**: liga um servidor ao outro, bem pertinho |
+
+Quanto mais alta a categoria, mais **proteção** contra o vazamento e a interferência: trança mais apertada, separadores e **blindagem** de metal em volta dos pares. Por isso os cabos ficam mais grossos, mais duros de dobrar e mais caros. E, para distâncias grandes (entre prédios, cidades e países), quem leva os dados é a **fibra óptica**, que usa luz em vez de eletricidade.
 **MHz** (megahertz) quer dizer **milhões de vezes por segundo**: é o quanto o sinal "vibra" no fio a cada segundo. Quanto mais MHz o cabo aguenta, mais dados ele consegue levar.
 **Na nossa escola:** o cabo do chão é CAT6. A internet da escola é de uns 300 a 400 Mbps e o switch da baia vai só até 100 Mbps: o cabo está sobrando! Para uma internet de até 1 Gbps, um cabo CAT5e também daria conta.
 🧪 **No portal:** no simulador **🔌 Qual cabo é mais rápido?**, você liga cada cabo no computador e vê a velocidade aparecer no monitor.

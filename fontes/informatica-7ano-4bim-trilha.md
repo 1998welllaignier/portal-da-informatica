@@ -36,7 +36,8 @@ A mensagem viaja **em pedaços**, chamados **pacotes**. No fim, os pedaços se j
 🔌 **Você sabia? O cabo de rede por dentro**
 Por fora, o cabo de rede parece um fio só. Por dentro, ele tem **8 fios** coloridos, enrolados **de 2 em 2**: são fios **trançados**.
 A trança **protege** o sinal do "barulho" elétrico de motores e lâmpadas.
-O nome do cabo vem **escrito na capa**: **CAT5e** ou **CAT6**. O **CAT6** é o mais rápido. É o cabo que passa por baixo do chão da nossa escola.
+O nome do cabo vem **escrito na capa**: **CAT5e** ou **CAT6**. É o CAT6 que passa por baixo do chão da nossa escola.
+E tem mais: **CAT6a**, **CAT7** e **CAT8**! Quanto maior o número, mais rápido. O **CAT8** é usado nos prédios cheios de servidores, os **data centers**.
 ### 📖 O que significa?
 - **Rede**: aparelhos ligados para trocar informações.
 - **Internet**: a rede que liga o mundo todo.

@@ -140,6 +140,16 @@ No 7º ano você viu que as mensagens viajam em **pacotes**, passam por **rotead
 | 🗄️ Data center | Prédio com milhares de servidores ligados 24 horas, com energia reserva e refrigeração | Um “armazém” de computadores |
 | ☁️ Nuvem | Guardar arquivos e usar programas em servidores de data centers, pela internet | Guardar as coisas num armário fora de casa |
 
+🔌 **Você sabia? Os cabos dentro do data center**
+Dentro de um **data center**, milhares de servidores conversam entre si o tempo todo, a poucos metros um do outro. Para isso, usam os cabos de rede mais rápidos que existem. No 7º ano você conheceu o **CAT5e** e o **CAT6**, mas as categorias continuam subindo:
+| Cabo | Velocidade | Distância máxima | Onde se usa |
+| **CAT6** | 1 a 10 Gbps | 100 m (10 Gbps só até uns 55 m) | Casas, escolas, escritórios |
+| **CAT6a** | 10 Gbps | 100 m | Escritórios e escolas novas |
+| **CAT7** | 10 Gbps | 100 m | Lugares com muita interferência (cada par com blindagem de metal) |
+| **CAT8** | 25 a 40 Gbps | 30 m | Data centers: de um servidor ao outro |
+| **Fibra óptica** | De 10 Gbps a centenas de Gbps | De metros a milhares de quilômetros | Entre prédios, cidades e países, e nos **cabos submarinos** |
+
+Repare na troca: quanto **mais rápido** o cabo de cobre, **mais curto** ele precisa ser. Por isso o CAT8 só vai até 30 metros, e para longe quem manda é a **fibra óptica**, que leva os dados em forma de luz.
 Os computadores também precisam **dividir o trabalho**:
 - **Paralelismo:** partes de uma tarefa são feitas **ao mesmo tempo** por vários processadores ou **núcleos**. Um processador de 4 núcleos é como 4 colegas dividindo uma lista de exercícios.
 - **Concorrência:** várias tarefas **disputam o mesmo recurso** e precisam de regras para esperar a vez. Exemplo: 19 computadores mandando imprimir na mesma impressora formam uma **fila de impressão**.
@@ -152,6 +162,7 @@ Os computadores também precisam **dividir o trabalho**:
 - **DNS** (*Domain Name System*, Sistema de Nomes de Domínio): a “agenda de contatos” da internet, que troca o nome do site pelo endereço IP do servidor. **Domínio** é o nome do site, como escola.com.br.
 - **IP** (*Internet Protocol*, Protocolo de Internet): o número que identifica cada aparelho na rede, visto no 7º ano.
 - **Data center** (em inglês, centro de dados): prédio com milhares de servidores ligados 24 horas, com energia reserva e refrigeração.
+- **CAT6, CAT6a, CAT7 e CAT8** (*CAT* = categoria): categorias de cabo de rede de cobre; quanto maior o número, mais rápido e mais protegido contra interferência. O CAT8 chega a 40 Gbps, mas só em até 30 metros. Onde eu vejo: escrito na capa do cabo.
 - **Nuvem** (em inglês, *cloud*): guardar arquivos e usar programas em servidores de data centers, pela internet. Onde eu vejo: Google Fotos, Google Drive, iCloud e OneDrive.
 - **Paralelismo** (*paralelo* = lado a lado, ao mesmo tempo): partes de uma tarefa feitas ao mesmo tempo por vários processadores ou núcleos.
 - **Núcleo** (em inglês, *core*): cada “cérebro” dentro do processador. Onde eu vejo: “processador de 8 núcleos” (*octa-core*) na caixa do celular.

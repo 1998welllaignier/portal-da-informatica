@@ -183,6 +183,12 @@
    "pagina": "basico",
    "ancora": "O outro problema é a diafonia (em inglês, crosstalk ): o sinal de um par",
    "rotulo": "CAT5e e CAT6 em corte"
+  },
+  {
+   "missao": "m1",
+   "pagina": "basico",
+   "ancora": "Para no CAT6? Não! As categorias continuam subindo:",
+   "rotulo": "Escada das categorias de cabo"
   }
  ],
  "informatica-8ano-4bim": [
@@ -245,6 +251,12 @@
    "pagina": "resumo",
    "ancora": "",
    "rotulo": "Robô mascote acenando com um capelo"
+  },
+  {
+   "missao": "m2",
+   "pagina": "comecar",
+   "ancora": "Dentro de um data center, milhares de servidores conversam entre si o tempo todo",
+   "rotulo": "Escada das categorias de cabo"
   }
  ],
  "informatica-9ano-4bim": [

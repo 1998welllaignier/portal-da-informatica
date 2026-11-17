@@ -132,4 +132,7 @@ if __name__ == "__main__":
                                    ("🕵️", ["Dados e", "notícias"], ["privacidade e", "checagem"]),
                                    ("📜", ["Termos", "de uso"], ["grátis? LGPD,", "meus direitos"])]))
 
+    A.fig(10, "Escada das categorias de cabo de rede: CAT5e (1 Gbps, até 100 m), CAT6 (até 10 Gbps em 55 m), CAT6a (10 Gbps, 100 m), CAT7 (10 Gbps, 100 m, pares com blindagem de metal) e CAT8 (40 Gbps, até 30 m); cada degrau mostra o cabo cortado, cada vez mais protegido.",
+          744, 352, escada_cabos(), "Quanto maior a categoria, mais rápido e mais protegido (e mais curto, no CAT8)")
+
     print("8º:", A.gerar({"m1": "🔎", "m2": "☁️", "m3": "🕵️", "m4": "📜", "pf": "🏁"}))

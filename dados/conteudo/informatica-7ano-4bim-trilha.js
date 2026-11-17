@@ -134,7 +134,11 @@ PORTAL.registrarConteudo("informatica-7ano-4bim-trilha", {
     },
     {
      "t": "p",
-     "h": "O nome do cabo vem <strong>escrito na capa</strong>: <strong>CAT5e</strong> ou <strong>CAT6</strong>. O <strong>CAT6</strong> é o mais rápido. É o cabo que passa por baixo do chão da nossa escola."
+     "h": "O nome do cabo vem <strong>escrito na capa</strong>: <strong>CAT5e</strong> ou <strong>CAT6</strong>. É o CAT6 que passa por baixo do chão da nossa escola."
+    },
+    {
+     "t": "p",
+     "h": "E tem mais: <strong>CAT6a</strong>, <strong>CAT7</strong> e <strong>CAT8</strong>! Quanto maior o número, mais rápido. O <strong>CAT8</strong> é usado nos prédios cheios de servidores, os <strong>data centers</strong>."
     }
    ],
    "termos": [

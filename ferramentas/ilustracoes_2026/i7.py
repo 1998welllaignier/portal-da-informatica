@@ -254,4 +254,7 @@ if __name__ == "__main__":
     A.fig(14, "Os dois cabos cortados, vistos de frente: no CAT5e (à esquerda), os 4 pares ficam soltos e o sinal vaza para o par vizinho (setas vermelhas), aguentando até 100 MHz e 1 Gbps; no CAT6 (à direita), uma cruz de plástico separa os 4 pares, aguentando até 250 MHz e até 10 Gbps em trechos de até uns 55 metros.",
           744, 276, s, "Mesmo plugue por fora; por dentro, o CAT6 tem a cruz que separa os pares")
 
+    A.fig(15, "Escada das categorias de cabo de rede: CAT5e (1 Gbps, até 100 m), CAT6 (até 10 Gbps em 55 m), CAT6a (10 Gbps, 100 m), CAT7 (10 Gbps, 100 m, pares com blindagem de metal) e CAT8 (40 Gbps, até 30 m); cada degrau mostra o cabo cortado, cada vez mais protegido.",
+          744, 352, escada_cabos(), "Quanto maior a categoria, mais rápido e mais protegido (e mais curto, no CAT8)")
+
     print("7º:", A.gerar({"m1": "🌐", "m2": "🧩", "m3": "🛡️", "m4": "🗺️", "pf": "🏁"}))

@@ -1,11 +1,19 @@
 # ⭐ Padrão de qualidade dos materiais — Prof. Welington Laignier
 
+**Documento-padrão (a "régua") de todo o trabalho:** são as regras que todo material segue — apostilas, simuladores, vídeos, guias, roteiros, provas e o portal.
+
 **Lista viva de tudo o que já combinamos.** Todo material novo (bimestre novo, série nova, revisão de material)
 nasce seguindo **tudo** daqui, sem o professor precisar relembrar.
 Regra combinada em 11/11/2026: **cada melhoria aprovada entra nesta lista no mesmo dia**, com a data.
 Detalhes técnicos: `AGENTS.md` (checklist do bimestre), `docs/PADRAO-ATIVIDADES.md` e `docs/PADRAO-VIDEOS-2D.md`.
 
-> 🚀 **DIRETRIZ PERMANENTE (17/11/2026): modernizar ao máximo.** O professor quer o material dos alunos o mais moderno possível, **de forma saudável, educativa e pedagógica**. Simulador ou recurso interativo bom é **tarefa obrigatória**, não opcional. Quando não couber no tempo da aula, **troca de lugar**: o que for menos moderno ou menos atual (tabela para preencher, classificação simples, pergunta que o simulador já cobre) vira opcional ou sai. Em toda missão nova ou revisada, perguntar: "o que aqui ainda dá para modernizar?"
+> 🚀 **Diretriz permanente de modernização (definida pelo professor em 17/11/2026)**
+> 1. **Abrangência:** vale para os **materiais novos** e também para os **materiais atuais** (revisões, bimestres em andamento, apostilas já publicadas).
+> 2. **Objetivo:** modernizar e atualizar o material didático dos alunos **o máximo possível**, sempre de forma **institucional, pedagógica, educativa e saudável** (sem exagero de telas, sem distração sem propósito, com linguagem adequada à idade e alinhada à BNCC).
+> 3. **Prioridade dos recursos interativos:** simuladores, jogos de autocorreção e recursos interativos de boa qualidade são **tarefas obrigatórias**, não opcionais.
+> 4. **Regra de troca:** quando um recurso novo não couber no tempo da aula, **troca de lugar**: o que for menos moderno ou menos atual (tabela para preencher, classificação simples, pergunta que um simulador já cobre) vira opcional ou sai, sem deixar nenhum conteúdo da missão descoberto.
+> 5. **Revisão contínua:** em toda missão nova ou revisada, fazer a pergunta "o que aqui ainda dá para modernizar?" e propor as trocas ao professor antes de aplicar.
+> 6. **Visto preservado:** quando uma missão já dada ganha tarefa obrigatória nova, quem já concluiu o Básico não perde o visto.
 
 ---
 
@@ -165,3 +173,4 @@ Apostila no portal + ilustrada (PDF só para quem estuda em casa) · guia do pro
 - **Curiosidade que vira aula (17/11/2026, cabo de rede no 7º M1):** quando o professor gostar de um vídeo curto de curiosidade (ex.: reel sobre CAT5e × CAT6), o assunto entra na apostila onde ele cabe como **🔌 Você sabia?** (texto completo, termos no 📖 O que significa?, desenhos coloridos com setas e um espaço ✍️ para o aluno observar algo real), ganha um **simulador** com correção automática e **🤖 Me ajuda, robô!** (o robô liga sozinho a combinação da pergunta e o aluno lê o resultado, sem receber a resposta escrita) e um **vídeo de curiosidade** no padrão 2D, separado do vídeo da missão (não precisa refazer o vídeo da missão).
 - **Vídeo de curiosidade (17/11/2026):** em `P.videosMissao`, item `{ id, nome, sub, curiosidade: true }` na lista da missão. No painel aparece como vídeo à parte; no 🏠 estudo em casa aparece **depois das tarefas, como vídeo opcional**, e nunca substitui o vídeo obrigatório da missão.
 - **Simulador do cabo (tipo `cabo`, js/simulacoes.js):** bancada com cabos (CAT5, CAT5e, CAT6) e aparelhos (switch gigabit, switch da baia, 10 gigabits); o monitor mostra a velocidade e "quem limitou" (a parte mais lenta manda). Exige alguns testes antes de liberar as perguntas.
+- **Categorias de cabo além do CAT6 (17/11/2026):** CAT6a, CAT7 e CAT8 entraram como curiosidade no 7º M1 (tabela, desenho "escada das categorias" e CAT8 + servidor de data center no simulador do cabo) e no 8º M2 (🔌 Você sabia? Os cabos dentro do data center, com a fibra óptica). Uma curiosidade pode aparecer em mais de uma série, no ponto em que cada uma estuda o assunto.

@@ -284,6 +284,59 @@ PORTAL.registrarConteudo("informatica-8ano-4bim", {
     },
     {
      "t": "p",
+     "h": "🔌 <strong>Você sabia? Os cabos dentro do data center</strong>"
+    },
+    {
+     "t": "p",
+     "h": "Dentro de um <strong>data center</strong>, milhares de servidores conversam entre si o tempo todo, a poucos metros um do outro. Para isso, usam os cabos de rede mais rápidos que existem. No 7º ano você conheceu o <strong>CAT5e</strong> e o <strong>CAT6</strong>, mas as categorias continuam subindo:"
+    },
+    {
+     "t": "tabela",
+     "cab": [
+      "Cabo",
+      "Velocidade",
+      "Distância máxima",
+      "Onde se usa"
+     ],
+     "linhas": [
+      [
+       "<strong>CAT6</strong>",
+       "1 a 10 Gbps",
+       "100 m (10 Gbps só até uns 55 m)",
+       "Casas, escolas, escritórios"
+      ],
+      [
+       "<strong>CAT6a</strong>",
+       "10 Gbps",
+       "100 m",
+       "Escritórios e escolas novas"
+      ],
+      [
+       "<strong>CAT7</strong>",
+       "10 Gbps",
+       "100 m",
+       "Lugares com muita interferência (cada par com blindagem de metal)"
+      ],
+      [
+       "<strong>CAT8</strong>",
+       "25 a 40 Gbps",
+       "30 m",
+       "Data centers: de um servidor ao outro"
+      ],
+      [
+       "<strong>Fibra óptica</strong>",
+       "De 10 Gbps a centenas de Gbps",
+       "De metros a milhares de quilômetros",
+       "Entre prédios, cidades e países, e nos <strong>cabos submarinos</strong>"
+      ]
+     ]
+    },
+    {
+     "t": "p",
+     "h": "Repare na troca: quanto <strong>mais rápido</strong> o cabo de cobre, <strong>mais curto</strong> ele precisa ser. Por isso o CAT8 só vai até 30 metros, e para longe quem manda é a <strong>fibra óptica</strong>, que leva os dados em forma de luz."
+    },
+    {
+     "t": "p",
      "h": "Os computadores também precisam <strong>dividir o trabalho</strong>:"
     },
     {
@@ -340,6 +393,11 @@ PORTAL.registrarConteudo("informatica-8ano-4bim", {
      "termo": "Data center",
      "rotulo": "<strong>Data center</strong> (em inglês, centro de dados)",
      "def": "prédio com milhares de servidores ligados 24 horas, com energia reserva e refrigeração."
+    },
+    {
+     "termo": "CAT6, CAT6a, CAT7 e CAT8",
+     "rotulo": "<strong>CAT6, CAT6a, CAT7 e CAT8</strong> (<em>CAT</em> = categoria)",
+     "def": "categorias de cabo de rede de cobre; quanto maior o número, mais rápido e mais protegido contra interferência. O CAT8 chega a 40 Gbps, mas só em até 30 metros. Onde eu vejo: escrito na capa do cabo."
     },
     {
      "termo": "Nuvem",
