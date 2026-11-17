@@ -189,6 +189,12 @@
    "pagina": "comecar",
    "ancora": "Para no CAT6? Não! As categorias continuam subindo:",
    "rotulo": "Escada das categorias de cabo"
+  },
+  {
+   "missao": "m1",
+   "pagina": "comecar",
+   "ancora": "O que é frequência? O sinal elétrico que corre no fio não fica parado",
+   "rotulo": "Frequência baixa e alta"
   }
  ],
  "informatica-8ano-4bim": [

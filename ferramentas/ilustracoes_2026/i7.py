@@ -257,4 +257,21 @@ if __name__ == "__main__":
     A.fig(15, "Escada das categorias de cabo de rede: CAT5e (1 Gbps, até 100 m), CAT6 (até 10 Gbps em 55 m), CAT6a (10 Gbps, 100 m), CAT7 (10 Gbps, 100 m, pares com blindagem de metal) e CAT8 (40 Gbps, até 30 m); cada degrau mostra o cabo cortado, cada vez mais protegido.",
           744, 352, escada_cabos(), "Quanto maior a categoria, mais rápido e mais protegido (e mais curto, no CAT8)")
 
+    # 16 — o que é frequência
+    def ondas(y, n, cor, x0=150, x1=650, amp=26):
+        pts = []; x = x0
+        while x <= x1:
+            pts.append(f"{x:.1f} {y - amp * math.sin(2 * math.pi * n * (x - x0) / (x1 - x0)):.1f}"); x += 2
+        return f'<path d="M{" L".join(pts)}" fill="none" stroke="{COR[cor]}" stroke-width="4" stroke-linejoin="round"/>'
+    s = ""
+    for k, (n, cor, tit, sub) in enumerate([(3, "azul", "Frequência baixa", "3 ondas em 1 segundo = 3 Hz"), (9, "roxo", "Frequência alta", "9 ondas em 1 segundo = 9 Hz")]):
+        y = 70 + k * 120
+        s += f'<path d="M150 {y} H650" stroke="{COR["linha"]}" stroke-width="2"/>' + ondas(y, n, cor)
+        s += t(70, y - 6, tit.split()[0], 15, cor, 800) + t(70, y + 14, tit.split()[1], 15, cor, 800)
+        s += t(690, y - 6, sub.split(" = ")[0].replace(" em 1 segundo", ""), 14, "tinta", 700, "start") + t(690, y + 14, "= " + sub.split(" = ")[1], 15, cor, 800, "start")
+    s += '<path d="M150 236 v10 H650 v-10" fill="none" stroke="#1c1f22" stroke-width="2.5"/>' + t(400, 266, "1 segundo", 14, "tinta", 800)
+    s += t(372, 296, "No cabo: o CAT6 aguenta até 250 MHz = 250 milhões de ondas por segundo!", 13, "verde", 800)
+    A.fig(16, "Duas ondas no mesmo intervalo de 1 segundo: em cima, frequência baixa, com 3 ondas (3 Hz, azul); embaixo, frequência alta, com 9 ondas (9 Hz, roxo). No cabo, o CAT6 aguenta até 250 MHz, ou seja, 250 milhões de ondas por segundo.",
+          744, 310, s, "Frequência = quantas vezes a onda sobe e desce em 1 segundo")
+
     print("7º:", A.gerar({"m1": "🌐", "m2": "🧩", "m3": "🛡️", "m4": "🗺️", "pf": "🏁"}))

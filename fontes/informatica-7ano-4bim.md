@@ -80,7 +80,11 @@ Nas **salas de aula comuns**, o cabo chega a um **AP** (*Access Point*, ponto de
 🔌 **Você sabia? O cabo de rede por dentro**
 Por fora, o cabo de rede parece um fio só. Por dentro, ele tem **8 fios de cobre** coloridos, enrolados de dois em dois: são **4 pares trançados** (laranja, verde, azul e marrom, cada um com o seu par branco listrado). Na ponta fica o **conector RJ45**, o plugue transparente com uma trava, que se encaixa no computador, no switch e na tomada de rede.
 **Por que os fios são trançados?** Os dados viajam pelos fios como sinais elétricos. Motores, lâmpadas e outros cabos fazem um "barulho" elétrico, a **interferência**, que pode bagunçar o sinal. Como os dois fios do par estão enrolados juntos, a interferência atinge os dois do mesmo jeito e o computador consegue cancelar esse barulho. A ideia é antiga: **Alexander Graham Bell**, um dos inventores do telefone, registrou essa invenção em **1881**, para os fios de telefone.
-O outro problema é a **diafonia** (em inglês, *crosstalk*): o sinal de um par "vaza" para o par vizinho, como a conversa da mesa ao lado num restaurante. Quanto mais rápido o sinal, mais ele vaza. É por isso que existem **categorias** de cabo (CAT vem de categoria). O antigo **CAT5** ia só até **100 Mbps**; o **CAT5e** (o *e* é de *enhanced*, melhorado, em inglês) e o **CAT6** são os usados hoje:
+O outro problema é a **diafonia** (em inglês, *crosstalk*): o sinal de um par "vaza" para o par vizinho, como a conversa da mesa ao lado num restaurante. Quanto mais rápido o sinal, mais ele vaza.
+📶 **O que é frequência?** O sinal elétrico que corre no fio não fica parado: ele **sobe e desce, como uma onda**. **Frequência** é **quantas vezes essa onda sobe e desce em 1 segundo**. Ela é medida em **hertz** (**Hz**, nome que homenageia o cientista alemão Heinrich Hertz): **1 Hz** é 1 vez por segundo, e **1 MHz** (megahertz) é **1 milhão de vezes por segundo**.
+Pense numa **lanterna mandando recado em código**, piscando: quanto **mais rápido** ela pisca, **mais letras** ela manda por segundo. Com o sinal no fio é igual: frequência mais alta leva **mais dados por segundo**. Mas o sinal muito rápido **vaza mais** para o par vizinho e **enfraquece** pelo caminho; por isso só um cabo mais bem feito aguenta frequências altas.
+Quando a tabela diz que o **CAT6 aguenta até 250 MHz**, quer dizer que ele leva bem um sinal que sobe e desce até **250 milhões de vezes por segundo**. O CAT5e aguenta até 100 milhões.
+É por isso que existem **categorias** de cabo (CAT vem de categoria). O antigo **CAT5** ia só até **100 Mbps**; o **CAT5e** (o *e* é de *enhanced*, melhorado, em inglês) e o **CAT6** são os usados hoje:
 | | CAT5e | CAT6 |
 | Plugue e fios | RJ45, 8 fios em 4 pares trançados | RJ45, 8 fios em 4 pares trançados (iguais por fora) |
 | Trança | Normal | Mais apertada (mais voltas por metro) |
@@ -95,7 +99,6 @@ O outro problema é a **diafonia** (em inglês, *crosstalk*): o sinal de um par 
 | **CAT8** | Até 2.000 MHz | 25 a 40 Gbps em até 30 metros | **Data centers**: liga um servidor ao outro, bem pertinho |
 
 Quanto mais alta a categoria, mais **proteção** contra o vazamento e a interferência: trança mais apertada, separadores e **blindagem** de metal em volta dos pares. Por isso os cabos ficam mais grossos, mais duros de dobrar e mais caros. E, para distâncias grandes (entre prédios, cidades e países), quem leva os dados é a **fibra óptica**, que usa luz em vez de eletricidade.
-**MHz** (megahertz) quer dizer **milhões de vezes por segundo**: é o quanto o sinal "vibra" no fio a cada segundo. Quanto mais MHz o cabo aguenta, mais dados ele consegue levar.
 **Na nossa escola:** o cabo do chão é CAT6. A internet da escola é de uns 300 a 400 Mbps e o switch da baia vai só até 100 Mbps: o cabo está sobrando! Para uma internet de até 1 Gbps, um cabo CAT5e também daria conta.
 🧪 **No portal:** no simulador **🔌 Qual cabo é mais rápido?**, você liga cada cabo no computador e vê a velocidade aparecer no monitor.
 🔎 **Como saber qual é o seu cabo?** O nome vem **escrito na capa** do cabo, repetido de tempos em tempos (por exemplo: *CAT6* ou *CAT5e*).
@@ -122,7 +125,9 @@ Quanto mais alta a categoria, mais **proteção** contra o vazamento e a interfe
 - **Blindagem**: capa fina de metal (alumínio ou malha de cobre) em volta dos pares, que protege o sinal da interferência. Aparece nos cabos CAT7 e CAT8 e em alguns CAT6a.
 - **Interferência**: "barulho" elétrico de motores, lâmpadas e outros cabos que atrapalha o sinal. A trança dos fios ajuda a cancelar.
 - **Diafonia** (em inglês, *crosstalk*): quando o sinal de um par de fios vaza para o par vizinho, como a conversa da mesa ao lado.
-- **MHz** (megahertz): milhões de vezes por segundo; mede o quanto o sinal vibra no fio. O CAT5e aguenta até 100 MHz e o CAT6, até 250 MHz.
+- **Frequência**: quantas vezes uma coisa se repete em 1 segundo. No cabo, é quantas vezes o sinal elétrico sobe e desce por segundo. Onde eu vejo: escrita em MHz na tabela das categorias e na caixa do cabo. Para quê: saber quanto o cabo aguenta (frequência mais alta = mais dados por segundo).
+- **Hz** (hertz, homenagem ao cientista Heinrich Hertz): a unidade da frequência; 1 Hz = 1 vez por segundo.
+- **MHz** (megahertz): 1 milhão de hertz, ou seja, 1 milhão de vezes por segundo. O CAT5e aguenta até 100 MHz e o CAT6, até 250 MHz.
 ### 🌎 Onde eu uso isso?
 - O **Wi-Fi** da sua casa ou da escola é uma rede: o roteador liga os aparelhos à internet.
 - Cada áudio ou foto que você manda no WhatsApp viaja dividido em **pacotes**.

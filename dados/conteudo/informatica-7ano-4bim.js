@@ -249,7 +249,23 @@ PORTAL.registrarConteudo("informatica-7ano-4bim", {
     },
     {
      "t": "p",
-     "h": "O outro problema é a <strong>diafonia</strong> (em inglês, <em>crosstalk</em>): o sinal de um par \"vaza\" para o par vizinho, como a conversa da mesa ao lado num restaurante. Quanto mais rápido o sinal, mais ele vaza. É por isso que existem <strong>categorias</strong> de cabo (CAT vem de categoria). O antigo <strong>CAT5</strong> ia só até <strong>100 Mbps</strong>; o <strong>CAT5e</strong> (o <em>e</em> é de <em>enhanced</em>, melhorado, em inglês) e o <strong>CAT6</strong> são os usados hoje:"
+     "h": "O outro problema é a <strong>diafonia</strong> (em inglês, <em>crosstalk</em>): o sinal de um par \"vaza\" para o par vizinho, como a conversa da mesa ao lado num restaurante. Quanto mais rápido o sinal, mais ele vaza."
+    },
+    {
+     "t": "p",
+     "h": "📶 <strong>O que é frequência?</strong> O sinal elétrico que corre no fio não fica parado: ele <strong>sobe e desce, como uma onda</strong>. <strong>Frequência</strong> é <strong>quantas vezes essa onda sobe e desce em 1 segundo</strong>. Ela é medida em <strong>hertz</strong> (<strong>Hz</strong>, nome que homenageia o cientista alemão Heinrich Hertz): <strong>1 Hz</strong> é 1 vez por segundo, e <strong>1 MHz</strong> (megahertz) é <strong>1 milhão de vezes por segundo</strong>."
+    },
+    {
+     "t": "p",
+     "h": "Pense numa <strong>lanterna mandando recado em código</strong>, piscando: quanto <strong>mais rápido</strong> ela pisca, <strong>mais letras</strong> ela manda por segundo. Com o sinal no fio é igual: frequência mais alta leva <strong>mais dados por segundo</strong>. Mas o sinal muito rápido <strong>vaza mais</strong> para o par vizinho e <strong>enfraquece</strong> pelo caminho; por isso só um cabo mais bem feito aguenta frequências altas."
+    },
+    {
+     "t": "p",
+     "h": "Quando a tabela diz que o <strong>CAT6 aguenta até 250 MHz</strong>, quer dizer que ele leva bem um sinal que sobe e desce até <strong>250 milhões de vezes por segundo</strong>. O CAT5e aguenta até 100 milhões."
+    },
+    {
+     "t": "p",
+     "h": "É por isso que existem <strong>categorias</strong> de cabo (CAT vem de categoria). O antigo <strong>CAT5</strong> ia só até <strong>100 Mbps</strong>; o <strong>CAT5e</strong> (o <em>e</em> é de <em>enhanced</em>, melhorado, em inglês) e o <strong>CAT6</strong> são os usados hoje:"
     },
     {
      "t": "tabela",
@@ -322,10 +338,6 @@ PORTAL.registrarConteudo("informatica-7ano-4bim", {
     {
      "t": "p",
      "h": "Quanto mais alta a categoria, mais <strong>proteção</strong> contra o vazamento e a interferência: trança mais apertada, separadores e <strong>blindagem</strong> de metal em volta dos pares. Por isso os cabos ficam mais grossos, mais duros de dobrar e mais caros. E, para distâncias grandes (entre prédios, cidades e países), quem leva os dados é a <strong>fibra óptica</strong>, que usa luz em vez de eletricidade."
-    },
-    {
-     "t": "p",
-     "h": "<strong>MHz</strong> (megahertz) quer dizer <strong>milhões de vezes por segundo</strong>: é o quanto o sinal \"vibra\" no fio a cada segundo. Quanto mais MHz o cabo aguenta, mais dados ele consegue levar."
     },
     {
      "t": "p",
@@ -446,9 +458,19 @@ PORTAL.registrarConteudo("informatica-7ano-4bim", {
      "def": "quando o sinal de um par de fios vaza para o par vizinho, como a conversa da mesa ao lado."
     },
     {
+     "termo": "Frequência",
+     "rotulo": "<strong>Frequência</strong>",
+     "def": "quantas vezes uma coisa se repete em 1 segundo. No cabo, é quantas vezes o sinal elétrico sobe e desce por segundo. Onde eu vejo: escrita em MHz na tabela das categorias e na caixa do cabo. Para quê: saber quanto o cabo aguenta (frequência mais alta = mais dados por segundo)."
+    },
+    {
+     "termo": "Hz",
+     "rotulo": "<strong>Hz</strong> (hertz, homenagem ao cientista Heinrich Hertz)",
+     "def": "a unidade da frequência; 1 Hz = 1 vez por segundo."
+    },
+    {
      "termo": "MHz",
      "rotulo": "<strong>MHz</strong> (megahertz)",
-     "def": "milhões de vezes por segundo; mede o quanto o sinal vibra no fio. O CAT5e aguenta até 100 MHz e o CAT6, até 250 MHz."
+     "def": "1 milhão de hertz, ou seja, 1 milhão de vezes por segundo. O CAT5e aguenta até 100 MHz e o CAT6, até 250 MHz."
     }
    ],
    "ondeUso": {
