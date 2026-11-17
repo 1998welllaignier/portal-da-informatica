@@ -845,7 +845,7 @@
     if (trava.casa) {
       if (!trava.ini) { try { trava.ini = await P.trava.casaIniciar(s, mid); } catch (e) { trava.ini = Date.now(); } }
       cronometroCasa(trava.ini + trava.lim);
-      const vv = ((P.videosMissao || {})[a.base || aid] || {})[mid], vid0 = (Array.isArray(vv) ? vv[vv.length - 1] : vv), vid = vid0 && (vid0.id || vid0); // 🏠 em casa: o vídeo longo (passo a passo), quando existir
+      const vv = ((P.videosMissao || {})[a.base || aid] || {})[mid], vl = (Array.isArray(vv) ? vv : [vv]).filter(v => v && !v.curiosidade), vid0 = vl[vl.length - 1], vid = vid0 && (vid0.id || vid0); // 🏠 em casa: o vídeo longo (passo a passo), quando existir; o vídeo de curiosidade nunca é o obrigatório
       if (vid && /^[\w-]{11}$/.test(vid) && !trava.videoVisto) casaVideo = vid;
     }
     if (casaVideo) {
@@ -860,6 +860,13 @@
       <p>📖 Enquanto isso, pode estudar à vontade: <a href="#/missao/${aid}/${mid}/comecar">💡 Para começar</a>, <a href="#/missao/${aid}/${mid}/termos">📖 O que significa?</a> e <a href="#/missao/${aid}/${mid}/onde">🌎 Onde eu uso isso?</a> ficam sempre abertos.</p>
       <p class="ajuda">Precisa fazer fora do horário (faltou, reposição, estuda em casa)? Peça ao professor para liberar.</p></div>`));
     else (pg.atividades || []).forEach((at, i) => corpo.appendChild(cartaoAtividade(aid, mid, at, i, () => { barra(info()); atualizarStatus(); })));
+    // 🔌 em casa: vídeo de curiosidade da missão (opcional, depois das tarefas), quando existir (17/11/2026)
+    if (trava.casa && trava.aberta) try {
+      const vv = ((P.videosMissao || {})[a.base || aid] || {})[mid];
+      (Array.isArray(vv) ? vv : []).filter(v => v && v.curiosidade && /^[\w-]{11}$/.test(v.id)).forEach(v => corpo.appendChild(h(`<details class="painel casa-video"><summary class="trava-tit">${esc(v.nome || "🎬 Curiosidade")} <small>(vídeo extra, opcional)</small></summary>
+        <p>${esc(v.sub || "Um vídeo curtinho para saber mais sobre o assunto da missão.")} Use fone ou o som do celular.</p>
+        <div class="casa-player"><iframe src="https://www.youtube-nocookie.com/embed/${v.id}?rel=0&modestbranding=1" title="${esc(v.nome || "Curiosidade")}" loading="lazy" allow="encrypted-media; picture-in-picture; fullscreen" allowfullscreen style="width:100%;aspect-ratio:16/9;border:0"></iframe></div></details>`)));
+    } catch (e) { console.warn(e); }
     // ⏳ esperando o professor iniciar a aula: confere a cada 20 s e abre sozinho, sem o aluno recarregar
     if (!trava.aberta && trava.aguardando && P.trava) {
       const hashAgora = location.hash;

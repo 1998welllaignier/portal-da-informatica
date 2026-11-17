@@ -154,4 +154,104 @@ if __name__ == "__main__":
                                    ("🛡️", ["Segurança e", "convivência"], ["golpes, 2 etapas,", "cyberbullying"]),
                                    ("🗺️", ["Grafos"], ["vértices, arestas,", "pesos e grau"])]))
 
+
+    # ---------- 🔌 O cabo de rede por dentro (17/11/2026) ----------
+    import math
+    PAR = [("laranja", "#ea580c"), ("verde", "#16a34a"), ("azul", "#2563eb"), ("marrom", "#92400e")]
+
+    def onda(x0, x1, y, amp, per, fase=0.0, passo=4):
+        pts = []; x = x0
+        while x <= x1:
+            pts.append(f"{x:.1f} {y + amp * math.sin(2 * math.pi * (x - x0) / per + fase):.1f}"); x += passo
+        return "M" + " L".join(pts)
+
+    def fio(d, cor, branco=False, larg=7):
+        if branco:   # fio branco com listra colorida
+            return (f'<path d="{d}" fill="none" stroke="#1c1f22" stroke-width="{larg+2}" stroke-linecap="round"/>'
+                    f'<path d="{d}" fill="none" stroke="#fff" stroke-width="{larg}" stroke-linecap="round"/>'
+                    f'<path d="{d}" fill="none" stroke="{cor}" stroke-width="{larg*0.45}" stroke-dasharray="7 6"/>')
+        return (f'<path d="{d}" fill="none" stroke="#1c1f22" stroke-width="{larg+2}" stroke-linecap="round"/>'
+                f'<path d="{d}" fill="none" stroke="{cor}" stroke-width="{larg}" stroke-linecap="round"/>')
+
+    def par(x0, x1, y, cor, amp=6, per=52):
+        # os dois fios se cruzam: desenha em pedaços para um passar por cima do outro alternadamente
+        s = ""; meio = per / 2; x = x0; k = 0
+        while x < x1:
+            xe = min(x + meio, x1)
+            a = onda(x, xe + 1, y, amp, per, fase=2 * math.pi * (x - x0) / per)
+            b = onda(x, xe + 1, y, -amp, per, fase=2 * math.pi * (x - x0) / per)
+            s += (fio(b, cor, True) + fio(a, cor)) if k % 2 == 0 else (fio(a, cor) + fio(b, cor, True))
+            x = xe; k += 1
+        return s
+
+    # 12 — o cabo por dentro
+    s = ""
+    # capa (corte) à direita
+    s += '<path d="M470 96 H700 a26 64 0 0 1 0 128 H470 Z" fill="#60a5fa" stroke="#1c1f22" stroke-width="3"/>'
+    s += '<ellipse cx="470" cy="160" rx="26" ry="64" fill="#bfdbfe" stroke="#1c1f22" stroke-width="3"/>'
+    for k, x in enumerate((560, 650)):
+        s += t(x, 166, "CAT6", 18, "#fff", 800, fonte=MONO)
+    # pares trançados saindo da capa
+    ys = [118, 146, 174, 202]
+    for (nome, cor), y in zip(PAR, ys):
+        s += par(150, 470, y, cor)
+    # conector RJ45 (transparente) com 8 contatos dourados e a trava
+    s += '<rect x="34" y="104" width="122" height="112" rx="10" fill="#e2e8f0" fill-opacity=".75" stroke="#1c1f22" stroke-width="3"/>'
+    s += '<path d="M60 104 L52 76 L120 76 L132 104" fill="#e2e8f0" fill-opacity=".9" stroke="#1c1f22" stroke-width="3" stroke-linejoin="round"/>'
+    for k in range(8):
+        s += f'<rect x="40" y="{112 + k * 12.5:.1f}" width="22" height="7" rx="2" fill="#facc15" stroke="#a16207" stroke-width="1.5"/>'
+    for (nome, cor), y in zip(PAR, ys):
+        s += f'<path d="M150 {y} L66 {y}" stroke="{cor}" stroke-width="5" opacity=".55"/>'
+    # rótulos com setas
+    s += etiqueta(94, 34, "Conector RJ45", "azul", 14) + seta(94, 42, 94, 70, "azul", 2.5)
+    s += etiqueta(232, 34, "Trava", "suave", 13) + seta(206, 38, 128, 80, "suave", 2.5, curva=-12)
+    s += etiqueta(310, 72, "4 pares trançados = 8 fios de cobre", "amarelo", 14) + seta(310, 80, 310, 106, "amarelo", 2.5)
+    s += etiqueta(604, 60, "Capa (com o nome do cabo)", "azul", 13) + seta(604, 68, 604, 94, "azul", 2.5)
+    s += etiqueta(76, 262, "8 contatos dourados", "amarelo", 13) + seta(60, 250, 52, 220, "amarelo", 2.5)
+    leg = "".join(f'<circle cx="{246 + k * 112}" cy="256" r="8" fill="{c}" stroke="#1c1f22" stroke-width="1.5"/>' + t(258 + k * 112, 261, n, 13, "tinta", 700, "start") for k, (n, c) in enumerate(PAR))
+    s += leg + t(470, 284, "cada cor tem o seu par: um fio colorido e um branco com listra da mesma cor", 12, "suave", 600)
+    A.fig(12, "Cabo de rede por dentro: à esquerda, o conector RJ45 transparente com a trava em cima e 8 contatos dourados; no meio, os 4 pares de fios trançados (laranja, verde, azul e marrom, cada um com um fio branco listrado); à direita, a capa azul do cabo com CAT6 escrito.",
+          744, 296, s, "8 fios de cobre, enrolados de 2 em 2: 4 pares trançados")
+
+    # 13 — a trança cancela a interferência
+    s = ""
+    s += t(70, 40, "⚡", 34) + t(70, 70, "interferência", 13, "vermelho", 800) + t(70, 86, "(motor, lâmpada,", 11, "suave", 600) + t(70, 100, "outro cabo)", 11, "suave", 600)
+    for k, x in enumerate((180, 260, 340)):
+        s += f'<path d="M{x-40} {50} q 18 30 38 60" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-dasharray="5 4" marker-end="url(#p27-vermelho)"/>'
+    s += par(150, 430, 130, "#ea580c", amp=10, per=40)
+    s += t(290, 176, "o “barulho” atinge os 2 fios do par do mesmo jeito", 13, "vermelho", 700)
+    s += seta(440, 130, 486, 130, "tinta", 3)
+    s += caixa(492, 88, 236, 84, cor="amarelo", fundo="amarelo_c", rx=12)
+    s += t(610, 114, "O computador compara", 14, "amarelo", 800) + t(610, 134, "os 2 fios e descarta", 14, "amarelo", 800) + t(610, 154, "o que é igual nos dois", 14, "amarelo", 800)
+    s += seta(610, 176, 610, 196, "verde", 3)
+    s += caixa(500, 200, 220, 48, cor="verde", fundo="verde_c", rx=12)
+    s += f'<path d="{onda(512, 600, 224, 9, 30)}" fill="none" stroke="#16a34a" stroke-width="3"/>' + t(660, 230, "sinal limpo", 14, "verde", 800)
+    s += t(290, 232, "Ideia de Graham Bell (1881), para os fios de telefone", 12, "suave", 700)
+    A.fig(13, "Interferência (raio vermelho) de motores, lâmpadas e outros cabos chega igual nos dois fios trançados de um par laranja; o computador compara os dois fios, descarta o barulho que é igual nos dois e fica com o sinal limpo (verde).",
+          744, 258, s, "A trança faz o barulho chegar igual nos 2 fios, e aí ele pode ser cancelado")
+
+    # 14 — CAT5e x CAT6 em corte
+    def corte(cx, cy, cruz):
+        s = f'<circle cx="{cx}" cy="{cy}" r="84" fill="#60a5fa" stroke="#1c1f22" stroke-width="3"/><circle cx="{cx}" cy="{cy}" r="72" fill="#eff6ff" stroke="#1c1f22" stroke-width="2"/>'
+        if cruz:
+            s += (f'<path d="M{cx-66} {cy} H{cx+66} M{cx} {cy-66} V{cy+66}" stroke="#475569" stroke-width="10" stroke-linecap="round"/>'
+                  f'<path d="M{cx-66} {cy} H{cx+66} M{cx} {cy-66} V{cy+66}" stroke="#94a3b8" stroke-width="6" stroke-linecap="round"/>')
+        for (n, c), (dx, dy) in zip(PAR, [(-34, -34), (34, -34), (-34, 34), (34, 34)]):
+            for (ox, oy, br) in ((-11, 0, False), (11, 0, True)):
+                x, y = cx + dx + ox, cy + dy + oy
+                s += f'<circle cx="{x}" cy="{y}" r="11" fill="{"#fff" if br else c}" stroke="#1c1f22" stroke-width="2"/>'
+                if br: s += f'<path d="M{x-7} {y+5} L{x+7} {y-5}" stroke="{c}" stroke-width="4" stroke-linecap="round"/>'
+        return s
+    s = t(186, 26, "CAT5e", 22, "azul", 800) + t(558, 26, "CAT6", 22, "verde", 800)
+    s += corte(186, 132, False) + corte(558, 132, True)
+    # vazamento entre pares no CAT5e
+    s += '<path d="M168 88 Q186 70 204 88" fill="none" stroke="#dc2626" stroke-width="3.5" marker-end="url(#p27-vermelho)"/>'
+    s += '<path d="M140 112 Q124 132 140 152" fill="none" stroke="#dc2626" stroke-width="3.5" marker-end="url(#p27-vermelho)"/>'
+    s += etiqueta(330, 62, "o sinal vaza para o par vizinho", "vermelho", 12) + seta(258, 70, 200, 94, "vermelho", 2.5, curva=-10)
+    s += etiqueta(372, 200, "a cruz separa os pares", "verde", 12) + seta(458, 192, 512, 138, "verde", 2.5, curva=6)
+    s += t(186, 244, "até 100 MHz · até 1 Gbps", 14, "azul", 800) + t(186, 264, "(em até 100 metros)", 12, "suave", 600)
+    s += t(600, 244, "até 250 MHz · até 10 Gbps", 14, "verde", 800) + t(600, 264, "(10 Gbps em até uns 55 metros)", 12, "suave", 600)
+    A.fig(14, "Os dois cabos cortados, vistos de frente: no CAT5e (à esquerda), os 4 pares ficam soltos e o sinal vaza para o par vizinho (setas vermelhas), aguentando até 100 MHz e 1 Gbps; no CAT6 (à direita), uma cruz de plástico separa os 4 pares, aguentando até 250 MHz e até 10 Gbps em trechos de até uns 55 metros.",
+          744, 276, s, "Mesmo plugue por fora; por dentro, o CAT6 tem a cruz que separa os pares")
+
     print("7º:", A.gerar({"m1": "🌐", "m2": "🧩", "m3": "🛡️", "m4": "🗺️", "pf": "🏁"}))

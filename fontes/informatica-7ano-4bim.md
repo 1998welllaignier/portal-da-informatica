@@ -90,6 +90,12 @@ Nas **salas de aula comuns**, o cabo chega a um **AP** (*Access Point*, ponto de
 - **HTTP** (*HyperText Transfer Protocol*, Protocolo de Transferência de Hipertexto): as regras que o navegador usa para pedir e receber páginas. *Hipertexto* é texto com links.
 - **HTTPS** (o *S* é de *Secure*, seguro): o HTTP com os dados embaralhados (criptografados) no caminho. Onde eu vejo: no começo do endereço do site e no cadeado 🔒 ao lado. Para quê: ninguém no caminho conseguir ler sua senha ou seus dados.
 - **Navegador**: o programa que abre os sites, como Chrome, Edge e Firefox.
+- **Cabo de par trançado**: o cabo de rede comum, com 8 fios de cobre enrolados de dois em dois (4 pares). Onde eu vejo: no cabo azul ou cinza ligado atrás do computador. Para quê: levar os dados por cabo, protegidos da interferência.
+- **RJ45** (*Registered Jack 45*, conector registrado número 45): o plugue transparente com trava na ponta do cabo de rede. Onde eu vejo: na entrada de rede do computador, do switch e da tomada de rede.
+- **CAT5, CAT5e e CAT6** (*CAT* = categoria): categorias de cabo de rede. O CAT5 vai até 100 Mbps, o CAT5e até 1 Gbps e o CAT6 até 10 Gbps em trechos curtos. O CAT6 tem a trança mais apertada e uma cruz de plástico entre os pares, por isso aguenta sinais mais rápidos. Onde eu vejo: escrito na capa do cabo.
+- **Interferência**: "barulho" elétrico de motores, lâmpadas e outros cabos que atrapalha o sinal. A trança dos fios ajuda a cancelar.
+- **Diafonia** (em inglês, *crosstalk*): quando o sinal de um par de fios vaza para o par vizinho, como a conversa da mesa ao lado.
+- **MHz** (megahertz): milhões de vezes por segundo; mede o quanto o sinal vibra no fio. O CAT5e aguenta até 100 MHz e o CAT6, até 250 MHz.
 ### 🌎 Onde eu uso isso?
 - O **Wi-Fi** da sua casa ou da escola é uma rede: o roteador liga os aparelhos à internet.
 - Cada áudio ou foto que você manda no WhatsApp viaja dividido em **pacotes**.
@@ -137,6 +143,25 @@ A nossa escola também é uma rede. Veja as peças que levam a internet da rua a
 | **Switch Fast Ethernet da baia** | Switch pequeno que fica em cada baia: recebe o cabo da tomada e liga os computadores daquela baia. **Ethernet** é o nome do padrão de rede por cabo, e **Fast Ethernet** é o tipo que transmite até **100 megabits por segundo** (100 Mbps). |
 | **AP** (do inglês Access Point, ponto de acesso) | Aparelho que fica nas salas de aula comuns, recebe a rede pelo cabo e transforma em Wi-Fi. |
 | **Computador e celular** | Os dispositivos que enviam e recebem os dados. |
+
+🔌 **Você sabia? O cabo de rede por dentro**
+Por fora, o cabo de rede parece um fio só. Por dentro, ele tem **8 fios de cobre** coloridos, enrolados de dois em dois: são **4 pares trançados** (laranja, verde, azul e marrom, cada um com o seu par branco listrado). Na ponta fica o **conector RJ45**, o plugue transparente com uma trava, que se encaixa no computador, no switch e na tomada de rede.
+**Por que os fios são trançados?** Os dados viajam pelos fios como sinais elétricos. Motores, lâmpadas e outros cabos fazem um "barulho" elétrico, a **interferência**, que pode bagunçar o sinal. Como os dois fios do par estão enrolados juntos, a interferência atinge os dois do mesmo jeito e o computador consegue cancelar esse barulho. A ideia é antiga: **Alexander Graham Bell**, um dos inventores do telefone, registrou essa invenção em **1881**, para os fios de telefone.
+O outro problema é a **diafonia** (em inglês, *crosstalk*): o sinal de um par "vaza" para o par vizinho, como a conversa da mesa ao lado num restaurante. Quanto mais rápido o sinal, mais ele vaza. É por isso que existem **categorias** de cabo (CAT vem de categoria). O antigo **CAT5** ia só até **100 Mbps**; o **CAT5e** (o *e* é de *enhanced*, melhorado, em inglês) e o **CAT6** são os usados hoje:
+| | CAT5e | CAT6 |
+| Plugue e fios | RJ45, 8 fios em 4 pares trançados | RJ45, 8 fios em 4 pares trançados (iguais por fora) |
+| Trança | Normal | Mais apertada (mais voltas por metro) |
+| Cruz de plástico entre os pares | Não tem | Tem: separa os 4 pares para um não vazar no outro |
+| Frequência que aguenta | Até 100 MHz | Até 250 MHz |
+| Velocidade | Até 1 Gbps, em até 100 metros | Até 1 Gbps em até 100 metros, e até 10 Gbps em trechos de até uns 55 metros |
+
+**MHz** (megahertz) quer dizer **milhões de vezes por segundo**: é o quanto o sinal "vibra" no fio a cada segundo. Quanto mais MHz o cabo aguenta, mais dados ele consegue levar.
+**Na nossa escola:** o cabo do chão é CAT6. A internet da escola é de uns 300 a 400 Mbps e o switch da baia vai só até 100 Mbps: o cabo está sobrando! Para uma internet de até 1 Gbps, um cabo CAT5e também daria conta.
+🧪 **No portal:** no simulador **🔌 Qual cabo é mais rápido?**, você liga cada cabo no computador e vê a velocidade aparecer no monitor.
+🔎 **Como saber qual é o seu cabo?** O nome vem **escrito na capa** do cabo, repetido de tempos em tempos (por exemplo: *CAT6* ou *CAT5e*).
+| ✍️ Olhe a capa do cabo de rede do seu computador (sem puxar nem desencaixar!). O que está escrito nela? É CAT5e ou CAT6? |
+|  |
+|  |
 
 - **1.** Numere de 1 a 7 o caminho da internet até o computador da sala de informática.
 | Nº | Parte do caminho |

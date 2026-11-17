@@ -119,6 +119,22 @@ PORTAL.registrarConteudo("informatica-7ano-4bim-trilha", {
     {
      "t": "p",
      "h": "<strong>Site seguro:</strong> olhe o endereço. Se começa com <strong>https</strong> (com <strong>S</strong>) e tem um <strong>cadeado 🔒</strong>, os seus dados viajam protegidos. Sem o S, <strong>não digite</strong> senha nem dados."
+    },
+    {
+     "t": "p",
+     "h": "🔌 <strong>Você sabia? O cabo de rede por dentro</strong>"
+    },
+    {
+     "t": "p",
+     "h": "Por fora, o cabo de rede parece um fio só. Por dentro, ele tem <strong>8 fios</strong> coloridos, enrolados <strong>de 2 em 2</strong>: são fios <strong>trançados</strong>."
+    },
+    {
+     "t": "p",
+     "h": "A trança <strong>protege</strong> o sinal do \"barulho\" elétrico de motores e lâmpadas."
+    },
+    {
+     "t": "p",
+     "h": "O nome do cabo vem <strong>escrito na capa</strong>: <strong>CAT5e</strong> ou <strong>CAT6</strong>. O <strong>CAT6</strong> é o mais rápido. É o cabo que passa por baixo do chão da nossa escola."
     }
    ],
    "termos": [
@@ -156,6 +172,11 @@ PORTAL.registrarConteudo("informatica-7ano-4bim-trilha", {
      "termo": "Pacote",
      "rotulo": "<strong>Pacote</strong>",
      "def": "cada pedaço da mensagem que viaja na internet."
+    },
+    {
+     "termo": "Cabo de rede",
+     "rotulo": "<strong>Cabo de rede</strong>",
+     "def": "o cabo com 8 fios trançados que liga o computador à rede. Na capa vem escrito CAT5e ou CAT6."
     },
     {
      "termo": "HTTPS",

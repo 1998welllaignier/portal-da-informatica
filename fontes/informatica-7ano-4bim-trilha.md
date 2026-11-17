@@ -33,6 +33,10 @@ Quando você manda uma mensagem, ela faz este caminho:
 
 A mensagem viaja **em pedaços**, chamados **pacotes**. No fim, os pedaços se juntam de novo.
 **Site seguro:** olhe o endereço. Se começa com **https** (com **S**) e tem um **cadeado 🔒**, os seus dados viajam protegidos. Sem o S, **não digite** senha nem dados.
+🔌 **Você sabia? O cabo de rede por dentro**
+Por fora, o cabo de rede parece um fio só. Por dentro, ele tem **8 fios** coloridos, enrolados **de 2 em 2**: são fios **trançados**.
+A trança **protege** o sinal do "barulho" elétrico de motores e lâmpadas.
+O nome do cabo vem **escrito na capa**: **CAT5e** ou **CAT6**. O **CAT6** é o mais rápido. É o cabo que passa por baixo do chão da nossa escola.
 ### 📖 O que significa?
 - **Rede**: aparelhos ligados para trocar informações.
 - **Internet**: a rede que liga o mundo todo.
@@ -41,6 +45,7 @@ A mensagem viaja **em pedaços**, chamados **pacotes**. No fim, os pedaços se j
 - **Provedor**: a empresa que vende a internet.
 - **Servidor**: computador ligado o tempo todo, que guarda sites e mensagens.
 - **Pacote**: cada pedaço da mensagem que viaja na internet.
+- **Cabo de rede**: o cabo com 8 fios trançados que liga o computador à rede. Na capa vem escrito CAT5e ou CAT6.
 - **HTTPS**: o começo do endereço de um site seguro. O **S** quer dizer *secure*, que em inglês significa **seguro**. Aparece junto com o cadeado 🔒.
 ### 🌎 Onde eu uso isso?
 - O **Wi-Fi** de casa e da escola é uma rede.

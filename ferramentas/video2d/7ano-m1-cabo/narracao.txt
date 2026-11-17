@@ -1,0 +1,27 @@
+Curiosidade da Missão 1: o segredo escondido dentro do cabo de rede!
+
+Atrás do computador da nossa sala tem um cabo de rede. Parece só um fio, né? Mas, se é só um fio, por que existem cabos mais lentos e cabos mais rápidos?
+
+Bora entrar nesse cabo e descobrir o que tem lá dentro!
+
+Na ponta fica o conector érre jota quarenta e cinco: o plugue transparente, com uma trava, que encaixa no computador, no switch e na tomada de rede. Repara nos oito contatos dourados.
+
+Dentro da capa estão oito fios de cobre coloridos: laranja, verde, azul e marrom, cada um com um par branco listrado. E eles não estão retos: estão enrolados de dois em dois. São quatro pares trançados!
+
+Mas por que trançar? Os dados viajam pelos fios como sinais elétricos. E motores, lâmpadas e outros cabos fazem um barulho elétrico, a interferência, que bagunça o sinal.
+
+Com os dois fios enrolados juntinhos, o barulho chega igual nos dois. Aí o computador compara os dois fios, joga fora o que é igual... e sobra o sinal limpo! Essa ideia é de Graham Bell, um dos inventores do telefone, lá em mil oitocentos e oitenta e um.
+
+Só que tem outro problema: o sinal de um par pode vazar para o par vizinho, como a conversa da mesa ao lado num restaurante. O nome disso é diafonia. E quanto mais rápido o sinal, mais ele vaza.
+
+Por isso existem as categorias de cabo. O antigo cat cinco ia até cem megabits por segundo. O cat cinco é vai até mil. E o cat seis tem a trança mais apertada e uma cruz de plástico separando os pares: chega a dez mil megabits por segundo, em trechos de até uns cinquenta e cinco metros.
+
+E como saber qual é o seu cabo? Está escrito na capa! Procure: cat cinco é ou cat seis.
+
+Agora, um mistério da nossa sala: o cabo que passa por baixo do chão é cat seis, superrápido. Mas o computador recebe no máximo cem megabits por segundo. Por quê?
+
+Porque o switch da baia vai só até cem! A velocidade do caminho é sempre a da parte mais lenta, como uma estrada larga que termina numa ponte estreita.
+
+Onde eu uso isso? Quando for comprar um cabo de rede para o videogame, a TV ou o computador, olhe a capa. Para uma internet de até mil megabits, um cat cinco é já dá conta.
+
+Agora vá ao portal e teste no simulador: qual cabo é mais rápido? Até a próxima missão!

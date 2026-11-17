@@ -296,6 +296,36 @@ PORTAL.registrarConteudo("informatica-7ano-4bim", {
      "termo": "Navegador",
      "rotulo": "<strong>Navegador</strong>",
      "def": "o programa que abre os sites, como Chrome, Edge e Firefox."
+    },
+    {
+     "termo": "Cabo de par trançado",
+     "rotulo": "<strong>Cabo de par trançado</strong>",
+     "def": "o cabo de rede comum, com 8 fios de cobre enrolados de dois em dois (4 pares). Onde eu vejo: no cabo azul ou cinza ligado atrás do computador. Para quê: levar os dados por cabo, protegidos da interferência."
+    },
+    {
+     "termo": "RJ45",
+     "rotulo": "<strong>RJ45</strong> (<em>Registered Jack 45</em>, conector registrado número 45)",
+     "def": "o plugue transparente com trava na ponta do cabo de rede. Onde eu vejo: na entrada de rede do computador, do switch e da tomada de rede."
+    },
+    {
+     "termo": "CAT5, CAT5e e CAT6",
+     "rotulo": "<strong>CAT5, CAT5e e CAT6</strong> (<em>CAT</em> = categoria)",
+     "def": "categorias de cabo de rede. O CAT5 vai até 100 Mbps, o CAT5e até 1 Gbps e o CAT6 até 10 Gbps em trechos curtos. O CAT6 tem a trança mais apertada e uma cruz de plástico entre os pares, por isso aguenta sinais mais rápidos. Onde eu vejo: escrito na capa do cabo."
+    },
+    {
+     "termo": "Interferência",
+     "rotulo": "<strong>Interferência</strong>",
+     "def": "\"barulho\" elétrico de motores, lâmpadas e outros cabos que atrapalha o sinal. A trança dos fios ajuda a cancelar."
+    },
+    {
+     "termo": "Diafonia",
+     "rotulo": "<strong>Diafonia</strong> (em inglês, <em>crosstalk</em>)",
+     "def": "quando o sinal de um par de fios vaza para o par vizinho, como a conversa da mesa ao lado."
+    },
+    {
+     "termo": "MHz",
+     "rotulo": "<strong>MHz</strong> (megahertz)",
+     "def": "milhões de vezes por segundo; mede o quanto o sinal vibra no fio. O CAT5e aguenta até 100 MHz e o CAT6, até 250 MHz."
     }
    ],
    "ondeUso": {

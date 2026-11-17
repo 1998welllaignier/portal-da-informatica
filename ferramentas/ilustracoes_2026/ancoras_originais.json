@@ -165,6 +165,24 @@
    "pagina": "resumo",
    "ancora": "",
    "rotulo": "Robô mascote acenando com um capelo"
+  },
+  {
+   "missao": "m1",
+   "pagina": "basico",
+   "ancora": "Por fora, o cabo de rede parece um fio só. Por dentro, ele tem 8 fios de cobre coloridos",
+   "rotulo": "O cabo de rede por dentro"
+  },
+  {
+   "missao": "m1",
+   "pagina": "basico",
+   "ancora": "Por que os fios são trançados? Os dados viajam pelos fios como sinais elétricos.",
+   "rotulo": "A trança cancela a interferência"
+  },
+  {
+   "missao": "m1",
+   "pagina": "basico",
+   "ancora": "O outro problema é a diafonia (em inglês, crosstalk ): o sinal de um par",
+   "rotulo": "CAT5e e CAT6 em corte"
   }
  ],
  "informatica-8ano-4bim": [

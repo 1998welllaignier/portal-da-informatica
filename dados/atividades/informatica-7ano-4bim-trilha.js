@@ -43,6 +43,21 @@ PORTAL.registrarAtividades("informatica-7ano-4bim-trilha", {
         passos: ["Abra o <strong>navegador</strong> (Chrome ou Edge).", "Olhe a <strong>barra de endereço</strong>, lá em cima.", "Procure o <strong>cadeado 🔒</strong> do lado do endereço do portal."],
         conferir: [{ rot: "Tem um cadeado ao lado do endereço?", opcoes: ["Sim, tem o cadeado 🔒", "Não tem nada"], gab: "Sim, tem o cadeado 🔒", re: "^Sim", dica: "O portal usa <strong>https</strong>: aparece o cadeado ao lado do endereço." }],
         okMsg: "Muito bem! O portal é um site seguro. 🔒" },
+      { id: "m1-sim-cabo", tipo: "cabo", titulo: "🔌 Simulador: qual cabo é mais rápido?", minTestes: 3,
+        enunciado: "<p>Clique num <strong>cabo</strong> para ligar no computador. Olhe o <strong>número no monitor</strong>: é a velocidade. Depois troque o aparelho e teste de novo.</p>",
+        cabos: [
+          { id: "c5", nome: "CAT5", cor: "#9ca3af", max: 100 },
+          { id: "c5e", nome: "CAT5e", cor: "#3b82f6", max: 1000 },
+          { id: "c6", nome: "CAT6", cor: "#eab308", max: 10000 }],
+        equip: [
+          { id: "giga", nome: "Switch gigabit", max: 1000, info: "Como o do rack da escola: até 1.000 Mbps." },
+          { id: "baia", nome: "Switch da nossa baia", max: 100, info: "<em>Fast Ethernet</em>, o da sala de informática: até 100 Mbps." },
+          { id: "dez", nome: "Equipamento de 10 gigabits", max: 10000, info: "Até 10.000 Mbps. O CAT6 só aguenta isso em trechos de até uns 55 metros." }],
+        perguntas: [
+          { p: "1. Qual cabo é o <strong>mais lento</strong>?", opcoes: ["CAT5", "CAT6"], certo: 0, why: "O CAT5 vai só até 100 Mbps." },
+          { p: "2. Cabo <strong>CAT6</strong> no <strong>switch da nossa baia</strong>: quanto aparece no monitor?", teste: ["c6", "baia"], opcoes: ["100 Mbps", "10.000 Mbps"], certo: 0, why: "O switch da baia vai só até 100 Mbps: a parte mais lenta manda." }],
+        okMsg: "Isso! A parte mais lenta manda na velocidade. 🔌",
+        explicacao: "CAT5 até 100 Mbps; CAT5e até 1.000 Mbps; CAT6 até 10.000 Mbps em trechos curtos. A conexão fica na velocidade da parte mais lenta. Respostas: 1) CAT5; 2) 100 Mbps." },
       { id: "m1-sim-navegador", opcional: true, tipo: "sim_pc", titulo: "🌐 Simulador: endereço, cadeado e guias do navegador",
         enunciado: "<p>No <strong>navegador de mentira</strong>, digite um endereço, confira o cadeado e. O <strong>Bit</strong> ajuda você em cada passo.</p>",
         area: [{ nome: "Lixeira", app: "lixeira" }, { nome: "Navegador", app: "web" }],

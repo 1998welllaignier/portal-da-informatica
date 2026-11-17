@@ -1840,3 +1840,28 @@ button.tb-av:hover .avatar-svg, button.tb-av:focus-visible .avatar-svg { transfo
 .vl-quadro:hover .vl-play, .vl-quadro:focus-visible .vl-play { background: #b91c1c; }
 .dlg-apresentacao { max-width: 720px; width: calc(100% - 32px); border: 0; border-radius: 16px; padding: 1.2rem; }
 .dlg-apresentacao .video-leve { margin-top: .8rem; }
+/* 🔌 simulador do cabo de rede (17/11/2026) */
+.sim-cabo { display: grid; gap: 12px; }
+.cb-banc { display: grid; grid-template-columns: 1fr 1.3fr 1fr; gap: 14px; align-items: start; background: linear-gradient(#f1f5f9, #e2e8f0); border: 2px solid #cbd5e1; border-radius: 16px; padding: 14px; }
+@media (max-width: 760px) { .cb-banc { grid-template-columns: 1fr; } }
+.cb-gaveta, .cb-eqs { display: flex; flex-direction: column; gap: 8px; }
+.cb-cabo { display: flex; align-items: center; gap: 8px; padding: 8px 10px; border: 2px solid #94a3b8; border-radius: 12px; background: #fff; cursor: pointer; font: inherit; text-align: left; }
+.cb-cabo.on, .cb-cabo:hover { border-color: var(--cor); box-shadow: 0 0 0 3px color-mix(in srgb, var(--cor) 30%, transparent); }
+.cb-fio { width: 38px; height: 10px; border-radius: 5px; background: var(--cor); border: 1.5px solid #1c1f22; }
+.cb-rj { width: 16px; height: 18px; border-radius: 3px; background: #e2e8f0; border: 1.5px solid #1c1f22; margin-left: -10px; }
+.cb-pc { position: relative; display: flex; flex-direction: column; align-items: center; }
+.cb-mon { width: 100%; min-height: 150px; border: 10px solid #1d2233; border-radius: 12px; background: #0f172a; color: #e2e8f0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 10px; gap: 6px; }
+.cb-mon.ok { background: #052e16; }
+.cb-off { opacity: .8; } .cb-con { animation: cbpisca .5s infinite alternate; font-weight: 800; }
+@keyframes cbpisca { to { opacity: .35; } }
+.cb-st { font-weight: 800; color: #86efac; } .cb-vel { font-size: 1.9rem; font-weight: 900; color: #facc15; line-height: 1.1; } .cb-vel small { font-size: .9rem; color: #fde68a; }
+.cb-quem { font-size: .9rem; color: #cbd5e1; }
+.cb-pe { width: 70px; height: 14px; background: #1d2233; border-radius: 0 0 8px 8px; }
+.cb-linha { width: 100%; height: 22px; margin-top: 6px; } .cb-linha.anim path { stroke-dasharray: 160; stroke-dashoffset: 160; animation: cbliga .8s forwards; }
+@keyframes cbliga { to { stroke-dashoffset: 0; } }
+.cb-eq { display: block; padding: 8px 10px; border: 2px solid #94a3b8; border-radius: 12px; background: #fff; cursor: pointer; }
+.cb-eq.on { border-color: #16a34a; background: #f0fdf4; } .cb-eq small { display: block; color: #475569; margin-top: 2px; }
+.cb-expl { background: #fef3c7; border-left: 5px solid #d97706; padding: 8px 12px; border-radius: 8px; margin: 0; }
+.cb-cont { margin: 0; color: #334155; }
+.cb-pergs { display: grid; gap: 8px; }
+.cb-robo { margin: 0; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }

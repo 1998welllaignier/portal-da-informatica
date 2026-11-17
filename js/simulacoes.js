@@ -234,4 +234,63 @@
       draw();
     }
   };
+
+  /* ---------- 🔌 CABO: o aluno liga um cabo (CAT5, CAT5e, CAT6) num aparelho e vê no monitor a velocidade
+     da conexão. Velocidade = a menor entre o cabo e o aparelho (a parte mais lenta manda). Depois responde.
+     spec: cabos [{id,nome,cor,max,info}], equip [{id,nome,max,info}], perguntas [{p,opcoes,certo,why}], minTestes ---------- */
+  const mbps = n => n >= 1000 ? `${n.toLocaleString("pt-BR")} Mbps <small>(${n / 1000} Gbps)</small>` : `${n} Mbps`;
+  T.cabo = {
+    auto: true,
+    render(c, at, ctx) {
+      const st = ctx.st; st.t = st.t || {}; st.esc = st.esc || {};
+      let cabo = null, eq = st.eq || at.equip[0].id, anim = 0, marcas = {}, robo = "";
+      const minT = at.minTestes || 3;
+      const draw = () => {
+        const E = at.equip.find(x => x.id === eq), C = at.cabos.find(x => x.id === cabo);
+        const v = C ? Math.min(C.max, E.max) : 0, quem = C ? (C.max < E.max ? "o cabo" : E.max < C.max ? "o aparelho" : "os dois (empate)") : "";
+        const testes = Object.keys(st.t).length;
+        c.innerHTML = `<div class="sim-cabo">
+          <div class="cb-banc">
+            <div class="cb-gaveta"><b>1. Escolha o cabo</b>${at.cabos.map(k => `<button type="button" class="cb-cabo ${cabo === k.id ? "on" : ""}" data-c="${k.id}" style="--cor:${k.cor}"><span class="cb-fio"></span><span class="cb-rj"></span><strong>${esc(k.nome)}</strong></button>`).join("")}</div>
+            <div class="cb-pc"><div class="cb-mon ${C ? (anim ? "lig" : "ok") : ""}">${!C ? `<span class="cb-off">🖥️ Sem cabo<br><small>escolha um cabo para ligar</small></span>`
+              : anim ? `<span class="cb-con">🔌 Conectando…</span>`
+              : `<span class="cb-st">✅ Rede conectada</span><span class="cb-vel">${mbps(v)}</span><span class="cb-quem">Quem limitou: <b>${quem}</b></span>`}</div><div class="cb-pe"></div>
+              ${C ? `<svg class="cb-linha ${anim ? "anim" : ""}" viewBox="0 0 100 20" preserveAspectRatio="none"><path d="M0 10 C30 0 70 20 100 10" stroke="${C.cor}" stroke-width="5" fill="none"/>${anim ? "" : '<circle r="3" fill="#facc15"><animateMotion dur="1s" repeatCount="indefinite" path="M0 10 C30 0 70 20 100 10"/></circle>'}</svg>` : ""}</div>
+            <div class="cb-eqs"><b>2. Ligado em</b>${at.equip.map(x => `<label class="cb-eq ${eq === x.id ? "on" : ""}"><input type="radio" name="${at.id}-eq" value="${x.id}" ${eq === x.id ? "checked" : ""}> ${esc(x.nome)}<small>${md(x.info || "")}</small></label>`).join("")}</div>
+          </div>
+          ${C && !anim ? `<p class="cb-expl">O cabo <b>${esc(C.nome)}</b> aguenta até ${mbps(C.max)}; ${esc(E.nome.toLowerCase())} vai até ${mbps(E.max)}. A conexão fica na velocidade da parte mais lenta: <b>${mbps(v)}</b>.</p>` : ""}
+          <p class="cb-robo"><button type="button" class="btn btn-sec btn-peq" id="${at.id}-robo">🤖 Me ajuda, robô!</button> <span>${robo ? md(robo) : ""}</span></p>
+          <p class="cb-cont">🧪 Testes feitos: <b>${testes}</b>${testes < minT ? ` · faça pelo menos ${minT} combinações diferentes para liberar as perguntas` : " · perguntas liberadas 👇"}</p>
+          ${testes >= minT ? `<div class="cb-pergs"><b>3. Responda</b>${at.perguntas.map((q, i) => `<fieldset class="esc-q ${marcas[i] || ""}"><legend>${md(q.p)}</legend>
+            ${q.opcoes.map((o, k) => `<label class="esc-op"><input type="radio" name="${at.id}-q${i}" value="${k}" ${st.esc[i] === k ? "checked" : ""}> ${md(o)}</label>`).join("")}
+            ${marcas[i] === "certo" && q.why ? `<small class="why">${md(q.why)}</small>` : ""}${marcas[i] ? `<span class="marca">${marcas[i] === "certo" ? "✔" : "✖"}</span>` : ""}</fieldset>`).join("")}</div>` : ""}
+        </div>`;
+        c.querySelectorAll(".cb-cabo").forEach(b => b.onclick = () => { cabo = b.dataset.c; anim = 1; draw(); setTimeout(() => { anim = 0; st.t[cabo + "|" + eq] = 1; ctx.salvar(); draw(); }, 900); });
+        c.querySelectorAll(`input[name="${at.id}-eq"]`).forEach(x => x.onchange = () => { eq = st.eq = x.value; if (cabo) { anim = 1; draw(); setTimeout(() => { anim = 0; st.t[cabo + "|" + eq] = 1; ctx.salvar(); draw(); }, 900); } else draw(); });
+        // 🤖 o robô não dá a resposta: liga sozinho a combinação da 1ª pergunta ainda não acertada e o aluno lê o monitor
+        c.querySelector(`#${at.id}-robo`).onclick = () => {
+          const i = at.perguntas.findIndex((q, k) => q.teste && marcas[k] !== "certo"), q = at.perguntas[i];
+          if (!q) { robo = "Teste as combinações na bancada: escolha um cabo, depois o aparelho, e olhe o número no monitor. 😉"; draw(); return; }
+          cabo = q.teste[0]; eq = st.eq = q.teste[1]; anim = 1;
+          robo = `Olha só: liguei o <b>${esc(at.cabos.find(k => k.id === cabo).nome)}</b> no <b>${esc(at.equip.find(x => x.id === eq).nome.toLowerCase())}</b> para a pergunta ${i + 1}. Leia o número no monitor! 👀`;
+          draw(); setTimeout(() => { anim = 0; st.t[cabo + "|" + eq] = 1; ctx.salvar(); draw(); }, 900);
+        };
+        c.querySelectorAll(`.cb-pergs input`).forEach(x => x.onchange = () => { const i = +x.name.split("-q").pop(); st.esc[i] = +x.value; delete marcas[i]; ctx.salvar(); });
+      };
+      ctx.verificar = () => {
+        if (Object.keys(st.t).length < minT) { ctx.feedback("info", `Primeiro teste na bancada: faça pelo menos ${minT} combinações de cabo e aparelho.`); return; }
+        if (at.perguntas.some((_, i) => st.esc[i] === undefined)) { ctx.feedback("info", "Responda todas as perguntas."); return; }
+        marcas = {}; let err = 0;
+        at.perguntas.forEach((q, i) => { const ok = st.esc[i] === q.certo; marcas[i] = ok ? "certo" : "errado"; if (!ok) err++; });
+        draw();
+        err ? ctx.errou(`${err} resposta${err > 1 ? "s" : ""} para rever (✖). Dica: teste a combinação na bancada e olhe o monitor.`) : ctx.concluir("certo", at.okMsg || "Certo!");
+      };
+      ctx.resolver = () => { at.cabos.forEach(k => at.equip.forEach(x => { st.t[k.id + "|" + x.id] = 1; })); at.perguntas.forEach((q, i) => { st.esc[i] = q.certo; marcas[i] = "certo"; }); draw(); };
+      draw();
+    },
+    imprimir(at) {
+      return `<table class="imp-tab"><tr><th>Cabo</th>${at.equip.map(x => `<th>${esc(x.nome)}</th>`).join("")}</tr>${at.cabos.map(k => `<tr><td>${esc(k.nome)}</td>${at.equip.map(() => "<td></td>").join("")}</tr>`).join("")}</table>`
+        + at.perguntas.map(q => `<p>${md(q.p)}</p><ul class="imp-op">${q.opcoes.map(o => `<li>☐ ${md(o)}</li>`).join("")}</ul>`).join("");
+    }
+  };
 })();
