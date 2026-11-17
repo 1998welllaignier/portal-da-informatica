@@ -191,3 +191,6 @@ Apostila no portal + ilustrada (PDF só para quem estuda em casa) · guia do pro
 
 ### ⚡ Um número de XP só (17/11/2026)
 - O mesmo número de XP aparece igual para o aluno (barra "⚡ XP da missão") e para o professor (coluna "⚡ XP da missão" do painel ao vivo). Os **pontos do placar** (que somam o bônus de rapidez) aparecem separados e com nome próprio: "2º lugar · 847 pts no placar". Nunca mostrar dois cálculos diferentes com o mesmo nome.
+
+### 🔓 Listas do painel sempre montadas na hora (17/11/2026)
+- Toda lista de missões do painel (liberar para um aluno, missão de hoje etc.) é montada na hora a partir do catálogo e do conteúdo, incluindo as ⭐ aulas especiais da série. Missão ou aula especial acrescentada depois aparece sozinha, sem precisar mexer no painel. Na liberação individual, o professor escolhe pelo número da lista (1, 2, 3...).

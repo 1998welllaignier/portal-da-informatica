@@ -865,14 +865,28 @@
             // pergunta QUAL missão liberar, para o aluno não entrar na missão dos outros dias (12/11/2026)
             let ms = null, lista = [];
             if (+d > 0) {
-              try { const tt = todasTurmas().find(z => z.id === a.turma); const apx = cat().apostilas.find(y => y.serie === tt.serie.id && P.doPeriodo(y) && !y.oculta && !/trilha/.test(y.id)); await P.carregarApostila(apx.id); lista = P.conteudo[apx.id].missoes.map(m => ({ id: m.id, t: (m.titulo || "").replace(/^[^–]*–\s*/, "") })); } catch (e) {}
-              const r = await P.perguntar(`Qual missão ${a.nome} vai fazer? Ele só consegue abrir as tarefas dela (e as da missão de hoje da turma).\n${lista.map(m => SIG(m.id) + " = " + m.t).join("\n")}\nDigite só o número (ex.: 1). Deixe em branco para liberar todas.`, "");
+              // a lista é montada na hora a partir do catálogo e do conteúdo: missão nova ou ⭐ aula especial
+              // acrescentada depois aparece sozinha aqui (17/11/2026)
+              try {
+                const tt = todasTurmas().find(z => z.id === a.turma);
+                const aps = cat().apostilas.filter(y => y.serie === tt.serie.id && P.doPeriodo(y) && !y.trilha && !/trilha/.test(y.id) && (!y.oculta || y.especial));
+                aps.sort((x, y) => (x.especial ? 1 : 0) - (y.especial ? 1 : 0));
+                for (const apx of aps) {
+                  try { await P.carregarApostila(apx.id); } catch (e) { continue; }
+                  ((P.conteudo[apx.id] || {}).missoes || []).filter(m => m.id !== "rc").forEach(m => {
+                    if (lista.some(z => z.id === m.id)) return;
+                    const t = (m.titulo || "").replace(/^[^–]*–\s*/, "");
+                    lista.push({ id: m.id, t: apx.especial ? "⭐ Aula especial – " + t : SIG(m.id) + " · " + t });
+                  });
+                }
+              } catch (e) {}
+              const r = await P.perguntar(`Qual missão ${a.nome} vai fazer? Ele só consegue abrir as tarefas dela (e as da missão de hoje da turma).\n${lista.map((m, i) => (i + 1) + ") " + m.t).join("\n")}\nDigite só o número da lista (ex.: 1). Deixe em branco para liberar todas.`, "");
               if (r === null) return;
-              const n = String(r).trim().toLowerCase().replace(/^m/, "");
-              if (n) { const mm = lista.find(m => m.id.toLowerCase() === "m" + n) || lista.find(m => m.id.toLowerCase() === n); if (!mm) { await P.aviso("Missão não encontrada. Digite só o número, como 1 ou 2."); return; } ms = mm.id; }
+              const n = String(r).trim().toLowerCase();
+              if (n) { const mm = /^\d+$/.test(n) ? lista[+n - 1] : lista.find(m => m.id.toLowerCase() === n); if (!mm) { await P.aviso(`Número não encontrado. Digite só o número da lista, de 1 a ${lista.length}.`); return; } ms = mm.id; }
             }
             await db().collection("config").doc("liberar_" + a.turma).set({ alunos: { [a.id]: +d > 0 ? fim.getTime() : 0 }, alunosMissao: { [a.id]: ms } }, { merge: true });
-            await P.aviso(+d > 0 ? `Pronto! ${a.nome} pode fazer ${ms ? "só a " + SIG(ms) + ((lista.find(m => m.id === ms) || {}).t ? " · " + (lista.find(m => m.id === ms) || {}).t : "") + " (e a missão de hoje da turma)" : "as tarefas de todas as missões"} até ${fim.toLocaleDateString("pt-BR")}, 23h59.` : "Liberação retirada."); dlg.close(); return;
+            await P.aviso(+d > 0 ? `Pronto! ${a.nome} pode fazer ${ms ? "só: " + ((lista.find(m => m.id === ms) || {}).t || SIG(ms)) + " (e a missão de hoje da turma)" : "as tarefas de todas as missões"} até ${fim.toLocaleDateString("pt-BR")}, 23h59.` : "Liberação retirada."); dlg.close(); return;
           }
           if (x === "outra") {
             const opc = todasTurmas().filter(y => y.id !== a.turma && y.serie.id === (todasTurmas().find(z => z.id === a.turma) || { serie: {} }).serie.id);
