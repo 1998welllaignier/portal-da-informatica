@@ -186,7 +186,7 @@ PORTAL.registrarAtividades("informatica-6ano-2027-1bim-trilha", {
           { p: "⌨️ Qual atalho salva o trabalho?", opcoes: ["Ctrl + S", "Ctrl + Z", "Enter"], certo: 0 }],
         explicacao: "O <strong>caminho</strong> mostra que o trabalho está em <strong>Informática</strong> (a última pasta antes do nome). <strong>Ctrl + S</strong> salva." },
 
-      { tipo: "tabela", titulo: "Passo 4 · Digite aqui no portal",
+      { tipo: "tabela", titulo: "Passo 4 · Digite aqui no portal", robo: {"digitar": "foto.jpg", "intro": "Olha como eu digito o nome de <b>outro</b> arquivo. O ponto separa o nome da extensão.", "paineis": [], "passos": []},
         enunciado: "<p>Digite na caixa o nome deste arquivo, com a extensão de texto: <strong>meu-trabalho.txt</strong></p>",
         linhas: [["Digite aqui:", { r: "meu-trabalho.txt", tipo: "letras", w: 16, ph: "meu-trabalho.txt", dica: "Digite: meu-trabalho.txt (o .txt é a extensão de texto)." }]],
         explicacao: "O nome é <strong>meu-trabalho</strong> e a extensão <strong>.txt</strong> mostra que é um texto." }
@@ -282,7 +282,7 @@ PORTAL.registrarAtividades("informatica-6ano-2027-1bim-trilha", {
   /* ======================= MISSÃO 7 (extra) ======================= */
   m7: {
     pratica: [
-      { tipo: "tabela", titulo: "Aquecimento: a fileira base",
+      { tipo: "tabela", titulo: "Aquecimento: a fileira base", robo: {"digitar": "fdsa jklç", "intro": "Olha como eu faço: os indicadores ficam no <b>F</b> e no <b>J</b> (as teclas com o risquinho).", "paineis": [], "passos": []},
         enunciado: "<p>Ponha os dedos na fileira base e digite: <strong>asdf jklç</strong></p>",
         linhas: [["Digite aqui:", { r: "asdf jklç", exato: true, w: 12, ph: "asdf jklç", dica: "Os indicadores ficam no F e no J (os do risquinho)." }]],
         explicacao: "A fileira base é <strong>A S D F</strong> (mão esquerda) e <strong>J K L Ç</strong> (mão direita)." },
@@ -308,12 +308,12 @@ PORTAL.registrarAtividades("informatica-6ano-2027-1bim-trilha", {
         enunciado: "<p>Use as setas <strong>▲</strong> e <strong>▼</strong>. O acento vem antes ou depois?</p>",
         explicacao: "No teclado brasileiro, o <strong>acento vem antes</strong> da letra." },
 
-      { tipo: "tabela", titulo: "Passo 3 · Digite com maiúscula",
+      { tipo: "tabela", titulo: "Passo 3 · Digite com maiúscula", robo: {"digitar": "Pedro", "intro": "Olha como eu digito <b>outro</b> nome: segurando o Shift só na primeira letra.", "paineis": [], "passos": []},
         enunciado: "<p>Segure <strong>Shift</strong> para a primeira letra e digite: <strong>Maria</strong></p>",
         linhas: [["Digite aqui:", { r: "Maria", exato: true, w: 10, ph: "Maria", dica: "Segure Shift e aperte M. Depois digite aria." }]],
         explicacao: "Shift + M faz o <strong>M</strong> maiúsculo." },
 
-      { tipo: "tabela", titulo: "Passo 4 · Digite com acento",
+      { tipo: "tabela", titulo: "Passo 4 · Digite com acento", robo: {"digitar": "pé", "intro": "Olha como eu digito <b>outra</b> palavra: primeiro o acento, depois a letra.", "paineis": [], "passos": []},
         enunciado: "<p>Digite: <strong>café</strong> (acento antes do e) e <strong>pão</strong> (til antes do a).</p>",
         linhas: [["café", { r: "café", exato: true, w: 8, ph: "café", dica: "c, a, f, depois a tecla ´ e por último o e." }],
           ["pão", { r: "pão", exato: true, w: 8, ph: "pão", dica: "p, depois a tecla ~ e o a, por último o o." }]],

@@ -198,7 +198,7 @@ PORTAL.registrarAtividades("informatica-6ano-2027-1bim", {
           { t: "A urna confere o número", c: "P", why: "Conferir é processar." },
           { t: "A foto do candidato aparece", c: "S", why: "A tela mostra o resultado." }],
         explicacao: "Em todo aparelho: a informação entra (microfone, teclado), é processada (entender, conferir) e sai (tela)." },
-      { tipo: "aberta", titulo: "Um aparelho da minha casa",
+      { tipo: "aberta", titulo: "Um aparelho da minha casa", robo: {"paineis": ["📺 Outro aparelho: a geladeira"], "passos": [{"fala": "Olha como eu faço com um aparelho <b>diferente</b>:", "painel": 0, "titulo": "Aparelho: geladeira"}, {"fala": "<b>Entrada</b>: o que ela recebe.", "painel": 0, "linha": "Entrada: o botão da temperatura que eu giro"}, {"fala": "<b>Processamento</b>: o que ela faz por dentro.", "painel": 0, "linha": "Processamento: compara a temperatura e liga o motor"}, {"fala": "<b>Saída</b>: o que ela entrega.", "painel": 0, "linha": "Saída: o ar frio que gela a comida", "marca": true, "espera": 2400}], "fim": "Agora é a sua vez: escolha <b>outro</b> aparelho da sua casa! 💪"},
         enunciado: "<p>Escolha um aparelho (TV, micro-ondas, celular, videogame…) e diga a entrada, o processamento e a saída dele.</p>",
         campos: [{ rot: "Aparelho:", linhas: 1 }, { rot: "Entrada (o que recebe):", linhas: 1 }, { rot: "Processamento (o que ele faz por dentro):", linhas: 1 }, { rot: "Saída (o que mostra ou entrega):", linhas: 1 }],
         criterios: ["Cada campo preenchido.", "Entrada, processamento e saída diferentes entre si."],
@@ -403,7 +403,7 @@ PORTAL.registrarAtividades("informatica-6ano-2027-1bim", {
           { p: "Fotos do passeio da turma em 2027:", opcoes: ["passeio-turma-2027.jpg", "IMG_0001.jpg", "foto.jpg"], certo: 0, why: "Assunto e ano ajudam a achar." },
           { p: "Por que nomes bons ajudam?", opcoes: ["Porque acho o arquivo rápido só de ler o nome", "Porque o arquivo fica menor", "Porque o computador fica mais rápido"], certo: 0, why: "Nome bom = achar rápido." }],
         explicacao: "Um nome bom diz o assunto (e, se precisar, a data): redacao-meio-ambiente é melhor que sem título 3." },
-      { tipo: "tabela", titulo: "Em que pasta está?",
+      { tipo: "tabela", titulo: "Em que pasta está?", robo: {"paineis": ["📁 Outro caminho"], "passos": [{"fala": "Olha como eu leio um caminho <b>diferente</b>. As setas › mostram uma pasta <b>dentro</b> da outra:", "painel": 0, "linha": "Imagens › Viagem › Praia › mar.jpg"}, {"fala": "O arquivo é o último (tem a extensão .jpg). A pasta onde ele está é a que vem <b>logo antes</b>:", "painel": 0, "linha": "Pasta do arquivo: Praia", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: ache a pasta logo antes de cada arquivo! 💪"},
         enunciado: "<p>Leia o caminho e escreva o nome da pasta onde o arquivo está guardado (a última pasta antes do arquivo).</p>",
         colunas: ["Caminho", "Pasta onde o arquivo está"],
         linhas: [
@@ -470,7 +470,7 @@ PORTAL.registrarAtividades("informatica-6ano-2027-1bim", {
         dicas: ["Releia a tabela dos tipos de dado no 💡 Para começar.", "Sim e não são dados do tipo lógico."],
         explicacao: "Texto: nomes e endereços. Número: preço, peso. Data: dia/mês/ano. Lógico: sim ou não. Imagem, som e vídeo: foto, áudio, filme." },
 
-      { tipo: "tabela", titulo: "O cadastro da loja",
+      { tipo: "tabela", titulo: "O cadastro da loja", robo: {"paineis": ["🗂️ Outro cadastro: a biblioteca"], "passos": [{"fala": "Olha como eu escolho o tipo de dado de <b>outro</b> cadastro. Pergunto: é palavra, número, data ou sim/não?", "painel": 0, "linha": "Título do livro → Texto"}, {"fala": "", "painel": 0, "linha": "Número de páginas → Número", "espera": 900}, {"fala": "", "painel": 0, "linha": "Data da devolução → Data", "espera": 900}, {"fala": "", "painel": 0, "linha": "Já devolveu? → Lógico (sim ou não)", "marca": true, "espera": 2400}], "fim": "Agora é a sua vez: faça a mesma pergunta para cada campo da tarefa! 💪"},
         enunciado: "<p>Escolha o tipo de dado de cada campo do cadastro.</p>",
         colunas: ["Campo do cadastro", "Tipo de dado"],
         linhas: [
@@ -499,7 +499,7 @@ PORTAL.registrarAtividades("informatica-6ano-2027-1bim", {
           { t: "As músicas da playlist, em ordem", c: "L", why: "Uma depois da outra." },
           { t: "Os alunos com nota e faltas", c: "T", why: "Cada aluno tem várias informações." }],
         explicacao: "Uma informação por item = lista. Várias informações por item = tabela (cada uma numa coluna)." },
-      { tipo: "tabela", titulo: "Leia a tabela do campeonato",
+      { tipo: "tabela", titulo: "Leia a tabela do campeonato", robo: {"paineis": ["📊 Outra tabela: a feira de ciências"], "passos": [{"fala": "Olha como eu leio uma tabela <b>diferente</b>. Primeiro acho a <b>linha</b> (quem) e depois a <b>coluna</b> (o quê):", "painel": 0, "titulo": "Turma | Votos | Projetos"}, {"fala": "", "painel": 0, "linha": "6º A | 12 | 3", "espera": 700}, {"fala": "", "painel": 0, "linha": "6º B | 8 | 2", "espera": 900}, {"fala": "Quantos votos tem o 6º B? Desço até a linha do 6º B e vou até a coluna Votos:", "painel": 0, "linha": "6º B → Votos = 8", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: ache a linha e a coluna de cada pergunta! 💪"},
         enunciado: "<table class='tab'><tr><th>Time</th><th>Pontos</th><th>Vitórias</th><th>Gols</th></tr><tr><td>Leões</td><td>9</td><td>3</td><td>8</td></tr><tr><td>Águias</td><td>6</td><td>2</td><td>5</td></tr><tr><td>Tubarões</td><td>3</td><td>1</td><td>4</td></tr></table>",
         colunas: ["Pergunta", "Resposta"],
         linhas: [
@@ -596,7 +596,7 @@ PORTAL.registrarAtividades("informatica-6ano-2027-1bim", {
         explicacao: "Ofensa: não compartilhe, apoie, guarde o print e denuncie. Senha não se passa para ninguém." }
     ],
     desafio: [
-      { tipo: "aberta", titulo: "Reescreva com respeito",
+      { tipo: "aberta", titulo: "Reescreva com respeito", robo: {"paineis": ["😠 Mensagem que ofende", "💬 Mesma ideia, com respeito"], "passos": [{"fala": "Olha como eu faço com <b>outra</b> mensagem. Repare que está toda em maiúsculas: é como gritar!", "painel": 0, "linha": "“NOSSA, QUE DESENHO MAL FEITO”"}, {"fala": "A ideia é: o desenho pode melhorar. Tiro o grito e a ofensa e mantenho a ideia:", "painel": 1, "linha": "“Acho que dá para caprichar mais nas cores do desenho.”", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: reescreva as 3 mensagens, sem ofender e sem gritar! 💪"},
         enunciado: "<p>Mantenha a ideia, mas sem ofender e sem gritar. O portal avisa se sobrar alguma palavra ofensiva ou tudo em maiúsculas.</p>",
         campos: [{ rot: "“QUE TRABALHO RUIM, VOCÊ NÃO SABE NADA”", linhas: 2 }, { rot: "“Sai do grupo, ninguém te chamou”", linhas: 2 }, { rot: "“kkkk olha a foto dele, que feio”", linhas: 2 }],
         detector: { palavras: ["ruim", "nao sabe nada", "ninguem te chamou", "sai do grupo", "kkkk", "kkk", "feio", "burro", "idiota"], msg: "Escreva como se a pessoa estivesse na sua frente." },
@@ -605,7 +605,7 @@ PORTAL.registrarAtividades("informatica-6ano-2027-1bim", {
         conferir: { minPalavras: 4, msg: "Mensagens reescritas com respeito! O professor pode ler no painel." } }
     ],
     turbo: [
-      { tipo: "aberta", titulo: "As regras do grupo da turma",
+      { tipo: "aberta", titulo: "As regras do grupo da turma", robo: {"paineis": ["📜 Regras de outro grupo: o time de futebol"], "passos": [{"fala": "Olha como eu crio regras para <b>outro</b> grupo. Cada regra fala de respeito, segurança ou cuidado:", "painel": 0, "linha": "Avisar com antecedência quando não puder ir ao treino"}, {"fala": "", "painel": 0, "linha": "Não postar vídeo de ninguém sem pedir", "espera": 900}, {"fala": "", "painel": 0, "linha": "Não mandar mensagem tarde da noite", "espera": 2200}], "fim": "Agora é a sua vez: crie 3 regras para o grupo da <b>sua turma</b>! 💪"},
         enunciado: "<p>Crie 3 regras de netiqueta para o grupo da sua turma.</p>",
         campos: [{ rot: "Regra 1:", linhas: 1 }, { rot: "Regra 2:", linhas: 1 }, { rot: "Regra 3:", linhas: 1 }],
         criterios: ["Três regras diferentes.", "Cada regra fala de respeito, segurança ou cuidado."],
@@ -663,7 +663,7 @@ PORTAL.registrarAtividades("informatica-6ano-2027-1bim", {
           { p: "Para que servem os risquinhos do F e do J?", opcoes: ["Achar a posição das mãos sem olhar", "Enfeitar", "Ligar o computador"], certo: 0, why: "São a referência dos indicadores." }],
         explicacao: "Til (~) para ã, õ; Shift + til (^) para â, ê, ô; Ç ao lado do L; os risquinhos do F e J guiam os indicadores." },
 
-      { tipo: "tabela", titulo: "Digite as palavras com acento",
+      { tipo: "tabela", titulo: "Digite as palavras com acento", robo: {"digitar": "pé mãe", "intro": "Olha como eu digito <b>outras</b> palavras com acento. O acento vem <b>antes</b> da letra!", "paineis": [], "passos": []},
         enunciado: "<p>Digite exatamente igual, com o acento certo. O portal confere o acento!</p>",
         colunas: ["Palavra", "Digite aqui"],
         linhas: [
@@ -675,7 +675,7 @@ PORTAL.registrarAtividades("informatica-6ano-2027-1bim", {
         explicacao: "Acento sempre antes da vogal: ´ (agudo), ~ (til), Shift + ~ (circunflexo)." }
     ],
     desafio: [
-      { tipo: "tabela", titulo: "Frases completas",
+      { tipo: "tabela", titulo: "Frases completas", robo: {"digitar": "Já é hora?", "intro": "Olha como eu digito uma frase <b>diferente</b>, com maiúscula, acento e pontuação.", "paineis": [], "passos": []},
         enunciado: "<p>Digite igualzinho: maiúscula, acento, cedilha e pontuação.</p>",
         colunas: ["Frase", "Digite aqui"],
         linhas: [
@@ -685,7 +685,7 @@ PORTAL.registrarAtividades("informatica-6ano-2027-1bim", {
         explicacao: "Maiúscula com Shift, acento antes da vogal, ç ao lado do L, ? com Shift + barra e ! com Shift + 1." }
     ],
     turbo: [
-      { tipo: "tabela", titulo: "Um parágrafo sem erros",
+      { tipo: "tabela", titulo: "Um parágrafo sem erros", robo: {"digitar": "Eu gosto de ler.", "intro": "Olha como eu digito com calma, conferindo cada tecla. Depois de cada palavra, a barra de espaço!", "paineis": [], "passos": []},
         enunciado: "<p>Digite o parágrafo inteiro, igualzinho. Volte sempre os dedos para a fileira base.</p>",
         colunas: ["Parágrafo", "Digite aqui"],
         linhas: [
@@ -747,7 +747,7 @@ PORTAL.registrarAtividades("informatica-6ano-2027-1bim", {
       { tipo: "ordenar", titulo: "Mudar um texto de lugar só com atalhos",
         itens: ["Selecionar o texto (arrastar o mouse)", "Apertar Ctrl + X (recortar)", "Clicar no lugar novo", "Apertar Ctrl + V (colar)", "Apertar Ctrl + S (salvar)"],
         explicacao: "Selecionar → recortar → clicar no lugar novo → colar → salvar." },
-      { tipo: "tabela", titulo: "Treine de verdade",
+      { tipo: "tabela", titulo: "Treine de verdade", robo: {"paineis": ["🖱️ Copiar e colar (outra palavra)"], "passos": [{"fala": "Olha como eu copio e colo <b>outra</b> palavra, ESCOLA. 1º: <b>duplo clique</b> na palavra, para selecionar:", "painel": 0, "linha": "Duplo clique em ESCOLA (ela fica azul)"}, {"fala": "2º: aperto <b>Ctrl + C</b> para copiar (parece que nada acontece, mas ela foi guardada).", "painel": 0, "linha": "Ctrl + C", "marca": true}, {"fala": "3º: clico dentro da caixa.", "painel": 0, "linha": "Clique na caixa"}, {"fala": "4º: aperto <b>Ctrl + V</b> para colar:", "painel": 0, "linha": "Ctrl + V → ESCOLA apareceu!", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: copie e cole a palavra INFORMÁTICA! 💪"},
         enunciado: "<p>Selecione a palavra <strong>INFORMÁTICA</strong> desta frase com duplo clique, copie com <strong>Ctrl + C</strong> e cole na caixa com <strong>Ctrl + V</strong>.</p>",
         colunas: ["O que fazer", "Cole aqui"],
         linhas: [["Copie e cole a palavra INFORMÁTICA", { r: "INFORMÁTICA", exato: true, dica: "Duplo clique na palavra, Ctrl + C, clique na caixa e Ctrl + V." }]],
@@ -796,7 +796,7 @@ PORTAL.registrarAtividades("informatica-6ano-2027-1bim", {
         itens: [{ t: "carta.docx", c: "T" }, { t: "praia.jpg", c: "I" }, { t: "forro.mp3", c: "A" }, { t: "gol.mp4", c: "V" }, { t: "nota.txt", c: "T" }],
         explicacao: ".docx/.txt texto; .jpg imagem; .mp3 áudio; .mp4 vídeo." },
       { tipo: "relembre", de: "m5" },
-      { tipo: "tabela", de: "m5", titulo: "M5 · Tipo de dado", colunas: ["Dado", "Tipo"],
+      { tipo: "tabela", de: "m5", titulo: "M5 · Tipo de dado", robo: {"paineis": ["🗂️ Outro cadastro: a biblioteca"], "passos": [{"fala": "Olha como eu escolho o tipo de dado de <b>outro</b> cadastro. Pergunto: é palavra, número, data ou sim/não?", "painel": 0, "linha": "Título do livro → Texto"}, {"fala": "", "painel": 0, "linha": "Número de páginas → Número", "espera": 900}, {"fala": "", "painel": 0, "linha": "Data da devolução → Data", "espera": 900}, {"fala": "", "painel": 0, "linha": "Já devolveu? → Lógico (sim ou não)", "marca": true, "espera": 2400}], "fim": "Agora é a sua vez: faça a mesma pergunta para cada campo da tarefa! 💪"}, colunas: ["Dado", "Tipo"],
         linhas: [["Nome do aluno", { op: ["Texto", "Número", "Data", "Lógico"], r: "Texto" }], ["Nota 7,5", { op: ["Texto", "Número", "Data", "Lógico"], r: "Número" }], ["15/03/2027", { op: ["Texto", "Número", "Data", "Lógico"], r: "Data" }], ["Veio à aula? sim", { op: ["Texto", "Número", "Data", "Lógico"], r: "Lógico" }], ["CEP 68523-000", { op: ["Texto", "Número", "Data", "Lógico"], r: "Texto" }]],
         explicacao: "Nome e CEP = texto; nota = número; 15/03/2027 = data; sim/não = lógico." },
       { tipo: "relembre", de: "m6" },
@@ -827,7 +827,7 @@ PORTAL.registrarAtividades("informatica-6ano-2027-1bim", {
       { tipo: "escolha", de: "m3", titulo: "Desafio M3",
         perguntas: [{ p: "O jogo travou na fase 3. O problema é de:", opcoes: ["Software", "Hardware", "Monitor"], certo: 0, why: "Programa travado = software." }],
         explicacao: "Resposta: Software. Errou? Releia o 📚 Relembre da missão." },
-      { tipo: "tabela", de: "m4", titulo: "Desafio M4", colunas: ["Caminho", "Pasta do arquivo"],
+      { tipo: "tabela", de: "m4", titulo: "Desafio M4", robo: {"paineis": ["📁 Outro caminho"], "passos": [{"fala": "Olha como eu leio um caminho <b>diferente</b>. As setas › mostram uma pasta <b>dentro</b> da outra:", "painel": 0, "linha": "Imagens › Viagem › Praia › mar.jpg"}, {"fala": "O arquivo é o último (tem a extensão .jpg). A pasta onde ele está é a que vem <b>logo antes</b>:", "painel": 0, "linha": "Pasta do arquivo: Praia", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: ache a pasta logo antes de cada arquivo! 💪"}, colunas: ["Caminho", "Pasta do arquivo"],
         linhas: [["Documentos › Escola › Ciências › planta.jpg", { r: ["Ciências", "Ciencias"], dica: "A última pasta antes do arquivo." }]],
         explicacao: "O arquivo está na última pasta antes do nome dele." },
       { tipo: "escolha", de: "m5", titulo: "Desafio M5",
@@ -836,7 +836,7 @@ PORTAL.registrarAtividades("informatica-6ano-2027-1bim", {
       { tipo: "escolha", de: "m6", titulo: "Desafio M6",
         perguntas: [{ p: "Viram uma ofensa contra um colega. O certo é:", opcoes: ["Não compartilhar, apoiar o colega, guardar o print e denunciar", "Compartilhar", "Rir junto"], certo: 0 }],
         explicacao: "Resposta: Não compartilhar, apoiar o colega, guardar o print e denunciar. Errou? Releia o 📚 Relembre da missão." },
-      { tipo: "tabela", de: "m7", titulo: "Desafio M7", colunas: ["Frase", "Digite aqui"],
+      { tipo: "tabela", de: "m7", titulo: "Desafio M7", robo: {"digitar": "Oi, tudo bem?", "intro": "Olha como eu digito uma frase <b>diferente</b>: maiúscula no começo e pontuação no fim.", "paineis": [], "passos": []}, colunas: ["Frase", "Digite aqui"],
         linhas: [["Eu já sei digitar!", { r: "Eu já sei digitar!", exato: true, dica: "E maiúsculo, já com acento e ! no fim (Shift + 1)." }]],
         explicacao: "Shift para a maiúscula, acento antes da vogal, Shift + 1 para a exclamação." },
       { tipo: "escolha", de: "m8", titulo: "Desafio M8",

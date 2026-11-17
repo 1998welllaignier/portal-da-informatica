@@ -45,6 +45,11 @@
     if (!wrap) { wrap = document.createElement("div"); wrap.className = "ab-bit"; wrap.innerHTML = `<div class="tg-acoes"><button type="button" class="btn tg-robo ab-robo">🤖 Me ajuda, robô!</button></div><div class="ab-demo" hidden></div>`; c.after(wrap); }
     const box = wrap.querySelector(".ab-demo"), botao = wrap.querySelector(".ab-robo"); let id = 0, erros = 0;
     const abrir = () => { const BIT = (P.robo && P.robo.BIT) || "🤖"; botao.classList.remove("tg-pulsa");
+      // ⌨️ robo.digitar = "texto": o Bit digita no teclado espelho, tecla por tecla (usa o motor do js/teclado.js)
+      if (R.digitar && P.robo && P.robo.demo && P.teclado) { let acum = ""; const passos = [];
+        [...R.digitar].forEach(ch => (P.teclado.passosDe(ch) || []).forEach((q, k, arr) => { if (k === arr.length - 1) acum += ch; passos.push(Object.assign({}, q, { mostra: acum })); }));
+        if (R.intro) passos.unshift({ teclas: [], txt: R.intro });
+        box.hidden = false; P.robo.demo(box, passos, { aoFechar: () => { box.hidden = true; const t = c.querySelector("textarea, input"); if (t) t.focus(); } }); return; }
       box.innerHTML = `<div class="bit-demo" role="region" aria-label="O Bit mostra como faz"><div class="bit-topo">${BIT}<div class="bit-fala" aria-live="polite"><strong>Bit:</strong> <span class="bf"></span></div></div>
         <div class="ab-paineis${R.paineis.length === 1 ? " um" : ""}">${R.paineis.map((t, i) => `<div class="ab-painel"><b>${md(t)}</b><div class="ab-tit" data-t="${i}"></div><ol class="ab-lin${R.semNumero ? " sem" : ""}" data-p="${i}"></ol></div>`).join("")}</div>
         <div class="bit-bts"><button type="button" class="btn bit-de-novo">🔁 Ver de novo</button><button type="button" class="btn btn-ok bit-entendi">👍 Entendi! Agora eu faço o meu</button></div></div>`;
