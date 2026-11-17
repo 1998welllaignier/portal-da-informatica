@@ -15,6 +15,12 @@ Detalhes técnicos: `AGENTS.md` (checklist do bimestre), `docs/PADRAO-ATIVIDADES
 > 5. **Revisão contínua:** em toda missão nova ou revisada, fazer a pergunta "o que aqui ainda dá para modernizar?" e propor as trocas ao professor antes de aplicar.
 > 6. **Visto preservado:** quando uma missão já dada ganha tarefa obrigatória nova, quem já concluiu o Básico não perde o visto.
 
+> ✅ **Regra de ouro 1 — Só fatos verificados (definida pelo professor em 17/11/2026)**
+> **Nunca** entra no material didático (apostila, texto, vídeo, narração, imagem, desenho, simulador, prova, cartaz) uma informação que não foi verificada. Todo dado, número, data, nome e afirmação é conferido em **fonte confiável** antes de publicar (documento oficial, norma, patente, fabricante reconhecido, órgão público, enciclopédia de referência), de preferência em mais de uma fonte. Imagens e vídeos da internet servem só como **inspiração**: os números deles são conferidos um por um. Na dúvida, a informação não entra (ou entra com "cerca de", "até", "em geral"). As fontes consultadas ficam anotadas no commit ou no guia do professor.
+
+> ✍️ **Regra de ouro 2 — Revisão ortográfica e gramatical sempre (17/11/2026)**
+> Todo texto (apostila, legenda, narração, desenho, simulador, prova, documento) passa por revisão de ortografia, acentuação, concordância e pontuação antes de publicar, no português do Brasil. Siglas e termos em inglês escritos do jeito certo (CAT5e, RJ45, Wi-Fi, HTTPS).
+
 ---
 
 ## 1. Conteúdo da apostila (cada missão)
@@ -174,3 +180,4 @@ Apostila no portal + ilustrada (PDF só para quem estuda em casa) · guia do pro
 - **Vídeo de curiosidade (17/11/2026):** em `P.videosMissao`, item `{ id, nome, sub, curiosidade: true }` na lista da missão. No painel aparece como vídeo à parte; no 🏠 estudo em casa aparece **depois das tarefas, como vídeo opcional**, e nunca substitui o vídeo obrigatório da missão.
 - **Simulador do cabo (tipo `cabo`, js/simulacoes.js):** bancada com cabos (CAT5, CAT5e, CAT6) e aparelhos (switch gigabit, switch da baia, 10 gigabits); o monitor mostra a velocidade e "quem limitou" (a parte mais lenta manda). Exige alguns testes antes de liberar as perguntas.
 - **Categorias de cabo além do CAT6 (17/11/2026):** CAT6a, CAT7 e CAT8 entraram como curiosidade no 7º M1 (tabela, desenho "escada das categorias" e CAT8 + servidor de data center no simulador do cabo) e no 8º M2 (🔌 Você sabia? Os cabos dentro do data center, com a fibra óptica). Uma curiosidade pode aparecer em mais de uma série, no ponto em que cada uma estuda o assunto.
+- **Conferência dos cabos (17/11/2026, exemplo da Regra de ouro 1):** valores das categorias conferidos na Black Box (CAT5e 100 MHz/1 Gbps/100 m; CAT6 250 MHz, 1 Gbps em 100 m e 10 Gbps em 55 m; CAT6a 500 MHz/10 Gbps/100 m; CAT7 600 MHz/10 Gbps/100 m, pares com blindagem individual; CAT8 2.000 MHz, 25 ou 40 Gbps em 30 m) e a patente de Graham Bell no Google Patents (US 244.426, de 19/07/1881, cabo telefônico com pares trançados para evitar interferência).

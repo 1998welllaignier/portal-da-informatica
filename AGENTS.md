@@ -50,6 +50,8 @@ Em tudo o que for criado (portal, ícones, nomes de app, vídeos, capas, materia
 4. Português do Brasil, linguagem simples, para alunos de 10 a 15 anos.
 5. Correção automática sempre que possível (veja `docs/PADRAO-ATIVIDADES.md`).
 6. **Modernizar ao máximo (diretriz do professor, 17/11/2026):** simuladores e recursos interativos bons são tarefa obrigatória; o que for menos moderno vira opcional ou sai para abrir espaço. Sempre de forma saudável, educativa e pedagógica. Veja o topo de `docs/PADRAO-DE-QUALIDADE.md`.
+7. **Só fatos verificados (17/11/2026):** nenhuma informação entra no material (texto, vídeo, narração, imagem, simulador) sem ser conferida em fonte confiável; imagens e vídeos da internet são só inspiração. Na dúvida, não entra.
+8. **Revisão ortográfica sempre (17/11/2026):** todo texto é revisado (ortografia, acentuação, concordância, pontuação) antes de publicar.
 
 ## 3. Onde fica cada coisa
 | Quero mudar… | Arquivo |
