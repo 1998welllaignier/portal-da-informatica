@@ -108,7 +108,7 @@
         explicacao: "As posições começam no 1: maçã (1), uva (2), caju (3), açaí (4)." }
     ],
     basico: [
-      { tipo: "tabela", titulo: "Leia a lista",
+      { tipo: "tabela", titulo: "Leia a lista", robo: {"paineis": ["📋 Outra lista: cores"], "passos": [{"fala": "Olha como eu leio uma lista <b>diferente</b>. A posição começa no <b>1</b>:", "painel": 0, "linha": "1 azul"}, {"fala": "", "painel": 0, "linha": "2 verde", "espera": 600}, {"fala": "", "painel": 0, "linha": "3 roxo", "espera": 1000}, {"fala": "Item da posição 2? Desço até o número 2: <b>verde</b>. Tamanho? Conto os itens: <b>3</b>.", "painel": 0, "linha": "Posição 2 = verde · Tamanho = 3", "marca": true}, {"fala": "Se eu <b>adicionar no fim</b> o amarelo, ele vira o item 4, e o tamanho passa a ser 4.", "painel": 0, "linha": "4 amarelo (novo, no fim)", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: numere a lista da tarefa e responda! 💪"},
         enunciado: "<p>Lista <strong>frutas</strong>: 1 maçã · 2 uva · 3 caju · 4 açaí</p>",
         colunas: ["Pergunta", "Resposta"],
         linhas: [
@@ -197,7 +197,7 @@
           { t: "As notas de uma prova da turma", c: "L", why: "Vários números parecidos." }],
         explicacao: "Lista: vários itens parecidos, achados pela posição. Registro: várias informações diferentes de uma coisa, achadas pelo nome do campo." },
 
-      { tipo: "tabela", titulo: "Campos e valores do contato",
+      { tipo: "tabela", titulo: "Campos e valores do contato", robo: {"paineis": ["🗂️ Outra ficha: um livro"], "passos": [{"fala": "Olha uma ficha <b>diferente</b>. Cada linha tem um <b>campo</b> (o nome da informação) e um <b>valor</b> (o que está guardado):", "painel": 0, "linha": "título = Receitas da Vovó"}, {"fala": "", "painel": 0, "linha": "páginas = 40", "espera": 700}, {"fala": "", "painel": 0, "linha": "ano = 2025", "espera": 900}, {"fala": "O valor do campo páginas é <b>40</b>. E a ficha tem <b>3 campos</b>: título, páginas e ano.", "painel": 0, "linha": "páginas → 40 · 3 campos", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: leia a ficha do contato! 💪"},
         enunciado: "<p>Ficha do contato: <strong>nome</strong> = Davi · <strong>telefone</strong> = 94 98888-1234 · <strong>aniversário</strong> = 10/05</p>",
         colunas: ["Pergunta", "Resposta"],
         linhas: [
@@ -451,7 +451,7 @@
         explicacao: "A seleção compara a variável dia com o texto “sexta”. Como é igual, aparece “Tem sobremesa!”." }
     ],
     turbo: [
-      { tipo: "aberta", titulo: "Em dupla: o plano do nosso programa",
+      { tipo: "aberta", titulo: "Em dupla: o plano do nosso programa", robo: {"paineis": ["📝 O plano de outro programa: a lista de compras"], "passos": [{"fala": "Olha como eu planejo um programa <b>diferente</b>, antes de montar:", "painel": 0, "titulo": "Nome: Lista de compras"}, {"fala": "O que ele mostra na tela:", "painel": 0, "linha": "Mostra os itens e quantos faltam comprar"}, {"fala": "As partes, em ordem (decomposição):", "painel": 0, "linha": "1. criar a lista · 2. adicionar itens · 3. mostrar cada item"}, {"fala": "Os blocos que vou usar:", "painel": 0, "linha": "lista, adicionar no fim, para cada", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: planejem o programa de <b>vocês</b>, com outra ideia! 💪"},
         enunciado: "<p>Inventem um programa (um placar, um cardápio, uma lista de jogos…) e escrevam o plano antes de montar.</p>",
         campos: [{ rot: "Nome do programa:", linhas: 1 }, { rot: "O que ele vai mostrar na tela:", linhas: 2 }, { rot: "As partes (decomposição):", linhas: 3 }, { rot: "Que blocos vamos usar (lista, repita, se, para cada…):", linhas: 1 }],
         criterios: ["Cada campo preenchido.", "As partes estão em ordem.", "Cita blocos estudados."],
@@ -541,7 +541,7 @@
         explicacao: "Contador: começa em 0 e o “alterar moedas por 1” soma 1 a cada volta." }
     ],
     basico: [
-      { tipo: "tabela", titulo: "Corrija o quiz à mão",
+      { tipo: "tabela", titulo: "Corrija o quiz à mão", robo: {"paineis": ["✅ Outro quiz"], "passos": [{"fala": "Olha como eu corrijo um quiz <b>diferente</b>, comparando <b>posição por posição</b>:", "painel": 0, "linha": "Gabarito: A · C · B"}, {"fala": "", "painel": 0, "linha": "Jogador:  A · B · B", "espera": 1200}, {"fala": "1ª: A e A, certa. 2ª: C e B, <b>errada</b>. 3ª: B e B, certa.", "painel": 0, "linha": "Acertos: 2 · Erros: 1", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: compare o gabarito com as respostas do jogador! 💪"},
         enunciado: "<p>Gabarito: <strong>B · A · D · C</strong> &nbsp; Respostas do jogador: <strong>B · C · D · C</strong></p>",
         colunas: ["Pergunta", "Resposta"],
         linhas: [
@@ -610,7 +610,7 @@
         solucao: [["repita", 2, [["mostrar", "hip"]]], ["mostrar", "hurra!"]],
         explicacao: "repita 2 vezes: mostrar hip; fora do repita: mostrar hurra!" },
       { tipo: "relembre", de: "m2" },
-      { tipo: "tabela", de: "m2", titulo: "M2 · Lista", enunciado: "<p>Lista <strong>jogos</strong>: 1 futebol · 2 vôlei · 3 queimada</p>", colunas: ["Pergunta", "Resposta"],
+      { tipo: "tabela", de: "m2", titulo: "M2 · Lista", robo: {"paineis": ["📋 Outra lista: cores"], "passos": [{"fala": "Olha como eu leio uma lista <b>diferente</b>. A posição começa no <b>1</b>:", "painel": 0, "linha": "1 azul"}, {"fala": "", "painel": 0, "linha": "2 verde", "espera": 600}, {"fala": "", "painel": 0, "linha": "3 roxo", "espera": 1000}, {"fala": "Item da posição 2? Desço até o número 2: <b>verde</b>. Tamanho? Conto os itens: <b>3</b>.", "painel": 0, "linha": "Posição 2 = verde · Tamanho = 3", "marca": true}, {"fala": "Se eu <b>adicionar no fim</b> o amarelo, ele vira o item 4, e o tamanho passa a ser 4.", "painel": 0, "linha": "4 amarelo (novo, no fim)", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: numere a lista da tarefa e responda! 💪"}, enunciado: "<p>Lista <strong>jogos</strong>: 1 futebol · 2 vôlei · 3 queimada</p>", colunas: ["Pergunta", "Resposta"],
         linhas: [["Item da posição 2", { r: ["vôlei", "volei"] }], ["Tamanho da lista", { r: "3", tipo: "num" }]],
         explicacao: "Posição 2 = vôlei. Tamanho = 3 itens." },
       { tipo: "relembre", de: "m3" },
