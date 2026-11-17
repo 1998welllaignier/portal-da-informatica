@@ -195,6 +195,12 @@
    "pagina": "comecar",
    "ancora": "O que é frequência? O sinal elétrico que corre no fio não fica parado",
    "rotulo": "Frequência baixa e alta"
+  },
+  {
+   "missao": "m1",
+   "pagina": "comecar",
+   "ancora": "O switch é como um \"T\" de tomada (benjamim), só que da internet: o T pega uma tomada só",
+   "rotulo": "T de tomada e switch"
   }
  ],
  "informatica-8ano-4bim": [

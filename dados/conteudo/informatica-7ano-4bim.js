@@ -229,6 +229,10 @@ PORTAL.registrarConteudo("informatica-7ano-4bim", {
     },
     {
      "t": "p",
+     "h": "🔌 <strong>O switch é como um \"T\" de tomada (benjamim), só que da internet:</strong> o T pega uma tomada só e deixa você ligar vários aparelhos nela; o switch pega um cabo de rede só e deixa ligar vários computadores. <strong>Mas tem uma diferença importante:</strong> o T manda a mesma energia para todos os aparelhos ligados, e o switch é <strong>esperto</strong>: ele olha o endereço de cada pacote e entrega <strong>só para o computador certo</strong>, como um carteiro que separa as cartas."
+    },
+    {
+     "t": "p",
      "h": "Nas <strong>salas de aula comuns</strong>, o cabo chega a um <strong>AP</strong> (<em>Access Point</em>, ponto de acesso): o aparelho que recebe a rede pelo cabo e a transforma em <strong>Wi-Fi</strong> para os celulares."
     },
     {

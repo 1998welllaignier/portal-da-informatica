@@ -274,4 +274,26 @@ if __name__ == "__main__":
     A.fig(16, "Duas ondas no mesmo intervalo de 1 segundo: em cima, frequência baixa, com 3 ondas (3 Hz, azul); embaixo, frequência alta, com 9 ondas (9 Hz, roxo). No cabo, o CAT6 aguenta até 250 MHz, ou seja, 250 milhões de ondas por segundo.",
           744, 310, s, "Frequência = quantas vezes a onda sobe e desce em 1 segundo")
 
+    # 17 — T de tomada × switch
+    s = t(186, 24, "T de tomada (benjamim)", 16, "amarelo", 800) + t(558, 24, "Switch de rede", 16, "ciano", 800)
+    # tomada na parede + T
+    s += caixa(20, 120, 70, 90, cor="suave", fundo="fundo", rx=10) + '<circle cx="45" cy="165" r="6" fill="#1c1f22"/><circle cx="65" cy="165" r="6" fill="#1c1f22"/>'
+    s += caixa(100, 130, 80, 70, cor="amarelo", fundo="amarelo_c", rx=10) + '<path d="M90 165 H100" stroke="#1c1f22" stroke-width="5"/>'
+    for k, (yy, ap) in enumerate([(80, "📺"), (165, "💡"), (250, "🔊")]):
+        s += f'<path d="M180 165 C 220 165 230 {yy} 270 {yy}" fill="none" stroke="#1c1f22" stroke-width="4"/>' + emoji(300, yy + 10, ap, 30)
+        s += f'<path d="M190 165 C 225 165 232 {yy} 262 {yy}" fill="none" stroke="#f59e0b" stroke-width="3" stroke-dasharray="4 5"/>'
+    s += t(186, 300, "a mesma energia vai para TODOS", 13, "amarelo", 800)
+    # switch
+    s += caixa(440, 135, 130, 60, cor="ciano", fundo="ciano_c", rx=10)
+    for k in range(4): s += f'<rect x="{452 + k * 28}" y="{170}" width="20" height="16" rx="3" fill="#1c1f22"/>'
+    s += '<path d="M380 165 H440" stroke="#2563eb" stroke-width="6"/>' + t(392, 150, "1 cabo", 12, "azul", 800)
+    pcs = [(80, "PC 1"), (165, "PC 2"), (250, "PC 3")]
+    for k, (yy, nome) in enumerate(pcs):
+        s += f'<path d="M570 165 C 610 165 620 {yy} 650 {yy}" fill="none" stroke="#2563eb" stroke-width="4"/>' + monitor(656, yy - 26, 52, 36, "ciano") + t(682, yy + 34, nome, 12, "tinta", 800)
+    s += f'<rect x="596" y="{142}" width="26" height="18" rx="3" fill="#16a34a"/>' + t(560, 118, "pacote para o PC 2", 12, "verde", 800)
+    s += seta(622, 152, 648, 160, "verde", 3)
+    s += t(558, 300, "cada pacote vai SÓ para o PC certo", 13, "ciano", 800)
+    A.fig(17, "Comparação: o T de tomada (amarelo) pega uma tomada e liga TV, lâmpada e caixa de som, mandando a mesma energia para todos; o switch (ciano) pega um cabo de rede e liga vários computadores, mas entrega cada pacote só para o computador certo (o pacote verde vai só para o PC 2).",
+          744, 316, s, "Parecido com o T de tomada, mas esperto: entrega cada pacote ao computador certo")
+
     print("7º:", A.gerar({"m1": "🌐", "m2": "🧩", "m3": "🛡️", "m4": "🗺️", "pf": "🏁"}))
