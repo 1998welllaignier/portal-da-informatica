@@ -6,8 +6,8 @@ playlist da série e do bimestre, ex.: "7º ano · 4º bimestre 2026") e o Claud
 e, no vídeo do estudo em casa, `catalogo.videoCasa`). Depois de ligado, o vídeo passa para "✅ No ar".
 
 ## 🎬 Prontos, esperando postar
+**17/11/2026:** subiu só o 7º M1 de 2027 (`-Y5vRictuKA`, privado, playlist "7º ano · 1º bimestre 2027"); o 2º envio do dia travou de novo no limite diário. Os outros (v6, v7, v8 e v9 = cabo) estão no ramo `envio-videos`.
 O YouTube travou no **limite diário de envios** em 16/11/2026 (canal sem verificação por telefone). Faltam:
-- 7º ano · 1º bim. 2027 · Missão 1: Programar com blocos (`2027-7ano-m1`)
 - 7º ano · 1º bim. 2027 · Missão 2: Listas no programa (`2027-7ano-m2`)
 - Portal da Informática · Apresentação para gestores (`apresentacao-gestores`, **não** é conteúdo para crianças)
 - Portal da Informática · Apresentação para alunos e famílias (`apresentacao-pais`)
@@ -40,3 +40,5 @@ _(nenhum: todos os áudios combinados chegaram)_
 
 - 🏠 Instruções do estudo em casa: `zxVceWH7iAk` (`catalogo.videoCasa`, nas 4 playlists).
 - ⭐ Aula especial · Meu papel de parede: `Owm5cWrejQU` (missão `ae` das 4 apostilas de papel de parede, nas 4 playlists).
+
+- 2027 · 7º ano · 1º bim.: M1 `-Y5vRictuKA` (privado, 17/11/2026).

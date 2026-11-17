@@ -28,6 +28,7 @@
     "informatica-8ano-4bim": { m1: ["147fmYY0uNU", "PKB6Wp09WP8"], m2: "TIIizqcGvQ4", m3: "gDbjAzGVP3k", m4: "TBagAmKBMew" }, // m1: [principal, extra passo a passo]
     "informatica-9ano-4bim": { m1: "9kQjYVojNag", m2: "epiTtUxQ3Yg", m3: "0blVJESjpzs", m4: "jLz6jur-msY" },
     // 2027 · 1º bimestre (subidos em 16/11/2026; o Especial Teclado é o 2º vídeo da M1)
+    "informatica-7ano-2027-1bim": { m1: "-Y5vRictuKA" },   // subido em 17/11/2026 (privado até o professor revisar)
     "informatica-6ano-2027-1bim": { m1: ["9sPLQiecnHc", { id: "MGRoBzcxwX8", nome: "⌨️ Especial Teclado", sub: "a caça ao tesouro na Cidade Teclado, 8 min" }], m2: "oLgO5Zz0Bbg", m3: "Z7urMeervDQ" },
     // ⭐ Aula especial "Meu papel de parede" (o mesmo vídeo nas 4 séries)
     "informatica-6ano-papel-de-parede": { ae: "Owm5cWrejQU" }, "informatica-7ano-papel-de-parede": { ae: "Owm5cWrejQU" },
