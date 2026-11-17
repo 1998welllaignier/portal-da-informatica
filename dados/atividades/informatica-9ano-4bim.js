@@ -44,7 +44,7 @@
           { enunciado: "<p>Agora é você quem desenha o grafo. Clique em um lugar e depois no outro lugar ligado a ele, seguindo a tabela de arestas. O peso aparece em cima de cada linha.</p>",
             dicas: ["Comece pela Casa: ela se liga à Padaria e à Praça."],
             explicacao: "O grafo tem 5 vértices (os lugares) e 6 arestas (as ligações), cada uma com o seu peso em minutos." }),
-        { tipo: "tabela", titulo: "Os caminhos da Casa até a Escola",
+        { tipo: "tabela", titulo: "Os caminhos da Casa até a Escola", robo: {"paineis": ["🗺️ Outro grafo: Casa —2— Feira —3— Escola e Casa —1— Praça —1— Posto —2— Escola"], "passos": [{"fala": "Olha como eu calculo num grafo <b>diferente</b>. Somo os pesos de cada caminho:", "painel": 0, "linha": "Casa → Feira → Escola = 2 + 3 = 5 min"}, {"fala": "", "painel": 0, "linha": "Casa → Praça → Posto → Escola = 1 + 1 + 2 = 4 min", "espera": 1200}, {"fala": "O mais curto é o de <b>menor soma</b>, mesmo com mais paradas!", "painel": 0, "linha": "Mais curto: pela Praça e pelo Posto (4 min)", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: some os pesos dos caminhos da tarefa! 💪"},
           colunas: ["Caminho", "Total (minutos)"],
           linhas: [["Casa → Padaria → Escola", { r: "9", tipo: "num", w: 5, dica: "4 + 5" }], ["Casa → Praça → Escola", { r: "10", tipo: "num", w: 5 }], ["Casa → Praça → Posto de saúde → Escola", { r: "8", tipo: "num", w: 5 }],
             ["<strong>Qual é o caminho mais curto?</strong>", { op: ["Casa → Padaria → Escola", "Casa → Praça → Escola", "Casa → Praça → Posto de saúde → Escola"], r: "Casa → Praça → Posto de saúde → Escola" }]],
@@ -69,7 +69,7 @@
           <div class="tabela-wrap"><table><thead><tr><th>Aresta (rua)</th><th>Peso (quadras)</th></tr></thead><tbody>
           <tr><td>E – A (Av. Mato Grosso)</td><td>½</td></tr><tr><td>E – B (Av. Mato Grosso)</td><td>1</td></tr><tr><td>A – U (R. Tucupi)</td><td>1</td></tr><tr><td>U – C (R. Tucupi)</td><td>1</td></tr><tr><td>C – F (R. Tucupi)</td><td>2</td></tr>
           <tr><td>B – D (R. Cedro)</td><td>2</td></tr><tr><td>D – G (R. Cedro)</td><td>2</td></tr><tr><td>C – D (Av. Bahia)</td><td>1</td></tr><tr><td>F – G (Av. Carlos Santos)</td><td>1</td></tr><tr><td>F – M (Av. Carlos Santos)</td><td>½</td></tr></tbody></table></div>` },
-        { tipo: "tabela", titulo: "1. Da escola (E) ao Mercado Municipal (M)",
+        { tipo: "tabela", titulo: "1. Da escola (E) ao Mercado Municipal (M)", robo: {"paineis": ["🗺️ Somando quadras (outro caminho, de exemplo)"], "passos": [{"fala": "Olha como eu somo um caminho <b>de exemplo</b>: escrevo os vértices em ordem e o peso de cada trecho.", "painel": 0, "titulo": "X → Y → Z → W"}, {"fala": "", "painel": 0, "linha": "X → Y: ½ quadra", "espera": 700}, {"fala": "", "painel": 0, "linha": "Y → Z: 2 quadras", "espera": 700}, {"fala": "", "painel": 0, "linha": "Z → W: 1 quadra", "espera": 900}, {"fala": "Somo tudo. Meia quadra é <b>0,5</b>:", "painel": 0, "linha": "0,5 + 2 + 1 = 3,5 quadras", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: siga cada rua no mapa da tarefa, anote os vértices e some as quadras! (Pode escrever 6,5 ou 6½.) 💪"},
           colunas: ["Caminho", "Vértices (em ordem)", "Soma dos pesos (quadras)"],
           linhas: [
             ["1 · pela R. Tucupi", "E → A → U → C → F → M", { r: "5", tipo: "num", w: 5 }],
@@ -80,7 +80,7 @@
           explicacao: "Caminho 1: ½ + 1 + 1 + 2 + ½ = 5. Caminho 2: E → B → D → G → F → M = 1 + 2 + 2 + 1 + ½ = 6½. Caminho 3: E → B → D → C → F → M = 1 + 2 + 1 + 2 + ½ = 6½. O mais curto é o 1, pela R. Tucupi, porque tem a menor soma." },
         Object.assign({ tipo: "grafo", titulo: "Confira no mapa: trace o caminho mais curto de E até M", de: "E", para: "M", unidade: "quadras", largura: 520, altura: 400, descricao: "Grafo do bairro real da escola" }, real,
           { explicacao: "E → A → U → C → F → M: 5 quadras." }),
-        { tipo: "tabela", titulo: "2. A escola e os dois mercados",
+        { tipo: "tabela", titulo: "2. A escola e os dois mercados", robo: {"paineis": ["🗺️ Comparando distâncias (exemplo)"], "passos": [{"fala": "Para saber o que fica <b>mais perto</b>, eu calculo as duas distâncias e comparo:", "painel": 0, "linha": "Até a farmácia: 1 + ½ = 1,5 quadra"}, {"fala": "", "painel": 0, "linha": "Até a padaria: 2 + 1 = 3 quadras", "espera": 900}, {"fala": "O menor número ganha:", "painel": 0, "linha": "Mais perto: a farmácia", "marca": true, "espera": 2400}], "fim": "Agora é a sua vez: calcule as distâncias até os dois mercados e compare! 💪"},
           linhas: [["Distância da escola (E) até o Comercial União (U), em quadras", { r: "1.5", tipo: "num", w: 5 }],
             ["Qual dos dois mercados fica mais perto da escola?", { op: ["Comercial União", "Mercado Municipal"], r: "Comercial União" }]],
           explicacao: "E → A → U = ½ + 1 = 1½ quadra. O Comercial União (1½) fica mais perto que o Mercado Municipal (5)." },
@@ -184,7 +184,7 @@
           explicacao: "Cada letra andou 3 casas no alfabeto. Quem sabe a chave consegue fazer o caminho de volta e decifrar." }
       ],
       desafio: [
-        { tipo: "tabela", titulo: "Quantas senhas a força bruta precisa testar, no máximo?",
+        { tipo: "tabela", titulo: "Quantas senhas a força bruta precisa testar, no máximo?", robo: {"paineis": ["🔐 Senhas só de números"], "passos": [{"fala": "Cada dígito tem 10 opções (0 a 9). A cada dígito a mais, eu <b>multiplico por 10</b>:", "painel": 0, "linha": "1 dígito: 10"}, {"fala": "", "painel": 0, "linha": "2 dígitos: 10 × 10 = 100", "espera": 900}, {"fala": "", "painel": 0, "linha": "3 dígitos: 100 × 10 = 1.000", "marca": true, "espera": 1200}, {"fala": "E o tempo? Se o programa testa <b>100</b> senhas por segundo, eu <b>divido</b>:", "painel": 0, "linha": "1.000 ÷ 100 = 10 segundos (exemplo)", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: continue multiplicando por 10 e faça a divisão da tarefa (1.000 por segundo)! 💪"},
           colunas: ["Senha só de números", "Combinações possíveis"],
           linhas: [["1 dígito", "10"], ["2 dígitos", { r: "100", tipo: "num", w: 10 }], ["4 dígitos", { r: "10000", tipo: "num", w: 10 }], ["6 dígitos", { r: "1000000", tipo: "num", w: 10 }],
             ["Se o programa testa 1.000 senhas por segundo, quanto tempo leva, no máximo, para uma senha de 4 dígitos? (em segundos)", { r: "10", tipo: "num", w: 6 }]],
@@ -297,7 +297,7 @@
           okMsg: "Cartaz pronto e conferido! Ficou registrado para o professor." }
       ],
       desafio: [
-        { tipo: "aberta", titulo: "Escreva o crédito correto da foto da castanheira",
+        { tipo: "aberta", titulo: "Escreva o crédito correto da foto da castanheira", robo: {"paineis": ["©️ Crédito de outra foto"], "passos": [{"fala": "Olha como eu escrevo o crédito de <b>outra</b> foto, seguindo o modelo <b>Foto: autor, site, licença</b>:", "painel": 0, "titulo": "Foto de um ipê, de João Lima, no site Natureza Livre, licença CC BY"}, {"fala": "", "painel": 0, "linha": "Foto: João Lima, Natureza Livre, CC BY.", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: escreva o crédito da foto da <b>castanheira</b>, no mesmo modelo! 💪"},
           enunciado: "<p>Foto de uma castanheira, tirada por <strong>Maria Souza</strong>, encontrada no site <strong>Banco de Imagens Livres</strong>, com licença <strong>CC BY</strong>. Modelo: <em>Foto: nome do autor, site onde estava, licença.</em></p>",
           linhas: 2,
           criterios: ["Segui o modelo: Foto: autor, site, licença."], exemplo: "Foto: Maria Souza, Banco de Imagens Livres, CC BY.",
@@ -307,7 +307,7 @@
           perguntas: [{ p: "Se a imagem tivesse o aviso “todos os direitos reservados”, você poderia usá-la sem pedir autorização?", opcoes: ["Não: precisaria pedir autorização ao autor", "Sim, basta escrever o nome do autor", "Sim, porque está na internet"], certo: 0, why: "“Todos os direitos reservados” (©) quer dizer que só o autor decide quem pode usar." }] }
       ],
       turbo: [
-        { tipo: "aberta", titulo: "Por que um deepfake de um colega, mesmo “de brincadeira”, pode causar problemas sérios? O que a vítima deve fazer?",
+        { tipo: "aberta", titulo: "Por que um deepfake de um colega, mesmo “de brincadeira”, pode causar problemas sérios? O que a vítima deve fazer?", robo: {"paineis": ["⚠️ Por que é sério", "🛡️ O que a vítima faz"], "passos": [{"fala": "Vou pensar num caso <b>parecido</b>: um áudio falso imitando a voz de uma professora. Por que é sério?", "painel": 0, "linha": "Usa a voz dela sem autorização"}, {"fala": "", "painel": 0, "linha": "Pode fazer as pessoas acreditarem numa mentira", "espera": 1000}, {"fala": "E o que a vítima faz? Não apaga as provas, conta a um adulto e denuncia:", "painel": 1, "linha": "Guardar o áudio e os prints", "marca": true}, {"fala": "", "painel": 1, "linha": "Contar à direção e denunciar", "marca": true, "espera": 2400}], "fim": "Agora é a sua vez: responda sobre o <b>deepfake do colega</b>, com as suas palavras! 💪"},
           campos: [{ rot: "Por que pode causar problemas sérios?", linhas: 3 }, { rot: "O que a vítima deve fazer?", linhas: 3 }],
           criterios: ["Falei de direito de imagem e cyberbullying (pode ser crime).", "Disse o que a vítima faz: não apaga as provas, conta a um adulto, denuncia."],
           conferir: { minPalavras: 6, porCampo: [
@@ -413,7 +413,7 @@
     rv: {
       basico: [
         { tipo: "relembre", de: "m1" },
-        { tipo: "tabela", de: "m1", titulo: "M1 · Grafo: Casa —3— Praça —2— Escola e Casa —4— Mercado —4— Escola",
+        { tipo: "tabela", de: "m1", titulo: "M1 · Grafo: Casa —3— Praça —2— Escola e Casa —4— Mercado —4— Escola", robo: {"paineis": ["🗺️ Outro grafo: Casa —2— Feira —3— Escola e Casa —1— Praça —1— Posto —2— Escola"], "passos": [{"fala": "Olha como eu calculo num grafo <b>diferente</b>. Somo os pesos de cada caminho:", "painel": 0, "linha": "Casa → Feira → Escola = 2 + 3 = 5 min"}, {"fala": "", "painel": 0, "linha": "Casa → Praça → Posto → Escola = 1 + 1 + 2 = 4 min", "espera": 1200}, {"fala": "O mais curto é o de <b>menor soma</b>, mesmo com mais paradas!", "painel": 0, "linha": "Mais curto: pela Praça e pelo Posto (4 min)", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: some os pesos dos caminhos da tarefa! 💪"},
           linhas: [["Casa → Praça → Escola soma:", { r: "5", tipo: "num", w: 3 }], ["Casa → Mercado → Escola soma:", { r: "8", tipo: "num", w: 3 }], ["Qual é o mais curto?", { op: ["Pela Praça", "Pelo Mercado"], r: "Pela Praça" }]],
           explicacao: "3 + 2 = 5 e 4 + 4 = 8: o mais curto é pela Praça (menor soma dos pesos)." },
         { tipo: "escolha", de: "m1", titulo: "M1 · Árvores",
@@ -423,7 +423,7 @@
             { p: "Na árvore de decisão, cada folha é:", opcoes: ["Uma resposta", "Uma pergunta", "Um peso"], certo: 0 }],
           explicacao: "Árvore = grafo sem ciclos, da raiz às folhas. Na árvore de decisão, os vértices são perguntas de sim ou não e as folhas são respostas." },
         { tipo: "relembre", de: "m2" },
-        { tipo: "tabela", de: "m2", titulo: "M2 · Cifra de César com chave 1 (cada letra anda 1 casa)",
+        { tipo: "tabela", de: "m2", titulo: "M2 · Cifra de César com chave 1 (cada letra anda 1 casa)", robo: {"paineis": ["🔐 Outra palavra: BOLA"], "passos": [{"fala": "Com chave 1, cada letra anda <b>1 casa para a frente</b> no alfabeto:", "painel": 0, "linha": "B → C"}, {"fala": "", "painel": 0, "linha": "O → P", "espera": 700}, {"fala": "", "painel": 0, "linha": "L → M", "espera": 700}, {"fala": "", "painel": 0, "linha": "A → B", "espera": 900}, {"fala": "BOLA cifrada fica:", "painel": 0, "linha": "CPMB", "marca": true}, {"fala": "Para <b>decifrar</b>, eu volto 1 casa: TPM → S, O, L", "painel": 0, "linha": "TPM → SOL", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: cifre CASA e decifre PJ! 💪"},
           linhas: [["Cifre a palavra CASA:", { r: ["DBTB"], tipo: "letras", w: 8, dica: "C → D, A → B, S → T, A → B" }], ["Decifre a palavra PJ (chave 1, volte 1 casa):", { r: ["OI"], tipo: "letras", w: 6 }]],
           explicacao: "Com chave 1, cada letra anda 1 casa: CASA → DBTB. Para decifrar, volta 1 casa: PJ → OI." },
         { tipo: "classificar", modo: "tabela", de: "m2", titulo: "M2 · Qual ataque é esse?", colunaItem: "Situação", colunaResp: "Ataque",
@@ -467,7 +467,7 @@
     pf: {
       basico: [
         { tipo: "info", titulo: "Confira as suas missões", html: "<p>Volte à lista de missões da apostila: cada missão com o <strong>Básico concluído</strong> aparece com ✔. Se faltar alguma (por exemplo, porque você faltou à aula), faça o Básico dela agora. O professor acompanha tudo pelo painel.</p>" },
-        { tipo: "aberta", titulo: "Escreva uma frase sobre o que você aprendeu em cada tema",
+        { tipo: "aberta", titulo: "Escreva uma frase sobre o que você aprendeu em cada tema", robo: {"paineis": ["✍️ Exemplo com outra matéria"], "passos": [{"fala": "Olha como eu escrevo uma boa frase, sobre <b>outra</b> matéria (Matemática):", "painel": 0, "titulo": "🧮 Frações"}, {"fala": "Começo com letra maiúscula, uso uma <b>palavra-chave</b> do tema e termino com ponto final:", "painel": 0, "linha": "Aprendi que a fração mostra partes de um inteiro.", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: uma frase para cada tema, com uma palavra-chave dele! 💪"},
           campos: [{ rot: "🕸️ Grafos e árvores", linhas: 2 }, { rot: "🔐 Criptografia e ataques", linhas: 2 }, { rot: "©️ Autoria, imagem e deepfakes", linhas: 2 }],
           criterios: ["Cada frase usa pelo menos uma palavra-chave do tema.", "Frase completa, com letra maiúscula e ponto final."],
           conferir: { minPalavras: 4, porCampo: [
