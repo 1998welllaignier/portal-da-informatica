@@ -570,6 +570,10 @@
         falhas++; if (falhas >= 5) { bloqueadoAte = Date.now() + 30000; falhas = 0; }
         return erro(ruins.length === 2 ? "Os dois códigos não foram encontrados nesta turma." : modo === "dupla" ? `O código ${ruins[0] === 0 ? "do primeiro aluno" : "do colega"} não foi encontrado nesta turma.` : "Código não encontrado nesta turma. Confira a turma e o número, ou chame o professor.");
       }
+      // 🏫 aluno de outra turma (frequenta esta aula): a sessão fica na turma dele; em dupla, os dois precisam ser da mesma turma
+      const tReal = [...new Set(infos.map(x => x.turma || t.value))];
+      if (tReal.length > 1) return erro("Vocês são de turmas diferentes. Entrem um de cada vez (Sozinho).");
+      const turmaSess = tReal[0];
       form.hidden = true;
       const cf = el.querySelector("#confirma");
       cf.innerHTML = `<div class="painel confirma-quem">
@@ -581,13 +585,13 @@
       cf.querySelector("#nao").onclick = () => { cf.innerHTML = ""; form.hidden = false; el.querySelector("#c1").focus(); };
       cf.querySelector("#sim").onclick = async () => {
         const b = cf.querySelector("#sim"); b.disabled = true; b.textContent = "Entrando…";
-        try { await Promise.all(infos.map((x, i) => P.nuvem.confirmar(i, x, t.value))); }
+        try { await Promise.all(infos.map((x, i) => P.nuvem.confirmar(i, x, turmaSess))); }
         catch (err) { console.warn(err); b.disabled = false; b.textContent = "Tentar de novo"; toast("Não foi possível entrar agora. Tente de novo."); return; }
-        sess.set({ serie: sid, turma: t.value, modo, nuvem: true, alunoIds: infos.map(x => x.alunoId), nomes: infos.map(x => x.nome), apelidos: infos.map((x, i) => apels[i] || ""), entrou: Date.now(),
+        sess.set({ serie: sid, turma: turmaSess, modo, nuvem: true, alunoIds: infos.map(x => x.alunoId), nomes: infos.map(x => x.nome), apelidos: infos.map((x, i) => apels[i] || ""), entrou: Date.now(),
           trilha: infos.length === 1 && !!infos[0].trilha });
         // 🧍 monta o avatar (2 min); quem não salvar entra com o avatar que já tinha ou com o uniforme da escola
-        if (P.avatar) { try { const avs = await P.avatar.fluxoLogin(mount, infos.map(x => Object.assign({}, x, { turma: t.value })), 240); const ss = sess.get(); if (ss && avs && avs.length) sess.set(Object.assign({}, ss, { avatares: avs })); } catch (e) { console.warn("avatar", e); } }
-        if (P.curiosidadesNoLogin) { try { await P.curiosidadesNoLogin(infos, t.value); } catch (e) { console.warn("curiosidades", e); } }
+        if (P.avatar) { try { const avs = await P.avatar.fluxoLogin(mount, infos.map(x => Object.assign({}, x, { turma: turmaSess })), 240); const ss = sess.get(); if (ss && avs && avs.length) sess.set(Object.assign({}, ss, { avatares: avs })); } catch (e) { console.warn("avatar", e); } }
+        if (P.curiosidadesNoLogin) { try { await P.curiosidadesNoLogin(infos, turmaSess); } catch (e) { console.warn("curiosidades", e); } }
         location.hash = destino || "#/apostilas";
       };
       cf.querySelector("#sim").focus();

@@ -79,7 +79,17 @@
     /* {aberta:true} ou {aberta:false, fechada, horarios:[texto], hoje:{mid,titulo}} */
     async estado(s, mid) {
       if (!s || !s.nuvem || !N() || !N().pronto) return { aberta: true }; // visualização do professor, modo explorador
-      const [g, lib, h] = await Promise.all([cfg("geral"), cfg("liberar_" + s.turma), this.hoje(s)]);
+      let [g, lib, h] = await Promise.all([cfg("geral"), cfg("liberar_" + s.turma), this.hoje(s)]);
+      // 🏫 aluno que frequenta a aula de outra turma (🏫 no painel, config/liberar_<turma>.outra): se a aula dele não foi
+      //    iniciada hoje e a da outra turma foi, vale a aula da outra turma (início, missão, trava e fim) — corrigido em 18/11/2026
+      let tAula = s.turma;
+      const outras = [...new Set((s.alunoIds || []).map(id => (lib.outra || {})[id]).filter(Boolean))];
+      if (outras.length && !(h && h.iniciadaDia === N().hoje())) {
+        for (const ot of outras) {
+          const ho = await cfg("hoje_" + ot), d = N().hoje();
+          if (ho && ho.dia === d && ho.iniciadaDia === d) { const lo = await cfg("liberar_" + ot); h = ho; tAula = ot; lib = Object.assign({}, lib, { fechadaAte: lo.fechadaAte, ate: lo.ate || lib.ate }); break; }
+        }
+      }
       const ms = await agora();
       const ids = s.alunoIds || [];
       // 📝 atividade de recuperação (15/11/2026): abre a qualquer hora para quem o professor liberou, e só para ele
@@ -110,7 +120,7 @@
         if (!iniciada) return { aberta: false, aguardando: true };
         // ⏰ fim automático (14/11/2026): sem o 🏁 Finalizar, as tarefas fecham sozinhas no fim do horário da aula
         //    (+ tolerância). Aula iniciada fora do horário (reposição) dura o tempo de uma aula a partir do início.
-        const t = P.turma(s.turma), dur = (P.catalogo.duracaoAula || 75) * 60000, tl = (P.catalogo.toleranciaTarefas || 15) * 60000;
+        const t = P.turma(tAula), dur = (P.catalogo.duracaoAula || 75) * 60000, tl = (P.catalogo.toleranciaTarefas || 15) * 60000;
         let fim = (h.iniciadaEm || ms) + dur + tl;
         if (t && t.aula && t.aula.ini && noHorario(t, h.iniciadaEm || ms)) { const d = new Date(h.iniciadaEm || ms), [H, M] = t.aula.ini.split(":").map(Number); d.setHours(H, M, 0, 0); fim = d.getTime() + dur + tl; }
         if (ms > fim) return { aberta: false, encerrada: true };

@@ -239,3 +239,9 @@ Apostila no portal + ilustrada (PDF só para quem estuda em casa) · guia do pro
   - **todas as entradas do dia** (`entradas.<dia>`). Antes ficava só a última.
   - Em dados antigos, o tempo é contado desde a tarefa anterior e aparece marcado com *.
 - **Uso:** todas as famílias recebem o PDF. Para a família que não lê, o PDF é a base de um vídeo narrado em **Linguagem Simples**.
+
+## 🏫 Aluno que frequenta a aula de outra turma: agora entra (18/11/2026)
+- **Problema:** a marcação "🏫 Frequenta a aula de outra turma" só valia na trava de horário antiga, que já tinha sido desligada. Os alunos marcados não conseguiam fazer as tarefas na aula da outra turma.
+- **Login:** o aluno pode escolher a turma onde **assiste** à aula e digitar o próprio código. O portal procura o código nas outras turmas da série e aceita se o professor marcou essa turma para ele. A sessão, a presença e as notas continuam na turma dele.
+- **Trava:** se a aula da turma dele não foi iniciada hoje e a da outra turma foi, valem para ele o início, a missão, a 🔒 trava e o fim da aula da outra turma.
+- **Em dupla:** os dois precisam ser da mesma turma. Se não forem, o portal pede para entrarem um de cada vez.

@@ -63,10 +63,24 @@
     await anonimo(i);
     const id = turmaId + "_" + codigo;
     const snap = await app(i).db.collection("acessos").doc(id).get();
-    if (!snap.exists) return null;
-    const d = snap.data();
-    if (!d.ativo || d.turma !== turmaId) return null;
-    return { acessoId: id, alunoId: d.alunoId, nome: d.nome || "", trilha: !!d.trilha };
+    if (snap.exists) {
+      const d = snap.data();
+      if (!d.ativo || d.turma !== turmaId) return null;
+      return { acessoId: id, alunoId: d.alunoId, nome: d.nome || "", trilha: !!d.trilha, turma: turmaId };
+    }
+    // 🏫 18/11/2026: o aluno escolheu a turma onde ASSISTE à aula, mas o código é da turma dele. Procura o código nas outras
+    //    turmas da mesma série e aceita se o professor marcou que ele frequenta esta turma (config/liberar_<turma dele>.outra)
+    const tt = P.turma && P.turma(turmaId); if (!tt) return null;
+    const serie = (P.catalogo.series || []).find(x => x.turmas.some(y => y.id === turmaId)); if (!serie) return null;
+    for (const y of serie.turmas) {
+      if (y.id === turmaId) continue;
+      const sn = await app(i).db.collection("acessos").doc(y.id + "_" + codigo).get().catch(() => null);
+      if (!sn || !sn.exists) continue;
+      const d = sn.data(); if (!d.ativo || d.turma !== y.id) continue;
+      const lb = await app(i).db.collection("config").doc("liberar_" + y.id).get().catch(() => null);
+      if (lb && lb.exists && ((lb.data().outra || {})[d.alunoId]) === turmaId) return { acessoId: y.id + "_" + codigo, alunoId: d.alunoId, nome: d.nome || "", trilha: !!d.trilha, turma: y.id, assiste: turmaId };
+    }
+    return null;
   };
 
   /* 2) O aluno confirmou "Sou eu": grava a sessão e a entrada do dia */
