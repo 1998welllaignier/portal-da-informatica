@@ -1027,6 +1027,7 @@
     }
     const prog = getProg(aid);
     const st = prog.atv[at.id] = prog.atv[at.id] || { tentativas: 0, dicas: 0 };
+    if (!st.ini && !st.status) st.ini = Date.now();   // 📄 relatório do aluno (18/11/2026): hora em que a tarefa apareceu para ele pela 1ª vez
     const s = sess.get();
     const auto = typeof T.auto === "function" ? T.auto(at) : T.auto;
     const corr = at.professor ? "👨‍🏫 o professor confere" : auto ? "✔ correção automática" : "👨‍🏫 o professor confere";
@@ -1089,7 +1090,7 @@
     bV.onclick = () => { if (ctx.verificar) ctx.verificar(); };
     bD.onclick = () => { st.dicas++; salvar(); atualizarAjuda(); };
     bR.onclick = () => { if (!ctx.resolver) return; st.viuResolucao = true; ctx.resolver(); ctx.concluir("ajuda", "Resolução comentada:"); };
-    bRef.onclick = () => { for (const k of Object.keys(st)) delete st[k]; st.tentativas = 0; st.dicas = 0; salvar(); feedback("", ""); ctx.reRender(); mostrarStatus(); atualizarAjuda(); onChange && onChange(); };
+    bRef.onclick = () => { for (const k of Object.keys(st)) delete st[k]; st.tentativas = 0; st.dicas = 0; st.ini = Date.now(); salvar(); feedback("", ""); ctx.reRender(); mostrarStatus(); atualizarAjuda(); onChange && onChange(); };
     T.render(corpo, at, ctx);
     el._ctx = ctx; // usado pelos testes automatizados
     if (!ctx.verificar) bV.hidden = true;

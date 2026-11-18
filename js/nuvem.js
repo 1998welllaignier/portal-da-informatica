@@ -79,7 +79,9 @@
   async function registrarEntrada(i, alunoId, turmaId) {
     const ref = app(i).db.collection("progresso").doc(alunoId + "_entrada");
     const dia = hoje();
-    await ref.set({ alunoId, turma: turmaId, tipo: "entrada", dias: { [dia]: Date.now() }, atualizado: N.FV.serverTimestamp() }, { merge: true });
+    // dias[dia] = última entrada do dia; entradas[dia] = todas as entradas do dia (📄 relatório do aluno, 18/11/2026)
+    const ag = Date.now();
+    await ref.set({ alunoId, turma: turmaId, tipo: "entrada", dias: { [dia]: ag }, entradas: { [dia]: { [String(ag)]: true } }, atualizado: N.FV.serverTimestamp() }, { merge: true });
   }
 
   /* A sessão do navegador ainda vale? (a aba pode ter sido fechada) */

@@ -878,6 +878,7 @@
     function menuAluno(a) {
       const dlg = h(`<dialog class="pp-dlg"><form method="dialog"><h2>${a.atipico ? "🧩 " : ""}${a.teste ? "🧪 " : ""}${a.emCasa ? "🏠 " : ""}${esc(a.nome)}</h2>${a.emCasa ? `<p class="pp-casa">🏠 <strong>Estuda em casa</strong>${a.emCasaObs ? ": " + esc(a.emCasaObs) : ""}. Lance pelo 📒 Diário (J na presença; Básico e ★ conferindo a apostila).</p>` : ""}<p>${esc(nomeTurma(a.turma))} · código <strong>${esc(a.codigo)}</strong> · ${a.ativo ? "ativo" : "desativado"}${a.outraTurma ? ` · também frequenta a aula do ${esc(nomeTurma(a.outraTurma))}` : ""}</p>
         <div class="pp-dlg-btns">
+          <a class="btn" href="#/painel/relatorio/${esc(a.id)}">📄 Relatório do aluno (PDF)</a>
           <button class="btn btn-sec" value="cod" type="button" data-x="cod">🔑 Gerar novo código</button>
           <button class="btn btn-sec" value="nome" type="button" data-x="nome">✏️ Corrigir nome</button>
           <button class="btn btn-sec" type="button" data-x="turma">🔀 Mudar de turma</button>
@@ -893,6 +894,7 @@
           <button class="btn" value="x">Fechar</button></div></form></dialog>`);
       document.body.appendChild(dlg); dlg.showModal();
       dlg.addEventListener("close", () => dlg.remove());
+      dlg.querySelector('a[href^="#/painel/relatorio/"]').addEventListener("click", () => dlg.close());
       dlg.querySelectorAll("[data-x]").forEach(b => b.onclick = async () => {
         const x = b.dataset.x;
         try {
@@ -2172,6 +2174,7 @@
         if (sub === "panorama") return await telaPanorama(u);
         if (sub === "prova") return await telaProvaPainel(u, arg);
         if (sub === "diario") return await telaDiario(u, arg, arg2);
+        if (sub === "relatorio") return await P.relatorio.abrir({ db, esc, tela, topo, ligarSair, todasTurmas, nomeTurma, notaProvaDoc, OCORR }, u, arg, arg2);   // 📄 relatório do aluno (18/11/2026)
         if (sub === "importar") return await telaImportar(u);
         if (sub === "ano") return await telaAno(u);
         return await telaTurmas(u, sub === "turma" ? arg : null);

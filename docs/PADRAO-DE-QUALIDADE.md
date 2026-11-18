@@ -225,3 +225,17 @@ Apostila no portal + ilustrada (PDF só para quem estuda em casa) · guia do pro
 - A aula especial vale agora do 5º ao 9º ano: o gerador (`ferramentas/aula_especial/gerar.py`) e os desenhos (`i_papel.py`) já incluem o 5º ano, junto com o catálogo, as explicações do professor e o vídeo.
 - O modelo `ferramentas/aula_especial/papel-de-parede.md` foi atualizado com os verbetes que tinham sido acrescentados direto nas fontes (Navegador, Pasta). Daqui para a frente, toda mudança na aula especial é feita no modelo, e depois o gerador é rodado de novo.
 - **Lição (18/11/2026):** ao mudar um arquivo carregado direto no `index.html` (como `dados/catalogo.js` ou `dados/explicacoes-prof.js`), trocar também o `?v=` dele. Se não trocar, o navegador dos alunos continua com a versão antiga guardada (foi o que escondeu a aula especial do 5º ano).
+
+## 📄 Relatório do aluno (18/11/2026)
+- **Onde fica:** no painel, em 🏫 Turmas, toque no nome do aluno e escolha **📄 Relatório do aluno (PDF)**. O endereço é `#/painel/relatorio/<alunoId>`, e o código fica em `js/relatorio.js`.
+- **Período:** bimestre em uso, ano todo ou uma aula só. O botão **🖨️ Salvar em PDF** imprime só o relatório, em A4.
+- **O que o relatório traz:**
+  - como o portal funciona, em linguagem simples;
+  - resumo: presença, missões, tarefas, acertos sozinho ou com dica, erros, dicas e nota da prova;
+  - aula por aula: presença (vale a chamada do professor; sem ela, conta quem entrou no portal), horário de cada entrada, missão com objetivo e BNCC (quando estiver cadastrada), e cada tarefa com início, fim, tempo, erros e dicas;
+  - também por aula: hora da última tarefa, quantos minutos faltavam para o fim da aula (início + 1h15), registro da aula e **👨‍🏫 observações do professor sobre o aluno**. As observações ficam em `prof/diario/turmas/<turma>/aulas/<data>.obsAlunos.<alunoId>` e devem descrever só fatos.
+- **O que passou a ser registrado:**
+  - a **hora de início de cada tarefa** (`st.ini`, quando a tarefa aparece pela primeira vez);
+  - **todas as entradas do dia** (`entradas.<dia>`). Antes ficava só a última.
+  - Em dados antigos, o tempo é contado desde a tarefa anterior e aparece marcado com *.
+- **Uso:** todas as famílias recebem o PDF. Para a família que não lê, o PDF é a base de um vídeo narrado em **Linguagem Simples**.

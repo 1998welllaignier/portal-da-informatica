@@ -1878,3 +1878,50 @@ button.tb-av:hover .avatar-svg, button.tb-av:focus-visible .avatar-svg { transfo
 .ab-lin li.ab-marca { background: #fef3c7; border-left: 4px solid #d97706; padding: 2px 6px; border-radius: 6px; font-weight: 800; color: #92400e; list-style-position: inside; margin-left: -18px; }
 .ab-tit { font-family: "JetBrains Mono", Consolas, monospace; font-weight: 800; color: #6d28d9; min-height: 1.2em; margin-bottom: 4px; }
 .ab-lin.sem { list-style: none; padding-left: 4px; } .ab-lin.sem li.ab-marca { margin-left: 0; }
+
+/* 📄 Relatório do aluno (18/11/2026) — tela e PDF */
+.rel-doc { background: #fff; color: #1d2433; border-radius: 12px; padding: 24px 28px; box-shadow: 0 2px 10px rgba(0,0,0,.08); max-width: 900px; margin: 12px auto; }
+.rel-cab { border-bottom: 3px solid #e2583e; padding-bottom: 8px; margin-bottom: 12px; }
+.rel-cab h2 { margin: 2px 0; }
+.rel-prof { font-weight: 800; color: #b23a1f; margin: 0; font-size: 1.05rem; }
+.rel-esc { margin: 0; color: #555; font-size: .9rem; }
+.rel-id { border-collapse: collapse; margin: 8px 0 14px; width: 100%; }
+.rel-id th { text-align: left; width: 120px; color: #555; padding: 3px 8px 3px 0; }
+.rel-id td { padding: 3px 0; font-weight: 600; }
+.rel-doc h3 { margin: 18px 0 8px; color: #1d2433; break-after: avoid; page-break-after: avoid; }
+.rel-como p { margin: 4px 0; line-height: 1.45; }
+.rel-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; }
+.rel-cards div { border: 1px solid #ddd; border-radius: 10px; padding: 8px 10px; background: #fafafa; }
+.rel-cards b { display: block; font-size: 1.35rem; color: #b23a1f; }
+.rel-cards span { font-size: .85rem; color: #444; }
+.rel-barra { height: 14px; background: #c9ced6; border-radius: 7px; overflow: hidden; margin-top: 10px; }
+.rel-barra i { display: block; height: 100%; background: #2f9e44; }
+.rel-leg { font-size: .8rem; color: #555; margin: 4px 0 0; }
+.rel-dia { border: 1px solid #ddd; border-radius: 10px; padding: 10px 14px; margin: 10px 0; break-inside: avoid; page-break-inside: avoid; }
+.rel-dia h3 { margin: 0 0 6px; font-size: 1.05rem; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.rel-dia p { margin: 4px 0; }
+.rel-pres { font-size: .82rem; font-weight: 700; padding: 2px 8px; border-radius: 20px; background: #eee; }
+.rel-p-P { background: #d3f9d8; color: #1b6e2c; } .rel-p-F { background: #ffe3e3; color: #a51d1d; } .rel-p-J { background: #fff3bf; color: #7a5b00; } .rel-p-S { background: #e7f5ff; color: #1c5d99; }
+.rel-assunto { background: #f6f8fb; border-left: 4px solid #e2583e; padding: 4px 10px; margin: 6px 0; }
+.rel-tab { width: 100%; border-collapse: collapse; font-size: .85rem; }
+.rel-tab th, .rel-tab td { border: 1px solid #ddd; padding: 4px 6px; text-align: left; vertical-align: top; }
+.rel-tab th { background: #f1f3f5; }
+.rel-reg { font-size: .9rem; color: #333; }
+.rel-obs { margin-top: 6px; }
+.rel-obs-txt { white-space: pre-wrap; padding: 4px 0; }
+.rel-obs textarea { width: 100%; box-sizing: border-box; font: inherit; margin: 4px 0; }
+.rel-obs .rel-obs-txt { display: none; }
+.rel-nota { font-size: .78rem; color: #555; margin-top: 14px; }
+.rel-ass { margin-top: 36px; text-align: center; }
+.rel-linha { width: 260px; border-top: 1px solid #333; margin: 0 auto 4px; }
+#rel-print { display: none; }
+@media print {
+  @page { size: A4; margin: 12mm; }
+  body.rel-imprimindo > *:not(#rel-print) { display: none !important; }
+  body.rel-imprimindo #rel-print { display: block; }
+  #rel-print .rel-doc { box-shadow: none; margin: 0; padding: 0; max-width: none; }
+  #rel-print .rel-tela { display: none !important; }
+  #rel-print .rel-obs .rel-obs-txt { display: block; }
+  #rel-print .rel-obs-txt[data-vazio] { color: #999; }
+  #rel-print, #rel-print * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
