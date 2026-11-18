@@ -224,3 +224,4 @@ Apostila no portal + ilustrada (PDF só para quem estuda em casa) · guia do pro
 ## Aula especial "Meu papel de parede" também no 5º ano (18/11/2026)
 - A aula especial vale agora do 5º ao 9º ano: o gerador (`ferramentas/aula_especial/gerar.py`) e os desenhos (`i_papel.py`) já incluem o 5º ano, junto com o catálogo, as explicações do professor e o vídeo.
 - O modelo `ferramentas/aula_especial/papel-de-parede.md` foi atualizado com os verbetes que tinham sido acrescentados direto nas fontes (Navegador, Pasta). Daqui para a frente, toda mudança na aula especial é feita no modelo, e depois o gerador é rodado de novo.
+- **Lição (18/11/2026):** ao mudar um arquivo carregado direto no `index.html` (como `dados/catalogo.js` ou `dados/explicacoes-prof.js`), trocar também o `?v=` dele. Se não trocar, o navegador dos alunos continua com a versão antiga guardada (foi o que escondeu a aula especial do 5º ano).
