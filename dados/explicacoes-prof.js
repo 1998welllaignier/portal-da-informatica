@@ -163,8 +163,8 @@
   } };
 
   /* ===== 2027 · 6º ano · 1º bimestre ===== */
-  /* ⭐ Aula especial: Meu papel de parede (a mesma nas 4 séries) */
-  ["6", "7", "8", "9"].forEach(sr => { E["informatica-" + sr + "ano-papel-de-parede"] = { vf: {
+  /* ⭐ Aula especial: Meu papel de parede (a mesma nas 5 séries, do 5º ao 9º) */
+  ["5", "6", "7", "8", "9"].forEach(sr => { E["informatica-" + sr + "ano-papel-de-parede"] = { vf: {
     ae: ["V: no Windows 11 o Iniciar fica no centro (dá para mudar para a esquerda; para ter certeza: Configurações › Sistema › Sobre ou winver).", "F: o papel de parede do Windows 10 e do Windows 11 comum não aceita .webp; converta para .png ou .jpg.", "V: winver (⊞ + R › winver › Enter) abre a janela Sobre o Windows com a versão.", "V: o Paint abre .webp e, em Arquivo › Salvar como, salva como Imagem PNG ou JPEG.", "F: renomear não converte; por dentro continua .webp. Converter é salvar de novo em outro formato."]
   } }; });
   E["informatica-9ano-2027-1bim-trilha"] = { vf: {

@@ -220,3 +220,7 @@ Apostila no portal + ilustrada (PDF só para quem estuda em casa) · guia do pro
 - Nos avisos do painel do professor, feriados, pontos facultativos e datas comemorativas que estão chegando (até 7 dias antes) voltam todo dia com a contagem nova ("Daqui a 4 dias", "Daqui a 3 dias", "Amanhã"…), mesmo que o professor tenha clicado em "✔ Já li" no dia anterior.
 - O "Já li" desses avisos vale só para o dia em que foi clicado. No próprio dia da data aparece o aviso "Hoje é…".
 - Os outros avisos (prazos, tema, SIGE, recados) continuam como antes.
+
+## Aula especial "Meu papel de parede" também no 5º ano (18/11/2026)
+- A aula especial vale agora do 5º ao 9º ano: o gerador (`ferramentas/aula_especial/gerar.py`) e os desenhos (`i_papel.py`) já incluem o 5º ano, junto com o catálogo, as explicações do professor e o vídeo.
+- O modelo `ferramentas/aula_especial/papel-de-parede.md` foi atualizado com os verbetes que tinham sido acrescentados direto nas fontes (Navegador, Pasta). Daqui para a frente, toda mudança na aula especial é feita no modelo, e depois o gerador é rodado de novo.

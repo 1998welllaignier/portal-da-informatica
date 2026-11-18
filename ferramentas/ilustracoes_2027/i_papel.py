@@ -80,5 +80,5 @@ fig("Passo O que fazer 1 No Explorador de Arquivos", "O caminho da conversão: a
 ICONES = {"ae": "🖼️"}
 
 if __name__ == "__main__":
-    for s in "6789":
+    for s in "56789":
         print(gerar(f"informatica-{s}ano-papel-de-parede", F, ICONES))

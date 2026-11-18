@@ -31,7 +31,7 @@
     "informatica-7ano-2027-1bim": { m1: "-Y5vRictuKA" },   // subido em 17/11/2026 (privado até o professor revisar)
     "informatica-6ano-2027-1bim": { m1: ["9sPLQiecnHc", { id: "MGRoBzcxwX8", nome: "⌨️ Especial Teclado", sub: "a caça ao tesouro na Cidade Teclado, 8 min" }], m2: "oLgO5Zz0Bbg", m3: "Z7urMeervDQ" },
     // ⭐ Aula especial "Meu papel de parede" (o mesmo vídeo nas 4 séries)
-    "informatica-6ano-papel-de-parede": { ae: "Owm5cWrejQU" }, "informatica-7ano-papel-de-parede": { ae: "Owm5cWrejQU" },
+    "informatica-5ano-papel-de-parede": { ae: "Owm5cWrejQU" }, "informatica-6ano-papel-de-parede": { ae: "Owm5cWrejQU" }, "informatica-7ano-papel-de-parede": { ae: "Owm5cWrejQU" },
     "informatica-8ano-papel-de-parede": { ae: "Owm5cWrejQU" }, "informatica-9ano-papel-de-parede": { ae: "Owm5cWrejQU" }
   };
   const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));

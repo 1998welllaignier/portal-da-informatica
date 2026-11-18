@@ -111,6 +111,9 @@ PORTAL.catalogo = {
       titulo: "Informática — 9º ano — 1º bimestre de 2027 · Trilha Passo a Passo", modo: "individual", extras: ["m7", "m8"],
       trilha: true, oculta: true, base: "informatica-9ano-2027-1bim" },
     /* ⭐ Aula especial (vale em qualquer bimestre: periodo "sempre"; especial: true não vira a apostila da turma no painel) */
+    { id: "informatica-5ano-papel-de-parede", serie: "5", disciplina: "informatica", unidade: "⭐ Aula especial", periodo: "sempre", especial: true,
+      titulo: "Aula especial — Meu papel de parede", modo: "individual" },
+    /* ⭐ Aula especial (vale em qualquer bimestre: periodo "sempre"; especial: true não vira a apostila da turma no painel) */
     { id: "informatica-6ano-papel-de-parede", serie: "6", disciplina: "informatica", unidade: "⭐ Aula especial", periodo: "sempre", especial: true,
       titulo: "Aula especial — Meu papel de parede", modo: "individual" },
     /* ⭐ Aula especial (vale em qualquer bimestre: periodo "sempre"; especial: true não vira a apostila da turma no painel) */
