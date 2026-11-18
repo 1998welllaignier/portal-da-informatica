@@ -23,6 +23,13 @@ Detalhes técnicos: `AGENTS.md` (checklist do bimestre), `docs/PADRAO-ATIVIDADES
 
 > 👀 **Regra de ouro 3 — Ver com os olhos do aluno (17/11/2026)**
 > Toda explicação tem que **chegar ao aluno**: linguagem que ele entende, ajustada à série (e à idade que ela indica: 6º ano ≈ 11 anos, 7º ≈ 12, 8º ≈ 13, 9º ≈ 14; 5º ≈ 10). Antes de publicar, ler o material **como o aluno leria**: "um aluno dessa idade entende sozinho? Que palavra ele não conhece? Que pergunta ele faria?". Nunca deixar nada por alto nem pensar "assim já está bom": se pode ficar mais claro, fica (exemplo do dia a dia, comparação, desenho com setas, frase mais curta).
+>
+> 🧭 **Como isso se aplica: informação em camadas, sem entupir (17/11/2026, nas palavras do professor)**
+> "Não deixar nada por alto" **não** é encher o aluno de texto. É **dar a oportunidade de saber**, inclusive o que ele nem sabia que poderia querer saber, porque nem todo aluno tem a iniciativa de pesquisar uma palavra que não conhece. Para cada informação, pesar onde ela aparece:
+> 1. **No texto, explícita:** o essencial para fazer a missão (curto, com exemplo e desenho).
+> 2. **Opcional, a um toque:** palavra com **pontilhado** (abre o significado), 📖 O que significa?, "🔌 Você sabia?", vídeo de curiosidade, ⭐ extra.
+> 3. **Fazendo:** simulador, jogo, o Bit mostrando.
+> Usar **todos** esses recursos e mudar de forma quando a necessidade pedir ("metamorfose ambulante", sem virar bagunça): nunca se prender a um tipo só. E nunca usar a camada opcional como desculpa para deixar de explicar o que é essencial.
 
 ---
 
