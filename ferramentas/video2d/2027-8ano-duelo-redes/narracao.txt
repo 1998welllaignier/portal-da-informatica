@@ -1,0 +1,27 @@
+Curiosidade da internet: o grande duelo do Wi-Fi! Dois vírgula quatro contra cinco gigahertz.
+
+O Léo abriu a lista de redes Wi-Fi no celular e levou um susto: tem a rede Casa do Léo e a rede Casa do Léo cinco gê. Cinco gê? Será que o roteador da casa dele tem a internet cinco gê do celular?
+
+Calma, Léo! Para descobrir, a gente vai transformar a sua casa num estádio. Bem-vindos ao duelo das redes!
+
+O roteador conversa com o celular por ondas de rádio, que a gente não consegue ver. O gigahertz mede quantas vezes essa onda vibra por segundo. Dois vírgula quatro gigahertz são dois bilhões e quatrocentos milhões de vibrações a cada segundo!
+
+Do lado esquerdo, a onda de dois vírgula quatro: vibra mais devagar, mas é forte, alcança mais longe e atravessa melhor as paredes. Do lado direito, a onda de cinco: vibra mais rápido e leva os dados com mais velocidade, mas se cansa mais depressa nas paredes.
+
+Primeiro round: na sala, pertinho do roteador. A onda de cinco dispara na frente! O vídeo carrega na hora, sem travar. Ponto para o cinco!
+
+Segundo round: no quarto lá do fundo, atrás de duas paredes. A onda de cinco bate na parede e vai perdendo a força. A de dois vírgula quatro passa e chega lá! Ponto para o dois vírgula quatro!
+
+Terceiro round: alguém ligou o micro-ondas! Ele trabalha numa frequência parecida com a de dois vírgula quatro e bagunça o sinal. E essa faixa já vive lotada: o Wi-Fi dos vizinhos e os fones Bluetooth também usam o dois vírgula quatro. Na faixa de cinco, tem muito mais espaço livre. Ponto para o cinco!
+
+Resultado: cada onda venceu no seu terreno! O cinco é o campeão de perto: é o mais rápido. O dois vírgula quatro é o campeão de longe: é o que vai mais longe. Por isso, muitos roteadores criam as duas redes ao mesmo tempo. São os roteadores de banda dupla.
+
+E aquele cinco gê no nome da rede, Léo? É só um apelido para dizer: esta é a rede de cinco gigahertz. O gê, ali, é de gigahertz. Não tem nada a ver com o cinco gê do celular!
+
+O cinco gê do celular é a quinta geração da internet móvel, que chega pelas antenas das operadoras espalhadas pela cidade. O um gê só fazia ligações. O dois gê trouxe as mensagens de texto. O três gê levou a internet para o celular. O quatro gê deixou os vídeos rápidos. E o cinco gê é ainda mais rápido e responde quase na hora.
+
+Resumindo: o Wi-Fi cinco gê é a rede de cinco gigahertz, que vem do roteador da sua casa. O cinco gê do celular é a quinta geração da internet móvel, que vem da antena da operadora. Um celular pode usar o Wi-Fi de cinco gigahertz e nem ter o cinco gê da operadora!
+
+Onde eu uso isso? Perto do roteador, para ver vídeo ou jogar, escolha a rede de cinco gigahertz. Longe do roteador, atrás de paredes, a de dois vírgula quatro costuma funcionar melhor. E, quando alguém falar em cinco gê, pergunte: é do Wi-Fi ou do celular?
+
+Agora, vá ao portal e continue a missão sobre a velocidade da internet. Até a próxima!

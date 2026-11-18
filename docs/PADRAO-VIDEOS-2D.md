@@ -4,6 +4,11 @@ Aprovado pelo professor em 09/11/2026 ("é disso que eu estou falando desde o co
 Ficou melhor que o 3D e gasta bem menos. **Todo vídeo novo de missão segue este padrão.**
 Modelo de referência: `ferramentas/video2d/modelo-cabo-submarino.html` (8º ano · Missão 2, cena do cabo submarino).
 
+## Regra nº 1: edutretenimento (pedido do professor em 18/11/2026)
+- Referência: o **Especial Teclado** do 6º ano (2027), em que o teclado vira a "Cidade Teclado", com bairros. O professor quer que, quando alguém pensar no Portal da Informática, venha à cabeça esse tipo de vídeo.
+- Não é copiar o "bairro": é o **jeito de abordar**. Transformar um assunto que costuma ser explicado de forma tradicional e maçante num "mundo" com regras próprias, personagens, humor e surpresa (cidade, estádio, viagem, caça ao tesouro…). A ferramenta principal é a **metáfora**: explicar o novo por meio de algo que o aluno já conhece.
+- O vídeo tem que ser prazeroso de ver e, ao mesmo tempo, rico em conhecimento verificado. O aluno aprende se divertindo, quase sem perceber (**edutretenimento**, *edutainment*; **aprendizagem lúdica**).
+
 ## O que faz o padrão
 - **Historinha com bonequinho**, no estilo "problema → solução": o aluno (bonequinho) tem uma dúvida, a câmera vai até onde a coisa acontece e a resposta aparece.
 - **Câmera que se mexe e entra nas coisas**: mergulho da superfície até o fundo do mar, câmera andando de lado, zoom que entra dentro do objeto (o cabo, o computador, o roteador…) e mostra o que tem lá dentro.

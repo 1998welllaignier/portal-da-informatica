@@ -38,4 +38,4 @@ _(nenhum: todos os áudios combinados chegaram)_
 - 2027 · 7º ano · 1º bim.: M1 `-Y5vRictuKA`, M2 `4Uu1LKUF-YY` (não listados desde 18/11/2026).
 
 ## ⏳ Prontos, ainda não postados
-_(nenhum)_
+- ⚔️ **8º ano · 2º bim. 2027 · Curiosidade (Velocidade da internet): O duelo das redes, 2,4 GHz × 5 GHz** (18/11/2026, narração Murilo, ~3 min): `ferramentas/video2d/2027-8ano-duelo-redes/`. Esperando a revisão do professor; depois sobe como privado/não listado na playlist "8º ano · 2º bimestre 2027" e entra na apostila quando o 2º bimestre de 2027 for produzido (missões F1 "Como a internet funciona" e E2 "Velocidade da internet").
