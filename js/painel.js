@@ -1888,6 +1888,13 @@
           <p class="ajuda">Dê o play aqui mesmo ou abra o player numa aba só dele (ocupa a tela toda, bom para projetar). Use o botão de tela cheia do player. Lembre da caixinha de som: os computadores dos alunos não têm áudio.</p>`;
         el.querySelector("#aula").before(box);
       });
+      // 📺 todos os vídeos da apostila (18/11/2026): o professor acha qualquer vídeo na hora, mesmo de outra missão
+      const todos = (P.videosMissao || {})[ap.base || ap.id] || {};
+      const itens = Object.entries(todos).flatMap(([m, v]) => (Array.isArray(v) ? v : [v]).filter(x => x && /^[\w-]{11}$/.test(x.id || x)).map((x, k) => ({ m, id: x.id || x, nome: x.nome || (k ? "Vídeo extra (passo a passo)" : "Vídeo") })));
+      if (itens.length) { const box = document.createElement("details"); box.className = "painel pp-video pp-video-todos";
+        box.innerHTML = `<summary><strong>📺 Todos os vídeos desta apostila</strong> (${itens.length}) · para abrir o vídeo de qualquer missão</summary>
+          <ul class="pp-video-lista">${itens.map(x => `<li><b>${esc(rotMis(C, x.m))}</b> · ${esc(x.nome)} — <a href="https://www.youtube-nocookie.com/embed/${x.id}?autoplay=1&rel=0&modestbranding=1" target="_blank" rel="noopener">▶️ Abrir o player</a></li>`).join("")}</ul>`;
+        el.querySelector("#aula").before(box); }
     } catch (e) { console.warn(e); }
     // 📣 avisos para o professor falar à turma (com a fala pronta); "✔ Já avisei" esconde só para esta turma
     try {
