@@ -47,6 +47,7 @@
     ]);
     const prog = progSn.docs.map(d => ({ id: d.id, ...d.data() }));
     const entrada = prog.find(p => p.tipo === "entrada") || {};
+    const casa = prog.find(p => p.tipo === "casa") || {};   // 🏠 estudo em casa: { sessoes: {dia: início}, missaoDia, videos: {mid: quando}, instrucoes }
     const aulas = {}; aulasSn.docs.forEach(d => { aulas[d.id] = d.data(); });
     const ano = String(new Date().getFullYear());
     const noPer = d => per === "ano" ? d.startsWith(ano) : per === "bim" ? (P.noPeriodo ? P.noPeriodo(d) : true) : d === per;
@@ -70,6 +71,7 @@
     Object.keys(aulas).forEach(d => d <= hoje && dias.add(d));
     Object.keys(entrada.dias || {}).forEach(d => dias.add(d));
     tarefas.forEach(x => dias.add(x.d));
+    Object.keys(casa.sessoes || {}).forEach(d => dias.add(d));
     if (t && t.aula && per !== "ano" && !/^\d{4}-/.test(per)) {
       const info = P.periodoInfo ? P.periodoInfo() : {};
       if (info.inicio) for (let x = new Date(info.inicio + "T12:00:00"); dia(x.getTime()) <= hoje && (!info.fim || dia(x.getTime()) <= info.fim); x.setDate(x.getDate() + 1)) if (x.getDay() === t.aula.dia) dias.add(dia(x.getTime()));
@@ -82,6 +84,7 @@
       const au = aulas[d] || {};
       if (au.ocorrencia && au.ocorrencia.tipo && au.ocorrencia.tipo !== "ninguem") return { v: "S", txt: "Não houve aula" + (U.OCORR[au.ocorrencia.tipo] ? " (" + U.OCORR[au.ocorrencia.tipo].replace(/^\S+\s/, "") + ")" : "") };
       const man = (au.presencas || {})[a.id];
+      if ((casa.sessoes || {})[d]) return { v: "P", txt: "🏠 Estudou em casa" };
       if (man) return { v: man, txt: { P: "Presente", F: "Faltou", J: "Falta justificada" }[man] || man, prof: true };
       if (entradasDe(d).length || tarefas.some(x => x.d === d)) return { v: "P", txt: "Presente (entrou no portal)" };
       if (a.emCasa) return { v: "J", txt: "Estuda em casa" };
@@ -115,7 +118,8 @@
       const mh = au.missaoHoje && au.missaoHoje.mid;
       const fim = r.tf.length ? Math.max(...r.tf.map(x => x.st.quando)) : null;
       const fimMin = fim != null ? new Date(fim).getHours() * 60 + new Date(fim).getMinutes() : null;
-      const sobra = iniAula != null && fimMin != null && new Date(fim).getDay() === t.aula.dia ? iniAula + AULA_MIN - fimMin : null;
+      const cIni = (casa.sessoes || {})[r.d] || null, cLim = (P.catalogo.casaMinutos || 120) * 60000;
+      const sobra = !cIni && iniAula != null && fimMin != null && new Date(fim).getDay() === t.aula.dia ? iniAula + AULA_MIN - fimMin : null;
       let ant = r.ent.length ? r.ent[0] : null;
       const linhas = r.tf.filter(x => !x.leitura).map(x => {
         const s = x.st, inicio = s.ini && s.ini <= s.quando ? s.ini : null, base = inicio || ant;
@@ -133,11 +137,26 @@
         return `<div class="rel-assunto"><p><b>${esc(m.titulo)}</b></p>${m.objetivo ? `<p><b>Objetivo:</b> ${m.objetivo}</p>` : ""}${bncc ? `<p><b>BNCC (Computação):</b> ${esc(bncc)}</p>` : ""}</div>`;
       }).join("");
       const obs = ((au.obsAlunos || {})[a.id]) || "";
+      // 🏠 estudo em casa (18/11/2026): início da sessão, vídeos vistos, quanto das 2 horas usou
+      let casaTxt = "";
+      if (cIni) {
+        const vids = Object.entries(casa.videos || {}).filter(([, ts]) => ts && dia(ts) === r.d).sort((x, y) => x[1] - y[1]);
+        const nomeM = mid => { const aidC = (r.tf.find(x => x.mid === mid) || {}).aid || baseAid; const m = missaoInfo(aidC, mid); return m ? m.titulo : mid; };
+        const md = (casa.missaoDia || {})[r.d];
+        casaTxt = `<div class="rel-casa"><p>🏠 <b>Estudo em casa:</b> começou a sessão às <b>${hhmm(cIni)}</b>${md ? ` · missão escolhida: <b>${esc(nomeM(md))}</b>` : ""}${casa.instrucoesEm && dia(casa.instrucoesEm) === r.d ? ` · assistiu ao vídeo de instruções às ${hhmm(casa.instrucoesEm)}` : ""}.</p>
+          ${vids.length ? `<p>🎬 Vídeo da missão assistido até o fim às ${vids.map(([mid, ts]) => `${hhmm(ts)} (${esc(nomeM(mid))})`).join(", ")}.</p>` : `<p>🎬 Não terminou o vídeo da missão neste dia.</p>`}
+          ${fim != null ? `<p>⏱️ Estudou <b>${dur(fim - cIni)}</b> até a última tarefa (a sessão vai até ${hhmm(cIni + cLim)}).</p>` : ""}</div>`;
+      }
+      // ⚠️ dificuldades: tarefas com 2 ou mais erros, dica ou resolução
+      const dif = r.tf.filter(x => !x.leitura && ((x.st.tentativas || 0) >= 2 || x.st.dicas || x.st.viuResolucao));
+      const difTxt = dif.length ? `<p class="rel-dif">⚠️ <b>Teve mais dificuldade em:</b> ${dif.map(x => `${esc(P.util.semTags(x.at.titulo || "").replace(/\s+/g, " "))} (${x.st.tentativas || 0} erro${(x.st.tentativas || 0) === 1 ? "" : "s"}${x.st.dicas ? ", " + x.st.dicas + " dica" + (x.st.dicas > 1 ? "s" : "") : ""}${x.st.viuResolucao ? ", viu a resolução" : ""})`).join("; ")}.</p>` : "";
       return `<section class="rel-dia">
         <h3>📅 ${dataBR(r.d)} (${semana(r.d)}) <span class="rel-pres rel-p-${r.pr.v}">${esc(r.pr.txt)}${r.pr.prof ? " · chamada do professor" : ""}</span></h3>
         ${r.ent.length ? `<p>🚪 <b>Entrou no portal às</b> ${r.ent.map(hhmm).join(", ")}${r.ent.length > 1 ? " (entrou mais de uma vez)" : ""}</p>` : ""}
+        ${casaTxt}
         ${assuntos}
         ${linhas ? `<div class="tabela-wrap"><table class="rel-tab"><thead><tr><th>Nível</th><th>Tarefa</th><th>Resultado</th><th>Começou</th><th>Terminou</th><th>Tempo</th><th>Erros</th><th>Dicas</th></tr></thead><tbody>${linhas}</tbody></table></div>` : (r.pr.v === "P" ? "<p>Nenhuma tarefa concluída neste dia.</p>" : "")}
+        ${difTxt}
         ${leituras ? `<p>📖 Leu ${leituras} parte${leituras > 1 ? "s" : ""} do texto da missão.</p>` : ""}
         ${fim != null ? `<p>🏁 <b>Última tarefa concluída às ${hhmm(fim)}</b>${sobra != null ? (sobra >= 0 ? ` · faltavam <b>${sobra} min</b> para o fim da aula (${t.aula.ini} + 1h15)` : ` · ${-sobra} min depois do horário da aula`) : ""}.</p>` : ""}
         ${String(au.registro || "").trim() ? `<p class="rel-reg"><b>O que a turma fez nesta aula (registro do professor):</b> ${esc(au.registro)}</p>` : ""}

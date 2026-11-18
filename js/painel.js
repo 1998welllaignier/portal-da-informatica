@@ -1505,6 +1505,45 @@
   /* 🔔 sininho (13/11/2026): abre os avisos de hoje a qualquer momento, sem sair e entrar de novo;
      mostra também os já lidos (apagadinhos) e o número dos que faltam ler */
   function contarSino(n) { const b = document.getElementById("pp-sino-n"); if (!b) return; b.hidden = !n; b.textContent = n > 9 ? "9+" : String(n || ""); }
+  /* 🏠 estudo em casa (18/11/2026): o que cada aluno que estuda em casa fez hoje (entrada, sessão, vídeo, tarefas, erros) */
+  async function casaHoje() {
+    const hoje = N.hoje(), hm = ms => new Date(ms).toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" }), dia = ms => { const d = new Date(ms); return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); };
+    const al = (await db().collection("alunos").where("emCasa", "==", true).get()).docs.map(d => ({ id: d.id, ...d.data() })).filter(a => a.ativo !== false);
+    return Promise.all(al.map(async a => {
+      const pg = (await db().collection("progresso").where("alunoId", "==", a.id).get()).docs.map(d => d.data());
+      const ent = pg.find(p => p.tipo === "entrada") || {}, cs = pg.find(p => p.tipo === "casa") || {};
+      const entradas = Object.keys((ent.entradas || {})[hoje] || {}).map(Number).sort((x, y) => x - y);
+      const ini = (cs.sessoes || {})[hoje] || 0, vid = Object.values(cs.videos || {}).filter(ts => ts && dia(ts) === hoje);
+      const tf = []; pg.filter(p => p.aid && p.mid).forEach(p => { let atv = {}; try { atv = JSON.parse(p.atv || "{}"); } catch (e) {} Object.values(atv).forEach(st => { if (st && st.status && st.quando && dia(st.quando) === hoje) tf.push(st); }); });
+      return { a, entradas, ini, vid, tf, hm, ultima: tf.length ? Math.max(...tf.map(x => x.quando)) : 0 };
+    })).then(l => l.filter(x => x.entradas.length || x.ini || x.tf.length));
+  }
+  function casaAviso(x) {
+    const { a, entradas, ini, vid, tf, hm, ultima } = x;
+    const certos = tf.filter(t => t.status === "certo").length, erros = tf.reduce((s, t) => s + (t.tentativas || 0), 0), dicas = tf.reduce((s, t) => s + (t.dicas || 0), 0);
+    const marca = Math.max(ultima, ini, entradas[entradas.length - 1] || 0);
+    return { id: "casa-" + a.id + "-" + marca, ic: "🏠", txt: `<b>${esc(a.nome)} estudou em casa hoje</b> (${esc(nomeTurma(a.turma))}): entrou às ${entradas.map(hm).join(", ") || "—"}${ini ? ` · sessão das ${hm(ini)}` : " · ainda não abriu tarefa"}${vid.length ? " · 🎬 viu o vídeo da missão" : ""} · <b>${tf.length} tarefa${tf.length === 1 ? "" : "s"}</b>${tf.length ? ` (${certos} sozinho, ${erros} erro${erros === 1 ? "" : "s"}, ${dicas} dica${dicas === 1 ? "" : "s"}), última às ${hm(ultima)}` : ""}. <a href="#/painel/relatorio/${esc(a.id)}/${N.hoje()}">📄 Ver o relatório</a>` };
+  }
+  /* 🔔 aviso na hora: quando um aluno que estuda em casa entra no portal ou termina uma tarefa, o painel avisa (toast + sininho) */
+  let casaOuvindo = false;
+  async function ouvirCasa() {
+    if (casaOuvindo) return; casaOuvindo = true;
+    try {
+      const al = (await db().collection("alunos").where("emCasa", "==", true).get()).docs.map(d => ({ id: d.id, ...d.data() })).filter(a => a.ativo !== false);
+      al.forEach(a => {
+        const visto = {};
+        ["_entrada", "_casa"].forEach(suf => db().collection("progresso").doc(a.id + suf).onSnapshot(sn => {
+          const d = sn.exists ? sn.data() : {}, hoje = N.hoje();
+          const marca = suf === "_entrada" ? Math.max(0, ...Object.keys((d.entradas || {})[hoje] || {}).map(Number)) : ((d.sessoes || {})[hoje] || 0);
+          if (visto[suf] !== undefined && marca && marca > visto[suf]) {
+            toast(suf === "_entrada" ? `🏠 ${a.nome} entrou no portal agora (estudo em casa).` : `🏠 ${a.nome} começou a sessão de estudo em casa.`);
+            mostrarAvisos({ contar: true }).catch(() => {});
+          }
+          visto[suf] = marca;
+        }, () => {}));
+      });
+    } catch (e) { console.warn("ouvir casa", e); }
+  }
   async function mostrarAvisos(op = {}) {
     if (op.manual && document.querySelector(".pp-avisos")) return;
     const hoje = N.hoje(), d0 = new Date(hoje + "T12:00:00"), ano = d0.getFullYear(), dif = d => Math.round((new Date(d + "T12:00:00") - d0) / 864e5);
@@ -1519,6 +1558,7 @@
     // recados das turmas que têm aula hoje
     try { await Promise.all(todasTurmas().filter(t => t.aula && t.aula.dia === d0.getDay()).map(async t => { const sn = await db().collection(DIARIO).doc(t.id).get();
       ((sn.exists && sn.data().lembretes) || []).forEach((l, i) => { if (!l.feito) lista.push({ id: "lemb-" + t.id + "-" + (l.criadoEm || i) + "-" + hoje, ic: "🟧", txt: `<b>${esc(nomeTurma(t.id))} (${t.aula.ini}):</b> ${esc(l.texto)}` }); }); })); } catch (e) {}
+    try { (await casaHoje()).forEach(x => lista.push(casaAviso(x))); } catch (e) { console.warn("casa hoje", e); }
     let lidos = {}; const ref = db().collection("prof").doc("avisos");
     try { const sn = await ref.get(); lidos = (sn.exists && sn.data().lidos) || {}; } catch (e) {}
     const chave = id => id.replace(/[^\w-]/g, "_").slice(0, 120);
@@ -1528,7 +1568,7 @@
     if (!mostrar.length) { if (op.manual) toast("🔔 Nenhum aviso para hoje."); return; }
     if (op.contar) return;
     return new Promise(fim => {
-      const dlg = h(`<dialog class="pp-dlg pp-dlg-larga pp-avisos"><form method="dialog"><h2>🔔 Datas de hoje · ${dataBR(hoje)}</h2>
+      const dlg = h(`<dialog class="pp-dlg pp-dlg-larga pp-avisos"><form method="dialog"><h2>🔔 Avisos de hoje · ${dataBR(hoje)}</h2>
         <ul class="pp-av-lista">${mostrar.map((a, i) => `<li data-i="${i}"${a.jaLido ? ' class="lido"' : ""}><span class="pp-av-ic">${a.ic}</span><span class="pp-av-txt">${a.txt}</span>${a.jaLido ? '<span class="pp-av-ok">✔ lido</span>' : `<button type="button" class="btn btn-sec btn-peq" data-lido="${i}" title="Não mostrar mais este aviso">✔ Já li</button>`}</li>`).join("")}</ul>
         <div class="row-btns"><button type="button" class="btn" id="av-todos">✔ OK, já li tudo</button><button class="btn btn-sec" value="x">⏰ Ver depois</button></div>
         <p class="ajuda">"Já li": o aviso não aparece mais sozinho (feriados e datas que estão chegando voltam no dia seguinte, com a contagem nova, até o dia). "Ver depois": aparece de novo da próxima vez que você entrar no painel. A qualquer momento, o 🔔 lá em cima abre estes avisos de novo.</p></form></dialog>`);
@@ -2204,6 +2244,7 @@
       await config().catch(() => null); // 🗓️ já sabe qual bimestre está em uso antes de abrir qualquer aba
       if (!ss.get("painel:pendencias")) { ss.set("painel:pendencias", "1"); setTimeout(() => perguntarInicio(u).finally(() => mostrarAvisos().finally(() => perguntarPendentes())), 900); }
       else setTimeout(() => { perguntarInicio(u); mostrarAvisos({ contar: true }).catch(() => {}); }, 900);
+      setTimeout(() => ouvirCasa(), 3000);
       try {
         if (sub === "aula") return await telaAula(u, arg, arg2);
         if (sub === "placar") return await telaPlacar(u, arg);

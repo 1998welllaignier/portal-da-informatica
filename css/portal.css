@@ -1908,6 +1908,9 @@ button.tb-av:hover .avatar-svg, button.tb-av:focus-visible .avatar-svg { transfo
 .rel-tab th { background: #f1f3f5; }
 .rel-reg { font-size: .9rem; color: #333; }
 .rel-obs { margin-top: 6px; }
+.rel-casa { background: #eef6ff; border-left: 4px solid #2f7de1; padding: 4px 10px; margin: 6px 0; border-radius: 6px; }
+.rel-casa p { margin: 3px 0; }
+.rel-dif { background: #fff6e5; border-left: 4px solid #e0a020; padding: 4px 10px; border-radius: 6px; }
 .rel-obs-txt { white-space: pre-wrap; padding: 4px 0; }
 .rel-obs textarea { width: 100%; box-sizing: border-box; font: inherit; margin: 4px 0; }
 .rel-obs .rel-obs-txt { display: none; }

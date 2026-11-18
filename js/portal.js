@@ -1417,7 +1417,7 @@
         <p class="ajuda">É só uma sugestão: você escolhe o seu ritmo, desde que termine tudo no prazo.</p></div>` : ""}
       <p class="row-btns" id="casa-ir" ${vid && !jaViu ? "hidden" : ""}><a class="btn btn-grande" href="#/apostilas">📚 Ir para as minhas missões →</a></p>
     </section>`);
-    if (vid && !jaViu) videoObrigatorio(document.getElementById("casa-inst"), vid, async () => { try { await P.trava.casaGravar(s, { instrucoes: versao }); } catch (e) {} document.getElementById("casa-ir").hidden = false; toast("✅ Instruções assistidas!"); }, m => { const x = document.getElementById("casa-imsg"); if (x) x.textContent = m; });
+    if (vid && !jaViu) videoObrigatorio(document.getElementById("casa-inst"), vid, async () => { try { await P.trava.casaGravar(s, { instrucoes: versao, instrucoesEm: Date.now() }); } catch (e) {} document.getElementById("casa-ir").hidden = false; toast("✅ Instruções assistidas!"); }, m => { const x = document.getElementById("casa-imsg"); if (x) x.textContent = m; });
   }
   /* 🏷️ missão sempre com número e título: "M2 · Listas e grafos no dia a dia" (pedido em 14/11/2026) */
   function rotMis(aid, mid) {
