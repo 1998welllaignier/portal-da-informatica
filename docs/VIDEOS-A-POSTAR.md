@@ -44,4 +44,4 @@ _(nenhum: todos os áudios combinados chegaram)_
 - 2027 · 7º ano · 1º bim.: M1 `-Y5vRictuKA` (privado, 17/11/2026).
 
 ## ⏳ Prontos, ainda não postados
-- 🏠 **Estudo em casa · Como entrar no portal e chegar à apostila** (18/11/2026, 2min18s, narração Murilo): `Estudo-em-casa-como-entrar-2026.mp4`. Sugestão: subir como **privado** e, depois da revisão do professor, ligar na tela 🏠 do estudo em casa e no site (botão "Sou aluno").
+- 🏠 **Estudo em casa · Como entrar no portal e chegar à apostila** (18/11/2026, versão 4, 2min42s, narração Murilo, regra semanal e 2 horas como máximo): `Estudo-em-casa-como-entrar-2026-v4.mp4`. Sugestão: subir como **privado** e, depois da revisão do professor, ligar na tela 🏠 do estudo em casa e no site (botão "Sou aluno").
