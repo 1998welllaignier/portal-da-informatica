@@ -35,7 +35,7 @@ const SEM_INSTRUCAO = new Set(["escolha", "relembre", "info", undefined]);      
 const INSTRUI_SOZINHO = new Set(["ordenar", "tabela", "classificar", "ligar", "pintura", "lista_ops", "busca_binaria", "bolha", "pc", "senha", "arvore", "blocos", "sim_pc", "cartaz", "rota", "robo"]);
 const PRATICOS = /^(sim_|baloes|lampadas|duplo_clique|explorador_pastas|rota|cabo|sinais|bits|medidor_senha|senha|grafo|grafo_montar|arvore|busca_binaria|bolha|adivinhe|sequencial|permissoes|caminho|cesar|cesar_livre|teclado|pc|robo|blocos|pintura|lista_ops|mensagens|cartaz)$/;
 const NUMERICA = /\b(quant[oa]s|tentativas|compara[cç][oõ]es|trocas|passos|vezes|posi[cç][aã]o|resultado|calcule|some|total)\b/i;
-const METODO = /(som[ae]|soma|divid|multiplic|conte |grau|posi[cç][aã]o 1|busca bin[aá]ria|busca sequencial|m[eé]todo|bolha|um por um|meio|metade|algoritmo|regra|f[oó]rmula|usando|com a |pela |pelo )/i;
+const METODO = /(dobr|tabela|lista |som[ae]|soma|divid|multiplic|conte |grau|posi[cç][aã]o 1|busca bin[aá]ria|busca sequencial|m[eé]todo|bolha|um por um|meio|metade|algoritmo|regra|f[oó]rmula|usando|com a |pela |pelo )/i;
 const CITA = /\b(tabela|imagem|figura|desenho|lista)\s+(abaixo|acima|ao lado|a seguir)\b/i;
 const avisos = []; const fichas = [];
 for (const [aid, ap] of Object.entries(A)) {
@@ -67,7 +67,7 @@ for (const [aid, ap] of Object.entries(A)) {
       }
       if (PRATICOS.test(tipo || "") && !["cabo", "teclado"].includes(tipo) && !at.robo && !at.opcional && ["pratica", "basico"].includes(nv)) add("PRATICA-SEM-ROBO", `tipo ${tipo} (${nv}) sem o 🤖 Bit`);
       // resposta numérica × explicação
-      if (at.explicacao) LIN.forEach(l => Array.isArray(l) && l.forEach(x => { if (x && typeof x === "object" && /^\d+$/.test(String(x.r || "")) && !new RegExp("(^|\\D)" + x.r + "(\\D|$)").test(txt(at.explicacao).replace(/(\d)\.(?=\d{3})/g, "$1"))) add("RESPOSTA×EXPL", `resposta ${x.r} não aparece na explicação`); }));
+      if (at.explicacao) LIN.forEach(l => Array.isArray(l) && l.forEach(x => { if (x && typeof x === "object" && /^\d+$/.test(String(x.r || "")) && +x.r >= 10 && /\d/.test(txt(at.explicacao)) && !new RegExp("(^|\\D)" + x.r + "(\\D|$)").test(txt(at.explicacao).replace(/(\d)\.(?=\d{3})/g, "$1"))) add("RESPOSTA×EXPL", `resposta ${x.r} não aparece na explicação`); }));
       if (CITA.test(tudo) && !at.linhas && !at.html && !at.lista && !at.valores && !at.itens && !at.pares) add("CITA-AUSENTE", `cita "${(tudo.match(CITA) || [])[0]}" que a tarefa não mostra`);
       if (tipo === "escolha") (at.perguntas || []).forEach((p, k) => {
         const op = p.opcoes || [];

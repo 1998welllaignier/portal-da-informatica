@@ -444,7 +444,7 @@ PORTAL.registrarAtividades("informatica-6ano-4bim", {
     ],
     turbo: [
       { tipo: "tabela", titulo: "O celular com 10 GB livres", robo: {"paineis": ["📱 Outro celular: 4 GB livres"], "passos": [{"fala": "Primeiro eu passo para MB:", "painel": 0, "linha": "4 GB ≈ 4000 MB"}, {"fala": "Músicas de 8 MB? Divido:", "painel": 0, "linha": "4000 ÷ 8 = 500 músicas", "marca": true}, {"fala": "Vídeos de 400 MB? Divido de novo:", "painel": 0, "linha": "4000 ÷ 400 = 10 vídeos", "marca": true}, {"fala": "O arquivo menor cabe <b>muito mais</b> vezes!", "painel": null, "espera": 2400}], "fim": "Agora é a sua vez: passe 10 GB para MB e divida! 💪"},
-        enunciado: "<p>Use: <strong>1 GB ≈ 1000 MB</strong>. Então <strong>10 GB ≈ 10 000 MB</strong>.</p>",
+        enunciado: "<p>Use: <strong>1 GB ≈ 1000 MB</strong>. Então <strong>10 GB ≈ 10 000 MB</strong>. Para saber quantos arquivos cabem, <strong>divida</strong> o espaço (em MB) pelo tamanho de um arquivo.</p>",
         colunas: ["Pergunta", "Resposta"],
         linhas: [["Quantos vídeos de 500 MB cabem em 10 GB?", { r: "20", tipo: "num", w: 5, dica: "10 000 ÷ 500" }],
           ["Quantas fotos de 5 MB cabem em 10 GB?", { r: "2000", tipo: "num", w: 6, dica: "10 000 ÷ 5" }],
@@ -512,7 +512,7 @@ PORTAL.registrarAtividades("informatica-6ano-4bim", {
         perguntas: [{ p: "Qual é o erro?", opcoes: ["A meia vem antes do tênis: os passos 1 e 2 estão trocados", "Falta repetir o passo 3", "Não tem erro"], certo: 0 }] },
       { tipo: "escolha", de: "m3", titulo: "Desafio M3 · Qual senha é mais forte?",
         perguntas: [{ p: "Qual senha é mais forte?", opcoes: ["Gat0#Azul72!", "123456", "joao2013"], certo: 0, why: "Mistura letras maiúsculas e minúsculas, números e símbolos." }] },
-      { tipo: "tabela", de: "m4", titulo: "Desafio M4 · Quanto cabe?", robo: {"paineis": ["🧮 Outro exemplo"], "passos": [{"fala": "Pen drive de 1 GB e fotos de 5 MB:", "painel": 0, "linha": "1 GB ≈ 1000 MB"}, {"fala": "Divido o espaço pelo tamanho de uma foto:", "painel": 0, "linha": "1000 ÷ 5 = 200 fotos", "marca": true, "espera": 2400}], "fim": "Agora é a sua vez: faça a conta com as músicas de 4 MB! 💪"},
+      { tipo: "tabela", de: "m4", titulo: "Desafio M4 · Quanto cabe?", enunciado: "<p>Lembre: <strong>1 GB ≈ 1000 MB</strong>. Para saber quantos arquivos cabem, <strong>divida</strong> o espaço pelo tamanho de um arquivo (os dois em MB).</p>", robo: {"paineis": ["🧮 Outro exemplo"], "passos": [{"fala": "Pen drive de 1 GB e fotos de 5 MB:", "painel": 0, "linha": "1 GB ≈ 1000 MB"}, {"fala": "Divido o espaço pelo tamanho de uma foto:", "painel": 0, "linha": "1000 ÷ 5 = 200 fotos", "marca": true, "espera": 2400}], "fim": "Agora é a sua vez: faça a conta com as músicas de 4 MB! 💪"},
         linhas: [["Um pen drive de 1 GB (cerca de 1000 MB) guarda quantas músicas de 4 MB?", { r: "250", tipo: "num", w: 5, dica: "1000 ÷ 4" }]],
         explicacao: "1000 ÷ 4 = 250 músicas." }
     ],

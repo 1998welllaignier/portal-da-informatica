@@ -218,7 +218,7 @@
         explicacao: "A cada item compara com 9 (uma comparação); pos acompanha a posição; no 4º item a condição é verdadeira." }
     ],
     desafio: [
-      { tipo: "tabela", titulo: "Listas grandes", robo: {"paineis": ["🔎 Outra lista: 50 nomes"], "passos": [{"fala": "Na busca sequencial, se o meu nome é o <b>12º</b>, eu olho 12 nomes:", "painel": 0, "linha": "O 12º → 12 comparações"}, {"fala": "Se o nome <b>não está</b>, olho a lista toda. Esse é o <b>pior caso</b>:", "painel": 0, "linha": "Não está → 50 comparações", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: pense do mesmo jeito com as listas da tarefa! 💪"},
+      { tipo: "tabela", titulo: "Listas grandes", enunciado: "<p>Na <strong>busca sequencial</strong> (olhando um por um, desde o começo), quantas comparações são feitas em cada situação? Lembre: se o item não está na lista, é preciso olhar todos.</p>", robo: {"paineis": ["🔎 Outra lista: 50 nomes"], "passos": [{"fala": "Na busca sequencial, se o meu nome é o <b>12º</b>, eu olho 12 nomes:", "painel": 0, "linha": "O 12º → 12 comparações"}, {"fala": "Se o nome <b>não está</b>, olho a lista toda. Esse é o <b>pior caso</b>:", "painel": 0, "linha": "Não está → 50 comparações", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: pense do mesmo jeito com as listas da tarefa! 💪"},
         colunas: ["Situação", "Comparações"],
         linhas: [
           ["Lista de 500 nomes; o seu é o 320º", { r: "320", tipo: "num" }],
@@ -436,7 +436,7 @@
   /* ============ MISSÃO 7 — Extra: Ordenação por seleção ============ */
   m7: {
     pratica: [
-      { tipo: "tabela", titulo: "Mão na massa: ache o menor", robo: {"paineis": ["🔎 Outros exemplos"], "passos": [{"fala": "Olho todos os itens e guardo o menor que eu já vi:", "painel": 0, "linha": "6, 3, 8 → o menor é 3", "marca": true}, {"fala": "Com nomes, o “menor” é o que vem <b>primeiro no alfabeto</b>:", "painel": 0, "linha": "Téo, Lia, Rui → Lia", "marca": true, "espera": 2400}], "fim": "Agora é a sua vez: ache o menor de cada lista da tarefa! 💪"},
+      { tipo: "tabela", titulo: "Mão na massa: ache o menor", enunciado: "<p>Olhe cada lista e escreva o <strong>menor</strong> item (o mínimo). Nos nomes, o menor é o que vem primeiro na <strong>ordem alfabética</strong>.</p>", robo: {"paineis": ["🔎 Outros exemplos"], "passos": [{"fala": "Olho todos os itens e guardo o menor que eu já vi:", "painel": 0, "linha": "6, 3, 8 → o menor é 3", "marca": true}, {"fala": "Com nomes, o “menor” é o que vem <b>primeiro no alfabeto</b>:", "painel": 0, "linha": "Téo, Lia, Rui → Lia", "marca": true, "espera": 2400}], "fim": "Agora é a sua vez: ache o menor de cada lista da tarefa! 💪"},
         colunas: ["Lista", "Menor item (mínimo)"],
         linhas: [["7, 2, 9, 4", { r: "2", tipo: "num" }], ["15, 8, 23, 11", { r: "8", tipo: "num" }], ["Caio, Ana, Bia (alfabético)", { r: "Ana" }]],
         explicacao: "O mínimo é o menor valor (ou o primeiro em ordem alfabética). A seleção começa sempre achando o mínimo." }

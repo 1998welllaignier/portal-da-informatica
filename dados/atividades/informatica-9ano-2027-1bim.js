@@ -179,7 +179,7 @@
           { t: "É legal?", c: "R", why: "Opinião, não tem resposta clara." },
           { t: "Pesa mais de 10 kg?", c: "B", why: "Dá para medir." }],
         explicacao: "Boa pergunta tem resposta clara (sim ou não) e divide as opções. Opinião não serve." },
-      { tipo: "tabela", titulo: "Quantas opções cabem?", robo: {"paineis": ["❓ O jeito de pensar"], "passos": [{"fala": "Cada pergunta de sim ou não <b>divide</b> as opções em 2 grupos. Então cada pergunta a mais <b>dobra</b> o que dá para separar.", "painel": 0, "linha": "Cada pergunta: × 2"}, {"fala": "Exemplo com 5 perguntas:", "painel": 0, "linha": "2 × 2 × 2 × 2 × 2 = 32 opções", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: dobre para 1, 2, 3 e 4 perguntas! 💪"},
+      { tipo: "tabela", titulo: "Quantas opções cabem?", enunciado: "<p>Numa árvore de decisão, cada pergunta de <strong>sim ou não</strong> divide as opções em <strong>2 grupos</strong>. Com 1 pergunta, dá para separar 2 opções. Cada pergunta a mais <strong>dobra</strong> o número de opções. Complete a tabela.</p>", robo: {"paineis": ["❓ O jeito de pensar"], "passos": [{"fala": "Cada pergunta de sim ou não <b>divide</b> as opções em 2 grupos. Então cada pergunta a mais <b>dobra</b> o que dá para separar.", "painel": 0, "linha": "Cada pergunta: × 2"}, {"fala": "Exemplo com 5 perguntas:", "painel": 0, "linha": "2 × 2 × 2 × 2 × 2 = 32 opções", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: dobre para 1, 2, 3 e 4 perguntas! 💪"},
         colunas: ["Perguntas de sim ou não", "Opções que dá para separar"],
         linhas: [["1", { r: "2", tipo: "num" }], ["2", { r: "4", tipo: "num" }], ["3", { r: "8", tipo: "num" }], ["4", { r: "16", tipo: "num" }]],
         explicacao: "Cada pergunta a mais dobra as opções: 2, 4, 8, 16." }
@@ -196,7 +196,7 @@
         explicacao: "Não → febre há mais de 3 dias? sim → 🟡. A árvore tem 3 folhas. O caso grave decide logo na 1ª pergunta: a árvore não precisa ser simétrica." }
     ],
     turbo: [
-      { tipo: "tabela", titulo: "Quantas perguntas?", robo: {"paineis": ["❓ Outro exemplo: 8 opções"], "passos": [{"fala": "A cada pergunta, as opções caem pela <b>metade</b>. Escrevo até sobrar 1:", "painel": 0, "linha": "8 → 4 → 2 → 1"}, {"fala": "Conto as setas: são as perguntas.", "painel": 0, "linha": "8 opções → 3 perguntas", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: faça com 16, 32 e 1.000! 💪"},
+      { tipo: "tabela", titulo: "Quantas perguntas?", enunciado: "<p>Agora é o contrário: quantas perguntas de sim ou não, <strong>no mínimo</strong>, para achar 1 opção entre todas? Lembre: cada pergunta dobra (2, 4, 8, 16, 32…). Procure o primeiro número da sequência que chega ao total de opções.</p>", robo: {"paineis": ["❓ Outro exemplo: 8 opções"], "passos": [{"fala": "A cada pergunta, as opções caem pela <b>metade</b>. Escrevo até sobrar 1:", "painel": 0, "linha": "8 → 4 → 2 → 1"}, {"fala": "Conto as setas: são as perguntas.", "painel": 0, "linha": "8 opções → 3 perguntas", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: faça com 16, 32 e 1.000! 💪"},
         colunas: ["Opções", "Perguntas de sim ou não, no mínimo"],
         linhas: [["16 animais", { r: "4", tipo: "num" }], ["32 objetos", { r: "5", tipo: "num" }], ["1.000 palavras", { r: "10", tipo: "num", dica: "2 elevado a 10 = 1.024." }]],
         explicacao: "Cada pergunta dobra: 4 perguntas → 16; 5 → 32; 10 → 1.024. É a mesma ideia da busca binária." }
