@@ -1405,7 +1405,7 @@
       ${vid ? `<div class="painel"><h2>🎬 Como estudar em casa</h2>${jaViu ? `<details><summary class="btn btn-sec">🎬 Rever as instruções</summary><div class="casa-player"><iframe src="https://www.youtube-nocookie.com/embed/${esc(vid)}?rel=0&playsinline=1" title="Como estudar em casa" allowfullscreen></iframe></div></details>` : `<p>Assista até o fim (pode pausar, mas não pular). Depois, as suas missões abrem.</p><div class="casa-player"><div id="casa-inst"></div></div><p class="ajuda" id="casa-imsg"></p>`}</div>` : ""}
       <div class="painel" ${vid ? "hidden" : ""}><h2>📋 Como funciona</h2><ol class="casa-passos">
         <li><b>🔑 Seu código</b>: são os 4 números que você pega com o professor na sala de informática, no dia da sua aula regular. Anote e guarde.</li>
-        <li><b>⏱️ Uma missão por dia, até ${horas} horas</b>: o cronômetro começa quando você abre a primeira tarefa do dia e fica no canto da tela. Nesse dia você faz só essa missão: se terminar antes, a próxima fica para outro dia. Quando o tempo acaba, as tarefas fecham. Você pode entrar e ler os textos quando quiser. Tudo o que fez fica salvo.</li>
+        <li><b>⏱️ Uma missão por dia, com no máximo ${horas} horas</b>: você <b>não precisa</b> ficar ${horas} horas estudando. Esse é só o tempo máximo, se você precisar, para terminar as tarefas do dia. O cronômetro começa quando você abre a primeira tarefa do dia e fica no canto da tela. Nesse dia você faz só essa missão: se terminar antes, a próxima fica para outro dia. Quando o tempo acaba, as tarefas fecham. Você pode entrar e ler os textos quando quiser. Tudo o que fez fica salvo.</li>
         <li><b>🎬 Vídeo primeiro</b>: em cada missão, assista ao vídeo até o fim (pode pausar, mas não pular). Só depois as tarefas abrem. Use o som do celular ou um fone.</li>
         <li><b>🧭 Uma etapa de cada vez</b>: resolva cada tarefa e toque em <b>✔ Verificar</b>. A próxima etapa abre quando você termina a anterior.</li>
         <li><b>🟢 Básico = visto</b>: terminando o Básico de uma missão, você ganha o visto dela. Desafio e Turbo dão pontos extras.</li>
@@ -1435,7 +1435,7 @@
       const r = fim - Date.now();
       if (r <= 0) { clearInterval(casaTimer); el.remove(); toast("⏰ Seu tempo de estudo de hoje acabou."); rota(); return; }
       const hh = Math.floor(r / 3600000), mm = Math.floor(r / 60000) % 60, sg = Math.floor(r / 1000) % 60;
-      el.innerHTML = `⏱️ <b>${hh}:${String(mm).padStart(2, "0")}:${String(sg).padStart(2, "0")}</b><small>para estudar hoje</small>`;
+      el.innerHTML = `⏱️ <b>${hh}:${String(mm).padStart(2, "0")}:${String(sg).padStart(2, "0")}</b><small>tempo máximo que resta hoje</small>`;
       el.classList.toggle("pouco", r < 10 * 60000);
     };
     tic(); casaTimer = setInterval(tic, 1000);

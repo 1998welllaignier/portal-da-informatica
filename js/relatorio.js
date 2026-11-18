@@ -119,7 +119,12 @@
       const fim = r.tf.length ? Math.max(...r.tf.map(x => x.st.quando)) : null;
       const fimMin = fim != null ? new Date(fim).getHours() * 60 + new Date(fim).getMinutes() : null;
       const cIni = (casa.sessoes || {})[r.d] || null, cLim = (P.catalogo.casaMinutos || 120) * 60000;
-      const sobra = !cIni && iniAula != null && fimMin != null && new Date(fim).getDay() === t.aula.dia ? iniAula + AULA_MIN - fimMin : null;
+      // 🏫 quem frequenta a aula de outra turma: vale o horário da aula que estava acontecendo (18/11/2026)
+      const aulasDia = [t, a.outraTurma && P.turma(a.outraTurma)].filter(x => x && x.aula && x.aula.ini && fim != null && new Date(fim).getDay() === x.aula.dia);
+      const ref0 = r.ent.length ? r.ent[0] : (r.tf.length ? r.tf[0].st.quando : null), refMin = ref0 != null ? new Date(ref0).getHours() * 60 + new Date(ref0).getMinutes() : null;
+      const tAulaDia = aulasDia.sort((x, y) => Math.abs(minutos(x.aula.ini) - refMin) - Math.abs(minutos(y.aula.ini) - refMin))[0];
+      const iniDia = tAulaDia ? minutos(tAulaDia.aula.ini) : null;
+      const sobra = !cIni && iniDia != null && fimMin != null ? iniDia + AULA_MIN - fimMin : null;
       let ant = r.ent.length ? r.ent[0] : null;
       const linhas = r.tf.filter(x => !x.leitura).map(x => {
         const s = x.st, inicio = s.ini && s.ini <= s.quando ? s.ini : null, base = inicio || ant;
@@ -158,7 +163,7 @@
         ${linhas ? `<div class="tabela-wrap"><table class="rel-tab"><thead><tr><th>Nível</th><th>Tarefa</th><th>Resultado</th><th>Começou</th><th>Terminou</th><th>Tempo</th><th>Erros</th><th>Dicas</th></tr></thead><tbody>${linhas}</tbody></table></div>` : (r.pr.v === "P" ? "<p>Nenhuma tarefa concluída neste dia.</p>" : "")}
         ${difTxt}
         ${leituras ? `<p>📖 Leu ${leituras} parte${leituras > 1 ? "s" : ""} do texto da missão.</p>` : ""}
-        ${fim != null ? `<p>🏁 <b>Última tarefa concluída às ${hhmm(fim)}</b>${sobra != null ? (sobra >= 0 ? ` · faltavam <b>${sobra} min</b> para o fim da aula (${t.aula.ini} + 1h15)` : ` · ${-sobra} min depois do horário da aula`) : ""}.</p>` : ""}
+        ${fim != null ? `<p>🏁 <b>Última tarefa concluída às ${hhmm(fim)}</b>${sobra != null ? (sobra >= 0 ? ` · faltavam <b>${sobra} min</b> para o fim da aula (${tAulaDia.aula.ini} + 1h15${tAulaDia !== t ? ", aula do " + esc(U.nomeTurma(tAulaDia.id)) : ""})` : ` · ${-sobra} min depois do fim da aula (${tAulaDia.aula.ini} + 1h15${tAulaDia !== t ? ", aula do " + esc(U.nomeTurma(tAulaDia.id)) : ""})`) : ""}.</p>` : ""}
         ${String(au.registro || "").trim() ? `<p class="rel-reg"><b>O que a turma fez nesta aula (registro do professor):</b> ${esc(au.registro)}</p>` : ""}
         <div class="rel-obs"><b>👨‍🏫 Observações do professor sobre o aluno nesta aula:</b>
           <div class="rel-obs-txt" ${obs ? "" : "data-vazio"}>${obs ? esc(obs) : "—"}</div>
@@ -183,7 +188,7 @@
           <p class="rel-esc">${esc(ESCOLA)}</p></div></header>
         <table class="rel-id"><tbody>
           <tr><th>Aluno</th><td>${esc(a.nome)}</td></tr>
-          <tr><th>Turma</th><td>${esc(t ? (U.nomeTurma(t.id).includes(t.serie.nome) ? U.nomeTurma(t.id) : t.serie.nome + " · " + U.nomeTurma(t.id)) : a.turma)}${t && t.aula ? ` · aula às ${SEM[t.aula.dia]}s, ${t.aula.ini} (1h15)` : ""}</td></tr>
+          <tr><th>Turma</th><td>${esc(t ? (U.nomeTurma(t.id).includes(t.serie.nome) ? U.nomeTurma(t.id) : t.serie.nome + " · " + U.nomeTurma(t.id)) : a.turma)}${t && t.aula ? ` · aula às ${SEM[t.aula.dia].replace("-feira", "s-feiras").replace(/^(sábado|domingo)$/, "$1s")}, ${t.aula.ini} (1h15)${a.outraTurma && P.turma(a.outraTurma) ? ` · também frequenta a aula do ${U.nomeTurma(a.outraTurma)}` : ""}` : ""}</td></tr>
           <tr><th>Período</th><td>${per === "ano" ? "Ano todo de " + ano : per === "bim" ? ((P.periodoInfo && P.periodoInfo().nome) || "Bimestre em uso") : "Aula de " + dataBR(per)}</td></tr>
           <tr><th>Gerado em</th><td>${dataBR(hoje)}, às ${hhmm(Date.now())}</td></tr></tbody></table>
         <section class="rel-como"><h3>💻 Como o Portal da Informática funciona</h3>
