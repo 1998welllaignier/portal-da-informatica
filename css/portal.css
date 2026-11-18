@@ -1925,3 +1925,5 @@ button.tb-av:hover .avatar-svg, button.tb-av:focus-visible .avatar-svg { transfo
   #rel-print .rel-obs-txt[data-vazio] { color: #999; }
   #rel-print, #rel-print * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
 }
+/* 🏫 aluno de outra turma participando desta aula (painel ao vivo, 18/11/2026) */
+.pv-outra { display: inline-block; font-size: .75rem; font-weight: 700; background: #e7f5ff; color: #1c5d99; border-radius: 12px; padding: 1px 8px; margin-left: 4px; white-space: nowrap; }

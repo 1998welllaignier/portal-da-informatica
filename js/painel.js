@@ -96,6 +96,27 @@
     const q = await db().collection("progresso").where("turma", "==", tid).get();
     return q.docs.map(d => ({ id: d.id, ...d.data() }));
   }
+  /* 👥 Quem participa da aula desta turma AGORA (18/11/2026): os alunos dela + os marcados "🏫 frequenta a aula desta turma"
+     + os da turma da mesma série iniciada junto (👥 aula dupla). Vale para o 📺 painel ao vivo, o 🏆 placar e o pódio.
+     A presença, o diário e as notas continuam cada um na sua turma. */
+  async function participantes(t) {
+    const hoje = N.hoje();
+    const [proprios, visit, hj] = await Promise.all([alunosDaTurma(t.id),
+      db().collection("alunos").where("outraTurma", "==", t.id).get().then(q => q.docs.map(d => ({ id: d.id, ...d.data() }))).catch(() => []),
+      db().collection("config").doc("hoje_" + t.id).get().catch(() => null)]);
+    const hd = hj && hj.exists ? hj.data() : {};
+    const juntas = hd.dia === hoje ? (hd.junto || []).filter(id => { const x = todasTurmas().find(y => y.id === id); return x && x.id !== t.id && x.serie.id === t.serie.id; }) : [];
+    const deJuntas = (await Promise.all(juntas.map(id => alunosDaTurma(id).catch(() => [])))).flat();
+    const m = new Map(); [...proprios, ...deJuntas, ...visit].forEach(a => { if (!m.has(a.id)) m.set(a.id, a); });
+    const alunos = [...m.values()].filter(a => a.ativo !== false && !a.teste).sort((a, b) => a.nome.localeCompare(b.nome, "pt-BR"));
+    return { alunos, turmasProg: [...new Set([t.id, ...alunos.map(a => a.turma)])] };
+  }
+  async function lerProg(turmaIds) { return (await Promise.all(turmaIds.map(id => progressoDaTurma(id)))).flat(); }
+  function ouvirProg(turmaIds, cb, onErr) {
+    const por = {}; const uns = turmaIds.map(id => db().collection("progresso").where("turma", "==", id).onSnapshot(q => { por[id] = q.docs.map(d => ({ id: d.id, ...d.data() })); cb(Object.values(por).flat()); }, onErr));
+    return () => uns.forEach(u => { try { u(); } catch (e) {} });
+  }
+  const tagTurma = (a, t) => a.turma && a.turma !== t.id ? ` <span class="pv-outra" title="Aluno de outra turma participando desta aula">🏫 ${esc(nomeTurma(a.turma))}</span>` : "";
   async function codigosUsados(tid) {
     const q = await db().collection("acessos").where("turma", "==", tid).get();
     return new Set(q.docs.map(d => d.id.split("_").pop()));
@@ -360,7 +381,7 @@
     window.addEventListener("hashchange", function sai() { document.body.classList.remove("modo-placar"); window.removeEventListener("hashchange", sai); });
     await carregarSerie(t);
     const hj = await missaoDeHoje(t), C = hj.C; let mid = hj.mid; const missao = C.missoes.find(x => x.id === mid) || {};
-    const alunos = (await alunosDaTurma(t.id)).filter(a => a.ativo !== false && !a.teste);
+    const PART = await participantes(t), alunos = PART.alunos;   // 👥 todos que participam desta aula (18/11/2026)
     const DSEM = ["domingo", "segunda", "terça", "quarta", "quinta", "sexta", "sábado"], MESES = ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"];
     const dataHoje = () => { const d = new Date(N.hoje() + "T12:00:00"); return `${DSEM[d.getDay()]}, ${d.getDate()} de ${MESES[d.getMonth()]} de ${d.getFullYear()}`; };
     const horaAgora = () => new Date().toLocaleTimeString("pt-BR", { timeZone: "America/Sao_Paulo", hour: "2-digit", minute: "2-digit" });
@@ -412,7 +433,7 @@
     botaoFinalizar(el.querySelector("#pl-fim"), t.id);
     const ivFim = setInterval(() => { if (!document.body.contains(el)) { clearInterval(ivFim); return; } botaoFinalizar(el.querySelector("#pl-fim"), t.id); }, 30000);
     el.querySelector("#pl-fim").onclick = async () => { if (await P.confirmar("Finalizar a aula agora? As tarefas fecham e o pódio aparece aqui e na tela dos alunos.")) finalizar(false); };
-    const u1 = db().collection("progresso").where("turma", "==", t.id).onSnapshot(async q => { prog = q.docs.map(d => ({ id: d.id, ...d.data() })); await carregarAids(prog); pintarPlacar(); }, err => toast("Placar: " + (err.message || err)));
+    const u1 = ouvirProg(PART.turmasProg, async lista => { prog = lista; await carregarAids(prog); pintarPlacar(); }, err => toast("Placar: " + (err.message || err)));
     let jaVi = 0;
     const u2 = db().collection("config").doc("podio_" + t.id).onSnapshot(sn => { const d = sn.exists ? sn.data() : null;
       pod = d && d.dia === N.hoje() ? d : null; if (pod && pod.finalizadaEm !== jaVi) { jaVi = pod.finalizadaEm; mostrarPodio(); } });
@@ -498,7 +519,7 @@
           // ⚡ mesmo número da barra "XP da missão" que o aluno vê; a posição e os pontos do placar (com bônus de rapidez) ficam embaixo (17/11/2026)
           let atvA = {}; try { atvA = p.atv ? (typeof p.atv === "string" ? JSON.parse(p.atv) : p.atv) : {}; } catch (e) {}
           const xm = pm ? P.podio.xpDoc(aid, mid, atvA) : 0;
-          return `<tr class="${okB ? "feito" : par ? "parado" : "fazendo"}"><td data-rot="Aluno">${ehRei.has(a.id) ? `<span class="pv-coroa" title="Rei da sala: 1º lugar">${P.podio.coroa(22)}</span>` : ""}${a.atipico ? "🧩 " : ""}${esc(a.nome)}${a.trilha ? " 👣" : ""}${saidas ? ` <span class="pv-tela" title="Saiu da tela cheia ${saidas} vez(es) hoje">🖥️ saiu ${saidas}×</span>` : ""}${outra ? `<br><small>está na ${esc(rotMis(C, outra.mid))}</small>` : ""}</td><td data-rot="⚡ XP da missão" class="pv-xp">${xpCel(xm, xa)}</td><td data-rot="Entrou">${hhmm(entrou)}</td>
+          return `<tr class="${okB ? "feito" : par ? "parado" : "fazendo"}"><td data-rot="Aluno">${ehRei.has(a.id) ? `<span class="pv-coroa" title="Rei da sala: 1º lugar">${P.podio.coroa(22)}</span>` : ""}${a.atipico ? "🧩 " : ""}${esc(a.nome)}${a.trilha ? " 👣" : ""}${tagTurma(a, estado.t)}${saidas ? ` <span class="pv-tela" title="Saiu da tela cheia ${saidas} vez(es) hoje">🖥️ saiu ${saidas}×</span>` : ""}${outra ? `<br><small>está na ${esc(rotMis(C, outra.mid))}</small>` : ""}</td><td data-rot="⚡ XP da missão" class="pv-xp">${xpCel(xm, xa)}</td><td data-rot="Entrou">${hhmm(entrou)}</td>
             <td class="pv-bars" data-rot="Progresso">${fr(p.leitura, "📖 Leitura", "l")}${fr(p.basico, "🟢 Básico", "b")}${fr(p.desafio, "🟡 Desafio", "d")}${fr(p.turbo, "🔴 Turbo", "t")}${!pm ? "<small>—</small>" : ""}</td>
             <td data-rot="Situação">${sit}</td><td data-rot="Última atividade">${par ? "😴 " : ""}há ${Math.max(0, Math.round((agora - ult) / 60000))} min</td></tr>`; }).join("")}</tbody></table></div>`
         : `<p class="ajuda">Nenhum aluno desta turma entrou hoje ainda.</p>`}
@@ -510,11 +531,11 @@
       const t = turmas.find(x => x.id === tid);
       const ap = cat().apostilas.find(a => a.serie === t.serie.id && P.doPeriodo(a) && !a.oculta && !a.trilha) || cat().apostilas.find(a => a.serie === t.serie.id && P.doPeriodo(a));
       await P.carregarApostila(ap.id); await carregarSerie(t); const C = P.conteudo[ap.id], mid = (await missaoSugerida(t, C)) || C.missoes[0].id;
-      const alunos = (await alunosDaTurma(tid)).filter(a => a.ativo !== false && !a.teste);
+      const PART = await participantes(t), alunos = PART.alunos;   // 👥 todos que participam desta aula (18/11/2026)
       let fixo = false; try { const hh = await db().collection("config").doc("hoje_" + t.id).get(); fixo = hh.exists && hh.data().dia === N.hoje() && hh.data().mid === mid; } catch (e) {}
       estado = { t, alunos, prog: [], C, mid, midPadrao: mid, fixo, aid: ap.id };
       botaoFinalizar(dlg.querySelector("#pv-fim"), tid);
-      unsub = db().collection("progresso").where("turma", "==", tid).onSnapshot(async q => { if (estado && estado.t.id === tid) { estado.prog = q.docs.map(d => ({ id: d.id, ...d.data() })); await carregarAids(estado.prog); pinta(); } },
+      unsub = ouvirProg(PART.turmasProg, async lista => { if (estado && estado.t.id === tid) { estado.prog = lista; await carregarAids(estado.prog); pinta(); } },
         err => { dlg.querySelector("#pv-c").innerHTML = `<p class="ajuda">Não foi possível acompanhar ao vivo: ${esc(err.message || err)}</p>`; });
     };
     dlg.querySelector("#pv-t").onchange = e => { tid = e.target.value; carregarT(); };
@@ -555,9 +576,9 @@
     if (!outras.length || !await P.confirmar(`Esta aula foi iniciada junto com ${outras.map(nomeTurma).join(" e ")}. Finalizar ${outras.length > 1 ? "essas turmas" : "essa turma"} também?`)) return;
     for (const id of outras) {
       const t2 = todasTurmas().find(x => x.id === id); if (!t2) continue;
-      const [hj, alunos, q] = await Promise.all([missaoDeHoje(t2), alunosDaTurma(t2.id), db().collection("progresso").where("turma", "==", t2.id).get()]);
-      const prog = q.docs.map(x => ({ id: x.id, ...x.data() })); await carregarAids(prog);
-      await finalizarAula(t2, alunos.filter(a => a.ativo !== false && !a.teste), prog, hj.fixo ? hj.mid : missaoDaTurmaHoje(prog, hj.mid));
+      const [hj, PT] = await Promise.all([missaoDeHoje(t2), participantes(t2)]);
+      const prog = await lerProg(PT.turmasProg); await carregarAids(prog);
+      await finalizarAula(t2, PT.alunos, prog, hj.fixo ? hj.mid : missaoDaTurmaHoje(prog, hj.mid));
     }
     toast("🏁 Finalizada também: " + outras.map(nomeTurma).join(" e ") + ".");
   }
@@ -576,9 +597,9 @@
     dlg.querySelector("#ff-t").onchange = conferir; conferir();
     dlg.querySelector("#ff-ok").onclick = async () => {
       const b = dlg.querySelector("#ff-ok"), t = turmas.find(x => x.id === dlg.querySelector("#ff-t").value); b.disabled = true; b.textContent = "Finalizando…";
-      try { const [hj, alunos, q] = await Promise.all([missaoDeHoje(t), alunosDaTurma(t.id), db().collection("progresso").where("turma", "==", t.id).get()]);
-        const prog = q.docs.map(d => ({ id: d.id, ...d.data() })); await carregarAids(prog);
-        await finalizarAula(t, alunos.filter(a => a.ativo !== false && !a.teste), prog, hj.fixo ? hj.mid : missaoDaTurmaHoje(prog, hj.mid));
+      try { const [hj, PT] = await Promise.all([missaoDeHoje(t), participantes(t)]);
+        const prog = await lerProg(PT.turmasProg); await carregarAids(prog);
+        await finalizarAula(t, PT.alunos, prog, hj.fixo ? hj.mid : missaoDaTurmaHoje(prog, hj.mid));
         dlg.close(); toast("🏁 Aula finalizada! Abra o 🏆 Placar para ver o pódio."); finalizarJuntas(t).catch(() => {});
       } catch (err) { const e = dlg.querySelector("#ff-e"); e.textContent = "Não foi possível finalizar: " + (err.message || err); e.hidden = false; b.disabled = false; b.textContent = "🏁 Sim, finalizar agora"; }
     };
