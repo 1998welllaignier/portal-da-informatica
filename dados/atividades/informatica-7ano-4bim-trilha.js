@@ -61,7 +61,7 @@ PORTAL.registrarAtividades("informatica-7ano-4bim-trilha", {
         okMsg: "Isso! A parte mais lenta manda na velocidade. 🔌",
         explicacao: "CAT5 até 100 Mbps; CAT5e até 1.000 Mbps; CAT6 até 10.000 Mbps em trechos curtos. A conexão fica na velocidade da parte mais lenta. Respostas: 1) CAT5; 2) 100 Mbps." },
       { id: "m1-sim-navegador", opcional: true, tipo: "sim_pc", titulo: "🌐 Simulador: endereço, cadeado e guias do navegador",
-        enunciado: "<p>No <strong>navegador de mentira</strong>, digite um endereço, confira o cadeado e. O <strong>Bit</strong> ajuda você em cada passo.</p>",
+        enunciado: "<p>No <strong>navegador de mentira</strong>, digite um endereço e confira o cadeado. O <strong>Bit</strong> ajuda você em cada passo.</p>",
         area: [{ nome: "Lixeira", app: "lixeira" }, { nome: "Navegador", app: "web" }],
         web: {
           "portal.professorwell.com.br": { titulo: "Portal da Informática", palavras: "portal informatica professor well missões", html: "<p>🎮 Bem-vindo ao <b>Portal da Informática</b>! Escolha a sua turma para começar as missões.</p><p style='font-size:40px'>🏫 💻 🚀</p>" },

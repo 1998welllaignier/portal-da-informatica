@@ -44,7 +44,7 @@
           { enunciado: "<p>Agora é você quem desenha o grafo. Clique em um lugar e depois no outro lugar ligado a ele, seguindo a tabela de arestas. O peso aparece em cima de cada linha.</p>",
             dicas: ["Comece pela Casa: ela se liga à Padaria e à Praça."],
             explicacao: "O grafo tem 5 vértices (os lugares) e 6 arestas (as ligações), cada uma com o seu peso em minutos." }),
-        { tipo: "tabela", titulo: "Os caminhos da Casa até a Escola", robo: {"paineis": ["🗺️ Outro grafo: Casa —2— Feira —3— Escola e Casa —1— Praça —1— Posto —2— Escola"], "passos": [{"fala": "Olha como eu calculo num grafo <b>diferente</b>. Somo os pesos de cada caminho:", "painel": 0, "linha": "Casa → Feira → Escola = 2 + 3 = 5 min"}, {"fala": "", "painel": 0, "linha": "Casa → Praça → Posto → Escola = 1 + 1 + 2 = 4 min", "espera": 1200}, {"fala": "O mais curto é o de <b>menor soma</b>, mesmo com mais paradas!", "painel": 0, "linha": "Mais curto: pela Praça e pelo Posto (4 min)", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: some os pesos dos caminhos da tarefa! 💪"},
+        { tipo: "tabela", titulo: "Os caminhos da Casa até a Escola", enunciado: "<p>Use a tabela do <strong>grafo do bairro</strong>, logo acima. Para saber o total de um caminho, <strong>some os pesos</strong> (minutos) das ligações por onde ele passa. O mais curto é o de <strong>menor soma</strong>.</p>", robo: {"paineis": ["🗺️ Outro grafo: Casa —2— Feira —3— Escola e Casa —1— Praça —1— Posto —2— Escola"], "passos": [{"fala": "Olha como eu calculo num grafo <b>diferente</b>. Somo os pesos de cada caminho:", "painel": 0, "linha": "Casa → Feira → Escola = 2 + 3 = 5 min"}, {"fala": "", "painel": 0, "linha": "Casa → Praça → Posto → Escola = 1 + 1 + 2 = 4 min", "espera": 1200}, {"fala": "O mais curto é o de <b>menor soma</b>, mesmo com mais paradas!", "painel": 0, "linha": "Mais curto: pela Praça e pelo Posto (4 min)", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: some os pesos dos caminhos da tarefa! 💪"},
           colunas: ["Caminho", "Total (minutos)"],
           linhas: [["Casa → Padaria → Escola", { r: "9", tipo: "num", w: 5, dica: "4 + 5" }], ["Casa → Praça → Escola", { r: "10", tipo: "num", w: 5 }], ["Casa → Praça → Posto de saúde → Escola", { r: "8", tipo: "num", w: 5 }],
             ["<strong>Qual é o caminho mais curto?</strong>", { op: ["Casa → Padaria → Escola", "Casa → Praça → Escola", "Casa → Praça → Posto de saúde → Escola"], r: "Casa → Praça → Posto de saúde → Escola" }]],
@@ -52,7 +52,7 @@
           explicacao: "4 + 5 = 9 · 3 + 7 = 10 · 3 + 2 + 3 = 8. O mais curto é Casa → Praça → Posto de saúde → Escola (8 minutos), mesmo tendo mais paradas." },
         Object.assign({ tipo: "grafo", titulo: "Trace no mapa o caminho mais curto da Casa até a Escola", de: "C", para: "E", unidade: "minutos", descricao: "Grafo do bairro com Casa, Padaria, Praça, Posto de saúde e Escola" }, bairro,
           { enunciado: "<p>Clique nos vértices, um depois do outro, começando pela Casa. A soma aparece ao lado.</p>", explicacao: "Casa → Praça → Posto de saúde → Escola = 3 + 2 + 3 = 8 minutos." }),
-        { tipo: "arvore", titulo: "A árvore de pastas de um computador", modo: "pastas",
+        { tipo: "arvore", titulo: "A árvore de pastas de um computador", enunciado: "<p>Olhe a árvore de pastas: a <strong>raiz</strong> é a pasta lá de cima, de onde tudo começa; as <strong>folhas</strong> são os arquivos, que não se dividem mais. O <strong>caminho</strong> é a sequência de pastas da raiz até o arquivo.</p>", modo: "pastas",
           raiz: { t: "📁 Documentos", filhos: [{ t: "📁 Escola", filhos: [{ t: "📄 redação.txt" }, { t: "📄 mapa.png" }] }, { t: "📁 Fotos", filhos: [{ t: "📄 aniversário.jpg" }] }] },
           perguntas: [
             { p: "Qual pasta é a raiz da árvore?", r: ["Documentos"], tipo: "letras" },
@@ -69,7 +69,7 @@
           <div class="tabela-wrap"><table><thead><tr><th>Aresta (rua)</th><th>Peso (quadras)</th></tr></thead><tbody>
           <tr><td>E – A (Av. Mato Grosso)</td><td>½</td></tr><tr><td>E – B (Av. Mato Grosso)</td><td>1</td></tr><tr><td>A – U (R. Tucupi)</td><td>1</td></tr><tr><td>U – C (R. Tucupi)</td><td>1</td></tr><tr><td>C – F (R. Tucupi)</td><td>2</td></tr>
           <tr><td>B – D (R. Cedro)</td><td>2</td></tr><tr><td>D – G (R. Cedro)</td><td>2</td></tr><tr><td>C – D (Av. Bahia)</td><td>1</td></tr><tr><td>F – G (Av. Carlos Santos)</td><td>1</td></tr><tr><td>F – M (Av. Carlos Santos)</td><td>½</td></tr></tbody></table></div>` },
-        { tipo: "tabela", titulo: "1. Da escola (E) ao Mercado Municipal (M)", robo: {"paineis": ["🗺️ Somando quadras (outro caminho, de exemplo)"], "passos": [{"fala": "Olha como eu somo um caminho <b>de exemplo</b>: escrevo os vértices em ordem e o peso de cada trecho.", "painel": 0, "titulo": "X → Y → Z → W"}, {"fala": "", "painel": 0, "linha": "X → Y: ½ quadra", "espera": 700}, {"fala": "", "painel": 0, "linha": "Y → Z: 2 quadras", "espera": 700}, {"fala": "", "painel": 0, "linha": "Z → W: 1 quadra", "espera": 900}, {"fala": "Somo tudo. Meia quadra é <b>0,5</b>:", "painel": 0, "linha": "0,5 + 2 + 1 = 3,5 quadras", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: siga cada rua no mapa da tarefa, anote os vértices e some as quadras! (Pode escrever 6,5 ou 6½.) 💪"},
+        { tipo: "tabela", titulo: "1. Da escola (E) ao Mercado Municipal (M)", enunciado: "<p>Use a tabela de vértices e arestas do bairro, logo acima. Complete os vértices de cada caminho, em ordem, e <strong>some os pesos</strong> (quadras) das arestas. O mais curto é o de <strong>menor soma</strong>.</p>", robo: {"paineis": ["🗺️ Somando quadras (outro caminho, de exemplo)"], "passos": [{"fala": "Olha como eu somo um caminho <b>de exemplo</b>: escrevo os vértices em ordem e o peso de cada trecho.", "painel": 0, "titulo": "X → Y → Z → W"}, {"fala": "", "painel": 0, "linha": "X → Y: ½ quadra", "espera": 700}, {"fala": "", "painel": 0, "linha": "Y → Z: 2 quadras", "espera": 700}, {"fala": "", "painel": 0, "linha": "Z → W: 1 quadra", "espera": 900}, {"fala": "Somo tudo. Meia quadra é <b>0,5</b>:", "painel": 0, "linha": "0,5 + 2 + 1 = 3,5 quadras", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: siga cada rua no mapa da tarefa, anote os vértices e some as quadras! (Pode escrever 6,5 ou 6½.) 💪"},
           colunas: ["Caminho", "Vértices (em ordem)", "Soma dos pesos (quadras)"],
           linhas: [
             ["1 · pela R. Tucupi", "E → A → U → C → F → M", { r: "5", tipo: "num", w: 5 }],
@@ -80,7 +80,7 @@
           explicacao: "Caminho 1: ½ + 1 + 1 + 2 + ½ = 5. Caminho 2: E → B → D → G → F → M = 1 + 2 + 2 + 1 + ½ = 6½. Caminho 3: E → B → D → C → F → M = 1 + 2 + 1 + 2 + ½ = 6½. O mais curto é o 1, pela R. Tucupi, porque tem a menor soma." },
         Object.assign({ tipo: "grafo", titulo: "Confira no mapa: trace o caminho mais curto de E até M", de: "E", para: "M", unidade: "quadras", largura: 520, altura: 400, descricao: "Grafo do bairro real da escola" }, real,
           { explicacao: "E → A → U → C → F → M: 5 quadras." }),
-        { tipo: "tabela", titulo: "2. A escola e os dois mercados", robo: {"paineis": ["🗺️ Comparando distâncias (exemplo)"], "passos": [{"fala": "Para saber o que fica <b>mais perto</b>, eu calculo as duas distâncias e comparo:", "painel": 0, "linha": "Até a farmácia: 1 + ½ = 1,5 quadra"}, {"fala": "", "painel": 0, "linha": "Até a padaria: 2 + 1 = 3 quadras", "espera": 900}, {"fala": "O menor número ganha:", "painel": 0, "linha": "Mais perto: a farmácia", "marca": true, "espera": 2400}], "fim": "Agora é a sua vez: calcule as distâncias até os dois mercados e compare! 💪"},
+        { tipo: "tabela", titulo: "2. A escola e os dois mercados", enunciado: "<p>Use a mesma tabela do bairro. Some as quadras do caminho mais curto da Escola (E) até o Comercial União (U) e compare com o caminho mais curto até o Mercado Municipal (M), que você achou na atividade 1.</p>", robo: {"paineis": ["🗺️ Comparando distâncias (exemplo)"], "passos": [{"fala": "Para saber o que fica <b>mais perto</b>, eu calculo as duas distâncias e comparo:", "painel": 0, "linha": "Até a farmácia: 1 + ½ = 1,5 quadra"}, {"fala": "", "painel": 0, "linha": "Até a padaria: 2 + 1 = 3 quadras", "espera": 900}, {"fala": "O menor número ganha:", "painel": 0, "linha": "Mais perto: a farmácia", "marca": true, "espera": 2400}], "fim": "Agora é a sua vez: calcule as distâncias até os dois mercados e compare! 💪"},
           linhas: [["Distância da escola (E) até o Comercial União (U), em quadras", { r: "1.5", tipo: "num", w: 5 }],
             ["Qual dos dois mercados fica mais perto da escola?", { op: ["Comercial União", "Mercado Municipal"], r: "Comercial União" }]],
           explicacao: "E → A → U = ½ + 1 = 1½ quadra. O Comercial União (1½) fica mais perto que o Mercado Municipal (5)." },
@@ -93,7 +93,7 @@
           explicacao: "O caminho 3 (E → B → D → C → F → M) não serve, porque ele usa a aresta C – D, que está fechada. Com lama, o peso aumenta, porque andar ali leva mais tempo e dá mais trabalho." }
       ],
       desafio: [
-        { tipo: "arvore", titulo: "Árvore de decisão: adivinhe um objeto da sala", modo: "decisao",
+        { tipo: "arvore", titulo: "Árvore de decisão: adivinhe um objeto da sala", enunciado: "<p>Na árvore de decisão, cada <strong>❓ pergunta</strong> se divide em Sim e Não, e cada <strong>folha</strong> é uma resposta (um objeto). Jogue uma vez e depois responda olhando a árvore.</p>", modo: "decisao",
           raiz: { t: "❓ É eletrônico?", filhos: [
             { r: "Sim", t: "❓ Tem tela?", filhos: [{ r: "Sim", t: "🖥️ Monitor" }, { r: "Não", t: "⌨️ Teclado" }] },
             { r: "Não", t: "❓ Serve para escrever?", filhos: [{ r: "Sim", t: "✏️ Lápis" }, { r: "Não", t: "🪑 Cadeira" }] }] },
@@ -184,7 +184,7 @@
           explicacao: "Cada letra andou 3 casas no alfabeto. Quem sabe a chave consegue fazer o caminho de volta e decifrar." }
       ],
       desafio: [
-        { tipo: "tabela", titulo: "Quantas senhas a força bruta precisa testar, no máximo?", robo: {"paineis": ["🔐 Senhas só de números"], "passos": [{"fala": "Cada dígito tem 10 opções (0 a 9). A cada dígito a mais, eu <b>multiplico por 10</b>:", "painel": 0, "linha": "1 dígito: 10"}, {"fala": "", "painel": 0, "linha": "2 dígitos: 10 × 10 = 100", "espera": 900}, {"fala": "", "painel": 0, "linha": "3 dígitos: 100 × 10 = 1.000", "marca": true, "espera": 1200}, {"fala": "E o tempo? Se o programa testa <b>100</b> senhas por segundo, eu <b>divido</b>:", "painel": 0, "linha": "1.000 ÷ 100 = 10 segundos (exemplo)", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: continue multiplicando por 10 e faça a divisão da tarefa (1.000 por segundo)! 💪"},
+        { tipo: "tabela", titulo: "Quantas senhas a força bruta precisa testar, no máximo?", enunciado: "<p>Numa senha só de números, cada dígito pode ser de 0 a 9: são <strong>10 opções</strong>. Cada dígito a mais <strong>multiplica por 10</strong>: 1 dígito = 10, 2 dígitos = 10 × 10, e assim por diante. Pode digitar com ou sem ponto (10.000 ou 10000).</p>", robo: {"paineis": ["🔐 Senhas só de números"], "passos": [{"fala": "Cada dígito tem 10 opções (0 a 9). A cada dígito a mais, eu <b>multiplico por 10</b>:", "painel": 0, "linha": "1 dígito: 10"}, {"fala": "", "painel": 0, "linha": "2 dígitos: 10 × 10 = 100", "espera": 900}, {"fala": "", "painel": 0, "linha": "3 dígitos: 100 × 10 = 1.000", "marca": true, "espera": 1200}, {"fala": "E o tempo? Se o programa testa <b>100</b> senhas por segundo, eu <b>divido</b>:", "painel": 0, "linha": "1.000 ÷ 100 = 10 segundos (exemplo)", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: continue multiplicando por 10 e faça a divisão da tarefa (1.000 por segundo)! 💪"},
           colunas: ["Senha só de números", "Combinações possíveis"],
           linhas: [["1 dígito", "10"], ["2 dígitos", { r: "100", tipo: "num", w: 10 }], ["4 dígitos", { r: "10000", tipo: "num", w: 10 }], ["6 dígitos", { r: "1000000", tipo: "num", w: 10 }],
             ["Se o programa testa 1.000 senhas por segundo, quanto tempo leva, no máximo, para uma senha de 4 dígitos? (em segundos)", { r: "10", tipo: "num", w: 6 }]],
@@ -350,7 +350,7 @@
       ],
       basico: [
         { tipo: "ordenar", titulo: "Como a IA aprende: coloque as etapas em ordem",
-          itens: ["1️⃣ Coletar muitos exemplos com a resposta certa (os dados)", "2️⃣ Treinar: procurar padrões nos exemplos", "3️⃣ Testar com exemplos que ela nunca viu", "4️⃣ Usar no dia a dia para fazer previsões"],
+          itens: ["Coletar muitos exemplos com a resposta certa (os dados)", "Treinar: procurar padrões nos exemplos", "Testar com exemplos que ela nunca viu", "Usar no dia a dia para fazer previsões"],
           dicas: ["Primeiro vêm os exemplos; depois o treino."],
           explicacao: "Coletar dados → treinar → testar → usar. No filtro de spam: milhares de e-mails marcados → descobre as palavras do spam → confere com e-mails novos → manda sozinho para a pasta Spam." },
         { tipo: "classificar", modo: "tabela", titulo: "Usa IA ou não usa?", colunaItem: "Situação", colunaResp: "IA?",
@@ -485,7 +485,7 @@
           enunciado: "<p>Escolha a missão de que você mais gostou e escreva duas ou três frases dizendo por quê. Se o professor ligar o projetor no fim da aula, você pode ler para a turma (é opcional).</p>",
           campos: [{ rot: "A missão de que eu mais gostei:", linhas: 1 }, { rot: "Por que eu gostei (duas ou três frases):", linhas: 3 }],
           criterios: ["Diz qual foi a missão.", "Explica o motivo com as suas palavras."],
-          exemplo: "Missão 1. Eu gostei porque aprendi como a internet funciona por dentro e agora entendo por que o vídeo trava.",
+          exemplo: "Missão 2. Eu gostei porque decifrei mensagens com a cifra de César e entendi por que uma senha longa é mais difícil de quebrar.",
           conferir: { minPalavras: 2, msg: "Registrado! O professor pode ler no painel." } }
       ]
     }

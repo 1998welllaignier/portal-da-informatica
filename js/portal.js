@@ -1021,6 +1021,13 @@
     });
   }
 
+  /* 🔎 18/11/2026: tarefa sem enunciado ganha uma instrução padrão do tipo, para o aluno nunca ficar sem saber o que fazer */
+  function INSTRUCAO_PADRAO(at) {
+    if (at.tipo === "ordenar") return "<p>Coloque na ordem certa, do 1º ao último: arraste os itens ou use as setas ▲▼. Depois clique em <strong>Verificar</strong>.</p>";
+    if (at.tipo === "classificar" && at.modo === "tabela") return "<p>Leia cada linha e clique na resposta certa. Depois clique em <strong>Verificar</strong>.</p>";
+    if (at.tipo === "tabela") return "<p>Complete cada linha da tabela: digite a resposta na caixa ou escolha na lista. Depois clique em <strong>Verificar</strong>.</p>";
+    return "";
+  }
   function cartaoAtividade(aid, mid, at, i, onChange) {
     const T = P.tipos[at.tipo];
     if (!T) return h(`<div class="atv erro">Tipo de atividade desconhecido: ${esc(at.tipo)}</div>`);
@@ -1039,7 +1046,7 @@
     const el = h(`<section class="atv nivel-${at.nivel}" id="atv-${at.id}" aria-labelledby="t-${at.id}">
       <header class="atv-cab"><span class="atv-nivel">${(NIVEL[at.nivel] || ["", ""])[0]} ${(NIVEL[at.nivel] || ["", ""])[1]}</span>
         <h2 id="t-${at.id}">${md(at.titulo || "")}</h2><span class="atv-corr">${corr}${at.opcional ? " · opcional" : ""}</span>${vez}</header>
-      ${at.enunciado ? `<div class="atv-enun">${at.enunciado}</div>` : ""}
+      ${at.enunciado ? `<div class="atv-enun">${at.enunciado}</div>` : INSTRUCAO_PADRAO(at) ? `<div class="atv-enun">${INSTRUCAO_PADRAO(at)}</div>` : ""}
       <div class="atv-corpo"></div>
       <div class="atv-dicas" aria-live="polite"></div>
       <div class="atv-acoes">

@@ -114,7 +114,7 @@ PORTAL.registrarAtividades("informatica-8ano-4bim", {
         explicacao: "Celular ou computador → roteador → provedor → backbone ou cabo submarino → data center (nuvem). Ao lado, o DNS (<em>Domain Name System</em>, Sistema de Nomes de Domínio) troca o nome do site pelo endereço IP. Impressora e teclado não fazem parte do caminho." }
     ],
     desafio: [
-      { tipo: "tabela", titulo: "Uma tarefa leva 60 minutos em um núcleo. Quanto tempo leva com mais núcleos?", robo: {"paineis": ["⚙️ Outra tarefa: 40 minutos em 1 núcleo"], "passos": [{"fala": "Olha como eu calculo com <b>outro</b> tempo. Os núcleos dividem o trabalho igualmente, então eu <b>divido</b>:", "painel": 0, "linha": "2 núcleos: 40 ÷ 2 = 20 minutos"}, {"fala": "", "painel": 0, "linha": "4 núcleos: 40 ÷ 4 = 10 minutos", "marca": true, "espera": 2400}], "fim": "Agora é a sua vez: divida os 60 minutos pelo número de núcleos! 💪"},
+      { tipo: "tabela", titulo: "Uma tarefa leva 60 minutos em um núcleo. Quanto tempo leva com mais núcleos?", enunciado: "<p>Com <strong>paralelismo</strong>, a tarefa é dividida em partes iguais e cada núcleo faz uma parte <strong>ao mesmo tempo</strong>. Então, divida os 60 minutos pelo número de núcleos.</p>", robo: {"paineis": ["⚙️ Outra tarefa: 40 minutos em 1 núcleo"], "passos": [{"fala": "Olha como eu calculo com <b>outro</b> tempo. Os núcleos dividem o trabalho igualmente, então eu <b>divido</b>:", "painel": 0, "linha": "2 núcleos: 40 ÷ 2 = 20 minutos"}, {"fala": "", "painel": 0, "linha": "4 núcleos: 40 ÷ 4 = 10 minutos", "marca": true, "espera": 2400}], "fim": "Agora é a sua vez: divida os 60 minutos pelo número de núcleos! 💪"},
         colunas: ["Núcleos", "Tempo (minutos)"],
         linhas: [["1", "60 minutos"], ["2", { r: "30", tipo: "num", w: 6 }], ["3", { r: "20", tipo: "num", w: 6 }], ["6", { r: "10", tipo: "num", w: 6 }]],
         dicas: ["Divida os 60 minutos pelo número de núcleos."],
@@ -454,7 +454,7 @@ PORTAL.registrarAtividades("informatica-8ano-4bim", {
         enunciado: "<p>Escolha a missão de que você mais gostou e escreva duas ou três frases dizendo por quê. Se o professor ligar o projetor no fim da aula, você pode ler para a turma (é opcional).</p>",
         campos: [{ rot: "A missão de que eu mais gostei:", linhas: 1 }, { rot: "Por que eu gostei (duas ou três frases):", linhas: 3 }],
         criterios: ["Diz qual foi a missão.", "Explica o motivo com as suas palavras."],
-        exemplo: "Missão 1. Eu gostei porque aprendi como a internet funciona por dentro e agora entendo por que o vídeo trava.",
+        exemplo: "Missão 2. Eu gostei porque aprendi como a internet funciona por dentro e agora entendo por que o vídeo trava.",
         conferir: { minPalavras: 2, msg: "Registrado! O professor pode ler no painel." } }
     ]
   }

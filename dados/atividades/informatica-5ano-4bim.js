@@ -177,7 +177,7 @@ PORTAL.registrarAtividades("informatica-5ano-4bim", {
           { t: "2 + 2 = 4 OU 3 + 3 = 7", c: "V", why: "Com OU, basta uma parte ser V." },
           { t: "Curionópolis fica no Pará E o Pará fica no Brasil.", c: "V" }],
         dicas: ["E: as duas partes precisam ser verdadeiras. OU: basta uma."] },
-      { tipo: "classificar", modo: "tabela", titulo: "Regra da recreação: terminou a tarefa E guardou o material", colunaItem: "Aluno", colunaResp: "Pode jogar?",
+      { tipo: "classificar", modo: "tabela", titulo: "Regra da recreação: terminou a tarefa E guardou o material", enunciado: "<p>A regra da recreação usa o <strong>E</strong>: só pode jogar quem <strong>terminou a tarefa E guardou o material</strong> (as duas coisas). Para cada aluno, escolha <strong>S</strong> (sim, pode jogar) ou <strong>N</strong> (não pode).</p>", colunaItem: "Aluno", colunaResp: "Pode jogar?",
         categorias: [{ id: "S", rot: "Sim" }, { id: "N", rot: "Não" }],
         itens: [{ t: "Léo — terminou: Sim · guardou: Não", c: "N" }, { t: "Mia — terminou: Sim · guardou: Sim", c: "S" }, { t: "Davi — terminou: Não · guardou: Sim", c: "N" }],
         explicacao: "Com E, só pode jogar quem fez as duas coisas: Mia." },
@@ -196,7 +196,7 @@ PORTAL.registrarAtividades("informatica-5ano-4bim", {
         explicacao: "Só o 1º e o 5º (o último) ficam pretos. Mudando a condição do SE, o mesmo algoritmo faz um desenho diferente." }
     ],
     desafio: [
-      { tipo: "tabela", titulo: "Complete a tabela do E e do OU", robo: {"paineis": ["🤔 O jeito de pensar"], "passos": [{"fala": "Olha com frases de verdade. A: “Hoje é sábado”. B: “Está chovendo”.", "painel": 0, "titulo": "A E B · A OU B"}, {"fala": "Com <b>E</b>, a frase toda só é <b>V</b> se as <b>duas</b> partes forem V. Se uma for F, tudo vira F.", "painel": 0, "linha": "E: precisa das DUAS verdadeiras", "marca": true}, {"fala": "Com <b>OU</b>, basta <b>uma</b> ser V para a frase toda ser V. Só é F se as duas forem F.", "painel": 0, "linha": "OU: basta UMA verdadeira", "marca": true, "espera": 2800}], "fim": "Agora é a sua vez: use essas duas regras em cada linha da tabela! 💪"},
+      { tipo: "tabela", titulo: "Complete a tabela do E e do OU", enunciado: "<p>Em cada linha, a frase A e a frase B já vêm com <strong>V</strong> (verdadeira) ou <strong>F</strong> (falsa). Complete as colunas: <strong>A E B</strong> só é V quando as <strong>duas</strong> são V; <strong>A OU B</strong> é V quando <strong>pelo menos uma</strong> é V.</p>", robo: {"paineis": ["🤔 O jeito de pensar"], "passos": [{"fala": "Olha com frases de verdade. A: “Hoje é sábado”. B: “Está chovendo”.", "painel": 0, "titulo": "A E B · A OU B"}, {"fala": "Com <b>E</b>, a frase toda só é <b>V</b> se as <b>duas</b> partes forem V. Se uma for F, tudo vira F.", "painel": 0, "linha": "E: precisa das DUAS verdadeiras", "marca": true}, {"fala": "Com <b>OU</b>, basta <b>uma</b> ser V para a frase toda ser V. Só é F se as duas forem F.", "painel": 0, "linha": "OU: basta UMA verdadeira", "marca": true, "espera": 2800}], "fim": "Agora é a sua vez: use essas duas regras em cada linha da tabela! 💪"},
         colunas: ["Frase A", "Frase B", "A E B", "A OU B"],
         linhas: [
           ["V", "V", { op: ["V", "F"], r: "V" }, { op: ["V", "F"], r: "V" }],
@@ -284,7 +284,7 @@ PORTAL.registrarAtividades("informatica-5ano-4bim", {
         criterios: ["Pedi autorização à Maria.", "Escrevi o crédito com o nome dela."],
         conferir: { porCampo: [["autoriza", "permiss", "pedir", "peco", "pergunt", "deixa"], ["maria"]], msg: "Isso mesmo: pedir autorização e dar o crédito!" },
         exemplo: "Peço autorização para a Maria e escrevo o crédito no cartaz: Desenho: Maria." },
-      { id: "m4-basico-3", tipo: "classificar", modo: "tabela", titulo: "Ligue cada problema à tecnologia certa", colunaItem: "Problema", colunaResp: "Tecnologia",
+      { id: "m4-basico-3", tipo: "classificar", modo: "tabela", titulo: "Ligue cada problema à tecnologia certa", enunciado: "<p>Para cada problema, escolha a letra da tecnologia que resolve: <strong>A</strong> programa de desenho, <strong>B</strong> Bloco de Notas, <strong>C</strong> calculadora ou <strong>D</strong> chamada de vídeo.</p>", colunaItem: "Problema", colunaResp: "Tecnologia",
         categorias: [{ id: "A", rot: "Programa de desenho" }, { id: "B", rot: "Bloco de Notas" }, { id: "C", rot: "Calculadora" }, { id: "D", rot: "Chamada de vídeo" }],
         itens: [{ t: "Fazer uma conta difícil bem rápido", c: "C" }, { t: "Falar com a avó que mora em outra cidade", c: "D" }, { t: "Escrever um texto no computador", c: "B" }, { t: "Fazer um desenho no computador", c: "A" }] },
       { id: "m4-basico-4", tipo: "cartaz", titulo: "Monte aqui o cartaz Eu navego com cuidado", tituloCartaz: "Eu navego com cuidado",

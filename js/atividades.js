@@ -1152,7 +1152,7 @@
         c.innerHTML = `<div class="ctz">
           <div class="ctz-prev"><p class="ctz-rot">👀 O seu cartaz</p>${folha()}</div>
           <div class="ctz-ctrl">
-            <p class="ctz-rot">1. Escolha ${min > 1 ? `de ${min} a ${max}` : `até ${max}`} desenhos (clique de novo para tirar)</p>
+            <p class="ctz-rot">1. Escolha ${min > 1 && min === max ? `${min}` : min > 1 ? `de ${min} a ${max}` : `até ${max}`} desenhos (clique de novo para tirar)</p>
             <div class="ctz-pal">${PAL.map(e => `<button type="button" class="ctz-em" data-e="${esc(e)}" aria-pressed="${st.des.includes(e)}" aria-label="Desenho ${esc(e)}">${esc(e)}</button>`).join("")}</div>
             <p class="ctz-rot">2. Escolha a cor do cartaz</p>
             <div class="ctz-cores">${CORES.map(([n, hx]) => `<button type="button" class="ctz-cor" data-cor="${n}" aria-pressed="${st.cor === n}" style="background:${hx}">${n}</button>`).join("")}</div>

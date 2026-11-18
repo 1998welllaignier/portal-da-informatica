@@ -252,3 +252,19 @@ Apostila no portal + ilustrada (PDF só para quem estuda em casa) · guia do pro
 - **Bit com pausa (18/11/2026):** um passo do robô pode ter `pausa: "▶ Próxima passada"`. O Bit para e espera o aluno tocar no botão antes de seguir. Usar sempre que a demonstração tiver etapas que o aluno precisa acompanhar uma por vez, como as passadas do método da bolha.
 - **Painel ao vivo, placar e pódio com todos os participantes (18/11/2026):** a turma da aula mostra os alunos dela, os marcados "🏫 frequenta a aula desta turma" (com a etiqueta 🏫 da turma de origem) e os da turma da mesma série iniciada junto (👥 aula dupla). A presença, o diário e as notas continuam cada um na própria turma. As funções ficam em `js/painel.js`: `participantes(t)`, `ouvirProg`, `lerProg`.
 - **Um número só (18/11/2026):** os pontos do 🏆 placar, do pódio e da janela "Aula encerrada" são **o mesmo XP da missão** da barra do aluno. Antes, o placar usava outra escala, com o bônus de rapidez somado, e o aluno via 953 XP na barra e 831 pontos no pódio. A rapidez não soma mais pontos: só **desempata** (com o mesmo XP, fica na frente quem terminou o Básico primeiro).
+
+## 🔎 Verificador de enunciados (18/11/2026)
+- **Ferramenta:** `node ferramentas/auditoria/enunciados.js [filtro] [--ficha]` aponta:
+  - tarefa sem instrução;
+  - pergunta de número sem o método ou sem os dados (por exemplo "quantas tentativas?" sem dizer que é a busca binária);
+  - tarefa sem dica, sem robô ou sem explicação;
+  - prática sem o 🤖 Bit;
+  - resposta que não bate com a explicação;
+  - texto que cita uma tabela ou imagem que a tarefa não mostra;
+  - alternativa inválida.
+- **Avisos aceitos:** os já revisados ficam em `ferramentas/auditoria/enunciados_aceitos.json`.
+- **"Com os olhos do aluno":** além da ferramenta, cada apostila é aberta no navegador e o texto que o aluno vê em cada tarefa é lido inteiro. Rodar as duas coisas antes de publicar qualquer apostila.
+- **Instrução padrão:** tarefa `ordenar`, `tabela` ou `classificar` em modo tabela sem enunciado mostra sozinha uma instrução padrão ("Coloque na ordem certa…", "Complete cada linha…", "Leia cada linha e clique…").
+- **Regras novas:**
+  - os itens de "ordenar" **nunca** trazem número (1️⃣ 2️⃣…), porque isso entrega a resposta;
+  - o exemplo de resposta tem de bater com a série (a missão citada tem de ser daquela apostila).
