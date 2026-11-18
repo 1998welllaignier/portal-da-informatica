@@ -6,15 +6,11 @@ playlist da série e do bimestre, ex.: "7º ano · 4º bimestre 2026") e o Claud
 e, no vídeo do estudo em casa, `catalogo.videoCasa`). Depois de ligado, o vídeo passa para "✅ No ar".
 
 ## 🎬 Prontos, esperando postar
-**17/11/2026:** subiu só o 7º M1 de 2027 (`-Y5vRictuKA`, privado, playlist "7º ano · 1º bimestre 2027"); o 2º envio do dia travou de novo no limite diário. Os outros (v6, v7, v8 e v9 = cabo) estão no ramo `envio-videos`.
-O YouTube travou no **limite diário de envios** em 16/11/2026 (canal sem verificação por telefone). Faltam:
-- 7º ano · 1º bim. 2027 · Missão 2: Listas no programa (`2027-7ano-m2`)
-- Portal da Informática · Apresentação para gestores (`apresentacao-gestores`, **não** é conteúdo para crianças)
-- Portal da Informática · Apresentação para alunos e famílias (`apresentacao-pais`)
-- 7º ano · 4º bim. 2026 · 🔌 Curiosidade da Missão 1: O cabo de rede por dentro (`7ano-m1-cabo`, voz gerada no ChatGPT/HeyGen em 17/11; entra em `P.videosMissao["informatica-7ano-4bim"].m1` como `{ id, nome: "🔌 Curiosidade: o cabo de rede por dentro", sub, curiosidade: true }`; **privado** até o professor revisar)
-
-Como subir: os MP4 ficam no ramo temporário `envio-videos` do GitHub (v5–v8); no YouTube Studio, a página busca o arquivo
-(`raw.githubusercontent.com/.../envio-videos/vN.mp4`) e coloca no campo de envio. Apagar o ramo quando os 4 subirem.
+**18/11/2026:** subiram os 4 que faltavam, todos **PRIVADOS** até a revisão do professor:
+- 7º ano · 1º bim. 2027 · Missão 2: Listas no programa → `4Uu1LKUF-YY` (playlist "7º ano · 1º bimestre 2027", para crianças) · ligado em `P.videosMissao`
+- Apresentação para gestores → `KCHBmOwoMRk` (não é para crianças) · ligado em `catalogo.videosApresentacao.gestores`
+- Apresentação para alunos e famílias → `lUbQ9RmXiBc` (para crianças) · **ainda NÃO ligado**: `videosApresentacao.familias` aparece na página inicial pública; liga depois da revisão, quando virar "Não listado"
+- 7º ano · 4º bim. 2026 · Curiosidade da M1: o cabo de rede → `CU1eC_bPv-w` (playlist "7º ano · 4º bimestre 2026", para crianças) · ligado na M1 como curiosidade
 
 ## ⏳ Esperando o áudio (MP3) do professor
 _(nenhum: todos os áudios combinados chegaram)_
