@@ -1893,7 +1893,8 @@
       const itens = Object.entries(todos).flatMap(([m, v]) => (Array.isArray(v) ? v : [v]).filter(x => x && /^[\w-]{11}$/.test(x.id || x)).map((x, k) => ({ m, id: x.id || x, nome: x.nome || (k ? "Vídeo extra (passo a passo)" : "Vídeo") })));
       if (itens.length) { const box = document.createElement("details"); box.className = "painel pp-video pp-video-todos";
         box.innerHTML = `<summary><strong>📺 Todos os vídeos desta apostila</strong> (${itens.length}) · para abrir o vídeo de qualquer missão</summary>
-          <ul class="pp-video-lista">${itens.map(x => `<li><b>${esc(rotMis(C, x.m))}</b> · ${esc(x.nome)} — <a href="https://www.youtube-nocookie.com/embed/${x.id}?autoplay=1&rel=0&modestbranding=1" target="_blank" rel="noopener">▶️ Abrir o player</a></li>`).join("")}</ul>`;
+          <div class="pp-video-grupos">${[...new Set(itens.map(x => x.m))].map((m, gi) => `<div class="pp-video-grupo g${gi % 2}"><p class="pp-vg-tit"><b>${esc(rotMis(C, m))}</b>${itens.filter(x => x.m === m).length > 1 ? ` <span class="pp-vg-n">${itens.filter(x => x.m === m).length} vídeos</span>` : ""}</p>
+            <ul>${itens.filter(x => x.m === m).map(x => `<li>${esc(x.nome)} — <a href="https://www.youtube-nocookie.com/embed/${x.id}?autoplay=1&rel=0&modestbranding=1" target="_blank" rel="noopener">▶️ Abrir o player</a></li>`).join("")}</ul></div>`).join("")}</div>`;
         el.querySelector("#aula").before(box); }
     } catch (e) { console.warn(e); }
     // 📣 avisos para o professor falar à turma (com a fala pronta); "✔ Já avisei" esconde só para esta turma

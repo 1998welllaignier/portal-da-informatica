@@ -18,7 +18,7 @@ PORTAL.registrarAtividades("informatica-7ano-4bim", {
           { ic: "📄", t: "Os pacotes voltam e o site aparece", dica: "Essa é a última etapa." }],
         okMsg: "Viagem completa! Tudo isso acontece em menos de 1 segundo. ⚡",
         explicacao: "Os dados viajam em <strong>pacotes</strong>, seguindo <strong>protocolos</strong> (como TCP e HTTP), passando pelo <strong>roteador</strong> e pelo <strong>provedor</strong> até o <strong>servidor</strong>." },
-      { tipo: "mensagens", opcional: true, titulo: "Cadeado ou perigo? Olhe o endereço", app: "🌐 Barra de endereços",
+      { tipo: "mensagens", opcional: true, titulo: "Cadeado ou perigo? Olhe o endereço", explicacao: "Endereços com https (com S) têm a conexão protegida: gov.br e wikipedia.org. Os que começam com http (sem S), ainda mais com nome estranho, não são seguros.", app: "🌐 Barra de endereços",
         botoes: [{ id: "S", rot: "🔒 Conexão segura" }, { id: "N", rot: "⚠️ Não segura" }],
         enunciado: "<p>Olhe o começo de cada endereço. <strong>https</strong> (com S) protege os dados no caminho.</p>",
         itens: [
@@ -279,7 +279,7 @@ PORTAL.registrarAtividades("informatica-7ano-4bim", {
         ],
         fimMsg: "Você denunciou os golpes sem clicar nos links perigosos e abriu só o link seguro da escola. Detetive de golpes!",
         explicacao: "Sinais de golpe: prêmio que você não pediu, pressa, pedido de senha ou documentos, remetente estranho ou escrito errado, links esquisitos. Na dúvida, não clique: denuncie e mostre a um adulto." },
-      { id: "m3-pratica-1", tipo: "mensagens", titulo: "Chegou SMS: golpe ou mensagem segura?", robo: {"paineis": ["📱 Outras mensagens"], "passos": [{"fala": "Olha como eu decido com <b>outros</b> exemplos. Eu faço sempre as mesmas perguntas: Tem pressa? Prêmio? Link estranho? Pede senha ou código?", "painel": 0, "titulo": "Meus exemplos"}, {"fala": "“Sua conta do jogo será apagada em 1 hora! Mande a sua senha para o suporte.” → tem pressa e pede senha: ninguém de verdade pede a sua senha.", "painel": 0, "linha": "Sua conta do jogo será apagada em 1 hora! Mand… → 🚩 Golpe", "marca": true, "espera": 2600}, {"fala": "“Pai: Filho, vou buscar você às 17h na escola.” → é de alguém conhecido, sem pressa, sem link e sem pedir código.", "painel": 0, "linha": "Pai: Filho, vou buscar você às 17h na escola. → ✅ Segura", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: procure os sinais de golpe em cada mensagem. 💪"}, app: "📱 Mensagens",
+      { id: "m3-pratica-1", tipo: "mensagens", titulo: "Chegou SMS: golpe ou mensagem segura?", explicacao: "Golpe: o prêmio com pressa e link encurtado, a “tia” que trocou de número e pede o código, e o “banco” com link estranho. Seguras: a mensagem da mãe e o aviso da escola, que não pedem nada.", robo: {"paineis": ["📱 Outras mensagens"], "passos": [{"fala": "Olha como eu decido com <b>outros</b> exemplos. Eu faço sempre as mesmas perguntas: Tem pressa? Prêmio? Link estranho? Pede senha ou código?", "painel": 0, "titulo": "Meus exemplos"}, {"fala": "“Sua conta do jogo será apagada em 1 hora! Mande a sua senha para o suporte.” → tem pressa e pede senha: ninguém de verdade pede a sua senha.", "painel": 0, "linha": "Sua conta do jogo será apagada em 1 hora! Mand… → 🚩 Golpe", "marca": true, "espera": 2600}, {"fala": "“Pai: Filho, vou buscar você às 17h na escola.” → é de alguém conhecido, sem pressa, sem link e sem pedir código.", "painel": 0, "linha": "Pai: Filho, vou buscar você às 17h na escola. → ✅ Segura", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: procure os sinais de golpe em cada mensagem. 💪"}, app: "📱 Mensagens",
         botoes: [{ id: "G", rot: "🚩 Golpe" }, { id: "S", rot: "✅ Segura" }],
         enunciado: "<p>Leia cada mensagem como se fosse no seu celular. Procure os sinais: <strong>pressa</strong>, <strong>prêmio</strong>, <strong>link estranho</strong>, <strong>pedido de código ou senha</strong>.</p>",
         itens: [
@@ -318,7 +318,7 @@ PORTAL.registrarAtividades("informatica-7ano-4bim", {
         ],
         fimMsg: "Conta blindada: senha forte + código no celular. Mesmo que alguém descubra a senha, não entra!",
         explicacao: "Verificação em duas etapas = senha + um código que chega no seu celular. Senha forte mistura maiúsculas, minúsculas, números e símbolos." },
-      { id: "m3-basico-2", tipo: "sinais", titulo: "Quais sinais de golpe apareceram nessas mensagens?", robo: {"paineis": ["🚩 Outra mensagem"], "passos": [{"fala": "Olha com <b>outra</b> situação: “URGENTE! Ganhe um tablet: clique em premio.xyz e mande a sua senha!” Eu leio item por item e pergunto: “isso aparece aqui?”", "painel": 0, "titulo": "Minha situação"}, {"fala": "“Pressa (“URGENTE!”)” aparece? <b>Sim</b> → eu marco ✔.", "painel": 0, "linha": "✔ Pressa (“URGENTE!”)", "marca": true, "espera": 1800}, {"fala": "“Prêmio fácil (tablet)” aparece? <b>Sim</b> → eu marco ✔.", "painel": 0, "linha": "✔ Prêmio fácil (tablet)", "marca": true, "espera": 1800}, {"fala": "“Pedido de senha” aparece? <b>Sim</b> → eu marco ✔.", "painel": 0, "linha": "✔ Pedido de senha", "marca": true, "espera": 1800}, {"fala": "“Alguém dizendo que trocou de número” aparece? <b>Não</b> → deixo sem marcar.", "painel": 0, "linha": "☐ Alguém dizendo que trocou de número", "espera": 1800}], "fim": "Agora é a sua vez: releia as mensagens da tarefa e marque só o que aparece nelas. 💪"},
+      { id: "m3-basico-2", tipo: "sinais", titulo: "Quais sinais de golpe apareceram nessas mensagens?", explicacao: "Os sinais que apareceram: pressa, prêmio fácil, pedido de senha ou código e alguém dizendo que trocou de número. O aviso “não compartilhe” é do próprio aplicativo, e texto sem erro, sozinho, não prova nada.", robo: {"paineis": ["🚩 Outra mensagem"], "passos": [{"fala": "Olha com <b>outra</b> situação: “URGENTE! Ganhe um tablet: clique em premio.xyz e mande a sua senha!” Eu leio item por item e pergunto: “isso aparece aqui?”", "painel": 0, "titulo": "Minha situação"}, {"fala": "“Pressa (“URGENTE!”)” aparece? <b>Sim</b> → eu marco ✔.", "painel": 0, "linha": "✔ Pressa (“URGENTE!”)", "marca": true, "espera": 1800}, {"fala": "“Prêmio fácil (tablet)” aparece? <b>Sim</b> → eu marco ✔.", "painel": 0, "linha": "✔ Prêmio fácil (tablet)", "marca": true, "espera": 1800}, {"fala": "“Pedido de senha” aparece? <b>Sim</b> → eu marco ✔.", "painel": 0, "linha": "✔ Pedido de senha", "marca": true, "espera": 1800}, {"fala": "“Alguém dizendo que trocou de número” aparece? <b>Não</b> → deixo sem marcar.", "painel": 0, "linha": "☐ Alguém dizendo que trocou de número", "espera": 1800}], "fim": "Agora é a sua vez: releia as mensagens da tarefa e marque só o que aparece nelas. 💪"},
         opcoes: [
           { t: "Pressa (“em até 10 minutos!”)", certo: true }, { t: "Prêmio fácil (celular, moedas grátis)", certo: true },
           { t: "Pedido de senha ou de código", certo: true }, { t: "Alguém dizendo que trocou de número", certo: true },
@@ -517,20 +517,20 @@ PORTAL.registrarAtividades("informatica-7ano-4bim", {
     ],
     desafio: [
       { tipo: "escolha", de: "m1", titulo: "Desafio M1",
-        perguntas: [{ p: "Por que os pacotes de uma mensagem são numerados?", opcoes: ["Para serem montados na ordem certa no destino", "Para ficarem mais bonitos", "Para pagar a internet"], certo: 0 }] },
+        perguntas: [{ p: "Por que os pacotes de uma mensagem são numerados?", opcoes: ["Para serem montados na ordem certa no destino", "Para ficarem mais bonitos", "Para pagar a internet"], certo: 0, why: "Os pacotes podem chegar fora de ordem; o número mostra onde cada um entra." }] },
       { tipo: "escolha", de: "m2", titulo: "Desafio M2 · Caça ao bug",
         enunciado: "<p><em>Repita 3 vezes: ande 5 passos e vire à direita</em> deveria desenhar um quadrado.</p>",
         perguntas: [{ p: "Como fica o algoritmo corrigido?", opcoes: ["Repita 4 vezes: ande 5 passos e vire à direita", "Repita 3 vezes: ande 4 passos", "Repita 5 vezes: vire à esquerda"], certo: 0, why: "Quadrado tem 4 lados." }] },
       { tipo: "escolha", de: "m3", titulo: "Desafio M3",
-        perguntas: [{ p: "Uma mensagem sem nenhum erro de português pode ser golpe?", opcoes: ["Sim: texto sem erro, sozinho, não prova que é verdade", "Não, nunca", "Só se tiver emoji"], certo: 0 }] },
+        perguntas: [{ p: "Uma mensagem sem nenhum erro de português pode ser golpe?", opcoes: ["Sim: texto sem erro, sozinho, não prova que é verdade", "Não, nunca", "Só se tiver emoji"], certo: 0, why: "Golpistas também escrevem sem erro: olhe os outros sinais (pressa, prêmio, pedido de código)." }] },
       { tipo: "escolha", de: "m4", titulo: "Desafio M4",
-        perguntas: [{ p: "Se uma rua do caminho mais curto for fechada, o que acontece?", opcoes: ["O caminho mais curto pode mudar, e o GPS calcula outro", "O grafo some", "Nada muda"], certo: 0 }] }
+        perguntas: [{ p: "Se uma rua do caminho mais curto for fechada, o que acontece?", opcoes: ["O caminho mais curto pode mudar, e o GPS calcula outro", "O grafo some", "Nada muda"], certo: 0, why: "Sem aquela rua, o GPS soma os outros caminhos e escolhe o de menor soma." }] }
     ],
     turbo: [
-      { tipo: "escolha", de: "m1", titulo: "Turbo · Simulado M1", perguntas: [{ p: "A internet é:", opcoes: ["Uma rede de redes", "Um computador só", "Um programa"], certo: 0 }] },
-      { tipo: "escolha", de: "m2", titulo: "Turbo · Simulado M2", perguntas: [{ p: "Depois de corrigir um erro, eu:", opcoes: ["Testo de novo", "Não testo mais", "Apago o algoritmo"], certo: 0 }] },
-      { tipo: "escolha", de: "m3", titulo: "Turbo · Simulado M3", perguntas: [{ p: "Phishing é:", opcoes: ["Mensagem falsa com uma isca para roubar dados", "Um antivírus", "Um tipo de pacote"], certo: 0 }] },
-      { tipo: "escolha", de: "m4", titulo: "Turbo · Simulado M4", perguntas: [{ p: "O caminho mais curto é o de:", opcoes: ["Menor soma dos pesos", "Menos ruas", "Mais vértices"], certo: 0 }] }
+      { tipo: "escolha", de: "m1", titulo: "Turbo · Simulado M1", perguntas: [{ p: "A internet é:", opcoes: ["Uma rede de redes", "Um computador só", "Um programa"], certo: 0, why: "A internet liga as redes de casas, escolas e empresas do mundo todo." }] },
+      { tipo: "escolha", de: "m2", titulo: "Turbo · Simulado M2", perguntas: [{ p: "Depois de corrigir um erro, eu:", opcoes: ["Testo de novo", "Não testo mais", "Apago o algoritmo"], certo: 0, why: "Corrigir um erro pode criar outro: sempre teste de novo." }] },
+      { tipo: "escolha", de: "m3", titulo: "Turbo · Simulado M3", perguntas: [{ p: "Phishing é:", opcoes: ["Mensagem falsa com uma isca para roubar dados", "Um antivírus", "Um tipo de pacote"], certo: 0, why: "Phishing vem de “fishing” (pescar): a isca engana para roubar dados." }] },
+      { tipo: "escolha", de: "m4", titulo: "Turbo · Simulado M4", perguntas: [{ p: "O caminho mais curto é o de:", opcoes: ["Menor soma dos pesos", "Menos ruas", "Mais vértices"], certo: 0, why: "O mais curto é o de menor soma dos pesos, mesmo que tenha mais paradas." }] }
     ]
   },
 
@@ -547,7 +547,7 @@ PORTAL.registrarAtividades("informatica-7ano-4bim", {
           ["seguranc", "golpe", "phishing", "senha", "empatia", "respeit", "verificacao", "duas etapas", "dados", "link", "cyberbullying", "denunc", "proteg"]] } }
     ],
     desafio: [
-      { tipo: "ligar", titulo: "Desafio do bimestre: ligue cada termo ao seu significado", porRodada: 6,
+      { tipo: "ligar", titulo: "Desafio do bimestre: ligue cada termo ao seu significado", explicacao: "Cada termo é de um tema do bimestre. Se errou algum, volte ao 📖 O que significa? da missão daquele termo e leia de novo.", porRodada: 6,
         enunciado: "<p>Um termo de cada tema do bimestre. Clique no termo e depois no significado dele.</p>",
         pares: [{ a: "Pacote", b: "Pedaço numerado de uma mensagem que viaja pela rede" }, { a: "Endereço IP", b: "Número que identifica cada aparelho na rede" }, { a: "Decomposição", b: "Dividir um problema grande em partes menores" }, { a: "Bug", b: "Erro em um algoritmo" }, { a: "Phishing", b: "Golpe com mensagem ou link falso para roubar dados" }, { a: "Verificação em duas etapas", b: "Segunda confirmação além da senha, como um código no celular" }] }
     ],

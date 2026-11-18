@@ -10,7 +10,7 @@ PORTAL.registrarAtividades("informatica-5ano-4bim", {
       { tipo: "baloes", titulo: "Aquecimento: estoure os balões", robo: {"paineis": ["🎈 Como eu uso o mouse"], "passos": [{"fala": "Olha como eu faço: primeiro <b>movo</b> o mouse na mesa, devagar, e vejo a setinha andar na tela.", "painel": 0, "titulo": "Mouse"}, {"fala": "Quando a setinha fica <b>em cima</b> do balão, eu paro de mexer.", "painel": 0, "linha": "1. Levo a setinha até o balão"}, {"fala": "Aí eu aperto e solto o botão <b>esquerdo</b> uma vez: é o clique.", "painel": 0, "linha": "2. Clique com o botão esquerdo", "marca": true}, {"fala": "O balão muda de lugar! Eu levo a setinha até ele de novo, com calma.", "painel": null, "espera": 2600}], "fim": "Agora é a sua vez: estoure os 8 balões! 💪"}, quantidade: 8,
         enunciado: "<p>Use o <strong>mouse</strong> (um periférico de entrada, é hardware!) para estourar os balões. Eles mudam de lugar. 🎈</p>",
         explicacao: "O mouse é <strong>hardware</strong>: uma peça que dá para tocar. O jogo que apareceu na tela é <strong>software</strong>." },
-      { tipo: "mensagens", titulo: "Hardware ou software?", robo: {"paineis": ["🧐 Outras coisas: impressora e calculadora do celular"], "passos": [{"fala": "Olha como eu decido com <b>outros</b> exemplos. Eu faço sempre as mesmas perguntas: “Dá para pegar com a mão?” Se sim, é hardware; se é um programa, é software.", "painel": 0, "titulo": "Meus exemplos"}, {"fala": "“Impressora” → dá para pegar com a mão: é uma <b>peça</b>, então é hardware.", "painel": 0, "linha": "Impressora → 🔧 Hardware", "marca": true, "espera": 2600}, {"fala": "“Calculadora do celular” → não dá para pegar: é um <b>programa</b>, então é software.", "painel": 0, "linha": "Calculadora do celular → 💿 Software", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: para cada item, pergunte “dá para pegar com a mão?”. 💪"}, app: "🧐 O que é isso?",
+      { tipo: "mensagens", titulo: "Hardware ou software?", explicacao: "Hardware é peça, que dá para tocar: mouse, pen drive e teclado. Software é programa: Windows, o jogo e o navegador.", robo: {"paineis": ["🧐 Outras coisas: impressora e calculadora do celular"], "passos": [{"fala": "Olha como eu decido com <b>outros</b> exemplos. Eu faço sempre as mesmas perguntas: “Dá para pegar com a mão?” Se sim, é hardware; se é um programa, é software.", "painel": 0, "titulo": "Meus exemplos"}, {"fala": "“Impressora” → dá para pegar com a mão: é uma <b>peça</b>, então é hardware.", "painel": 0, "linha": "Impressora → 🔧 Hardware", "marca": true, "espera": 2600}, {"fala": "“Calculadora do celular” → não dá para pegar: é um <b>programa</b>, então é software.", "painel": 0, "linha": "Calculadora do celular → 💿 Software", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: para cada item, pergunte “dá para pegar com a mão?”. 💪"}, app: "🧐 O que é isso?",
         botoes: [{ id: "H", rot: "🔧 Hardware" }, { id: "S", rot: "💿 Software" }],
         enunciado: "<p>Para cada item, escolha: é <strong>hardware</strong> (peça que dá para tocar) ou <strong>software</strong> (programa)?</p>",
         itens: [
@@ -72,7 +72,7 @@ PORTAL.registrarAtividades("informatica-5ano-4bim", {
     turbo: [
       { tipo: "escolha", titulo: "O computador da escola quebrou!",
         perguntas: [
-          { p: "O trabalho salvo só nele se perde?", opcoes: ["Pode se perder, porque estava guardado só naquele aparelho", "Não, ele vai para a nuvem sozinho"], certo: 0 },
+          { p: "O trabalho salvo só nele se perde?", opcoes: ["Pode se perder, porque estava guardado só naquele aparelho", "Não, ele vai para a nuvem sozinho"], certo: 0, why: "O que fica só num aparelho se perde junto com ele; na nuvem, a cópia fica nos computadores da empresa." },
           { p: "E o trabalho salvo na nuvem?", opcoes: ["Continua guardado: dá para abrir em outro aparelho com internet", "Também se perde"], certo: 0, why: "Na nuvem, o arquivo fica nos computadores da empresa, não no aparelho quebrado." }] }
     ],
     vf: [
@@ -165,11 +165,11 @@ PORTAL.registrarAtividades("informatica-5ano-4bim", {
         perguntas: [
           { p: "“O sol é quente <b>E</b> o gelo é frio.” Essa frase é…", opcoes: ["Verdadeira (as duas partes são verdadeiras)", "Falsa"], certo: 0, why: "Com E, as duas partes precisam ser verdadeiras: e são!" },
           { p: "“O peixe voa <b>OU</b> o pássaro voa.” Essa frase é…", opcoes: ["Verdadeira (basta uma parte ser verdadeira)", "Falsa"], certo: 0, why: "Com OU, basta uma parte verdadeira: o pássaro voa." },
-          { p: "<b>SE</b> chover, <b>ENTÃO</b> levo o guarda-chuva. Hoje choveu. O que eu faço?", opcoes: ["Levo o guarda-chuva", "Levo o boné", "Fico em casa"], certo: 0 }
+          { p: "<b>SE</b> chover, <b>ENTÃO</b> levo o guarda-chuva. Hoje choveu. O que eu faço?", opcoes: ["Levo o guarda-chuva", "Levo o boné", "Fico em casa"], certo: 0, why: "A condição (choveu) é verdadeira, então acontece o ENTÃO: levar o guarda-chuva." }
         ] }
     ],
     basico: [
-      { tipo: "classificar", modo: "tabela", titulo: "Verdadeira ou falsa?", colunaItem: "Sentença", colunaResp: "V ou F",
+      { tipo: "classificar", modo: "tabela", titulo: "Verdadeira ou falsa?", explicacao: "O sol é quente (V); com o NÃO vira F. Com E, as duas partes precisam ser V (3 + 3 = 7 é F, então tudo é F). Com OU, basta uma ser V. Curionópolis fica no Pará E o Pará fica no Brasil: as duas são V, então é V.", colunaItem: "Sentença", colunaResp: "V ou F",
         categorias: [{ id: "V", rot: "Verdadeira" }, { id: "F", rot: "Falsa" }],
         itens: [
           { t: "O sol é quente.", c: "V" }, { t: "O sol NÃO é quente.", c: "F", why: "O NÃO inverte: V vira F." },
@@ -255,7 +255,7 @@ PORTAL.registrarAtividades("informatica-5ano-4bim", {
         ] }
     ],
     basico: [
-      { id: "m4-basico-1", tipo: "classificar", modo: "tabela", titulo: "Confiável ou não?", colunaItem: "Mensagem", colunaResp: "C ou N",
+      { id: "m4-basico-1", tipo: "classificar", modo: "tabela", titulo: "Confiável ou não?", explicacao: "Confiáveis: o aviso no site da prefeitura (tem quem escreveu, data e horário) e o livro didático. Não confiáveis: a mensagem com “URGENTE!!!” e “compartilhe” e o vídeo exagerado do chocolate.", colunaItem: "Mensagem", colunaResp: "C ou N",
         categorias: [{ id: "C", rot: "Confiável" }, { id: "N", rot: "Não confiável" }],
         itens: [
           { t: "“URGENTE!!! Amanhã não vai ter aula em nenhuma escola do Brasil. Compartilhe!”", c: "N", why: "“URGENTE!!!” e “compartilhe” são sinais de alerta." },
@@ -284,7 +284,7 @@ PORTAL.registrarAtividades("informatica-5ano-4bim", {
         criterios: ["Pedi autorização à Maria.", "Escrevi o crédito com o nome dela."],
         conferir: { porCampo: [["autoriza", "permiss", "pedir", "peco", "pergunt", "deixa"], ["maria"]], msg: "Isso mesmo: pedir autorização e dar o crédito!" },
         exemplo: "Peço autorização para a Maria e escrevo o crédito no cartaz: Desenho: Maria." },
-      { id: "m4-basico-3", tipo: "classificar", modo: "tabela", titulo: "Ligue cada problema à tecnologia certa", enunciado: "<p>Para cada problema, escolha a letra da tecnologia que resolve: <strong>A</strong> programa de desenho, <strong>B</strong> Bloco de Notas, <strong>C</strong> calculadora ou <strong>D</strong> chamada de vídeo.</p>", colunaItem: "Problema", colunaResp: "Tecnologia",
+      { id: "m4-basico-3", tipo: "classificar", modo: "tabela", titulo: "Ligue cada problema à tecnologia certa", explicacao: "Conta difícil → C (calculadora). Falar com a avó longe → D (chamada de vídeo). Escrever um texto → B (Bloco de Notas). Fazer um desenho → A (programa de desenho).", enunciado: "<p>Para cada problema, escolha a letra da tecnologia que resolve: <strong>A</strong> programa de desenho, <strong>B</strong> Bloco de Notas, <strong>C</strong> calculadora ou <strong>D</strong> chamada de vídeo.</p>", colunaItem: "Problema", colunaResp: "Tecnologia",
         categorias: [{ id: "A", rot: "Programa de desenho" }, { id: "B", rot: "Bloco de Notas" }, { id: "C", rot: "Calculadora" }, { id: "D", rot: "Chamada de vídeo" }],
         itens: [{ t: "Fazer uma conta difícil bem rápido", c: "C" }, { t: "Falar com a avó que mora em outra cidade", c: "D" }, { t: "Escrever um texto no computador", c: "B" }, { t: "Fazer um desenho no computador", c: "A" }] },
       { id: "m4-basico-4", tipo: "cartaz", titulo: "Monte aqui o cartaz Eu navego com cuidado", robo: {"paineis": ["🖼️ Meu cartaz de exemplo: Eu cuido da minha escola"], "passos": [{"fala": "Olha como eu monto um cartaz de <b>outro</b> tema, em 3 passos:", "painel": 0, "titulo": "Eu cuido da minha escola"}, {"fala": "1. Escolho desenhos que <b>combinam com o tema</b>: clico em cada um (clicando de novo, ele sai).", "painel": 0, "linha": "1. Desenhos: 📚 🌳 🤝"}, {"fala": "2. Clico numa cor de fundo.", "painel": 0, "linha": "2. Cor: verde"}, {"fala": "3. Escrevo a frase no campo de texto, completa, com letra maiúscula e ponto final.", "painel": 0, "linha": "3. Frase: Eu guardo o material no lugar.", "marca": true, "espera": 3000}], "fim": "Agora é a sua vez: escolha desenhos de internet com cuidado e escreva o seu cuidado. 💪"}, tituloCartaz: "Eu navego com cuidado",

@@ -1104,7 +1104,9 @@
     bRef.onclick = () => { for (const k of Object.keys(st)) delete st[k]; st.tentativas = 0; st.dicas = 0; st.ini = Date.now(); salvar(); feedback("", ""); ctx.reRender(); mostrarStatus(); atualizarAjuda(); onChange && onChange(); };
     T.render(corpo, at, ctx);
     // 🤖 Bit (18/11/2026): qualquer tarefa com "robo" ganha o botão "Me ajuda, robô!", mesmo se o tipo dela não chama o Bit sozinho
-    if (at.robo && P.bitAjuda && !(corpo.nextElementSibling && corpo.nextElementSibling.classList.contains("ab-bit"))) P.bitAjuda(corpo, at, ctx);
+    //    sem robô próprio, vale o robô padrão do tipo (js/robo-padrao.js, 18/11/2026)
+    { const rb = at.robo || (P.roboPadrao && P.roboPadrao(at));
+      if (rb && P.bitAjuda && !(corpo.nextElementSibling && corpo.nextElementSibling.classList.contains("ab-bit"))) P.bitAjuda(corpo, at.robo ? at : Object.assign({}, at, { robo: rb }), ctx); }
     el._ctx = ctx; // usado pelos testes automatizados
     if (!ctx.verificar) bV.hidden = true;
     if (st.status) { mostrarStatus(); if (at.explicacao && st.status !== "enviado") feedback("ok", "Você já concluiu esta atividade." + `<div class="explic">${at.explicacao}</div>`); }

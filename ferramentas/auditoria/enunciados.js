@@ -34,6 +34,8 @@ const SEM_INSTRUCAO = new Set(["escolha", "relembre", "info", undefined]);      
 // tipos que já mostram sozinhos o que fazer (texto do próprio tipo ou a instrução padrão do portal desde 18/11/2026)
 const INSTRUI_SOZINHO = new Set(["ordenar", "tabela", "classificar", "ligar", "pintura", "lista_ops", "busca_binaria", "bolha", "pc", "senha", "arvore", "blocos", "sim_pc", "cartaz", "rota", "robo"]);
 const PRATICOS = /^(sim_|baloes|lampadas|duplo_clique|explorador_pastas|rota|cabo|sinais|bits|medidor_senha|senha|grafo|grafo_montar|arvore|busca_binaria|bolha|adivinhe|sequencial|permissoes|caminho|cesar|cesar_livre|teclado|pc|robo|blocos|pintura|lista_ops|mensagens|cartaz)$/;
+// tipos que ganham o robô padrão do portal quando não têm um próprio (js/robo-padrao.js)
+const ROBO_PADRAO = new Set(["blocos", "lista_ops", "sequencial", "busca_binaria", "bolha", "grafo", "grafo_montar", "arvore", "rota", "mensagens", "sinais", "explorador_pastas", "duplo_clique", "baloes", "pintura", "classificar", "ligar", "ordenar", "sim_bolha", "sim_adivinhe", "cesar", "sim_cesar", "senha"]);
 const NUMERICA = /\b(quant[oa]s|tentativas|compara[cç][oõ]es|trocas|passos|vezes|posi[cç][aã]o|resultado|calcule|some|total)\b/i;
 const METODO = /(dobr|tabela|lista |som[ae]|soma|divid|multiplic|conte |grau|posi[cç][aã]o 1|busca bin[aá]ria|busca sequencial|m[eé]todo|bolha|um por um|meio|metade|algoritmo|regra|f[oó]rmula|usando|com a |pela |pelo )/i;
 const CITA = /\b(tabela|imagem|figura|desenho|lista)\s+(abaixo|acima|ao lado|a seguir)\b/i;
@@ -59,13 +61,14 @@ for (const [aid, ap] of Object.entries(A)) {
       const pedeNum = LIN.some(l => Array.isArray(l) && l.some(x => x && typeof x === "object" && (x.tipo === "num" || /^\d+([.,]\d+)?$/.test(String(x.r || "")))));
       if ((pedeNum || ["sim_adivinhe", "adivinhe"].includes(tipo)) && NUMERICA.test(tudo) && !METODO.test(tudo))
         add("METODO?", "pede um número/contagem sem dizer o método ou de onde vêm os dados");
-      if (!SEM_INSTRUCAO.has(tipo) && !(at.dicas || []).length && !at.robo && !["info", "relembre", "sim_pc", "cabo", "teclado"].includes(tipo))   // sim_pc, cabo e teclado já têm o Bit dentro
+      if (!SEM_INSTRUCAO.has(tipo) && !(at.dicas || []).length && !at.robo && !ROBO_PADRAO.has(tipo) && !["info", "relembre", "sim_pc", "sim_windows", "cabo", "teclado", "pc"].includes(tipo) && !(tipo === "aberta" && (at.exemplo || at.criterios)))   // sim_pc, cabo e teclado já têm o Bit dentro
         add("SEM-AJUDA", `tipo ${tipo}: sem dica e sem robô`);
-      if (!at.explicacao && !["info", "relembre"].includes(tipo)) {
+      const itensComPorque = Array.isArray(at.itens) && at.itens.length && at.itens.every(x => x && typeof x === "object" && (x.why || x.porque));
+      if (!at.explicacao && !itensComPorque && !(tipo === "aberta" && at.exemplo) && !["info", "relembre", "pc", "cartaz"].includes(tipo)) {
         if (tipo === "escolha") { const sem = (at.perguntas || []).filter(p => !p.why).length; if (sem) add("SEM-EXPLICACAO", `${sem} pergunta(s) sem "why"`); }
         else add("SEM-EXPLICACAO", `tipo ${tipo}: sem explicação da resposta`);
       }
-      if (PRATICOS.test(tipo || "") && !["cabo", "teclado"].includes(tipo) && !at.robo && !at.opcional && ["pratica", "basico"].includes(nv)) add("PRATICA-SEM-ROBO", `tipo ${tipo} (${nv}) sem o 🤖 Bit`);
+      if (PRATICOS.test(tipo || "") && !["cabo", "teclado"].includes(tipo) && !ROBO_PADRAO.has(tipo) && !at.robo && !at.opcional && ["pratica", "basico"].includes(nv)) add("PRATICA-SEM-ROBO", `tipo ${tipo} (${nv}) sem o 🤖 Bit`);
       // resposta numérica × explicação
       if (at.explicacao) LIN.forEach(l => Array.isArray(l) && l.forEach(x => { if (x && typeof x === "object" && /^\d+$/.test(String(x.r || "")) && +x.r >= 10 && /\d/.test(txt(at.explicacao)) && !new RegExp("(^|\\D)" + x.r + "(\\D|$)").test(txt(at.explicacao).replace(/(\d)\.(?=\d{3})/g, "$1"))) add("RESPOSTA×EXPL", `resposta ${x.r} não aparece na explicação`); }));
       if (CITA.test(tudo) && !at.linhas && !at.html && !at.lista && !at.valores && !at.itens && !at.pares) add("CITA-AUSENTE", `cita "${(tudo.match(CITA) || [])[0]}" que a tarefa não mostra`);

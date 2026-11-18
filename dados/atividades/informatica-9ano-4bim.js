@@ -108,8 +108,8 @@
           enunciado: "<p>Ana é amiga de Bruno e de Carla; Bruno é amigo de Davi; Carla é amiga de Davi e de Elisa.</p>",
           perguntas: [
             { p: "Quem tem mais amigos (de qual vértice saem mais arestas)?", opcoes: ["Carla, com 3 amigos", "Ana, com 2 amigos", "Davi, com 3 amigos"], certo: 0, why: "Carla é amiga de Ana, Davi e Elisa." },
-            { p: "Esse grafo tem um ciclo?", opcoes: ["Sim: Ana → Bruno → Davi → Carla → Ana", "Não tem ciclo"], certo: 0 },
-            { p: "Por que ele não é uma árvore?", opcoes: ["Porque tem um ciclo, e árvore nunca tem ciclo", "Porque tem mais de 4 vértices", "Porque não tem pesos"], certo: 0 }] }
+            { p: "Esse grafo tem um ciclo?", opcoes: ["Sim: Ana → Bruno → Davi → Carla → Ana", "Não tem ciclo"], certo: 0, why: "Dá para sair da Ana e voltar a ela pelo caminho Ana → Bruno → Davi → Carla → Ana: isso é um ciclo." },
+            { p: "Por que ele não é uma árvore?", opcoes: ["Porque tem um ciclo, e árvore nunca tem ciclo", "Porque tem mais de 4 vértices", "Porque não tem pesos"], certo: 0, why: "Uma árvore nunca tem ciclo; como esse grafo tem, ele não é uma árvore." }] }
       ],
       vf: [
         { v: true },
@@ -230,7 +230,7 @@
         ],
         fimMsg: "Crédito certo: Foto: Maria Souza, Banco de Imagens Livres, CC BY. Respeitar a autoria é lei e é educação!",
         explicacao: "Antes de usar uma imagem, veja a licença. CC BY deixa usar dando o crédito: autor, site e licença. “Todos os direitos reservados” precisa de autorização." },
-        { id: "m3-pratica-1", tipo: "mensagens", titulo: "No seu feed: compartilhar ou não?", robo: {"paineis": ["📲 Outras postagens"], "passos": [{"fala": "Olha como eu decido com <b>outros</b> exemplos. Eu faço sempre as mesmas perguntas: Quem é o autor? Tem autorização? Pode ser falso (deepfake)?", "painel": 0, "titulo": "Meus exemplos"}, {"fala": "“Print da conversa de uma colega, postado sem ela saber” → expõe a pessoa sem autorização (direito de imagem e privacidade).", "painel": 0, "linha": "Print da conversa de uma colega, postado sem e… → 🛑 Não compartilhe", "marca": true, "espera": 2600}, {"fala": "“Desenho com licença CC BY, com o nome do autor” → a licença deixa, desde que eu dê o crédito ao autor.", "painel": 0, "linha": "Desenho com licença CC BY, com o nome do autor → 🔁 Pode compartilhar", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: faça as perguntas para cada postagem. 💪"}, app: "📲 Feed",
+        { id: "m3-pratica-1", tipo: "mensagens", titulo: "No seu feed: compartilhar ou não?", explicacao: "Não compartilhe: a foto do colega sem autorização (direito de imagem) e o vídeo sem fonte com voz robótica (pode ser deepfake). Pode compartilhar: a ilustração com licença CC BY, dando o crédito à autora.", robo: {"paineis": ["📲 Outras postagens"], "passos": [{"fala": "Olha como eu decido com <b>outros</b> exemplos. Eu faço sempre as mesmas perguntas: Quem é o autor? Tem autorização? Pode ser falso (deepfake)?", "painel": 0, "titulo": "Meus exemplos"}, {"fala": "“Print da conversa de uma colega, postado sem ela saber” → expõe a pessoa sem autorização (direito de imagem e privacidade).", "painel": 0, "linha": "Print da conversa de uma colega, postado sem e… → 🛑 Não compartilhe", "marca": true, "espera": 2600}, {"fala": "“Desenho com licença CC BY, com o nome do autor” → a licença deixa, desde que eu dê o crédito ao autor.", "painel": 0, "linha": "Desenho com licença CC BY, com o nome do autor → 🔁 Pode compartilhar", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: faça as perguntas para cada postagem. 💪"}, app: "📲 Feed",
         botoes: [{ id: "S", rot: "🔁 Pode compartilhar" }, { id: "N", rot: "🛑 Não compartilhe" }],
         enunciado: "<p>Pense em <strong>autoria</strong>, <strong>direito de imagem</strong> e se pode ser <strong>deepfake</strong>.</p>",
         itens: [
@@ -249,7 +249,7 @@
         ] }
       ],
       basico: [
-        { id: "m3-basico-1", tipo: "classificar", modo: "tabela", titulo: "Pode ou não pode?", colunaItem: "Situação", colunaResp: "P ou N",
+        { id: "m3-basico-1", tipo: "classificar", modo: "tabela", titulo: "Pode ou não pode?", explicacao: "Pode: usar a foto CC BY com o nome do autor e usar o poema de Machado de Assis (domínio público). Não pode: postar a foto do colega sem autorização (direito de imagem), copiar texto como seu (plágio), publicar a música de outra pessoa como sua e fazer um deepfake da voz do professor.", colunaItem: "Situação", colunaResp: "P ou N",
           categorias: [{ id: "P", rot: "Pode" }, { id: "N", rot: "Não pode" }],
           itens: [
             { t: "Usar uma foto com licença CC BY em um trabalho, escrevendo o nome do autor.", c: "P" },
@@ -273,7 +273,7 @@
         fimMsg: "Você checou numa agência antes de compartilhar e descobriu o deepfake. Muito bem!",
         explicacao: "Deepfake é vídeo ou áudio falso feito com IA. Antes de compartilhar, procure em agências de checagem e em sites de notícias confiáveis." },
         { id: "m3-basico-2", tipo: "info", titulo: "Leia a situação", html: "<p class=\"regra\">Um vídeo mostra um jogador famoso dizendo que vai dar celulares para quem clicar em um link. A boca não acompanha a fala, a voz parece robótica e o vídeo não aparece em nenhum site de notícias.</p>" },
-        { id: "m3-basico-3", tipo: "sinais", titulo: "Que sinais mostram que pode ser um deepfake?", robo: {"paineis": ["🎭 Outro vídeo"], "passos": [{"fala": "Olha com <b>outra</b> situação: um vídeo de uma cantora diz que vai dar ingressos para quem mandar o CPF. A voz parece de robô. Eu leio item por item e pergunto: “isso aparece aqui?”", "painel": 0, "titulo": "Minha situação"}, {"fala": "“A voz parece robótica” aparece? <b>Sim</b> → eu marco ✔.", "painel": 0, "linha": "✔ A voz parece robótica", "marca": true, "espera": 1800}, {"fala": "“Promete presente fácil” aparece? <b>Sim</b> → eu marco ✔.", "painel": 0, "linha": "✔ Promete presente fácil", "marca": true, "espera": 1800}, {"fala": "“A cantora é famosa” aparece? <b>Não</b> → deixo sem marcar.", "painel": 0, "linha": "☐ A cantora é famosa", "espera": 1800}], "fim": "Agora é a sua vez: marque só os sinais de que o vídeo pode ser falso. 💪"},
+        { id: "m3-basico-3", tipo: "sinais", titulo: "Que sinais mostram que pode ser um deepfake?", explicacao: "Sinais de deepfake: a boca não acompanha a fala, a voz robótica, nenhum site confirma e a promessa de presente por link. Ser famoso ou ter boa imagem não prova nada.", robo: {"paineis": ["🎭 Outro vídeo"], "passos": [{"fala": "Olha com <b>outra</b> situação: um vídeo de uma cantora diz que vai dar ingressos para quem mandar o CPF. A voz parece de robô. Eu leio item por item e pergunto: “isso aparece aqui?”", "painel": 0, "titulo": "Minha situação"}, {"fala": "“A voz parece robótica” aparece? <b>Sim</b> → eu marco ✔.", "painel": 0, "linha": "✔ A voz parece robótica", "marca": true, "espera": 1800}, {"fala": "“Promete presente fácil” aparece? <b>Sim</b> → eu marco ✔.", "painel": 0, "linha": "✔ Promete presente fácil", "marca": true, "espera": 1800}, {"fala": "“A cantora é famosa” aparece? <b>Não</b> → deixo sem marcar.", "painel": 0, "linha": "☐ A cantora é famosa", "espera": 1800}], "fim": "Agora é a sua vez: marque só os sinais de que o vídeo pode ser falso. 💪"},
           opcoes: [
             { t: "A boca não acompanha a fala", certo: true }, { t: "A voz parece robótica", certo: true },
             { t: "Nenhum site de notícias confirma", certo: true }, { t: "Uma promessa de presente fácil por link", certo: true },
@@ -281,9 +281,9 @@
             { t: "O vídeo tem boa qualidade de imagem", certo: false, why: "Deepfakes também podem ter boa qualidade." }] },
         { id: "m3-basico-4", tipo: "escolha", titulo: "Motivo e atitude",
           perguntas: [
-            { p: "Qual é o motivo de quem espalhou esse vídeo?", opcoes: ["Dinheiro: é um golpe com link", "Humor: é uma piada inocente", "Engano: o jogador errou ao falar"], certo: 0 },
-            { p: "O que você faria ao receber esse vídeo?", opcoes: ["Não clico, não compartilho e aviso quem me mandou que pode ser golpe", "Clico rápido para garantir o celular", "Compartilho com a família para todos ganharem"], certo: 0 }] },
-        { id: "m3-basico-5", tipo: "classificar", modo: "tabela", titulo: "Qual é o motivo?", colunaItem: "Mensagem", colunaResp: "D, P, H ou O",
+            { p: "Qual é o motivo de quem espalhou esse vídeo?", opcoes: ["Dinheiro: é um golpe com link", "Humor: é uma piada inocente", "Engano: o jogador errou ao falar"], certo: 0, why: "O link para ganhar um celular é a isca de um golpe: o motivo é dinheiro." },
+            { p: "O que você faria ao receber esse vídeo?", opcoes: ["Não clico, não compartilho e aviso quem me mandou que pode ser golpe", "Clico rápido para garantir o celular", "Compartilho com a família para todos ganharem"], certo: 0, why: "Não clicar e não compartilhar impede o golpe de se espalhar; avisar ajuda quem mandou." }] },
+        { id: "m3-basico-5", tipo: "classificar", modo: "tabela", titulo: "Qual é o motivo?", explicacao: "O link cheio de propagandas → Dinheiro. A montagem do candidato na véspera da eleição → Política. O site de humor → Humor. As fotos com apelidos ofensivos → Ódio.", colunaItem: "Mensagem", colunaResp: "D, P, H ou O",
           categorias: [{ id: "D", rot: "Dinheiro" }, { id: "P", rot: "Política" }, { id: "H", rot: "Humor" }, { id: "O", rot: "Ódio" }],
           itens: [
             { t: "“Você não vai acreditar no que aconteceu! Clique aqui” (o link abre um site cheio de propagandas).", c: "D" },
@@ -325,7 +325,7 @@
     /* ======================= MISSÃO 4 ======================= */
     m4: {
       pratica: [
-        { tipo: "mensagens", titulo: "Seja a IA: aprenda com os exemplos e separe os e-mails", robo: {"paineis": ["🤖 Como a IA decide"], "passos": [{"fala": "Olha como eu decido com <b>outros</b> exemplos. Eu faço sempre as mesmas perguntas: Esse e-mail se parece com quais exemplos do treino? (é assim que a IA aprende: pelos padrões)", "painel": 0, "titulo": "Meus exemplos"}, {"fala": "“GANHE DINHEIRO FÁCIL!!! Clique já!” → tem as mesmas pistas dos exemplos de spam: GRÁTIS/GANHE, CLIQUE JÁ, muitos pontos de exclamação.", "painel": 0, "linha": "GANHE DINHEIRO FÁCIL!!! Clique já! → 🚫 Spam", "marca": true, "espera": 2600}, {"fala": "“Professor: a prova é na quinta.” → parece os exemplos normais: avisos da escola, sem prêmio nem pressa.", "painel": 0, "linha": "Professor: a prova é na quinta. → ✅ Normal", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: compare cada e-mail com os exemplos do treino. 💪"}, app: "📧 E-mail",
+        { tipo: "mensagens", titulo: "Seja a IA: aprenda com os exemplos e separe os e-mails", explicacao: "Os e-mails com GRÁTIS, prêmio e “clique já” têm o padrão do spam dos exemplos. Os avisos da escola e da família são normais. É assim que a IA aprende: comparando com exemplos que já vieram com a resposta.", robo: {"paineis": ["🤖 Como a IA decide"], "passos": [{"fala": "Olha como eu decido com <b>outros</b> exemplos. Eu faço sempre as mesmas perguntas: Esse e-mail se parece com quais exemplos do treino? (é assim que a IA aprende: pelos padrões)", "painel": 0, "titulo": "Meus exemplos"}, {"fala": "“GANHE DINHEIRO FÁCIL!!! Clique já!” → tem as mesmas pistas dos exemplos de spam: GRÁTIS/GANHE, CLIQUE JÁ, muitos pontos de exclamação.", "painel": 0, "linha": "GANHE DINHEIRO FÁCIL!!! Clique já! → 🚫 Spam", "marca": true, "espera": 2600}, {"fala": "“Professor: a prova é na quinta.” → parece os exemplos normais: avisos da escola, sem prêmio nem pressa.", "painel": 0, "linha": "Professor: a prova é na quinta. → ✅ Normal", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: compare cada e-mail com os exemplos do treino. 💪"}, app: "📧 E-mail",
           botoes: [{ id: "S", rot: "🚫 Spam" }, { id: "N", rot: "✅ Normal" }],
           enunciado: `<p><strong>1. Treino:</strong> estes exemplos já vieram com a resposta certa. Procure o <strong>padrão</strong>:</p>
             <div class="tabela-wrap"><table><thead><tr><th>E-mail de exemplo</th><th>Resposta</th></tr></thead><tbody>
@@ -345,7 +345,7 @@
       { id: "m4-bonus-1", tipo: "escolha", titulo: "⭐ Bônus: a IA aprendeu certo?",
         perguntas: [
           { p: "Uma IA só viu fotos de gatos <b>brancos</b>. O que pode acontecer com um gato preto?", opcoes: ["Ela pode errar: é o viés", "Ela acerta sempre", "Ela vira um gato"], certo: 0, why: "A IA aprende com os exemplos; exemplos de um tipo só causam viés." },
-          { p: "Qual é a ordem de como a IA aprende?", opcoes: ["Coletar, treinar, testar, usar", "Usar, testar, coletar, treinar", "Treinar, usar, coletar, testar"], certo: 0 }
+          { p: "Qual é a ordem de como a IA aprende?", opcoes: ["Coletar, treinar, testar, usar", "Usar, testar, coletar, treinar", "Treinar, usar, coletar, testar"], certo: 0, why: "Primeiro os dados (coletar), depois o treino, o teste e só então o uso." }
         ] }
       ],
       basico: [
@@ -450,16 +450,16 @@
           explicacao: "Viés vem de exemplos ruins. O chatbot pode inventar: sempre confira." }
       ],
       desafio: [
-        { tipo: "escolha", de: "m1", titulo: "Desafio M1", perguntas: [{ p: "Por que um grafo com ciclo não é uma árvore?", opcoes: ["Porque árvore nunca tem ciclo", "Porque tem pesos", "Porque tem mais de 3 vértices"], certo: 0 }] },
-        { tipo: "escolha", de: "m2", titulo: "Desafio M2", perguntas: [{ p: "Qual é a melhor defesa contra o ransomware?", opcoes: ["Ter backup dos arquivos", "Pagar o resgate", "Desligar o monitor"], certo: 0 }, { p: "Por que senhas longas são mais seguras contra a força bruta?", opcoes: ["Porque há muito mais combinações para testar", "Porque são mais bonitas", "Porque o site gosta"], certo: 0 }] },
-        { tipo: "escolha", de: "m3", titulo: "Desafio M3", perguntas: [{ p: "Uma notícia falsa feita para ganhar cliques e propaganda foi espalhada por:", opcoes: ["Dinheiro", "Humor", "Engano"], certo: 0 }] },
-        { tipo: "escolha", de: "m4", titulo: "Desafio M4", perguntas: [{ p: "Câmeras com reconhecimento facial na praça: qual é o maior cuidado?", opcoes: ["Proteger os dados do rosto das pessoas", "A cor da câmera", "O tamanho do poste"], certo: 0 }] }
+        { tipo: "escolha", de: "m1", titulo: "Desafio M1", perguntas: [{ p: "Por que um grafo com ciclo não é uma árvore?", opcoes: ["Porque árvore nunca tem ciclo", "Porque tem pesos", "Porque tem mais de 3 vértices"], certo: 0, why: "Árvore é um grafo sem ciclos, que vai da raiz até as folhas." }] },
+        { tipo: "escolha", de: "m2", titulo: "Desafio M2", perguntas: [{ p: "Qual é a melhor defesa contra o ransomware?", opcoes: ["Ter backup dos arquivos", "Pagar o resgate", "Desligar o monitor"], certo: 0, why: "Com backup, os arquivos podem ser recuperados sem pagar resgate." }, { p: "Por que senhas longas são mais seguras contra a força bruta?", opcoes: ["Porque há muito mais combinações para testar", "Porque são mais bonitas", "Porque o site gosta"], certo: 0, why: "Cada caractere a mais multiplica as combinações que a força bruta precisa testar." }] },
+        { tipo: "escolha", de: "m3", titulo: "Desafio M3", perguntas: [{ p: "Uma notícia falsa feita para ganhar cliques e propaganda foi espalhada por:", opcoes: ["Dinheiro", "Humor", "Engano"], certo: 0, why: "Ganhar cliques e propaganda é ganhar dinheiro." }] },
+        { tipo: "escolha", de: "m4", titulo: "Desafio M4", perguntas: [{ p: "Câmeras com reconhecimento facial na praça: qual é o maior cuidado?", opcoes: ["Proteger os dados do rosto das pessoas", "A cor da câmera", "O tamanho do poste"], certo: 0, why: "O rosto é dado sensível (biometria): precisa ser guardado e protegido com cuidado." }] }
       ],
       turbo: [
-        { tipo: "escolha", de: "m1", titulo: "Turbo · Simulado M1", perguntas: [{ p: "O caminho mais curto é o de:", opcoes: ["Menor soma dos pesos", "Menos paradas", "Mais ruas"], certo: 0 }] },
-        { tipo: "escolha", de: "m2", titulo: "Turbo · Simulado M2", perguntas: [{ p: "Só quem tem a chave consegue:", opcoes: ["Decifrar a mensagem", "Ver o cadeado", "Ligar o computador"], certo: 0 }] },
-        { tipo: "escolha", de: "m3", titulo: "Turbo · Simulado M3", perguntas: [{ p: "Obras de domínio público:", opcoes: ["Todos podem usar livremente", "Ninguém pode usar", "Só o autor pode ver"], certo: 0 }] },
-        { tipo: "escolha", de: "m4", titulo: "Turbo · Simulado M4", perguntas: [{ p: "A IA aprende com:", opcoes: ["Muitos exemplos", "Mágica", "Nenhum dado"], certo: 0 }] }
+        { tipo: "escolha", de: "m1", titulo: "Turbo · Simulado M1", perguntas: [{ p: "O caminho mais curto é o de:", opcoes: ["Menor soma dos pesos", "Menos paradas", "Mais ruas"], certo: 0, why: "O caminho mais curto é o de menor soma dos pesos." }] },
+        { tipo: "escolha", de: "m2", titulo: "Turbo · Simulado M2", perguntas: [{ p: "Só quem tem a chave consegue:", opcoes: ["Decifrar a mensagem", "Ver o cadeado", "Ligar o computador"], certo: 0, why: "A chave é o segredo que permite decifrar a mensagem." }] },
+        { tipo: "escolha", de: "m3", titulo: "Turbo · Simulado M3", perguntas: [{ p: "Obras de domínio público:", opcoes: ["Todos podem usar livremente", "Ninguém pode usar", "Só o autor pode ver"], certo: 0, why: "Obras em domínio público podem ser usadas por todos (dando o crédito ao autor)." }] },
+        { tipo: "escolha", de: "m4", titulo: "Turbo · Simulado M4", perguntas: [{ p: "A IA aprende com:", opcoes: ["Muitos exemplos", "Mágica", "Nenhum dado"], certo: 0, why: "A IA aprende procurando padrões em muitos exemplos (os dados)." }] }
       ]
     },
 
@@ -476,7 +476,7 @@
             ["autor", "credito", "plagio", "imagem", "deepfake", "licenc", "direito", "creative commons", "falso", "fake", "inteligencia artificial", "copi"]] } }
       ],
       desafio: [
-        { tipo: "ligar", titulo: "Desafio do bimestre: ligue cada termo ao seu significado", porRodada: 6,
+        { tipo: "ligar", titulo: "Desafio do bimestre: ligue cada termo ao seu significado", explicacao: "Cada termo é de um tema do bimestre. Se errou algum, volte ao 📖 O que significa? da missão daquele termo e leia de novo.", porRodada: 6,
         enunciado: "<p>Um termo de cada tema do bimestre. Clique no termo e depois no significado dele.</p>",
         pares: [{ a: "Aresta", b: "Ligação entre dois vértices de um grafo" }, { a: "Folha", b: "Fim de uma árvore, que não se divide mais" }, { a: "Chave", b: "Informação que permite cifrar e decifrar uma mensagem" }, { a: "Força bruta", b: "Ataque que testa todas as senhas possíveis" }, { a: "Plágio", b: "Copiar a obra de alguém e apresentar como sua" }, { a: "Deepfake", b: "Vídeo, foto ou áudio falso que imita uma pessoa, criado por inteligência artificial" }] }
       ],

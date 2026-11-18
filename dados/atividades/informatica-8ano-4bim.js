@@ -182,7 +182,7 @@ PORTAL.registrarAtividades("informatica-8ano-4bim", {
           { t: "Jogo de cartas pede localização e contatos", c: "N" }],
         explicacao: "Pergunte sempre: ele precisa disso para funcionar? GPS (<em>Global Positioning System</em>, Sistema de Posicionamento Global) é o que descobre onde o aparelho está." },
 
-      { tipo: "classificar", modo: "tabela", titulo: "Dado pessoal, dado sensível ou não é dado pessoal?", colunaItem: "Informação", colunaResp: "P, S ou N",
+      { tipo: "classificar", modo: "tabela", titulo: "Dado pessoal, dado sensível ou não é dado pessoal?", explicacao: "Pessoal: nome completo e endereço (identificam você). Sensível: impressão digital (biometria) e doença (saúde). Não é dado pessoal: previsão do tempo e resultado do jogo.", colunaItem: "Informação", colunaResp: "P, S ou N",
         categorias: [{ id: "P", rot: "Pessoal" }, { id: "S", rot: "Sensível" }, { id: "N", rot: "Não é" }],
         itens: [
           { t: "Nome completo", c: "P" }, { t: "Previsão do tempo da cidade", c: "N" },
@@ -201,11 +201,11 @@ PORTAL.registrarAtividades("informatica-8ano-4bim", {
         explicacao: "Sem autor, sem data, sem outra fonte confirmando e com título exagerado: são quatro sinais de alerta." },
       { tipo: "escolha", titulo: "Você compartilharia essa mensagem? Por quê?",
         perguntas: [
-          { p: "Você compartilharia essa mensagem?", opcoes: ["Não", "Sim"], certo: 0 },
+          { p: "Você compartilharia essa mensagem?", opcoes: ["Não", "Sim"], certo: 0, why: "Sem autor, sem data e com título exagerado: são sinais de notícia falsa." },
           { p: "Por quê?", opcoes: ["Porque não tem autor, não tem data e o título é exagerado: são sinais de notícia falsa", "Porque é urgente e pode salvar vidas", "Porque todo mundo já está compartilhando"], certo: 0,
             why: "Antes de compartilhar, confira: quem publicou, quando, se outra fonte confirma e se o título é exagerado." }] },
 
-      { tipo: "classificar", modo: "tabela", titulo: "Boa regra ou não faz sentido para a nossa sala?", colunaItem: "Regra", colunaResp: "B ou N",
+      { tipo: "classificar", modo: "tabela", titulo: "Boa regra ou não faz sentido para a nossa sala?", explicacao: "Boas regras protegem os computadores, os dados e os colegas: usar só o que o professor pediu, não comer perto do computador, não mexer nos arquivos dos colegas e chamar o professor quando travar. Passar a senha e mexer nos cabos não fazem sentido.", colunaItem: "Regra", colunaResp: "B ou N",
         categorias: [{ id: "B", rot: "Boa regra" }, { id: "N", rot: "Não faz sentido" }],
         itens: [
           { t: "Usar só os programas e sites que o professor pediu.", c: "B" },
@@ -226,7 +226,7 @@ PORTAL.registrarAtividades("informatica-8ano-4bim", {
     desafio: [
       { tipo: "info", titulo: "Termos de uso do aplicativo inventado FotoTop",
         html: "<p class=\"regra\">“O FotoTop coleta seu nome, e-mail, data de nascimento, fotos publicadas e localização. Podemos compartilhar esses dados com empresas parceiras de publicidade. Você pode apagar sua conta a qualquer momento em Configurações. Uso permitido a partir de 13 anos.”</p>" },
-      { tipo: "sinais", titulo: "a) Quais dados o FotoTop coleta?",
+      { tipo: "sinais", titulo: "a) Quais dados o FotoTop coleta?", explicacao: "O trecho diz: nome, e-mail, data de nascimento, fotos publicadas e localização. Não fala de CPF nem de contatos.",
         opcoes: [{ t: "Nome", certo: true }, { t: "E-mail", certo: true }, { t: "Data de nascimento", certo: true }, { t: "Fotos publicadas", certo: true }, { t: "Localização", certo: true },
           { t: "CPF", certo: false, why: "O trecho não fala de CPF." }, { t: "Lista de contatos", certo: false, why: "O trecho não fala de contatos." }] },
       { tipo: "escolha", titulo: "b), c) e d) Leia de novo e responda",
@@ -419,16 +419,16 @@ PORTAL.registrarAtividades("informatica-8ano-4bim", {
         explicacao: "Os termos são um contrato. A LGPD dá o direito de saber, corrigir, pedir para apagar e retirar o consentimento." }
     ],
     desafio: [
-      { tipo: "escolha", de: "m1", titulo: "Desafio M1", perguntas: [{ p: "Numa lista de 1000 nomes em ordem alfabética, qual busca é mais rápida?", opcoes: ["Binária, porque descarta metade a cada tentativa", "Sequencial, porque olha um por um", "As duas são iguais"], certo: 0 }] },
-      { tipo: "escolha", de: "m2", titulo: "Desafio M2", perguntas: [{ p: "Você digita o nome de um site. Quem descobre o endereço IP do servidor?", opcoes: ["O DNS", "O monitor", "O cabo de energia"], certo: 0 }] },
-      { tipo: "escolha", de: "m3", titulo: "Desafio M3", perguntas: [{ p: "Uma lanterna pede acesso aos seus contatos. O que fazer?", opcoes: ["Negar: lanterna não precisa de contatos para funcionar", "Permitir, porque todo app pede", "Dar a senha também"], certo: 0 }] },
-      { tipo: "escolha", de: "m4", titulo: "Desafio M4", perguntas: [{ p: "O aplicativo é grátis. Quem costuma pagar?", opcoes: ["A propaganda, usando os seus dados", "Ninguém", "A escola"], certo: 0 }] }
+      { tipo: "escolha", de: "m1", titulo: "Desafio M1", perguntas: [{ p: "Numa lista de 1000 nomes em ordem alfabética, qual busca é mais rápida?", opcoes: ["Binária, porque descarta metade a cada tentativa", "Sequencial, porque olha um por um", "As duas são iguais"], certo: 0, why: "A binária olha o meio e descarta metade: com 1000 nomes, umas 10 tentativas." }] },
+      { tipo: "escolha", de: "m2", titulo: "Desafio M2", perguntas: [{ p: "Você digita o nome de um site. Quem descobre o endereço IP do servidor?", opcoes: ["O DNS", "O monitor", "O cabo de energia"], certo: 0, why: "O DNS é como a agenda de contatos da internet: troca o nome do site pelo IP." }] },
+      { tipo: "escolha", de: "m3", titulo: "Desafio M3", perguntas: [{ p: "Uma lanterna pede acesso aos seus contatos. O que fazer?", opcoes: ["Negar: lanterna não precisa de contatos para funcionar", "Permitir, porque todo app pede", "Dar a senha também"], certo: 0, why: "Lanterna só precisa da luz do flash: contatos não têm nada a ver." }] },
+      { tipo: "escolha", de: "m4", titulo: "Desafio M4", perguntas: [{ p: "O aplicativo é grátis. Quem costuma pagar?", opcoes: ["A propaganda, usando os seus dados", "Ninguém", "A escola"], certo: 0, why: "O aplicativo grátis ganha dinheiro com propaganda escolhida pelos seus dados." }] }
     ],
     turbo: [
-      { tipo: "escolha", de: "m1", titulo: "Turbo · Simulado M1", perguntas: [{ p: "Ordenar é:", opcoes: ["Colocar os itens em ordem", "Apagar itens", "Procurar um item"], certo: 0 }] },
-      { tipo: "escolha", de: "m2", titulo: "Turbo · Simulado M2", perguntas: [{ p: "Guardar fotos na nuvem é guardar:", opcoes: ["Em servidores de um data center, pela internet", "No céu", "Só no pen drive"], certo: 0 }] },
-      { tipo: "escolha", de: "m3", titulo: "Turbo · Simulado M3", perguntas: [{ p: "Desinformação é:", opcoes: ["Informação falsa ou distorcida espalhada como verdade", "Uma lei", "Um tipo de cabo"], certo: 0 }] },
-      { tipo: "escolha", de: "m4", titulo: "Turbo · Simulado M4", perguntas: [{ p: "Chegou o aviso “Atualizamos nossos termos”. Isso quer dizer que:", opcoes: ["O contrato mudou", "O aplicativo acabou", "Nada mudou"], certo: 0 }] }
+      { tipo: "escolha", de: "m1", titulo: "Turbo · Simulado M1", perguntas: [{ p: "Ordenar é:", opcoes: ["Colocar os itens em ordem", "Apagar itens", "Procurar um item"], certo: 0, why: "Ordenar é colocar em ordem (crescente, decrescente ou alfabética)." }] },
+      { tipo: "escolha", de: "m2", titulo: "Turbo · Simulado M2", perguntas: [{ p: "Guardar fotos na nuvem é guardar:", opcoes: ["Em servidores de um data center, pela internet", "No céu", "Só no pen drive"], certo: 0, why: "A nuvem são computadores (servidores) de um data center, acessados pela internet." }] },
+      { tipo: "escolha", de: "m3", titulo: "Turbo · Simulado M3", perguntas: [{ p: "Desinformação é:", opcoes: ["Informação falsa ou distorcida espalhada como verdade", "Uma lei", "Um tipo de cabo"], certo: 0, why: "Desinformação é informação falsa ou distorcida espalhada como se fosse verdade." }] },
+      { tipo: "escolha", de: "m4", titulo: "Turbo · Simulado M4", perguntas: [{ p: "Chegou o aviso “Atualizamos nossos termos”. Isso quer dizer que:", opcoes: ["O contrato mudou", "O aplicativo acabou", "Nada mudou"], certo: 0, why: "Os termos são um contrato: se mudaram, vale a pena ver o que mudou." }] }
     ]
   },
 
@@ -445,7 +445,7 @@ PORTAL.registrarAtividades("informatica-8ano-4bim", {
           ["dados", "lgpd", "privacidade", "fake", "falsa", "fonte", "checa", "confiavel", "termos", "pegada", "senha", "informacao", "compartilh"]] } }
     ],
     desafio: [
-      { tipo: "ligar", titulo: "Desafio do bimestre: ligue cada termo ao seu significado", porRodada: 6,
+      { tipo: "ligar", titulo: "Desafio do bimestre: ligue cada termo ao seu significado", explicacao: "Cada termo é de um tema do bimestre. Se errou algum, volte ao 📖 O que significa? da missão daquele termo e leia de novo.", porRodada: 6,
         enunciado: "<p>Um termo de cada tema do bimestre. Clique no termo e depois no significado dele.</p>",
         pares: [{ a: "Busca binária", b: "Olha o meio e descarta metade; só funciona em lista ordenada" }, { a: "Método da bolha", b: "Compara vizinhos e troca os que estão fora de ordem" }, { a: "DNS (Sistema de Nomes de Domínio)", b: "Traduz o nome do site no endereço IP" }, { a: "Paralelismo", b: "Partes de uma tarefa feitas ao mesmo tempo, em núcleos diferentes" }, { a: "LGPD (Lei Geral de Proteção de Dados)", b: "Lei brasileira que protege os dados pessoais" }, { a: "Pegada digital", b: "Rastro do que publicamos, curtimos e comentamos" }] }
     ],

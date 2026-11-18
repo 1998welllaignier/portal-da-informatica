@@ -251,7 +251,7 @@ PORTAL.registrarAtividades("informatica-6ano-4bim", {
         ],
         fimMsg: "Conta criada com segurança: site com cadeado, usuário sem dados pessoais e senha forte. E lembre: senha não se empresta para ninguém!",
         explicacao: "Antes de digitar uma senha, confira o endereço e o cadeado. Senha forte tem 8 ou mais caracteres misturando maiúsculas, minúsculas, números e símbolos. Nome de usuário não deve mostrar nome completo, idade ou endereço." },
-      { id: "m3-pratica-1", tipo: "mensagens", titulo: "No grupo da turma: respeito ou cyberbullying?", robo: {"paineis": ["💬 Outras mensagens"], "passos": [{"fala": "Olha como eu decido com <b>outros</b> exemplos. Eu faço sempre as mesmas perguntas: Essa mensagem humilha, zomba ou expõe alguém? Ou ajuda e respeita?", "painel": 0, "titulo": "Meus exemplos"}, {"fala": "“Kkkk olha o cabelo do Caio, que ridículo! Manda pra todo mundo” → zomba de alguém e pede para espalhar: humilha.", "painel": 0, "linha": "Kkkk olha o cabelo do Caio, que ridículo! Mand… → 🚫 Cyberbullying", "marca": true, "espera": 2600}, {"fala": "“Gente, a prova de Ciências é sexta. Bons estudos!” → ajuda a turma e não ofende ninguém.", "painel": 0, "linha": "Gente, a prova de Ciências é sexta. Bons estud… → 😊 Respeito", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: leia cada mensagem e faça a mesma pergunta. 💪"}, app: "💬 Grupo do 6º ano",
+      { id: "m3-pratica-1", tipo: "mensagens", titulo: "No grupo da turma: respeito ou cyberbullying?", explicacao: "Parabenizar e pedir ajuda são mensagens respeitosas. Espalhar a foto de alguém para rirem dele e excluir alguém de propósito do grupo são cyberbullying.", robo: {"paineis": ["💬 Outras mensagens"], "passos": [{"fala": "Olha como eu decido com <b>outros</b> exemplos. Eu faço sempre as mesmas perguntas: Essa mensagem humilha, zomba ou expõe alguém? Ou ajuda e respeita?", "painel": 0, "titulo": "Meus exemplos"}, {"fala": "“Kkkk olha o cabelo do Caio, que ridículo! Manda pra todo mundo” → zomba de alguém e pede para espalhar: humilha.", "painel": 0, "linha": "Kkkk olha o cabelo do Caio, que ridículo! Mand… → 🚫 Cyberbullying", "marca": true, "espera": 2600}, {"fala": "“Gente, a prova de Ciências é sexta. Bons estudos!” → ajuda a turma e não ofende ninguém.", "painel": 0, "linha": "Gente, a prova de Ciências é sexta. Bons estud… → 😊 Respeito", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: leia cada mensagem e faça a mesma pergunta. 💪"}, app: "💬 Grupo do 6º ano",
         botoes: [{ id: "R", rot: "😊 Respeitosa" }, { id: "B", rot: "🚫 Cyberbullying" }],
         enunciado: "<p>Leia cada mensagem do grupo de mentira e decida.</p>",
         itens: [
@@ -268,7 +268,7 @@ PORTAL.registrarAtividades("informatica-6ano-4bim", {
       { id: "m3-bonus-1", tipo: "escolha", titulo: "⭐ Bônus: qual senha é mais forte?",
         perguntas: [
           { p: "Qual destas senhas é a <b>mais forte</b>?", opcoes: ["Tr3m#Az7ul!", "123456", "pedro2013"], certo: 0, why: "Mistura maiúsculas, minúsculas, números e símbolos, e não tem o seu nome." },
-          { p: "O colega pediu a sua senha emprestada. O que você faz?", opcoes: ["Não empresto: senha é só minha", "Empresto só hoje", "Escrevo na lousa"], certo: 0 },
+          { p: "O colega pediu a sua senha emprestada. O que você faz?", opcoes: ["Não empresto: senha é só minha", "Empresto só hoje", "Escrevo na lousa"], certo: 0, why: "Senha é só sua: quem sabe a sua senha pode entrar na conta e agir no seu nome." },
           { p: "O celular velho parou de funcionar. Para onde ele vai?", opcoes: ["Ponto de coleta de eletrônicos", "Lixo comum", "Rio"], certo: 0, why: "Eletrônico tem peças que podem ser recicladas e materiais que poluem: ponto de coleta." }
         ] }
     ],
@@ -387,7 +387,7 @@ PORTAL.registrarAtividades("informatica-6ano-4bim", {
         perguntas: [
           { p: "Lâmpadas que valem 8, 4, 2 e 1. Acesas: a de <b>8</b> e a de <b>1</b>. Que número é?", opcoes: ["9", "81", "5"], certo: 0, why: "8 + 1 = 9." },
           { p: "O que é maior?", opcoes: ["1 GB", "1 MB", "1 KB"], certo: 0, why: "KB < MB < GB: o GB é o maior." },
-          { p: "Qual extensão é de <b>vídeo</b>?", opcoes: [".mp4", ".txt", ".jpg"], certo: 0 }
+          { p: "Qual extensão é de <b>vídeo</b>?", opcoes: [".mp4", ".txt", ".jpg"], certo: 0, why: ".mp4 é vídeo; .txt é texto e .jpg é foto." }
         ] }
     ],
     basico: [
@@ -509,7 +509,7 @@ PORTAL.registrarAtividades("informatica-6ano-4bim", {
         perguntas: [{ p: "A tela sensível ao toque do celular é:", opcoes: ["De entrada e saída ao mesmo tempo", "Só de entrada", "Só de saída"], certo: 0, why: "Recebe o toque (entrada) e mostra a imagem (saída)." }] },
       { tipo: "escolha", de: "m2", titulo: "Desafio M2 · Ache o erro",
         enunciado: "<p>Algoritmo para calçar o tênis: <em>1. Calce o tênis. 2. Calce a meia. 3. Amarre o cadarço.</em></p>",
-        perguntas: [{ p: "Qual é o erro?", opcoes: ["A meia vem antes do tênis: os passos 1 e 2 estão trocados", "Falta repetir o passo 3", "Não tem erro"], certo: 0 }] },
+        perguntas: [{ p: "Qual é o erro?", opcoes: ["A meia vem antes do tênis: os passos 1 e 2 estão trocados", "Falta repetir o passo 3", "Não tem erro"], certo: 0, why: "Primeiro se calça a meia, depois o tênis: os passos 1 e 2 estão na ordem errada." }] },
       { tipo: "escolha", de: "m3", titulo: "Desafio M3 · Qual senha é mais forte?",
         perguntas: [{ p: "Qual senha é mais forte?", opcoes: ["Gat0#Azul72!", "123456", "joao2013"], certo: 0, why: "Mistura letras maiúsculas e minúsculas, números e símbolos." }] },
       { tipo: "tabela", de: "m4", titulo: "Desafio M4 · Quanto cabe?", enunciado: "<p>Lembre: <strong>1 GB ≈ 1000 MB</strong>. Para saber quantos arquivos cabem, <strong>divida</strong> o espaço pelo tamanho de um arquivo (os dois em MB).</p>", robo: {"paineis": ["🧮 Outro exemplo"], "passos": [{"fala": "Pen drive de 1 GB e fotos de 5 MB:", "painel": 0, "linha": "1 GB ≈ 1000 MB"}, {"fala": "Divido o espaço pelo tamanho de uma foto:", "painel": 0, "linha": "1000 ÷ 5 = 200 fotos", "marca": true, "espera": 2400}], "fim": "Agora é a sua vez: faça a conta com as músicas de 4 MB! 💪"},
@@ -518,13 +518,13 @@ PORTAL.registrarAtividades("informatica-6ano-4bim", {
     ],
     turbo: [
       { tipo: "escolha", de: "m1", titulo: "Turbo · Simulado M1",
-        perguntas: [{ p: "O processador fica em qual etapa?", opcoes: ["Processamento", "Entrada", "Saída"], certo: 0 }, { p: "Os programas, como o navegador, são:", opcoes: ["Software", "Hardware", "Metadados"], certo: 0 }] },
+        perguntas: [{ p: "O processador fica em qual etapa?", opcoes: ["Processamento", "Entrada", "Saída"], certo: 0, why: "O processador faz os cálculos: é a etapa de processamento." }, { p: "Os programas, como o navegador, são:", opcoes: ["Software", "Hardware", "Metadados"], certo: 0, why: "Programas não dá para pegar com a mão: são software." }] },
       { tipo: "escolha", de: "m2", titulo: "Turbo · Simulado M2",
-        perguntas: [{ p: "“Se… então… senão” é:", opcoes: ["Seleção", "Repetição", "Sequência"], certo: 0 }, { p: "A pergunta “a porta está aberta?” num algoritmo é a:", opcoes: ["Condição", "Saída", "Repetição"], certo: 0 }] },
+        perguntas: [{ p: "“Se… então… senão” é:", opcoes: ["Seleção", "Repetição", "Sequência"], certo: 0, why: "“Se… então… senão” escolhe um caminho: é a seleção." }, { p: "A pergunta “a porta está aberta?” num algoritmo é a:", opcoes: ["Condição", "Saída", "Repetição"], certo: 0, why: "A pergunta que decide o caminho é a condição." }] },
       { tipo: "escolha", de: "m3", titulo: "Turbo · Simulado M3",
-        perguntas: [{ p: "Ofender alguém de forma repetida na internet é:", opcoes: ["Cyberbullying", "Obsolescência", "Algoritmo"], certo: 0 }, { p: "Aparelho quebrado que não tem conserto vai para:", opcoes: ["O ponto de coleta de lixo eletrônico", "O lixo comum", "O rio"], certo: 0 }] },
+        perguntas: [{ p: "Ofender alguém de forma repetida na internet é:", opcoes: ["Cyberbullying", "Obsolescência", "Algoritmo"], certo: 0, why: "Ofender alguém várias vezes pela internet é cyberbullying." }, { p: "Aparelho quebrado que não tem conserto vai para:", opcoes: ["O ponto de coleta de lixo eletrônico", "O lixo comum", "O rio"], certo: 0, why: "Eletrônicos têm metais que contaminam o solo e a água: o lugar certo é o ponto de coleta." }] },
       { tipo: "escolha", de: "m4", titulo: "Turbo · Simulado M4",
-        perguntas: [{ p: "Um bit pode valer:", opcoes: ["0 ou 1", "De 1 a 10", "Qualquer letra"], certo: 0 }, { p: "Para usar os arquivos de dentro de um .zip, eu:", opcoes: ["Descompacto (extraio)", "Apago o .zip", "Imprimo o .zip"], certo: 0 }] }
+        perguntas: [{ p: "Um bit pode valer:", opcoes: ["0 ou 1", "De 1 a 10", "Qualquer letra"], certo: 0, why: "Um bit é como uma lâmpada: apagada (0) ou acesa (1)." }, { p: "Para usar os arquivos de dentro de um .zip, eu:", opcoes: ["Descompacto (extraio)", "Apago o .zip", "Imprimo o .zip"], certo: 0, why: "Descompactar (extrair) tira os arquivos de dentro do .zip." }] }
     ]
   },
 
@@ -541,7 +541,7 @@ PORTAL.registrarAtividades("informatica-6ano-4bim", {
           ["respeit", "cyberbullying", "senha", "dados", "lixo eletronico", "consumo", "cidadao", "internet", "segur", "golpe", "privacidade", "recicl", "proteg"]] } }
     ],
     desafio: [
-      { tipo: "ligar", titulo: "Desafio do bimestre: ligue cada termo ao seu significado", porRodada: 6,
+      { tipo: "ligar", titulo: "Desafio do bimestre: ligue cada termo ao seu significado", explicacao: "Cada termo é de um tema do bimestre. Se errou algum, volte ao 📖 O que significa? da missão daquele termo e leia de novo.", porRodada: 6,
         enunciado: "<p>Um termo de cada tema do bimestre. Clique no termo e depois no significado dele.</p>",
         pares: [{ a: "Entrada", b: "O computador recebe informações, pelo teclado ou pelo mouse" }, { a: "Processamento", b: "O computador faz os cálculos com as informações" }, { a: "Pasta", b: "Lugar onde organizamos os nossos arquivos" }, { a: "Algoritmo", b: "Sequência de passos, em ordem, para resolver um problema" }, { a: "Repetição", b: "Fazer os mesmos passos várias vezes" }, { a: "Lixo eletrônico", b: "Aparelhos velhos que precisam ser descartados no lugar certo" }] }
     ],
