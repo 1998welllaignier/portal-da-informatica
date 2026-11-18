@@ -52,10 +52,11 @@ PORTAL.registrarAtividades("informatica-8ano-4bim", {
         explicacao: "50 (maior) → 75 (menor) → 62 (maior) → 68 (maior) → 71 (maior) → 73 (acertou): 6 tentativas para um número de 1 a 100." }
     ],
     turbo: [
-      { tipo: "tabela", titulo: "Quantas tentativas, no máximo, para achar um número de 1 a 1.000?", robo: {"paineis": ["✂️ Outro exemplo: de 1 a 100"], "passos": [{"fala": "Olha como eu conto com <b>outro</b> tamanho. A cada tentativa, a lista cai pela <b>metade</b>:", "painel": 0, "linha": "100 → 50 → 25 → 13 → 7 → 4 → 2 → 1"}, {"fala": "Conto as divisões até sobrar <b>1 número</b>: são 7 setas.", "painel": 0, "linha": "De 1 a 100: no máximo 7 tentativas", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: faça o mesmo com 1.000! 💪"},
+      { tipo: "tabela", titulo: "Busca binária: quantas tentativas, no máximo, para achar um número de 1 a 1.000?",
+        enunciado: "<p>Use a <strong>busca binária</strong>: o método de olhar sempre o <strong>meio</strong> da lista em ordem e jogar fora a metade em que o número não pode estar (o mesmo jeito do jogo “Adivinhe o número”). A lista agora vai de <strong>1 a 1.000</strong>. Quantas tentativas você precisa, <strong>no máximo</strong>, para achar qualquer número?</p>", robo: {"paineis": ["✂️ Outro exemplo: de 1 a 100"], "passos": [{"fala": "Olha como eu conto com <b>outro</b> tamanho. A cada tentativa, a lista cai pela <b>metade</b>:", "painel": 0, "linha": "100 → 50 → 25 → 13 → 7 → 4 → 2 → 1"}, {"fala": "Quando a metade dá número quebrado (25 ÷ 2 = 12,5), arredondo para cima: 13. Conto as divisões até sobrar <b>1 número</b>: são 7 setas.", "painel": 0, "linha": "De 1 a 100: no máximo 7 tentativas", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: faça o mesmo com 1.000! 💪"},
         linhas: [["Tentativas no máximo", { r: "10", tipo: "num", w: 4 }]],
-        dicas: ["A cada tentativa a lista cai pela metade: 1.000 → 500 → 250 → 125 → …", "Conte quantas vezes dá para dividir por 2 até sobrar 1 número."],
-        explicacao: "No máximo 10 tentativas, porque 2 × 2 × … (10 vezes) = 1.024, que já é mais do que 1.000." },
+        dicas: ["A cada tentativa da busca binária a lista cai pela metade: 1.000 → 500 → 250 → 125 → …", "Conte quantas vezes dá para dividir por 2 até sobrar 1 número (número quebrado: arredonde para cima)."],
+        explicacao: "Na busca binária, no máximo 10 tentativas: 1.000 → 500 → 250 → 125 → 63 → 32 → 16 → 8 → 4 → 2 → 1 (10 divisões). Outro jeito de ver: 2 × 2 × … (10 vezes) = 1.024, que já é mais do que 1.000." },
       { tipo: "escolha", titulo: "Por que a busca binária não funciona em uma lista desordenada?",
         perguntas: [
           { p: "O que a busca binária faz depois de comparar com o número do <strong>meio</strong>?", opcoes: ["Descarta uma metade inteira da lista", "Olha todos os números, um por um", "Embaralha a lista"], certo: 0 },
