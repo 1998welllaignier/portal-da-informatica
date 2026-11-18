@@ -357,6 +357,7 @@
     if (t.aula && t.aula.ini) { const d = new Date(), [H, M] = t.aula.ini.split(":").map(Number); d.setHours(H, M + (cat().duracaoAula || 75) + (cat().toleranciaTarefas || 15), 0, 0); ate = Math.max(ate, d.getTime()); }
     await db().collection("config").doc("liberar_" + t.id).set({ fechadaAte: ate, ate: 0 }, { merge: true });
     try { await db().collection("config").doc("hoje_" + t.id).set({ iniciadaDia: "", finalizadaEm: Date.now() }, { merge: true }); } catch (e) {}
+    setTimeout(() => lembrarFamilias({ turma: t.id }).catch(e => console.warn("lembrete família", e)), 1500);   // 🎬 18/11/2026
     return rk;
   }
   // missão em que a turma realmente está hoje: a que tem mais alunos com progresso de hoje (empate: a do cronograma)
@@ -875,7 +876,7 @@
       const dias = a => { const s = new Set(); (pm[a.id] || []).forEach(p => Object.keys(p.dias || {}).forEach(d => s.add(d))); return s.size; };
       corpo.innerHTML = `<div class="painel pp-tabela-wrap"><p class="ajuda">✔ Básico concluído · ⭐ Desafio completo · 3/5 = andamento do Básico · — não começou. Passe o mouse para ver os detalhes. <strong>${alunos.filter(a => a.ativo && !a.visitante).length}</strong> alunos ativos${alunos.some(a => a.visitante) ? ` + <strong>${alunos.filter(a => a.visitante).length}</strong> de outra turma que participam desta aula (🏫)` : ""}.</p>
         <table class="pp-tabela"><thead><tr><th>Aluno</th><th>Código</th><th title="dias em que entrou no portal">Dias</th>${missoes.map(x => `<th title="${esc(x.m.titulo)}">${esc(x.m.icone)}<br><small>${esc(SIG(x.m.id))}</small><br><span class="pp-th-t">${esc(tituloCurto(x.m))}</span></th>`).join("")}<th></th></tr></thead>
-        <tbody>${lista.map(a => `<tr class="${a.ativo ? "" : "inativo"}${a.visitante ? " visit" : ""}"><td>${a.atipico ? '<span title="Aluno atípico (tem PEI)">🧩</span> ' : ""}${esc(a.nome)}${tagVisitante(a)}${tagOutra(a)}${a.trilha ? ' <span title="Usa a Trilha Passo a Passo">👣</span>' : ""}${a.emCasa ? ' <span title="Estuda em casa: lançar pela apostila">🏠</span>' : ""}${a.emCasa && casaLivreAtivo(a) ? ' <span title="Todas as missões abertas, uma por dia (liberação semanal desligada neste ano)">🚀</span>' : ""}${a.ativo ? "" : " <small>(desativado)</small>"}</td><td class="pp-cod">${esc(a.codigo)}</td><td>${dias(a)}</td>${missoes.map(x => cel(a, x)).join("")}
+        <tbody>${lista.map(a => `<tr class="${a.ativo ? "" : "inativo"}${a.visitante ? " visit" : ""}"><td>${a.atipico ? '<span title="Aluno atípico (tem PEI)">🧩</span> ' : ""}${esc(a.nome)}${tagVisitante(a)}${tagOutra(a)}${a.trilha ? ' <span title="Usa a Trilha Passo a Passo">👣</span>' : ""}${a.emCasa ? ' <span title="Estuda em casa: lançar pela apostila">🏠</span>' : ""}${a.lembreteFamilia ? ' <span title="Lembrete da família no fim de cada aula">🎬</span>' : ""}${a.emCasa && casaLivreAtivo(a) ? ' <span title="Todas as missões abertas, uma por dia (liberação semanal desligada neste ano)">🚀</span>' : ""}${a.ativo ? "" : " <small>(desativado)</small>"}</td><td class="pp-cod">${esc(a.codigo)}</td><td>${dias(a)}</td>${missoes.map(x => cel(a, x)).join("")}
           <td><button class="btn btn-link btn-peq" data-a="${a.id}" type="button">⚙️</button></td></tr>`).join("")}</tbody></table></div>`;
       corpo.querySelectorAll("[data-a]").forEach(b => b.onclick = () => menuAluno(alunos.find(a => a.id === b.dataset.a)));
       corpo.querySelectorAll("[data-ver]").forEach(td => { const f = () => verRespostas(prog.find(p => p.id === td.dataset.ver)); td.onclick = f; td.onkeydown = e => { if (e.key === "Enter") f(); }; });
@@ -922,6 +923,7 @@
           <button class="btn btn-sec" type="button" data-x="libera">🔓 Liberar as tarefas fora do horário (só este aluno)</button>
           <button class="btn btn-sec" type="button" data-x="avatar">🧍 Deixar montar o avatar de novo (salvou sem querer)</button>
           <button class="btn btn-sec" type="button" data-x="outra">🏫 Frequenta a aula de outra turma</button>
+          <button class="btn btn-sec" type="button" data-x="familia">${a.lembreteFamilia ? "🎬 Desligar o lembrete da família (no fim de cada aula)" : "🎬 Lembrar de mandar o relatório/vídeo à família no fim de cada aula"}</button>
           <button class="btn btn-sec" type="button" data-x="ativo">${a.ativo ? "⛔ Desativar (saiu da escola)" : "✅ Reativar"}</button>
           <button class="btn" value="x">Fechar</button></div></form></dialog>`);
       document.body.appendChild(dlg); dlg.showModal();
@@ -992,6 +994,12 @@
             }
             await db().collection("config").doc("liberar_" + a.turma).set({ alunos: { [a.id]: +d > 0 ? fim.getTime() : 0 }, alunosMissao: { [a.id]: ms } }, { merge: true });
             await P.aviso(+d > 0 ? `Pronto! ${a.nome} pode fazer ${ms ? "só: " + ((lista.find(m => m.id === ms) || {}).t || SIG(ms)) + " (e a missão de hoje da turma)" : "as tarefas de todas as missões"} até ${fim.toLocaleDateString("pt-BR")}, 23h59.` : "Liberação retirada."); dlg.close(); return;
+          }
+          if (x === "familia") {
+            if (a.lembreteFamilia) { await db().collection("alunos").doc(a.id).update({ lembreteFamilia: "" }); await P.aviso(`Lembrete da família desligado para ${a.nome}.`); }
+            else { const o = await P.perguntar(`O que fazer no fim de cada aula de ${a.nome}? (aparece no aviso)`, "Gerar o relatório e o vídeo para a família e mandar pelo WhatsApp."); if (o === null || !o.trim()) return;
+              await db().collection("alunos").doc(a.id).update({ lembreteFamilia: o.trim() });
+              await P.aviso(`Pronto! Toda vez que a aula de ${a.nome} terminar (no 🏁 Finalizar aula ou no fim do horário), o painel avisa na hora. Se o painel estiver fechado, o aviso aparece quando você entrar.`); }
           }
           if (x === "outra") {
             const opc = todasTurmas().filter(y => y.id !== a.turma && y.serie.id === (todasTurmas().find(z => z.id === a.turma) || { serie: {} }).serie.id);
@@ -1554,6 +1562,50 @@
       });
     } catch (e) { console.warn("ouvir casa", e); }
   }
+  /* 🎬 lembrete da família (18/11/2026): para alunos marcados (alunos/<id>.lembreteFamilia = "o que fazer"), quando a aula
+     em que o aluno vem (outraTurma ou a turma dele) termina, o painel avisa na hora: no 🏁 Finalizar aula ou, se a aula acabou
+     pelo relógio, no minuto em que o horário termina (com o painel aberto). Se o painel estava fechado, o aviso aparece ao entrar
+     (e no 🔔). "✅ Já fiz" encerra o lembrete do dia (prof/avisos.lidos) */
+  const fimAula = t => { if (!t || !t.aula || !t.aula.ini) return null; const [H, M] = t.aula.ini.split(":").map(Number); const d = new Date(); d.setHours(H, M + (cat().duracaoAula || 75), 0, 0); return d.getTime(); };
+  async function familiasPendentes(op = {}) {
+    const hoje = N.hoje(), dow = new Date(hoje + "T12:00:00").getDay(), turmas = todasTurmas();
+    const al = (await db().collection("alunos").where("lembreteFamilia", ">", "").get()).docs.map(d => ({ id: d.id, ...d.data() })).filter(a => a.ativo !== false);
+    let lidos = {}; try { const sn = await db().collection("prof").doc("avisos").get(); lidos = (sn.exists && sn.data().lidos) || {}; } catch (e) {}
+    const out = [];
+    for (const a of al) {
+      const t = turmas.find(x => x.id === (a.outraTurma || a.turma)); if (!t || !t.aula || t.aula.dia !== dow) continue;
+      const id = ("familia-" + a.id + "-" + hoje).replace(/[^\w-]/g, "_"); if (lidos[id]) continue;
+      let fin = 0; try { const h2 = await db().collection("config").doc("hoje_" + t.id).get(); const hd = h2.exists ? h2.data() : {}; if (hd.finalizadaEm && new Date(hd.finalizadaEm).toDateString() === new Date().toDateString()) fin = hd.finalizadaEm; } catch (e) {}
+      const acabou = fin || (fimAula(t) && Date.now() >= fimAula(t)) || (op.turma === t.id);
+      if (!acabou) continue;
+      let entrou = 0; try { const e2 = await db().collection("progresso").doc(a.id + "_entrada").get(); const ent = e2.exists ? ((e2.data().entradas || {})[hoje] || {}) : {}; entrou = Math.min(...Object.keys(ent).map(Number)); if (!isFinite(entrou)) entrou = 0; } catch (e) {}
+      out.push({ a, t, id, entrou });
+    }
+    return out;
+  }
+  const familiaTxt = x => `<b>🎬 A aula do ${esc(nomeTurma(x.t.id))} terminou: ${esc(x.a.nome)}</b><br>${esc(x.a.lembreteFamilia)}<br><small>${x.entrou ? "Entrou no portal hoje às " + new Date(x.entrou).toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" }) : "Não entrou no portal hoje (confira a chamada)"}. <a href="#/painel/relatorio/${x.a.id}/${N.hoje()}">📄 Abrir o relatório de hoje</a></small>`;
+  let familiaAberto = false;
+  async function lembrarFamilias(op = {}) {
+    if (familiaAberto || (!op.turma && document.querySelector(".pp-avisos"))) return; const lista = await familiasPendentes(op).catch(() => []);
+    const agora = Date.now(), novos = lista.filter(x => +(ss.get("painel:familia-adiado:" + x.id) || 0) < agora);
+    if (!novos.length) return;
+    familiaAberto = true;
+    const dlg = h(`<dialog class="pp-dlg pp-dlg-larga pp-familia"><form method="dialog"><h2>🎬 Hora do relatório para a família</h2>
+      ${novos.map((x, i) => `<div class="pp-fam-item" data-i="${i}"><p>${familiaTxt(x)}</p>
+        <p class="row-btns"><a class="btn" href="#/painel/relatorio/${x.a.id}/${N.hoje()}" data-ir="${i}">📄 Abrir o relatório</a><button type="button" class="btn btn-sec" data-feito="${i}">✅ Já fiz</button><button type="button" class="btn btn-sec" data-depois="${i}">⏰ Lembrar daqui a 30 min</button></p></div>`).join("")}
+      <p class="ajuda">O lembrete volta enquanto você não tocar em ✅ Já fiz (também fica no 🔔 de hoje). Para ligar ou desligar o lembrete de um aluno: painel → turma → nome do aluno → 🎬.</p>
+      <div class="row-btns"><button class="btn btn-sec" value="x">Fechar</button></div></form></dialog>`);
+    document.body.appendChild(dlg); dlg.showModal();
+    const tira = i => { const it = dlg.querySelector(`.pp-fam-item[data-i="${i}"]`); if (it) it.remove(); if (!dlg.querySelector(".pp-fam-item")) dlg.close(); };
+    dlg.querySelectorAll("[data-feito]").forEach(b => b.onclick = async () => { const x = novos[+b.dataset.feito];
+      try { await db().collection("prof").doc("avisos").set({ lidos: { [x.id]: Date.now() } }, { merge: true }); toast("✅ Lembrete encerrado por hoje."); } catch (e) { toast("Não foi possível salvar: " + e.message); }
+      tira(+b.dataset.feito); mostrarAvisos({ contar: true }).catch(() => {}); });
+    dlg.querySelectorAll("[data-depois]").forEach(b => b.onclick = () => { const x = novos[+b.dataset.depois]; ss.set("painel:familia-adiado:" + x.id, String(Date.now() + 30 * 60000)); tira(+b.dataset.depois); });
+    dlg.querySelectorAll("[data-ir]").forEach(b => b.addEventListener("click", () => { const x = novos[+b.dataset.ir]; ss.set("painel:familia-adiado:" + x.id, String(Date.now() + 30 * 60000)); dlg.close(); }));
+    dlg.addEventListener("close", () => { dlg.remove(); familiaAberto = false; });
+  }
+  let familiaRelogio = null;
+  function vigiarFamilias() { if (familiaRelogio) return; lembrarFamilias().catch(() => {}); familiaRelogio = setInterval(() => lembrarFamilias().catch(() => {}), 60000); }
   async function mostrarAvisos(op = {}) {
     if (op.manual && document.querySelector(".pp-avisos")) return;
     const hoje = N.hoje(), d0 = new Date(hoje + "T12:00:00"), ano = d0.getFullYear(), dif = d => Math.round((new Date(d + "T12:00:00") - d0) / 864e5);
@@ -1569,6 +1621,7 @@
     try { await Promise.all(todasTurmas().filter(t => t.aula && t.aula.dia === d0.getDay()).map(async t => { const sn = await db().collection(DIARIO).doc(t.id).get();
       ((sn.exists && sn.data().lembretes) || []).forEach((l, i) => { if (!l.feito) lista.push({ id: "lemb-" + t.id + "-" + (l.criadoEm || i) + "-" + hoje, ic: "🟧", txt: `<b>${esc(nomeTurma(t.id))} (${t.aula.ini}):</b> ${esc(l.texto)}` }); }); })); } catch (e) {}
     try { (await casaHoje()).forEach(x => lista.push(casaAviso(x))); } catch (e) { console.warn("casa hoje", e); }
+    try { (await familiasPendentes()).forEach(x => lista.push({ id: x.id, ic: "🎬", txt: familiaTxt(x) })); } catch (e) { console.warn("família", e); }
     let lidos = {}; const ref = db().collection("prof").doc("avisos");
     try { const sn = await ref.get(); lidos = (sn.exists && sn.data().lidos) || {}; } catch (e) {}
     const chave = id => id.replace(/[^\w-]/g, "_").slice(0, 120);
@@ -2255,6 +2308,7 @@
       if (!ss.get("painel:pendencias")) { ss.set("painel:pendencias", "1"); setTimeout(() => perguntarInicio(u).finally(() => mostrarAvisos().finally(() => perguntarPendentes())), 900); }
       else setTimeout(() => { perguntarInicio(u); mostrarAvisos({ contar: true }).catch(() => {}); }, 900);
       setTimeout(() => ouvirCasa(), 3000);
+      setTimeout(() => vigiarFamilias(), 6000);   // 🎬 lembrete da família no fim da aula (18/11/2026)
       try {
         if (sub === "aula") return await telaAula(u, arg, arg2);
         if (sub === "placar") return await telaPlacar(u, arg);
