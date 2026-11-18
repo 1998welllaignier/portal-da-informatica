@@ -6,11 +6,7 @@ playlist da série e do bimestre, ex.: "7º ano · 4º bimestre 2026") e o Claud
 e, no vídeo do estudo em casa, `catalogo.videoCasa`). Depois de ligado, o vídeo passa para "✅ No ar".
 
 ## 🎬 Prontos, esperando postar
-**18/11/2026:** subiram os 4 que faltavam, todos **PRIVADOS** até a revisão do professor:
-- 7º ano · 1º bim. 2027 · Missão 2: Listas no programa → `4Uu1LKUF-YY` (playlist "7º ano · 1º bimestre 2027", para crianças) · ligado em `P.videosMissao`
-- Apresentação para gestores → `KCHBmOwoMRk` (não é para crianças) · ligado em `catalogo.videosApresentacao.gestores`
-- Apresentação para alunos e famílias → `lUbQ9RmXiBc` (para crianças) · **ainda NÃO ligado**: `videosApresentacao.familias` aparece na página inicial pública; liga depois da revisão, quando virar "Não listado"
-- 7º ano · 4º bim. 2026 · Curiosidade da M1: o cabo de rede → `CU1eC_bPv-w` (playlist "7º ano · 4º bimestre 2026", para crianças) · ligado na M1 como curiosidade
+_(nenhum: em 18/11/2026 o professor revisou e aprovou todos; os privados viraram "Não listado")_
 
 ## ⏳ Esperando o áudio (MP3) do professor
 _(nenhum: todos os áudios combinados chegaram)_
@@ -18,7 +14,7 @@ _(nenhum: todos os áudios combinados chegaram)_
 ## ✅ No ar e ligados no portal
 | 2027 · 6º ano · 1º bim. | M1 | M1 extra | M2 | M3 |
 |---|---|---|---|---|
-| (privados até o professor aprovar; depois "Não listado") | 9sPLQiecnHc | MGRoBzcxwX8 (⌨️ Especial Teclado) | oLgO5Zz0Bbg | Z7urMeervDQ |
+| (aprovados e "Não listado" desde 18/11/2026) | 9sPLQiecnHc | MGRoBzcxwX8 (⌨️ Especial Teclado) | oLgO5Zz0Bbg | Z7urMeervDQ |
 
 | Série | M1 | M2 | M3 |
 |---|---|---|---|
@@ -34,10 +30,12 @@ _(nenhum: todos os áudios combinados chegaram)_
 | 8º | TBagAmKBMew |
 | 9º | jLz6jur-msY |
 
-- 🏠 Instruções do estudo em casa: `zxVceWH7iAk` (`catalogo.videoCasa`, nas 4 playlists).
+- 🏠 Instruções do estudo em casa: `w1YZb8DeCEg` (versão 4, 18/11/2026; `catalogo.videoCasa`, `videoCasaVersao: 2`, nas 4 playlists). A versão antiga `zxVceWH7iAk` fica no canal.
+- 🎬 Apresentação para alunos e famílias: `lUbQ9RmXiBc` (página inicial, cartão compacto, e painel). Apresentação para gestores: `KCHBmOwoMRk` (só no painel).
+- 7º ano · 4º bim. 2026 · Curiosidade da M1 (cabo de rede): `CU1eC_bPv-w`.
 - ⭐ Aula especial · Meu papel de parede: `Owm5cWrejQU` (missão `ae` das 4 apostilas de papel de parede, nas 4 playlists).
 
-- 2027 · 7º ano · 1º bim.: M1 `-Y5vRictuKA` (privado, 17/11/2026).
+- 2027 · 7º ano · 1º bim.: M1 `-Y5vRictuKA`, M2 `4Uu1LKUF-YY` (não listados desde 18/11/2026).
 
 ## ⏳ Prontos, ainda não postados
-- 🏠 **Estudo em casa · Como entrar no portal e chegar à apostila** (18/11/2026, versão 4, 2min42s, narração Murilo, regra semanal e 2 horas como máximo): `Estudo-em-casa-como-entrar-2026-v4.mp4`. Sugestão: subir como **privado** e, depois da revisão do professor, ligar na tela 🏠 do estudo em casa e no site (botão "Sou aluno").
+_(nenhum)_

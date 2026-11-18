@@ -8,10 +8,10 @@ PORTAL.catalogo = {
   professor: "Professor Welington Laignier",
   escola: "EMEF Juscelino Kubitschek — Escola JK",
   cidade: "Curionópolis/PA",
-  videoCasa: "zxVceWH7iAk", // 🏠 vídeo de instruções do estudo em casa (YouTube, não listado)
+  videoCasa: "w1YZb8DeCEg", videoCasaVersao: 2, // 🏠 vídeo de instruções do estudo em casa (YouTube, não listado). v2 (18/11/2026): regra semanal e 2 horas como máximo; quem já tinha visto a v1 vê a nova uma vez
   // 🎬 vídeos de apresentação do portal (YouTube, não listado). Vazio = o bloco não aparece.
   //   familias: na página inicial (para pais e alunos assistirem em casa) e no painel; gestores: só no painel do professor
-  videosApresentacao: { familias: "", gestores: "KCHBmOwoMRk" },   // famílias = lUbQ9RmXiBc (privado): só entra aqui depois da revisão, porque aparece na página inicial pública
+  videosApresentacao: { familias: "lUbQ9RmXiBc", gestores: "KCHBmOwoMRk" },   // revisados e aprovados pelo professor em 18/11/2026 (não listados)
 
   disciplinas: [
     { id: "informatica", nome: "Informática", icone: "💻" }

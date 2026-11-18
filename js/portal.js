@@ -488,6 +488,38 @@
     b.replaceWith(q);
   });
 
+  /* 🎬 cartão de vídeo da página inicial (18/11/2026): compacto (miniatura ao lado do texto, também no celular), explica do que se trata
+     e, ao tocar, abre o vídeo por cima da página, na tela toda (tela cheia de verdade onde o aparelho permite) */
+  P.videoCartao = (id, o = {}) => {
+    if (!id || !/^[\w-]{11}$/.test(id)) return "";
+    return `<section class="vc" aria-labelledby="vc-tit">
+      <button type="button" class="vc-mini" data-vc="${id}" data-vc-tit="${esc(o.titulo || "")}" aria-label="Assistir ao vídeo: ${esc(o.titulo || "")}${o.duracao ? " (" + esc(o.duracao) + ")" : ""}">
+        <img src="https://i.ytimg.com/vi/${id}/hqdefault.jpg" alt="" loading="lazy" decoding="async" width="480" height="360" onerror="this.remove()">
+        <span class="vc-play" aria-hidden="true">▶</span>${o.duracao ? `<span class="vc-dur" aria-hidden="true">${esc(o.duracao)}</span>` : ""}</button>
+      <div class="vc-txt">
+        ${o.para ? `<p class="vc-para">${esc(o.para)}</p>` : ""}
+        <h2 id="vc-tit">${esc(o.titulo || "")}</h2>
+        ${o.sub ? `<p class="vc-sub">${esc(o.sub)}</p>` : ""}
+        <button type="button" class="btn vc-btn" data-vc="${id}" data-vc-tit="${esc(o.titulo || "")}">▶ Assistir${o.duracao ? ` <span class="vc-btn-dur">· ${esc(o.duracao)}</span>` : ""}</button>
+      </div>
+      ${o.topicos && o.topicos.length ? `<details class="vc-mais"><summary>O que você vai ver no vídeo</summary><ul>${o.topicos.map(t => `<li>${esc(t)}</li>`).join("")}</ul>${o.nota ? `<p class="vc-nota">${esc(o.nota)}</p>` : ""}</details>` : ""}
+    </section>`;
+  };
+  P.ligarVideoCartao = el => el.querySelectorAll("[data-vc]").forEach(b => b.onclick = () => {
+    const id = b.dataset.vc, dlg = document.createElement("dialog"); dlg.className = "vc-modal";
+    dlg.setAttribute("aria-label", b.dataset.vcTit || "Vídeo");
+    dlg.innerHTML = `<div class="vc-modal-topo"><strong>${esc(b.dataset.vcTit || "")}</strong><button type="button" class="vc-fechar" aria-label="Fechar o vídeo">✕ Fechar</button></div>
+      <div class="vc-modal-video"><iframe src="https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&modestbranding=1&playsinline=1&fs=1" title="${esc(b.dataset.vcTit || "Vídeo")}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>`;
+    document.body.appendChild(dlg);
+    const sair = () => { if (document.fullscreenElement) document.exitFullscreen().catch(() => {}); dlg.close(); };
+    dlg.querySelector(".vc-fechar").onclick = sair;
+    dlg.addEventListener("click", e => { if (e.target === dlg) sair(); });
+    dlg.onclose = () => { dlg.remove(); document.body.classList.remove("vc-aberto"); b.focus({ preventScroll: true }); };
+    document.body.classList.add("vc-aberto"); dlg.showModal();
+    // tela cheia de verdade onde o navegador deixa (computador e Android); no iPhone o vídeo já ocupa a tela e o player tem o próprio botão de tela cheia
+    if (dlg.requestFullscreen && matchMedia("(max-width: 820px)").matches) dlg.requestFullscreen().catch(() => {});
+  });
+
   function telaInicio() {
     barra();
     const el = mount(`<section class="tela">
@@ -502,9 +534,11 @@
       <div class="grid-cards">${cat().series.map(s => `<a class="card-serie" href="#/serie/${s.id}" style="--cor:${s.cor}">
         <span class="cs-num">${esc(s.nome.split(" ")[0])}</span><span class="cs-nome">${esc(s.nome)}</span>
         <span class="cs-turmas">${s.nota ? esc(s.nota) : s.turmas.map(t => esc(t.nome)).join(" · ")}</span></a>`).join("")}</div>
-      ${P.videoLeve ? P.videoLeve((cat().videosApresentacao || {}).familias, { titulo: "🎬 Conheça o Portal da Informática", sub: "Para pais, responsáveis e alunos: em 3 minutos, veja como funcionam as aulas. Assista com o som ligado." }) : ""}
+      ${P.videoCartao((cat().videosApresentacao || {}).familias, { para: "🎬 Para famílias e alunos", titulo: "Conheça o Portal da Informática", duracao: "3 min",
+        sub: "Veja como funcionam as aulas de Informática do Prof. Welington Laignier e como o aluno aprende no portal. Assista com o som ligado.",
+        topicos: ["🔢 Como o aluno entra: só um código de 4 números, sem e-mail e sem senha", "🎯 As missões: videozinho, leitura e “Onde eu uso isso?”", "🖱️ Os simuladores e as tarefas em três níveis, com o robô Bit para ajudar", "🏆 Os pontos, o rei da sala e o pódio no fim da aula", "👀 Como o professor acompanha cada aluno e quem estuda em casa", "🔒 A segurança: nome e notas só aparecem no painel do professor"] })}
     </section>`);
-    P.ligarVideoLeve && P.ligarVideoLeve(el);
+    P.ligarVideoCartao(el);
     return el;
   }
 

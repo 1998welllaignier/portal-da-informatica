@@ -1941,3 +1941,36 @@ button.tb-av:hover .avatar-svg, button.tb-av:focus-visible .avatar-svg { transfo
 .pp-visit { display: inline-block; font-size: .74rem; font-weight: 700; background: #e7f5ff; color: #1c5d99; border-radius: 12px; padding: 1px 8px; margin-left: 4px; }
 .pp-visit-fora { background: #fff3bf; color: #7a5b00; }
 tr.visit td, li.visit { background: rgba(28, 93, 153, .06); }
+
+/* ---------- 🎬 cartão de vídeo da página inicial (18/11/2026): miniatura ao lado do texto, sem ocupar a tela; o vídeo abre por cima, na tela toda ---------- */
+.vc { display: grid; grid-template-columns: minmax(0, 260px) minmax(0, 1fr); gap: 6px 18px; align-items: center; background: var(--papel); border: 1px solid var(--linha); border-radius: var(--raio); padding: 14px; box-shadow: var(--sombra); margin: 26px 0 14px; }
+.vc-mini { position: relative; display: block; width: 100%; aspect-ratio: 16 / 9; padding: 0; border: 0; border-radius: 10px; overflow: hidden; background: #1d2233; cursor: pointer; }
+.vc-mini img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.vc-play { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 52px; height: 38px; border-radius: 11px; background: #dc2626; color: #fff; font-size: 18px; display: grid; place-items: center; box-shadow: 0 4px 12px rgba(0,0,0,.35); transition: transform .15s; }
+.vc-mini:hover .vc-play, .vc-mini:focus-visible .vc-play { transform: translate(-50%, -50%) scale(1.08); background: #b91c1c; }
+.vc-dur { position: absolute; right: 6px; bottom: 6px; background: rgba(0,0,0,.78); color: #fff; font-size: .72rem; font-weight: 700; padding: 1px 6px; border-radius: 5px; }
+.vc-txt { min-width: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 4px; }
+.vc-para { margin: 0; font-size: .74rem; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; color: var(--cor); }
+.vc-txt h2 { margin: 0; font-size: 1.15rem; }
+.vc-sub { margin: 0; font-size: .92rem; color: var(--suave); }
+.vc-btn { margin-top: 6px; background: #dc2626; color: #fff; border: 0; border-radius: 10px; padding: 7px 14px; font-weight: 700; cursor: pointer; }
+.vc-btn:hover { background: #b91c1c; }
+.vc-btn-dur { font-weight: 600; opacity: .9; }
+.vc-mais { grid-column: 1 / -1; margin-top: 6px; border-top: 1px solid var(--linha); padding-top: 8px; font-size: .92rem; }
+.vc-mais summary { cursor: pointer; font-weight: 700; color: #1d4fa8; }
+.vc-mais ul { margin: 8px 0 2px; padding-left: 4px; list-style: none; display: grid; gap: 4px; }
+.vc-nota { margin: 6px 0 0; color: var(--suave); }
+@media (max-width: 560px) {
+  .vc { grid-template-columns: 40% minmax(0, 1fr); gap: 4px 12px; padding: 12px; }
+  .vc-txt h2 { font-size: 1rem; }
+  .vc-sub { display: none; }          /* no celular o cartão fica enxuto; a explicação completa está em "O que você vai ver" */
+  .vc-btn { padding: 6px 12px; font-size: .9rem; }
+}
+.vc-modal { width: 100vw; height: 100dvh; max-width: none; max-height: none; margin: 0; padding: 0; border: 0; background: #000; color: #fff; display: flex; flex-direction: column; }
+.vc-modal::backdrop { background: rgba(0,0,0,.9); }
+.vc-modal-topo { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: max(10px, env(safe-area-inset-top)) max(14px, env(safe-area-inset-right)) 10px max(14px, env(safe-area-inset-left)); font-size: .95rem; }
+.vc-modal-topo strong { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.vc-fechar { flex: none; background: #fff; color: #111; border: 0; border-radius: 999px; padding: 6px 14px; font-weight: 700; cursor: pointer; }
+.vc-modal-video { flex: 1; display: grid; place-items: center; padding: 0 0 max(10px, env(safe-area-inset-bottom)); min-height: 0; }
+.vc-modal-video iframe { width: min(100vw, calc((100dvh - 70px) * 16 / 9)); aspect-ratio: 16 / 9; border: 0; display: block; }
+body.vc-aberto { overflow: hidden; }
