@@ -4,7 +4,7 @@
      Fica em progresso/<alunoId>_avatar (o aluno só grava o próprio documento).
    - Pontos do pódio: só para a festa da aula. NÃO são nota e não vão para o boletim.
      Cada atividade da missão do dia vale pontos (Mão na massa 60, Básico 100, Desafio 150,
-     Turbo 200); errar e pedir dica diminuem; terminar o Básico cedo dá bônus de rapidez.
+     Turbo 200); errar e pedir dica diminuem. Os pontos = o XP da missão (desde 18/11/2026); a rapidez só desempata.
      O total vira uma nota de 0 a 1000 sobre o máximo possível da apostila do aluno,
      por isso a Trilha 👣 (com menos atividades) disputa em pé de igualdade.
    - O pódio final fica em config/podio_<turma> (o professor grava ao finalizar a aula).
@@ -359,24 +359,17 @@
       f -= .12 * (st.tentativas || 0) + .15 * (st.dicas || 0) + (st.viuResolucao ? .2 : 0); raw += Math.max(.3, Math.min(1, f)); });
     return { xp: Math.round(XP_BONUS * raw / lst.length), ok: n === lst.length };
   }
+  /* 🏆 pontos do placar e do pódio = o MESMO número da barra "⚡ XP da missão" que o aluno vê (18/11/2026: antes o placar
+     tinha outra escala, com o bônus de rapidez somado, e o aluno via números diferentes). A rapidez agora só DESEMPATA:
+     com o mesmo XP, fica na frente quem concluiu o Básico primeiro. */
   function pontosDoc(p, entradaTs, hoje) {
     if (!p || !p.aid || !p.mid || !P.montarMissao || !P.conteudo[p.aid]) return null;
     let mm; try { mm = P.montarMissao(p.aid, p.mid); } catch (e) { return null; }
     let atv = {}; try { atv = typeof p.atv === "string" ? JSON.parse(p.atv) : (p.atv || {}); } catch (e) {}
-    let max = 0, raw = 0;
-    mm.pages.forEach(pg => { const base = BASE[pg.id]; if (!base) return;
-      (pg.atividades || []).forEach(at => { const T = (P.tipos || {})[at.tipo] || {}; if (T.semStatus || at.opcional) return;
-        max += base; const st = atv[at.id]; if (!st || !st.status) return;
-        let f = st.status === "certo" ? 1 : st.status === "ajuda" ? .6 : st.status === "enviado" ? .8 : .5;
-        f -= .12 * (st.tentativas || 0) + .15 * (st.dicas || 0) + (st.viuResolucao ? .2 : 0);
-        raw += base * Math.max(.3, Math.min(1, f)); }); });
-    const dur = (P.catalogo.duracaoAula || 75) * 60000, okEm = (p.basicoOkEm || {})[hoje];
-    if (p.basicoOk && okEm && entradaTs) raw += BONUS * Math.max(.1, Math.min(1, 1 - (okEm - entradaTs) / dur));
-    max += BONUS;
-    const bz = bonusDe(mm, atv);
-    return { pontos: (max ? Math.round(1000 * raw / max) : 0) + bz.xp, okB: !!p.basicoOk, okEm: okEm || null, bonusOk: bz.ok };
+    const okEm = (p.basicoOkEm || {})[hoje];
+    return { pontos: xpDoc(p.aid, p.mid, atv), okB: !!p.basicoOk, okEm: okEm || null, bonusOk: bonusDe(mm, atv).ok };
   }
-  // ⚡ XP da missão (0 a 1000): só as atividades que dão pontos (sem o bônus de rapidez, que fica no placar)
+  // ⚡ XP da missão (0 a 1000, + até 150 do ⭐ Bônus relâmpago): é também o número do placar e do pódio
   function xpDoc(aid, mid, atv) {
     if (!P.montarMissao || !P.conteudo[aid]) return 0;
     let mm; try { mm = P.montarMissao(aid, mid); } catch (e) { return 0; }

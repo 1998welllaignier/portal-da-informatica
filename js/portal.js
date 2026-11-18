@@ -174,7 +174,7 @@
     if (xp > antes && antes) { box.classList.remove("subiu"); void box.offsetWidth; box.classList.add("subiu"); }
   }
   function getProg(aid) { const k = progressoKey(aid); return (k && store.get(k, null)) || { visitas: {}, atv: {}, atualizado: 0 }; }
-  // ⭐ pontos da brincadeira da aula (mesma conta do placar, sem o bônus de rapidez, que entra no total do placar)
+  // ⭐ pontos da brincadeira da aula = XP da missão = pontos do placar e do pódio (18/11/2026)
   function pontosDaMissao(aid, mid, atv) { try { return P.podio ? P.podio.xpDoc(aid, mid, atv || {}) : 0; } catch (e) { return 0; } }
   function conferirPontos(aid, antes, depois) {
     const s = sess.get(), C = P.conteudo[aid]; if (!s || !s.nuvem || !C || !P.podio) return;
