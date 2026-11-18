@@ -1879,7 +1879,7 @@
       // pode ser um ID ou uma lista [principal, extra]: o 2º em diante aparece como vídeo extra (passo a passo)
       const vv = ((P.videosMissao || {})[ap.base || ap.id] || {})[mid], lista = (Array.isArray(vv) ? vv : [vv]).filter(v => v && /^[\w-]{11}$/.test(v.id || v));
       // item pode ser {id, nome, sub} para dar nome ao vídeo extra (ex.: Especial Teclado)
-      lista.forEach((it, k) => { const vid = it.id || it;
+      lista.forEach((it0, k) => { const it = typeof it0 === "string" ? { id: it0 } : it0, vid = it.id;   // ID solto vira objeto (senão "texto".sub é uma função do JavaScript e aparecia na tela)
         const box = document.createElement("details"); box.className = "painel pp-video"; box.open = !k;
         box.innerHTML = `<summary><strong>📺 ${it.nome ? esc(it.nome) : k ? "Vídeo extra" : "Vídeo"} ${it.curiosidade ? "· " : "da "}missão ${esc(rotMis(C, mid))}</strong> ${it.sub ? "(" + esc(it.sub) + ")" : k ? "(passo a passo, para quando a turma tiver dificuldade)" : "(com a sua voz)"}</summary>
           <div class="pp-video-quadro"><iframe src="https://www.youtube-nocookie.com/embed/${vid}?rel=0&modestbranding=1" title="Vídeo da missão ${esc(rotMis(C, mid))}" loading="lazy" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
