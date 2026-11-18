@@ -175,7 +175,9 @@
           <option value="bim" ${per === "bim" ? "selected" : ""}>Bimestre em uso</option>
           <option value="ano" ${per === "ano" ? "selected" : ""}>Ano todo (${ano})</option>
           ${opDias.map(d => `<option value="${d}" ${per === d ? "selected" : ""}>Só a aula de ${dataBR(d)}</option>`).join("")}</select></label>
-        <button class="btn" id="rel-pdf" type="button">🖨️ Salvar em PDF</button></div>
+        <button class="btn" id="rel-pdf" type="button">🖨️ Salvar em PDF</button>
+        <button class="btn btn-sec" id="rel-copiar" type="button">📋 Copiar o texto</button></div>
+      <p class="ajuda rel-tela" id="rel-ajuda-pdf" hidden></p>
       <article class="rel-doc">
         <header class="rel-cab"><div><p class="rel-prof">Prof. Welington Laignier · Portal da Informática</p><h2>📄 Relatório do aluno</h2>
           <p class="rel-esc">${esc(ESCOLA)}</p></div></header>
@@ -203,12 +205,25 @@
       </article>`;
     corpo.querySelector("#rel-per").onchange = e => { location.hash = "#/painel/relatorio/" + a.id + (e.target.value === "bim" ? "" : "/" + e.target.value); };
     corpo.querySelector("#rel-pdf").onclick = () => {
-      // 🖨️ só o relatório vai para o papel/PDF: uma cópia limpa dele fica sozinha no topo da página enquanto imprime
+      // 🖨️ só o relatório vai para o papel/PDF: uma cópia limpa dele fica sozinha no topo da página enquanto imprime.
+      // 📱 18/11/2026: no iPhone a impressão não espera (o "afterprint" vem antes da prévia) e, no app instalado na tela
+      //    de início, window.print nem existe: a cópia só sai depois de alguns segundos e há ajuda para imprimir pelo menu.
       document.getElementById("rel-print")?.remove();
       const box = document.createElement("div"); box.id = "rel-print"; box.appendChild(corpo.querySelector(".rel-doc").cloneNode(true)); document.body.appendChild(box);
       const tt = document.title; document.title = `Relatório - ${a.nome} - ${dataBR(hoje).replace(/\//g, "-")}`; document.body.classList.add("rel-imprimindo");
-      const fim = () => { document.body.classList.remove("rel-imprimindo"); document.title = tt; box.remove(); window.removeEventListener("afterprint", fim); };
-      window.addEventListener("afterprint", fim); window.print(); };
+      const t0 = Date.now(); let feito = false;
+      const fim = () => { if (feito) return; if (Date.now() - t0 < 4000) { setTimeout(fim, 4000); return; } feito = true; document.body.classList.remove("rel-imprimindo"); document.title = tt; box.remove(); window.removeEventListener("afterprint", fim); };
+      window.addEventListener("afterprint", fim);
+      const ios = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+      const aj = corpo.querySelector("#rel-ajuda-pdf");
+      if (ios) { aj.hidden = false; aj.innerHTML = "📱 <b>No iPhone:</b> se a janela de impressão não abrir, toque em <b>Compartilhar</b> (quadradinho com a seta) › <b>Imprimir</b> › <b>Salvar em Arquivos</b> (ou abra a prévia com dois dedos e compartilhe). Também dá para usar <b>📋 Copiar o texto</b> e colar onde quiser."; }
+      try { if (typeof window.print === "function") window.print(); else throw new Error("sem print"); } catch (e) { aj.hidden = false; }
+      setTimeout(fim, 60000); };
+    corpo.querySelector("#rel-copiar").onclick = async () => {
+      const txt = corpo.querySelector(".rel-doc").innerText.replace(/💾 Salvar observação/g, "").replace(/\n{3,}/g, "\n\n");
+      try { await navigator.clipboard.writeText(txt); P.toast("📋 Texto do relatório copiado. É só colar."); }
+      catch (e) { const ta = document.createElement("textarea"); ta.value = txt; document.body.appendChild(ta); ta.select(); try { document.execCommand("copy"); P.toast("📋 Texto do relatório copiado."); } catch (x) { P.toast("Não foi possível copiar."); } ta.remove(); }
+    };
     corpo.querySelectorAll("[data-salvar]").forEach(b => b.onclick = async () => {
       const d = b.dataset.salvar, txt = corpo.querySelector(`[data-obs="${d}"]`).value.trim();
       b.disabled = true;
