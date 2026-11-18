@@ -9,11 +9,11 @@ PORTAL.registrarAtividades("informatica-6ano-4bim-trilha", {
   /* ======================= MISSÃO 1 ======================= */
   m1: {
     pratica: [
-      { tipo: "duplo_clique", titulo: "Abra a pasta com duplo clique",
+      { tipo: "duplo_clique", titulo: "Abra a pasta com duplo clique", robo: {"paineis": ["🖱️ O duplo clique"], "passos": [{"fala": "Olha como eu abro uma pasta <b>diferente</b>, a pasta Fotos:", "painel": 0, "titulo": "Duplo clique"}, {"fala": "Levo a setinha até a pasta e paro em cima dela.", "painel": 0, "linha": "1. Setinha em cima da pasta"}, {"fala": "Aperto o botão <b>esquerdo</b> duas vezes, <b>bem rapidinho</b>: tec-tec!", "painel": 0, "linha": "2. Clique-clique rápido", "marca": true}, {"fala": "Se eu demorar entre os dois cliques, o computador entende como dois cliques separados e não abre. Tem que ser rápido!", "painel": null, "espera": 2600}], "fim": "Agora é a sua vez: abra a pasta Trabalhos com um duplo clique. 💪"},
         alvo: "Trabalhos", itens: ["Fotos", "Músicas", "Trabalhos"],
         enunciado: "<p>Dê <strong>dois cliques rapidinhos</strong> na pasta <strong>Trabalhos</strong>.</p>",
         explicacao: "O <strong>duplo clique</strong> abre pastas e arquivos." },
-      { tipo: "explorador_pastas", titulo: "Guarde cada arquivo na pasta certa",
+      { tipo: "explorador_pastas", titulo: "Guarde cada arquivo na pasta certa", robo: {"paineis": ["📂 Como eu escolho a pasta"], "passos": [{"fala": "Olha o desenho do arquivo e o final do nome:", "painel": 0, "titulo": "Foto ou música?"}, {"fala": "🖼️ passeio.jpg tem desenho de foto → vai para Fotos.", "painel": 0, "linha": "🖼️ passeio.jpg → Fotos"}, {"fala": "🎵 parabens.mp3 tem desenho de música → vai para Músicas.", "painel": 0, "linha": "🎵 parabens.mp3 → Músicas", "marca": true}, {"fala": "Clico no arquivo e depois na pasta certa.", "painel": null, "espera": 2600}], "fim": "Agora é a sua vez! 💪"},
         enunciado: "<p>Clique no arquivo e depois na pasta certa. A 🖼️ foto vai para <strong>Fotos</strong>. A 🎵 música vai para <strong>Músicas</strong>.</p>",
         pastas: [{ id: "fotos", nome: "Fotos", ic: "🖼️" }, { id: "musicas", nome: "Músicas", ic: "🎵" }],
         arquivos: [{ nome: "🖼️ foto-da-escola.jpg", p: "fotos" }, { nome: "🎵 forro.mp3", p: "musicas" }, { nome: "🖼️ meu-time.jpg", p: "fotos" }, { nome: "🎵 hino.mp3", p: "musicas" }],
@@ -66,7 +66,7 @@ PORTAL.registrarAtividades("informatica-6ano-4bim-trilha", {
   /* ======================= MISSÃO 2 ======================= */
   m2: {
     pratica: [
-      { tipo: "rota", titulo: "Monte o algoritmo: plantar uma muda",
+      { tipo: "rota", titulo: "Monte o algoritmo: plantar uma muda", robo: {"paineis": ["➡️ fazer um sanduíche"], "passos": [{"fala": "Olha como eu monto a ordem de <b>outra</b> coisa: fazer um sanduíche. Eu pergunto: “o que tem que acontecer <b>primeiro</b>?”", "painel": 0, "titulo": "fazer um sanduíche"}, {"fala": "Clico no que vem primeiro.", "painel": 0, "linha": "1. Pegar o pão", "espera": 1700}, {"fala": "Clico no que vem depois: só pode vir depois do anterior.", "painel": 0, "linha": "2. Abrir o pão", "espera": 1700}, {"fala": "Clico no que vem depois: só pode vir depois do anterior.", "painel": 0, "linha": "3. Colocar o recheio", "espera": 1700}, {"fala": "Clico no que vem depois: só pode vir depois do anterior.", "painel": 0, "linha": "4. Fechar o pão", "marca": true, "espera": 1700}, {"fala": "Se eu clicar errado, apago e tento de novo. A ordem tem que fazer sentido do começo ao fim.", "painel": null, "espera": 2600}], "fim": "Agora é a sua vez: pense no que acontece primeiro ao plantar a muda. 💪"},
         enunciado: "<p>Clique nos passos <strong>na ordem</strong> certa.</p>",
         etapas: [
           { ic: "🧤", t: "Pegar a pá e a muda", dica: "Primeiro, separe o material." },
@@ -82,7 +82,7 @@ PORTAL.registrarAtividades("informatica-6ano-4bim-trilha", {
         enunciado: "<p>Use as setas <strong>▲</strong> e <strong>▼</strong> para deixar os passos <strong>em ordem</strong>.</p>",
         explicacao: "Pasta → escovar → enxaguar → guardar. Isso é um algoritmo!" },
 
-      { tipo: "robo", titulo: "Passo 2 · Leve o robô 🤖 até a estrela ⭐",
+      { tipo: "robo", titulo: "Passo 2 · Leve o robô 🤖 até a estrela ⭐", robo: {"paineis": ["🗺️ Outro labirinto: robô em A1, estrela em B2"], "passos": [{"fala": "Cada seta anda <b>uma casa</b>.", "painel": 0, "titulo": "Robô A1 → estrela B2"}, {"fala": "➡️: o robô vai de A1 para B1.", "painel": 0, "linha": "➡️"}, {"fala": "⬇️: desce de B1 para B2, a estrela!", "painel": 0, "linha": "⬇️ ⭐", "marca": true}, {"fala": "Depois clico em ▶ Executar para ver se deu certo.", "painel": null, "espera": 2600}], "fim": "Agora é a sua vez! 💪"},
         enunciado: "<p>Use as setas, uma por casa. Não passe pela parede 🧱. Depois clique em <strong>Executar</strong>.</p>",
         grade: ["R..", "##.", "..*"],
         solucao: [["R", 1], ["R", 1], ["D", 1], ["D", 1]],
@@ -98,7 +98,7 @@ PORTAL.registrarAtividades("informatica-6ano-4bim-trilha", {
           { t: "Se a senha estiver certa, então o celular abre", ic: "📱", c: "S" }],
         explicacao: "<strong>Repetição</strong> faz várias vezes. <strong>Escolha</strong> usa <strong>se… então</strong>." },
 
-      { tipo: "pintura", titulo: "Passo 4 · Siga o algoritmo de pintar", forma: "quadrado", n: 3, pretos: [1, 3],
+      { tipo: "pintura", titulo: "Passo 4 · Siga o algoritmo de pintar", robo: {"paineis": ["🎨 Meu algoritmo: se for o 2º, pinte de preto; senão, deixe branco."], "passos": [{"fala": "Olha como eu sigo <b>outro</b> algoritmo. Primeiro eu leio a regra inteira: se for o 2º, pinte de preto; senão, deixe branco.", "painel": 0, "titulo": "3 quadrados"}, {"fala": "1º quadrado: a regra manda pintar? <b>Não</b> → deixo branco.", "painel": 0, "linha": "1º → ⬜ branco", "espera": 1500}, {"fala": "2º quadrado: a regra manda pintar? <b>Sim</b> → pinto de preto.", "painel": 0, "linha": "2º → ⬛ preto", "marca": true, "espera": 1500}, {"fala": "3º quadrado: a regra manda pintar? <b>Não</b> → deixo branco.", "painel": 0, "linha": "3º → ⬜ branco", "espera": 1500}, {"fala": "Viu? Eu olho <b>um de cada vez</b> e faço a pergunta da regra para cada um.", "painel": null, "espera": 2600}], "fim": "Agora é a sua vez: leia a sua regra e faça um quadrado de cada vez. 💪"}, forma: "quadrado", n: 3, pretos: [1, 3],
         regra: "<strong>Repita 3 vezes:</strong> desenhe um quadrado. Depois: <strong>se</strong> for o 1º ou o 3º, pinte de preto; <strong>senão</strong>, deixe branco.",
         dicas: ["Só o 1º e o 3º ficam pretos. O do meio fica branco."],
         explicacao: "Você usou <strong>repetição</strong> (repita 3 vezes) e <strong>escolha</strong> (se… senão)." }
@@ -109,7 +109,7 @@ PORTAL.registrarAtividades("informatica-6ano-4bim-trilha", {
   /* ======================= MISSÃO 3 ======================= */
   m3: {
     pratica: [
-      { tipo: "mensagens", titulo: "No grupo da turma: respeito ou cyberbullying?", app: "💬 Grupo do 6º ano",
+      { tipo: "mensagens", titulo: "No grupo da turma: respeito ou cyberbullying?", robo: {"paineis": ["💬 Outras mensagens"], "passos": [{"fala": "Olha como eu decido com <b>outros</b> exemplos. Eu faço sempre as mesmas perguntas: Essa mensagem humilha, zomba ou expõe alguém? Ou ajuda e respeita?", "painel": 0, "titulo": "Meus exemplos"}, {"fala": "“Kkkk olha o cabelo do Caio, que ridículo! Manda pra todo mundo” → zomba de alguém e pede para espalhar: humilha.", "painel": 0, "linha": "Kkkk olha o cabelo do Caio, que ridículo! Mand… → 🚫 Cyberbullying", "marca": true, "espera": 2600}, {"fala": "“Gente, a prova de Ciências é sexta. Bons estudos!” → ajuda a turma e não ofende ninguém.", "painel": 0, "linha": "Gente, a prova de Ciências é sexta. Bons estud… → 😊 Respeito", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: leia cada mensagem e faça a mesma pergunta. 💪"}, app: "💬 Grupo do 6º ano",
         botoes: [{ id: "R", rot: "😊 Respeito" }, { id: "B", rot: "🚫 Cyberbullying" }],
         enunciado: "<p>Leia cada mensagem e clique na resposta.</p>",
         itens: [
@@ -143,7 +143,7 @@ PORTAL.registrarAtividades("informatica-6ano-4bim-trilha", {
           { t: "🌊 Jogar no rio", c: "E" }],
         explicacao: "Consertar, doar ou levar ao ponto de coleta. Nunca no lixo comum." },
 
-      { tipo: "cartaz", titulo: "Passo 4 · Monte o seu cartaz da natureza", tituloCartaz: "Eu cuido da natureza",
+      { tipo: "cartaz", titulo: "Passo 4 · Monte o seu cartaz da natureza", robo: {"paineis": ["🖼️ Meu cartaz de exemplo: Eu cuido da escola"], "passos": [{"fala": "Olha como eu monto um cartaz de <b>outro</b> tema, em 3 passos:", "painel": 0, "titulo": "Eu cuido da escola"}, {"fala": "1. Escolho desenhos que <b>combinam com o tema</b>: clico em cada um (clicando de novo, ele sai).", "painel": 0, "linha": "1. Desenhos: 📚 🤝"}, {"fala": "2. Clico numa cor de fundo.", "painel": 0, "linha": "2. Cor: azul"}, {"fala": "3. Escrevo a frase no campo de texto, completa, com letra maiúscula e ponto final.", "painel": 0, "linha": "3. Frase: Eu cuido da minha escola.", "marca": true, "espera": 3000}], "fim": "Agora é a sua vez: siga o que o cartaz pede (desenhos da natureza e a cor verde). 💪"}, tituloCartaz: "Eu cuido da natureza",
         desenhos: ["🌳", "🌎", "♻️", "🌻", "🐦", "🐟", "☀️", "💧"], cor: "verde", dicaCor: "Clique na cor <strong>verde</strong>, a cor da natureza.",
         campos: [{ rot: "De que cor é o seu cartaz?", opcoes: ["Vermelho", "Verde", "Azul"], gab: "Verde", re: "^Verde$", dica: "A cor pedida é <strong>verde</strong>, a cor da natureza." }],
         okMsg: "Cartaz pronto! Verde, como a natureza que a gente protege. 🌳" }
@@ -172,7 +172,7 @@ PORTAL.registrarAtividades("informatica-6ano-4bim-trilha", {
         ],
         fimMsg: "Você compactou uma pasta (o .zip ficou menor), descompactou outro .zip e achou um arquivo pela pesquisa!",
         explicacao: "Compactar junta arquivos num só .zip e diminui o tamanho, bom para mandar pela internet. Descompactar (Extrair Tudo) tira os arquivos do .zip. A pesquisa 🔍 do Explorador acha um arquivo pelo nome." },
-      { id: "m4-pratica-1", tipo: "bits", titulo: "Acenda as lâmpadas",
+      { id: "m4-pratica-1", tipo: "bits", titulo: "Acenda as lâmpadas", robo: {"paineis": ["💡 Outro número: o 3"], "passos": [{"fala": "As lâmpadas valem 4, 2 e 1. Quero o <b>3</b>:", "painel": 0, "titulo": "Quero o 3"}, {"fala": "A de 4 é grande demais: fica apagada.", "painel": 0, "linha": "4 → apagada"}, {"fala": "Acendo a de 2 e a de 1: 2 + 1 = 3!", "painel": 0, "linha": "2 + 1 = 3 ✔", "marca": true}], "fim": "Agora é a sua vez: acenda as lâmpadas que somam o número pedido. 💪"},
         enunciado: "<p>Clique nas lâmpadas para <strong>acender (1)</strong> ou <strong>apagar (0)</strong>. A soma das acesas tem que dar o número pedido.</p>",
         valores: [4, 2, 1],
         fases: [{ alvo: 1, pede: "Faça o número **1**.", dica: "Acenda só a lâmpada que vale 1." }, { alvo: 3, pede: "Faça o número **3**.", dica: "3 = 2 + 1." }],

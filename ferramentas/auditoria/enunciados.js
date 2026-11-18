@@ -59,13 +59,13 @@ for (const [aid, ap] of Object.entries(A)) {
       const pedeNum = LIN.some(l => Array.isArray(l) && l.some(x => x && typeof x === "object" && (x.tipo === "num" || /^\d+([.,]\d+)?$/.test(String(x.r || "")))));
       if ((pedeNum || ["sim_adivinhe", "adivinhe"].includes(tipo)) && NUMERICA.test(tudo) && !METODO.test(tudo))
         add("METODO?", "pede um número/contagem sem dizer o método ou de onde vêm os dados");
-      if (!SEM_INSTRUCAO.has(tipo) && !(at.dicas || []).length && !at.robo && !["info", "relembre", "sim_pc"].includes(tipo))   // sim_pc já tem o Bit guiando passo a passo
+      if (!SEM_INSTRUCAO.has(tipo) && !(at.dicas || []).length && !at.robo && !["info", "relembre", "sim_pc", "cabo", "teclado"].includes(tipo))   // sim_pc, cabo e teclado já têm o Bit dentro
         add("SEM-AJUDA", `tipo ${tipo}: sem dica e sem robô`);
       if (!at.explicacao && !["info", "relembre"].includes(tipo)) {
         if (tipo === "escolha") { const sem = (at.perguntas || []).filter(p => !p.why).length; if (sem) add("SEM-EXPLICACAO", `${sem} pergunta(s) sem "why"`); }
         else add("SEM-EXPLICACAO", `tipo ${tipo}: sem explicação da resposta`);
       }
-      if (PRATICOS.test(tipo || "") && !at.robo && !at.opcional && ["pratica", "basico"].includes(nv)) add("PRATICA-SEM-ROBO", `tipo ${tipo} (${nv}) sem o 🤖 Bit`);
+      if (PRATICOS.test(tipo || "") && !["cabo", "teclado"].includes(tipo) && !at.robo && !at.opcional && ["pratica", "basico"].includes(nv)) add("PRATICA-SEM-ROBO", `tipo ${tipo} (${nv}) sem o 🤖 Bit`);
       // resposta numérica × explicação
       if (at.explicacao) LIN.forEach(l => Array.isArray(l) && l.forEach(x => { if (x && typeof x === "object" && /^\d+$/.test(String(x.r || "")) && !new RegExp("(^|\\D)" + x.r + "(\\D|$)").test(txt(at.explicacao).replace(/(\d)\.(?=\d{3})/g, "$1"))) add("RESPOSTA×EXPL", `resposta ${x.r} não aparece na explicação`); }));
       if (CITA.test(tudo) && !at.linhas && !at.html && !at.lista && !at.valores && !at.itens && !at.pares) add("CITA-AUSENTE", `cita "${(tudo.match(CITA) || [])[0]}" que a tarefa não mostra`);

@@ -34,7 +34,7 @@ PORTAL.registrarAtividades("informatica-9ano-4bim-trilha", {
         perguntas: [{ p: "Que objeto é?", opcoes: ["🖥️ Monitor", "⌨️ Teclado", "✏️ Lápis"], certo: 0 }],
         explicacao: "É eletrônico e tem tela: é o <strong>monitor</strong>. Cada resposta de sim ou não leva a um galho da árvore." },
 
-      { tipo: "arvore", titulo: "Passo 4 · Conte as perguntas da árvore", modo: "decisao",
+      { tipo: "arvore", titulo: "Passo 4 · Conte as perguntas da árvore", robo: {"paineis": ["🌳 Como eu conto"], "passos": [{"fala": "Olha como eu conto as <b>respostas</b> numa árvore: são os desenhos no fim, que não têm pergunta depois.", "painel": 0, "titulo": "Contar folhas"}, {"fala": "Numa árvore com 🍎 Maçã, 🍌 Banana e 🍇 Uva no fim, são 3 respostas.", "painel": 0, "linha": "🍎 🍌 🍇 → 3", "marca": true}, {"fala": "As perguntas (❓) não contam: só os objetos no fim.", "painel": null, "espera": 2600}], "fim": "Agora é a sua vez: conte os objetos da sua árvore. 💪"}, modo: "decisao",
         raiz: { t: "❓ É eletrônico?", filhos: [
           { r: "Sim", t: "❓ Tem tela?", filhos: [{ r: "Sim", t: "🖥️ Monitor" }, { r: "Não", t: "⌨️ Teclado" }] },
           { r: "Não", t: "❓ Serve para escrever?", filhos: [{ r: "Sim", t: "✏️ Lápis" }, { r: "Não", t: "🪑 Cadeira" }] }] },
@@ -110,7 +110,7 @@ PORTAL.registrarAtividades("informatica-9ano-4bim-trilha", {
   /* ======================= MISSÃO 3 ======================= */
   m3: {
     pratica: [
-      { tipo: "mensagens", titulo: "No seu feed: compartilhar ou não?", app: "📲 Feed",
+      { tipo: "mensagens", titulo: "No seu feed: compartilhar ou não?", robo: {"paineis": ["📲 Outras postagens"], "passos": [{"fala": "Olha como eu decido com <b>outros</b> exemplos. Eu faço sempre as mesmas perguntas: Quem é o autor? Tem autorização? Pode ser falso (deepfake)?", "painel": 0, "titulo": "Meus exemplos"}, {"fala": "“Print da conversa de uma colega, postado sem ela saber” → expõe a pessoa sem autorização (direito de imagem e privacidade).", "painel": 0, "linha": "Print da conversa de uma colega, postado sem e… → 🛑 Não compartilhe", "marca": true, "espera": 2600}, {"fala": "“Desenho com licença CC BY, com o nome do autor” → a licença deixa, desde que eu dê o crédito ao autor.", "painel": 0, "linha": "Desenho com licença CC BY, com o nome do autor → 🔁 Pode compartilhar", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: faça as perguntas para cada postagem. 💪"}, app: "📲 Feed",
         botoes: [{ id: "S", rot: "🔁 Pode compartilhar" }, { id: "N", rot: "🛑 Não compartilhe" }],
         enunciado: "<p>Leia cada postagem e clique na resposta.</p>",
         itens: [
@@ -129,7 +129,7 @@ PORTAL.registrarAtividades("informatica-9ano-4bim-trilha", {
           { t: "Pedir autorização antes de postar", c: "P" }],
         explicacao: "Dê o <strong>crédito</strong>, não faça <strong>plágio</strong> e peça <strong>autorização</strong>." },
 
-      { tipo: "sinais", titulo: "Passo 2 · Marque os sinais de deepfake",
+      { tipo: "sinais", titulo: "Passo 2 · Marque os sinais de deepfake", robo: {"paineis": ["🎭 Outro vídeo"], "passos": [{"fala": "Olha com <b>outra</b> situação: um vídeo mostra um cantor prometendo dinheiro por um link, e a boca não acompanha a voz. Eu leio item por item e pergunto: “isso aparece aqui?”", "painel": 0, "titulo": "Minha situação"}, {"fala": "“A boca não acompanha a fala” aparece? <b>Sim</b> → eu marco ✔.", "painel": 0, "linha": "✔ A boca não acompanha a fala", "marca": true, "espera": 1800}, {"fala": "“Promete presente por um link” aparece? <b>Sim</b> → eu marco ✔.", "painel": 0, "linha": "✔ Promete presente por um link", "marca": true, "espera": 1800}], "fim": "Agora é a sua vez: marque os sinais do seu vídeo. 💪"},
         enunciado: "<p class=\"regra\">Um vídeo mostra um jogador famoso dizendo: “<strong>Vou dar um celular para quem clicar no link!</strong>” A boca dele não acompanha a fala.</p>",
         opcoes: [
           { t: "👄 A boca não acompanha a fala", certo: true },
@@ -144,7 +144,7 @@ PORTAL.registrarAtividades("informatica-9ano-4bim-trilha", {
           { p: "🎥 Recebi um vídeo suspeito. O que eu faço?", opcoes: ["Não clico e não compartilho", "Mando para todo mundo"], certo: 0 }],
         explicacao: "Crédito é escrever o nome de quem criou. Vídeo suspeito: não clique e não compartilhe." },
 
-      { tipo: "cartaz", titulo: "Passo 4 · Monte o seu cartaz do sol", tituloCartaz: "Meu cartaz",
+      { tipo: "cartaz", titulo: "Passo 4 · Monte o seu cartaz do sol", robo: {"paineis": ["🖼️ Meu cartaz de exemplo: Meu cartaz da noite"], "passos": [{"fala": "Olha como eu monto um cartaz de <b>outro</b> tema, em 3 passos:", "painel": 0, "titulo": "Meu cartaz da noite"}, {"fala": "1. Escolho desenhos que <b>combinam com o tema</b>: clico em cada um (clicando de novo, ele sai).", "painel": 0, "linha": "1. Desenhos: 🌙 ⭐"}, {"fala": "2. Clico numa cor de fundo.", "painel": 0, "linha": "2. Cor: azul"}, {"fala": "3. Escrevo a frase no campo de texto, completa, com letra maiúscula e ponto final.", "painel": 0, "linha": "3. Frase: Quem fez: eu.", "marca": true, "espera": 3000}], "fim": "Agora é a sua vez: siga o que o cartaz pede. 💪"}, tituloCartaz: "Meu cartaz",
         desenhos: ["☀️", "🌙", "⭐", "🌈", "🌳", "🐦"], exigirDesenhos: ["☀️"], dicaDesenhos: "Clique no <strong>sol</strong> ☀️ para colocar no cartaz.",
         cor: "amarelo", dicaCor: "Clique na cor <strong>amarelo</strong>, a cor do sol.",
         campos: [{ rot: "Quem é o autor deste cartaz?", opcoes: ["O computador", "Eu", "A internet"], gab: "Eu", re: "^Eu$", dica: "Quem cria é o <strong>autor</strong>: foi você que montou." }],
@@ -156,7 +156,7 @@ PORTAL.registrarAtividades("informatica-9ano-4bim-trilha", {
   /* ======================= MISSÃO 4 ======================= */
   m4: {
     pratica: [
-      { tipo: "mensagens", titulo: "Seja a IA: spam ou normal?", app: "📧 E-mail",
+      { tipo: "mensagens", titulo: "Seja a IA: spam ou normal?", robo: {"paineis": ["🤖 Como a IA decide"], "passos": [{"fala": "Olha como eu decido com <b>outros</b> exemplos. Eu faço sempre as mesmas perguntas: Esse e-mail se parece com quais exemplos do treino? (é assim que a IA aprende: pelos padrões)", "painel": 0, "titulo": "Meus exemplos"}, {"fala": "“GANHE DINHEIRO FÁCIL!!! Clique já!” → tem as mesmas pistas dos exemplos de spam: GRÁTIS/GANHE, CLIQUE JÁ, muitos pontos de exclamação.", "painel": 0, "linha": "GANHE DINHEIRO FÁCIL!!! Clique já! → 🚫 Spam", "marca": true, "espera": 2600}, {"fala": "“Professor: a prova é na quinta.” → parece os exemplos normais: avisos da escola, sem prêmio nem pressa.", "painel": 0, "linha": "Professor: a prova é na quinta. → ✅ Normal", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: compare cada e-mail com os exemplos do treino. 💪"}, app: "📧 E-mail",
         botoes: [{ id: "S", rot: "🚫 Spam" }, { id: "N", rot: "✅ Normal" }],
         enunciado: "<p><strong>Exemplo:</strong> e-mail com <strong>GRÁTIS</strong>, <strong>PRÊMIO</strong> e <strong>CLIQUE JÁ</strong> é spam. Agora separe:</p>",
         itens: [{ de: "sorteio.xyz", t: "PRÊMIO GRÁTIS! Clique já!", c: "S", why: "Grátis + prêmio + clique já." }, { de: "Escola", t: "A aula de amanhã é às 13h30.", c: "N" }],
@@ -171,7 +171,7 @@ PORTAL.registrarAtividades("informatica-9ano-4bim-trilha", {
         perguntas: [{ p: "O chatbot respondeu. O que eu faço?", opcoes: ["Confiro em outro lugar", "Copio sem ler"], certo: 0 },
           { p: "Coloco meu endereço no chatbot?", opcoes: ["Não", "Sim"], certo: 0 }],
         explicacao: "A IA erra: eu confiro. E não coloco meus dados pessoais." },
-      { tipo: "sinais", titulo: "Passo 3 · Onde está a IA?",
+      { tipo: "sinais", titulo: "Passo 3 · Onde está a IA?", robo: {"paineis": ["🤖 Outra lista"], "passos": [{"fala": "Olha com <b>outra</b> situação: onde tem IA no celular? Eu leio item por item e pergunto: “isso aparece aqui?”", "painel": 0, "titulo": "Minha situação"}, {"fala": "“Assistente de voz que entende o que eu falo” aparece? <b>Sim</b> → eu marco ✔.", "painel": 0, "linha": "✔ Assistente de voz que entende o que eu falo", "marca": true, "espera": 1800}, {"fala": "“Câmera que reconhece o rosto” aparece? <b>Sim</b> → eu marco ✔.", "painel": 0, "linha": "✔ Câmera que reconhece o rosto", "marca": true, "espera": 1800}, {"fala": "“A lanterna” aparece? <b>Não</b> → deixo sem marcar.", "painel": 0, "linha": "☐ A lanterna", "espera": 1800}], "fim": "Agora é a sua vez: marque onde a máquina aprendeu com exemplos. 💪"},
         enunciado: "<p>Marque <strong>onde tem IA</strong>.</p>",
         opcoes: [{ t: "⌨️ Corretor do teclado", certo: true }, { t: "🌐 Tradutor", certo: true }, { t: "📺 Vídeo recomendado", certo: true }, { t: "✏️ Lápis", certo: false, why: "O lápis não tem programa." }],
         explicacao: "Teclado, tradutor e vídeo recomendado usam IA." },

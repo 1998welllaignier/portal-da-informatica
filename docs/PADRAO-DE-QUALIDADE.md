@@ -268,3 +268,4 @@ Apostila no portal + ilustrada (PDF só para quem estuda em casa) · guia do pro
 - **Regras novas:**
   - os itens de "ordenar" **nunca** trazem número (1️⃣ 2️⃣…), porque isso entrega a resposta;
   - o exemplo de resposta tem de bater com a série (a missão citada tem de ser daquela apostila).
+- **🤖 Bit nas práticas do 4º bimestre (18/11/2026):** 73 tarefas práticas do 5º ao 9º ano e das Trilhas ganharam o "Me ajuda, robô!" (balões, duplo clique, pastas, rota, labirinto, pintura, listas, lâmpadas, mensagens, sinais, cartaz, grafo, árvore, cifra, permissões e outras). O Bit **sempre usa um exemplo diferente** do pedido e termina com "Agora é a sua vez". Ficam sem robô: as tarefas "No computador" (feitas no computador de verdade, com o simulador ao lado) e os tipos que já têm o Bit por dentro (`sim_pc`, `cabo`, `teclado`).

@@ -18,17 +18,17 @@ PORTAL.registrarAtividades("informatica-8ano-4bim-trilha", {
         explicacao: "Trocar vizinhos até ficar em ordem é o <strong>método da bolha</strong>." }
     ],
     basico: [
-      { tipo: "sequencial", titulo: "Passo 1 · Procure o 9 olhando um por um",
+      { tipo: "sequencial", titulo: "Passo 1 · Procure o 9 olhando um por um", robo: {"paineis": ["🔎 Procurando um por um"], "passos": [{"fala": "Olha como eu procuro o número <b>5</b> em outras cartas:", "painel": 0, "titulo": "Procurar o 5"}, {"fala": "Viro a 1ª carta: é 2. Não é o 5.", "painel": 0, "linha": "1ª → 2"}, {"fala": "Viro a 2ª carta: é 7. Não é.", "painel": 0, "linha": "2ª → 7"}, {"fala": "Viro a 3ª carta: é 5. Achei! Olhei 3 cartas.", "painel": 0, "linha": "3ª → 5 ✔", "marca": true}], "fim": "Agora é a sua vez: vire uma carta de cada vez, na ordem. 💪"},
         lista: [5, 8, 2, 9, 4], alvo: 9,
         enunciado: "<p>As cartas estão viradas. Clique na <strong>1ª carta</strong>, depois na <strong>2ª</strong>, depois na <strong>3ª</strong>… até achar o <strong>9</strong>.</p>",
         explicacao: "Você olhou 4 cartas: o 9 estava na 4ª posição. Isso é a <strong>busca sequencial</strong>: olhar um por um." },
 
-      { tipo: "busca_binaria", titulo: "Passo 2 · Procure o 8 pelo meio", ajudaMeio: true,
+      { tipo: "busca_binaria", titulo: "Passo 2 · Procure o 8 pelo meio", robo: {"paineis": ["🔎 Procurando pelo meio"], "passos": [{"fala": "Olha com <b>outra</b> lista em ordem: [1, 3, 5, 7, 9]. Procuro o 3.", "painel": 0, "titulo": "Procurar o 3"}, {"fala": "O meio é a posição 3: o número 5. O 3 é menor, então só pode estar antes.", "painel": 0, "linha": "meio → 5 · o 3 está antes"}, {"fala": "Sobraram as posições 1 e 2. O meio é a 1: número 1. O 3 é maior.", "painel": 0, "linha": "meio → 1 · o 3 está depois"}, {"fala": "Sobrou a posição 2: é o 3! Achei.", "painel": 0, "linha": "posição 2 → 3 ✔", "marca": true}], "fim": "Agora é a sua vez: clique na carta com a mãozinha 👆. 💪"}, ajudaMeio: true,
         lista: [2, 4, 6, 8, 10], alvo: 8,
         enunciado: "<p>Esta lista está <strong>em ordem</strong>. Clique na carta do <strong>meio</strong> (ela tem a mãozinha 👆).</p>",
         explicacao: "1ª vez: o meio era o 6, e o 8 é maior, então a metade da esquerda foi jogada fora. 2ª vez: achou o 8! Procurar pelo meio é a <strong>busca binária</strong>." },
 
-      { tipo: "bolha", titulo: "Passo 3 · Arrume [3, 1, 2] do menor para o maior", lista: [3, 1, 2],
+      { tipo: "bolha", titulo: "Passo 3 · Arrume [3, 1, 2] do menor para o maior", robo: {"paineis": ["🫧 Outra lista: [2, 1, 3]"], "passos": [{"fala": "Olha com <b>outra</b> lista:", "painel": 0, "titulo": "[2, 1, 3]"}, {"fala": "2 e 1: o da esquerda é maior → <b>Trocar</b>.", "painel": 0, "linha": "2 e 1 → trocar → [1, 2, 3]"}, {"fala": "2 e 3: já está em ordem → <b>Manter</b>.", "painel": 0, "linha": "2 e 3 → manter ✔", "marca": true}], "fim": "Agora é a sua vez: o da esquerda é maior? Então troque. 💪"}, lista: [3, 1, 2],
         enunciado: "<p>Olhe os <strong>dois vizinhos</strong> destacados. Se o da esquerda for <strong>maior</strong>, clique em <strong>Trocar</strong>. Se já estão em ordem, clique em <strong>Manter</strong>.</p>",
         explicacao: "A lista ficou [1, 2, 3]: do menor para o maior. Isso é o <strong>método da bolha</strong>." },
 
@@ -47,7 +47,7 @@ PORTAL.registrarAtividades("informatica-8ano-4bim-trilha", {
   /* ======================= MISSÃO 2 ======================= */
   m2: {
     pratica: [
-      { tipo: "rota", titulo: "O caminho do vídeo até o seu celular",
+      { tipo: "rota", titulo: "O caminho do vídeo até o seu celular", robo: {"paineis": ["➡️ uma encomenda chegando em casa"], "passos": [{"fala": "Olha como eu monto a ordem de <b>outra</b> coisa: uma encomenda chegando em casa. Eu pergunto: “o que tem que acontecer <b>primeiro</b>?”", "painel": 0, "titulo": "uma encomenda chegando em casa"}, {"fala": "Clico no que vem primeiro.", "painel": 0, "linha": "1. Fábrica (onde o produto é feito)", "espera": 1700}, {"fala": "Clico no que vem depois: só pode vir depois do anterior.", "painel": 0, "linha": "2. Caminhão pela estrada", "espera": 1700}, {"fala": "Clico no que vem depois: só pode vir depois do anterior.", "painel": 0, "linha": "3. Agência dos Correios da cidade", "espera": 1700}, {"fala": "Clico no que vem depois: só pode vir depois do anterior.", "painel": 0, "linha": "4. Carteiro na sua rua", "espera": 1700}, {"fala": "Clico no que vem depois: só pode vir depois do anterior.", "painel": 0, "linha": "5. Você abre o pacote", "marca": true, "espera": 1700}, {"fala": "Se eu clicar errado, apago e tento de novo. A ordem tem que fazer sentido do começo ao fim.", "painel": null, "espera": 2600}], "fim": "Agora é a sua vez: do data center até a sua tela, o que vem primeiro? 💪"},
         enunciado: "<p>Clique nas etapas <strong>na ordem</strong>: de onde o vídeo está guardado até a sua tela.</p>",
         etapas: [
           { ic: "🏭", t: "Data center", dica: "Comece de onde o vídeo está guardado." },
@@ -79,7 +79,7 @@ PORTAL.registrarAtividades("informatica-8ano-4bim-trilha", {
           { p: "☁️ Onde fica guardada a foto na nuvem?", opcoes: ["No data center, pela internet", "Numa nuvem de chuva", "Dentro do teclado"], certo: 0 }],
         explicacao: "O roteador espalha o Wi-Fi. A nuvem guarda a foto nos computadores do data center." },
 
-      { tipo: "cartaz", titulo: "Passo 4 · Monte o cartaz do caminho da internet", tituloCartaz: "O caminho da internet",
+      { tipo: "cartaz", titulo: "Passo 4 · Monte o cartaz do caminho da internet", robo: {"paineis": ["🖼️ Meu cartaz de exemplo: Meu lanche"], "passos": [{"fala": "Olha como eu monto um cartaz de <b>outro</b> tema, em 3 passos:", "painel": 0, "titulo": "Meu lanche"}, {"fala": "1. Escolho desenhos que <b>combinam com o tema</b>: clico em cada um (clicando de novo, ele sai).", "painel": 0, "linha": "1. Desenhos: 🍎 🥪 🧃"}, {"fala": "2. Clico numa cor de fundo.", "painel": 0, "linha": "2. Cor: laranja"}, {"fala": "3. Escrevo a frase no campo de texto, completa, com letra maiúscula e ponto final.", "painel": 0, "linha": "3. Frase: O meu lanche favorito.", "marca": true, "espera": 3000}], "fim": "Agora é a sua vez: escolha os 3 desenhos que fazem parte do caminho da internet. 💪"}, tituloCartaz: "O caminho da internet",
         desenhos: ["📱", "📶", "☁️", "🐟", "🍕", "⚽"], minDesenhos: 3, maxDesenhos: 3, exigirDesenhos: ["📱", "📶", "☁️"],
         dicaDesenhos: "Clique nos 3 desenhos do caminho: o <strong>celular</strong> 📱, o <strong>roteador</strong> 📶 e a <strong>nuvem</strong> ☁️.",
         campos: [{ rot: "Quantos desenhos tem o caminho?", opcoes: ["2", "3", "4"], gab: "3", re: "^3$", dica: "São <strong>3</strong>: celular, roteador e nuvem." }],
@@ -91,7 +91,7 @@ PORTAL.registrarAtividades("informatica-8ano-4bim-trilha", {
   /* ======================= MISSÃO 3 ======================= */
   m3: {
     pratica: [
-      { tipo: "permissoes", titulo: "Permitir ou negar?",
+      { tipo: "permissoes", titulo: "Permitir ou negar?", robo: {"paineis": ["📱 Outros pedidos"], "passos": [{"fala": "Olha como eu decido com <b>outros</b> exemplos. Eu faço sempre as mesmas perguntas: O aplicativo precisa mesmo disso para fazer o trabalho dele?", "painel": 0, "titulo": "Meus exemplos"}, {"fala": "“Despertador quer acessar: suas fotos” → despertador só precisa tocar na hora: não precisa de fotos.", "painel": 0, "linha": "Despertador quer acessar: suas fotos → ⛔ Negar", "marca": true, "espera": 2600}, {"fala": "“Gravador de voz quer acessar: o microfone” → para gravar a voz, ele precisa do microfone.", "painel": 0, "linha": "Gravador de voz quer acessar: o microfone → ✅ Permitir", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: para cada pedido, pense no trabalho do aplicativo. 💪"},
         enunciado: "<p>O aplicativo <strong>precisa mesmo</strong> disso para funcionar?</p>",
         itens: [
           { ic: "🔦", app: "Lanterna", pede: "seus contatos", c: "N", why: "Lanterna só precisa do flash." },
@@ -139,7 +139,7 @@ PORTAL.registrarAtividades("informatica-8ano-4bim-trilha", {
           { t: "🧮 Calculadora pede o microfone", c: "N" }],
         explicacao: "Antes de clicar em “Permitir”, pergunte: o aplicativo precisa disso para funcionar?" },
 
-      { tipo: "sinais", titulo: "Passo 3 · Marque os sinais de notícia falsa",
+      { tipo: "sinais", titulo: "Passo 3 · Marque os sinais de notícia falsa", robo: {"paineis": ["📰 Outra notícia"], "passos": [{"fala": "Olha com <b>outra</b> situação: “URGENTE!!! Amanhã não tem aula em lugar nenhum! Espalhe!” (sem nome de quem escreveu) Eu leio item por item e pergunto: “isso aparece aqui?”", "painel": 0, "titulo": "Minha situação"}, {"fala": "“Não tem o nome de quem escreveu” aparece? <b>Sim</b> → eu marco ✔.", "painel": 0, "linha": "✔ Não tem o nome de quem escreveu", "marca": true, "espera": 1800}, {"fala": "“Tem URGENTE!!!” aparece? <b>Sim</b> → eu marco ✔.", "painel": 0, "linha": "✔ Tem URGENTE!!!", "marca": true, "espera": 1800}, {"fala": "“Pede para espalhar” aparece? <b>Sim</b> → eu marco ✔.", "painel": 0, "linha": "✔ Pede para espalhar", "marca": true, "espera": 1800}], "fim": "Agora é a sua vez: marque os sinais da sua notícia. 💪"},
         enunciado: "<p class=\"regra\">“<strong>URGENTE!!!</strong> Celular carregando explode à noite. <strong>Compartilhe antes que apaguem!</strong>” <em>(sem nome de quem escreveu)</em></p>",
         opcoes: [
           { t: "❓ Não tem o nome de quem escreveu", certo: true },
@@ -191,7 +191,7 @@ PORTAL.registrarAtividades("informatica-8ano-4bim-trilha", {
       { id: "m4-basico-2", tipo: "escolha", titulo: "Passo 2 · Grátis mesmo?",
         perguntas: [{ p: "Como o aplicativo grátis costuma ganhar dinheiro?", opcoes: ["Com propaganda", "Com nada"], certo: 0 }],
         explicacao: "Aplicativo grátis costuma ganhar dinheiro com <strong>propaganda</strong>." },
-      { id: "m4-basico-3", tipo: "sinais", titulo: "Passo 3 · As 3 perguntas antes de aceitar",
+      { id: "m4-basico-3", tipo: "sinais", titulo: "Passo 3 · As 3 perguntas antes de aceitar", robo: {"paineis": ["📋 As perguntas que importam"], "passos": [{"fala": "Antes de aceitar, eu penso nos <b>meus dados</b>:", "painel": 0, "titulo": "Perguntas"}, {"fala": "Que dados ele pega? (importa!)", "painel": 0, "linha": "✔ Que dados ele pega?"}, {"fala": "Com quem ele compartilha? (importa!)", "painel": 0, "linha": "✔ Com quem compartilha?"}, {"fala": "A cor do botão importa? Não: isso não muda nada nos meus dados.", "painel": 0, "linha": "☐ A cor do botão", "marca": true}], "fim": "Agora é a sua vez: marque as 3 perguntas sobre os seus dados. 💪"},
         enunciado: "<p>Marque as <strong>3 perguntas</strong> que eu faço antes de aceitar os termos.</p>",
         opcoes: [{ t: "📋 Que dados ele pega?", certo: true }, { t: "🤝 Com quem ele compartilha?", certo: true }, { t: "🗑️ Consigo apagar a minha conta?", certo: true },
           { t: "🎨 De que cor é o botão?", certo: false, why: "A cor do botão não protege os seus dados." }],

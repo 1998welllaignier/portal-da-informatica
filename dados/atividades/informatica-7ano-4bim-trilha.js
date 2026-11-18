@@ -9,7 +9,7 @@ PORTAL.registrarAtividades("informatica-7ano-4bim-trilha", {
   /* ======================= MISSÃO 1 ======================= */
   m1: {
     pratica: [
-      { tipo: "rota", titulo: "O caminho da mensagem",
+      { tipo: "rota", titulo: "O caminho da mensagem", robo: {"paineis": ["➡️ ir da sala até a cantina"], "passos": [{"fala": "Olha como eu monto a ordem de <b>outra</b> coisa: ir da sala até a cantina. Eu pergunto: “o que tem que acontecer <b>primeiro</b>?”", "painel": 0, "titulo": "ir da sala até a cantina"}, {"fala": "Clico no que vem primeiro.", "painel": 0, "linha": "1. Sair da sala", "espera": 1700}, {"fala": "Clico no que vem depois: só pode vir depois do anterior.", "painel": 0, "linha": "2. Andar pelo corredor", "espera": 1700}, {"fala": "Clico no que vem depois: só pode vir depois do anterior.", "painel": 0, "linha": "3. Passar pelo pátio", "espera": 1700}, {"fala": "Clico no que vem depois: só pode vir depois do anterior.", "painel": 0, "linha": "4. Chegar à cantina", "marca": true, "espera": 1700}, {"fala": "Se eu clicar errado, apago e tento de novo. A ordem tem que fazer sentido do começo ao fim.", "painel": null, "espera": 2600}], "fim": "Agora é a sua vez: do seu celular até o servidor, o que vem primeiro? 💪"},
         enunciado: "<p>Clique nas etapas <strong>na ordem</strong>: do seu celular até o servidor.</p>",
         etapas: [
           { ic: "📱", t: "Seu celular", dica: "Comece pelo seu celular." },
@@ -81,7 +81,7 @@ PORTAL.registrarAtividades("informatica-7ano-4bim-trilha", {
   /* ======================= MISSÃO 2 ======================= */
   m2: {
     pratica: [
-      { tipo: "robo", titulo: "Caça ao bug: o robô não chega na estrela",
+      { tipo: "robo", titulo: "Caça ao bug: o robô não chega na estrela", robo: {"paineis": ["🐞 Como eu acho o bug"], "passos": [{"fala": "Olha como eu faço:", "painel": 0, "titulo": "Depuração"}, {"fala": "1. Clico em ▶ Executar e olho <b>onde</b> o robô para.", "painel": 0, "linha": "1. Testar"}, {"fala": "2. Vejo qual bloco levou o robô para o lugar errado.", "painel": 0, "linha": "2. Achar o bloco"}, {"fala": "3. Uso o + ou o − nesse bloco e testo de novo.", "painel": 0, "linha": "3. Consertar e testar", "marca": true}], "fim": "Agora é a sua vez! 💪"},
         enunciado: "<p>O programa tem um <strong>erro</strong> (bug). Clique em <strong>▶ Executar</strong>, veja onde o robô para e <strong>conserte</strong> com os botões <strong>+</strong> e <strong>−</strong>.</p>",
         grade: ["R..", "#..", "#.*"],
         inicial: [["R", 1], ["D", 2]],
@@ -102,7 +102,7 @@ PORTAL.registrarAtividades("informatica-7ano-4bim-trilha", {
           { p: "Qual cor está na posição 1?", opcoes: ["Azul", "Verde", "Amarelo"], certo: 0 }],
         explicacao: "Na lista, cada cor tem uma <strong>posição</strong>: 1 = azul, 2 = verde, 3 = amarelo." },
 
-      { tipo: "robo", titulo: "Passo 3 · Ache o bug e conserte",
+      { tipo: "robo", titulo: "Passo 3 · Ache o bug e conserte", robo: {"paineis": ["🐞 Como eu acho o bug"], "passos": [{"fala": "Olha como eu faço:", "painel": 0, "titulo": "Depuração"}, {"fala": "1. Clico em ▶ Executar e olho <b>onde</b> o robô para.", "painel": 0, "linha": "1. Testar"}, {"fala": "2. Vejo qual bloco levou o robô para o lugar errado.", "painel": 0, "linha": "2. Achar o bloco"}, {"fala": "3. Uso o + ou o − nesse bloco e testo de novo.", "painel": 0, "linha": "3. Consertar e testar", "marca": true}], "fim": "Agora é a sua vez! 💪"},
         enunciado: "<p>Clique em <strong>▶ Executar</strong>. O robô bate na parede 🧱. Conserte o bloco errado com <strong>+</strong> e <strong>−</strong>.</p>",
         grade: ["R..", "##.", "..*"],
         inicial: [["R", 1], ["D", 2]],
@@ -146,7 +146,7 @@ PORTAL.registrarAtividades("informatica-7ano-4bim-trilha", {
         ],
         fimMsg: "Você denunciou o golpe sem clicar nos links perigosos e abriu só o link seguro da escola. Detetive de golpes!",
         explicacao: "Sinais de golpe: prêmio que você não pediu, pressa, pedido de senha ou documentos, remetente estranho ou escrito errado, links esquisitos. Na dúvida, não clique: denuncie e mostre a um adulto." },
-      { id: "m3-pratica-1", tipo: "mensagens", titulo: "Chegou mensagem: golpe ou segura?", app: "📱 Mensagens",
+      { id: "m3-pratica-1", tipo: "mensagens", titulo: "Chegou mensagem: golpe ou segura?", robo: {"paineis": ["📱 Outras mensagens"], "passos": [{"fala": "Olha como eu decido com <b>outros</b> exemplos. Eu faço sempre as mesmas perguntas: Tem pressa? Prêmio? Link estranho? Pede senha ou código?", "painel": 0, "titulo": "Meus exemplos"}, {"fala": "“Sua conta do jogo será apagada em 1 hora! Mande a sua senha para o suporte.” → tem pressa e pede senha: ninguém de verdade pede a sua senha.", "painel": 0, "linha": "Sua conta do jogo será apagada em 1 hora! Mand… → 🚩 Golpe", "marca": true, "espera": 2600}, {"fala": "“Pai: Filho, vou buscar você às 17h na escola.” → é de alguém conhecido, sem pressa, sem link e sem pedir código.", "painel": 0, "linha": "Pai: Filho, vou buscar você às 17h na escola. → ✅ Segura", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: procure os sinais de golpe em cada mensagem. 💪"}, app: "📱 Mensagens",
         botoes: [{ id: "G", rot: "🚩 Golpe" }, { id: "S", rot: "✅ Segura" }],
         enunciado: "<p>Leia cada mensagem e clique na resposta.</p>",
         itens: [
@@ -156,7 +156,7 @@ PORTAL.registrarAtividades("informatica-7ano-4bim-trilha", {
         okMsg: "Você não cai em golpe! Na dúvida, pergunte a um adulto." }
     ],
     basico: [
-      { id: "m3-basico-1", tipo: "sinais", titulo: "Passo 1 · Marque os sinais de golpe",
+      { id: "m3-basico-1", tipo: "sinais", titulo: "Passo 1 · Marque os sinais de golpe", robo: {"paineis": ["🚩 Outra mensagem"], "passos": [{"fala": "Olha com <b>outra</b> situação: “Corre! Ganhe 1.000 moedas no jogo: me passe o código que chegou no seu celular.” Eu leio item por item e pergunto: “isso aparece aqui?”", "painel": 0, "titulo": "Minha situação"}, {"fala": "“Pressa (corre!)” aparece? <b>Sim</b> → eu marco ✔.", "painel": 0, "linha": "✔ Pressa (corre!)", "marca": true, "espera": 1800}, {"fala": "“Prêmio fácil (moedas)” aparece? <b>Sim</b> → eu marco ✔.", "painel": 0, "linha": "✔ Prêmio fácil (moedas)", "marca": true, "espera": 1800}, {"fala": "“Pede o código do celular” aparece? <b>Sim</b> → eu marco ✔.", "painel": 0, "linha": "✔ Pede o código do celular", "marca": true, "espera": 1800}], "fim": "Agora é a sua vez: marque os sinais que aparecem na sua mensagem. 💪"},
         enunciado: "<p class=\"regra\">“<strong>Só hoje!</strong> Você ganhou um prêmio. <strong>Clique aqui:</strong> premio-ja.xyz e me passe o <strong>código</strong> que chegou no seu celular.”</p>",
         opcoes: [
           { t: "⏰ Tem pressa (só hoje!)", certo: true },
@@ -214,7 +214,7 @@ PORTAL.registrarAtividades("informatica-7ano-4bim-trilha", {
         { tipo: "escolha", titulo: "Passo 3 · Qual é o mais curto?",
           perguntas: [{ p: "Qual caminho é o mais curto?", opcoes: ["Casa → Padaria → Escola (5 minutos)", "Casa → Escola (9 minutos)"], certo: 0, why: "5 é menor que 9." }],
           explicacao: "O mais curto é o de <strong>menor soma</strong>: pela Padaria, 5 minutos." },
-        Object.assign({ tipo: "grafo", titulo: "Passo 4 · Trace o caminho mais curto", de: "C", para: "E", unidade: "minutos", descricao: "Grafo com Casa, Padaria e Escola" }, bairro,
+        Object.assign({ tipo: "grafo", titulo: "Passo 4 · Trace o caminho mais curto", robo: {"paineis": ["🗺️ Como eu traço"], "passos": [{"fala": "Eu clico nos lugares <b>na ordem do caminho</b>:", "painel": 0, "titulo": "Clicar em ordem"}, {"fala": "Primeiro o começo (a Casa).", "painel": 0, "linha": "1. Casa"}, {"fala": "Depois cada lugar do meio, um de cada vez.", "painel": 0, "linha": "2. o lugar do meio"}, {"fala": "Por último, o fim (a Escola). A soma aparece embaixo.", "painel": 0, "linha": "3. Escola ✔", "marca": true}], "fim": "Agora é a sua vez: siga o que a tarefa pede. 💪"}, de: "C", para: "E", unidade: "minutos", descricao: "Grafo com Casa, Padaria e Escola" }, bairro,
           { enunciado: "<p>Clique na Casa, depois na Padaria e depois na Escola.</p>", explicacao: "Casa → Padaria → Escola = 5 minutos." })
       ],
       vf: [{ v: true }, { v: false, why: "O mais curto é o de MENOR soma." }, { v: true }]

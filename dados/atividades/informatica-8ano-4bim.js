@@ -76,7 +76,7 @@ PORTAL.registrarAtividades("informatica-8ano-4bim", {
   /* ======================= MISSÃO 2 ======================= */
   m2: {
     pratica: [
-      { tipo: "rota", titulo: "O caminho do vídeo até o seu celular",
+      { tipo: "rota", titulo: "O caminho do vídeo até o seu celular", robo: {"paineis": ["➡️ uma encomenda chegando em casa"], "passos": [{"fala": "Olha como eu monto a ordem de <b>outra</b> coisa: uma encomenda chegando em casa. Eu pergunto: “o que tem que acontecer <b>primeiro</b>?”", "painel": 0, "titulo": "uma encomenda chegando em casa"}, {"fala": "Clico no que vem primeiro.", "painel": 0, "linha": "1. Fábrica (onde o produto é feito)", "espera": 1700}, {"fala": "Clico no que vem depois: só pode vir depois do anterior.", "painel": 0, "linha": "2. Caminhão pela estrada", "espera": 1700}, {"fala": "Clico no que vem depois: só pode vir depois do anterior.", "painel": 0, "linha": "3. Agência dos Correios da cidade", "espera": 1700}, {"fala": "Clico no que vem depois: só pode vir depois do anterior.", "painel": 0, "linha": "4. Carteiro na sua rua", "espera": 1700}, {"fala": "Clico no que vem depois: só pode vir depois do anterior.", "painel": 0, "linha": "5. Você abre o pacote", "marca": true, "espera": 1700}, {"fala": "Se eu clicar errado, apago e tento de novo. A ordem tem que fazer sentido do começo ao fim.", "painel": null, "espera": 2600}], "fim": "Agora é a sua vez: do data center até a sua tela, o que vem primeiro? 💪"},
         enunciado: "<p>Você deu play num vídeo. Clique nas etapas <strong>na ordem</strong> em que o vídeo viaja, de onde ele está guardado até a sua tela.</p>",
         etapas: [
           { ic: "🏭", t: "Data center (onde o vídeo fica guardado)", dica: "Comece de onde o vídeo está guardado." },
@@ -105,7 +105,7 @@ PORTAL.registrarAtividades("informatica-8ano-4bim", {
           { t: "Duas pessoas tentam comprar o último ingresso do show ao mesmo tempo e o sistema decide quem compra.", c: "C", why: "Disputa pelo mesmo recurso (o último ingresso)." }],
         dicas: ["Paralelo = ao mesmo tempo, dividindo o trabalho. Concorrência = disputa pelo mesmo recurso. Distribuído = espalhado em vários lugares."] },
 
-      { tipo: "caminho", titulo: "Monte o Mapa da internet",
+      { tipo: "caminho", titulo: "Monte o Mapa da internet", robo: {"paineis": ["🗺️ Como eu monto o caminho"], "passos": [{"fala": "Olha como eu penso: o pedido sai do <b>meu aparelho</b> e vai ficando cada vez mais longe, até a nuvem.", "painel": 0, "titulo": "Do perto ao longe"}, {"fala": "Primeiro o que está <b>na minha casa</b> (a caixinha que faz o Wi-Fi).", "painel": 0, "linha": "1. o que fica em casa"}, {"fala": "Depois a <b>empresa</b> que vende a internet na cidade.", "painel": 0, "linha": "2. a empresa da cidade"}, {"fala": "Depois os <b>cabos grandes</b> entre cidades e países.", "painel": 0, "linha": "3. os cabos grandes"}, {"fala": "No fim, o <b>prédio</b> onde os vídeos ficam guardados.", "painel": 0, "linha": "4. onde o vídeo fica guardado", "marca": true}, {"fala": "Teclado e impressora não fazem parte do caminho! E quem traduz o nome do site no endereço IP fica ao lado.", "painel": null, "espera": 2600}], "fim": "Agora é a sua vez: monte o seu mapa com as peças certas. 💪"},
         enunciado: "<p>Monte o caminho que o seu pedido faz até o vídeo, do seu aparelho até a nuvem. Depois, coloque ao lado quem ajuda o navegador a achar o endereço do site.</p>",
         etapas: ["Celular ou computador", "Roteador", "Provedor", "Backbone ou cabo submarino", "Data center (nuvem)"], fixos: [0],
         extras: [{ rot: "Ao lado do caminho: quem traduz o nome do site no endereço IP para o navegador?", r: "DNS" }],
@@ -141,7 +141,7 @@ PORTAL.registrarAtividades("informatica-8ano-4bim", {
   /* ======================= MISSÃO 3 ======================= */
   m3: {
     pratica: [
-      { tipo: "permissoes", titulo: "Instalando aplicativos: permitir ou negar?",
+      { tipo: "permissoes", titulo: "Instalando aplicativos: permitir ou negar?", robo: {"paineis": ["📱 Outros pedidos"], "passos": [{"fala": "Olha como eu decido com <b>outros</b> exemplos. Eu faço sempre as mesmas perguntas: O aplicativo precisa mesmo disso para fazer o trabalho dele?", "painel": 0, "titulo": "Meus exemplos"}, {"fala": "“Despertador quer acessar: suas fotos” → despertador só precisa tocar na hora: não precisa de fotos.", "painel": 0, "linha": "Despertador quer acessar: suas fotos → ⛔ Negar", "marca": true, "espera": 2600}, {"fala": "“Gravador de voz quer acessar: o microfone” → para gravar a voz, ele precisa do microfone.", "painel": 0, "linha": "Gravador de voz quer acessar: o microfone → ✅ Permitir", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: para cada pedido, pense no trabalho do aplicativo. 💪"},
         enunciado: "<p>Cada aplicativo está pedindo uma permissão. Pense: <strong>ele precisa mesmo disso para funcionar?</strong></p>",
         itens: [
           { ic: "🔦", app: "Lanterna", pede: "seus contatos", c: "N", why: "Lanterna só precisa da luz do flash." },
@@ -277,7 +277,7 @@ PORTAL.registrarAtividades("informatica-8ano-4bim", {
         ],
         fimMsg: "Você personalizou os cookies, leu os termos até o fim, achou a frase perigosa e decidiu com consciência. Isso é cuidar dos seus dados!",
         explicacao: "Cookies: “Personalizar” deixa você escolher; só os essenciais são necessários. Termos de uso: leia até o fim, procure o que coletam e com quem compartilham. Pela LGPD, você tem direito de saber e de apagar os seus dados." },
-      { id: "m4-pratica-1", tipo: "sinais", titulo: "Antes de clicar em “Li e aceito”: o que o JogoMania faz?",
+      { id: "m4-pratica-1", tipo: "sinais", titulo: "Antes de clicar em “Li e aceito”: o que o JogoMania faz?", robo: {"paineis": ["📜 Outro termo de uso inventado"], "passos": [{"fala": "Olha com <b>outra</b> situação: “O DesenhaJá é para maiores de 10 anos. Não compartilhamos seus dados. Você pode apagar sua conta em Ajustes.” Eu leio item por item e pergunto: “isso aparece aqui?”", "painel": 0, "titulo": "Minha situação"}, {"fala": "“É para maiores de 10 anos” aparece? <b>Sim</b> → eu marco ✔.", "painel": 0, "linha": "✔ É para maiores de 10 anos", "marca": true, "espera": 1800}, {"fala": "“Dá para apagar a conta em Ajustes” aparece? <b>Sim</b> → eu marco ✔.", "painel": 0, "linha": "✔ Dá para apagar a conta em Ajustes", "marca": true, "espera": 1800}, {"fala": "“Compartilha dados com parceiros” aparece? <b>Não</b> → deixo sem marcar.", "painel": 0, "linha": "☐ Compartilha dados com parceiros", "espera": 1800}], "fim": "Agora é a sua vez: marque só o que está escrito nos termos do JogoMania. 💪"},
         enunciado: `<div class="regra"><p><strong>📜 Termos de uso do JogoMania</strong> (jogo inventado, para treinar)</p><ol>
           <li>O JogoMania é <strong>gratuito</strong> e destinado a maiores de <strong>13 anos</strong>.</li>
           <li>Usamos o que você joga, curte e pesquisa para mostrar <strong>anúncios personalizados</strong>.</li>
