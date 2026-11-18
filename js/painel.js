@@ -1433,6 +1433,7 @@
   }
   /* 📣 Avisos ao abrir o painel: datas comemorativas e feriados (hoje e próximos 7 dias), tema que começou, SIGE, prazos
      e recados das turmas de hoje. "✔ Já li" não mostra mais (fica em prof/avisos, vale em qualquer computador);
+     feriados e datas que estão chegando: o "Já li" vale só para o dia; no dia seguinte o aviso volta com a nova contagem (17/11/2026);
      "⏰ Ver depois" mostra de novo no próximo login. Depois dos avisos vêm as perguntas das aulas sem registro. */
   const PRAZOS = [ // [mostrar a partir de, até, id, texto]
     ["2026-11-12", "2026-11-13", "reposicao-8ano-2026-11-13", "🏫 <b>Sexta, 13/11, às 10h30: aula de reposição</b> com a turma de quarta (8º ano) que ficou sem aula em 11/11. Chegar antes das 10h30. Depois, registrar a aula no 📒 Diário da turma."],
@@ -1479,7 +1480,7 @@
     const lista = [];
     datasDoAno(ano).concat(datasDoAno(ano + 1)).forEach(([d, nome, tipo]) => { const n = dif(d); if (n < 0 || n > 7) return;
       lista.push(n === 0 ? { id: "hoje-" + d + "-" + nome, ic: "📅", txt: `<b>Hoje é ${nome}</b> (${TIPO[tipo]}).` }
-        : { id: "prox-" + d + "-" + nome, ic: "🗓️", txt: `<b>${n === 1 ? "Amanhã" : "Daqui a " + n + " dias"} (${dataBR(d)}, ${semana(d)}):</b> ${nome} (${TIPO[tipo]}).` }); });
+        : { id: "prox-" + d + "-" + nome + "-" + hoje, ic: "🗓️", txt: `<b>${n === 1 ? "Amanhã" : "Daqui a " + n + " dias"} (${dataBR(d)}, ${semana(d)}):</b> ${nome} (${TIPO[tipo]}).` }); });
     if (P.temaCalendario) P.temaCalendario(ano).forEach(x => { const [dd, mm] = x.ini.split("/"); if (`${ano}-${mm}-${dd}` === hoje) lista.push({ id: "tema-" + hoje, ic: "🎨", txt: `<b>Hoje o portal entrou no tema ${x.nome}</b> (sozinho, pela data, até ${x.fim}). Para mudar: botão 🎨 Tema.` }); });
     if (d0.getDay() === 5) lista.push({ id: "sige-" + hoje, ic: "🏛️", txt: "<b>Sexta-feira: dia de registrar no SIGE</b> as aulas da semana, para não acumular (a frequência é você quem lança)." });
     PRAZOS.forEach(([de, ate, id, txt]) => { if (hoje >= de && hoje <= ate) lista.push({ id, ic: "⏰", txt }); });
@@ -1498,7 +1499,7 @@
       const dlg = h(`<dialog class="pp-dlg pp-dlg-larga pp-avisos"><form method="dialog"><h2>🔔 Datas de hoje · ${dataBR(hoje)}</h2>
         <ul class="pp-av-lista">${mostrar.map((a, i) => `<li data-i="${i}"${a.jaLido ? ' class="lido"' : ""}><span class="pp-av-ic">${a.ic}</span><span class="pp-av-txt">${a.txt}</span>${a.jaLido ? '<span class="pp-av-ok">✔ lido</span>' : `<button type="button" class="btn btn-sec btn-peq" data-lido="${i}" title="Não mostrar mais este aviso">✔ Já li</button>`}</li>`).join("")}</ul>
         <div class="row-btns"><button type="button" class="btn" id="av-todos">✔ OK, já li tudo</button><button class="btn btn-sec" value="x">⏰ Ver depois</button></div>
-        <p class="ajuda">"Já li": o aviso não aparece mais sozinho. "Ver depois": aparece de novo da próxima vez que você entrar no painel. A qualquer momento, o 🔔 lá em cima abre estes avisos de novo.</p></form></dialog>`);
+        <p class="ajuda">"Já li": o aviso não aparece mais sozinho (feriados e datas que estão chegando voltam no dia seguinte, com a contagem nova, até o dia). "Ver depois": aparece de novo da próxima vez que você entrar no painel. A qualquer momento, o 🔔 lá em cima abre estes avisos de novo.</p></form></dialog>`);
       document.body.appendChild(dlg); dlg.showModal(); dlg.addEventListener("close", () => { dlg.remove(); fim(); });
       const marcar = async idx => {
         try { await ref.set({ lidos: Object.fromEntries(idx.map(i => [chave(mostrar[i].id), Date.now()])) }, { merge: true }); idx.forEach(i => { lidos[chave(mostrar[i].id)] = 1; }); contarSino(lista.filter(a => !lidos[chave(a.id)]).length); } catch (e) { toast("Não foi possível salvar: " + (e.message || e)); } };

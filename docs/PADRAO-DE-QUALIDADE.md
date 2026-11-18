@@ -215,3 +215,8 @@ Apostila no portal + ilustrada (PDF só para quem estuda em casa) · guia do pro
 - Mão na massa: o 🌐 simulador do navegador virou obrigatório; "Cadeado ou perigo?" virou opcional (o simulador já ensina o cadeado).
 - Básico: "Chegou uma mensagem nova em pacotes embaralhados" virou opcional (repetia a tarefa anterior); saiu a pergunta 3 da velocidade (o 🔌 simulador do cabo já ensina "a parte mais lenta manda"); as tarefas foram renumeradas (2 a 4).
 - Desafio: "Correio × internet" deixou de ser tabela de escolher e virou 🎯 jogo de arrastar (8 cartas em 4 caixas).
+
+## Avisos de feriados e datas: "Já li" vale só para o dia (17/11/2026)
+- Nos avisos do painel do professor, feriados, pontos facultativos e datas comemorativas que estão chegando (até 7 dias antes) voltam todo dia com a contagem nova ("Daqui a 4 dias", "Daqui a 3 dias", "Amanhã"…), mesmo que o professor tenha clicado em "✔ Já li" no dia anterior.
+- O "Já li" desses avisos vale só para o dia em que foi clicado. No próprio dia da data aparece o aviso "Hoje é…".
+- Os outros avisos (prazos, tema, SIGE, recados) continuam como antes.
