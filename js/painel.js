@@ -833,13 +833,14 @@
         <label>Turma <select id="sel">${turmas.map(x => `<option value="${x.id}" ${x.id === t.id ? "selected" : ""}>${esc(rotuloTurma(x.id))}</option>`).join("")}</select></label>
         <label><input type="checkbox" id="inat"> mostrar desativados</label>
         <span class="pp-acoes"><button class="btn btn-sec btn-peq" id="add" type="button">➕ Adicionar aluno</button>
-        <button class="btn btn-sec btn-peq" id="avs" type="button">📣 Avisos para os alunos</button><button class="btn btn-sec btn-peq" id="cart" type="button">🖨️ Cartões com os códigos</button>
+        <button class="btn btn-sec btn-peq" id="avs" type="button">📣 Avisos para os alunos</button><button class="btn btn-sec btn-peq" id="fimav" type="button" title="Recados para você mesmo, que aparecem na tela no fim de toda aula desta turma">⏰ Avisos para mim no fim da aula</button><button class="btn btn-sec btn-peq" id="cart" type="button">🖨️ Cartões com os códigos</button>
         <button class="btn btn-sec btn-peq" id="csv" type="button">📥 Planilha (CSV)</button>
         <button class="btn btn-sec btn-peq" id="att" type="button">🔄 Atualizar</button>${Object.values(P.catalogo.videosApresentacao || {}).some(Boolean) ? `<button class="btn btn-sec btn-peq" id="apr" type="button" title="Vídeos de apresentação do portal, para mostrar à direção, à Secretaria ou às famílias">🎬 Apresentação do portal</button>` : ""}</span></div>
       <div id="corpo"><p class="painel">Carregando…</p></div>`);
     ligarSair(el);
     el.querySelector("#sel").onchange = e => { location.hash = "#/painel/turma/" + e.target.value; };
     el.querySelector("#att").onclick = () => telaTurmas(u, t.id);
+    el.querySelector("#fimav").onclick = () => editarAvisosFim(t);
     const apr = el.querySelector("#apr"); if (apr) apr.onclick = () => {
       const V = P.catalogo.videosApresentacao || {}, dlg = document.createElement("dialog"); dlg.className = "dlg-apresentacao";
       const bloco = (id, tit, sub) => id ? P.videoLeve(id, { titulo: tit, sub }) + `<p class="pp-video-acoes"><a class="btn btn-sec btn-peq" href="https://youtu.be/${id}" target="_blank" rel="noopener">↗️ Abrir no YouTube</a> <button class="btn btn-link btn-peq" type="button" data-copia="https://youtu.be/${id}">🔗 Copiar link</button></p>` : "";
@@ -1581,19 +1582,47 @@
       let entrou = 0; try { const e2 = await db().collection("progresso").doc(a.id + "_entrada").get(); const ent = e2.exists ? ((e2.data().entradas || {})[hoje] || {}) : {}; entrou = Math.min(...Object.keys(ent).map(Number)); if (!isFinite(entrou)) entrou = 0; } catch (e) {}
       out.push({ a, t, id, entrou });
     }
+    // ⏰ avisos para mim no fim da aula de uma turma (prof/diario/turmas/<turma>.avisosFim = [{ id, texto }]), em TODA aula da turma
+    for (const t of turmas.filter(x => x.aula && x.aula.dia === dow)) {
+      let itens = []; try { const sn = await db().collection(DIARIO).doc(t.id).get(); itens = ((sn.exists && sn.data().avisosFim) || []).filter(x => x && x.texto); } catch (e) {}
+      if (!itens.length) continue;
+      let fin = 0; try { const h2 = await db().collection("config").doc("hoje_" + t.id).get(); const hd = h2.exists ? h2.data() : {}; if (hd.finalizadaEm && new Date(hd.finalizadaEm).toDateString() === new Date().toDateString()) fin = hd.finalizadaEm; } catch (e) {}
+      if (!(fin || (fimAula(t) && Date.now() >= fimAula(t)) || op.turma === t.id)) continue;
+      itens.forEach(x => { const id = ("fim-" + t.id + "-" + x.id + "-" + hoje).replace(/[^\w-]/g, "_"); if (!lidos[id]) out.push({ t, id, texto: x.texto }); });
+    }
     return out;
   }
-  const familiaTxt = x => `<b>🎬 A aula do ${esc(nomeTurma(x.t.id))} terminou: ${esc(x.a.nome)}</b><br>${esc(x.a.lembreteFamilia)}<br><small>${x.entrou ? "Entrou no portal hoje às " + new Date(x.entrou).toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" }) : "Não entrou no portal hoje (confira a chamada)"}. <a href="#/painel/relatorio/${x.a.id}/${N.hoje()}">📄 Abrir o relatório de hoje</a></small>`;
+  // ⏰ ferramenta: editar os avisos de fim de aula de uma turma
+  async function editarAvisosFim(t) {
+    const ref = db().collection(DIARIO).doc(t.id);
+    let itens = []; try { const sn = await ref.get(); itens = (sn.exists && sn.data().avisosFim) || []; } catch (e) {}
+    const dlg = h(`<dialog class="pp-dlg pp-dlg-larga"><form method="dialog"><h2>⏰ Avisos para mim no fim da aula · ${esc(nomeTurma(t.id))}</h2>
+      <p class="ajuda">Estes recados aparecem na <b>sua</b> tela no fim de <b>toda</b> aula do ${esc(nomeTurma(t.id))}${t.aula ? ` (${["domingo", "segunda-feira", "terça-feira", "quarta-feira", "quinta-feira", "sexta-feira", "sábado"][t.aula.dia]}, ${t.aula.ini})` : ""}: no 🏁 Finalizar aula ou, se a aula acabar pelo relógio, no minuto em que o horário termina. Os alunos não veem.</p>
+      <ul class="pp-fim-lista" id="fim-l"></ul>
+      <p class="row-btns"><input type="text" id="fim-novo" maxlength="300" placeholder="Ex.: mandar o vídeo da Ana para a dona Maria José" style="flex:1;min-width:0"><button type="button" class="btn" id="fim-add">➕ Adicionar</button></p>
+      <div class="row-btns"><button class="btn btn-sec" value="x">Fechar</button></div></form></dialog>`);
+    document.body.appendChild(dlg); dlg.showModal(); dlg.addEventListener("close", () => dlg.remove());
+    const gravar = async () => { try { await ref.set({ avisosFim: itens }, { merge: true }); } catch (e) { toast("Não foi possível salvar: " + e.message); } };
+    const desenhar = () => { const l = dlg.querySelector("#fim-l");
+      l.innerHTML = itens.length ? itens.map((x, i) => `<li><span>⏰ ${esc(x.texto)}</span> <button type="button" class="btn btn-sec btn-peq" data-tira="${i}">🗑️ Tirar</button></li>`).join("") : `<li class="ajuda">Nenhum aviso ainda. Escreva abaixo e toque em ➕ Adicionar.</li>`;
+      l.querySelectorAll("[data-tira]").forEach(b => b.onclick = async () => { itens.splice(+b.dataset.tira, 1); await gravar(); desenhar(); toast("Aviso tirado."); }); };
+    desenhar();
+    const add = async () => { const i = dlg.querySelector("#fim-novo"), v = i.value.trim(); if (!v) { i.focus(); return; }
+      itens.push({ id: "a" + Date.now().toString(36), texto: v, criadoEm: Date.now() }); await gravar(); i.value = ""; desenhar(); toast("✅ Aviso salvo: aparece no fim de toda aula do " + nomeTurma(t.id) + "."); };
+    dlg.querySelector("#fim-add").onclick = add;
+    dlg.querySelector("#fim-novo").addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); add(); } });
+  }
+  const familiaTxt = x => !x.a ? `<b>⏰ A aula do ${esc(nomeTurma(x.t.id))} terminou</b><br>${esc(x.texto)}` : `<b>🎬 A aula do ${esc(nomeTurma(x.t.id))} terminou: ${esc(x.a.nome)}</b><br>${esc(x.a.lembreteFamilia)}<br><small>${x.entrou ? "Entrou no portal hoje às " + new Date(x.entrou).toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" }) : "Não entrou no portal hoje (confira a chamada)"}. <a href="#/painel/relatorio/${x.a.id}/${N.hoje()}">📄 Abrir o relatório de hoje</a></small>`;
   let familiaAberto = false;
   async function lembrarFamilias(op = {}) {
     if (familiaAberto || (!op.turma && document.querySelector(".pp-avisos"))) return; const lista = await familiasPendentes(op).catch(() => []);
     const agora = Date.now(), novos = lista.filter(x => +(ss.get("painel:familia-adiado:" + x.id) || 0) < agora);
     if (!novos.length) return;
     familiaAberto = true;
-    const dlg = h(`<dialog class="pp-dlg pp-dlg-larga pp-familia"><form method="dialog"><h2>🎬 Hora do relatório para a família</h2>
+    const dlg = h(`<dialog class="pp-dlg pp-dlg-larga pp-familia"><form method="dialog"><h2>⏰ A aula terminou: lembretes para você</h2>
       ${novos.map((x, i) => `<div class="pp-fam-item" data-i="${i}"><p>${familiaTxt(x)}</p>
-        <p class="row-btns"><a class="btn" href="#/painel/relatorio/${x.a.id}/${N.hoje()}" data-ir="${i}">📄 Abrir o relatório</a><button type="button" class="btn btn-sec" data-feito="${i}">✅ Já fiz</button><button type="button" class="btn btn-sec" data-depois="${i}">⏰ Lembrar daqui a 30 min</button></p></div>`).join("")}
-      <p class="ajuda">O lembrete volta enquanto você não tocar em ✅ Já fiz (também fica no 🔔 de hoje). Para ligar ou desligar o lembrete de um aluno: painel → turma → nome do aluno → 🎬.</p>
+        <p class="row-btns">${x.a ? `<a class="btn" href="#/painel/relatorio/${x.a.id}/${N.hoje()}" data-ir="${i}">📄 Abrir o relatório</a>` : ""}<button type="button" class="btn btn-sec" data-feito="${i}">✅ Já fiz</button><button type="button" class="btn btn-sec" data-depois="${i}">⏰ Lembrar daqui a 30 min</button></p></div>`).join("")}
+      <p class="ajuda">O lembrete volta enquanto você não tocar em ✅ Já fiz (também fica no 🔔 de hoje). Para mudar: painel → turma → ⏰ Avisos para mim no fim da aula (recados da turma) ou nome do aluno → 🎬 (relatório da família).</p>
       <div class="row-btns"><button class="btn btn-sec" value="x">Fechar</button></div></form></dialog>`);
     document.body.appendChild(dlg); dlg.showModal();
     const tira = i => { const it = dlg.querySelector(`.pp-fam-item[data-i="${i}"]`); if (it) it.remove(); if (!dlg.querySelector(".pp-fam-item")) dlg.close(); };
@@ -1621,7 +1650,7 @@
     try { await Promise.all(todasTurmas().filter(t => t.aula && t.aula.dia === d0.getDay()).map(async t => { const sn = await db().collection(DIARIO).doc(t.id).get();
       ((sn.exists && sn.data().lembretes) || []).forEach((l, i) => { if (!l.feito) lista.push({ id: "lemb-" + t.id + "-" + (l.criadoEm || i) + "-" + hoje, ic: "🟧", txt: `<b>${esc(nomeTurma(t.id))} (${t.aula.ini}):</b> ${esc(l.texto)}` }); }); })); } catch (e) {}
     try { (await casaHoje()).forEach(x => lista.push(casaAviso(x))); } catch (e) { console.warn("casa hoje", e); }
-    try { (await familiasPendentes()).forEach(x => lista.push({ id: x.id, ic: "🎬", txt: familiaTxt(x) })); } catch (e) { console.warn("família", e); }
+    try { (await familiasPendentes()).forEach(x => lista.push({ id: x.id, ic: x.a ? "🎬" : "⏰", txt: familiaTxt(x) })); } catch (e) { console.warn("família", e); }
     let lidos = {}; const ref = db().collection("prof").doc("avisos");
     try { const sn = await ref.get(); lidos = (sn.exists && sn.data().lidos) || {}; } catch (e) {}
     const chave = id => id.replace(/[^\w-]/g, "_").slice(0, 120);
