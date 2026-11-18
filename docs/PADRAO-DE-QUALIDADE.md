@@ -245,3 +245,7 @@ Apostila no portal + ilustrada (PDF só para quem estuda em casa) · guia do pro
 - **Login:** o aluno pode escolher a turma onde **assiste** à aula e digitar o próprio código. O portal procura o código nas outras turmas da série e aceita se o professor marcou essa turma para ele. A sessão, a presença e as notas continuam na turma dele.
 - **Trava:** se a aula da turma dele não foi iniciada hoje e a da outra turma foi, valem para ele o início, a missão, a 🔒 trava e o fim da aula da outra turma.
 - **Em dupla:** os dois precisam ser da mesma turma. Se não forem, o portal pede para entrarem um de cada vez.
+
+## 🤖 Bit em qualquer tipo de tarefa (18/11/2026)
+- Toda tarefa com `robo` ganha o botão "🤖 Me ajuda, robô!", **qualquer que seja o tipo**: simulações, jogos, bolha, busca binária etc. Antes, o botão só aparecia em `tabela` e `aberta`. A ligação geral fica em `js/portal.js`, logo depois de `T.render`.
+- **8º ano, Missão 1:** o Bit foi colocado no jogo de adivinhar, na bolha na mão, na busca binária, no método da bolha e no desafio do número secreto. Ele sempre usa um exemplo diferente do pedido, para o aluno nunca receber a resposta pronta.
