@@ -263,6 +263,11 @@ PORTAL.registrarConteudo("informatica-9ano-2027-1bim", {
      "termo": "GPS",
      "rotulo": "<strong>GPS</strong> (<em>Global Positioning System</em>, Sistema de Posicionamento Global)",
      "def": "sistema de satélites que diz onde você está; os aplicativos de mapa juntam o GPS com grafos para achar o caminho."
+    },
+    {
+     "termo": "Aplicativo",
+     "rotulo": "<strong>Aplicativo</strong> (ou <strong>app</strong>, do inglês <em>application</em>)",
+     "def": "programa que usamos no celular, no tablet ou no computador para fazer uma tarefa, como o aplicativo de mapas, o WhatsApp ou a calculadora."
     }
    ],
    "ondeUso": {
@@ -425,6 +430,11 @@ PORTAL.registrarConteudo("informatica-9ano-2027-1bim", {
      "termo": "Hierarquia",
      "rotulo": "<strong>Hierarquia</strong>",
      "def": "organização em níveis, do mais geral para o mais específico."
+    },
+    {
+     "termo": "Pasta",
+     "rotulo": "<strong>Pasta</strong>",
+     "def": "lugar do computador onde guardamos e organizamos arquivos, como uma gaveta. Uma pasta pode ter outras pastas dentro dela."
     }
    ],
    "ondeUso": {
@@ -973,6 +983,11 @@ PORTAL.registrarConteudo("informatica-9ano-2027-1bim", {
      "termo": "Notificação",
      "rotulo": "<strong>Notificação</strong>",
      "def": "aviso que o celular mostra quando um evento acontece, como uma mensagem nova."
+    },
+    {
+     "termo": "Variável",
+     "rotulo": "<strong>Variável</strong>",
+     "def": "um espaço com nome na memória do computador que guarda um valor, e esse valor pode mudar. Exemplo: a variável <strong>pontos</strong> começa em 0 e aumenta a cada acerto."
     }
    ],
    "ondeUso": {

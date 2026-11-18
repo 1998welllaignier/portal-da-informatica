@@ -209,6 +209,11 @@ PORTAL.registrarConteudo("informatica-9ano-4bim", {
      "termo": "Chaveamento",
      "rotulo": "<strong>Chaveamento</strong>",
      "def": "a tabela de um campeonato em que quem vence avança para a próxima fase."
+    },
+    {
+     "termo": "Aplicativo",
+     "rotulo": "<strong>Aplicativo</strong> (ou <strong>app</strong>, do inglês <em>application</em>)",
+     "def": "programa que usamos no celular, no tablet ou no computador para fazer uma tarefa, como o aplicativo de mapas, o WhatsApp ou a calculadora."
     }
    ],
    "ondeUso": {
@@ -481,6 +486,21 @@ PORTAL.registrarConteudo("informatica-9ano-4bim", {
      "termo": "Lei nº 12.737/2012",
      "rotulo": "<strong>Lei nº 12.737/2012</strong>",
      "def": "conhecida como Lei Carolina Dieckmann, torna crime invadir o celular ou o computador de outra pessoa."
+    },
+    {
+     "termo": "Wi-Fi",
+     "rotulo": "<strong>Wi-Fi</strong>",
+     "def": "nome da tecnologia de internet sem fio. O aparelho da internet (o roteador) manda o sinal pelo ar para o celular e o computador."
+    },
+    {
+     "termo": "Phishing",
+     "rotulo": "<strong>Phishing</strong> (fala-se “fíchin”; vem do inglês <em>fishing</em>, pescar)",
+     "def": "golpe com mensagem ou link falso que tenta “pescar” a sua senha ou os seus dados, fingindo ser um banco, uma loja ou um prêmio."
+    },
+    {
+     "termo": "Link",
+     "rotulo": "<strong>Link</strong> (em inglês, ligação)",
+     "def": "texto, imagem ou botão que, ao ser tocado, leva para outra página ou outro site."
     }
    ],
    "ondeUso": {
@@ -869,6 +889,11 @@ PORTAL.registrarConteudo("informatica-9ano-4bim", {
      "termo": "Impacto",
      "rotulo": "<strong>Impacto</strong>",
      "def": "o efeito que uma tecnologia causa na vida das pessoas, no trabalho, na cidade e no meio ambiente."
+    },
+    {
+     "termo": "Pasta",
+     "rotulo": "<strong>Pasta</strong>",
+     "def": "lugar do computador onde guardamos e organizamos arquivos, como uma gaveta. Uma pasta pode ter outras pastas dentro dela."
     }
    ],
    "ondeUso": {

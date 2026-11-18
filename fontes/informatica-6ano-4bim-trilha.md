@@ -41,6 +41,7 @@ Para **abrir** uma pasta, dê **dois cliques rapidinhos** nela. Isso se chama **
 - **Pasta**: a gaveta do computador, que guarda os arquivos.
 - **Salvar**: guardar o trabalho para não perder. O atalho é apertar **Ctrl** e **S** juntos (o *S* é de *save*, que em inglês quer dizer salvar).
 - **Duplo clique**: dois cliques rapidinhos no mesmo lugar, para abrir.
+- **Processador**: a peça principal dentro do computador, que faz as contas e segue as instruções dos programas. É o “cérebro” do computador.
 ### 🌎 Onde eu uso isso?
 - A **foto** que você tira no celular vira um **arquivo**.
 - Os **álbuns** de fotos do celular funcionam como **pastas**.

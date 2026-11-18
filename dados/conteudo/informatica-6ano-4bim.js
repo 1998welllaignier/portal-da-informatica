@@ -210,6 +210,11 @@ PORTAL.registrarConteudo("informatica-6ano-4bim", {
      "termo": "Metadados",
      "rotulo": "<strong>Metadados</strong> (<em>meta</em> = sobre)",
      "def": "dados sobre os dados, como nome, tipo, tamanho e data de um arquivo. Onde eu vejo: botão direito no arquivo → Propriedades."
+    },
+    {
+     "termo": "Pasta",
+     "rotulo": "<strong>Pasta</strong>",
+     "def": "lugar do computador onde guardamos e organizamos arquivos, como uma gaveta. Uma pasta pode ter outras pastas dentro dela."
     }
    ],
    "ondeUso": {
@@ -310,6 +315,11 @@ PORTAL.registrarConteudo("informatica-6ano-4bim", {
      "termo": "Entrada e saída do algoritmo",
      "rotulo": "<strong>Entrada e saída do algoritmo</strong>",
      "def": "o que é preciso para começar (os ingredientes) e o resultado no fim (o bolo pronto)."
+    },
+    {
+     "termo": "Repetição",
+     "rotulo": "<strong>Repetição</strong>",
+     "def": "fazer o mesmo passo (ou o mesmo grupo de passos) várias vezes, sem precisar escrever tudo de novo. Exemplo: “repita 3 vezes: ande um passo”."
     }
    ],
    "ondeUso": {

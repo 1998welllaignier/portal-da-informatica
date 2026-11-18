@@ -390,6 +390,11 @@ PORTAL.registrarConteudo("informatica-7ano-2027-1bim", {
      "termo": "Adicionar",
      "rotulo": "<strong>Adicionar</strong>",
      "def": "colocar um item novo na lista (aqui, no fim)."
+    },
+    {
+     "termo": "Navegador",
+     "rotulo": "<strong>Navegador</strong>",
+     "def": "programa usado para abrir os sites da internet, como o Google Chrome, o Microsoft Edge e o Firefox."
     }
    ],
    "ondeUso": {

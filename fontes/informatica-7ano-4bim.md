@@ -272,6 +272,7 @@ Depois de corrigir um erro, sempre **teste de novo**: às vezes a correção cri
 - **Bug** (em inglês, inseto): um erro em um programa ou algoritmo. O nome ficou famoso em 1947, quando acharam uma mariposa presa dentro de um computador.
 - **Depuração** (de *depurar* = limpar; em inglês, *debug*, “tirar o inseto”): procurar e corrigir os erros.
 - **Teste**: executar o algoritmo para ver se ele faz o que deveria. Depois de corrigir um erro, sempre se testa de novo.
+- **Sequência, repetição e seleção**: as três ideias básicas de todo algoritmo. **Sequência** é fazer os passos em ordem; **repetição** é repetir passos várias vezes; **seleção** é escolher um caminho com “se… então… senão”.
 ### 🌎 Onde eu uso isso?
 - Para organizar uma **festa** ou um **trabalho em grupo**, a turma divide as tarefas: isso é decomposição.
 - A **lista de compras** e a **chamada** da turma são listas, com cada item em uma posição.

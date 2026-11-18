@@ -663,6 +663,11 @@ PORTAL.registrarConteudo("informatica-7ano-4bim", {
      "termo": "Teste",
      "rotulo": "<strong>Teste</strong>",
      "def": "executar o algoritmo para ver se ele faz o que deveria. Depois de corrigir um erro, sempre se testa de novo."
+    },
+    {
+     "termo": "Sequência, repetição e seleção",
+     "rotulo": "<strong>Sequência, repetição e seleção</strong>",
+     "def": "as três ideias básicas de todo algoritmo. <strong>Sequência</strong> é fazer os passos em ordem; <strong>repetição</strong> é repetir passos várias vezes; <strong>seleção</strong> é escolher um caminho com “se… então… senão”."
     }
    ],
    "ondeUso": {

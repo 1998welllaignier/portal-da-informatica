@@ -70,6 +70,7 @@ No 8º ano você trabalhou com **listas**, em que cada item ocupa uma posição,
 - **Árvore**: grafo sem ciclos. A **raiz** é o vértice onde ela começa; as **folhas** são os vértices do fim, que não se dividem mais.
 - **Árvore de decisão**: árvore em que cada vértice é uma pergunta de sim ou não e cada folha é uma resposta.
 - **Chaveamento**: a tabela de um campeonato em que quem vence avança para a próxima fase.
+- **Aplicativo** (ou **app**, do inglês *application*): programa que usamos no celular, no tablet ou no computador para fazer uma tarefa, como o aplicativo de mapas, o WhatsApp ou a calculadora.
 ### 🌎 Onde eu uso isso?
 - O **aplicativo de mapas** usa um grafo com pesos para achar o caminho mais rápido.
 - A sugestão “**pessoas que você talvez conheça**” vem do grafo de amizades da rede social.
@@ -237,6 +238,9 @@ No 7º ano você aprendeu a reconhecer golpes e a criar senhas fortes. Agora vam
 - **Engenharia social**: enganar a pessoa, e não o computador, para que ela mesma entregue a senha ou o código.
 - **DDoS** (*Distributed Denial of Service*, Negação de Serviço Distribuída): milhares de aparelhos mandam pedidos ao mesmo tempo para derrubar um site. *Distribuída* quer dizer que os pedidos vêm de muitos lugares.
 - **Lei nº 12.737/2012**: conhecida como Lei Carolina Dieckmann, torna crime invadir o celular ou o computador de outra pessoa.
+- **Wi-Fi**: nome da tecnologia de internet sem fio. O aparelho da internet (o roteador) manda o sinal pelo ar para o celular e o computador.
+- **Phishing** (fala-se “fíchin”; vem do inglês *fishing*, pescar): golpe com mensagem ou link falso que tenta “pescar” a sua senha ou os seus dados, fingindo ser um banco, uma loja ou um prêmio.
+- **Link** (em inglês, ligação): texto, imagem ou botão que, ao ser tocado, leva para outra página ou outro site.
 ### 🌎 Onde eu uso isso?
 - As mensagens do WhatsApp têm **criptografia de ponta a ponta**: só quem envia e quem recebe consegue ler.
 - O **Pix** e o aplicativo do banco usam criptografia e códigos para proteger o dinheiro.
@@ -430,6 +434,7 @@ Na Missão 3 você viu que a IA pode criar deepfakes. Mas a **inteligência arti
 - **Reconhecimento facial**: IA que identifica uma pessoa pelo rosto, como no desbloqueio do celular.
 - **Recomendação**: quando a IA escolhe o próximo vídeo, música ou produto que você deve gostar, a partir do que você já viu.
 - **Impacto**: o efeito que uma tecnologia causa na vida das pessoas, no trabalho, na cidade e no meio ambiente.
+- **Pasta**: lugar do computador onde guardamos e organizamos arquivos, como uma gaveta. Uma pasta pode ter outras pastas dentro dela.
 ### 🌎 Onde eu uso isso?
 - No **vídeo seguinte** que aparece sozinho no aplicativo: é uma recomendação feita por IA.
 - No **corretor e nas sugestões do teclado** do celular, que adivinham a próxima palavra.

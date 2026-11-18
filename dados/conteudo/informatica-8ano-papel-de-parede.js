@@ -244,6 +244,16 @@ PORTAL.registrarConteudo("informatica-8ano-papel-de-parede", {
      "termo": "Executar",
      "rotulo": "<strong>Executar</strong>",
      "def": "a janela que abre com <strong>⊞ + R</strong>, onde digitamos o nome de um comando, como winver."
+    },
+    {
+     "termo": "Navegador",
+     "rotulo": "<strong>Navegador</strong>",
+     "def": "programa usado para abrir os sites da internet, como o Google Chrome, o Microsoft Edge e o Firefox."
+    },
+    {
+     "termo": "Pasta",
+     "rotulo": "<strong>Pasta</strong>",
+     "def": "lugar do computador onde guardamos e organizamos arquivos, como uma gaveta. Uma pasta pode ter outras pastas dentro dela."
     }
    ],
    "ondeUso": {

@@ -73,6 +73,7 @@ Um **arquivo** é qualquer trabalho guardado no computador. Uma **pasta** é com
 - **Pen drive**: armazenamento pequeno e portátil, do tamanho de uma caneta, que se encaixa na entrada **USB** (a entradinha retangular do computador).
 - **Ctrl + S**: *Ctrl* vem de *Control* (controle), a tecla que, junto com outra, faz um atalho; o *S* é de *save* (salvar). Juntas, salvam o trabalho.
 - **Metadados** (*meta* = sobre): dados sobre os dados, como nome, tipo, tamanho e data de um arquivo. Onde eu vejo: botão direito no arquivo → Propriedades.
+- **Pasta**: lugar do computador onde guardamos e organizamos arquivos, como uma gaveta. Uma pasta pode ter outras pastas dentro dela.
 ### 🌎 Onde eu uso isso?
 - Quando você tira uma foto no celular, ela vira um **arquivo** guardado no **armazenamento**.
 - Quando separa as fotos em álbuns, você está organizando em **pastas**.
@@ -137,6 +138,7 @@ A repetição deixa o algoritmo **mais curto**: em vez de ➡️➡️➡️➡�
 - **Instrução** (ou **comando**): cada ordem do algoritmo, como “ande”, “vire” ou “pinte”.
 - **Condição**: a pergunta que decide o caminho na seleção, como “está chovendo?”. A resposta só pode ser sim ou não.
 - **Entrada e saída do algoritmo**: o que é preciso para começar (os ingredientes) e o resultado no fim (o bolo pronto).
+- **Repetição**: fazer o mesmo passo (ou o mesmo grupo de passos) várias vezes, sem precisar escrever tudo de novo. Exemplo: “repita 3 vezes: ande um passo”.
 ### 🌎 Onde eu uso isso?
 - Uma **receita de bolo** é um algoritmo: passos em ordem para chegar ao resultado.
 - O **despertador** que toca todo dia no mesmo horário usa **repetição**.

@@ -130,6 +130,7 @@ O **para cada** é uma repetição esperta: você não precisa saber quantos ite
 - **Percorrer**: passar por todos os itens da lista, um de cada vez, do primeiro ao último.
 - **Para cada**: bloco de repetição que percorre a lista, fazendo os blocos de dentro uma vez para cada item.
 - **Adicionar**: colocar um item novo na lista (aqui, no fim).
+- **Navegador**: programa usado para abrir os sites da internet, como o Google Chrome, o Microsoft Edge e o Firefox.
 ### 🌎 Onde eu uso isso?
 - A **playlist** é uma lista de músicas: o aplicativo toca uma por vez, do começo ao fim (percorrer).
 - O **carrinho da loja on-line** é uma lista: cada produto adicionado entra no fim, e o aplicativo mostra quantos itens tem (tamanho).

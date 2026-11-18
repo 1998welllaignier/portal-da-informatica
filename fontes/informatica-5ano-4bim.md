@@ -157,6 +157,7 @@ Um **grafo** é um desenho de **pontos ligados por linhas**. Cada ponto é um **
 - **Vértice**: cada ponto do grafo.
 - **Aresta**: cada linha que liga dois vértices.
 - **Playlist**: lista de músicas ou vídeos que tocam um depois do outro.
+- **Aplicativo** (ou **app**, do inglês *application*): programa que usamos no celular, no tablet ou no computador para fazer uma tarefa, como o aplicativo de mapas, o WhatsApp ou a calculadora.
 ### 🌎 Onde eu uso isso?
 - A **lista de contatos** do celular fica em ordem alfabética para achar um nome rápido.
 - A **fila da merenda** é uma lista: quem chega entra no fim, quem é servido sai do começo.

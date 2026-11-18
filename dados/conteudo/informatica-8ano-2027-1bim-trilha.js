@@ -186,6 +186,16 @@ PORTAL.registrarConteudo("informatica-8ano-2027-1bim-trilha", {
      "termo": "Ordenada",
      "rotulo": "<strong>Ordenada</strong>",
      "def": "lista arrumada em ordem. <strong>Crescente</strong> é do menor para o maior."
+    },
+    {
+     "termo": "Variável",
+     "rotulo": "<strong>Variável</strong>",
+     "def": "um espaço com nome na memória do computador que guarda um valor, e esse valor pode mudar. Exemplo: a variável <strong>pontos</strong> começa em 0 e aumenta a cada acerto."
+    },
+    {
+     "termo": "Aplicativo",
+     "rotulo": "<strong>Aplicativo</strong> (ou <strong>app</strong>, do inglês <em>application</em>)",
+     "def": "programa que usamos no celular, no tablet ou no computador para fazer uma tarefa, como o aplicativo de mapas, o WhatsApp ou a calculadora."
     }
    ],
    "ondeUso": {
@@ -418,6 +428,11 @@ PORTAL.registrarConteudo("informatica-8ano-2027-1bim-trilha", {
      "termo": "Pior caso",
      "rotulo": "<strong>Pior caso</strong>",
      "def": "quando demora mais (o item é o último ou não está)."
+    },
+    {
+     "termo": "Navegador",
+     "rotulo": "<strong>Navegador</strong>",
+     "def": "programa usado para abrir os sites da internet, como o Google Chrome, o Microsoft Edge e o Firefox."
     }
    ],
    "ondeUso": {
@@ -754,6 +769,11 @@ PORTAL.registrarConteudo("informatica-8ano-2027-1bim-trilha", {
      "termo": "Passo recursivo",
      "rotulo": "<strong>Passo recursivo</strong>",
      "def": "a parte que repete o problema, um pouco menor."
+    },
+    {
+     "termo": "Pasta",
+     "rotulo": "<strong>Pasta</strong>",
+     "def": "lugar do computador onde guardamos e organizamos arquivos, como uma gaveta. Uma pasta pode ter outras pastas dentro dela."
     }
    ],
    "ondeUso": {

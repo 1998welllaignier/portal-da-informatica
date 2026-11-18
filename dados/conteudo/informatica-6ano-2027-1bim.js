@@ -442,6 +442,11 @@ PORTAL.registrarConteudo("informatica-6ano-2027-1bim", {
      "termo": "Touchscreen",
      "rotulo": "<strong>Touchscreen</strong>",
      "def": "em inglês, “tela de toque”: a tela que entende o toque do dedo, como a do celular."
+    },
+    {
+     "termo": "Pen drive",
+     "rotulo": "<strong>Pen drive</strong> (do inglês <em>pen</em> = caneta; <em>drive</em> = unidade de armazenamento)",
+     "def": "aparelhinho do tamanho de um chaveiro que se encaixa no computador e guarda arquivos para levar de um lugar para outro."
     }
    ],
    "ondeUso": {

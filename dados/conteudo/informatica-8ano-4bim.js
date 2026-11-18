@@ -197,6 +197,11 @@ PORTAL.registrarConteudo("informatica-8ano-4bim", {
      "termo": "Comparação",
      "rotulo": "<strong>Comparação</strong>",
      "def": "olhar dois itens e ver qual é o maior, ou se são iguais."
+    },
+    {
+     "termo": "Algoritmo",
+     "rotulo": "<strong>Algoritmo</strong>",
+     "def": "sequência de passos, em ordem, para resolver um problema ou fazer uma tarefa, como uma receita de bolo."
     }
    ],
    "ondeUso": {

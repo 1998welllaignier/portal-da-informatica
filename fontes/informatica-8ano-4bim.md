@@ -68,6 +68,7 @@ Fim da **1ª passada**: o maior número (8) “subiu” para o final, como uma b
 - **Método da bolha** (em inglês, *bubble sort*): ordena comparando vizinhos e trocando os que estão fora de ordem; o maior “sobe” para o fim, como uma bolha.
 - **Passada**: uma volta completa pela lista, do começo ao fim, comparando os vizinhos.
 - **Comparação**: olhar dois itens e ver qual é o maior, ou se são iguais.
+- **Algoritmo**: sequência de passos, em ordem, para resolver um problema ou fazer uma tarefa, como uma receita de bolo.
 ### 🌎 Onde eu uso isso?
 - Os **contatos do celular** ficam em ordem alfabética para você achar um nome rápido.
 - A **tabela do campeonato** e o **ranking** dos jogos são listas ordenadas por pontos.

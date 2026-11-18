@@ -224,6 +224,21 @@ PORTAL.registrarConteudo("informatica-8ano-2027-1bim", {
      "termo": "Estrutura de dados",
      "rotulo": "<strong>Estrutura de dados</strong>",
      "def": "jeito de organizar os dados no computador para usar depois; a lista é a mais simples."
+    },
+    {
+     "termo": "Variável",
+     "rotulo": "<strong>Variável</strong>",
+     "def": "um espaço com nome na memória do computador que guarda um valor, e esse valor pode mudar. Exemplo: a variável <strong>pontos</strong> começa em 0 e aumenta a cada acerto."
+    },
+    {
+     "termo": "Repetição",
+     "rotulo": "<strong>Repetição</strong>",
+     "def": "fazer o mesmo passo (ou o mesmo grupo de passos) várias vezes, sem precisar escrever tudo de novo. Exemplo: “repita 3 vezes: ande um passo”."
+    },
+    {
+     "termo": "Aplicativo",
+     "rotulo": "<strong>Aplicativo</strong> (ou <strong>app</strong>, do inglês <em>application</em>)",
+     "def": "programa que usamos no celular, no tablet ou no computador para fazer uma tarefa, como o aplicativo de mapas, o WhatsApp ou a calculadora."
     }
    ],
    "ondeUso": {
@@ -519,6 +534,11 @@ PORTAL.registrarConteudo("informatica-8ano-2027-1bim", {
      "termo": "Eficiência",
      "rotulo": "<strong>Eficiência</strong>",
      "def": "quanto trabalho (quantas comparações) o algoritmo precisa para resolver o problema."
+    },
+    {
+     "termo": "Navegador",
+     "rotulo": "<strong>Navegador</strong>",
+     "def": "programa usado para abrir os sites da internet, como o Google Chrome, o Microsoft Edge e o Firefox."
     }
    ],
    "ondeUso": {
@@ -953,6 +973,11 @@ PORTAL.registrarConteudo("informatica-8ano-2027-1bim", {
      "termo": "Função",
      "rotulo": "<strong>Função</strong> (bloco próprio)",
      "def": "conjunto de blocos com nome que pode ser chamado, inclusive por ele mesmo."
+    },
+    {
+     "termo": "Pasta",
+     "rotulo": "<strong>Pasta</strong>",
+     "def": "lugar do computador onde guardamos e organizamos arquivos, como uma gaveta. Uma pasta pode ter outras pastas dentro dela."
     }
    ],
    "ondeUso": {

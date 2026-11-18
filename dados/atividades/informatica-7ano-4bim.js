@@ -18,7 +18,7 @@ PORTAL.registrarAtividades("informatica-7ano-4bim", {
           { ic: "📄", t: "Os pacotes voltam e o site aparece", dica: "Essa é a última etapa." }],
         okMsg: "Viagem completa! Tudo isso acontece em menos de 1 segundo. ⚡",
         explicacao: "Os dados viajam em <strong>pacotes</strong>, seguindo <strong>protocolos</strong> (como TCP e HTTP), passando pelo <strong>roteador</strong> e pelo <strong>provedor</strong> até o <strong>servidor</strong>." },
-      { tipo: "mensagens", titulo: "Cadeado ou perigo? Olhe o endereço", app: "🌐 Barra de endereços",
+      { tipo: "mensagens", opcional: true, titulo: "Cadeado ou perigo? Olhe o endereço", app: "🌐 Barra de endereços",
         botoes: [{ id: "S", rot: "🔒 Conexão segura" }, { id: "N", rot: "⚠️ Não segura" }],
         enunciado: "<p>Olhe o começo de cada endereço. <strong>https</strong> (com S) protege os dados no caminho.</p>",
         itens: [
@@ -48,7 +48,7 @@ PORTAL.registrarAtividades("informatica-7ano-4bim", {
           { p: "6. Cabo <strong>CAT8</strong> ligado no <strong>servidor de data center</strong>?", teste: ["c8", "dc"], opcoes: ["1.000 Mbps", "10.000 Mbps", "40.000 Mbps"], certo: 2, why: "O CAT8 chega a 40.000 Mbps (40 Gbps), mas só em cabos de até 30 metros: por isso fica dentro dos data centers." }],
         okMsg: "Você descobriu: a velocidade é a da parte mais lenta do caminho! 🔌⚡",
         explicacao: "A velocidade da conexão é a <strong>menor</strong> entre o cabo e o aparelho: CAT5 vai até 100 Mbps; CAT5e até 1.000 Mbps (1 Gbps); CAT6 até 1.000 Mbps em 100 metros e até 10.000 Mbps (10 Gbps) em trechos de até uns 55 metros; CAT8 até 40.000 Mbps em até 30 metros. Respostas: 1) 100 Mbps; 2) 1.000 Mbps; 3) 10.000 Mbps; 4) 100 Mbps, porque o switch da baia é a parte mais lenta; 5) Não: quem limita na sala é o switch da baia; 6) 40.000 Mbps (CAT8, só em até 30 metros, nos data centers)." },
-      { id: "m1-sim-navegador", opcional: true, tipo: "sim_pc", titulo: "🌐 Simulador: endereço, cadeado e guias do navegador",
+      { id: "m1-sim-navegador", tipo: "sim_pc", titulo: "🌐 Simulador: endereço, cadeado e guias do navegador",
         enunciado: "<p>No <strong>navegador de mentira</strong>, digite um endereço, confira o cadeado e compare com um site que não é seguro. O <strong>Bit</strong> ajuda você em cada passo.</p>",
         area: [{ nome: "Lixeira", app: "lixeira" }, { nome: "Navegador", app: "web" }],
         web: {
@@ -79,7 +79,7 @@ PORTAL.registrarAtividades("informatica-7ano-4bim", {
         preview: "Mensagem que o aparelho monta:",
         explicacao: "Mensagem completa: “Bom dia, turma! A aula de hoje é sobre redes de computadores. Até logo!” O TCP (<em>Transmission Control Protocol</em>, Protocolo de Controle de Transmissão) usa esses números para montar a mensagem na ordem certa." },
 
-      { tipo: "tabela", titulo: "Chegou uma mensagem nova em pacotes embaralhados", robo: {"paineis": ["📦 Pacotes que chegaram", "🔢 Na ordem dos números"], "passos": [{"fala": "Olha só como eu faço com <b>outra</b> mensagem! Os pacotes chegaram bagunçados:", "painel": 0, "linha": "Pacote 2 de 3: de futebol"}, {"fala": "", "painel": 0, "linha": "Pacote 3 de 3: às 4 horas.", "espera": 600}, {"fala": "", "painel": 0, "linha": "Pacote 1 de 3: Hoje tem treino", "espera": 1400}, {"fala": "Eu não olho a ordem em que chegaram: eu procuro o <b>número</b> de cada pacote. Primeiro o <b>1 de 3</b>…", "painel": 1, "linha": "Hoje tem treino", "marca": true}, {"fala": "…depois o <b>2 de 3</b>…", "painel": 1, "linha": "de futebol", "marca": true}, {"fala": "…e por último o <b>3 de 3</b>.", "painel": 1, "linha": "às 4 horas.", "marca": true}, {"fala": "Juntando: <b>“Hoje tem treino de futebol às 4 horas.”</b> O número do pacote é que diz a ordem! 😎", "painel": null, "espera": 2600}], "fim": "Agora é a sua vez: monte a <b>sua</b> mensagem seguindo a numeração (comece pelo Pacote 1 de 4) e confira os acentos! 💪"},
+      { tipo: "tabela", opcional: true, titulo: "Chegou uma mensagem nova em pacotes embaralhados", robo: {"paineis": ["📦 Pacotes que chegaram", "🔢 Na ordem dos números"], "passos": [{"fala": "Olha só como eu faço com <b>outra</b> mensagem! Os pacotes chegaram bagunçados:", "painel": 0, "linha": "Pacote 2 de 3: de futebol"}, {"fala": "", "painel": 0, "linha": "Pacote 3 de 3: às 4 horas.", "espera": 600}, {"fala": "", "painel": 0, "linha": "Pacote 1 de 3: Hoje tem treino", "espera": 1400}, {"fala": "Eu não olho a ordem em que chegaram: eu procuro o <b>número</b> de cada pacote. Primeiro o <b>1 de 3</b>…", "painel": 1, "linha": "Hoje tem treino", "marca": true}, {"fala": "…depois o <b>2 de 3</b>…", "painel": 1, "linha": "de futebol", "marca": true}, {"fala": "…e por último o <b>3 de 3</b>.", "painel": 1, "linha": "às 4 horas.", "marca": true}, {"fala": "Juntando: <b>“Hoje tem treino de futebol às 4 horas.”</b> O número do pacote é que diz a ordem! 😎", "painel": null, "espera": 2600}], "fim": "Agora é a sua vez: monte a <b>sua</b> mensagem seguindo a numeração (comece pelo Pacote 1 de 4) e confira os acentos! 💪"},
         enunciado: "<p>Os pacotes chegaram nesta ordem:</p><p class=\"regra\"><strong>Pacote 3 de 4:</strong> Informática às · <strong>Pacote 1 de 4:</strong> Amanhã tem · <strong>Pacote 4 de 4:</strong> 9 horas. · <strong>Pacote 2 de 4:</strong> aula de</p><p>Monte a mensagem pela numeração e digite-a completa.</p>",
         colunas: ["Pergunta", "Resposta"],
         linhas: [["Digite a mensagem completa, na ordem certa", { r: "Amanhã tem aula de Informática às 9 horas.", tipo: "letras", w: 40 }],
@@ -106,13 +106,13 @@ PORTAL.registrarAtividades("informatica-7ano-4bim", {
         dicas: ["A fibra vem da rua e entra pela cozinha, onde fica o rack.", "O switch da baia fica pertinho dos computadores: é o último aparelho antes deles."],
         explicacao: "Fibra → roteador → switch gigabit → cabo CAT6 → tomada → switch da baia → computador." },
 
-      { tipo: "escolha", titulo: "2 e 3. Wi-Fi e velocidade na nossa escola",
+      { tipo: "escolha", titulo: "2. O Wi-Fi da nossa escola",
         perguntas: [
           { p: "2. Nas salas de aula comuns, o celular usa Wi-Fi. Qual aparelho transforma o cabo em Wi-Fi nessas salas?", opcoes: ["O AP (ponto de acesso)", "O roteador MikroTik", "O switch da baia"], certo: 0, why: "O AP (<em>Access Point</em>) recebe a rede pelo cabo e transforma em Wi-Fi. O MikroTik da escola não tem antenas." },
-          { p: "3. O cabo do chão aguenta até 1 Gbps, mas o switch da baia vai só até 100 Mbps. Qual é a velocidade máxima que chega ao seu computador?", opcoes: ["100 Mbps, porque o switch da baia é a parte mais lenta do caminho", "1 Gbps, porque o cabo é rápido", "1.100 Mbps, somando os dois"], certo: 0, why: "O caminho inteiro fica limitado pela parte mais lenta: o switch Fast Ethernet de 100 Mbps." }],
-        dicas: ["Pense numa estrada larga que termina numa ponte estreita: os carros passam na velocidade da ponte."] },
+          ],
+        dicas: ["Releia a tabela “Na prática”: o aparelho das salas comuns que transforma o cabo em Wi-Fi tem o nome de uma sigla em inglês (<em>Access Point</em>)."] },
 
-      { tipo: "tabela", titulo: "4. Descubra o endereço IP do seu computador", robo: {"paineis": ["⌨️ O que eu faço", "🖥️ O que aparece na tela"], "passos": [{"fala": "Olha como eu faço no <b>meu</b> computador. Aperto <b>Windows + R</b>:", "painel": 0, "linha": "Windows + R"}, {"fala": "Abre a janelinha <b>Executar</b>.", "painel": 1, "linha": "Janela Executar aberta"}, {"fala": "Digito <b>cmd</b> e aperto <b>Enter</b>.", "painel": 0, "linha": "cmd + Enter"}, {"fala": "Abre a janela preta: o <b>Prompt de Comando</b>.", "painel": 1, "linha": "C:\\Users\\Aluno>"}, {"fala": "Digito <b>ipconfig</b> e aperto <b>Enter</b>.", "painel": 0, "linha": "ipconfig + Enter"}, {"fala": "Aparecem várias linhas. Eu procuro só a que começa com <b>Endereço IPv4</b>:", "painel": 1, "linha": "Endereço IPv4. . . . : 10.0.0.25", "marca": true, "espera": 2600}, {"fala": "O meu IP é <b>10.0.0.25</b>: 4 números separados por pontos. O seu vai ser <b>diferente</b>!", "painel": null, "espera": 2400}], "fim": "Agora é a sua vez: faça no seu computador e copie o <b>seu</b> Endereço IPv4. Depois pegue o de um colega da sua baia! 💪"},
+      { tipo: "tabela", titulo: "3. Descubra o endereço IP do seu computador", robo: {"paineis": ["⌨️ O que eu faço", "🖥️ O que aparece na tela"], "passos": [{"fala": "Olha como eu faço no <b>meu</b> computador. Aperto <b>Windows + R</b>:", "painel": 0, "linha": "Windows + R"}, {"fala": "Abre a janelinha <b>Executar</b>.", "painel": 1, "linha": "Janela Executar aberta"}, {"fala": "Digito <b>cmd</b> e aperto <b>Enter</b>.", "painel": 0, "linha": "cmd + Enter"}, {"fala": "Abre a janela preta: o <b>Prompt de Comando</b>.", "painel": 1, "linha": "C:\\Users\\Aluno>"}, {"fala": "Digito <b>ipconfig</b> e aperto <b>Enter</b>.", "painel": 0, "linha": "ipconfig + Enter"}, {"fala": "Aparecem várias linhas. Eu procuro só a que começa com <b>Endereço IPv4</b>:", "painel": 1, "linha": "Endereço IPv4. . . . : 10.0.0.25", "marca": true, "espera": 2600}, {"fala": "O meu IP é <b>10.0.0.25</b>: 4 números separados por pontos. O seu vai ser <b>diferente</b>!", "painel": null, "espera": 2400}], "fim": "Agora é a sua vez: faça no seu computador e copie o <b>seu</b> Endereço IPv4. Depois pegue o de um colega da sua baia! 💪"},
         enunciado: "<p>Aperte <strong>Windows + R</strong> (abre a janela Executar), digite <strong>cmd</strong> e aperte <strong>Enter</strong>. Abre o <strong>Prompt de Comando</strong>, uma janela onde se digitam comandos (<em>cmd</em> vem do inglês <em>command</em>, comando). Digite <strong>ipconfig</strong> e aperte Enter (<em>IP configuration</em>, configuração de IP). Procure a linha <strong>Endereço IPv4</strong> (IPv4 é a versão 4 do endereço IP, a mais usada).</p>",
         colunas: ["", "Resposta"],
         linhas: [
@@ -124,7 +124,7 @@ PORTAL.registrarAtividades("informatica-7ano-4bim", {
         dicas: ["Como cada casa de uma rua tem o seu número, cada aparelho da rede tem o seu IP. Quem distribui esses endereços é o roteador."],
         explicacao: "Os números são diferentes, porque cada aparelho da rede precisa de um endereço próprio, como cada casa de uma rua tem o seu número. O roteador é que dá esses endereços." },
 
-      { tipo: "aberta", titulo: "5. Como a imagem da sua tela chega ao computador do professor pelo Veyon?", robo: {"paineis": ["✍️ A minha explicação (de outro caminho)"], "passos": [{"fala": "Vou explicar <b>outro</b> caminho, para você ver como se faz: como um vídeo chega ao meu celular.", "painel": 0, "titulo": "Como o vídeo chega ao meu celular?"}, {"fala": "Primeiro digo <b>de onde sai</b>:", "painel": 0, "linha": "O vídeo sai do servidor, dividido em pacotes,"}, {"fala": "Depois, <b>por onde passa</b>, em ordem:", "painel": 0, "linha": "viaja pela internet até o roteador da minha casa"}, {"fala": "E por fim, <b>onde chega</b> e o que acontece lá:", "painel": 0, "linha": "e chega ao celular, que junta os pacotes e mostra o vídeo."}, {"fala": "Repare: usei as palavras importantes (<b>pacotes</b>, <b>roteador</b>) e contei o caminho do começo ao fim.", "painel": null, "espera": 2600}], "fim": "Agora é a sua vez: conte o caminho da <b>sua tela</b> até o computador do professor, usando <b>rede</b>, <b>switch</b> e <b>pacotes</b>! 💪"},
+      { tipo: "aberta", titulo: "4. Como a imagem da sua tela chega ao computador do professor pelo Veyon?", robo: {"paineis": ["✍️ A minha explicação (de outro caminho)"], "passos": [{"fala": "Vou explicar <b>outro</b> caminho, para você ver como se faz: como um vídeo chega ao meu celular.", "painel": 0, "titulo": "Como o vídeo chega ao meu celular?"}, {"fala": "Primeiro digo <b>de onde sai</b>:", "painel": 0, "linha": "O vídeo sai do servidor, dividido em pacotes,"}, {"fala": "Depois, <b>por onde passa</b>, em ordem:", "painel": 0, "linha": "viaja pela internet até o roteador da minha casa"}, {"fala": "E por fim, <b>onde chega</b> e o que acontece lá:", "painel": 0, "linha": "e chega ao celular, que junta os pacotes e mostra o vídeo."}, {"fala": "Repare: usei as palavras importantes (<b>pacotes</b>, <b>roteador</b>) e contei o caminho do começo ao fim.", "painel": null, "espera": 2600}], "fim": "Agora é a sua vez: conte o caminho da <b>sua tela</b> até o computador do professor, usando <b>rede</b>, <b>switch</b> e <b>pacotes</b>! 💪"},
         enunciado: "<p>Use as palavras <strong>rede</strong>, <strong>switch</strong> e <strong>pacotes</strong>.</p>",
         linhas: 3,
         conferir: { minPalavras: 12, grupos: [{ dica: "a palavra rede", alts: ["rede"] }, { dica: "a palavra switch", alts: ["switch"] }, { dica: "a palavra pacotes", alts: ["pacote"] }] },
@@ -132,14 +132,24 @@ PORTAL.registrarAtividades("informatica-7ano-4bim", {
         exemplo: "O Veyon divide a imagem da minha tela em pacotes, que saem do meu computador pela rede da escola, passam pelo switch da baia e pelo switch gigabit e chegam ao computador do professor, que junta os pacotes e mostra a imagem." }
     ],
     desafio: [
-      { tipo: "tabela", titulo: "Correio × internet: o que corresponde a cada item?",
-        colunas: ["No correio", "Na internet"],
-        linhas: [
-          ["Endereço de quem recebe", { op: ["Endereço IP", "Roteadores", "Protocolos", "Pacotes"], r: "Endereço IP" }],
-          ["Carteiros e agências que levam a carta", { op: ["Endereço IP", "Roteadores", "Protocolos", "Pacotes"], r: "Roteadores" }],
-          ["Regras do correio (CEP, selo, envelope)", { op: ["Endereço IP", "Roteadores", "Protocolos", "Pacotes"], r: "Protocolos" }],
-          ["Carta longa enviada em várias folhas numeradas", { op: ["Endereço IP", "Roteadores", "Protocolos", "Pacotes"], r: "Pacotes" }]],
-        explicacao: "Endereço → IP; carteiros → roteadores; regras → protocolos (como o TCP/IP); folhas numeradas → pacotes." }
+      { tipo: "classificar", titulo: "🎯 Jogo: correio × internet",
+        enunciado: "<p>A internet funciona parecido com o <strong>correio</strong>. Arraste cada coisa do correio para a caixa da internet que faz o mesmo papel.</p>",
+        categorias: [
+          { id: "ip", ic: "🏠", rot: "Endereço IP", desc: "o número de cada aparelho na rede" },
+          { id: "rot", ic: "🚦", rot: "Roteadores", desc: "encaminham os pacotes pelo caminho" },
+          { id: "prot", ic: "📜", rot: "Protocolos", desc: "as regras que todos seguem" },
+          { id: "pac", ic: "📦", rot: "Pacotes", desc: "os pedaços numerados da mensagem" }],
+        itens: [
+          { ic: "✉️", t: "Endereço de quem recebe, escrito no envelope", c: "ip", why: "O endereço diz para onde a carta vai; o IP diz para qual aparelho os dados vão." },
+          { ic: "📮", t: "CEP e número da casa", c: "ip", why: "Identificam um lugar único, como o IP identifica um aparelho único na rede." },
+          { ic: "🚚", t: "Carteiros e caminhões que levam a carta", c: "rot", why: "Levam a carta de um ponto a outro, como os roteadores levam os pacotes." },
+          { ic: "🏤", t: "Agência que separa as cartas por cidade", c: "rot", why: "Decide para onde cada carta segue, como o roteador escolhe o caminho." },
+          { ic: "📏", t: "Regras do correio: toda carta precisa de selo e envelope", c: "prot", why: "São regras combinadas, como os protocolos (TCP/IP, HTTP) da internet." },
+          { ic: "🤝", t: "Combinado de que o endereço vai na frente e o remetente atrás", c: "prot", why: "Todo mundo segue o mesmo combinado: isso é um protocolo." },
+          { ic: "📄", t: "Carta longa enviada em várias folhas numeradas", c: "pac", why: "Cada folha é um pedaço numerado, como cada pacote." },
+          { ic: "🔢", t: "Número “1 de 3” escrito em cada folha", c: "pac", why: "O número permite montar na ordem certa, como acontece com os pacotes." }],
+        dicas: ["Endereço = onde chegar. Quem leva = roteadores. Regras = protocolos. Pedaços numerados = pacotes."],
+        explicacao: "Endereço e CEP → IP; carteiros e agência → roteadores; regras e combinados → protocolos (como o TCP/IP); folhas numeradas → pacotes." }
     ],
     turbo: [
       { tipo: "escolha", titulo: "Por que os pacotes precisam ser numerados? O que acontece se um pacote se perder?",

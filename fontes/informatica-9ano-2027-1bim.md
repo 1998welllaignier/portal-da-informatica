@@ -86,6 +86,7 @@ O **caminho mais curto** é o de **menor soma dos pesos**, e **nem sempre** é o
 - **Caminho**: sequência de vértices ligados por arestas, do início até o fim.
 - **Caminho mais curto**: o caminho com a menor soma dos pesos.
 - **GPS** (*Global Positioning System*, Sistema de Posicionamento Global): sistema de satélites que diz onde você está; os aplicativos de mapa juntam o GPS com grafos para achar o caminho.
+- **Aplicativo** (ou **app**, do inglês *application*): programa que usamos no celular, no tablet ou no computador para fazer uma tarefa, como o aplicativo de mapas, o WhatsApp ou a calculadora.
 ### 🌎 Onde eu uso isso?
 - O **aplicativo de mapa** e o **aplicativo de entrega** calculam o caminho mais curto num grafo de ruas.
 - Nas **redes sociais**, cada pessoa é um vértice e cada amizade é uma aresta: “amigos em comum” vêm daí.
@@ -140,6 +141,7 @@ Uma **árvore**, na computação, é um grafo especial, desenhado **de cabeça p
 - **Nível** (ou profundidade): quantos passos da raiz até o vértice (a raiz está no nível 0).
 - **Ciclo**: caminho que sai de um vértice e volta a ele. Árvores não têm ciclos.
 - **Hierarquia**: organização em níveis, do mais geral para o mais específico.
+- **Pasta**: lugar do computador onde guardamos e organizamos arquivos, como uma gaveta. Uma pasta pode ter outras pastas dentro dela.
 ### 🌎 Onde eu uso isso?
 - As **pastas** do computador e do celular formam uma árvore.
 - A **árvore genealógica** da família mostra avós, pais e filhos em níveis.
@@ -337,6 +339,7 @@ Ao apertar ▶️ Rodar, o portal **faz os eventos acontecerem** na ordem mostra
 - **Tratador de evento**: o conjunto de blocos que roda quando aquele evento acontece.
 - **Sensor**: peça que percebe algo do mundo (movimento, luz, temperatura) e gera um evento.
 - **Notificação**: aviso que o celular mostra quando um evento acontece, como uma mensagem nova.
+- **Variável**: um espaço com nome na memória do computador que guarda um valor, e esse valor pode mudar. Exemplo: a variável **pontos** começa em 0 e aumenta a cada acerto.
 ### 🌎 Onde eu uso isso?
 - Todo **aplicativo de celular** é programado por eventos: tocar, arrastar, chegar mensagem.
 - A **porta automática** do mercado reage ao **sensor** de movimento.

@@ -362,6 +362,11 @@ PORTAL.registrarConteudo("informatica-5ano-4bim", {
      "termo": "Playlist",
      "rotulo": "<strong>Playlist</strong>",
      "def": "lista de músicas ou vídeos que tocam um depois do outro."
+    },
+    {
+     "termo": "Aplicativo",
+     "rotulo": "<strong>Aplicativo</strong> (ou <strong>app</strong>, do inglês <em>application</em>)",
+     "def": "programa que usamos no celular, no tablet ou no computador para fazer uma tarefa, como o aplicativo de mapas, o WhatsApp ou a calculadora."
     }
    ],
    "ondeUso": {

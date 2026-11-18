@@ -159,6 +159,11 @@ PORTAL.registrarConteudo("informatica-6ano-4bim-trilha", {
      "termo": "Duplo clique",
      "rotulo": "<strong>Duplo clique</strong>",
      "def": "dois cliques rapidinhos no mesmo lugar, para abrir."
+    },
+    {
+     "termo": "Processador",
+     "rotulo": "<strong>Processador</strong>",
+     "def": "a peça principal dentro do computador, que faz as contas e segue as instruções dos programas. É o “cérebro” do computador."
     }
    ],
    "ondeUso": {

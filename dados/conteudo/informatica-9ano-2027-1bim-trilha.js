@@ -219,6 +219,11 @@ PORTAL.registrarConteudo("informatica-9ano-2027-1bim-trilha", {
      "termo": "Caminho mais curto",
      "rotulo": "<strong>Caminho mais curto</strong>",
      "def": "o caminho com a menor soma dos pesos."
+    },
+    {
+     "termo": "Aplicativo",
+     "rotulo": "<strong>Aplicativo</strong> (ou <strong>app</strong>, do inglês <em>application</em>)",
+     "def": "programa que usamos no celular, no tablet ou no computador para fazer uma tarefa, como o aplicativo de mapas, o WhatsApp ou a calculadora."
     }
    ],
    "ondeUso": {
@@ -336,6 +341,11 @@ PORTAL.registrarConteudo("informatica-9ano-2027-1bim-trilha", {
      "termo": "Nível",
      "rotulo": "<strong>Nível</strong>",
      "def": "quantos passos da raiz até o vértice (a raiz é o nível 0)."
+    },
+    {
+     "termo": "Pasta",
+     "rotulo": "<strong>Pasta</strong>",
+     "def": "lugar do computador onde guardamos e organizamos arquivos, como uma gaveta. Uma pasta pode ter outras pastas dentro dela."
     }
    ],
    "ondeUso": {

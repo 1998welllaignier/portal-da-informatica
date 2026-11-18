@@ -7,7 +7,7 @@ BIT = {
   ("…depois o <b>2 de 3</b>…", 1, "de futebol", True), ("…e por último o <b>3 de 3</b>.", 1, "às 4 horas.", True),
   ("Juntando: <b>“Hoje tem treino de futebol às 4 horas.”</b> O número do pacote é que diz a ordem! 😎", None, None, False, 2600)],
   "Agora é a sua vez: monte a <b>sua</b> mensagem seguindo a numeração (comece pelo Pacote 1 de 4) e confira os acentos! 💪"),
-"4. Descubra o endereço IP do seu computador": R(["⌨️ O que eu faço", "🖥️ O que aparece na tela"], [
+"3. Descubra o endereço IP do seu computador": R(["⌨️ O que eu faço", "🖥️ O que aparece na tela"], [
   ("Olha como eu faço no <b>meu</b> computador. Aperto <b>Windows + R</b>:", 0, "Windows + R"),
   ("Abre a janelinha <b>Executar</b>.", 1, "Janela Executar aberta"),
   ("Digito <b>cmd</b> e aperto <b>Enter</b>.", 0, "cmd + Enter"), ("Abre a janela preta: o <b>Prompt de Comando</b>.", 1, "C:\\Users\\Aluno>"),
@@ -15,7 +15,7 @@ BIT = {
   ("Aparecem várias linhas. Eu procuro só a que começa com <b>Endereço IPv4</b>:", 1, "Endereço IPv4. . . . : 10.0.0.25", True, 2600),
   ("O meu IP é <b>10.0.0.25</b>: 4 números separados por pontos. O seu vai ser <b>diferente</b>!", None, None, False, 2400)],
   "Agora é a sua vez: faça no seu computador e copie o <b>seu</b> Endereço IPv4. Depois pegue o de um colega da sua baia! 💪"),
-"5. Como a imagem da sua tela chega ao computador do professor pelo Veyon?": R(["✍️ A minha explicação (de outro caminho)"], [
+"4. Como a imagem da sua tela chega ao computador do professor pelo Veyon?": R(["✍️ A minha explicação (de outro caminho)"], [
   ("Vou explicar <b>outro</b> caminho, para você ver como se faz: como um vídeo chega ao meu celular.", 0, "#Como o vídeo chega ao meu celular?"),
   ("Primeiro digo <b>de onde sai</b>:", 0, "O vídeo sai do servidor, dividido em pacotes,"),
   ("Depois, <b>por onde passa</b>, em ordem:", 0, "viaja pela internet até o roteador da minha casa"),

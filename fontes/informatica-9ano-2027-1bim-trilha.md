@@ -56,6 +56,7 @@ O **caminho mais curto** é o de **menor soma**, e **nem sempre** é o que tem m
 - **Aresta**: cada ligação entre dois pontos.
 - **Peso**: o número na aresta (tempo, distância).
 - **Caminho mais curto**: o caminho com a menor soma dos pesos.
+- **Aplicativo** (ou **app**, do inglês *application*): programa que usamos no celular, no tablet ou no computador para fazer uma tarefa, como o aplicativo de mapas, o WhatsApp ou a calculadora.
 ### 🌎 Onde eu uso isso?
 - O **aplicativo de mapa** calcula o caminho mais curto.
 - Nas **redes sociais**, cada pessoa é um vértice e cada amizade é uma aresta.
@@ -90,6 +91,7 @@ Na árvore **não tem voltas**: de um vértice a outro só existe **um caminho**
 - **Raiz**: o vértice do topo, onde a árvore começa.
 - **Folha**: vértice que não tem filhos.
 - **Nível**: quantos passos da raiz até o vértice (a raiz é o nível 0).
+- **Pasta**: lugar do computador onde guardamos e organizamos arquivos, como uma gaveta. Uma pasta pode ter outras pastas dentro dela.
 ### 🌎 Onde eu uso isso?
 - As **pastas** do computador formam uma árvore.
 - A **árvore genealógica** da família: avós, pais e filhos.

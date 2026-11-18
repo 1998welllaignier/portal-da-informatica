@@ -143,6 +143,11 @@ PORTAL.registrarConteudo("informatica-9ano-4bim-trilha", {
      "termo": "Árvore de decisão",
      "rotulo": "<strong>Árvore de decisão</strong>",
      "def": "perguntas de sim ou não que levam a uma resposta."
+    },
+    {
+     "termo": "Aplicativo",
+     "rotulo": "<strong>Aplicativo</strong> (ou <strong>app</strong>, do inglês <em>application</em>)",
+     "def": "programa que usamos no celular, no tablet ou no computador para fazer uma tarefa, como o aplicativo de mapas, o WhatsApp ou a calculadora."
     }
    ],
    "ondeUso": {
@@ -288,6 +293,11 @@ PORTAL.registrarConteudo("informatica-9ano-4bim-trilha", {
      "termo": "Engenharia social",
      "rotulo": "<strong>Engenharia social</strong>",
      "def": "enganar a pessoa para ela mesma entregar a senha."
+    },
+    {
+     "termo": "Nuvem",
+     "rotulo": "<strong>Nuvem</strong>",
+     "def": "guardar arquivos na internet, em computadores de empresas que ficam ligados o tempo todo, e não só no seu aparelho. Exemplos: Google Drive e iCloud. Assim, se o celular quebrar, os arquivos não se perdem."
     }
    ],
    "ondeUso": {
@@ -409,6 +419,11 @@ PORTAL.registrarConteudo("informatica-9ano-4bim-trilha", {
      "termo": "Deepfake",
      "rotulo": "<strong>Deepfake</strong> (<em>fake</em> = falso, em inglês)",
      "def": "vídeo, foto ou áudio falso, feito com IA, que imita uma pessoa de verdade."
+    },
+    {
+     "termo": "Link",
+     "rotulo": "<strong>Link</strong> (em inglês, ligação)",
+     "def": "texto, imagem ou botão que, ao ser tocado, leva para outra página ou outro site."
     }
    ],
    "ondeUso": {

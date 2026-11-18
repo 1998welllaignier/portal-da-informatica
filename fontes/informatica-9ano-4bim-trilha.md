@@ -38,6 +38,7 @@ Uma **árvore de decisão** é uma lista de **perguntas de sim ou não**. Cada r
 - **Peso**: o número escrito na linha, como os minutos de caminhada.
 - **Caminho mais curto**: o caminho com a **menor soma** dos números.
 - **Árvore de decisão**: perguntas de sim ou não que levam a uma resposta.
+- **Aplicativo** (ou **app**, do inglês *application*): programa que usamos no celular, no tablet ou no computador para fazer uma tarefa, como o aplicativo de mapas, o WhatsApp ou a calculadora.
 ### 🌎 Onde eu uso isso?
 - O **aplicativo de mapas** soma os tempos para achar o caminho mais rápido.
 - As **pastas do celular** se dividem como galhos de uma árvore.
@@ -74,6 +75,7 @@ Exemplo: **SOL** com chave 1 vira **TPM**. Para **descobrir** a mensagem, cada l
 - **Ransomware** (*ransom* = resgate; *software* = programa): programa que tranca os arquivos e pede dinheiro.
 - **Backup** (em inglês, reserva): uma cópia dos arquivos guardada em outro lugar.
 - **Engenharia social**: enganar a pessoa para ela mesma entregar a senha.
+- **Nuvem**: guardar arquivos na internet, em computadores de empresas que ficam ligados o tempo todo, e não só no seu aparelho. Exemplos: Google Drive e iCloud. Assim, se o celular quebrar, os arquivos não se perdem.
 ### 🌎 Onde eu uso isso?
 - O **cadeado 🔒** dos sites e o **WhatsApp** usam criptografia.
 - A **senha comprida** protege contra a força bruta.
@@ -110,6 +112,7 @@ Recebeu algo suspeito? **Não clique**, **não compartilhe** e avise quem mandou
 - **Direito de imagem**: ninguém pode postar a sua foto sem a sua autorização.
 - **IA** (Inteligência Artificial): programas que aprendem com exemplos e criam textos, imagens e vídeos.
 - **Deepfake** (*fake* = falso, em inglês): vídeo, foto ou áudio falso, feito com IA, que imita uma pessoa de verdade.
+- **Link** (em inglês, ligação): texto, imagem ou botão que, ao ser tocado, leva para outra página ou outro site.
 ### 🌎 Onde eu uso isso?
 - No **trabalho da escola**, escreva o nome de quem fez a foto que você usou.
 - Antes de postar a **foto de um colega**, pergunte se ele deixa.

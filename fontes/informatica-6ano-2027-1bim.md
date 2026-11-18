@@ -141,6 +141,7 @@ A **memória RAM** é diferente do armazenamento: ela guarda só o que está sen
 - **HD** (*Hard Disk*, disco rígido): guarda os arquivos num disco que gira lá dentro.
 - **SSD** (*Solid State Drive*, unidade de estado sólido): guarda os arquivos sem disco girando, por isso é mais rápido.
 - **Touchscreen**: em inglês, “tela de toque”: a tela que entende o toque do dedo, como a do celular.
+- **Pen drive** (do inglês *pen* = caneta; *drive* = unidade de armazenamento): aparelhinho do tamanho de um chaveiro que se encaixa no computador e guarda arquivos para levar de um lugar para outro.
 ### 🌎 Onde eu uso isso?
 - No **caixa do mercado**: o leitor de código de barras é a **entrada**, o computador **processa** o preço e a tela e o cupom são a **saída**.
 - No **celular**: o microfone (entrada) ouve “Ok, Google”, o processador entende (processamento) e a resposta aparece na tela (saída).

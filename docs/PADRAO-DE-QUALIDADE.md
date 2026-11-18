@@ -199,3 +199,12 @@ Apostila no portal + ilustrada (PDF só para quem estuda em casa) · guia do pro
 - Quando duas turmas têm aula no mesmo dia e horário, o ▶️ Iniciar a aula pergunta: iniciar só a turma escolhida ou todas juntas. Juntas, cada turma tem a sua missão (sugerida pelo cronograma dela), a sua presença, o seu placar e o seu diário; turma em que ninguém vem fica com todos ausentes, normalmente.
 - Ao finalizar uma turma iniciada junto com outra, o painel pergunta se finaliza a outra também.
 - Configurações › 👥 Turmas no mesmo horário › "Nunca juntar": o painel deixa de perguntar e as turmas são sempre iniciadas separadas.
+
+### 📖 Termo explicado antes de ser usado: auditoria automática (17/11/2026)
+- `node ferramentas/auditoria/termos_sem_explicacao.js` lista os termos técnicos usados em cada missão que ainda não estão no 📖 O que significa? (vale o glossário da missão e o das anteriores da mesma apostila). Siglas só contam em MAIÚSCULAS ("ia", do verbo ir, não é IA). Palavras do dia a dia ou já explicadas no próprio texto ficam em `ferramentas/auditoria/termos_aceitos.json`, com o motivo. Rodar sempre que criar ou mudar material: o resultado tem de ser **0**.
+- 17/11/2026: 37 verbetes novos em 29 missões (aplicativo, pasta, navegador, pen drive, processador, variável, repetição, algoritmo, nuvem, link, Wi-Fi, phishing…), todos com a mesma definição em todas as séries.
+
+### 🔄 Trocas de modernização: 7º ano, Missão 1 (17/11/2026, autorizado pelo professor)
+- Mão na massa: o 🌐 simulador do navegador virou obrigatório; "Cadeado ou perigo?" virou opcional (o simulador já ensina o cadeado).
+- Básico: "Chegou uma mensagem nova em pacotes embaralhados" virou opcional (repetia a tarefa anterior); saiu a pergunta 3 da velocidade (o 🔌 simulador do cabo já ensina "a parte mais lenta manda"); as tarefas foram renumeradas (2 a 4).
+- Desafio: "Correio × internet" deixou de ser tabela de escolher e virou 🎯 jogo de arrastar (8 cartas em 4 caixas).

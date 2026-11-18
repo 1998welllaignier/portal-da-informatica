@@ -60,6 +60,8 @@ Outro caminho para o passo 4: ⚙️ **Configurações › Personalização › 
 - **Paint**: o programa de desenho que já vem no Windows. Ele abre imagens .webp e salva em .png ou .jpg.
 - **winver**: comando do Windows (de *Windows version*, versão do Windows) que abre a janela **Sobre o Windows**.
 - **Executar**: a janela que abre com **⊞ + R**, onde digitamos o nome de um comando, como winver.
+- **Navegador**: programa usado para abrir os sites da internet, como o Google Chrome, o Microsoft Edge e o Firefox.
+- **Pasta**: lugar do computador onde guardamos e organizamos arquivos, como uma gaveta. Uma pasta pode ter outras pastas dentro dela.
 ### 🌎 Onde eu uso isso?
 - Para colocar a foto do **time**, do **jogo** ou da **família** no papel de parede do computador.
 - Quando um site ou programa diz **“formato não suportado”**: é só converter para .png ou .jpg.

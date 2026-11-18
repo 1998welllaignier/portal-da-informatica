@@ -47,6 +47,8 @@ Uma lista pode estar **ordenada** (em ordem, como 3, 8, 12, 20) ou **desordenada
 - **Posição**: o número do lugar do item. Aqui começa no 1.
 - **Tamanho**: quantos itens a lista tem.
 - **Ordenada**: lista arrumada em ordem. **Crescente** é do menor para o maior.
+- **Variável**: um espaço com nome na memória do computador que guarda um valor, e esse valor pode mudar. Exemplo: a variável **pontos** começa em 0 e aumenta a cada acerto.
+- **Aplicativo** (ou **app**, do inglês *application*): programa que usamos no celular, no tablet ou no computador para fazer uma tarefa, como o aplicativo de mapas, o WhatsApp ou a calculadora.
 ### 🌎 Onde eu uso isso?
 - As **mensagens** do aplicativo ficam numa lista: a mais nova embaixo.
 - A **classificação do campeonato** é uma lista ordenada pelos pontos.
@@ -115,6 +117,7 @@ A busca sequencial funciona em **qualquer lista**, em ordem ou fora de ordem.
 - **Comparação**: ver se o item é igual ao procurado. Cada olhada é uma comparação.
 - **Melhor caso**: quando termina mais rápido (o item é o primeiro).
 - **Pior caso**: quando demora mais (o item é o último ou não está).
+- **Navegador**: programa usado para abrir os sites da internet, como o Google Chrome, o Microsoft Edge e o Firefox.
 ### 🌎 Onde eu uso isso?
 - Procurar uma foto **rolando a galeria**, uma por uma.
 - Procurar o seu nome numa **lista fora de ordem**.
@@ -214,6 +217,7 @@ Contar a partir de 3 → 3, 2, 1, “Fogo!”.
 - **Recursão**: resolver um problema usando uma versão menor dele mesmo.
 - **Caso base**: o caso mais simples, que faz a recursão parar.
 - **Passo recursivo**: a parte que repete o problema, um pouco menor.
+- **Pasta**: lugar do computador onde guardamos e organizamos arquivos, como uma gaveta. Uma pasta pode ter outras pastas dentro dela.
 ### 🌎 Onde eu uso isso?
 - As **pastas do computador**: pasta dentro de pasta, dentro de pasta.
 - A **matrioska** e os **espelhos** frente a frente.

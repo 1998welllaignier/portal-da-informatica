@@ -76,6 +76,9 @@ Uma lista pode estar **ordenada** (em ordem crescente, decrescente ou alfabétic
 - **Percorrer**: passar por todos os itens da lista, do primeiro ao último.
 - **Ordenada**: lista arrumada em ordem (crescente: do menor para o maior; decrescente: do maior para o menor; alfabética: de A a Z).
 - **Estrutura de dados**: jeito de organizar os dados no computador para usar depois; a lista é a mais simples.
+- **Variável**: um espaço com nome na memória do computador que guarda um valor, e esse valor pode mudar. Exemplo: a variável **pontos** começa em 0 e aumenta a cada acerto.
+- **Repetição**: fazer o mesmo passo (ou o mesmo grupo de passos) várias vezes, sem precisar escrever tudo de novo. Exemplo: “repita 3 vezes: ande um passo”.
+- **Aplicativo** (ou **app**, do inglês *application*): programa que usamos no celular, no tablet ou no computador para fazer uma tarefa, como o aplicativo de mapas, o WhatsApp ou a calculadora.
 ### 🌎 Onde eu uso isso?
 - O **histórico de mensagens** do aplicativo é uma lista: a mais antiga em cima, a mais nova embaixo.
 - A **classificação do campeonato** é uma lista ordenada pelos pontos.
@@ -178,6 +181,7 @@ A busca sequencial funciona em **qualquer lista**, ordenada ou não. Mas em list
 - **Melhor caso**: a situação em que o algoritmo termina mais rápido (o item é o primeiro).
 - **Pior caso**: a situação em que o algoritmo demora mais (o item é o último ou não está na lista).
 - **Eficiência**: quanto trabalho (quantas comparações) o algoritmo precisa para resolver o problema.
+- **Navegador**: programa usado para abrir os sites da internet, como o Google Chrome, o Microsoft Edge e o Firefox.
 ### 🌎 Onde eu uso isso?
 - Procurar uma foto **rolando a galeria** do celular, uma por uma, é busca sequencial.
 - Procurar o seu nome numa **lista de aprovados fora de ordem** também.
@@ -331,6 +335,7 @@ No editor, um **bloco próprio** (gaveta 🧩 Meus blocos) que **chama a si mesm
 - **Caso base** (condição de parada): o caso mais simples, resolvido direto, que faz a recursão parar.
 - **Passo recursivo**: a parte que chama o mesmo problema, um pouco menor, aproximando do caso base.
 - **Função** (bloco próprio): conjunto de blocos com nome que pode ser chamado, inclusive por ele mesmo.
+- **Pasta**: lugar do computador onde guardamos e organizamos arquivos, como uma gaveta. Uma pasta pode ter outras pastas dentro dela.
 ### 🌎 Onde eu uso isso?
 - As **pastas do computador**: uma pasta tem pastas dentro, que têm pastas dentro… Para contar todos os arquivos, o computador usa recursão.
 - A **matrioska** e as **imagens de espelhos** frente a frente.
