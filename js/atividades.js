@@ -52,14 +52,18 @@
         box.hidden = false; P.robo.demo(box, passos, { aoFechar: () => { box.hidden = true; const t = c.querySelector("textarea, input"); if (t) t.focus(); } }); return; }
       box.innerHTML = `<div class="bit-demo" role="region" aria-label="O Bit mostra como faz"><div class="bit-topo">${BIT}<div class="bit-fala" aria-live="polite"><strong>Bit:</strong> <span class="bf"></span></div></div>
         <div class="ab-paineis${R.paineis.length === 1 ? " um" : ""}">${R.paineis.map((t, i) => `<div class="ab-painel"><b>${md(t)}</b><div class="ab-tit" data-t="${i}"></div><ol class="ab-lin${R.semNumero ? " sem" : ""}" data-p="${i}"></ol></div>`).join("")}</div>
-        <div class="bit-bts"><button type="button" class="btn bit-de-novo">🔁 Ver de novo</button><button type="button" class="btn btn-ok bit-entendi">👍 Entendi! Agora eu faço o meu</button></div></div>`;
+        <div class="bit-bts"><button type="button" class="btn btn-ok bit-prox" hidden>▶ Continuar</button><button type="button" class="btn bit-de-novo">🔁 Ver de novo</button><button type="button" class="btn btn-ok bit-entendi">👍 Entendi! Agora eu faço o meu</button></div></div>`;
       box.hidden = false; const fala = box.querySelector(".bf");
       const digita = async (el, txt, meu) => { for (let k = 1; k <= txt.length; k++) { if (meu !== id) return false; el.textContent = txt.slice(0, k); await new Promise(r => setTimeout(r, 30)); } return true; };
       const tocar = async () => { const meu = ++id; box.querySelectorAll(".ab-lin, .ab-tit").forEach(o => o.innerHTML = "");
         for (const p of R.passos) { if (meu !== id) return; fala.innerHTML = md(p.fala || "");
           if (p.titulo && !await digita(box.querySelector(`.ab-tit[data-t="${p.painel || 0}"]`), p.titulo, meu)) return;
           if (p.linha != null) { const li = document.createElement("li"); if (p.marca) li.className = "ab-marca"; box.querySelector(`.ab-lin[data-p="${p.painel || 0}"]`).appendChild(li); if (!await digita(li, p.linha, meu)) return; }
-          await new Promise(r => setTimeout(r, p.espera || 1800)); }
+          // ⏸️ passo com "pausa" (18/11/2026): o Bit espera o aluno tocar em "▶ …" (ex.: uma passada da bolha por vez)
+          if (p.pausa) { const bp = box.querySelector(".bit-prox"); bp.textContent = p.pausa === true ? "▶ Continuar" : p.pausa; bp.hidden = false; bp.focus();
+            const ok = await new Promise(r => { bp.onclick = () => r(true); const chk = setInterval(() => { if (meu !== id) { clearInterval(chk); r(false); } }, 300); bp.addEventListener("click", () => clearInterval(chk), { once: true }); });
+            bp.hidden = true; if (!ok || meu !== id) return; }
+          else await new Promise(r => setTimeout(r, p.espera || 1800)); }
         if (meu === id) fala.innerHTML = md(R.fim || "Agora é a sua vez: faça o seu! 💪"); };
       box.querySelector(".bit-de-novo").onclick = tocar;
       box.querySelector(".bit-entendi").onclick = () => { id++; box.innerHTML = ""; box.hidden = true; const t = c.querySelector("textarea, input"); if (t) t.focus(); };

@@ -249,3 +249,4 @@ Apostila no portal + ilustrada (PDF só para quem estuda em casa) · guia do pro
 ## 🤖 Bit em qualquer tipo de tarefa (18/11/2026)
 - Toda tarefa com `robo` ganha o botão "🤖 Me ajuda, robô!", **qualquer que seja o tipo**: simulações, jogos, bolha, busca binária etc. Antes, o botão só aparecia em `tabela` e `aberta`. A ligação geral fica em `js/portal.js`, logo depois de `T.render`.
 - **8º ano, Missão 1:** o Bit foi colocado no jogo de adivinhar, na bolha na mão, na busca binária, no método da bolha e no desafio do número secreto. Ele sempre usa um exemplo diferente do pedido, para o aluno nunca receber a resposta pronta.
+- **Bit com pausa (18/11/2026):** um passo do robô pode ter `pausa: "▶ Próxima passada"`. O Bit para e espera o aluno tocar no botão antes de seguir. Usar sempre que a demonstração tiver etapas que o aluno precisa acompanhar uma por vez, como as passadas do método da bolha.
