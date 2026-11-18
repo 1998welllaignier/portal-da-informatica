@@ -42,3 +42,6 @@ _(nenhum: todos os áudios combinados chegaram)_
 - ⭐ Aula especial · Meu papel de parede: `Owm5cWrejQU` (missão `ae` das 4 apostilas de papel de parede, nas 4 playlists).
 
 - 2027 · 7º ano · 1º bim.: M1 `-Y5vRictuKA` (privado, 17/11/2026).
+
+## ⏳ Prontos, ainda não postados
+- 🏠 **Estudo em casa · Como entrar no portal e chegar à apostila** (18/11/2026, 2min18s, narração Murilo): `Estudo-em-casa-como-entrar-2026.mp4`. Sugestão: subir como **privado** e, depois da revisão do professor, ligar na tela 🏠 do estudo em casa e no site (botão "Sou aluno").
