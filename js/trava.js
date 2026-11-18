@@ -100,9 +100,11 @@
       if (ids.length && ids.every(id => (lib.casa || {})[id])) {
         const cd = await this.casaDoc(s), hoje = N().hoje(), ini = (cd.sessoes || {})[hoje], lim = this.casaLimite();
         if (ini && ms > ini + lim) return { aberta: false, casaFim: true, ini, lim };
-        // uma sessão por dia = UMA missão por dia (pedido em 14/11/2026): terminou antes das 2 h, não abre outra missão hoje
-        const doDia = (cd.missaoDia || {})[hoje];
-        if (ini && doDia && mid && mid !== doDia) return { aberta: false, casaOutra: doDia, ini, lim };
+        // 📅 liberação semanal (18/11/2026, substitui o "uma missão por dia" de 14/11): a missão abre na segunda-feira
+        //    da semana sugerida no plano (config/plano_<turma>); as que ficaram para trás continuam abertas e o aluno
+        //    pode fazer mais de uma no mesmo dia para ficar em dia (sempre dentro das 2 horas do dia)
+        if (mid) { const pl = await cfg("plano_" + s.turma), pm = (pl.missoes || []).find(x => x.mid === mid);
+          if (pm && pm.ini && hoje < pm.ini) return { aberta: false, casaFutura: pm.ini, ini, lim }; }
         return { aberta: true, casa: true, ini: ini || 0, lim, videoVisto: !!(mid && (cd.videos || {})[mid]) };
       }
       if ((g.travaHorario || modoAula) && lib.fechadaAte && ms < lib.fechadaAte) return { aberta: false, fechada: true };
