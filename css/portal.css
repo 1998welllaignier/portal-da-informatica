@@ -1934,3 +1934,7 @@ button.tb-av:hover .avatar-svg, button.tb-av:focus-visible .avatar-svg { transfo
 .pp-video-grupo ul { margin: 4px 0 0; padding-left: 1.2em; }
 .pp-vg-tit { margin: 0; } .pp-vg-n { font-size: .8rem; background: #fff; border-radius: 10px; padding: 1px 8px; margin-left: 6px; }
 @media (prefers-color-scheme: dark) { .pp-video-grupo.g0 { background: rgba(80,120,220,.18); } .pp-video-grupo.g1 { background: rgba(140,100,220,.18); } }
+/* 🏫 aluno de outra turma (participa desta aula) e aluno que frequenta outra turma, 18/11/2026 */
+.pp-visit { display: inline-block; font-size: .74rem; font-weight: 700; background: #e7f5ff; color: #1c5d99; border-radius: 12px; padding: 1px 8px; margin-left: 4px; }
+.pp-visit-fora { background: #fff3bf; color: #7a5b00; }
+tr.visit td, li.visit { background: rgba(28, 93, 153, .06); }

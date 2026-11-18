@@ -111,6 +111,12 @@
     const alunos = [...m.values()].filter(a => a.ativo !== false && !a.teste).sort((a, b) => a.nome.localeCompare(b.nome, "pt-BR"));
     return { alunos, turmasProg: [...new Set([t.id, ...alunos.map(a => a.turma)])] };
   }
+  // 🏫 alunos de outras turmas que frequentam a aula desta turma (alunos/{id}.outraTurma = esta turma), 18/11/2026
+  async function visitantesDe(tid) {
+    try { const q = await db().collection("alunos").where("outraTurma", "==", tid).get(); return q.docs.map(d => ({ id: d.id, ...d.data(), visitante: true })).filter(a => a.ativo !== false && !a.teste); } catch (e) { return []; }
+  }
+  const tagVisitante = a => a.visitante ? ` <span class="pp-visit" title="Não é desta turma no sistema: participa da aula daqui">🏫 da turma ${esc(nomeTurma(a.turma))} · participa desta aula</span>` : "";
+  const tagOutra = a => a.outraTurma && !a.visitante ? ` <span class="pp-visit pp-visit-fora" title="Frequenta a aula de outra turma">🏫 frequenta a aula do ${esc(nomeTurma(a.outraTurma))}</span>` : "";
   async function lerProg(turmaIds) { return (await Promise.all(turmaIds.map(id => progressoDaTurma(id)))).flat(); }
   function ouvirProg(turmaIds, cb, onErr) {
     const por = {}; const uns = turmaIds.map(id => db().collection("progresso").where("turma", "==", id).onSnapshot(q => { por[id] = q.docs.map(d => ({ id: d.id, ...d.data() })); cb(Object.values(por).flat()); }, onErr));
@@ -300,9 +306,9 @@
     document.body.appendChild(dlg); dlg.showModal(); dlg.addEventListener("close", () => dlg.remove());
     let lista = [];
     const pintar = () => { const q = normNome(dlg.querySelector("#pc-b").value); const xs = lista.filter(a => !q || normNome(a.nome).includes(q));
-      dlg.querySelector("#pc-l").innerHTML = xs.length ? `<ul class="pp-cod-lista">${xs.map(a => `<li><span>${a.atipico ? "🧩 " : ""}${esc(a.nome)}</span><span class="cod">${esc(a.codigo || "—")}</span></li>`).join("")}</ul>` : `<p class="ajuda">Nenhum aluno encontrado.</p>`; };
+      dlg.querySelector("#pc-l").innerHTML = xs.length ? `<ul class="pp-cod-lista">${xs.map(a => `<li${a.visitante ? ' class="visit"' : ""}><span>${a.atipico ? "🧩 " : ""}${esc(a.nome)}${tagVisitante(a)}${tagOutra(a)}</span><span class="cod">${esc(a.codigo || "—")}</span></li>`).join("")}</ul>` : `<p class="ajuda">Nenhum aluno encontrado.</p>`; };
     const carregarT = async () => { dlg.querySelector("#pc-l").innerHTML = `<p class="ajuda">Carregando…</p>`;
-      try { lista = (await alunosDaTurma(tid)).filter(a => a.ativo !== false && !a.teste); } catch (e) { lista = []; toast("Não foi possível carregar: " + (e.message || e)); } pintar(); };
+      try { const [pr, vi] = await Promise.all([alunosDaTurma(tid), visitantesDe(tid)]); lista = pr.filter(a => a.ativo !== false && !a.teste).concat(vi); } catch (e) { lista = []; toast("Não foi possível carregar: " + (e.message || e)); } pintar(); };
     dlg.querySelector("#pc-t").onchange = e => { tid = e.target.value; carregarT(); };
     dlg.querySelector("#pc-b").oninput = pintar;
     await carregarT(); dlg.querySelector("#pc-b").focus();
@@ -847,7 +853,10 @@
     el.querySelector("#avs").onclick = async () => abrirAvisosAlunos(t, (await alunosDaTurma(t.id)).filter(a => a.ativo !== false && !a.teste));
     const aps = cat().apostilas.filter(a => a.serie === t.serie.id && P.doPeriodo(a) && !a.oculta);
     await Promise.all(cat().apostilas.filter(a => a.serie === t.serie.id && P.doPeriodo(a)).map(a => P.carregarApostila(a.id).catch(() => null)));
-    const [alunos, prog] = await Promise.all([alunosDaTurma(t.id), progressoDaTurma(t.id)]);
+    const [alunos0, prog0, visit] = await Promise.all([alunosDaTurma(t.id), progressoDaTurma(t.id), visitantesDe(t.id)]);
+    // 🏫 quem é de outra turma mas frequenta esta aula aparece no fim, com a etiqueta (o progresso dele vem da turma dele)
+    const progVis = (await Promise.all(visit.map(v => db().collection("progresso").where("alunoId", "==", v.id).get().then(q => q.docs.map(d => ({ id: d.id, ...d.data() }))).catch(() => [])))).flat();
+    const alunos = alunos0.concat(visit), prog = prog0.concat(progVis);
     const pm = {}; prog.forEach(p => { (pm[p.alunoId] = pm[p.alunoId] || []).push(p); });
     const missoes = []; aps.forEach(a => { const C = P.conteudo[a.id]; if (C) C.missoes.filter(m => m.id !== "rc").forEach(m => missoes.push({ aid: a.id, m })); });
     const corpo = el.querySelector("#corpo");
@@ -863,9 +872,9 @@
         return `<td class="pp-c ${p.basicoOk ? "ok" : "meio"} pp-clic" title="${esc(tit)} · clique para ver as respostas" data-ver="${esc(p.id)}" tabindex="0">${p.basicoOk ? "✔" : `${b[0]}/${b[1]}`}${d[1] && d[0] === d[1] ? "⭐" : ""}</td>`;
       };
       const dias = a => { const s = new Set(); (pm[a.id] || []).forEach(p => Object.keys(p.dias || {}).forEach(d => s.add(d))); return s.size; };
-      corpo.innerHTML = `<div class="painel pp-tabela-wrap"><p class="ajuda">✔ Básico concluído · ⭐ Desafio completo · 3/5 = andamento do Básico · — não começou. Passe o mouse para ver os detalhes. <strong>${alunos.filter(a => a.ativo).length}</strong> alunos ativos.</p>
+      corpo.innerHTML = `<div class="painel pp-tabela-wrap"><p class="ajuda">✔ Básico concluído · ⭐ Desafio completo · 3/5 = andamento do Básico · — não começou. Passe o mouse para ver os detalhes. <strong>${alunos.filter(a => a.ativo && !a.visitante).length}</strong> alunos ativos${alunos.some(a => a.visitante) ? ` + <strong>${alunos.filter(a => a.visitante).length}</strong> de outra turma que participam desta aula (🏫)` : ""}.</p>
         <table class="pp-tabela"><thead><tr><th>Aluno</th><th>Código</th><th title="dias em que entrou no portal">Dias</th>${missoes.map(x => `<th title="${esc(x.m.titulo)}">${esc(x.m.icone)}<br><small>${esc(SIG(x.m.id))}</small><br><span class="pp-th-t">${esc(tituloCurto(x.m))}</span></th>`).join("")}<th></th></tr></thead>
-        <tbody>${lista.map(a => `<tr class="${a.ativo ? "" : "inativo"}"><td>${a.atipico ? '<span title="Aluno atípico (tem PEI)">🧩</span> ' : ""}${esc(a.nome)}${a.trilha ? ' <span title="Usa a Trilha Passo a Passo">👣</span>' : ""}${a.emCasa ? ' <span title="Estuda em casa: lançar pela apostila">🏠</span>' : ""}${a.ativo ? "" : " <small>(desativado)</small>"}</td><td class="pp-cod">${esc(a.codigo)}</td><td>${dias(a)}</td>${missoes.map(x => cel(a, x)).join("")}
+        <tbody>${lista.map(a => `<tr class="${a.ativo ? "" : "inativo"}${a.visitante ? " visit" : ""}"><td>${a.atipico ? '<span title="Aluno atípico (tem PEI)">🧩</span> ' : ""}${esc(a.nome)}${tagVisitante(a)}${tagOutra(a)}${a.trilha ? ' <span title="Usa a Trilha Passo a Passo">👣</span>' : ""}${a.emCasa ? ' <span title="Estuda em casa: lançar pela apostila">🏠</span>' : ""}${a.ativo ? "" : " <small>(desativado)</small>"}</td><td class="pp-cod">${esc(a.codigo)}</td><td>${dias(a)}</td>${missoes.map(x => cel(a, x)).join("")}
           <td><button class="btn btn-link btn-peq" data-a="${a.id}" type="button">⚙️</button></td></tr>`).join("")}</tbody></table></div>`;
       corpo.querySelectorAll("[data-a]").forEach(b => b.onclick = () => menuAluno(alunos.find(a => a.id === b.dataset.a)));
       corpo.querySelectorAll("[data-ver]").forEach(td => { const f = () => verRespostas(prog.find(p => p.id === td.dataset.ver)); td.onclick = f; td.onkeydown = e => { if (e.key === "Enter") f(); }; });

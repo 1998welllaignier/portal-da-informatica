@@ -296,7 +296,12 @@
   function ouvirPodio(s) {
     if (!s || !s.nuvem || !P.nuvem || !P.nuvem.app || podioTurma === s.turma) return;
     if (podioUnsub) podioUnsub(); podioTurma = s.turma;
-    try { podioUnsub = P.nuvem.app(0).db.collection("config").doc("podio_" + s.turma).onSnapshot(sn => {
+    // 🏫 18/11/2026: quem frequenta a aula de outra turma também vê o pódio dessa turma (config/liberar_<turma>.outra)
+    const ouvirOutra = async () => { try { const lb = await P.nuvem.app(0).db.collection("config").doc("liberar_" + s.turma).get(); const outras = [...new Set((s.alunoIds || []).map(id => ((lb.exists && lb.data().outra) || {})[id]).filter(Boolean))];
+      outras.forEach(ot => { const u = P.nuvem.app(0).db.collection("config").doc("podio_" + ot).onSnapshot(sn => mostrarPodioDoc(sn, s), () => {}); const u0 = podioUnsub; podioUnsub = () => { u0 && u0(); u(); }; }); } catch (e) {} };
+    try { podioUnsub = P.nuvem.app(0).db.collection("config").doc("podio_" + s.turma).onSnapshot(sn => mostrarPodioDoc(sn, s), () => {}); ouvirOutra(); } catch (e) {}
+  }
+  function mostrarPodioDoc(sn, s) { {
       const d = sn.exists ? sn.data() : null; if (!d || d.dia !== P.nuvem.hoje() || d.finalizadaEm === podioVisto) return;
       const ss = sess.get(); if (!ss || ss.turma !== s.turma) return;
       podioVisto = d.finalizadaEm;
@@ -309,7 +314,7 @@
       document.body.appendChild(dlg); dlg.showModal(); dlg.addEventListener("close", () => dlg.remove());
       // 🎉 confete na tela de todos quando a aula termina
       if (P.podio) { const cf = h(`<div class="conf-tela" aria-hidden="true"></div>`); dlg.appendChild(cf); P.podio.confete(cf, 0); setTimeout(() => cf.remove(), 7000); }
-    }, () => {}); } catch (e) {}
+    }
   }
   // 👑 rei da sala: o painel do professor grava quem está em 1º lugar (config/rei_<turma>); quem é ganha a coroinha na barra de cima
   let reiUnsub = null, reiTurma = null, reiEu = null, minhaPos = null, esperaPos = 0, bolha = null, bolhaTo = null;
