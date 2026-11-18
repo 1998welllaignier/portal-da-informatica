@@ -618,9 +618,10 @@
     const ag = new Date(), min = ag.getHours() * 60 + ag.getMinutes(), dur = cat().duracaoAula || 75;
     return turmas.filter(t => t.aula && t.aula.dia === ag.getDay() && t.aula.ini).find(t => { const [h, m] = t.aula.ini.split(":").map(Number); const i = h * 60 + m; return min >= i - 15 && min < i + dur; }) || null;
   }
+  const casaLivreAtivo = a => !!a.casaLivre && String(a.casaLivre) === String(new Date().getFullYear());
   async function sincronizarCasa(t, alunos) {
-    const casa = {}; alunos.filter(a => a.emCasa && a.ativo !== false).forEach(a => { casa[a.id] = true; });
-    await db().collection("config").doc("liberar_" + t.id).set({ casa }, { merge: true });
+    const casa = {}, casaLivre = {}; alunos.filter(a => a.emCasa && a.ativo !== false).forEach(a => { casa[a.id] = true; if (a.casaLivre) casaLivre[a.id] = a.casaLivre; });
+    await db().collection("config").doc("liberar_" + t.id).set({ casa, casaLivre }, { merge: true });
     return Object.keys(casa).length;
   }
   async function iniciarAula(u, op = {}) {
@@ -874,7 +875,7 @@
       const dias = a => { const s = new Set(); (pm[a.id] || []).forEach(p => Object.keys(p.dias || {}).forEach(d => s.add(d))); return s.size; };
       corpo.innerHTML = `<div class="painel pp-tabela-wrap"><p class="ajuda">✔ Básico concluído · ⭐ Desafio completo · 3/5 = andamento do Básico · — não começou. Passe o mouse para ver os detalhes. <strong>${alunos.filter(a => a.ativo && !a.visitante).length}</strong> alunos ativos${alunos.some(a => a.visitante) ? ` + <strong>${alunos.filter(a => a.visitante).length}</strong> de outra turma que participam desta aula (🏫)` : ""}.</p>
         <table class="pp-tabela"><thead><tr><th>Aluno</th><th>Código</th><th title="dias em que entrou no portal">Dias</th>${missoes.map(x => `<th title="${esc(x.m.titulo)}">${esc(x.m.icone)}<br><small>${esc(SIG(x.m.id))}</small><br><span class="pp-th-t">${esc(tituloCurto(x.m))}</span></th>`).join("")}<th></th></tr></thead>
-        <tbody>${lista.map(a => `<tr class="${a.ativo ? "" : "inativo"}${a.visitante ? " visit" : ""}"><td>${a.atipico ? '<span title="Aluno atípico (tem PEI)">🧩</span> ' : ""}${esc(a.nome)}${tagVisitante(a)}${tagOutra(a)}${a.trilha ? ' <span title="Usa a Trilha Passo a Passo">👣</span>' : ""}${a.emCasa ? ' <span title="Estuda em casa: lançar pela apostila">🏠</span>' : ""}${a.ativo ? "" : " <small>(desativado)</small>"}</td><td class="pp-cod">${esc(a.codigo)}</td><td>${dias(a)}</td>${missoes.map(x => cel(a, x)).join("")}
+        <tbody>${lista.map(a => `<tr class="${a.ativo ? "" : "inativo"}${a.visitante ? " visit" : ""}"><td>${a.atipico ? '<span title="Aluno atípico (tem PEI)">🧩</span> ' : ""}${esc(a.nome)}${tagVisitante(a)}${tagOutra(a)}${a.trilha ? ' <span title="Usa a Trilha Passo a Passo">👣</span>' : ""}${a.emCasa ? ' <span title="Estuda em casa: lançar pela apostila">🏠</span>' : ""}${a.emCasa && casaLivreAtivo(a) ? ' <span title="Todas as missões abertas, uma por dia (liberação semanal desligada neste ano)">🚀</span>' : ""}${a.ativo ? "" : " <small>(desativado)</small>"}</td><td class="pp-cod">${esc(a.codigo)}</td><td>${dias(a)}</td>${missoes.map(x => cel(a, x)).join("")}
           <td><button class="btn btn-link btn-peq" data-a="${a.id}" type="button">⚙️</button></td></tr>`).join("")}</tbody></table></div>`;
       corpo.querySelectorAll("[data-a]").forEach(b => b.onclick = () => menuAluno(alunos.find(a => a.id === b.dataset.a)));
       corpo.querySelectorAll("[data-ver]").forEach(td => { const f = () => verRespostas(prog.find(p => p.id === td.dataset.ver)); td.onclick = f; td.onkeydown = e => { if (e.key === "Enter") f(); }; });
@@ -906,7 +907,7 @@
     }
 
     function menuAluno(a) {
-      const dlg = h(`<dialog class="pp-dlg"><form method="dialog"><h2>${a.atipico ? "🧩 " : ""}${a.teste ? "🧪 " : ""}${a.emCasa ? "🏠 " : ""}${esc(a.nome)}</h2>${a.emCasa ? `<p class="pp-casa">🏠 <strong>Estuda em casa</strong>${a.emCasaObs ? ": " + esc(a.emCasaObs) : ""}. Lance pelo 📒 Diário (J na presença; Básico e ★ conferindo a apostila).</p>` : ""}<p>${esc(nomeTurma(a.turma))} · código <strong>${esc(a.codigo)}</strong> · ${a.ativo ? "ativo" : "desativado"}${a.outraTurma ? ` · também frequenta a aula do ${esc(nomeTurma(a.outraTurma))}` : ""}</p>
+      const dlg = h(`<dialog class="pp-dlg"><form method="dialog"><h2>${a.atipico ? "🧩 " : ""}${a.teste ? "🧪 " : ""}${a.emCasa ? "🏠 " : ""}${esc(a.nome)}</h2>${a.emCasa ? `<p class="pp-casa">🏠 <strong>Estuda em casa</strong>${a.emCasaObs ? ": " + esc(a.emCasaObs) : ""}${casaLivreAtivo(a) ? " · 🚀 todas as missões abertas, uma por dia (neste ano)" : ""}. Lance pelo 📒 Diário (J na presença; Básico e ★ conferindo a apostila).</p>` : ""}<p>${esc(nomeTurma(a.turma))} · código <strong>${esc(a.codigo)}</strong> · ${a.ativo ? "ativo" : "desativado"}${a.outraTurma ? ` · também frequenta a aula do ${esc(nomeTurma(a.outraTurma))}` : ""}</p>
         <div class="pp-dlg-btns">
           <a class="btn" href="#/painel/relatorio/${esc(a.id)}">📄 Relatório do aluno (PDF)</a>
           <button class="btn btn-sec" value="cod" type="button" data-x="cod">🔑 Gerar novo código</button>
@@ -916,6 +917,7 @@
           ${a.atipico ? `<button class="btn btn-sec" type="button" data-x="apoio">📝 Apoios na aula (só você vê)</button>` : ""}
           <button class="btn btn-sec" type="button" data-x="trilha">${a.trilha ? "👣 Tirar a Trilha Passo a Passo" : "👣 Usar a Trilha Passo a Passo (apostila diferenciada)"}</button>
           <button class="btn btn-sec" type="button" data-x="casa">${a.emCasa ? "🏠 Tirar “estuda em casa”" : "🏠 Marcar: estuda em casa (entrega a apostila)"}</button>
+          ${a.emCasa ? `<button class="btn btn-sec" type="button" data-x="casalivre">${casaLivreAtivo(a) ? "📅 Voltar à liberação semanal (uma missão nova por semana)" : "🚀 Abrir todas as missões já, uma por dia (começou com o bimestre quase no fim)"}</button>` : ""}
           <button class="btn btn-sec" type="button" data-x="teste">${a.teste ? "🧪 Voltar a ser aluno comum" : "🧪 Marcar como aluno de teste (não conta na presença, no diário, nas notas e nos relatórios)"}</button>
           <button class="btn btn-sec" type="button" data-x="libera">🔓 Liberar as tarefas fora do horário (só este aluno)</button>
           <button class="btn btn-sec" type="button" data-x="avatar">🧍 Deixar montar o avatar de novo (salvou sem querer)</button>
@@ -947,11 +949,19 @@
             await P.aviso(a.trilha ? `${a.nome} volta a usar a apostila da turma.` : `Pronto! Quando ${a.nome} digitar o código, o portal abre direto a Trilha Passo a Passo.`);
           }
           if (x === "casa") {
-            if (a.emCasa) await db().collection("alunos").doc(a.id).update({ emCasa: false, emCasaObs: "" });
+            if (a.emCasa) { await db().collection("alunos").doc(a.id).update({ emCasa: false, emCasaObs: "", casaLivre: "" }); await db().collection("config").doc("liberar_" + a.turma).set({ casaLivre: { [a.id]: "" } }, { merge: true }); }
             else { const o = await P.perguntar("Observação (opcional). Ex.: entrega a apostila impressa; vem só para a prova.", ""); if (o === null) return; await db().collection("alunos").doc(a.id).update({ emCasa: true, emCasaObs: o.trim() }); }
             // 🏠 quem estuda em casa fica sem trava (o portal do aluno lê config/liberar_<turma>.casa)
             await db().collection("config").doc("liberar_" + a.turma).set({ casa: { [a.id]: !a.emCasa } }, { merge: true });
             if (!a.emCasa) { const tt = todasTurmas().find(x => x.id === a.turma); if (tt) gravarPlanoCasa(tt).catch(e => console.warn("plano casa", e)); }
+          }
+          if (x === "casalivre") {
+            // 🚀 18/11/2026: desliga a liberação semanal só para este aluno, só neste ano; fica a regra de uma missão por dia
+            const ativo = casaLivreAtivo(a), ano = String(new Date().getFullYear());
+            if (!ativo && !await P.confirmar(`Abrir todas as missões para ${a.nome}, com a regra de uma missão por dia?\n\nUse para quem começou o estudo em casa com o bimestre quase no fim. Vale só em ${ano}: no próximo ano, volta sozinha a liberação semanal. O aluno vê um aviso explicando isso quando entrar.`)) return;
+            await db().collection("alunos").doc(a.id).update({ casaLivre: ativo ? "" : ano });
+            await db().collection("config").doc("liberar_" + a.turma).set({ casaLivre: { [a.id]: ativo ? "" : ano } }, { merge: true });
+            await P.aviso(ativo ? `${a.nome} volta à liberação semanal: abre uma missão nova por semana.` : `Pronto! Todas as missões estão abertas para ${a.nome}, uma por dia, até o fim de ${ano}. Na próxima vez que entrar, ${a.nome} vê o aviso.`);
           }
           if (x === "teste") { await db().collection("alunos").doc(a.id).update({ teste: !a.teste }); }
           if (x === "libera") {

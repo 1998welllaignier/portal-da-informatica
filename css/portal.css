@@ -1974,3 +1974,7 @@ tr.visit td, li.visit { background: rgba(28, 93, 153, .06); }
 .vc-modal-video { flex: 1; display: grid; place-items: center; padding: 0 0 max(10px, env(safe-area-inset-bottom)); min-height: 0; }
 .vc-modal-video iframe { width: min(100vw, calc((100dvh - 70px) * 16 / 9)); aspect-ratio: 16 / 9; border: 0; display: block; }
 body.vc-aberto { overflow: hidden; }
+
+/* 🚀 estudo em casa com todas as missões abertas (uma por dia), 18/11/2026 */
+.casa-livre { border-left: 6px solid #f59e0b; background: var(--aviso-bg); }
+.casa-livre h2 { margin-top: 0; }
