@@ -113,6 +113,12 @@ o portal troca a apostila da turma pela Trilha Passo a Passo da série (catálog
 - Cada aba do painel tem o quadro ❓ "Para que serve e como usar" (`AJUDA` em `js/painel.js`): ao mudar uma aba,
   atualize o texto dela.
 
+### 📡 Sala ao vivo (`js/sala.js`, 18/11/2026)
+- Aba 🎤 Aula do painel: **📺 vídeo em sincronia** (YouTube, o player do professor comanda) e **🖥️ espelhar a tela** (WebRTC).
+- `config/sala_<turma>` (professor grava): `modo` ("video"/"espelho"/null), `dia`, `sessao`, `vid`, `estado`, `pos`, `emMs` (hora do servidor), `vivoEm`, `respostas.<alunoId>` (SDP).
+  `progresso/<alunoId>_sala` (aluno grava; usa a regra que já existe): `tipo:"sala"`, `sala` (turma da aula), `dia`, `sessao`, `em`, `fora`, `saidas`, `oferta` (SDP). **Não precisou mudar as regras do Firebase.**
+- Aluno: barra vermelha em cima, tela cheia travada, bloqueio ao sair da tela cheia (o professor vê em ⚠️). A 🖥️ Tela cheia obrigatória (`portal.js`) se cala enquanto a sala ao vivo está aberta.
+
 ### 🎬 Modo apresentação (`js/apresentacao.js`, rota `#/apresentar/<apostila>/<missão>`)
 - Botão "🎬 Apresentar" na aba 🎤 Aula (abre numa aba nova, para projetar). Slides gerados sozinhos do conteúdo:
   capa → Para começar (texto, tabelas viram cartões, listas) → **depois de cada explicação, o desenho dela**

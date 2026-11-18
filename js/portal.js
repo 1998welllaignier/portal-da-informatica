@@ -378,7 +378,7 @@
   let telaUnsub = null, telaTurma = null, telaOn = false, tcCasa = false, telaDlg = null, telaIv = null;
   const emTelaCheia = () => !!document.fullscreenElement || (Math.abs(innerHeight - screen.height) < 6 && Math.abs(innerWidth - screen.width) < 6);
   function checarTela() {
-    const s = sess.get(), deve = telaOn && !tcCasa && s && s.nuvem && !/^#\/painel/.test(location.hash) && !emTelaCheia();
+    const s = sess.get(), deve = telaOn && !tcCasa && s && s.nuvem && !/^#\/painel/.test(location.hash) && !emTelaCheia() && !(P.sala && P.sala.ativa());   // 📡 a transmissão ao vivo tem o próprio bloqueio
     if (!deve) { if (telaDlg && telaDlg.open) telaDlg.close(); return; }
     if (!telaDlg) {
       telaDlg = h(`<dialog class="tela-cheia-dlg" aria-labelledby="tc-h"><div class="tc-ic">🖥️</div><h2 id="tc-h">Aula em TELA CHEIA</h2>
@@ -415,6 +415,7 @@
   function relogioAula() {
     try { ouvirPodio(sess.get()); } catch (e) {}
     try { ouvirTela(sess.get()); } catch (e) {}
+    try { P.sala && P.sala.ouvir(sess.get()); } catch (e) {}
     try { ouvirRei(sess.get()); } catch (e) {}
     clearInterval(relogioIv);
     const tick = () => {

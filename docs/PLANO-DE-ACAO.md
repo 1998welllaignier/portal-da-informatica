@@ -200,6 +200,7 @@ Para decidir com o professor no salão. Cada item: manter, juntar ou desligar.
 - Durante o bimestre: presença, vistos e boletim automáticos; o professor confere o painel, faz o registro da aula e pede o vídeo da missão na semana da aula.
 
 ## 🚀 Modernização contínua (diretriz de 17/11/2026)
+- ✅ **18/11:** 📡 Sala ao vivo (vídeo em sincronia + espelhar a tela, `js/sala.js`). **Falta:** teste real na sala de informática (rede das baias, tela cheia nos Windows 10/11, espelho com 19 alunos).
 - Em cada missão (2026 e 2027), trocar o que for menos moderno por simuladores e recursos interativos, que passam a ser obrigatórios. Primeiro caso: 7º M1 (🔌 simulador do cabo de rede).
 - Ao revisar cada bimestre, fazer a análise "o que é menos moderno aqui?" e propor as trocas ao professor.
 
