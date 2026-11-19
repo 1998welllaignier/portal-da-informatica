@@ -1060,12 +1060,12 @@
   }
 
   /* 📋 folha da turma inteira, pensada para a impressora monocromática da sala: só preto, sem fundos;
-     o endereço do portal em letra grande no topo de cada página; cabe em 1 folha (até 46 alunos);
+     o endereço da página inicial (professorwell.com.br) em letra grande no topo de cada página, com o caminho até o código; cabe em 1 folha (até 46 alunos);
      passou disso, vai para o verso, com o endereço repetido no topo */
   function imprimirFolhaTurma(t, alunos) {
     const w = window.open("", "_blank");
     if (!w) return P.aviso("Permita pop-ups para imprimir a folha da turma.");
-    const site = location.host || "portal.professorwell.com.br";
+    const site = "professorwell.com.br"; // página inicial: o aluno aprende o caminho (Sou aluno: entrar → série → turma → código), a pedido do professor (19/11/2026)
     const lista = alunos.slice().sort((a, b) => normNome(a.nome).localeCompare(normNome(b.nome)));
     const POR_PAG = 50, pags = [];
     for (let i = 0; i < lista.length; i += POR_PAG) pags.push(lista.slice(i, i + POR_PAG));
@@ -1075,7 +1075,7 @@
         const tab = (xs, ini) => `<table><tr><th class="nn">Nº</th><th>Aluno</th><th class="cc">Código</th></tr>${xs.map((a, i) => `<tr><td class="nn">${ini + i + 1}</td><td>${esc(a.nome)}</td><td class="cc">${esc(a.codigo || "—")}</td></tr>`).join("")}</table>`;
     const pagina = (xs, k) => { const meio = Math.ceil(xs.length / 2), ini = k * POR_PAG;
       return `<section class="pg"><div class="serie">${esc(serieTxt)}</div>${aulaTxt ? `<div class="aula">${esc(aulaTxt)}</div>` : ""}<header><div class="r">1. Abra o navegador e digite o endereço:</div><div class="site">${esc(site)}</div>
-        <div class="r">2. Escolha a sua turma e digite o <b>seu</b> código.</div></header>
+        <div class="r">2. Clique em <b>Sou aluno: entrar</b> e depois na sua série e na sua turma (<b>${esc(nomeTurma(t.id))}</b>).</div><div class="r">3. Digite o <b>seu</b> código (está ao lado do seu nome).</div></header>
         <div class="tt">${esc(cat().portal)} · ${esc(cat().professor)}${pags.length > 1 ? ` · ${k === 0 ? "frente" : "verso"} (${k + 1}/${pags.length})` : ""}</div>
         <div class="cols">${tab(xs.slice(0, meio), ini)}${xs.length > 1 ? tab(xs.slice(meio), ini + meio) : ""}</div>
         <p class="pe">Procure o seu nome na lista e digite o código que está ao lado dele.</p></section>`; };
@@ -1087,7 +1087,7 @@
       .r{font-size:12.5pt}.site{font-size:30pt;font-weight:900;letter-spacing:.5pt;margin:1mm 0 1.5mm;font-family:"Courier New",monospace}
       .tt{font-size:12pt;margin:0 0 3mm;text-align:center}.cols{display:flex;gap:5mm;align-items:flex-start}
       table{flex:1;border-collapse:collapse;font-size:var(--fs)}th,td{border:1.2px solid #000;padding:calc(var(--fs) * .2) 2mm;text-align:left}
-      th{font-size:calc(var(--fs) * .8);text-transform:uppercase}.nn{width:9mm;text-align:center}.cc{font-family:"Courier New",monospace;font-weight:900;font-size:calc(var(--fs) * 1.2);letter-spacing:1.5pt;text-align:center;white-space:nowrap}
+      th{font-size:calc(var(--fs) * .8);text-transform:uppercase}.nn{width:9mm;text-align:center}.cc{font-family:"Courier New",monospace;font-weight:900;font-size:calc(var(--fs) * 1.2);letter-spacing:1.5pt;text-align:center;white-space:nowrap;width:1%}th.cc{font-size:calc(var(--fs) * .75);letter-spacing:0;font-family:Arial,sans-serif}
       .pe{font-size:10.5pt;text-align:center;margin-top:3mm}.x{font-family:Arial,sans-serif;margin:4mm;padding:3mm;border:1px solid #999}
       @media print{.x{display:none}}</style></head><body>
       <p class="x"><button onclick="print()">🖨️ Imprimir</button> Folha da turma inteira, em preto e branco${pags.length > 1 ? ". Tem frente e verso: imprima a 1ª página, vire a folha e imprima a 2ª" : ", numa folha só"}.</p>
