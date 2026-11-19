@@ -1117,7 +1117,7 @@
     if (!st.ini && !st.status) st.ini = Date.now();   // 📄 relatório do aluno (18/11/2026): hora em que a tarefa apareceu para ele pela 1ª vez
     const s = sess.get();
     const auto = typeof T.auto === "function" ? T.auto(at) : T.auto;
-    const corr = at.professor ? "👨‍🏫 o professor confere" : auto ? "✔ correção automática" : "👨‍🏫 o professor confere";
+    const corr = at.tipo === "vivi" ? "💬 sem certo nem errado" : at.professor ? "👨‍🏫 o professor confere" : auto ? "✔ correção automática" : "👨‍🏫 o professor confere";
     const vez = s && s.modo === "dupla" && ["basico", "desafio", "turbo"].includes(at.nivel) ? `<span class="vez">🎮 Vez de: <strong>${esc(curto(s, i % 2))}</strong> (o outro ajuda)</span>` : "";
     const el = h(`<section class="atv nivel-${at.nivel}" id="atv-${at.id}" aria-labelledby="t-${at.id}">
       <header class="atv-cab"><span class="atv-nivel">${(NIVEL[at.nivel] || ["", ""])[0]} ${(NIVEL[at.nivel] || ["", ""])[1]}</span>
