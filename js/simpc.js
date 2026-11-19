@@ -38,6 +38,7 @@
   const esc = s => P.util.esc(String(s == null ? "" : s));
 
   /* ---------- aparência (uma vez só) ---------- */
+  addEventListener("hashchange", () => document.body.classList.remove("sp-travado")); // saiu da página: a rolagem volta
   if (!document.getElementById("simpc-css")) {
     const st = document.createElement("style"); st.id = "simpc-css";
     st.textContent = `
@@ -52,6 +53,13 @@
 .sp-bts{display:flex;flex-direction:column;gap:6px;flex:none}.sp-bts button{background:#facc15;color:#0f172a;border:0;border-radius:10px;padding:7px 12px;font-weight:700;cursor:pointer;font-size:.9rem}
 .sp-bts button.sec{background:rgba(255,255,255,.15);color:#fff}
 .sp-prog{display:flex;gap:4px;margin-top:8px}.sp-prog i{flex:1;height:6px;border-radius:3px;background:rgba(255,255,255,.2)}.sp-prog i.ok{background:#4ade80}.sp-prog i.at{background:#facc15}
+.sp.sp-foco{position:fixed;inset:0;z-index:9000;background:#0b1220;padding:10px 14px;display:flex;flex-direction:column;overflow:hidden}
+.sp.sp-foco .sp-guia{margin:0 0 8px;flex:none;align-items:center}.sp.sp-foco .sp-bts{flex-direction:row;flex-wrap:wrap;justify-content:flex-end;max-width:46%}
+.sp.sp-foco .sp-moldura{flex:none;margin:0 auto;width:min(100%,calc((100vh - var(--sp-gh,150px) - 26px) * 1.6667))}
+body.sp-travado{overflow:hidden}
+.sp-iniciar{position:absolute;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;background:rgba(6,20,50,.55);cursor:pointer}
+.sp-iniciar button{background:#facc15;color:#0f172a;border:0;border-radius:14px;padding:16px 26px;font-size:1.25rem;font-weight:800;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,.35)}
+.sp-iniciar small{display:block;font-size:.85rem;font-weight:600;margin-top:4px}
 .sp-moldura{width:100%;position:relative;overflow:hidden;border-radius:10px;box-shadow:0 4px 18px rgba(0,0,0,.25);background:#000;user-select:none;touch-action:none}
 .sp-tela{position:absolute;left:0;top:0;width:1000px;height:600px;transform-origin:0 0;overflow:hidden;font-size:13px;color:#111;cursor:default}
 .sp10 .sp-tela{background:radial-gradient(ellipse at 65% 40%,#5ab4ff 0,#1a6fd1 30%,#0b3a8c 60%,#06204f 100%)}
@@ -226,7 +234,8 @@
       }
       function acertou() {
         erros = 0; tAcerto = Date.now(); const p = pAtual(); st.passo++; ctx.salvar(); falar(p.msgOk || elogio(), "ok", true);
-        if (st.passo >= passos.length) { ctx.concluir("certo", at.fimMsg || `Você fez todos os ${passos.length} passos sozinho(a)! 🎉`); desenharGuia(); setTimeout(mostrarFim, 400); }
+        if (st.passo >= passos.length) { ctx.concluir("certo", at.fimMsg || `Você fez todos os ${passos.length} passos sozinho(a)! 🎉`); desenharGuia(); setTimeout(mostrarFim, 400);
+          setTimeout(() => { if (SP.classList.contains("sp-foco")) foco(false); }, 3200); } // ⛶ terminou: sai da tela cheia depois do troféu
         else setTimeout(() => desenharGuia(), 50);
       }
       const ELOG = ["Isso! 👏", "Mandou bem! ⭐", "Perfeito! ✅", "Muito bem! 🎉", "Show! 💪", "Acertou! 🌟"];
@@ -234,10 +243,24 @@
       function errou(msg) { if (Date.now() - tAcerto < 450) return; erros++; st.erros = (st.erros || 0) + 1; ctx.salvar(); falar(msg + (erros >= 2 ? ` <br><small>Toque em <b>💡 Mostre onde</b> que eu aponto para você.</small>` : ""), "erro"); if (erros >= 3) mostrarOnde(); }
       /* ---------- desenho ---------- */
       c.innerHTML = `<div class="sp"><div class="sp-guia"><div class="sp-bit" aria-hidden="true">🤖</div><div class="sp-fala"><div class="q"></div><div class="f"></div><div class="r" aria-live="polite"></div><div class="sp-prog"></div></div>
-        <div class="sp-bts"><button type="button" class="onde">💡 Mostre onde</button><button type="button" class="sec rec">↺ Recomeçar</button></div></div>
-        <div class="sp-moldura sp${st.so}"><div class="sp-tela" tabindex="0"></div></div></div>`;
+        <div class="sp-bts"><button type="button" class="onde">💡 Mostre onde</button><button type="button" class="sec rec">↺ Recomeçar</button><button type="button" class="sec foco">⛶ Tela cheia</button></div></div>
+        <div class="sp-moldura sp${st.so}"><div class="sp-tela" tabindex="0"></div>${st.status ? "" : `<div class="sp-iniciar"><button type="button">▶ Começar o simulador<small>abre em tela cheia</small></button></div>`}</div></div>`;
       const G = c.querySelector(".sp-guia"), bit = G.querySelector(".sp-bit"), q = G.querySelector(".q"), fEl = G.querySelector(".f"), rEl = G.querySelector(".r"), prog = G.querySelector(".sp-prog");
       const mold = c.querySelector(".sp-moldura"), tela = c.querySelector(".sp-tela");
+      /* ⛶ modo tela cheia (19/11/2026, pedido do professor): enquanto o aluno faz o simulador, ele ocupa a tela inteira,
+         com a letra maior e sem rolar a página; ao terminar todos os passos, volta sozinho ao tamanho normal */
+      const SP = c.querySelector(".sp"), bFoco = G.querySelector(".foco");
+      const ajustarGuia = () => { if (SP.classList.contains("sp-foco")) SP.style.setProperty("--sp-gh", G.offsetHeight + "px"); };
+      function foco(on) {
+        c.__spFoco = !!on; SP.classList.toggle("sp-foco", !!on); document.body.classList.toggle("sp-travado", !!on);
+        bFoco.textContent = on ? "✕ Sair da tela cheia" : "⛶ Tela cheia";
+        const ini = c.querySelector(".sp-iniciar"); if (on && ini) ini.remove();
+        ajustarGuia(); requestAnimationFrame(() => { K = esc2(); ajustarGuia(); K = esc2(); });
+        if (!on) setTimeout(() => c.scrollIntoView({ block: "center", behavior: "smooth" }), 60); else tela.focus();
+      }
+      bFoco.onclick = () => foco(!SP.classList.contains("sp-foco"));
+      { const ini = c.querySelector(".sp-iniciar"); if (ini) ini.onclick = e => { e.stopPropagation(); foco(true); }; }
+      addEventListener("resize", ajustarGuia);
       G.querySelector(".onde").onclick = () => { st.dicas = (st.dicas || 0); mostrarOnde(true); };
       G.querySelector(".rec").onclick = async () => { if (!await P.confirmar("Recomeçar do primeiro passo?", "Sim, recomeçar")) return; st.passo = 0; st.erros = 0; delete st.status; ctx.salvar(); ctx.reRender(); };
       function falar(html, tipo, anima) { rEl.className = "r " + (tipo || ""); rEl.innerHTML = html; bit.className = "sp-bit " + (tipo === "ok" ? "feliz" : tipo === "erro" ? "triste" : ""); void bit.offsetWidth; bit.textContent = tipo === "erro" ? "🤔" : tipo === "ok" ? "😄" : "🤖"; }
@@ -259,6 +282,7 @@
       // escala: a tela tem 1000×600 e encolhe para caber
       const esc2 = () => { const k = mold.clientWidth / 1000; tela.style.transform = `scale(${k})`; mold.style.height = (600 * k) + "px"; return k; };
       let K = 1; const ro = new ResizeObserver(() => { K = esc2(); }); ro.observe(mold); K = esc2();
+      if (c.__spFoco && !st.status) setTimeout(() => foco(true), 0); // ↺ Recomeçar: continua em tela cheia
       const xy = e => { const r = tela.getBoundingClientRect(); return [(e.clientX - r.left) / K, (e.clientY - r.top) / K]; };
 
       const nomeArq = f => f.tipo === "pasta" ? f.nome : f.nome + (S.ext && f.ext ? "." + f.ext : "");
