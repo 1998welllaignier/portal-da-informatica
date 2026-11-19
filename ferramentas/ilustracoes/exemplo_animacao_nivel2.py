@@ -4,7 +4,7 @@ Uso: python3 exemplo_animacao_nivel2.py <pasta de saída>"""
 import sys, os, math, json
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from biblioteca import COR, cena_svg, g
-from personagem_nivel2 import bia_n2, OMBRO
+from personagem_nivel2 import bia_n2, OMBRO, REPOUSO, BRACO, ANTEBRACO
 
 X, Y, S = 220, 470, 1.55
 def fundo():
@@ -19,8 +19,8 @@ def quadro(om, co, mao, olhos, inc, boca, sobe, fala=False, rig=False):
         ox, oy = OMBRO
         def gira(px, py, cx, cy, ang):
             r = math.radians(ang); return cx + (px - cx) * math.cos(r) - (py - cy) * math.sin(r), cy + (px - cx) * math.sin(r) + (py - cy) * math.cos(r)
-        ex, ey = gira(ox + 4, oy + 40, ox, oy, om)
-        px, py = gira(ox + 6, oy + 74, ox, oy, om); px, py = gira(px, py, ex, ey, co)
+        ex, ey = gira(ox, oy + BRACO, ox, oy, om + REPOUSO)
+        px, py = gira(ox, oy + BRACO + ANTEBRACO, ox, oy, om + REPOUSO); px, py = gira(px, py, ex, ey, co)
         pin = lambda x, y, t, dx=14: (f'<circle cx="{X + x*S}" cy="{Y + y*S}" r="8" fill="#fff" stroke="{COR["vermelho"]}" stroke-width="4"/>'
                                      f'<text x="{X + x*S + dx}" y="{Y + y*S + 5}" font-size="15" font-weight="800" fill="{COR["vermelho"]}">{t}</text>')
         c += pin(ox, oy, "1 ombro") + pin(ex, ey, "2 cotovelo") + pin(px, py, "3 punho") + pin(0, -166, "4 pescoço", -100)

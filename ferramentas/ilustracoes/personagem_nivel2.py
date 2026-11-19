@@ -17,7 +17,7 @@ CAB, CAB_L = P["cabelo"], "#5a3a2a"
 CAM, CAM_S = P["camisa"], escurecer(P["camisa"], .84)
 JEANS, JEANS_S = "#3a5bd9", escurecer("#3a5bd9", .8)
 
-OMBRO = (34, -150)
+
 
 def _pernas():
     o = []
@@ -33,31 +33,58 @@ def _pernas():
     o.append(f'<path d="M-30 -96 L-28 -80 H30 L32 -96 Z" {L(JEANS)}/><rect x="-32" y="-96" width="64" height="7" rx="2" {L("#6b4a2b", 2)}/><rect x="-5" y="-97" width="10" height="9" rx="2" {L("#ffd34d", 1.6)}/>')
     return "".join(o)
 
-def _braco_esquerdo():  # de quem olha: parado ao lado do corpo
-    return (f'<path d="M-34 -150 q-12 22 -12 46 q0 14 4 22 l12 -2 q-4 -10 -2 -20 q2 -18 10 -36 Z" {L(PELE)}/>'
-            f'<path d="M-46 -84 q-4 10 4 14 q10 2 12 -6 q0 -8 -6 -10 Z" {L(PELE, 2.4)}/><path d="M-32 -78 q4 -2 4 -8" {li(1.4)}/>')
-
 def _tronco():
-    o = [f'<path d="M-30 -158 q30 -12 60 0 q8 6 6 16 L32 -92 q-32 6 -64 0 L-30 -136 l-6 6 l-10 -10 Z" {L(CAM)}/>',
+    o = [f'<path d="M-30 -158 q30 -12 60 0 q8 6 6 16 L32 -92 q-32 6 -64 0 L-36 -142 q-2 -10 6 -16 Z" {L(CAM)}/>',
          f'<path d="M14 -154 q14 2 18 6 q4 6 2 12 L32 -94 q-8 2 -14 2 Q22 -120 14 -154 Z" fill="{CAM_S}"/>',
-         f'<path d="M-36 -130 l6 -6" {li(1.6)}/>',
          f'<path d="M-12 -160 q12 10 24 0" {L("#ffffff", 2.2)}/><path d="M-10 -158 q10 7 20 0" {li(1.2, "#c9c9c9")}/>',
          f'<path d="M-18 -104 q8 4 14 0 M8 -110 q6 4 12 1" {li(1.4, CAM_S)}/>',
          f'<circle cx="-4" cy="-128" r="12" {L("#ffffff", 2)}/><path d="M-8 -136 v15 l4 -4 l3 6 l3 -1 l-3 -6 h6 Z" {L(T, 1)}/>',
          f'<path d="M-9 -170 L-8 -154 q8 4 16 0 L9 -170 Z" {L(PELE)}/><path d="M-8 -166 q8 6 16 0 L9 -170 H-9 Z" fill="{PELE_S}"/>']
     return "".join(o)
 
-def _braco_direito(ombro, cotovelo, mao):
-    """Desenhado pendurado (apontando para baixo); as 3 articulações giram: ombro, cotovelo e punho."""
-    ox, oy = OMBRO; ex, ey = ox + 4, oy + 40; px, py = ex + 2, ey + 34
-    manga = f'<path d="M{ox - 10} {oy - 6} q14 -8 22 4 l-4 18 q-10 4 -18 -2 Z" {L(CAM)}/><path d="M{ox - 8} {oy + 14} q9 4 16 -1" {li(1.6)}/>'
-    braco = f'<path d="M{ox - 7} {oy + 6} L{ex - 6} {ey} L{ex + 7} {ey} L{ox + 9} {oy + 6} Z" {L(PELE)}/>'
-    ante = f'<path d="M{ex - 6} {ey - 2} L{px - 5} {py} L{px + 6} {py} L{ex + 7} {ey - 2} Z" {L(PELE)}/><circle cx="{ex + .5}" cy="{ey}" r="6.6" fill="{PELE}"/>'
-    # mão aberta: palma + 4 dedos + polegar (apontando para baixo antes de girar)
-    m = (f'<path d="M{px - 8} {py - 2} q-2 10 0 16 l1 12 q2 3 4 0 l0 -9 l2 12 q2 3 4 0 l0 -12 l2 11 q2 3 4 0 l0 -11 l1 8 q2 3 4 0 l-1 -14 q2 -8 -2 -13 Z" {L(PELE, 2.4)}/>'
-         f'<path d="M{px - 8} {py + 6} q-8 2 -9 9 q2 3 5 1 q2 -5 6 -4" {L(PELE, 2.2)}/>')
-    return (f'<g transform="rotate({ombro} {ox} {oy})">{braco}'
-            f'<g transform="rotate({cotovelo} {ex} {ey})">{ante}<g transform="rotate({mao} {px} {py})">{m}</g></g>{manga}</g>')
+# Braços: os DOIS usam a mesma peça (mesmas medidas), um é o espelho do outro.
+# Medidas a partir do ombro: braço 36, antebraço 30, mão ~20 (ponta dos dedos a ~86 do ombro).
+REPOUSO = -7          # braço solto ao lado do corpo, levemente afastado do tronco
+OMBRO = (36, -150)    # ombro direito (de quem olha); o esquerdo é (-36, -150)
+BRACO, ANTEBRACO = 36, 30
+
+def _peca_braco(ombro, cotovelo, mao, aberta, modo):
+    """modo "contorno": desenha só o contorno grosso; modo "cor": só o recheio (cobre as emendas por dentro)."""
+    if modo == "contorno": est = f'fill="{T}" stroke="{T}" stroke-width="6" stroke-linejoin="round"'
+    else: est = f'fill="{PELE}"'
+    cot = BRACO; pun = BRACO + ANTEBRACO
+    braco = f'<rect x="-7.5" y="-4" width="15" height="{BRACO + 8}" rx="7.5" {est}/>'
+    ante = f'<rect x="-6.8" y="{cot - 4}" width="13.6" height="{ANTEBRACO + 8}" rx="6.8" {est}/>'
+    if aberta:   # mão aberta: palma + 4 dedos + polegar
+        m = f'<ellipse cx="0" cy="{pun + 7}" rx="9" ry="9" {est}/>'
+        for i, (dx, comp) in enumerate(((-6, 9), (-2, 11.5), (2, 11.5), (6, 9))):
+            m += f'<rect x="{dx - 2}" y="{pun + 9}" width="4" height="{comp}" rx="1.8" {est}/>'
+        m += f'<rect x="-3" y="{pun + 1}" width="4" height="11" rx="2" transform="rotate(48 {-1} {pun + 4})" {est}/>'
+    else:        # mão relaxada: fechadinha, do mesmo tamanho
+        m = f'<ellipse cx="0" cy="{pun + 9}" rx="9" ry="11" {est}/>'
+        m += f'<rect x="-3" y="{pun + 1}" width="4" height="10" rx="2" transform="rotate(30 {-1} {pun + 4})" {est}/>'
+    return (f'<g transform="rotate({ombro + REPOUSO})">{braco}'
+            f'<g transform="rotate({cotovelo} 0 {cot})">{ante}<g transform="rotate({mao} 0 {pun})">{m}</g></g></g>')
+
+def _detalhes_braco(ombro, cotovelo, mao, aberta):
+    cot = BRACO; pun = BRACO + ANTEBRACO
+    sombra = f'<path d="M3 6 V{BRACO - 2}" stroke="{PELE_S}" stroke-width="3" stroke-linecap="round"/>'
+    dobra = f'<path d="M-3 {cot + 1} q3 2 6 0" {li(1.2, PELE_S)}/>'
+    if aberta:
+        dedos = ''.join(f'<path d="M{dx} {pun + 12} v4" {li(1, PELE_S)}/>' for dx in (-3.6, 0, 3.6))
+    else:
+        dedos = ''.join(f'<path d="M-6 {pun + y} q6 2 12 0" {li(1.1, PELE_S)}/>' for y in (12, 15.5))
+    manga = (f'<path d="M-12.5 -9 Q0 -15 12.5 -9 L11.5 15 Q0 19 -11.5 15 Z" {L(CAM)}/>'
+             f'<path d="M-10.5 12 Q0 16 10.5 12" {li(1.4)}/><path d="M4 -8 L5 13" stroke="{CAM_S}" stroke-width="4" opacity=".8"/>')
+    return (f'<g transform="rotate({ombro + REPOUSO})">{sombra}'
+            f'<g transform="rotate({cotovelo} 0 {cot})">{dobra}<g transform="rotate({mao} 0 {pun})">{dedos}</g></g>{manga}</g>')
+
+def _braco(lado, ombro=0, cotovelo=0, mao=0, aberta=False):
+    """lado = 1 (direito de quem olha) ou -1 (esquerdo, espelhado). Ângulo negativo levanta o braço para fora."""
+    ox, oy = OMBRO
+    ini = f'<g transform="translate({ox * lado} {oy}) scale({lado} 1)">'
+    return (ini + _peca_braco(ombro, cotovelo, mao, aberta, "contorno") + _peca_braco(ombro, cotovelo, mao, aberta, "cor")
+            + _detalhes_braco(ombro, cotovelo, mao, aberta) + '</g>')
 
 def _cabeca(olhos, inclina, boca):
     o = [f'<g transform="rotate({inclina} 0 -166)">']
@@ -94,6 +121,9 @@ def _cabeca(olhos, inclina, boca):
     o.append('</g>')
     return "".join(o)
 
-def bia_n2(ombro=0, cotovelo=0, mao=0, olhos="abertos", inclina=0, boca="sorriso", sobe=0):
+def bia_n2(ombro=0, cotovelo=0, mao=0, olhos="abertos", inclina=0, boca="sorriso", sobe=0, esq=(0, 0, 0)):
+    """ombro/cotovelo/mao = braço direito (de quem olha); esq = (ombro, cotovelo, mao) do braço esquerdo."""
+    aberta = ombro < -40
     return (sombra_chao(4, 0, 46, 8) + _pernas() + f'<g transform="translate(0 {sobe})">'
-            + _braco_esquerdo() + _tronco() + _cabeca(olhos, inclina, boca) + _braco_direito(ombro, cotovelo, mao) + '</g>')
+            + _braco(-1, *esq, aberta=esq[0] < -40) + _braco(1, ombro, cotovelo, mao, aberta=aberta)
+            + _tronco() + _cabeca(olhos, inclina, boca) + '</g>')

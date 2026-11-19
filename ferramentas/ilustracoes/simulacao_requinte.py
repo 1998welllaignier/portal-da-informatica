@@ -3,6 +3,8 @@ import sys
 from biblioteca import *
 
 T = TINTA
+from personagem_nivel2 import bia_n2   # a Bia nível 2 oficial (braços iguais, articulados)
+
 def L(fill, w=3.0):   # contorno de fora (mais grosso)
     return f'fill="{fill}" stroke="{T}" stroke-width="{w}" stroke-linejoin="round" stroke-linecap="round"'
 def li(w=1.6, cor=T, op=1):  # linha de dentro (mais fina)
@@ -89,7 +91,7 @@ def pagina():
     o.append(f'<rect x="20" y="60" width="300" height="560" rx="16" fill="#fff" stroke="#d7dbe2" stroke-width="2"/><text x="170" y="92" font-size="18" font-weight="800" text-anchor="middle" fill="{T}">NÍVEL ATUAL</text>')
     o.append(aluno("bia", 170, 560, 1.55, bracos=("normal", "acima")))
     o.append(f'<rect x="340" y="60" width="1040" height="560" rx="16" fill="#fff" stroke="{COR["verde"]}" stroke-width="3"/><text x="860" y="92" font-size="18" font-weight="800" text-anchor="middle" fill="{COR["verde"]}">NÍVEL 2 — REQUINTADO</text>')
-    o.append(g(860, 575, 1.75, bia2()))
+    o.append(g(860, 575, 1.75, bia_n2(ombro=-150, cotovelo=20)))
     # chamadas (esquerda e direita da Bia 2)
     o.append(chamada(690, 150, 810, 172, 1, "Cabelo com mechas, brilho e fios soltos"))
     o.append(chamada(690, 205, 820, 228, 2, "Olhos com cílios, íris colorida e 2 brilhos"))
@@ -98,7 +100,7 @@ def pagina():
     o.append(chamada(690, 395, 828, 360, 5, "Estampa ligada ao tema (cursor)"))
     o.append(chamada(690, 470, 828, 442, 6, "Cinto, costura do jeans e barra dobrada"))
     o.append(chamada(690, 560, 810, 556, 7, "Tênis com solado e cadarço"))
-    o.append(chamada(1030, 150, 975, 176, 8, "Mão com dedos e polegar (acenando)", "verde"))
+    o.append(chamada(1030, 150, 1002, 186, 8, "Mão com dedos e polegar (acenando)", "verde"))
     o.append(chamada(1030, 230, 928, 262, 9, "Sombra de um lado (luz vindo da esquerda)", "verde"))
     o.append(chamada(1030, 320, 920, 340, 10, "Manga, gola e dobras no tecido", "verde"))
     o.append(chamada(1030, 420, 908, 470, 11, "Pose natural: peso numa perna", "verde"))
