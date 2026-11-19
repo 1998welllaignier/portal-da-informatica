@@ -237,9 +237,10 @@
         <div class="av-grid"><div class="av-prev" id="av-prev"></div>
           <div class="av-opcoes">
             <div class="av-passo1"><p class="av-passo">1️⃣ Primeiro, você!</p>
-            <p class="av-t">🙂 Masculino ou feminino</p><div class="av-row">${op("tipo")}</div>
-            <p class="av-t">🎨 Cor da pele</p><div class="av-row">${sw(PELE, "pele")}</div>
-            <p class="av-t">💇 Cabelo</p><div class="av-row">${op("cabelo")}</div><div class="av-row">${sw(CAB, "corCabelo")}</div></div>
+            <div class="av-q" data-q="tipo"><p class="av-t">🙂 Masculino ou feminino</p><div class="av-row">${op("tipo")}</div></div>
+            <div class="av-q" data-q="pele"><p class="av-t">🎨 Cor da pele</p><div class="av-row">${sw(PELE, "pele")}</div></div>
+            <div class="av-q" data-q="cabelo"><p class="av-t">💇 Cabelo</p><div class="av-row">${op("cabelo")}</div><div class="av-row">${sw(CAB, "corCabelo")}</div></div>
+            <p class="av-proximo" aria-live="polite"></p></div>
             <div class="av-passo2"><p class="av-passo">2️⃣ Agora, a roupa! <span class="av-trava">🔒 Escolha primeiro: masculino ou feminino, a cor da pele e o cabelo</span></p>
             <p class="av-t">👕 Blusa</p><div class="av-row">${op("blusa")}</div>
             <div class="av-fut-times" hidden><p class="av-t">⚽ Times prontos: toque num time para vestir <button type="button" class="btn btn-peq av-ideias-btn" id="av-ideias">💡 Ver todos maiores</button></p><div class="av-times-faixa"></div></div><div class="av-row"><small>Cor:</small> ${sw(COR, "cor1")}</div><div class="av-row"><small>Detalhe:</small> ${sw(COR, "cor2")}</div>
@@ -261,6 +262,11 @@
       const pinta = () => {
         const livre = fez.tipo && fez.pele && fez.cabelo, p2 = el.querySelector(".av-passo2");
         p2.classList.toggle("travado", !livre); p2.querySelector(".av-trava").hidden = livre; p2.inert = !livre;
+        // 18/11/2026 (pedido do professor): as escolhas obrigatórias aparecem UMA DE CADA VEZ, na ordem; o resto só aparece no fim
+        const qs = { tipo: true, pele: fez.tipo, cabelo: fez.tipo && fez.pele };
+        el.querySelectorAll(".av-q").forEach(q => { const ab = !!qs[q.dataset.q], antes = !q.hidden; q.hidden = !ab; if (ab && !antes) q.classList.add("av-q-novo"); });
+        p2.hidden = !livre;
+        el.querySelector(".av-proximo").innerHTML = livre ? "" : !fez.tipo ? "👆 Comece aqui: toque em <b>Masculino</b> ou <b>Feminino</b>." : !fez.pele ? "👆 Agora escolha a <b>cor da pele</b>." : "👆 Agora escolha o <b>cabelo</b>. Depois aparecem as roupas e tudo o mais!";
         // 🏫 uniforme: só depois do passo 1 (quem já tem avatar salvo usa o jeitinho da última vez)
         const ub = el.querySelector("#av-uni"), uLivre = livre || !!anterior; ub.disabled = !uLivre; ub.querySelector(".av-uni-trava").hidden = uLivre;
         el.querySelector("#av-prev").innerHTML = svg(a, 220);

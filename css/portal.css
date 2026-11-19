@@ -2031,7 +2031,7 @@ dialog.pp-dlg > .row-btns:last-child, dialog.pp-dlg > form > .row-btns:last-chil
   position: sticky; bottom: -22px; z-index: 3; margin: 12px -22px -22px; padding: 12px 22px 16px;
   background: linear-gradient(to bottom, rgba(255,255,255,.92), #fff 30%); box-shadow: 0 -10px 14px -12px rgba(15,23,42,.35); }
 /* 4) avatar: o boneco acompanha a rolagem e o "Pronto! Salvar" fica sempre à vista */
-.av-prev { position: sticky; top: 8px; align-self: start; }
+.av-prev { position: sticky; top: max(84px, calc(50vh - 150px)); align-self: start; }   /* o boneco fica sempre à vista, no meio da tela, ao lado das opções */
 .av-bts { position: sticky; bottom: 0; z-index: 4; margin: 14px -18px -18px; padding: 12px 18px; background: linear-gradient(to bottom, rgba(255,255,255,.9), #fff 35%); border-radius: 0 0 20px 20px; box-shadow: 0 -10px 14px -12px rgba(15,23,42,.35); }
 @media (max-width: 700px) {
   .av-prev { top: 0; z-index: 3; min-height: 0; height: 170px; box-shadow: 0 8px 12px -10px rgba(15,23,42,.35); }
@@ -2054,3 +2054,8 @@ dialog.pp-dlg > .row-btns:last-child, dialog.pp-dlg > form > .row-btns:last-chil
   .mn-trilha li:not(:last-child)::after { left: 17px; top: 30px; }
 }
 .mis-nav.solta { position: static; }
+/* avatar: escolhas obrigatórias uma de cada vez (18/11/2026) */
+.av-q-novo { animation: av-q-entra .45s ease-out; }
+@keyframes av-q-entra { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+.av-proximo { margin: 8px 0 2px; font-weight: 800; color: #b45309; background: #fef3c7; border-radius: 10px; padding: 6px 10px; }
+.av-proximo:empty { display: none; }
