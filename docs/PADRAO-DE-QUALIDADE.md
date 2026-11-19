@@ -34,6 +34,47 @@ Detalhes técnicos: `AGENTS.md` (checklist do bimestre), `docs/PADRAO-ATIVIDADES
 > 3. **Fazendo:** simulador, jogo, o Bit mostrando.
 > Usar **todos** esses recursos e mudar de forma quando a necessidade pedir ("metamorfose ambulante", sem virar bagunça): nunca se prender a um tipo só. E nunca usar a camada opcional como desculpa para deixar de explicar o que é essencial.
 
+> 🎨 **Regra de ouro 4 — Padrão de ilustração: desenho de ilustrador, nunca rascunho (definida pelo professor em 19/11/2026)**
+> **Ler antes de desenhar qualquer coisa.** Os desenhos das apostilas estavam simples demais: "risquinhos", ícones soltos, cara de rascunho. O **novo nível mínimo** é o das ilustrações feitas para os materiais do Professor Vinícius ("Equality and Equity", 3º ano, Escola Estadual Governador Almir Gabriel). Vale para **todo** material: apostila do aluno, versão ilustrada, portal, vídeos, provas e simuladores, nos **novos** e nas **revisões dos atuais**.
+>
+> **Obrigatório em cada ilustração**
+> 1. **Cena, não ícone solto.** Sempre que o assunto permitir, a cena é montada em **planos**:
+>    - **fundo:** céu, parede, sala ou campo;
+>    - **plano médio:** o cenário (mesa, muro, computador, rack);
+>    - **primeiro plano:** os personagens e os objetos principais.
+>
+>    Referência: a cena do muro e do jogo de futebol que compara igualdade e equidade (céu, campo com bola, muro de tábuas, crianças em caixas).
+> 2. **Realismo em 2D:**
+>    - proporções corretas;
+>    - objetos que se reconhecem de verdade: o switch tem portas e LEDs; o monitor tem moldura, base e suporte da mesma cor; o teclado tem as teclas na disposição real;
+>    - detalhes que dão vida: texturas simples, linhas de tábua, reflexo na tela, sombra no chão;
+>    - luz e sombra suaves.
+>
+>    Referência de realismo: os nossos simuladores do Windows 10/11.
+> 3. **O desenho ensina.** Cada ilustração tem papel pedagógico real e mostra o conceito **sem precisar ler o texto**, com ✔ verde / ✘ vermelho, setas com etiquetas e destaque no detalhe que importa. Nunca é enfeite e **nunca entrega a resposta** das atividades.
+> 4. **Comparação lado a lado.** Quando há contraste (certo × errado, antes × depois, igualdade × equidade), usar **a mesma cena duas vezes**, mudando só o que importa.
+> 5. **Personagens fixos e consistentes.**
+>    - A mesma turma de bonequinhos em todo o material, com tons de pele variados e cabelos diferentes.
+>    - Expressões que reagem: piscar, apontar, comemorar.
+>    - O professor é sempre o mesmo.
+>    - Nenhum personagem é "palito".
+> 6. **Vocabulário com ícone que mostra o significado.** Cada palavra ou termo técnico tem um desenho próprio que o explica (balança = equidade, muro = barreira, porta abrindo = oportunidade), nunca um símbolo genérico.
+> 7. **Identidade visual única.** Mesma paleta, mesmo traço, mesma espessura de contorno e mesmo estilo de sombra do começo ao fim de cada apostila e entre as séries.
+> 8. **Tamanho que se enxerga.** Desenho que ensina não fica minúsculo no canto: tem tamanho para ser lido no papel e na tela.
+>
+> **Como trabalhar**
+> - **Conferir antes de entregar.** Renderizar a página em imagem e olhar cada desenho de perto, perguntando:
+>   - "Isso parece feito por um ilustrador ou parece rascunho?"
+>   - "Um aluno entende o conceito só olhando?"
+>
+>   Se parecer rascunho, ou se o aluno não entender só olhando, **refazer**.
+> - **Biblioteca de desenhos reaproveitáveis** no repositório (`ferramentas/ilustracoes/`), com personagens, objetos de informática e cenas. Assim, toda conversa e todo material novo usam os mesmos desenhos, no mesmo nível, em vez de começar do zero.
+> - **Revisão das apostilas atuais:**
+>   - série por série, começando pelos desenhos mais fracos;
+>   - mostrar ao professor o **antes e depois** e esperar a aprovação **antes de trocar**.
+> - **Cuidado de impressão (já aprendido):** sombra esfumaçada (*blur*) em PDF pode virar um retângulo cinza em alguns leitores e impressoras. Usar **sombra sólida** ou, quando necessário, gerar a página como imagem em alta resolução.
+> - **Regra de ouro 1 também no desenho:** toda informação dentro dele (nomes, números, peças, rótulos) é verificada em fonte confiável.
+
 ---
 
 ## 1. Conteúdo da apostila (cada missão)
@@ -296,3 +337,4 @@ Apostila no portal + ilustrada (PDF só para quem estuda em casa) · guia do pro
 - **✏️ Pincel sobre a apostila e ⬜ quadro branco (19/11/2026, `js/lousa.js`):** só para o professor (botões redondos ✏️ ⬜ no canto, na visualização do professor, no painel e no modo apresentação). Pincel por cima da página (os riscos ficam presos no texto e acompanham a rolagem), marca-texto transparente, formas (seta, linha, retângulo, círculo), texto, 🔴 laser que some, borracha, carimbos ✔️❌⭐❓❗👀, 7 cores, grossura, desfazer/refazer (Ctrl+Z/Ctrl+Y), limpar, 🖱️ Mouse (a página volta a ser clicável) e barra que muda de lugar (⇄ embaixo, direita, em cima, esquerda; fica lembrado). Quadro: espaço 16:9 igual em qualquer tela, fundos (branco, quadriculado, pautado, lousa verde), páginas ◀ 1/3 ▶, colar imagem (Ctrl+V), 💾 salvar em PNG com o nome do professor, tela cheia. **⬜ Quadro para a turma** (📡 da aba Aula): os traços vão como dados para os computadores dos alunos (nítido e quase sem atraso), com a mesma barra vermelha e a tela cheia travada da Sala ao vivo.
 - **🐢 Robô-tartaruga para desenhos (19/11/2026):** no tipo `robo`, `icone: "🐢"` troca o robô pela tartaruga, e as casas `"o"` da grade são os pontos do desenho (⚪, que viram 🟩 quando ela passa). O Executar só aceita quando ela chega na ⭐ **e** passa por todos os pontos ("o desenho ficou incompleto: falta passar por …"). Serve para desenhar quadrado, retângulo, escada etc. (6º ano, 2º bimestre de 2027, Missão 8). Na impressão, os pontos saem como ⚪. Robô com `inicial` = programa com bug para depurar (Caça ao erro).
 - **🕸️ Grafo sem pesos para montar (19/11/2026):** `grafo_montar` também aceita `semPeso: true` (some o número da aresta, a coluna Peso da tabela e o “(peso …)” do aviso). Serve para redes de amizade, em que só importa quem está ligado a quem (7º ano, 2º bimestre de 2027, Missão 3). O `grafo` (caminho) já aceitava.
+- **🎨 Padrão de ilustração (19/11/2026, pedido do professor):** registrado no topo como **Regra de ouro 4** — cena em planos, realismo em 2D, desenho que ensina sem entregar a resposta, comparação lado a lado, personagens fixos, ícone de vocabulário que mostra o significado, identidade visual única e tamanho legível; conferência em imagem antes de entregar, biblioteca em `ferramentas/ilustracoes/` e revisão dos atuais com "antes e depois" aprovado pelo professor.
