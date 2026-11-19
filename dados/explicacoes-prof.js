@@ -197,6 +197,16 @@
     m7: ["V: item errado da lista é pista de posição errada.", "V: hipótese é o palpite que a gente testa.", "F: mudando tudo de uma vez, não dá para saber o que resolveu."],
     m8: ["V: gabarito é a lista das respostas certas.", "V: o contador começa em 0 e soma 1 a cada acerto.", "F: para corrigir, o programa compara as duas listas posição por posição."]
   } };
+  E["informatica-8ano-2027-2bim-trilha"] = { vf: {
+    m1: ["V: a foto viaja cortada em pacotes.", "F: cada pacote tem um número, para juntar na ordem.", "V: é o trabalho do roteador."],
+    m2: ["V: o DNS acha o IP pelo nome.", "V: é a agenda da internet.", "F: nós digitamos o nome do site; o DNS acha o número."],
+    m3: ["V: pelos cabos submarinos.", "V: é um prédio cheio de servidores.", "F: os computadores do data center ficam ligados o tempo todo."],
+    m4: ["V: a nuvem são computadores de empresas.", "V: sair da conta protege os arquivos.", "F: o arquivo da nuvem continua lá."],
+    m5: ["V: dividir o trabalho deixa tudo mais rápido.", "F: paralelismo é fazer várias tarefas ao mesmo tempo.", "V: um pedido de cada vez, em fila."],
+    m6: ["V: itens em ordem.", "V: quem chega primeiro sai primeiro.", "F: o mapa das ruas é um grafo."],
+    m7: ["V: muitos computadores juntos.", "F: outro computador assume.", "V: o buscador divide o trabalho."],
+    m8: ["V: baixar = download.", "V: enviar = upload.", "F: ping alto deixa o jogo mais lento (lag)."]
+  } };
   E["informatica-7ano-2027-2bim-trilha"] = { vf: {
     m1: ["V: grafo = vértices (pontos) e arestas (linhas).", "F: as ruas são as arestas; os lugares são os vértices.", "V: o peso é o número escrito na aresta."],
     m2: ["V: o total do caminho é a soma dos pesos.", "F: o mais curto é o de menor soma.", "V: 3 + 2 = 5 minutos."],
