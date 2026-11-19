@@ -314,6 +314,11 @@
       </div>
       <p class="ajuda">Só recebe quem está com o portal aberto (quem estuda em casa 🏠 não). O aluno clica em “Entrar”, a tela fica cheia e travada, com uma barra vermelha em cima explicando; se sair da tela cheia, o portal dele trava até voltar e o nome aparece aqui em ⚠️.</p>`;
     antes.before(box);
+    // 🖥️ telas dos computadores (o portal anota o tamanho e o zoom de cada computador uma vez por dia)
+    try { dbP().collection("progresso").where("tipo", "==", "tela").where("turma", "==", t).get().then(q => {
+      const c = {}; q.docs.forEach(d => { const m = d.data().monitor; if (!m || !m.w) return; const k = `${Math.round(m.w * m.dpr)}×${Math.round(m.h * m.dpr)} com zoom do Windows de ${Math.round(m.dpr * 100)}% (área do site ${m.iw}×${m.ih})`; c[k] = (c[k] || 0) + 1; });
+      const l = Object.entries(c).sort((a, b) => b[1] - a[1]); if (!l.length) return;
+      box.insertAdjacentHTML("beforeend", `<p class="ajuda">🖥️ <b>Telas dos computadores desta turma:</b> ${l.map(([k, n]) => esc(k) + ` (${n})`).join(" · ")}</p>`); }).catch(() => {}); } catch (e) {}
     const sel = box.querySelector("#sala-vid"), link = box.querySelector("#sala-link");
     sel.onchange = () => { link.hidden = !!sel.value; };
     box.querySelector("#sala-passar").onclick = () => {

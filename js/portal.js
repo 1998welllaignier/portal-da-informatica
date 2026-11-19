@@ -48,6 +48,9 @@
     clearTimeout(toastT); toastT = setTimeout(() => { t.hidden = true; }, 3200);
   }
   P.toast = toast;
+  /* 📐 a trilha da missão só fica "grudada" na tela se couber inteira; senão rola com a página (nada escondido), 18/11/2026 */
+  function ajustarTrilha() { const n = document.querySelector(".mis-nav"); if (!n) return; n.classList.remove("solta"); if (n.getBoundingClientRect().height > innerHeight - 86) n.classList.add("solta"); }
+  addEventListener("resize", ajustarTrilha); addEventListener("hashchange", () => setTimeout(ajustarTrilha, 400)); setInterval(ajustarTrilha, 3000);
 
   /* ---------------- catálogo ---------------- */
   const cat = () => P.catalogo;
@@ -416,6 +419,11 @@
     try { ouvirPodio(sess.get()); } catch (e) {}
     try { ouvirTela(sess.get()); } catch (e) {}
     try { P.sala && P.sala.ouvir(sess.get()); } catch (e) {}
+    // 🖥️ anota uma vez por dia o tamanho da tela e o zoom deste computador (para otimizar as telas para os PCs reais da sala)
+    try { const s = sess.get(), hj = P.nuvem && P.nuvem.hoje && P.nuvem.hoje(), k = "portalJK:monitor:" + hj;
+      if (s && s.nuvem && hj && !sessionStorage.getItem(k) && (s.alunoIds || []).length) { sessionStorage.setItem(k, "1");
+        const m = { w: screen.width, h: screen.height, dpr: Math.round(devicePixelRatio * 100) / 100, iw: innerWidth, ih: innerHeight, dia: hj };
+        P.nuvem.app(0).db.collection("progresso").doc(s.alunoIds[0] + "_tela").set({ alunoId: s.alunoIds[0], turma: s.turma, tipo: "tela", monitor: m }, { merge: true }).catch(() => {}); } } catch (e) {}
     try { ouvirRei(sess.get()); } catch (e) {}
     clearInterval(relogioIv);
     const tick = () => {

@@ -93,11 +93,13 @@ body.modo-placar .tm-faixa { display: none; }
 .pp-tema-rolar { max-height: 55vh; overflow: auto; padding-right: 4px; }
 
 /* 🪧 plaquinha com o nome do tema (pendurada embaixo da barra de cima, no meio) */
-.tm-selo { position: fixed; left: 50%; z-index: 25; pointer-events: none; transform-origin: 50% -14px; animation: tm-balanca 4s ease-in-out infinite; margin-left: 0; translate: -50% 0; padding-top: 12px; }
+.tm-selo { position: absolute; left: 50%; z-index: 25; pointer-events: none; transform-origin: 50% -14px; animation: tm-balanca 4s ease-in-out infinite; margin-left: 0; translate: -50% 0; padding-top: 12px; }
 .tm-selo b { display: block; background: var(--tm1, #7c3aed); color: #fff; font: 800 15px/1 system-ui, sans-serif; padding: 8px 16px; border-radius: 10px; border: 3px solid var(--tm2, #facc15); box-shadow: 0 6px 14px rgba(0,0,0,.22); white-space: nowrap; letter-spacing: .02em; }
 .tm-fio { position: absolute; top: 0; left: 26%; width: 2px; height: 14px; background: rgba(15,23,42,.45); } .tm-fio.d { left: auto; right: 26%; }
 @keyframes tm-balanca { 0%, 100% { rotate: -2deg; } 50% { rotate: 2deg; } }
 .tema-on .tm-faixa { margin-top: 52px; }
+/* espaço para a plaquinha do tema não cobrir o título da tela (18/11/2026) */
+.tema-on #app { padding-top: 50px; } .tema-on .tm-faixa ~ #app { padding-top: 0; }
 body.modo-placar .tm-selo { display: none; }
 @media (max-width: 600px) { .tm-selo b { font-size: 12px; padding: 6px 10px; } }
 @media (prefers-reduced-motion: reduce) { .tm-selo { animation: none; } }

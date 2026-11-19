@@ -246,8 +246,9 @@
     if (d.cai) particulas(d.cai);
     // 🪧 plaquinha com o nome do tema, pendurada logo abaixo da barra de cima
     if (NOME[tema]) { const pl = el("tm-selo", `<span class="tm-fio"></span><span class="tm-fio d"></span><b>${NOME[tema][0]}<small>${NOME[tema][1]}</small></b>`);
-      const pos = () => { const tb = document.querySelector("#topbar, .topbar"); pl.style.top = (tb ? Math.max(0, tb.getBoundingClientRect().bottom) : 0) + "px"; };
-      pos(); window.addEventListener("resize", pos); window.addEventListener("scroll", pos, { passive: true }); setTimeout(pos, 600); setTimeout(pos, 2000); }
+      // 18/11/2026: presa ao topo da PÁGINA (sobe junto ao rolar), para nunca cobrir botão nem texto da apostila
+      const pos = () => { const tb = document.querySelector("#topbar, .topbar"); pl.style.top = (tb ? tb.offsetTop + tb.offsetHeight : 0) + "px"; };
+      pos(); window.addEventListener("resize", pos); setTimeout(pos, 600); setTimeout(pos, 2000); }
     if (d.passa && !reduz()) el("tm-passa", d.passa);
     // cantos: um desenho ou uma lista que vai alternando a cada 3 minutos (troca suave)
     [["esq", d.esq], ["dir", d.dir]].forEach(([lado, v]) => { if (!v) return; const lista = [].concat(v); let i = 0;
