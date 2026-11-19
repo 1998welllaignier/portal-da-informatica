@@ -101,6 +101,8 @@ PORTAL.catalogo = {
       titulo: "Informática — 6º ano — 2º bimestre de 2027", modo: "individual ou dupla", extras: ["m7", "m8"] },
     { id: "informatica-7ano-2027-2bim", serie: "7", disciplina: "informatica", unidade: "2º bimestre de 2027", periodo: "2027-2",
       titulo: "Informática — 7º ano — 2º bimestre de 2027", modo: "individual ou dupla", extras: ["m7", "m8"] },
+    { id: "informatica-8ano-2027-2bim", serie: "8", disciplina: "informatica", unidade: "2º bimestre de 2027", periodo: "2027-2",
+      titulo: "Informática — 8º ano — 2º bimestre de 2027", modo: "individual ou dupla", extras: ["m7", "m8"] },
     /* 👣 Trilhas Passo a Passo de 2027 (o aluno marcado com 👣 no painel abre a trilha no lugar da apostila da turma) */
     { id: "informatica-6ano-2027-1bim-trilha", serie: "6", disciplina: "informatica", unidade: "1º bimestre de 2027", periodo: "2027-1",
       titulo: "Informática — 6º ano — 1º bimestre de 2027 · Trilha Passo a Passo", modo: "individual", extras: ["m7", "m8"],
