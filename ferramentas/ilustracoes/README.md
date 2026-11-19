@@ -6,6 +6,9 @@
 
 No design, esse estilo se chama **linha clara** (em francês, *ligne claire*): contorno preto da mesma espessura em tudo, cores chapadas e vivas, sem hachuras, como nos quadrinhos do Tintim.
 
+## 🎬 Cenas com gente: IA + camada que ensina (19/11/2026)
+Personagens e cenas agora são gerados no ChatGPT com a ficha da turma (`referencia/ia/ficha_da_turma_IA.png`), sem texto na imagem; etiquetas, setas e contornos vêm por código (`ferramentas/ilustracoes_2027/cenas.py`). Os bonecos desenhados por código (`biblioteca.py`, `personagem_nivel2.py`) ficam só para casos simples e para os vídeos que precisam mexer braço por braço.
+
 ## O traço
 - **Contorno preto** (`#1c1f22`) com **2,6 px** em tudo, com cantos e pontas arredondados. Detalhes pequenos (teclas, LEDs) não levam contorno.
 - **Cores vivas e chapadas.** Sombra é sempre uma **forma sólida** com um tom mais escuro da mesma cor, **nunca esfumaçada (blur)**, porque blur vira retângulo cinza em alguns PDFs e impressoras.
