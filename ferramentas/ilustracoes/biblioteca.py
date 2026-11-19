@@ -88,10 +88,10 @@ def _cabelo_frente(p):
 
 def _rosto(p, expr):
     s = []
-    olhos = {"feliz": (0, 0), "pensando": (4, -3), "surpreso": (0, 0), "piscando": (0, 0), "preocupado": (0, 1)}[expr]
+    olhos = {"fechados": (0, 0), "feliz": (0, 0), "pensando": (4, -3), "surpreso": (0, 0), "piscando": (0, 0), "preocupado": (0, 1)}[expr]
     for lado in (-1, 1):
         x = lado * 13
-        if expr == "piscando" and lado == 1:
+        if (expr == "piscando" and lado == 1) or expr == "fechados":
             s.append(f'<path d="M{x - 6} -182 q6 5 12 0" stroke="{TINTA}" stroke-width="2.6" fill="none" stroke-linecap="round"/>')
         else:
             ry = 9 if expr == "surpreso" else 7.5
@@ -105,7 +105,7 @@ def _rosto(p, expr):
         s.append(f'<path d="{sb}" stroke="{TINTA}" stroke-width="2.6" fill="none" stroke-linecap="round"/>')
     s.append(f'<ellipse cx="-21" cy="-170" rx="6" ry="3.5" fill="{COR["rosa"]}" opacity=".55"/><ellipse cx="21" cy="-170" rx="6" ry="3.5" fill="{COR["rosa"]}" opacity=".55"/>')
     s.append(f'<path d="M-2 -176 q2 3 4 0" stroke="{escurecer(p["pele"], .7)}" stroke-width="2" fill="none" stroke-linecap="round"/>')  # nariz
-    boca = {"feliz": f'<path d="M-9 -166 q9 9 18 0 q-9 4 -18 0 Z" {a("#7a2a2a", 2)}/>',
+    boca = {"fechados": f'<path d="M-9 -166 q9 9 18 0 q-9 4 -18 0 Z" {a("#7a2a2a", 2)}/>', "feliz": f'<path d="M-9 -166 q9 9 18 0 q-9 4 -18 0 Z" {a("#7a2a2a", 2)}/>',
             "piscando": f'<path d="M-9 -166 q9 9 18 0 q-9 4 -18 0 Z" {a("#7a2a2a", 2)}/>',
             "surpreso": f'<ellipse cx="0" cy="-163" rx="5" ry="6" {a("#7a2a2a", 2)}/>',
             "pensando": f'<path d="M-6 -164 q6 -2 12 1" stroke="{TINTA}" stroke-width="2.4" fill="none" stroke-linecap="round"/>',
@@ -117,6 +117,8 @@ def _braco(p, lado, pose):
     """lado -1 = esquerda de quem olha; devolve manga + mão"""
     cam, pele = p["camisa"], p["pele"]
     sx = lado * 30
+    if pose == "nenhum":  # o braço vem de fora (animação: ver braco_articulado)
+        return ""
     if pose == "normal":
         return (f'<path d="M{sx} -132 q{lado*12} 24 {lado*10} 56" stroke="{TINTA}" stroke-width="{LW + 15}" stroke-linecap="round" fill="none"/>'
                 f'<path d="M{sx} -132 q{lado*12} 24 {lado*10} 56" stroke="{cam}" stroke-width="15" stroke-linecap="round" fill="none"/>'
@@ -285,3 +287,17 @@ def certo(x, y, r=16):
 
 def errado(x, y, r=16):
     return f'<circle cx="{x}" cy="{y}" r="{r}" {a(COR["vermelho"])}/><path d="M{x - r*.4} {y - r*.4} l{r*.8} {r*.8} M{x + r*.4} {y - r*.4} l-{r*.8} {r*.8}" stroke="#fff" stroke-width="{r*.28}" stroke-linecap="round"/>'
+
+
+def braco_articulado(p, lado, ombro=0, cotovelo=0):
+    """Braço com 2 articulações (para animar): gira no OMBRO e no COTOVELO, em graus.
+    Use no mesmo lugar e escala do personagem com bracos=('normal', 'nenhum'), por exemplo:
+        personagem(p, x, y, s, bracos=('normal', 'nenhum')) + g(x, y, s, braco_articulado(p, 1, -150, -30))"""
+    cam, pele = p["camisa"], p["pele"]
+    ox, oy = lado * 30, -132          # ombro (pivô 1)
+    ex, ey = ox + lado * 4, oy + 34   # cotovelo (pivô 2)
+    tubo = lambda d, cor: (f'<path d="{d}" stroke="{TINTA}" stroke-width="{LW + 15}" stroke-linecap="round" fill="none"/>'
+                           f'<path d="{d}" stroke="{cor}" stroke-width="15" stroke-linecap="round" fill="none"/>')
+    antebraco = tubo(f"M{ex} {ey} L{ex + lado*2} {ey + 26}", cam) + f'<circle cx="{ex + lado*2}" cy="{ey + 34}" r="8.5" {a(pele)}/>'
+    return (f'<g transform="rotate({ombro * lado} {ox} {oy})">' + tubo(f"M{ox} {oy} L{ex} {ey}", cam)
+            + f'<g transform="rotate({cotovelo * lado} {ex} {ey})">{antebraco}</g></g>')
