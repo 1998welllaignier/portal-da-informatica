@@ -244,7 +244,7 @@ body.sp-travado{overflow:hidden}
       /* ---------- desenho ---------- */
       c.innerHTML = `<div class="sp"><div class="sp-guia"><div class="sp-bit" aria-hidden="true">🤖</div><div class="sp-fala"><div class="q"></div><div class="f"></div><div class="r" aria-live="polite"></div><div class="sp-prog"></div></div>
         <div class="sp-bts"><button type="button" class="onde">💡 Mostre onde</button><button type="button" class="sec rec">↺ Recomeçar</button><button type="button" class="sec foco">⛶ Tela cheia</button></div></div>
-        <div class="sp-moldura sp${st.so}"><div class="sp-tela" tabindex="0"></div>${st.status ? "" : `<div class="sp-iniciar"><button type="button">▶ Começar o simulador<small>abre em tela cheia</small></button></div>`}</div></div>`;
+        <div class="sp-moldura sp${st.so}"><div class="sp-tela" tabindex="0"></div>${st.status ? "" : `<div class="sp-iniciar"><button type="button">▶ Começar o simulador<small>só funciona em tela cheia</small></button></div>`}</div></div>`;
       const G = c.querySelector(".sp-guia"), bit = G.querySelector(".sp-bit"), q = G.querySelector(".q"), fEl = G.querySelector(".f"), rEl = G.querySelector(".r"), prog = G.querySelector(".sp-prog");
       const mold = c.querySelector(".sp-moldura"), tela = c.querySelector(".sp-tela");
       /* ⛶ modo tela cheia (19/11/2026, pedido do professor): enquanto o aluno faz o simulador, ele ocupa a tela inteira,
@@ -253,8 +253,13 @@ body.sp-travado{overflow:hidden}
       const ajustarGuia = () => { if (SP.classList.contains("sp-foco")) SP.style.setProperty("--sp-gh", G.offsetHeight + "px"); };
       function foco(on) {
         c.__spFoco = !!on; SP.classList.toggle("sp-foco", !!on); document.body.classList.toggle("sp-travado", !!on);
-        bFoco.textContent = on ? "✕ Sair da tela cheia" : "⛶ Tela cheia";
+        bFoco.textContent = on ? "✕ Sair da tela cheia" : st.status ? "⛶ Tela cheia" : "⛶ Abrir em tela cheia";
         const ini = c.querySelector(".sp-iniciar"); if (on && ini) ini.remove();
+        // obrigatório (19/11/2026): fora da tela cheia, o simulador não funciona enquanto não terminar; a capa volta por cima
+        if (!on && !st.status && !c.querySelector(".sp-iniciar")) {
+          mold.insertAdjacentHTML("beforeend", `<div class="sp-iniciar"><button type="button">▶ Continuar o simulador<small>só funciona em tela cheia</small></button></div>`);
+          c.querySelector(".sp-iniciar").onclick = e => { e.stopPropagation(); foco(true); };
+        }
         ajustarGuia(); requestAnimationFrame(() => { K = esc2(); ajustarGuia(); K = esc2(); });
         if (!on) setTimeout(() => c.scrollIntoView({ block: "center", behavior: "smooth" }), 60); else tela.focus();
       }
