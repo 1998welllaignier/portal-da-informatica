@@ -621,7 +621,7 @@
           <table class="robo-grade" aria-label="Labirinto do robô"><tr><th></th>${[...cols].map(x => `<th scope="col">${x}</th>`).join("")}</tr>
             ${G.map((ln, r) => `<tr><th scope="row">${r + 1}</th>${[...ln].map((ch, k) => {
               const aqui = pos[0] === r && pos[1] === k; const passou = rastro.some(p => p[0] === r && p[1] === k);
-              return `<td class="${ch === "#" ? "parede" : ""} ${passou ? "rastro" : ""}" aria-label="${cols[k]}${r + 1}${ch === "#" ? " parede" : ch === "*" ? " estrela" : ""}${aqui ? " robô aqui" : ""}">${aqui ? "🤖" : ch === "#" ? "🧱" : ch === "*" ? "⭐" : ""}</td>`;
+              return `<td class="${ch === "#" ? "parede" : ""} ${passou ? "rastro" : ""}" aria-label="${cols[k]}${r + 1}${ch === "#" ? " parede" : ch === "*" ? " estrela" : ch === "o" ? " ponto do desenho" : ""}${aqui ? " robô aqui" : ""}">${aqui ? (at.icone || "🤖") : ch === "o" ? (passou ? "🟩" : "⚪") : ch === "#" ? "🧱" : ch === "*" ? "⭐" : ""}</td>`;
             }).join("")}</tr>`).join("")}</table>
           <div class="robo-prog">
             <p><strong>Programa do robô</strong> ${at.compacto ? `<small>(meta: no máximo ${at.compacto} blocos, usando “repita”)</small>` : ""}</p>
@@ -654,7 +654,10 @@
         const b = ctx.el.querySelector('[data-a="verificar"]'); b.disabled = true;
         const erro = await executar(); b.disabled = false;
         if (erro) return ctx.errou(erro + " A sua sequência foi mantida: ajuste e teste de novo.");
-        if (pos[0] !== fim[0] || pos[1] !== fim[1]) return ctx.errou(`O robô parou em ${cols[pos[1]]}${pos[0] + 1}, mas a estrela está em ${cols[fim[1]]}${fim[0] + 1}.`);
+        if (pos[0] !== fim[0] || pos[1] !== fim[1]) return ctx.errou(`${at.icone ? "Ela" : "O robô"} parou em ${cols[pos[1]]}${pos[0] + 1}, mas ${at.icone ? "o fim" : "a estrela"} está em ${cols[fim[1]]}${fim[0] + 1}.`);
+        // 🐢 desenho (19/11/2026): casas "o" são os pontos do desenho; o caminho precisa passar por todas
+        { const falta = []; G.forEach((ln, r) => [...ln].forEach((ch, k) => { if (ch === "o" && !rastro.concat([pos]).some(p => p[0] === r && p[1] === k)) falta.push(cols[k] + (r + 1)); }));
+          if (falta.length) return ctx.errou(`Chegou ao fim, mas o desenho ficou incompleto: falta passar por ${falta.slice(0, 4).join(", ")}${falta.length > 4 ? "…" : ""}.`); }
         if (at.compacto && st.prog.length > at.compacto) return ctx.errou(`Chegou! Mas o programa tem ${st.prog.length} blocos. Use “repita” (botões + e −) para chegar com no máximo ${at.compacto} blocos.`);
         ctx.concluir("certo", `O robô chegou à estrela com ${passos().length} passos${at.compacto ? ` em ${st.prog.length} blocos` : ""}!`);
       };
@@ -664,7 +667,7 @@
     },
     imprimir(at) {
       const cols = "ABCDEFGH".slice(0, at.grade[0].length);
-      return `<table class="imp-grade"><tr><th></th>${[...cols].map(x => `<th>${x}</th>`).join("")}</tr>${at.grade.map((ln, r) => `<tr><th>${r + 1}</th>${[...ln].map(ch => `<td>${ch === "#" ? "🧱" : ch === "R" ? "🤖" : ch === "*" ? "⭐" : ""}</td>`).join("")}</tr>`).join("")}</table><p>Meu caminho${at.compacto ? " usando “repita”" : " com setas"}:</p>${linhas(2)}`;
+      return `<table class="imp-grade"><tr><th></th>${[...cols].map(x => `<th>${x}</th>`).join("")}</tr>${at.grade.map((ln, r) => `<tr><th>${r + 1}</th>${[...ln].map(ch => `<td>${ch === "#" ? "🧱" : ch === "R" ? (at.icone || "🤖") : ch === "*" ? "⭐" : ch === "o" ? "⚪" : ""}</td>`).join("")}</tr>`).join("")}</table><p>Meu caminho${at.compacto ? " usando “repita”" : " com setas"}:</p>${linhas(2)}`;
     },
     resumoResposta(at, st) { const D = { U: "⬆️", D: "⬇️", L: "⬅️", R: "➡️" }; return (st.prog || []).map(x => (x.n > 1 ? `repita ${x.n}× ` : "") + D[x.d]).join(" · "); }
   };

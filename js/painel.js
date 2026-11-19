@@ -1491,8 +1491,6 @@
   const PRAZOS = [ // [mostrar a partir de, até, id, texto]
     ["2026-11-12", "2026-11-13", "reposicao-8ano-2026-11-13", "🏫 <b>Sexta, 13/11, às 10h30: aula de reposição</b> com a turma de quarta (8º ano) que ficou sem aula em 11/11. Chegar antes das 10h30. Depois, registrar a aula no 📒 Diário da turma."],
     ["2026-11-13", "2026-11-13", "rede-sexta-2026-11-13", "📡 <b>Rede (sexta):</b> olhar o vigia do MikroTik (quedas do roteador do corredor superior, AP AEE .240) e trocar a fonte dele, se já tiver a nova (12 V / 2 A)."],
-    ["2026-11-18", "2026-12-18", "amanda-casa-2026-11-18", "🏠 <b>Amanda (estudo em casa):</b> painel → turma dela → nome → <b>🏠 Marcar: estuda em casa</b> e depois <b>🚀 Abrir todas as missões já, uma por dia</b>."],
-    ["2026-11-18", "2026-12-18", "ana-8d-2026-11-18", "🏫 <b>Ana Karoline:</b> painel → turma dela → nome → <b>🏫 Frequenta a aula de outra turma</b> → 8º D; depois <b>🎬 Lembrar de mandar o relatório/vídeo à família</b>."],
     ["2026-11-16", "2026-11-23", "boletins-2026-4b", "📄 <b>Boletins em PDF do 4º bimestre</b> até 23/11 (📒 Diário › 🧮 Boletim)."],
     ["2026-12-01", "2026-12-31", "sige-reabre-2026", "🏛️ <b>SIGE: fique atento à reabertura de fim de ano.</b> Quando abrir, registrar o ano inteiro de 2026 (aulas e conteúdos) com o Claude; a frequência é você quem lança."]
   ];

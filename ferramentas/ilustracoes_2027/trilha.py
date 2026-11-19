@@ -1,12 +1,13 @@
 """Desenhos das 👣 Trilhas Passo a Passo de 2027: reaproveita as figuras da apostila da turma
    cuja âncora (tabela ou frase) também aparece no texto da trilha.
-   Uso: python3 trilha.py 6   (gera dados/ilustracoes/informatica-6ano-2027-1bim-trilha.js)"""
+   Uso: python3 trilha.py 6 [bimestre]   (ex.: "trilha.py 6 2" gera dados/ilustracoes/informatica-6ano-2027-2bim-trilha.js; sem bimestre = 1)"""
 import sys, importlib, re, unicodedata, os, json
 from base import gerar
 serie = sys.argv[1]
-mod = importlib.import_module(f"i{serie}_1")
+bim = sys.argv[2] if len(sys.argv) > 2 else "1"
+mod = importlib.import_module(f"i{serie}_{bim}")
 raiz = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-aid = f"informatica-{serie}ano-2027-1bim-trilha"
+aid = f"informatica-{serie}ano-2027-{bim}bim-trilha"
 def so(s):
     s = unicodedata.normalize("NFD", re.sub(r"<[^>]+>", " ", s)).encode("ascii", "ignore").decode().lower()
     return re.sub(r"[^a-z]", "", s)

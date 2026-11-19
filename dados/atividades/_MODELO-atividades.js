@@ -42,7 +42,7 @@ PORTAL.registrarAtividades("ID-DA-APOSTILA", {
 
       /* OUTROS TIPOS DISPONÍVEIS (veja exemplos nas apostilas prontas):
          escolha (perguntas com explicação) · sinais (marcar todos os corretos) · senha (medidor de senha forte)
-         robo (labirinto com setas e repita) · pintura (simulação de desenho no portal) · lista_ops (inserir/remover em listas)
+         robo (labirinto com setas e repita; icone:"🐢" + casas "o" = desenho com a tartaruga; inicial = programa com bug) · pintura (simulação de desenho no portal) · lista_ops (inserir/remover em listas)
          busca_binaria · adivinhe · bolha · grafo (traçar caminho) · arvore (pastas/decisão) · cesar (cifra)
          info (texto de apoio, não conta progresso) · autoavaliacao
          caminho (montar esquema com setas e banco de peças) · grafo_montar (ligar vértices pela tabela)
