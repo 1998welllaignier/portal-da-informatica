@@ -440,6 +440,12 @@ select { padding: 8px 10px; border: 2px solid var(--linha); border-radius: 8px; 
 .ilustracao figcaption { font-size: .9rem; color: var(--suave); margin-top: 6px; text-align: center; }
 .ilustracao .fig-s { max-width: 460px; }
 .ilustracao .mascot { width: 160px; height: auto; }
+/* 🎬 cenas de abertura das missões (imagem feita por IA + etiquetas por código), 19/11/2026 */
+.ilustracao:has(.cena-ia) { max-width: 920px; }
+.ilu-topo .ilustracao:has(.cena-ia) { flex: 1 1 100%; }
+.ilustracao .cena-ia { padding: 0; overflow: hidden; }
+.ilustracao .cena-ia svg { border-radius: 15px 15px 0 0; }
+.ilustracao .cena-ia figcaption { margin: 0; padding: 9px 14px 11px; font-weight: 700; color: var(--texto, #1c1f22); font-size: 1rem; }
 .ilu-topo { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; }
 .ilu-topo .ilustracao { flex: 1 1 320px; margin: 6px 0 14px; }
 .atv .ilustracao { margin: 4px auto 14px; }

@@ -408,5 +408,9 @@ fig("m8", "Copiar × recortar: copiar deixa o original", "Comparação: copiar (
 
 ICONES = {"m1": "🖱️", "m2": "🔄", "m3": "🧩", "m4": "📁", "m5": "🔢", "m6": "🤝", "m7": "⌨️", "m8": "⚡", "rv": "🔁"}
 
+# 🎬 cenas de abertura (IA + camada que ensina) vão na frente: entram no topo de cada missão
+from cenas_6_1 import F as CENAS
+F[:0] = CENAS
+
 if __name__ == "__main__":
     print("figuras:", gerar("informatica-6ano-2027-1bim", F, ICONES))
