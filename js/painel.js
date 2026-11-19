@@ -566,8 +566,17 @@
       <p class="ajuda">Vale para todos os computadores (alunos, placar e o seu), a partir da próxima vez que a página abrir.</p>
       <div class="pp-tema-ops pp-tema-rolar">${ops.map(([v, r, d]) => `<label class="pp-tema-op"><input type="radio" name="tm" value="${v}" ${v === atual ? "checked" : ""}><span><b>${r}</b><small>${d}</small></span></label>`).join("")}</div>
       <p class="erro" id="tm-e" hidden></p>
-      <div class="row-btns"><button type="button" class="btn" id="tm-ok">Salvar</button><button class="btn btn-sec" value="x">Fechar</button></div></form></dialog>`);
+      <div class="row-btns"><button type="button" class="btn" id="tm-ok">Salvar</button><button class="btn btn-sec" value="x">Fechar</button></div>
+      <details class="pp-tema-reset"><summary>🔄 Refazer a janela do tema para uma turma inteira</summary>
+        <p class="ajuda">Apaga o “já viu” das curiosidades e do desafio do relógio: na próxima entrada com o código, a janela abre de novo para todos da turma escolhida. Pontos e tarefas não mudam. Para um aluno só, use o ⚙️ ao lado do nome dele.</p>
+        <div class="row-btns"><label>Turma <select id="tm-rt">${todasTurmas().map(x => `<option value="${x.id}" ${x.id === escolherTurma(null, todasTurmas()) ? "selected" : ""}>${esc(rotuloTurma(x.id))}</option>`).join("")}</select></label>
+        <button type="button" class="btn btn-sec" id="tm-reset">🔄 Refazer para esta turma</button></div></details></form></dialog>`);
     document.body.appendChild(dlg); dlg.showModal(); dlg.addEventListener("close", () => dlg.remove());
+    dlg.querySelector("#tm-reset").onclick = async () => { const tid = dlg.querySelector("#tm-rt").value;
+      if (!await P.confirmar(`Refazer a janela do tema para toda a turma ${nomeTurma(tid)}? Na próxima entrada, cada aluno vê de novo as curiosidades com o relógio e o desafio.`, "Sim, refazer")) return;
+      try { const q = await db().collection("progresso").where("turma", "==", tid).get(); const ds = q.docs.filter(d => /_temas$/.test(d.id));
+        await Promise.all(ds.map(d => d.ref.delete())); toast(`🔄 Pronto: ${ds.length} aluno(s) do ${nomeTurma(tid)} vão ver a janela do tema de novo ao entrar.`); }
+      catch (err) { await P.aviso("Não foi possível refazer: " + (err.message || err)); } };
     dlg.querySelector("#tm-ok").onclick = async () => { const v = dlg.querySelector('input[name="tm"]:checked').value;
       try { await db().collection("config").doc("tema").set({ modo: v, em: Date.now() }); P.aplicarTemaGlobal && P.aplicarTemaGlobal(v); dlg.close(); toast("🎨 Tema salvo! Os alunos veem ao abrir ou recarregar a página."); }
       catch (err) { const e = dlg.querySelector("#tm-e"); e.textContent = "Não foi possível salvar: " + (err.message || err); e.hidden = false; } };
@@ -925,6 +934,7 @@
           <button class="btn btn-sec" type="button" data-x="teste">${a.teste ? "🧪 Voltar a ser aluno comum" : "🧪 Marcar como aluno de teste (não conta na presença, no diário, nas notas e nos relatórios)"}</button>
           <button class="btn btn-sec" type="button" data-x="libera">🔓 Liberar as tarefas fora do horário (só este aluno)</button>
           <button class="btn btn-sec" type="button" data-x="avatar">🧍 Deixar montar o avatar de novo (salvou sem querer)</button>
+          <button class="btn btn-sec" type="button" data-x="temas">🎉 Refazer a janela do tema (curiosidades + desafio do relógio)</button>
           <button class="btn btn-sec" type="button" data-x="outra">🏫 Frequenta a aula de outra turma</button>
           <button class="btn btn-sec" type="button" data-x="familia">${a.lembreteFamilia ? "🎬 Desligar o lembrete da família (no fim de cada aula)" : "🎬 Lembrar de mandar o relatório/vídeo à família no fim de cada aula"}</button>
           <button class="btn btn-sec" type="button" data-x="ativo">${a.ativo ? "⛔ Desativar (saiu da escola)" : "✅ Reativar"}</button>
@@ -945,6 +955,10 @@
           }
           if (x === "avatar") { if (!await P.confirmar(`Apagar o avatar de ${a.nome}? Na próxima entrada com o código, ${a.nome.split(" ")[0]} monta um avatar novo (só desta vez). Se já estiver na aula, peça para clicar em Sair e entrar de novo.`)) return;
             await db().collection("progresso").doc(a.id + "_avatar").delete(); await P.aviso(`Pronto! ${a.nome.split(" ")[0]} pode sair e entrar de novo com o código: o portal abre a tela de montar o avatar. Os pontos e as tarefas não mudam.`); }
+          if (x === "temas") { // 🎉 19/11/2026: o aluno entrou, a janela do tema deu errado e ele ficou sem fazer: apaga o "já viu" para abrir de novo
+            if (!await P.confirmar(`Fazer ${a.nome} ver de novo a janela do tema (as curiosidades com o relógio e o desafio)? Na próxima entrada com o código, ela abre outra vez. Os pontos e as tarefas não mudam.`, "Sim, refazer")) return;
+            await db().collection("progresso").doc(a.id + "_temas").delete();
+            await P.aviso(`Pronto! Peça para ${a.nome.split(" ")[0]} clicar em Sair e entrar de novo com o código: a janela do tema abre outra vez, com o relógio e o desafio.`); }
           if (x === "atipico") { await db().collection("alunos").doc(a.id).update({ atipico: !a.atipico }); }
           if (x === "apoio") { const v = await P.perguntar("Apoios para este aluno na aula (aparecem na Tela da aula, só para você):", a.apoio || ""); if (v === null) return; await db().collection("alunos").doc(a.id).update({ apoio: v.trim() }); }
           if (x === "trilha") {
