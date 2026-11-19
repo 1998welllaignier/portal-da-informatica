@@ -82,11 +82,13 @@
       document.body.appendChild(A.dlg);
     }
     const video = d.modo === "video";
-    A.dlg.querySelector("#sala-txt").innerHTML = video
+    A.dlg.querySelector("#sala-txt").innerHTML = d.modo === "quadro"
+      ? `<b>O professor está escrevendo no quadro para toda a sala. Preste atenção!</b> <span>🔒 A tela fica travada até o professor liberar</span>`
+      : video
       ? `<b>O professor está reproduzindo este vídeo para toda a sala. Preste atenção!</b> <span>🔊 O som sai nas caixinhas da sala · 🔒 a tela fica travada até o professor liberar</span>`
       : `<b>O professor está compartilhando a tela dele com todos da sala. Preste atenção!</b> <span>🔒 A tela fica travada até o professor liberar</span>`;
     A.dlg.querySelector(".sala-entrar").innerHTML = `<div class="sala-cartao"><div class="sala-ic">${video ? "📺" : "🖥️"}</div>
-      <h2>${video ? "Hora de assistir ao vídeo junto com a turma!" : "O professor vai mostrar a tela dele para a sala toda"}</h2>
+      <h2>${video ? "Hora de assistir ao vídeo junto com a turma!" : d.modo === "quadro" ? "O professor vai explicar no quadro para a sala toda" : "O professor vai mostrar a tela dele para a sala toda"}</h2>
       <p>Clique no botão para entrar. A tela vai ficar <b>cheia e travada</b>: não dá para clicar nem sair até o professor liberar.</p>
       <button type="button" class="btn btn-grande btn-ok" id="sala-ok">${video ? "▶️ Entrar para assistir" : "👀 Entrar para ver"}</button></div>`;
     A.dlg.querySelector("#sala-ok").onclick = entrar;
@@ -129,6 +131,11 @@
         playerVars: { autoplay: 1, mute: 1, controls: 0, disablekb: 1, fs: 0, modestbranding: 1, rel: 0, playsinline: 1, iv_load_policy: 3, start: Math.floor(esperado(d)) },
         events: { onReady: e => { try { e.target.mute(); } catch (x) {} sincronizar(); } } });
       clearInterval(A.iv); A.iv = setInterval(sincronizar, 700);
+    } else if (d.modo === "quadro") {
+      // ⬜ quadro: o desenho chega como dados (traços), nítido e quase sem atraso
+      let c = midia.querySelector("canvas.sala-quadro-cv");
+      if (!c) { midia.innerHTML = `<canvas class="sala-quadro-cv"></canvas>`; c = midia.querySelector("canvas"); }
+      if (P.lousa) P.lousa.desenharRemoto(c, d.quadro || null);
     } else {
       conectarEspelho(d);
     }
@@ -175,7 +182,7 @@
     const key = d.modo + "|" + d.sessao;
     if (A.ativoKey !== key) { if (A.dlg) encerrar(); A.ativoKey = key; }
     montar(d);
-    if (A.entrou) { iniciarMidia(d); if (d.modo === "video") sincronizar(); else responder(); checarFora(); }
+    if (A.entrou) { iniciarMidia(d); if (d.modo === "video") sincronizar(); else if (d.modo === "espelho") responder(); checarFora(); }
   }
   async function ouvir(s) {
     if (!s || !s.nuvem || !P.nuvem || !P.nuvem.app) return;
@@ -298,6 +305,25 @@
     document.body.appendChild(PR.dlg);
   }
 
+  /* ⬜ quadro branco direto nos computadores dos alunos (os traços vão como dados, a cada 0,7 s) */
+  async function quadroTurma(t, rotulo) {
+    if (!P.lousa) return;
+    if (PR.t) await pararProf();
+    P.lousa.abrirQuadro();
+    const sessao = await iniciarProf(t, { modo: "quadro", quadro: P.lousa.quadro.estado() });
+    let pend = null, tm = null;
+    const envia = () => { tm = null; if (PR.sessao !== sessao || !pend) return; const q = pend; pend = null;
+      refSala(t).set({ quadro: q, vivoEm: agora() }, { merge: true }).catch(() => {}); };
+    const sai = P.lousa.quadro.aoMudar(q => { if (PR.sessao !== sessao) return sai();
+      if (!q) { sai(); if (tag) tag.remove(); pararProf(); return; }
+      pend = q; if (!tm) tm = setTimeout(envia, 700); });
+    const qel = P.lousa.estado().quadro && P.lousa.estado().quadro.el;
+    const tag = document.createElement("div"); tag.className = "sala-quadro-tag";
+    tag.innerHTML = `<span class="sala-ao-vivo">● AO VIVO</span> <b>No quadro da ${esc(rotulo || t)}</b> <span class="sala-status">👥 esperando os alunos…</span> <button type="button" class="btn btn-perigo btn-peq">⏹ Parar e liberar</button>`;
+    tag.querySelector("button").onclick = () => P.lousa.fechar();
+    if (qel) qel.appendChild(tag);
+  }
+
   /* quadro da aba 🎤 Aula */
   function painel(antes, t, videos, rotulo) {
     const box = document.createElement("details"); box.className = "painel sala-quadro"; box.open = true;
@@ -308,6 +334,9 @@
           <input type="url" id="sala-link" placeholder="Cole aqui o link do YouTube" ${videos.length ? "hidden" : ""}>
           <button type="button" class="btn btn-ok" id="sala-passar">▶️ Passar para a turma</button>
           <p class="ajuda">Cada computador toca o mesmo vídeo, sem som; o som sai daqui (caixinhas). Você controla play, pausa e pulos.</p></div>
+        <div class="sala-op"><h3>⬜ Quadro branco na tela deles</h3>
+          <button type="button" class="btn btn-ok" id="sala-quadro">⬜ Abrir o quadro para a turma</button>
+          <p class="ajuda">Você escreve e desenha no quadro (pincel, formas, texto, carimbos, páginas) e aparece na hora em todos os computadores, nítido. Para parar, “⏹ Parar e liberar” ou ✕ no quadro.</p></div>
         <div class="sala-op"><h3>🖥️ Espelhar a minha tela</h3>
           <button type="button" class="btn btn-ok" id="sala-espelho">🖥️ Mostrar minha tela para a turma</button>
           <p class="ajuda">O Chrome pergunta o que compartilhar (a tela inteira ou uma janela). Para parar, use “⏹ Parar” aqui ou “Interromper compartilhamento” do Chrome. Para vídeo com som, prefira o 📺.</p></div>
@@ -328,6 +357,7 @@
       passarVideo(t, vid, nomeV, rotulo);
     };
     box.querySelector("#sala-espelho").onclick = () => espelhar(t, rotulo);
+    box.querySelector("#sala-quadro").onclick = () => quadroTurma(t, rotulo);
   }
 
   P.sala = { ouvir, ativa: () => !!(A.dlg), painel, parar: pararProf, _A: A, _PR: PR };
