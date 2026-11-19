@@ -36,8 +36,12 @@
         const lac = []; String(at.texto).replace(/\*\*(.+?)\*\*/g, (_, w) => lac.push(w));
         html = `<p>${lac.map((w, i) => `${i + 1}. ${forte(w)}`).join(" · ")}</p>`; break;
       }
-      case "ligar":
+      case "ligar": case "memoria":
         html = `<ul class="aula-lista">${at.pares.map(p => `<li>${limpo(p.a)} → ${forte(p.b)}</li>`).join("")}</ul>`; break;
+      case "caca":
+        html = `<ul class="aula-lista">${at.palavras.map((w, i) => `<li>${at.pistas && at.pistas[i] ? limpo(at.pistas[i]) + " → " : ""}${forte(w)}</li>`).join("")}</ul>`; break;
+      case "vivi":
+        html = `<p><em>Resposta pessoal: o aluno toca nas situações que já viveu. Sem certo nem errado.</em></p>`; break;
       case "sinais":
         html = `<p>Marcar: ${at.opcoes.filter(o => o.certo).map(o => forte(o.t)).join(" · ")}</p>`; break;
       case "tabela":

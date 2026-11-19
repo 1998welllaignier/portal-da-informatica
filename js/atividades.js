@@ -497,8 +497,15 @@
         c.innerHTML = at.perguntas.map((q, i) => `<fieldset class="esc-q ${marcas[i] || ""}"><legend>${md(q.p)}</legend>
           ${q.opcoes.map((o, k) => `<label class="esc-op"><input type="radio" name="${at.id}-${i}" value="${k}" ${st.esc[i] === k ? "checked" : ""}> ${md(o)}</label>`).join("")}
           ${marcas[i] === "certo" && q.why ? `<small class="why">${md(q.why)}</small>` : ""}${marcas[i] ? `<span class="marca">${marcas[i] === "certo" ? "✔" : "✖"}</span>` : ""}</fieldset>`).join("");
-        c.querySelectorAll("input").forEach(x => x.onchange = () => { const i = +x.name.split("-").pop(); st.esc[i] = +x.value; delete marcas[i]; ctx.salvar(); });
+        c.querySelectorAll("input").forEach(x => x.onchange = () => { const i = +x.name.split("-").pop(); st.esc[i] = +x.value; delete marcas[i]; ctx.salvar();
+          // ✔ 18/11/2026: corrige NO CLIQUE (sem botão Verificar para esquecer); na recuperação continua com o botão
+          if (noClique && !st.status) { const q = at.perguntas[i], ok = q.certo < 0 || st.esc[i] === q.certo; marcas[i] = ok ? "certo" : "errado"; draw();
+            if (!ok) { ctx.errou("Essa não é a resposta certa (✖). Leia de novo e escolha outra."); return; }
+            if (at.perguntas.every((_, k) => marcas[k] === "certo")) ctx.concluir("certo", "Certo!");
+            else ctx.feedback("ok", at.perguntas.length > 1 ? "Certo! Agora a próxima pergunta." : "Certo!"); } });
       };
+      const noClique = !/\/rc(\/|$)/.test(location.hash);
+      if (noClique && ctx.esconderVerificar) ctx.esconderVerificar();
       ctx.verificar = () => {
         if (at.perguntas.some((_, i) => st.esc[i] === undefined)) { ctx.feedback("info", "Responda todas as perguntas."); return; }
         marcas = {}; let err = 0;
@@ -1190,5 +1197,125 @@
     },
     imprimir(at) { return `${at.tituloCartaz ? `<p><strong>Cartaz: ${esc(at.tituloCartaz)}</strong></p>` : ""}<div class="imp-caixa"></div>${(at.campos || []).map(f => `<p>${md(f.rot)}</p>${f.opcoes ? `<p>${f.opcoes.map(o => "( ) " + esc(o)).join("   ")}</p>` : linhas(1)}`).join("")}`; },
     resumoResposta(at, st) { return `${(st.des || []).map(esc).join(" ")}${st.cor ? ` · fundo ${esc(st.cor)}` : ""}${Object.keys(st.conf || {}).length ? " · " + Object.values(st.conf).map(esc).join(" · ") : ""}`; }
+  };
+
+  /* ============================================================
+     🧠 JOGO DA MEMÓRIA (18/11/2026) — pares termo ↔ significado em cartas viradas.
+     Vira duas cartas; se combinam, ficam abertas. Errar o par não conta como erro (faz parte do jogo).
+     spec: { tipo: "memoria", pares: [{ a: "Termo", b: "O que é" }], porRodada: 4 }
+     ============================================================ */
+  T.memoria = {
+    auto: true,
+    render(c, at, ctx) {
+      const st = ctx.st; st.ach = st.ach || [];
+      const nR = at.porRodada || 4, rodadas = [];
+      for (let i = 0; i < at.pares.length; i += nR) rodadas.push(at.pares.slice(i, i + nR).map((_, k) => i + k));
+      let r = rodadas.findIndex(rd => rd.some(i => !st.ach.includes(i))); if (r < 0) r = rodadas.length - 1;
+      let cartas = [], abertas = [], trava = false, jogadas = 0;
+      const embaralhar = () => { cartas = shuffle(rodadas[r].flatMap(i => [{ i, l: "a" }, { i, l: "b" }])); };
+      embaralhar();
+      const draw = () => {
+        c.innerHTML = `<p class="instr-arrastar">${rodadas.length > 1 ? `Rodada ${r + 1} de ${rodadas.length}: ` : ""}vire duas cartas: ache o <b>termo</b> e o <b>significado</b> que combinam.</p>
+          <div class="mem-grade" style="--n:${Math.min(4, cartas.length / 2)}">${cartas.map((k, j) => { const vis = st.ach.includes(k.i) || abertas.includes(j);
+            return `<button type="button" class="mem-carta ${vis ? "virada" : ""} ${st.ach.includes(k.i) ? "achou" : ""} ${k.l === "a" ? "mem-a" : "mem-b"}" data-j="${j}" ${st.ach.includes(k.i) ? "disabled" : ""} aria-label="${vis ? esc(k.l === "a" ? at.pares[k.i].a : at.pares[k.i].b) : "Carta virada"}">
+              <span class="mem-verso">❓</span><span class="mem-frente">${k.l === "a" ? `<b>${md(at.pares[k.i].a)}</b>` : md(at.pares[k.i].b)}</span></button>`; }).join("")}</div>
+          <p class="mem-jogadas">Jogadas: <b>${jogadas}</b></p>`;
+        c.querySelectorAll(".mem-carta").forEach(b => b.onclick = () => {
+          const j = +b.dataset.j; if (trava || abertas.includes(j) || st.ach.includes(cartas[j].i)) return;
+          abertas.push(j); draw();
+          if (abertas.length < 2) return;
+          jogadas++; const [x, y] = abertas.map(q => cartas[q]);
+          if (x.i === y.i && x.l !== y.l) {
+            st.ach.push(x.i); abertas = []; ctx.salvar(); ctx.feedback("ok", "Par certo! 🎉");
+            if (rodadas[r].every(i => st.ach.includes(i))) {
+              if (r < rodadas.length - 1) { r++; embaralhar(); setTimeout(draw, 700); }
+              else { draw(); ctx.concluir("certo", `Você achou todos os pares em ${jogadas} jogadas!`); return; }
+            }
+            draw();
+          } else { trava = true; setTimeout(() => { abertas = []; trava = false; draw(); }, 1100); }
+        });
+      };
+      ctx.resolver = () => { st.ach = at.pares.map((_, i) => i); r = rodadas.length - 1; embaralhar(); draw(); };
+      draw();
+    },
+    imprimir(at) { return `<table class="imp-t"><tr><th>Termo</th><th>Significado</th></tr>${at.pares.map(p => `<tr><td>${esc(p.a)}</td><td>${esc(p.b)}</td></tr>`).join("")}</table>`; }
+  };
+
+  /* ============================================================
+     🔎 CAÇA-PALAVRAS (18/11/2026) — clique na PRIMEIRA e na ÚLTIMA letra da palavra (ou arraste).
+     Palavras na horizontal (→) e na vertical (↓), sem acento. Com "pistas", a lista mostra a pista, não a palavra.
+     spec: { tipo: "caca", palavras: ["DADOS", "NUVEM"], pistas: ["…", "…"], tam: 10 }
+     ============================================================ */
+  T.caca = {
+    auto: true,
+    render(c, at, ctx) {
+      const st = ctx.st; st.ach = st.ach || [];
+      const W = at.palavras.map(w => norm(w).toUpperCase().replace(/[^A-Z0-9]/g, ""));
+      const N = Math.max(at.tam || 10, ...W.map(w => w.length));
+      // grade sempre igual para a mesma tarefa (semente = id da tarefa)
+      let seed = 0; for (const ch of String(at.id || "caca")) seed = (seed * 31 + ch.charCodeAt(0)) >>> 0;
+      const rnd = () => { seed = (seed * 1103515245 + 12345) >>> 0; return (seed >>> 8) / 16777216; };
+      let G, pos;
+      for (let tent = 0; tent < 60; tent++) {
+        G = Array.from({ length: N }, () => Array(N).fill("")); pos = []; let ok = true;
+        for (const w of W.slice().sort((a, b) => b.length - a.length)) {
+          let pus = false;
+          for (let k = 0; k < 200 && !pus; k++) {
+            const d = rnd() < 0.55 ? [0, 1] : [1, 0], r0 = Math.floor(rnd() * (N - (d[0] ? w.length : 1) + 1)), c0 = Math.floor(rnd() * (N - (d[1] ? w.length : 1) + 1));
+            if ([...w].every((ch, i) => { const v = G[r0 + d[0] * i][c0 + d[1] * i]; return !v || v === ch; })) {
+              [...w].forEach((ch, i) => { G[r0 + d[0] * i][c0 + d[1] * i] = ch; }); pos[W.indexOf(w)] = { r0, c0, d, n: w.length }; pus = true; }
+          }
+          if (!pus) { ok = false; break; }
+        }
+        if (ok) break;
+      }
+      const AB = "ABCDEFGHIJLMNOPQRSTUVXZ";
+      G.forEach(l => l.forEach((v, j) => { if (!v) l[j] = AB[Math.floor(rnd() * AB.length)]; }));
+      const celulas = k => { const p = pos[k]; return Array.from({ length: p.n }, (_, i) => (p.r0 + p.d[0] * i) + "," + (p.c0 + p.d[1] * i)); };
+      let ini = null;
+      const draw = () => {
+        const marc = new Set(st.ach.flatMap(celulas));
+        c.innerHTML = `<p class="instr-arrastar">Clique na <b>primeira</b> e depois na <b>última</b> letra de cada palavra (→ ou ↓).</p>
+          <div class="caca"><div class="caca-grade" style="--n:${N}" role="grid">${G.map((l, i) => l.map((v, j) => `<button type="button" class="caca-l ${marc.has(i + "," + j) ? "achou" : ""} ${ini && ini[0] === i && ini[1] === j ? "ini" : ""}" data-r="${i}" data-c="${j}">${v}</button>`).join("")).join("")}</div>
+          <ul class="caca-lista">${W.map((w, k) => `<li class="${st.ach.includes(k) ? "achou" : ""}">${st.ach.includes(k) ? "✔ " : "🔎 "}${at.pistas && at.pistas[k] && !st.ach.includes(k) ? md(at.pistas[k]) + ` <small>(${w.length} letras)</small>` : `<b>${esc(at.palavras[k])}</b>${at.pistas && at.pistas[k] ? ` — ${md(at.pistas[k])}` : ""}`}</li>`).join("")}</ul></div>`;
+        c.querySelectorAll(".caca-l").forEach(b => b.onclick = () => {
+          const rc = [+b.dataset.r, +b.dataset.c];
+          if (!ini) { ini = rc; draw(); return; }
+          const [a, z] = [ini, rc]; ini = null;
+          const k = W.findIndex((w, k) => { if (st.ach.includes(k)) return false; const cs = celulas(k); return (cs[0] === a.join(",") && cs[cs.length - 1] === z.join(",")) || (cs[0] === z.join(",") && cs[cs.length - 1] === a.join(",")); });
+          if (k >= 0) { st.ach.push(k); ctx.salvar(); ctx.feedback("ok", `Achou: <b>${esc(at.palavras[k])}</b>!`);
+            if (st.ach.length === W.length) { draw(); ctx.concluir("certo", "Você achou todas as palavras! 🔎"); return; } }
+          else ctx.feedback("info", "Ainda não é uma palavra da lista. Clique na primeira letra e depois na última.");
+          draw();
+        });
+      };
+      ctx.resolver = () => { st.ach = W.map((_, k) => k); draw(); };
+      draw();
+    },
+    imprimir(at) { return `<p>Encontre: ${at.palavras.map(esc).join(" · ")}</p>`; }
+  };
+
+  /* ============================================================
+     👆 TOQUE NO QUE VOCÊ JÁ VIVEU (18/11/2026) — substitui o "Pense e escreva" do 🌎 Onde eu uso isso?.
+     Sem certo nem errado e sem digitar: o aluno toca nas situações que já aconteceram com ele e confirma.
+     spec: { tipo: "vivi", opcoes: ["…"], opcional: true }
+     ============================================================ */
+  T.vivi = {
+    auto: true,
+    render(c, at, ctx) {
+      const st = ctx.st; st.m = st.m || {};
+      const bv = ctx.el && ctx.el.querySelector('[data-a="verificar"]'); if (bv) bv.textContent = "✔ Pronto";
+      const draw = () => {
+        c.innerHTML = `<div class="vivi">${at.opcoes.map((o, i) => `<button type="button" class="vivi-op ${st.m[i] ? "sel" : ""}" data-i="${i}" aria-pressed="${!!st.m[i]}">${st.m[i] ? "✅" : "⬜"} ${md(o)}</button>`).join("")}</div>`;
+        c.querySelectorAll(".vivi-op").forEach(b => b.onclick = () => { if (st.status) return; st.m[b.dataset.i] = !st.m[b.dataset.i]; ctx.salvar(); draw(); });
+      };
+      ctx.verificar = () => {
+        const n = Object.values(st.m).filter(Boolean).length;
+        ctx.concluir("feito", n ? `Legal! Você já viveu ${n} ${n > 1 ? "dessas situações" : "dessa situação"}: o que você aprende aqui faz parte da sua vida. 🌎` : "Tudo bem! Agora você sabe onde isso aparece: repare da próxima vez. 👀");
+      };
+      draw();
+    },
+    imprimir(at) { return `<ul class="imp-op">${at.opcoes.map(o => `<li>☐ ${md(o)}</li>`).join("")}</ul>`; },
+    resumoResposta(at, st) { return at.opcoes.filter((_, i) => (st.m || {})[i]).map(esc).join(" · ") || "nenhuma"; }
   };
 })();

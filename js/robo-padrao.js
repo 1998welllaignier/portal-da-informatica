@@ -17,6 +17,19 @@
   const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 
   const PADRAO = {
+    memoria: () => R(["🧠 Jogo da memória de OUTRO assunto: animais"], [
+      T("Olha o meu jeito de jogar a memória (com <b>outro</b> assunto):", "Memória"),
+      L("1. Viro <b>uma</b> carta: apareceu o termo “<b>Gato</b>”.", "1. Virar uma carta"),
+      L("2. Viro outra procurando o significado dele. Saiu “voa e tem penas”: não combina, as duas voltam.", "2. Não combinou: as duas voltam"),
+      L("3. Eu <b>guardo na cabeça</b> onde estava cada carta que vi.", "3. Lembrar onde estava", true),
+      L("4. Quando acho “mia e tem bigode”, viro o Gato de novo: <b>par certo</b>, as duas ficam abertas!", "4. Par certo fica aberto", true, 2600),
+      F("Dica: se não lembra o significado, abra o 📖 O que significa? da missão.")], "Agora é a sua vez: vire as cartas e ache os pares. 💪"),
+    caca: () => R(["🔎 Caça-palavras de OUTRAS palavras"], [
+      T("Olha o meu jeito de achar uma palavra (vou procurar <b>BOLA</b>, que não está no seu):", "Caça-palavras"),
+      L("1. Procuro a <b>primeira letra</b>, o B, e olho as letras do lado (→) e de baixo (↓).", "1. Achar a primeira letra"),
+      L("2. Se forma B-O-L-A, achei! Clico no <b>B</b> (primeira letra)…", "2. Clicar na primeira letra", true),
+      L("3. …e depois no <b>A</b> (última letra). A palavra fica verde.", "3. Clicar na última letra", true, 2600),
+      F("As palavras estão só para a direita (→) ou para baixo (↓), sem acento.")], "Agora é a sua vez: ache as palavras da lista. 💪"),
     blocos: at => at.inicio && (at.inicio || []).length
       ? R(["🐞 Como eu conserto um programa"], [
           T("Olha o meu jeito de consertar um programa que já vem pronto:", "Depurar"),

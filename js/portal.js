@@ -48,6 +48,35 @@
     clearTimeout(toastT); toastT = setTimeout(() => { t.hidden = true; }, 3200);
   }
   P.toast = toast;
+  /* ✋ ESQUECEU DE VERIFICAR? (18/11/2026, pedido do professor)
+     Quando o aluno mexe numa tarefa que tem botão Verificar e começa a mexer em OUTRA sem ter verificado a primeira:
+     a esquecida ganha borda amarela + selo "✋ Falta verificar!", aparece um balão "Ir para ela" e, no rodapé,
+     um lembrete fixo "⚠️ N tarefas sem verificar" que leva direto até elas. Some sozinho quando forem verificadas. */
+  const pendVer = () => [...document.querySelectorAll(".atv[data-mexeu]")].filter(el => !el.classList.contains("concluida") && (() => { const b = el.querySelector('[data-a="verificar"]'); return b && !b.hidden; })());
+  function pintarVerificar() {
+    const lst = pendVer(); document.querySelectorAll(".atv.falta-verificar").forEach(el => { if (!lst.includes(el)) el.classList.remove("falta-verificar"); });
+    let bar = document.getElementById("falta-ver");
+    const avisadas = lst.filter(el => el.classList.contains("falta-verificar"));
+    document.body.classList.toggle("tem-falta-ver", !!avisadas.length);   // espaço embaixo para o lembrete não cobrir nada
+    if (!avisadas.length) { if (bar) bar.remove(); return; }
+    if (!bar) { bar = document.createElement("button"); bar.type = "button"; bar.id = "falta-ver"; bar.className = "falta-ver"; document.body.appendChild(bar);
+      bar.onclick = () => { const el = pendVer().find(x => x.classList.contains("falta-verificar")); if (el) { el.scrollIntoView({ behavior: "smooth", block: "center" }); const b = el.querySelector('[data-a="verificar"]'); setTimeout(() => b && b.focus({ preventScroll: true }), 500); } }; }
+    bar.innerHTML = `⚠️ <b>${avisadas.length} tarefa${avisadas.length > 1 ? "s" : ""} sem verificar</b> · toque aqui para ir até ela${avisadas.length > 1 ? "s" : ""} ⬆️`;
+  }
+  document.addEventListener("pointerdown", e => {
+    const el = e.target.closest && e.target.closest(".atv"); if (!el || e.target.closest(".atv-acoes, .ab-bit, .resp-prof")) return;
+    const antes = pendVer().filter(x => x !== el);
+    if (antes.length) antes.forEach(x => { if (!x.classList.contains("falta-verificar")) { x.classList.add("falta-verificar"); 
+      const t = (x.querySelector(".atv-cab h2") || {}).textContent || "a tarefa anterior";
+      const bal = document.createElement("div"); bal.className = "falta-balao"; bal.setAttribute("role", "alert");
+      bal.innerHTML = `✋ <b>Opa!</b> “${esc(t.length > 50 ? t.slice(0, 48) + "…" : t)}” ficou <b>sem verificar</b>. <button type="button" class="btn btn-peq btn-ok">⬆️ Ir para ela</button>`;
+      bal.querySelector("button").onclick = () => { bal.remove(); x.scrollIntoView({ behavior: "smooth", block: "center" }); };
+      document.body.appendChild(bal); setTimeout(() => bal.remove(), 6000); } });
+    if (!el.classList.contains("concluida")) el.dataset.mexeu = "1";
+    setTimeout(pintarVerificar, 50);
+  }, true);
+  setInterval(pintarVerificar, 1000); addEventListener("hashchange", () => { const b = document.getElementById("falta-ver"); if (b) b.remove(); });
+
   /* 📐 a trilha da missão só fica "grudada" na tela se couber inteira; senão rola com a página (nada escondido), 18/11/2026 */
   function ajustarTrilha() { const n = document.querySelector(".mis-nav"); if (!n) return; n.classList.remove("solta"); if (n.getBoundingClientRect().height > innerHeight - 86) n.classList.add("solta"); }
   addEventListener("resize", ajustarTrilha); addEventListener("hashchange", () => setTimeout(ajustarTrilha, 400)); setInterval(ajustarTrilha, 3000);
@@ -231,12 +260,11 @@
       atividades: [{ id: mid + "-termos", nivel: "treino", tipo: "ligar", titulo: "Treino rápido: ligue cada termo ao seu significado",
         porRodada: (apostila(aid) || {}).trilha ? 3 : 5, pares: m.termos.map(t => ({ a: t.termo, b: t.def })), explicacao: "Revise os termos sempre que precisar: eles caem na avaliação." }] });
     if (m.ondeUso && m.ondeUso.itens.length) pages.push({ id: "onde", rotulo: "Onde eu uso isso?", icone: "🌎", tipo: "leitura",
-      atividades: m.ondeUso.reflexao ? [{ id: mid + "-onde", nivel: "treino", tipo: "aberta", titulo: "Pense e escreva", enunciado: m.ondeUso.reflexao,
-        criterios: ["Conta uma situação real do seu dia a dia.", "Usa pelo menos uma palavra nova da missão."], opcional: true,
-        // correção automática (combinado de 08/11): tamanho mínimo + pelo menos uma palavra nova da missão; o professor lê no painel
-        conferir: palavrasDaMissao(m).length ? { minPalavras: 8, minGrupos: 1,
-          grupos: [{ alts: palavrasDaMissao(m), dica: "pelo menos uma palavra nova da missão (veja em 📖 O que significa?, por exemplo “" + (m.termos && m.termos[0] ? m.termos[0].termo : "") + "”)" }],
-          msg: "Resposta conferida! Você contou uma situação com as palavras da missão. O professor pode ler a sua resposta no painel." } : { minPalavras: 8 } }] : [] });
+      /* 👆 18/11/2026 (pedido do professor): o antigo "✍️ Pense e escreva" (digitar 8 palavras com uma palavra nova) travava a aula.
+         Agora é "Toque no que você já viveu": as situações do próprio Onde eu uso isso?, sem digitar, sem certo nem errado. */
+      atividades: [{ id: mid + "-onde", nivel: "treino", tipo: "vivi", titulo: "👆 Toque no que você já viu ou já fez", opcional: true,
+        enunciado: "<p>Toque nas situações que já aconteceram com você (ou com alguém da sua casa). Depois, toque em <b>Pronto</b>.</p>",
+        opcoes: m.ondeUso.itens }] });
     const lv = [["basico", "Missão — Básico", "🟢"], ["desafio", "Desafio", "🟡"], ["turbo", "Turbo", "🔴"]];
     lv.forEach(([k, r, i]) => { const arr = ativ(k, a[k]); if (arr.length) pages.push({ id: k, rotulo: r, icone: i, tipo: "missao", atividades: arr }); });
     /* ⭐ Bônus relâmpago (16/11/2026, pedido do professor): tarefinha curta (5 a 10 min) que só abre quando o aluno terminou

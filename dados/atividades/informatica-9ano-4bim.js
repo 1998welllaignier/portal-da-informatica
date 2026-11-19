@@ -297,23 +297,12 @@
           okMsg: "Cartaz pronto e conferido! Ficou registrado para o professor." }
       ],
       desafio: [
-        { tipo: "aberta", titulo: "Escreva o crédito correto da foto da castanheira", robo: {"paineis": ["©️ Crédito de outra foto"], "passos": [{"fala": "Olha como eu escrevo o crédito de <b>outra</b> foto, seguindo o modelo <b>Foto: autor, site, licença</b>:", "painel": 0, "titulo": "Foto de um ipê, de João Lima, no site Natureza Livre, licença CC BY"}, {"fala": "", "painel": 0, "linha": "Foto: João Lima, Natureza Livre, CC BY.", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: escreva o crédito da foto da <b>castanheira</b>, no mesmo modelo! 💪"},
-          enunciado: "<p>Foto de uma castanheira, tirada por <strong>Maria Souza</strong>, encontrada no site <strong>Banco de Imagens Livres</strong>, com licença <strong>CC BY</strong>. Modelo: <em>Foto: nome do autor, site onde estava, licença.</em></p>",
-          linhas: 2,
-          criterios: ["Segui o modelo: Foto: autor, site, licença."], exemplo: "Foto: Maria Souza, Banco de Imagens Livres, CC BY.",
-          conferir: { grupos: [{ dica: "começar com “Foto:”", alts: ["foto"] }, { dica: "o nome da autora (Maria Souza)", alts: ["maria souza"] }, { dica: "o site (Banco de Imagens Livres)", alts: ["banco de imagens livres"] }, { dica: "a licença (CC BY)", alts: ["cc by", "cc-by"] }],
-            msg: "Crédito escrito do jeito certo: autor, site e licença!" } },
+        {tipo:  "ordenar", titulo:  "Monte o crédito correto da foto da castanheira", enunciado:  "<p>Foto de uma castanheira, tirada por <b>Maria Souza</b>, encontrada no site <b>Banco de Imagens Livres</b>, com licença <b>CC BY</b>. Coloque as partes do crédito na ordem do modelo: <b>Foto: autor, site, licença</b>.</p>", itens:  ["Foto:", "Maria Souza (a autora)", "Banco de Imagens Livres (o site)", "CC BY (a licença)"], explicacao:  "Crédito certo: <b>Foto: Maria Souza, Banco de Imagens Livres, CC BY.</b>"},
         { tipo: "escolha", titulo: "E se fosse “todos os direitos reservados”?",
           perguntas: [{ p: "Se a imagem tivesse o aviso “todos os direitos reservados”, você poderia usá-la sem pedir autorização?", opcoes: ["Não: precisaria pedir autorização ao autor", "Sim, basta escrever o nome do autor", "Sim, porque está na internet"], certo: 0, why: "“Todos os direitos reservados” (©) quer dizer que só o autor decide quem pode usar." }] }
       ],
       turbo: [
-        { tipo: "aberta", titulo: "Por que um deepfake de um colega, mesmo “de brincadeira”, pode causar problemas sérios? O que a vítima deve fazer?", robo: {"paineis": ["⚠️ Por que é sério", "🛡️ O que a vítima faz"], "passos": [{"fala": "Vou pensar num caso <b>parecido</b>: um áudio falso imitando a voz de uma professora. Por que é sério?", "painel": 0, "linha": "Usa a voz dela sem autorização"}, {"fala": "", "painel": 0, "linha": "Pode fazer as pessoas acreditarem numa mentira", "espera": 1000}, {"fala": "E o que a vítima faz? Não apaga as provas, conta a um adulto e denuncia:", "painel": 1, "linha": "Guardar o áudio e os prints", "marca": true}, {"fala": "", "painel": 1, "linha": "Contar à direção e denunciar", "marca": true, "espera": 2400}], "fim": "Agora é a sua vez: responda sobre o <b>deepfake do colega</b>, com as suas palavras! 💪"},
-          campos: [{ rot: "Por que pode causar problemas sérios?", linhas: 3 }, { rot: "O que a vítima deve fazer?", linhas: 3 }],
-          criterios: ["Falei de direito de imagem e cyberbullying (pode ser crime).", "Disse o que a vítima faz: não apaga as provas, conta a um adulto, denuncia."],
-          conferir: { minPalavras: 6, porCampo: [
-            ["direito de imagem", "imagem", "cyberbullying", "crime", "humilh", "mentira", "falso", "reputac", "vergonha", "lei", "expoe", "expor", "constrang"],
-            ["prova", "print", "nao apag", "adulto", "professor", "famil", "pais", "denunc", "policia", "delegacia", "conta", "contar"]] },
-          exemplo: "Porque usa a imagem da pessoa sem autorização (direito de imagem), pode humilhar e ser cyberbullying, e isso pode ser crime. A vítima não apaga as provas (tira print), conta a um adulto de confiança e denuncia." }
+        {tipo:  "classificar", titulo:  "Deepfake de um colega, mesmo “de brincadeira”: por que é sério e o que a vítima faz?", categorias:  [{id:  "S", rot:  "⚠️ Por que é sério"}, {id:  "V", rot:  "🛡️ O que a vítima faz"}], itens:  [{t:  "Usa a imagem da pessoa sem autorização (direito de imagem)", c:  "S"}, {t:  "Pode humilhar e virar cyberbullying", c:  "S"}, {t:  "Pode ser crime", c:  "S"}, {t:  "Não apaga as provas: tira print", c:  "V"}, {t:  "Conta a um adulto de confiança", c:  "V"}, {t:  "Denuncia na plataforma", c:  "V"}], explicacao:  "Deepfake de alguém sem autorização fere o <b>direito de imagem</b> e pode ser <b>cyberbullying</b>. A vítima <b>guarda as provas</b>, <b>conta a um adulto</b> e <b>denuncia</b>."}
       ],
       vf: [
         { v: false, corrigir: { trecho: "pode ser usado sem dar crédito ao autor", opcoes: ["pode ser usado sem dar crédito ao autor", "tem autor e precisa de crédito ou autorização"], certo: "tem autor e precisa de crédito ou autorização" } },
@@ -389,15 +378,7 @@
           explicacao: "Toda tecnologia tem impactos: o reconhecimento facial pede cuidado com os dados; o trabalho muda; o semáforo inteligente pode diminuir o tempo no trânsito." }
       ],
       turbo: [
-        { tipo: "aberta", titulo: "Uma regra para usar a IA com responsabilidade na escola",
-          campos: [{ rot: "A minha regra", linhas: 2 }, { rot: "Por que essa regra é importante", linhas: 3 }],
-          criterios: ["A regra fala de conferir, estudar, dados pessoais ou dizer quando usou IA.", "O porquê explica um risco ou um benefício."],
-          exemplo: "Regra: sempre confira a resposta da IA em outra fonte. Por quê: o chatbot pode inventar uma resposta errada com toda a certeza.",
-          conferir: { minPalavras: 5, diferentes: "todos",
-            grupos: [{ dica: "conferir as respostas", alts: ["confer", "checa", "verific", "fonte"] }, { dica: "usar para estudar, sem copiar", alts: ["estud", "aprend", "entend", "copi"] },
-              { dica: "não colocar dados pessoais", alts: ["dado", "pessoa", "nome", "senha", "privac"] }, { dica: "dizer quando usou IA", alts: ["dizer", "avisar", "contar", "informar", "usei"] },
-              { dica: "a IA pode errar ou inventar", alts: ["err", "invent", "viés", "vies", "falso", "mentir"] }],
-            minGrupos: 2, msg: "Regra de quem usa a IA com responsabilidade!" } }
+        {tipo:  "ligar", titulo:  "Ligue cada regra para usar a IA na escola ao porquê dela", pares:  [{a:  "Confira a resposta da IA em outra fonte", b:  "O chatbot pode inventar uma resposta errada com toda a certeza"}, {a:  "Use a IA para estudar, não para copiar", b:  "Copiando, você não aprende e pode ser plágio"}, {a:  "Não coloque dados pessoais no chatbot", b:  "O que você digita pode ficar guardado pela empresa"}, {a:  "Diga quando usou IA no trabalho", b:  "É ser honesto com o professor e com os colegas"}], explicacao:  "Usar IA com responsabilidade é <b>conferir</b>, <b>estudar de verdade</b>, <b>proteger os dados</b> e <b>ser honesto</b>."}
       ],
       vf: [
         { v: true },
@@ -467,13 +448,7 @@
     pf: {
       basico: [
         { tipo: "info", titulo: "Confira as suas missões", html: "<p>Volte à lista de missões da apostila: cada missão com o <strong>Básico concluído</strong> aparece com ✔. Se faltar alguma (por exemplo, porque você faltou à aula), faça o Básico dela agora. O professor acompanha tudo pelo painel.</p>" },
-        { tipo: "aberta", titulo: "Escreva uma frase sobre o que você aprendeu em cada tema", robo: {"paineis": ["✍️ Exemplo com outra matéria"], "passos": [{"fala": "Olha como eu escrevo uma boa frase, sobre <b>outra</b> matéria (Matemática):", "painel": 0, "titulo": "🧮 Frações"}, {"fala": "Começo com letra maiúscula, uso uma <b>palavra-chave</b> do tema e termino com ponto final:", "painel": 0, "linha": "Aprendi que a fração mostra partes de um inteiro.", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: uma frase para cada tema, com uma palavra-chave dele! 💪"},
-          campos: [{ rot: "🕸️ Grafos e árvores", linhas: 2 }, { rot: "🔐 Criptografia e ataques", linhas: 2 }, { rot: "©️ Autoria, imagem e deepfakes", linhas: 2 }],
-          criterios: ["Cada frase usa pelo menos uma palavra-chave do tema.", "Frase completa, com letra maiúscula e ponto final."],
-          conferir: { minPalavras: 4, porCampo: [
-            ["grafo", "arvore", "vertice", "aresta", "peso", "caminho", "folha", "raiz", "decis", "no ", "ligac", "rede"],
-            ["cripto", "cifra", "chave", "cesar", "senha", "forca bruta", "ataque", "phishing", "engenharia social", "segur", "codig", "decifr"],
-            ["autor", "credito", "plagio", "imagem", "deepfake", "licenc", "direito", "creative commons", "falso", "fake", "inteligencia artificial", "copi"]] } }
+        {tipo:  "memoria", titulo:  "Jogo da memória: o que você aprendeu em cada tema", pares:  [{a:  "Vértice", b:  "Um ponto do grafo"}, {a:  "Aresta", b:  "A ligação entre dois vértices"}, {a:  "Criptografia", b:  "Esconder a mensagem com uma chave"}, {a:  "Força bruta", b:  "Testar todas as senhas possíveis"}, {a:  "Phishing", b:  "Golpe que imita uma mensagem ou um site confiável"}, {a:  "Crédito", b:  "Dizer quem é o autor da imagem"}, {a:  "Deepfake", b:  "Vídeo ou áudio falso feito com IA"}, {a:  "Licença CC BY", b:  "Pode usar, desde que dê o crédito"}], porRodada:  4, explicacao:  "Grafos, criptografia e autoria: os três temas do bimestre!"}
       ],
       desafio: [
         { tipo: "ligar", titulo: "Desafio do bimestre: ligue cada termo ao seu significado", explicacao: "Cada termo é de um tema do bimestre. Se errou algum, volte ao 📖 O que significa? da missão daquele termo e leia de novo.", porRodada: 6,
@@ -481,12 +456,7 @@
         pares: [{ a: "Aresta", b: "Ligação entre dois vértices de um grafo" }, { a: "Folha", b: "Fim de uma árvore, que não se divide mais" }, { a: "Chave", b: "Informação que permite cifrar e decifrar uma mensagem" }, { a: "Força bruta", b: "Ataque que testa todas as senhas possíveis" }, { a: "Plágio", b: "Copiar a obra de alguém e apresentar como sua" }, { a: "Deepfake", b: "Vídeo, foto ou áudio falso que imita uma pessoa, criado por inteligência artificial" }] }
       ],
       turbo: [
-        { tipo: "aberta", titulo: "A missão de que eu mais gostei",
-          enunciado: "<p>Escolha a missão de que você mais gostou e escreva duas ou três frases dizendo por quê. Se o professor ligar o projetor no fim da aula, você pode ler para a turma (é opcional).</p>",
-          campos: [{ rot: "A missão de que eu mais gostei:", linhas: 1 }, { rot: "Por que eu gostei (duas ou três frases):", linhas: 3 }],
-          criterios: ["Diz qual foi a missão.", "Explica o motivo com as suas palavras."],
-          exemplo: "Missão 2. Eu gostei porque decifrei mensagens com a cifra de César e entendi por que uma senha longa é mais difícil de quebrar.",
-          conferir: { minPalavras: 2, msg: "Registrado! O professor pode ler no painel." } }
+        {tipo:  "escolha", titulo:  "A missão de que eu mais gostei", enunciado:  "<p>Não tem resposta certa nem errada: toque no que é verdade para você. O professor vê as respostas no painel.</p>", perguntas:  [{p:  "Qual foi a missão de que você mais gostou?", opcoes:  ["Missão 1 – Grafos e árvores", "Missão 2 – Criptografia e ataques", "Missão 3 – Autoria, imagem e deepfakes", "Missão 4 – Inteligência artificial"], certo:  -1}, {p:  "Por que você gostou dela?", opcoes:  ["Aprendi uma coisa nova que vou usar no dia a dia", "As atividades e os jogos foram divertidos", "Consegui fazer sozinho(a)", "Gostei do vídeo e das simulações"], certo:  -1}], explicacao:  "Obrigado por contar! A sua opinião ajuda o professor a deixar as próximas missões ainda melhores."}
       ]
     }
   });

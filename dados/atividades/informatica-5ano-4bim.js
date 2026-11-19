@@ -134,11 +134,7 @@ PORTAL.registrarAtividades("informatica-5ano-4bim", {
         explicacao: "Para ir de Parauapebas a Marabá, usando só essas estradas, é preciso passar por Curionópolis e por Eldorado dos Carajás." }
     ],
     turbo: [
-      { tipo: "aberta", titulo: "2 coisas que viram lista e 2 coisas que viram grafo", robo: {"paineis": ["📋 Lista: um depois do outro", "🕸️ Grafo: coisas ligadas"], "passos": [{"fala": "Olha como eu penso. Numa <b>lista</b>, as coisas ficam em fila, uma depois da outra:", "painel": 0, "linha": "a fila da merenda"}, {"fala": "Num <b>grafo</b>, as coisas estão <b>ligadas</b> entre si:", "painel": 1, "linha": "as estações do metrô ligadas pelos trilhos", "espera": 2400}], "fim": "Agora é a sua vez: pense em 2 listas e 2 grafos <b>seus</b>, diferentes dos meus! 💪"},
-        campos: [{ rot: "Viram lista:", linhas: 1 }, { rot: "Viram grafo:", linhas: 1 }],
-        criterios: ["Nas listas, os itens ficam um depois do outro.", "Nos grafos, as coisas estão ligadas entre si."],
-        exemplo: "Lista: a playlist e a chamada da turma. Grafo: os amigos de uma rede social e as ruas do bairro.",
-        conferir: { minPalavras: 2, diferentes: "todos", msg: "Exemplos registrados! O professor pode ler no painel." } }
+      {tipo:  "classificar", titulo:  "Isso vira lista ou grafo?", categorias:  [{id:  "L", rot:  "📋 Lista (um depois do outro)"}, {id:  "G", rot:  "🕸️ Grafo (coisas ligadas)"}], itens:  [{t:  "A playlist de músicas", c:  "L"}, {t:  "A chamada da turma", c:  "L"}, {t:  "A lista de compras do mercado", c:  "L"}, {t:  "A fila da cantina", c:  "L"}, {t:  "Os amigos de uma rede social", c:  "G"}, {t:  "As ruas que ligam os lugares do bairro", c:  "G"}, {t:  "As cidades ligadas por estradas", c:  "G"}], explicacao:  "Na <b>lista</b>, os itens ficam um depois do outro. No <b>grafo</b>, as coisas estão ligadas entre si."}
     ],
     vf: [
       { v: true },
@@ -181,12 +177,7 @@ PORTAL.registrarAtividades("informatica-5ano-4bim", {
         categorias: [{ id: "S", rot: "Sim" }, { id: "N", rot: "Não" }],
         itens: [{ t: "Léo — terminou: Sim · guardou: Não", c: "N" }, { t: "Mia — terminou: Sim · guardou: Sim", c: "S" }, { t: "Davi — terminou: Não · guardou: Sim", c: "N" }],
         explicacao: "Com E, só pode jogar quem fez as duas coisas: Mia." },
-      { tipo: "aberta", titulo: "Complete os algoritmos de escolha", robo: {"paineis": ["🔀 SE… ENTÃO… SENÃO…"], "passos": [{"fala": "Olha como eu completo um <b>outro</b>:", "painel": 0, "titulo": "SE estiver frio,"}, {"fala": "No ENTÃO vai o que eu faço se for SIM:", "painel": 0, "linha": "ENTÃO visto o casaco,", "marca": true}, {"fala": "No SENÃO, o que eu faço se for NÃO:", "painel": 0, "linha": "SENÃO vou de camiseta.", "marca": true, "espera": 2400}], "fim": "Agora é a sua vez: complete os seus, sempre com ENTÃO e SENÃO! 💪"},
-        campos: [{ rot: "SE estiver com fome, ENTÃO… SENÃO…", linhas: 1 }, { rot: "SE o celular estiver com pouca bateria, ENTÃO… SENÃO…", linhas: 1 }, { rot: "SE eu terminar a tarefa, ENTÃO… SENÃO…", linhas: 1 }],
-        criterios: ["Cada linha tem uma ação para o ENTÃO e outra para o SENÃO."],
-        enunciado: "<p>Escreva o que acontece no <strong>ENTÃO</strong> e no <strong>SENÃO</strong>, usando essas duas palavras.</p>",
-        conferir: { minPalavras: 4, porCampo: [["senao"], ["senao"], ["senao"]], msg: "Algoritmos de escolha completos!" },
-        exemplo: "SE estiver com fome, ENTÃO como um lanche, SENÃO continuo brincando." },
+      {tipo:  "ligar", titulo:  "Ligue cada SE… ENTÃO ao seu SENÃO", pares:  [{a:  "SE estiver com fome, ENTÃO…", b:  "…como um lanche, SENÃO continuo brincando."}, {a:  "SE o celular estiver com pouca bateria, ENTÃO…", b:  "…coloco para carregar, SENÃO continuo usando."}, {a:  "SE eu terminar a tarefa, ENTÃO…", b:  "…posso jogar, SENÃO continuo fazendo a tarefa."}, {a:  "SE estiver chovendo, ENTÃO…", b:  "…levo o guarda-chuva, SENÃO vou sem ele."}], explicacao:  "No algoritmo de escolha, o <b>ENTÃO</b> acontece quando a condição é verdadeira e o <b>SENÃO</b> quando ela é falsa."},
       { tipo: "pintura", titulo: "Siga o algoritmo dos círculos", robo: {"paineis": ["🎨 Meu algoritmo: SE for o 1º, ENTÃO pinte de preto, SENÃO deixe branco."], "passos": [{"fala": "Olha como eu sigo <b>outro</b> algoritmo. Primeiro eu leio a regra inteira: SE for o 1º, ENTÃO pinte de preto, SENÃO deixe branco.", "painel": 0, "titulo": "3 círculos"}, {"fala": "1º círculo: a regra manda pintar? <b>Sim</b> → pinto de preto.", "painel": 0, "linha": "1º → ⬛ preto", "marca": true, "espera": 1500}, {"fala": "2º círculo: a regra manda pintar? <b>Não</b> → deixo branco.", "painel": 0, "linha": "2º → ⬜ branco", "espera": 1500}, {"fala": "3º círculo: a regra manda pintar? <b>Não</b> → deixo branco.", "painel": 0, "linha": "3º → ⬜ branco", "espera": 1500}, {"fala": "Viu? Eu olho <b>um de cada vez</b> e faço a pergunta da regra para cada um.", "painel": null, "espera": 2600}], "fim": "Agora é a sua vez: siga o algoritmo do seu exercício, um círculo de cada vez. 💪"}, forma: "circulo", n: 4, pretos: [2, 4],
         regra: "<strong>REPITA 4 vezes:</strong> desenhe um círculo. Depois, para cada círculo: <strong>SE</strong> for o 2º <strong>OU</strong> o 4º, <strong>ENTÃO</strong> pinte de preto, <strong>SENÃO</strong> deixe branco.",
         explicacao: "Com OU, basta ser o 2º ou o 4º para pintar." },
@@ -206,11 +197,7 @@ PORTAL.registrarAtividades("informatica-5ano-4bim", {
         explicacao: "E só é V quando as duas são V. OU só é F quando as duas são F." }
     ],
     turbo: [
-      { tipo: "aberta", titulo: "Crie frases sobre você com NÃO, E e OU, e diga se cada uma é V ou F", robo: {"paineis": ["✍️ Frases sobre o Bit"], "passos": [{"fala": "Olha as minhas frases, sobre <b>mim</b>, o Bit:", "painel": 0, "linha": "Eu NÃO tenho pernas. (V)"}, {"fala": "", "painel": 0, "linha": "Eu tenho antena E olhos azuis. (V)", "espera": 1000}, {"fala": "", "painel": 0, "linha": "Eu moro no Portal OU na Lua. (V)", "espera": 1000}, {"fala": "No fim de cada uma, digo se é <b>V</b> ou <b>F</b>.", "painel": null, "espera": 2400}], "fim": "Agora é a sua vez: crie frases sobre <b>você</b>! 💪"},
-        campos: [{ rot: "Frase com NÃO (V ou F?)", linhas: 1 }, { rot: "Frase com E (V ou F?)", linhas: 1 }, { rot: "Frase com OU (V ou F?)", linhas: 1 }],
-        criterios: ["Cada frase usa a palavra pedida.", "Disse se é V ou F."],
-        conferir: { minPalavras: 3, porCampo: [["nao"], [" e "], [" ou "]], vf: true, msg: "Frases com NÃO, E e OU criadas e avaliadas!" },
-        exemplo: "Eu NÃO gosto de chuva (V). Eu tenho 10 anos E estudo no 5º ano (V). Eu moro em Belém OU em Curionópolis (V)." }
+      {tipo:  "classificar", modo:  "tabela", titulo:  "Frases com NÃO, E e OU: verdadeira ou falsa?", colunaItem:  "Frase", colunaResp:  "V ou F", categorias:  [{id:  "V", rot:  "V"}, {id:  "F", rot:  "F"}], itens:  [{t:  "O gelo NÃO é frio.", c:  "F", why:  "O gelo é frio, então dizer que ele NÃO é frio é falso."}, {t:  "O cachorro tem quatro patas E late.", c:  "V", why:  "As duas partes são verdadeiras, então a frase com E é verdadeira."}, {t:  "O peixe vive na água E voa.", c:  "F", why:  "Com E, as duas partes precisam ser verdadeiras. O peixe não voa."}, {t:  "O triângulo tem 3 lados OU 4 lados.", c:  "V", why:  "Com OU, basta uma parte ser verdadeira: o triângulo tem 3 lados."}, {t:  "2 + 2 = 5 OU 3 + 3 = 7.", c:  "F", why:  "Com OU, pelo menos uma parte precisa ser verdadeira. As duas contas estão erradas."}, {t:  "O Sol NÃO é um planeta.", c:  "V", why:  "O Sol é uma estrela, não um planeta. Então a frase é verdadeira."}], explicacao:  "<b>NÃO</b> troca o valor da frase. Com <b>E</b>, as duas partes precisam ser verdadeiras. Com <b>OU</b>, basta uma."}
     ],
     vf: [
       { v: true },
@@ -279,11 +266,7 @@ PORTAL.registrarAtividades("informatica-5ano-4bim", {
         ],
         fimMsg: "Você não respondeu ao desconhecido e leu a mensagem do professor. Internet com cuidado!",
         explicacao: "Nunca mande foto, endereço ou senha para quem você não conhece. Pedido de segredo é sinal de perigo: conte a um adulto." },
-      { id: "m4-basico-2", tipo: "aberta", titulo: "Maria fez um desenho lindo de uma árvore. Você quer usar no seu cartaz.", robo: {"paineis": ["🎨 Outro caso: a foto do João"], "passos": [{"fala": "O João tirou uma foto bonita do rio. Para usar no meu trabalho, primeiro eu <b>peço autorização</b>:", "painel": 0, "linha": "Pergunto ao João se posso usar a foto"}, {"fala": "Depois escrevo o <b>crédito</b> com o nome dele:", "painel": 0, "linha": "Foto: João", "marca": true, "espera": 2400}], "fim": "Agora é a sua vez: o que você faz com o desenho da <b>Maria</b>? 💪"},
-        campos: [{ rot: "O que você precisa fazer?", linhas: 2 }, { rot: "Escreva o crédito: Desenho: ____", linhas: 1 }],
-        criterios: ["Pedi autorização à Maria.", "Escrevi o crédito com o nome dela."],
-        conferir: { porCampo: [["autoriza", "permiss", "pedir", "peco", "pergunt", "deixa"], ["maria"]], msg: "Isso mesmo: pedir autorização e dar o crédito!" },
-        exemplo: "Peço autorização para a Maria e escrevo o crédito no cartaz: Desenho: Maria." },
+      {id:  "m4-basico-2", tipo:  "escolha", titulo:  "Maria fez um desenho lindo de uma árvore. Você quer usar no seu cartaz.", perguntas:  [{p:  "O que você precisa fazer antes de usar o desenho?", opcoes:  ["Pedir autorização à Maria", "Usar sem falar nada", "Dizer que o desenho é seu"], certo:  0, why:  "O desenho é da Maria: quem cria decide se outra pessoa pode usar."}, {p:  "Como fica o crédito no seu cartaz?", opcoes:  ["Desenho: Maria", "Desenho: eu", "Não precisa de crédito"], certo:  0, why:  "O crédito mostra a todos quem é a autora do desenho."}], explicacao:  "Para usar a criação de alguém: <b>pedir autorização</b> e <b>dar o crédito</b>."},
       { id: "m4-basico-3", tipo: "classificar", modo: "tabela", titulo: "Ligue cada problema à tecnologia certa", explicacao: "Conta difícil → C (calculadora). Falar com a avó longe → D (chamada de vídeo). Escrever um texto → B (Bloco de Notas). Fazer um desenho → A (programa de desenho).", enunciado: "<p>Para cada problema, escolha a letra da tecnologia que resolve: <strong>A</strong> programa de desenho, <strong>B</strong> Bloco de Notas, <strong>C</strong> calculadora ou <strong>D</strong> chamada de vídeo.</p>", colunaItem: "Problema", colunaResp: "Tecnologia",
         categorias: [{ id: "A", rot: "Programa de desenho" }, { id: "B", rot: "Bloco de Notas" }, { id: "C", rot: "Calculadora" }, { id: "D", rot: "Chamada de vídeo" }],
         itens: [{ t: "Fazer uma conta difícil bem rápido", c: "C" }, { t: "Falar com a avó que mora em outra cidade", c: "D" }, { t: "Escrever um texto no computador", c: "B" }, { t: "Fazer um desenho no computador", c: "A" }] },
@@ -294,18 +277,14 @@ PORTAL.registrarAtividades("informatica-5ano-4bim", {
         okMsg: "Cartaz pronto e conferido! Ficou registrado para o professor." }
     ],
     desafio: [
-      { tipo: "aberta", titulo: "Escolha 2 profissões: qual tecnologia cada uma usa e como ajuda?", robo: {"paineis": ["👩‍⚕️ Profissão — tecnologia — como ajuda"], "passos": [{"fala": "Olha como eu escrevo, em 3 partes: a profissão, a tecnologia e como ela ajuda:", "painel": 0, "linha": "Médica — termômetro digital — mede a febre rapidinho"}, {"fala": "", "painel": 0, "linha": "Motorista — GPS no celular — mostra o melhor caminho", "espera": 2400}], "fim": "Agora é a sua vez: escolha 2 profissões <b>diferentes</b> das minhas! 💪"},
-        campos: [{ rot: "Profissão 1 — tecnologia — como ajuda", linhas: 2 }, { rot: "Profissão 2 — tecnologia — como ajuda", linhas: 2 }],
-        criterios: ["Disse a profissão, a tecnologia e como ela ajuda."], exemplo: "Agricultor — previsão do tempo no celular — ajuda a saber o melhor dia para plantar.",
-        conferir: { minPalavras: 5, diferentes: "todos", msg: "Profissões e tecnologias registradas! O professor pode ler no painel." } }
+      {tipo:  "ligar", titulo:  "Ligue cada profissão à tecnologia que ajuda no trabalho", pares:  [{a:  "👨‍🌾 Agricultor", b:  "Previsão do tempo no celular, para saber o melhor dia de plantar"}, {a:  "👩‍⚕️ Médica", b:  "Aparelho de raio X, para ver os ossos por dentro"}, {a:  "🚗 Motorista de aplicativo", b:  "Mapa no celular, que mostra o caminho"}, {a:  "🛒 Caixa de supermercado", b:  "Leitor de código de barras, para registrar o preço"}, {a:  "👩‍🏫 Professora", b:  "Projetor, para mostrar vídeos e imagens à turma"}], explicacao:  "Em quase toda profissão, alguma tecnologia ajuda a trabalhar melhor e mais rápido."}
     ],
     turbo: [
       { tipo: "ordenar", titulo: "Chegou uma notícia estranha no grupo da família: em que ordem você confere?",
         itens: ["Leio com calma e vejo se parece exagerada", "Procuro quem escreveu e a data", "Procuro se ela aparece em outros sites sérios", "Só compartilho se for confiável"],
         alternativas: [[1, 0, 2, 3], [0, 2, 1, 3], [1, 2, 0, 3], [2, 1, 0, 3], [2, 0, 1, 3]],
         explicacao: "A ordem das três conferências pode variar, mas compartilhar vem sempre por último, e só se for confiável." },
-      { tipo: "aberta", titulo: "Escreva os seus 3 passos antes de compartilhar", robo: {"paineis": ["🛡️ Antes de compartilhar"], "passos": [{"fala": "Olha como eu penso antes de mandar uma mensagem para o grupo:", "painel": 0, "linha": "Quem escreveu isso?"}, {"fala": "", "painel": 0, "linha": "Tem data?", "espera": 800}, {"fala": "", "painel": 0, "linha": "Outros sites falam a mesma coisa?", "espera": 2200}], "fim": "Agora é a sua vez: escreva os <b>seus</b> 3 passos, com as suas palavras! 💪"}, campos: [{ rot: "1.", linhas: 1 }, { rot: "2.", linhas: 1 }, { rot: "3.", linhas: 1 }], opcional: true,
-        conferir: { minPalavras: 2, diferentes: "todos", msg: "Seus 3 passos estão registrados!" } }
+      {tipo:  "ordenar", titulo:  "Coloque em ordem os passos antes de compartilhar", opcional:  true, itens:  ["Paro e leio a mensagem inteira", "Confiro quem escreveu e a data", "Procuro a notícia em outros sites sérios", "Só então decido se compartilho"], alternativas:  [[0, 2, 1, 3]], explicacao:  "Antes de compartilhar: <b>parar</b>, <b>conferir</b> quem escreveu e quando, <b>procurar</b> em outros lugares e só depois decidir."}
     ],
     vf: [
       { v: false, corrigir: { trecho: "é verdade", opcoes: ["é verdade", "pode ser mentira"], certo: "pode ser mentira" } },
@@ -318,34 +297,14 @@ PORTAL.registrarAtividades("informatica-5ano-4bim", {
   pf: {
     basico: [
       { tipo: "info", titulo: "Faltou alguma missão?", html: "<p>Se você faltou em alguma missão, faça agora o <strong>Básico</strong> dela. Quando terminar, aparece a faixa verde <strong>Básico concluído</strong> e tudo fica registrado sozinho para o professor.</p>" },
-      { tipo: "aberta", titulo: "Complete o seu passaporte: uma frase sobre cada missão", robo: {"paineis": ["✍️ Exemplo com outra matéria"], "passos": [{"fala": "Olha como eu escrevo sobre uma aula de <b>Ciências</b>: falo de algo que eu aprendi.", "painel": 0, "linha": "Aprendi que as plantas precisam de luz para crescer.", "marca": true, "espera": 2400}], "fim": "Agora é a sua vez: uma frase sobre cada missão! 💪"},
-        campos: [{ rot: "🖥️ Missão 1 – O computador e onde moram os dados", linhas: 2 }, { rot: "📋 Missão 2 – Listas e grafos", linhas: 2 }, { rot: "🤔 Missão 3 – Verdadeiro ou falso e escolhas", linhas: 2 }, { rot: "🛡️ Missão 4 – Internet com cuidado", linhas: 2 }],
-        criterios: ["Cada frase fala de algo que eu aprendi naquela missão."],
-        conferir: { minPalavras: 3, porCampo: [
-          ["computador", "entrada", "saida", "sistema operacional", "windows", "dados", "nuvem", "pendrive", "guard", "salv", "teclado", "mouse", "monitor"],
-          ["lista", "grafo", "inserir", "remover", "ordem", "ligad", "vertice", "aresta", "caminho"],
-          ["verdadeir", "falso", "escolha", "se ", "entao", "senao", "nao", " e ", " ou ", "algoritmo", "repit"],
-          ["internet", "cuidado", "senha", "autor", "credito", "noticia", "compartilh", "segur", "dados", "mentira", "confiavel"]] } },
-      { tipo: "aberta", titulo: "Minha missão favorita",
-        campos: [{ rot: "Qual foi a missão de que você mais gostou?", linhas: 1, ph: "Ex.: Missão 2 – Listas e grafos" }, { rot: "Por que você gostou dela?", linhas: 3 }],
-        criterios: ["Escrevi o nome da missão.", "Expliquei o porquê com uma frase completa, com letra maiúscula e ponto final."],
-        conferir: { minPalavras: 2, porCampo: [["missao", "1", "2", "3", "4", "comput", "lista", "grafo", "verdadeir", "escolha", "internet", "cuidado"], null], msg: "Obrigado por contar! O professor pode ler no painel." } }
+      {tipo:  "completar", titulo:  "Complete o seu passaporte: uma frase sobre cada missão", texto:  "🖥️ Na Missão 1, aprendi que o **teclado** é um dispositivo de entrada e que os arquivos podem ficar guardados na **nuvem**. 📋 Na Missão 2, vi que numa **lista** os itens ficam um depois do outro e que num **grafo** as coisas ficam ligadas. 🤔 Na Missão 3, aprendi que uma frase pode ser **verdadeira** ou falsa e que o SE… ENTÃO… **SENÃO** ajuda a fazer escolhas. 🛡️ Na Missão 4, aprendi a conferir se uma informação da **internet** é confiável antes de compartilhar.", explicacao:  "Este é o resumo das quatro missões do seu passaporte!"},
+      {tipo:  "escolha", titulo:  "Minha missão favorita", enunciado:  "<p>Não tem resposta certa nem errada: toque no que é verdade para você. O professor vê as respostas no painel.</p>", perguntas:  [{p:  "Qual foi a missão de que você mais gostou?", opcoes:  ["Missão 1 – O computador e onde moram os dados", "Missão 2 – Listas e grafos no dia a dia", "Missão 3 – Verdadeiro ou falso e algoritmos com escolhas", "Missão 4 – Internet com cuidado"], certo:  -1}, {p:  "Por que você gostou dela?", opcoes:  ["Aprendi uma coisa nova que vou usar no dia a dia", "As atividades e os jogos foram divertidos", "Consegui fazer sozinho(a)", "Gostei do vídeo e das simulações"], certo:  -1}], explicacao:  "Obrigado por contar! A sua opinião ajuda o professor a deixar as próximas missões ainda melhores."}
     ],
     desafio: [
-      { tipo: "aberta", titulo: "Crie um algoritmo com SE… ENTÃO… SENÃO para decidir se você pode compartilhar uma mensagem", robo: {"paineis": ["🔀 Outro algoritmo: posso abrir um link?"], "passos": [{"fala": "Olha como eu monto um algoritmo para <b>outra</b> decisão:", "painel": 0, "linha": "SE o link veio de alguém que eu conheço"}, {"fala": "", "painel": 0, "linha": "E o endereço tem o cadeado 🔒,", "espera": 900}, {"fala": "", "painel": 0, "linha": "ENTÃO eu abro,", "marca": true}, {"fala": "", "painel": 0, "linha": "SENÃO eu pergunto a um adulto.", "marca": true, "espera": 2400}], "fim": "Agora é a sua vez: crie o <b>seu</b>, para decidir se pode compartilhar uma mensagem! 💪"},
-        linhas: 4, criterios: ["A condição usa as perguntas de confiança (quem escreveu, quando, outros lugares, exagero)."],
-        conferir: { minPalavras: 10, grupos: [{ dica: "a palavra SE", alts: ["se "] }, { dica: "a palavra ENTÃO", alts: ["entao"] }, { dica: "a palavra SENÃO", alts: ["senao"] },
-          { dica: "uma pergunta de confiança (quem escreveu, a data, outros sites, exagero)", alts: ["autor", "quem escreveu", "data", "quando", "outros sites", "outro site", "fonte", "exager", "confiavel", "seri"] }],
-          msg: "Algoritmo de decisão criado!" },
-        exemplo: "SE a mensagem tem autor E data E aparece em outros sites sérios, ENTÃO posso compartilhar, SENÃO não compartilho." }
+      {tipo:  "completar", titulo:  "Complete o algoritmo: posso compartilhar a mensagem?", texto:  "**SE** a mensagem tem **autor**, tem **data** e aparece em outros sites sérios, **ENTÃO** posso compartilhar, **SENÃO** não compartilho.", explicacao:  "As perguntas de confiança (quem escreveu, quando, em que outros lugares aparece) viram a <b>condição</b> do algoritmo."}
     ],
     turbo: [
-      { tipo: "aberta", titulo: "O grafo do caminho até a escola", robo: {"paineis": ["📍 Vértices (lugares)", "➖ Arestas (ligações)"], "passos": [{"fala": "Olha como eu faço com o caminho da minha casa até o <b>parque</b>. Primeiro os lugares, em ordem:", "painel": 0, "linha": "Casa, Mercado, Igreja, Praça, Parque"}, {"fala": "Depois ligo os lugares de <b>dois em dois</b>, como as ruas:", "painel": 1, "linha": "Casa – Mercado"}, {"fala": "", "painel": 1, "linha": "Mercado – Igreja", "espera": 700}, {"fala": "", "painel": 1, "linha": "Igreja – Praça", "espera": 700}, {"fala": "", "painel": 1, "linha": "Praça – Parque", "espera": 2200}], "fim": "Agora é a sua vez: faça o grafo do <b>seu</b> caminho até a escola! 💪"},
-        enunciado: "<p>Pense no caminho da sua casa até a escola. Cada lugar é um <strong>vértice</strong> (círculo) e cada rua que liga dois lugares é uma <strong>aresta</strong> (linha).</p>",
-        campos: [{ rot: "5 lugares do caminho, em ordem (os vértices):", linhas: 1 }, { rot: "As ligações entre eles (as arestas), assim: Casa – Padaria:", linhas: 2 }],
-        criterios: ["Escreveu 5 lugares.", "Ligou os lugares de dois em dois, como as ruas."],
-        exemplo: "Vértices: Casa, Padaria, Praça, Igreja, Escola. Arestas: Casa – Padaria, Padaria – Praça, Praça – Igreja, Igreja – Escola.",
-        conferir: { minPalavras: 5, msg: "Grafo registrado! O professor pode ler no painel." } }
+      {tipo:  "memoria", titulo:  "Jogo da memória: o grafo do caminho até a escola", enunciado:  "<p>No grafo do caminho até a escola, cada lugar é um <b>vértice</b> (círculo) e cada rua que liga dois lugares é uma <b>aresta</b> (linha). Ache os pares!</p>", pares:  [{a:  "Vértice", b:  "Um lugar do caminho (o círculo)"}, {a:  "Aresta", b:  "A rua que liga dois lugares (a linha)"}, {a:  "Grafo", b:  "Lugares ligados por ruas"}, {a:  "Caminho", b:  "As ruas, uma depois da outra, da casa até a escola"}], explicacao:  "Casa, padaria, praça e escola são <b>vértices</b>; as ruas entre eles são <b>arestas</b>."}
     ]
   }
 });

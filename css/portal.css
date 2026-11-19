@@ -2059,3 +2059,40 @@ dialog.pp-dlg > .row-btns:last-child, dialog.pp-dlg > form > .row-btns:last-chil
 @keyframes av-q-entra { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
 .av-proximo { margin: 8px 0 2px; font-weight: 800; color: #b45309; background: #fef3c7; border-radius: 10px; padding: 6px 10px; }
 .av-proximo:empty { display: none; }
+/* 🧠 jogo da memória · 🔎 caça-palavras · 👆 toque no que você já viveu (18/11/2026) */
+.mem-grade { display: grid; grid-template-columns: repeat(var(--n, 4), minmax(0, 1fr)); gap: 10px; max-width: 760px; }
+@media (max-width: 600px) { .mem-grade { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.mem-carta { position: relative; min-height: 96px; border-radius: 14px; border: 3px solid #c7d2fe; background: linear-gradient(135deg, #6366f1, #8b5cf6); color: #fff; font: inherit; cursor: pointer; padding: 8px; display: grid; place-items: center; text-align: center; transition: transform .25s, background .25s; }
+.mem-carta:hover:not([disabled]) { transform: translateY(-2px); }
+.mem-carta .mem-frente { display: none; font-size: .92rem; line-height: 1.25; }
+.mem-carta .mem-verso { font-size: 2rem; }
+.mem-carta.virada { background: #fff; color: #1e293b; animation: mem-vira .3s ease-out; }
+.mem-carta.virada .mem-frente { display: block; } .mem-carta.virada .mem-verso { display: none; }
+.mem-carta.virada.mem-a { border-color: #6366f1; } .mem-carta.virada.mem-b { border-color: #f59e0b; }
+.mem-carta.achou { background: #dcfce7; border-color: #22c55e; cursor: default; }
+@keyframes mem-vira { from { transform: rotateY(90deg); } to { transform: none; } }
+.mem-jogadas { margin: 8px 0 0; color: #475569; font-weight: 700; }
+.caca { display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-start; }
+.caca-grade { display: grid; grid-template-columns: repeat(var(--n), 1fr); gap: 3px; background: #e0e7ff; padding: 8px; border-radius: 14px; width: min(100%, calc(var(--n) * 40px + 16px)); }
+.caca-l { aspect-ratio: 1; min-width: 0; border: 0; border-radius: 6px; background: #fff; font: 800 clamp(.8rem, 2.6vw, 1.15rem)/1 system-ui, sans-serif; color: #1e293b; cursor: pointer; padding: 0; }
+.caca-l:hover { background: #fef3c7; }
+.caca-l.ini { background: #fde047; outline: 3px solid #f59e0b; }
+.caca-l.achou { background: #86efac; color: #14532d; }
+.caca-lista { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; flex: 1 1 220px; }
+.caca-lista li { background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 10px; padding: 6px 10px; }
+.caca-lista li.achou { background: #dcfce7; border-color: #86efac; text-decoration: line-through; text-decoration-color: rgba(21,128,61,.5); }
+.vivi { display: grid; gap: 8px; }
+.vivi-op { text-align: left; border: 2px solid #cbd5e1; background: #fff; border-radius: 12px; padding: 10px 14px; font: inherit; cursor: pointer; }
+.vivi-op:hover { border-color: #60a5fa; }
+.vivi-op.sel { border-color: #22c55e; background: #f0fdf4; font-weight: 600; }
+/* ✋ esqueceu de verificar (18/11/2026) */
+.atv.falta-verificar { outline: 4px solid #f59e0b; outline-offset: 3px; animation: falta-pisca 1.2s ease-in-out 3; position: relative; }
+.atv.falta-verificar::before { content: "✋ Falta verificar!"; position: absolute; top: -14px; right: 14px; z-index: 2; background: #f59e0b; color: #fff; font-weight: 800; font-size: .85rem; padding: 3px 10px; border-radius: 999px; box-shadow: 0 3px 8px rgba(0,0,0,.2); }
+.atv.falta-verificar [data-a="verificar"] { animation: falta-bt 1s ease-in-out infinite; }
+@keyframes falta-pisca { 50% { outline-color: #fde68a; } }
+@keyframes falta-bt { 50% { transform: scale(1.08); box-shadow: 0 0 0 6px rgba(245,158,11,.35); } }
+.falta-ver { position: fixed; left: 50%; bottom: 14px; transform: translateX(-50%); z-index: 60; border: 0; border-radius: 999px; background: #f59e0b; color: #1f2937; font: inherit; padding: 10px 18px; box-shadow: 0 8px 22px rgba(0,0,0,.25); cursor: pointer; max-width: calc(100vw - 24px); }
+.falta-balao { position: fixed; left: 50%; top: 90px; transform: translateX(-50%); z-index: 61; background: #fff7ed; border: 3px solid #f59e0b; border-radius: 14px; padding: 10px 14px; box-shadow: 0 10px 26px rgba(0,0,0,.25); max-width: min(560px, calc(100vw - 24px)); animation: mem-vira .25s ease-out; }
+.falta-balao .btn { margin-left: 6px; }
+@media (prefers-reduced-motion: reduce) { .atv.falta-verificar, .atv.falta-verificar [data-a="verificar"] { animation: none; } }
+body.tem-falta-ver { padding-bottom: 72px; }

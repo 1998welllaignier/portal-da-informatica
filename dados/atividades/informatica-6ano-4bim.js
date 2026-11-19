@@ -208,10 +208,7 @@ PORTAL.registrarAtividades("informatica-6ano-4bim", {
           ["Se eu acertar a senha,", { op: ["o celular desbloqueia", "aparece uma mensagem de erro", "a bateria acaba"], r: "o celular desbloqueia", rot: "então" }, { op: ["o celular desbloqueia", "aparece uma mensagem de erro", "atravesso com cuidado"], r: "aparece uma mensagem de erro", rot: "senão" }]],
         dicas: ["O “então” acontece quando a condição é verdadeira; o “senão”, quando é falsa."],
         explicacao: "Na seleção, a <strong>condição</strong> é uma pergunta de sim ou não. Sim → então. Não → senão." },
-      { tipo: "aberta", titulo: "Crie a sua instrução de seleção", robo: {"paineis": ["🔀 Se…", "✅ então…", "❌ senão…"], "passos": [{"fala": "Olha como eu crio uma instrução <b>minha</b>. A condição é uma pergunta de sim ou não:", "painel": 0, "linha": "a fila da cantina estiver grande"}, {"fala": "Se for SIM:", "painel": 1, "linha": "como o lanche que trouxe de casa", "marca": true}, {"fala": "Se for NÃO:", "painel": 2, "linha": "compro um suco na cantina", "marca": true}, {"fala": "Pronto: “Se a fila estiver grande, então como o lanche de casa, senão compro um suco.”", "painel": null, "espera": 2600}], "fim": "Agora é a sua vez: invente a <b>sua</b> instrução, com outra situação! 💪"}, campos: [{ rot: "Se...", linhas: 1 }, { rot: "então...", linhas: 1 }, { rot: "senão...", linhas: 1 }],
-        criterios: ["A condição é uma pergunta de sim ou não.", "O “então” e o “senão” são ações diferentes."], opcional: true,
-        conferir: { minPalavras: 2, diferentes: [1, 2], msg: "Instrução de seleção criada! Condição, então e senão no lugar certo." },
-        exemplo: "Se estiver chovendo, então levo o guarda-chuva, senão vou de boné." }
+      {tipo:  "tabela", titulo:  "Monte as instruções de seleção", opcional:  true, colunas:  ["Se…", "então…", "senão…"], linhas:  [["estiver chovendo", {op:  ["levo o guarda-chuva", "vou de boné"], r:  "levo o guarda-chuva"}, {op:  ["levo o guarda-chuva", "vou de boné"], r:  "vou de boné"}], ["o sinal estiver vermelho", {op:  ["paro", "atravesso"], r:  "paro"}, {op:  ["paro", "sigo em frente"], r:  "sigo em frente"}], ["eu acertar a senha", {op:  ["o celular abre", "o celular continua bloqueado"], r:  "o celular abre"}, {op:  ["o celular abre", "o celular continua bloqueado"], r:  "o celular continua bloqueado"}]], explicacao:  "A condição é uma pergunta de <b>sim ou não</b>; o <b>então</b> acontece no sim e o <b>senão</b> no não."}
     ],
     turbo: [
       { tipo: "escolha", titulo: "Caça ao erro no algoritmo",
@@ -273,13 +270,7 @@ PORTAL.registrarAtividades("informatica-6ano-4bim", {
         ] }
     ],
     basico: [
-      { id: "m3-basico-1", tipo: "aberta", titulo: "Reescreva as mensagens de forma respeitosa", robo: {"paineis": ["😠 Mensagem que ofende", "💬 Mesma ideia, com respeito"], "passos": [{"fala": "Olha como eu faço com <b>outra</b> mensagem:", "painel": 0, "linha": "“Que goleiro ruim, kkk, sai do time”"}, {"fala": "A <b>ideia</b> é: o goleiro precisa melhorar. O que <b>ofende</b>: “ruim”, “kkk” e “sai do time”.", "painel": 0, "linha": "Ideia: ele pode melhorar na defesa", "marca": true}, {"fala": "Reescrevo mantendo a ideia, sem deboche e ajudando:", "painel": 1, "linha": "“Hoje não deu, mas se você treinar"}, {"fala": "", "painel": 1, "linha": "a defesa, vai pegar todas na próxima!”", "espera": 2600}], "fim": "Agora é a sua vez: reescreva as 3 mensagens mantendo a ideia, sem ofender ninguém! 💪"},
-        enunciado: "<p>Mantenha a ideia, mas sem ofender. O portal avisa se ainda sobrar alguma palavra ofensiva.</p>",
-        campos: [{ rot: "“Seu desenho ficou horrível, kkkk”", linhas: 2 }, { rot: "“Sai do grupo, ninguém gosta de você”", linhas: 2 }, { rot: "“Você é burro, errou tudo”", linhas: 2 }],
-        detector: { palavras: ["horrivel", "kkkk", "kkk", "burro", "burra", "ninguem gosta", "sai do grupo", "idiota", "feio"], msg: "Escreva como se a pessoa estivesse na sua frente." },
-        criterios: ["Não tem apelido, xingamento nem risada de deboche.", "Dá para entender o que a pessoa quis dizer.", "Ajuda ou incentiva em vez de humilhar."],
-        exemplo: "“Acho que o seu desenho pode ficar ainda melhor com mais cores!” · “Vamos combinar as regras do grupo juntos?” · “Errar faz parte. Quer ajuda para revisar?”",
-        conferir: { minPalavras: 4, msg: "Mensagens reescritas com respeito! O professor pode ler as suas respostas no painel." } },
+      {id:  "m3-basico-1", tipo:  "classificar", titulo:  "Esta mensagem ofende ou respeita?", categorias:  [{id:  "O", rot:  "😠 Ofende"}, {id:  "R", rot:  "💬 Respeita"}], itens:  [{t:  "“Seu desenho ficou horrível, kkkk”", c:  "O"}, {t:  "“Acho que o seu desenho pode ficar ainda melhor com mais cores!”", c:  "R"}, {t:  "“Sai do grupo, ninguém gosta de você”", c:  "O"}, {t:  "“Vamos combinar as regras do grupo juntos?”", c:  "R"}, {t:  "“Você é burro, errou tudo”", c:  "O"}, {t:  "“Errar faz parte. Quer ajuda para revisar?”", c:  "R"}, {t:  "“Gostei da sua ideia. Posso dar uma sugestão?”", c:  "R"}, {t:  "“Ninguém pediu a sua opinião”", c:  "O"}], explicacao:  "Dá para dizer a mesma ideia <b>sem ofender</b>: quem respeita ajuda e incentiva em vez de humilhar."},
       { id: "m3-sim-senha", tipo: "sim_pc", titulo: "📧 Simulador: alguém pediu a sua senha",
         enunciado: "<p>No computador de mentira, chegou um pedido de senha. O que um cidadão digital faz? O <strong>Bit</strong> confere.</p>",
         area: [{ nome: "Lixeira", app: "lixeira" }, { nome: "Email", app: "email" }],
@@ -330,15 +321,7 @@ PORTAL.registrarAtividades("informatica-6ano-4bim", {
         explicacao: "Senha forte é longa e mistura letras maiúsculas e minúsculas, números e símbolos. Nada de 123456, nome ou data de nascimento." }
     ],
     turbo: [
-      { tipo: "aberta", titulo: "Mensagem para um colega que está sofrendo cyberbullying", enunciado: "<p>Escreva uma mensagem de apoio para um colega que está sofrendo cyberbullying: mostre que você se importa e diga o que ele pode fazer.</p>", robo: {"paineis": ["💙 Como montar a mensagem"], "passos": [{"fala": "Olha como eu monto uma mensagem de apoio, em <b>3 partes</b>. 1️⃣ Mostro que me importo:", "painel": 0, "linha": "“Eu vi o que fizeram e sinto muito. Você não está sozinho.”"}, {"fala": "2️⃣ Digo o que a pessoa pode fazer: <b>print</b>, <b>bloquear</b> e <b>contar a um adulto</b>:", "painel": 0, "linha": "“Tire print, bloqueie e conte para alguém da sua família.”", "marca": true}, {"fala": "3️⃣ Fecho me colocando à disposição:", "painel": 0, "linha": "“Se quiser, eu vou com você falar com o professor.”"}, {"fala": "Repare: é respeitosa e traz um <b>plano</b> para ajudar.", "painel": null, "espera": 2400}], "fim": "Agora é a sua vez: escreva a <b>sua</b> mensagem, com as suas palavras! 💪"}, linhas: 4,
-        criterios: ["Mostro que me importo com ele.", "Digo o que ele pode fazer: guardar provas (print), bloquear e contar a um adulto de confiança.", "A mensagem é respeitosa."],
-        exemplo: "“Sinto muito pelo que estão fazendo com você. Não é culpa sua. Tire print das mensagens, bloqueie quem está te ofendendo e conte para o professor ou para alguém da sua família. Conte comigo!”",
-        detector: { palavras: ["burro", "burra", "idiota", "feio", "kkkk", "otario"], msg: "A mensagem precisa ser respeitosa." },
-        conferir: { minPalavras: 15, minGrupos: 3, grupos: [
-          { dica: "guardar provas (tirar print)", alts: ["print", "prova", "guard", "captura"] },
-          { dica: "bloquear quem ofende", alts: ["bloque"] },
-          { dica: "contar a um adulto de confiança", alts: ["adulto", "professor", "famil", "pais", "mae", "pai", "responsav", "diretor", "coordenad"] },
-          { dica: "mostrar que você se importa com ele", alts: ["sinto", "conte comigo", "estou com voce", "nao e culpa", "importo", "apoio", "ajud", "amigo", "sozinho"] }] } }
+      {tipo:  "sinais", titulo:  "Mensagem de apoio para um colega que está sofrendo cyberbullying", enunciado:  "<p>Marque tudo o que uma boa mensagem de apoio deve dizer.</p>", opcoes:  [{t:  "“Sinto muito pelo que estão fazendo com você. Não é culpa sua.”", certo:  true}, {t:  "“Tire print das mensagens: são as provas.”", certo:  true}, {t:  "“Bloqueie quem está te ofendendo.”", certo:  true}, {t:  "“Conte para o professor ou para alguém da sua família.”", certo:  true}, {t:  "“Responde xingando também!”", certo:  false}, {t:  "“Apaga tudo e finge que nada aconteceu.”", certo:  false}, {t:  "“Isso é bobagem, esquece.”", certo:  false}], explicacao:  "Apoiar é mostrar que se importa e indicar o caminho: <b>guardar provas</b>, <b>bloquear</b> e <b>contar a um adulto de confiança</b>."}
     ],
     vf: [
       { v: false, corrigir: { trecho: "é só brincadeira e não machuca ninguém", opcoes: ["é só brincadeira e não machuca ninguém", "machuca e deve ser levado a sério", "só acontece com adultos"], certo: "machuca e deve ser levado a sério" } },
@@ -532,13 +515,7 @@ PORTAL.registrarAtividades("informatica-6ano-4bim", {
   pf: {
     basico: [
       { tipo: "info", titulo: "Confira as suas missões", html: "<p>Volte à lista de missões da apostila: cada missão com o <strong>Básico concluído</strong> aparece com ✔. Se faltar alguma (por exemplo, porque você faltou à aula), faça o Básico dela agora. O professor acompanha tudo pelo painel.</p>" },
-      { tipo: "aberta", titulo: "Escreva uma frase sobre o que você aprendeu em cada tema", robo: {"paineis": ["✍️ Exemplo com outra matéria"], "passos": [{"fala": "Olha como eu escrevo uma boa frase, sobre <b>outra</b> matéria (Matemática):", "painel": 0, "titulo": "🧮 Frações"}, {"fala": "Começo com letra maiúscula, uso uma <b>palavra-chave</b> do tema e termino com ponto final:", "painel": 0, "linha": "Aprendi que a fração mostra partes de um inteiro.", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: uma frase para cada tema, com uma palavra-chave dele! 💪"},
-        campos: [{ rot: "🌐 O computador e meus arquivos", linhas: 2 }, { rot: "⚙️ Algoritmos", linhas: 2 }, { rot: "🤝 Cidadão digital", linhas: 2 }],
-        criterios: ["Cada frase usa pelo menos uma palavra-chave do tema.", "Frase completa, com letra maiúscula e ponto final."],
-        conferir: { minPalavras: 4, porCampo: [
-          ["computador", "arquivo", "pasta", "entrada", "saida", "process", "armazen", "salvar", "metadado", "teclado", "mouse", "monitor", "explorador", "bloco de notas"],
-          ["algoritmo", "sequencia", "passo", "ordem", "repeti", "selecao", "condicao", "se ", "entao", "senao", "instru", "robo"],
-          ["respeit", "cyberbullying", "senha", "dados", "lixo eletronico", "consumo", "cidadao", "internet", "segur", "golpe", "privacidade", "recicl", "proteg"]] } }
+      {tipo:  "completar", titulo:  "Complete as frases sobre o que você aprendeu em cada tema", texto:  "🌐 O teclado é um dispositivo de **entrada** e o monitor é de saída; um **arquivo** fica guardado dentro de uma **pasta**. ⚙️ Um **algoritmo** é uma sequência de passos em ordem: o **repita** deixa o algoritmo mais curto e o se… então… senão faz uma **seleção**. 🤝 O cidadão digital trata todos com **respeito** e pede ajuda a um adulto quando vê **cyberbullying**.", explicacao:  "Estas são as ideias principais dos três temas do bimestre."}
     ],
     desafio: [
       { tipo: "ligar", titulo: "Desafio do bimestre: ligue cada termo ao seu significado", explicacao: "Cada termo é de um tema do bimestre. Se errou algum, volte ao 📖 O que significa? da missão daquele termo e leia de novo.", porRodada: 6,
@@ -546,12 +523,7 @@ PORTAL.registrarAtividades("informatica-6ano-4bim", {
         pares: [{ a: "Entrada", b: "O computador recebe informações, pelo teclado ou pelo mouse" }, { a: "Processamento", b: "O computador faz os cálculos com as informações" }, { a: "Pasta", b: "Lugar onde organizamos os nossos arquivos" }, { a: "Algoritmo", b: "Sequência de passos, em ordem, para resolver um problema" }, { a: "Repetição", b: "Fazer os mesmos passos várias vezes" }, { a: "Lixo eletrônico", b: "Aparelhos velhos que precisam ser descartados no lugar certo" }] }
     ],
     turbo: [
-      { tipo: "aberta", titulo: "A missão de que eu mais gostei",
-        enunciado: "<p>Escolha a missão de que você mais gostou e escreva duas ou três frases dizendo por quê. Se o professor ligar o projetor no fim da aula, você pode ler para a turma (é opcional).</p>",
-        campos: [{ rot: "A missão de que eu mais gostei:", linhas: 1 }, { rot: "Por que eu gostei (duas ou três frases):", linhas: 3 }],
-        criterios: ["Diz qual foi a missão.", "Explica o motivo com as suas palavras."],
-        exemplo: "Missão 2. Eu gostei porque montei o caminho do robô no labirinto e entendi como o “repita” deixa o algoritmo mais curto.",
-        conferir: { minPalavras: 2, msg: "Registrado! O professor pode ler no painel." } }
+      {tipo:  "escolha", titulo:  "A missão de que eu mais gostei", enunciado:  "<p>Não tem resposta certa nem errada: toque no que é verdade para você. O professor vê as respostas no painel.</p>", perguntas:  [{p:  "Qual foi a missão de que você mais gostou?", opcoes:  ["Missão 1 – O computador e meus arquivos", "Missão 2 – Algoritmos: sequência, repetição e seleção", "Missão 3 – Cidadão digital", "Missão 4 – Guardar, compactar e achar arquivos"], certo:  -1}, {p:  "Por que você gostou dela?", opcoes:  ["Aprendi uma coisa nova que vou usar no dia a dia", "As atividades e os jogos foram divertidos", "Consegui fazer sozinho(a)", "Gostei do vídeo e das simulações"], certo:  -1}], explicacao:  "Obrigado por contar! A sua opinião ajuda o professor a deixar as próximas missões ainda melhores."}
     ]
   }
 });

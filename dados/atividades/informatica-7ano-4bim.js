@@ -124,12 +124,7 @@ PORTAL.registrarAtividades("informatica-7ano-4bim", {
         dicas: ["Como cada casa de uma rua tem o seu número, cada aparelho da rede tem o seu IP. Quem distribui esses endereços é o roteador."],
         explicacao: "Os números são diferentes, porque cada aparelho da rede precisa de um endereço próprio, como cada casa de uma rua tem o seu número. O roteador é que dá esses endereços." },
 
-      { tipo: "aberta", titulo: "4. Como a imagem da sua tela chega ao computador do professor pelo Veyon?", robo: {"paineis": ["✍️ A minha explicação (de outro caminho)"], "passos": [{"fala": "Vou explicar <b>outro</b> caminho, para você ver como se faz: como um vídeo chega ao meu celular.", "painel": 0, "titulo": "Como o vídeo chega ao meu celular?"}, {"fala": "Primeiro digo <b>de onde sai</b>:", "painel": 0, "linha": "O vídeo sai do servidor, dividido em pacotes,"}, {"fala": "Depois, <b>por onde passa</b>, em ordem:", "painel": 0, "linha": "viaja pela internet até o roteador da minha casa"}, {"fala": "E por fim, <b>onde chega</b> e o que acontece lá:", "painel": 0, "linha": "e chega ao celular, que junta os pacotes e mostra o vídeo."}, {"fala": "Repare: usei as palavras importantes (<b>pacotes</b>, <b>roteador</b>) e contei o caminho do começo ao fim.", "painel": null, "espera": 2600}], "fim": "Agora é a sua vez: conte o caminho da <b>sua tela</b> até o computador do professor, usando <b>rede</b>, <b>switch</b> e <b>pacotes</b>! 💪"},
-        enunciado: "<p>Use as palavras <strong>rede</strong>, <strong>switch</strong> e <strong>pacotes</strong>.</p>",
-        linhas: 3,
-        conferir: { minPalavras: 12, grupos: [{ dica: "a palavra rede", alts: ["rede"] }, { dica: "a palavra switch", alts: ["switch"] }, { dica: "a palavra pacotes", alts: ["pacote"] }] },
-        criterios: ["Usei as três palavras pedidas.", "Expliquei o caminho: meu computador → switch da baia → … → computador do professor."],
-        exemplo: "O Veyon divide a imagem da minha tela em pacotes, que saem do meu computador pela rede da escola, passam pelo switch da baia e pelo switch gigabit e chegam ao computador do professor, que junta os pacotes e mostra a imagem." }
+      {tipo:  "ordenar", titulo:  "4. Como a imagem da sua tela chega ao computador do professor pelo Veyon? Coloque o caminho em ordem.", itens:  ["O Veyon divide a imagem da minha tela em pacotes", "Os pacotes saem do meu computador pelo cabo de rede", "Passam pelo switch da baia", "Passam pelo switch gigabit da escola", "Chegam ao computador do professor, que junta os pacotes e mostra a imagem"], explicacao:  "A imagem viaja pela <b>rede</b> em <b>pacotes</b>, passando pelos <b>switches</b>, até o computador do professor."}
     ],
     desafio: [
       { tipo: "classificar", titulo: "🎯 Jogo: correio × internet",
@@ -189,11 +184,7 @@ PORTAL.registrarAtividades("informatica-7ano-4bim", {
         ] }
     ],
     basico: [
-      { tipo: "aberta", titulo: "Decomponha: “Organizar um lanche coletivo da turma”", robo: {"paineis": ["🧩 Problema grande: fazer um aniversário surpresa"], "passos": [{"fala": "Olha como eu divido um problema <b>diferente</b>: um aniversário surpresa. Ele é grande demais de uma vez só…", "painel": 0, "titulo": "Aniversário surpresa"}, {"fala": "…então eu corto em <b>partes menores</b>, uma de cada vez:", "painel": 0, "linha": "Combinar a data e o horário com a turma"}, {"fala": "", "painel": 0, "linha": "Juntar o dinheiro e comprar o bolo", "espera": 900}, {"fala": "", "painel": 0, "linha": "Enfeitar a sala sem o aniversariante ver", "espera": 900}, {"fala": "", "painel": 0, "linha": "Esconder a turma e gritar “surpresa!”", "espera": 1400}, {"fala": "Cada parte é <b>fácil</b>, e <b>juntas</b> elas resolvem o problema todo. Isso é <b>decompor</b>! 🎉", "painel": null, "espera": 2600}], "fim": "Agora é a sua vez: divida o <b>lanche coletivo</b> em 4 partes diferentes! 💪"},
-        campos: [{ rot: "Parte 1", linhas: 1 }, { rot: "Parte 2", linhas: 1 }, { rot: "Parte 3", linhas: 1 }, { rot: "Parte 4", linhas: 1 }],
-        criterios: ["Cada parte é uma tarefa menor e mais fácil.", "Juntas, as partes resolvem o problema inteiro."],
-        exemplo: "1. Combinar a data e quem vai trazer o quê. 2. Fazer a lista de comidas e bebidas. 3. Arrumar a sala, os pratos e os copos. 4. Limpar tudo depois do lanche.",
-        conferir: { minPalavras: 2, diferentes: "todos", msg: "Problema decomposto em 4 partes! O professor pode ler as suas partes no painel." } },
+      {tipo:  "sinais", titulo:  "Decomponha: “Organizar um lanche coletivo da turma”", enunciado:  "<p>Marque as <b>partes menores</b> que, juntas, resolvem esse problema.</p>", opcoes:  [{t:  "Combinar a data e quem vai trazer o quê", certo:  true}, {t:  "Fazer a lista de comidas e bebidas", certo:  true}, {t:  "Arrumar a sala, os pratos e os copos", certo:  true}, {t:  "Limpar tudo depois do lanche", certo:  true}, {t:  "Assistir a um filme no fim de semana", certo:  false}, {t:  "Estudar para a prova de Matemática", certo:  false}], explicacao:  "<b>Decompor</b> é dividir um problema grande em partes menores e mais fáceis, que juntas resolvem o problema inteiro."},
 
       { tipo: "lista_ops", titulo: "A lista CHAMADA", robo: {"paineis": ["📋 Outra lista: TIMES = 1 Remo · 2 Paysandu · 3 Tuna"], "passos": [{"fala": "Olha como eu leio <b>outra</b> lista. O número é a <b>posição</b> (a primeira é a posição 1):", "painel": 0, "titulo": "TIMES"}, {"fala": "“Quem está na posição 2?” → Paysandu.", "painel": 0, "linha": "posição 2 → Paysandu", "marca": true}, {"fala": "<b>Inserir</b> “Águia” no fim: ele vira a posição 4.", "painel": 0, "linha": "1 Remo · 2 Paysandu · 3 Tuna · 4 Águia"}, {"fala": "<b>Remover</b> o Remo: todo mundo sobe uma posição.", "painel": 0, "linha": "1 Paysandu · 2 Tuna · 3 Águia", "marca": true, "espera": 3000}], "fim": "Agora é a sua vez: siga cada passo olhando a posição. 💪"}, nome: "CHAMADA",
         inicial: ["Ana", "Bruno", "Carla", "Davi", "Elisa"],
@@ -224,22 +215,7 @@ PORTAL.registrarAtividades("informatica-7ano-4bim", {
         explicacao: "Corrigido: repita 4 vezes: ande 5 passos e vire à direita. Depois de corrigir, sempre teste de novo!" }
     ],
     turbo: [
-      { tipo: "aberta", titulo: "Invente um bloco com nome e use-o duas vezes",
-        campos: [{ rot: "Nome do bloco e os passos dele", linhas: 3, ph: "Bloco ACENAR: 1. levante a mão. 2. ..." }, { rot: "Algoritmo principal que usa o bloco duas vezes", linhas: 2 }],
-        criterios: ["O bloco tem nome e passos em ordem.", "O algoritmo principal chama o bloco duas vezes pelo nome."],
-        conferir: { minPalavras: 4, blocoDuasVezes: true, msg: "Bloco criado e usado duas vezes pelo nome!" },
-        exemplo: "Bloco ACENAR: 1. levante a mão. 2. balance a mão. 3. abaixe a mão. · Algoritmo: entrar na sala, ACENAR, sentar, ACENAR.",
-        robo: { paineis: ["1️⃣ Nome do bloco e os passos dele", "2️⃣ Algoritmo principal"],
-          passos: [
-            { fala: "Olha só como eu faço! Primeiro eu escolho um <b>nome</b> para o bloco. Vou chamar de <b>PULAR</b>.", painel: 0, titulo: "Bloco PULAR:" },
-            { fala: "Agora escrevo os <b>passos do bloco</b>, em ordem, um embaixo do outro.", painel: 0, linha: "dobrar os joelhos" },
-            { fala: "", painel: 0, linha: "pular bem alto", espera: 900 },
-            { fala: "", painel: 0, linha: "cair em pé", espera: 1200 },
-            { fala: "Pronto, o bloco está criado! Agora vem o <b>algoritmo principal</b>: os passos da tarefa toda.", painel: 1, linha: "aquecer o corpo" },
-            { fala: "Quando eu preciso do bloco, eu só <b>escrevo o nome dele</b>. Não preciso repetir os passos! 😎", painel: 1, linha: "PULAR", marca: true },
-            { fala: "", painel: 1, linha: "correr até a linha", espera: 900 },
-            { fala: "E uso o bloco <b>de novo</b>, pelo nome: é o <b>reúso</b>! Usei o PULAR <b>duas vezes</b>.", painel: 1, linha: "PULAR", marca: true, espera: 2400 }],
-          fim: "Agora é a sua vez: invente o <b>seu</b> bloco, com <b>outro nome</b> (não vale PULAR nem ACENAR 😉), e use ele <b>duas vezes</b> no algoritmo principal! 💪" } }
+      {tipo:  "completar", titulo:  "Complete: o bloco com nome usado duas vezes", texto:  "Bloco **ACENAR**: 1. levante a mão. 2. balance a mão. 3. abaixe a mão. Algoritmo principal: entrar na sala, **ACENAR**, sentar, **ACENAR**. Dar um **nome** ao bloco serve para **reaproveitar** os passos sem escrever tudo de novo.", explicacao:  "Criar um bloco com nome e chamá-lo várias vezes é <b>reúso</b>: o algoritmo fica mais curto e mais fácil de corrigir."}
     ],
     vf: [
       { v: true },
@@ -324,12 +300,7 @@ PORTAL.registrarAtividades("informatica-7ano-4bim", {
           { t: "Pedido de senha ou de código", certo: true }, { t: "Alguém dizendo que trocou de número", certo: true },
           { t: "O aviso “não compartilhe com ninguém” logo depois de você pedir o código", certo: false, why: "Esse aviso é do próprio aplicativo e protege você." },
           { t: "Mensagem escrita sem nenhum erro", certo: false, why: "Erros de português são um sinal; texto sem erro, sozinho, não prova nada." }] },
-      { id: "m3-basico-3", tipo: "aberta", titulo: "Reescreva os comentários com empatia (mantendo a opinião)", robo: {"paineis": ["😠 Comentário que machuca", "💬 Mesma opinião, com empatia"], "passos": [{"fala": "Olha como eu faço com <b>outro</b> comentário:", "painel": 0, "linha": "“Que desenho feio, desiste disso.”"}, {"fala": "Primeiro eu acho a <b>opinião</b>: a pessoa não gostou do desenho. Isso pode!", "painel": 0, "linha": "Opinião: não gostei do desenho", "marca": true}, {"fala": "Depois eu acho o <b>ataque à pessoa</b>: “desiste disso”. Isso sai!", "painel": 0, "linha": "Ataque: “desiste disso”", "marca": true}, {"fala": "Agora reescrevo: <b>mantenho a opinião</b> e critico o desenho, não a pessoa.", "painel": 1, "linha": "“Esse desenho não é o meu estilo, mas"}, {"fala": "", "painel": 1, "linha": "acho que dá para caprichar mais nas cores.”", "espera": 2600}], "fim": "Agora é a sua vez: reescreva os 3 comentários <b>mantendo a opinião</b> e sem atacar ninguém! 💪"},
-        campos: [{ rot: "“Quem gosta desse time não entende nada de futebol.”", linhas: 2 }, { rot: "“Que opinião ridícula, apaga isso.”", linhas: 2 }, { rot: "“Só gente sem noção gosta dessa música.”", linhas: 2 }],
-        detector: { palavras: ["nao entende nada", "ridicula", "ridiculo", "apaga isso", "sem nocao", "idiota", "burro"], msg: "Critique a ideia, nunca a pessoa." },
-        criterios: ["A minha opinião continua lá.", "Critico a ideia, não a pessoa.", "A pessoa não vai se sentir humilhada ao ler."],
-        exemplo: "“Eu torço para outro time, mas respeito quem gosta desse.” · “Penso diferente: na minha opinião…” · “Essa música não faz o meu estilo, mas entendo quem curte.”",
-        conferir: { minPalavras: 4, msg: "Comentários reescritos com empatia! O professor pode ler as suas respostas no painel." } },
+      {id:  "m3-basico-3", tipo:  "ligar", titulo:  "Ligue cada comentário que machuca à mesma opinião dita com empatia", pares:  [{a:  "“Quem gosta desse time não entende nada de futebol.”", b:  "“Eu torço para outro time, mas respeito quem gosta desse.”"}, {a:  "“Que opinião ridícula, apaga isso.”", b:  "“Penso diferente: na minha opinião…”"}, {a:  "“Só gente sem noção gosta dessa música.”", b:  "“Essa música não faz o meu estilo, mas entendo quem curte.”"}, {a:  "“Seu vídeo é o pior do canal.”", b:  "“Gostei mais do vídeo anterior, mas esse também teve partes legais.”"}], explicacao:  "Com empatia, a opinião <b>continua</b>: você critica a ideia, nunca a pessoa."},
       { id: "m3-basico-4", tipo: "cartaz", titulo: "Monte aqui o cartaz Alerta de golpe!", robo: {"paineis": ["🖼️ Meu cartaz de exemplo: Use a internet com respeito"], "passos": [{"fala": "Olha como eu monto um cartaz de <b>outro</b> tema, em 3 passos:", "painel": 0, "titulo": "Use a internet com respeito"}, {"fala": "1. Escolho desenhos que <b>combinam com o tema</b>: clico em cada um (clicando de novo, ele sai).", "painel": 0, "linha": "1. Desenhos: 🤝 ❤️ 💻"}, {"fala": "2. Clico numa cor de fundo.", "painel": 0, "linha": "2. Cor: azul"}, {"fala": "3. Escrevo a frase no campo de texto, completa, com letra maiúscula e ponto final.", "painel": 0, "linha": "3. Frase: Eu discordo sem ofender.", "marca": true, "espera": 3000}], "fim": "Agora é a sua vez: o seu cartaz é sobre golpes; escreva 3 dicas para se proteger. 💪"}, tituloCartaz: "Alerta de golpe!",
         campos: [
           { rot: "Dica 1 do seu cartaz:", ph: "Ex.: nunca passe códigos…", gab: "uma das dicas do 💡 Para começar", exemplo: "Nunca passe códigos que chegam por SMS.", re: "senha|c[oó]digo|link|desconfi|duas etapas|verifica|pressa|pr[eê]mio|n[aã]o clique|sair da conta|bloque|denunc|adulto|baix", dica: "As dicas estão no <strong>💡 Para começar</strong>, em “Proteja-se”." },
@@ -338,14 +309,7 @@ PORTAL.registrarAtividades("informatica-7ano-4bim", {
         okMsg: "Cartaz pronto e conferido! Ficou registrado para o professor." }
     ],
     desafio: [
-      { tipo: "aberta", titulo: "Um colega fez uma montagem com a foto de outro aluno e mandou no grupo. Escreva 3 atitudes de quem viu.", robo: {"paineis": ["🛡️ Outra situação: um apelido maldoso no grupo"], "passos": [{"fala": "Vou pensar numa situação <b>parecida</b>: alguém espalhou um apelido maldoso de um colega no grupo. O que eu faço?", "painel": 0, "titulo": "Apelido maldoso no grupo"}, {"fala": "1️⃣ Primeiro: <b>não ajudo a espalhar</b>.", "painel": 0, "linha": "Não repito o apelido e não dou risada"}, {"fala": "2️⃣ Depois: <b>apoio quem foi atingido</b>.", "painel": 0, "linha": "Mando uma mensagem de apoio para o colega"}, {"fala": "3️⃣ E por fim: <b>guardo prova e peço ajuda</b> a um adulto.", "painel": 0, "linha": "Tiro print e conto para o professor"}, {"fala": "São 3 atitudes <b>diferentes</b>: não espalhar, apoiar e pedir ajuda. 💙", "painel": null, "espera": 2600}], "fim": "Agora é a sua vez: escreva 3 atitudes para a situação da <b>montagem</b>! 💪"},
-        campos: [{ rot: "1.", linhas: 1 }, { rot: "2.", linhas: 1 }, { rot: "3.", linhas: 1 }],
-        criterios: ["Nenhuma atitude espalha a montagem.", "Pelo menos uma atitude apoia quem foi exposto.", "Pelo menos uma atitude envolve guardar prova, denunciar ou contar a um adulto."],
-        exemplo: "1. Não compartilho e não comento rindo. 2. Mando uma mensagem de apoio para o colega exposto. 3. Tiro print, denuncio e conto ao professor.",
-        conferir: { minPalavras: 3, diferentes: "todos", grupos: [
-          { dica: "não espalhar a montagem (não compartilhar, não repassar)", alts: ["nao compartilh", "nao repass", "nao encaminh", "nao espalh", "nao mand", "apag", "nao comento", "nao rio", "nao curt"] },
-          { dica: "apoiar quem foi exposto", alts: ["apoi", "ajud", "conversar com", "consol", "mensagem", "do lado", "amigo", "acolh"] },
-          { dica: "guardar prova, denunciar ou contar a um adulto", alts: ["print", "prova", "denunc", "adulto", "professor", "cont", "famil", "pais", "diretor", "coordenad"] }] } }
+      {tipo:  "classificar", titulo:  "Um colega fez uma montagem com a foto de outro aluno e mandou no grupo. Cada atitude ajuda ou piora?", categorias:  [{id:  "A", rot:  "🛡️ Ajuda"}, {id:  "P", rot:  "⚠️ Piora"}], itens:  [{t:  "Não compartilhar e não comentar rindo", c:  "A"}, {t:  "Mandar uma mensagem de apoio para o colega exposto", c:  "A"}, {t:  "Tirar print e contar ao professor", c:  "A"}, {t:  "Denunciar a montagem na plataforma", c:  "A"}, {t:  "Encaminhar para outros grupos", c:  "P"}, {t:  "Comentar “kkkk”", c:  "P"}, {t:  "Curtir a montagem", c:  "P"}], explicacao:  "Quem viu pode ajudar: <b>não espalhar</b>, <b>apoiar</b> quem foi exposto e <b>guardar prova e contar a um adulto</b>."}
     ],
     turbo: [
       { tipo: "escolha", titulo: "O que é a verificação em duas etapas e por que ela protege a conta mesmo se alguém descobrir a sua senha?",
@@ -538,13 +502,7 @@ PORTAL.registrarAtividades("informatica-7ano-4bim", {
   pf: {
     basico: [
       { tipo: "info", titulo: "Confira as suas missões", html: "<p>Volte à lista de missões da apostila: cada missão com o <strong>Básico concluído</strong> aparece com ✔. Se faltar alguma (por exemplo, porque você faltou à aula), faça o Básico dela agora. O professor acompanha tudo pelo painel.</p>" },
-      { tipo: "aberta", titulo: "Escreva uma frase sobre o que você aprendeu em cada tema", robo: {"paineis": ["✍️ Exemplo com outra matéria"], "passos": [{"fala": "Olha como eu escrevo uma boa frase, sobre <b>outra</b> matéria (Matemática):", "painel": 0, "titulo": "🧮 Frações"}, {"fala": "Começo com letra maiúscula, uso uma <b>palavra-chave</b> do tema e termino com ponto final:", "painel": 0, "linha": "Aprendi que a fração mostra partes de um inteiro.", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: uma frase para cada tema, com uma palavra-chave dele! 💪"},
-        campos: [{ rot: "🌐 Redes e internet", linhas: 2 }, { rot: "⚙️ Algoritmos", linhas: 2 }, { rot: "🛡️ Segurança e convivência digital", linhas: 2 }],
-        criterios: ["Cada frase usa pelo menos uma palavra-chave do tema.", "Frase completa, com letra maiúscula e ponto final."],
-        conferir: { minPalavras: 4, porCampo: [
-          ["rede", "internet", "pacote", "ip", "roteador", "switch", "cabo", "wi-fi", "wifi", "protocolo", "tcp", "servidor", "veyon", "ap "],
-          ["algoritmo", "decompo", "parte", "bug", "erro", "corrig", "bloco", "lista", "passo", "sequencia", "repeti", "depura"],
-          ["seguranc", "golpe", "phishing", "senha", "empatia", "respeit", "verificacao", "duas etapas", "dados", "link", "cyberbullying", "denunc", "proteg"]] } }
+      {tipo:  "caca", titulo:  "Caça-palavras: o que você aprendeu em cada tema", enunciado:  "<p>Leia cada pista e ache a palavra no quadro.</p>", palavras:  ["PACOTE", "SWITCH", "DECOMPOR", "BUG", "SENHA", "EMPATIA"], pistas:  ["🌐 Pedacinho dos dados que viaja pela rede", "🌐 Aparelho que liga os computadores da baia", "⚙️ Dividir um problema grande em partes menores", "⚙️ Erro num programa", "🛡️ Deve ser longa e secreta", "🛡️ Respeitar o que o outro sente e pensa"], tam:  10, explicacao:  "Redes e internet, algoritmos e segurança: os três temas do bimestre!"}
     ],
     desafio: [
       { tipo: "ligar", titulo: "Desafio do bimestre: ligue cada termo ao seu significado", explicacao: "Cada termo é de um tema do bimestre. Se errou algum, volte ao 📖 O que significa? da missão daquele termo e leia de novo.", porRodada: 6,
@@ -552,12 +510,7 @@ PORTAL.registrarAtividades("informatica-7ano-4bim", {
         pares: [{ a: "Pacote", b: "Pedaço numerado de uma mensagem que viaja pela rede" }, { a: "Endereço IP", b: "Número que identifica cada aparelho na rede" }, { a: "Decomposição", b: "Dividir um problema grande em partes menores" }, { a: "Bug", b: "Erro em um algoritmo" }, { a: "Phishing", b: "Golpe com mensagem ou link falso para roubar dados" }, { a: "Verificação em duas etapas", b: "Segunda confirmação além da senha, como um código no celular" }] }
     ],
     turbo: [
-      { tipo: "aberta", titulo: "A missão de que eu mais gostei",
-        enunciado: "<p>Escolha a missão de que você mais gostou e escreva duas ou três frases dizendo por quê. Se o professor ligar o projetor no fim da aula, você pode ler para a turma (é opcional).</p>",
-        campos: [{ rot: "A missão de que eu mais gostei:", linhas: 1 }, { rot: "Por que eu gostei (duas ou três frases):", linhas: 3 }],
-        criterios: ["Diz qual foi a missão.", "Explica o motivo com as suas palavras."],
-        exemplo: "Missão 1. Eu gostei porque aprendi como a internet funciona por dentro e agora entendo por que o vídeo trava.",
-        conferir: { minPalavras: 2, msg: "Registrado! O professor pode ler no painel." } }
+      {tipo:  "escolha", titulo:  "A missão de que eu mais gostei", enunciado:  "<p>Não tem resposta certa nem errada: toque no que é verdade para você. O professor vê as respostas no painel.</p>", perguntas:  [{p:  "Qual foi a missão de que você mais gostou?", opcoes:  ["Missão 1 – Redes e internet: como os dados viajam", "Missão 2 – Algoritmos: decomposição, listas, reúso e correção de erros", "Missão 3 – Segurança e convivência digital", "Missão 4 – Grafos: mapas, caminhos e conexões"], certo:  -1}, {p:  "Por que você gostou dela?", opcoes:  ["Aprendi uma coisa nova que vou usar no dia a dia", "As atividades e os jogos foram divertidos", "Consegui fazer sozinho(a)", "Gostei do vídeo e das simulações"], certo:  -1}], explicacao:  "Obrigado por contar! A sua opinião ajuda o professor a deixar as próximas missões ainda melhores."}
     ]
   }
 });

@@ -215,13 +215,7 @@ PORTAL.registrarAtividades("informatica-8ano-4bim", {
           { t: "Não mexer no computador nem nos arquivos dos colegas.", c: "B" },
           { t: "Chamar o professor quando o computador travar.", c: "B" }],
         dicas: ["Uma boa regra protege os computadores, os dados e os colegas."] },
-      { tipo: "aberta", titulo: "Termos de uso da nossa sala de informática", robo: {"paineis": ["📜 Termos de uso de OUTRO lugar: a biblioteca"], "passos": [{"fala": "Olha como eu escrevo regras para <b>outro</b> lugar, a biblioteca. Cada regra é curta e protege alguma coisa:", "painel": 0, "linha": "Devolver o livro no prazo"}, {"fala": "", "painel": 0, "linha": "Não riscar nem dobrar as páginas", "espera": 800}, {"fala": "", "painel": 0, "linha": "Falar baixinho para não atrapalhar", "espera": 800}, {"fala": "Repare: linguagem simples, que qualquer colega entende.", "painel": null, "espera": 2400}], "fim": "Agora é a sua vez: escreva 5 regras para a <b>sala de informática</b>! 💪"},
-        enunciado: "<p><strong>Ao usar este computador, eu concordo em:</strong></p>",
-        campos: [{ rot: "Regra 1", linhas: 1 }, { rot: "Regra 2", linhas: 1 }, { rot: "Regra 3", linhas: 1 }, { rot: "Regra 4", linhas: 1 }, { rot: "Regra 5", linhas: 1 }],
-        criterios: ["Cada regra está em linguagem simples, que qualquer colega entende.", "As regras protegem os computadores, os dados ou os colegas."], minPalavras: 3,
-        exemplo: "1. Usar só os programas pedidos. 2. Não comer perto do computador. 3. Não mexer nos arquivos dos colegas. 4. Não passar a minha senha para ninguém. 5. Não mexer nos cabos.",
-        detector: { palavras: ["compartilhar a minha senha", "passar a senha para todos", "puxando o cabo"], msg: "Essa regra não protege a sala. Troque por uma boa regra." },
-        conferir: { minPalavras: 3, diferentes: "todos", msg: "Termos de uso escritos! O professor pode ler as suas regras no painel." } }
+      {tipo:  "completar", titulo:  "Termos de uso da nossa sala de informática", texto:  "Ao usar este computador, eu concordo em: usar só os **programas** pedidos pelo professor; não **comer** nem beber perto do computador; não mexer nos **arquivos** dos colegas; não passar a minha **senha** para ninguém; e não mexer nos **cabos**.", explicacao:  "Termos de uso são as regras que eu aceito para usar um serviço. Boas regras protegem os <b>computadores</b>, os <b>dados</b> e os <b>colegas</b>."}
     ],
     desafio: [
       { tipo: "info", titulo: "Termos de uso do aplicativo inventado FotoTop",
@@ -237,13 +231,7 @@ PORTAL.registrarAtividades("informatica-8ano-4bim", {
         explicacao: "Ler os termos de uso mostra o que você está aceitando antes de clicar em “Aceito”." }
     ],
     turbo: [
-      { tipo: "aberta", titulo: "O que é pegada digital? Dê um exemplo de publicação que poderia atrapalhar alguém daqui a 5 anos.", robo: {"paineis": ["👣 Como montar a resposta"], "passos": [{"fala": "Primeiro eu explico <b>o que é</b>, com as minhas palavras:", "painel": 0, "linha": "É o rastro que deixo na internet com o que publico, curto e comento."}, {"fala": "Depois dou um <b>exemplo</b> e digo <b>por que</b> atrapalharia. Vou usar um exemplo meu:", "painel": 0, "linha": "Um vídeo zoando um colega pode aparecer quando eu procurar um estágio.", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: explique com as suas palavras e dê um exemplo <b>seu</b>! 💪"},
-        campos: [{ rot: "O que é pegada digital?", linhas: 2 }, { rot: "Exemplo de publicação e por que ela atrapalharia daqui a 5 anos", linhas: 3 }],
-        criterios: ["Expliquei que é o rastro do que publicamos, curtimos e comentamos.", "Dei um exemplo concreto e disse por que atrapalharia."],
-        conferir: { minPalavras: 6, porCampo: [
-          ["rastro", "marca", "registro", "historico", "fica na internet", "fica guardad", "public", "curt", "coment", "postag", "deixamos"],
-          ["emprego", "trabalho", "vaga", "escola", "faculdade", "vergonha", "prejudic", "atrapalh", "reputac", "ofens", "foto", "video", "comentario", "brincadeira"]] },
-        exemplo: "Pegada digital é o rastro do que publicamos, curtimos e comentamos na internet. Exemplo: um vídeo zoando um colega; daqui a 5 anos, uma empresa pode ver e não contratar a pessoa." }
+      {tipo:  "escolha", titulo:  "Pegada digital: o que fica de você na internet", perguntas:  [{p:  "O que é pegada digital?", opcoes:  ["O rastro do que publicamos, curtimos e comentamos na internet", "A marca do dedo na tela do celular", "Um aplicativo que conta passos"], certo:  0, why:  "Tudo o que fazemos na internet deixa rastro, e esse rastro pode ficar guardado por anos."}, {p:  "Qual publicação pode atrapalhar alguém daqui a 5 anos?", opcoes:  ["Um vídeo zoando um colega", "Uma foto do pôr do sol", "Uma mensagem de parabéns para a avó"], certo:  0, why:  "Uma empresa ou uma escola pode ver esse vídeo no futuro e ter uma má impressão da pessoa."}], explicacao:  "Antes de publicar, pense: <b>eu ficaria tranquilo se isso aparecesse daqui a 5 anos?</b>"}
     ],
     vf: [
       { v: true },
@@ -358,15 +346,7 @@ PORTAL.registrarAtividades("informatica-8ano-4bim", {
         explicacao: "O Jogo A pede só o necessário, não compartilha, deixa apagar a conta e avisa antes de mudar. O Jogo B pega contatos e localização, compartilha com parceiros, não diz como apagar e muda sem aviso." }
     ],
     turbo: [
-      { tipo: "aberta", titulo: "As minhas 3 perguntas antes de aceitar os termos", robo: {"paineis": ["❓ Perguntas antes de aceitar"], "passos": [{"fala": "Olha como eu penso. Cada pergunta é sobre uma coisa <b>diferente</b>. Uma sobre os <b>dados</b>:", "painel": 0, "linha": "Ele usa a minha localização?"}, {"fala": "Uma sobre <b>propaganda</b>:", "painel": 0, "linha": "Vai me mostrar anúncios pelo que eu faço?"}, {"fala": "E uma sobre o que eu <b>publico</b>:", "painel": 0, "linha": "As minhas fotos ficam públicas?", "espera": 2400}], "fim": "Agora é a sua vez: escreva 3 perguntas <b>suas</b>, cada uma sobre um assunto diferente! 💪"},
-        campos: [{ rot: "Pergunta 1", linhas: 1 }, { rot: "Pergunta 2", linhas: 1 }, { rot: "Pergunta 3", linhas: 1 }],
-        criterios: ["Cada pergunta é sobre os dados, o compartilhamento, a conta, a propaganda ou o que eu publico.", "As três perguntas são diferentes."],
-        exemplo: "1. Que dados ele pega? 2. Com quem ele compartilha os meus dados? 3. Consigo apagar a minha conta?",
-        conferir: { minPalavras: 3, diferentes: "todos",
-          grupos: [{ dica: "quais dados ele pega", alts: ["dado", "coleta", "pega", "pede"] }, { dica: "com quem compartilha", alts: ["compartilh", "parceir", "vende", "passa"] },
-            { dica: "como apagar a conta", alts: ["apag", "exclu", "sair", "conta"] }, { dica: "propaganda ou anúncios", alts: ["propagand", "anúnci", "anunci", "publicidad"] },
-            { dica: "o que faz com as fotos e vídeos", alts: ["foto", "vídeo", "video", "public", "licen"] }, { dica: "a idade mínima", alts: ["idade", "anos"] }],
-          minGrupos: 3, msg: "Três perguntas de quem lê antes de aceitar!" } }
+      {tipo:  "memoria", titulo:  "Jogo da memória: as perguntas antes de aceitar os termos", pares:  [{a:  "Que dados ele pega?", b:  "Para saber o que o aplicativo vai saber sobre mim"}, {a:  "Com quem ele compartilha?", b:  "Para saber se outras empresas vão receber os meus dados"}, {a:  "Consigo apagar a minha conta?", b:  "Para poder sair e apagar os meus dados quando quiser"}, {a:  "Vai mostrar propaganda?", b:  "Para saber se vão usar os meus gostos para vender coisas"}], explicacao:  "Antes de clicar em “Aceito”, pergunte: que <b>dados</b> ele pega, com quem <b>compartilha</b>, se dá para <b>apagar</b> a conta e se tem <b>propaganda</b>."}
     ],
     vf: [
       { v: true },
@@ -436,13 +416,7 @@ PORTAL.registrarAtividades("informatica-8ano-4bim", {
   pf: {
     basico: [
       { tipo: "info", titulo: "Confira as suas missões", html: "<p>Volte à lista de missões da apostila: cada missão com o <strong>Básico concluído</strong> aparece com ✔. Se faltar alguma (por exemplo, porque você faltou à aula), faça o Básico dela agora. O professor acompanha tudo pelo painel.</p>" },
-      { tipo: "aberta", titulo: "Escreva uma frase sobre o que você aprendeu em cada tema", robo: {"paineis": ["✍️ Exemplo com outra matéria"], "passos": [{"fala": "Olha como eu escrevo uma boa frase, sobre <b>outra</b> matéria (Matemática):", "painel": 0, "titulo": "🧮 Frações"}, {"fala": "Começo com letra maiúscula, uso uma <b>palavra-chave</b> do tema e termino com ponto final:", "painel": 0, "linha": "Aprendi que a fração mostra partes de um inteiro.", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: uma frase para cada tema, com uma palavra-chave dele! 💪"},
-        campos: [{ rot: "🗂️ Listas, busca e ordenação", linhas: 2 }, { rot: "☁️ Internet, nuvem e paralelismo", linhas: 2 }, { rot: "🔍 Dados pessoais e informação confiável", linhas: 2 }],
-        criterios: ["Cada frase usa pelo menos uma palavra-chave do tema.", "Frase completa, com letra maiúscula e ponto final."],
-        conferir: { minPalavras: 4, porCampo: [
-          ["lista", "busca", "binaria", "sequencial", "ordena", "ordem", "bolha", "metade", "meio", "comparar", "trocar"],
-          ["internet", "nuvem", "paralel", "data center", "servidor", "dns", "nucleo", "distribuid", "copia", "rede", "processador"],
-          ["dados", "lgpd", "privacidade", "fake", "falsa", "fonte", "checa", "confiavel", "termos", "pegada", "senha", "informacao", "compartilh"]] } }
+      {tipo:  "completar", titulo:  "Complete as frases sobre o que você aprendeu em cada tema", texto:  "🗂️ Na **busca binária**, olho o **meio** de uma lista em ordem e descarto a metade em que a resposta não pode estar. ☁️ Na **nuvem**, os arquivos ficam em servidores de data centers, e o **DNS** traduz o nome do site no endereço IP. 🔍 Os meus **dados pessoais** são protegidos por uma lei, a **LGPD**.", explicacao:  "Listas, internet por dentro e dados pessoais: os três temas do bimestre!"}
     ],
     desafio: [
       { tipo: "ligar", titulo: "Desafio do bimestre: ligue cada termo ao seu significado", explicacao: "Cada termo é de um tema do bimestre. Se errou algum, volte ao 📖 O que significa? da missão daquele termo e leia de novo.", porRodada: 6,
@@ -450,12 +424,7 @@ PORTAL.registrarAtividades("informatica-8ano-4bim", {
         pares: [{ a: "Busca binária", b: "Olha o meio e descarta metade; só funciona em lista ordenada" }, { a: "Método da bolha", b: "Compara vizinhos e troca os que estão fora de ordem" }, { a: "DNS (Sistema de Nomes de Domínio)", b: "Traduz o nome do site no endereço IP" }, { a: "Paralelismo", b: "Partes de uma tarefa feitas ao mesmo tempo, em núcleos diferentes" }, { a: "LGPD (Lei Geral de Proteção de Dados)", b: "Lei brasileira que protege os dados pessoais" }, { a: "Pegada digital", b: "Rastro do que publicamos, curtimos e comentamos" }] }
     ],
     turbo: [
-      { tipo: "aberta", titulo: "A missão de que eu mais gostei",
-        enunciado: "<p>Escolha a missão de que você mais gostou e escreva duas ou três frases dizendo por quê. Se o professor ligar o projetor no fim da aula, você pode ler para a turma (é opcional).</p>",
-        campos: [{ rot: "A missão de que eu mais gostei:", linhas: 1 }, { rot: "Por que eu gostei (duas ou três frases):", linhas: 3 }],
-        criterios: ["Diz qual foi a missão.", "Explica o motivo com as suas palavras."],
-        exemplo: "Missão 2. Eu gostei porque aprendi como a internet funciona por dentro e agora entendo por que o vídeo trava.",
-        conferir: { minPalavras: 2, msg: "Registrado! O professor pode ler no painel." } }
+      {tipo:  "escolha", titulo:  "A missão de que eu mais gostei", enunciado:  "<p>Não tem resposta certa nem errada: toque no que é verdade para você. O professor vê as respostas no painel.</p>", perguntas:  [{p:  "Qual foi a missão de que você mais gostou?", opcoes:  ["Missão 1 – Listas: buscar e ordenar", "Missão 2 – Internet por dentro: nuvem e paralelo", "Missão 3 – Dados pessoais e informação confiável", "Missão 4 – Termos de uso: o que eu aceitei?"], certo:  -1}, {p:  "Por que você gostou dela?", opcoes:  ["Aprendi uma coisa nova que vou usar no dia a dia", "As atividades e os jogos foram divertidos", "Consegui fazer sozinho(a)", "Gostei do vídeo e das simulações"], certo:  -1}], explicacao:  "Obrigado por contar! A sua opinião ajuda o professor a deixar as próximas missões ainda melhores."}
     ]
   }
 });

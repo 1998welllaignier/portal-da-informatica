@@ -47,7 +47,10 @@ PORTAL.registrarAtividades("ID-DA-APOSTILA", {
          info (texto de apoio, não conta progresso) · autoavaliacao
          caminho (montar esquema com setas e banco de peças) · grafo_montar (ligar vértices pela tabela)
          cesar_livre (o aluno cifra a própria frase)
-         cartaz (o aluno monta um cartaz no portal: desenhos, cor e textos conferidos; substitui o Paint) */
+         cartaz (o aluno monta um cartaz no portal: desenhos, cor e textos conferidos; substitui o Paint)
+         memoria (jogo da memória: pares: [{a, b}], porRodada) · caca (caça-palavras: palavras: [...], pistas: [...], tam)
+         vivi (toque no que você já viveu: opcoes: [...], sem certo nem errado)
+         🎲 REGRA (18/11/2026): nada de "escreva uma frase"; alterne os formatos, nunca dois iguais seguidos. */
     ],
     desafio: [],
     turbo: [],

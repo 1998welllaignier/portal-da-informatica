@@ -198,12 +198,7 @@ PORTAL.registrarAtividades("informatica-6ano-2027-1bim", {
           { t: "A urna confere o número", c: "P", why: "Conferir é processar." },
           { t: "A foto do candidato aparece", c: "S", why: "A tela mostra o resultado." }],
         explicacao: "Em todo aparelho: a informação entra (microfone, teclado), é processada (entender, conferir) e sai (tela)." },
-      { tipo: "aberta", titulo: "Um aparelho da minha casa", robo: {"paineis": ["📺 Outro aparelho: a geladeira"], "passos": [{"fala": "Olha como eu faço com um aparelho <b>diferente</b>:", "painel": 0, "titulo": "Aparelho: geladeira"}, {"fala": "<b>Entrada</b>: o que ela recebe.", "painel": 0, "linha": "Entrada: o botão da temperatura que eu giro"}, {"fala": "<b>Processamento</b>: o que ela faz por dentro.", "painel": 0, "linha": "Processamento: compara a temperatura e liga o motor"}, {"fala": "<b>Saída</b>: o que ela entrega.", "painel": 0, "linha": "Saída: o ar frio que gela a comida", "marca": true, "espera": 2400}], "fim": "Agora é a sua vez: escolha <b>outro</b> aparelho da sua casa! 💪"},
-        enunciado: "<p>Escolha um aparelho (TV, micro-ondas, celular, videogame…) e diga a entrada, o processamento e a saída dele.</p>",
-        campos: [{ rot: "Aparelho:", linhas: 1 }, { rot: "Entrada (o que recebe):", linhas: 1 }, { rot: "Processamento (o que ele faz por dentro):", linhas: 1 }, { rot: "Saída (o que mostra ou entrega):", linhas: 1 }],
-        criterios: ["Cada campo preenchido.", "Entrada, processamento e saída diferentes entre si."],
-        exemplo: "Micro-ondas · Entrada: aperto os botões do tempo · Processamento: o chip conta o tempo · Saída: o visor mostra o tempo e o apito toca.",
-        conferir: { minPalavras: 1, diferentes: [1, 2, 3], msg: "Muito bem! Você achou as etapas num aparelho de verdade." } }
+      {tipo:  "classificar", titulo:  "Aparelhos da casa: entrada, processamento ou saída?", categorias:  [{id:  "E", rot:  "⌨️ Entrada (o que recebe)"}, {id:  "P", rot:  "⚙️ Processamento (o que faz por dentro)"}, {id:  "S", rot:  "📺 Saída (o que mostra ou entrega)"}], itens:  [{t:  "Micro-ondas: aperto os botões do tempo", c:  "E"}, {t:  "Micro-ondas: o chip conta o tempo", c:  "P"}, {t:  "Micro-ondas: o visor mostra o tempo e o apito toca", c:  "S"}, {t:  "Celular: toco na tela", c:  "E"}, {t:  "Celular: o processador abre o aplicativo", c:  "P"}, {t:  "Celular: o alto-falante toca a música", c:  "S"}], explicacao:  "Todo aparelho digital <b>recebe</b> (entrada), <b>processa</b> e <b>entrega</b> (saída)."}
     ],
     turbo: [
       { tipo: "escolha", titulo: "Por que salvar?",
@@ -596,27 +591,10 @@ PORTAL.registrarAtividades("informatica-6ano-2027-1bim", {
         explicacao: "Ofensa: não compartilhe, apoie, guarde o print e denuncie. Senha não se passa para ninguém." }
     ],
     desafio: [
-      { tipo: "aberta", titulo: "Reescreva com respeito", robo: {"paineis": ["😠 Mensagem que ofende", "💬 Mesma ideia, com respeito"], "passos": [{"fala": "Olha como eu faço com <b>outra</b> mensagem. Repare que está toda em maiúsculas: é como gritar!", "painel": 0, "linha": "“NOSSA, QUE DESENHO MAL FEITO”"}, {"fala": "A ideia é: o desenho pode melhorar. Tiro o grito e a ofensa e mantenho a ideia:", "painel": 1, "linha": "“Acho que dá para caprichar mais nas cores do desenho.”", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: reescreva as 3 mensagens, sem ofender e sem gritar! 💪"},
-        enunciado: "<p>Mantenha a ideia, mas sem ofender e sem gritar. O portal avisa se sobrar alguma palavra ofensiva ou tudo em maiúsculas.</p>",
-        campos: [{ rot: "“QUE TRABALHO RUIM, VOCÊ NÃO SABE NADA”", linhas: 2 }, { rot: "“Sai do grupo, ninguém te chamou”", linhas: 2 }, { rot: "“kkkk olha a foto dele, que feio”", linhas: 2 }],
-        detector: { palavras: ["ruim", "nao sabe nada", "ninguem te chamou", "sai do grupo", "kkkk", "kkk", "feio", "burro", "idiota"], msg: "Escreva como se a pessoa estivesse na sua frente." },
-        criterios: ["Sem xingamento, deboche ou tudo em maiúsculas.", "Dá para entender a ideia.", "Ajuda em vez de humilhar."],
-        exemplo: "“Acho que o trabalho pode melhorar. Quer ajuda?” · “Vamos combinar as regras do grupo juntos?” · “Melhor não postar a foto sem ele deixar.”",
-        conferir: { minPalavras: 4, msg: "Mensagens reescritas com respeito! O professor pode ler no painel." } }
+      {tipo:  "escolha", titulo:  "Escolha a versão respeitosa de cada mensagem", perguntas:  [{p:  "“QUE TRABALHO RUIM, VOCÊ NÃO SABE NADA”", opcoes:  ["“Acho que o trabalho pode melhorar. Quer ajuda?”", "“TRABALHO RUIM!!!”", "“Ninguém liga para o seu trabalho.”"], certo:  0, why:  "Mantém a ideia (dá para melhorar) sem gritar e oferece ajuda."}, {p:  "“Sai do grupo, ninguém te chamou”", opcoes:  ["“Vamos combinar juntos quem participa do grupo?”", "“Sai logo daqui.”", "“Ninguém quer você aqui.”"], certo:  0, why:  "Combinar as regras juntos resolve sem excluir ninguém."}, {p:  "“kkkk olha a foto dele, que feio”", opcoes:  ["“Melhor não postar a foto sem ele deixar.”", "“kkkk que foto feia”", "“Manda para todo mundo!”"], certo:  0, why:  "Foto de alguém só com a permissão da pessoa."}], explicacao:  "Dá para dizer a mesma coisa <b>sem ofender</b> e <b>sem gritar</b> (tudo em maiúsculas parece grito)."}
     ],
     turbo: [
-      { tipo: "aberta", titulo: "As regras do grupo da turma", robo: {"paineis": ["📜 Regras de outro grupo: o time de futebol"], "passos": [{"fala": "Olha como eu crio regras para <b>outro</b> grupo. Cada regra fala de respeito, segurança ou cuidado:", "painel": 0, "linha": "Avisar com antecedência quando não puder ir ao treino"}, {"fala": "", "painel": 0, "linha": "Não postar vídeo de ninguém sem pedir", "espera": 900}, {"fala": "", "painel": 0, "linha": "Não mandar mensagem tarde da noite", "espera": 2200}], "fim": "Agora é a sua vez: crie 3 regras para o grupo da <b>sua turma</b>! 💪"},
-        enunciado: "<p>Crie 3 regras de netiqueta para o grupo da sua turma.</p>",
-        campos: [{ rot: "Regra 1:", linhas: 1 }, { rot: "Regra 2:", linhas: 1 }, { rot: "Regra 3:", linhas: 1 }],
-        criterios: ["Três regras diferentes.", "Cada regra fala de respeito, segurança ou cuidado."],
-        exemplo: "1. Falar com respeito. 2. Não postar foto de ninguém sem permissão. 3. Não passar senha nem endereço.",
-        conferir: { minPalavras: 3, diferentes: "todos", minGrupos: 2, grupos: [
-          { dica: "respeito", alts: ["respeit", "educa", "ofend", "xing", "grit", "maiuscul"] },
-          { dica: "fotos e permissão", alts: ["foto", "permiss", "imagem"] },
-          { dica: "senha e dados pessoais", alts: ["senha", "endereco", "telefone", "dado"] },
-          { dica: "pensar antes de postar", alts: ["pens", "post", "compartilh"] },
-          { dica: "contar a um adulto", alts: ["adulto", "professor", "denunc", "contar"] }],
-          msg: "Regras criadas! Que tal propor ao grupo da sua turma?" } }
+      {tipo:  "sinais", titulo:  "As regras do grupo da turma", enunciado:  "<p>Marque as boas regras de <b>netiqueta</b> para o grupo da sua turma.</p>", opcoes:  [{t:  "Falar com respeito, sem xingar e sem escrever tudo em maiúsculas", certo:  true}, {t:  "Não postar foto de ninguém sem permissão", certo:  true}, {t:  "Não passar senha nem endereço no grupo", certo:  true}, {t:  "Não espalhar mensagens sem saber se são verdade", certo:  true}, {t:  "Quem errar pode ser zoado", certo:  false}, {t:  "Mandar a senha para o melhor amigo guardar", certo:  false}, {t:  "Postar o print da conversa de outra pessoa sem pedir", certo:  false}], explicacao:  "Netiqueta é a etiqueta da internet: <b>respeito</b>, <b>cuidado com fotos</b> e <b>proteção dos dados</b>."}
     ],
     vf: [
       { v: true, why: "Maiúsculas parecem grito." },

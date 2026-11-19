@@ -451,12 +451,7 @@
         explicacao: "A seleção compara a variável dia com o texto “sexta”. Como é igual, aparece “Tem sobremesa!”." }
     ],
     turbo: [
-      { tipo: "aberta", titulo: "Em dupla: o plano do nosso programa", robo: {"paineis": ["📝 O plano de outro programa: a lista de compras"], "passos": [{"fala": "Olha como eu planejo um programa <b>diferente</b>, antes de montar:", "painel": 0, "titulo": "Nome: Lista de compras"}, {"fala": "O que ele mostra na tela:", "painel": 0, "linha": "Mostra os itens e quantos faltam comprar"}, {"fala": "As partes, em ordem (decomposição):", "painel": 0, "linha": "1. criar a lista · 2. adicionar itens · 3. mostrar cada item"}, {"fala": "Os blocos que vou usar:", "painel": 0, "linha": "lista, adicionar no fim, para cada", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: planejem o programa de <b>vocês</b>, com outra ideia! 💪"},
-        enunciado: "<p>Inventem um programa (um placar, um cardápio, uma lista de jogos…) e escrevam o plano antes de montar.</p>",
-        campos: [{ rot: "Nome do programa:", linhas: 1 }, { rot: "O que ele vai mostrar na tela:", linhas: 2 }, { rot: "As partes (decomposição):", linhas: 3 }, { rot: "Que blocos vamos usar (lista, repita, se, para cada…):", linhas: 1 }],
-        criterios: ["Cada campo preenchido.", "As partes estão em ordem.", "Cita blocos estudados."],
-        exemplo: "Placar do jogo · Mostra o nome dos times e quem venceu · 1. criar as variáveis dos gols; 2. mostrar os times; 3. comparar com se; 4. mostrar o vencedor · variável, se, comparar",
-        conferir: { minPalavras: 2, minGrupos: 1, grupos: [{ dica: "citar um bloco estudado (lista, repita, se, para cada, variável, ficha)", alts: ["lista", "repita", "se ", "para cada", "variavel", "ficha", "bloco"] }], msg: "Plano pronto! Agora é montar, parte por parte." } }
+      {tipo:  "ordenar", titulo:  "Em dupla: coloquem em ordem o plano do programa “Placar do jogo”", itens:  ["Escolher o nome do programa e o que ele vai mostrar na tela", "Dividir o programa em partes (decomposição)", "Escolher os blocos de cada parte (variável, se, repita…)", "Montar parte por parte e rodar para testar"], explicacao:  "Planejar antes de montar: <b>objetivo</b> → <b>partes</b> → <b>blocos</b> → <b>montar e testar</b>."}
     ],
     vf: [
       { v: true, why: "Mouse e teclado com o piloto." },
