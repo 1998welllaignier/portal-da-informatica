@@ -1097,14 +1097,14 @@
       const draw = () => {
         c.innerHTML = `<div class="grafo-wrap"><svg viewBox="0 0 ${W} ${H}" class="grafo" role="img" aria-label="${esc(at.descricao || "Grafo para montar")}">
           ${st.fe.map(k => { const e = A.find(x => chave(x[0], x[1]) === k); const p = V.find(v => v.id === e[0]), q = V.find(v => v.id === e[1]); const mx = (p.x + q.x) / 2, my = (p.y + q.y) / 2;
-            return `<line x1="${p.x}" y1="${p.y}" x2="${q.x}" y2="${q.y}" class="aresta no-cam"/><g class="peso"><rect x="${mx - 15}" y="${my - 12}" width="30" height="22" rx="6"/><text x="${mx}" y="${my + 4}" text-anchor="middle">${fmtPeso(e[2])}</text></g>`; }).join("")}
+            return `<line x1="${p.x}" y1="${p.y}" x2="${q.x}" y2="${q.y}" class="aresta no-cam"/>${at.semPeso ? "" : `<g class="peso"><rect x="${mx - 15}" y="${my - 12}" width="30" height="22" rx="6"/><text x="${mx}" y="${my + 4}" text-anchor="middle">${fmtPeso(e[2])}</text></g>`}`; }).join("")}
           ${V.map(v => `<g class="vert ${sel === v.id ? "no-cam ponta" : ""}" data-v="${v.id}" tabindex="0" role="button" aria-label="${esc(v.rot)}${sel === v.id ? ", selecionado" : ""}">
             <circle cx="${v.x}" cy="${v.y}" r="${v.r || 24}"/><text x="${v.x}" y="${v.y + 5}" text-anchor="middle" class="v-id">${esc(v.id)}</text>
             <text x="${v.x}" y="${v.y + (v.r || 24) + 15}" text-anchor="middle" class="v-rot">${esc(v.rot)}</text></g>`).join("")}
         </svg>
         <div class="grafo-info"><p>Ligações feitas: <strong>${st.fe.length} de ${A.length}</strong></p>
           <p>${sel ? `Agora clique no lugar que se liga a <strong>${esc(rot(sel))}</strong>.` : "Clique em um lugar e depois no outro lugar ligado a ele."}</p>
-          <div class="tabela-wrap"><table class="tab-mini"><tr><th>Aresta</th><th>Peso</th></tr>${A.map(e => `<tr class="${st.fe.includes(chave(e[0], e[1])) ? "certo" : ""}"><td>${esc(rot(e[0]))} – ${esc(rot(e[1]))}${st.fe.includes(chave(e[0], e[1])) ? " ✔" : ""}</td><td>${fmtPeso(e[2])}</td></tr>`).join("")}</table></div>
+          <div class="tabela-wrap"><table class="tab-mini"><tr><th>Aresta</th>${at.semPeso ? "" : "<th>Peso</th>"}</tr>${A.map(e => `<tr class="${st.fe.includes(chave(e[0], e[1])) ? "certo" : ""}"><td>${esc(rot(e[0]))} – ${esc(rot(e[1]))}${st.fe.includes(chave(e[0], e[1])) ? " ✔" : ""}</td>${at.semPeso ? "" : `<td>${fmtPeso(e[2])}</td>`}</tr>`).join("")}</table></div>
           <div class="row-btns"><button type="button" class="btn btn-sec" data-g="voltar">↶ Desfazer</button></div></div></div>`;
         c.querySelectorAll(".vert").forEach(g => {
           const go = () => {
@@ -1118,7 +1118,7 @@
               if (st.fe.includes(k)) { draw(); return ctx.feedback("info", "Essa ligação já foi feita."); }
               st.fe.push(k); ctx.salvar(); draw();
               if (st.fe.length === A.length) return ctx.concluir("certo", at.okMsg || "Grafo montado! Todas as arestas estão no lugar.");
-              ctx.feedback("ok", `Aresta ${esc(rot(e[0]))} – ${esc(rot(e[1]))} (peso ${fmtPeso(e[2])}) ligada.`);
+              ctx.feedback("ok", `Aresta ${esc(rot(e[0]))} – ${esc(rot(e[1]))}${at.semPeso ? "" : ` (peso ${fmtPeso(e[2])})`} ligada.`);
             }
             const ng = c.querySelector(`.vert[data-v="${id}"]`); ng && ng.focus();
           };
@@ -1130,7 +1130,7 @@
       ctx.resolver = () => { st.fe = A.map(e => chave(e[0], e[1])); sel = null; draw(); };
       draw();
     },
-    imprimir(at) { return `<table class="imp-t"><tr><th>Aresta</th><th>Peso</th></tr>${at.arestas.map(e => `<tr><td>${esc(e[0])} – ${esc(e[1])}</td><td>${fmtPeso(e[2])}</td></tr>`).join("")}</table><p>Desenhe o grafo:</p><div class="imp-caixa"></div>`; },
+    imprimir(at) { return `<table class="imp-t"><tr><th>Aresta</th>${at.semPeso ? "" : "<th>Peso</th>"}</tr>${at.arestas.map(e => `<tr><td>${esc(e[0])} – ${esc(e[1])}</td>${at.semPeso ? "" : `<td>${fmtPeso(e[2])}</td>`}</tr>`).join("")}</table><p>Desenhe o grafo:</p><div class="imp-caixa"></div>`; },
     resumoResposta(at, st) { return `${(st.fe || []).length} de ${at.arestas.length} ligações`; }
   };
 
