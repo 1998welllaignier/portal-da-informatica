@@ -37,7 +37,16 @@
     .then(() => script("lib/blockly/blocks_compressed.js"))
     .then(() => script("lib/blockly/javascript_compressed.js"))
     .then(() => script("lib/blockly/pt-br.js"))
-    .then(() => { definirBlocos(); return window.Blockly; }));
+    .then(() => { definirBlocos(); caixasDoPortal(); return window.Blockly; }));
+
+  /* 💬 o Blockly também usa as caixas do navegador (ex.: "Apagar todos os blocos?"): troca pelas caixas DENTRO da página,
+     porque as do navegador tiram o aluno da tela cheia (19/11/2026) */
+  function caixasDoPortal() {
+    const d = window.Blockly && window.Blockly.dialog; if (!d) return;
+    if (d.setAlert) d.setAlert((msg, cb) => { P.aviso(msg).then(() => cb && cb()); });
+    if (d.setConfirm) d.setConfirm((msg, cb) => { P.confirmar(msg).then(ok => cb(!!ok)); });
+    if (d.setPrompt) d.setPrompt((msg, valor, cb) => { P.perguntar(msg, valor).then(v => cb(v)); });
+  }
 
   /* ---------- blocos próprios do portal ---------- */
   function definirBlocos() {

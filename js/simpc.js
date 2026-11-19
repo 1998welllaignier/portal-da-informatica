@@ -239,7 +239,7 @@
       const G = c.querySelector(".sp-guia"), bit = G.querySelector(".sp-bit"), q = G.querySelector(".q"), fEl = G.querySelector(".f"), rEl = G.querySelector(".r"), prog = G.querySelector(".sp-prog");
       const mold = c.querySelector(".sp-moldura"), tela = c.querySelector(".sp-tela");
       G.querySelector(".onde").onclick = () => { st.dicas = (st.dicas || 0); mostrarOnde(true); };
-      G.querySelector(".rec").onclick = () => { if (!confirm("Recomeçar do primeiro passo?")) return; st.passo = 0; st.erros = 0; delete st.status; ctx.salvar(); ctx.reRender(); };
+      G.querySelector(".rec").onclick = async () => { if (!await P.confirmar("Recomeçar do primeiro passo?", "Sim, recomeçar")) return; st.passo = 0; st.erros = 0; delete st.status; ctx.salvar(); ctx.reRender(); };
       function falar(html, tipo, anima) { rEl.className = "r " + (tipo || ""); rEl.innerHTML = html; bit.className = "sp-bit " + (tipo === "ok" ? "feliz" : tipo === "erro" ? "triste" : ""); void bit.offsetWidth; bit.textContent = tipo === "erro" ? "🤔" : tipo === "ok" ? "😄" : "🤖"; }
       function desenharGuia() {
         const p = pAtual();
