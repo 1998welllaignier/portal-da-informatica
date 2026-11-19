@@ -835,7 +835,7 @@
         <label>Turma <select id="sel">${turmas.map(x => `<option value="${x.id}" ${x.id === t.id ? "selected" : ""}>${esc(rotuloTurma(x.id))}</option>`).join("")}</select></label>
         <label><input type="checkbox" id="inat"> mostrar desativados</label>
         <span class="pp-acoes"><button class="btn btn-sec btn-peq" id="add" type="button">➕ Adicionar aluno</button>
-        <button class="btn btn-sec btn-peq" id="avs" type="button">📣 Avisos para os alunos</button><button class="btn btn-sec btn-peq" id="fimav" type="button" title="Recados para você mesmo, que aparecem na tela no fim de toda aula desta turma">⏰ Avisos para mim no fim da aula</button><button class="btn btn-sec btn-peq" id="cart" type="button">🖨️ Cartões com os códigos</button>
+        <button class="btn btn-sec btn-peq" id="avs" type="button">📣 Avisos para os alunos</button><button class="btn btn-sec btn-peq" id="fimav" type="button" title="Recados para você mesmo, que aparecem na tela no fim de toda aula desta turma">⏰ Avisos para mim no fim da aula</button><button class="btn btn-sec btn-peq" id="cart" type="button">🖨️ Imprimir os códigos</button>
         <button class="btn btn-sec btn-peq" id="csv" type="button">📥 Planilha (CSV)</button>
         <button class="btn btn-sec btn-peq" id="att" type="button">🔄 Atualizar</button>${Object.values(P.catalogo.videosApresentacao || {}).some(Boolean) ? `<button class="btn btn-sec btn-peq" id="apr" type="button" title="Vídeos de apresentação do portal, para mostrar à direção, à Secretaria ou às famílias">🎬 Apresentação do portal</button>` : ""}</span></div>
       <div id="corpo"><p class="painel">Carregando…</p></div>`);
@@ -1045,7 +1045,58 @@
     };
   }
 
-  async function imprimirCartoes(t, alunos) {
+  /* 🖨️ Cartões com os códigos (19/11/2026): o professor escolhe o formato da impressão
+     ✂️ cartões para recortar (um por aluno) ou 📋 folha da turma inteira (preto e branco, 1 folha; no máximo frente e verso) */
+  function imprimirCartoes(t, alunos) {
+    if (document.querySelector(".pp-imp-dlg")) return;
+    const dlg = h(`<dialog class="pp-dlg pp-imp-dlg"><form method="dialog"><div class="pp-hor-top"><h2>🖨️ Imprimir os códigos — ${esc(nomeTurma(t.id))}</h2><button class="btn btn-sec btn-peq" value="x">Fechar</button></div>
+      <p class="ajuda">Escolha o formato da impressão (${alunos.length} aluno${alunos.length === 1 ? "" : "s"} ativo${alunos.length === 1 ? "" : "s"}):</p>
+      <div class="row-btns"><button type="button" class="btn" id="imp-cart">✂️ Cartões para recortar<br><small>um cartão por aluno</small></button>
+      <button type="button" class="btn" id="imp-folha">📋 Folha da turma inteira<br><small>todos os códigos · preto e branco · 1 folha</small></button></div>
+      <p class="ajuda">A folha da turma serve para todas as aulas: cada aluno procura o próprio nome e digita o seu código.</p></form></dialog>`);
+    document.body.appendChild(dlg); dlg.showModal(); dlg.addEventListener("close", () => dlg.remove());
+    dlg.querySelector("#imp-cart").onclick = () => { dlg.close(); imprimirRecortar(t, alunos); };
+    dlg.querySelector("#imp-folha").onclick = () => { dlg.close(); imprimirFolhaTurma(t, alunos); };
+  }
+
+  /* 📋 folha da turma inteira, pensada para a impressora monocromática da sala: só preto, sem fundos;
+     o endereço do portal em letra grande no topo de cada página; cabe em 1 folha (até 46 alunos);
+     passou disso, vai para o verso, com o endereço repetido no topo */
+  function imprimirFolhaTurma(t, alunos) {
+    const w = window.open("", "_blank");
+    if (!w) return P.aviso("Permita pop-ups para imprimir a folha da turma.");
+    const site = location.host || "portal.professorwell.com.br";
+    const lista = alunos.slice().sort((a, b) => normNome(a.nome).localeCompare(normNome(b.nome)));
+    const POR_PAG = 50, pags = [];
+    for (let i = 0; i < lista.length; i += POR_PAG) pags.push(lista.slice(i, i + POR_PAG));
+    if (!pags.length) pags.push([]);
+    const mt = nomeTurma(t.id).match(/^(\d+º)\s*(.*)$/), serieTxt = mt ? `${mt[1]} ANO · TURMA ${mt[2].toUpperCase()}` : nomeTurma(t.id).toUpperCase();
+    const DIAS = ["domingo", "segunda", "terça", "quarta", "quinta", "sexta", "sábado"], aulaTxt = t.aula && t.aula.ini ? `Aula de Informática: ${DIAS[t.aula.dia]}-feira, às ${t.aula.ini}`.replace("sábado-feira", "sábado").replace("domingo-feira", "domingo") : "";
+        const tab = (xs, ini) => `<table><tr><th class="nn">Nº</th><th>Aluno</th><th class="cc">Código</th></tr>${xs.map((a, i) => `<tr><td class="nn">${ini + i + 1}</td><td>${esc(a.nome)}</td><td class="cc">${esc(a.codigo || "—")}</td></tr>`).join("")}</table>`;
+    const pagina = (xs, k) => { const meio = Math.ceil(xs.length / 2), ini = k * POR_PAG;
+      return `<section class="pg"><div class="serie">${esc(serieTxt)}</div>${aulaTxt ? `<div class="aula">${esc(aulaTxt)}</div>` : ""}<header><div class="r">1. Abra o navegador e digite o endereço:</div><div class="site">${esc(site)}</div>
+        <div class="r">2. Escolha a sua turma e digite o <b>seu</b> código.</div></header>
+        <div class="tt">${esc(cat().portal)} · ${esc(cat().professor)}${pags.length > 1 ? ` · ${k === 0 ? "frente" : "verso"} (${k + 1}/${pags.length})` : ""}</div>
+        <div class="cols">${tab(xs.slice(0, meio), ini)}${xs.length > 1 ? tab(xs.slice(meio), ini + meio) : ""}</div>
+        <p class="pe">Procure o seu nome na lista e digite o código que está ao lado dele.</p></section>`; };
+    w.document.write(`<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><title>Códigos — ${esc(nomeTurma(t.id))} (turma inteira)</title>
+      <style>@page{size:A4;margin:10mm}*{box-sizing:border-box}body{font-family:Arial,"Segoe UI",sans-serif;color:#000;margin:0;background:#fff}
+      .pg{--fs:18pt;width:190mm;margin:0 auto;height:276mm;overflow:hidden;page-break-after:always;break-after:page}.pg:last-child{page-break-after:auto;break-after:auto}
+      .serie{font-size:26pt;font-weight:900;text-align:center;border-bottom:3px solid #000;padding-bottom:1mm;margin-bottom:1mm}.aula{font-size:12pt;text-align:center;margin-bottom:2.5mm}
+      header{border:3px solid #000;border-radius:4mm;padding:3mm 5mm;text-align:center;margin-bottom:3mm}
+      .r{font-size:12.5pt}.site{font-size:30pt;font-weight:900;letter-spacing:.5pt;margin:1mm 0 1.5mm;font-family:"Courier New",monospace}
+      .tt{font-size:12pt;margin:0 0 3mm;text-align:center}.cols{display:flex;gap:5mm;align-items:flex-start}
+      table{flex:1;border-collapse:collapse;font-size:var(--fs)}th,td{border:1.2px solid #000;padding:calc(var(--fs) * .2) 2mm;text-align:left}
+      th{font-size:calc(var(--fs) * .8);text-transform:uppercase}.nn{width:9mm;text-align:center}.cc{font-family:"Courier New",monospace;font-weight:900;font-size:calc(var(--fs) * 1.2);letter-spacing:1.5pt;text-align:center;white-space:nowrap}
+      .pe{font-size:10.5pt;text-align:center;margin-top:3mm}.x{font-family:Arial,sans-serif;margin:4mm;padding:3mm;border:1px solid #999}
+      @media print{.x{display:none}}</style></head><body>
+      <p class="x"><button onclick="print()">🖨️ Imprimir</button> Folha da turma inteira, em preto e branco${pags.length > 1 ? ". Tem frente e verso: imprima a 1ª página, vire a folha e imprima a 2ª" : ", numa folha só"}.</p>
+      ${pags.map(pagina).join("")}
+      <script>document.querySelectorAll('.pg').forEach(function(g){var f=18;while(f>9&&g.scrollHeight>g.clientHeight+1){f-=.5;g.style.setProperty('--fs',f+'pt');}});<\/script></body></html>`);
+    w.document.close();
+  }
+
+  async function imprimirRecortar(t, alunos) {
     const w = window.open("", "_blank");
     if (!w) return await P.aviso("Permita pop-ups para imprimir os cartões.");
     const base = location.href.split("#")[0];
