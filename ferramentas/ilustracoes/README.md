@@ -24,7 +24,16 @@ No design, esse estilo se chama **linha clara** (em francês, *ligne claire*): c
 
 ## Personagens
 - Olhos grandes com **branco, pupila e brilho**, sobrancelha que expressa, bochecha rosada e sorriso. Nada de "palito".
-- **Turma fixa** (a montar nesta pasta): tons de pele variados, cabelos diferentes, sempre as mesmas roupas e cores em todo o material. O **professor** é sempre o mesmo.
+- **Turma fixa** (`biblioteca.py`, folha de modelo em `referencia/folha_de_modelo_turma.png`, gerada por `folha_de_modelo.py`): **Bia** (coque, camisa laranja), **Davi** (cabelo afro, camisa azul), **Lara** (cabelo longo castanho, camisa verde), **Kauã** (cabelo espetado, camisa amarela), **Yara** (cabelo preto com franja, camisa roxa) e o **Professor** (camisa azul-escura com crachá). Sempre as mesmas roupas e cores em todo o material.
+- Expressões: `feliz`, `pensando`, `surpreso`, `piscando`, `preocupado`. Braços: `normal`, `acima` (comemorando), `apontar`, `queixo` (pensando).
+
+## Como usar a biblioteca
+```python
+import sys; sys.path.insert(0, 'ferramentas/ilustracoes')
+from biblioteca import *
+corpo = sala() + mesa(60, 250, 580) + monitor(314, 86) + teclado(368, 250) + aluno('bia', 700, 420, expr='feliz', bracos=('normal', 'apontar'))
+svg = cena_svg(900, 470, corpo, marcadores())
+```
 
 ## A camada que ensina
 - Cada etapa ou conceito tem **uma cor e um número** (1 azul, 2 amarelo, 3 verde, 4 roxo…).
