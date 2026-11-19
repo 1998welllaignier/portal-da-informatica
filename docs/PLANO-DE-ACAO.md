@@ -258,3 +258,13 @@ Sem pressa: primeiro testar até tudo funcionar bem na EMEF JK. Esta seção é 
 - **✅ DECIDIDO (09/11): registrar o software no INPI o quanto antes, com a ajuda do Claude.** Passos: (a) separar a prova de autoria: histórico do GitHub (commits com datas), e-mails, equipamento próprio; (b) gerar o resumo hash (SHA-512) do código-fonte, porque o INPI recebe só o hash, não o código; (c) ele mesmo cria o login no e-INPI e paga a GRU (código 730, registro de programa de computador; desconto para pessoa física); (d) preencher o pedido (título, data de criação, linguagem, campo de aplicação, autor e titular = Welington); (e) guardar o certificado. O Claude prepara os dados e o arquivo; o login, o pagamento e o envio são dele.
 - **Antes de proposta formal:** consulta com advogado de direito administrativo.
 - **Enquanto isso:** juntar resultados reais (frequência, notas, alunos fazendo sozinhos), que são o argumento da apresentação.
+
+### 🎚️ Proposta (19/11/2026, para conversar): ritmo do aluno × ritmo do professor
+**Como é no Wayground (antigo Quizizz):** no modo **conduzido pelo professor** (*teacher-led*), toda a turma vê a mesma questão ao mesmo tempo e só avança quando o professor manda. Nos modos **no ritmo do aluno** (*student-paced*: clássico, por equipes, prova, “Mastery Peak”), cada um avança sozinho, e o professor acompanha o progresso ao vivo.
+**Como ficaria no portal** (aproveitando a 📡 Sala ao vivo, que já sincroniza a turma pelo `config/sala_<turma>`):
+1. No painel, aba 🎤 Aula, um seletor por turma: **🏃 Ritmo do aluno** (como hoje) ou **👨‍🏫 Ritmo do professor**. A escolha fica guardada por turma, porque algumas turmas trabalham melhor num, outras no outro.
+2. No ritmo do professor, o aluno vê **só a atividade atual** da missão; quem termina vê “✅ Pronto! Aguarde o professor” (com a próxima bloqueada).
+3. O professor vê “**18 de 25 já responderam · 15 acertaram**” e o botão **▶ Próxima atividade**. Opcional: mostrar no projetor o gráfico de acertos antes de avançar (bom para corrigir junto).
+4. Quem faltou ou entrou atrasado cai direto na atividade atual; o que ficou para trás abre no fim da aula (ou em casa), para ninguém perder o Básico.
+5. Desafio e Turbo continuam no ritmo do aluno (são para quem terminou).
+**Decidir com o professor:** (a) vale para a missão inteira ou só para o Básico? (b) mostrar o gráfico de acertos para a turma ou só para ele? (c) o placar/pódio conta pontos por rapidez nesse modo ou não?
