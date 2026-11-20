@@ -16,12 +16,12 @@
   "use strict";
   const P = window.PORTAL = window.PORTAL || {};
   P.provas = {};
-  P.registrarProva = (id, d) => { P.provas[id] = d; };
+  P.registrarProva = (id, d) => { d.aid = id; P.provas[id] = d; };
   const N = P.nuvem;
   const { esc } = P.util;
   const cat = () => P.catalogo;
   const hash = (aid, qid, r) => P.provaHash(aid, qid, r);
-  const NOTA_MAX = 5, MAX_Q = 10; // a nota guardada vale até 5,0 (peso no bimestre); o aluno vê de 0 a 10 na tela final
+  const NOTA_MAX = 5, MAX_Q = 10, MAX_Q_TRILHA = 6;   // 20/11/2026: 10 questões no padrão e 6 na trilha passo a passo // a nota guardada vale até 5,0 (peso no bimestre); o aluno vê de 0 a 10 na tela final
   const notaDe = (ac, n) => n ? Math.round(ac / n * NOTA_MAX * 10) / 10 : 0;
 
   /* Escolhe as questões da prova: só das missões estudadas, divididas igualmente,
@@ -33,7 +33,8 @@
     if (!sel.length) sel = todas;
     if (!Pv.missoes) return Pv.questoes.map(q => q.id); // formato antigo
     const filas = sel.map(m => [...embaralhar(Pv.questoes.filter(q => q.m === m && q.tipo === "me"), rnd), ...embaralhar(Pv.questoes.filter(q => q.m === m && q.tipo !== "me"), rnd)]);
-    const total = Math.min(MAX_Q, filas.reduce((n, f) => n + f.length, 0)), out = [];
+    const maxQ = Pv.trilha || /-trilha$/.test(Pv.aid || "") ? MAX_Q_TRILHA : MAX_Q;
+    const total = Math.min(maxQ, filas.reduce((n, f) => n + f.length, 0)), out = [];
     for (let i = 0; out.length < total; i++) { const f = filas[i % filas.length]; if (f.length) out.push(f.shift().id); }
     return out;
   }
@@ -97,8 +98,97 @@
       return ultimoDestino;
     },
     abrir: telaProva,
-    carregar, montar, notaDe
+    carregar, montar, notaDe, slides, semente, embaralhar
   };
+
+  /* 🎞️ PROVA EM SLIDES (20/11/2026, pedido do professor): uma questão por tela, com mapa de bolinhas (navegação livre),
+     aviso de questão deixada em branco, revisão final antes de enviar, imagem com lupa, situação-problema (texto-base)
+     e o 🚨 alarme contra chute (3 respostas rápidas demais travam a prova por 25 s). Usado também na prova de treino. */
+  function palavras(t) { return String(t || "").replace(/<[^>]+>/g, " ").split(/\s+/).filter(Boolean).length; }
+  function slides(palco, mapa, ordem, o) {
+    const NQ = ordem.length, resp = o.resp, vistas = new Set(), tIni = {}, contadas = new Set();
+    let atual = 0, rapidas = 0, alarmes = 0, travado = false, enviandoAgora = false, revisando = false;
+    const cobre = document.createElement("div"); cobre.className = "pv-cobre"; cobre.hidden = true; palco.parentNode.appendChild(cobre);
+    const imgHtml = q => q.img ? `<figure class="pv-fig"><img src="${esc(q.img)}" alt="${esc(q.imgAlt || "Imagem da questão")}" loading="eager"><button type="button" class="pv-lupa" title="Ver a imagem grande">🔍 Ampliar</button>${q.imgLeg ? `<figcaption>${esc(q.imgLeg)}</figcaption>` : ""}</figure>`
+      : q.svg ? `<figure class="pv-fig pv-svg">${q.svg}<button type="button" class="pv-lupa" title="Ver a imagem grande">🔍 Ampliar</button>${q.imgLeg ? `<figcaption>${esc(q.imgLeg)}</figcaption>` : ""}</figure>` : "";
+    const pinta = () => {
+      mapa.innerHTML = ordem.map((q, i) => { const r = resp[q.id] != null, pend = !r && vistas.has(i) && i !== atual;
+        return `<button type="button" class="pv-bola${r ? " ok" : ""}${i === atual && !revisando ? " at" : ""}${pend ? " pend" : ""}" data-i="${i}" title="Questão ${i + 1}${r ? " (respondida)" : pend ? " (sem resposta)" : ""}">${i + 1}</button>`; }).join("")
+        + `<button type="button" class="pv-bola pv-rev${revisando ? " at" : ""}" data-rev="1" title="Revisar e enviar">📋</button>`;
+      mapa.querySelectorAll("[data-i]").forEach(b => b.onclick = () => ir(+b.dataset.i));
+      mapa.querySelector("[data-rev]").onclick = revisar;
+    };
+    function avisoBranco(i) { const v = palco.parentNode.querySelector(".pv-aviso"); if (v) v.remove();
+      const d = document.createElement("div"); d.className = "pv-aviso"; d.setAttribute("role", "alert");
+      d.innerHTML = `<span>⚠️ Você ainda não respondeu a <b>questão ${i + 1}</b>. Tudo bem: pode fazer as outras agora, mas <b>não esqueça de voltar</b>!</span> <button type="button" class="btn btn-peq btn-sec">Voltar nela</button>`;
+      d.querySelector("button").onclick = () => { d.remove(); ir(i); }; palco.parentNode.insertBefore(d, palco); setTimeout(() => d.remove(), 7000); }
+    function ir(i) {
+      if (travado || enviandoAgora) return;
+      if (!revisando && i !== atual && resp[ordem[atual].id] == null) avisoBranco(atual);
+      revisando = false; atual = Math.max(0, Math.min(NQ - 1, i)); vistas.add(atual); if (!tIni[atual]) tIni[atual] = Date.now();
+      const q = ordem[atual], ult = atual === NQ - 1;
+      palco.innerHTML = `<article class="pv-card"><p class="pv-num">Questão <b>${atual + 1}</b> de ${NQ}</p>
+        ${q.ctx ? `<div class="pv-ctx">${q.ctx}</div>` : ""}${imgHtml(q)}
+        <p class="prova-p">${q.tipo === "vf" ? "<em>Verdadeiro ou falso?</em> " : ""}${esc(q.p)}</p>
+        <div class="prova-ops" role="radiogroup" aria-label="Questão ${atual + 1}">${q.opcoes.map(op => `<button type="button" class="prova-op" role="radio" data-o="${esc(op)}" aria-checked="${resp[q.id] === op}">${q.tipo === "vf" ? (op === "Verdadeiro" ? "✅ " : "❌ ") : ""}${esc(op)}</button>`).join("")}</div>
+        <nav class="pv-nav"><button type="button" class="btn btn-sec" data-x="ant" ${atual === 0 ? "disabled" : ""}>← Anterior</button>
+          <span class="pv-cont">Respondidas: <b>${Object.keys(resp).filter(k => ordem.some(x => x.id === k)).length}</b> de ${NQ}</span>
+          ${ult ? `<button type="button" class="btn btn-grande btn-ok" data-x="rev">📋 Revisar e enviar</button>` : `<button type="button" class="btn btn-grande" data-x="prox">Próxima →</button>`}</nav></article>`;
+      palco.querySelectorAll(".prova-op").forEach(b => b.onclick = () => responder(q, b.dataset.o));
+      palco.querySelector('[data-x="ant"]').onclick = () => ir(atual - 1);
+      const px = palco.querySelector('[data-x="prox"]'); if (px) px.onclick = () => ir(atual + 1);
+      const rv = palco.querySelector('[data-x="rev"]'); if (rv) rv.onclick = () => { if (resp[q.id] == null) avisoBranco(atual); revisar(); };
+      const lp = palco.querySelector(".pv-lupa"); if (lp) lp.onclick = () => lupa(q);
+      pinta(); o.aoMudar && o.aoMudar(atual); palco.parentNode.scrollIntoView({ block: "start" });
+    }
+    function responder(q, op) {
+      if (travado) return;
+      const primeira = resp[q.id] == null; resp[q.id] = op;
+      palco.querySelectorAll(".prova-op").forEach(x => x.setAttribute("aria-checked", x.dataset.o === op ? "true" : "false"));
+      palco.querySelector(".pv-cont b").textContent = Object.keys(resp).filter(k => ordem.some(x => x.id === k)).length;
+      o.aoResponder && o.aoResponder(q, op); pinta();
+      // 🚨 contra o chute: tempo mínimo de leitura (texto-base + pergunta + alternativas), com folga para quem lê rápido
+      if (primeira && !contadas.has(q.id)) { contadas.add(q.id);
+        const min = Math.min(12000, Math.max(2500, palavras((q.ctx || "") + " " + q.p + " " + q.opcoes.join(" ")) / 3.5 * 600));
+        if (Date.now() - (tIni[atual] || Date.now()) < min) { rapidas++; if (rapidas >= 3) { rapidas = 0; alarme(); } } }
+    }
+    function alarme() {
+      alarmes++; travado = true; o.aoAlarme && o.aoAlarme(alarmes); let r = 25;
+      cobre.hidden = false; cobre.className = "pv-cobre pv-alarme";
+      const pintaA = () => { cobre.innerHTML = `<div class="pv-cobre-cx"><p class="pv-sirene">🚨</p><h2>Você disparou o alarme contra chute!</h2><p>Você respondeu rápido demais, sem dar tempo de ler. Respire, leia com calma e pense antes de escolher.</p><p class="pv-cont-reg">A prova volta em <b>${r}</b> s</p></div>`; };
+      pintaA(); const iv = setInterval(() => { r--; if (r <= 0) { clearInterval(iv); travado = false; cobre.hidden = true; cobre.innerHTML = ""; } else pintaA(); }, 1000);
+    }
+    function lupa(q) { const d = document.createElement("dialog"); d.className = "pp-dlg pv-lupa-dlg";
+      d.innerHTML = `${q.img ? `<img src="${esc(q.img)}" alt="${esc(q.imgAlt || "")}">` : q.svg || ""}<form method="dialog" class="row-btns"><button class="btn btn-grande">✕ Fechar</button></form>`;
+      document.body.appendChild(d); d.addEventListener("close", () => d.remove()); d.showModal(); }
+    function revisar() {
+      if (travado || enviandoAgora) return; revisando = true; pinta();
+      const brancos = ordem.map((q, i) => resp[q.id] == null ? i : -1).filter(i => i >= 0);
+      palco.innerHTML = `<article class="pv-card pv-revisao"><h2>📋 Revisão antes de enviar</h2>
+        <div class="pv-rev-grade">${ordem.map((q, i) => `<button type="button" class="pv-rev-q ${resp[q.id] != null ? "ok" : "branco"}" data-i="${i}"><b>${i + 1}</b>${resp[q.id] != null ? "✔ respondida" : "⚠️ em branco"}</button>`).join("")}</div>
+        ${brancos.length ? `<p class="pv-rev-alerta">⚠️ Você deixou <b>${brancos.length} ${brancos.length > 1 ? "questões" : "questão"} sem resposta</b> (${brancos.map(i => i + 1).join(", ")}). Elas vão contar como <b>erradas</b>.</p>` : `<p class="pv-rev-ok">✅ Todas as ${NQ} questões estão respondidas.</p>`}
+        <div class="row-btns">${brancos.length ? `<button type="button" class="btn btn-grande btn-ok" data-ir="${brancos[0]}">⬅️ Ir para a questão ${brancos[0] + 1}</button>` : ""}
+          <button type="button" class="btn btn-grande ${brancos.length ? "btn-sec" : "btn-ok"}" data-x="env">${brancos.length ? "Enviar mesmo assim" : "✅ Enviar a prova"}</button></div>
+        <div class="pv-conf" hidden><p><b>Tem certeza?</b> Depois de enviar, não dá para mudar as respostas.</p><div class="row-btns"><button type="button" class="btn btn-grande btn-ok" data-x="sim">Sim, enviar a prova</button><button type="button" class="btn btn-sec" data-x="nao">Voltar e conferir</button></div></div></article>`;
+      palco.querySelectorAll("[data-i]").forEach(b => b.onclick = () => ir(+b.dataset.i));
+      const bi = palco.querySelector("[data-ir]"); if (bi) bi.onclick = () => ir(+bi.dataset.ir);
+      palco.querySelector('[data-x="env"]').onclick = () => { palco.querySelector(".pv-conf").hidden = false; };
+      palco.querySelector('[data-x="nao"]').onclick = () => { palco.querySelector(".pv-conf").hidden = true; };
+      palco.querySelector('[data-x="sim"]').onclick = () => o.aoEnviar && o.aoEnviar();
+    }
+    ir(0);
+    return {
+      ir, revisar,
+      enviando(on) { enviandoAgora = on; palco.querySelectorAll("button").forEach(b => b.disabled = on); const b = palco.querySelector('[data-x="sim"]'); if (b) b.textContent = on ? "Enviando…" : "Sim, enviar a prova"; },
+      pausar(on) { if (on) { travado = true; cobre.hidden = false; cobre.className = "pv-cobre pv-pausa"; cobre.innerHTML = `<div class="pv-cobre-cx"><p class="pv-sirene">⏸️</p><h2>O professor pausou a sua prova</h2><p>Aguarde no seu lugar. As suas respostas estão guardadas.</p></div>`; }
+        else if (cobre.classList.contains("pv-pausa")) { travado = false; cobre.hidden = true; cobre.innerHTML = ""; } },
+      telaCheia(on) { if (on) { if (cobre.classList.contains("pv-telacheia")) { cobre.hidden = true; cobre.innerHTML = ""; cobre.className = "pv-cobre"; travado = false; } return; }
+        if (!cobre.hidden && !cobre.classList.contains("pv-telacheia")) return;
+        travado = true; cobre.hidden = false; cobre.className = "pv-cobre pv-telacheia";
+        cobre.innerHTML = `<div class="pv-cobre-cx"><p class="pv-sirene">🖥️</p><h2>A prova só funciona em tela cheia</h2><p>Toque no botão para voltar. Sair da tela cheia fica registrado para o professor.</p><button type="button" class="btn btn-grande btn-ok">⛶ Voltar para a tela cheia</button></div>`;
+        cobre.querySelector("button").onclick = () => { const d = document.documentElement; (d.requestFullscreen ? d.requestFullscreen({ navigationUI: "hide" }) : Promise.reject()).catch(() => {}); }; }
+    };
+  }
 
   async function telaProva(mount, aidPedido) {
     const s = P.sess.get();
@@ -136,40 +226,53 @@
     const apost = P.apostila(aid);
     document.body.classList.toggle("modo-trilha", !!(apost && apost.trilha));
 
-    const el = mount(`<section class="tela prova">
-      <header class="prova-cab"><h1>📝 Prova do ${esc(((cat().periodos || []).find(x => x.id === (apost && apost.periodo || cat().periodoPadrao)) || { nome: "bimestre" }).nome)}${e.tentativa === 2 ? " · Recuperação" : ""}</h1>
-        <p class="lead">${esc(s.nomes[0])} · ${esc(apost ? apost.titulo : "")}</p>
-        <ul class="prova-regras"><li>✏️ <strong>${NQ} questões</strong>. No fim, você vê a sua nota de <strong>0 a 10</strong>.</li><li>☝️ Escolha <strong>uma</strong> resposta em cada questão.</li><li>🔒 Você só pode enviar <strong>uma vez</strong>. Confira antes de finalizar.</li></ul></header>
-      <ol class="prova-lista">${ordem.map((q, i) => `<li class="prova-q" data-q="${q.id}"><p class="prova-p"><span class="prova-n">${i + 1}</span>${q.tipo === "vf" ? "<em>Verdadeiro ou falso?</em> " : ""}${esc(q.p)}</p>
-        <div class="prova-ops" role="radiogroup" aria-label="Questão ${i + 1}">${q.opcoes.map(o => `<button type="button" class="prova-op" role="radio" data-q="${q.id}" data-o="${esc(o)}" aria-checked="${resp[q.id] === o}">${q.tipo === "vf" ? (o === "Verdadeiro" ? "✅ " : "❌ ") : ""}${esc(o)}</button>`).join("")}</div></li>`).join("")}</ol>
-      <div class="prova-rodape"><span class="prova-relogio" id="pv-rel" aria-live="polite"></span><span id="pv-cont"></span><button class="btn btn-grande" id="pv-fim" type="button">Finalizar prova</button></div>
-      <div class="prova-conf" id="pv-conf" hidden><p><strong>Tem certeza?</strong> Depois de enviar, não dá para mudar as respostas.</p>
-        <div class="row-btns"><button class="btn btn-grande" id="pv-ok" type="button">Sim, enviar a prova</button><button class="btn btn-sec" id="pv-volta" type="button">Voltar e conferir</button></div></div>
+    const el = mount(`<section class="tela prova prova-slides">
+      <header class="prova-cab"><div class="pv-topo"><div><h1>📝 Prova do ${esc(((cat().periodos || []).find(x => x.id === (apost && apost.periodo || cat().periodoPadrao)) || { nome: "bimestre" }).nome)}${e.tentativa === 2 ? " · Recuperação" : ""}</h1>
+        <p class="lead">${esc(s.nomes[0])} · ${esc(apost ? apost.titulo : "")}</p></div><span class="prova-relogio" id="pv-rel" aria-live="polite"></span></div>
+        <nav class="pv-mapa" aria-label="Questões da prova"></nav></header>
+      <div class="pv-palco"></div>
     </section>`);
-    const cont = () => { const n = Object.keys(resp).length; el.querySelector("#pv-cont").textContent = `Respondidas: ${n} de ${NQ}`; el.querySelector("#pv-fim").disabled = n < NQ; };
-    el.querySelectorAll(".prova-op").forEach(b => b.onclick = () => {
-      resp[b.dataset.q] = b.dataset.o; guardar();
-      el.querySelectorAll(`.prova-op[data-q="${b.dataset.q}"]`).forEach(x => x.setAttribute("aria-checked", x === b ? "true" : "false"));
-      cont();
+    // 📡 painel ao vivo da prova: o aluno avisa em que questão está, quantas respondeu, saídas da tela cheia e alarmes
+    const vivoRef = db().collection("progresso").doc(e.alunoId + "_provavivo");
+    let vivoEstado = { alunoId: e.alunoId, turma: s.turma, tipo: "provavivo", aid, dia: N.hoje(), tentativa: e.tentativa, nq: NQ, atual: 1, respondidas: Object.keys(resp).length, saidas: 0, alarmes: 0, inicio: Date.now(), enviada: false, pc: (N.pcId ? N.pcId() : "") };
+    let vivoTm = null;
+    function vivo(patch) { Object.assign(vivoEstado, patch || {}, { ping: Date.now() }); clearTimeout(vivoTm); vivoTm = setTimeout(() => vivoRef.set(vivoEstado, { merge: true }).catch(() => {}), 400); }
+    const UI = P.prova.slides(el.querySelector(".pv-palco"), el.querySelector(".pv-mapa"), ordem, {
+      aid, resp, NQ, tres: e.tres,
+      aoResponder: () => { guardar(); vivo({ respondidas: Object.keys(resp).length }); },
+      aoMudar: i => vivo({ atual: i + 1 }),
+      aoAlarme: n => vivo({ alarmes: n, alarmeEm: Date.now() }),
+      aoEnviar: () => enviar(false)
     });
-    cont();
-    el.querySelector("#pv-fim").onclick = () => { el.querySelector("#pv-conf").hidden = false; el.querySelector("#pv-conf").scrollIntoView({ block: "center" }); };
-    el.querySelector("#pv-volta").onclick = () => { el.querySelector("#pv-conf").hidden = true; };
-    // relógio: conta até o horário-limite da turma; quando zera, envia sozinho
-    let enviando = false, ivRel = null;
+    // relógio: conta até o horário-limite da turma (+ tempo extra que o professor der); quando zera, envia sozinho
+    let enviando = false, ivRel = null, extraMin = 0, pausado = false;
     const hm = ms => new Date(ms).toTimeString().slice(0, 5);
+    const limite = () => e.ate ? e.ate + extraMin * 60000 : null;
     const tic = () => {
-      const r = el.querySelector("#pv-rel"); if (!r || !e.ate) { if (r) r.hidden = true; return; }
-      const falta = e.ate - Date.now(), min = Math.ceil(falta / 60000);
+      const r = el.querySelector("#pv-rel"), L = limite(); if (!r || !L) { if (r) r.hidden = true; return; }
+      if (pausado) { r.textContent = "⏸️ Prova pausada pelo professor"; return; }
+      const falta = L - Date.now(), min = Math.ceil(falta / 60000);
       if (falta <= 0) { clearInterval(ivRel); r.textContent = "⏰ O tempo acabou"; if (!enviando) enviar(true); return; }
-      r.textContent = `⏰ Até ${hm(e.ate)} · ${falta < 60000 ? "menos de 1 minuto" : "faltam " + min + " min"}`;
+      r.textContent = `⏰ Até ${hm(L)} · ${falta < 60000 ? "menos de 1 minuto" : "faltam " + min + " min"}${extraMin ? ` (+${extraMin} min)` : ""}`;
       r.classList.toggle("acabando", min <= 5);
     };
     tic(); ivRel = setInterval(tic, 5000);
-    el.querySelector("#pv-ok").onclick = () => enviar(false);
+    vivo({}); const ivVivo = setInterval(() => vivo({}), 30000);
+    // ⏸️ pausar e ⏱️ tempo extra: o professor manda pela configuração da prova (só para este aluno)
+    let unCfg = null;
+    try { unCfg = db().collection("config").doc(P.docProva ? P.docProva(s.turma) : "prova_" + s.turma).onSnapshot(sn => {
+      const c = sn.exists ? sn.data() : {}; extraMin = +((c.extra || {})[e.alunoId] || 0);
+      const p2 = !!((c.pausa || {})[e.alunoId]); if (p2 !== pausado) { pausado = p2; UI.pausar(pausado); vivo({ pausado }); } tic(); }, () => {}); } catch (x) {}
+    // 🖥️ tela cheia vigiada (20/11/2026): sair da tela cheia cobre a prova e conta no painel do professor
+    const cheia = () => !!document.fullscreenElement || (Math.abs(innerHeight - screen.height) < 6 && Math.abs(innerWidth - screen.width) < 6);
+    let estavaCheia = cheia();
+    const vigiaTela = () => { const c = cheia(); if (estavaCheia && !c && !enviando) { vivo({ saidas: (vivoEstado.saidas || 0) + 1 }); } estavaCheia = c; UI.telaCheia(c); };
+    document.addEventListener("fullscreenchange", vigiaTela); addEventListener("resize", vigiaTela); UI.telaCheia(cheia());
+    const limpar = () => { clearInterval(ivRel); clearInterval(ivVivo); try { unCfg && unCfg(); } catch (x) {} document.removeEventListener("fullscreenchange", vigiaTela); removeEventListener("resize", vigiaTela); };
+    addEventListener("hashchange", limpar, { once: true });
     async function enviar(tempo) {
       if (enviando) return; enviando = true; clearInterval(ivRel);
-      const b = el.querySelector("#pv-ok"); b.disabled = true; b.textContent = "Enviando…";
+      UI.enviando(true);
       const acertos = escolhidas.filter(q => resp[q.id] != null && hash(aid, q.id, resp[q.id]) === q.h).length;
       try {
         await db().collection("provas").doc(e.alunoId + "_" + aid + "_" + e.tentativa).set({
@@ -177,10 +280,12 @@
           qs, nq: NQ, tres: !!e.tres, acertos, nota: notaDe(acertos, NQ), enviadoEm: N.FV.serverTimestamp(), dia: N.hoje()
         });
       } catch (err) {
-        enviando = false; b.disabled = false; b.textContent = "Sim, enviar a prova"; if (tempo) { el.querySelector("#pv-conf").hidden = false; }
+        enviando = false; UI.enviando(false);
         P.toast("Não foi possível enviar. Confira a internet e tente de novo."); console.error(err); return;
       }
       try { sessionStorage.removeItem(chave); } catch (x) {}
+      vivo({ enviada: true, respondidas: Object.keys(resp).length }); limpar();
+      try { if (document.fullscreenElement) document.exitFullscreen().catch(() => {}); } catch (x) {}
       ultimaChecagem = 0;
       const fim = mount(`<section class="tela"><div class="painel prova-fim"><h1>${tempo ? "⏰ O tempo acabou: prova enviada!" : "✅ Prova enviada!"}</h1>
         ${tempo ? "<p>As respostas que você marcou foram enviadas. As questões em branco contam como erradas.</p>" : ""}<p class="prova-nota">Você acertou <strong>${acertos} de ${NQ}</strong>.</p>

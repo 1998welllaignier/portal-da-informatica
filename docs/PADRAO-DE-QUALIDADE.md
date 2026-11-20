@@ -454,3 +454,15 @@ Questões **contextualizadas** (situação curta: 1–2 frases no 6º, 2–3 no 
 > **🎬 Cenas de IA de 2027 — 1º bimestre do 7º, 8º e 9º ano (20/11/2026):** 24 cenas (uma por missão, M1–M8), geradas no ChatGPT com a ficha da turma, conferidas uma a uma (6 + 1 refeitas porque o ChatGPT passou a pôr chapéu de detetive em quem não devia; números que apareceram num contador foram borrados). Camada que ensina em `ferramentas/ilustracoes_2027/cenas_7_1.py`, `cenas_8_1.py`, `cenas_9_1.py`, com **largura automática das etiquetas** pelo tamanho do texto (nunca corta) e setas que não se cruzam. Nos pedidos ao ChatGPT, sempre acrescentar: "ninguém usa chapéu de detetive nem capa; roupas normais da folha de modelo".
 
 > **🔁 Tarefas "No computador" convertidas para o simulador (20/11/2026, Regra de ouro 5):** as 6 tarefas no computador de verdade viraram tarefas no computador de treino, com correção automática passo a passo: 6º 4º bim M1 (minha pasta e primeiro arquivo; organizando em pastas + **Propriedades**), 6º 2027 1º bim (investigue o computador; a minha pasta e o meu primeiro arquivo), trilha do 6º (Bloco de Notas: salvar como EU) e trilha do 7º (o cadeado do portal). As posições foram mantidas, então quem já tinha feito continua com a tarefa feita. O simulador ganhou a janela **🔧 Propriedades** do arquivo (Geral: tipo, abre com, local `C:\Users\Aluno\…`, tamanho em bytes, criado/modificado em), evento `prop:arq:<nome>` e `fechar:propriedades`. Não sobrou nenhuma tarefa do tipo `pc` (só o modelo).
+
+## 📝 Prova em slides (20/11/2026)
+- Uma questão por tela, com **mapa de bolinhas** no topo (azul = respondida, amarela = deixada em branco, contorno = a atual) e navegação livre.
+- Ao sair de uma questão sem responder aparece o aviso **"Você ainda não respondeu a questão N… não esqueça de voltar"** com o botão "Voltar nela".
+- **Revisão antes de enviar** (📋): mostra respondidas e em branco, leva direto à primeira em branco e pede confirmação em dois passos ("Enviar mesmo assim" → "Sim, enviar a prova").
+- **Tamanho:** 10 questões para o padrão e 6 para a trilha passo a passo.
+- **🚨 Alarme contra chute:** 3 respostas mais rápidas que o tempo mínimo de leitura (2,5 s a 12 s, conforme o tamanho do texto) travam a prova por 25 s e avisam o professor no painel.
+- **🖥️ Tela cheia vigiada:** fora da tela cheia a prova fica coberta, com o botão "Voltar para a tela cheia"; cada saída é contada para o professor.
+- **⏸️ Pausar e ⏱️ tempo extra** por aluno, mandados pelo professor (campos `pausa` e `extra` da configuração da prova); o relógio mostra "(+5 min)".
+- **📡 Estado ao vivo** em `progresso/<aluno>_provavivo`: questão atual, respondidas, saídas, alarmes, pausado, enviada e PC.
+- **🔍 Lupa** nas imagens das questões. Copiar e colar e o botão direito continuam bloqueados.
+- Classe CSS da capa de tela cheia: `pv-telacheia` (o nome `pv-tela` já existia no painel e deformava a capa).

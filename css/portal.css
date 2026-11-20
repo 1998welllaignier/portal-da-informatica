@@ -2350,3 +2350,38 @@ body.simc-travado { overflow: hidden; }
 @keyframes balao-entra { from { transform: translateY(8px); opacity: 0; } to { transform: none; opacity: 1; } }
 .instr-pisca { outline: 4px solid #f59e0b; outline-offset: 4px; border-radius: 8px; animation: instr-pisca 1s ease-in-out infinite; }
 @keyframes instr-pisca { 50% { outline-color: #fde68a; } }
+
+/* 🎞️ prova em slides (20/11/2026) */
+.prova-slides .prova-cab { padding: 12px 18px; margin-bottom: 12px; }
+.pv-topo { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+.pv-topo h1 { margin: 0; font-size: 1.5rem; } .pv-topo .lead { margin: 2px 0 0; }
+.pv-mapa { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.pv-bola { width: 44px; height: 44px; border-radius: 50%; border: 3px solid #cbd5e1; background: #fff; font-weight: 900; font-size: 1.05rem; cursor: pointer; color: #334155; }
+.pv-bola.ok { background: #1e3a8a; border-color: #1e3a8a; color: #fff; }
+.pv-bola.at { box-shadow: 0 0 0 4px #93c5fd; }
+.pv-bola.pend { border-color: #f59e0b; background: #fef3c7; animation: pv-pisca 1s ease-in-out infinite; }
+@keyframes pv-pisca { 50% { box-shadow: 0 0 0 5px #fde68a; } }
+.pv-bola.pv-rev { width: auto; padding: 0 12px; border-radius: 22px; }
+.pv-card { background: #fff; border: 2px solid #e2e8f0; border-radius: 18px; padding: 18px 22px; min-height: 60vh; display: flex; flex-direction: column; gap: 12px; }
+.pv-num { margin: 0; color: #475569; font-size: 1rem; }
+.pv-ctx { font-size: 1.12rem; line-height: 1.55; background: #f8fafc; border-left: 5px solid #60a5fa; border-radius: 10px; padding: 10px 14px; }
+.pv-fig { margin: 0; position: relative; text-align: center; }
+.pv-fig img, .pv-fig svg { max-width: 100%; max-height: 38vh; border-radius: 12px; border: 1px solid #e2e8f0; }
+.pv-fig figcaption { font-size: .9rem; color: #475569; }
+.pv-lupa { position: absolute; right: 8px; bottom: 8px; border: 0; border-radius: 999px; background: #1e3a8a; color: #fff; font-weight: 800; padding: 6px 12px; cursor: pointer; }
+.pv-lupa-dlg { max-width: 96vw; } .pv-lupa-dlg img, .pv-lupa-dlg svg { max-width: 92vw; max-height: 80vh; display: block; margin: 0 auto 10px; }
+.pv-nav { margin-top: auto; display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; border-top: 2px solid #f1f5f9; padding-top: 12px; }
+.pv-cont { font-weight: 700; color: #334155; }
+.pv-aviso { background: #fef3c7; border: 2px solid #f59e0b; border-radius: 12px; padding: 10px 14px; margin-bottom: 10px; font-size: 1.05rem; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.pv-rev-grade { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+.pv-rev-q { border: 2px solid #cbd5e1; border-radius: 12px; padding: 10px; background: #fff; cursor: pointer; font-size: .95rem; display: flex; gap: 8px; align-items: center; }
+.pv-rev-q b { font-size: 1.2rem; } .pv-rev-q.ok { border-color: #86efac; background: #f0fdf4; } .pv-rev-q.branco { border-color: #f59e0b; background: #fef3c7; }
+.pv-rev-alerta { background: #fef3c7; border-radius: 12px; padding: 10px 14px; font-size: 1.1rem; } .pv-rev-ok { font-size: 1.1rem; color: #15803d; font-weight: 700; }
+.pv-conf { background: #fff7ed; border: 2px solid #f97316; border-radius: 14px; padding: 12px 16px; }
+.pv-cobre { position: fixed; inset: 0; z-index: 5000; background: rgba(15, 23, 42, .9); display: flex; align-items: center; justify-content: center; padding: 20px; }
+.pv-cobre[hidden] { display: none; }
+.pv-cobre-cx { background: #fff; border-radius: 20px; padding: 24px 30px; max-width: 620px; text-align: center; font-size: 1.15rem; }
+.pv-cobre-cx h2 { margin: 6px 0; } .pv-sirene { font-size: 3.4rem; margin: 0; }
+.pv-alarme .pv-cobre-cx { border: 5px solid #dc2626; } .pv-alarme .pv-sirene { animation: pv-sirene .5s ease-in-out infinite alternate; }
+@keyframes pv-sirene { from { transform: rotate(-12deg) scale(1); } to { transform: rotate(12deg) scale(1.15); } }
+.pv-cont-reg b { font-size: 1.6rem; color: #dc2626; }
