@@ -363,7 +363,7 @@ Toda página da internet é escrita em **HTML**. O HTML usa **etiquetas** (as **
 **Uma página bem-feita:** título claro, textos curtos, imagens com crédito e **texto alternativo** (a descrição da imagem para quem não enxerga), por exemplo **<img src="reciclagem.png" alt="Símbolo da reciclagem">**.
 ### 📖 O que significa?
 - **HTML**: a linguagem usada para escrever páginas da internet.
-- **Tag**: a etiqueta do HTML, escrita entre < e >.
+- **Tag**: a etiqueta do HTML, escrita entre os sinais de menor e maior (< e >).
 - **Navegador**: o programa que abre as páginas, como o Chrome e o Firefox.
 - **Link**: texto que, ao ser clicado, abre outra página.
 - **Texto alternativo**: a descrição da imagem para quem não enxerga.

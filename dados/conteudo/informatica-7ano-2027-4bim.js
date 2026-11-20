@@ -1051,7 +1051,7 @@ PORTAL.registrarConteudo("informatica-7ano-2027-4bim", {
     {
      "termo": "Tag",
      "rotulo": "<strong>Tag</strong>",
-     "def": "a etiqueta do HTML, escrita entre &lt; e &gt;."
+     "def": "a etiqueta do HTML, escrita entre os sinais de menor e maior (&lt; e &gt;)."
     },
     {
      "termo": "Navegador",

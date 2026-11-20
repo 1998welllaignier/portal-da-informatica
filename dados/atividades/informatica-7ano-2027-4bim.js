@@ -364,12 +364,12 @@ PORTAL.registrarAtividades("informatica-7ano-2027-4bim", {
       { tipo: "ligar", titulo: "Mão na massa: cada tag e para que serve",
         robo: BIT("🔎 Como pensar", [["h de <i>heading</i> (título). p de parágrafo.", "h1 → título · p → parágrafo"], ["img de <i>image</i> (imagem). a faz o link.", "img → imagem · a → link", true]]),
         enunciado: "<p>Use a tabela <strong>Tag · Para que serve · Exemplo</strong>.</p>",
-        pares: [{ a: "&lt;h1&gt;", b: "Título grande" }, { a: "&lt;p&gt;", b: "Parágrafo de texto" }, { a: "&lt;img&gt;", b: "Imagem" }, { a: "&lt;a&gt;", b: "Link para outra página" }],
+        pares: [{ a: "tag h1", b: "Título grande" }, { a: "tag p", b: "Parágrafo de texto" }, { a: "tag img", b: "Imagem" }, { a: "tag a", b: "Link para outra página" }],
         explicacao: "h1 = título; p = parágrafo; img = imagem; a = link." }
     ],
     basico: [
       { tipo: "ligar", titulo: "Cada termo e o seu significado",
-        pares: [{ a: "HTML", b: "A linguagem usada para escrever páginas da internet" }, { a: "Tag", b: "A etiqueta do HTML, escrita entre < e >" }, { a: "Navegador", b: "O programa que abre as páginas" }, { a: "Texto alternativo", b: "A descrição da imagem para quem não enxerga" }],
+        pares: [{ a: "HTML", b: "A linguagem usada para escrever páginas da internet" }, { a: "Tag", b: "A etiqueta do HTML, escrita entre os sinais de menor e maior" }, { a: "Navegador", b: "O programa que abre as páginas" }, { a: "Texto alternativo", b: "A descrição da imagem para quem não enxerga" }],
         explicacao: "HTML, tag, navegador e texto alternativo." },
       { tipo: "ordenar", titulo: "Monte a página em ordem",
         enunciado: "<p>Coloque as linhas na ordem: primeiro o título, depois o texto, a imagem e, no fim, o link.</p>",
@@ -396,7 +396,7 @@ PORTAL.registrarAtividades("informatica-7ano-2027-4bim", {
       { tipo: "caca", titulo: "🔴 Caça-palavras do HTML",
         enunciado: "<p>Leia cada pista e ache a palavra no quadro.</p>", dicas: ["Releia o 🧠 Resumo da Aula."],
         palavras: ["HTML", "TAG", "NAVEGADOR", "LINK", "IMAGEM"],
-        pistas: ["Linguagem das páginas da internet", "Etiqueta escrita entre < e >", "Programa que abre as páginas", "Texto que abre outra página", "O que a tag img mostra"], tam: 10,
+        pistas: ["Linguagem das páginas da internet", "Etiqueta do HTML", "Programa que abre as páginas", "Texto que abre outra página", "O que a tag img mostra"], tam: 10,
         explicacao: "HTML, tag, navegador, link e imagem." }
     ],
     vf: [

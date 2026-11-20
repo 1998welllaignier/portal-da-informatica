@@ -74,7 +74,7 @@ PORTAL.registrarAtividades("informatica-7ano-2027-4bim-trilha", {
   },
   m8: {
     pratica: [{ tipo: "ligar", titulo: "Tag e para que serve", enunciado: "<p>Veja a tabela <strong>Tag · Para que serve · Exemplo</strong>.</p>",
-      pares: [{ a: "&lt;h1&gt;", b: "Título" }, { a: "&lt;p&gt;", b: "Texto" }, { a: "&lt;a&gt;", b: "Link" }], explicacao: "h1 título, p texto, a link." }],
+      pares: [{ a: "tag h1", b: "Título" }, { a: "tag p", b: "Texto" }, { a: "tag a", b: "Link" }], explicacao: "h1 título, p texto, a link." }],
     basico: [
       { tipo: "ligar", titulo: "Passo 1 · O que significa?", enunciado: SIGNIF, pares: [{ a: "HTML", b: "A linguagem das páginas da internet" }, { a: "Link", b: "Texto que abre outra página" }], explicacao: "HTML e link." },
       E("Passo 2 · O título", "A tag que faz um título é:", ["&lt;h1&gt;", "&lt;a&gt;"], "&lt;h1&gt;."),
