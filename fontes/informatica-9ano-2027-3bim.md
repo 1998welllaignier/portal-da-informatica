@@ -348,6 +348,7 @@ A tecnologia **prejudica** (o **lixo eletrônico** contamina; os **data centers*
 | 🌗 **Alto contraste** e letra grande | Deixa a tela mais fácil de enxergar | Pessoas com baixa visão |
 | 🖼️ **Texto alternativo** | Uma descrição da imagem, que o leitor de tela lê | Pessoas cegas |
 | ⌨️ Usar só o **teclado** | Navegar sem o mouse, com a tecla Tab | Pessoas com dificuldade de movimento |
+| ⠿ **Linha braille** | Aparelho ligado ao computador que mostra o texto da tela em braille, com pininhos que sobem e descem | Pessoas cegas que leem braille |
 
 **É lei:** a **Lei Brasileira de Inclusão** (Lei nº 13.146/2015) diz que os sites de empresas e do governo precisam ser **acessíveis**.
 **Para um site acessível:** descrever as fotos (texto alternativo), colocar legenda nos vídeos, permitir aumentar a letra e funcionar também pelo teclado.
@@ -359,6 +360,7 @@ A tecnologia **prejudica** (o **lixo eletrônico** contamina; os **data centers*
 - **Avatar**: personagem digital que representa alguém.
 - **Texto alternativo**: descrição escrita de uma imagem, para quem não pode vê-la.
 - **Alto contraste**: cores bem diferentes entre o texto e o fundo, para enxergar melhor.
+- **Linha braille**: aparelho que mostra o texto da tela em braille, com pininhos que sobem e descem para a pessoa ler com a ponta dos dedos.
 ### 🌎 Onde eu uso isso?
 - Ao **ligar a legenda** de um vídeo.
 - Ao **aumentar a letra** do celular de alguém da família.

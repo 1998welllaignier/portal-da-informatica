@@ -91,3 +91,7 @@ L.append(("m8",
     "A Lara copia tudo à mão; o Kauã mostra um atalho que faz isso num instante."))
 
 F = cenas(AID, L)
+
+# 📷 Foto real (20/11/2026): o gabinete aberto, depois da tabela de hardware e software
+from fotos_reais import gabinete_aberto
+F.append(gabinete_aberto("m3", "Parte O que é Exemplos"))

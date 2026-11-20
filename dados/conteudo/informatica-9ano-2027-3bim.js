@@ -1060,6 +1060,11 @@ PORTAL.registrarConteudo("informatica-9ano-2027-3bim", {
        "⌨️ Usar só o <strong>teclado</strong>",
        "Navegar sem o mouse, com a tecla Tab",
        "Pessoas com dificuldade de movimento"
+      ],
+      [
+       "⠿ <strong>Linha braille</strong>",
+       "Aparelho ligado ao computador que mostra o texto da tela em braille, com pininhos que sobem e descem",
+       "Pessoas cegas que leem braille"
       ]
      ]
     },
@@ -1106,6 +1111,11 @@ PORTAL.registrarConteudo("informatica-9ano-2027-3bim", {
      "termo": "Alto contraste",
      "rotulo": "<strong>Alto contraste</strong>",
      "def": "cores bem diferentes entre o texto e o fundo, para enxergar melhor."
+    },
+    {
+     "termo": "Linha braille",
+     "rotulo": "<strong>Linha braille</strong>",
+     "def": "aparelho que mostra o texto da tela em braille, com pininhos que sobem e descem para a pessoa ler com a ponta dos dedos."
     }
    ],
    "ondeUso": {
