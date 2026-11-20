@@ -41,6 +41,7 @@ Um **grafo** é um desenho de **pontos ligados por linhas**. O computador guarda
 - **Vértice**: cada ponto.
 - **Aresta**: cada linha.
 - **Peso**: o número escrito na linha.
+- **Aplicativo**: programa do celular ou do computador.
 ### 🌎 Onde eu uso isso?
 - No **mapa** do celular: as esquinas são pontos e as ruas são linhas.
 - Na **rede de computadores** da escola.

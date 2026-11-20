@@ -40,6 +40,7 @@ O computador **não adivinha nada**. Cada passo precisa ser **claro e preciso**:
 - **Instrução**: cada passo do algoritmo.
 - **Programa**: algoritmo escrito para o computador.
 - **Resultado**: o que se consegue no fim.
+- **Lista**: uma sequência de itens, um embaixo do outro.
 ### 🌎 Onde eu uso isso?
 - Numa **receita** de bolo.
 - No **caminho** de casa até a escola.

@@ -42,6 +42,11 @@ Cada pacote leva um **número**. Assim, o celular do amigo junta os pacotes **na
 - **Pacote**: pedacinho dos dados que viaja.
 - **Roteador**: aparelho que manda os pacotes pelo caminho.
 - **Provedor**: empresa que leva a internet até você.
+- **Wi-Fi**: internet sem fio.
+- **Link**: endereço que, ao ser tocado, abre uma página da internet.
+- **Aplicativo**: programa do celular ou do computador.
+- **Arquivo**: uma foto, um texto, uma música ou um vídeo guardado no aparelho.
+- **MB** (megabyte): medida do tamanho de um arquivo; uma foto do celular tem alguns MB.
 ### 🌎 Onde eu uso isso?
 - Ao mandar um **áudio** no celular.
 - Quando o **vídeo trava**: um pacote atrasou.

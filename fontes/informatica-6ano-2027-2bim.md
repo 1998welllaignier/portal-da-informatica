@@ -70,6 +70,7 @@ Todo algoritmo tem **começo**, **meio** e **fim**: começa num ponto, segue os 
 - **Preciso**: que diz exatamente o que fazer, sem deixar dúvida. “2 colheres” é preciso; “um pouco” não é.
 - **Programa**: algoritmo escrito numa linguagem que o computador entende. Para que serve: é ele que faz o aplicativo, o jogo ou o site funcionar.
 - **Resultado**: o que se consegue no fim do algoritmo, quando o problema está resolvido. Exemplo: o copo de suco pronto.
+- **Lista**: uma sequência de itens, um embaixo do outro.
 ### 🌎 Onde eu uso isso?
 - A **receita de bolo** da sua família é um algoritmo: ingredientes, passos em ordem e o bolo no fim.
 - O **manual de montagem** de um brinquedo ou de um móvel mostra os passos numerados, com desenhos.

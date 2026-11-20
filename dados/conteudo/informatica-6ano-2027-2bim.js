@@ -195,6 +195,11 @@ PORTAL.registrarConteudo("informatica-6ano-2027-2bim", {
      "termo": "Resultado",
      "rotulo": "<strong>Resultado</strong>",
      "def": "o que se consegue no fim do algoritmo, quando o problema está resolvido. Exemplo: o copo de suco pronto."
+    },
+    {
+     "termo": "Lista",
+     "rotulo": "<strong>Lista</strong>",
+     "def": "uma sequência de itens, um embaixo do outro."
     }
    ],
    "ondeUso": {

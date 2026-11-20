@@ -229,6 +229,36 @@ PORTAL.registrarConteudo("informatica-7ano-2027-2bim", {
      "termo": "Vizinho",
      "rotulo": "<strong>Vizinho</strong>",
      "def": "vértice ligado diretamente a outro por uma aresta."
+    },
+    {
+     "termo": "Wi-Fi",
+     "rotulo": "<strong>Wi-Fi</strong>",
+     "def": "internet sem fio."
+    },
+    {
+     "termo": "Aplicativo",
+     "rotulo": "<strong>Aplicativo</strong>",
+     "def": "programa do celular ou do computador."
+    },
+    {
+     "termo": "Algoritmo",
+     "rotulo": "<strong>Algoritmo</strong>",
+     "def": "uma sequência de passos, em ordem, para resolver um problema."
+    },
+    {
+     "termo": "Aplicativo",
+     "rotulo": "<strong>Aplicativo</strong>",
+     "def": "programa do celular ou do computador."
+    },
+    {
+     "termo": "Aplicativo",
+     "rotulo": "<strong>Aplicativo</strong>",
+     "def": "programa do celular ou do computador."
+    },
+    {
+     "termo": "Aplicativo",
+     "rotulo": "<strong>Aplicativo</strong>",
+     "def": "programa do celular ou do computador."
     }
    ],
    "ondeUso": {

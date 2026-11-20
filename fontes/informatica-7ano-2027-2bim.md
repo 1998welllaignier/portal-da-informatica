@@ -77,6 +77,12 @@ Nesse grafo há **3 vértices** (Escola, Praça e Mercado) e **3 arestas**. A Pr
 - **Peso**: o número escrito numa aresta; pode ser distância (metros), tempo (minutos) ou preço (reais).
 - **Grau**: quantas arestas chegam a um vértice; mostra quantas conexões ele tem.
 - **Vizinho**: vértice ligado diretamente a outro por uma aresta.
+- **Wi-Fi**: internet sem fio.
+- **Aplicativo**: programa do celular ou do computador.
+- **Algoritmo**: uma sequência de passos, em ordem, para resolver um problema.
+- **Aplicativo**: programa do celular ou do computador.
+- **Aplicativo**: programa do celular ou do computador.
+- **Aplicativo**: programa do celular ou do computador.
 ### 🌎 Onde eu uso isso?
 - No **aplicativo de mapa**: cada esquina é um vértice e cada rua é uma aresta.
 - Na **rede de computadores** da escola: cada computador é um vértice e cada cabo (ou sinal de Wi-Fi) é uma aresta.

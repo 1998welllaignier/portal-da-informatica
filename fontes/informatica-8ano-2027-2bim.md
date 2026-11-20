@@ -79,6 +79,13 @@ Os pacotes de uma mesma mensagem podem ir por **caminhos diferentes** e chegar f
 - **Roteador**: aparelho que recebe os pacotes e escolhe por onde mandá-los; o Wi-Fi da sua casa tem um.
 - **Provedor** (de internet): empresa que liga a sua casa ou a escola à internet.
 - **Protocolo**: conjunto de regras que os aparelhos seguem para conversar. **TCP/IP** é o protocolo principal da internet.
+- **Aplicativo**: programa do celular ou do computador.
+- **Link**: endereço que, ao ser tocado, abre uma página da internet.
+- **Aplicativo**: programa do celular ou do computador.
+- **Aplicativo**: programa do celular ou do computador.
+- **Link**: endereço que, ao ser tocado, abre uma página da internet.
+- **Aplicativo**: programa do celular ou do computador.
+- **Aplicativo**: programa do celular ou do computador.
 ### 🌎 Onde eu uso isso?
 - Ao mandar um **áudio no aplicativo de mensagens**, ele vai cortado em pacotes até o celular do seu amigo.
 - Quando o **vídeo trava** e depois volta, alguns pacotes se atrasaram ou tiveram de ser enviados de novo.

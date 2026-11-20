@@ -157,6 +157,11 @@ PORTAL.registrarConteudo("informatica-7ano-2027-2bim-trilha", {
      "termo": "Peso",
      "rotulo": "<strong>Peso</strong>",
      "def": "o número escrito na linha."
+    },
+    {
+     "termo": "Aplicativo",
+     "rotulo": "<strong>Aplicativo</strong>",
+     "def": "programa do celular ou do computador."
     }
    ],
    "ondeUso": {

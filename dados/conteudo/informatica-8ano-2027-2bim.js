@@ -237,6 +237,41 @@ PORTAL.registrarConteudo("informatica-8ano-2027-2bim", {
      "termo": "Protocolo",
      "rotulo": "<strong>Protocolo</strong>",
      "def": "conjunto de regras que os aparelhos seguem para conversar. <strong>TCP/IP</strong> é o protocolo principal da internet."
+    },
+    {
+     "termo": "Aplicativo",
+     "rotulo": "<strong>Aplicativo</strong>",
+     "def": "programa do celular ou do computador."
+    },
+    {
+     "termo": "Link",
+     "rotulo": "<strong>Link</strong>",
+     "def": "endereço que, ao ser tocado, abre uma página da internet."
+    },
+    {
+     "termo": "Aplicativo",
+     "rotulo": "<strong>Aplicativo</strong>",
+     "def": "programa do celular ou do computador."
+    },
+    {
+     "termo": "Aplicativo",
+     "rotulo": "<strong>Aplicativo</strong>",
+     "def": "programa do celular ou do computador."
+    },
+    {
+     "termo": "Link",
+     "rotulo": "<strong>Link</strong>",
+     "def": "endereço que, ao ser tocado, abre uma página da internet."
+    },
+    {
+     "termo": "Aplicativo",
+     "rotulo": "<strong>Aplicativo</strong>",
+     "def": "programa do celular ou do computador."
+    },
+    {
+     "termo": "Aplicativo",
+     "rotulo": "<strong>Aplicativo</strong>",
+     "def": "programa do celular ou do computador."
     }
    ],
    "ondeUso": {
