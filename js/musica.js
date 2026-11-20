@@ -36,6 +36,24 @@
     tv:        { nome: "📺 Programa de TV", bpm: 128, acordes: [{ b: 36, n: [60, 64, 67] }, { b: 41, n: [60, 65, 69] }, { b: 43, n: [62, 67, 71] }, { b: 36, n: [64, 67, 72] }], melo: [72, 76, 79, 84, 79, 76] },
     oitobits:  { nome: "👾 Videogame 8 bits", bpm: 140, acordes: [{ b: 36, n: [60, 64, 67] }, { b: 45, n: [57, 60, 64] }, { b: 41, n: [57, 60, 65] }, { b: 43, n: [59, 62, 67] }], melo: [72, 74, 76, 79, 81, 84] },
   };
+  /* 🥁 10 VERSÕES DE PAGODINHO (20/11/2026: "gostei desse estilo, faça 10 versões diferentes"). Todas originais:
+     cada uma muda o andamento, o tom, a sequência de acordes, o desenho do cavaquinho/banjo, o surdo, o baixo e a melodia. */
+  const QUAL = { M: [0, 4, 7], m: [0, 3, 7], 7: [0, 4, 7, 10], m7: [0, 3, 7, 10], maj7: [0, 4, 7, 11], 6: [0, 4, 7, 9] };
+  const ac = (raiz, q) => { const r = 36 + ((raiz % 12) + 12) % 12, base = 60 + ((raiz % 12) + 12) % 12; return { b: r > 43 ? r - 12 : r, n: QUAL[q].map(i => { const m = base + i; return m > 74 ? m - 12 : m; }).sort((x, y) => x - y) }; };
+  const pent = (tom, menor) => (menor ? [0, 3, 5, 7, 10, 12] : [0, 2, 4, 7, 9, 12]).map(i => 72 + ((tom % 12) + 12) % 12 - (tom % 12 > 4 ? 12 : 0) + i);
+  const PAGODES = [
+    ["Pagode 1 · Roda clássica",          { bpm: 96,  ac: [[0, "M"], [9, "7"], [2, "m"], [7, "7"]], tom: 0, cav: [0, 3, 6, 10, 12], surdo: [8], baixo: "roda", mel: "triangle", melBarras: 3 }],
+    ["Pagode 2 · Partido-alto",           { bpm: 100, ac: [[5, "M"], [2, "7"], [7, "m"], [0, "7"]], tom: 5, cav: [0, 3, 5, 8, 11, 14], surdo: [8], baixo: "partido", mel: "square", melBarras: 2 }],
+    ["Pagode 3 · Samba de quintal",       { bpm: 84,  ac: [[7, "M"], [4, "m7"], [9, "m7"], [2, "7"]], tom: 7, cav: [0, 6, 10], surdo: [8], baixo: "roda", mel: "sine", melBarras: 4, flauta: true }],
+    ["Pagode 4 · Romântico anos 90",      { bpm: 90,  ac: [[2, "maj7"], [11, "m7"], [4, "m7"], [9, "7"]], tom: 2, cav: [0, 6, 12], surdo: [8], baixo: "longo", mel: "sine", melBarras: 4, pad: true }],
+    ["Pagode 5 · Festa acelerada",        { bpm: 112, ac: [[0, "M"], [5, "M"], [7, "7"], [0, "M"]], tom: 0, cav: [0, 2, 4, 6, 8, 10, 12, 14], surdo: [8], baixo: "roda", mel: "square", melBarras: 3, palmas: true }],
+    ["Pagode 6 · Bossa no pagode",        { bpm: 92,  ac: [[9, "m7"], [2, "7"], [7, "maj7"], [0, "maj7"]], tom: 7, cav: [0, 3, 7, 10, 13], surdo: [8], baixo: "bossa", mel: "sine", melBarras: 4, pad: true }],
+    ["Pagode 7 · Escola de samba",        { bpm: 120, ac: [[9, "M"], [6, "m"], [11, "m"], [4, "7"]], tom: 9, cav: [0, 3, 6, 10, 12], surdo: [0, 8], baixo: "roda", mel: "square", melBarras: 3, repique: true, palmas: true }],
+    ["Pagode 8 · Pagode de mesa (tantã)", { bpm: 94,  ac: [[4, "M"], [1, "m"], [6, "m"], [11, "7"]], tom: 4, cav: [0, 3, 6, 10, 12], surdo: [], baixo: "roda", mel: "triangle", melBarras: 3, tanta: true }],
+    ["Pagode 9 · Samba-rock",             { bpm: 104, ac: [[9, "m7"], [2, "7"], [9, "m7"], [4, "7"]], tom: 9, menor: true, cav: [2, 6, 10, 14], surdo: [8], baixo: "rock", mel: "square", melBarras: 2, palmas: true }],
+    ["Pagode 10 · Banjo na roda",         { bpm: 98,  ac: [[10, "M"], [7, "7"], [0, "m"], [5, "7"]], tom: 10, cav: [0, 2, 3, 6, 8, 10, 11, 14], surdo: [8], baixo: "partido", mel: "triangle", melBarras: 3, banjo: true }],
+  ];
+  PAGODES.forEach(([nome, v], i) => { ESTILOS["pagode" + (i + 1)] = { nome: "🥁 " + nome, bpm: v.bpm, acordes: v.ac.map(([r, q]) => ac(r, q)), melo: pent(v.tom, v.menor), v, toca: "pagodeV", oculto: true }; });
   let estilo = ESTILOS[lerLS("portal:musica:estilo", "animada")] ? lerLS("portal:musica:estilo", "animada") : "animada";
   const E = () => ESTILOS[estilo];
   const semi = () => 15 / E().bpm;                                // duração de uma semicolcheia (s)
@@ -99,6 +117,22 @@
       if ([0, 6, 8, 14].includes(s)) toque(A.b + (s === 6 ? 7 : s === 14 ? 4 : s === 8 ? 12 : 0), t, 0.3, 0.15, "triangle");
       const nota = s % 2 ? null : motivo[s / 2]; if (nota && barra % 4 < 3) toque(nota, t, 0.2, 0.05, "triangle", true);
     },
+    pagodeV(s, t, A, barra) {     // as 10 versões de pagodinho (os detalhes vêm de E().v)
+      const v = E().v;
+      if (s === 0 && barra % 2 === 0) novoMotivo(8);
+      ruido(t, [0.07, 0.03, 0.045, 0.03][s % 4], 0.04, 5000);                                      // pandeiro (platinelas)
+      if (s % 4 === 0) ruido(t, 0.05, 0.08, 700, "lowpass");                                       // pandeiro (pele)
+      v.surdo.forEach(k => { if (s === k) bumbo(t, k === 8 ? 0.26 : 0.16, 95, 50); });
+      if (v.surdo.length && (s === 0 || s === 14) && !v.surdo.includes(s)) bumbo(t, 0.09, 90, 55);
+      if (v.tanta && [0, 3, 8, 11, 14].includes(s)) bumbo(t, s === 8 ? 0.24 : 0.12, s % 2 ? 160 : 120, 70); // tantã
+      if (v.repique && s % 2 === 0 && barra % 2) ruido(t, 0.04, 0.05, 2500, "bandpass");
+      if (v.palmas && (s === 4 || s === 12)) { ruido(t, 0.07, 0.06, 1500, "bandpass"); ruido(t + 0.012, 0.05, 0.06, 1100, "bandpass"); }
+      if (v.cav.includes(s)) A.n.forEach(m => v.banjo ? toque(m + 12, t, 0.08, 0.035, "square") : toque(m, t, 0.1, 0.04, "square"));
+      if (v.pad && s === 0) A.n.forEach(m => toque(m, t, semi() * 15, 0.025, "sine", false, 0.2));
+      const B = { roda: [[0, 0], [6, 7], [8, 12], [14, 4]], partido: [[0, 0], [3, 7], [6, 12], [8, 0], [11, 7], [14, 4]], longo: [[0, 0], [8, 7]], bossa: [[0, 0], [6, 7], [8, 7], [14, 0]], rock: [[0, 0], [3, 0], [6, 12], [10, 7], [12, 10], [14, 12]] }[v.baixo] || [];
+      B.forEach(([k, iv]) => { if (s === k) toque(A.b + iv, t, v.baixo === "longo" ? 0.7 : 0.3, 0.15, "triangle"); });
+      const nota = s % 2 ? null : motivo[s / 2]; if (nota && barra % 4 < v.melBarras) toque(nota, t, v.flauta ? 0.35 : 0.2, v.flauta ? 0.06 : 0.05, v.mel, true, v.flauta ? 0.03 : 0.012);
+    },
     lofi(s, t, A, barra) {         // piano elétrico macio, batida preguiçosa, poucas notas
       const sw = s % 2 ? semi() * 0.18 : 0; t += sw;                                               // balanço (swing)
       if (s === 0) { novoMotivo(8); A.n.forEach((m, k) => toque(m, t + k * 0.03, 2.4, 0.05, "sine", false, 0.04)); }
@@ -133,7 +167,7 @@
     const lim = ate != null ? ate : ctx.currentTime + 1.5;
     while (prox < lim) {
       const s = passo % 16, barra = Math.floor(passo / 16), A = E().acordes[barra % E().acordes.length];
-      try { TOCA[estilo](s, prox, A, barra); } catch (e) {}
+      try { TOCA[E().toca || estilo](s, prox, A, barra); } catch (e) {}
       prox += semi(); passo++;
     }
   }
@@ -195,7 +229,7 @@
           <datalist id="mus-marcas"><option value="${AMB}" label="ambiente"></option></datalist>
           <div class="mus-regua" aria-hidden="true"><span style="left:${AMB}%">▲ ambiente</span></div>
           <button type="button" class="mus-amb">↺ Voltar ao volume ambiente</button>
-          <label class="mus-est">Estilo <select aria-label="Estilo da música">${Object.entries(ESTILOS).map(([k, v]) => `<option value="${k}">${v.nome}</option>`).join("")}</select></label>
+          <label class="mus-est">Estilo <select aria-label="Estilo da música">${Object.entries(ESTILOS).filter(([k, v]) => !v.oculto || k === estilo).map(([k, v]) => `<option value="${k}">${v.nome}</option>`).join("")}</select></label>
           <p class="mus-pe">Ela abaixa sozinha durante vídeos, a roleta e as comemorações, e volta depois. Fica memorizado neste computador.</p></div>`;
       document.body.appendChild(ui);
       const pn = ui.querySelector(".mus-pn"), rg = ui.querySelector("input[type=range]");
