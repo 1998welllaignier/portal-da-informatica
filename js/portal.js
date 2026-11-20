@@ -97,12 +97,38 @@
   document.addEventListener("drop", e => { const tg = e.target; if (tg && tg.matches && tg.matches("input, textarea, [contenteditable]") && e.dataTransfer && [...(e.dataTransfer.types || [])].includes("text/plain")) bloquear(e, "✋ Aqui não dá para arrastar texto pronto: digite 😉"); });
   const ENSINA_COPIAR = /ctrl\s*\+\s*[cvxz]\b|copiar e colar|copie e cole|recortar|desfazer/i;
 
+  /* 🚪 TAREFA FORA DO PORTAL (20/11/2026, ideia do professor): nas tarefas feitas nos programas do computador de verdade
+     (Explorador de Arquivos, Paint…), o aluno toca em "Sair do portal e fazer no computador": a tela cheia sai SEM contar
+     como saída (o professor não é avisado), o portal fica pausado mostrando o checklist marcável, e o botão
+     "↩️ Voltar para o portal" só acende quando todos os passos estiverem marcados; ao voltar, a tela cheia volta junto. */
+  P.foraDoPortal = false;
+  P.sairDoPortal = function (o) {
+    if (document.querySelector(".fora-capa")) return;
+    P.foraDoPortal = true;
+    try { if (document.fullscreenElement) document.exitFullscreen().catch(() => {}); } catch (e) {}
+    const cx = h(`<div class="fora-capa" role="dialog" aria-modal="true" aria-labelledby="fora-t"><div class="fora-cx">
+      <p class="fora-ic">🖥️</p><h2 id="fora-t">Agora é no computador!</h2>
+      <p class="fora-sub">Abra o <b>${esc(o.programa || "programa")}</b> e faça cada passo. Marque ✔ cada um quando terminar.<br><small>O portal fica pausado até você voltar.</small></p>
+      <ol class="fora-lista">${o.passos.map((p, i) => `<li><label><input type="checkbox" data-i="${i}" ${o.marcados && o.marcados[i] ? "checked" : ""}> <span>${p}</span></label></li>`).join("")}</ol>
+      <button type="button" class="btn btn-grande btn-ok fora-volta" disabled>↩️ Voltar para o portal</button>
+      <p class="ajuda fora-falta"></p></div></div>`);
+    document.body.appendChild(cx); document.body.classList.add("simc-travado");
+    const bt = cx.querySelector(".fora-volta"), falta = cx.querySelector(".fora-falta");
+    const pinta = () => { const n = [...cx.querySelectorAll("input[data-i]")].filter(x => !x.checked).length; bt.disabled = n > 0;
+      falta.textContent = n ? `Falta${n > 1 ? "m" : ""} ${n} passo${n > 1 ? "s" : ""} para liberar a volta.` : "Tudo feito! Pode voltar 🎉"; };
+    cx.querySelectorAll("input[data-i]").forEach(x => x.onchange = () => { o.aoMarcar && o.aoMarcar(+x.dataset.i, x.checked); pinta(); });
+    pinta();
+    bt.onclick = () => { const d = document.documentElement;
+      const fim = () => { P.foraDoPortal = false; cx.remove(); document.body.classList.remove("simc-travado"); o.aoVoltar && o.aoVoltar(); };
+      (d.requestFullscreen ? d.requestFullscreen({ navigationUI: "hide" }) : Promise.resolve()).catch(() => {}).finally(() => setTimeout(fim, 250)); };
+  };
+
   /* ⛶ TODOS OS SIMULADORES EM TELA CHEIA (20/11/2026, pedido do professor; o do computador de treino já era assim desde 19/11):
      enquanto a tarefa não termina, o simulador só funciona em tela cheia (capa "▶ Começar o simulador" por cima);
      em tela cheia, a tarefa ocupa a janela inteira com as instruções em cima; ao terminar, volta sozinha ao tamanho normal.
-     Vale para: Windows (inclui a aula especial do papel de parede), explorador de pastas, computador montável, teclado,
+     Vale para: Windows (inclui a aula especial do papel de parede), explorador de pastas, teclado,
      pintura, programação com blocos e os simuladores de grafo, bolha, adivinhe e César. */
-  const SIM_TELA_CHEIA = new Set(["sim_windows", "explorador_pastas", "pc", "teclado", "pintura", "blocos", "sim_grafo", "sim_bolha", "sim_adivinhe", "sim_cesar"]);
+  const SIM_TELA_CHEIA = new Set(["sim_windows", "explorador_pastas", "teclado", "pintura", "blocos", "sim_grafo", "sim_bolha", "sim_adivinhe", "sim_cesar"]);
   addEventListener("hashchange", () => document.body.classList.remove("simc-travado"));
   function telaCheiaSim(el, at, st, corpo) {
     if (!SIM_TELA_CHEIA.has(at.tipo)) return;
@@ -501,7 +527,7 @@
   let telaUnsub = null, telaTurma = null, telaOn = false, tcCasa = false, telaDlg = null, telaIv = null;
   const emTelaCheia = () => !!document.fullscreenElement || (Math.abs(innerHeight - screen.height) < 6 && Math.abs(innerWidth - screen.width) < 6);
   function checarTela() {
-    const s = sess.get(), deve = telaOn && !tcCasa && s && s.nuvem && !/^#\/painel/.test(location.hash) && !emTelaCheia() && !(P.sala && P.sala.ativa());   // 📡 a transmissão ao vivo tem o próprio bloqueio
+    const s = sess.get(), deve = !P.foraDoPortal && telaOn && !tcCasa && s && s.nuvem && !/^#\/painel/.test(location.hash) && !emTelaCheia() && !(P.sala && P.sala.ativa());   // 📡 a transmissão ao vivo tem o próprio bloqueio
     if (!deve) { if (telaDlg && telaDlg.open) telaDlg.close(); return; }
     if (!telaDlg) {
       telaDlg = h(`<dialog class="tela-cheia-dlg" aria-labelledby="tc-h"><div class="tc-ic">🖥️</div><h2 id="tc-h">Aula em TELA CHEIA</h2>
@@ -518,6 +544,7 @@
   }
   let telaEstava = null;
   function contarSaida() {
+    if (P.foraDoPortal) { telaEstava = false; return; }   // 🚪 saiu de propósito para uma tarefa no computador: não conta
     const s = sess.get(); if (!telaOn || tcCasa || !s || !s.nuvem || !P.nuvem || !P.nuvem.app) return;
     const fora = !emTelaCheia(); if (telaEstava === true && fora) {
       const hoje = P.nuvem.hoje();

@@ -454,10 +454,13 @@
       let marcas = {};
       const draw = () => {
         c.innerHTML = `<div class="pc"><p class="pc-prog">🖥️ Programa: <strong>${esc(at.programa)}</strong></p>
+          ${st.status || !P.sairDoPortal ? "" : `<p class="pc-sair-p"><button type="button" class="btn btn-grande btn-ok pc-sair">🚪 Sair do portal e fazer no computador</button><small>O portal fica pausado com a lista de passos até você terminar.</small></p>`}
           <ol class="pc-passos">${at.passos.map((p, i) => `<li><label><input type="checkbox" data-i="${i}" ${st.passos[i] ? "checked" : ""}> <span>${md(p)}</span></label></li>`).join("")}</ol>
           ${at.conferir ? `<div class="pc-conf"><p><strong>✍️ Agora conte o que aparece no seu computador:</strong></p>${at.conferir.map((f, i) => `<label class="campo pc-conf-campo ${marcas[i] || ""}"><span>${md(f.rot)}</span>${f.opcoes ? `<span class="pc-opc">${f.opcoes.map(o => `<button type="button" class="pc-opc-b" data-o="${i}" data-v="${esc(o)}" aria-pressed="${st.conf[i] === o}">${esc(o)}</button>`).join("")}</span>` : `<input data-c="${i}" value="${esc(st.conf[i] || "")}" placeholder="${esc(f.ph || "")}" autocomplete="off">`}${marcas[i] ? `<span class="marca">${marcas[i] === "certo" ? "✔" : "✖"}</span>` : ""}</label>`).join("")}</div>`
             : `<p class="pc-aviso">👀 Não feche o programa antes de mostrar ao professor.</p>`}</div>`;
         c.querySelectorAll("input[data-i]").forEach(x => x.onchange = () => { st.passos[x.dataset.i] = x.checked; ctx.salvar(); });
+        const bs = c.querySelector(".pc-sair"); if (bs) bs.onclick = () => P.sairDoPortal({ programa: at.programa, passos: at.passos.map(p => md(p)), marcados: st.passos,
+          aoMarcar: (i, v) => { st.passos[i] = v; ctx.salvar(); }, aoVoltar: () => { draw(); c.scrollIntoView({ block: "start", behavior: "smooth" }); } });
         c.querySelectorAll("input[data-c]").forEach(x => x.oninput = () => { st.conf[x.dataset.c] = x.value; delete marcas[x.dataset.c]; ctx.salvar(); });
         c.querySelectorAll("button[data-o]").forEach(b => b.onclick = e => { e.preventDefault(); st.conf[b.dataset.o] = b.dataset.v; delete marcas[b.dataset.o]; ctx.salvar(); draw(); });
       };

@@ -2327,3 +2327,18 @@ button.es-alvo.pop{animation:es-pop .3s}
 .atv.simc-foco .atv-cab { position: sticky; top: -14px; z-index: 5; background: inherit; padding-top: 8px; }
 .atv.simc-foco .atv-enun { font-size: 1.12rem; background: #fffbeb; border: 2px solid #fcd34d; border-radius: 12px; padding: 10px 14px; }
 body.simc-travado { overflow: hidden; }
+
+/* 🚪 tarefa fora do portal (20/11/2026) */
+.pc-sair-p { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin: 8px 0 12px; }
+.pc-sair-p small { color: #555; }
+.fora-capa { position: fixed; inset: 0; z-index: 3000; background: rgba(15, 23, 42, .92); display: flex; align-items: center; justify-content: center; padding: 20px; overflow: auto; }
+.fora-cx { background: #fff; color: #111; border-radius: 18px; padding: 22px 28px; max-width: 760px; width: 100%; box-shadow: 0 10px 40px #0006; }
+.fora-ic { font-size: 3rem; margin: 0; text-align: center; }
+.fora-cx h2 { text-align: center; margin: 4px 0 6px; font-size: 1.8rem; }
+.fora-sub { text-align: center; margin: 0 0 14px; }
+.fora-lista { font-size: 1.12rem; display: grid; gap: 8px; padding-left: 26px; }
+.fora-lista label { display: flex; gap: 10px; align-items: flex-start; cursor: pointer; }
+.fora-lista input { width: 22px; height: 22px; margin-top: 3px; flex: none; }
+.fora-volta { display: block; margin: 16px auto 4px; }
+.fora-volta:disabled { opacity: .45; cursor: not-allowed; }
+.fora-falta { text-align: center; }
