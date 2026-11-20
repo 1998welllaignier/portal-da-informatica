@@ -1,6 +1,47 @@
 # Plano de ação — Portal da Informática (combinado em 07/11/2026)
 
-## 📌 Situação atual (atualizado em 14/11/2026, 13h)
+## 📌 SITUAÇÃO REAL — varredura completa de 20/11/2026 (vale esta seção; o resto do arquivo é histórico)
+Varredura pedida pelo professor em 20/11/2026: cada item abaixo foi conferido no código do portal, nos commits e na lista de vídeos.
+
+### ✅ Pronto e no ar (conferido)
+- **4º bimestre de 2026:** M1–M4 das 4 séries, 🔁 Revisão, 📝 recuperação (`rc`), 👣 Trilhas, prova no portal, ⭐ aula especial "Meu papel de parede"; **todos os vídeos no ar** (M1–M4, aula especial, estudo em casa v4, apresentações); 🎬 cenas de abertura de IA nas missões que ainda vão acontecer (20/11).
+- **Painel:** Diário (chamada, vistos, frequência), 🖨️ Boletim em PDF (turma + individuais), 🗺️ Panorama, Missão de hoje sugerida, ▶️ Iniciar a aula, 📝 trabalho avaliativo automático para turma sem missão dada até a prova, 🔴 Ao vivo com ⚠️ atenção e 🎲 chutômetro, 📡 Sala ao vivo (vídeo em sincronia, espelhar tela, quadro branco), ✏️ pincel, 📄 relatório do aluno para a família, avisos de fim de aula, redundâncias do painel resolvidas (14/11).
+- **Aluno:** 🏠 estudo em casa (2 h por dia, liberação semanal, opção "todas abertas, uma por dia"), 🧍 avatar, 🏆 placar e pódio, 👑 rei da sala, 🤖 Bit nas tarefas práticas, 🎨 temas por data (inclusive 🎄 Natal, de 01/12 a 06/01) sem a plaquinha, 🚦 Sala de espera + 🏁 largada, 🎮 23 jogos com calendário de estreias, 💡 curiosidades com 📷 fotos reais, 🎲 contra o chute (tempo de leitura, ponto inteiro só de primeira, pausa, alternativas embaralhadas).
+- **2027:** as 4 séries × 4 bimestres prontas (128 missões, com Trilha, recuperação, prova, roteiro, explicações e desenhos); editor de blocos; 📷 9 fotos reais; cenas de IA só no 6º ano 1º bimestre; virada de ano com 👣/🧩 (20/11).
+
+### 📅 Próximas datas
+- seg 23/11: 🔁 Revisão das turmas de segunda (6º C, 7º C, 9º A, 9º B) = **1º uso real** da Sala de espera, dos jogos e do contra o chute.
+- 24–26/11: M4 (7º B 24; 8º 25; 6º e 9º D 26). Feriados: 27/11 e 30/11.
+- 07–10/12: provas. 14/12: Conselho de Classe. 15/12: formatura do 9º. Aulas até 18/12.
+- Antes de 08/12: voltar do Claude Max para o Pro (lembretes no celular em 01/12 e 05/12).
+
+### ✋ Com o professor (esperando ele)
+1. Revisar as questões das provas (se quer trocar alguma) e, no dia de cada prova, conferir as missões marcadas e o "3 alternativas".
+2. Concurso: mandar o edital e dizer se o Vinícius estuda junto.
+3. Qual editor de vídeo os PCs da sala têm (7º 2027, 4º bim, M4).
+4. Revisar os temas de 2027 (2º, 3º e 4º bimestres).
+5. Revisar o vídeo ⚔️ duelo das redes (8º 2027) para subir no YouTube.
+6. SIGE: registrar o 4º bimestre (6º A, B, C) e, quando reabrir no fim do ano, 2026 inteiro (ele lança a frequência).
+
+### 🗣️ Para decidir com o professor
+1. Competição: 🏆 recorde da turma e da série, 🏅 conquistas, ⚔️ turma × turma, 📈 "Quem mais evoluiu".
+2. Se a nota do bimestre também segue a regra contra o chute (hoje só XP, placar e pódio).
+3. Barra da esquerda da missão (4 modelos mostrados em 11/11).
+4. 🎚️ Ritmo do aluno × ritmo do professor (proposta de 19/11, 3 perguntas).
+5. "Meu boletim" para alunos e pais: quais dados usar no login.
+6. 14/12 (Conselho de Classe): tem aluno no contraturno?
+7. Certificado de curso livre (pacote de 15/11): ajustar até dez/2026 e levar à direção no planejamento de 2027.
+8. Documento das senhas de Wi-Fi da escola (página com QR Code): onde fica e quem acessa.
+
+### 🔜 Fila do Claude
+1. 🎬 Cenas de abertura de IA nas apostilas de 2027 (começando pelo 1º bimestre do 7º, 8º e 9º; o 6º já tem) — em andamento desde 20/11.
+2. Registro do software no INPI (preparar hash e dados; login e pagamento são dele).
+3. Versão "Em casa" das missões (pedido de 14/11) e teste geral no celular.
+4. Início de 2027 (fev): turmas novas, códigos, quadro de horários, kit de diagnóstico do 6º.
+
+## 📜 HISTÓRICO (anotações de 07 a 19/11/2026; pode estar desatualizado — vale a seção de cima)
+
+### Situação em 14/11/2026, 13h
 Claude Max (5x) assinado por um mês em 08/11 para adiantar tudo. **Voltar ao Pro antes de 08/12** (lembretes no celular em 01/12 e 05/12).
 
 ### 🗓️ Plano para usar bem o limite (combinado em 10/11/2026)
@@ -249,11 +290,6 @@ Para decidir com o professor no salão. Cada item: manter, juntar ou desligar.
   - [x] 📷 1ª foto real (20/11/2026): cabo submarino chegando à praia (Ilhas Crozet; CTBTO · Wikimedia Commons · CC BY 2.0), com etiquetas por código, no 8º 2º bim M3 e no 6º 4º bim M2 (`img/fotos/`, `cenas.foto_cabo_submarino`). Mais 8 fotos aprovadas e colocadas no mesmo dia (`ferramentas/ilustracoes_2027/fotos_reais.py`): data center e fibra óptica (8º 2º bim M3; fibra também no 6º 4º bim M2), HD aberto (6º 4º bim M3), lixo eletrônico (6º 4º bim M6 e 7º 4º bim M1), celular desmontado (7º 4º bim M2), gabinete aberto (6º 1º bim M3), Amazônia vista do satélite da NASA (9º 3º bim M6) e linha braille (9º 3º bim M7, que ganhou a linha braille na tabela de recursos). Logotipos borrados; crédito e licença em cada foto.
 - [x] **Editor de programação em blocos** pronto (14/11/2026): atividade `blocos` (js/blocos.js + lib/blockly). Conferir no computador da sala (Chrome/Edge) no 1º teste real. (o 7º ano usa no 1º bimestre; o 6º no 3º).
 - [ ] Depois de aprovado: material completo por bimestre, na ordem (1º bimestre primeiro). A 🔁 Revisão já nasce junto com cada bimestre (blocos por missão; o portal mostra só as missões dadas). Vídeos: perto da época, ou adiantados aos poucos para não estourar o limite semanal.
-
-## 🗓️ Situação em 20/11/2026 (atualizada pelo Claude)
-- Feito em 20/11: virada de ano com 👣/🧩, 📷 fotos reais (9 nas apostilas, 8 nas curiosidades), 🎬 cenas de abertura em 9 missões de 2026, plaquinha dos temas retirada, 🚦 Sala de espera + 🏁 largada, 🎮 23 jogos com calendário de estreias, 🎲 contra o chute.
-- Todos os vídeos do 4º bimestre de 2026 (M1–M4 e aula especial) estão no ar. Único vídeo pronto esperando revisão: ⚔️ duelo das redes (8º 2027).
-- 1º uso real da Sala de espera, dos jogos e do contra o chute: seg 23/11 (🔁 Revisão das turmas de segunda).
 
 ## 4. Início de 2027
 - [ ] Turmas novas, listas de alunos e códigos de acesso.
