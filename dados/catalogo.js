@@ -113,6 +113,8 @@ PORTAL.catalogo = {
       titulo: "Informática — 8º ano — 3º bimestre de 2027", modo: "individual ou dupla", extras: ["m7", "m8"] },
     { id: "informatica-9ano-2027-3bim", serie: "9", disciplina: "informatica", unidade: "3º bimestre de 2027", periodo: "2027-3",
       titulo: "Informática — 9º ano — 3º bimestre de 2027", modo: "individual ou dupla", extras: ["m7", "m8"] },
+    { id: "informatica-9ano-2027-4bim", serie: "9", disciplina: "informatica", unidade: "4º bimestre de 2027", periodo: "2027-4",
+      titulo: "Informática — 9º ano — 4º bimestre de 2027", modo: "individual ou dupla", extras: ["m7", "m8"] },
     /* 👣 Trilhas Passo a Passo de 2027 (o aluno marcado com 👣 no painel abre a trilha no lugar da apostila da turma) */
     { id: "informatica-6ano-2027-1bim-trilha", serie: "6", disciplina: "informatica", unidade: "1º bimestre de 2027", periodo: "2027-1",
       titulo: "Informática — 6º ano — 1º bimestre de 2027 · Trilha Passo a Passo", modo: "individual", extras: ["m7", "m8"],
@@ -150,6 +152,9 @@ PORTAL.catalogo = {
     { id: "informatica-9ano-2027-3bim-trilha", serie: "9", disciplina: "informatica", unidade: "3º bimestre de 2027", periodo: "2027-3",
       titulo: "Informática — 9º ano — 3º bimestre de 2027 · Trilha Passo a Passo", modo: "individual", extras: ["m7", "m8"],
       trilha: true, oculta: true, base: "informatica-9ano-2027-3bim" },
+    { id: "informatica-9ano-2027-4bim-trilha", serie: "9", disciplina: "informatica", unidade: "4º bimestre de 2027", periodo: "2027-4",
+      titulo: "Informática — 9º ano — 4º bimestre de 2027 · Trilha Passo a Passo", modo: "individual", extras: ["m7", "m8"],
+      trilha: true, oculta: true, base: "informatica-9ano-2027-4bim" },
     /* ⭐ Aula especial (vale em qualquer bimestre: periodo "sempre"; especial: true não vira a apostila da turma no painel) */
     { id: "informatica-5ano-papel-de-parede", serie: "5", disciplina: "informatica", unidade: "⭐ Aula especial", periodo: "sempre", especial: true,
       titulo: "Aula especial — Meu papel de parede", modo: "individual" },
