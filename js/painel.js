@@ -1954,7 +1954,7 @@
           <td>${fmtN(b.nota)}</td><td><input class="num" data-nr="${a.id}" value="${b.recManual ? String(b.r).replace(".", ",") : ""}" placeholder="${b.r != null && !b.recManual ? fmtN(b.r) + " ⚡" : "–"}" inputmode="decimal" aria-label="Recuperação de ${esc(a.nome)}"></td>
           <td><strong class="nota ${b.sit.c}">${fmtN(b.final)}</strong></td><td><span class="sit ${b.sit.c}">${b.sit.t}</span></td><td class="falta">${esc(b.falta.join(" · ") || "—")}</td></tr>`).join("")}</tbody></table></div>
         <p class="ajuda">A prova feita no portal aparece sozinha (⚡). Digite na coluna Prova só se o aluno fez a prova em papel (de 0 a 5); apague o número para voltar à nota do portal.</p>
-        <div class="row-btns"><button type="button" class="btn" id="pdf-bol">🖨️ Boletim em PDF (turma + individuais)</button><button type="button" class="btn btn-sec" id="xls-bol">📥 Baixar planilha (Excel)</button><button type="button" class="btn btn-sec" id="cp-bol">📋 Copiar boletim</button></div>
+        <div class="row-btns"><button type="button" class="btn" id="pdf-bol">🖨️ Boletim em PDF (turma + individuais)</button><button type="button" class="btn btn-ok" id="cert-cor" title="Meia folha boletim, meia folha certificado; colorido (PDF para as famílias ou impressora colorida)">🎓 Boletim + certificado (colorido)</button><button type="button" class="btn btn-sec" id="cert-pb" title="O mesmo, otimizado para a impressora preto e branco da sala">🎓 Boletim + certificado (preto e branco)</button><button type="button" class="btn btn-sec" id="xls-bol">📥 Baixar planilha (Excel)</button><button type="button" class="btn btn-sec" id="cp-bol">📋 Copiar boletim</button></div>
         <p class="ajuda">🖨️ abre uma página pronta para imprimir: a lista da turma e, depois, o boletim de cada aluno (2 por folha A4). Na janela de impressão, escolha <b>Salvar como PDF</b>. 📥 baixa a mesma tabela num arquivo que abre no Excel ou no Google Planilhas.</p></div>`;
     }
     function vRegistro() {
@@ -2055,6 +2055,110 @@
           w.document.open(); w.document.write(html); w.document.close();
           setTimeout(() => { try { w.focus(); w.print(); } catch (x) {} }, 600);
         };
+        /* 🎓 BOLETIM + CERTIFICADO (20/11/2026, ideia do professor): cada folha A4 = metade de cima o boletim do aluno,
+           metade de baixo um certificado de participação nas aulas de Informática. Versão colorida (PDF / impressora colorida
+           da secretaria) e versão preto e branco (impressora da sala). O texto é verdadeiro e muda conforme o que o aluno fez:
+           quem deu show recebe elogio específico; quem fez o básico, incentivo com uma dica concreta; quem participou pouco,
+           a verdade com respeito (números reais) e o convite a tentar de novo, lembrando que o material (e a trilha) esteve
+           disponível. Selos: 🥇🥈🥉 XP do bimestre na turma, 🚀 mais evoluiu, 🏆 recordista dos jogos, 📅 presença 100%, ⭐ desafios. */
+        const certificados = async mono => {
+          const w = window.open("", "_blank");   // abre já no clique (senão o navegador bloqueia) e preenche depois
+          if (!w) { toast("O navegador bloqueou a nova aba. Permita pop-ups para este site."); return; }
+          try { w.document.write("<p style='font:16px system-ui;padding:20px'>🎓 Montando os boletins e certificados…</p>"); } catch (x) {}
+          const L = linhas(), e = esc;
+          let rec = {};   // prog = progresso deste bimestre (já carregado pelo diário)
+          try { await carregarSerie(t);
+            const r = await db().collection("config").doc("recordes_" + t.id).get(); rec = (r.exists && r.data().jogos) || {}; } catch (x) { console.warn("cert", x); }
+          const aps = cat().apostilas.filter(a => a.serie === t.serie.id && P.doPeriodo(a)).map(a => a.id);
+          const ordemM = mid => +(String(mid).match(/\d+/) || [99])[0];
+          const dados = {};
+          L.forEach(({ a }) => {
+            const docs = prog.filter(p => p.alunoId === a.id && p.mid && aps.includes(p.aid));
+            const porM = {}; let feitas = 0, de1 = 0;
+            docs.forEach(p => { let atv = {}; try { atv = typeof p.atv === "string" ? JSON.parse(p.atv) : (p.atv || {}); } catch (x) {}
+              const xp = P.podio.xpDoc(p.aid, p.mid, atv); if (!porM[p.mid] || xp > porM[p.mid]) porM[p.mid] = xp;
+              Object.values(atv).forEach(st => { if (st && st.status) { feitas++; if (!(st.tentativas || 0)) de1++; } }); });
+            const seq = Object.keys(porM).sort((x, y) => ordemM(x) - ordemM(y)).map(m => porM[m]);
+            const med = l => l.reduce((x, y) => x + y, 0) / l.length;
+            const evo = seq.length >= 3 ? med(seq.slice(-2)) - med(seq.slice(0, 2)) : null;
+            const recs = Object.entries(rec).filter(([, r]) => r && r.id === a.id).map(([j]) => { const J = P.jogosEspera && P.jogosEspera.lista.find(x => x.id === j); return J ? J.nome : j; });
+            dados[a.id] = { xp: seq.reduce((x, y) => x + y, 0), nM: seq.length, evo, taxa1: feitas >= 8 ? de1 / feitas : null, recs };
+          });
+          const rk = L.map(({ a }) => ({ id: a.id, xp: dados[a.id].xp })).filter(x => x.xp > 0).sort((x, y) => y.xp - x.xp);
+          const pos = {}; rk.forEach((x, i) => { pos[x.id] = i > 0 && rk[i - 1].xp === x.xp ? pos[rk[i - 1].id] : i + 1; });
+          const evoMax = Math.max(0, ...L.map(({ a }) => dados[a.id].evo || 0));
+          const MED = { 1: ["🥇", "1º lugar em XP da turma"], 2: ["🥈", "2º lugar em XP da turma"], 3: ["🥉", "3º lugar em XP da turma"] };
+          const cert = ({ a, b, fr }) => {
+            const d = dados[a.id], nome = e(a.nome), nA = b.nAulas || 4, fpct = fr.pct == null ? null : fr.pct;
+            const selos = [];
+            if (pos[a.id] <= 3) selos.push(MED[pos[a.id]]);
+            if (d.evo && d.evo >= 100 && d.evo === evoMax) selos.push(["🚀", "Quem mais evoluiu na turma"]);
+            if (d.recs.length) selos.push(["🏆", "Recordista: " + d.recs.slice(0, 2).join(", ")]);
+            if (fpct === 100) selos.push(["📅", "Presença 100%"]);
+            if (b.ext >= 4) selos.push(["⭐", "Caçador(a) de desafios"]);
+            const temNota = b.B != null || b.r != null;
+            const show = selos.length >= 2 || (temNota && b.final >= 8 && (fpct == null || fpct >= 75)) || pos[a.id] === 1;
+            const pouco = (temNota && b.final < 5) || (fpct != null && fpct < 50) || b.bas < nA / 2;
+            const nivel = show ? "show" : pouco ? "pouco" : "bom";
+            const pres = fr.p != null ? `${fr.p + (fr.j || 0)} de ${fr.p + (fr.j || 0) + (fr.f || 0)}` : "–";
+            let msg;
+            if (nivel === "show") {
+              const motivo = pos[a.id] === 1 ? "terminou o bimestre em 1º lugar de XP da turma" : selos.some(x => x[0] === "🚀") ? "foi quem mais evoluiu na turma, do começo ao fim do bimestre" : b.ext >= 4 ? "foi além do básico e encarou os Desafios e o Turbo" : fpct === 100 ? "não faltou a nenhuma aula e cumpriu o que foi pedido" : "fez as missões com capricho e atenção";
+              msg = `Você ${motivo}. Isso não é sorte: é esforço, e ele aparece nos seus números. Continue assim, porque quem aprende a aprender vai longe.`;
+            } else if (nivel === "bom") {
+              const dica = d.taxa1 != null && d.taxa1 < .5 ? "ler com calma antes de responder (muitas respostas precisaram de várias tentativas)" : b.ext < 2 ? "encarar os Desafios e o Turbo, que valem nota extra" : "manter a frequência e caprichar ainda mais";
+              msg = `Você fez a sua parte e aprendeu coisas importantes neste bimestre. Dá para ir mais longe: o próximo passo é ${dica}. Conto com você!`;
+            } else {
+              msg = `Neste bimestre você esteve em ${pres} aulas e concluiu ${b.bas} de ${nA} missões. Isso ainda é pouco perto do que você consegue fazer. Todo o material esteve à sua disposição, inclusive a trilha passo a passo e o robô que ajuda. No próximo bimestre, a sua presença e o seu esforço vão fazer a diferença. Eu acredito em você!`;
+            }
+            const titulo = nivel === "show" ? "Certificado de Destaque" : "Certificado de Participação";
+            return `<div class="ce ce-${nivel}"><div class="ce-in">
+              <div class="ce-top"><span class="ce-logo">💻</span><div><p class="ce-tit">${titulo}</p><p class="ce-sub">Aulas de Informática · ${e(bimTxt)}</p></div><span class="ce-logo">🎓</span></div>
+              <div class="ce-txt"><p>Certificamos que</p><b class="ce-nome">${nome}</b><p>da turma <b>${e(turmaTxt)}</b> participou das aulas de Informática do Prof. Welington Laignier no ${e(bimTxt)}.</p></div>
+              <div class="ce-nums"><span><b>${pres}</b>aulas</span><span><b>${b.bas}/${nA}</b>missões</span><span><b>${d.xp.toLocaleString("pt-BR")}</b>XP</span><span><b>${b.ext}</b>desafios</span></div>
+              ${selos.length ? `<div class="ce-selos">${selos.map(([i, t2]) => `<span><i>${i}</i>${e(t2)}</span>`).join("")}</div>` : ""}
+              <p class="ce-msg">“${e(msg)}”</p>
+              <div class="ce-ass"><span>Prof. Welington Laignier<br><small>Informática</small></span><span>${new Date().toLocaleDateString("pt-BR")}<br><small>EMEF Juscelino Kubitschek · Curionópolis-PA</small></span></div></div></div>`;
+          };
+          const indC = ({ a, b, fr }) => `<div class="bi">${`<div class="cab"><div><b>Prof. Welington Laignier</b><span>Informática · ${e(turmaTxt)} · ${e(bimTxt)}</span></div><div class="esc">EMEF Juscelino Kubitschek · Curionópolis-PA</div></div>`}<h2>${e(a.nome)}</h2>
+            <table class="t2"><tr><th>Frequência</th><td>${fr.pct == null ? "–" : fr.pct + "% (" + fr.p + (fr.p === 1 ? " presença" : " presenças") + (fr.j ? ", " + fr.j + (fr.j === 1 ? " justificada" : " justificadas") : "") + ", " + fr.f + (fr.f === 1 ? " falta" : " faltas") + ")"}</td></tr>
+            <tr><th>Apostila (Básico)</th><td>${b.bas} de ${b.nAulas || 4} vistos = ${fmtN(b.basC)}</td></tr>
+            <tr><th>Desafio / Turbo</th><td>${b.ext} completo${b.ext === 1 ? "" : "s"} = +${fmtN(b.bonus)}</td></tr>
+            <tr><th>Prova</th><td>${b.B == null ? "não fez" : fmtN(b.B) + " de 5,0"}</td></tr>
+            ${b.r != null ? `<tr><th>Recuperação</th><td>${fmtN(b.r)}${b.recUsada ? " (substituiu a nota)" : ""}</td></tr>` : ""}
+            <tr class="fin"><th>Nota final</th><td><b>${fmtN(b.final)}</b> · <b>${e(b.sit.t)}</b></td></tr></table>
+            <div class="ass"><span>Professor</span><span>Responsável</span></div></div>`;
+          const C1 = mono ? "#111" : "#1e3a8a", C2 = mono ? "#555" : "#f97316", C3 = mono ? "#fff" : "#fff7ed";
+          const css = `@page{size:A4;margin:10mm}*{box-sizing:border-box}body{font:12px/1.35 system-ui,Arial,sans-serif;color:#111;margin:0}
+            .pg{display:flex;flex-direction:column;gap:6mm;height:277mm;page-break-after:always}.pg:last-child{page-break-after:auto}
+            .bi{flex:0 0 calc(46% - 3mm);display:flex;flex-direction:column;border:1.5px solid ${C1};border-radius:8px;padding:9px 12px;overflow:hidden}
+            .cab{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:3px solid ${C2};padding-bottom:5px;margin-bottom:8px}
+            .cab b{display:block;font-size:16px;color:${C1}}.cab span{font-size:11.5px}.esc{font-size:10px;color:#555;text-align:right}h2{font-size:15px;margin:2px 0 6px}
+            .t2{width:100%;border-collapse:collapse;font-size:13.5px}.t2 th,.t2 td{height:30px}.t2 th{text-align:left;width:38%;padding:3px 6px;background:${mono ? "#fff" : "#f1f5f9"};border:1px solid #bbb}.t2 td{padding:3px 6px;border:1px solid #bbb}
+            .t2 .fin th,.t2 .fin td{background:${C3};font-size:13.5px;${mono ? "border:2px solid #111" : ""}}
+            .ass{display:flex;justify-content:space-around;gap:30px;margin-top:auto;padding-top:26px}.ass span{flex:1;text-align:center;border-top:1px solid #333;padding-top:3px;font-size:11px}
+            .corte{border-top:1.5px dashed #999;position:relative;height:0}.corte:after{content:"✂ recorte aqui";position:absolute;right:0;top:-8px;background:#fff;font-size:9px;color:#777;padding:0 4px}
+            .ce{flex:1;border:${mono ? "3px double #111" : "4px solid " + C2};border-radius:10px;padding:5px;${mono ? "" : "background:linear-gradient(135deg,#fff7ed,#eff6ff)"}}
+            .ce-in{height:100%;border:1.5px solid ${C1};border-radius:7px;padding:12px 22px;display:flex;flex-direction:column;justify-content:space-between;gap:8px;text-align:center}
+            .ce-top{display:flex;align-items:center;justify-content:center;gap:16px}.ce-logo{font-size:30px;${mono ? "filter:grayscale(1)" : ""}}
+            .ce-tit{margin:0;font:800 30px/1.1 Georgia,serif;color:${C1};letter-spacing:.5px;text-transform:uppercase}.ce-sub{margin:2px 0 0;font-size:12px;color:#444}
+            .ce-show .ce-tit{color:${mono ? "#111" : "#b45309"}}
+            .ce-txt{font-size:14.5px}.ce-txt p{margin:2px 0}.ce-nome{font:800 27px Georgia,serif;display:inline-block;margin:4px 0;padding:0 24px 3px;color:${C1};border-bottom:2px solid ${C2}}
+            .ce-nums{display:flex;justify-content:center;gap:10px}.ce-nums span{min-width:100px;border:1.5px solid ${mono ? "#111" : "#93c5fd"};border-radius:8px;padding:3px 8px;font-size:10.5px;background:${mono ? "#fff" : "#fff"}}
+            .ce-nums b{display:block;font-size:22px;color:${C1}}.ce-nums span{font-size:11.5px}
+            .ce-selos{display:flex;flex-wrap:wrap;justify-content:center;gap:6px}.ce-selos span{border:1.5px solid ${mono ? "#111" : "#f59e0b"};background:${mono ? "#fff" : "#fffbeb"};border-radius:999px;padding:4px 12px;font-weight:700;font-size:12.5px}
+            .ce-selos i{font-style:normal;margin-right:4px;${mono ? "filter:grayscale(1)" : ""}}
+            .ce-msg{margin:0 10px;font:italic 15px/1.45 Georgia,serif;color:#222}
+            .ce-ass{display:flex;justify-content:space-around;gap:20px;padding-top:18px}.ce-ass span{flex:1;border-top:1px solid #333;padding-top:3px;font-size:11px}
+            .barra{position:sticky;top:0;background:${C1};color:#fff;padding:10px;text-align:center;font-size:14px}.barra button{font-size:14px;margin-left:10px;padding:6px 14px}
+            @media print{.barra{display:none}${mono ? "" : "*{-webkit-print-color-adjust:exact;print-color-adjust:exact}"}}`;
+          const pgs = L.map(r => `<section class="pg">${indC(r)}<div class="corte"></div>${cert(r)}</section>`).join("");
+          const html = `<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><title>Boletim e certificado ${e(turmaTxt)} · ${e(bimTxt)}${mono ? " (preto e branco)" : ""}</title><style>${css}</style></head><body>
+            <div class="barra">${mono ? "Versão preto e branco (impressora da sala)" : "Versão colorida: PDF para as famílias ou impressora colorida"} · <b>Salvar como PDF</b> ou imprimir${mono ? "" : " (marque “Gráficos de plano de fundo”)"}<button onclick="print()">🖨️ Imprimir / PDF</button></div>${pgs}</body></html>`;
+          w.document.open(); w.document.write(html); w.document.close();
+        };
+        q("#cert-cor").onclick = () => certificados(false);
+        q("#cert-pb").onclick = () => certificados(true);
         q("#cp-bol").onclick = async () => {
           const txt = ["Aluno\tFrequência\tBásico\tDesafio/Turbo\tApostila\tProva\tNota\tRecuperação\tFinal\tSituação",
             ...alunos.map(a => { const b = boletim(a.id), fr = freq(a.id); return [a.nome, fr.pct == null ? "" : fr.pct + "%", b.bas + "/" + (b.nAulas || 4), b.ext, fmtN(b.A), b.B == null ? "" : fmtN(b.B), fmtN(b.nota), b.r == null ? "" : fmtN(b.r), fmtN(b.final), b.sit.t].join("\t"); })].join("\n");
