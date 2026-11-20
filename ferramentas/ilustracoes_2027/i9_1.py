@@ -229,5 +229,9 @@ fig("m8", "Pergunta Como achar Resposta", "O mesmo grafo da escola com o corredo
 
 ICONES = {"m1": "🗺️", "m2": "🌳", "m3": "❓", "m4": "🧱", "m5": "🤖", "m6": "⚡", "m7": "🚦", "m8": "🏫", "rv": "🔁"}
 
+# 🎬 cenas de abertura (IA + camada que ensina) vão na frente: entram no topo de cada missão (20/11/2026)
+from cenas_9_1 import F as CENAS
+F[:0] = CENAS
+
 if __name__ == "__main__":
     print("figuras:", gerar("informatica-9ano-2027-1bim", F, ICONES))

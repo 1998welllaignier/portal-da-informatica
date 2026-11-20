@@ -272,5 +272,9 @@ fig("m8", "Nível Galhos novos", "Árvore fractal desenhada com recursão: o tro
 
 ICONES = {"m1": "📝", "m2": "➕", "m3": "🔎", "m4": "🎯", "m5": "🫧", "m6": "🪆", "m7": "🏅", "m8": "❄️", "rv": "🔁"}
 
+# 🎬 cenas de abertura (IA + camada que ensina) vão na frente: entram no topo de cada missão (20/11/2026)
+from cenas_8_1 import F as CENAS
+F[:0] = CENAS
+
 if __name__ == "__main__":
     print("figuras:", gerar("informatica-8ano-2027-1bim", F, ICONES))
