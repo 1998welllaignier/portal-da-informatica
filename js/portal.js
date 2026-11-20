@@ -433,6 +433,14 @@
     return { C, m, a, pages };
   }
   P.montarMissao = montarMissao;
+  // 📖 leitura guiada (20/11/2026): o texto do "💡 Para começar", com as palavras explicadas e as ilustrações, pronto para dividir em trechos
+  P.leituraBase = async (aid, mid) => {
+    await carregar(aid); const C = P.conteudo[aid], m = C && (C.missoes || []).find(x => x.id === mid); if (!m) return null;
+    const raiz = h(`<div><div class="leitura">${blocos(m.comecar || [], true)}</div></div>`);
+    try { ligarTermos(raiz, (C.missoes || []).flatMap(x => x.termos || [])); } catch (e) {}
+    try { const ids = montarMissao(aid, mid).pages.map(p => p.id), figs = figurasDaPagina(aid, mid, "comecar", ids); const leit = raiz.querySelector(".leitura"); if (figs.length) colocarFiguras(leit, figs, [...leit.children], "bloco"); } catch (e) {}
+    return { el: raiz.querySelector(".leitura"), termos: m.termos || [], titulo: m.titulo, icone: m.icone, objetivo: m.objetivo };
+  };
 
   function statusMissao(aid, mid) {
     const { pages } = montarMissao(aid, mid);
@@ -580,7 +588,7 @@
     if (rolUnsub) rolUnsub(); rolTurma = s.turma;
     try { rolUnsub = P.nuvem.app(0).db.collection("config").doc("roleta_" + s.turma).onSnapshot(sn => {
       const d = sn.exists ? sn.data() : null, ss = sess.get(); if (!d || !ss || d.dia !== P.nuvem.hoje() || !d.em || Date.now() - d.em > 90000) return;
-      if (/^#\/(painel|prova)/.test(location.hash)) return; // não atrapalha a prova
+      if (/^#\/(painel|prova)/.test(location.hash) || P.leituraAtiva) return; // não atrapalha a prova (e na leitura guiada o nome já aparece na faixa)
       const chave = d.em + (d.girando ? "g" : "n"); if (rolVisto === chave) return; rolVisto = chave;
       if (rolCx) rolCx.remove();
       const souEu = !d.girando && (ss.alunoIds || []).includes(d.id);
@@ -693,6 +701,7 @@
         P.nuvem.app(0).db.collection("progresso").doc(s.alunoIds[0] + "_tela").set({ alunoId: s.alunoIds[0], turma: s.turma, tipo: "tela", monitor: m }, { merge: true }).catch(() => {}); } } catch (e) {}
     try { ouvirRei(sess.get()); } catch (e) {}
     try { ouvirRoleta(sess.get()); } catch (e) {}
+    try { P.leitura && P.leitura.ouvir(sess.get()); } catch (e) {}
     clearInterval(relogioIv);
     const tick = () => {
       const el = document.getElementById("tb-relogio"); if (!el) return clearInterval(relogioIv);
@@ -1874,6 +1883,7 @@
       if (r === "trilhas") return await telaTrilhas();
       if (r === "sobre") return telaSobre();
       if (r === "explorar") { if (!P.explorador || !P.explorador.abrir) return telaInicio(); return await P.explorador.abrir(mount, a1, a2, a3); }
+      if (r === "telao") { if (!P.leitura) return telaInicio(); return await P.leitura.telao(mount, a1); }   // 📽️ janela do projetor da leitura guiada
       if (r === "painel") { barra(); if (!P.painel) return mount(`<section class="tela"><div class="painel erro"><h1>Painel indisponível</h1><p>O painel precisa de internet. Abra o portal pelo endereço do GitHub.</p></div></section>`); return await P.painel.abrir(mount, a1, a2, a3); }
       const ss = sess.get();
       if (ss && ss.nuvem && P.nuvem && !(await P.nuvem.sessaoValida(ss))) { sess.del(); toast("Sua entrada expirou. Digite o código de novo."); }

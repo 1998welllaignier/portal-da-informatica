@@ -2467,3 +2467,39 @@ body.sp-travado .plb-bola,body.simc-travado .plb-bola,body.sp-travado .plb-paine
 .mus-vol{display:flex;align-items:center;gap:8px;margin-top:8px;font-weight:700}.mus-vol input{flex:1;accent-color:#7c3aed}.mus-vol output{min-width:5.5em;text-align:right;font-size:.85rem}
 .mus-regua{position:relative;height:18px;margin:0 6.6em 0 4.2em}.mus-regua span{position:absolute;transform:translateX(-50%);font-size:.75rem;font-weight:800;color:#7c3aed;white-space:nowrap}
 .mus-pe{margin:6px 0 0;font-size:.78rem;color:#64748b}
+/* 📖 Leitura guiada (20/11/2026) */
+.pl-lg-bt{background:#0ea5e9;color:#fff;border-color:#0ea5e9}
+body.lg-travado{overflow:hidden}
+.lg-aluno{position:fixed;inset:0;z-index:10060;background:#0f172a;display:flex;align-items:stretch;justify-content:center;padding:12px}
+.lg-quadro{background:#fffdf7;border-radius:20px;width:min(1200px,100%);display:flex;flex-direction:column;overflow:hidden;box-shadow:0 10px 40px rgba(0,0,0,.4)}
+.lg-quadro.sou-eu{outline:6px solid #22c55e}
+.lg-cab{display:flex;align-items:center;gap:12px;flex-wrap:wrap;background:#0c4a6e;color:#fff;padding:10px 18px;font-size:1.05rem}.lg-cab b{flex:1}
+.lg-selo{background:#38bdf8;color:#0c4a6e;font-weight:900;border-radius:8px;padding:2px 10px}.lg-pos{background:rgba(255,255,255,.18);border-radius:999px;padding:3px 12px;font-weight:800}
+.lg-leitor{background:#e0f2fe;color:#075985;padding:10px 18px;font-size:1.25rem;border-bottom:2px solid #bae6fd}.lg-leitor.eu{background:#dcfce7;color:#166534;font-size:1.45rem;animation:spdPulsa 1s ease-in-out infinite alternate}.lg-leitor.sem{background:#fef9c3;color:#854d0e}
+.lg-texto{flex:1;min-height:0;overflow:hidden;padding:16px 26px;line-height:1.55;font-size:1.55rem}
+.lg-texto .ilustracao svg,.lg-texto .ilustracao img{max-height:32vh;width:auto;max-width:100%}
+.lg-texto .termo-link{background:#fef08a;border:0;border-bottom:3px dotted #ca8a04;border-radius:4px;padding:0 3px;font:inherit;font-weight:800;color:#713f12;cursor:pointer}
+.lg-video,.lg-fim{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px;font-size:1.3rem}
+.lg-video iframe{width:100%;height:100%;min-height:60vh;border:0;border-radius:12px}.lg-grande{font-size:4rem;margin:0}
+.lg-perg{flex:1;display:flex;flex-direction:column;justify-content:center;padding:18px 30px}.lg-perg h2{font-size:2rem;margin:4px 0 16px}.lg-sup{margin:0;font-weight:900;color:#b45309;font-size:1.2rem}
+.lg-ops{display:flex;flex-direction:column;gap:10px}.lg-op{display:flex;align-items:center;gap:14px;text-align:left;font:inherit;font-size:1.25rem;padding:12px 16px;border-radius:14px;border:3px solid #cbd5e1;background:#fff;cursor:pointer}
+.lg-op span{flex:none;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:#e2e8f0;font-weight:900}
+.lg-op.minha{border-color:#2563eb;background:#dbeafe}.lg-op.certa{border-color:#16a34a;background:#dcfce7}.lg-op.certa span{background:#16a34a;color:#fff}.lg-op.errada{border-color:#dc2626;background:#fee2e2}
+.lg-op:disabled{cursor:default;opacity:1;color:inherit}.lg-info{font-size:1.2rem;margin:14px 0 0}
+.modo-telao #topbar,.modo-telao footer,.modo-telao .faixa-data{display:none!important}
+.lg-telao{position:fixed;inset:0;background:#0f172a;display:flex;justify-content:center;padding:14px}.lg-quadro.grande{width:100%;max-width:none}.lg-quadro.grande .lg-texto{font-size:2rem}
+.lg-cheia{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:5;border:0;border-radius:20px;background:#facc15;color:#0f172a;font-size:1.6rem;font-weight:900;padding:22px 34px;box-shadow:0 10px 40px rgba(0,0,0,.5);cursor:pointer}.lg-cheia small{display:block;font-size:1rem;font-weight:700}
+/* controles do professor */
+.lgc{position:fixed;inset:0;z-index:9400;background:#0f172a;display:flex;flex-direction:column;padding:10px}
+.lgc-topo{display:flex;align-items:baseline;gap:14px;color:#fff;flex-wrap:wrap}.lgc-topo h2{margin:0 0 6px}.lgc-dica{font-size:.9rem;color:#cbd5e1}
+.lgc-corpo{flex:1;min-height:0;display:grid;grid-template-columns:1.25fr 1fr;gap:12px}.lgc-esq,.lgc-dir{min-height:0;display:flex;flex-direction:column}.lgc-rot{color:#cbd5e1;margin:0 0 4px;font-weight:700}
+.lgc-previa{flex:1;min-height:0}.lgc-previa .lg-texto{font-size:1.1rem}
+.lgc-rel{flex:1;min-height:0;overflow:auto;background:#fff;border-radius:14px;padding:10px}.lgc-num{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px}.lgc-num span{background:#f1f5f9;border-radius:10px;padding:4px 10px}.lgc-num .alerta{background:#fee2e2;color:#991b1b}
+.lgc-tab{width:100%;border-collapse:collapse;font-size:.92rem}.lgc-tab td,.lgc-tab th{padding:4px 6px;border-bottom:1px solid #f1f5f9;text-align:left}.lgc-tab tr.fora{color:#94a3b8}.lgc-tc{color:#b91c1c;font-weight:700}
+.lgc-tela{flex:1;min-height:0}
+.lgc-barra{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:#1e293b;border-radius:14px;padding:8px 12px;margin-top:8px}.lgc-st{color:#e2e8f0;flex:1;min-width:200px}.lgc-st b{color:#fde68a}
+.lgc-bts{display:flex;gap:8px;flex-wrap:wrap}.lgc-bts .btn{font-weight:800}.lgc-ok{background:#16a34a;color:#fff}.lgc-rol{background:#a855f7;color:#fff}.lgc-sec{background:#e2e8f0;color:#0f172a}.lgc-sai{background:#7f1d1d;color:#fff}
+.lgc-escolha .lgc-q{font-weight:800;font-size:1.15rem;margin:10px 0 6px}.lgc-telas{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.lgc-telas button{border:3px solid #cbd5e1;border-radius:16px;background:#f8fafc;padding:14px;cursor:pointer;display:flex;flex-direction:column;gap:4px;font:inherit}.lgc-telas button:hover{border-color:#0ea5e9;background:#f0f9ff}
+.lgc-telas span{font-size:2rem}.lgc-telas b{font-size:1.3rem}.lgc-vid{display:block;margin:12px 0 4px;font-weight:700}
+.lg-def{max-width:520px}

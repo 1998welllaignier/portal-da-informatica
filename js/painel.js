@@ -408,7 +408,8 @@
      Sorteia só quem está ONLINE agora (código de 4 dígitos, sessão viva há menos de 3 min), inclusive quem veio de outra turma.
      Ninguém repete até TODOS os online terem sido sorteados; aí recomeça (config/roleta_<turma>.ja). O nome que aparece é o
      OFICIAL do cadastro, nunca o apelido; ele aparece grande no projetor e no meio da tela de todos os alunos. Som: clec-clec. */
-  async function roleta(t, alunos, getProg, turmas, So) {
+  async function roleta(t, alunos, getProg, turmas, So, op) {
+    op = op || {};   // 📖 leitura guiada: { leitura: true, pular: id que acabou de ser pulado, aoEscolher(aluno) }
     if (document.querySelector(".rl-cobre")) return;
     const msT = v => v == null ? 0 : typeof v === "number" ? v : v.toMillis ? v.toMillis() : (v.seconds || 0) * 1000;
     const ref = db().collection("config").doc("roleta_" + t.id);
@@ -431,7 +432,8 @@
       area.innerHTML = `<div class="rl-roda"><svg viewBox="0 0 420 420" class="rl-svg" style="transform:rotate(${ang}deg)">${lista.map((a, i) => arco(i)).join("")}${lista.map(txt).join("")}<circle cx="210" cy="210" r="26" fill="#0f172a" stroke="#fff" stroke-width="5"/></svg><div class="rl-ponteiro" aria-hidden="true">▼</div></div>`;
     }
     function inicio() {
-      const on = online(); let pool = on.filter(a => !ja.includes(a.id)), recomecou = false;
+      const on = online(); let pool = on.filter(a => !ja.includes(a.id) && a.id !== op.pular), recomecou = false;
+      if (on.length && !pool.length && op.pular && on.some(a => a.id !== op.pular)) pool = on.filter(a => a.id !== op.pular);
       if (on.length && !pool.length) { ja = ja.filter(id => !on.some(a => a.id === id)); pool = on.slice(); recomecou = true; }
       if (!on.length) { area.innerHTML = `<p class="rl-vazio">😴 Ninguém online agora.<br><small>Só entra na roleta quem está com o portal aberto (entrou com o código).</small></p>`; bts.innerHTML = ""; info.textContent = ""; return; }
       desenha(pool, 0);
@@ -458,9 +460,14 @@
       ref.set({ dia: N.hoje(), ja }, { merge: true }).catch(() => {});
       publicar({ girando: false, id: a.id, nome: a.nome });
       So && So.sorteado();
-      const big = h(`<div class="rl-nome"><p class="rl-sup">📖 Quem vai ler é…</p><h1>${esc(a.nome)}</h1><div class="rl-bts2"><button type="button" class="btn btn-grande btn-ok rl-de-novo">🎡 Sortear outro</button><button type="button" class="btn btn-grande btn-sec rl-volta">✕ Voltar ao placar</button></div></div>`);
+      const big = h(op.leitura ? `<div class="rl-nome"><p class="rl-sup">📖 Quem vai ler este trecho é…</p><h1>${esc(a.nome)}</h1><div class="rl-bts2"><button type="button" class="btn btn-grande btn-ok rl-vai">✔ Pode ler!</button><button type="button" class="btn btn-grande btn-sec rl-pula">⏭ Pular (sortear outro)</button></div></div>`
+        : `<div class="rl-nome"><p class="rl-sup">📖 Quem vai ler é…</p><h1>${esc(a.nome)}</h1><div class="rl-bts2"><button type="button" class="btn btn-grande btn-ok rl-de-novo">🎡 Sortear outro</button><button type="button" class="btn btn-grande btn-sec rl-volta">✕ Voltar ao placar</button></div></div>`);
       area.appendChild(big); P.podio.confete && P.podio.confete(big);
-      big.querySelector(".rl-volta").onclick = fechar; big.querySelector(".rl-de-novo").onclick = inicio;
+      if (op.leitura) {
+        big.querySelector(".rl-vai").onclick = () => { fechar(); op.aoEscolher && op.aoEscolher(a); };
+        // ⏭ pulou (vergonha, dificuldade…): volta para a roleta, sem contar como "já leu"
+        big.querySelector(".rl-pula").onclick = () => { ja = ja.filter(id => id !== a.id); ref.set({ dia: N.hoje(), ja }, { merge: true }).catch(() => {}); op.pular = a.id; inicio(); };
+      } else { big.querySelector(".rl-volta").onclick = fechar; big.querySelector(".rl-de-novo").onclick = inicio; }
     }
     inicio();
   }
@@ -481,7 +488,7 @@
       <div class="pl-marca-data"><span class="pl-data">📅 ${dataHoje()}</span><span class="pl-hora" id="pl-hora">🕒 ${horaAgora()}</span></div></div>`;
     const el = tela(`<div class="pl-tela">${marca}<header class="pl-cab"><div><p class="pl-sup">🏆 Placar ao vivo · ${esc(nomeTurma(t.id))}</p><h1 id="pl-h1">${esc(missao.icone || "")} ${esc(missao.titulo || SIG(mid))}</h1>
         <p class="pl-aviso">Pontos do pódio (não são nota) · ${esc(cat().professor)}</p></div>
-        <div class="pl-dir"><div class="pl-relogio" id="pl-rel"></div><div class="pl-bts"><button type="button" class="btn btn-peq btn-sec pl-som" id="pl-som"></button><button type="button" class="btn btn-peq pl-rol-bt" id="pl-roleta" title="Sorteia quem vai ler, entre os alunos online agora">🎡 Roleta da leitura</button><button type="button" class="btn btn-peq btn-sec" id="pl-tela">⛶ Tela cheia</button><button type="button" class="btn btn-peq" id="pl-fim">🏁 Finalizar aula</button><button type="button" class="btn btn-peq btn-sec" id="pl-volta" hidden>↩ Voltar ao placar</button></div></div></header>
+        <div class="pl-dir"><div class="pl-relogio" id="pl-rel"></div><div class="pl-bts"><button type="button" class="btn btn-peq btn-sec pl-som" id="pl-som"></button><button type="button" class="btn btn-peq pl-lg-bt" id="pl-leitura" title="Leitura guiada do “Para começar”: todos veem o mesmo trecho; a roleta escolhe quem lê">📖 Leitura guiada</button><button type="button" class="btn btn-peq pl-rol-bt" id="pl-roleta" title="Sorteia quem vai ler, entre os alunos online agora">🎡 Roleta da leitura</button><button type="button" class="btn btn-peq btn-sec" id="pl-tela">⛶ Tela cheia</button><button type="button" class="btn btn-peq" id="pl-fim">🏁 Finalizar aula</button><button type="button" class="btn btn-peq btn-sec" id="pl-volta" hidden>↩ Voltar ao placar</button></div></div></header>
       <div class="pl-corpo" id="pl-corpo"></div></div>`);
     let prog = [], pod = null, vendoPodio = false, finalizando = false, reiAntes = null, jaCongelou = false;
     const corpo = el.querySelector("#pl-corpo");
@@ -519,6 +526,11 @@
       corpo.innerHTML = `<div class="pd-tela"><h2 class="pd-tit">🏆 Pódio da aula!</h2><p class="pd-credito">💻 Aula de Informática com o <b>${esc(cat().professor)}</b> · ${esc(nomeTurma(t.id))} · ${dataHoje()}</p>${P.podio.podioHTML(pod.ranking || [])}</div>`; P.podio.confete(corpo.querySelector(".pd-tela")); So && So.podio(); };
     el.querySelector("#pl-volta").onclick = () => { vendoPodio = false; el.querySelector("#pl-volta").hidden = true; corpo.innerHTML = ""; pintarPlacar(); };
     el.querySelector("#pl-roleta").onclick = () => roleta(t, alunos, () => prog, PART.turmasProg, So);
+    // 📖 leitura guiada (20/11/2026): vídeo → leitura em trechos com a roleta → liberar
+    el.querySelector("#pl-leitura").onclick = async () => { if (!P.leitura) return toast("Leitura guiada indisponível."); const aidL = hj.aid || (cat().apostilas.find(a => a.serie === t.serie.id && P.doPeriodo(a) && !a.oculta && !a.trilha) || {}).id;
+      P.leitura.iniciar({ t, alunos, getProg: () => prog, turmas: PART.turmasProg, So, aid: aidL, mid, nomeTurma: nomeTurma(t.id), roleta: op => roleta(t, alunos, () => prog, PART.turmasProg, So, op) }); };
+    // ⭐ XP da leitura guiada de hoje entra no placar (mesmo se o placar for reaberto)
+    const u3 = db().collection("config").doc("leitura_" + t.id).onSnapshot(sn => { const d = sn.exists ? sn.data() : null; if (d && d.dia === N.hoje() && d.xp) { P.podio.bonusXP = { dia: d.dia, porId: d.xp }; pintarPlacar(); } }, () => {});
     el.querySelector("#pl-tela").onclick = () => { const d = document.documentElement; (document.fullscreenElement ? document.exitFullscreen() : d.requestFullscreen()).catch(() => {}); };
     const finalizar = async auto => { if (finalizando) return; finalizando = true;
       try { await finalizarAula(t, alunos, prog, mid); if (!auto) { toast("🏁 Aula finalizada!"); finalizarJuntas(t).catch(() => {}); } } catch (err) { toast("Não foi possível finalizar: " + (err.message || err)); } finalizando = false; };
@@ -530,7 +542,7 @@
     const u2 = db().collection("config").doc("podio_" + t.id).onSnapshot(sn => { const d = sn.exists ? sn.data() : null;
       pod = d && d.dia === N.hoje() ? d : null; if (pod && pod.finalizadaEm !== jaVi) { jaVi = pod.finalizadaEm; mostrarPodio(); } });
     const iv = setInterval(() => {
-      if (!document.body.contains(el)) { clearInterval(iv); u1(); u2(); return; }
+      if (!document.body.contains(el)) { clearInterval(iv); u1(); u2(); try { u3(); } catch (e) {} return; }
       const ph = el.querySelector("#pl-hora"); if (ph) ph.textContent = "🕒 " + horaAgora();
       const rel = relogio(), r = el.querySelector("#pl-rel");
       if (rel.fora) r.innerHTML = `<span class="pl-r-txt">Fora do horário da aula</span>`;

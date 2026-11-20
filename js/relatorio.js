@@ -163,6 +163,9 @@
         ${linhas ? `<div class="tabela-wrap"><table class="rel-tab"><thead><tr><th>Nível</th><th>Tarefa</th><th>Resultado</th><th>Começou</th><th>Terminou</th><th>Tempo</th><th>Erros</th><th>Dicas</th></tr></thead><tbody>${linhas}</tbody></table></div>` : (r.pr.v === "P" ? "<p>Nenhuma tarefa concluída neste dia.</p>" : "")}
         ${difTxt}
         ${leituras ? `<p>📖 Leu ${leituras} parte${leituras > 1 ? "s" : ""} do texto da missão.</p>` : ""}
+        ${(() => { const L = au.leituraGuiada; if (!L || !L.feita) return "";   // 📖 leitura guiada (20/11/2026)
+          const leu = (L.leitores || []).filter(x => x.id === a.id), ac = (L.acertosPorAluno || {})[a.id] || 0, np = (L.perguntas || []).length;
+          return `<p class="rel-lg">📖 <b>Leitura guiada com a turma</b>${L.titulo ? ` (${esc(L.titulo)})` : ""}${leu.length ? `: 🎤 <b>leu em voz alta</b> o trecho ${leu.map(x => x.trecho).join(" e ")} para a turma` : ""}${np ? `${leu.length ? ";" : ":"} acertou <b>${ac} de ${np}</b> pergunta${np > 1 ? "s" : ""} relâmpago` : ""}.</p>`; })()}
         ${fim != null ? `<p>🏁 <b>Última tarefa concluída às ${hhmm(fim)}</b>${sobra != null ? (sobra >= 0 ? ` · faltavam <b>${sobra} min</b> para o fim da aula (${tAulaDia.aula.ini} + 1h15${tAulaDia !== t ? ", aula do " + esc(U.nomeTurma(tAulaDia.id)) : ""})` : ` · ${-sobra} min depois do fim da aula (${tAulaDia.aula.ini} + 1h15${tAulaDia !== t ? ", aula do " + esc(U.nomeTurma(tAulaDia.id)) : ""})`) : ""}.</p>` : ""}
         ${String(au.registro || "").trim() ? `<p class="rel-reg"><b>O que a turma fez nesta aula (registro do professor):</b> ${esc(au.registro)}</p>` : ""}
         <div class="rel-obs"><b>👨‍🏫 Observações do professor sobre o aluno nesta aula:</b>

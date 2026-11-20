@@ -406,13 +406,14 @@
     // 🚦 Sala de espera (20/11/2026): quem entra cedo e espera no lugar sai na frente (aquecimento até 150 + avatar 10)
     const esp = {}; prog.forEach(p => { if (p.tipo === "espera" && p.dia === hoje) esp[p.alunoId] = Math.min(150, p.pontos || 0) + Math.min(10, p.avatarBonus || 0); });
     const docs = {}; prog.forEach(p => { if (p.mid === mid && p.dias && p.dias[hoje] && porId[p.alunoId]) { const o = docs[p.alunoId]; if (!o || (p.atualizado || 0) > (o.atualizado || 0)) docs[p.alunoId] = p; } });
+    const B = P.podio && P.podio.bonusXP && P.podio.bonusXP.dia === hoje ? P.podio.bonusXP.porId : null;
     const vistos = new Set(), out = [];
     Object.keys(ent).concat(Object.keys(docs)).forEach(id => {
       if (vistos.has(id) || !porId[id]) return;
       const p = docs[id], par = ((p && p.dupla) || []).filter(x => porId[x]), ids = [id].concat(par);
       ids.forEach(x => vistos.add(x));
       const r = (p && pontosDoc(p, Math.min(...ids.map(x => ent[x] || Infinity).filter(isFinite)) || ent[id], hoje)) || { pontos: 0, okB: false, okEm: null };
-      const pe = Math.max(0, ...ids.map(x => esp[x] || 0));
+      const pe = Math.max(0, ...ids.map(x => esp[x] || 0)) + ids.reduce((t, x) => t + ((B && B[x]) || 0), 0);   // + ⭐ XP da leitura guiada (leu em voz alta / acertou a pergunta relâmpago)
       out.push({ ids, nomes: ids.map(x => nomeCurto(porId[x].nome)), avatares: ids.map(x => av[x] || null), pontos: r.pontos + pe, espera: pe, okB: r.okB, okEm: r.okEm, bonusOk: !!r.bonusOk, trilha: ids.some(x => porId[x].trilha), ult: p ? p.atualizado || 0 : 0 });
     });
     out.sort((x, y) => y.pontos - x.pontos || (x.okEm || 9e15) - (y.okEm || 9e15) || x.nomes[0].localeCompare(y.nomes[0], "pt-BR"));

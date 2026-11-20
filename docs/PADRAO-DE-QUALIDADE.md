@@ -495,3 +495,15 @@ Questões **contextualizadas** (situação curta: 1–2 frases no 6º, 2–3 no 
 - Botão **🎵 música ambiente** no canto de baixo: liga/desliga, volume com a marca **"▲ ambiente"** (o volume padrão) e "↺ Voltar ao volume ambiente". Liga/desliga e volume **ficam memorizados** no computador.
 - **Abaixa sozinha e volta depois**: enquanto a roleta gira e na festa do sorteio, no pódio, na coroa, no placar congelado, enquanto um vídeo do YouTube do painel toca, com o vídeo aberto em outra aba e quando o professor clica dentro do vídeo.
 - Correção junto: o botão "🔊 Toque para ligar o som" do placar não desliga mais o som sem querer.
+
+## 📖 Leitura guiada (leitura compartilhada) — 20/11/2026, pedido do professor
+- **Quando:** só quando o professor está 100% com a turma. Botão **📖 Leitura guiada** no placar ao vivo (liga e desliga; desligada, tudo segue no automático, como antes).
+- **Ordem (decidida pelo professor seguindo a sugestão do Claude):** 🎬 **vídeo da missão** no projetor (as telas dos alunos mostram "Olhe para o projetor") → 📖 **leitura do "💡 Para começar" em trechos** → 🔓 **liberar a turma** no ritmo de cada um.
+- **Todos veem a mesma coisa, sem rolar:** o texto vira trechos curtos (cerca de 60 palavras; a ilustração conta como um parágrafo e vai junto com o bloco dela). A letra se ajusta sozinha para o trecho caber inteiro na tela. O aluno não consegue sair da leitura (a tela fica travada no trecho) até o professor liberar; quem entra atrasado já cai no trecho certo.
+- **Em cada trecho:** 🎡 a roleta sorteia quem lê (só online, ninguém repete até todos lerem), com **⏭ Pular (sortear outro)** para quem não puder ler (volta para a roleta, sem constrangimento). Faixa em todas as telas: "📖 Lendo agora: Fulano · acompanhe com os olhos"; o sorteado vê "🎤 É a sua vez de ler!".
+- **⭐ XP de leitor:** "✔ Leu!" dá **+10 XP** no placar.
+- **🤔 Pergunta relâmpago** depois do trecho: "O que significa X?" (uma palavra do próprio trecho, 3 opções tiradas do "O que significa?" da missão). O professor vê quantos responderam; "✅ Mostrar a resposta certa" mostra a certa em verde para todos e dá **+5 XP** a quem acertou.
+- **Palavras difíceis destacadas** em amarelo no trecho; tocar mostra o significado.
+- **3 telas** (projetor + monitor do professor + Veyon): abre a janela **telão** (`#/telao/<turma>`), que vai sozinha para o projetor quando o Chrome deixar (permissão de janelas em várias telas) e tem o botão grande "⛶ Toque aqui para deixar em tela cheia" (o navegador não deixa uma janela colocar outra em tela cheia). No monitor do professor: os controles + a prévia do que o projetor mostra + **📊 A turma agora** (quantos entraram, quem está no trecho certo, quem saiu da tela cheia, número do PC, quem já leu, quem respondeu, XP).
+- **2 telas:** a própria tela do placar vira o telão, com a faixa de controles embaixo (só na tela do professor).
+- **Registro automático:** ao terminar, a aula do dia no Diário ganha `leituraGuiada` (trechos, quem leu, perguntas e acertos) e uma linha no "📝 Registro das aulas"; o **relatório da família** mostra "📖 Leitura guiada com a turma: 🎤 leu em voz alta o trecho N; acertou X de Y perguntas relâmpago".
