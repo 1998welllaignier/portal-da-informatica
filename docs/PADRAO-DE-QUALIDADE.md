@@ -399,3 +399,9 @@ Apostila no portal + ilustrada (PDF só para quem estuda em casa) · guia do pro
 > - O código se libera sozinho quando o aluno clica em **Sair** ou quando o computador dono fica **2,5 min sem sinal** (aba fechada, PC desligado). Sinal a cada 60 s, sempre pela hora do servidor.
 > - **Painel ao vivo:** "🔐 Tentaram entrar com um código que já estava aberto em outro computador" + botão **🔓 Liberar entrada** (vale 10 min). Ao entrar no novo computador, o antigo **sai na hora** ("🔐 Você saiu deste computador… se não foi você, chame o professor"), e um computador que "acorda" depois **não toma o código de volta**.
 > - Dados: `progresso/<aluno>_sessao` (uid, ping, pc, bloqueio, tentativas) e `config/liberar_<turma>.sessaoLivre`. Testado com banco simulado (9 casos).
+
+> **🎒 Deixou tarefa para trás? (20/11/2026, pedido do professor):** ao sair de uma página da missão (próxima etapa, outra etapa da trilha, "Voltar às missões", menu) com tarefas da página que ficaram para trás, abre uma janelinha listando cada uma, com **⬆️ Ir para ela** (rola até a tarefa, que pisca), **⬆️ Voltar e terminar** e **Seguir mesmo assim →**.
+> - ✋ **respondeu e não tocou em Verificar** → avisa sempre (até voltando para a etapa anterior);
+> - ⏳ **obrigatória sem fazer** e ⭐ **opcional sem fazer (vale XP extra)** → avisa só indo para a frente ou saindo da missão, **uma vez por página** (para não ficar chato).
+> - Junta-se ao "✋ Falta verificar" (borda amarela + barra no rodapé) e à trilha em sequência por etapa (`bloqueioPagina`).
+> - **Plano B, se não resolver:** é a **liberação sequencial** (também chamada de *progressão linear* ou *desbloqueio por conclusão*) **tarefa por tarefa**: a próxima tarefa só aparece quando a atual for verificada. Hoje ela já existe **por etapa** (página); levar para o nível da tarefa é só ligar quando o professor pedir.

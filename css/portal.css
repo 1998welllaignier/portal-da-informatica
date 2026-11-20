@@ -2292,3 +2292,15 @@ button.es-alvo.pop{animation:es-pop .3s}
 .sessao-bloq { border-left-color: #e8590c; background: #fff4e6; }
 .sessao-bloq h2 { color: #c2410c; }
 .sessao-caiu h2 { color: #c2410c; }
+
+/* 🎒 deixou tarefa para trás (20/11/2026) */
+.atras-dlg { max-width: 620px; }
+.atras-lista { list-style: none; padding: 0; margin: 12px 0 18px; display: grid; gap: 8px; }
+.atras-lista li { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 10px; background: #f1f3f8; }
+.atras-lista li > span:nth-child(2) { flex: 1; }
+.atras-lista .atras-ver { background: #fff3bf; border-left: 5px solid #f59f00; }
+.atras-lista .atras-obr { background: #e7f0ff; border-left: 5px solid #3b6fd8; }
+.atras-lista .atras-opc { background: #f3ecff; border-left: 5px solid #8b5cf6; }
+@media (prefers-color-scheme: dark) { .atras-lista li { color: #1b1b1b; } }
+.atv.atras-pisca { animation: atras-pisca .6s ease-in-out 4; }
+@keyframes atras-pisca { 50% { box-shadow: 0 0 0 6px #f59f00aa; } }

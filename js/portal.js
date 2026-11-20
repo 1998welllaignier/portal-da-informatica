@@ -76,6 +76,48 @@
     setTimeout(pintarVerificar, 50);
   }, true);
   setInterval(pintarVerificar, 1000); addEventListener("hashchange", () => { const b = document.getElementById("falta-ver"); if (b) b.remove(); });
+  /* 🎒 DEIXOU TAREFA PARA TRÁS? (20/11/2026, pedido do professor)
+     Ao sair de uma página da missão (próxima etapa, outra etapa da trilha, "Voltar às missões", menu…) com tarefas desta
+     página que ficaram para trás, aparece uma janelinha listando cada uma, com "Ir para ela" e "Seguir mesmo assim".
+     - ✋ respondeu e não tocou em Verificar → avisa SEMPRE (inclusive voltando para a etapa anterior);
+     - ⏳ obrigatória sem fazer e ⭐ opcional sem fazer → avisa só indo para a frente ou saindo da missão, 1 vez por página
+       (não fica chato). Se não resolver, o plano B é a liberação sequencial também por tarefa (ver docs). */
+  function deixadas() {
+    const pv = pendVer(), todas = [...document.querySelectorAll("#pag-corpo .atv[id^='atv-']")].filter(el => !el.classList.contains("concluida") && !el.classList.contains("atv-info"));
+    const tit = el => ((el.querySelector(".atv-cab h2") || {}).textContent || "Tarefa").trim();
+    return todas.map(el => ({ el, t: tit(el), k: pv.includes(el) ? "ver" : el.dataset.opc ? "opc" : "obr" }));
+  }
+  document.addEventListener("click", e => {
+    const a = e.target.closest && e.target.closest("a[href^='#/']"); if (!a || e.defaultPrevented || e.ctrlKey || e.metaKey || e.shiftKey) return;
+    if (a.closest(".atv, .atras-dlg") || !/^#\/missao\//.test(location.hash) || !document.getElementById("pag-corpo")) return;
+    const destino = a.getAttribute("href"); if (destino === location.hash) return;
+    const lis = [...document.querySelectorAll(".mn-trilha li[data-pg]")], ids = lis.map(li => li.dataset.pg);
+    const atual = lis.findIndex(li => li.querySelector("a.atual")), pAtual = ids[atual] || "";
+    const [, , aid, mid] = location.hash.split("/"), base = `#/missao/${aid}/${mid}/`;
+    const pDest = destino.startsWith(base) ? destino.slice(base.length).split("/")[0] : null;
+    const praTras = pDest != null && ids.indexOf(pDest) >= 0 && ids.indexOf(pDest) < atual;
+    const chave = "portalJK:atras:" + aid + "/" + mid + "/" + pAtual;
+    let jaAvisou = false; try { jaAvisou = !!sessionStorage.getItem(chave); } catch (er) {}
+    const lst = deixadas().filter(x => x.k === "ver" || (!praTras && !jaAvisou));
+    if (!lst.length) return;
+    e.preventDefault(); e.stopPropagation();
+    try { sessionStorage.setItem(chave, "1"); } catch (er) {}
+    const ROT = { ver: ["✋", "respondeu, mas <b>não tocou em ✔ Verificar</b>"], obr: ["⏳", "ainda <b>não foi feita</b>"], opc: ["⭐", "<b>opcional</b> ainda não feita (vale XP extra)"] };
+    const soOpc = lst.every(x => x.k === "opc");
+    const dlg = h(`<dialog class="pp-dlg atras-dlg"><h2>${soOpc ? "⭐ Ficou uma tarefa extra para trás" : "🎒 Você está deixando tarefa para trás!"}</h2>
+      <p>${soOpc ? "Não é obrigatória, mas vale XP. Quer fazer antes de seguir?" : "Antes de seguir, confira:"}</p>
+      <ul class="atras-lista">${lst.map((x, i) => `<li class="atras-${x.k}"><span aria-hidden="true">${ROT[x.k][0]}</span> <span>“${esc(x.t.length > 60 ? x.t.slice(0, 58) + "…" : x.t)}” ${ROT[x.k][1]}</span>
+        <button type="button" class="btn btn-peq" data-ir="${i}">⬆️ Ir para ela</button></li>`).join("")}</ul>
+      <div class="row-btns"><button type="button" class="btn btn-grande btn-ok" data-ir="0">⬆️ Voltar e terminar</button><button type="button" class="btn btn-sec" data-seguir="1">Seguir mesmo assim →</button></div></dialog>`);
+    document.body.appendChild(dlg);
+    dlg.addEventListener("close", () => dlg.remove());
+    dlg.querySelectorAll("[data-ir]").forEach(b => b.onclick = () => { const x = lst[+b.dataset.ir]; dlg.close();
+      if (x.k === "ver") x.el.classList.add("falta-verificar");
+      x.el.scrollIntoView({ behavior: "smooth", block: "center" }); x.el.classList.add("atras-pisca"); setTimeout(() => x.el.classList.remove("atras-pisca"), 2400);
+      const bv = x.el.querySelector('[data-a="verificar"]'); setTimeout(() => bv && !bv.hidden && bv.focus({ preventScroll: true }), 500); });
+    dlg.querySelector("[data-seguir]").onclick = () => { dlg.close(); location.hash = destino; };
+    dlg.showModal();
+  }, true);
 
   /* 📐 a trilha da missão só fica "grudada" na tela se couber inteira; senão rola com a página (nada escondido), 18/11/2026 */
   function ajustarTrilha() { const n = document.querySelector(".mis-nav"); if (!n) return; n.classList.remove("solta"); if (n.getBoundingClientRect().height > innerHeight - 86) n.classList.add("solta"); }
@@ -1163,7 +1205,7 @@
     const auto = typeof T.auto === "function" ? T.auto(at) : T.auto;
     const corr = at.tipo === "vivi" ? "💬 sem certo nem errado" : at.professor ? "👨‍🏫 o professor confere" : auto ? "✔ correção automática" : "👨‍🏫 o professor confere";
     const vez = s && s.modo === "dupla" && ["basico", "desafio", "turbo"].includes(at.nivel) ? `<span class="vez">🎮 Vez de: <strong>${esc(curto(s, i % 2))}</strong> (o outro ajuda)</span>` : "";
-    const el = h(`<section class="atv nivel-${at.nivel}" id="atv-${at.id}" aria-labelledby="t-${at.id}">
+    const el = h(`<section class="atv nivel-${at.nivel}" id="atv-${at.id}"${at.opcional ? ' data-opc="1"' : ""} aria-labelledby="t-${at.id}">
       <header class="atv-cab"><span class="atv-nivel">${(NIVEL[at.nivel] || ["", ""])[0]} ${(NIVEL[at.nivel] || ["", ""])[1]}</span>
         <h2 id="t-${at.id}">${md(at.titulo || "")}</h2><span class="atv-corr">${corr}${at.opcional ? " · opcional" : ""}</span>${vez}</header>
       ${at.enunciado ? `<div class="atv-enun">${at.enunciado}</div>` : INSTRUCAO_PADRAO(at) ? `<div class="atv-enun">${INSTRUCAO_PADRAO(at)}</div>` : ""}
