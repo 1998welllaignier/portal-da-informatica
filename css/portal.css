@@ -2287,3 +2287,8 @@ button.es-alvo.pop{animation:es-pop .3s}
 .atv-pausa-t{font-size:1.5rem;font-weight:900;color:#92400e;margin:0}
 .atv-pausa-s{font-weight:800}
 .atv-fogo{display:inline-block;margin-left:.4rem;background:#fff7ed;border:2px solid #f97316;color:#c2410c;font-weight:900;border-radius:999px;padding:0 .6rem}
+
+/* 🔐 um computador por vez (20/11/2026) */
+.sessao-bloq { border-left-color: #e8590c; background: #fff4e6; }
+.sessao-bloq h2 { color: #c2410c; }
+.sessao-caiu h2 { color: #c2410c; }

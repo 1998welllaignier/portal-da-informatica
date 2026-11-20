@@ -530,9 +530,13 @@
       const chutesDe = x => { try { const v = x.pm && x.pm.atv ? (typeof x.pm.atv === "string" ? JSON.parse(x.pm.atv) : x.pm.atv) : {}; return Object.values(v).reduce((t, st) => t + ((st && st.chutes) || 0), 0); } catch (e) { return 0; } };
       dentro.forEach(x => { x.chutes = chutesDe(x); });
       atencao.chute = dentro.filter(x => x.chutes >= 4).sort((x, y) => y.chutes - x.chutes);
+      // 🔐 um computador por vez (20/11/2026): quem tentou entrar com um código que já estava aberto em outro computador hoje
+      const msT = v => v == null ? 0 : typeof v === "number" ? v : v.toMillis ? v.toMillis() : (v.seconds || 0) * 1000;
+      const ini0 = new Date(); ini0.setHours(0, 0, 0, 0);
+      atencao.bloq = alunos.map(a => { const d = prog.find(p => p.tipo === "sessao" && p.alunoId === a.id); return d && d.bloqueio && msT(d.bloqueio.em) >= ini0.getTime() ? { a, b: d.bloqueio } : null; }).filter(Boolean);
       const nomesTela = atencao.tela.map(x => `${esc(x.a.nome.split(" ").slice(0, 2).join(" "))} (${x.saidas}×)`).join(", ");
-      const boxAtencao = (atencao.parados.length + atencao.semComecar.length + atencao.atras.length + atencao.tela.length + atencao.chute.length)
-        ? `<div class="pv-atencao"><p class="pv-at-tit">⚠️ Precisam de atenção agora</p>${atencao.tela.length ? `<p><b>🖥️ Saíram da tela cheia hoje:</b> ${nomesTela}</p>` : ""}${atencao.chute.length ? `<p><b>🎲 Parecem estar chutando</b> (muitos erros rápidos demais): ${atencao.chute.map(x => esc(x.a.nome.split(" ").slice(0, 2).join(" ")) + ` (${x.chutes}×)`).join(", ")}</p>` : ""}${atencao.parados.length ? `<p><b>😴 Parados há mais de 10 min:</b> ${nomesA(atencao.parados)}</p>` : ""}${atencao.semComecar.length ? `<p><b>🚫 Entraram, mas não começaram a missão:</b> ${nomesA(atencao.semComecar)}</p>` : ""}${atencao.atras.length ? `<p><b>🐢 Atrasados</b> (passou da metade da aula e fizeram menos da metade do Básico): ${nomesA(atencao.atras)}</p>` : ""}</div>`
+      const boxAtencao = (atencao.parados.length + atencao.semComecar.length + atencao.atras.length + atencao.tela.length + atencao.chute.length + atencao.bloq.length)
+        ? `<div class="pv-atencao"><p class="pv-at-tit">⚠️ Precisam de atenção agora</p>${atencao.tela.length ? `<p><b>🖥️ Saíram da tela cheia hoje:</b> ${nomesTela}</p>` : ""}${atencao.bloq.length ? `<p><b>🔐 Tentaram entrar com um código que já estava aberto em outro computador:</b> ${atencao.bloq.map(x => `${esc(x.a.nome.split(" ").slice(0, 2).join(" "))} (${hhmm(msT(x.b.em))}, computador ${esc(x.b.pc || "?")}) <button type="button" class="btn btn-peq" data-lib-sessao="${esc(x.a.id)}" data-turma="${esc(x.a.turma || t.id)}" title="Use quando o próprio aluno trocou de computador: o computador antigo sai e o novo entra">🔓 Liberar entrada</button>`).join(" · ")}<br><small>Se o aluno está no computador certo e outra pessoa tentou entrar com o código dele, não libere.</small></p>` : ""}${atencao.chute.length ? `<p><b>🎲 Parecem estar chutando</b> (muitos erros rápidos demais): ${atencao.chute.map(x => esc(x.a.nome.split(" ").slice(0, 2).join(" ")) + ` (${x.chutes}×)`).join(", ")}</p>` : ""}${atencao.parados.length ? `<p><b>😴 Parados há mais de 10 min:</b> ${nomesA(atencao.parados)}</p>` : ""}${atencao.semComecar.length ? `<p><b>🚫 Entraram, mas não começaram a missão:</b> ${nomesA(atencao.semComecar)}</p>` : ""}${atencao.atras.length ? `<p><b>🐢 Atrasados</b> (passou da metade da aula e fizeram menos da metade do Básico): ${nomesA(atencao.atras)}</p>` : ""}</div>`
         : (dentro.length ? `<div class="pv-atencao ok"><p class="pv-at-tit">✅ Ninguém precisa de atenção agora</p></div>` : "");
       // ⚡ XP da missão (igual à barra do aluno, ao placar e ao pódio) + posição no placar
       const xpCel = (xm, xa) => { const top = xm > 1000 ? `<b>🏆 1000</b> <span class="pv-xpb">⭐ +${xm - 1000}</span>` : `<b>${xm}</b> XP`;
@@ -557,6 +561,10 @@
             <td data-rot="Situação">${sit}</td><td data-rot="Última atividade">${par ? "😴 " : ""}há ${Math.max(0, Math.round((agora - ult) / 60000))} min</td></tr>`; }).join("")}</tbody></table></div>`
         : `<p class="ajuda">Nenhum aluno desta turma entrou hoje ainda.</p>`}
         ${fora.length ? `<details class="pv-fora"><summary>👀 Alunos que faltaram (${fora.length}) · clique para ver</summary><p>${fora.map(x => esc(x.a.nome)).join(" · ")}</p></details>` : ""}`;
+      dlg.querySelectorAll("[data-lib-sessao]").forEach(b => b.onclick = async () => { b.disabled = true;
+        try { await db().collection("config").doc("liberar_" + b.dataset.turma).set({ sessaoLivre: { [b.dataset.libSessao]: firebase.firestore.FieldValue.serverTimestamp() } }, { merge: true });
+          b.textContent = "✅ liberado: peça para ele entrar de novo"; toast("🔓 Entrada liberada: o aluno digita o código de novo no computador novo; o antigo sai sozinho."); }
+        catch (e) { b.disabled = false; toast("Não foi possível liberar: " + (e.message || e)); } });
     };
     const carregarT = async () => {
       if (unsub) { unsub(); unsub = null; }

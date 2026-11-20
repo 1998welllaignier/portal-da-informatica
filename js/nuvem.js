@@ -98,6 +98,49 @@
     await ref.set({ alunoId, turma: turmaId, tipo: "entrada", dias: { [dia]: ag }, entradas: { [dia]: { [String(ag)]: true } }, atualizado: N.FV.serverTimestamp() }, { merge: true });
   }
 
+  /* 🔐 UM COMPUTADOR POR VEZ (20/11/2026, pedido do professor): o mesmo código não pode ficar aberto em dois computadores
+     ao mesmo tempo (evita o "espertinho" que entra com o código do colega para errar as questões por ele).
+     progresso/<aluno>_sessao = { uid (navegador dono), ping (hora do servidor, renovada a cada 60 s), pc, tentativas }.
+     Quem entra primeiro fica; outro computador só entra se o primeiro ficar 2,5 min sem sinal (aba fechada, PC desligado)
+     ou se o professor liberar no painel (config/liberar_<turma>.sessaoLivre[aluno]). Tudo pela hora do servidor. */
+  const ms = v => v == null ? 0 : typeof v === "number" ? v : v.toMillis ? v.toMillis() : (v.seconds || 0) * 1000;
+  const VIVO = 150000;
+  const pcId = () => { try { let k = localStorage.getItem("portalJK:pc"); if (!k) { k = Math.random().toString(36).slice(2, 6).toUpperCase(); localStorage.setItem("portalJK:pc", k); } return k; } catch (e) { return "?"; } };
+  N.sessaoChecar = async function (i, alunoId, turmaId) {
+    const x = app(i), u = x.auth.currentUser, ref = x.db.collection("progresso").doc(alunoId + "_sessao");
+    await ref.set({ alunoId, turma: turmaId, tipo: "sessao", agora: N.FV.serverTimestamp() }, { merge: true });
+    const [sn, lb] = await Promise.all([ref.get(), x.db.collection("config").doc("liberar_" + turmaId).get().catch(() => null)]);
+    const d = sn.exists ? sn.data() : {}, agora = ms(d.agora), livre = ms(((lb && lb.exists && lb.data().sessaoLivre) || {})[alunoId]);
+    const liberado = livre && agora - livre < 600000 && agora - livre > -60000;   // a liberação do professor vale 10 min
+    const outro = d.uid && u && d.uid !== u.uid && d.pc !== pcId() && agora - ms(d.ping) < VIVO && !liberado;
+    if (outro) { await ref.set({ bloqueio: { em: N.FV.serverTimestamp(), pc: pcId(), pcDono: d.pc || "?" }, tentativas: N.FV.increment(1) }, { merge: true }).catch(() => {}); return { ok: false }; }
+    await ref.set({ uid: u.uid, ping: N.FV.serverTimestamp(), pc: pcId(), bloqueio: null }, { merge: true });
+    return { ok: true };
+  };
+  let vigia = null;
+  N.sessaoVigiar = function (s, aoSair) {
+    if (!s || !s.nuvem || !(s.alunoIds || []).length) return;
+    const chave = s.alunoIds.join("+") + s.entrou; if (vigia && vigia.chave === chave) return;
+    if (vigia) vigia.parar();
+    // o sinal só é renovado se o código ainda é deste navegador (transação): um computador que voltou do "sono" não toma de volta
+    const unsubs = [], ping = () => s.alunoIds.forEach((id, i) => { const u = app(i).auth.currentUser; if (!u) return; const db = app(i).db, ref = db.collection("progresso").doc(id + "_sessao");
+      db.runTransaction(async t => { const sn = await t.get(ref), d = sn.exists ? sn.data() : {};
+        if (d.uid && d.uid !== u.uid) return false;
+        t.set(ref, { alunoId: id, turma: s.turma, tipo: "sessao", uid: u.uid, ping: N.FV.serverTimestamp(), pc: pcId() }, { merge: true }); return true;
+      }).then(ok => { if (ok === false && vigia && vigia.chave === chave) { vigia.parar(); aoSair && aoSair(); } }).catch(() => {}); });
+    ping(); const iv = setInterval(ping, 60000);
+    s.alunoIds.forEach((id, i) => { try { unsubs.push(app(i).db.collection("progresso").doc(id + "_sessao").onSnapshot(sn => {
+      const d = sn.exists ? sn.data() : {}, u = app(i).auth.currentUser;
+      if (d.uid && u && d.uid !== u.uid && vigia && vigia.chave === chave) { vigia.parar(); aoSair && aoSair(); } }, () => {})); } catch (e) {} });
+    vigia = { chave, parar: () => { clearInterval(iv); unsubs.forEach(f => { try { f(); } catch (e) {} }); vigia = null; } };
+  };
+  N.sessaoSoltar = async function (s) {   // ao clicar em Sair: libera o código na hora
+    if (vigia) vigia.parar();
+    if (!s || !s.nuvem) return;
+    await Promise.all((s.alunoIds || []).map((id, i) => app(i).db.collection("progresso").doc(id + "_sessao").set({ alunoId: id, turma: s.turma, tipo: "sessao", ping: 0 }, { merge: true }).catch(() => {})));
+  };
+  N.pcId = pcId;
+
   /* A sessão do navegador ainda vale? (a aba pode ter sido fechada) */
   N.sessaoValida = async function (s) {
     if (!s || !s.nuvem) return true;

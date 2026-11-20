@@ -443,7 +443,15 @@
     } catch (e) {}
     if (!telaIv) { telaIv = setInterval(checarTela, 1500); ["fullscreenchange", "resize"].forEach(ev => addEventListener(ev, () => { contarSaida(); checarTela(); })); addEventListener("hashchange", checarTela); }
   }
+  /* 🔐 o código foi aberto em outro computador com a liberação do professor (ou depois que este ficou sem sinal): este sai */
+  function sessaoDerrubada() {
+    sess.del(); try { P.nuvem.sair(); } catch (e) {}
+    const dlg = h(`<dialog class="pp-dlg sessao-caiu"><h2>🔐 Você saiu deste computador</h2><p>O seu código foi aberto em <b>outro computador</b>. Cada código só fica aberto em um computador por vez.</p>
+      <p>Se não foi você, <b>chame o professor agora</b>.</p><form method="dialog" class="row-btns"><button class="btn btn-grande" value="ok">Entendi</button></form></dialog>`);
+    document.body.appendChild(dlg); dlg.addEventListener("close", () => { dlg.remove(); location.hash = "#/"; rota(); }); dlg.showModal();
+  }
   function relogioAula() {
+    try { if (P.nuvem && P.nuvem.sessaoVigiar) P.nuvem.sessaoVigiar(sess.get(), sessaoDerrubada); } catch (e) {}
     try { ouvirPodio(sess.get()); } catch (e) {}
     try { ouvirTela(sess.get()); } catch (e) {}
     try { P.sala && P.sala.ouvir(sess.get()); } catch (e) {}
@@ -494,7 +502,7 @@
   async function sair() {
     const s = sess.get();
     if (!(await confirmar(s && s.nuvem ? "Sair do portal? O que você fez já está guardado no painel do professor." : "Sair do portal? Seu progresso fica guardado neste navegador (veja “Privacidade e progresso”).", "Sim, sair"))) return;
-    if (s && s.nuvem) { try { await Promise.all(cat().apostilas.map(a => P.nuvem.enviar(a.id).catch(() => null))); } catch (e) {} await P.nuvem.sair(); }
+    if (s && s.nuvem) { try { await Promise.all(cat().apostilas.map(a => P.nuvem.enviar(a.id).catch(() => null))); } catch (e) {} try { await P.nuvem.sessaoSoltar(s); } catch (e) {} await P.nuvem.sair(); }
     sess.del(); location.hash = "#/";
   }
 
@@ -663,6 +671,17 @@
         const b = cf.querySelector("#sim"); b.disabled = true; b.textContent = "Entrando…";
         try { await Promise.all(infos.map((x, i) => P.nuvem.confirmar(i, x, turmaSess))); }
         catch (err) { console.warn(err); b.disabled = false; b.textContent = "Tentar de novo"; toast("Não foi possível entrar agora. Tente de novo."); return; }
+        // 🔐 um computador por vez: se o código já está aberto em outro computador, não entra (o professor pode liberar)
+        if (P.nuvem.sessaoChecar) { let bloq = [];
+          try { const rs = await Promise.all(infos.map((x, i) => P.nuvem.sessaoChecar(i, x.alunoId, turmaSess))); bloq = infos.filter((x, i) => !rs[i].ok); } catch (e) { console.warn("sessao", e); }
+          if (bloq.length) { try { await P.nuvem.sair(); } catch (e) {}
+            cf.innerHTML = `<div class="painel confirma-quem sessao-bloq" role="alert"><h2>🔐 Este código já está aberto em outro computador</h2>
+              <p>${bloq.map(x => `<b>${esc((x.nome || "").split(" ")[0])}</b>`).join(" e ")} já ${bloq.length > 1 ? "estão" : "está"} usando o portal agora em outro computador da sala.</p>
+              <p>Por segurança, cada código só pode ficar aberto <b>em um computador por vez</b>. Se foi você que trocou de computador, <b>chame o professor</b>: ele libera a sua entrada no painel.</p>
+              <div class="row-btns"><button class="btn btn-grande" type="button" id="sb-tentar">🔄 Tentar de novo</button><button class="btn btn-sec" type="button" id="sb-voltar">✖ Voltar</button></div></div>`;
+            cf.querySelector("#sb-tentar").onclick = () => { cf.innerHTML = ""; form.hidden = false; const bc2 = el.querySelector("#fcod button[type=submit], #fcod .btn-grande"); if (bc2) bc2.click(); else el.querySelector("#c1").focus(); };
+            cf.querySelector("#sb-voltar").onclick = () => { cf.innerHTML = ""; form.hidden = false; el.querySelector("#c1").focus(); };
+            return; } }
         sess.set({ serie: sid, turma: turmaSess, modo, nuvem: true, alunoIds: infos.map(x => x.alunoId), nomes: infos.map(x => x.nome), apelidos: infos.map((x, i) => apels[i] || ""), entrou: Date.now(),
           trilha: infos.length === 1 && !!infos[0].trilha });
         // 🚦 Sala de espera (20/11/2026): no dia e na hora da aula, quem entra vai para a sala de espera (jogos que dão pontos,

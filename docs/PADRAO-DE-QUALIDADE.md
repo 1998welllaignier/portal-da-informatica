@@ -392,3 +392,10 @@ Apostila no portal + ilustrada (PDF só para quem estuda em casa) · guia do pro
 > - **🤔 Detector de chute:** erro em menos de 4 segundos desde a última ação conta como chute; 3 seguidos pausam a tarefa por 8 s, com "Parece que você está chutando… Leia de novo 😉" e o botão "📖 Reler a explicação da missão".
 > - **🔀 Alternativas embaralhadas** depois de cada erro (escolha), para não dar para decorar a posição.
 > - **🎲 Chutômetro no painel ao vivo:** selo "🎲 N chutes" ao lado do nome e o aviso "🎲 Parecem estar chutando" em ⚠️ Precisam de atenção (4 ou mais).
+> - **📝 Nota do bimestre fora do contra-chute (confirmado pelo professor em 20/11/2026):** a meia-pontuação, o zero da 3ª tentativa e a 🔥 sequência valem **só para o XP** (placar, pódio, sala de espera). A nota do bimestre continua calculada como antes. Não misturar.
+
+> **🔐 Um computador por vez (20/11/2026, pedido do professor):** o mesmo código só fica aberto em **um computador** (evita o "espertinho" que entra com o código do colega em outro PC para errar por ele).
+> - Quem entra **primeiro** fica. Outro computador que tentar recebe "🔐 Este código já está aberto em outro computador — chame o professor" e **não entra**. O mesmo computador (mesmo navegador ou outra aba) sempre entra.
+> - O código se libera sozinho quando o aluno clica em **Sair** ou quando o computador dono fica **2,5 min sem sinal** (aba fechada, PC desligado). Sinal a cada 60 s, sempre pela hora do servidor.
+> - **Painel ao vivo:** "🔐 Tentaram entrar com um código que já estava aberto em outro computador" + botão **🔓 Liberar entrada** (vale 10 min). Ao entrar no novo computador, o antigo **sai na hora** ("🔐 Você saiu deste computador… se não foi você, chame o professor"), e um computador que "acorda" depois **não toma o código de volta**.
+> - Dados: `progresso/<aluno>_sessao` (uid, ping, pc, bloqueio, tentativas) e `config/liberar_<turma>.sessaoLivre`. Testado com banco simulado (9 casos).
