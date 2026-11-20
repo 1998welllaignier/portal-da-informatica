@@ -61,7 +61,10 @@
     coroa() { if (!pronto()) return; [72, 76, 79, 84].forEach((m, i) => nota(hz(m), i * 0.06, 0.18, 0.09, "square")); },
     // 🤫 placar congelou (últimos 5 min)
     congelou() { if (!pronto()) return; [69, 68, 67, 66].forEach((m, i) => nota(hz(m), i * 0.22, 0.2, 0.09, "square")); },
-    teste() { if (!pronto()) return; tcharam(0); estalos(0.4, 1.2); }
+    teste() { if (!pronto()) return; tcharam(0); estalos(0.4, 1.2); },
+    // 🎡 roleta: o "clec" de cada fatia que passa no ponteiro, e a festa quando para
+    clec() { if (!pronto()) return; ruido(0, 0.03, 0.35, 3200); nota(hz(96), 0, 0.025, 0.05, "square"); },
+    sorteado() { if (!pronto()) return; const d = tcharam(0); estalos(0.3, d); }
   };
   P.sons = S;
 })();

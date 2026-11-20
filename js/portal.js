@@ -537,11 +537,65 @@
     if (chip) { chip.hidden = !reiEu; chip.innerHTML = reiEu ? `👑 ${reiEu}<small>1º lugar</small>` : ""; }
   }
   function aviso(html, cls) { const b = h(`<div class="rei-aviso ${cls || ""}" role="status">${html}</div>`); document.body.appendChild(b); setTimeout(() => b.classList.add("sai"), 5200); setTimeout(() => b.remove(), 6000); }
+  /* 🏆 PLACAR NA TELA DO ALUNO (20/11/2026, pedido do professor): uma bolinha flutuante, que se explica sozinha
+     ("🏆 Placar da aula · você: 5º lugar · toque para ver"). Ao tocar, abre por cima o placar: o pódio (top 3) aparece sem rolar
+     e a lista completa vem rolando para baixo; a linha do aluno fica destacada. Tocar fora (ou ✕) fecha e ele volta à tarefa.
+     Os nomes são os OFICIAIS do cadastro (nome e inicial do sobrenome, como no projetor), nunca o apelido. */
+  let plBola = null, plPainel = null, plDados = null;
+  function placarBola(d) {
+    plDados = d; const s = sess.get();
+    if (!d || !s || /^#\/(painel|prova)/.test(location.hash)) { if (plBola) { plBola.remove(); plBola = null; } if (plPainel) fecharPlacarAluno(); return; }
+    if (!plBola || !plBola.isConnected) { plBola = h(`<button type="button" class="plb-bola" aria-haspopup="dialog"></button>`); plBola.onclick = e => { e.stopPropagation(); plPainel ? fecharPlacarAluno() : abrirPlacarAluno(); }; document.body.appendChild(plBola); }
+    const meu = (d.lista || []).find(x => (x.ids || []).some(id => (s.alunoIds || []).includes(id)));
+    plBola.innerHTML = `<span class="plb-ic" aria-hidden="true">🏆</span><span class="plb-tx"><b>Placar da aula</b><small>${d.congelado ? "🤫 congelado: veja no pódio" : meu && meu.pontos ? `você: <b>${meu.pos}º lugar</b> · ${meu.pontos} pts` : "toque para ver quem está na frente"}</small></span><span class="plb-ver">ver ▸</span>`;
+    plBola.title = "Toque para ver o placar ao vivo da aula: quem está em 1º, 2º, 3º e a sua posição";
+    if (plPainel) pintaPlacarAluno();
+  }
+  function fecharPlacarAluno() { if (plPainel) { plPainel.remove(); plPainel = null; } document.removeEventListener("pointerdown", foraPlacar, true); if (plBola) plBola.classList.remove("aberta"); }
+  function foraPlacar(e) { if (plPainel && !plPainel.contains(e.target) && !(plBola && plBola.contains(e.target))) fecharPlacarAluno(); }
+  function abrirPlacarAluno() { plPainel = h(`<div class="plb-painel" role="dialog" aria-label="Placar ao vivo da aula"></div>`); document.body.appendChild(plPainel); plBola.classList.add("aberta");
+    pintaPlacarAluno(); setTimeout(() => document.addEventListener("pointerdown", foraPlacar, true), 0); }
+  function pintaPlacarAluno() {
+    const d = plDados, s = sess.get(); if (!plPainel || !s) return;
+    const MED = ["🥇", "🥈", "🥉"], eu = x => (x.ids || []).some(id => (s.alunoIds || []).includes(id));
+    const nomeDe = x => esc((x.nomes || []).join(" & ") || "Aluno");
+    const lista = d && !d.congelado ? (d.lista || []).filter(x => x.nomes) : [];
+    const top = lista.filter(x => x.pontos && x.pos <= 3), meu = lista.find(eu);
+    plPainel.innerHTML = `<div class="plb-cab"><b>🏆 Placar ao vivo da aula</b><button type="button" class="plb-x" aria-label="Fechar o placar">✕</button></div>
+      ${d && d.congelado ? `<p class="plb-cong">🤫 <b>Placar congelado!</b> Faltam menos de 5 minutos: o resultado aparece no pódio.</p>`
+      : !lista.length ? `<p class="plb-cong">⏳ O placar aparece assim que a turma começar a pontuar.</p>`
+      : `${meu ? `<p class="plb-meu">${(s.alunoIds || []).length > 1 ? "Vocês estão" : "Você está"} em <b>${meu.pontos ? meu.pos + "º lugar" : "–"}</b> com <b>${meu.pontos} pts</b></p>` : ""}
+        <div class="plb-podio">${top.length ? top.map(x => `<div class="plb-p p${x.pos}${eu(x) ? " eu" : ""}"><span>${MED[x.pos - 1]}</span><b>${nomeDe(x)}</b><small>${x.pontos} pts</small></div>`).join("") : `<p class="plb-cong">Ninguém pontuou ainda. Seja o primeiro! 💪</p>`}</div>
+        <p class="plb-rola">⬇️ Role para ver a turma toda</p>
+        <ol class="plb-lista">${lista.map(x => `<li class="${eu(x) ? "eu" : ""}"><span class="plb-po">${x.pontos ? (x.pos <= 3 ? MED[x.pos - 1] : x.pos + "º") : "–"}</span><span class="plb-no">${nomeDe(x)}${eu(x) ? " <small>(você)</small>" : ""}</span><span class="plb-pt">${x.pontos} pts</span></li>`).join("")}</ol>`}
+      <p class="plb-pe">Pontos do pódio da aula (não são nota). Toque fora para voltar à tarefa.</p>`;
+    plPainel.querySelector(".plb-x").onclick = fecharPlacarAluno;
+  }
+  addEventListener("hashchange", () => { if (/^#\/(painel|prova)/.test(location.hash)) placarBola(null); else if (plDados) placarBola(plDados); });
+  /* 🎡 ROLETA DA LEITURA (20/11/2026): o professor sorteia no placar do projetor quem vai ler; o nome sorteado (o OFICIAL,
+     nunca o apelido) aparece também aqui, no meio da tela de todos os alunos. config/roleta_<turma> = { dia, em, girando, id, nome } */
+  let rolUnsub = null, rolTurma = null, rolVisto = 0, rolCx = null;
+  function ouvirRoleta(s) {
+    if (!s || !s.nuvem || !P.nuvem || !P.nuvem.app || rolTurma === s.turma) return;
+    if (rolUnsub) rolUnsub(); rolTurma = s.turma;
+    try { rolUnsub = P.nuvem.app(0).db.collection("config").doc("roleta_" + s.turma).onSnapshot(sn => {
+      const d = sn.exists ? sn.data() : null, ss = sess.get(); if (!d || !ss || d.dia !== P.nuvem.hoje() || !d.em || Date.now() - d.em > 90000) return;
+      if (/^#\/(painel|prova)/.test(location.hash)) return; // não atrapalha a prova
+      const chave = d.em + (d.girando ? "g" : "n"); if (rolVisto === chave) return; rolVisto = chave;
+      if (rolCx) rolCx.remove();
+      const souEu = !d.girando && (ss.alunoIds || []).includes(d.id);
+      rolCx = h(`<div class="rol-aluno${souEu ? " eu" : ""}" role="alert"><div>${d.girando ? `<p class="rol-ic">🎡</p><h2>A roleta da leitura está girando…</h2><p>Quem será que vai ler? Olhe para o projetor!</p>`
+        : `<p class="rol-ic">📖</p><p class="rol-sup">${souEu ? "É VOCÊ! Prepare-se para ler em voz alta:" : "Quem vai ler é:"}</p><h2>${esc(d.nome || "")}</h2><button type="button" class="btn btn-grande btn-ok">👍 Ok</button>`}</div></div>`);
+      document.body.appendChild(rolCx); const cx = rolCx, b = cx.querySelector("button"); if (b) b.onclick = () => cx.remove();
+      setTimeout(() => { if (cx.isConnected && (cx === rolCx)) cx.remove(); }, d.girando ? 15000 : 12000);
+    }, () => {}); } catch (e) {}
+  }
   function ouvirRei(s) {
     if (!s || !s.nuvem || !P.nuvem || !P.nuvem.app || reiTurma === s.turma) return;
     if (reiUnsub) reiUnsub(); reiTurma = s.turma; reiEu = null;
     try { reiUnsub = P.nuvem.app(0).db.collection("config").doc("rei_" + s.turma).onSnapshot(sn => {
       const d = sn.exists ? sn.data() : null, ss = sess.get(); if (!ss || ss.turma !== s.turma) return;
+      try { placarBola(d && d.dia === P.nuvem.hoje() ? d : null); } catch (e) {}
       const g = d && d.dia === P.nuvem.hoje() ? (d.grupos || []).find(x => (x.ids || []).some(id => (ss.alunoIds || []).includes(id))) : null;
       if (d && d.dia === P.nuvem.hoje()) { const meu = (d.lista || []).find(x => (x.ids || []).some(id => (ss.alunoIds || []).includes(id)));
         novaPos(d.congelado ? { congelado: true } : meu ? { pos: meu.pos, pontos: meu.pontos, total: d.total || (d.lista || []).length, dupla: (ss.alunoIds || []).length > 1 } : null); }
@@ -557,7 +611,23 @@
      aparece um aviso com o botão "Entrar em tela cheia" (o navegador exige esse clique). Saiu (Esc), bloqueia de novo.
      Quem estuda em casa (🏠) e o professor (painel) não são afetados. Conta quantas vezes o aluno saiu (progresso/<id>_tela). */
   let telaUnsub = null, telaTurma = null, telaOn = false, tcCasa = false, telaDlg = null, telaIv = null;
-  const emTelaCheia = () => !!document.fullscreenElement || (Math.abs(innerHeight - screen.height) < 6 && Math.abs(innerWidth - screen.width) < 6);
+  /* ⛶ TELA CHEIA À PROVA DE FALHAS (20/11/2026, problema relatado pelo professor: às vezes o botão "Entrar em tela cheia" não
+     respondia, o F11 não resolvia e a página continuava bloqueada; só o ⋮ › tela cheia do Chrome destravava).
+     1) "está em tela cheia?" agora também aceita a tela cheia do próprio Chrome (F11 ou ⋮ › ⛶), mesmo com o zoom diferente de 100%
+        (antes a conta comparava o tamanho da janela com o da tela, e com zoom 90%/110% dava "não está", e o portal travava);
+     2) o botão tenta 3 jeitos de pedir a tela cheia; se o Chrome recusar, mostra na hora o plano B (⋮ › ⛶ ou Fn + F11);
+     3) a janela de aviso não se re-desenha enquanto o aluno está clicando nela (antes, se outra janela abrisse por cima, ela
+        podia ser recolocada no meio do clique e o clique se perdia); 4) cada falha fica anotada (para descobrir a causa). */
+  const emTelaCheia = () => !!(document.fullscreenElement || document.webkitFullscreenElement)
+    || (window.matchMedia && matchMedia("(display-mode: fullscreen)").matches)
+    || (Math.abs(innerHeight - screen.height) < 6 && Math.abs(innerWidth - screen.width) < 6);
+  async function pedirTelaCheia() {
+    const d = document.documentElement, tentativas = [() => d.requestFullscreen({ navigationUI: "hide" }), () => d.requestFullscreen(), () => document.body.requestFullscreen(), () => d.webkitRequestFullscreen && d.webkitRequestFullscreen()];
+    let erro = null;
+    for (const t of tentativas) { try { const r = t(); if (r && r.then) await r; await new Promise(ok => setTimeout(ok, 120)); if (emTelaCheia()) return { ok: true }; } catch (e) { erro = e; } }
+    return { ok: emTelaCheia(), erro: erro ? (erro.name + ": " + erro.message).slice(0, 160) : "sem erro, mas não entrou" };
+  }
+  P.telaCheia = { esta: emTelaCheia, pedir: pedirTelaCheia };
   function checarTela() {
     const s = sess.get(), deve = !P.foraDoPortal && telaOn && !tcCasa && s && s.nuvem && !/^#\/painel/.test(location.hash) && !emTelaCheia() && !(P.sala && P.sala.ativa());   // 📡 a transmissão ao vivo tem o próprio bloqueio
     if (!deve) { if (telaDlg && telaDlg.open) telaDlg.close(); return; }
@@ -567,11 +637,21 @@
         <button type="button" class="btn btn-grande btn-ok" id="tc-ok">⛶ Entrar em tela cheia</button>
         <p class="ajuda">Se sair da tela cheia (tecla Esc), a apostila para de funcionar até você voltar.</p></dialog>`);
       telaDlg.addEventListener("cancel", e => e.preventDefault());
-      telaDlg.querySelector("#tc-ok").onclick = () => { const d = document.documentElement; (d.requestFullscreen ? d.requestFullscreen({ navigationUI: "hide" }) : Promise.reject()).catch(() => {}).finally(() => setTimeout(checarTela, 300)); };
+      telaDlg.querySelector("#tc-ok").insertAdjacentHTML("afterend", `<div class="tc-planob" hidden><p><b>😕 O navegador não deixou abrir pelo botão.</b> Faça assim:</p>
+        <ol><li>Clique nos <b>⋮ três pontinhos</b> do Chrome, no canto de cima, à direita.</li><li>Na linha do <b>Zoom</b> ( − 100% + ), clique no <b>quadradinho ⛶</b> do lado.</li></ol>
+        <p>Ou aperte a tecla <b>F11</b> (em alguns teclados: segure <b>Fn</b> e aperte <b>F11</b>). Se nada der certo, chame o professor.</p></div>`);
+      telaDlg.addEventListener("pointerdown", () => { telaDlg.dataset.mexendo = Date.now(); });
+      telaDlg.querySelector("#tc-ok").onclick = async () => {
+        const r = await pedirTelaCheia(); setTimeout(checarTela, 300);
+        if (!r.ok) { const pb = telaDlg.querySelector(".tc-planob"); if (pb) pb.hidden = false;
+          try { const s2 = sess.get(); (s2.alunoIds || []).forEach((id, i) => P.nuvem.app(i).db.collection("progresso").doc(id + "_tela").set({ alunoId: id, turma: s2.turma, tipo: "tela",
+            falhaBotao: { em: Date.now(), dia: P.nuvem.hoje(), erro: r.erro, zoom: Math.round(devicePixelRatio * 100), janela: innerWidth + "x" + innerHeight, tela: screen.width + "x" + screen.height, foco: document.hasFocus(), modo: matchMedia("(display-mode: fullscreen)").matches ? "cheia" : "janela" } }, { merge: true }).catch(() => {})); } catch (e) {} }
+      };
       document.body.appendChild(telaDlg);
     }
     // fica sempre por cima de qualquer outra janela do portal
     const abertos = [...document.querySelectorAll("dialog[open]")];
+    if (telaDlg.open && Date.now() - (+telaDlg.dataset.mexendo || 0) < 2500) return; // o aluno está clicando nela: não mexe agora
     if (!telaDlg.open || abertos[abertos.length - 1] !== telaDlg) { if (telaDlg.open) telaDlg.close(); document.body.appendChild(telaDlg); telaDlg.showModal(); }
   }
   let telaEstava = null;
@@ -612,6 +692,7 @@
         const m = { w: screen.width, h: screen.height, dpr: Math.round(devicePixelRatio * 100) / 100, iw: innerWidth, ih: innerHeight, dia: hj };
         P.nuvem.app(0).db.collection("progresso").doc(s.alunoIds[0] + "_tela").set({ alunoId: s.alunoIds[0], turma: s.turma, tipo: "tela", monitor: m }, { merge: true }).catch(() => {}); } } catch (e) {}
     try { ouvirRei(sess.get()); } catch (e) {}
+    try { ouvirRoleta(sess.get()); } catch (e) {}
     clearInterval(relogioIv);
     const tick = () => {
       const el = document.getElementById("tb-relogio"); if (!el) return clearInterval(relogioIv);

@@ -357,15 +357,17 @@
     btn.innerHTML = ok ? btn.dataset.rot : `🏁 Finalizar aula <small>(só depois de ▶️ Iniciar)</small>`;
     btn.title = ok ? "Finaliza a aula agora: fecha as tarefas e mostra o pódio" : "A aula desta turma ainda não foi iniciada hoje: não há o que finalizar.";
   }
-  async function publicarRei(t, rk, congelado) {
+  async function publicarRei(t, rk, congelado, outras) {
     if (!await aulaIniciadaHoje(t.id)) return;
     let dados, chave;
     if (congelado) { chave = N.hoje() + "|congelado"; dados = { dia: N.hoje(), congelado: true, em: Date.now() }; }
-    else { const rs = marcarRei(rk), grupos = rs.map(e => ({ ids: e.ids, titulo: P.podio.tituloRei(e.avatares) })), lista = rk.map(e => ({ ids: e.ids, pos: e.pos, pontos: e.pontos }));
+    else { const rs = marcarRei(rk), grupos = rs.map(e => ({ ids: e.ids, titulo: P.podio.tituloRei(e.avatares) })), lista = rk.map(e => ({ ids: e.ids, pos: e.pos, pontos: e.pontos, nomes: e.nomes }));   // 🏆 20/11/2026: nomes OFICIAIS (como no projetor) para o placar na tela do aluno
       chave = N.hoje() + "|" + JSON.stringify(lista);
       dados = { dia: N.hoje(), congelado: false, ids: [].concat(...grupos.map(g => g.ids)), grupos, lista, total: rk.length, em: Date.now() }; }
     if (reiGravado[t.id] === chave) return; reiGravado[t.id] = chave;
-    try { await db().collection("config").doc("rei_" + t.id).set(dados, { merge: true }); } catch (e) { reiGravado[t.id] = null; console.warn("rei", e); }
+    // 🏫 também na turma de quem veio de outra turma para esta aula: assim eles veem a posição e o placar
+    const alvo = [...new Set([t.id, ...(outras || [])])];
+    try { await Promise.all(alvo.map(id => db().collection("config").doc("rei_" + id).set(dados, { merge: true }))); } catch (e) { reiGravado[t.id] = null; console.warn("rei", e); }
   }
   async function finalizarAula(t, alunos, prog, mid) {
     _ini[t.id] = null;
@@ -402,6 +404,66 @@
       return { mid: hd.mid, C, fixo: true }; } } catch (e) {}
     return { mid: (await missaoSugerida(t, C)) || C.missoes[0].id, C };
   }
+  /* 🎡 ROLETA DA LEITURA (20/11/2026, pedido do professor): dentro do placar ao vivo (o placar fica por trás).
+     Sorteia só quem está ONLINE agora (código de 4 dígitos, sessão viva há menos de 3 min), inclusive quem veio de outra turma.
+     Ninguém repete até TODOS os online terem sido sorteados; aí recomeça (config/roleta_<turma>.ja). O nome que aparece é o
+     OFICIAL do cadastro, nunca o apelido; ele aparece grande no projetor e no meio da tela de todos os alunos. Som: clec-clec. */
+  async function roleta(t, alunos, getProg, turmas, So) {
+    if (document.querySelector(".rl-cobre")) return;
+    const msT = v => v == null ? 0 : typeof v === "number" ? v : v.toMillis ? v.toMillis() : (v.seconds || 0) * 1000;
+    const ref = db().collection("config").doc("roleta_" + t.id);
+    let ja = []; try { const sn = await ref.get(); const d = sn.exists ? sn.data() : {}; if (d.dia === N.hoje()) ja = d.ja || []; } catch (e) {}
+    const cx = h(`<div class="rl-cobre" role="dialog" aria-label="Roleta da leitura"><div class="rl-caixa"><button type="button" class="rl-x" aria-label="Voltar ao placar">✕ Voltar ao placar</button>
+      <h2>🎡 Roleta da leitura</h2><p class="rl-sub">Quem vai ler o texto? A roleta decide!</p><div class="rl-area"></div><div class="rl-bts"></div><p class="rl-info"></p></div></div>`);
+    document.body.appendChild(cx);
+    const fechar = () => { cx.remove(); }; cx.querySelector(".rl-x").onclick = fechar;
+    const area = cx.querySelector(".rl-area"), bts = cx.querySelector(".rl-bts"), info = cx.querySelector(".rl-info");
+    const online = () => { const prog = getProg(), agora = Date.now();
+      return alunos.filter(a => { const d = prog.find(p => p.tipo === "sessao" && p.alunoId === a.id); const pg = d && msT(d.ping); return pg && agora - pg < 180000; }); };
+    const CORES = ["#ef4444", "#f59e0b", "#22c55e", "#3b82f6", "#a855f7", "#ec4899", "#14b8a6", "#f97316", "#84cc16", "#6366f1"];
+    const curto = n => P.podio.nomeCurto(n);
+    function desenha(lista, ang) {
+      const N2 = lista.length, R = 200, cxy = 210, fat = 360 / N2;
+      const arco = i => { const a0 = (i * fat - 90) * Math.PI / 180, a1 = ((i + 1) * fat - 90) * Math.PI / 180;
+        return N2 === 1 ? `<circle cx="${cxy}" cy="${cxy}" r="${R}" fill="${CORES[0]}"/>` : `<path d="M${cxy},${cxy} L${cxy + R * Math.cos(a0)},${cxy + R * Math.sin(a0)} A${R},${R} 0 ${fat > 180 ? 1 : 0} 1 ${cxy + R * Math.cos(a1)},${cxy + R * Math.sin(a1)} Z" fill="${CORES[i % CORES.length]}" stroke="#fff" stroke-width="3"/>`; };
+      const txt = (a, i) => { const m = i * fat + fat / 2, esq = m > 180;   // na metade esquerda, o nome gira 180° para não ficar de cabeça para baixo
+        return `<text transform="rotate(${esq ? m + 90 : m - 90} ${cxy} ${cxy}) translate(${esq ? cxy - R * 0.58 : cxy + R * 0.58} ${cxy})" text-anchor="middle" dominant-baseline="middle" font-size="${N2 > 14 ? 13 : N2 > 8 ? 16 : 20}" font-weight="800" fill="#fff" stroke="rgba(0,0,0,.35)" stroke-width=".6">${esc(curto(a.nome))}</text>`; };
+      area.innerHTML = `<div class="rl-roda"><svg viewBox="0 0 420 420" class="rl-svg" style="transform:rotate(${ang}deg)">${lista.map((a, i) => arco(i)).join("")}${lista.map(txt).join("")}<circle cx="210" cy="210" r="26" fill="#0f172a" stroke="#fff" stroke-width="5"/></svg><div class="rl-ponteiro" aria-hidden="true">▼</div></div>`;
+    }
+    function inicio() {
+      const on = online(); let pool = on.filter(a => !ja.includes(a.id)), recomecou = false;
+      if (on.length && !pool.length) { ja = ja.filter(id => !on.some(a => a.id === id)); pool = on.slice(); recomecou = true; }
+      if (!on.length) { area.innerHTML = `<p class="rl-vazio">😴 Ninguém online agora.<br><small>Só entra na roleta quem está com o portal aberto (entrou com o código).</small></p>`; bts.innerHTML = ""; info.textContent = ""; return; }
+      desenha(pool, 0);
+      bts.innerHTML = `<button type="button" class="btn btn-grande btn-ok rl-girar">🎡 Girar a roleta!</button>`;
+      const lidos = on.filter(a => ja.includes(a.id));
+      info.innerHTML = `${recomecou ? "🔁 Todos os online já leram: a roleta recomeçou com todo mundo. " : ""}Na roleta: <b>${pool.length}</b> de ${on.length} online${lidos.length ? ` · já leram hoje: ${lidos.map(a => esc(curto(a.nome))).join(", ")}` : ""}`;
+      bts.querySelector(".rl-girar").onclick = () => girar(pool);
+    }
+    const publicar = dados => Promise.all([...new Set([t.id, ...(turmas || [])])].map(id => db().collection("config").doc("roleta_" + id).set(Object.assign({ dia: N.hoje(), em: Date.now() }, dados), { merge: true }))).catch(e => console.warn("roleta", e));
+    function girar(pool) {
+      bts.innerHTML = ""; const n = pool.length, fat = 360 / n, k = Math.floor(Math.random() * n);
+      // o ponteiro fica em cima (0°): a fatia k para embaixo dele
+      const final = 360 * (5 + Math.floor(Math.random() * 2)) + (360 - (k * fat + fat / 2)) + (Math.random() - .5) * fat * 0.6;
+      publicar({ girando: true, id: null, nome: null });
+      const svg = area.querySelector(".rl-svg"), T0 = performance.now(), DUR = 6500; let ultFat = -1;
+      const ease = x => 1 - Math.pow(1 - x, 3.2);
+      const passo = agora => { if (!cx.isConnected) return; const x = Math.min(1, (agora - T0) / DUR), a = final * ease(x); svg.style.transform = `rotate(${a}deg)`;
+        const f = Math.floor(((360 - (a % 360)) % 360) / fat); if (f !== ultFat) { ultFat = f; So && So.clec(); }
+        if (x < 1) requestAnimationFrame(passo); else parou(pool[k]); };
+      requestAnimationFrame(passo);
+    }
+    function parou(a) {
+      if (!ja.includes(a.id)) ja.push(a.id);
+      ref.set({ dia: N.hoje(), ja }, { merge: true }).catch(() => {});
+      publicar({ girando: false, id: a.id, nome: a.nome });
+      So && So.sorteado();
+      const big = h(`<div class="rl-nome"><p class="rl-sup">📖 Quem vai ler é…</p><h1>${esc(a.nome)}</h1><div class="rl-bts2"><button type="button" class="btn btn-grande btn-ok rl-de-novo">🎡 Sortear outro</button><button type="button" class="btn btn-grande btn-sec rl-volta">✕ Voltar ao placar</button></div></div>`);
+      area.appendChild(big); P.podio.confete && P.podio.confete(big);
+      big.querySelector(".rl-volta").onclick = fechar; big.querySelector(".rl-de-novo").onclick = inicio;
+    }
+    inicio();
+  }
   /* 🏆 Placar ao vivo (para o projetor): ranking que muda na hora; congela nos últimos 5 min; vira pódio ao finalizar */
   async function telaPlacar(u, tid) {
     const turmas = todasTurmas(), t = turmas.find(x => x.id === tid) || turmas.find(x => x.id === escolherTurma(null, turmas));
@@ -419,7 +481,7 @@
       <div class="pl-marca-data"><span class="pl-data">📅 ${dataHoje()}</span><span class="pl-hora" id="pl-hora">🕒 ${horaAgora()}</span></div></div>`;
     const el = tela(`<div class="pl-tela">${marca}<header class="pl-cab"><div><p class="pl-sup">🏆 Placar ao vivo · ${esc(nomeTurma(t.id))}</p><h1 id="pl-h1">${esc(missao.icone || "")} ${esc(missao.titulo || SIG(mid))}</h1>
         <p class="pl-aviso">Pontos do pódio (não são nota) · ${esc(cat().professor)}</p></div>
-        <div class="pl-dir"><div class="pl-relogio" id="pl-rel"></div><div class="pl-bts"><button type="button" class="btn btn-peq btn-sec pl-som" id="pl-som"></button><button type="button" class="btn btn-peq btn-sec" id="pl-tela">⛶ Tela cheia</button><button type="button" class="btn btn-peq" id="pl-fim">🏁 Finalizar aula</button><button type="button" class="btn btn-peq btn-sec" id="pl-volta" hidden>↩ Voltar ao placar</button></div></div></header>
+        <div class="pl-dir"><div class="pl-relogio" id="pl-rel"></div><div class="pl-bts"><button type="button" class="btn btn-peq btn-sec pl-som" id="pl-som"></button><button type="button" class="btn btn-peq pl-rol-bt" id="pl-roleta" title="Sorteia quem vai ler, entre os alunos online agora">🎡 Roleta da leitura</button><button type="button" class="btn btn-peq btn-sec" id="pl-tela">⛶ Tela cheia</button><button type="button" class="btn btn-peq" id="pl-fim">🏁 Finalizar aula</button><button type="button" class="btn btn-peq btn-sec" id="pl-volta" hidden>↩ Voltar ao placar</button></div></div></header>
       <div class="pl-corpo" id="pl-corpo"></div></div>`);
     let prog = [], pod = null, vendoPodio = false, finalizando = false, reiAntes = null, jaCongelou = false;
     const corpo = el.querySelector("#pl-corpo");
@@ -436,12 +498,12 @@
     const pintarPlacar = () => {
       if (vendoPodio) return;
       const rel = relogio(), congelado = !rel.fora && !rel.antes && !rel.depois && rel.r <= 300;
-      if (congelado) { publicarRei(t, [], true); if (!jaCongelou) { jaCongelou = true; So && So.congelou(); } corpo.innerHTML = `<div class="pl-cong"><p>🤫</p><h2>Placar congelado!</h2><p>Faltam menos de 5 minutos. O resultado só aparece no pódio… Corram!</p></div>`; return; }
+      if (congelado) { publicarRei(t, [], true, PART.turmasProg); if (!jaCongelou) { jaCongelou = true; So && So.congelou(); } corpo.innerHTML = `<div class="pl-cong"><p>🤫</p><h2>Placar congelado!</h2><p>Faltam menos de 5 minutos. O resultado só aparece no pódio… Corram!</p></div>`; return; }
       // a missão do placar é a que a turma está fazendo de verdade hoje (se a turma ainda está na M1, conta a M1), a não ser que o professor tenha fixado a missão do dia
       const m2 = hj.fixo ? mid : missaoDaTurmaHoje(prog, mid);
       if (m2 !== mid) { mid = m2; const mi = C.missoes.find(x => x.id === mid) || {}; el.querySelector("#pl-h1").textContent = `${mi.icone || ""} ${mi.titulo || SIG(mid)}`; }
       const rk = P.podio.ranking(alunos, prog, mid, N.hoje());
-      publicarRei(t, rk);
+      publicarRei(t, rk, false, PART.turmasProg);
       const reiAgora = rk.filter(e => e.rei).map(e => e.ids.join("+")).join(",");
       if (reiAgora && reiAntes !== null && reiAgora !== reiAntes) So && So.coroa(); reiAntes = reiAgora;
       if (!rk.length) { corpo.innerHTML = `<div class="pl-cong"><p>⏳</p><h2>Esperando a turma entrar…</h2><p>O placar começa assim que os alunos entrarem com o código.</p></div>`; return; }
@@ -456,6 +518,7 @@
     const mostrarPodio = () => { if (!pod) return; vendoPodio = true; el.querySelector("#pl-volta").hidden = false;
       corpo.innerHTML = `<div class="pd-tela"><h2 class="pd-tit">🏆 Pódio da aula!</h2><p class="pd-credito">💻 Aula de Informática com o <b>${esc(cat().professor)}</b> · ${esc(nomeTurma(t.id))} · ${dataHoje()}</p>${P.podio.podioHTML(pod.ranking || [])}</div>`; P.podio.confete(corpo.querySelector(".pd-tela")); So && So.podio(); };
     el.querySelector("#pl-volta").onclick = () => { vendoPodio = false; el.querySelector("#pl-volta").hidden = true; corpo.innerHTML = ""; pintarPlacar(); };
+    el.querySelector("#pl-roleta").onclick = () => roleta(t, alunos, () => prog, PART.turmasProg, So);
     el.querySelector("#pl-tela").onclick = () => { const d = document.documentElement; (document.fullscreenElement ? document.exitFullscreen() : d.requestFullscreen()).catch(() => {}); };
     const finalizar = async auto => { if (finalizando) return; finalizando = true;
       try { await finalizarAula(t, alunos, prog, mid); if (!auto) { toast("🏁 Aula finalizada!"); finalizarJuntas(t).catch(() => {}); } } catch (err) { toast("Não foi possível finalizar: " + (err.message || err)); } finalizando = false; };

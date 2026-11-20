@@ -190,7 +190,7 @@
         if (!cobre.hidden && !cobre.classList.contains("pv-telacheia")) return;
         travado = true; cobre.hidden = false; cobre.className = "pv-cobre pv-telacheia";
         cobre.innerHTML = `<div class="pv-cobre-cx"><p class="pv-sirene">🖥️</p><h2>A prova só funciona em tela cheia</h2><p>Toque no botão para voltar. Sair da tela cheia fica registrado para o professor.</p><button type="button" class="btn btn-grande btn-ok">⛶ Voltar para a tela cheia</button></div>`;
-        cobre.querySelector("button").onclick = () => { const d = document.documentElement; (d.requestFullscreen ? d.requestFullscreen({ navigationUI: "hide" }) : Promise.reject()).catch(() => {}); }; }
+        cobre.querySelector("button").onclick = async () => { const r = P.telaCheia ? await P.telaCheia.pedir() : { ok: false }; if (!r.ok) { const cx = cobre.querySelector(".pv-cobre-cx"); if (cx && !cx.querySelector(".tc-planob")) cx.insertAdjacentHTML("beforeend", `<div class="tc-planob"><p><b>😕 Não abriu pelo botão.</b> Clique nos <b>⋮ três pontinhos</b> do Chrome (canto de cima) e, na linha do <b>Zoom</b>, no <b>quadradinho ⛶</b>. Ou aperte <b>F11</b> (em alguns teclados: <b>Fn + F11</b>).</p></div>`); } }; }
     };
   }
 
@@ -268,7 +268,7 @@
       const c = sn.exists ? sn.data() : {}; extraMin = +((c.extra || {})[e.alunoId] || 0);
       const p2 = !!((c.pausa || {})[e.alunoId]); if (p2 !== pausado) { pausado = p2; UI.pausar(pausado); vivo({ pausado }); } tic(); }, () => {}); } catch (x) {}
     // 🖥️ tela cheia vigiada (20/11/2026): sair da tela cheia cobre a prova e conta no painel do professor
-    const cheia = () => !!document.fullscreenElement || (Math.abs(innerHeight - screen.height) < 6 && Math.abs(innerWidth - screen.width) < 6);
+    const cheia = () => P.telaCheia ? P.telaCheia.esta() : (!!document.fullscreenElement || (Math.abs(innerHeight - screen.height) < 6 && Math.abs(innerWidth - screen.width) < 6));
     let estavaCheia = cheia();
     const vigiaTela = () => { const c = cheia(); if (estavaCheia && !c && !enviando) { vivo({ saidas: (vivoEstado.saidas || 0) + 1 }); } estavaCheia = c; UI.telaCheia(c); };
     document.addEventListener("fullscreenchange", vigiaTela); addEventListener("resize", vigiaTela); UI.telaCheia(cheia());

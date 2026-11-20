@@ -2416,3 +2416,43 @@ body.simc-travado { overflow: hidden; }
 .atv-ler-meio{position:absolute;left:0;right:0;z-index:20;display:flex;align-items:flex-start;justify-content:center;pointer-events:none;padding-top:clamp(20px,12%,140px)}
 .atv-ler-meio>div{position:sticky;top:120px;display:flex;flex-direction:column;align-items:center;gap:4px;background:#fff;border:3px solid #2563eb;border-radius:18px;padding:16px 26px;box-shadow:0 10px 30px rgba(15,23,42,.25);text-align:center;color:#1e3a8a}
 .atv-ler-meio span{font-size:2.4rem;line-height:1}.atv-ler-meio b{font-size:1.25rem}.atv-ler-meio small{font-size:1rem;color:#334155}.atv-ler-meio i{font-style:normal;font-weight:900;color:#dc2626;font-size:1.3rem}
+/* 🎡 Roleta da leitura (dentro do placar ao vivo, 20/11/2026) */
+.pl-rol-bt{background:#a855f7;color:#fff;border-color:#a855f7}
+.rl-cobre{position:fixed;inset:0;z-index:9500;background:rgba(15,23,42,.72);display:flex;align-items:center;justify-content:center;padding:16px}
+.rl-caixa{position:relative;background:#fff;border-radius:26px;padding:20px 28px 18px;width:min(760px,96vw);max-height:96vh;overflow:auto;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.45)}
+.rl-caixa h2{margin:0;font-size:2rem}.rl-sub{margin:2px 0 8px;color:#475569;font-size:1.1rem}
+.rl-x{position:absolute;right:14px;top:14px;border:0;background:#e2e8f0;border-radius:10px;padding:8px 12px;font-weight:800;cursor:pointer}
+.rl-area{position:relative;min-height:300px}
+.rl-roda{position:relative;width:min(440px,70vh);margin:0 auto}.rl-svg{width:100%;height:auto;display:block;filter:drop-shadow(0 8px 14px rgba(0,0,0,.25))}
+.rl-ponteiro{position:absolute;left:50%;top:-10px;transform:translateX(-50%);font-size:46px;line-height:1;color:#0f172a;text-shadow:0 2px 0 #fff,0 -2px 0 #fff,2px 0 0 #fff,-2px 0 0 #fff}
+.rl-bts{margin-top:12px}.rl-info{margin:10px 0 0;color:#334155}
+.rl-vazio{font-size:1.4rem;padding:50px 0}
+.rl-nome{position:absolute;inset:0;background:rgba(255,255,255,.94);border-radius:18px;display:flex;flex-direction:column;align-items:center;justify-content:center;animation:rlEntra .5s ease-out}
+.rl-nome h1{font-size:clamp(2.4rem,6vw,4.6rem);margin:6px 0 18px;color:#7c3aed;line-height:1.1}.rl-nome .rl-sup{font-size:1.5rem;margin:0;font-weight:800}
+.rl-bts2{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+@keyframes rlEntra{from{transform:scale(.6);opacity:0}}
+/* 🎡 o nome sorteado na tela de cada aluno */
+.rol-aluno{position:fixed;inset:0;z-index:10070;background:rgba(15,23,42,.6);display:flex;align-items:center;justify-content:center;padding:16px}
+.rol-aluno>div{background:#fff;border:5px solid #a855f7;border-radius:24px;padding:22px 34px;text-align:center;max-width:620px;animation:rlEntra .45s ease-out}
+.rol-aluno .rol-ic{font-size:3.4rem;margin:0}.rol-aluno h2{font-size:clamp(1.8rem,5vw,3rem);color:#7c3aed;margin:4px 0 14px}.rol-aluno .rol-sup{font-size:1.25rem;font-weight:800;margin:0}
+.rol-aluno.eu>div{border-color:#16a34a;background:#f0fdf4}.rol-aluno.eu h2{color:#15803d}
+/* 🏆 bolinha do placar na tela do aluno (20/11/2026) */
+.plb-bola{position:fixed;right:16px;bottom:16px;z-index:9000;display:flex;align-items:center;gap:10px;background:linear-gradient(135deg,#7c2d12,#b45309);color:#fff;border:3px solid #fde68a;border-radius:999px;padding:8px 16px 8px 10px;cursor:pointer;box-shadow:0 8px 22px rgba(0,0,0,.3);font:inherit;text-align:left}
+.plb-bola:hover{transform:translateY(-2px)}.plb-ic{font-size:1.9rem;line-height:1}.plb-tx{display:flex;flex-direction:column;line-height:1.2}.plb-tx>b{font-size:1rem}.plb-tx small{font-size:.85rem;color:#fde68a}.plb-tx small b{color:#fff}
+.plb-ver{background:#fde68a;color:#7c2d12;font-weight:900;border-radius:999px;padding:3px 10px;font-size:.85rem}
+.plb-bola.aberta .plb-ver{background:#fff}
+.plb-painel{position:fixed;right:16px;bottom:84px;z-index:9001;width:min(380px,calc(100vw - 32px));max-height:min(70vh,560px);display:flex;flex-direction:column;background:#fff;border:3px solid #b45309;border-radius:20px;box-shadow:0 18px 50px rgba(0,0,0,.35);overflow:hidden;animation:rlEntra .25s ease-out}
+.plb-cab{display:flex;justify-content:space-between;align-items:center;background:#7c2d12;color:#fff;padding:10px 14px;font-size:1.1rem}.plb-x{border:0;background:rgba(255,255,255,.2);color:#fff;border-radius:8px;padding:4px 10px;cursor:pointer;font-weight:800}
+.plb-meu{margin:10px 14px 0;background:#fef3c7;border-radius:12px;padding:8px 12px;font-size:1.05rem}
+.plb-podio{display:flex;flex-direction:column;gap:6px;padding:10px 14px}.plb-p{display:flex;align-items:center;gap:10px;border-radius:12px;padding:8px 12px;background:#f8fafc;border:2px solid #e2e8f0}
+.plb-p span{font-size:1.6rem}.plb-p b{flex:1}.plb-p small{font-weight:800}.plb-p.p1{background:#fef9c3;border-color:#facc15}.plb-p.p2{background:#f1f5f9;border-color:#94a3b8}.plb-p.p3{background:#ffedd5;border-color:#fb923c}.plb-p.eu{outline:3px solid #22c55e}
+.plb-rola{margin:0;text-align:center;font-size:.85rem;color:#64748b;font-weight:700}
+.plb-lista{list-style:none;margin:6px 0 0;padding:0 14px 6px;overflow:auto;flex:1;min-height:60px}
+.plb-lista li{display:flex;gap:8px;align-items:center;padding:6px 4px;border-bottom:1px solid #f1f5f9}.plb-lista .plb-po{width:2.4em;text-align:center;font-weight:800}.plb-lista .plb-no{flex:1}.plb-lista .plb-pt{font-weight:800;color:#334155}
+.plb-lista li.eu{background:#dcfce7;border-radius:8px}
+.plb-cong{padding:14px;margin:0;text-align:center}.plb-pe{margin:0;padding:6px 14px 10px;font-size:.8rem;color:#64748b;border-top:1px solid #f1f5f9}
+@media print{.plb-bola,.plb-painel{display:none!important}}
+body.sp-travado .plb-bola,body.simc-travado .plb-bola,body.sp-travado .plb-painel,body.simc-travado .plb-painel{display:none}
+/* ⛶ plano B quando o navegador não deixa abrir a tela cheia pelo botão (20/11/2026) */
+.tc-planob{margin-top:12px;text-align:left;background:#fff7ed;border:2px solid #f97316;border-radius:14px;padding:10px 14px;font-size:1.02rem}
+.tc-planob ol{margin:6px 0;padding-left:1.3em}.tc-planob p{margin:4px 0}

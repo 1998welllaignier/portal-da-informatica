@@ -67,7 +67,7 @@
       const base = { alunoId: id, turma: s.turma, tipo: "sala", sala: d.turmaAula, dia: hoje(), sessao: d.sessao, modo: d.modo, em: Date.now() };
       refAluno(i).set(Object.assign(base, extra || {}), { merge: true }).catch(() => {}); });
   }
-  const emTelaCheia = () => !!document.fullscreenElement || (Math.abs(innerHeight - screen.height) < 6 && Math.abs(innerWidth - screen.width) < 6);
+  const emTelaCheia = () => P.telaCheia ? P.telaCheia.esta() : (!!document.fullscreenElement || (Math.abs(innerHeight - screen.height) < 6 && Math.abs(innerWidth - screen.width) < 6));
 
   function montar(d) {
     if (!A.dlg) {
