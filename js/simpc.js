@@ -539,7 +539,7 @@ body.sp-travado{overflow:hidden}
       ctx.esconderVerificar && ctx.esconderVerificar();
       ctx.resolver = () => { falar("Siga os passos do Bit: ele mostra o que fazer e onde clicar (💡 Mostre onde).", ""); };
       // 👆 parado (20/11/2026): 12 s → mãozinha onde clicar; 25 s → balão apontando o pedido do Bit
-      if (P.vigiaParado) P.vigiaParado(c, { ativo: () => !st.status && !!pAtual() && (c.__spFoco || !c.querySelector(".sp-iniciar")),
+      if (P.vigiaParado && !ctx.demo) P.vigiaParado(c, { ativo: () => !st.status && !!pAtual() && (c.__spFoco || !c.querySelector(".sp-iniciar")),
         alvo: () => { const p = pAtual(); return (p && p.onde && tela.querySelector(`[data-k="${CSS.escape(p.onde)}"]`)) || fEl; },
         instrucao: () => fEl });
     }
