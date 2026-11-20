@@ -4,8 +4,8 @@
    fica muito tempo sem som. Esta música ambiente, bem baixinha, mantém a
    caixinha "acordada" sem atrapalhar a aula.
 
-   • Música ORIGINAL, criada na hora pelo navegador (Web Audio): acordes
-     calmos, um baixo suave e sininhos que mudam sozinhos, para não cansar.
+   • Música ORIGINAL e ANIMADA, criada na hora pelo navegador (Web Audio):
+     acordes alegres, baixo saltitante, chocalho e melodia que muda sozinha.
      Nenhum arquivo de áudio, nenhum direito autoral de terceiros.
    • Só toca no PAINEL DO PROFESSOR (inclui o placar ao vivo): em nenhum outro lugar.
    • Botão 🎵 no canto de baixo: liga/desliga e volume, com a marca
@@ -25,42 +25,61 @@
   const hz = m => 440 * Math.pow(2, (m - 69) / 12);
   const ehProf = () => /^#\/painel/.test(location.hash);   // só no PAINEL DO PROFESSOR (pedido do professor): em nenhum outro lugar
 
-  // 4 acordes que se repetem (Fá, Sol, Mi menor, Lá menor), com variação nos sininhos
-  const ACORDES = [{ b: 41, n: [57, 60, 64, 69] }, { b: 43, n: [59, 62, 67, 71] }, { b: 40, n: [55, 59, 64, 67] }, { b: 45, n: [57, 60, 64, 67] }];
-  const PENTA = [72, 74, 76, 79, 81, 84];
-  const DUR = 4.2;                                  // segundos por acorde
-
+  /* 🎶 versão ANIMADA (20/11/2026, o professor achou a 1ª muito triste): Dó maior, 112 batidas por minuto,
+     acordes alegres (Dó – Sol – Lá menor – Fá), baixo saltitante, palminhas de chocalho, um "bumbo" leve e
+     uma melodia que muda sozinha a cada compasso. Tudo baixinho no volume "ambiente". */
+  const BPM = 112, BAT = 60 / BPM, COLC = 0.5 * BAT;          // batida e colcheia (em segundos)
+  const ACORDES = [{ b: 36, n: [60, 64, 67] }, { b: 43, n: [59, 62, 67] }, { b: 45, n: [57, 60, 64] }, { b: 41, n: [57, 60, 65] }];
+  const MELO = [72, 74, 76, 79, 81, 84];                       // pentatônica de Dó: sempre soa alegre
+  let colc = 0, motivo = [];
   function montar() {
     if (ctx) return true;
     const c = P.sons && P.sons.ctx ? P.sons.ctx() : null; if (!c) return false; ctx = c;
     mestre = ctx.createGain(); mestre.gain.value = 0;
     abafo = ctx.createGain(); abafo.gain.value = 1;
-    filtro = ctx.createBiquadFilter(); filtro.type = "lowpass"; filtro.frequency.value = 1500;
-    eco = ctx.createDelay(1.5); eco.delayTime.value = 0.42; const fb = ctx.createGain(); fb.gain.value = 0.32; const ecoV = ctx.createGain(); ecoV.gain.value = 0.35;
+    filtro = ctx.createBiquadFilter(); filtro.type = "lowpass"; filtro.frequency.value = 4200;
+    eco = ctx.createDelay(1.5); eco.delayTime.value = BAT * 0.75; const fb = ctx.createGain(); fb.gain.value = 0.22; const ecoV = ctx.createGain(); ecoV.gain.value = 0.25;
     eco.connect(fb).connect(eco); eco.connect(ecoV).connect(filtro);
     filtro.connect(mestre).connect(abafo).connect(ctx.destination);
     return true;
   }
   const ganho = () => Math.pow(Math.max(0, Math.min(100, vol)) / 100, 2) * 0.9;
-  function pad(m, t, d, v) {           // nota longa e macia (dois osciladores levemente desafinados)
-    [0, 5].forEach((cents, i) => { const o = ctx.createOscillator(), g = ctx.createGain();
-      o.type = i ? "sine" : "triangle"; o.frequency.value = hz(m); o.detune.value = cents;
-      g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(v, t + 1.3); g.gain.setValueAtTime(v, t + d - 0.2); g.gain.exponentialRampToValueAtTime(0.0001, t + d + 1.6);
-      o.connect(g).connect(filtro); o.start(t); o.stop(t + d + 1.7); });
+  function toque(m, t, d, v, tipo, comEco) {     // nota curta e "beliscada"
+    const o = ctx.createOscillator(), g = ctx.createGain(); o.type = tipo || "triangle"; o.frequency.value = hz(m);
+    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(v, t + 0.012); g.gain.exponentialRampToValueAtTime(0.0001, t + d);
+    o.connect(g); g.connect(filtro); if (comEco) g.connect(eco); o.start(t); o.stop(t + d + 0.05);
   }
-  function sino(m, t, v) {             // sininho suave com eco
-    const o = ctx.createOscillator(), g = ctx.createGain(); o.type = "sine"; o.frequency.value = hz(m);
-    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(v, t + 0.02); g.gain.exponentialRampToValueAtTime(0.0001, t + 2.6);
-    o.connect(g); g.connect(filtro); g.connect(eco); o.start(t); o.stop(t + 2.7);
+  function chocalho(t, v) {
+    const n = Math.floor(ctx.sampleRate * 0.05), bf = ctx.createBuffer(1, n, ctx.sampleRate), d = bf.getChannelData(0);
+    for (let i = 0; i < n; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / n, 2);
+    const s = ctx.createBufferSource(), f = ctx.createBiquadFilter(), g = ctx.createGain(); s.buffer = bf; f.type = "highpass"; f.frequency.value = 6000; g.gain.value = v;
+    s.connect(f).connect(g).connect(filtro); s.start(t);
+  }
+  function bumbo(t, v) {
+    const o = ctx.createOscillator(), g = ctx.createGain(); o.type = "sine";
+    o.frequency.setValueAtTime(140, t); o.frequency.exponentialRampToValueAtTime(48, t + 0.12);
+    g.gain.setValueAtTime(v, t); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.18); o.connect(g).connect(filtro); o.start(t); o.stop(t + 0.2);
+  }
+  function novoMotivo() {   // 8 colcheias de melodia: umas notas, umas pausas, subindo e descendo pela escala alegre
+    let i = Math.floor(Math.random() * 3); motivo = [];
+    for (let k = 0; k < 8; k++) { if (Math.random() < 0.42) { motivo.push(null); continue; } i = Math.max(0, Math.min(MELO.length - 1, i + [-1, 1, 1, 2, -2][Math.floor(Math.random() * 5)])); motivo.push(MELO[i]); }
   }
   function agendar() {
     if (!ctx || !tocando) return;
     if (prox < ctx.currentTime) prox = ctx.currentTime + 0.1;
-    while (prox < ctx.currentTime + 6) {
-      const A = ACORDES[acorde % ACORDES.length];
-      A.n.forEach(m => pad(m, prox, DUR, 0.05)); pad(A.b, prox, DUR, 0.09);
-      for (let k = 0; k < 4; k++) if (Math.random() < 0.55) { const opc = PENTA.filter(x => A.n.some(n => (x - n) % 12 === 0) || Math.random() < 0.4); sino(opc[Math.floor(Math.random() * opc.length)] || 76, prox + k * (DUR / 4) + Math.random() * 0.15, 0.035); }
-      prox += DUR; acorde++;
+    while (prox < ctx.currentTime + 1.5) {
+      const naBarra = colc % 8, barra = Math.floor(colc / 8), A = ACORDES[barra % 4], batida = naBarra % 2 === 0, t = prox;
+      if (naBarra === 0 && (barra % 2 === 0 || !motivo.length)) novoMotivo();
+      if (batida) { const b = Math.floor(naBarra / 2);                                   // baixo saltitante: tônica e oitava
+        toque(A.b + (b % 2 ? 12 : 0), t, 0.28, 0.16, "triangle");
+        if (b === 0 || b === 2) bumbo(t, 0.22);
+        chocalho(t, 0.035);
+      } else {
+        A.n.forEach(m => toque(m, t, 0.16, 0.045, "square"));                          // acorde no contratempo (o "pulo" da música)
+        chocalho(t, 0.06);
+      }
+      const nota = motivo[naBarra]; if (nota && barra % 8 < 6) toque(nota, t, 0.22, 0.06, "sine", true);   // melodia (descansa 2 compassos a cada 8)
+      prox += COLC; colc++;
     }
   }
   /* ---------- quando abaixar: vídeo tocando, vídeo em outra aba, festa da roleta/pódio ---------- */
@@ -90,7 +109,7 @@
   function iniciar() {
     if (!montar()) return;
     if (ctx.state !== "running") ctx.resume().catch(() => {});
-    clearInterval(iv); iv = setInterval(() => { agendar(); aplicar(); }, 700);
+    clearInterval(iv); iv = setInterval(() => { agendar(); aplicar(); }, 250);
     aplicar();
   }
   // o navegador só deixa tocar som depois de um clique: o primeiro clique em qualquer lugar liga a música
