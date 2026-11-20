@@ -418,3 +418,20 @@ Apostila no portal + ilustrada (PDF só para quem estuda em casa) · guia do pro
 > - Números reais do bimestre: aulas presentes, missões (vistos do Básico), XP somado das missões, desafios.
 > - Selos: 🥇🥈🥉 XP do bimestre na turma · 🚀 quem mais evoluiu (XP das 2 últimas missões − XP das 2 primeiras, mínimo 3 missões e +100) · 🏆 recordista dos jogos · 📅 presença 100% · ⭐ 4+ desafios.
 > - **Texto verdadeiro, que não machuca** (pedido do professor): **Destaque** (2+ selos, 1º lugar ou nota ≥ 8 com boa frequência) = elogio específico; **Participação – bom** = reconhecimento + uma dica concreta (ler com calma / fazer os desafios); **Participação – pouco** (nota < 5, frequência < 50% ou menos da metade das missões) = os números reais, "isso ainda é pouco perto do que você consegue", lembrando que o material e a trilha passo a passo estiveram disponíveis, e um convite a tentar de novo.
+
+## 🎨 Desenhos feitos pelo Claude: 10 estilos (20/11/2026, decisão do professor)
+O professor aprovou os 10 estilos (folha em `docs/estilos-desenho/estilos.webp`, gerador em `docs/estilos-desenho/gerar.py`) e deixou a escolha por conta do Claude, **conforme a questão e o contexto** ("depende"). Guia de uso:
+1. **Flat colorido** — padrão geral de provas e tarefas: limpo, leve, sem distração.
+2. **Linha clara (contorno preto)** — quando o detalhe precisa saltar aos olhos (peças, botões, telas a reconhecer); ótimo contraste.
+3. **Adesivo (sticker)** — 6º ano e atividades lúdicas, objetos soltos para comparar/arrastar.
+4. **Lousa com giz** — explicações "do professor": passo a passo, esquema de conceito, revisão.
+5. **Caderno rabiscado** — rascunho do aluno, planejamento, algoritmo no papel, "antes de programar".
+6. **Pixel art** — programação, jogos, robôs e tudo que lembra videogame.
+7. **Isométrico** — montagem e peças (hardware), redes, mapas e cenários em 3D.
+8. **Planta técnica (blueprint)** — hardware por dentro, redes e cabos, grafos e plantas da escola.
+9. **Recorte de papel** — cidadania digital, histórias, temas sensíveis (convivência, golpes), capas.
+10. **Linha fina (ícone)** — o que vai ser impresso em preto e branco e ícones pequenos.
+- **Não é regra sem exceção:** quando ficar melhor, usar **foto real** (licença livre, logos borrados) ou **imagem do ChatGPT** (cena da turma). A imagem ajuda a pensar, **nunca entrega a resposta**.
+
+## 📝 Prova no formato novo (aprovado em 20/11/2026; em construção)
+Questões **contextualizadas** (situação curta: 1–2 frases no 6º, 2–3 no 7º, até 4–5 linhas no 8º/9º) com **imagem só onde ajuda** (+ lupa); **uma questão por tela** com mapa de bolinhas, aviso de questão em branco e **revisão final** ("deixou N em branco… enviar mesmo assim?"); **tela cheia vigiada**; **copiar/colar/botão direito bloqueados no portal inteiro**; **painel ao vivo da prova**; **alarme contra chute** (3 respostas rápidas demais travam a prova); **pausar/dar tempo extra** a um aluno; **prova de treino**; **raio-X da prova + correção comentada** na aula seguinte, no projetor (com quem acertou cada questão: "os erros são para aprender"). No dia da prova, quem termina sai do portal e vai para casa.
