@@ -441,3 +441,4 @@ Questões **contextualizadas** (situação curta: 1–2 frases no 6º, 2–3 no 
 > - **Liberado:** professor logado e painel; **tarefas que ensinam atalhos** (o texto da tarefa fala em Ctrl + C/V/X/Z, copiar e colar, recortar ou desfazer → a tarefa ganha `data-libera-copiar` sozinha). Varredura de 20/11: hoje isso cai na **M8 do 6º ano de 2027** (atalhos: computador de treino, "Treine de verdade" e as perguntas) e nas questões de atalhos da Revisão.
 > - Os simuladores com menu próprio do botão direito (Windows, teclado, computador de treino) continuam funcionando; as teclas continuam chegando aos jogos (só a área de transferência é bloqueada). Na prova, sempre bloqueado.
 > - Toda tarefa nova que ensinar atalhos fica liberada automaticamente se o texto citar o atalho.
+> - Nas tarefas com resposta digitada aparece o selo "⌨️ Aqui você digita: copiar e colar não funciona" (o objetivo é treinar a digitação; aprovado pelo professor como mais uma trava contra a trapaça).

@@ -1294,6 +1294,9 @@
     bR.onclick = () => { if (!ctx.resolver) return; st.viuResolucao = true; ctx.resolver(); ctx.concluir("ajuda", "Resolução comentada:"); };
     bRef.onclick = () => { for (const k of Object.keys(st)) delete st[k]; st.tentativas = 0; st.dicas = 0; st.ini = Date.now(); salvar(); feedback("", ""); ctx.reRender(); mostrarStatus(); atualizarAjuda(); onChange && onChange(); };
     T.render(corpo, at, ctx);
+    // ⌨️ resposta digitada: aviso de que aqui se digita (copiar e colar não funciona), menos nas tarefas que ensinam atalhos
+    if (!el.dataset.liberaCopiar && corpo.querySelector("textarea, input[type=text], input:not([type])"))
+      el.querySelector(".atv-cab").insertAdjacentHTML("beforeend", `<span class="atv-digite" title="O objetivo é treinar a digitação">⌨️ Aqui você digita: copiar e colar não funciona</span>`);
     ctx._ult = Date.now();
     corpo.addEventListener("change", () => { ctx._ult = Date.now(); });
     corpo.addEventListener("click", e => { if (!(e.target && /^(INPUT|LABEL)$/.test(e.target.tagName))) ctx._ult = Date.now(); });   // depois de cada resposta, o relógio do chute recomeça

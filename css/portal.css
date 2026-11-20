@@ -2315,3 +2315,4 @@ button.es-alvo.pop{animation:es-pop .3s}
 .jg-fim-serie { color: #7c3aed; font-size: 1.3rem; }
 .jg-card-rec { display: block; margin-top: 2px; font-weight: 700; }
 .pv-pc { display: inline-block; font-size: .8rem; font-weight: 700; padding: 1px 7px; border-radius: 999px; background: #e7f0ff; color: #1d4ed8; white-space: nowrap; }
+.atv-digite { display: inline-block; font-size: .78rem; font-weight: 700; color: #92400e; background: #fef3c7; border: 1px solid #fcd34d; border-radius: 999px; padding: 1px 8px; margin-left: 6px; }
