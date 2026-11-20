@@ -54,6 +54,21 @@
     ["Pagode 10 · Banjo na roda",         { bpm: 98,  ac: [[10, "M"], [7, "7"], [0, "m"], [5, "7"]], tom: 10, cav: [0, 2, 3, 6, 8, 10, 11, 14], surdo: [8], baixo: "partido", mel: "triangle", melBarras: 3, banjo: true }],
   ];
   PAGODES.forEach(([nome, v], i) => { ESTILOS["pagode" + (i + 1)] = { nome: "🥁 " + nome, bpm: v.bpm, acordes: v.ac.map(([r, q]) => ac(r, q)), melo: pent(v.tom, v.menor), v, toca: "pagodeV", oculto: true }; });
+  /* 👾 10 VERSÕES DE VIDEOGAME 8 BITS (20/11/2026: "agora 10 no estilo oitobits"). Originais: cada "fase" muda o andamento,
+     o tom, os acordes, o arpejo (sobe, desce, sobe-e-desce, quebrado), o timbre, o baixo e a bateria. */
+  const OITOS = [
+    ["8 bits 1 · Aventura no castelo", { bpm: 140, ac: [[0, "M"], [9, "m"], [5, "M"], [7, "M"]], tom: 0, arp: "sobe", arpOit: 12, arpTipo: "square", baixo: "oitava", kick: [0, 8], caixa: [4, 12], chimbal: 2, lead: "square", melBarras: 6 }],
+    ["8 bits 2 · Fase da floresta",    { bpm: 120, ac: [[7, "M"], [4, "m"], [0, "M"], [2, "M"]], tom: 7, arp: "sobedesce", arpOit: 12, arpTipo: "triangle", baixo: "pulso", kick: [0, 10], caixa: [4, 12], chimbal: 2, lead: "triangle", eco: true, melBarras: 6 }],
+    ["8 bits 3 · Corrida turbo",       { bpm: 168, ac: [[9, "M"], [6, "m"], [2, "M"], [4, "M"]], tom: 9, arp: "sobe", arpOit: 24, arpTipo: "square", baixo: "oito", kick: [0, 4, 8, 12], caixa: [4, 12], chimbal: 1, lead: "square", melBarras: 7 }],
+    ["8 bits 4 · Chefão final",        { bpm: 150, ac: [[9, "m"], [5, "M"], [7, "M"], [4, "7"]], tom: 9, menor: true, arp: "quebrado", arpOit: 12, arpTipo: "sawtooth", baixo: "oito", kick: [0, 6, 8, 14], caixa: [4, 12], chimbal: 2, lead: "sawtooth", melBarras: 6 }],
+    ["8 bits 5 · Fase submarina",      { bpm: 96,  ac: [[5, "M"], [2, "m"], [10, "M"], [0, "M"]], tom: 5, arp: "sobedesce", arpOit: 12, arpTipo: "triangle", arpLento: true, baixo: "lento", kick: [0], caixa: [8], chimbal: 4, lead: "sine", eco: true, melBarras: 4 }],
+    ["8 bits 6 · Quebra-cabeça",       { bpm: 110, ac: [[2, "maj7"], [11, "m7"], [7, "maj7"], [9, "7"]], tom: 2, arp: "quebrado", arpOit: 12, arpTipo: "square", baixo: "pulso", kick: [0, 8], caixa: [12], chimbal: 2, lead: "square", curto: true, melBarras: 4 }],
+    ["8 bits 7 · Lojinha do jogo",     { bpm: 104, ac: [[3, "M"], [0, "m"], [8, "M"], [10, "7"]], tom: 3, arp: "desce", arpOit: 12, arpTipo: "square", baixo: "oitava", kick: [0, 7, 8], caixa: [4, 12], chimbal: 2, lead: "triangle", balanco: true, melBarras: 6 }],
+    ["8 bits 8 · Fase da neve",        { bpm: 112, ac: [[4, "M"], [1, "m"], [9, "M"], [11, "M"]], tom: 4, arp: "sobe", arpOit: 24, arpTipo: "sine", baixo: "lento", kick: [0, 8], caixa: [12], chimbal: 4, lead: "sine", eco: true, melBarras: 6 }],
+    ["8 bits 9 · Tela de vitória",     { bpm: 132, ac: [[0, "M"], [5, "M"], [7, "M"], [0, "M"]], tom: 0, arp: "sobedesce", arpOit: 12, arpTipo: "square", baixo: "oitava", kick: [0, 8], caixa: [4, 12], chimbal: 2, lead: "square", melBarras: 8, palmas: true }],
+    ["8 bits 10 · Fase espacial",      { bpm: 124, ac: [[10, "M"], [7, "m"], [3, "M"], [5, "M"]], tom: 10, arp: "desce", arpOit: 24, arpTipo: "triangle", baixo: "pulso", kick: [0, 8, 11], caixa: [4, 12], chimbal: 2, lead: "sawtooth", eco: true, pad: true, melBarras: 5 }],
+  ];
+  OITOS.forEach(([nome, v], i) => { ESTILOS["oito" + (i + 1)] = { nome: "👾 " + nome, bpm: v.bpm, acordes: v.ac.map(([r, q]) => ac(r, q)), melo: pent(v.tom, v.menor), v, toca: "oitoV", oculto: true }; });
   let estilo = ESTILOS[lerLS("portal:musica:estilo", "animada")] ? lerLS("portal:musica:estilo", "animada") : "animada";
   const E = () => ESTILOS[estilo];
   const semi = () => 15 / E().bpm;                                // duração de uma semicolcheia (s)
@@ -132,6 +147,20 @@
       const B = { roda: [[0, 0], [6, 7], [8, 12], [14, 4]], partido: [[0, 0], [3, 7], [6, 12], [8, 0], [11, 7], [14, 4]], longo: [[0, 0], [8, 7]], bossa: [[0, 0], [6, 7], [8, 7], [14, 0]], rock: [[0, 0], [3, 0], [6, 12], [10, 7], [12, 10], [14, 12]] }[v.baixo] || [];
       B.forEach(([k, iv]) => { if (s === k) toque(A.b + iv, t, v.baixo === "longo" ? 0.7 : 0.3, 0.15, "triangle"); });
       const nota = s % 2 ? null : motivo[s / 2]; if (nota && barra % 4 < v.melBarras) toque(nota, t, v.flauta ? 0.35 : 0.2, v.flauta ? 0.06 : 0.05, v.mel, true, v.flauta ? 0.03 : 0.012);
+    },
+    oitoV(s, t, A, barra) {        // as 10 versões de 8 bits (os detalhes vêm de E().v)
+      const v = E().v; if (v.balanco && s % 2) t += semi() * 0.2;
+      if (s === 0 && barra % 2 === 0) novoMotivo(8);
+      const nt = [...A.n, A.n[0] + 12], ORD = { sobe: [0, 1, 2, 3], desce: [3, 2, 1, 0], sobedesce: [0, 1, 2, 3, 2, 1], quebrado: [0, 2, 1, 3] }[v.arp];
+      if (!v.arpLento || s % 2 === 0) { const k = v.arpLento ? s / 2 : s; toque(nt[ORD[k % ORD.length]] + v.arpOit - 12, t, v.arpLento ? 0.16 : 0.07, 0.03, v.arpTipo, v.eco); }
+      const BX = { oitava: [[0, 0], [2, 12], [4, 0], [6, 12], [8, 0], [10, 12], [12, 0], [14, 12]], oito: [[0, 0], [2, 0], [4, 0], [6, 0], [8, 0], [10, 0], [12, 0], [14, 0]], pulso: [[0, 0], [3, 0], [6, 0], [8, 7], [11, 7], [14, 12]], lento: [[0, 0], [8, 7]] }[v.baixo];
+      BX.forEach(([k, iv]) => { if (s === k) toque(A.b + 12 + iv, t, v.baixo === "lento" ? 0.6 : 0.12, 0.14, "triangle"); });
+      if (v.kick.includes(s)) bumbo(t, 0.2, 160, 50);
+      if (v.caixa.includes(s)) ruido(t, 0.07, 0.07, 2500);
+      if (s % v.chimbal === 0) ruido(t, 0.02, 0.02, 9000);
+      if (v.palmas && (s === 4 || s === 12)) ruido(t + 0.01, 0.05, 0.05, 1400, "bandpass");
+      if (v.pad && s === 0) A.n.forEach(m => toque(m, t, semi() * 15, 0.02, "sawtooth", false, 0.3));
+      const nota = s % 2 ? null : motivo[s / 2]; if (nota && barra % 8 < v.melBarras) toque(nota, t, v.curto ? 0.08 : 0.15, 0.05, v.lead, v.eco);
     },
     lofi(s, t, A, barra) {         // piano elétrico macio, batida preguiçosa, poucas notas
       const sw = s % 2 ? semi() * 0.18 : 0; t += sw;                                               // balanço (swing)
