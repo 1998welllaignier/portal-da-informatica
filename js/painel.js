@@ -489,7 +489,7 @@
     const So = P.sons, bSom = el.querySelector("#pl-som");
     const pintaSom = () => { if (!So) { bSom.hidden = true; return; } const ok = So.pronto();
       bSom.textContent = !So.ligado ? "🔇 Som desligado" : ok ? "🔊 Som ligado" : "🔊 Toque para ligar o som"; bSom.classList.toggle("pisca-som", So.ligado && !ok); };
-    bSom.onclick = async () => { if (!So) return; if (So.ligado && !So.pronto()) { await So.destravar(); So.teste(); } else { So.setLigado(!So.ligado); await So.destravar(); if (So.ligado) So.teste(); } pintaSom(); };
+    bSom.onclick = async () => { if (!So) return; if (So.ligado && (!So.pronto() || bSom.classList.contains("pisca-som"))) { /* "toque para ligar": só destrava (a música ambiente pode ter destravado o som um instante antes) */ await So.destravar(); So.teste(); } else { So.setLigado(!So.ligado); await So.destravar(); if (So.ligado) So.teste(); } pintaSom(); };
     el.addEventListener("click", async e => { if (So && e.target !== bSom && So.ligado && !So.pronto()) { await So.destravar(); pintaSom(); } });
     pintaSom();
     const relogio = () => { const { dia, m } = agoraBR(); const ini = t.aula && t.aula.ini ? hm(t.aula.ini) : null; if (ini == null || t.aula.dia !== dia) return { fora: true };
@@ -2298,7 +2298,7 @@
       lista.forEach((it0, k) => { const it = typeof it0 === "string" ? { id: it0 } : it0, vid = it.id;   // ID solto vira objeto (senão "texto".sub é uma função do JavaScript e aparecia na tela)
         const box = document.createElement("details"); box.className = "painel pp-video"; box.open = !k;
         box.innerHTML = `<summary><strong>📺 ${it.nome ? esc(it.nome) : k ? "Vídeo extra" : "Vídeo"} ${it.curiosidade ? "· " : "da "}missão ${esc(rotMis(C, mid))}</strong> ${it.sub ? "(" + esc(it.sub) + ")" : k ? "(passo a passo, para quando a turma tiver dificuldade)" : "(com a sua voz)"}</summary>
-          <div class="pp-video-quadro"><iframe src="https://www.youtube-nocookie.com/embed/${vid}?rel=0&modestbranding=1" title="Vídeo da missão ${esc(rotMis(C, mid))}" loading="lazy" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
+          <div class="pp-video-quadro"><iframe src="https://www.youtube-nocookie.com/embed/${vid}?rel=0&modestbranding=1&enablejsapi=1" title="Vídeo da missão ${esc(rotMis(C, mid))}" loading="lazy" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
           <p class="pp-video-acoes"><a class="btn btn-sec" href="https://www.youtube-nocookie.com/embed/${vid}?autoplay=1&rel=0&modestbranding=1" target="_blank" rel="noopener">↗️ Abrir player em nova aba</a>
             <a class="btn btn-link" href="https://youtu.be/${vid}" target="_blank" rel="noopener">Abrir no YouTube</a></p>
           <p class="ajuda">Dê o play aqui mesmo ou abra o player numa aba só dele (ocupa a tela toda, bom para projetar). Use o botão de tela cheia do player. Lembre da caixinha de som: os computadores dos alunos não têm áudio.</p>`;

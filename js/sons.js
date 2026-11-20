@@ -53,18 +53,20 @@
   // 🎉 estalinhos do confete
   function estalos(t, dur) { for (let i = 0; i < 26; i++) ruido(t + Math.random() * dur, 0.04, 0.12, 2500 + Math.random() * 2500); }
 
+  // 🎵 a música ambiente (js/musica.js) abaixa sozinha enquanto um efeito toca, e volta depois
+  const abafa = ms => { try { P.musica && P.musica.abafar(ms); } catch (e) {} };
   const S = {
-    get ligado() { return ligado; }, pronto, destravar, setLigado,
+    get ligado() { return ligado; }, pronto, destravar, setLigado, ctx: c,
     // pódio: 3º (0 s) → 2º (1,4 s) → 1º (2,8 s) → confete (3 s)
-    podio() { if (!pronto()) return; rufar(0, 2.75); ding(0); ding(1.4, true); const d = tcharam(2.8); estalos(3.1, d); },
+    podio() { abafa(9000); if (!pronto()) return; rufar(0, 2.75); ding(0); ding(1.4, true); const d = tcharam(2.8); estalos(3.1, d); },
     // 👑 alguém novo pegou a coroa
-    coroa() { if (!pronto()) return; [72, 76, 79, 84].forEach((m, i) => nota(hz(m), i * 0.06, 0.18, 0.09, "square")); },
+    coroa() { abafa(1800); if (!pronto()) return; [72, 76, 79, 84].forEach((m, i) => nota(hz(m), i * 0.06, 0.18, 0.09, "square")); },
     // 🤫 placar congelou (últimos 5 min)
-    congelou() { if (!pronto()) return; [69, 68, 67, 66].forEach((m, i) => nota(hz(m), i * 0.22, 0.2, 0.09, "square")); },
-    teste() { if (!pronto()) return; tcharam(0); estalos(0.4, 1.2); },
+    congelou() { abafa(2200); if (!pronto()) return; [69, 68, 67, 66].forEach((m, i) => nota(hz(m), i * 0.22, 0.2, 0.09, "square")); },
+    teste() { abafa(3500); if (!pronto()) return; tcharam(0); estalos(0.4, 1.2); },
     // 🎡 roleta: o "clec" de cada fatia que passa no ponteiro, e a festa quando para
-    clec() { if (!pronto()) return; ruido(0, 0.03, 0.35, 3200); nota(hz(96), 0, 0.025, 0.05, "square"); },
-    sorteado() { if (!pronto()) return; const d = tcharam(0); estalos(0.3, d); }
+    clec() { abafa(1500); if (!pronto()) return; ruido(0, 0.03, 0.35, 3200); nota(hz(96), 0, 0.025, 0.05, "square"); },
+    sorteado() { abafa(5500); if (!pronto()) return; const d = tcharam(0); estalos(0.3, d); }
   };
   P.sons = S;
 })();

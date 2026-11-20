@@ -2456,3 +2456,14 @@ body.sp-travado .plb-bola,body.simc-travado .plb-bola,body.sp-travado .plb-paine
 /* ⛶ plano B quando o navegador não deixa abrir a tela cheia pelo botão (20/11/2026) */
 .tc-planob{margin-top:12px;text-align:left;background:#fff7ed;border:2px solid #f97316;border-radius:14px;padding:10px 14px;font-size:1.02rem}
 .tc-planob ol{margin:6px 0;padding-left:1.3em}.tc-planob p{margin:4px 0}
+/* 🎵 música ambiente (só no painel do professor, 20/11/2026) */
+.mus-ui{position:fixed;left:120px;bottom:14px;z-index:9200;font-family:inherit}
+.mus-bt{display:flex;align-items:center;gap:6px;border:2px solid #a855f7;background:#faf5ff;color:#581c87;border-radius:999px;padding:6px 14px;font-weight:800;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.18);font-size:1rem}
+.mus-bt small{font-weight:700;font-size:.85rem}.mus-ui.off .mus-bt{border-color:#94a3b8;background:#f1f5f9;color:#475569}
+.mus-pn{position:absolute;left:0;bottom:52px;width:320px;background:#fff;border:2px solid #a855f7;border-radius:16px;padding:12px 14px;box-shadow:0 14px 34px rgba(0,0,0,.28)}
+.mus-tit{margin:0;font-weight:900;font-size:1.1rem}.mus-sub{margin:2px 0 10px;font-size:.88rem;color:#475569}
+.mus-liga,.mus-amb{width:100%;border:0;border-radius:10px;padding:8px;font-weight:800;cursor:pointer;margin:4px 0}
+.mus-liga{background:#7c3aed;color:#fff}.mus-amb{background:#ede9fe;color:#5b21b6}
+.mus-vol{display:flex;align-items:center;gap:8px;margin-top:8px;font-weight:700}.mus-vol input{flex:1;accent-color:#7c3aed}.mus-vol output{min-width:5.5em;text-align:right;font-size:.85rem}
+.mus-regua{position:relative;height:18px;margin:0 6.6em 0 4.2em}.mus-regua span{position:absolute;transform:translateX(-50%);font-size:.75rem;font-weight:800;color:#7c3aed;white-space:nowrap}
+.mus-pe{margin:6px 0 0;font-size:.78rem;color:#64748b}

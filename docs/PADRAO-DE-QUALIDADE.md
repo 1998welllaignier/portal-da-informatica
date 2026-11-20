@@ -488,3 +488,10 @@ Questões **contextualizadas** (situação curta: 1–2 frases no 6º, 2–3 no 
 ## ⛶ Tela cheia à prova de falhas (20/11/2026)
 - Problema relatado: às vezes o botão "Entrar em tela cheia" não respondia, o F11 não resolvia e a página continuava bloqueada; só ⋮ › ⛶ do Chrome destravava.
 - Correções: (1) a tela cheia do próprio Chrome (F11 ou ⋮ › ⛶) passa a valer **mesmo com zoom diferente de 100%** (antes, com zoom 90%/110%, o portal achava que não estava em tela cheia); (2) o botão tenta 3 jeitos de pedir a tela cheia; (3) se o navegador recusar, aparece na hora o **plano B** no próprio aviso: "⋮ três pontinhos › na linha do Zoom, o quadradinho ⛶" ou **F11 (em alguns teclados, Fn + F11)**; (4) o aviso não se re-desenha enquanto o aluno clica nele; (5) cada falha fica anotada no progresso do aluno (`progresso/<aluno>_tela.falhaBotao`: erro, zoom, tamanho da janela, foco) para descobrir a causa exata. Vale também na prova.
+
+## 🎵 Música ambiente do painel (20/11/2026, pedido do professor)
+- Objetivo: a caixinha de som da sala não desligar sozinha por falta de som. Música **original**, criada na hora pelo navegador (acordes calmos, baixo suave e sininhos que variam), sem arquivo e sem direito autoral de terceiros.
+- **Só toca no painel do professor** (inclui o placar ao vivo). Em nenhum outro lugar (nem na página inicial, nem nas telas dos alunos).
+- Botão **🎵 música ambiente** no canto de baixo: liga/desliga, volume com a marca **"▲ ambiente"** (o volume padrão) e "↺ Voltar ao volume ambiente". Liga/desliga e volume **ficam memorizados** no computador.
+- **Abaixa sozinha e volta depois**: enquanto a roleta gira e na festa do sorteio, no pódio, na coroa, no placar congelado, enquanto um vídeo do YouTube do painel toca, com o vídeo aberto em outra aba e quando o professor clica dentro do vídeo.
+- Correção junto: o botão "🔊 Toque para ligar o som" do placar não desliga mais o som sem querer.
