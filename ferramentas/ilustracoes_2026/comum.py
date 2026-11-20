@@ -27,7 +27,13 @@ class Apostila:
         falta = [i for i, f in enumerate(self.F) if f is None]
         assert not falta, (self.aid, "faltam desenhos", falta)
         raiz = os.path.dirname(os.path.dirname(AQUI))
-        dados = {"defs": _b.defs(), "mascote": _b.mascote(), "icones": {k: _b.icone(v) for k, v in icones.items()}, "figuras": self.F}
+        # 🎬 cenas de abertura feitas por IA (20/11/2026): entram no topo das missões que ainda vão acontecer em 2026
+        try:
+            from cenas_2026 import CENAS
+            extra = CENAS(self.aid)
+        except ImportError:
+            extra = []
+        dados = {"defs": _b.defs(), "mascote": _b.mascote(), "icones": {k: _b.icone(v) for k, v in icones.items()}, "figuras": extra + self.F}
         js = ("/* Ilustrações coloridas (padrão de 2027) das apostilas de 2026 — gerado por ferramentas/ilustracoes_2026/ (não edite à mão).\n"
               "   Professor Welington Laignier. */\n"
               f"PORTAL.registrarIlustracoes({json.dumps(self.aid)}, {json.dumps(dados, ensure_ascii=False)});\n")

@@ -43,6 +43,7 @@ Detalhes técnicos: `AGENTS.md` (checklist do bimestre), `docs/PADRAO-ATIVIDADES
 > - **Toda missão abre com uma cena** da situação-problema, no topo da página "Para começar" (âncora vazia). A etiqueta faz a pergunta da missão e **não entrega a resposta** das atividades.
 > - **Esquemas** (teclado, janela, tabela, grafo, passo a passo) continuam **por código**, que é exato, leve e editável.
 > - Imagem em WebP, 1536 × 1024, cerca de 100 a 170 KB, em `img/cenas/<apostila>/<missão>.webp`.
+> - **Apostilas de 2026 também (20/11/2026, pedido do professor):** as missões que a turma ainda não fez no ano atual ganharam a cena de abertura (6º M4; 7º M3 e M4; 8º M4, também na 👣 Trilha; 9º M3 e M4; 5º M3 e M4), em `ferramentas/ilustracoes_2026/cenas_2026.py`. A Trilha usa a mesma imagem da apostila regular. As etiquetas fazem a pergunta da missão, sem entregar resposta de atividade.
 >
 > **Obrigatório em cada ilustração**
 > 1. **Cena, não ícone solto.** Sempre que o assunto permitir, a cena é montada em **planos**:

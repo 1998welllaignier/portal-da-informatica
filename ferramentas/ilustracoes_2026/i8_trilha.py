@@ -14,6 +14,8 @@ def recolor(h, cor):
     h = h.replace('fill="#1c1f22"/></marker>', f'fill="{COR[cor]}"/></marker>')
     return h
 for i, f in enumerate(d["figuras"]): f["html"] = recolor(f["html"], TEMA[i])
+from cenas_2026 import CENAS  # 🎬 cena de abertura da Missão 4 (20/11/2026), a mesma da apostila regular
+d["figuras"] = CENAS("informatica-8ano-4bim-trilha") + d["figuras"]
 d["defs"] = _b.defs(); d["mascote"] = _b.mascote()
 d["icones"] = {k: _b.icone(v) for k, v in {"m1": "🔎", "m2": "☁️", "m3": "🕵️", "m4": "📜", "pf": "🏁"}.items()}
 open(os.path.join(raiz, "dados", "ilustracoes", "informatica-8ano-4bim-trilha.js"), "w", encoding="utf-8").write(
