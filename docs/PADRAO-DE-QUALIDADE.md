@@ -351,3 +351,14 @@ Apostila no portal + ilustrada (PDF só para quem estuda em casa) · guia do pro
 - **🎉 Refazer a janela do tema (19/11/2026, pedido do professor):** quando a janela das datas comemorativas (curiosidades com relógio + desafio) dá errado para um aluno, o professor faz ela abrir de novo: no ⚙️ do aluno, **🎉 Refazer a janela do tema**; para a turma inteira, em **🎨 Tema do portal → 🔄 Refazer a janela do tema para uma turma inteira**. Apaga só o "já viu" (progresso/<aluno>_temas); pontos e tarefas não mudam. O aluno sai e entra de novo com o código.
 - **⛶ Simulador do computador em tela cheia (19/11/2026, pedido do professor):** a letra ficava pequena e o aluno precisava rolar a página. Agora o simulador abre com **▶ Começar o simulador**, que ocupa a tela inteira (guia do Bit em cima, computador embaixo, do maior tamanho que cabe, sem rolagem); ao terminar todos os passos, mostra o troféu e volta sozinho ao tamanho normal. **Obrigatório:** enquanto a tarefa não termina, o simulador só funciona em tela cheia; se o aluno sair, uma capa "▶ Continuar o simulador" cobre o computador até ele voltar. Botões sempre à vista: **⛶ Abrir em tela cheia** / **✕ Sair da tela cheia**. Todo simulador novo segue esse padrão.
 - **🎬 Cenas de abertura feitas por IA (19/11/2026, aprovado pelo professor):** piloto no 6º ano, 1º bimestre de 2027 (8 cenas, uma por missão, com a ficha da turma como referência e a camada que ensina por código). Vira o padrão das cenas com gente; os esquemas continuam por código. Detalhes na Regra de ouro 4.
+
+## 📷 Fotos reais nas apostilas (19/11/2026, ideia do professor)
+- Onde uma foto de verdade ensina mais que um desenho (ex.: um cabo submarino saindo do mar na praia, na missão do caminho dos pacotes), a apostila pode usar **foto real**.
+- Só fotos com **licença livre** (Wikimedia Commons / Creative Commons), sempre com **crédito** embaixo (autor · site · licença), ou fotos do próprio professor.
+- Só **objetos e lugares reais** (nada de pessoas, nada de logotipos).
+- O que ensina por cima da foto (setas, etiquetas, nomes) é **desenhado por código**, como nos outros desenhos.
+- A foto fica no repositório junto com o crédito; a cena entra pelo arquivo `cenas_<série>_<bimestre>.py` da apostila.
+
+## 🏷️ Código HTML nas atividades (19/11/2026)
+- Nas atividades de **ligar** (e em botões), o portal tira tudo o que está entre `<` e `>` e escapa o resto. Por isso, nelas, escreva a tag sem os sinais (“tag h1”) e não use “< e >” no texto.
+- Em **escolha**, **ordenar** e **mensagens**, o texto aceita `&lt;h1&gt;`, que aparece como `<h1>`.
