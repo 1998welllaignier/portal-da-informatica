@@ -127,10 +127,14 @@
       if (!revisando && i !== atual && resp[ordem[atual].id] == null) avisoBranco(atual);
       revisando = false; atual = Math.max(0, Math.min(NQ - 1, i)); vistas.add(atual); if (!tIni[atual]) tIni[atual] = Date.now();
       const q = ordem[atual], ult = atual === NQ - 1;
-      palco.innerHTML = `<article class="pv-card"><p class="pv-num">Questão <b>${atual + 1}</b> de ${NQ}</p>
-        ${q.ctx ? `<div class="pv-ctx">${q.ctx}</div>` : ""}${imgHtml(q)}
-        <p class="prova-p">${q.tipo === "vf" ? "<em>Verdadeiro ou falso?</em> " : ""}${esc(q.p)}</p>
-        <div class="prova-ops" role="radiogroup" aria-label="Questão ${atual + 1}">${q.opcoes.map(op => `<button type="button" class="prova-op" role="radio" data-o="${esc(op)}" aria-checked="${resp[q.id] === op}">${q.tipo === "vf" ? (op === "Verdadeiro" ? "✅ " : "❌ ") : ""}${esc(op)}</button>`).join("")}</div>
+      const tipoTag = q.ctx ? "📖 Situação-problema" : q.tipo === "vf" ? "⚖️ Verdadeiro ou falso" : (q.img || q.svg) ? "🖼️ Observe a imagem" : "🔘 Múltipla escolha";
+      palco.innerHTML = `<article class="pv-card${q.img || q.svg ? " pv-com-fig" : ""}">
+        <header class="pv-cab"><span class="pv-numero" aria-hidden="true">${atual + 1}</span><div class="pv-cab-txt"><p class="pv-num">Questão <b>${atual + 1}</b> de ${NQ}</p><span class="pv-tag">${tipoTag}</span></div></header>
+        ${q.ctx ? `<div class="pv-ctx"><p class="pv-rot">📖 Leia a situação</p>${q.ctx}</div>` : ""}
+        <div class="pv-corpo">${imgHtml(q)}<div class="pv-perg">
+        <div class="pv-comando"><p class="pv-rot">❓ ${q.tipo === "vf" ? "A frase abaixo é verdadeira ou falsa?" : "Responda"}</p><p class="prova-p">${esc(q.p)}</p></div>
+        <div class="prova-ops" role="radiogroup" aria-label="Questão ${atual + 1}">${q.opcoes.map((op, k) => `<button type="button" class="prova-op" role="radio" data-o="${esc(op)}" aria-checked="${resp[q.id] === op}"><span class="pv-letra" aria-hidden="true">${q.tipo === "vf" ? (op === "Verdadeiro" ? "V" : "F") : "ABCDEF"[k]}</span><span class="pv-op-txt">${esc(op)}</span></button>`).join("")}</div>
+        </div></div>
         <nav class="pv-nav"><button type="button" class="btn btn-sec" data-x="ant" ${atual === 0 ? "disabled" : ""}>← Anterior</button>
           <span class="pv-cont">Respondidas: <b>${Object.keys(resp).filter(k => ordem.some(x => x.id === k)).length}</b> de ${NQ}</span>
           ${ult ? `<button type="button" class="btn btn-grande btn-ok" data-x="rev">📋 Revisar e enviar</button>` : `<button type="button" class="btn btn-grande" data-x="prox">Próxima →</button>`}</nav></article>`;
