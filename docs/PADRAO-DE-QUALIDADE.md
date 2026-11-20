@@ -529,3 +529,4 @@ Questões **contextualizadas** (situação curta: 1–2 frases no 6º, 2–3 no 
 
 ## 🎵 Estilos da música ambiente (20/11/2026)
 - Além da **🎉 Animada** (a escolhida e padrão), o painel 🎵 tem um seletor de estilo: 🥁 Pagodinho, ☕ Lo-fi, 📺 Programa de TV e 👾 Videogame 8 bits. Todos originais, criados pelo navegador; a escolha fica memorizada no computador.
+- 📽️ (20/11/2026) A janela do projetor (telão) da leitura guiada não mostra a faixa de data comemorativa nem os enfeites dos cantos do tema, para nada cobrir o texto que a turma lê.
