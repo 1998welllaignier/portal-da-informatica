@@ -217,7 +217,7 @@ body.sp-travado{overflow:hidden}
         }
         if (aOk === "email" && a === "email" && tOk.startsWith("abrir:") && t.startsWith("abrir:")) { const m = (at.emails || []).find(x => x.id === tOk.slice(6)); return errou(`Esse não é o email pedido. Procure o email <b>${esc(m ? m.assunto : tOk.slice(6))}</b> na lista da esquerda.`); }
         if (aOk === "pagina" && a === "pagina") return errou(`Hum, não é esse botão. Leia com calma o que o ${nomeBit} pediu.`);
-        if (aOk === a && tOk && t && !casa(tOk, t) && !tOk.includes("*") && !["email", "campo", "marcar"].includes(a) && (tOk.split(":").length < 2 || t.split(":")[0] === tOk.split(":")[0])) return errou(`Opa! Esse é <b>${esc(nome(t))}</b>. Procure <b>${esc(nome(tOk))}</b>.`);
+        if (aOk === a && tOk && t && !casa(tOk, t) && !tOk.includes("*") && !["email", "campo", "marcar", "calc"].includes(a) && (tOk.split(":").length < 2 || t.split(":")[0] === tOk.split(":")[0])) return errou(`Opa! Esse é <b>${esc(nome(t))}</b>. Procure <b>${esc(nome(tOk))}</b>.`);
       }
       function checar(o, e, extra) {
         if (o.estado === "notas") { const want = o.texto, got = S.notas; return o.contem ? norm(got).includes(norm(want)) : got.replace(/\s+$/, "") === want; }
@@ -260,13 +260,20 @@ body.sp-travado{overflow:hidden}
         // obrigatório (19/11/2026): fora da tela cheia, o simulador não funciona enquanto não terminar; a capa volta por cima
         if (!on && !st.status && !c.querySelector(".sp-iniciar")) {
           mold.insertAdjacentHTML("beforeend", `<div class="sp-iniciar"><button type="button">▶ Continuar o simulador<small>só funciona em tela cheia</small></button></div>`);
-          c.querySelector(".sp-iniciar").onclick = e => { e.stopPropagation(); foco(true); };
+          c.querySelector(".sp-iniciar").onclick = e => { e.stopPropagation(); comecar(); };
         }
         ajustarGuia(); requestAnimationFrame(() => { K = esc2(); ajustarGuia(); K = esc2(); });
         if (!on) setTimeout(() => c.scrollIntoView({ block: "center", behavior: "smooth" }), 60); else tela.focus();
       }
       bFoco.onclick = () => foco(!SP.classList.contains("sp-foco"));
-      { const ini = c.querySelector(".sp-iniciar"); if (ini) ini.onclick = e => { e.stopPropagation(); foco(true); }; }
+      /* 🎬 DEMONSTRAÇÃO GUIADA (20/11/2026, pedido do professor): na 1ª vez que o aluno vai fazer este simulador, ele ASSISTE
+         antes, obrigatoriamente, o Bit fazendo tudo num computador igual, com o mousezinho andando e clicando, passo a passo.
+         Depois de ver uma vez, não precisa ver de novo (fica salvo no progresso); o botão "🎬 Rever como faz" fica sempre ali. */
+      const comecar = () => { if (!st.status && !st.demoVisto && !ctx.demo && at.demo !== false && !P.__profSim) return T.sim_pc.demo(at, st.so, { obrigatorio: true, aoFim: () => { st.demoVisto = 1; ctx.salvar(); foco(true); } }); foco(true); };
+      { const ini = c.querySelector(".sp-iniciar"); if (ini) ini.onclick = e => { e.stopPropagation(); comecar(); }; }
+      if (!ctx.demo && at.demo !== false) { const bR = document.createElement("button"); bR.type = "button"; bR.className = "sec rever"; bR.textContent = "🎬 Rever como faz";
+        bR.onclick = () => T.sim_pc.demo(at, st.so, { aoFim: () => { if (!st.status) foco(true); } }); G.querySelector(".sp-bts").insertBefore(bR, G.querySelector(".rec")); }
+      if (ctx.demo) ctx.demo.forcar = () => { if (pAtual()) acertou(); };
       addEventListener("resize", ajustarGuia);
       G.querySelector(".onde").onclick = () => { st.dicas = (st.dicas || 0); mostrarOnde(true); };
       G.querySelector(".rec").onclick = async () => { if (!await P.confirmar("Recomeçar do primeiro passo?", "Sim, recomeçar")) return; st.passo = 0; st.erros = 0; delete st.status; ctx.salvar(); ctx.reRender(); };
@@ -536,5 +543,173 @@ body.sp-travado{overflow:hidden}
         alvo: () => { const p = pAtual(); return (p && p.onde && tela.querySelector(`[data-k="${CSS.escape(p.onde)}"]`)) || fEl; },
         instrucao: () => fEl });
     }
+  };
+
+  /* ---------- 🎬 demonstração guiada: o Bit faz cada passo num computador igual, com o mousezinho ---------- */
+  const espera = ms => new Promise(r => setTimeout(r, ms));
+  const DEMO_CSS = `.spd{position:fixed;inset:0;z-index:10040;background:#0b1220;display:flex;flex-direction:column}
+.spd .sp.sp-foco{position:relative;inset:auto;z-index:auto;flex:1;min-height:0}
+.spd .sp.sp-foco .sp-moldura{width:min(100%,calc((100vh - var(--sp-gh,150px) - 132px) * 1.6667))}
+.spd .sp-bts{display:none!important}.spd .sp-iniciar{display:none!important}
+.spd-faixa{flex:none;display:flex;align-items:center;gap:12px;flex-wrap:wrap;background:linear-gradient(90deg,#7c2d12,#b45309);color:#fff;padding:10px 16px;font-size:1.1rem}
+.spd-faixa b{color:#fde68a}.spd-faixa .spd-tit{flex:1;min-width:260px;font-weight:700}
+.spd-faixa button{border:0;border-radius:10px;padding:9px 14px;font-weight:800;cursor:pointer;font-size:1rem;background:rgba(255,255,255,.18);color:#fff}
+.spd-faixa .spd-ja{background:#22c55e;color:#052e16;font-size:1.15rem;padding:12px 20px;animation:spdPulsa 1s ease-in-out infinite alternate}
+@keyframes spdPulsa{to{transform:scale(1.06);box-shadow:0 0 0 6px rgba(34,197,94,.35)}}
+.spd-mouse{position:fixed;left:50%;top:50%;width:34px;height:40px;z-index:10050;pointer-events:none;transition:left .85s cubic-bezier(.45,.05,.3,1),top .85s cubic-bezier(.45,.05,.3,1);filter:drop-shadow(2px 3px 2px rgba(0,0,0,.45))}
+.spd-mouse.clica svg{transform:scale(.85)}.spd-mouse svg{transition:transform .12s;transform-origin:4px 4px}
+.spd-onda{position:fixed;z-index:10049;pointer-events:none;width:16px;height:16px;margin:-8px 0 0 -8px;border-radius:50%;border:4px solid #facc15;animation:spdOnda .6s ease-out forwards}
+.spd-onda.dir{border-color:#f472b6}
+@keyframes spdOnda{to{transform:scale(4.5);opacity:0}}
+.spd-etq{position:fixed;z-index:10051;pointer-events:none;background:#facc15;color:#0f172a;font-weight:900;font-size:15px;border-radius:999px;padding:4px 12px;white-space:nowrap;transform:translate(22px,26px);box-shadow:0 3px 8px rgba(0,0,0,.3)}
+.spd-fim{position:fixed;inset:0;z-index:10060;background:rgba(6,20,50,.78);display:flex;align-items:center;justify-content:center}
+.spd-fim>div{background:#fff;border-radius:22px;padding:26px 32px;max-width:560px;text-align:center;font-size:1.15rem}
+.spd-fim h2{margin:6px 0 10px}.spd-fim .row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:16px}
+.spd-fim button{border:0;border-radius:12px;padding:12px 20px;font-weight:800;font-size:1.1rem;cursor:pointer}
+.spd-fim .ok{background:#16a34a;color:#fff}.spd-fim .sec{background:#e2e8f0;color:#0f172a}`;
+  const SETA = `<svg viewBox="0 0 24 30" width="34" height="40"><path d="M2 2 L2 24 L8 18.5 L12.5 28 L16.5 26 L12 16.8 L20 16.8 Z" fill="#fff" stroke="#000" stroke-width="1.8" stroke-linejoin="round"/></svg>`;
+  /* o que o Bit faz em cada passo: vem de p.demo (lista de ações) ou é deduzido do que o passo confere (p.ok) e de onde piscar (p.onde)
+     ações: ["clique", k] ["duplo", k] ["direito", k] ["menu", "rótulo"] ["digitar", k|seletor, texto] ["tecla", "Enter"|"Ctrl+S"] ["arrastar", k, pastaDestino] */
+  function acoesDoPasso(p, prox) {
+    if (Array.isArray(p.demo)) return p.demo;
+    const oks = p.ok == null ? [] : Array.isArray(p.ok) ? p.ok : [p.ok];
+    const limpa = x => { if (/^\/.+\/[a-z]*$/.test(x)) x = x.slice(1, x.lastIndexOf("/")).replace(/\([^()]*\)\?/g, "").replace(/\[\^?[^\]]*\][*+]?/g, "").replace(/^\^/, "").replace(/\$$/, "").replace(/\.\*/g, "*").replace(/\\(.)/g, "$1").replace(/[()?+\[\]|]/g, ""); return x; };
+    const pats = oks.filter(x => typeof x === "string").map(limpa);
+    const o = oks.find(x => typeof x === "object") || null, sv = pats.find(x => !x.includes("*")) || pats[0] || "";
+    const onde = p.onde || null, [v, a2, ...r] = sv.split(":"), resto = [a2, ...r].join(":"), alvoNome = r.join(":").replace(/\*/g, "");
+    // texto a digitar quando o passo confere com /regex/: usa o que está em negrito no pedido (ex.: "pesquise <b>escolas fechar dezembro</b>")
+    const sug = (verbo, padrao) => { const orig = oks.find(x => typeof x === "string" && x.startsWith("/")); if (!orig) return padrao;
+      const bs = [...String(p.faca || "").matchAll(/<b>(.*?)<\/b>/g)].map(m => m[1].replace(/<[^>]+>/g, "").trim()).filter(Boolean);
+      return bs.find(b => casa(orig, verbo + ":" + b)) || padrao; };
+    const pre = alvo => onde && onde !== alvo && !/^(arq|ic):/.test(onde) ? [["clique", onde]] : [];
+    if (o) {
+      if (o.estado === "notas") return [["clique", "notas:texto"], ["digitarNotas", "notas:texto", o.texto]];
+      if (o.estado === "campo") return [["digitar", `[data-campo="${o.nome}"]`, o.valor || o.demo || (/\\d\{2\}\//.test(o.regex || "") ? "15/03/2012" : "aluno2026")]];
+      if (o.estado === "senhaForte") return [["digitar", `[data-campo="${o.campo || "senha"}"]`, "Escola@2026"]];
+      if (o.estado === "marcado") return [["clique", `[data-ev="${o.nome}"]`]];
+      if (o.estado === "salvo") return [["clique", "notas:texto"], ["tecla", "Ctrl+S"]].concat(o.pasta ? [["escolher", "dlg:pasta", o.pasta]] : []).concat([["digitar", "dlg:nome", o.nome], ["tecla", "Enter"]]);
+      if (o.estado === "fechadas") return o.ids.map(id => ["clique", `jan:${id}:fechar`]);
+      if (o.estado === "url") return [["digitar", "web:url", o.url], ["tecla", "Enter"]];
+      if (o.estado === "pastaTem" && onde) return [["arrastar", onde, o.pasta]];
+      return onde ? [["clique", onde]] : [];
+    }
+    if (v === "duplo") return [["duplo", onde || resto]];
+    if (v === "abrir" && a2 === "pasta") return onde && /^nav:/.test(onde) ? [["clique", onde]] : pre("arq:" + alvoNome).concat([["duplo", onde && /^(arq|ic):/.test(onde) ? onde : "arq:" + alvoNome]]);
+    if (v === "abrir" && a2 === "arq") return pre("arq:" + alvoNome).concat([["duplo", onde && /^(arq|ic):/.test(onde) ? onde : "arq:" + alvoNome]]);
+    if (v === "abrir" && a2 === "app") return onde && /^ic:/.test(onde) ? [["duplo", onde]] : onde && onde !== "bar:iniciar" ? [["clique", onde]] : [["clique", "bar:iniciar"], ["clique", "start:" + alvoNome]];
+    if (["min", "max", "fechar", "restaurarTam"].includes(v) && a2 === "jan") return [["clique", onde || `jan:${alvoNome}:${v === "restaurarTam" ? "max" : v}`]];
+    if (v === "fechar" && a2 === "propriedades") return [["clique", '[data-a="propOk"]']];
+    if (v === "restaurar" && a2 === "arq") return [["direito", onde || "lix:" + alvoNome], ["menu", "Restaurar"]];
+    if (v === "restaurar" && a2 === "jan") return [["clique", onde || "bar:" + alvoNome]];
+    if (v === "link") { const l = `[data-link^="${resto.replace(/\*/g, "")}"]`; return onde && /^email:/.test(onde) ? [["clique", onde], ["clique", l]] : [["clique", onde || l]]; }
+    if (v === "clique") return [["clique", onde && onde.split(":")[0] === a2 ? onde : resto.replace(/\*/g, "")]];
+    if (v === "calc") return [["clique", "calc:" + resto]];
+    if (v === "rolar") return [["rolar", ".sp-pag"]];
+    if (v === "arrastar" && a2 === "jan") return [["arrastarJan", alvoNome]];
+    if (v === "direito") return [["direito", onde || resto]];
+    if (v === "mover") { const [de, para] = alvoNome.split(">"); return [["arrastar", onde || a2 + ":" + de, para]]; }
+    if (v === "texto") return [["clique", "notas:texto"], ["digitarNotas", "notas:texto", sug("texto", resto.replace(/\*.*$/, "") || "Olá, eu sou da escola")]];
+    if (v === "atalho") return [["tecla", resto]];
+    if (v === "url") return [["digitar", "web:url", resto], ["tecla", "Enter"]];
+    if (v === "buscar") return [["digitar", onde || "web:busca", sug("buscar", resto.replace(/\*/g, " ").trim())], ["tecla", "Enter"]];
+    if (v === "criar") { const ren = prox && [].concat(prox.ok || []).find(x => typeof x === "string" && x.startsWith("renomear:"));
+      return [["direito", a2 === "pasta" && /Área de Trabalho/.test(alvoNome) ? "area" : "fundoexp"], ["menu", r[0] === "Área de Trabalho" ? "Novo › Pasta" : (a2 === "txt" ? "Novo › Documento de Texto" : "Novo › Pasta")]].concat(ren ? [] : [["tecla", "Enter"]]); }
+    if (v === "renomear") { let [velho, novo] = alvoNome.split(">"); novo = (novo || "").replace(/\.$/, "") || "Minha pasta"; if (pats[0] !== oks.find(x => typeof x === "string")) novo = novo[0].toUpperCase() + novo.slice(1); return [["renomear", "arq:" + velho, novo]]; }
+    if (v === "excluir") return [["direito", onde || "arq:" + alvoNome], ["menu", "Excluir"]];
+    if (v === "compactar") return [["direito", onde || "arq:" + alvoNome], ["menu", /Compactar|Enviar/]];
+    if (v === "extrair") return [["direito", onde || "arq:" + alvoNome], ["menu", "Extrair Tudo..."]];
+    if (v === "prop") return [["direito", onde || "arq:" + alvoNome], ["menu", "Propriedades"]];
+    if (v === "copiar" || v === "recortar") return [["direito", onde || "arq:" + alvoNome], ["menu", v === "copiar" ? "Copiar" : "Recortar"]];
+    if (v === "colar") return [["direito", "fundoexp"], ["menu", "Colar"]];
+    if (v === "extensoes") return [["clique", onde || "exp:ext"]];
+    return onde ? [["clique", onde]] : [];
+  }
+  T.sim_pc.demo = function (at, so, op) {
+    op = op || {};
+    if (!document.getElementById("spd-css")) { const stl = document.createElement("style"); stl.id = "spd-css"; stl.textContent = DEMO_CSS; document.head.appendChild(stl); }
+    const ov = document.createElement("div"); ov.className = "spd"; ov.setAttribute("role", "dialog"); ov.setAttribute("aria-label", "Veja como faz");
+    ov.innerHTML = `<div class="spd-faixa"><span aria-hidden="true" style="font-size:1.6rem">🎬</span><span class="spd-tit">Assista com atenção: o <b>${esc(at.ajudante || "Bit")}</b> vai fazer primeiro, passo a passo. <b>Depois é a sua vez de fazer igual!</b></span>
+      <button type="button" class="spd-pausa">⏸ Pausar</button><button type="button" class="spd-denovo">↺ Ver de novo</button>${op.obrigatorio ? "" : `<button type="button" class="spd-sair">✕ Fechar</button>`}</div><div class="spd-sim"></div>`;
+    document.body.appendChild(ov); document.body.classList.add("sp-travado");
+    // durante a demonstração, o aluno só assiste: cliques e teclas de verdade no computador da demonstração são ignorados
+    ["click", "dblclick", "pointerdown", "pointerup", "contextmenu", "keydown", "input", "wheel"].forEach(t => ov.addEventListener(t, e => { if (e.isTrusted && !e.target.closest(".spd-faixa")) { e.stopPropagation(); if (t !== "wheel") e.preventDefault(); } }, { capture: true, passive: false }));
+    const mouse = document.createElement("div"); mouse.className = "spd-mouse"; mouse.innerHTML = SETA; document.body.appendChild(mouse);
+    let rodada = 0, pausado = false, fechado = false;
+    const fechar = () => { fechado = true; rodada++; ov.remove(); mouse.remove(); document.querySelectorAll(".spd-etq,.spd-onda,.spd-fim").forEach(x => x.remove()); document.body.classList.remove("sp-travado"); };
+    const pausa = ov.querySelector(".spd-pausa"); pausa.onclick = () => { pausado = !pausado; pausa.textContent = pausado ? "▶ Continuar" : "⏸ Pausar"; };
+    ov.querySelector(".spd-denovo").onclick = () => tocar();
+    const bs = ov.querySelector(".spd-sair"); if (bs) bs.onclick = () => { fechar(); };
+    const dorme = async (ms, meu) => { ms *= (P.__demoVel || 1); let t = 0; while (t < ms) { if (meu !== rodada) return false; await espera(100); if (!pausado) t += 100; } return meu === rodada; };
+    async function tocar() {
+      const meu = ++rodada; pausado = false; pausa.textContent = "⏸ Pausar"; document.querySelectorAll(".spd-fim,.spd-etq").forEach(x => x.remove());
+      const box = ov.querySelector(".spd-sim"); box.innerHTML = ""; box.style.cssText = "flex:1;min-height:0;display:flex;flex-direction:column";
+      const dst = { so: so || at.so || "10" }, dctx = { st: dst, demo: {}, salvar() {}, concluir() {}, reRender() {}, esconderVerificar() {} };
+      T.sim_pc.render(box, at, dctx);
+      const SP = box.querySelector(".sp"); SP.classList.add("sp-foco"); const ini = box.querySelector(".sp-iniciar"); if (ini) ini.remove();
+      dispatchEvent(new Event("resize")); await espera(60); dispatchEvent(new Event("resize"));
+      const tela = box.querySelector(".sp-tela"), passos = at.passos || [];
+      const achaEl = k => { if (!k) return null; if (/^[\[.#]/.test(k)) return tela.querySelector(k); return tela.querySelector(`[data-k="${CSS.escape(k)}"]`) || (/^arq:.+\.\w{2,4}$/.test(k) ? [...tela.querySelectorAll("tr[data-arq]")].find(e => { const [, nm, ex] = e.dataset.arq.split("|"); return ex && norm(nm + "." + ex) === norm(k.slice(4)); }) : null) || (/^arq:\./.test(k) ? [...tela.querySelectorAll('[data-k^="arq:"]')].find(e => norm(e.dataset.k).endsWith(norm(k.slice(4)))) : null) || (/^arq:/.test(k) ? [...tela.querySelectorAll('[data-k^="arq:"]')].find(e => norm(e.dataset.k).startsWith(norm(k))) : null) || tela.querySelector(`[data-ctx="${CSS.escape(k)}"]`) || (k === "fundoexp" ? tela.querySelector('[data-ctx="fundoexp"]') : null) || (k === "area" ? tela.querySelector('[data-ctx="area"]') : null); };
+      const centro = el => { const r = el.getBoundingClientRect(); return [r.left + Math.min(r.width / 2, 60), r.top + Math.min(r.height / 2, 18)]; };
+      const vai = async (x, y) => { mouse.style.left = x + "px"; mouse.style.top = y + "px"; return dorme(950, meu); };
+      const onda = (x, y, dir) => { const o = document.createElement("div"); o.className = "spd-onda" + (dir ? " dir" : ""); o.style.left = x + "px"; o.style.top = y + "px"; document.body.appendChild(o); setTimeout(() => o.remove(), 700); mouse.classList.add("clica"); setTimeout(() => mouse.classList.remove("clica"), 160); };
+      const etq = txt => { document.querySelectorAll(".spd-etq").forEach(x => x.remove()); if (!txt) return; const e = document.createElement("div"); e.className = "spd-etq"; e.textContent = txt; e.style.left = mouse.style.left; e.style.top = mouse.style.top; document.body.appendChild(e); setTimeout(() => e.remove(), 1600); };
+      const me = (tipo, el, x, y, extra) => el.dispatchEvent(new MouseEvent(tipo, Object.assign({ bubbles: true, cancelable: true, clientX: x, clientY: y, button: tipo === "contextmenu" ? 2 : 0 }, extra || {})));
+      const pe = (tipo, el, x, y) => el.dispatchEvent(new PointerEvent(tipo, { bubbles: true, cancelable: true, clientX: x, clientY: y, button: 0, pointerId: 1, isPrimary: true }));
+      const tecla = (el, t) => { const ctrl = /^Ctrl\+/.test(t), key = ctrl ? t.slice(5).toLowerCase() : t; (el || tela).dispatchEvent(new KeyboardEvent("keydown", { key, ctrlKey: ctrl, bubbles: true, cancelable: true })); };
+      async function fazer(ac) {
+        const [tipo, k, extra] = ac;
+        if (tipo === "menu") { const itens = [...tela.querySelectorAll("[data-m]")]; const it = itens.find(b => (k instanceof RegExp ? k.test(b.dataset.k.slice(5)) : b.dataset.k.slice(5) === k)); if (!it) return false;
+          const [x, y] = centro(it); if (!await vai(x, y)) return null; etq("clique"); onda(x, y); it.click(); return dorme(500, meu); }
+        if (tipo === "tecla") { const foco = document.activeElement && tela.contains(document.activeElement) ? document.activeElement : tela.querySelector("[data-ren]") || tela.querySelector('[data-k="dlg:nome"]') || tela.querySelector(".sp-notas textarea") || tela;
+          etq("⌨️ " + k); if (k === "Enter" && foco.form) foco.form.requestSubmit(); else tecla(foco, k); return dorme(700, meu); }
+        if (tipo === "renomear") { let inp = tela.querySelector("[data-ren]");
+          if (!inp) { if (!await fazer(["direito", k])) return false; if (!await fazer(["menu", "Renomear"])) return false; inp = tela.querySelector("[data-ren]"); }
+          if (!inp) return false; return fazer(["digitar", "[data-ren]", extra]).then(okk => okk && fazer(["tecla", "Enter"])); }
+        if (tipo === "escolher") { const sel = achaEl(k); if (!sel) return false; const [x, y] = centro(sel); if (!await vai(x, y)) return null; etq("escolha a pasta"); onda(x, y);
+          const op = [...sel.options].find(o2 => norm(o2.value) === norm(extra) || norm(o2.textContent) === norm(extra)); if (!op) return false; sel.value = op.value; sel.dispatchEvent(new Event("change", { bubbles: true })); return dorme(800, meu); }
+        if (tipo === "rolar") { const pgEl = tela.querySelector(k); if (!pgEl) return false; const [x, y] = centro(pgEl); if (!await vai(x, y + 60)) return null; etq("🖱️ rodinha do mouse");
+          for (let i = 0; i < 14; i++) { pgEl.scrollTop += Math.ceil(pgEl.scrollHeight / 12); pgEl.dispatchEvent(new Event("scroll")); pgEl.dispatchEvent(new WheelEvent("wheel", { bubbles: true, deltaY: 120 })); if (!await dorme(110, meu)) return null; } return dorme(600, meu); }
+        if (tipo === "arrastarJan") { const t = tela.querySelector(`[data-arrasta="${CSS.escape(k)}"]`); if (!t) return false; const r = t.getBoundingClientRect(), x = r.left + r.width * .4, y = r.top + r.height / 2; if (!await vai(x, y)) return null;
+          etq("segure e arraste"); pe("pointerdown", t, x, y); for (let i = 1; i <= 12; i++) { const xi = x - i * 9, yi = y + i * 6; mouse.style.transition = "none"; mouse.style.left = xi + "px"; mouse.style.top = yi + "px"; pe("pointermove", tela, xi, yi); if (!await dorme(60, meu)) return null; }
+          mouse.style.transition = ""; etq("solte"); pe("pointerup", tela, x - 108, y + 72); return dorme(800, meu); }
+        if (tipo === "digitarNotas") { const ta = tela.querySelector(".sp-notas textarea"); if (!ta) return false; const alvo = String(extra || "");
+          let cp = 0; while (cp < ta.value.length && cp < alvo.length && ta.value[cp] === alvo[cp]) cp++;
+          if (ta.value.length > cp) { const [x, y] = centro(ta); if (!await vai(x, y)) return null; ta.focus(); etq("⌫ Backspace (apagar)");
+            while (ta.value.length > cp) { ta.value = ta.value.slice(0, -1); ta.dispatchEvent(new Event("input", { bubbles: true })); if (!await dorme(140, meu)) return null; } }
+          return alvo.length > cp ? fazer(["digitar", "notas:texto", alvo.slice(cp)]) : dorme(500, meu); }
+        const el = achaEl(k); if (!el) return false; const [x, y] = centro(el);
+        if (!await vai(x, y)) return null;
+        if (tipo === "clique") { etq("clique"); onda(x, y); pe("pointerdown", el, x, y); pe("pointerup", tela, x, y); me("click", el, x, y); }
+        else if (tipo === "duplo") { etq("2 cliques rápidos"); onda(x, y); me("click", el, x, y); await espera(120); onda(x, y); me("dblclick", el, x, y); }
+        else if (tipo === "direito") { etq("botão direito"); onda(x, y, true); me("contextmenu", el, x, y); }
+        else if (tipo === "digitar") { etq("⌨️ digitando"); el.focus(); if (el.tagName === "TEXTAREA" || el.tagName === "INPUT") { if (el.matches("[data-ren],[data-k='dlg:nome'],[data-campo],[data-k='web:url']")) el.value = "";
+            for (const ch of String(extra || "")) { if (!await dorme(70, meu)) return null; const t = tela.querySelector(el.matches("[data-k]") ? `[data-k="${CSS.escape(el.dataset.k)}"]` : k) || el; t.value += ch; t.dispatchEvent(new Event("input", { bubbles: true })); } } }
+        else if (tipo === "arrastar") { const dzs = [...tela.querySelectorAll("[data-drop]")], dz = dzs.find(z => z.matches("tr") && norm(z.dataset.drop) === norm(extra)) || dzs.find(z => norm(z.dataset.drop) === norm(extra)); if (!dz) return false; etq("segure e arraste"); pe("pointerdown", el, x, y);
+          const [x2, y2] = centro(dz); for (let i = 1; i <= 12; i++) { const xi = x + (x2 - x) * i / 12, yi = y + (y2 - y) * i / 12; mouse.style.transition = "none"; mouse.style.left = xi + "px"; mouse.style.top = yi + "px"; pe("pointermove", tela, xi, yi); if (!await dorme(60, meu)) return null; }
+          mouse.style.transition = ""; etq("solte"); pe("pointerup", tela, x2, y2); onda(x2, y2); }
+        return dorme(900, meu);
+      }
+      mouse.style.left = innerWidth / 2 + "px"; mouse.style.top = innerHeight / 2 + "px";
+      if (!await dorme(1800, meu)) return;
+      for (let i = 0; i < passos.length; i++) {
+        if (meu !== rodada) return;
+        const antes = dst.passo; if (!await dorme(1600, meu)) return; // tempo para ler o pedido do passo
+        const mudou = async () => { for (let k = 0; k < 10 && dst.passo === antes; k++) await espera(100); return dst.passo !== antes; }; // o clique só "conta" ~0,3 s depois (pode virar duplo)
+        for (const ac of acoesDoPasso(passos[i], passos[i + 1])) { const r = await fazer(ac); if (r === null || meu !== rodada) return; if (dst.passo !== antes || (ac[0] !== "direito" && ac[0] !== "menu" && await mudou())) break; }
+        await mudou(); if (!await dorme(700, meu)) return;
+        if (dst.passo === antes) { console.warn("[demo sim_pc] passo sem demonstração automática:", at.id || at.titulo, i + 1, passos[i]); dctx.demo.forcar && dctx.demo.forcar(); (P.__demoFalhas = P.__demoFalhas || []).push([at.id || at.titulo, i + 1]); }
+        if (!await dorme(1400, meu)) return; // tempo para ver o resultado e o elogio
+      }
+      if (meu !== rodada) return;
+      const fim = document.createElement("div"); fim.className = "spd-fim";
+      fim.innerHTML = `<div><p style="font-size:3rem;margin:0">🙌</p><h2>Viu como faz?</h2><p>Agora é a <b>sua vez</b>: faça <b>igualzinho</b>, passo a passo. O ${esc(at.ajudante || "Bit")} vai estar do seu lado, e o botão <b>🎬 Rever como faz</b> fica sempre ali, se precisar.</p>
+        <div class="row"><button type="button" class="ok">▶ Agora é a minha vez!</button><button type="button" class="sec">↺ Ver de novo</button></div></div>`;
+      document.body.appendChild(fim);
+      fim.querySelector(".ok").onclick = () => { fechar(); op.aoFim && op.aoFim(); };
+      fim.querySelector(".sec").onclick = () => { fim.remove(); tocar(); };
+      fim.querySelector(".ok").focus();
+    }
+    tocar();
+    return { fechar };
   };
 })();

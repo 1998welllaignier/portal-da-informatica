@@ -84,7 +84,7 @@
      - os simuladores que têm o próprio menu do botão direito (Windows, teclado, computador de treino) continuam funcionando,
        porque aqui só se impede o menu do navegador, sem parar o clique deles;
      - as teclas continuam chegando aos jogos e simuladores (só a área de transferência do navegador é bloqueada). */
-  let ehProf = false; const verProf = () => { try { professorLogado().then(v => { ehProf = !!v; }); } catch (e) {} };
+  let ehProf = false; const verProf = () => { try { professorLogado().then(v => { ehProf = !!v; P.__profSim = ehProf; }); } catch (e) {} };
   setTimeout(verProf, 2500); addEventListener("hashchange", () => { if (!ehProf) { profOk = null; verProf(); } });
   const liberado = e => ehProf || /^#\/painel/.test(location.hash) || !!(e.target && e.target.closest && e.target.closest("[data-libera-copiar], .lousa, .pp-dlg"));
   let avisoCopiar = 0;

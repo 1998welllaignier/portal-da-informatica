@@ -130,9 +130,9 @@ PORTAL.registrarAtividades("informatica-6ano-2027-1bim", {
         area: [{ nome: "Lixeira", app: "lixeira" }, { nome: "Calculadora", app: "calc" }],
         passos: [
           { faca: "Abra a <b>Calculadora</b>: dê um <b>duplo clique</b> no ícone 🧮 dela, na área de trabalho.", ok: "duplo:ic:Calculadora", onde: "ic:Calculadora" },
-          { faca: "<b>ENTRADA</b>: clique nos botões para digitar <b>2 + 3</b> (o 2, depois o +, depois o 3).", ok: "calc:3", onde: "calc:2", erros: { "calc:=*": "Calma! Antes do =, digite a conta toda: 2, depois +, depois 3." } },
-          { faca: "<b>PROCESSAMENTO</b>: clique em <b>=</b> para o processador fazer a conta. Veja a <b>SAÍDA</b> aparecer na tela: <b>5</b>.", ok: { estado: "calc", resultado: "5" }, onde: "calc:=", erros: { "calc:=*": "O resultado não deu 5. Clique em C para limpar e digite de novo: 2 + 3 =" } },
-          { faca: "Agora a conta da merenda: <b>4 × 6</b> e <b>=</b>. Clique em <b>C</b> antes, para limpar.", ok: { estado: "calc", resultado: "24" }, onde: "calc:×", dica: "O sinal de vezes é o ×. Clique: C, 4, ×, 6, =." },
+          { faca: "<b>ENTRADA</b>: clique nos botões para digitar <b>2 + 3</b> (o 2, depois o +, depois o 3).", ok: "calc:3", onde: "calc:2", demo: [["clique", "calc:2"], ["clique", "calc:+"], ["clique", "calc:3"]], erros: { "calc:=*": "Calma! Antes do =, digite a conta toda: 2, depois +, depois 3." } },
+          { faca: "<b>PROCESSAMENTO</b>: clique em <b>=</b> para o processador fazer a conta. Veja a <b>SAÍDA</b> aparecer na tela: <b>5</b>.", ok: { estado: "calc", resultado: "5" }, onde: "calc:=", demo: [["clique", "calc:="]], erros: { "calc:=*": "O resultado não deu 5. Clique em C para limpar e digite de novo: 2 + 3 =" } },
+          { faca: "Agora a conta da merenda: <b>4 × 6</b> e <b>=</b>. Clique em <b>C</b> antes, para limpar.", ok: { estado: "calc", resultado: "24" }, onde: "calc:×", demo: [["clique", "calc:C"], ["clique", "calc:4"], ["clique", "calc:×"], ["clique", "calc:6"], ["clique", "calc:="]], dica: "O sinal de vezes é o ×. Clique: C, 4, ×, 6, =." },
           { faca: "Para terminar, feche a Calculadora no <b>X</b>.", ok: "fechar:jan:calc", onde: "jan:calc:fechar" }
         ],
         fimMsg: "Entrada (os botões), processamento (o =, feito pelo processador) e saída (o resultado na tela). Você viu as três etapas!",
@@ -389,8 +389,8 @@ PORTAL.registrarAtividades("informatica-6ano-2027-1bim", {
           { faca: "No painel da esquerda, clique em <b>Documentos</b>.", ok: "abrir:pasta:Documentos", onde: "nav:Documentos" },
           { faca: "Clique com o <b>botão direito</b> num espaço vazio (a parte branca) e escolha <b>Novo › Pasta</b>.", ok: "criar:pasta:Documentos", dica: "Botão direito na parte branca, onde não tem arquivo. No menu: Novo › Pasta." },
           { faca: "Digite o seu <b>primeiro nome</b> e aperte <b>Enter</b>.", ok: "/^renomear:pasta:nova pasta.*>.+$/", dica: "Se o nome saiu errado: botão direito na pasta › Renomear." },
-          { faca: "Dê <b>duplo clique</b> na sua pasta para entrar nela.", ok: "/^abrir:pasta:(?!documentos$).+/", dica: "Dois cliques rapidinhos em cima da pasta com o seu nome." },
-          { faca: "Clique com o <b>botão direito</b> na parte branca e escolha <b>Novo › Documento de Texto</b>.", ok: "/^criar:txt:(?!documentos$).+/", dica: "Botão direito na parte branca. No menu: Novo › Documento de Texto." },
+          { faca: "Dê <b>duplo clique</b> na sua pasta para entrar nela.", ok: "/^abrir:pasta:(?!documentos$).+/", demo: [["duplo", "arq:Minha pasta"]], dica: "Dois cliques rapidinhos em cima da pasta com o seu nome." },
+          { faca: "Clique com o <b>botão direito</b> na parte branca e escolha <b>Novo › Documento de Texto</b>.", ok: "/^criar:txt:(?!documentos$).+/", demo: [["direito", "fundoexp"], ["menu", "Novo › Documento de Texto"]], dica: "Botão direito na parte branca. No menu: Novo › Documento de Texto." },
           { faca: "Dê o nome <b>minha-primeira-nota</b> e aperte <b>Enter</b>.", ok: "/^renomear:arq:.*>minha-primeira-nota(\\.txt)?$/", dica: "Se o nome saiu errado: botão direito no arquivo › Renomear." }
         ],
         fimMsg: "Pasta e arquivo criados! Você sabe organizar o seu espaço.",
