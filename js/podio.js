@@ -361,8 +361,7 @@
     const pg = mm.pages.find(x => x.id === "bonus"); if (!pg) return { xp: 0, ok: false };
     const lst = (pg.atividades || []).filter(at => !((P.tipos || {})[at.tipo] || {}).semStatus); if (!lst.length) return { xp: 0, ok: false };
     let raw = 0, n = 0; lst.forEach(at => { const st = (atv || {})[at.id]; if (!st || !st.status) return; n++;
-      let f = st.status === "certo" ? 1 : st.status === "ajuda" ? .6 : st.status === "enviado" ? .8 : .5;
-      f -= .12 * (st.tentativas || 0) + .15 * (st.dicas || 0) + (st.viuResolucao ? .2 : 0); raw += Math.max(.3, Math.min(1, f)); });
+      raw += fator(st); });
     return { xp: Math.round(XP_BONUS * raw / lst.length), ok: n === lst.length };
   }
   /* 🏆 pontos do placar e do pódio = o MESMO número da barra "⚡ XP da missão" que o aluno vê (18/11/2026: antes o placar
@@ -376,6 +375,19 @@
     return { pontos: xpDoc(p.aid, p.mid, atv), okB: !!p.basicoOk, okEm: okEm || null, bonusOk: bonusDe(mm, atv).ok };
   }
   // ⚡ XP da missão (0 a 1000, + até 150 do ⭐ Bônus relâmpago): é também o número do placar e do pódio
+  /* 🎲 Contra o chute (20/11/2026, pedido do professor): nas tarefas novas (st.r2), acertou de 1ª = pontos inteiros,
+     na 2ª tentativa = metade, da 3ª em diante = zero (pode continuar para aprender). Antes era -12% por erro (mínimo 30%). */
+  function fator(st) {
+    let f = st.status === "certo" ? 1 : st.status === "ajuda" ? .6 : st.status === "enviado" ? .8 : .5;
+    if (st.r2) { const t = st.tentativas || 0; f *= t === 0 ? 1 : t === 1 ? .5 : 0; f -= .15 * (st.dicas || 0) + (st.viuResolucao ? .2 : 0); return Math.max(0, Math.min(1, f)); }
+    f -= .12 * (st.tentativas || 0) + .15 * (st.dicas || 0) + (st.viuResolucao ? .2 : 0); return Math.max(.3, Math.min(1, f));
+  }
+  /* 🔥 sequência: a cada 3 tarefas seguidas certas de primeira (sem dica), +20 XP (até +100 por missão) */
+  function sequencia(atv) {
+    const l = Object.values(atv || {}).filter(st => st && st.r2 && st.status && st.quando).sort((a, b) => a.quando - b.quando);
+    let atual = 0, bonus = 0; l.forEach(st => { if (st.status === "certo" && !(st.tentativas || 0) && !(st.dicas || 0)) { atual++; if (atual % 3 === 0) bonus += 20; } else atual = 0; });
+    return { atual, bonus: Math.min(100, bonus) };
+  }
   function xpDoc(aid, mid, atv) {
     if (!P.montarMissao || !P.conteudo[aid]) return 0;
     let mm; try { mm = P.montarMissao(aid, mid); } catch (e) { return 0; }
@@ -383,10 +395,8 @@
     mm.pages.forEach(pg => { const base = BASE[pg.id]; if (!base) return;
       (pg.atividades || []).forEach(at => { const T = (P.tipos || {})[at.tipo] || {}; if (T.semStatus || at.opcional) return;
         max += base; const st = (atv || {})[at.id]; if (!st || !st.status) return;
-        let f = st.status === "certo" ? 1 : st.status === "ajuda" ? .6 : st.status === "enviado" ? .8 : .5;
-        f -= .12 * (st.tentativas || 0) + .15 * (st.dicas || 0) + (st.viuResolucao ? .2 : 0);
-        raw += base * Math.max(.3, Math.min(1, f)); }); });
-    return (max ? Math.round(1000 * raw / max) : 0) + bonusDe(mm, atv).xp;
+        raw += base * fator(st); }); });
+    return (max ? Math.round(1000 * raw / max) : 0) + bonusDe(mm, atv).xp + sequencia(atv).bonus;
   }
   const nomeCurto = n => { const p = String(n || "").trim().split(/\s+/); return p.length > 1 ? p[0] + " " + p[p.length - 1][0] + "." : p[0] || "?"; };
   /* ranking da missão do dia. alunos = cadastro da turma; prog = documentos de progresso da turma */
@@ -446,5 +456,5 @@
   function sortear() { const n = k => Math.floor(Math.random() * k);
     return Object.assign({}, PADRAO, { tipo: OPC.tipo[n(2)][0], pele: n(PELE.length), cabelo: OPC.cabelo[n(OPC.cabelo.length)][0], corCabelo: n(4) }); }
   P.avatar = { svg, editor, fluxoLogin, daSessao, PADRAO, sortear };
-  P.podio = { ranking, pontosDoc, xpDoc, linhaPlacar, podioHTML, confete, nomeCurto, MED, coroa, reis, tituloRei };
+  P.podio = { ranking, pontosDoc, xpDoc, sequencia, linhaPlacar, podioHTML, confete, nomeCurto, MED, coroa, reis, tituloRei };
 })();

@@ -2278,3 +2278,12 @@ button.es-alvo.pop{animation:es-pop .3s}
 .jg-carta .f{font-size:2rem;font-weight:900}.jg-carta .v{display:none;flex-direction:column;align-items:center;font-size:2.2rem;color:#0f172a}.jg-carta .v small{font-size:.8rem;font-weight:700}
 .jg-carta.aberta{background:#fff;box-shadow:0 3px 0 #cbd5e1}.jg-carta.aberta .f{display:none}.jg-carta.aberta .v{display:flex}.jg-carta.ok{background:#dcfce7}
 .es-prof-jogos{margin:.4rem 0 .8rem;background:#fff;border-radius:12px;padding:.4rem .8rem}.es-prof-jogos summary{cursor:pointer}
+
+/* 🎲 Contra o chute (20/11/2026) */
+.atv-lendo .atv-corpo,.atv-lendo .atv-acoes{pointer-events:none;opacity:.55;filter:saturate(.6)}
+.atv-ler{display:inline-block;margin:.3rem 0;background:#eff6ff;border:2px dashed #2563eb;color:#1e3a8a;font-weight:800;border-radius:10px;padding:.2rem .8rem;animation:es-pulsa 2s infinite}
+.atv{position:relative}
+.atv-pausa{position:absolute;inset:0;z-index:6;display:grid;place-items:center;background:rgba(255,251,235,.94);border-radius:inherit;text-align:center;padding:1rem}
+.atv-pausa-t{font-size:1.5rem;font-weight:900;color:#92400e;margin:0}
+.atv-pausa-s{font-weight:800}
+.atv-fogo{display:inline-block;margin-left:.4rem;background:#fff7ed;border:2px solid #f97316;color:#c2410c;font-weight:900;border-radius:999px;padding:0 .6rem}

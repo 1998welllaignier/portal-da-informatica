@@ -1107,6 +1107,28 @@
     if (at.tipo === "tabela") return "<p>Complete cada linha da tabela: digite a resposta na caixa ou escolha na lista. Depois clique em <strong>Verificar</strong>.</p>";
     return "";
   }
+  /* 📖 Tempo mínimo de leitura (20/11/2026, pedido do professor): o botão e as respostas acendem só depois de alguns segundos,
+     calculados pelo tamanho do texto (3,5 palavras por segundo) e com FOLGA de 40% para quem lê rápido (máximo 15 s).
+     O relógio só começa quando a tarefa aparece na tela. Quem lê nem percebe; quem chuta precisa esperar. */
+  function tempoDeLeitura(el, pronto) {
+    const txt = (el.querySelector(".atv-cab h2") || {}).textContent + " " + ((el.querySelector(".atv-enun") || {}).textContent || "") + " " + ((el.querySelector(".atv-corpo") || {}).textContent || "");
+    const pal = txt.split(/\s+/).filter(w => w.length > 1).length, seg = Math.min(15, Math.round(pal / 3.5 * 0.6));
+    if (seg < 2) return;
+    el.classList.add("atv-lendo");
+    const tag = h(`<div class="atv-ler" role="status">📖 Leia com calma… <b>${seg}</b>s</div>`); el.querySelector(".atv-cab").after(tag);
+    let iniciou = false;
+    const comeca = () => { if (iniciou) return; iniciou = true; let r = seg;
+      const iv = setInterval(() => { r--; const b = tag.querySelector("b"); if (b) b.textContent = r; if (r <= 0 || !el.isConnected) { clearInterval(iv); el.classList.remove("atv-lendo"); tag.remove(); pronto && pronto(); } }, 1000); };
+    if ("IntersectionObserver" in window) { const io = new IntersectionObserver(es => { if (es.some(e => e.isIntersecting)) { io.disconnect(); comeca(); } }, { threshold: .35 }); io.observe(el); } else comeca();
+  }
+  /* 🤔 três erros rápidos seguidos: a tarefa pausa uns segundos e mostra onde reler a explicação */
+  function pausaChute(el, aid, mid) {
+    if (el.querySelector(".atv-pausa")) return;
+    const seg = 8, ov = h(`<div class="atv-pausa" role="alert"><div><p class="atv-pausa-t">🤔 Parece que você está chutando…</p>
+      <p>Leia de novo com calma 😉 Chutar não dá pontos: só vale ponto inteiro quem acerta de primeira.</p>
+      <p><a class="btn btn-sec" href="#/missao/${aid}/${mid}/comecar">📖 Reler a explicação da missão</a></p><p class="atv-pausa-s">Volte a responder em <b>${seg}</b>s</p></div></div>`);
+    el.appendChild(ov); let r = seg; const iv = setInterval(() => { r--; const b = ov.querySelector("b"); if (b) b.textContent = r; if (r <= 0 || !el.isConnected) { clearInterval(iv); ov.remove(); } }, 1000);
+  }
   function cartaoAtividade(aid, mid, at, i, onChange) {
     const T = P.tipos[at.tipo];
     if (!T) return h(`<div class="atv erro">Tipo de atividade desconhecido: ${esc(at.tipo)}</div>`);
@@ -1116,7 +1138,7 @@
       return box;
     }
     const prog = getProg(aid);
-    const st = prog.atv[at.id] = prog.atv[at.id] || { tentativas: 0, dicas: 0 };
+    const st = prog.atv[at.id] = prog.atv[at.id] || { tentativas: 0, dicas: 0, r2: 1 };   // r2: regra contra o chute (20/11/2026)
     if (!st.ini && !st.status) st.ini = Date.now();   // 📄 relatório do aluno (18/11/2026): hora em que a tarefa apareceu para ele pela 1ª vez
     const s = sess.get();
     const auto = typeof T.auto === "function" ? T.auto(at) : T.auto;
@@ -1165,11 +1187,19 @@
       concluir(status, msg) {
         st.status = (status === "certo" && (st.dicas > 0 || st.viuResolucao)) ? "ajuda" : status;
         st.quando = Date.now(); salvar(); mostrarStatus(); atualizarAjuda();
-        if (msg !== false) feedback("ok", (msg || "Muito bem!") + (at.explicacao ? `<div class="explic">${at.explicacao}</div>` : ""));
+        // 🔥 sequência de acertos de primeira (a cada 3 seguidas, +20 XP)
+        let fogo = ""; try { if (st.r2 && st.status === "certo" && !st.tentativas && P.podio && P.podio.sequencia) { const q = P.podio.sequencia(getProg(aid).atv);
+          if (q.atual >= 2) fogo = ` <span class="atv-fogo">🔥 ${q.atual} de primeira seguidas!${q.atual % 3 === 0 && q.bonus <= 100 ? " +20 XP" : ""}</span>`; } } catch (e) {}
+        if (msg !== false) feedback("ok", (msg || "Muito bem!") + fogo + (at.explicacao ? `<div class="explic">${at.explicacao}</div>` : ""));
         onChange && onChange();
       },
       errou(msg) {
-        st.tentativas++; salvar();
+        st.tentativas++;
+        // 🤔 detector de chute (20/11/2026): erro em menos de 4 s desde a última ação conta como "chute"; 3 seguidos = pausa
+        const ag = Date.now(), rapido = ag - (ctx._ult || ag - 99999) < 4000; ctx._ult = ag;
+        if (rapido && !emRec && !(s && s.prof)) { st.chutes = (st.chutes || 0) + 1; ctx._seguidos = (ctx._seguidos || 0) + 1; } else ctx._seguidos = 0;
+        salvar();
+        if (ctx._seguidos >= 3) { ctx._seguidos = 0; pausaChute(el, aid, mid); }
         feedback("erro", msg + (!emRec && st.tentativas >= 2 && (dicas.length || ctx.resolver) ? " <br><small>Se quiser, peça uma dica ou veja a resolução comentada.</small>" : " <br><small>Sua resposta foi mantida: ajuste e tente de novo.</small>"));
         atualizarAjuda();
       },
@@ -1182,6 +1212,11 @@
     bR.onclick = () => { if (!ctx.resolver) return; st.viuResolucao = true; ctx.resolver(); ctx.concluir("ajuda", "Resolução comentada:"); };
     bRef.onclick = () => { for (const k of Object.keys(st)) delete st[k]; st.tentativas = 0; st.dicas = 0; st.ini = Date.now(); salvar(); feedback("", ""); ctx.reRender(); mostrarStatus(); atualizarAjuda(); onChange && onChange(); };
     T.render(corpo, at, ctx);
+    ctx._ult = Date.now();
+    corpo.addEventListener("change", () => { ctx._ult = Date.now(); });
+    corpo.addEventListener("click", e => { if (!(e.target && /^(INPUT|LABEL)$/.test(e.target.tagName))) ctx._ult = Date.now(); });   // depois de cada resposta, o relógio do chute recomeça
+    // 📖 tempo mínimo de leitura (20/11/2026): só na 1ª vez, quando a tarefa aparece na tela; já com folga para quem lê rápido
+    if (!st.status && !st.leu && !emRec && !(s && s.prof)) tempoDeLeitura(el, () => { st.leu = 1; ctx._ult = Date.now(); salvar(); });
     // 🤖 Bit (18/11/2026): qualquer tarefa com "robo" ganha o botão "Me ajuda, robô!", mesmo se o tipo dela não chama o Bit sozinho
     //    sem robô próprio, vale o robô padrão do tipo (js/robo-padrao.js, 18/11/2026)
     { const rb = at.robo || (P.roboPadrao && P.roboPadrao(at));

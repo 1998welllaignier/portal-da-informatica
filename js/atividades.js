@@ -493,14 +493,19 @@
     render(c, at, ctx) {
       const st = ctx.st; st.esc = st.esc || {};
       let marcas = {};
+      // 🔀 contra o chute (20/11/2026): depois de um erro, as alternativas daquela pergunta trocam de lugar
+      const ordem = i => (st.ord && st.ord[i]) || at.perguntas[i].opcoes.map((_, k) => k);
+      const embaralha = i => { const n = at.perguntas[i].opcoes.length; if (n < 3) return; const ant = ordem(i).join(); let o;
+        do { o = ordem(i).slice(); for (let a = n - 1; a > 0; a--) { const b = Math.floor(Math.random() * (a + 1)); [o[a], o[b]] = [o[b], o[a]]; } } while (o.join() === ant);
+        st.ord = st.ord || {}; st.ord[i] = o; };
       const draw = () => {
         c.innerHTML = at.perguntas.map((q, i) => `<fieldset class="esc-q ${marcas[i] || ""}"><legend>${md(q.p)}</legend>
-          ${q.opcoes.map((o, k) => `<label class="esc-op"><input type="radio" name="${at.id}-${i}" value="${k}" ${st.esc[i] === k ? "checked" : ""}> ${md(o)}</label>`).join("")}
+          ${ordem(i).map(k => [q.opcoes[k], k]).map(([o, k]) => `<label class="esc-op"><input type="radio" name="${at.id}-${i}" value="${k}" ${st.esc[i] === k ? "checked" : ""}> ${md(o)}</label>`).join("")}
           ${marcas[i] === "certo" && q.why ? `<small class="why">${md(q.why)}</small>` : ""}${marcas[i] ? `<span class="marca">${marcas[i] === "certo" ? "✔" : "✖"}</span>` : ""}</fieldset>`).join("");
         c.querySelectorAll("input").forEach(x => x.onchange = () => { const i = +x.name.split("-").pop(); st.esc[i] = +x.value; delete marcas[i]; ctx.salvar();
           // ✔ 18/11/2026: corrige NO CLIQUE (sem botão Verificar para esquecer); na recuperação continua com o botão
           if (noClique && !st.status) { const q = at.perguntas[i], ok = q.certo < 0 || st.esc[i] === q.certo; marcas[i] = ok ? "certo" : "errado"; draw();
-            if (!ok) { ctx.errou("Essa não é a resposta certa (✖). Leia de novo e escolha outra."); return; }
+            if (!ok) { embaralha(i); delete st.esc[i]; ctx.salvar(); setTimeout(() => { delete marcas[i]; draw(); }, 900); ctx.errou("Essa não é a resposta certa (✖). Leia de novo: as alternativas trocaram de lugar."); return; }
             if (at.perguntas.every((_, k) => marcas[k] === "certo")) ctx.concluir("certo", "Certo!");
             else ctx.feedback("ok", at.perguntas.length > 1 ? "Certo! Agora a próxima pergunta." : "Certo!"); } });
       };
@@ -509,7 +514,7 @@
       ctx.verificar = () => {
         if (at.perguntas.some((_, i) => st.esc[i] === undefined)) { ctx.feedback("info", "Responda todas as perguntas."); return; }
         marcas = {}; let err = 0;
-        at.perguntas.forEach((q, i) => { const ok = q.certo < 0 || st.esc[i] === q.certo; marcas[i] = ok ? "certo" : "errado"; if (!ok) err++; });
+        at.perguntas.forEach((q, i) => { const ok = q.certo < 0 || st.esc[i] === q.certo; marcas[i] = ok ? "certo" : "errado"; if (!ok) { err++; embaralha(i); } });
         draw();
         err ? ctx.errou(`${err} resposta${err > 1 ? "s" : ""} para rever (✖).`) : ctx.concluir("certo", "Certo!");
       };

@@ -385,3 +385,10 @@ Apostila no portal + ilustrada (PDF só para quem estuda em casa) · guia do pro
 > - **Todo jogo tem o “Como jogar”:** tutorial animado (a mãozinha 👆 mostrando o que fazer, ou as teclas sendo apertadas) + passos curtos com ícones, para quem ainda lê devagar. Botão ❓ Como jogar durante o jogo.
 > - **Recorde pessoal** por jogo (⭐ “Novo recorde!”). Pontos rápidos demais (menos de 1,2 s entre um e outro) não contam.
 > - **Curiosidades com foto real** quando couber (objetos e lugares, nunca retrato de pessoa famosa), do Wikimedia Commons, com licença conferida, crédito embaixo e logotipos desfocados.
+
+> **🎲 Contra o chute, em todas as tarefas do portal (20/11/2026, pedido do professor):**
+> - **📖 Tempo mínimo de leitura:** quando a tarefa aparece na tela pela 1ª vez, as respostas e o botão ficam apagados por alguns segundos ("📖 Leia com calma… Ns"), calculados pelo tamanho do texto (3,5 palavras por segundo) **com folga de 40%** para quem lê rápido (máximo 15 s; textos curtos não esperam).
+> - **📉 Chute não compensa (tarefas novas, `st.r2`):** acertou de 1ª = pontos inteiros; 2ª tentativa = metade; 3ª em diante = zero (pode continuar para aprender). As tarefas que já tinham sido começadas antes continuam com a regra antiga. **🔥 Sequência:** a cada 3 tarefas seguidas certas de primeira, sem dica, +20 XP (até +100 por missão). A nota do bimestre não mudou: isso vale para o XP, o placar e o pódio.
+> - **🤔 Detector de chute:** erro em menos de 4 segundos desde a última ação conta como chute; 3 seguidos pausam a tarefa por 8 s, com "Parece que você está chutando… Leia de novo 😉" e o botão "📖 Reler a explicação da missão".
+> - **🔀 Alternativas embaralhadas** depois de cada erro (escolha), para não dar para decorar a posição.
+> - **🎲 Chutômetro no painel ao vivo:** selo "🎲 N chutes" ao lado do nome e o aviso "🎲 Parecem estar chutando" em ⚠️ Precisam de atenção (4 ou mais).
