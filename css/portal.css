@@ -2304,3 +2304,13 @@ button.es-alvo.pop{animation:es-pop .3s}
 @media (prefers-color-scheme: dark) { .atras-lista li { color: #1b1b1b; } }
 .atv.atras-pisca { animation: atras-pisca .6s ease-in-out 4; }
 @keyframes atras-pisca { 50% { box-shadow: 0 0 0 6px #f59f00aa; } }
+
+/* 🏆 recordes da turma e da série nos jogos (20/11/2026) */
+.jg-mural-bt { text-align: center; margin: 12px 0 0; }
+.jg-mural-cx { overflow-x: auto; }
+.jg-mural { width: 100%; border-collapse: collapse; font-size: .95rem; }
+.jg-mural th, .jg-mural td { padding: 7px 10px; border-bottom: 1px solid #e3e6ee; text-align: left; white-space: nowrap; }
+.jg-mural thead th { background: #fff4d6; }
+.jg-fim-turma { color: #b7791f; font-size: 1.25rem; }
+.jg-fim-serie { color: #7c3aed; font-size: 1.3rem; }
+.jg-card-rec { display: block; margin-top: 2px; font-weight: 700; }

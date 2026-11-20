@@ -191,7 +191,7 @@
       palco.hidden = false;
       if (op === "jogos") { const b = document.createElement("div"); palco.innerHTML = ""; palco.appendChild(b);
         // 🎮 biblioteca de jogos (js/jogos-base.js): menu do dia, tutorial animado, recorde pessoal; sem ela, os 4 jogos simples
-        pararJogo = P.jogosEspera ? P.jogosEspera.abrir(b, { turma: s.turma, ganhar, recordes, avatar: (P.sess.get() || {}).avatares ? P.sess.get().avatares[0] : null,
+        pararJogo = P.jogosEspera ? P.jogosEspera.abrir(b, { turma: s.turma, serie: s.serie, ganhar, recordes, eu: ids, nome: nomes.join(" e "), avatar: (P.sess.get() || {}).avatares ? P.sess.get().avatares[0] : null,
           salvarRecorde: (id, v) => refs.forEach(r => r.set({ recordes: { [id]: v } }, { merge: true }).catch(() => {})) }) : jogos(b, ganhar); }
       else if (op === "sabia") {
         let ordem = embaralha(FATOS), i = 0;
@@ -281,6 +281,25 @@
     let h = {}, alunos = [], prog = [], desligar = null;
     const fmt = ms => new Date(ms).toTimeString().slice(0, 5);
     const nome = a => esc((a.nome || "").split(" ").slice(0, 2).join(" "));
+    /* 🏆 RECORDES DA TURMA E DA SÉRIE (20/11/2026, "pode fazer o recorde… como você julgar necessário"):
+       os alunos não leem o progresso dos colegas, então o painel do professor (aberto na aula) junta o recorde pessoal de
+       cada um e publica o melhor de cada jogo em config/recordes_<turma> e config/recordes_s<série> (só 1º nome, como o pódio). */
+    let recPub = "";
+    const publicarRecordes = async () => {
+      const nomeDe = {}; alunos.forEach(a => { nomeDe[a.id] = (a.nome || "").split(" ")[0]; });
+      const melhor = {};
+      prog.forEach(p => { if (p.tipo !== "espera" || !p.recordes || !nomeDe[p.alunoId]) return;
+        Object.entries(p.recordes).forEach(([j, v]) => { v = +v || 0; if (v > 0 && (!melhor[j] || v > melhor[j].pts)) melhor[j] = { pts: v, nome: nomeDe[p.alunoId], id: p.alunoId }; }); });
+      const chave = JSON.stringify(melhor); if (!Object.keys(melhor).length || chave === recPub) return; recPub = chave;
+      try {
+        const rT = db.collection("config").doc("recordes_" + t.id), sT = (await rT.get()).data() || {}, jT = { ...(sT.jogos || {}) };
+        Object.entries(melhor).forEach(([j, r]) => { if (!jT[j] || r.pts > jT[j].pts) jT[j] = { ...r, em: Date.now() }; });
+        await rT.set({ jogos: jT, atualizado: Date.now() });
+        const serie = (t.serie && t.serie.id) || String(t.id).replace(/\D/g, ""), rS = db.collection("config").doc("recordes_s" + serie), sS = (await rS.get()).data() || {}, jS = { ...(sS.jogos || {}) };
+        Object.entries(jT).forEach(([j, r]) => { if (!jS[j] || r.pts > jS[j].pts) jS[j] = { ...r, turma: rotulo || t.id }; });
+        await rS.set({ jogos: jS, atualizado: Date.now() });
+      } catch (e) { recPub = ""; console.warn("recordes", e); }
+    };
     const desenhar = () => {
       if (!box.isConnected) { desligar && desligar(); return; }
       const d = hoje(), iniHoje = h.dia === d && h.iniciadaDia === d;
@@ -317,7 +336,7 @@
     };
     (async () => {
       try { const pt = await ctx.participantes(); alunos = pt.alunos;
-        const uP = ctx.ouvirProg(pt.turmasProg, p => { prog = p; desenhar(); }, () => {});
+        const uP = ctx.ouvirProg(pt.turmasProg, p => { prog = p; desenhar(); publicarRecordes(); }, () => {});
         const uH = hRef.onSnapshot(sn => { h = sn.exists ? sn.data() : {}; desenhar(); }, () => {});
         desligar = () => { try { uP(); uH(); } catch (e) {} };
         const iv = setInterval(() => { if (!box.isConnected) { clearInterval(iv); desligar(); } }, 3000);

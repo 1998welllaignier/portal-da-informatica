@@ -107,12 +107,29 @@
     // opc: { turma, ganhar(n, el), recordes: {id: pts}, salvarRecorde(id, pts) }
     let parar = () => {};
     const recordes = opc.recordes || {};
+    // 🏆 recordes da turma e da série (publicados pelo painel do professor em config/recordes_*; 20/11/2026)
+    let recT = {}, recS = {};
+    const meu = r => r && (opc.eu || []).includes(r.id);
+    const lerRecordes = () => { try { const db = P.nuvem && P.nuvem.app(0).db; if (!db || !opc.turma) return Promise.resolve();
+      return Promise.all([db.collection("config").doc("recordes_" + opc.turma).get(), opc.serie ? db.collection("config").doc("recordes_s" + opc.serie).get() : null])
+        .then(([a, b]) => { recT = (a && a.exists && a.data().jogos) || {}; recS = (b && b.exists && b.data().jogos) || {}; }).catch(() => {}); } catch (e) { return Promise.resolve(); } };
+    function mural() {
+      parar(); parar = () => {};
+      const lin = liberados().map(j => { const t = recT[j.id], sr = recS[j.id], eu = recordes[j.id];
+        return `<tr><th>${j.ic} ${esc(j.nome)}</th><td>${t ? `${meu(t) ? "⭐ " : ""}<b>${esc(t.nome)}</b> · ${t.pts}` : "—"}</td><td>${sr ? `<b>${esc(sr.nome)}</b> <small>(${esc(sr.turma || "")})</small> · ${sr.pts}` : "—"}</td><td>${eu || "—"}</td></tr>`; }).join("");
+      box.innerHTML = `<div class="jg-como-topo"><h3>🏆 Mural de recordes</h3><button type="button" class="btn btn-sec btn-peq" data-x="menu">← Jogos</button></div>
+        <p class="ajuda">O recorde da turma e o da série se atualizam durante a aula, quando o professor está com o painel aberto.</p>
+        <div class="jg-mural-cx"><table class="jg-mural"><thead><tr><th>Jogo</th><th>🏆 Da turma</th><th>🌟 Da série</th><th>⭐ Seu</th></tr></thead><tbody>${lin}</tbody></table></div>`;
+      box.querySelector('[data-x="menu"]').onclick = menu;
+    }
     function menu() {
       parar(); parar = () => {};
       const hoje = doDia(opc.turma), prox = proximos()[0];
       box.innerHTML = `<div class="jg-menu-topo"><h3>🎮 Escolha um jogo</h3><span class="ajuda">Os jogos de hoje · ${hoje.length} de ${liberados().length} liberados${prox ? ` · próximo jogo novo: <b>${esc(prox.ic)} ${esc(prox.nome)}</b> em ${prox.estreia.slice(8, 10)}/${prox.estreia.slice(5, 7)}` : ""}</span></div>
-        <div class="jg-menu">${hoje.map(j => `<button type="button" class="jg-card ${j.cat}" data-j="${esc(j.id)}">${ehNovo(j) ? `<span class="jg-novo">🆕 NOVO</span>` : ""}<span class="jg-ic">${j.ic}</span><b>${esc(j.nome)}</b><small>${j.cat === "acao" ? "🕹️ Ação" : "💻 Informática"}${recordes[j.id] ? ` · ⭐ ${recordes[j.id]}` : ""}</small></button>`).join("")}</div>`;
+        <div class="jg-menu">${hoje.map(j => `<button type="button" class="jg-card ${j.cat}" data-j="${esc(j.id)}">${ehNovo(j) ? `<span class="jg-novo">🆕 NOVO</span>` : ""}<span class="jg-ic">${j.ic}</span><b>${esc(j.nome)}</b><small>${j.cat === "acao" ? "🕹️ Ação" : "💻 Informática"}</small>${recordes[j.id] || recT[j.id] ? `<small class="jg-card-rec">${recordes[j.id] ? `⭐ seu ${recordes[j.id]}` : ""}${recordes[j.id] && recT[j.id] ? " · " : ""}${recT[j.id] ? `🏆 turma ${recT[j.id].pts}` : ""}</small>` : ""}</button>`).join("")}</div>
+        <p class="jg-mural-bt"><button type="button" class="btn btn-sec btn-peq" data-x="mural">🏆 Mural de recordes da turma e da série</button></p>`;
       box.querySelectorAll("[data-j]").forEach(b => b.onclick = () => comoJogar(lista.find(j => j.id === b.dataset.j)));
+      box.querySelector('[data-x="mural"]').onclick = mural;
     }
     function comoJogar(j) {
       parar();
@@ -130,7 +147,7 @@
     }
     function jogar(j) {
       parar();
-      box.innerHTML = `<div class="jg-topo"><h3>${j.ic} ${esc(j.nome)}</h3><span class="jg-rec">${recordes[j.id] ? `⭐ Seu recorde: <b>${recordes[j.id]}</b>` : "⭐ Faça o seu primeiro recorde!"}</span>
+      box.innerHTML = `<div class="jg-topo"><h3>${j.ic} ${esc(j.nome)}</h3><span class="jg-rec">${recordes[j.id] ? `⭐ Seu recorde: <b>${recordes[j.id]}</b>` : "⭐ Faça o seu primeiro recorde!"}${recT[j.id] ? ` · 🏆 Turma: <b>${esc(recT[j.id].nome)} ${recT[j.id].pts}</b>` : ""}</span>
           <button type="button" class="btn btn-sec btn-peq" data-x="como">❓ Como jogar</button><button type="button" class="btn btn-sec btn-peq" data-x="menu">🎮 Outros jogos</button></div>
         <div class="jg-area"></div>`;
       box.querySelector('[data-x="menu"]').onclick = menu;
@@ -148,15 +165,21 @@
       if (!box.isConnected) return;
       const novo = pts > (recordes[j.id] || 0);
       if (novo) { recordes[j.id] = pts; opc.salvarRecorde && opc.salvarRecorde(j.id, pts); }
+      const t = recT[j.id], sr = recS[j.id];
+      const bateuS = pts > 0 && sr && pts > sr.pts && !meu(sr), bateuT = pts > 0 && (!t || (pts > t.pts && !meu(t)));
+      const nomeEu = (opc.nome || "Você");
+      if (bateuT || (t && meu(t) && pts > t.pts)) recT[j.id] = { pts, nome: nomeEu, id: (opc.eu || [])[0] };
       const ov = document.createElement("div"); ov.className = "jg-fim";
       ov.innerHTML = `<div class="jg-fim-cx"><p class="jg-fim-t">🏁 Fim de jogo!</p><p class="jg-fim-p">${pts} <small>pontos no jogo</small></p>
+        ${bateuS ? `<p class="jg-fim-rec jg-fim-serie">🌟 Você bateu o RECORDE DA SÉRIE!</p>` : bateuT ? `<p class="jg-fim-rec jg-fim-turma">🏆 Novo RECORDE DA TURMA!</p>` : ""}
         ${novo ? `<p class="jg-fim-rec">⭐ Novo recorde pessoal!</p>` : recordes[j.id] ? `<p>Seu recorde: <b>${recordes[j.id]}</b></p>` : ""}
+        ${!bateuT && t && !meu(t) ? `<p class="ajuda">🏆 Recorde da turma: <b>${esc(t.nome)}</b> com ${t.pts}${t.pts - pts > 0 ? ` · faltaram ${t.pts - pts}` : ""}</p>` : ""}
         <div class="row-btns"><button type="button" class="btn btn-grande btn-ok" data-x="de-novo">🔁 Jogar de novo</button><button type="button" class="btn btn-sec" data-x="menu">🎮 Outro jogo</button></div></div>`;
       const area = box.querySelector(".jg-area"); if (!area) return; area.appendChild(ov);
       ov.querySelector('[data-x="de-novo"]').onclick = () => jogar(j); ov.querySelector('[data-x="menu"]').onclick = menu;
       ov.querySelector('[data-x="de-novo"]').focus();
     }
-    lerLiberados().then(() => { if (box.isConnected && box.querySelector(".jg-menu")) menu(); });
+    Promise.all([lerLiberados(), lerRecordes()]).then(() => { if (box.isConnected && box.querySelector(".jg-menu")) menu(); });
     // opc.abrirJogo: abre direto o “como jogar” de um jogo (prévia do professor no painel e testes)
     const direto = opc.abrirJogo && lista.find(j => j.id === opc.abrirJogo);
     if (direto) comoJogar(direto); else menu();
