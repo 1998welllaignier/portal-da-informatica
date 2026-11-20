@@ -1286,9 +1286,12 @@
     if (seg < 2) return;
     el.classList.add("atv-lendo");
     const tag = h(`<div class="atv-ler" role="status">📖 Leia com calma… <b>${seg}</b>s</div>`); el.querySelector(".atv-cab").after(tag);
+    // 20/11/2026 (pedido do professor): a tarefa fica clarinha enquanto conta; o MOTIVO aparece no meio dela, não só lá em cima
+    const corpo = el.querySelector(".atv-corpo"), meio = corpo ? h(`<div class="atv-ler-meio" aria-hidden="true"><div><span>📖</span><b>Primeiro, leia o pedido com calma</b><small>A tarefa libera em <i>${seg}</i> segundos</small></div></div>`) : null;
+    if (meio) { el.appendChild(meio); const pos = () => { meio.style.top = corpo.offsetTop + "px"; meio.style.height = corpo.offsetHeight + "px"; }; pos(); requestAnimationFrame(pos); setTimeout(pos, 400); }
     let iniciou = false;
     const comeca = () => { if (iniciou) return; iniciou = true; let r = seg;
-      const iv = setInterval(() => { r--; const b = tag.querySelector("b"); if (b) b.textContent = r; if (r <= 0 || !el.isConnected) { clearInterval(iv); el.classList.remove("atv-lendo"); tag.remove(); pronto && pronto(); } }, 1000); };
+      const iv = setInterval(() => { r--; const b = tag.querySelector("b"); if (b) b.textContent = r; const i2 = meio && meio.querySelector("i"); if (i2) i2.textContent = r; if (r <= 0 || !el.isConnected) { clearInterval(iv); el.classList.remove("atv-lendo"); tag.remove(); if (meio) meio.remove(); pronto && pronto(); } }, 1000); };
     if ("IntersectionObserver" in window) { const io = new IntersectionObserver(es => { if (es.some(e => e.isIntersecting)) { io.disconnect(); comeca(); } }, { threshold: .35 }); io.observe(el); } else comeca();
   }
   /* 🤔 três erros rápidos seguidos: a tarefa pausa uns segundos e mostra onde reler a explicação */

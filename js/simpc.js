@@ -246,7 +246,7 @@ body.sp-travado{overflow:hidden}
       /* ---------- desenho ---------- */
       c.innerHTML = `<div class="sp"><div class="sp-guia"><div class="sp-bit" aria-hidden="true">🤖</div><div class="sp-fala"><div class="q"></div><div class="f"></div><div class="r" aria-live="polite"></div><div class="sp-prog"></div></div>
         <div class="sp-bts"><button type="button" class="onde">💡 Mostre onde</button><button type="button" class="sec rec">↺ Recomeçar</button><button type="button" class="sec foco">⛶ Tela cheia</button></div></div>
-        <div class="sp-moldura sp${st.so}"><div class="sp-tela" tabindex="0"></div>${st.status ? "" : `<div class="sp-iniciar"><button type="button">▶ Começar o simulador<small>só funciona em tela cheia</small></button></div>`}</div></div>`;
+        <div class="sp-moldura sp${st.so}"><div class="sp-tela" tabindex="0"></div>${st.status ? "" : `<div class="sp-iniciar"><button type="button">▶ Começar o simulador<small>${!st.demoVisto && at.demo !== false ? "🎬 primeiro um vídeo curtinho · ✋ depois é a sua vez" : "só funciona em tela cheia"}</small></button></div>`}</div></div>`;
       const G = c.querySelector(".sp-guia"), bit = G.querySelector(".sp-bit"), q = G.querySelector(".q"), fEl = G.querySelector(".f"), rEl = G.querySelector(".r"), prog = G.querySelector(".sp-prog");
       const mold = c.querySelector(".sp-moldura"), tela = c.querySelector(".sp-tela");
       /* ⛶ modo tela cheia (19/11/2026, pedido do professor): enquanto o aluno faz o simulador, ele ocupa a tela inteira,
@@ -552,7 +552,11 @@ body.sp-travado{overflow:hidden}
 .spd .sp.sp-foco .sp-moldura{width:min(100%,calc((100vh - var(--sp-gh,150px) - 132px) * 1.6667))}
 .spd .sp-bts{display:none!important}.spd .sp-iniciar{display:none!important}
 .spd-faixa{flex:none;display:flex;align-items:center;gap:12px;flex-wrap:wrap;background:linear-gradient(90deg,#7c2d12,#b45309);color:#fff;padding:10px 16px;font-size:1.1rem}
-.spd-faixa b{color:#fde68a}.spd-faixa .spd-tit{flex:1;min-width:260px;font-weight:700}
+.spd-faixa b{color:#fde68a}.spd-selo{display:inline-block;background:#dc2626;color:#fff;font-weight:900;border-radius:8px;padding:2px 10px;margin-right:6px;letter-spacing:.05em;animation:spdPisca 1.2s ease-in-out infinite}
+@keyframes spdPisca{50%{opacity:.55}}
+.spd-intro .passos{display:flex;gap:14px;justify-content:center;align-items:stretch;margin:14px 0 4px;flex-wrap:wrap}
+.spd-intro .passos>div{flex:1;min-width:170px;border-radius:16px;padding:12px;border:3px solid #e2e8f0}.spd-intro .passos .a{border-color:#f59e0b;background:#fffbeb}.spd-intro .passos .b{border-color:#16a34a;background:#f0fdf4}
+.spd-intro .passos i{display:block;font-style:normal;font-size:2.4rem}.spd-intro .passos .t{display:block;font-size:1.15rem;margin:4px 0 4px;font-weight:800}.spd-intro .passos>div{line-height:1.4}.spd-intro .seta{align-self:center;font-size:2rem;color:#64748b}.spd-faixa .spd-tit{flex:1;min-width:260px;font-weight:700}
 .spd-faixa button{border:0;border-radius:10px;padding:9px 14px;font-weight:800;cursor:pointer;font-size:1rem;background:rgba(255,255,255,.18);color:#fff}
 .spd-faixa .spd-ja{background:#22c55e;color:#052e16;font-size:1.15rem;padding:12px 20px;animation:spdPulsa 1s ease-in-out infinite alternate}
 @keyframes spdPulsa{to{transform:scale(1.06);box-shadow:0 0 0 6px rgba(34,197,94,.35)}}
@@ -628,7 +632,7 @@ body.sp-travado{overflow:hidden}
     op = op || {};
     if (!document.getElementById("spd-css")) { const stl = document.createElement("style"); stl.id = "spd-css"; stl.textContent = DEMO_CSS; document.head.appendChild(stl); }
     const ov = document.createElement("div"); ov.className = "spd"; ov.setAttribute("role", "dialog"); ov.setAttribute("aria-label", "Veja como faz");
-    ov.innerHTML = `<div class="spd-faixa"><span aria-hidden="true" style="font-size:1.6rem">🎬</span><span class="spd-tit">Assista com atenção: o <b>${esc(at.ajudante || "Bit")}</b> vai fazer primeiro, passo a passo. <b>Depois é a sua vez de fazer igual!</b></span>
+    ov.innerHTML = `<div class="spd-faixa"><span class="spd-tit"><span class="spd-selo">🎬 VÍDEO</span> Só assista, <b>não precisa clicar</b>: o ${esc(at.ajudante || "Bit")} faz primeiro, passo a passo. <b>Depois é a sua vez!</b></span>
       <button type="button" class="spd-pausa">⏸ Pausar</button><button type="button" class="spd-denovo">↺ Ver de novo</button>${op.obrigatorio ? "" : `<button type="button" class="spd-sair">✕ Fechar</button>`}</div><div class="spd-sim"></div>`;
     document.body.appendChild(ov); document.body.classList.add("sp-travado");
     // durante a demonstração, o aluno só assiste: cliques e teclas de verdade no computador da demonstração são ignorados
@@ -709,7 +713,16 @@ body.sp-travado{overflow:hidden}
       fim.querySelector(".sec").onclick = () => { fim.remove(); tocar(); };
       fim.querySelector(".ok").focus();
     }
-    tocar();
+    // 1º: deixa claro, no meio da tela, que primeiro é um VÍDEO e depois é a vez do aluno (20/11/2026, pedido do professor)
+    if (op.obrigatorio) {
+      const nm = esc(at.ajudante || "Bit"), it = document.createElement("div"); it.className = "spd-fim spd-intro";
+      it.innerHTML = `<div><h2>Antes de começar, preste atenção!</h2><p>Este simulador tem <b>duas partes</b>:</p>
+        <div class="passos"><div class="a"><i>🎬</i><span class="t">1. Primeiro, um vídeo</span>O ${nm} faz a tarefa inteira, passo a passo. Você <b>só assiste</b>: não precisa clicar em nada.</div><span class="seta" aria-hidden="true">➜</span>
+        <div class="b"><i>✋</i><span class="t">2. Depois, a sua vez</span>Você faz <b>igualzinho</b> ao que viu, com o ${nm} do seu lado ajudando.</div></div>
+        <div class="row"><button type="button" class="ok">👍 Entendi! Ver o vídeo</button></div></div>`;
+      document.body.appendChild(it); const b2 = it.querySelector(".ok"); b2.focus();
+      b2.onclick = () => { it.remove(); tocar(); };
+    } else tocar();
     return { fechar };
   };
 })();
