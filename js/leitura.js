@@ -55,7 +55,10 @@
     return { termo: semTags(alvo.termo), q: `O que significa “${semTags(alvo.termo)}”?`, ops: ordem.map(i => ops[i]), certa: ordem.indexOf(0) };
   }
   // palavra destacada → significado (os botões vêm do texto já pronto, sem o clique original)
-  const acharTermo = (termos, txt) => { const t = norm(txt); return (termos || []).find(y => norm(String(y.termo).replace(/\s*\(.*?\)\s*/g, " ")).startsWith(t) || t.startsWith(norm(String(y.termo).replace(/\s*\(.*?\)\s*/g, " ")))); };
+  // se a palavra destacada não está no "O que significa?" desta missão, procura nas outras apostilas já carregadas
+  const todosTermos = () => { const L = [], visto = new Set(), anda = o => { if (!o || typeof o !== "object" || visto.has(o)) return; visto.add(o); if (Array.isArray(o)) return o.forEach(anda); if (o.termo && o.def) L.push(o); Object.values(o).forEach(anda); }; anda(P.conteudo || {}); return L; };
+  const acharTermo = (termos, txt) => achar1(termos, txt) || achar1(todosTermos(), txt);
+  const achar1 = (termos, txt) => { const t = norm(txt); return (termos || []).find(y => norm(String(y.termo).replace(/\s*\(.*?\)\s*/g, " ")).startsWith(t) || t.startsWith(norm(String(y.termo).replace(/\s*\(.*?\)\s*/g, " ")))); };
   /* 👆 20/11/2026 (pedido do professor): na leitura guiada, a palavra difícil abre COM O CLIQUE DO PROFESSOR e aparece igual
      em todas as telas (alunos, telão e a do professor), como numa apresentação. O aluno não abre sozinho durante a leitura guiada;
      fora dela (estudo normal), cada aluno toca e abre a sua. modo: "prof" (cb = ao escolher) | "travado" (aluno na leitura guiada) */
