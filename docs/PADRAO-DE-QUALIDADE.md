@@ -408,3 +408,7 @@ Apostila no portal + ilustrada (PDF só para quem estuda em casa) · guia do pro
 
 > **🏆 Recordes da turma e da série nos jogos (20/11/2026, "pode fazer o recorde… como você julgar necessário"):** além do ⭐ recorde pessoal, cada jogo mostra o **🏆 recorde da turma** (nome + pontos) no cartão, durante o jogo e no fim ("🏆 Novo RECORDE DA TURMA!", "🌟 Você bateu o RECORDE DA SÉRIE!" ou "faltaram N para o recorde"). Botão **🏆 Mural de recordes**: tabela por jogo com turma, série (com a turma de quem fez) e o seu.
 > - Como os alunos não leem o progresso dos colegas, o **painel do professor** (Aula/Ao vivo aberto) junta os recordes pessoais e publica em `config/recordes_<turma>` e `config/recordes_s<série>`, só com o **primeiro nome** (como o pódio). Recordes valem só como glória: **não dão XP** nem mexem na nota.
+
+> **💻 Número do computador da sala no painel (20/11/2026, pedido do professor):** o navegador não pode ler o IP local nem o MAC address (bloqueado por segurança), então cada PC da sala é "batizado" uma vez abrindo o portal com o número dele no endereço: `https://portal.professorwell.com.br/?pc=6` (de preferência num **atalho na área de trabalho**, que rebatiza sozinho se alguém limpar o navegador). O número fica guardado no navegador daquele PC.
+> - **🔴 Ao vivo:** ao lado do nome, "💻 PC 6" (só de hoje). No aviso de código aberto em dois lugares: "tentou no 💻 PC 11, código aberto no 💻 PC 6".
+> - PC sem número continua funcionando (aparece o código aleatório de 4 letras). Só vale para aula presencial; em casa não aparece nada.

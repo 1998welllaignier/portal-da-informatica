@@ -105,6 +105,9 @@
      ou se o professor liberar no painel (config/liberar_<turma>.sessaoLivre[aluno]). Tudo pela hora do servidor. */
   const ms = v => v == null ? 0 : typeof v === "number" ? v : v.toMillis ? v.toMillis() : (v.seconds || 0) * 1000;
   const VIVO = 150000;
+  // 💻 número do computador da sala (20/11/2026): o atalho da área de trabalho de cada PC abre o portal com ?pc=N
+  //    (ex.: …/?pc=6) e o número fica guardado neste navegador; sem número, vale um código aleatório de 4 letras.
+  try { const q = new URLSearchParams(location.search).get("pc"); if (q && /^\d{1,2}$/.test(q)) localStorage.setItem("portalJK:pc", "PC" + (+q)); } catch (e) {}
   const pcId = () => { try { let k = localStorage.getItem("portalJK:pc"); if (!k) { k = Math.random().toString(36).slice(2, 6).toUpperCase(); localStorage.setItem("portalJK:pc", k); } return k; } catch (e) { return "?"; } };
   N.sessaoChecar = async function (i, alunoId, turmaId) {
     const x = app(i), u = x.auth.currentUser, ref = x.db.collection("progresso").doc(alunoId + "_sessao");
