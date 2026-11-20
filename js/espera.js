@@ -50,21 +50,21 @@
 
   /* ---------------- 💡 Você sabia? (fatos conferidos) ---------------- */
   const FATOS = [
-    ["🏋️", "O ENIAC, um dos primeiros computadores eletrônicos (Estados Unidos, 1946), pesava cerca de 27 toneladas e ocupava uma sala inteira. Hoje, um celular faz muito mais coisa e cabe no bolso."],
-    ["🦋", "Por que um erro de programa se chama “bug” (inseto, em inglês)? Em 1947, a equipe da cientista Grace Hopper achou uma mariposa presa dentro do computador Harvard Mark II e colou o inseto no caderno de anotações."],
-    ["⌨️", "O teclado QWERTY tem esse nome por causa das 6 primeiras letras da fileira de cima. Esse jeito de arrumar as letras foi criado para as máquinas de escrever, no século 19."],
-    ["🖱️", "O primeiro mouse, inventado por Douglas Engelbart nos anos 1960, era uma caixinha de madeira com duas rodinhas embaixo."],
+    ["🏋️", "O ENIAC, um dos primeiros computadores eletrônicos (Estados Unidos, 1946), pesava cerca de 27 toneladas e ocupava uma sala inteira. Hoje, um celular faz muito mais coisa e cabe no bolso.", "img/fotos/curiosidades/eniac.webp", "O ENIAC ocupava uma sala inteira, cheia de armários com fios e válvulas.", "Foto: Exército dos Estados Unidos · Wikimedia Commons · domínio público"],
+    ["🦋", "Por que um erro de programa se chama “bug” (inseto, em inglês)? Em 1947, a equipe da cientista Grace Hopper achou uma mariposa presa dentro do computador Harvard Mark II e colou o inseto no caderno de anotações.", "img/fotos/curiosidades/bug.webp", "A página do caderno com a mariposa colada. Em inglês, está escrito: “primeiro caso de bug (inseto) encontrado de verdade”.", "Foto: Naval Surface Warfare Center, Dahlgren (EUA) · Wikimedia Commons · domínio público"],
+    ["⌨️", "O teclado QWERTY tem esse nome por causa das 6 primeiras letras da fileira de cima. Esse jeito de arrumar as letras foi criado para as máquinas de escrever, no século 19.", "img/fotos/curiosidades/qwerty.webp", "Máquina de escrever Remington Nº 1 (1873 a 1878): olhe a segunda fileira de teclas, Q W E R T Y.", "Foto: Daderot · Wikimedia Commons · CC0"],
+    ["🖱️", "O primeiro mouse, inventado por Douglas Engelbart nos anos 1960, era uma caixinha de madeira com duas rodinhas embaixo.", "img/fotos/curiosidades/mouse.webp", "O primeiro mouse: uma caixinha de madeira com um botão vermelho e um fio.", "Foto: SRI International · Wikimedia Commons · licença CC BY-SA 3.0"],
     ["@", "O símbolo @ (arroba) foi escolhido em 1971 por Ray Tomlinson, que mandou o primeiro e-mail entre dois computadores. Ele separa o nome da pessoa do nome do provedor."],
-    ["🌐", "O primeiro site da internet foi criado por Tim Berners-Lee em 1991, num laboratório na Suíça (o CERN). Ele ainda existe: info.cern.ch."],
+    ["🌐", "O primeiro site da internet foi criado por Tim Berners-Lee em 1991, num laboratório na Suíça (o CERN). Ele ainda existe: info.cern.ch.", "img/fotos/curiosidades/web.webp", "O computador onde funcionou o primeiro site, exposto no CERN. O adesivo diz, em inglês: “Esta máquina é um servidor. NÃO DESLIGUE!”", "Foto: Coolcaesar · Wikimedia Commons · licença CC BY-SA 3.0"],
     ["🔢", "1 byte tem 8 bits. Cada bit é um 0 ou um 1, como uma lâmpada apagada ou acesa. Tudo no computador (fotos, músicas, textos) vira 0 e 1."],
     ["🟦", "Pixel vem do inglês “picture element”, que quer dizer elemento (pontinho) de imagem. A tela do computador é feita de milhões desses pontinhos coloridos."],
     ["🔳", "O QR Code foi inventado no Japão, em 1994, pela empresa Denso Wave, para controlar as peças nas fábricas de carros."],
     ["🇧🇷", "A internet comercial (para qualquer pessoa contratar em casa) chegou ao Brasil em 1995."],
-    ["🗳️", "A urna eletrônica brasileira começou a ser usada nas eleições de 1996."],
+    ["🗳️", "A urna eletrônica brasileira começou a ser usada nas eleições de 1996.", "img/fotos/curiosidades/urna.webp", "Uma urna eletrônica brasileira (modelo 2020): o eleitor digita o número e aperta CONFIRMA.", "Foto: TSE · Wikimedia Commons · domínio público"],
     ["💸", "O Pix, que manda dinheiro na hora, foi lançado pelo Banco Central do Brasil em novembro de 2020."],
-    ["🌊", "Quase toda a internet que vai de um continente para outro passa por cabos no fundo do mar, e não por satélites."],
+    ["🌊", "Quase toda a internet que vai de um continente para outro passa por cabos no fundo do mar, e não por satélites.", "img/fotos/cabo-submarino-praia-crozet.webp", "Um cabo submarino chegando à praia: daqui, ele segue pelo fundo do mar.", "Foto: CTBTO Preparatory Commission · Wikimedia Commons · licença CC BY 2.0"],
     ["⌨️", "A barra de espaço é a maior tecla do teclado, porque é a mais usada: aparece entre todas as palavras."],
-    ["💾", "O ícone de “Salvar” de muitos programas é um disquete, um jeito antigo de guardar arquivos que cabia na mão e guardava só 1,44 MB."],
+    ["💾", "O ícone de “Salvar” de muitos programas é um disquete, um jeito antigo de guardar arquivos que cabia na mão e guardava só 1,44 MB.", "img/fotos/curiosidades/disquete.webp", "Três disquetes de tamanhos diferentes. O menor (azul) guardava só 1,44 MB.", "Foto: George Chernilevsky · Wikimedia Commons · domínio público"],
     ["🤖", "Inteligência artificial aprende com exemplos: para reconhecer gatos, ela vê muitas e muitas fotos de gatos. Mas ela também erra, por isso a gente sempre confere."]
   ];
 
@@ -158,6 +158,7 @@
     const refs = ids.map((id, i) => N().app(i).db.collection("progresso").doc(id + "_espera"));
     // pontos de hoje (cada aluno da sessão tem o seu documento; em dupla, os dois ganham juntos)
     const docs = await Promise.all(refs.map(r => r.get().then(x => x.exists ? x.data() : {}).catch(() => ({}))));
+    const recordes = {}; docs.forEach(x => Object.entries(x.recordes || {}).forEach(([k, v]) => { recordes[k] = Math.max(recordes[k] || 0, v || 0); }));
     let pontos = Math.max(0, ...docs.map(x => x.dia === d ? x.pontos || 0 : 0)), bonus = Math.max(0, ...docs.map(x => x.dia === d ? x.avatarBonus || 0 : 0));
     let gravarTm = null;
     const gravar = () => { clearTimeout(gravarTm); gravarTm = setTimeout(() => refs.forEach((r, i) => r.set({ tipo: "espera", alunoId: ids[i], turma: s.turma, dia: d, pontos, avatarBonus: bonus, atualizado: Date.now() }, { merge: true }).catch(e => console.warn("espera", e))), 800); };
@@ -188,11 +189,15 @@
       if (pararJogo) { pararJogo(); pararJogo = null; }
       el.querySelectorAll(".es-card").forEach(b => b.classList.toggle("on", b.dataset.op === op));
       palco.hidden = false;
-      if (op === "jogos") { const b = document.createElement("div"); palco.innerHTML = ""; palco.appendChild(b); pararJogo = jogos(b, ganhar); }
+      if (op === "jogos") { const b = document.createElement("div"); palco.innerHTML = ""; palco.appendChild(b);
+        // 🎮 biblioteca de jogos (js/jogos-base.js): menu do dia, tutorial animado, recorde pessoal; sem ela, os 4 jogos simples
+        pararJogo = P.jogosEspera ? P.jogosEspera.abrir(b, { turma: s.turma, ganhar, recordes, avatar: (P.sess.get() || {}).avatares ? P.sess.get().avatares[0] : null,
+          salvarRecorde: (id, v) => refs.forEach(r => r.set({ recordes: { [id]: v } }, { merge: true }).catch(() => {})) }) : jogos(b, ganhar); }
       else if (op === "sabia") {
         let ordem = embaralha(FATOS), i = 0;
-        const mostra = () => { const [ic, tx] = ordem[i % ordem.length];
+        const mostra = () => { const [ic, tx, foto, leg, cred] = ordem[i % ordem.length];
           palco.innerHTML = `<div class="es-fato"><span class="es-fato-ic">${esc(ic)}</span><p>${esc(tx)}</p></div>
+            ${foto ? `<figure class="es-foto"><img src="${esc(foto)}" alt="${esc(leg)}" loading="lazy"><figcaption>${esc(leg)}<br><small>📷 ${esc(cred)}</small></figcaption></figure>` : ""}
             <div class="row-btns"><button type="button" class="btn" data-es="mais">💡 Outra curiosidade</button></div>`;
           palco.querySelector('[data-es="mais"]').onclick = () => { i++; if (i % ordem.length === 0) ordem = embaralha(FATOS); mostra(); }; };
         mostra();
@@ -292,8 +297,16 @@
         <div class="es-prof-listas">
           <div><p class="es-prof-t">✅ Já entraram (${dentro.length})</p><p class="es-chips">${dentro.length ? dentro.map(a => `<span class="es-chip ok">${nome(a)}${pe[a.id] ? ` <small>${pe[a.id]} pts</small>` : ""}</span>`).join("") : `<span class="ajuda">ninguém ainda</span>`}</p></div>
           <div><p class="es-prof-t">⏳ Ainda não entraram (${fora.length})</p><p class="es-chips">${fora.length ? fora.map(a => `<span class="es-chip">${nome(a)}</span>`).join("") : `<span class="ajuda">todo mundo entrou 🎉</span>`}</p></div></div>
+        ${(() => { const JE = P.jogosEspera; if (!JE) return ""; const lib = JE.liberados(), prox = JE.proximos();
+          return `<details class="es-prof-jogos"><summary>🎮 Jogos da Sala de espera: <b>${lib.length}</b> liberados${prox[0] ? ` · próximo: ${esc(prox[0].ic + " " + prox[0].nome)} em ${prox[0].estreia.slice(8, 10)}/${prox[0].estreia.slice(5, 7)}/${prox[0].estreia.slice(0, 4)}` : ""}</summary>
+            <p class="ajuda">Os jogos estreiam sozinhos, pelo calendário. Se quiser, solte um antes da hora:</p>
+            <p class="es-chips">${prox.map(j => `<button type="button" class="btn btn-sec btn-peq" data-lib="${esc(j.id)}" title="Estreia prevista: ${j.estreia.split("-").reverse().join("/")}">${esc(j.ic + " " + j.nome)} · ${j.estreia.slice(8, 10)}/${j.estreia.slice(5, 7)} → 🔓 liberar agora</button>`).join("") || "todos já estão liberados 🎉"}</p></details>`; })()}
         <div class="es-prof-acao"><button type="button" class="btn btn-grande btn-ok es-largada">🏁 Dar a largada</button>
           <p class="ajuda">${vid ? `Abre o <b>vídeo da ${esc(mm ? (mm.titulo || "").replace(/ –.*/, "") : "missão")}</b> em sincronia em todos os computadores (o som sai daqui, pelas caixinhas). Quando o vídeo acabar e você liberar a turma, as tarefas já estão abertas para todos ao mesmo tempo.` : "Abre as tarefas para todos ao mesmo tempo (esta missão não tem vídeo cadastrado)."} Quem chegar depois da largada entra direto na missão.</p></div>`;
+      box.querySelectorAll("[data-lib]").forEach(b => b.onclick = async () => { b.disabled = true;
+        try { const g = db.collection("config").doc("geral"), sn = await g.get(), at = (sn.exists && sn.data().jogosLiberados) || [];
+          await g.set({ jogosLiberados: [...new Set([...at, b.dataset.lib])] }, { merge: true }); b.textContent = "✅ liberado"; P.toast && P.toast("🎮 Jogo liberado! Os alunos veem na próxima vez que abrirem os jogos."); }
+        catch (e) { b.disabled = false; P.toast && P.toast("Não foi possível liberar: " + (e.message || e)); } });
       box.querySelector(".es-largada").onclick = async ev => {
         const b = ev.currentTarget; b.disabled = true; b.textContent = "🏁 Valendo!";
         try { await hRef.set({ largadaEm: Date.now() }, { merge: true });
