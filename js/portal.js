@@ -97,6 +97,31 @@
   document.addEventListener("drop", e => { const tg = e.target; if (tg && tg.matches && tg.matches("input, textarea, [contenteditable]") && e.dataTransfer && [...(e.dataTransfer.types || [])].includes("text/plain")) bloquear(e, "✋ Aqui não dá para arrastar texto pronto: digite 😉"); });
   const ENSINA_COPIAR = /ctrl\s*\+\s*[cvxz]\b|copiar e colar|copie e cole|recortar|desfazer/i;
 
+  /* 👆 AJUDA QUANDO O ALUNO FICA PARADO (20/11/2026, pedido do professor): no simulador, 12 s sem mexer em nada →
+     uma mãozinha pisca em cima do que ele tem que fazer agora; 25 s → além da mãozinha, um balão
+     "📖 Leia aqui o que fazer agora" aponta para a instrução, que pisca. Some no primeiro clique ou tecla. */
+  function tirarMao() { document.querySelectorAll(".mao-dica, .mao-balao").forEach(x => x.remove()); document.querySelectorAll(".instr-pisca").forEach(x => x.classList.remove("instr-pisca")); }
+  P.maozinha = function (alvo, texto) {
+    if (!alvo || !alvo.isConnected) return; const r = alvo.getBoundingClientRect(); if (!r.width && !r.height) return;
+    const m = document.createElement("div"); m.className = "mao-dica"; m.textContent = "👆"; m.setAttribute("aria-hidden", "true");
+    m.style.left = (r.left + r.width / 2 - 22) + "px"; m.style.top = Math.min(innerHeight - 70, r.top + r.height / 2) + "px"; document.body.appendChild(m);
+    if (texto) { alvo.classList.add("instr-pisca"); const b = document.createElement("div"); b.className = "mao-balao"; b.setAttribute("role", "status"); b.innerHTML = texto;
+      document.body.appendChild(b); const bw = b.offsetWidth; b.style.left = Math.max(8, Math.min(innerWidth - bw - 8, r.left + r.width / 2 - bw / 2)) + "px";
+      b.style.top = (r.bottom + 64 < innerHeight - 60 ? r.bottom + 64 : Math.max(8, r.top - 70)) + "px"; }
+  };
+  P.vigiaParado = function (raiz, o) {
+    let t12 = null, t25 = null, vivo = true;
+    const ativo = () => vivo && raiz.isConnected && (!o.ativo || o.ativo());
+    const zera = () => { clearTimeout(t12); clearTimeout(t25); tirarMao(); if (!vivo || !raiz.isConnected) return;
+      t12 = setTimeout(() => { if (ativo()) { tirarMao(); P.maozinha(o.alvo()); } }, 12000);
+      t25 = setTimeout(() => { if (ativo()) { tirarMao(); P.maozinha(o.alvo()); P.maozinha(o.instrucao(), "📖 <b>Leia aqui</b> o que fazer agora ⬆️"); } }, 25000); };
+    const ev = () => zera(); ["pointerdown", "keydown", "wheel"].forEach(t => document.addEventListener(t, ev, true));
+    const parar = () => { vivo = false; clearTimeout(t12); clearTimeout(t25); tirarMao(); ["pointerdown", "keydown", "wheel"].forEach(t => document.removeEventListener(t, ev, true)); };
+    const iv = setInterval(() => { if (!raiz.isConnected) { clearInterval(iv); parar(); } }, 3000);
+    zera(); return { zera, parar };
+  };
+  addEventListener("hashchange", tirarMao);
+
   /* 🚪 TAREFA FORA DO PORTAL (20/11/2026, ideia do professor): nas tarefas feitas nos programas do computador de verdade
      (Explorador de Arquivos, Paint…), o aluno toca em "Sair do portal e fazer no computador": a tela cheia sai SEM contar
      como saída (o professor não é avisado), o portal fica pausado mostrando o checklist marcável, e o botão
@@ -130,6 +155,9 @@
      pintura, programação com blocos e os simuladores de grafo, bolha, adivinhe e César. */
   const SIM_TELA_CHEIA = new Set(["sim_windows", "explorador_pastas", "teclado", "pintura", "blocos", "sim_grafo", "sim_bolha", "sim_adivinhe", "sim_cesar"]);
   addEventListener("hashchange", () => document.body.classList.remove("simc-travado"));
+  // o próximo passo da lista do simulador: a 1ª caixinha não marcada (lista do Windows: li sem "ok"; listas com caixinhas de marcar)
+  const proximoPasso = el => { const li = el.querySelector(".sw-check li:not(.ok)"); if (li) return li;
+    const cb = [...el.querySelectorAll(".atv-corpo input[type=checkbox]")].find(x => !x.checked); return cb ? (cb.closest("li, label") || cb) : null; };
   function telaCheiaSim(el, at, st, corpo) {
     if (!SIM_TELA_CHEIA.has(at.tipo)) return;
     el.classList.add("atv-sim");
@@ -147,6 +175,10 @@
     }
     bt.onclick = () => foco(!el.classList.contains("simc-foco"));
     foco(false);
+    // 👆 parado no simulador: mãozinha no próximo passo da lista (o primeiro ainda não marcado) e balão apontando a instrução
+    P.vigiaParado(el, { ativo: () => el.classList.contains("simc-foco") && !st.status,
+      alvo: () => proximoPasso(el) || el.querySelector(".atv-enun") || el.querySelector(".atv-corpo"),
+      instrucao: () => proximoPasso(el) || el.querySelector(".atv-enun") || el.querySelector(".atv-cab") });
     // terminou: comemora e sai sozinho da tela cheia
     new MutationObserver(() => { if (el.classList.contains("concluida")) { const c = corpo.querySelector(".simc-capa"); if (c) c.remove();
       if (el.classList.contains("simc-foco")) setTimeout(() => { if (el.classList.contains("simc-foco")) foco(false); }, 2500); } }).observe(el, { attributes: true, attributeFilter: ["class"] });

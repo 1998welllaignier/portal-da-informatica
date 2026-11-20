@@ -2342,3 +2342,11 @@ body.simc-travado { overflow: hidden; }
 .fora-volta { display: block; margin: 16px auto 4px; }
 .fora-volta:disabled { opacity: .45; cursor: not-allowed; }
 .fora-falta { text-align: center; }
+
+/* 👆 ajuda quando o aluno fica parado (20/11/2026) */
+.mao-dica { position: fixed; z-index: 10050; font-size: 44px; pointer-events: none; filter: drop-shadow(0 3px 4px #0006); animation: mao-pisca 1s ease-in-out infinite; }
+@keyframes mao-pisca { 0%, 100% { transform: translateY(0) scale(1); opacity: 1; } 50% { transform: translateY(-12px) scale(1.12); opacity: .55; } }
+.mao-balao { position: fixed; z-index: 10051; pointer-events: none; background: #1e3a8a; color: #fff; font-size: 1.1rem; padding: 10px 16px; border-radius: 14px; box-shadow: 0 6px 18px #0005; max-width: 420px; animation: balao-entra .3s ease-out; }
+@keyframes balao-entra { from { transform: translateY(8px); opacity: 0; } to { transform: none; opacity: 1; } }
+.instr-pisca { outline: 4px solid #f59e0b; outline-offset: 4px; border-radius: 8px; animation: instr-pisca 1s ease-in-out infinite; }
+@keyframes instr-pisca { 50% { outline-color: #fde68a; } }
