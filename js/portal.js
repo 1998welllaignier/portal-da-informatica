@@ -76,6 +76,27 @@
     setTimeout(pintarVerificar, 50);
   }, true);
   setInterval(pintarVerificar, 1000); addEventListener("hashchange", () => { const b = document.getElementById("falta-ver"); if (b) b.remove(); });
+  /* ✂️ COPIAR, COLAR E BOTÃO DIREITO BLOQUEADOS (20/11/2026, pedido do professor): nas respostas digitadas o objetivo é
+     treinar a digitação, e na prova é evitar cola. O bloqueio é SELETIVO:
+     - liberado para o professor (logado) e no painel;
+     - liberado nas tarefas que ENSINAM copiar/colar/recortar/desfazer (Ctrl + C/V/X/Z): a tarefa ganha data-libera-copiar
+       sozinha quando o texto dela fala desses atalhos (ex.: Bloco de Notas do computador de treino, "copie e cole na caixa");
+     - os simuladores que têm o próprio menu do botão direito (Windows, teclado, computador de treino) continuam funcionando,
+       porque aqui só se impede o menu do navegador, sem parar o clique deles;
+     - as teclas continuam chegando aos jogos e simuladores (só a área de transferência do navegador é bloqueada). */
+  let ehProf = false; const verProf = () => { try { professorLogado().then(v => { ehProf = !!v; }); } catch (e) {} };
+  setTimeout(verProf, 2500); addEventListener("hashchange", () => { if (!ehProf) { profOk = null; verProf(); } });
+  const liberado = e => ehProf || /^#\/painel/.test(location.hash) || !!(e.target && e.target.closest && e.target.closest("[data-libera-copiar], .lousa, .pp-dlg"));
+  let avisoCopiar = 0;
+  const bloquear = (e, msg) => { if (liberado(e)) return; e.preventDefault();
+    if (msg && Date.now() - avisoCopiar > 4000) { avisoCopiar = Date.now(); toast(msg); } };
+  document.addEventListener("copy", e => bloquear(e, "✋ Aqui não dá para copiar: o treino é escrever com as suas palavras 😉"));
+  document.addEventListener("cut", e => bloquear(e, "✋ Aqui não dá para recortar."));
+  document.addEventListener("paste", e => bloquear(e, "✋ Aqui não dá para colar: digite a resposta com as suas palavras 😉"));
+  document.addEventListener("contextmenu", e => bloquear(e, null));
+  document.addEventListener("drop", e => { const tg = e.target; if (tg && tg.matches && tg.matches("input, textarea, [contenteditable]") && e.dataTransfer && [...(e.dataTransfer.types || [])].includes("text/plain")) bloquear(e, "✋ Aqui não dá para arrastar texto pronto: digite 😉"); });
+  const ENSINA_COPIAR = /ctrl\s*\+\s*[cvxz]\b|copiar e colar|copie e cole|recortar|desfazer/i;
+
   /* 🎒 DEIXOU TAREFA PARA TRÁS? (20/11/2026, pedido do professor)
      Ao sair de uma página da missão (próxima etapa, outra etapa da trilha, "Voltar às missões", menu…) com tarefas desta
      página que ficaram para trás, aparece uma janelinha listando cada uma, com "Ir para ela" e "Seguir mesmo assim".
@@ -1205,7 +1226,7 @@
     const auto = typeof T.auto === "function" ? T.auto(at) : T.auto;
     const corr = at.tipo === "vivi" ? "💬 sem certo nem errado" : at.professor ? "👨‍🏫 o professor confere" : auto ? "✔ correção automática" : "👨‍🏫 o professor confere";
     const vez = s && s.modo === "dupla" && ["basico", "desafio", "turbo"].includes(at.nivel) ? `<span class="vez">🎮 Vez de: <strong>${esc(curto(s, i % 2))}</strong> (o outro ajuda)</span>` : "";
-    const el = h(`<section class="atv nivel-${at.nivel}" id="atv-${at.id}"${at.opcional ? ' data-opc="1"' : ""} aria-labelledby="t-${at.id}">
+    const el = h(`<section class="atv nivel-${at.nivel}" id="atv-${at.id}"${at.opcional ? ' data-opc="1"' : ""}${ENSINA_COPIAR.test(JSON.stringify(at)) ? ' data-libera-copiar="1"' : ""} aria-labelledby="t-${at.id}">
       <header class="atv-cab"><span class="atv-nivel">${(NIVEL[at.nivel] || ["", ""])[0]} ${(NIVEL[at.nivel] || ["", ""])[1]}</span>
         <h2 id="t-${at.id}">${md(at.titulo || "")}</h2><span class="atv-corr">${corr}${at.opcional ? " · opcional" : ""}</span>${vez}</header>
       ${at.enunciado ? `<div class="atv-enun">${at.enunciado}</div>` : INSTRUCAO_PADRAO(at) ? `<div class="atv-enun">${INSTRUCAO_PADRAO(at)}</div>` : ""}
