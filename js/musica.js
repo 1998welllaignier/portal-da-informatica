@@ -22,6 +22,7 @@
   const gravarLS = (k, v) => { try { localStorage.setItem(k, v); } catch (e) {} };
   let ligada = lerLS("portal:musica", "1") === "1", vol = +lerLS("portal:musica:vol", AMB);
   let ctx = null, mestre = null, abafo = null, filtro = null, eco = null, prox = 0, acorde = 0, iv = null, abafarAte = 0, tocando = false;
+  const esc = x => String(x).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
   const hz = m => 440 * Math.pow(2, (m - 69) / 12);
   const ehProf = () => /^#\/painel/.test(location.hash);   // só no PAINEL DO PROFESSOR (pedido do professor): em nenhum outro lugar
 
@@ -53,7 +54,7 @@
     ["Pagode 9 · Samba-rock",             { bpm: 104, ac: [[9, "m7"], [2, "7"], [9, "m7"], [4, "7"]], tom: 9, menor: true, cav: [2, 6, 10, 14], surdo: [8], baixo: "rock", mel: "square", melBarras: 2, palmas: true }],
     ["Pagode 10 · Banjo na roda",         { bpm: 98,  ac: [[10, "M"], [7, "7"], [0, "m"], [5, "7"]], tom: 10, cav: [0, 2, 3, 6, 8, 10, 11, 14], surdo: [8], baixo: "partido", mel: "triangle", melBarras: 3, banjo: true }],
   ];
-  PAGODES.forEach(([nome, v], i) => { ESTILOS["pagode" + (i + 1)] = { nome: "🥁 " + nome, bpm: v.bpm, acordes: v.ac.map(([r, q]) => ac(r, q)), melo: pent(v.tom, v.menor), v, toca: "pagodeV", oculto: true }; });
+  PAGODES.forEach(([nome, v], i) => { ESTILOS["pagode" + (i + 1)] = { nome: "🥁 " + nome, bpm: v.bpm, acordes: v.ac.map(([r, q]) => ac(r, q)), melo: pent(v.tom, v.menor), v, toca: "pagodeV" }; });
   /* 👾 10 VERSÕES DE VIDEOGAME 8 BITS (20/11/2026: "agora 10 no estilo oitobits"). Originais: cada "fase" muda o andamento,
      o tom, os acordes, o arpejo (sobe, desce, sobe-e-desce, quebrado), o timbre, o baixo e a bateria. */
   const OITOS = [
@@ -68,9 +69,36 @@
     ["8 bits 9 · Tela de vitória",     { bpm: 132, ac: [[0, "M"], [5, "M"], [7, "M"], [0, "M"]], tom: 0, arp: "sobedesce", arpOit: 12, arpTipo: "square", baixo: "oitava", kick: [0, 8], caixa: [4, 12], chimbal: 2, lead: "square", melBarras: 8, palmas: true }],
     ["8 bits 10 · Fase espacial",      { bpm: 124, ac: [[10, "M"], [7, "m"], [3, "M"], [5, "M"]], tom: 10, arp: "desce", arpOit: 24, arpTipo: "triangle", baixo: "pulso", kick: [0, 8, 11], caixa: [4, 12], chimbal: 2, lead: "sawtooth", eco: true, pad: true, melBarras: 5 }],
   ];
-  OITOS.forEach(([nome, v], i) => { ESTILOS["oito" + (i + 1)] = { nome: "👾 " + nome, bpm: v.bpm, acordes: v.ac.map(([r, q]) => ac(r, q)), melo: pent(v.tom, v.menor), v, toca: "oitoV", oculto: true }; });
+  OITOS.forEach(([nome, v], i) => { ESTILOS["oito" + (i + 1)] = { nome: "👾 " + nome, bpm: v.bpm, acordes: v.ac.map(([r, q]) => ac(r, q)), melo: pent(v.tom, v.menor), v, toca: "oitoV" }; });
   let estilo = ESTILOS[lerLS("portal:musica:estilo", "animada")] ? lerLS("portal:musica:estilo", "animada") : "animada";
   const E = () => ESTILOS[estilo];
+  /* 🔀 MODOS (20/11/2026, pedido do professor): manual (sempre a mesma) · aleatório misto (alterna 1 pagode e 1 de 8 bits)
+     · aleatório só pagodinho · aleatório só 8 bits. No aleatório, troca a cada 1 HORA DE USO: o relógio só anda enquanto
+     a música está ligada no painel (computador desligado ou portal fechado não conta). */
+  const GRUPO = { pagode: Object.keys(ESTILOS).filter(k => /^pagode\d+$/.test(k)), oito: Object.keys(ESTILOS).filter(k => /^oito\d+$/.test(k)) };
+  const MODOS = { nenhuma: "🔇 Nenhuma música (só os efeitos sonoros)", manual: "✋ Manual: sempre a que eu escolher", misto: "🔀 Aleatório: alterna pagodinho e 8 bits", pagode: "🔀 Aleatório: só pagodinho", oito: "🔀 Aleatório: só 8 bits" };
+  const HORA = 3600000;
+  let modo = MODOS[lerLS("portal:musica:modo", "manual")] && lerLS("portal:musica:modo", "manual") !== "nenhuma" ? lerLS("portal:musica:modo", "manual") : "manual";
+  let usado = +lerLS("portal:musica:usado", 0) || 0, ultTick = 0, ultGrava = 0;
+  function sortearDo(grupo, fora) { const L = GRUPO[grupo].filter(k => k !== fora); return L[Math.floor(Math.random() * L.length)]; }
+  function proximaAleatoria() {
+    const g = modo === "misto" ? (GRUPO.pagode.includes(estilo) ? "oito" : "pagode") : modo;
+    return sortearDo(g, estilo);
+  }
+  function contarUso(tocandoMesmo) {   // chamado 4× por segundo: soma o tempo de uso e troca de música depois de 1 hora
+    const ag = Date.now(), dt = ultTick ? Math.min(2000, ag - ultTick) : 0; ultTick = ag;
+    if (modo === "manual" || !tocandoMesmo) return;
+    usado += dt;
+    if (usado >= HORA) { usado = 0; trocarEstilo(proximaAleatoria()); pintar(true); }
+    if (ag - ultGrava > 5000) { ultGrava = ag; gravarLS("portal:musica:usado", String(Math.round(usado))); }
+  }
+  function mudarModo(m) {
+    if (!MODOS[m]) return;
+    if (m === "nenhuma") { ligada = false; gravarLS("portal:musica", "0"); return; }   // os efeitos (roleta, pódio…) continuam
+    if (!ligada) { ligada = true; gravarLS("portal:musica", "1"); }
+    modo = m; gravarLS("portal:musica:modo", m); usado = 0; gravarLS("portal:musica:usado", "0");
+    if (m !== "manual") { const ok = m === "misto" ? [...GRUPO.pagode, ...GRUPO.oito] : GRUPO[m]; if (!ok.includes(estilo)) trocarEstilo(m === "oito" ? sortearDo("oito") : sortearDo("pagode")); }
+  }
   const semi = () => 15 / E().bpm;                                // duração de uma semicolcheia (s)
   let passo = 0, motivo = [];
   function montar() {
@@ -236,7 +264,7 @@
   function iniciar() {
     if (!montar()) return;
     if (ctx.state !== "running") ctx.resume().catch(() => {});
-    clearInterval(iv); iv = setInterval(() => { agendar(); aplicar(); }, 250);
+    clearInterval(iv); iv = setInterval(() => { agendar(); aplicar(); contarUso(ligada && ehProf() && ctx && ctx.state === "running" && !document.hidden); }, 250);
     aplicar();
   }
   // o navegador só deixa tocar som depois de um clique: o primeiro clique em qualquer lugar liga a música
@@ -247,7 +275,7 @@
 
   /* ---------- botão 🎵 (só no computador do professor) ---------- */
   let ui = null, aberto = false;
-  function pintar() {
+  function pintar(forcar) {
     if (!ehProf()) { if (ui) { ui.remove(); ui = null; } return; }
     if (!ui || !ui.isConnected) {
       ui = document.createElement("div"); ui.className = "mus-ui";
@@ -258,21 +286,33 @@
           <datalist id="mus-marcas"><option value="${AMB}" label="ambiente"></option></datalist>
           <div class="mus-regua" aria-hidden="true"><span style="left:${AMB}%">▲ ambiente</span></div>
           <button type="button" class="mus-amb">↺ Voltar ao volume ambiente</button>
-          <label class="mus-est">Estilo <select aria-label="Estilo da música">${Object.entries(ESTILOS).filter(([k, v]) => !v.oculto || k === estilo).map(([k, v]) => `<option value="${k}">${v.nome}</option>`).join("")}</select></label>
+          <p class="mus-agora"></p>
+          <label class="mus-est">Modo <select class="mus-modo" aria-label="Modo da música">${Object.entries(MODOS).map(([k, v]) => `<option value="${k}">${v}</option>`).join("")}</select></label>
+          <label class="mus-est">Música <select class="mus-qual" aria-label="Qual música">
+            <optgroup label="🥁 Pagodinho">${GRUPO.pagode.map(k => `<option value="${k}">${ESTILOS[k].nome.replace(/^🥁 /, "")}</option>`).join("")}</optgroup>
+            <optgroup label="👾 Videogame 8 bits">${GRUPO.oito.map(k => `<option value="${k}">${ESTILOS[k].nome.replace(/^👾 /, "")}</option>`).join("")}</optgroup>
+            <optgroup label="🎵 Outros estilos">${Object.keys(ESTILOS).filter(k => !GRUPO.pagode.includes(k) && !GRUPO.oito.includes(k)).map(k => `<option value="${k}">${ESTILOS[k].nome}</option>`).join("")}</optgroup></select></label>
           <p class="mus-pe">Ela abaixa sozinha durante vídeos, a roleta e as comemorações, e volta depois. Fica memorizado neste computador.</p></div>`;
       document.body.appendChild(ui);
       const pn = ui.querySelector(".mus-pn"), rg = ui.querySelector("input[type=range]");
-      ui.querySelector(".mus-bt").onclick = () => { aberto = !aberto; pn.hidden = !aberto; iniciar(); };
+      // abre no "apertar" do mouse (o rótulo do botão muda quando a música começa, e isso fazia o clique se perder)
+      const alterna = () => { aberto = !aberto; pn.hidden = !aberto; iniciar(); };
+      const bt0 = ui.querySelector(".mus-bt"); bt0.addEventListener("pointerdown", e => { if (e.button === 0) alterna(); }); bt0.onclick = e => { if (e.detail === 0) alterna(); };
       ui.querySelector(".mus-liga").onclick = () => { ligada = !ligada; gravarLS("portal:musica", ligada ? "1" : "0"); iniciar(); aplicar(); };
       rg.oninput = () => { vol = +rg.value; gravarLS("portal:musica:vol", String(vol)); if (!ligada) { ligada = true; gravarLS("portal:musica", "1"); } iniciar(); aplicar(); };
-      const se = ui.querySelector(".mus-est select"); se.value = estilo;
-      se.onchange = () => { trocarEstilo(se.value); iniciar(); aplicar(); };
+      const se = ui.querySelector(".mus-qual"), sm = ui.querySelector(".mus-modo"); se.value = estilo; sm.value = modo;
+      se.onchange = () => { trocarEstilo(se.value); if (modo !== "manual") mudarModo("manual"); iniciar(); aplicar(); pintar(true); };   // escolher uma música à mão = modo manual
+      sm.onchange = () => { mudarModo(sm.value); iniciar(); aplicar(); pintar(true); };
       ui.querySelector(".mus-amb").onclick = () => { vol = AMB; gravarLS("portal:musica:vol", String(vol)); iniciar(); aplicar(); };
       document.addEventListener("pointerdown", e => { if (aberto && ui && !ui.contains(e.target)) { aberto = false; pn.hidden = true; } }, true);
     }
     ui.querySelector(".mus-pn").hidden = !aberto;
+    const se2 = ui.querySelector(".mus-qual"), sm2 = ui.querySelector(".mus-modo");
+    if (forcar || document.activeElement !== se2) se2.value = estilo; if (forcar || document.activeElement !== sm2) sm2.value = ligada ? modo : "nenhuma";
+    const falta = Math.max(0, Math.ceil((HORA - usado) / 60000));
+    ui.querySelector(".mus-agora").innerHTML = !ligada ? "🔇 Sem música ambiente. Os efeitos sonoros continuam funcionando." : `▶ Tocando agora: <b>${esc(ESTILOS[estilo].nome)}</b>${modo === "manual" ? " <small>(fixa)</small>" : `<br><small>Troca daqui a ${falta} min de uso</small>`}`;
     const tocandoAgora = ligada && ctx && ctx.state === "running";
-    const htmlBt = !ligada ? "🔇 <small>música desligada</small>" : tocandoAgora ? (videoAtivo() || Date.now() < abafarAte ? "🎵 <small>pausa (vídeo/festa)</small>" : "🎵 <small>música ambiente</small>") : "🎵 <small>toque para ligar a música</small>";
+    const htmlBt = !ligada ? "🔇 <small>música desligada</small>" : tocandoAgora ? (videoAtivo() || Date.now() < abafarAte ? "🎵 <small>pausa (vídeo/festa)</small>" : `🎵 <small>${esc(ESTILOS[estilo].nome.replace(/^\S+\s/, ""))}${modo !== "manual" ? " 🔀" : ""}</small>`) : "🎵 <small>toque para ligar a música</small>";
     const bt = ui.querySelector(".mus-bt"); if (bt.dataset.h !== htmlBt) { bt.dataset.h = htmlBt; bt.innerHTML = htmlBt; }   // só troca se mudou (trocar no meio do clique faz o clique se perder)
     ui.classList.toggle("off", !ligada);
     ui.querySelector(".mus-liga").textContent = ligada ? "⏸ Desligar a música" : "▶ Ligar a música";
@@ -281,6 +321,7 @@
   }
   function trocarEstilo(k) { if (!ESTILOS[k]) return; estilo = k; gravarLS("portal:musica:estilo", k); passo = 0; motivo = []; if (ctx) prox = ctx.currentTime + 0.1; }
   P.musica = {
+    mudarModo, get modo() { return modo; },
     estilos: Object.fromEntries(Object.entries(ESTILOS).map(([k, v]) => [k, v.nome])), trocarEstilo, renderizar, get estilo() { return estilo; },
     abafar(ms) { abafarAte = Math.max(abafarAte, Date.now() + (ms || 2000)); aplicar(); setTimeout(aplicar, (ms || 2000) + 60); },
     get ligada() { return ligada; }, AMB

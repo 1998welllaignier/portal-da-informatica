@@ -530,3 +530,6 @@ Questões **contextualizadas** (situação curta: 1–2 frases no 6º, 2–3 no 
 ## 🎵 Estilos da música ambiente (20/11/2026)
 - Além da **🎉 Animada** (a escolhida e padrão), o painel 🎵 tem um seletor de estilo: 🥁 Pagodinho, ☕ Lo-fi, 📺 Programa de TV e 👾 Videogame 8 bits. Todos originais, criados pelo navegador; a escolha fica memorizada no computador.
 - 📽️ (20/11/2026) A janela do projetor (telão) da leitura guiada não mostra a faixa de data comemorativa nem os enfeites dos cantos do tema, para nada cobrir o texto que a turma lê.
+- 🎵 (20/11/2026) No painel 🎵 há **25 músicas** para escolher, em grupos: 🥁 Pagodinho (10 versões), 👾 Videogame 8 bits (10 versões) e 🎵 Outros estilos (Animada, Pagodinho, Lo-fi, Programa de TV, 8 bits). Os nomes são os da lista que o professor recebeu.
+- 🔀 **Modos:** 🔇 Nenhuma música (só os efeitos sonoros) · ✋ Manual (sempre a mesma, não troca) · 🔀 Aleatório alternando pagodinho e 8 bits · 🔀 Aleatório só pagodinho · 🔀 Aleatório só 8 bits. No aleatório, a música troca a cada **1 hora de uso** (o tempo só conta enquanto a música está tocando no painel) e o painel mostra "Tocando agora" e quantos minutos faltam para trocar. Escolher uma música à mão passa para o modo manual.
+- O volume e a marca "▲ ambiente" (o padrão) continuam como combinado, valendo para todas as músicas.
