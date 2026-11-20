@@ -136,9 +136,27 @@
       await b.commit();
     }
   }
+  /* 👣🧩 Marcações que passam de um ano para o outro (20/11/2026, pedido do professor):
+     quem usava a Trilha Passo a Passo (👣) ou era atípico (🧩) no ano anterior volta já marcado ao ser importado no ano novo.
+     O 9º ano fica de fora (sai da escola). A busca é pelo nome completo; com nome repetido, não marca e avisa no relatório. */
+  async function marcadosDoAnoPassado(anoNovo) {
+    const [qt, qa] = await Promise.all([db().collection("alunos").where("trilha", "==", true).get(), db().collection("alunos").where("atipico", "==", true).get()]);
+    const m = new Map();
+    [...qt.docs, ...qa.docs].forEach(d => { const a = { id: d.id, ...d.data() };
+      if (a.ativo || a.teste || !(Number(a.ano) < Number(anoNovo)) || String(a.turma || "").startsWith("9")) return;
+      m.set(a.id, a); });
+    const porNome = new Map();
+    [...m.values()].sort((x, y) => Number(y.ano) - Number(x.ano)).forEach(a => {
+      const k = normNome(a.nome), ja = porNome.get(k);
+      if (!ja) porNome.set(k, a);
+      else if (Number(ja.ano) === Number(a.ano) && ja.turma !== a.turma) porNome.set(k, { ...ja, repetido: true });
+    });
+    return porNome;
+  }
   async function adicionarAlunos(tid, lista, ano) {
     const usados = await codigosUsados(tid);
     const atuais = await alunosDaTurma(tid);
+    const passados = await marcadosDoAnoPassado(ano).catch(() => new Map());
     const jaTem = new Set(atuais.map(a => normNome(a.nome)));
     const idsUsados = new Set(atuais.map(a => a.id));
     const ops = [], feitos = [];
@@ -149,9 +167,11 @@
       if (idsUsados.has(id)) id = novoId();
       idsUsados.add(id); jaTem.add(normNome(nome));
       const codigo = sorteiaCodigo(usados);
-      ops.push(b => b.set(db().collection("alunos").doc(id), { nome, turma: tid, codigo, ativo: true, ano, criadoEm: Date.now() }));
-      ops.push(b => b.set(db().collection("acessos").doc(tid + "_" + codigo), { alunoId: id, turma: tid, ativo: true, nome }));
-      feitos.push({ id, nome, codigo });
+      const ant = passados.get(normNome(nome)), herda = ant && !ant.repetido ? ant : null;
+      const marcas = herda ? { ...(herda.trilha ? { trilha: true } : {}), ...(herda.atipico ? { atipico: true } : {}), veioDe: herda.id } : {};
+      ops.push(b => b.set(db().collection("alunos").doc(id), { nome, turma: tid, codigo, ativo: true, ano, criadoEm: Date.now(), ...marcas }));
+      ops.push(b => b.set(db().collection("acessos").doc(tid + "_" + codigo), { alunoId: id, turma: tid, ativo: true, nome, ...(marcas.trilha ? { trilha: true } : {}) }));
+      feitos.push({ id, nome, codigo, trilha: !!marcas.trilha, atipico: !!marcas.atipico, duvida: !!(ant && ant.repetido) });
     });
     await lotes(ops);
     return feitos;
@@ -2268,7 +2288,11 @@
     const res = el.querySelector("#res");
     const mostrar = (titulo, grupos) => {
       res.hidden = false;
+      const herdou = grupos.flatMap(([tid, r]) => r.filter(a => a.trilha || a.atipico).map(a => `${a.atipico ? "🧩 " : ""}${esc(a.nome)}${a.trilha ? " 👣" : ""} <small>(${esc(nomeTurma(tid))})</small>`));
+      const duvida = grupos.flatMap(([tid, r]) => r.filter(a => a.duvida).map(a => `${esc(a.nome)} <small>(${esc(nomeTurma(tid))})</small>`));
       res.innerHTML = `<h2>${esc(titulo)}</h2>` + grupos.map(([tid, r]) => `<p><strong>${esc(nomeTurma(tid))}</strong>: ${r.length} aluno(s) novo(s)</p>`).join("") +
+        (herdou.length ? `<p>✅ Voltaram já marcados do ano passado: ${herdou.join(" · ")}</p>` : "") +
+        (duvida.length ? `<p>⚠️ Nome repetido no ano passado (não marquei sozinho, confira e marque na turma): ${duvida.join(" · ")}</p>` : "") +
         `<p class="ajuda">Os códigos aparecem na aba 🏫 Turmas e nos cartões para imprimir.</p>`;
     };
     const mostrarTestes = async () => {
@@ -2339,13 +2363,31 @@
     };
   }
 
+  /* 👣🧩 Relatório: quem estava marcado no ano anterior (sem o 9º) e se já voltou marcado no ano atual */
+  async function relatorioHeranca(box, cfg) {
+    const passados = [...(await marcadosDoAnoPassado(cfg.ano)).values()];
+    const ativos = (await db().collection("alunos").where("ativo", "==", true).get()).docs.map(d => ({ id: d.id, ...d.data() }));
+    const porNome = new Map(ativos.map(a => [normNome(a.nome), a]));
+    const linhas = passados.sort((x, y) => String(x.turma).localeCompare(String(y.turma)) || x.nome.localeCompare(y.nome)).map(a => {
+      const agora = porNome.get(normNome(a.nome));
+      const falta = agora && ((a.trilha && !agora.trilha) || (a.atipico && !agora.atipico));
+      const sit = a.repetido ? "⚠️ nome repetido: confira" : !agora ? "⏳ ainda não está nas listas deste ano" : falta ? `⚠️ está no ${esc(nomeTurma(agora.turma))}, mas sem a marcação: marque na turma` : `✅ voltou marcado (${esc(nomeTurma(agora.turma))})`;
+      return `<tr><td>${a.atipico ? "🧩 " : ""}${esc(a.nome)}${a.trilha ? " 👣" : ""}</td><td>${esc(nomeTurma(a.turma))} · ${esc(a.ano)}</td><td>${sit}</td></tr>`;
+    });
+    box.innerHTML = `<h2>👣🧩 Marcações do ano passado</h2>` + (linhas.length
+      ? `<p>Alunos que usavam a 👣 Trilha ou tinham 🧩 no ano anterior (sem o 9º ano, que saiu da escola).</p><div class="tabela-wrap"><table class="pp-tabela"><thead><tr><th>Aluno</th><th>Turma no ano passado</th><th>Neste ano</th></tr></thead><tbody>${linhas.join("")}</tbody></table></div>`
+      : `<p class="ajuda">Nenhum aluno marcado no ano anterior (ou o ano novo ainda não começou: este relatório vale depois de “Começar o ano”).</p>`);
+  }
+
   /* -------- Ano letivo: virada de ano -------- */
   async function telaAno(u) {
     const cfg = await config();
     const el = tela(topo(u, "config") + subConfig("ano") + `<div class="painel"><h2>Ano letivo atual: ${esc(cfg.ano)}</h2>
       <p>No começo de cada ano letivo:</p><ol><li>Clique em <strong>Começar novo ano</strong>: todos os alunos ativos são desativados (os códigos param de funcionar), mas o histórico fica guardado.</li>
       <li>Importe as listas novas em <a href="#/painel/importar">⚙️ Configurações › 📥 Importar alunos</a>.</li><li>Imprima os cartões com os códigos novos.</li></ol>
-      <div class="row-btns"><button class="btn" id="novo" type="button">📅 Começar o ano ${esc(cfg.ano + 1)}</button></div></div>
+      <div class="row-btns"><button class="btn" id="novo" type="button">📅 Começar o ano ${esc(cfg.ano + 1)}</button></div>
+      <p class="ajuda">👣 Quem usava a Trilha Passo a Passo e 🧩 os alunos atípicos voltam já marcados quando você importa as listas do ano novo (o 9º ano fica de fora). Confira no relatório abaixo.</p></div>
+      <div class="painel" id="heranca"><h2>👣🧩 Marcações do ano passado</h2><p class="ajuda">Carregando…</p></div>
       <div class="painel"><h2>🗓️ Bimestre em uso</h2>
         <p>O bimestre escolhido aqui é o que os alunos veem no portal e o que o painel usa (aula, missões, Panorama, Prova). <strong>Cada bimestre tem o seu Diário, Boletim e Prova</strong>: as aulas (pelas datas do bimestre), as notas e a configuração da prova ficam separadas. Os outros bimestres ficam guardados; dá para voltar a qualquer um e consultar.</p>
         <div class="pp-periodos" role="radiogroup" aria-label="Bimestre em uso">${(cat().periodos || []).map(pr => { const tem = cat().apostilas.some(a => (a.periodo || cat().periodoPadrao) === pr.id); const at = pr.id === P.periodoAtual();
@@ -2361,6 +2403,7 @@
         <div class="row-btns"><button class="btn btn-sec" id="juntar" type="button">${cfg.nuncaJuntar ? "👥 Voltar a perguntar" : "🚫 Nunca juntar"}</button></div></div>
 `);
     ligarSair(el);
+    relatorioHeranca(el.querySelector("#heranca"), cfg).catch(e => { el.querySelector("#heranca").innerHTML = `<h2>👣🧩 Marcações do ano passado</h2><p class="ajuda">Não consegui carregar: ${esc(e.message || e)}</p>`; });
     el.querySelectorAll("[data-per]").forEach(b => b.onclick = async () => {
       const id = b.dataset.per, pr = (cat().periodos || []).find(x => x.id === id); if (id === P.periodoAtual()) return;
       if (!await P.confirmar(`Trocar para o ${pr.nome}? Os alunos passam a ver só as apostilas desse bimestre, e o painel também.`)) return;

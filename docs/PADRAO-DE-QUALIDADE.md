@@ -362,3 +362,8 @@ Apostila no portal + ilustrada (PDF só para quem estuda em casa) · guia do pro
 ## 🏷️ Código HTML nas atividades (19/11/2026)
 - Nas atividades de **ligar** (e em botões), o portal tira tudo o que está entre `<` e `>` e escapa o resto. Por isso, nelas, escreva a tag sem os sinais (“tag h1”) e não use “< e >” no texto.
 - Em **escolha**, **ordenar** e **mensagens**, o texto aceita `&lt;h1&gt;`, que aparece como `<h1>`.
+
+## 👣🧩 Marcações que passam de ano (20/11/2026, pedido do professor)
+- Na virada do ano, quem usava a 👣 Trilha Passo a Passo ou tinha 🧩 (atípico) volta **já marcado** quando é importado nas listas do ano novo, em qualquer turma (busca pelo nome completo). O 9º ano fica de fora.
+- Nome repetido no ano anterior: o portal não marca sozinho e avisa.
+- Relatório em ⚙️ Configurações › 📅 Ano letivo: quem estava marcado, se já voltou marcado, se ainda não está nas listas ou se está sem a marcação.
