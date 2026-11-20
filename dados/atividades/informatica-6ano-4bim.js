@@ -52,19 +52,8 @@ PORTAL.registrarAtividades("informatica-6ano-4bim", {
         dicas: ["Para salvar: escolha <strong>onde</strong> guardar, dê um <strong>nome</strong> e clique em <strong>Salvar</strong>.", "Você só pode salvar depois de escrever alguma coisa."],
         explicacao: "Para salvar escolhemos <strong>onde</strong> guardar, damos um <strong>nome</strong> e clicamos em <strong>Salvar</strong>. O atalho <strong>Ctrl + S</strong> faz o mesmo." },
 
-      { tipo: "pc", titulo: "No computador: minha pasta e meu primeiro arquivo",
-        programa: "Explorador de Arquivos e Bloco de Notas",
-        passos: [
-          "Abra o <strong>Explorador de Arquivos</strong> (ícone de pasta amarela). No local indicado pelo professor, clique com o botão direito → <strong>Novo</strong> → <strong>Pasta</strong> e dê o seu nome a ela.",
-          "Abra o <strong>Bloco de Notas</strong> e escreva: seu nome, sua idade e o que você gosta de fazer.",
-          "Clique em <strong>Arquivo → Salvar como</strong>, escolha a sua pasta e salve com o nome <strong>Sobre mim</strong>.",
-          "Feche o Bloco de Notas, abra a sua pasta e dê duplo clique no arquivo para abri-lo de novo."],
-        conferir: [
-          { rot: "Qual é o <strong>nome do arquivo</strong> que aparece dentro da sua pasta?", ph: "Ex.: Sobre mim", gab: "Sobre mim", re: "^sobre\\s*mim(\\.txt)?$", dica: "Você salvou com o nome <strong>Sobre mim</strong>. Se não aparece assim, salve de novo com esse nome." },
-          { rot: "Quando você deu <strong>duplo clique</strong> no arquivo, qual programa abriu?", ph: "Nome do programa", gab: "Bloco de Notas", re: "bloco\\s*de\\s*notas|notepad", dica: "É o mesmo programa em que você escreveu o texto." }],
-        okMsg: "Pasta criada e arquivo salvo! Você sabe guardar e encontrar os seus arquivos." },
-      { id: "m1-sim-pasta", opcional: true, tipo: "sim_pc", titulo: "🖥️ Simulador: crie a sua pasta e salve o seu primeiro arquivo",
-        enunciado: "<p>Treine no <strong>computador de mentira</strong> o caminho completo: criar uma pasta, escrever no Bloco de Notas e salvar o arquivo dentro da pasta. O <strong>Bit</strong>, o seu ajudante, diz o que fazer e corrige na hora. Depois faça igualzinho no computador de verdade!</p>",
+      { tipo: "sim_pc", titulo: "🖥️ No computador: crie a sua pasta e salve o seu primeiro arquivo",
+        enunciado: "<p>No <strong>computador de treino</strong>, faça o caminho completo: criar uma pasta, escrever no Bloco de Notas e salvar o arquivo dentro da pasta. O <strong>Bit</strong>, o seu ajudante, diz o que fazer e confere cada passo.</p>",
         area: [{ nome: "Lixeira", app: "lixeira" }],
         pastas: { "Documentos": [{ nome: "lista-de-chamada", ext: "txt" }] },
         passos: [
@@ -77,17 +66,26 @@ PORTAL.registrarAtividades("informatica-6ano-4bim", {
           { faca: "Salve com <b>Ctrl + S</b>. Na janela <b>Salvar como</b>, escolha a pasta <b>Meus trabalhos</b>, dê o nome <b>sobre-mim</b> e clique em <b>Salvar</b>.", ok: { estado: "salvo", nome: "sobre-mim", pasta: "Meus trabalhos" }, erros: { "salvar:*": "Quase! Confira: o nome é <b>sobre-mim</b> e a pasta é <b>Meus trabalhos</b>. Aperte <b>Ctrl + S</b> e salve de novo." }, dica: "Ctrl + S abre a janela Salvar como. Em Pasta, escolha Meus trabalhos. Em Nome, digite sobre-mim." },
           { faca: "Para conferir, clique na pasta <b>Meus trabalhos</b>, no painel da esquerda do Explorador. O arquivo está lá?", ok: "abrir:pasta:Meus trabalhos", onde: "nav:Meus trabalhos", dica: "Clique no Explorador (barra de tarefas, 📁) e depois em Meus trabalhos, na lista da esquerda." },
         ],
-        fimMsg: "Pasta criada, texto escrito e arquivo salvo no lugar certo. Agora faça o mesmo no computador da sala!",
+        fimMsg: "Pasta criada, texto escrito e arquivo salvo no lugar certo. Você sabe guardar e encontrar os seus arquivos!",
         explicacao: "Para salvar um arquivo no lugar certo: crie a pasta (botão direito › Novo › Pasta), escreva no programa e use Ctrl + S (Salvar como), escolhendo a pasta e o nome." }
     ],
     desafio: [
-      { tipo: "pc", titulo: "No computador: organizando em pastas",
-        programa: "Explorador de Arquivos",
-        passos: ["Dentro da sua pasta, crie as pastas <strong>Textos</strong> e <strong>Desenhos</strong>.", "Arraste o arquivo <strong>Sobre mim</strong> para a pasta Textos.", "Clique com o botão direito no arquivo → <strong>Propriedades</strong> e veja os metadados."],
-        conferir: [
-          { rot: "Dentro da sua pasta, quantas pastas existem agora?", ph: "Digite um número", gab: "2 (Textos e Desenhos)", re: "^(2|duas)$", dica: "Você criou a pasta Textos e a pasta Desenhos." },
-          { rot: "Em qual pasta está agora o arquivo <strong>Sobre mim</strong>?", ph: "Nome da pasta", gab: "Textos", re: "^textos$", dica: "Você arrastou o arquivo para a pasta de textos." }],
-        okMsg: "Arquivos organizados em pastas!" },
+      { tipo: "sim_pc", titulo: "🗂️ No computador: organizando em pastas",
+        enunciado: "<p>No <strong>computador de treino</strong>, organize a sua pasta <strong>Meus trabalhos</strong>: crie as pastas <strong>Textos</strong> e <strong>Desenhos</strong>, guarde o arquivo <strong>Sobre mim</strong> no lugar certo e abra as <strong>Propriedades</strong> dele para ver os metadados. O <strong>Bit</strong> confere cada passo.</p>",
+        abertas: ["exp"], inicioPasta: "Meus trabalhos",
+        pastas: { "Documentos": [{ nome: "Meus trabalhos", tipo: "pasta" }, { nome: "lista-de-chamada", ext: "txt" }], "Meus trabalhos": [{ nome: "Sobre mim", ext: "txt", texto: "Sobre mim: eu me chamo Bia, tenho 11 anos e gosto de desenhar." }] },
+        passos: [
+          { faca: "Você está na pasta <b>Meus trabalhos</b>. Clique com o <b>botão direito</b> num espaço vazio (a parte branca) e escolha <b>Novo › Pasta</b>.", ok: "criar:pasta:Meus trabalhos", dica: "Botão direito na parte branca, onde não tem arquivo. No menu: Novo › Pasta." },
+          { faca: "Digite o nome <b>Textos</b> e aperte <b>Enter</b>.", ok: "/^renomear:pasta:.*>textos$/", dica: "Se o nome saiu errado: botão direito na pasta › Renomear." },
+          { faca: "Crie mais uma pasta do mesmo jeito (botão direito › <b>Novo › Pasta</b>).", ok: "criar:pasta:Meus trabalhos" },
+          { faca: "Dê o nome <b>Desenhos</b> e aperte <b>Enter</b>.", ok: "/^renomear:pasta:.*>desenhos$/" },
+          { faca: "Agora <b>arraste</b> o arquivo <b>Sobre mim</b> até a pasta <b>Textos</b> e solte.", ok: "mover:arq:Sobre mim*>Textos", onde: "arq:Sobre mim", erros: { "mover:arq:Sobre mim*": "Ops! Texto vai na pasta <b>Textos</b>. Abra a pasta, arraste de volta para Meus trabalhos e tente de novo." } },
+          { faca: "Dê <b>duplo clique</b> na pasta <b>Textos</b> para entrar nela.", ok: "abrir:pasta:Textos", onde: "arq:Textos" },
+          { faca: "Clique com o <b>botão direito</b> no arquivo <b>Sobre mim</b> e escolha <b>Propriedades</b> (o último item do menu).", ok: "prop:arq:Sobre mim*", dica: "Botão direito em cima do arquivo. Propriedades é o último item do menu." },
+          { faca: "Leia a janela: o <b>tipo</b>, o <b>local</b>, o <b>tamanho</b> e a <b>data</b> são os <b>metadados</b>. Anote e clique em <b>OK</b>.", ok: "fechar:propriedades" }
+        ],
+        fimMsg: "Pastas criadas, arquivo no lugar certo e metadados encontrados!",
+        explicacao: "Pastas organizam os arquivos como gavetas. Botão direito › Propriedades mostra os metadados do arquivo: tipo, local, tamanho e data." },
       { tipo: "tabela", titulo: "Anote os metadados do arquivo “Sobre mim”", robo: {"paineis": ["🖱️ O que eu faço", "🪟 O que aparece na janela"], "passos": [{"fala": "Olha como eu faço com <b>outro</b> arquivo, o “Lista de compras”. Clico nele com o <b>botão direito</b> do mouse:", "painel": 0, "linha": "Botão direito no arquivo"}, {"fala": "No menu, escolho <b>Propriedades</b>:", "painel": 0, "linha": "Propriedades"}, {"fala": "Abre a janela com os <b>metadados</b>: as informações sobre o arquivo.", "painel": 1, "linha": "Tipo: Documento de Texto (.txt)"}, {"fala": "", "painel": 1, "linha": "Tamanho: 120 bytes", "marca": true, "espera": 900}, {"fala": "", "painel": 1, "linha": "Criado em: 03/11/2026 09:15", "marca": true, "espera": 1600}, {"fala": "Eu só copio o que está escrito na janela. Os do <b>seu</b> arquivo vão ser diferentes!", "painel": null, "espera": 2400}], "fim": "Agora é a sua vez: abra as Propriedades do <b>seu</b> arquivo “Sobre mim” e copie o tipo, o tamanho e a data! 💪"},
         enunciado: "<p>Copie o que aparece na janela <strong>Propriedades</strong> do arquivo (botão direito → Propriedades).</p>",
         colunas: ["Metadado", "O que aparece no seu computador"],

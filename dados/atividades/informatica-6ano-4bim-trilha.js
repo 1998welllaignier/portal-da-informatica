@@ -40,10 +40,17 @@ PORTAL.registrarAtividades("informatica-6ano-4bim-trilha", {
         enunciado: "<p>Use as setas <strong>▲</strong> (subir) e <strong>▼</strong> (descer). Primeiro escolha <strong>onde</strong> guardar.</p>",
         explicacao: "Onde guardar → nome → Salvar." },
 
-      { tipo: "pc", titulo: "Passo 4 · No computador: Bloco de Notas", programa: "Bloco de Notas",
-        passos: ["Clique no botão <strong>Iniciar</strong> e digite <strong>bloco</strong>. Clique em <strong>Bloco de Notas</strong>.", "Digite o seu <strong>primeiro nome</strong>.", "Aperte <strong>Ctrl</strong> e <strong>S</strong> juntos. No nome do arquivo, digite <strong>EU</strong> e clique em <strong>Salvar</strong>."],
-        conferir: [{ rot: "Que nome você deu ao arquivo?", opcoes: ["CASA", "EU", "JOGO"], gab: "EU", re: "^EU$", dica: "O nome do arquivo é <strong>EU</strong>." }],
-        okMsg: "Muito bem! Seu trabalho está salvo." },
+      { tipo: "sim_pc", titulo: "Passo 4 · No computador: Bloco de Notas",
+        enunciado: "<p>No <strong>computador de treino</strong>, abra o Bloco de Notas, escreva o seu nome e salve. O <strong>Bit</strong> ajuda em cada passo.</p>",
+        area: [{ nome: "Lixeira", app: "lixeira" }],
+        passos: [
+          { faca: "Clique no botão <b>Iniciar</b> (a janelinha lá embaixo).", ok: "clique:bar:iniciar", onde: "bar:iniciar" },
+          { faca: "Clique em <b>Bloco de Notas</b> 📝.", ok: "abrir:app:notas", onde: "start:notas", dica: "Se não aparecer, digite <b>bloco</b> na pesquisa." },
+          { faca: "Digite o seu <b>primeiro nome</b>.", ok: "/^texto:.*[a-zà-ú]{2,}/i", onde: "notas:texto" },
+          { faca: "Aperte <b>Ctrl</b> e <b>S</b> juntos (segure Ctrl e aperte S).", ok: ["atalho:Ctrl+S", "menu:Salvar como"], dica: "Segure a tecla Ctrl e aperte a letra S." },
+          { faca: "No nome do arquivo, apague e digite <b>EU</b>. Depois clique em <b>Salvar</b>.", ok: { estado: "salvo", nome: "EU" }, dica: "Clique na caixa Nome, apague tudo e digite EU." }
+        ],
+        fimMsg: "Muito bem! Seu trabalho está salvo." },
       { id: "m1-sim-pasta", opcional: true, tipo: "sim_pc", titulo: "🖥️ Simulador: crie a sua pasta e salve o seu primeiro arquivo",
         enunciado: "<p>Treine no <strong>computador de mentira</strong> o caminho completo: criar uma pasta, escrever no Bloco de Notas e salvar o arquivo dentro da pasta. O <strong>Bit</strong>, o seu ajudante, diz o que fazer e corrige na hora. Depois faça igualzinho no computador de verdade!</p>",
         area: [{ nome: "Lixeira", app: "lixeira" }],

@@ -39,10 +39,15 @@ PORTAL.registrarAtividades("informatica-7ano-4bim-trilha", {
           { t: "🔒 https://pt.wikipedia.org", c: "S" }],
         explicacao: "Com <strong>https</strong> e o cadeado 🔒, os dados viajam protegidos." },
 
-      { tipo: "pc", titulo: "Passo 4 · No computador: olhe o cadeado", programa: "Navegador (Chrome ou Edge)",
-        passos: ["Abra o <strong>navegador</strong> (Chrome ou Edge).", "Olhe a <strong>barra de endereço</strong>, lá em cima.", "Procure o <strong>cadeado 🔒</strong> do lado do endereço do portal."],
-        conferir: [{ rot: "Tem um cadeado ao lado do endereço?", opcoes: ["Sim, tem o cadeado 🔒", "Não tem nada"], gab: "Sim, tem o cadeado 🔒", re: "^Sim", dica: "O portal usa <strong>https</strong>: aparece o cadeado ao lado do endereço." }],
-        okMsg: "Muito bem! O portal é um site seguro. 🔒" },
+      { tipo: "sim_pc", titulo: "Passo 4 · No computador: olhe o cadeado",
+        enunciado: "<p>No <strong>computador de treino</strong>, abra o portal no navegador e procure o <strong>cadeado 🔒</strong> do lado do endereço. O <strong>Bit</strong> ajuda em cada passo.</p>",
+        web: { "professorwell.com.br": { titulo: "Portal da Informática · Prof. Welington Laignier", palavras: "portal informatica professor welington", html: "<p>💻 <b>Portal da Informática</b> · Professor Welington Laignier</p><p>Escolha a sua série para começar a missão de hoje.</p>" } },
+        passos: [
+          { faca: "Abra o <b>navegador</b>: clique no 🌐 da barra de tarefas, lá embaixo.", ok: ["clique:bar:web", "abrir:app:web"], onde: "bar:web" },
+          { faca: "Na <b>barra de endereço</b>, lá em cima, digite <b>professorwell.com.br</b> e aperte <b>Enter</b>.", ok: "/^url:(https?:\\/\\/)?professorwell\\.com\\.br/", onde: "web:url" },
+          { faca: "Clique no <b>cadeado 🔒</b> do lado do endereço.", ok: "/^cadeado:/", onde: "web:cadeado", msgOk: "O cadeado mostra que a conexão é <b>segura</b> (https): o portal é um site seguro. 🔒" }
+        ],
+        fimMsg: "Muito bem! O portal é um site seguro. 🔒" },
       { id: "m1-sim-cabo", tipo: "cabo", titulo: "🔌 Simulador: qual cabo é mais rápido?", minTestes: 3,
         enunciado: "<p>Clique num <strong>cabo</strong> para ligar no computador. Olhe o <strong>número no monitor</strong>: é a velocidade. Depois troque o aparelho e teste de novo.</p>",
         cabos: [

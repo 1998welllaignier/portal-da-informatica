@@ -297,13 +297,15 @@ PORTAL.registrarAtividades("informatica-6ano-2027-1bim", {
         explicacao: "A atualização corrige erros do software." }
     ],
     turbo: [
-      { tipo: "pc", titulo: "Investigue o computador da sala",
-        programa: "Área de trabalho e navegador",
-        passos: ["Olhe o botão <strong>Iniciar</strong> (o logotipo no canto da barra de tarefas): ele mostra o sistema operacional.", "Olhe o ícone do programa em que você abriu este portal: é o navegador."],
-        conferir: [
-          { rot: "Qual é o <strong>sistema operacional</strong> deste computador?", ph: "Ex.: Windows", gab: "Windows (ou Linux)", re: "windows|linux|ubuntu", dica: "O logotipo de janelinha no botão Iniciar é do Windows." },
-          { rot: "Qual <strong>navegador</strong> você está usando para abrir o portal?", ph: "Ex.: Chrome", gab: "Chrome, Edge ou Firefox", re: "chrome|edge|firefox|opera|brave|navegador", dica: "Veja o ícone na barra de tarefas: bolinha colorida = Chrome; onda azul = Edge; raposa = Firefox." }],
-        okMsg: "Você descobriu o sistema operacional e o navegador!",
+      { tipo: "sim_pc", titulo: "🖥️ Investigue o computador de treino",
+        enunciado: "<p>Descubra no <strong>computador de treino</strong> qual é o <strong>sistema operacional</strong> e qual é o <strong>navegador</strong>, igual aos computadores da sala. O <strong>Bit</strong> confere cada passo.</p>",
+        web: { "professorwell.com.br": { titulo: "Portal da Informática · Prof. Welington Laignier", palavras: "portal informatica professor welington", html: "<p>💻 <b>Portal da Informática</b> · Professor Welington Laignier</p><p>Escolha a sua série para começar a missão de hoje.</p>" } },
+        passos: [
+          { faca: "Olhe a barra de tarefas, lá embaixo, e clique no botão <b>Iniciar</b> (o logotipo de janelinha).", ok: "clique:bar:iniciar", onde: "bar:iniciar", msgOk: "Esse logotipo de janelinha é do sistema operacional <b>Windows</b>: o programa principal, que comanda o computador." },
+          { faca: "Agora abra o <b>navegador</b>: clique no 🌐 da barra de tarefas.", ok: ["clique:bar:web", "abrir:app:web"], onde: "bar:web", msgOk: "O navegador é o programa que abre os sites. Nos computadores da sala, é o Chrome ou o Edge." },
+          { faca: "Na <b>barra de endereço</b>, lá em cima, digite <b>professorwell.com.br</b> e aperte <b>Enter</b>.", ok: "/^url:(https?:\\/\\/)?professorwell\\.com\\.br/", onde: "web:url", dica: "Clique na barra de endereço, apague o que tem lá e digite professorwell.com.br." }
+        ],
+        fimMsg: "Você descobriu o sistema operacional (Windows) e abriu o portal no navegador!",
         explicacao: "Nos computadores da sala, o sistema operacional é o Windows (logotipo de janelinha no Iniciar). O navegador é o programa que abre o portal: Chrome ou Edge." }
     ],
     vf: [
@@ -378,17 +380,20 @@ PORTAL.registrarAtividades("informatica-6ano-2027-1bim", {
         dicas: ["Para salvar: escolher onde, dar um nome e clicar em Salvar."],
         explicacao: "Salvar como → onde → nome → Salvar. O atalho Ctrl + S salva de novo no mesmo lugar." },
 
-      { tipo: "pc", titulo: "No computador: a minha pasta e o meu primeiro arquivo",
-        programa: "Explorador de Arquivos",
+      { tipo: "sim_pc", titulo: "🖥️ No computador: a minha pasta e o meu primeiro arquivo",
+        enunciado: "<p>No <strong>computador de treino</strong>, crie a <strong>sua pasta</strong> e, dentro dela, o seu primeiro arquivo. O <strong>Bit</strong> diz o que fazer e confere cada passo.</p>",
+        area: [{ nome: "Lixeira", app: "lixeira" }],
+        pastas: { "Documentos": [{ nome: "lista-de-chamada", ext: "txt" }] },
         passos: [
-          "Abra o <strong>Explorador de Arquivos</strong> (ícone de pasta amarela na barra de tarefas).",
-          "No local indicado pelo professor, clique com o botão direito → <strong>Novo</strong> → <strong>Pasta</strong> e dê o seu primeiro nome a ela.",
-          "Dê duplo clique para entrar na sua pasta. Clique com o botão direito → <strong>Novo</strong> → <strong>Documento de Texto</strong>.",
-          "Dê o nome <strong>minha-primeira-nota</strong> e aperte Enter."],
-        conferir: [
-          { rot: "Qual é o nome do arquivo que você criou?", ph: "Nome do arquivo", gab: "minha-primeira-nota", re: "^minha[-\\s]?primeira[-\\s]?nota(\\.txt)?$", dica: "Clique com o botão direito no arquivo → Renomear e escreva minha-primeira-nota." },
-          { rot: "Na coluna <strong>Tipo</strong> (ou no clique direito → Propriedades), que tipo de arquivo ele é?", ph: "Ex.: Documento de Texto", gab: "Documento de Texto (.txt)", re: "texto|txt", dica: "Você criou um Documento de Texto." }],
-        okMsg: "Pasta e arquivo criados! Você sabe organizar o seu espaço.",
+          { faca: "Abra o <b>Explorador de Arquivos</b>: clique na pastinha amarela 📁 da <b>barra de tarefas</b>, lá embaixo.", ok: ["clique:bar:exp", "abrir:app:exp"], onde: "bar:exp" },
+          { faca: "No painel da esquerda, clique em <b>Documentos</b>.", ok: "abrir:pasta:Documentos", onde: "nav:Documentos" },
+          { faca: "Clique com o <b>botão direito</b> num espaço vazio (a parte branca) e escolha <b>Novo › Pasta</b>.", ok: "criar:pasta:Documentos", dica: "Botão direito na parte branca, onde não tem arquivo. No menu: Novo › Pasta." },
+          { faca: "Digite o seu <b>primeiro nome</b> e aperte <b>Enter</b>.", ok: "/^renomear:pasta:nova pasta.*>.+$/", dica: "Se o nome saiu errado: botão direito na pasta › Renomear." },
+          { faca: "Dê <b>duplo clique</b> na sua pasta para entrar nela.", ok: "/^abrir:pasta:(?!documentos$).+/", dica: "Dois cliques rapidinhos em cima da pasta com o seu nome." },
+          { faca: "Clique com o <b>botão direito</b> na parte branca e escolha <b>Novo › Documento de Texto</b>.", ok: "/^criar:txt:(?!documentos$).+/", dica: "Botão direito na parte branca. No menu: Novo › Documento de Texto." },
+          { faca: "Dê o nome <b>minha-primeira-nota</b> e aperte <b>Enter</b>.", ok: "/^renomear:arq:.*>minha-primeira-nota(\\.txt)?$/", dica: "Se o nome saiu errado: botão direito no arquivo › Renomear." }
+        ],
+        fimMsg: "Pasta e arquivo criados! Você sabe organizar o seu espaço.",
         explicacao: "Clique direito → Novo → Pasta cria a pasta; dentro dela, clique direito → Novo → Documento de Texto cria um arquivo .txt (tipo Documento de Texto). Renomear: clique direito → Renomear." }
     ],
     desafio: [

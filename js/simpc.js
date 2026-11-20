@@ -57,6 +57,8 @@
 .sp.sp-foco .sp-guia{margin:0 0 8px;flex:none;align-items:center}.sp.sp-foco .sp-bts{flex-direction:row;flex-wrap:wrap;justify-content:flex-end;max-width:46%}
 .sp.sp-foco .sp-moldura{flex:none;margin:0 auto;width:min(100%,calc((100vh - var(--sp-gh,150px) - 26px) * 1.6667))}
 body.sp-travado{overflow:hidden}
+.sp-prop .c{width:420px}.sp-prop .pr-abas{display:flex;gap:2px;padding:6px 10px 0;border-bottom:1px solid #ccc;font-size:12px}.sp-prop .pr-abas span{padding:4px 10px;border:1px solid transparent}.sp-prop .pr-abas .on{border-color:#ccc #ccc #fff;background:#fff;margin-bottom:-1px}
+.sp-prop .pr-corpo{padding:10px 14px;font-size:12.5px;background:#fff}.sp-prop .pr-l{display:grid;grid-template-columns:120px 1fr;gap:6px;padding:3px 0}.sp-prop .pr-l b{font-weight:400;word-break:break-all}.sp-prop .pr-nome{grid-template-columns:40px 1fr;font-size:14px;align-items:center}.sp-prop .pr-nome span{font-size:26px}.sp-prop hr{border:0;border-top:1px solid #ddd;margin:6px 0}
 .sp-iniciar{position:absolute;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;background:rgba(6,20,50,.55);cursor:pointer}
 .sp-iniciar button{background:#facc15;color:#0f172a;border:0;border-radius:14px;padding:16px 26px;font-size:1.25rem;font-weight:800;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,.35)}
 .sp-iniciar small{display:block;font-size:.85rem;font-weight:600;margin-top:4px}
@@ -343,17 +345,36 @@ body.sp-travado{overflow:hidden}
             ${WU ? WU.bandeja(w11() ? "11" : "10", "10:30", "15/03/2027") : `<div class="sp-rel">10:30<br>15/03/2027</div>`}</div>
           ${S.start && WU ? WU.iniciar(w11() ? "11" : "10", { estado: S.wu, busca: S.busca, buscaId: w11() ? "sp-busca11" : null, attr: id => { const a = { exp: "exp", notas: "notas", calc: "calc", chrome: "web", email: "email" }[id]; return a ? `data-a="abrirApp:${a}" data-k="start:${a}"` : ""; } }) : ""}
           ${S.menu ? `<div class="sp-menu" style="left:${S.menu.x}px;top:${S.menu.y}px">${S.menu.itens.map(m => m === "-" ? "<hr>" : `<div class="${m.off ? "off" : ""}" data-m="${esc(m.id || "")}" data-k="menu:${esc(m.t)}"><span class="i">${m.i || ""}</span>${esc(m.t)}${m.s ? `<span class="s">${m.s}</span>` : ""}</div>`).join("")}</div>` : ""}
+          ${S.prop ? propHtml() : ""}
           ${S.dlg ? `<div class="sp-dlg"><div class="c"><div class="tt">💾 Salvar como</div><div class="cc"><span>Pasta:</span><select data-k="dlg:pasta">${Object.keys(fs).map(p => `<option ${p === S.dlg.pasta ? "selected" : ""}>${esc(p)}</option>`).join("")}</select><span>Nome:</span><input value="${esc(S.dlg.nome)}" data-k="dlg:nome" aria-label="Nome do arquivo"><span>Tipo:</span><span>Documentos de texto (*.txt)</span></div><div class="bb"><button type="button" class="sp-bt pri" data-a="dlgSalvar" data-k="dlg:salvar">Salvar</button><button type="button" class="sp-bt" data-a="dlgCancelar">Cancelar</button></div></div></div>` : ""}`;
         if (S.fim) { const d = document.createElement("div"); d.className = "sp-fim"; d.innerHTML = `<div><span>🏆</span>Missão no computador cumprida!<br><small style="font-weight:500;font-size:14px">${nomeBit} está orgulhoso(a) de você. Toque para continuar treinando.</small></div>`; tela.appendChild(d); d.onclick = e => { e.stopPropagation(); S.fim = false; draw(); }; }
         ligar();
       }
+      /* ---------- 🔧 janela Propriedades (metadados do arquivo) ---------- */
+      const TIPOS = { txt: "Documento de Texto (.txt)", jpg: "Arquivo JPG (.jpg)", jpeg: "Arquivo JPEG (.jpeg)", png: "Arquivo PNG (.png)", webp: "Arquivo WEBP (.webp)", mp3: "Arquivo MP3 (.mp3)", mp4: "Arquivo MP4 (.mp4)", docx: "Documento do Microsoft Word (.docx)", pdf: "Documento PDF (.pdf)", zip: "Pasta compactada (zipada) (.zip)", xlsx: "Planilha do Microsoft Excel (.xlsx)", pptx: "Apresentação do Microsoft PowerPoint (.pptx)" };
+      const ABRE = { txt: "Bloco de Notas", jpg: "Fotos", jpeg: "Fotos", png: "Fotos", webp: "Fotos", mp3: "Media Player", mp4: "Media Player", docx: "Word", pdf: "Microsoft Edge", zip: "Explorador de Arquivos" };
+      const RAIZ = { "Documentos": "Documents", "Downloads": "Downloads", "Área de Trabalho": "Desktop", "Imagens": "Pictures", "Músicas": "Music", "Vídeos": "Videos" };
+      function caminho(p) { const partes = []; let atual = p, n = 0;
+        while (atual && !RAIZ[atual] && n++ < 8) { partes.unshift(atual); atual = Object.keys(fs).find(k => (fs[k] || []).some(x => x.tipo === "pasta" && x.nome === atual)); }
+        return "C:\\Users\\Aluno\\" + [RAIZ[atual] || atual || "Documents", ...partes].join("\\"); }
+      function tamanho(f) { const b = f.tipo === "pasta" ? 0 : f.texto != null ? new TextEncoder().encode(f.texto).length : Math.round((f.kb || 40) * 1024);
+        const fm = n => n.toLocaleString("pt-BR"); return b < 1024 ? `${fm(b)} bytes (${fm(b)} bytes)` : `${(b / 1024).toLocaleString("pt-BR", { maximumFractionDigits: 1 })} KB (${fm(b)} bytes)`; }
+      function propHtml() { const { p, f } = S.prop, e = f.ext || "", nome = nomeArq(f);
+        const lin = (r, v) => `<div class="pr-l"><span>${r}</span><b>${esc(v)}</b></div>`;
+        return `<div class="sp-dlg sp-prop"><div class="c"><div class="tt">🔧 Propriedades de ${esc(nome)}</div><div class="pr-abas"><span class="on">Geral</span><span>Segurança</span><span>Detalhes</span></div>
+          <div class="pr-corpo"><div class="pr-l pr-nome"><span>${f.tipo === "pasta" ? "📁" : (ICEXT[e] || "📄")}</span><b>${esc(nome)}</b></div><hr>
+          ${lin("Tipo de arquivo:", f.tipo === "pasta" ? "Pasta de arquivos" : (TIPOS[e] || ("Arquivo " + e.toUpperCase())))}${f.tipo === "pasta" ? "" : lin("Abre com:", ABRE[e] || "—")}<hr>
+          ${lin("Local:", caminho(p))}${lin("Tamanho:", tamanho(f))}<hr>
+          ${lin("Criado em:", "segunda-feira, 15 de março de 2027, 10:30:12")}${lin("Modificado em:", "segunda-feira, 15 de março de 2027, 10:30:12")}</div>
+          <div class="bb"><button type="button" class="sp-bt pri" data-a="propOk">OK</button><button type="button" class="sp-bt" data-a="propOk">Cancelar</button></div></div></div>`; }
+
       /* ---------- menus do botão direito (textos iguais aos do Windows) ---------- */
       function menuPara(alvo, x, y) {
         let itens = [];
         if (alvo === "area") itens = [{ t: "Exibir", s: "›" }, { t: "Classificar por", s: "›" }, { t: "Atualizar", id: "atualizar" }, "-", { t: "Novo › Pasta", i: "📁", id: "novaPastaArea" }, { t: "Novo › Documento de Texto", i: "📄", id: "novoTxtArea" }, "-", { t: "Personalizar", i: "🎨", id: "personalizar" }];
         else if (alvo.startsWith("ic:")) { const ic = area[+alvo.slice(3)]; itens = [{ t: "Abrir", id: "abrirIc:" + alvo.slice(3), i: "📂" }, "-", { t: "Recortar", s: "Ctrl+X", id: "x" }, { t: "Copiar", s: "Ctrl+C", id: "c" }, "-", { t: "Criar atalho", off: true }, { t: "Excluir", i: "🗑️", id: "exclIc:" + alvo.slice(3), off: ic.app === "lixeira" }, { t: "Renomear", id: "renIc:" + alvo.slice(3), off: !!ic.app }, "-", { t: "Propriedades", id: "prop" }]; }
         else if (alvo === "fundoexp") itens = [{ t: "Exibir", s: "›" }, { t: "Classificar por", s: "›" }, "-", { t: "Colar", s: "Ctrl+V", id: "colar", off: !S.clip }, "-", { t: "Novo › Pasta", i: "📁", id: "novaPasta" }, { t: "Novo › Documento de Texto", i: "📄", id: "novoTxt" }, "-", { t: "Propriedades", id: "prop" }];
-        else if (alvo.startsWith("arq:")) { const id = alvo.slice(4); itens = [{ t: "Abrir", id: "abrirArq:" + id, i: "📂" }, "-", { t: "Recortar", s: "Ctrl+X", id: "recortar:" + id }, { t: "Copiar", s: "Ctrl+C", id: "copiar:" + id }, "-", { t: "Excluir", i: "🗑️", id: "excluir:" + id }, { t: "Renomear", id: "renomear:" + id }, "-", /\|zip$/.test(id) ? { t: "Extrair Tudo...", i: "📤", id: "extrair:" + id } : (w11() ? { t: "Compactar para arquivo ZIP", i: "🗜️", id: "zipar:" + id } : { t: "Enviar para › Pasta compactada", i: "🗜️", id: "zipar:" + id }), "-", { t: "Propriedades", id: "prop" }]; }
+        else if (alvo.startsWith("arq:")) { const id = alvo.slice(4); itens = [{ t: "Abrir", id: "abrirArq:" + id, i: "📂" }, "-", { t: "Recortar", s: "Ctrl+X", id: "recortar:" + id }, { t: "Copiar", s: "Ctrl+C", id: "copiar:" + id }, "-", { t: "Excluir", i: "🗑️", id: "excluir:" + id }, { t: "Renomear", id: "renomear:" + id }, "-", /\|zip$/.test(id) ? { t: "Extrair Tudo...", i: "📤", id: "extrair:" + id } : (w11() ? { t: "Compactar para arquivo ZIP", i: "🗜️", id: "zipar:" + id } : { t: "Enviar para › Pasta compactada", i: "🗜️", id: "zipar:" + id }), "-", { t: "Propriedades", i: "🔧", id: "prop:" + id }]; }
         else if (alvo.startsWith("lix:")) itens = [{ t: "Restaurar", id: "restaurar:" + alvo.slice(4), i: "↩️" }, { t: "Excluir", id: "apagarDeVez:" + alvo.slice(4) }];
         if (itens.length) { S.menu = { x: Math.min(x, 1000 - 240), y: Math.min(y, 560 - itens.length * 27), itens }; S.start = false; draw(); }
       }
@@ -374,6 +395,8 @@ body.sp-travado{overflow:hidden}
         if (k === "extrair") { const { p, f } = achar(a); if (!f) return; let n = f.nome; while (fs[p].some(x => x.nome === n && x.tipo === "pasta")) n += " (2)"; fs[p].push({ nome: n, tipo: "pasta" }); fs[n] = (f.tem || []).map(x => Object.assign({}, x)); ev("extrair:arq:" + nomeArq(f)); draw(); return; }
         if (k === "exclIc") { const ic = area[+a]; area.splice(+a, 1); S.lix.push(Object.assign({ de: "Área de Trabalho" }, ic)); ev("excluir:ic:" + ic.nome); draw(); return; }
         if (k === "personalizar") { ev("menu:Personalizar"); draw(); return; }
+        // 🔧 Propriedades do arquivo (20/11/2026): janela igual à do Windows, com os metadados (tipo, local, tamanho, data)
+        if (k === "prop" && a) { const { p, f } = achar(a); if (!f) return; S.prop = { p, f }; ev("prop:arq:" + nomeArq(f)); draw(); return; }
         ev("menu:" + (m || "")); draw();
       }
       function colar() { if (!S.clip) return; const { p, i, f } = achar(S.clip.id); if (!f) return; const dest = S.exp.pasta; const novo = Object.assign({}, f); if (S.clip.modo === "recortar") { fs[p].splice(i, 1); S.clip = null; } else if (dest === p) novo.nome = f.nome + " - Cópia"; fs[dest].push(novo); ev("colar:arq:" + nomeArq(novo) + ">" + dest); draw(); }
@@ -432,6 +455,7 @@ body.sp-travado{overflow:hidden}
         else if (k === "notasArq") { S.dlg = { pasta: "Documentos", nome: S.notasNome || "Sem título" }; ev("menu:Salvar como"); }
         else if (k === "dlgSalvar") { const nm = (S.dlg.nome || "").trim().replace(/\.txt$/i, ""); if (!nm) return; const l = fs[S.dlg.pasta]; const ex = l.find(f => f.nome === nm && f.ext === "txt"); if (ex) ex.texto = S.notas; else l.push({ nome: nm, ext: "txt", texto: S.notas }); S.notasNome = nm; const j = jan("notas"); if (j) j.titulo = nm + " - Bloco de Notas"; const pd = S.dlg.pasta; S.dlg = null; ev("salvar:" + nm + ">" + pd); }
         else if (k === "dlgCancelar") { S.dlg = null; }
+        else if (k === "propOk") { S.prop = null; ev("fechar:propriedades"); }
         else if (k === "aba") { S.web.at = +v; ev("aba:" + v); }
         else if (k === "fecharAba") { S.web.abas.splice(+v, 1); if (!S.web.abas.length) { S.jan = S.jan.filter(j => j.id !== "web"); S.web.abas = [{ url: "busca", hist: [] }]; } S.web.at = Math.min(S.web.at, S.web.abas.length - 1); ev("fecharAba"); }
         else if (k === "novaAba") { S.web.abas.push({ url: "busca", hist: [] }); S.web.at = S.web.abas.length - 1; ev("novaAba"); }
