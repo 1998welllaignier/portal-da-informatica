@@ -85,6 +85,9 @@ Detalhes técnicos: `AGENTS.md` (checklist do bimestre), `docs/PADRAO-ATIVIDADES
 
 ---
 
+> 🖥️ **Regra de ouro 5 — Simulador primeiro, computador de verdade só em último caso (definida pelo professor em 20/11/2026)**
+> O que a BNCC pede ou exige de prática no computador é ensinado nos **simuladores ultrarrealistas do portal**, com **correção automática** (o professor não precisa conferir aluno por aluno) e em tela cheia. Tarefa no computador de verdade (sair do portal → checklist → voltar) só existe quando **nenhum simulador consegue fazer o papel**; antes disso, o Claude cria no simulador a função que faltar, com o mesmo realismo do Windows 10/11.
+
 ## 1. Conteúdo da apostila (cada missão)
 - 💡 Para começar · 📖 O que significa? · 🌎 Onde eu uso isso? · 🎮 Mão na massa · 🟢 Básico · 🟡 Desafio · 🔴 Turbo · ✅ Perguntas rápidas · 🧠 Resumo.
 - **Aluno resolve sozinho:** toda resposta está escrita na apostila; o professor é apoio, não peça principal (`verificar_autonomia.js` = 0 / 0).
