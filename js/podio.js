@@ -217,19 +217,19 @@
   }
 
   /* editor com cronômetro. resolve com o avatar escolhido (salvo, anterior ou padrão) */
-  function editor(mount, { nome, anterior, segundos, dupla }) {
+  function editor(mount, { nome, anterior, segundos, dupla, espera }) {
     return new Promise(resolve => {
       segundos = segundos || 240; let a = norm(anterior), fim = Date.now() + segundos * 1000, acabou = false, mexeu = false;
       const tempoTxt = s => s % 60 ? `${Math.floor(s / 60) ? Math.floor(s / 60) + " min e " : ""}${s % 60} segundos` : (s / 60 === 1 ? "1 minuto" : s / 60 + " minutos");
       const sw = (lista, campo, cls) => lista.map((c, i) => `<button type="button" class="av-sw ${cls || ""}" data-c="${campo}" data-v="${i}" style="--c:${c}" aria-label="cor ${i + 1}"></button>`).join("");
       const op = campo => OPC[campo].map(([v, r]) => `<button type="button" class="av-op" data-c="${campo}" data-v="${v}">${r}</button>`).join("");
-      const el = mount(`<section class="tela av-tela"><div class="av-cx">
+      const el = mount(`<section class="tela av-tela${espera ? " av-espera" : ""}"><div class="av-cx">
         <div class="av-topo"><h1>🧍 Monte o seu avatar${nome ? `, <span>${esc(nome)}</span>` : ""}!</h1>
           <div class="av-tempo">⏱️ <span class="av-s" id="av-s">${segundos}</span>s<i><b class="av-b" id="av-b"></b></i></div></div>
         <div class="av-tempo av-tempo-flut" aria-hidden="true">⏱️ <span class="av-s">${segundos}</span>s<i><b class="av-b"></b></i></div>
-        <div class="av-dupla">${dupla ? `👥 <b>Atividade em dupla: vez ${dupla.vez} de 2.</b> ${dupla.vez === 1 ? `Primeiro ${esc(nome)} monta o avatar; depois é a vez de <b>${esc(dupla.outro)}</b>.` : `Agora é a vez de <b>${esc(nome)}</b>.`} Cada um tem <b>${tempoTxt(segundos)}</b>.` : `⏱️ Você tem <b>${tempoTxt(segundos)}</b> para montar o seu avatar.`}
-          ${`Se o tempo acabar${dupla && dupla.vez === 1 ? " (aí passa para o colega)" : ""}, o portal <b>salva sozinho o que você já escolheu</b>, do jeitinho que estiver.`} ${anterior ? "Se você não mexer em nada, entra com o avatar da última vez." : "Se você não escolher nada, o portal sorteia masculino ou feminino, pele e cabelo, e você entra com o uniforme de Curionópolis."}
-          <b>🔒 Depois de entrar, o avatar não muda durante a aula.</b></div>
+        <div class="av-dupla">${espera ? `🚦 <b>Sala de espera:</b> monte o seu avatar com calma, até o professor dar a 🏁 largada. ${anterior ? "Se você não mexer em nada, fica com o avatar da última vez." : "Se você não montar, o portal sorteia um avatar com o uniforme de Curionópolis."} Ao salvar pela primeira vez hoje, você ganha <b>+10 pontos</b>. <b>🔒 Depois da largada, o avatar não muda durante a aula.</b>` : dupla ? `👥 <b>Atividade em dupla: vez ${dupla.vez} de 2.</b> ${dupla.vez === 1 ? `Primeiro ${esc(nome)} monta o avatar; depois é a vez de <b>${esc(dupla.outro)}</b>.` : `Agora é a vez de <b>${esc(nome)}</b>.`} Cada um tem <b>${tempoTxt(segundos)}</b>.` : `⏱️ Você tem <b>${tempoTxt(segundos)}</b> para montar o seu avatar.`}
+          <span class="av-nao-espera">${`Se o tempo acabar${dupla && dupla.vez === 1 ? " (aí passa para o colega)" : ""}, o portal <b>salva sozinho o que você já escolheu</b>, do jeitinho que estiver.`} ${anterior ? "Se você não mexer em nada, entra com o avatar da última vez." : "Se você não escolher nada, o portal sorteia masculino ou feminino, pele e cabelo, e você entra com o uniforme de Curionópolis."}
+          <b>🔒 Depois de entrar, o avatar não muda durante a aula.</b></span></div>
         ${P.temaAcessorio && P.temaAcessorio() ? (([ic, nome, alt]) => `<div class="av-tema">${ic} <b>${esc(((P.temaNome && P.temaNome(P.tema)) || "Data comemorativa").replace(/!*$/, "!"))}</b> Quem fica sem ${alt} ganha o <b>${nome}</b> automaticamente. Se você escolher ${alt}, fica o que você escolheu. Quando a data acabar, o enfeite sai sozinho.</div>`)(P.temaAcessorio()) : ""}
         <div class="av-rapidos"><button type="button" class="btn btn-grande av-rap" id="av-pula" ${anterior ? "" : "disabled"}>😎 Usar o mesmo da última vez${anterior ? "" : "<small>(você ainda não tem)</small>"}</button>
           <button type="button" class="btn btn-grande av-rap uni" id="av-uni">🏫 Usar o uniforme de Curionópolis<small class="av-uni-trava">(escolha antes o passo 1 aqui embaixo 👇)</small></button></div>
@@ -308,10 +308,10 @@
       el.querySelector("#av-uni").onclick = () => { if (!(fez.tipo && fez.pele && fez.cabelo) && !anterior) return; const base = anterior ? norm(anterior) : a;
         sair({ avatar: Object.assign({}, PADRAO, { tipo: base.tipo || a.tipo, pele: base.pele, cabelo: base.cabelo, corCabelo: base.corCabelo, oculos: base.oculos }, fez.pele ? { pele: a.pele } : {}, fez.cabelo ? { cabelo: a.cabelo, corCabelo: a.corCabelo } : {}, fez.tipo ? { tipo: a.tipo } : {}), salvo: true }); };
       const iv = setInterval(() => {
-        const r = Math.max(0, Math.ceil((fim - Date.now()) / 1000));
+        const r = espera && espera.parar && espera.parar() ? 0 : Math.max(0, Math.ceil((fim - Date.now()) / 1000));
         document.querySelectorAll(".av-s").forEach(x => x.textContent = r); el.querySelectorAll(".av-b").forEach(x => x.style.width = (100 * r / segundos) + "%");
         document.querySelectorAll(".av-tempo").forEach(x => x.classList.toggle("fim", r <= 10));
-        if (r <= 0) { P.toast && P.toast("⏰ Acabou o tempo!");
+        if (r <= 0) { P.toast && P.toast(espera ? "🏁 A aula vai começar!" : "⏰ Acabou o tempo!");
           // mexeu em alguma coisa: salva do jeitinho que está (como se tivesse clicado em "Pronto!")
           if (mexeu) sair({ avatar: a, salvo: true });
           // não mexeu em nada: avatar da última vez; sem avatar salvo, uniforme de Curionópolis com sorteio
@@ -393,6 +393,8 @@
   function ranking(alunos, prog, mid, hoje) {
     const porId = {}; alunos.forEach(a => { porId[a.id] = a; });
     const ent = {}, av = {}; prog.forEach(p => { if (p.tipo === "entrada" && p.dias && p.dias[hoje]) ent[p.alunoId] = p.dias[hoje]; if (p.tipo === "avatar") av[p.alunoId] = p.avatar; });
+    // 🚦 Sala de espera (20/11/2026): quem entra cedo e espera no lugar sai na frente (aquecimento até 150 + avatar 10)
+    const esp = {}; prog.forEach(p => { if (p.tipo === "espera" && p.dia === hoje) esp[p.alunoId] = Math.min(150, p.pontos || 0) + Math.min(10, p.avatarBonus || 0); });
     const docs = {}; prog.forEach(p => { if (p.mid === mid && p.dias && p.dias[hoje] && porId[p.alunoId]) { const o = docs[p.alunoId]; if (!o || (p.atualizado || 0) > (o.atualizado || 0)) docs[p.alunoId] = p; } });
     const vistos = new Set(), out = [];
     Object.keys(ent).concat(Object.keys(docs)).forEach(id => {
@@ -400,7 +402,8 @@
       const p = docs[id], par = ((p && p.dupla) || []).filter(x => porId[x]), ids = [id].concat(par);
       ids.forEach(x => vistos.add(x));
       const r = (p && pontosDoc(p, Math.min(...ids.map(x => ent[x] || Infinity).filter(isFinite)) || ent[id], hoje)) || { pontos: 0, okB: false, okEm: null };
-      out.push({ ids, nomes: ids.map(x => nomeCurto(porId[x].nome)), avatares: ids.map(x => av[x] || null), pontos: r.pontos, okB: r.okB, okEm: r.okEm, bonusOk: !!r.bonusOk, trilha: ids.some(x => porId[x].trilha), ult: p ? p.atualizado || 0 : 0 });
+      const pe = Math.max(0, ...ids.map(x => esp[x] || 0));
+      out.push({ ids, nomes: ids.map(x => nomeCurto(porId[x].nome)), avatares: ids.map(x => av[x] || null), pontos: r.pontos + pe, espera: pe, okB: r.okB, okEm: r.okEm, bonusOk: !!r.bonusOk, trilha: ids.some(x => porId[x].trilha), ult: p ? p.atualizado || 0 : 0 });
     });
     out.sort((x, y) => y.pontos - x.pontos || (x.okEm || 9e15) - (y.okEm || 9e15) || x.nomes[0].localeCompare(y.nomes[0], "pt-BR"));
     out.forEach((e, i) => { e.pos = i > 0 && out[i - 1].pontos === e.pontos && out[i - 1].okEm === e.okEm ? out[i - 1].pos : i + 1; });
@@ -439,6 +442,9 @@
     for (let i = 0; i < 120; i++) { const c = document.createElement("i"); c.className = "pd-conf"; c.style.cssText = `left:${Math.random() * 100}%;background:${cores[i % 6]};animation-delay:${a0 + Math.random() * 2.5}s;animation-duration:${2.5 + Math.random() * 2}s;transform:rotate(${Math.random() * 360}deg)`; raiz.appendChild(c); }
   }
 
-  P.avatar = { svg, editor, fluxoLogin, daSessao, PADRAO };
+  /* 🎲 avatar sorteado com o uniforme de Curionópolis (quem não montou nenhum na 🚦 Sala de espera) */
+  function sortear() { const n = k => Math.floor(Math.random() * k);
+    return Object.assign({}, PADRAO, { tipo: OPC.tipo[n(2)][0], pele: n(PELE.length), cabelo: OPC.cabelo[n(OPC.cabelo.length)][0], corCabelo: n(4) }); }
+  P.avatar = { svg, editor, fluxoLogin, daSessao, PADRAO, sortear };
   P.podio = { ranking, pontosDoc, xpDoc, linhaPlacar, podioHTML, confete, nomeCurto, MED, coroa, reis, tituloRei };
 })();

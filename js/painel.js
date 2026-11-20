@@ -669,6 +669,7 @@
         <p><label>📌 Missão de hoje <select id="ini-m"><option value="">Carregando…</option></select></label></p>
         <p><label class="pp-auto"><input type="checkbox" id="ini-trav" checked> 🔒 Travar nela (o aluno cai direto nesta missão e as outras ficam fechadas)</label></p>
         <div class="pp-ini-dupla" id="ini-dupla" hidden></div>
+        <p><label class="pp-auto"><input type="checkbox" id="ini-espera" checked> 🚦 Sala de espera: as tarefas só abrem quando você der a 🏁 largada (quem chega cedo joga o aquecimento, monta o avatar e ganha pontos)</label></p>
         <p><label class="pp-auto"><input type="checkbox" id="ini-tela"> 🖥️ Exigir tela cheia dos alunos (fora da tela cheia, a apostila trava)</label></p>
         <p class="ajuda">Antes de você iniciar, os alunos já podem entrar e ler os textos, mas as tarefas ficam fechadas.</p>
         <p class="erro" id="ini-e" hidden></p>
@@ -717,13 +718,13 @@
         bx.querySelectorAll('input[name="ini-dp"]').forEach(r => r.onchange = () => { bx.querySelector("#ini-dp-ms").hidden = bx.querySelector('input[name="ini-dp"]:checked').value !== "juntas"; });
       };
       // grava o início de UMA turma (o mesmo que o botão sempre fez)
-      const gravarInicio = async (t, ap, C, alunos, v, esp, travar, tela, junto) => {
+      const gravarInicio = async (t, ap, C, alunos, v, esp, travar, tela, junto, espera) => {
         const hoje = N.hoje();
         if (esp) await P.carregarApostila(esp);
         const m = esp ? (P.conteudo[esp].missoes.find(x => x.id === "ae")) : C.missoes.find(x => x.id === v);
         const titulo = m ? (esp ? "⭐ Aula especial – " + m.titulo.replace(/^[^–]*– ?/, "") : m.titulo.replace(/ –.*/, "") + " – " + m.titulo.replace(/^[^–]*– ?/, "")) : "";
         const revisa = v === "rv" ? await revisaDaTurma(t) : [];
-        await db().collection("config").doc("hoje_" + t.id).set({ dia: hoje, aid: esp || ap.base || ap.id, mid: v, titulo, travar: !!(v && travar), iniciadaDia: hoje, iniciadaEm: Date.now(), revisa, junto: junto || [] }, { merge: true });
+        await db().collection("config").doc("hoje_" + t.id).set({ dia: hoje, aid: esp || ap.base || ap.id, mid: v, titulo, travar: !!(v && travar), iniciadaDia: hoje, iniciadaEm: Date.now(), revisa, junto: junto || [], espera: !!espera, largadaEm: 0 }, { merge: true });
         await db().collection("config").doc("liberar_" + t.id).set({ fechadaAte: 0 }, { merge: true });
         await db().collection("config").doc("tela_" + t.id).set({ cheia: !!tela, dia: hoje, em: Date.now() }, { merge: true });
         await sincronizarCasa(t, alunos).catch(() => {});
@@ -739,18 +740,18 @@
         const b = c.querySelector("#ini-ok"); b.disabled = true; b.textContent = "Iniciando…";
         try {
           const { t, ap, C } = ctx, esp = selM.value.startsWith("esp|") ? selM.value.split("|")[1] : null;
-          const v = esp ? "ae" : selM.value, tela = !!c.querySelector("#ini-tela").checked;
+          const v = esp ? "ae" : selM.value, tela = !!c.querySelector("#ini-tela").checked, espera = !!c.querySelector("#ini-espera").checked;
           const juntas = dupla && (c.querySelector('input[name="ini-dp"]:checked') || {}).value === "juntas" ? dupla.livres : [];
           const grupo = [t.id, ...juntas.map(x => x.id)];
-          await gravarInicio(t, ap, C, ctx.alunos, v, esp, trav.checked, tela, grupo.length > 1 ? grupo : []);
+          await gravarInicio(t, ap, C, ctx.alunos, v, esp, trav.checked, tela, grupo.length > 1 ? grupo : [], espera);
           for (const x of juntas) {
             const cx = dupla.ctx[x.id]; if (!cx) continue;
             const vx = (c.querySelector(`[data-dpm="${x.id}"]`) || {}).value || "";
-            await gravarInicio(x, cx.ap, cx.C, cx.alunos, vx, null, !!vx, tela, grupo);
+            await gravarInicio(x, cx.ap, cx.C, cx.alunos, vx, null, !!vx, tela, grupo, espera);
           }
           try { sessionStorage.setItem("painel:turma", t.id); } catch (e) {}
           const outras = juntas.length ? " + " + juntas.map(x => nomeTurma(x.id)).join(" + ") : "";
-          dlg.close(); toast("▶️ Aula iniciada: " + nomeTurma(t.id) + outras + (v ? " · " + (esp ? "⭐ Aula especial" : rotMis(C, v)) + (trav.checked ? " 🔒" : "") : " · os alunos escolhem a missão"));
+          dlg.close(); toast("▶️ Aula iniciada: " + nomeTurma(t.id) + outras + (v ? " · " + (esp ? "⭐ Aula especial" : rotMis(C, v)) + (trav.checked ? " 🔒" : "") : " · os alunos escolhem a missão") + (espera ? " · 🚦 Sala de espera: dê a 🏁 largada quando a turma estiver pronta" : ""));
           location.hash = "#/painel/aula/" + t.id + (v ? "/" + v : "");
         } catch (err) { const e = c.querySelector("#ini-e"); e.textContent = "Não foi possível iniciar: " + (err.message || err); e.hidden = false; b.disabled = false; b.textContent = "▶️ Iniciar a aula"; }
       };
@@ -2104,6 +2105,8 @@
     try { if (P.sala) { const vs = Object.entries((P.videosMissao || {})[ap.base || ap.id] || {}).flatMap(([m, v]) => (Array.isArray(v) ? v : [v]).filter(x => x && /^[\w-]{11}$/.test(x.id || x)).map((x, k) => ({ id: x.id || x, nome: rotMis(C, m) + " · " + (x.nome || (k ? "vídeo extra" : "vídeo")) })));
       vs.sort((x, y) => (x.nome.startsWith(rotMis(C, mid)) ? 0 : 1) - (y.nome.startsWith(rotMis(C, mid)) ? 0 : 1));
       P.sala.painel(el.querySelector("#aula"), t.id, vs, nomeTurma(t.id)); } } catch (e) {}
+    // 🚦 Sala de espera + 🏁 Dar a largada (20/11/2026): quem já entrou, quem falta e o botão que começa a aula para todos juntos
+    try { if (P.espera) P.espera.painel(el.querySelector(".pp-barra"), { t, C, ap, rotulo: nomeTurma(t.id), participantes: () => participantes(t), ouvirProg }); } catch (e) { console.warn("espera", e); }
     el.querySelector("#sel").onchange = e => { location.hash = "#/painel/aula/" + e.target.value + "/" + mid; };
     const sa = el.querySelector("#ap"); if (sa) sa.onchange = e => { try { sessionStorage.setItem("painel:ap:" + t.serie.id, e.target.value); } catch (x) {} telaAula(u, t.id); };
     // 📺 vídeo da missão (YouTube não listado do professor): player só aqui no painel, para projetar

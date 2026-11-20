@@ -127,6 +127,8 @@
         if (lib.ate && ms < lib.ate) return { aberta: true };
         const iniciada = h && h.iniciadaDia === N().hoje();
         if (!iniciada) return { aberta: false, aguardando: true };
+        // 🚦 Sala de espera (20/11/2026): aula iniciada, mas as tarefas só abrem quando o professor der a 🏁 largada
+        if (h.espera && !h.largadaEm) return { aberta: false, espera: true, hoje: h };
         // ⏰ fim automático (14/11/2026): sem o 🏁 Finalizar, as tarefas fecham sozinhas no fim do horário da aula
         //    (+ tolerância). Aula iniciada fora do horário (reposição) dura o tempo de uma aula a partir do início.
         const t = P.turma(tAula), dur = (P.catalogo.duracaoAula || 75) * 60000, tl = (P.catalogo.toleranciaTarefas || 15) * 60000;

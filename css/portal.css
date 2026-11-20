@@ -2144,3 +2144,76 @@ body.tem-falta-ver { padding-bottom: 72px; }
 .lousa-lanc button:hover { background: #dc2626; }
 .sala-quadro-cv { position: absolute; inset: 0; width: 100%; height: 100%; background: #cbd5e1; }
 .sala-quadro-tag { position: fixed; top: 10px; right: 10px; z-index: 9750; display: flex; align-items: center; gap: 8px; background: #b91c1c; color: #fff; padding: 6px 10px; border-radius: 12px; box-shadow: 0 6px 16px rgba(0,0,0,.3); font-size: .9rem; flex-wrap: wrap; max-width: calc(100vw - 20px); }
+
+/* 🚦 Sala de espera + 🏁 Dar a largada (20/11/2026) */
+.es-tela{max-width:1100px}
+.es-topo{display:flex;gap:1rem;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.es-topo h1{margin:.2rem 0;font-size:clamp(1.6rem,3vw,2.3rem)}
+.es-sub{font-size:1.15rem;margin:.2rem 0}
+.es-placar{background:linear-gradient(135deg,#fef3c7,#fde68a);border:3px solid #d97706;border-radius:18px;padding:.6rem 1.1rem;text-align:center;min-width:190px}
+.es-pts{display:block;font-size:2.4rem;font-weight:900;color:#92400e;line-height:1}
+.es-placar small{font-weight:700;color:#92400e}
+.es-placar i{display:block;height:8px;background:#fff;border-radius:6px;margin-top:.4rem;overflow:hidden}
+.es-placar i b{display:block;height:100%;background:#16a34a;transition:width .3s}
+.es-status{background:#eff6ff;border:2px dashed #2563eb;border-radius:12px;padding:.55rem .9rem;font-weight:700;color:#1e3a8a;animation:es-pulsa 2.4s ease-in-out infinite}
+@keyframes es-pulsa{50%{background:#dbeafe}}
+.es-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.9rem;margin:1rem 0}
+.es-card{display:flex;flex-direction:column;align-items:center;gap:.25rem;padding:1.1rem .8rem;border-radius:18px;border:3px solid #cbd5e1;background:#fff;cursor:pointer;font:inherit;color:inherit;box-shadow:0 4px 0 #cbd5e1;transition:transform .12s}
+.es-card:hover,.es-card:focus-visible{transform:translateY(-3px);border-color:#7c3aed}
+.es-card.on{border-color:#7c3aed;background:#f5f3ff;box-shadow:0 4px 0 #7c3aed}
+.es-card-ic{font-size:2.6rem}
+.es-card b{font-size:1.1rem}
+.es-card small{color:#475569}
+.es-palco{min-height:260px}
+.es-jogo-topo{display:flex;gap:.8rem;align-items:center;flex-wrap:wrap}
+.es-jogo-topo h3{margin:0}
+.es-rod{letter-spacing:.2rem;color:#16a34a;font-size:1.2rem}
+.es-jogo-topo .btn{margin-left:auto}
+.es-dica{color:#334155;margin:.4rem 0 .8rem}
+.es-jogo{position:relative}
+.es-jogo.es-j-alvo{height:320px;background:repeating-linear-gradient(45deg,#f8fafc,#f8fafc 14px,#f1f5f9 14px,#f1f5f9 28px);border-radius:14px;border:2px solid #e2e8f0;overflow:hidden}
+button.es-alvo{position:absolute;width:64px;height:64px;border-radius:50%;border:0;cursor:pointer;background:radial-gradient(circle,#dc2626 0 18%,#fff 19% 36%,#dc2626 37% 56%,#fff 57% 74%,#dc2626 75%);box-shadow:0 3px 8px #0003;transition:left .25s,top .25s}
+button.es-alvo.pop{animation:es-pop .3s}
+@keyframes es-pop{50%{transform:scale(1.3)}}
+.es-palavra{font-size:clamp(2rem,6vw,3.4rem);font-weight:900;letter-spacing:.3rem;text-align:center;color:#1e3a8a;margin:.5rem 0}
+.es-campo{display:block;margin:0 auto;font-size:1.8rem;text-align:center;text-transform:uppercase;padding:.4rem .8rem;border:3px solid #94a3b8;border-radius:12px;width:min(420px,100%)}
+.es-campo.ok{border-color:#16a34a;background:#dcfce7}.es-campo.erro{animation:es-treme .35s;border-color:#dc2626}
+@keyframes es-treme{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.es-msg{text-align:center;color:#475569;min-height:1.4em}
+.es-arq{display:flex;align-items:center;gap:.6rem;margin:0 auto 1.2rem;width:max-content;max-width:100%;padding:.7rem 1.1rem;border:3px solid #2563eb;border-radius:14px;background:#fff;font-size:1.3rem;cursor:grab;touch-action:none;user-select:none}
+.es-arq b{color:#dc2626}
+.es-arq-ic{font-size:2rem}
+.es-arq.pego{outline:4px dashed #7c3aed;outline-offset:4px}
+.es-arq.arrastando{position:fixed;z-index:50;cursor:grabbing;box-shadow:0 10px 24px #0004;pointer-events:none}
+.es-arq.dentro{opacity:.3;transform:scale(.6);transition:.3s}
+.es-pastas{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:.7rem}
+.es-pasta{display:flex;flex-direction:column;align-items:center;padding:.8rem;border:3px solid #fbbf24;background:#fffbeb;border-radius:14px;font:inherit;font-weight:700;cursor:pointer}
+.es-pasta-ic{font-size:2.6rem}
+.es-pasta.ok{background:#dcfce7;border-color:#16a34a}.es-pasta.erro{animation:es-treme .35s;border-color:#dc2626;background:#fee2e2}
+.es-tecla{margin:.6rem auto;width:110px;height:110px;display:grid;place-items:center;font-size:3rem;font-weight:900;background:#fff;border:3px solid #334155;border-radius:16px;box-shadow:0 8px 0 #334155}
+.es-tecla.larga{width:auto;min-width:260px;padding:0 1.2rem;font-size:2rem}
+.es-tecla.ok{background:#dcfce7;border-color:#16a34a;box-shadow:0 3px 0 #16a34a;transform:translateY(5px)}
+.es-troca{text-align:center;font-size:1.5rem;font-weight:800;color:#7c3aed;padding:2rem 0}
+.es-teto{background:#dcfce7;border:2px solid #16a34a;border-radius:12px;padding:.5rem .8rem;font-weight:700}
+.es-mais{position:fixed;z-index:60;font-weight:900;font-size:1.6rem;color:#16a34a;pointer-events:none;transform:translate(-50%,0);animation:es-sobe .9s forwards;text-shadow:0 2px 0 #fff}
+@keyframes es-sobe{to{transform:translate(-50%,-60px);opacity:0}}
+.es-fato{display:flex;gap:1rem;align-items:flex-start;font-size:1.25rem;line-height:1.5}
+.es-fato-ic{font-size:2.8rem;flex:none}
+.es-espiar h3{margin-top:0}
+.es-rodape{text-align:center}
+.av-espera .av-tempo{display:none}
+.av-espera .av-nao-espera{display:none}
+.es-prof{border:3px solid #2563eb;background:#eff6ff}
+.es-prof.dada{border-color:#16a34a;background:#f0fdf4}
+.es-prof-topo{display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
+.es-prof-topo h2{margin:0}
+.es-prof-n{font-size:1.2rem;background:#fff;border-radius:999px;padding:.2rem .9rem;border:2px solid #2563eb}
+.es-prof-listas{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;margin:.6rem 0}
+.es-prof-t{font-weight:800;margin:.2rem 0}
+.es-chips{display:flex;flex-wrap:wrap;gap:.35rem;margin:0}
+.es-chip{background:#fff;border:2px solid #94a3b8;border-radius:999px;padding:.15rem .7rem}
+.es-chip.ok{border-color:#16a34a;background:#dcfce7}
+.es-chip small{color:#166534;font-weight:700}
+.es-prof-acao{display:flex;gap:1rem;align-items:center;flex-wrap:wrap}
+.es-prof-acao .btn{font-size:1.3rem}
+.es-prof-acao .ajuda{flex:1;min-width:240px;margin:0}
