@@ -364,6 +364,6 @@ Apostila no portal + ilustrada (PDF só para quem estuda em casa) · guia do pro
 - Em **escolha**, **ordenar** e **mensagens**, o texto aceita `&lt;h1&gt;`, que aparece como `<h1>`.
 
 ## 👣🧩 Marcações que passam de ano (20/11/2026, pedido do professor)
-- Na virada do ano, quem usava a 👣 Trilha Passo a Passo ou tinha 🧩 (atípico) volta **já marcado** quando é importado nas listas do ano novo, em qualquer turma (busca pelo nome completo). O 9º ano fica de fora.
+- Na virada do ano, quem usava a 👣 Trilha Passo a Passo ou tinha 🧩 (atípico) volta **já marcado** quando é importado nas listas do ano novo, em qualquer turma (busca pelo nome completo). O 9º ano sai da escola e fica fora do relatório; quem repetir o 9º e for importado volta marcado igual.
 - Nome repetido no ano anterior: o portal não marca sozinho e avisa.
 - Relatório em ⚙️ Configurações › 📅 Ano letivo: quem estava marcado, se já voltou marcado, se ainda não está nas listas ou se está sem a marcação.

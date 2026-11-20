@@ -138,12 +138,12 @@
   }
   /* 👣🧩 Marcações que passam de um ano para o outro (20/11/2026, pedido do professor):
      quem usava a Trilha Passo a Passo (👣) ou era atípico (🧩) no ano anterior volta já marcado ao ser importado no ano novo.
-     O 9º ano fica de fora (sai da escola). A busca é pelo nome completo; com nome repetido, não marca e avisa no relatório. */
+     O 9º ano fica de fora do relatório (sai da escola); quem repetir o 9º e for importado volta marcado igual. A busca é pelo nome completo; com nome repetido, não marca e avisa no relatório. */
   async function marcadosDoAnoPassado(anoNovo) {
     const [qt, qa] = await Promise.all([db().collection("alunos").where("trilha", "==", true).get(), db().collection("alunos").where("atipico", "==", true).get()]);
     const m = new Map();
     [...qt.docs, ...qa.docs].forEach(d => { const a = { id: d.id, ...d.data() };
-      if (a.ativo || a.teste || !(Number(a.ano) < Number(anoNovo)) || String(a.turma || "").startsWith("9")) return;
+      if (a.ativo || a.teste || !(Number(a.ano) < Number(anoNovo))) return;
       m.set(a.id, a); });
     const porNome = new Map();
     [...m.values()].sort((x, y) => Number(y.ano) - Number(x.ano)).forEach(a => {
@@ -2365,7 +2365,7 @@
 
   /* 👣🧩 Relatório: quem estava marcado no ano anterior (sem o 9º) e se já voltou marcado no ano atual */
   async function relatorioHeranca(box, cfg) {
-    const passados = [...(await marcadosDoAnoPassado(cfg.ano)).values()];
+    const passados = [...(await marcadosDoAnoPassado(cfg.ano)).values()].filter(a => !String(a.turma || "").startsWith("9"));   // o 9º sai da escola: fora do relatório (quem repetir e for importado volta marcado igual)
     const ativos = (await db().collection("alunos").where("ativo", "==", true).get()).docs.map(d => ({ id: d.id, ...d.data() }));
     const porNome = new Map(ativos.map(a => [normNome(a.nome), a]));
     const linhas = passados.sort((x, y) => String(x.turma).localeCompare(String(y.turma)) || x.nome.localeCompare(y.nome)).map(a => {
@@ -2386,7 +2386,7 @@
       <p>No começo de cada ano letivo:</p><ol><li>Clique em <strong>Começar novo ano</strong>: todos os alunos ativos são desativados (os códigos param de funcionar), mas o histórico fica guardado.</li>
       <li>Importe as listas novas em <a href="#/painel/importar">⚙️ Configurações › 📥 Importar alunos</a>.</li><li>Imprima os cartões com os códigos novos.</li></ol>
       <div class="row-btns"><button class="btn" id="novo" type="button">📅 Começar o ano ${esc(cfg.ano + 1)}</button></div>
-      <p class="ajuda">👣 Quem usava a Trilha Passo a Passo e 🧩 os alunos atípicos voltam já marcados quando você importa as listas do ano novo (o 9º ano fica de fora). Confira no relatório abaixo.</p></div>
+      <p class="ajuda">👣 Quem usava a Trilha Passo a Passo e 🧩 os alunos atípicos voltam já marcados quando você importa as listas do ano novo (o 9º ano sai da escola e fica fora do relatório; quem repetir volta marcado igual). Confira no relatório abaixo.</p></div>
       <div class="painel" id="heranca"><h2>👣🧩 Marcações do ano passado</h2><p class="ajuda">Carregando…</p></div>
       <div class="painel"><h2>🗓️ Bimestre em uso</h2>
         <p>O bimestre escolhido aqui é o que os alunos veem no portal e o que o painel usa (aula, missões, Panorama, Prova). <strong>Cada bimestre tem o seu Diário, Boletim e Prova</strong>: as aulas (pelas datas do bimestre), as notas e a configuração da prova ficam separadas. Os outros bimestres ficam guardados; dá para voltar a qualquer um e consultar.</p>
