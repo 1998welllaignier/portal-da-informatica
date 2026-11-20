@@ -92,19 +92,7 @@ body.modo-placar .tm-faixa { display: none; }
 .tema-natal { --tm1: #dc2626; --tm2: #facc15; --tm-placar: radial-gradient(circle at 20% 0%, #166534, #0b1d12 60%, #450a0a); }
 .pp-tema-rolar { max-height: 55vh; overflow: auto; padding-right: 4px; }
 
-/* 🪧 plaquinha com o nome do tema (pendurada embaixo da barra de cima, no meio) */
-.tm-selo { position: absolute; left: 50%; z-index: 25; pointer-events: none; transform-origin: 50% -14px; animation: tm-balanca 4s ease-in-out infinite; margin-left: 0; translate: -50% 0; padding-top: 12px; }
-.tm-selo b { display: block; background: var(--tm1, #7c3aed); color: #fff; font: 800 15px/1 system-ui, sans-serif; padding: 8px 16px; border-radius: 10px; border: 3px solid var(--tm2, #facc15); box-shadow: 0 6px 14px rgba(0,0,0,.22); white-space: nowrap; letter-spacing: .02em; }
-.tm-fio { position: absolute; top: 0; left: 26%; width: 2px; height: 14px; background: rgba(15,23,42,.45); } .tm-fio.d { left: auto; right: 26%; }
-@keyframes tm-balanca { 0%, 100% { rotate: -2deg; } 50% { rotate: 2deg; } }
-.tema-on .tm-faixa { margin-top: 52px; }
-/* espaço para a plaquinha do tema não cobrir o título da tela (18/11/2026) */
-.tema-on #app { padding-top: 50px; } .tema-on .tm-faixa ~ #app { padding-top: 0; }
-body.modo-placar .tm-selo { display: none; }
-@media (max-width: 600px) { .tm-selo b { font-size: 12px; padding: 6px 10px; } }
-@media (prefers-reduced-motion: reduce) { .tm-selo { animation: none; } }
-.tm-selo b { text-align: center; } .tm-selo small { display: block; font-size: 11px; font-weight: 700; opacity: .9; margin-top: 3px; letter-spacing: .03em; }
-.tema-on .tm-faixa { margin-top: 64px; }
+/* 🪧 plaquinha do tema retirada em 20/11/2026 (pedido do professor): sem espaço extra no topo */
 
 /* 🍃 folclore: o Saci passa no redemoinho, o boto pula, o redemoinho gira */
 .tm-passa { position: fixed; bottom: 4px; left: -90px; z-index: 6; pointer-events: none; animation: tm-passa 22s linear infinite; }

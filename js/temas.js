@@ -244,11 +244,7 @@
         <rect x="30" y="120" width="60" height="10" rx="2" fill="#92400e"/><path d="M30 121 Q45 114 60 120 Q75 114 90 121" fill="#fff"/></svg>`);
     }
     if (d.cai) particulas(d.cai);
-    // 🪧 plaquinha com o nome do tema, pendurada logo abaixo da barra de cima
-    if (NOME[tema]) { const pl = el("tm-selo", `<span class="tm-fio"></span><span class="tm-fio d"></span><b>${NOME[tema][0]}<small>${NOME[tema][1]}</small></b>`);
-      // 18/11/2026: presa ao topo da PÁGINA (sobe junto ao rolar), para nunca cobrir botão nem texto da apostila
-      const pos = () => { const tb = document.querySelector("#topbar, .topbar"); pl.style.top = (tb ? tb.offsetTop + tb.offsetHeight : 0) + "px"; };
-      pos(); window.addEventListener("resize", pos); setTimeout(pos, 600); setTimeout(pos, 2000); }
+    // 🪧 a plaquinha pendurada com o nome do tema foi retirada em 20/11/2026, a pedido do professor (atrapalhava a tela dos alunos)
     if (d.passa && !reduz()) el("tm-passa", d.passa);
     // cantos: um desenho ou uma lista que vai alternando a cada 3 minutos (troca suave)
     [["esq", d.esq], ["dir", d.dir]].forEach(([lado, v]) => { if (!v) return; const lista = [].concat(v); let i = 0;

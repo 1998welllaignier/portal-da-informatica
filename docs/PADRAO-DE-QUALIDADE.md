@@ -367,3 +367,6 @@ Apostila no portal + ilustrada (PDF só para quem estuda em casa) · guia do pro
 - Na virada do ano, quem usava a 👣 Trilha Passo a Passo ou tinha 🧩 (atípico) volta **já marcado** quando é importado nas listas do ano novo, em qualquer turma (busca pelo nome completo). O 9º ano sai da escola e fica fora do relatório; quem repetir o 9º e for importado volta marcado igual.
 - Nome repetido no ano anterior: o portal não marca sozinho e avisa.
 - Relatório em ⚙️ Configurações › 📅 Ano letivo: quem estava marcado, se já voltou marcado, se ainda não está nas listas ou se está sem a marcação.
+
+## 🪧 Sem plaquinha pendurada nos temas (20/11/2026, pedido do professor)
+- A plaquinha que balançava no meio da tela com o nome do tema da data (ex.: “Semana da Consciência Negra”) foi **retirada** de vez: aparecia na tela dos alunos e atrapalhava. As datas especiais continuam nas cores, na faixa de mensagem (que o aluno pode fechar), nos desenhos dos cantos e no “Saiba mais”. Não voltar com ela.
