@@ -76,14 +76,25 @@
      · aleatório só pagodinho · aleatório só 8 bits. No aleatório, troca a cada 1 HORA DE USO: o relógio só anda enquanto
      a música está ligada no painel (computador desligado ou portal fechado não conta). */
   const GRUPO = { pagode: Object.keys(ESTILOS).filter(k => /^pagode\d+$/.test(k)), oito: Object.keys(ESTILOS).filter(k => /^oito\d+$/.test(k)) };
-  const MODOS = { nenhuma: "🔇 Nenhuma música (só os efeitos sonoros)", manual: "✋ Manual: sempre a que eu escolher", misto: "🔀 Aleatório: alterna pagodinho e 8 bits", pagode: "🔀 Aleatório: só pagodinho", oito: "🔀 Aleatório: só 8 bits" };
+  /* 🔀 20/11/2026 (2º pedido): o aleatório também com os OUTROS estilos, e uma variante de cada estilo tocando EM DUPLA com
+     cada um dos outros (todas as duplas possíveis), além de "todos os estilos" e "um estilo só". */
+  const FAM = { pagode: { nome: "🥁 Pagodinho", L: [...GRUPO.pagode, "pagodinho"] }, oito: { nome: "👾 8 bits", L: [...GRUPO.oito, "oitobits"] },
+    animada: { nome: "🎉 Animada", L: ["animada"] }, lofi: { nome: "☕ Lo-fi", L: ["lofi"] }, tv: { nome: "📺 Programa de TV", L: ["tv"] } };
+  const FK = Object.keys(FAM);
+  const famDe = k => FK.find(f => FAM[f].L.includes(k));
+  const MODOS = { nenhuma: "🔇 Nenhuma música (só os efeitos sonoros)", manual: "✋ Manual: sempre a que eu escolher", todos: "🔀 Aleatório: todos os estilos, um de cada vez" };
+  const DUPLAS = [], SOS = [];
+  FK.forEach((a, x) => FK.slice(x + 1).forEach(b => { const k = "par:" + a + "+" + b; MODOS[k] = `🔀 ${FAM[a].nome} + ${FAM[b].nome}`; DUPLAS.push(k); }));
+  FK.forEach(a => { const k = "so:" + a; MODOS[k] = `🔀 Só ${FAM[a].nome}`; SOS.push(k); });
+  const ANTIGO = { misto: "par:pagode+oito", pagode: "so:pagode", oito: "so:oito" };
+  const famsDoModo = m => m === "todos" ? FK : m.startsWith("par:") ? m.slice(4).split("+") : m.startsWith("so:") ? [m.slice(3)] : [];
   const HORA = 3600000;
-  let modo = MODOS[lerLS("portal:musica:modo", "manual")] && lerLS("portal:musica:modo", "manual") !== "nenhuma" ? lerLS("portal:musica:modo", "manual") : "manual";
+  let modo = lerLS("portal:musica:modo", "manual"); modo = ANTIGO[modo] || modo; if (!MODOS[modo] || modo === "nenhuma") modo = "manual";
   let usado = +lerLS("portal:musica:usado", 0) || 0, ultTick = 0, ultGrava = 0;
-  function sortearDo(grupo, fora) { const L = GRUPO[grupo].filter(k => k !== fora); return L[Math.floor(Math.random() * L.length)]; }
-  function proximaAleatoria() {
-    const g = modo === "misto" ? (GRUPO.pagode.includes(estilo) ? "oito" : "pagode") : modo;
-    return sortearDo(g, estilo);
+  function sortearDe(fam, fora) { const L = FAM[fam].L.filter(k => k !== fora); return L.length ? L[Math.floor(Math.random() * L.length)] : FAM[fam].L[0]; }
+  function proximaAleatoria() {   // passa para o PRÓXIMO estilo da lista do modo (revezando) e sorteia uma música dele
+    const F = famsDoModo(modo); if (!F.length) return estilo;
+    const i = F.indexOf(famDe(estilo)); return sortearDe(F[(i + 1) % F.length], estilo);
   }
   function contarUso(tocandoMesmo) {   // chamado 4× por segundo: soma o tempo de uso e troca de música depois de 1 hora
     const ag = Date.now(), dt = ultTick ? Math.min(2000, ag - ultTick) : 0; ultTick = ag;
@@ -93,11 +104,11 @@
     if (ag - ultGrava > 5000) { ultGrava = ag; gravarLS("portal:musica:usado", String(Math.round(usado))); }
   }
   function mudarModo(m) {
-    if (!MODOS[m]) return;
+    m = ANTIGO[m] || m; if (!MODOS[m]) return;
     if (m === "nenhuma") { ligada = false; gravarLS("portal:musica", "0"); return; }   // os efeitos (roleta, pódio…) continuam
     if (!ligada) { ligada = true; gravarLS("portal:musica", "1"); }
     modo = m; gravarLS("portal:musica:modo", m); usado = 0; gravarLS("portal:musica:usado", "0");
-    if (m !== "manual") { const ok = m === "misto" ? [...GRUPO.pagode, ...GRUPO.oito] : GRUPO[m]; if (!ok.includes(estilo)) trocarEstilo(m === "oito" ? sortearDo("oito") : sortearDo("pagode")); }
+    const F = famsDoModo(m); if (F.length && !F.includes(famDe(estilo))) trocarEstilo(sortearDe(F[0]));
   }
   const semi = () => 15 / E().bpm;                                // duração de uma semicolcheia (s)
   let passo = 0, motivo = [];
@@ -287,7 +298,9 @@
           <div class="mus-regua" aria-hidden="true"><span style="left:${AMB}%">▲ ambiente</span></div>
           <button type="button" class="mus-amb">↺ Voltar ao volume ambiente</button>
           <p class="mus-agora"></p>
-          <label class="mus-est">Modo <select class="mus-modo" aria-label="Modo da música">${Object.entries(MODOS).map(([k, v]) => `<option value="${k}">${v}</option>`).join("")}</select></label>
+          <label class="mus-est">Modo <select class="mus-modo" aria-label="Modo da música">${["nenhuma", "manual", "todos"].map(k => `<option value="${k}">${MODOS[k]}</option>`).join("")}
+            <optgroup label="🔀 Aleatório em dupla (revezando os dois)">${DUPLAS.map(k => `<option value="${k}">${MODOS[k]}</option>`).join("")}</optgroup>
+            <optgroup label="🔀 Aleatório com um estilo só">${SOS.map(k => `<option value="${k}">${MODOS[k]}</option>`).join("")}</optgroup></select></label>
           <label class="mus-est">Música <select class="mus-qual" aria-label="Qual música">
             <optgroup label="🥁 Pagodinho">${GRUPO.pagode.map(k => `<option value="${k}">${ESTILOS[k].nome.replace(/^🥁 /, "")}</option>`).join("")}</optgroup>
             <optgroup label="👾 Videogame 8 bits">${GRUPO.oito.map(k => `<option value="${k}">${ESTILOS[k].nome.replace(/^👾 /, "")}</option>`).join("")}</optgroup>
