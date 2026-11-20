@@ -77,3 +77,28 @@ def cenas(aid, lista):
     """lista: [(missao, rotulo, camada_svg, legenda)] → figuras com âncora vazia (vão para o topo da missão)."""
     return [{"missao": m, "pagina": "comecar", "ancora": "", "rotulo": r, "html": figura_cena(aid, m, r, c, l)}
             for (m, r, c, l) in lista]
+
+
+def figura_foto(src, w, h, rotulo, camada, legenda, credito):
+    """📷 Foto real com licença livre (19/11/2026, ideia do professor): a foto vem do Wikimedia Commons (ou é do
+    professor), a camada que ensina é feita por código e o crédito (autor · site · licença) fica sempre embaixo."""
+    return (f'<figure class="cena-ia foto-real"><svg role="img" aria-label="{esc(rotulo)}" viewBox="0 0 {w} {h}" '
+            f'xmlns="http://www.w3.org/2000/svg"><image href="{src}" width="{w}" height="{h}"/>'
+            f'{camada}</svg><figcaption>{esc(legenda)}<br><small>📷 {esc(credito)}</small></figcaption></figure>')
+
+
+def foto_cabo_submarino(missao):
+    """Cabo submarino saindo do mar e chegando à praia (Ilhas Crozet). Usada no 8º 2º bim M3 e no 6º 4º bim M2."""
+    camada = (contorno(470, 500, 1060, 230, "amarelo", 60)
+              + etiqueta(520, 880, 640, "amarelo", "Cabo submarino", ["sai do mar e chega à terra"])
+              + seta(840, 874, 940, 740, "amarelo")
+              + etiqueta(40, 150, 300, "azul", "🌊 Mar")
+              + seta(190, 230, 440, 560, "azul", curva=-60)
+              + etiqueta(1200, 1010, 300, "verde", "🏖️ Praia"))
+    return {"missao": missao, "pagina": "comecar", "ancora": "",
+            "rotulo": "Foto real: um cabo grosso e escuro sai do mar e atravessa a praia de areia preta, entre pinguins, nas Ilhas Crozet. Etiquetas mostram o mar, a praia e o cabo submarino.",
+            "html": figura_foto("img/fotos/cabo-submarino-praia-crozet.webp", 1536, 1152,
+                                "Foto real de um cabo submarino chegando à praia",
+                                camada,
+                                "Um cabo submarino de verdade saindo do mar e chegando à praia, nas Ilhas Crozet (no Oceano Índico). Este leva os dados de uma estação de pesquisa; os cabos da internet chegam à terra de um jeito parecido.",
+                                "Foto: CTBTO Preparatory Commission (The Official CTBTO Photostream) · Wikimedia Commons · licença CC BY 2.0")}
