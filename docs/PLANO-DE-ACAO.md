@@ -239,6 +239,10 @@ Para decidir com o professor no salão. Cada item: manter, juntar ou desligar.
   - [x] 🆕 .jxl (JPEG XL) na M4 do 6º ano, mantendo o .jpg (15/11).
   - [x] ⭐ Aula especial “Meu papel de parede” para o 6º ao 9º ano com o simulador do Windows 10/11 (15/11). Falta: o vídeo (narração enviada, esperando o MP3).
   - [ ] Próximo: revisão geral do 1º bimestre de 2027 com o professor; depois o 2º bimestre de 2027.
+- [x] **Produção do 2º bimestre de 2027** (19/11/2026, noite, com autorização para publicar direto): 6º (Algoritmos) e 7º (Grafos e estruturas) antes; 8º (Internet por dentro) e 9º (Segurança) nesta noite. Cada um com apostila, 👣 Trilha, atividades M1–M8 + 🔁 Revisão + 📝 recuperação, explicações do professor, roteiro, prova e desenhos. Autonomia 0, auditoria 0, smoke test sem erros.
+- [x] **Produção do 3º bimestre de 2027** (19/11/2026, noite): 6º (Programação em blocos: 45 atividades de blocos testadas com `ferramentas/testar_blocos.js`), 7º (Rede segura), 8º (Redes sociais; ♻️ M4 = M4 do 8º de 2026) e 9º (Tecnologia e sociedade; ♻️ M5 = M4 do 9º de 2026). Mesmo pacote completo. Fatos novos conferidos na web: Lei 14.811/2024 (cyberbullying é crime), ECA Digital (Lei 15.211/2025, em vigor desde 17/03/2026), resolução do TSE sobre deepfake.
+  - [ ] Revisar com o professor (assuntos do plano v2; nenhum dado real de alunos; exemplos de Curionópolis só gerais, sem números da cidade).
+  - [ ] Cenas com gente (IA) e fotos reais (Wikimedia/CC) onde couber, como o cabo submarino do 8º 2º bim M3.
 - [x] **Editor de programação em blocos** pronto (14/11/2026): atividade `blocos` (js/blocos.js + lib/blockly). Conferir no computador da sala (Chrome/Edge) no 1º teste real. (o 7º ano usa no 1º bimestre; o 6º no 3º).
 - [ ] Depois de aprovado: material completo por bimestre, na ordem (1º bimestre primeiro). A 🔁 Revisão já nasce junto com cada bimestre (blocos por missão; o portal mostra só as missões dadas). Vídeos: perto da época, ou adiantados aos poucos para não estourar o limite semanal.
 
