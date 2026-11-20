@@ -55,11 +55,24 @@
     return { termo: semTags(alvo.termo), q: `O que significa “${semTags(alvo.termo)}”?`, ops: ordem.map(i => ops[i]), certa: ordem.indexOf(0) };
   }
   // palavra destacada → significado (os botões vêm do texto já pronto, sem o clique original)
-  function ligarPalavras(raiz, termos) {
-    raiz.querySelectorAll(".termo-link").forEach(b => { const t = norm(b.textContent);
-      const x = (termos || []).find(y => norm(String(y.termo).replace(/\s*\(.*?\)\s*/g, " ")).startsWith(t) || t.startsWith(norm(String(y.termo).replace(/\s*\(.*?\)\s*/g, " "))));
+  const acharTermo = (termos, txt) => { const t = norm(txt); return (termos || []).find(y => norm(String(y.termo).replace(/\s*\(.*?\)\s*/g, " ")).startsWith(t) || t.startsWith(norm(String(y.termo).replace(/\s*\(.*?\)\s*/g, " ")))); };
+  /* 👆 20/11/2026 (pedido do professor): na leitura guiada, a palavra difícil abre COM O CLIQUE DO PROFESSOR e aparece igual
+     em todas as telas (alunos, telão e a do professor), como numa apresentação. O aluno não abre sozinho durante a leitura guiada;
+     fora dela (estudo normal), cada aluno toca e abre a sua. modo: "prof" (cb = ao escolher) | "travado" (aluno na leitura guiada) */
+  function ligarPalavras(raiz, termos, modo, cb) {
+    raiz.querySelectorAll(".termo-link").forEach(b => { const x = acharTermo(termos, b.textContent);
+      if (modo === "travado") { b.onclick = e => { e.preventDefault(); e.stopPropagation(); }; b.tabIndex = -1; b.classList.add("lg-so-prof"); b.title = "O professor vai abrir esta palavra para todos"; return; }
+      if (modo === "prof") { b.title = "Clique para mostrar o significado na tela de TODOS"; b.onclick = e => { e.stopPropagation(); if (x) cb(x); }; return; }
       b.onclick = e => { e.stopPropagation(); if (!x) return; const d = h(`<dialog class="pp-dlg lg-def"><h2>📖 ${x.rotulo || esc(x.termo)}</h2>${P.termoImg ? P.termoImg(x.termo, x.rotulo) : ""}<p class="modal-def">${x.def}</p><form method="dialog" class="row-btns"><button class="btn btn-ok">👍 Entendi</button></form></dialog>`);
         document.body.appendChild(d); d.addEventListener("close", () => d.remove()); d.showModal(); }; });
+  }
+  // a janela da palavra que o professor abriu para todos (fica por cima do trecho até ele fechar)
+  function sincTermo(dono, d, T, rodape) {
+    const k = d && d.termo && d.fase === "trecho" ? d.termo.em + "|" + d.termo.t : "", velho = dono.querySelector(":scope > .lg-defall");
+    if (velho && velho.dataset.k === k) return; if (velho) velho.remove(); if (!k) return;
+    const x = acharTermo(T.termos, d.termo.t) || { termo: d.termo.t, def: "" };
+    const el = h(`<div class="lg-defall" data-k="${esc(k)}"><div class="lg-defcx"><p class="lg-defsup">📖 Palavra difícil</p><h2>${x.rotulo || esc(x.termo)}</h2>${P.termoImg ? P.termoImg(x.termo, x.rotulo) : ""}<p class="modal-def">${x.def || ""}</p>${rodape || ""}</div></div>`);
+    dono.appendChild(el); return el;
   }
   // diminui a letra até o trecho caber inteiro na tela (todos veem tudo, sem rolar)
   function caber(box) { if (!box) return; let f = 1.6; box.style.fontSize = f + "rem"; let n = 0;
@@ -108,9 +121,10 @@
     const chave = JSON.stringify([d.fase, idx, d.leitor && d.leitor.id, d.leu, v.minhaResp, d.stats && d.fase === "resposta"]);
     if (!alCx || !alCx.isConnected) { alCx = h(`<div class="lg-aluno" role="dialog" aria-label="Leitura guiada"><div class="lg-quadro"></div></div>`); document.body.appendChild(alCx); }
     document.body.classList.add("lg-travado");
+    sincTermo(alCx, d, T, `<p class="lg-defpe">👀 O professor abriu esta palavra para a turma toda.</p>`);
     if (chave === alUlt) return; alUlt = chave;
     const q = alCx.querySelector(".lg-quadro"); q.innerHTML = htmlFase(v, T, "aluno"); q.classList.toggle("sou-eu", v.souEu);
-    ligarPalavras(q, T.termos); requestAnimationFrame(() => cabeDuasVezes(q.querySelector(".lg-texto")));
+    ligarPalavras(q, T.termos, "travado"); requestAnimationFrame(() => cabeDuasVezes(q.querySelector(".lg-texto")));
     q.querySelectorAll(".lg-op").forEach(b => b.onclick = () => { const k = +b.dataset.op; alResp[d.aid + d.mid + idx] = k; enviar(s, d, { resp: { [idx]: k } }); mostrarAluno(d); });
     enviar(s, d, {});
   }
@@ -138,9 +152,10 @@
       const d = sn.exists ? sn.data() : null;
       if (!d || !d.ativa || d.dia !== hoje()) { q.innerHTML = `<div class="lg-fim"><p class="lg-grande">📖</p><h2>Leitura guiada encerrada</h2><p>Pode fechar esta janela.</p></div>`; ult = ""; return; }
       const T = await trechos(d.aid, d.mid), chave = JSON.stringify([d.fase, d.idx, d.leitor, d.leu, d.stats]);
+      sincTermo(el, d, T, "");
       if (chave === ult) return; ult = chave;
       if (d.fase === "video" && q.querySelector(".lg-video iframe")) return;   // não recarrega o vídeo que está tocando
-      q.innerHTML = htmlFase(d, T, "telao"); ligarPalavras(q, T.termos); requestAnimationFrame(() => cabeDuasVezes(q.querySelector(".lg-texto")));
+      q.innerHTML = htmlFase(d, T, "telao"); ligarPalavras(q, T.termos, "travado"); requestAnimationFrame(() => cabeDuasVezes(q.querySelector(".lg-texto")));
     }, () => {});
   }
 
@@ -195,7 +210,10 @@
       const on = online(), rs = on.map(a => ({ a, r: ((docL(a.id) || {}).resp || {})[d.idx] })).filter(x => x.r != null);
       return { resp: rs.length, total: on.length, acertos: rs.filter(x => x.r === P2.certa).length, quem: rs.filter(x => x.r === P2.certa).map(x => x.a.id) }; }
     function pintar() {
-      tela.innerHTML = htmlFase(d, T, modo === "2" ? "telao" : "previa"); ligarPalavras(tela, T.termos); requestAnimationFrame(() => cabeDuasVezes(tela.querySelector(".lg-texto")));
+      tela.innerHTML = htmlFase(d, T, modo === "2" ? "telao" : "previa");
+      ligarPalavras(tela, T.termos, "prof", x => { d.termo = { t: semTags(x.termo), em: Date.now() }; salvar(); });
+      const jt = sincTermo(modo === "2" ? cx : tela.parentElement, d, T, `<div class="lg-defbts"><span>👀 Aparecendo na tela de todos${modo === "3" ? " e no telão" : ""}</span><button type="button" class="btn btn-ok lg-deffecha">✕ Fechar para todos</button></div>`);
+      if (jt) jt.querySelector(".lg-deffecha").onclick = () => { d.termo = null; salvar(); }; requestAnimationFrame(() => cabeDuasVezes(tela.querySelector(".lg-texto")));
       st.innerHTML = d.fase === "video" ? "🎬 Vídeo da missão" : `Trecho <b>${d.idx + 1}</b> de ${N} · ${d.fase === "trecho" ? (d.leitor ? `lendo: <b>${esc(d.leitor.nome)}</b>${d.leu ? " ✔" : ""}` : "falta sortear quem lê") : d.fase === "pergunta" ? "🤔 pergunta relâmpago" : "✅ resposta mostrada"}`;
       const B = [];
       if (d.fase === "video") B.push(["lgc-ok", "📖 Terminou o vídeo: começar a leitura ➜", () => { d.fase = "trecho"; salvar(); }]);
@@ -225,7 +243,8 @@
         <table class="lgc-tab"><thead><tr><th>Aluno</th><th>PC</th><th>Agora</th><th>Leu</th>${P2 ? "<th>Pergunta</th>" : ""}<th>XP</th></tr></thead><tbody>${linhas.map(x => `<tr class="${x.on ? "" : "fora"}"><td>${esc(x.a.nome)}${x.a.visitante || (x.a.turma && x.a.turma !== t.id) ? " 🏫" : ""}</td><td>${x.pc ? "💻 " + x.pc : "–"}</td>
           <td>${!x.on ? "⚪ não entrou" : x.junto ? "🟢 acompanhando" : "🟡 em outra tela"}${x.saiu ? ` <span class="lgc-tc">🖥️ saiu ${x.saiu}×</span>` : ""}</td><td>${x.leu ? "🎤 leu" : ""}</td>${P2 ? `<td>${x.r == null ? "…" : d.fase === "resposta" ? (x.r === P2.certa ? "✅" : "❌") : "✔ respondeu"}</td>` : ""}<td>${x.xp ? "⭐ +" + x.xp : ""}</td></tr>`).join("")}</tbody></table>`;
     }
-    const salvar = () => { gravar(); pintar(); };
+    // a palavra aberta fecha sozinha quando o professor muda de trecho ou de fase
+    const salvar = () => { const passo = d.fase + d.idx; if (d.termo) { if (!d.termo.passo) d.termo.passo = passo; else if (d.termo.passo !== passo) d.termo = null; } gravar(); pintar(); };
     function sortear(pular) {
       ctx.roleta({ leitura: true, pular: pular ? pular.id : null, aoEscolher: a => { d.leitor = { id: a.id, nome: a.nome }; d.leu = false; salvar(); } });
     }

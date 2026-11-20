@@ -25,62 +25,126 @@
   const hz = m => 440 * Math.pow(2, (m - 69) / 12);
   const ehProf = () => /^#\/painel/.test(location.hash);   // só no PAINEL DO PROFESSOR (pedido do professor): em nenhum outro lugar
 
-  /* 🎶 versão ANIMADA (20/11/2026, o professor achou a 1ª muito triste): Dó maior, 112 batidas por minuto,
-     acordes alegres (Dó – Sol – Lá menor – Fá), baixo saltitante, palminhas de chocalho, um "bumbo" leve e
-     uma melodia que muda sozinha a cada compasso. Tudo baixinho no volume "ambiente". */
-  const BPM = 112, BAT = 60 / BPM, COLC = 0.5 * BAT;          // batida e colcheia (em segundos)
-  const ACORDES = [{ b: 36, n: [60, 64, 67] }, { b: 43, n: [59, 62, 67] }, { b: 45, n: [57, 60, 64] }, { b: 41, n: [57, 60, 65] }];
-  const MELO = [72, 74, 76, 79, 81, 84];                       // pentatônica de Dó: sempre soa alegre
-  let colc = 0, motivo = [];
+  /* 🎶 ESTILOS (20/11/2026). "animada" é a escolhida pelo professor ("gostei muito… acho que vai ser essa").
+     A pedido dele, outros estilos para comparar, todos originais e criados na hora pelo navegador:
+     🥁 pagodinho · ☕ lo-fi · 📺 programa de TV (auditório) · 👾 videogame 8 bits.
+     Cada estilo toca em semicolcheias (16 por compasso) e escolhe os acordes da sua sequência. */
+  const ESTILOS = {
+    animada:   { nome: "🎉 Animada (a escolhida)", bpm: 112, acordes: [{ b: 36, n: [60, 64, 67] }, { b: 43, n: [59, 62, 67] }, { b: 45, n: [57, 60, 64] }, { b: 41, n: [57, 60, 65] }], melo: [72, 74, 76, 79, 81, 84] },
+    pagodinho: { nome: "🥁 Pagodinho", bpm: 96, acordes: [{ b: 36, n: [64, 67, 72] }, { b: 45, n: [64, 67, 73] }, { b: 38, n: [65, 69, 74] }, { b: 43, n: [65, 71, 74] }], melo: [72, 74, 76, 79, 81] },
+    lofi:      { nome: "☕ Lo-fi (calminha)", bpm: 76, acordes: [{ b: 36, n: [59, 64, 67, 71] }, { b: 45, n: [60, 64, 67, 72] }, { b: 38, n: [60, 65, 69, 72] }, { b: 43, n: [59, 62, 65, 69] }], melo: [76, 79, 81, 83, 84, 86] },
+    tv:        { nome: "📺 Programa de TV", bpm: 128, acordes: [{ b: 36, n: [60, 64, 67] }, { b: 41, n: [60, 65, 69] }, { b: 43, n: [62, 67, 71] }, { b: 36, n: [64, 67, 72] }], melo: [72, 76, 79, 84, 79, 76] },
+    oitobits:  { nome: "👾 Videogame 8 bits", bpm: 140, acordes: [{ b: 36, n: [60, 64, 67] }, { b: 45, n: [57, 60, 64] }, { b: 41, n: [57, 60, 65] }, { b: 43, n: [59, 62, 67] }], melo: [72, 74, 76, 79, 81, 84] },
+  };
+  let estilo = ESTILOS[lerLS("portal:musica:estilo", "animada")] ? lerLS("portal:musica:estilo", "animada") : "animada";
+  const E = () => ESTILOS[estilo];
+  const semi = () => 15 / E().bpm;                                // duração de uma semicolcheia (s)
+  let passo = 0, motivo = [];
   function montar() {
     if (ctx) return true;
-    const c = P.sons && P.sons.ctx ? P.sons.ctx() : null; if (!c) return false; ctx = c;
-    mestre = ctx.createGain(); mestre.gain.value = 0;
+    const c = P.sons && P.sons.ctx ? P.sons.ctx() : null; if (!c) return false;
+    ligarNos(c); return true;
+  }
+  function ligarNos(c) {   // monta a "mesa de som" (também usada para gravar as amostras)
+    ctx = c; mestre = ctx.createGain(); mestre.gain.value = 0;
     abafo = ctx.createGain(); abafo.gain.value = 1;
     filtro = ctx.createBiquadFilter(); filtro.type = "lowpass"; filtro.frequency.value = 4200;
-    eco = ctx.createDelay(1.5); eco.delayTime.value = BAT * 0.75; const fb = ctx.createGain(); fb.gain.value = 0.22; const ecoV = ctx.createGain(); ecoV.gain.value = 0.25;
+    eco = ctx.createDelay(1.5); eco.delayTime.value = 0.4; const fb = ctx.createGain(); fb.gain.value = 0.22; const ecoV = ctx.createGain(); ecoV.gain.value = 0.25;
     eco.connect(fb).connect(eco); eco.connect(ecoV).connect(filtro);
     filtro.connect(mestre).connect(abafo).connect(ctx.destination);
-    return true;
   }
   const ganho = () => Math.pow(Math.max(0, Math.min(100, vol)) / 100, 2) * 0.9;
-  function toque(m, t, d, v, tipo, comEco) {     // nota curta e "beliscada"
+  function toque(m, t, d, v, tipo, comEco, ataque) {     // nota curta
     const o = ctx.createOscillator(), g = ctx.createGain(); o.type = tipo || "triangle"; o.frequency.value = hz(m);
-    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(v, t + 0.012); g.gain.exponentialRampToValueAtTime(0.0001, t + d);
+    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(v, t + (ataque || 0.012)); g.gain.exponentialRampToValueAtTime(0.0001, t + d);
     o.connect(g); g.connect(filtro); if (comEco) g.connect(eco); o.start(t); o.stop(t + d + 0.05);
   }
-  function chocalho(t, v) {
-    const n = Math.floor(ctx.sampleRate * 0.05), bf = ctx.createBuffer(1, n, ctx.sampleRate), d = bf.getChannelData(0);
+  function metal(m, t, d, v) {   // "metais" de programa de auditório: duas ondas dente-de-serra levemente desafinadas, abafadas
+    [-6, 6].forEach(dt => { const o = ctx.createOscillator(), f = ctx.createBiquadFilter(), g = ctx.createGain(); o.type = "sawtooth"; o.frequency.value = hz(m); o.detune.value = dt;
+      f.type = "lowpass"; f.frequency.setValueAtTime(900, t); f.frequency.exponentialRampToValueAtTime(2600, t + 0.05); f.frequency.exponentialRampToValueAtTime(1200, t + d);
+      g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(v, t + 0.02); g.gain.exponentialRampToValueAtTime(0.0001, t + d);
+      o.connect(f).connect(g).connect(filtro); o.start(t); o.stop(t + d + 0.05); });
+  }
+  function ruido(t, v, dur, corte, tipo) {
+    const n = Math.floor(ctx.sampleRate * (dur || 0.05)), bf = ctx.createBuffer(1, n, ctx.sampleRate), d = bf.getChannelData(0);
     for (let i = 0; i < n; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / n, 2);
-    const s = ctx.createBufferSource(), f = ctx.createBiquadFilter(), g = ctx.createGain(); s.buffer = bf; f.type = "highpass"; f.frequency.value = 6000; g.gain.value = v;
+    const s = ctx.createBufferSource(), f = ctx.createBiquadFilter(), g = ctx.createGain(); s.buffer = bf; f.type = tipo || "highpass"; f.frequency.value = corte || 6000; g.gain.value = v;
     s.connect(f).connect(g).connect(filtro); s.start(t);
   }
-  function bumbo(t, v) {
+  const chocalho = (t, v) => ruido(t, v, 0.05, 6000);
+  function bumbo(t, v, de, ate) {
     const o = ctx.createOscillator(), g = ctx.createGain(); o.type = "sine";
-    o.frequency.setValueAtTime(140, t); o.frequency.exponentialRampToValueAtTime(48, t + 0.12);
-    g.gain.setValueAtTime(v, t); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.18); o.connect(g).connect(filtro); o.start(t); o.stop(t + 0.2);
+    o.frequency.setValueAtTime(de || 140, t); o.frequency.exponentialRampToValueAtTime(ate || 48, t + 0.12);
+    g.gain.setValueAtTime(v, t); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.22); o.connect(g).connect(filtro); o.start(t); o.stop(t + 0.25);
   }
-  function novoMotivo() {   // 8 colcheias de melodia: umas notas, umas pausas, subindo e descendo pela escala alegre
-    let i = Math.floor(Math.random() * 3); motivo = [];
-    for (let k = 0; k < 8; k++) { if (Math.random() < 0.42) { motivo.push(null); continue; } i = Math.max(0, Math.min(MELO.length - 1, i + [-1, 1, 1, 2, -2][Math.floor(Math.random() * 5)])); motivo.push(MELO[i]); }
+  function novoMotivo(n) {   // pedacinho de melodia que muda sozinho (pausas + passos pela escala do estilo)
+    const M = E().melo; let i = Math.floor(Math.random() * 3); motivo = [];
+    for (let k = 0; k < (n || 8); k++) { if (Math.random() < 0.42) { motivo.push(null); continue; } i = Math.max(0, Math.min(M.length - 1, i + [-1, 1, 1, 2, -2][Math.floor(Math.random() * 5)])); motivo.push(M[i]); }
   }
-  function agendar() {
+  // cada estilo diz o que toca em cada semicolcheia s (0 a 15) do compasso
+  const TOCA = {
+    animada(s, t, A, barra) {
+      if (s % 2) return; const naBarra = s / 2;
+      if (naBarra === 0 && (barra % 2 === 0 || !motivo.length)) novoMotivo(8);
+      if (naBarra % 2 === 0) { const b = naBarra / 2; toque(A.b + (b % 2 ? 12 : 0), t, 0.28, 0.16, "triangle"); if (b === 0 || b === 2) bumbo(t, 0.22); chocalho(t, 0.035); }
+      else { A.n.forEach(m => toque(m, t, 0.16, 0.045, "square")); chocalho(t, 0.06); }
+      const nota = motivo[naBarra]; if (nota && barra % 8 < 6) toque(nota, t, 0.22, 0.06, "sine", true);
+    },
+    pagodinho(s, t, A, barra) {   // pandeiro em todas as semicolcheias, surdo no 2º tempo, cavaquinho sincopado, baixo de 7 cordas
+      if (s === 0 && barra % 2 === 0) novoMotivo(8);
+      ruido(t, [0.07, 0.03, 0.045, 0.03][s % 4], 0.04, 5000);                                      // pandeiro (platinelas)
+      if (s % 4 === 0) ruido(t, 0.05, 0.08, 700, "lowpass");                                       // pandeiro (pele)
+      if (s === 8) bumbo(t, 0.26, 95, 50); if (s === 0 || s === 14) bumbo(t, 0.1, 90, 55);         // surdo
+      if ([0, 3, 6, 10, 12].includes(s)) A.n.forEach(m => toque(m, t, 0.1, 0.04, "square"));      // cavaquinho
+      if ([0, 6, 8, 14].includes(s)) toque(A.b + (s === 6 ? 7 : s === 14 ? 4 : s === 8 ? 12 : 0), t, 0.3, 0.15, "triangle");
+      const nota = s % 2 ? null : motivo[s / 2]; if (nota && barra % 4 < 3) toque(nota, t, 0.2, 0.05, "triangle", true);
+    },
+    lofi(s, t, A, barra) {         // piano elétrico macio, batida preguiçosa, poucas notas
+      const sw = s % 2 ? semi() * 0.18 : 0; t += sw;                                               // balanço (swing)
+      if (s === 0) { novoMotivo(8); A.n.forEach((m, k) => toque(m, t + k * 0.03, 2.4, 0.05, "sine", false, 0.04)); }
+      if (s === 10) A.n.slice(1).forEach(m => toque(m, t, 1.1, 0.03, "sine", false, 0.04));
+      if (s === 0 || s === 7 || s === 10) bumbo(t, 0.2, 110, 45);
+      if (s === 4 || s === 12) ruido(t, 0.05, 0.12, 1800, "bandpass");                              // caixa abafada
+      if (s % 2 === 0) ruido(t, 0.018, 0.03, 8000);
+      if (s === 0 || s === 8) toque(A.b, t, 1.2, 0.13, "sine");
+      const nota = s % 2 ? null : motivo[s / 2]; if (nota && barra % 4 >= 2) toque(nota, t, 0.5, 0.035, "sine", true, 0.03);
+    },
+    tv(s, t, A, barra) {           // auditório: metais em "pá-pá-pá", palmas no 2 e no 4, baixo em oitavas
+      if (s === 0 && barra % 2 === 0) novoMotivo(8);
+      if (s % 4 === 0) bumbo(t, 0.22);
+      if (s === 4 || s === 12) { ruido(t, 0.09, 0.06, 1500, "bandpass"); ruido(t + 0.012, 0.07, 0.06, 1100, "bandpass"); }   // palmas
+      if (s % 2 === 0) ruido(t, 0.03, 0.03, 8000);
+      if (s % 2 === 0) toque(A.b + (s % 4 ? 12 : 0), t, 0.18, 0.14, "triangle");
+      if ([0, 3, 6].includes(s) && barra % 2 === 0) A.n.forEach(m => metal(m, t, 0.16, 0.03));
+      if (s === 14 && barra % 4 === 3) A.n.forEach(m => metal(m + 12, t, 0.3, 0.025));
+      const nota = s % 2 ? null : motivo[s / 2]; if (nota && barra % 2) toque(nota, t, 0.16, 0.05, "square", true);
+    },
+    oitobits(s, t, A, barra) {     // videogame antigo: arpejo rápido, baixo triangular, "chiado" de bateria
+      if (s === 0 && barra % 2 === 0) novoMotivo(8);
+      const arp = [...A.n, A.n[0] + 12]; toque(arp[s % 4] + 12, t, 0.07, 0.03, "square");
+      if (s % 4 === 0) toque(A.b + 12, t, 0.2, 0.15, "triangle"); if (s % 4 === 2) toque(A.b + 24, t, 0.1, 0.1, "triangle");
+      if (s % 8 === 4) ruido(t, 0.07, 0.07, 2500); if (s % 2 === 0) ruido(t, 0.02, 0.02, 9000);
+      const nota = s % 2 ? null : motivo[s / 2]; if (nota && barra % 8 < 6) toque(nota, t, 0.14, 0.05, "square");
+    },
+  };
+  function agendar(ate) {
     if (!ctx || !tocando) return;
     if (prox < ctx.currentTime) prox = ctx.currentTime + 0.1;
-    while (prox < ctx.currentTime + 1.5) {
-      const naBarra = colc % 8, barra = Math.floor(colc / 8), A = ACORDES[barra % 4], batida = naBarra % 2 === 0, t = prox;
-      if (naBarra === 0 && (barra % 2 === 0 || !motivo.length)) novoMotivo();
-      if (batida) { const b = Math.floor(naBarra / 2);                                   // baixo saltitante: tônica e oitava
-        toque(A.b + (b % 2 ? 12 : 0), t, 0.28, 0.16, "triangle");
-        if (b === 0 || b === 2) bumbo(t, 0.22);
-        chocalho(t, 0.035);
-      } else {
-        A.n.forEach(m => toque(m, t, 0.16, 0.045, "square"));                          // acorde no contratempo (o "pulo" da música)
-        chocalho(t, 0.06);
-      }
-      const nota = motivo[naBarra]; if (nota && barra % 8 < 6) toque(nota, t, 0.22, 0.06, "sine", true);   // melodia (descansa 2 compassos a cada 8)
-      prox += COLC; colc++;
+    const lim = ate != null ? ate : ctx.currentTime + 1.5;
+    while (prox < lim) {
+      const s = passo % 16, barra = Math.floor(passo / 16), A = E().acordes[barra % E().acordes.length];
+      try { TOCA[estilo](s, prox, A, barra); } catch (e) {}
+      prox += semi(); passo++;
     }
+  }
+  /* 🎧 grava uns segundos de um estilo num arquivo de som (para o professor comparar os estilos) */
+  async function renderizar(qual, seg) {
+    const salvo = { ctx, mestre, abafo, filtro, eco, estilo, prox, passo, tocando, motivo };
+    const off = new OfflineAudioContext(2, Math.ceil(44100 * seg), 44100);
+    ligarNos(off); mestre.gain.value = 0.6; estilo = qual; prox = 0.05; passo = 0; motivo = []; tocando = true;
+    agendar(seg - 0.6);
+    ({ ctx, mestre, abafo, filtro, eco, estilo, prox, passo, tocando, motivo } = salvo);
+    return off.startRendering();
   }
   /* ---------- quando abaixar: vídeo tocando, vídeo em outra aba, festa da roleta/pódio ---------- */
   const ytTocando = new Set();
@@ -131,12 +195,15 @@
           <datalist id="mus-marcas"><option value="${AMB}" label="ambiente"></option></datalist>
           <div class="mus-regua" aria-hidden="true"><span style="left:${AMB}%">▲ ambiente</span></div>
           <button type="button" class="mus-amb">↺ Voltar ao volume ambiente</button>
+          <label class="mus-est">Estilo <select aria-label="Estilo da música">${Object.entries(ESTILOS).map(([k, v]) => `<option value="${k}">${v.nome}</option>`).join("")}</select></label>
           <p class="mus-pe">Ela abaixa sozinha durante vídeos, a roleta e as comemorações, e volta depois. Fica memorizado neste computador.</p></div>`;
       document.body.appendChild(ui);
       const pn = ui.querySelector(".mus-pn"), rg = ui.querySelector("input[type=range]");
       ui.querySelector(".mus-bt").onclick = () => { aberto = !aberto; pn.hidden = !aberto; iniciar(); };
       ui.querySelector(".mus-liga").onclick = () => { ligada = !ligada; gravarLS("portal:musica", ligada ? "1" : "0"); iniciar(); aplicar(); };
       rg.oninput = () => { vol = +rg.value; gravarLS("portal:musica:vol", String(vol)); if (!ligada) { ligada = true; gravarLS("portal:musica", "1"); } iniciar(); aplicar(); };
+      const se = ui.querySelector(".mus-est select"); se.value = estilo;
+      se.onchange = () => { trocarEstilo(se.value); iniciar(); aplicar(); };
       ui.querySelector(".mus-amb").onclick = () => { vol = AMB; gravarLS("portal:musica:vol", String(vol)); iniciar(); aplicar(); };
       document.addEventListener("pointerdown", e => { if (aberto && ui && !ui.contains(e.target)) { aberto = false; pn.hidden = true; } }, true);
     }
@@ -149,7 +216,9 @@
     const rg = ui.querySelector("input[type=range]"); if (document.activeElement !== rg) rg.value = vol;
     ui.querySelector("output").textContent = vol === AMB ? "ambiente" : vol + "%";
   }
+  function trocarEstilo(k) { if (!ESTILOS[k]) return; estilo = k; gravarLS("portal:musica:estilo", k); passo = 0; motivo = []; if (ctx) prox = ctx.currentTime + 0.1; }
   P.musica = {
+    estilos: Object.fromEntries(Object.entries(ESTILOS).map(([k, v]) => [k, v.nome])), trocarEstilo, renderizar, get estilo() { return estilo; },
     abafar(ms) { abafarAte = Math.max(abafarAte, Date.now() + (ms || 2000)); aplicar(); setTimeout(aplicar, (ms || 2000) + 60); },
     get ligada() { return ligada; }, AMB
   };

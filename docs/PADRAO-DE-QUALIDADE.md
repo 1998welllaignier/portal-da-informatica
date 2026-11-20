@@ -522,3 +522,10 @@ Questões **contextualizadas** (situação curta: 1–2 frases no 6º, 2–3 no 
 - Aplicado a **todas as apostilas e trilhas de 2026 e 2027** (473 desenhos): o "pincel" `estilizar()` em `ferramentas/ilustracoes_2027/base.py` passa em cada figura na hora de gerar. Fotos reais e cenas com imagem não são mexidas. Uma figura pintada ganha a marca `<!--lc-->` e não é pintada duas vezes.
 - O desenho das **três etapas** (entrada → processamento → saída + armazenamento) foi **redesenhado à mão** em linha clara (`linha_clara.eps()`), com objetos de verdade.
 - Para repintar um arquivo já gerado sem regerar: `python3 ferramentas/ilustracoes_2027/repintar.py <aid>`.
+
+## 👆 Palavra difícil na leitura guiada abre com o clique do PROFESSOR, para todos (20/11/2026)
+- Na leitura guiada, o professor clica na palavra pontilhada (na prévia, no modo 3 telas, ou na própria tela, no modo 2 telas) e **a mesma janela (imagem + significado) aparece em todas as telas ao mesmo tempo**: alunos, telão e a do professor, como numa apresentação. Só o professor tem o botão "✕ Fechar para todos"; ao mudar de trecho ela fecha sozinha.
+- Durante a leitura guiada o aluno **não abre** a palavra sozinho (a palavra continua destacada). Fora da leitura guiada (estudo normal), cada aluno toca e abre a sua, como sempre.
+
+## 🎵 Estilos da música ambiente (20/11/2026)
+- Além da **🎉 Animada** (a escolhida e padrão), o painel 🎵 tem um seletor de estilo: 🥁 Pagodinho, ☕ Lo-fi, 📺 Programa de TV e 👾 Videogame 8 bits. Todos originais, criados pelo navegador; a escolha fica memorizada no computador.
