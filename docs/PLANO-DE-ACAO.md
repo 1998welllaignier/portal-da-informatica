@@ -163,7 +163,7 @@ Para decidir com o professor no salão. Cada item: manter, juntar ou desligar.
   - 8º 📜 **Termos de uso: o que eu aceitei?** (EF08CO09) — reaproveita no 8º 2027, 3º bim · F4.
   - 9º 🤖 **Inteligência artificial: impactos na vida, no trabalho e na cidade** (EF09CO07) — reaproveita no 9º 2027, 3º bim · F5.
 - ✅ **Feito em 14/11/2026 (noite):** M4 do 6º, 7º, 8º e 9º (apostila, apostila ilustrada, atividades, Trilha 👣, prova, roteiro, explicações para o professor e narração do vídeo em `docs/roteiros/narracao-m4.md`); 🔁 Revisão de todas as séries e trilhas, filtrando só as missões da turma; Panorama/cronogramas com a Revisão na última aula e a M4 onde sobra aula.
-- **Falta:** os vídeos das M4 (o professor gera o áudio com as narrações e manda o MP3: 7º B 24/11, 8º 25/11, 6º e 9º D 26/11); conferir com o login de verdade, na segunda 16/11, a Missão de hoje sugerida e o Panorama de cada turma; a nota da apostila no Quadro de notas passa a ter a linha da Missão 4 (a decidir: se a M4 e a Revisão entram na nota da apostila).
+- ✅ Vídeos das M4 prontos e no ar desde 15/11/2026 (ver docs/VIDEOS-A-POSTAR.md). **Falta:** conferir com o login de verdade, na segunda 16/11, a Missão de hoje sugerida e o Panorama de cada turma; a nota da apostila no Quadro de notas passa a ter a linha da Missão 4 (a decidir: se a M4 e a Revisão entram na nota da apostila).
 - **5º ano (atendimento individual, por vontade do professor): fora deste planejamento.** Sem prova; no dia da prova faz outra tarefa. Não gastar esforço com ele agora.
 
 ## 1. Quinta-feira (renovação do limite do Claude)
@@ -237,7 +237,7 @@ Para decidir com o professor no salão. Cada item: manter, juntar ou desligar.
     - [x] 👣 Trilhas Passo a Passo das 4 séries (14 e 15/11): `informatica-{6,7,8,9}ano-2027-1bim-trilha` (M1–M8 + Revisão, 4 passos por missão, 3 V/F, roteiro, prova com 3 alternativas, explicações e os desenhos da turma reaproveitados por `ferramentas/ilustracoes_2027/trilha.py`). Autonomia 0/0/0 e fracos 0 nas quatro.
     - [x] 📝 Atividade de recuperação (15/11, escolha do professor: missão no portal + nota automática): missão `rc` em cada apostila e trilha, liberada por aluno no painel (📝 Prova › coluna Atividade de recuperação), só com as missões marcadas, sem dica nem resolução, nota 0 a 10 que entra sozinha (⚡) no 🧮 Boletim; nota digitada pelo professor vale no lugar. Perguntas em `ferramentas/recuperacao_2027/`.
   - [x] 🆕 .jxl (JPEG XL) na M4 do 6º ano, mantendo o .jpg (15/11).
-  - [x] ⭐ Aula especial “Meu papel de parede” para o 6º ao 9º ano com o simulador do Windows 10/11 (15/11). Falta: o vídeo (narração enviada, esperando o MP3).
+  - [x] ⭐ Aula especial “Meu papel de parede” para o 6º ao 9º ano com o simulador do Windows 10/11 (15/11). Vídeo no ar (`Owm5cWrejQU`).
   - [ ] Próximo: revisão geral do 1º bimestre de 2027 com o professor; depois o 2º bimestre de 2027.
 - [x] **Produção do 2º bimestre de 2027** (19/11/2026, noite, com autorização para publicar direto): 6º (Algoritmos) e 7º (Grafos e estruturas) antes; 8º (Internet por dentro) e 9º (Segurança) nesta noite. Cada um com apostila, 👣 Trilha, atividades M1–M8 + 🔁 Revisão + 📝 recuperação, explicações do professor, roteiro, prova e desenhos. Autonomia 0, auditoria 0, smoke test sem erros.
 - [x] **Produção do 3º bimestre de 2027** (19/11/2026, noite): 6º (Programação em blocos: 45 atividades de blocos testadas com `ferramentas/testar_blocos.js`), 7º (Rede segura), 8º (Redes sociais; ♻️ M4 = M4 do 8º de 2026) e 9º (Tecnologia e sociedade; ♻️ M5 = M4 do 9º de 2026). Mesmo pacote completo. Fatos novos conferidos na web: Lei 14.811/2024 (cyberbullying é crime), ECA Digital (Lei 15.211/2025, em vigor desde 17/03/2026), resolução do TSE sobre deepfake.
@@ -249,6 +249,11 @@ Para decidir com o professor no salão. Cada item: manter, juntar ou desligar.
   - [x] 📷 1ª foto real (20/11/2026): cabo submarino chegando à praia (Ilhas Crozet; CTBTO · Wikimedia Commons · CC BY 2.0), com etiquetas por código, no 8º 2º bim M3 e no 6º 4º bim M2 (`img/fotos/`, `cenas.foto_cabo_submarino`). Mais 8 fotos aprovadas e colocadas no mesmo dia (`ferramentas/ilustracoes_2027/fotos_reais.py`): data center e fibra óptica (8º 2º bim M3; fibra também no 6º 4º bim M2), HD aberto (6º 4º bim M3), lixo eletrônico (6º 4º bim M6 e 7º 4º bim M1), celular desmontado (7º 4º bim M2), gabinete aberto (6º 1º bim M3), Amazônia vista do satélite da NASA (9º 3º bim M6) e linha braille (9º 3º bim M7, que ganhou a linha braille na tabela de recursos). Logotipos borrados; crédito e licença em cada foto.
 - [x] **Editor de programação em blocos** pronto (14/11/2026): atividade `blocos` (js/blocos.js + lib/blockly). Conferir no computador da sala (Chrome/Edge) no 1º teste real. (o 7º ano usa no 1º bimestre; o 6º no 3º).
 - [ ] Depois de aprovado: material completo por bimestre, na ordem (1º bimestre primeiro). A 🔁 Revisão já nasce junto com cada bimestre (blocos por missão; o portal mostra só as missões dadas). Vídeos: perto da época, ou adiantados aos poucos para não estourar o limite semanal.
+
+## 🗓️ Situação em 20/11/2026 (atualizada pelo Claude)
+- Feito em 20/11: virada de ano com 👣/🧩, 📷 fotos reais (9 nas apostilas, 8 nas curiosidades), 🎬 cenas de abertura em 9 missões de 2026, plaquinha dos temas retirada, 🚦 Sala de espera + 🏁 largada, 🎮 23 jogos com calendário de estreias, 🎲 contra o chute.
+- Todos os vídeos do 4º bimestre de 2026 (M1–M4 e aula especial) estão no ar. Único vídeo pronto esperando revisão: ⚔️ duelo das redes (8º 2027).
+- 1º uso real da Sala de espera, dos jogos e do contra o chute: seg 23/11 (🔁 Revisão das turmas de segunda).
 
 ## 4. Início de 2027
 - [ ] Turmas novas, listas de alunos e códigos de acesso.
