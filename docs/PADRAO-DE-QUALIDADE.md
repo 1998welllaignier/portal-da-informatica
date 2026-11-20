@@ -507,3 +507,18 @@ Questões **contextualizadas** (situação curta: 1–2 frases no 6º, 2–3 no 
 - **3 telas** (projetor + monitor do professor + Veyon): abre a janela **telão** (`#/telao/<turma>`), que vai sozinha para o projetor quando o Chrome deixar (permissão de janelas em várias telas) e tem o botão grande "⛶ Toque aqui para deixar em tela cheia" (o navegador não deixa uma janela colocar outra em tela cheia). No monitor do professor: os controles + a prévia do que o projetor mostra + **📊 A turma agora** (quantos entraram, quem está no trecho certo, quem saiu da tela cheia, número do PC, quem já leu, quem respondeu, XP).
 - **2 telas:** a própria tela do placar vira o telão, com a faixa de controles embaixo (só na tela do professor).
 - **Registro automático:** ao terminar, a aula do dia no Diário ganha `leituraGuiada` (trechos, quem leu, perguntas e acertos) e uma linha no "📝 Registro das aulas"; o **relatório da família** mostra "📖 Leitura guiada com a turma: 🎤 leu em voz alta o trecho N; acertou X de Y perguntas relâmpago".
+
+## 🎉 Roleta na tela de cada aluno também na leitura guiada (20/11/2026, pedido do professor)
+- Antes, durante a leitura guiada, o nome sorteado só aparecia na faixa. Agora, em 2 ou 3 telas: na tela **do sorteado** aparece **"🎤 É VOCÊ que vai ler!"** com o nome completo; na tela **dos outros**, **"📖 Quem vai ler é: <nome completo oficial>"**. Os dois com festinha (confete de emojis caindo).
+- No modo 3 telas, a janela **telão** (projetor) também mostra "A roleta está girando…" e depois o nome grande com a festa.
+
+## 🖼️ Imagem nas palavras difíceis (20/11/2026, pedido do professor)
+- Ao tocar numa palavra difícil (na apostila ou na leitura guiada), a mesma janela mostra **a imagem da palavra + o significado**.
+- Imagens = desenhos em **linha clara** feitos pelo Claude (`ferramentas/ilustracoes_2026/termos.py` → `dados/termos-imagens.js`) ou **fotos reais** já usadas na apostila, sempre com o crédito. Palavra sem imagem mostra só o texto (nunca uma imagem errada).
+- Começou pelos termos do 6º ano (Missões 1 e 2) e pelos mais repetidos do portal (aplicativo, pasta, navegador, link, Wi-Fi, nuvem, servidor, condição, repetição, algoritmo, bug, backup, senha forte, phishing, bit, byte…). Para incluir mais: acrescentar em `termos.py` e rodar.
+
+## 🎨 Todos os desenhos em LINHA CLARA (20/11/2026: "pode fazer todos os desenhos no modelo que decidimos… para toda a apostila")
+- Estilo aprovado: contorno preto de tinta em tudo, cores vivas, **sombra sólida deslocada**, setas com casca preta, plaquinhas de cor viva com texto branco contornado. A cor continua com o mesmo significado (azul entrada, amarelo processamento, verde saída, roxo armazenamento, vermelho perigo, ciano rede).
+- Aplicado a **todas as apostilas e trilhas de 2026 e 2027** (473 desenhos): o "pincel" `estilizar()` em `ferramentas/ilustracoes_2027/base.py` passa em cada figura na hora de gerar. Fotos reais e cenas com imagem não são mexidas. Uma figura pintada ganha a marca `<!--lc-->` e não é pintada duas vezes.
+- O desenho das **três etapas** (entrada → processamento → saída + armazenamento) foi **redesenhado à mão** em linha clara (`linha_clara.eps()`), com objetos de verdade.
+- Para repintar um arquivo já gerado sem regerar: `python3 ferramentas/ilustracoes_2027/repintar.py <aid>`.

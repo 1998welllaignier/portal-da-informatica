@@ -58,7 +58,7 @@
   function ligarPalavras(raiz, termos) {
     raiz.querySelectorAll(".termo-link").forEach(b => { const t = norm(b.textContent);
       const x = (termos || []).find(y => norm(String(y.termo).replace(/\s*\(.*?\)\s*/g, " ")).startsWith(t) || t.startsWith(norm(String(y.termo).replace(/\s*\(.*?\)\s*/g, " "))));
-      b.onclick = e => { e.stopPropagation(); if (!x) return; const d = h(`<dialog class="pp-dlg lg-def"><h2>📖 ${x.rotulo || esc(x.termo)}</h2><p class="modal-def">${x.def}</p><form method="dialog" class="row-btns"><button class="btn btn-ok">👍 Entendi</button></form></dialog>`);
+      b.onclick = e => { e.stopPropagation(); if (!x) return; const d = h(`<dialog class="pp-dlg lg-def"><h2>📖 ${x.rotulo || esc(x.termo)}</h2>${P.termoImg ? P.termoImg(x.termo, x.rotulo) : ""}<p class="modal-def">${x.def}</p><form method="dialog" class="row-btns"><button class="btn btn-ok">👍 Entendi</button></form></dialog>`);
         document.body.appendChild(d); d.addEventListener("close", () => d.remove()); d.showModal(); }; });
   }
   // diminui a letra até o trecho caber inteiro na tela (todos veem tudo, sem rolar)
@@ -126,6 +126,13 @@
     const pinta = () => { bc.hidden = !!document.fullscreenElement || matchMedia("(display-mode: fullscreen)").matches; };
     bc.onclick = () => { (document.documentElement.requestFullscreen ? document.documentElement.requestFullscreen() : Promise.reject()).catch(() => {}).finally(() => setTimeout(pinta, 300)); };
     addEventListener("fullscreenchange", pinta); addEventListener("resize", pinta); pinta();
+    // 🎡 a roleta também aparece no projetor (no modo 3 telas ela gira na tela do professor): "girando…" e depois o nome com festa
+    let rolVisto = "", rolCx = null;
+    db().collection("config").doc("roleta_" + turma).onSnapshot(sn => { const r = sn.exists ? sn.data() : null; if (!r || r.dia !== hoje() || !r.em || Date.now() - r.em > 90000) return;
+      const k = r.em + (r.girando ? "g" : "n"); if (k === rolVisto) return; rolVisto = k; if (rolCx) rolCx.remove();
+      rolCx = h(`<div class="rol-aluno telao"><div>${r.girando ? `<p class="rol-ic rol-gira">🎡</p><h2>A roleta está girando…</h2><p>Quem será que vai ler?</p>`
+        : `<div class="rol-festa" aria-hidden="true">${["🎉", "✨", "🎊", "⭐", "🎉", "✨", "🎊", "⭐", "🎉", "✨"].map((e, i) => `<i style="--k:${i}">${e}</i>`).join("")}</div><p class="rol-ic">📖</p><p class="rol-sup">Quem vai ler é:</p><h2>${esc(r.nome || "")}</h2>`}</div></div>`);
+      document.body.appendChild(rolCx); const cx = rolCx; setTimeout(() => { if (cx.isConnected) cx.remove(); }, r.girando ? 15000 : 7000); }, () => {});
     let ult = "";
     db().collection("config").doc("leitura_" + turma).onSnapshot(async sn => {
       const d = sn.exists ? sn.data() : null;

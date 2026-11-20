@@ -2503,3 +2503,14 @@ body.lg-travado{overflow:hidden}
 .lgc-telas button{border:3px solid #cbd5e1;border-radius:16px;background:#f8fafc;padding:14px;cursor:pointer;display:flex;flex-direction:column;gap:4px;font:inherit}.lgc-telas button:hover{border-color:#0ea5e9;background:#f0f9ff}
 .lgc-telas span{font-size:2rem}.lgc-telas b{font-size:1.3rem}.lgc-vid{display:block;margin:12px 0 4px;font-weight:700}
 .lg-def{max-width:520px}
+/* 🎉 festa do nome sorteado (tela do aluno e telão) */
+.rol-aluno>div{position:relative;overflow:visible}
+.rol-festa{position:absolute;inset:0;pointer-events:none}.rol-festa i{position:absolute;left:calc(var(--k) * 10% + 2%);top:-10px;font-style:normal;font-size:2rem;animation:rolCai 2.2s ease-in calc(var(--k) * .12s) 2 both}
+@keyframes rolCai{0%{transform:translateY(-30px) rotate(0);opacity:0}15%{opacity:1}100%{transform:translateY(260px) rotate(320deg);opacity:0}}
+.rol-gira{display:inline-block;animation:rolGira 1s linear infinite}@keyframes rolGira{to{transform:rotate(360deg)}}
+.rol-aluno.telao>div{max-width:900px;padding:34px 50px}.rol-aluno.telao h2{font-size:clamp(2.6rem,7vw,5rem)}
+.rol-aluno.eu .rol-sup{font-size:1.5rem;color:#15803d}
+/* 🖼️ imagem da palavra difícil (20/11/2026) */
+.termo-img{margin:4px auto 10px;max-width:380px;text-align:center}.termo-img svg{width:100%;height:auto;display:block}
+.termo-img.foto img{width:100%;max-height:240px;object-fit:cover;border-radius:12px;border:3px solid #1c1f22;box-shadow:4px 4px 0 #1c1f22}
+.termo-img figcaption{font-size:.72rem;color:#64748b;margin-top:4px}

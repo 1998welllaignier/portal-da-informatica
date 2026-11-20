@@ -5,7 +5,7 @@ A = Apostila("informatica-5ano-4bim")
 
 if __name__ == "__main__":
     A.fig(0, "As 4 partes do computador: entrada (azul) com teclado, mouse e microfone; processamento (amarelo) com o processador; saída (verde) com monitor, caixa de som e impressora; armazenamento (roxo), que guarda os arquivos.",
-          744, 262, eps(), "Entrada → processamento → saída. Os arquivos ficam guardados no armazenamento.")
+          840, 392, eps(), "Entrada → processamento → saída. Os arquivos ficam guardados no armazenamento.")
 
     # 1 — grafo Ana, Bia, Caio
     s = aresta(260, 64, 120, 150, "suave", 5) + aresta(260, 64, 400, 150, "suave", 5)

@@ -71,6 +71,10 @@ def etiqueta(x, y, s, cor="azul", size=13, ancora="middle", w=None):
     """Plaquinha colorida com texto (rótulo de uma parte do desenho)."""
     largura = w or max(40, int(len(s) * size * 0.58) + 18)
     x0 = x - largura / 2 if ancora == "middle" else (x if ancora == "start" else x - largura)
+    # linha clara (20/11/2026): plaquinha de cor viva, texto branco com contorno de tinta
+    if cor in COR and cor + "_c" in COR:
+        return (caixa(x0, y - size - 4, largura, size + 12, cor="tinta", fundo=cor, rx=8, larg=2.2)
+                + t(x0 + largura / 2, y + 2, s, size, "#ffffff", 800, extra=f' paint-order="stroke" stroke="#1c1f22" stroke-width="{max(2, size*0.24):.1f}" stroke-linejoin="round"'))
     return (caixa(x0, y - size - 4, largura, size + 12, cor=cor, fundo=cor + "_c" if cor + "_c" in COR else "papel", rx=8, larg=2)
             + t(x0 + largura / 2, y + 2, s, size, cor, 700))
 
@@ -155,9 +159,78 @@ def gerar(aid, figuras, icones):
     """figuras: lista de dicts {missao, pagina, ancora, rotulo, html}."""
     import json, os
     raiz = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-    dados = {"defs": defs(), "mascote": mascote(), "icones": {k: icone(v) for k, v in icones.items()}, "figuras": figuras}
+    dados = {"defs": defs(), "mascote": mascote(), "icones": {k: icone(v) for k, v in icones.items()}, "figuras": [estilizar_fig(f) for f in figuras]}
     js = ("/* Ilustrações coloridas de 2027 — gerado por ferramentas/ilustracoes_2027/ (não edite à mão).\n"
           "   Professor Welington Laignier. */\n"
           f"PORTAL.registrarIlustracoes({json.dumps(aid)}, {json.dumps(dados, ensure_ascii=False)});\n")
     open(os.path.join(raiz, "dados", "ilustracoes", aid + ".js"), "w", encoding="utf-8").write(js)
     return len(figuras)
+
+
+# ================= 🎨 LINHA CLARA (aprovada pelo professor em 20/11/2026: "pode fazer todos os desenhos no modelo que decidimos") =================
+# Em vez de redesenhar à mão centenas de figuras, cada SVG gerado passa por este "pincel": contorno preto de tinta em tudo,
+# traço mais grosso, sombra sólida deslocada nos painéis/objetos e setas com "casca" preta (como nos quadrinhos).
+# A cor continua carregando o significado (azul = entrada, amarelo = processamento…), pelo preenchimento e pelo texto.
+import re as _re
+_TINTA = "#1c1f22"
+
+
+def _attr(tag, nome):
+    m = _re.search(r'\s' + nome + r'="([^"]*)"', tag)
+    return m.group(1) if m else None
+
+
+def _set(tag, nome, val):
+    if _attr(tag, nome) is None:
+        return tag.replace("<", "<", 1).rstrip("/>").rstrip() + f' {nome}="{val}"' + ("/>" if tag.endswith("/>") else ">")
+    return _re.sub(r'(\s' + nome + r'=")[^"]*(")', lambda m: m.group(1) + str(val) + m.group(2), tag, count=1)
+
+
+def _num(v, d=0.0):
+    try:
+        return float(v)
+    except (TypeError, ValueError):
+        return d
+
+
+def estilizar(svg):
+    if "<!--lc-->" in svg or "<img" in svg or "<image" in svg:
+        return svg
+
+    def tag(m):
+        t0 = m.group(0); nome = m.group(1)
+        st = _attr(t0, "stroke"); fill = _attr(t0, "fill"); sw = _num(_attr(t0, "stroke-width"), 1)
+        if "stroke-dasharray" in t0 or "marker" in t0 and nome != "path" or 'data-lc="0"' in t0:
+            return t0
+        if nome in ("rect", "circle", "ellipse", "polygon") or (nome == "path" and fill not in (None, "none")):
+            if not st or st == "none" or fill in (None, "none") and nome != "path":
+                return t0
+            nt = _set(_set(t0, "stroke", _TINTA), "stroke-width", round(max(sw * 1.25, 2.2) if sw >= 1.5 else sw, 2))
+            if 'stroke-linejoin' not in nt:
+                nt = _set(nt, "stroke-linejoin", "round")
+            # sombra sólida nos painéis e objetos grandes
+            sh = ""
+            if nome == "rect":
+                w = _num(_attr(t0, "width")); h = _num(_attr(t0, "height"))
+                if w >= 40 and h >= 28 and fill not in ("transparent",):
+                    o = 5 if w * h > 12000 else 3
+                    sh = (f'<rect x="{_num(_attr(t0, "x")) + o}" y="{_num(_attr(t0, "y")) + o}" width="{w}" height="{h}" '
+                          f'rx="{_attr(t0, "rx") or 0}" fill="{_TINTA}"/>')
+            elif nome == "circle" and _num(_attr(t0, "r")) >= 16:
+                sh = f'<circle cx="{_num(_attr(t0, "cx")) + 3}" cy="{_num(_attr(t0, "cy")) + 3}" r="{_attr(t0, "r")}" fill="{_TINTA}"/>'
+            return sh + nt
+        if nome in ("path", "line", "polyline") and st and st not in ("none", _TINTA, "#fff", "#ffffff") and sw >= 2.5:
+            # linha/seta colorida: ganha uma casca preta por baixo
+            casca = _re.sub(r'\smarker-(end|start)="[^"]*"', "", t0)
+            casca = _set(_set(casca, "stroke", _TINTA), "stroke-width", round(sw + 3, 2))
+            return casca + _set(t0, "stroke-width", round(sw * 1.15, 2))
+        return t0
+
+    return _re.sub(r"<(rect|circle|ellipse|polygon|path|line|polyline)\b[^>]*?/?>", tag, svg)
+
+
+def estilizar_fig(f):
+    if f and isinstance(f, dict) and f.get("html") and 'class="lc"' not in f["html"]:
+        f = dict(f); f["html"] = estilizar(f["html"])
+        if "<!--lc-->" not in f["html"]: f["html"] += "<!--lc-->"  # marca: já pintado (não pinta duas vezes)
+    return f

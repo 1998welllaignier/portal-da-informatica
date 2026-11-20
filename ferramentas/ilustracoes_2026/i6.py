@@ -6,7 +6,7 @@ A = Apostila("informatica-6ano-4bim")
 
 if __name__ == "__main__":
     A.fig(0, "Entrada (azul): teclado, mouse e microfone levam dados ao computador; processamento (amarelo): o processador faz as contas; saída (verde): monitor, caixa de som e impressora mostram o resultado; armazenamento (roxo): o HD ou SSD guarda os arquivos.",
-          744, 262, eps(), "Entrada → processamento → saída. Os arquivos ficam guardados no armazenamento.")
+          840, 392, eps(), "Entrada → processamento → saída. Os arquivos ficam guardados no armazenamento.")
 
     # 1 — pasta como gaveta + Salvar como + Ctrl+S
     s = caixa(10, 20, 190, 190, cor="amarelo", fundo="fundo", rx=12)

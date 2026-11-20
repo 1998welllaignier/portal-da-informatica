@@ -33,7 +33,7 @@ class Apostila:
             extra = CENAS(self.aid)
         except ImportError:
             extra = []
-        dados = {"defs": _b.defs(), "mascote": _b.mascote(), "icones": {k: _b.icone(v) for k, v in icones.items()}, "figuras": extra + self.F}
+        dados = {"defs": _b.defs(), "mascote": _b.mascote(), "icones": {k: _b.icone(v) for k, v in icones.items()}, "figuras": extra + [_b.estilizar_fig(f) for f in self.F]}
         js = ("/* Ilustrações coloridas (padrão de 2027) das apostilas de 2026 — gerado por ferramentas/ilustracoes_2026/ (não edite à mão).\n"
               "   Professor Welington Laignier. */\n"
               f"PORTAL.registrarIlustracoes({json.dumps(self.aid)}, {json.dumps(dados, ensure_ascii=False)});\n")
@@ -217,21 +217,9 @@ def mapa_bimestre(missoes, titulo="O que você conquistou no bimestre"):
 
 
 def eps(com_armazenamento=True):
-    """Entrada (azul) → processamento (amarelo) → saída (verde); armazenamento (roxo) guarda e devolve."""
-    s = ""
-    s += caixa(10, 30, 200, 160, cor="azul", fundo="azul_c", rx=16) + etiqueta(110, 22, "1. ENTRADA", "azul", 14)
-    s += teclado(24, 50, 120, 40) + mouse(158, 48) + microfone(70, 112) + t(140, 150, "teclado, mouse", 12, "azul", 700) + t(140, 166, "e microfone", 12, "azul", 700)
-    s += seta(214, 110, 268, 110, "azul", 4)
-    s += caixa(272, 30, 196, 160, cor="amarelo", fundo="amarelo_c", rx=16) + etiqueta(370, 22, "2. PROCESSAMENTO", "amarelo", 14)
-    s += gabinete(292, 52, 66, 112) + chip(386, 70, 58) + t(415, 162, "o processador", 12, "amarelo", 700) + t(415, 178, "faz as contas", 12, "amarelo", 700)
-    s += seta(472, 110, 526, 110, "verde", 4)
-    s += caixa(530, 30, 204, 160, cor="verde", fundo="verde_c", rx=16) + etiqueta(632, 22, "3. SAÍDA", "verde", 14)
-    s += monitor(544, 46, 92, 60) + caixa_som(652, 44) + impressora(560, 122) + t(690, 140, "tela, som", 12, "verde", 700) + t(690, 156, "e papel", 12, "verde", 700)
-    if com_armazenamento:
-        s += f'<path d="M370 192 V214" stroke="{COR["roxo"]}" stroke-width="3" stroke-dasharray="5 4"/>'
-        s += hd(270, 214, 200, 40, rotulo="ARMAZENAMENTO") + t(590, 240, "guarda os arquivos (HD ou SSD)", 13, "roxo", 700)
-    return s
-
+    """As três etapas, agora desenhadas em LINHA CLARA (linha_clara.eps, 840×392). Use com A.fig(..., 840, 392, ...)."""
+    import linha_clara as _lc
+    return "<!--lc-->" + _lc.eps(com_armazenamento)
 
 def escada_cabos(w=744):
     """Escada das categorias de cabo de rede (17/11/2026): cada degrau, um cabo em corte, cada vez mais protegido."""

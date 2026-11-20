@@ -588,12 +588,12 @@
     if (rolUnsub) rolUnsub(); rolTurma = s.turma;
     try { rolUnsub = P.nuvem.app(0).db.collection("config").doc("roleta_" + s.turma).onSnapshot(sn => {
       const d = sn.exists ? sn.data() : null, ss = sess.get(); if (!d || !ss || d.dia !== P.nuvem.hoje() || !d.em || Date.now() - d.em > 90000) return;
-      if (/^#\/(painel|prova)/.test(location.hash) || P.leituraAtiva) return; // não atrapalha a prova (e na leitura guiada o nome já aparece na faixa)
+      if (/^#\/(painel|prova)/.test(location.hash)) return; // não atrapalha a prova
       const chave = d.em + (d.girando ? "g" : "n"); if (rolVisto === chave) return; rolVisto = chave;
       if (rolCx) rolCx.remove();
       const souEu = !d.girando && (ss.alunoIds || []).includes(d.id);
       rolCx = h(`<div class="rol-aluno${souEu ? " eu" : ""}" role="alert"><div>${d.girando ? `<p class="rol-ic">🎡</p><h2>A roleta da leitura está girando…</h2><p>Quem será que vai ler? Olhe para o projetor!</p>`
-        : `<p class="rol-ic">📖</p><p class="rol-sup">${souEu ? "É VOCÊ! Prepare-se para ler em voz alta:" : "Quem vai ler é:"}</p><h2>${esc(d.nome || "")}</h2><button type="button" class="btn btn-grande btn-ok">👍 Ok</button>`}</div></div>`);
+        : `<div class="rol-festa" aria-hidden="true">${Array.from("🎉✨🎊⭐🎉✨🎊⭐🎉✨").map((e, k) => `<i style="--k:${k}">${e}</i>`).join("")}</div><p class="rol-ic">${souEu ? "🎤" : "📖"}</p><p class="rol-sup">${souEu ? "É VOCÊ que vai ler! Prepare-se para ler em voz alta:" : "Quem vai ler é:"}</p><h2>${esc(d.nome || "")}</h2><button type="button" class="btn btn-grande btn-ok">👍 Ok</button>`}</div></div>`);
       document.body.appendChild(rolCx); const cx = rolCx, b = cx.querySelector("button"); if (b) b.onclick = () => cx.remove();
       setTimeout(() => { if (cx.isConnected && (cx === rolCx)) cx.remove(); }, d.girando ? 15000 : 12000);
     }, () => {}); } catch (e) {}
@@ -1335,6 +1335,20 @@
   }
 
   /* 📖 palavra explicada: os termos do "O que significa?" viram botõezinhos nos textos; tocou, abre o significado num modal */
+  /* 🖼️ 20/11/2026: imagem da palavra difícil (desenho em linha clara ou foto real com crédito), na mesma janela do significado.
+     Vem de dados/termos-imagens.js (gerado por ferramentas/ilustracoes_2026/termos.py). Sem imagem para o termo = só o texto. */
+  P.termoImg = function (...nomes) {
+    const T = window.TERMOS_IMG; if (!T) return "";
+    const k = s => String(s || "").replace(/<[^>]+>/g, "").replace(/\s*\(.*?\)\s*/g, " ").trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    for (const n of nomes) {
+      const b = k(n); if (!b) continue;
+      const x = T[b] || T[b.split(/\s*[\/:]\s*/)[0]] || T[b.replace(/s$/, "")];
+      if (!x) continue;
+      if (x.foto) return `<figure class="termo-img foto"><img src="${x.foto}" alt="${esc(x.alt)}" loading="lazy"><figcaption>${esc(x.credito || "")}</figcaption></figure>`;
+      return `<figure class="termo-img">${x.html}</figure>`;
+    }
+    return "";
+  };
   function ligarTermos(raiz, termos) {
     if (!raiz || !termos || !termos.length) return;
     const base = t => String(t.termo || "").replace(/\s*\(.*?\)\s*/g, " ").trim();
@@ -1353,7 +1367,7 @@
           const ini = m.index + m[1].length, fim = ini + m[2].length;
           const depois = no.splitText(ini); depois.splitText(fim - ini);
           const b = document.createElement("button"); b.type = "button"; b.className = "termo-link"; b.textContent = depois.nodeValue; b.title = "Toque para ver o que significa";
-          b.onclick = () => modal(`📖 ${x.t.rotulo}`, `<p class="modal-def">${x.t.def}</p><p class="ajuda">Está no “O que significa?” desta apostila.</p>`, "modal-termo");
+          b.onclick = () => modal(`📖 ${x.t.rotulo}`, `${P.termoImg(x.t.termo, x.t.rotulo)}<p class="modal-def">${x.t.def}</p><p class="ajuda">Está no “O que significa?” desta apostila.</p>`, "modal-termo");
           depois.replaceWith(b); usados.add(x.b); break;
         }
       });
