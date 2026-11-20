@@ -97,6 +97,35 @@
   document.addEventListener("drop", e => { const tg = e.target; if (tg && tg.matches && tg.matches("input, textarea, [contenteditable]") && e.dataTransfer && [...(e.dataTransfer.types || [])].includes("text/plain")) bloquear(e, "✋ Aqui não dá para arrastar texto pronto: digite 😉"); });
   const ENSINA_COPIAR = /ctrl\s*\+\s*[cvxz]\b|copiar e colar|copie e cole|recortar|desfazer/i;
 
+  /* ⛶ TODOS OS SIMULADORES EM TELA CHEIA (20/11/2026, pedido do professor; o do computador de treino já era assim desde 19/11):
+     enquanto a tarefa não termina, o simulador só funciona em tela cheia (capa "▶ Começar o simulador" por cima);
+     em tela cheia, a tarefa ocupa a janela inteira com as instruções em cima; ao terminar, volta sozinha ao tamanho normal.
+     Vale para: Windows (inclui a aula especial do papel de parede), explorador de pastas, computador montável, teclado,
+     pintura, programação com blocos e os simuladores de grafo, bolha, adivinhe e César. */
+  const SIM_TELA_CHEIA = new Set(["sim_windows", "explorador_pastas", "pc", "teclado", "pintura", "blocos", "sim_grafo", "sim_bolha", "sim_adivinhe", "sim_cesar"]);
+  addEventListener("hashchange", () => document.body.classList.remove("simc-travado"));
+  function telaCheiaSim(el, at, st, corpo) {
+    if (!SIM_TELA_CHEIA.has(at.tipo)) return;
+    el.classList.add("atv-sim");
+    const cab = el.querySelector(".atv-cab");
+    const bt = document.createElement("button"); bt.type = "button"; bt.className = "btn btn-peq simc-bt"; cab.appendChild(bt);
+    const capa = () => { if (st.status || ehProf || corpo.querySelector(".simc-capa")) return;
+      corpo.insertAdjacentHTML("beforeend", `<div class="simc-capa"><button type="button">▶ ${corpo.dataset.simcComecou ? "Continuar" : "Começar"} o simulador<small>só funciona em tela cheia</small></button></div>`);
+      corpo.querySelector(".simc-capa").onclick = e => { e.stopPropagation(); foco(true); }; };
+    function foco(on) {
+      el.classList.toggle("simc-foco", !!on); document.body.classList.toggle("simc-travado", !!on);
+      bt.textContent = on ? "✕ Sair da tela cheia" : "⛶ Tela cheia";
+      if (on) { corpo.dataset.simcComecou = "1"; const c = corpo.querySelector(".simc-capa"); if (c) c.remove(); el.scrollTop = 0; }
+      else { capa(); setTimeout(() => el.scrollIntoView({ block: "start", behavior: "smooth" }), 60); }
+      requestAnimationFrame(() => dispatchEvent(new Event("resize")));
+    }
+    bt.onclick = () => foco(!el.classList.contains("simc-foco"));
+    foco(false);
+    // terminou: comemora e sai sozinho da tela cheia
+    new MutationObserver(() => { if (el.classList.contains("concluida")) { const c = corpo.querySelector(".simc-capa"); if (c) c.remove();
+      if (el.classList.contains("simc-foco")) setTimeout(() => { if (el.classList.contains("simc-foco")) foco(false); }, 2500); } }).observe(el, { attributes: true, attributeFilter: ["class"] });
+  }
+
   /* 🎒 DEIXOU TAREFA PARA TRÁS? (20/11/2026, pedido do professor)
      Ao sair de uma página da missão (próxima etapa, outra etapa da trilha, "Voltar às missões", menu…) com tarefas desta
      página que ficaram para trás, aparece uma janelinha listando cada uma, com "Ir para ela" e "Seguir mesmo assim".
@@ -1297,6 +1326,7 @@
     // ⌨️ resposta digitada: aviso de que aqui se digita (copiar e colar não funciona), menos nas tarefas que ensinam atalhos
     if (!el.dataset.liberaCopiar && corpo.querySelector("textarea, input[type=text], input:not([type])"))
       el.querySelector(".atv-cab").insertAdjacentHTML("beforeend", `<span class="atv-digite" title="O objetivo é treinar a digitação">⌨️ Aqui você digita: copiar e colar não funciona</span>`);
+    telaCheiaSim(el, at, st, corpo);
     ctx._ult = Date.now();
     corpo.addEventListener("change", () => { ctx._ult = Date.now(); });
     corpo.addEventListener("click", e => { if (!(e.target && /^(INPUT|LABEL)$/.test(e.target.tagName))) ctx._ult = Date.now(); });   // depois de cada resposta, o relógio do chute recomeça

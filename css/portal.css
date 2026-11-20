@@ -2316,3 +2316,14 @@ button.es-alvo.pop{animation:es-pop .3s}
 .jg-card-rec { display: block; margin-top: 2px; font-weight: 700; }
 .pv-pc { display: inline-block; font-size: .8rem; font-weight: 700; padding: 1px 7px; border-radius: 999px; background: #e7f0ff; color: #1d4ed8; white-space: nowrap; }
 .atv-digite { display: inline-block; font-size: .78rem; font-weight: 700; color: #92400e; background: #fef3c7; border: 1px solid #fcd34d; border-radius: 999px; padding: 1px 8px; margin-left: 6px; }
+
+/* ⛶ todos os simuladores em tela cheia (20/11/2026) */
+.atv-sim .atv-corpo { position: relative; }
+.simc-capa { position: absolute; inset: 0; z-index: 40; display: flex; align-items: flex-start; padding-top: 70px; justify-content: center; background: rgba(6, 20, 50, .55); border-radius: 12px; cursor: pointer; min-height: 160px; }
+.simc-capa button { background: #facc15; color: #0f172a; border: 0; border-radius: 14px; padding: 16px 26px; font-size: 1.25rem; font-weight: 800; cursor: pointer; box-shadow: 0 6px 20px rgba(0, 0, 0, .35); }
+.simc-capa small { display: block; font-size: .85rem; font-weight: 600; margin-top: 4px; }
+.simc-bt { margin-left: auto; }
+.atv.simc-foco { position: fixed; inset: 0; z-index: 1000; margin: 0; border-radius: 0; overflow: auto; background: var(--papel, #fff); padding: 14px 26px 24px; max-width: none; }
+.atv.simc-foco .atv-cab { position: sticky; top: -14px; z-index: 5; background: inherit; padding-top: 8px; }
+.atv.simc-foco .atv-enun { font-size: 1.12rem; background: #fffbeb; border: 2px solid #fcd34d; border-radius: 12px; padding: 10px 14px; }
+body.simc-travado { overflow: hidden; }
