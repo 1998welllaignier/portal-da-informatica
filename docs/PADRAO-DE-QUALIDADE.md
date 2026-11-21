@@ -562,3 +562,4 @@ Questões **contextualizadas** (situação curta: 1–2 frases no 6º, 2–3 no 
 
 ## ⚡ Show do Lembra? sem a trava de leitura (21/11/2026 — pedido do professor)
 - Tarefas com relógio próprio (o ⚡ show do "Lembra?", tipo `show`) NÃO recebem o tempo mínimo de leitura: a trava comia o tempo da resposta-relâmpago. Mesma regra do ♾️ Laboratório (`lab`). As outras tarefas continuam com a trava.
+- (21/11/2026, professor) A trava de leitura das tarefas ficou **20% mais curta** (fórmula × 0,8; máximo 12 s em vez de 15 s). O show do "Lembra?" continua SEM trava. Os avisos do professor (pop-up na entrada) não mudaram.

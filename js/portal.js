@@ -1494,11 +1494,11 @@
     return "";
   }
   /* 📖 Tempo mínimo de leitura (20/11/2026, pedido do professor): o botão e as respostas acendem só depois de alguns segundos,
-     calculados pelo tamanho do texto (3,5 palavras por segundo) e com FOLGA de 40% para quem lê rápido (máximo 15 s).
+     calculados pelo tamanho do texto (3,5 palavras por segundo) e com FOLGA de 40% para quem lê rápido, menos 20% (21/11/2026; máximo 12 s).
      O relógio só começa quando a tarefa aparece na tela. Quem lê nem percebe; quem chuta precisa esperar. */
   function tempoDeLeitura(el, pronto) {
     const txt = (el.querySelector(".atv-cab h2") || {}).textContent + " " + ((el.querySelector(".atv-enun") || {}).textContent || "") + " " + ((el.querySelector(".atv-corpo") || {}).textContent || "");
-    const pal = txt.split(/\s+/).filter(w => w.length > 1).length, seg = Math.min(15, Math.round(pal / 3.5 * 0.6));
+    const pal = txt.split(/\s+/).filter(w => w.length > 1).length, seg = Math.min(12, Math.round(pal / 3.5 * 0.6 * 0.8));   // 21/11/2026 (professor): 20% a menos em todas as travas (máximo 15 s → 12 s)
     if (seg < 2) return;
     el.classList.add("atv-lendo");
     const tag = h(`<div class="atv-ler" role="status">📖 Leia com calma… <b>${seg}</b>s</div>`); el.querySelector(".atv-cab").after(tag);
