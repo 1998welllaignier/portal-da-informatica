@@ -23,8 +23,20 @@ Fora da fila, sempre abertos: 📖 **O que significa? + 🃏 Álbum de figurinha
 ## Em todas as tarefas
 - 💬 **Correção que explica** (feedback elaborativo): ao errar, o botão "📖 Ver onde isso está explicado" abre o pedaço do Para começar (da missão de onde a pergunta veio) que mais tem a ver com a pergunta.
 
+## 🎯 O que é cada nível (decidido em 20/11/2026: "sugira o que for melhor educacionalmente, eu aceito")
+| Nível | Papel | Exemplo |
+|---|---|---|
+| 🟢 **Básico** | Lembrar e entender, com apoio (robô, demonstração). Todos fazem. | ligar a tecla ao que ela faz |
+| 🟡 **Desafio** | O **mesmo assunto numa situação nova**, sem passo a passo (aplicar e analisar; *transferência próxima*) | "qual ação do mouse resolve esta situação?" |
+| 🔴 **Turbo** | **Juntar o assunto de hoje com missões passadas** para resolver um problema maior (avaliar e criar; *transferência distante* + prática intercalada 🔁) | "peça, programa ou arquivo?" (Missões 2, 3 e 4) |
+Proporção-alvo: Desafio + Turbo com **pelo menos metade** das tarefas de Mão na massa + Básico (o verificador avisa quando não). Depois disso, liga o 🧭 caminho adaptativo.
+
+## ↩️ Voltar atrás
+Tudo fica no histórico (git). Ponto de volta do portal **antes** do piloto: commit `862e28f` (marca local `antes-do-modelo-espiral`).
+Dá para voltar tudo, só uma parte (um arquivo, uma função) ou desligar o piloto apagando `modelo: "espiral"` no catálogo. O progresso dos alunos fica na nuvem e não é apagado por essas voltas.
+
 ## Ainda para fazer / decidir
-- 🧭 **Caminho adaptativo**: só depois de reequilibrar Básico, Desafio e Turbo (hoje o Desafio e o Turbo são curtos demais).
+- 🧭 **Caminho adaptativo**: os níveis do piloto já estão reequilibrados (20/11/2026); falta montar o teste curto do início.
 - 👾 **Chefão do bimestre** no lugar da Revisão (aprovado).
 - 🎮 **Projeto do ano** (6º: "Meu primeiro jogo") 100% dentro do portal + 🏛️ **Mostra virtual** (culminância digital) com galeria, votação e moderação do professor; ideia de uma "praça 2D" da turma. Roblox: só como extra, não como base.
 - Gancho, Lembra? da 1ª missão e "Onde eu uso" prático escritos para as missões m2–m8.
