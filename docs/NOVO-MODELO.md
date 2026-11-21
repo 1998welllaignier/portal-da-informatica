@@ -28,4 +28,4 @@ Fora da fila, sempre abertos: 📖 **O que significa? + 🃏 Álbum de figurinha
 - 👾 **Chefão do bimestre** no lugar da Revisão (aprovado).
 - 🎮 **Projeto do ano** (6º: "Meu primeiro jogo") 100% dentro do portal + 🏛️ **Mostra virtual** (culminância digital) com galeria, votação e moderação do professor; ideia de uma "praça 2D" da turma. Roblox: só como extra, não como base.
 - Gancho, Lembra? da 1ª missão e "Onde eu uso" prático escritos para as missões m2–m8.
-- 🧪 Verificador automático (varredura total) antes de levar o modelo às outras séries.
+- ✅ Verificador automático pronto (ferramentas/verificar_modelo.js). Em 20/11/2026: 378 missões, 0 erros, 25 avisos (todos de Desafio + Turbo curtos).
