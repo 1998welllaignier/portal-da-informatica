@@ -63,7 +63,7 @@ const so = process.argv.slice(2).find(a => !a.startsWith("--")), PRINTS = proces
           if (pg.comecar && !pg.comecar.gancho) E.push(`${onde}: falta o ❓ gancho do Para começar`);
           if (pg.onde && !(pg.onde.atividades || []).some(x => !x.opcional)) E.push(`${onde}: o "Onde eu uso isso?" ainda não é prático (falta "aplicar")`);
           const lem = ((pg.lembra || {}).atividades || [])[0];
-          if (lem) { const qs = lem.perguntas || []; if (qs.length < 2) E.push(`${onde}: "Lembra?" com menos de 2 perguntas`);
+          if (lem) { const qs = lem.perguntas || []; if (qs.length < (ap.trilha ? 1 : 2)) E.push(`${onde}: "Lembra?" com menos de ${ap.trilha ? 1 : 2} pergunta(s)`);
             qs.forEach(q => { if (q.de && !C.missoes.some(x => x.id === q.de)) E.push(`${onde}: "Lembra?" aponta para a missão ${q.de}, que não existe`);
               const txt = [q.p, (q.opcoes || [])[q.certo], q.why].join(" "); if (q.de && !PORTAL.ondeExplica(aid, q.de, txt)) W.push(`${onde}: "Ver onde está explicado" não achou o trecho de: ${String(q.p).replace(/<[^>]+>/g, "").slice(0, 60)}`); }); }
           ((pg.onde || {}).atividades || []).filter(x => x.tipo === "escolha").forEach(at => (at.perguntas || []).forEach(q => { const txt = [q.p, (q.opcoes || [])[q.certo], q.why].join(" ");

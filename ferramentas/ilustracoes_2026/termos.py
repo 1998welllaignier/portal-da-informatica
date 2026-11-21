@@ -310,6 +310,7 @@ d("acento circunflexo|circunflexo", "Acento circunflexo: Shift + a tecla do til,
 d("cedilha", "Cedilha: a tecla Ç, ao lado do L", tecla(100, 66, "L", 56) + tecla(164, 66, "Ç", 56, "#fde68a") + t(160, 160, "maçã, coração", 16, K, 800), "amarelo")
 d("pontuacao", "Pontuação: ponto, vírgula, interrogação e outros sinais",
   "".join(tecla(30 + i * 66, 66, ch, 56) for i, ch in enumerate([".", ",", "?", "!"])) + etiqueta(160, 160, "sinais que organizam a frase", "azul", 12), "azul")
+d("ctrl|tecla ctrl", "Ctrl (Control): a tecla que, segurada com outra, faz um atalho", tecla(110, 66, "Ctrl", 100, "#fde68a") + etiqueta(160, 160, "segure junto com outra tecla", "amarelo", 12), "amarelo")
 d("atalho", "Atalho: teclas apertadas juntas para fazer algo rápido",
   tecla(60, 66, "Ctrl", 80) + t(160, 98, "+", 28, K, 900) + tecla(190, 66, "C", 60, "#fde68a") + etiqueta(160, 160, "jeito rápido, sem menu", "amarelo", 12), "amarelo")
 d("selecionar", "Selecionar: marcar o que você quer usar (fica pintado de azul)",

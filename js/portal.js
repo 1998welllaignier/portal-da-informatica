@@ -460,6 +460,10 @@
   }
   function montarEspiral(aid, mid) {
     const C = P.conteudo[aid], A = P.atividades[aid] || {}, m = C.missoes.find(x => x.id === mid), a = A[mid] || {}, pages = [];
+    /* 👣 TRILHA PASSO A PASSO no modelo em espiral (DUA, 20/11/2026): mesma sequência sempre (rotina previsível), Lembra? com
+       1 pergunta, gancho e "Onde eu uso" (com 2 situações) escritos no arquivo de atividades da Trilha, Laboratório calmo (sem recorde),
+       só 1 pergunta de missão passada no Fechamento e carinhas sem a lista do "o que ficou difícil". */
+    const apo = apostila(aid) || {}, trilha = !!apo.trilha;
     const ativ = (lvl, arr) => (arr || []).map((x, i) => Object.assign({ nivel: lvl }, x, { id: x.id || (mid + "-" + lvl + "-" + (i + 1)) }));
     const antes = missoesAntes(aid, mid), n = +(mid.match(/\d+/) || [0])[0];
     // 🔁 Lembra?: 2 perguntas da missão anterior + 1 de uma mais antiga (repetição espaçada). Na 1ª missão, "O que você já sabe?"
@@ -467,6 +471,7 @@
     if (!lembra && antes.length) {
       const p1 = antes[0], p2 = antes[1] || antes[0];
       const qs = [perguntaVF(p1, A[p1.id], n, p1.id), perguntaTermo(p1, n + 1, p1.id), perguntaTermo(p2, n + 2, p2.id) || perguntaVF(p2, A[p2.id], n + 3, p2.id)].filter(Boolean);
+      if (trilha) qs.splice(1);   // 👣 Trilha: 1 pergunta só, da aula anterior
       if (qs.length) lembra = [{ id: mid + "-lembra", nivel: "lembra", tipo: "escolha", titulo: `🔁 Lembra da ${esc(p1.titulo.replace(/ –.*/, ""))}?`,
         enunciado: "<p>Antes de começar, vamos ver se você lembra do que já estudou. Se não lembrar, tudo bem: o portal mostra onde está a resposta.</p>", perguntas: qs }];
     }
@@ -476,24 +481,25 @@
     [["basico", "Missão — Básico", "🟢"], ["desafio", "Desafio", "🟡"], ["turbo", "Turbo", "🔴"]].forEach(([k, r, i]) => { const arr = ativ(k, a[k]); if (arr.length) pages.push({ id: k, rotulo: r, icone: i, tipo: "missao", atividades: arr, sub: k !== "basico" }); });
     // ♾️ Laboratório sem fim: para quem termina antes (piso baixo, teto alto); perguntas sem fim desta missão e das anteriores
     pages.push({ id: "lab", rotulo: "Laboratório sem fim", icone: "♾️", tipo: "missao", sub: true,
-      atividades: [{ id: mid + "-lab", nivel: "lab", tipo: "lab", opcional: true, titulo: "♾️ Laboratório sem fim: quantas você acerta seguidas?", missoes: [mid, ...antes.map(x => x.id)] }] });
+      atividades: [{ id: mid + "-lab", nivel: "lab", tipo: "lab", opcional: true, calmo: trilha, titulo: trilha ? "♾️ Laboratório sem fim: treine no seu ritmo" : "♾️ Laboratório sem fim: quantas você acerta seguidas?", missoes: [mid, ...antes.map(x => x.id)] }] });
     // 🛠️ Onde eu uso isso? (agora é aplicar) + o "toque no que você já viveu" (opcional)
-    if (m.ondeUso && m.ondeUso.itens.length) pages.push({ id: "onde", rotulo: "Onde eu uso isso?", icone: "🛠️", tipo: a.aplicar ? "revisao" : "leitura",
-      atividades: [...ativ("onde", a.aplicar), { id: mid + "-onde", nivel: "treino", tipo: "vivi", titulo: "👆 Toque no que você já viu ou já fez", opcional: true,
+    const aplicar = a.aplicar || null;
+    if (m.ondeUso && m.ondeUso.itens.length) pages.push({ id: "onde", rotulo: "Onde eu uso isso?", icone: "🛠️", tipo: aplicar ? "revisao" : "leitura",
+      atividades: [...ativ("onde", aplicar), { id: mid + "-onde", nivel: "treino", tipo: "vivi", titulo: "👆 Toque no que você já viu ou já fez", opcional: true,
         enunciado: "<p>Toque nas situações que já aconteceram com você (ou com alguém da sua casa). Depois, toque em <b>Pronto</b>.</p>", opcoes: m.ondeUso.itens }] });
     // 🏁 Fechamento: perguntas rápidas MISTURADAS (desta missão + 2 de missões antigas), resumo e autoavaliação de carinhas
     const fech = [];
     if (m.vf && m.vf.length && a.vf) { const itens = m.vf.map((t, i) => Object.assign({ t }, a.vf[i] || {}));
-      antes.slice(0, 2).forEach((p0, k) => { const aa = A[p0.id] || {}, L = (p0.vf || []).map((t, i) => Object.assign({ t }, (aa.vf || [])[i] || {})).filter(x => x.v != null && !x.corrigir);
+      antes.slice(0, trilha ? 1 : 2).forEach((p0, k) => { const aa = A[p0.id] || {}, L = (p0.vf || []).map((t, i) => Object.assign({ t }, (aa.vf || [])[i] || {})).filter(x => x.v != null && !x.corrigir);
         if (L.length) { const x = L[(n + k) % L.length]; itens.push(Object.assign({}, x, { t: `🔁 <small>(da ${p0.titulo.replace(/ –.*/, "")})</small> ` + x.t })); } });
       fech.push({ id: mid + "-vf", nivel: "revisao", tipo: "vf", titulo: "✅ Perguntas rápidas (com algumas de missões passadas 🔁)", itens }); }
     if (m.resumo && /\*\*/.test(m.resumo.texto)) fech.push({ id: mid + "-resumo", nivel: "revisao", tipo: "completar", titulo: "🧠 Complete o resumo da aula", texto: m.resumo.texto, chaves: m.resumo.chaves });
-    fech.push({ id: mid + "-carinhas", nivel: "revisao", tipo: "carinhas", titulo: "🙂 Como foi a aula para você?", termos: (m.termos || []).map(t => semTags(t.termo)) });
+    fech.push({ id: mid + "-carinhas", nivel: "revisao", tipo: "carinhas", titulo: "🙂 Como foi a aula para você?", simples: trilha, termos: trilha ? [] : (m.termos || []).map(t => semTags(t.termo)) });
     pages.push({ id: "fechar", rotulo: "Fechamento", icone: "🏁", tipo: "revisao", atividades: fech });
     // 📖 consulta (fora da fila, sempre aberta): o dicionário da missão, o treino e o 🃏 álbum de figurinhas
     if (m.termos && m.termos.length) pages.push({ id: "termos", rotulo: "O que significa? + Álbum", icone: "📖", tipo: "consulta",
       atividades: [{ id: mid + "-termos", nivel: "treino", tipo: "ligar", titulo: "🃏 Ganhe as figurinhas desta missão: ligue cada palavra ao significado",
-        porRodada: 5, pares: m.termos.map(t => ({ a: t.termo, b: t.def })), explicacao: "Figurinhas desta missão conquistadas! Elas aparecem coloridas no seu álbum. 🃏" }] });
+        porRodada: trilha ? 3 : 5, pares: m.termos.map(t => ({ a: t.termo, b: t.def })), explicacao: "Figurinhas desta missão conquistadas! Elas aparecem coloridas no seu álbum. 🃏" }] });
     pages.push({ id: "relatorio", rotulo: "Resumo do que fiz", icone: "📋", tipo: "relatorio" });
     return { C, m, a, pages, espiral: true };
   }
@@ -1269,7 +1275,7 @@
     atualizarTrilha(aid);
     if (pg.tipo === "relatorio") { el.classList.add("pg-rel"); window.scrollTo(0, 0); }
     // Trilha: antecipa a sequência da aula (rotina previsível, sem surpresas)
-    if (pg.id === "comecar" && a.trilha) corpo.appendChild(h(`<div class="painel roteiro-hoje"><strong>📋 A aula de hoje, nesta ordem:</strong><ol>${pages.filter(p => !["relatorio"].includes(p.id)).map(p => `<li>${p.icone || ""} ${esc(p.rotulo)}${p.id === pg.id ? " <em>(você está aqui)</em>" : ""}${p.id === "desafio" || p.id === "turbo" ? " <small>(se quiser, depois do Básico)</small>" : ""}</li>`).join("")}</ol></div>`));
+    if (pg.id === "comecar" && a.trilha) corpo.appendChild(h(`<div class="painel roteiro-hoje"><strong>📋 A aula de hoje, nesta ordem:</strong><ol>${pages.filter(p => !["relatorio"].includes(p.id) && p.tipo !== "consulta").map(p => `<li>${p.icone || ""} ${esc(p.rotulo)}${p.id === pg.id ? " <em>(você está aqui)</em>" : ""}${p.id === "desafio" || p.id === "turbo" || p.id === "lab" ? " <small>(se quiser, depois do Básico)</small>" : ""}</li>`).join("")}</ol></div>`));
     // ❓ gancho (modelo em espiral): um probleminha antes do texto, para o aluno ler com um motivo
     if (pg.id === "comecar" && pg.gancho) corpo.appendChild(h(`<div class="gancho" role="note"><p class="gancho-sup">❓ Pense nisso antes de ler</p>${pg.gancho.html || ""}<p class="gancho-pe">👇 A resposta está no texto abaixo. Leia procurando por ela!</p></div>`));
     if (pg.id === "comecar") corpo.appendChild(h(`<div class="leitura">${blocos(m.comecar, true)}</div>`));
@@ -1277,7 +1283,7 @@
     if (pg.id === "termos") corpo.appendChild(h(`<div class="glossario">${m.termos.map(t => `<details class="termo"><summary>${t.rotulo}</summary><p>${t.def}</p></details>`).join("")}</div>`));
     if (pg.id === "onde") corpo.appendChild(h(`<ul class="onde-uso">${m.ondeUso.itens.map(i => `<li>${i}</li>`).join("")}</ul>`));
     if (pg.tipo === "missao" && pg.id !== "pratica" && m.alertas.length) corpo.appendChild(h(`<div class="alerta" role="note">${m.alertas.map(x => `<p>⚠️ ${x}</p>`).join("")}</div>`));
-    if (pg.tipo === "missao") corpo.appendChild(h(`<p class="nivel-info nivel-${pg.id}">${{ lembra: pg.icone === "🔍" ? "🔍 <strong>O que você já sabe?</strong>: um aquecimento para ver o que você já conhece. Valem pontos!" : "🔁 <strong>Lembra?</strong>: perguntas das missões passadas, para não esquecer. Valem pontos!", lab: "♾️ <strong>Laboratório sem fim</strong>: para quem já terminou o Básico. Perguntas sem fim desta missão e das anteriores. Cada acerto vale XP (até +150) e a sua melhor sequência vira recorde!", pratica: "🎮 <strong>Mão na massa</strong>: experimente antes de estudar! Todos fazem, e conta no Básico.", basico: "🟢 <strong>Básico</strong>: todos fazem. Vale 1,0 ponto e libera os jogos livres. As respostas estão no 💡 Para começar e no 📖 O que significa?.", desafio: "🟡 <strong>Desafio</strong>: para quem terminou o Básico. Vale +0,25 e aumenta a sua nota do bimestre.", turbo: "🔴 <strong>Turbo</strong>: para quem terminou o Desafio. Vale mais +0,25 na nota do bimestre." }[pg.id]}</p>`));
+    if (pg.tipo === "missao") corpo.appendChild(h(`<p class="nivel-info nivel-${pg.id}">${{ lembra: pg.icone === "🔍" ? "🔍 <strong>O que você já sabe?</strong>: um aquecimento para ver o que você já conhece. Valem pontos!" : "🔁 <strong>Lembra?</strong>: perguntas das missões passadas, para não esquecer. Valem pontos!", lab: a.trilha ? "♾️ <strong>Laboratório sem fim</strong>: se quiser, depois do Básico. Treine com calma, no seu ritmo: cada acerto vale XP." : "♾️ <strong>Laboratório sem fim</strong>: para quem já terminou o Básico. Perguntas sem fim desta missão e das anteriores. Cada acerto vale XP (até +150) e a sua melhor sequência vira recorde!", pratica: "🎮 <strong>Mão na massa</strong>: experimente antes de estudar! Todos fazem, e conta no Básico.", basico: "🟢 <strong>Básico</strong>: todos fazem. Vale 1,0 ponto e libera os jogos livres. As respostas estão no 💡 Para começar e no 📖 O que significa?.", desafio: "🟡 <strong>Desafio</strong>: para quem terminou o Básico. Vale +0,25 e aumenta a sua nota do bimestre.", turbo: "🔴 <strong>Turbo</strong>: para quem terminou o Desafio. Vale mais +0,25 na nota do bimestre." }[pg.id]}</p>`));
     // 🔒 trava de horário: os textos ficam abertos; as tarefas só no dia e na hora da aula (ou liberadas pelo professor)
     let trava = { aberta: true };
     if (pg.tipo === "missao" || pg.tipo === "revisao") trava = travaPre;

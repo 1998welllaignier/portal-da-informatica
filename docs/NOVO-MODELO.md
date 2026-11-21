@@ -23,6 +23,12 @@ Fora da fila, sempre abertos: 📖 **O que significa? + 🃏 Álbum de figurinha
 ## Em todas as tarefas
 - 💬 **Correção que explica** (feedback elaborativo): ao errar, o botão "📖 Ver onde isso está explicado" abre o pedaço do Para começar (da missão de onde a pergunta veio) que mais tem a ver com a pergunta.
 
+## 👣 Trilha Passo a Passo no modelo em espiral (DUA, aprovado em 20/11/2026)
+Piloto também na Trilha do 6º · 1º bim 2027. Mesma sequência sempre (rotina previsível, com o quadro "A aula de hoje, nesta ordem"):
+🔁 Lembra? com **1 pergunta** (da aula anterior) · ❓ gancho · 🎮 Mão na massa · 🟢 Básico · ♾️ Laboratório **calmo** (opcional, sem recorde nem sequência) ·
+🛠️ Onde eu uso prático com **2 situações** · 🏁 Fechamento com **só 1** pergunta de missão passada e 🙂 **carinhas simples** (sem a lista do "o que ficou difícil") ·
+📖 álbum (ligar com 3 por rodada). Sem Desafio/Turbo. Gancho e "Onde eu uso" ficam escritos no próprio arquivo de atividades da Trilha.
+
 ## 🎯 O que é cada nível (decidido em 20/11/2026: "sugira o que for melhor educacionalmente, eu aceito")
 | Nível | Papel | Exemplo |
 |---|---|---|

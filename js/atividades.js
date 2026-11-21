@@ -1341,12 +1341,12 @@
       const CAR = [["3", "😀", "Entendi tudo!"], ["2", "😐", "Entendi mais ou menos"], ["1", "😟", "Não entendi"]];
       const draw = () => {
         c.innerHTML = `<p class="car-q">Como você se sentiu na aula de hoje?</p><div class="car-ops">${CAR.map(([v, e, t]) => `<button type="button" class="car-op${st.car === v ? " sel" : ""}" data-v="${v}" aria-pressed="${st.car === v}"><span>${e}</span>${t}</button>`).join("")}</div>
-          ${st.car ? `<p class="car-q">${st.car === "3" ? "Mesmo entendendo tudo: qual foi a parte mais difícil?" : "O que ficou mais difícil? Toque em uma ou mais:"}</p><div class="vivi car-dif">${[...(at.termos || []), "Nada, foi tudo tranquilo"].map((t, i) => `<button type="button" class="vivi-op${st.dif[i] ? " sel" : ""}" data-i="${i}">${st.dif[i] ? "✅" : "⬜"} ${esc(t)}</button>`).join("")}</div>` : ""}`;
+          ${st.car && !at.simples ? `<p class="car-q">${st.car === "3" ? "Mesmo entendendo tudo: qual foi a parte mais difícil?" : "O que ficou mais difícil? Toque em uma ou mais:"}</p><div class="vivi car-dif">${[...(at.termos || []), "Nada, foi tudo tranquilo"].map((t, i) => `<button type="button" class="vivi-op${st.dif[i] ? " sel" : ""}" data-i="${i}">${st.dif[i] ? "✅" : "⬜"} ${esc(t)}</button>`).join("")}</div>` : ""}`;
         c.querySelectorAll(".car-op").forEach(b => b.onclick = () => { if (st.status) return; st.car = b.dataset.v; ctx.salvar(); draw(); });
         c.querySelectorAll(".vivi-op").forEach(b => b.onclick = () => { if (st.status) return; st.dif[b.dataset.i] = !st.dif[b.dataset.i]; ctx.salvar(); draw(); });
       };
       ctx.verificar = () => { if (!st.car) { ctx.feedback("info", "Toque numa carinha primeiro."); return; }
-        const n = Object.values(st.dif).filter(Boolean).length; if (!n) { ctx.feedback("info", "Toque em pelo menos uma opção (ou em “Nada, foi tudo tranquilo”)."); return; }
+        const n = Object.values(st.dif).filter(Boolean).length; if (!n && !at.simples) { ctx.feedback("info", "Toque em pelo menos uma opção (ou em “Nada, foi tudo tranquilo”)."); return; }
         ctx.concluir("feito", st.car === "3" ? "Que bom! 🎉 O professor vai ver o que você achou." : "Obrigado pela sinceridade! 💪 O professor vai ver o que ficou difícil para ajudar você. Dá para rever tudo no 💡 Para começar e no 📖 O que significa?."); };
       setTimeout(() => { const b = ctx.el.querySelector('[data-a="verificar"]'); if (b) b.textContent = "✔ Registrar"; }, 0);
       draw();
@@ -1373,7 +1373,7 @@
       let q = null, ult = "", travado = false;
       const nova = () => { if (!uni.length) return null; let x, n = 0; do { x = uni[Math.floor(Math.random() * uni.length)]; } while (x.p === ult && n++ < 8); ult = x.p;
         const ord = x.opcoes.map((_, k) => k).sort(() => Math.random() - .5); return Object.assign({}, x, { opcoes: ord.map(k => x.opcoes[k]), certo: ord.indexOf(x.certo) }); };
-      const placar = () => `<div class="lab-placar"><span>✅ Acertos: <b>${st.ac}</b></span><span>🔥 Sequência: <b>${st.seq}</b></span><span>🏅 Recorde: <b>${st.rec}</b></span><span>⚡ XP: <b>+${Math.min(150, st.ac * 10)}</b>${st.ac * 10 >= 150 ? " (máximo!)" : ""}</span></div>`;
+      const placar = () => at.calmo ? `<div class="lab-placar"><span>✅ Você já acertou <b>${st.ac}</b>. Continue no seu ritmo! 🙂</span></div>` : `<div class="lab-placar"><span>✅ Acertos: <b>${st.ac}</b></span><span>🔥 Sequência: <b>${st.seq}</b></span><span>🏅 Recorde: <b>${st.rec}</b></span><span>⚡ XP: <b>+${Math.min(150, st.ac * 10)}</b>${st.ac * 10 >= 150 ? " (máximo!)" : ""}</span></div>`;
       const draw = (fb) => { if (!q) q = nova();
         if (!q) { c.innerHTML = "<p>Ainda não há perguntas para o laboratório.</p>"; return; }
         c.innerHTML = `${placar()}<fieldset class="esc-q lab-q"><legend>${md(q.p)}</legend>${q.opcoes.map((o, k) => `<button type="button" class="lab-op" data-k="${k}">${"ABC"[k] || ""} · ${md(o)}</button>`).join("")}</fieldset><div class="lab-fb">${fb || ""}</div>`;
@@ -1383,7 +1383,7 @@
           ctx.salvar(); const de = q.de, txt = [q.p, q.opcoes[q.certo], q.why].join(" ");
           c.querySelector(".lab-placar").outerHTML = placar();
           const f = c.querySelector(".lab-fb");
-          f.innerHTML = ok ? `<p class="fb fb-ok">✔ Certo! ${st.seq >= 3 ? `🔥 ${st.seq} seguidas!` : ""}</p>` : `<p class="fb fb-erro">✖ Não foi dessa vez. ${md(q.why || "")}</p><button type="button" class="btn btn-sec lab-onde">📖 Ver onde isso está explicado</button>`;
+          f.innerHTML = ok ? `<p class="fb fb-ok">✔ Certo! ${st.seq >= 3 && !at.calmo ? `🔥 ${st.seq} seguidas!` : ""}</p>` : `<p class="fb fb-erro">✖ Não foi dessa vez. ${md(q.why || "")}</p><button type="button" class="btn btn-sec lab-onde">📖 Ver onde isso está explicado</button>`;
           f.insertAdjacentHTML("beforeend", `<button type="button" class="btn lab-prox">Próxima pergunta ➜</button>`);
           const lo = f.querySelector(".lab-onde"); if (lo) lo.onclick = () => P.verOndeExplica && P.verOndeExplica(aid, de, txt);
           f.querySelector(".lab-prox").onclick = () => { travado = false; q = nova(); draw(); };
