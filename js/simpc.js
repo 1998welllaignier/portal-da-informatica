@@ -566,7 +566,8 @@ body.sp-travado{overflow:hidden}
 .spd-onda.dir{border-color:#f472b6}
 @keyframes spdOnda{to{transform:scale(4.5);opacity:0}}
 .spd-etq{position:fixed;z-index:10051;pointer-events:none;background:#facc15;color:#0f172a;font-weight:900;font-size:15px;border-radius:999px;padding:4px 12px;white-space:nowrap;transform:translate(22px,26px);box-shadow:0 3px 8px rgba(0,0,0,.3)}
-.spd-etq.spd-gesto{background:#fff;border:3px solid #1c1f22;border-radius:14px;padding:6px 10px 8px;box-shadow:4px 4px 0 #1c1f22;white-space:normal;transform:translate(calc(-100% - 10px),calc(-100% - 8px))}.spd-gesto .gs-mouse{width:82px;height:80px}
+.spd-etq.spd-gesto{background:#fff;border:2px solid #1c1f22;border-radius:10px;padding:2px 4px;box-shadow:2px 2px 0 #1c1f22;white-space:normal;transform:none}.spd-gesto .gs-mouse{width:36px;height:35px}.spd-gesto .gs-k{min-width:24px;height:24px;font-size:.75rem;padding:0 4px}
+.spd .sp-guia .gs-mini .gs-mouse{width:66px;height:64px}.spd .sp-guia .gs-mini .gs-rot{display:block;font-size:.75rem;padding:0 8px}.gs-agora{animation:gsAgora .5s ease-out}@keyframes gsAgora{0%{transform:scale(1.35)}100%{transform:none}}
 .spd-fim{position:fixed;inset:0;z-index:10060;background:rgba(6,20,50,.78);display:flex;align-items:center;justify-content:center}
 .spd-fim>div{background:#fff;border-radius:22px;padding:26px 32px;max-width:560px;text-align:center;font-size:1.15rem}
 .spd-fim h2{margin:6px 0 10px}.spd-fim .row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:16px}
@@ -665,10 +666,25 @@ body.sp-travado{overflow:hidden}
       const GE = { "clique": ["clique"], "2 cliques rápidos": ["duplo"], "botão direito": ["direito"], "segure e arraste": ["arrastar"], "🖱️ rodinha do mouse": ["rolarBaixo"], "escolha a pasta": ["clique"], "⌫ Backspace (apagar)": ["tecla", "Backspace"] };
       // 🖱️⌨️ 21/11/2026 (ideia do professor): no lugar da etiqueta de texto, o mousezinho mostra QUAL botão (ou as teclinhas, QUAL tecla)
       const etq = txt => { document.querySelectorAll(".spd-etq").forEach(x => x.remove()); if (!txt) return; const e = document.createElement("div"); const g = GE[txt] || (/^⌨️ (?!digitando)/.test(txt) ? ["tecla", txt.slice(3)] : null);
-        if (g && P.gesto) { e.className = "spd-etq spd-gesto"; e.innerHTML = P.gesto(g[0], g[1]); } else { e.className = "spd-etq"; e.textContent = txt; } e.style.left = mouse.style.left; e.style.top = mouse.style.top; document.body.appendChild(e);
+        if (g && P.gesto) { e.className = "spd-etq spd-gesto"; e.innerHTML = P.gesto(g[0], g[1], { mini: true, rotulo: false });
+          // o mousezinho GRANDE, com o nome do gesto, vai na faixa do Bit (fora da tela do computador: não cobre nada)
+          const gl = tela.closest(".sp") && tela.closest(".sp").querySelector(".sp-guia .f"); if (gl) { const vel = gl.querySelector(".gs-linha > .gs"), novo = document.createElement("span"); novo.innerHTML = P.gesto(g[0], g[1], { mini: true }); novo.firstChild.classList.add("gs-agora");
+            if (vel) vel.replaceWith(novo.firstChild); else gl.innerHTML = `<span class="gs-linha">${novo.innerHTML}<span class="gs-txt">${gl.innerHTML}</span></span>`; } }
+        else { e.className = "spd-etq"; e.textContent = txt; } e.style.left = mouse.style.left; e.style.top = mouse.style.top; document.body.appendChild(e);
         // o mousezinho fica ACIMA e à ESQUERDA da setinha, para não cobrir o menu que abre embaixo/à direita; perto da borda, vira para o outro lado
-        if (g) { const r = e.getBoundingClientRect(); if (r.left < 8) e.style.transform = `translate(18px,${r.top < 8 ? "30px" : "calc(-100% - 8px)"})`; else if (r.top < 8) e.style.transform = "translate(calc(-100% - 10px),30px)"; }
-        setTimeout(() => e.remove(), g ? 2200 : 1600); };
+        // junto da setinha só onde NÃO cobrir nada importante (botão, campo, item de menu, ícone, texto pequeno): testa 6 lugares; se nenhum estiver livre, fica só o da faixa do Bit
+        if (g) { const imp = [...tela.querySelectorAll("[data-k],[data-m],[data-ev],[data-campo],[data-link],button,input,textarea,a,td,label,h1,h2,h3,p,li")].filter(x => x.matches("input,textarea") || (x.getBoundingClientRect().width * x.getBoundingClientRect().height < 45000)).map(x => x.getBoundingClientRect()).filter(r => r.width && r.height);
+          if (g[0] === "direito") imp.push({ left: parseFloat(e.style.left), top: parseFloat(e.style.top), right: parseFloat(e.style.left) + 280, bottom: parseFloat(e.style.top) + 320 });   // o menu do botão direito vai abrir aqui
+          tela.querySelectorAll(".sp-dlg").forEach(d => imp.push(d.getBoundingClientRect()));
+          const w = e.offsetWidth, h = e.offsetHeight, x0 = parseFloat(e.style.left), y0 = parseFloat(e.style.top), livre = (x, y) => x > 4 && y > 4 && x + w < innerWidth - 4 && y + h < innerHeight - 4 && !imp.some(r => !(r.right <= x || r.left >= x + w || r.bottom <= y || r.top >= y + h));
+          const pos = [[-w - 6, -2], [-w - 6, -h - 6], [-w / 2, -h - 10], [30, -h - 6], [-w - 6, 24], [30, 34]].find(([dx, dy]) => livre(x0 + dx, y0 + dy));
+          if (pos && g[0] !== "arrastar") e.style.transform = `translate(${pos[0]}px,${pos[1]}px)`; else e.remove();   // arrastando, as coisas andam na tela: fica só o da faixa
+          // a tela muda depois do clique (página nova, janela, caixa de diálogo): se passar a cobrir algo, o mousezinho da setinha sai
+          const cobre = () => { if (!e.isConnected) return; const c = e.getBoundingClientRect(), tl = document.querySelector(".spd .sp-tela") || tela, sp = tl.closest(".sp");
+            const els = [...tl.querySelectorAll("[data-k],[data-m],[data-ev],[data-campo],[data-link],button,input,textarea,a,td,label,h1,h2,h3,p,li,.sp-dlg")].concat(sp ? [sp.querySelector(".sp-guia")] : []).filter(Boolean);
+            if (els.some(x => { const r = x.getBoundingClientRect(); return r.width && (x.matches("input,textarea,.sp-guia,.sp-dlg") || r.width * r.height < 45000) && !(r.right <= c.left || r.left >= c.right || r.bottom <= c.top || r.top >= c.bottom); })) e.remove(); };
+          if (e.isConnected) { const mo = new MutationObserver(cobre); mo.observe(document.querySelector(".spd") || tela, { childList: true, subtree: true, attributes: true, characterData: true }); setTimeout(() => mo.disconnect(), 2000); [150, 500].forEach(t => setTimeout(cobre, t)); } }
+        setTimeout(() => e.remove(), g ? 1800 : 1600); };
       const me = (tipo, el, x, y, extra) => el.dispatchEvent(new MouseEvent(tipo, Object.assign({ bubbles: true, cancelable: true, clientX: x, clientY: y, button: tipo === "contextmenu" ? 2 : 0 }, extra || {})));
       const pe = (tipo, el, x, y) => el.dispatchEvent(new PointerEvent(tipo, { bubbles: true, cancelable: true, clientX: x, clientY: y, button: 0, pointerId: 1, isPrimary: true }));
       const tecla = (el, t) => { const ctrl = /^Ctrl\+/.test(t), key = ctrl ? t.slice(5).toLowerCase() : t; (el || tela).dispatchEvent(new KeyboardEvent("keydown", { key, ctrlKey: ctrl, bubbles: true, cancelable: true })); };
