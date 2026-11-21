@@ -44,6 +44,13 @@
 .sw{--sw-esc:1;font-family:"Segoe UI",system-ui,sans-serif}
 .sw-check{list-style:none;margin:0 0 10px;padding:10px 12px;background:var(--fundo-suave,#f3f6fb);border-radius:10px;display:grid;gap:4px;font-size:.95rem}
 .sw-check li.ok{color:#15803d}.sw-check li.ok::marker{content:""}
+.sw-cartao{display:flex;gap:16px;align-items:center;background:#fffbeb;color:#1c1f22;border:4px solid #1c1f22;border-radius:20px;box-shadow:5px 5px 0 #facc15;padding:10px 16px;margin:0 0 12px}
+.swc-num{flex:none;width:70px;height:70px;border-radius:50%;background:#2563eb;color:#fff;border:4px solid #1c1f22;display:flex;flex-direction:column;align-items:center;justify-content:center;font-weight:800;font-size:14px;line-height:1}.swc-num b{font-size:2rem;font-weight:900}
+.swc-meio{flex:1;min-width:0}.swc-linha{display:flex;align-items:center;gap:14px;font-size:1.25rem;font-weight:700;line-height:1.25}
+.swc-gest{flex:none;display:flex;flex-direction:column;align-items:center;background:#fff;border:3px solid #1c1f22;border-radius:14px;padding:4px 8px 6px;box-shadow:3px 3px 0 #1c1f22}.swc-gest .gs-mouse{width:58px;height:56px}.swc-gest .gs-k{min-width:34px;height:34px;font-size:.9rem}
+.swc-t b{background:#fde047;padding:0 4px;border-radius:6px}
+.swc-prog{display:flex;gap:6px;margin-top:8px;max-width:420px}.swc-prog i{flex:1;height:10px;border-radius:5px;border:2px solid #1c1f22;background:#e5e7eb}.swc-prog i.ok{background:#22c55e}.swc-prog i.at{background:#facc15}
+.swc-todas{margin-top:6px;font-size:.9rem}.swc-todas summary{cursor:pointer;font-weight:700;color:#2563eb}.swc-todas .sw-check{margin:6px 0 0}
 .sw-dica{background:#fff7d6;border:1px solid #f1d27a;border-radius:8px;padding:8px 10px;margin:0 0 10px;color:#5b4500}
 .sw-moldura{width:100%;position:relative;overflow:hidden;border-radius:10px;box-shadow:0 4px 18px rgba(0,0,0,.25);background:#000;user-select:none}
 .sw-tela{position:absolute;left:0;top:0;width:1000px;height:600px;transform-origin:0 0;overflow:hidden;font-size:13px;color:#111;cursor:default}
@@ -317,17 +324,28 @@
         return `<img class="sw-fundo" src="${fundo}" alt="" data-ctx="desk"><div class="sw-icons">${icDesk}</div>${jan}${htmlDlg()}${htmlRun()}${htmlWinver()}${htmlStart()}${htmlMenu()}${bar}`;
       }
 
+      /* 🃏 CARTÃO DA MISSÃO (21/11/2026, mesmo estilo dos simuladores sim_pc): a meta da vez em destaque, com número grande,
+         o mousezinho do gesto e a barrinha de progresso; a lista completa continua a um toque ("ver todas as metas") */
+      function cartao(ms) {
+        const i = ms.findIndex(([k]) => !st.g[k]), feito = i < 0, t = feito ? "Você cumpriu todas as metas! 🎉" : ms[i][1];
+        const g = !feito && P.gesto && P.gesto.deTexto(t);
+        return `<div class="sw-cartao"><div class="swc-num">${feito ? "<b>🏆</b>" : `<b>${i + 1}</b>de ${ms.length}`}</div>
+          <div class="swc-meio"><div class="swc-linha">${g ? `<span class="swc-gest">${P.gesto(g[0], g[1])}</span>` : ""}<span class="swc-t">${t}</span></div>
+          <div class="swc-prog">${ms.map(([k], j) => `<i class="${st.g[k] ? "ok" : j === i ? "at" : ""}"></i>`).join("")}</div>
+          <details class="swc-todas"><summary>📋 ver todas as metas</summary><ul class="sw-check">${ms.map(([k, tt], j) => `<li class="${st.g[k] ? "ok" : ""}">${st.g[k] ? "✅" : "⬜"} <b>${j + 1}.</b> ${tt}</li>`).join("")}</ul></details></div></div>`;
+      }
       /* ---------- desenho ---------- */
       function draw() {
         const ms = metas();
         const perguntaV = !st.g.versao ? `<div class="sw-q"><p><b>1️⃣ Qual Windows está nesta tela?</b> Olhe onde fica o botão Iniciar (⊞) na barra de tarefas.</p><div class="bts"><button class="btn btn-sec" data-r="v:10">Windows 10</button><button class="btn btn-sec" data-r="v:11">Windows 11</button></div></div>` : "";
         const perguntaF = st.g.baixar && !st.g.formato ? `<div class="sw-q"><p><b>4️⃣ Qual é o formato da imagem que você baixou?</b> Dica: no 📁 Explorador de Arquivos › Downloads, olhe a coluna <b>Tipo</b> ou ligue <b>Exibir › ${w11() ? "Mostrar › " : ""}Extensões de nomes de arquivos</b>.</p><div class="bts">${["jpg", "png", "webp"].map(e => `<button class="btn btn-sec" data-r="f:${e}">.${e}</button>`).join("")}</div></div>` : "";
         c.innerHTML = `<div class="sw sw${so()}">
-          <ul class="sw-check">${ms.map(([k, t], i) => `<li class="${st.g[k] ? "ok" : ""}">${st.g[k] ? "✅" : "⬜"} <b>${i + 1}.</b> ${t}</li>`).join("")}</ul>
+          ${cartao(ms)}
           ${ui.dica ? `<p class="sw-dica">${P.gesto ? P.gesto.comInstrucao(ui.dica) : ui.dica}</p>` : ""}
           <div class="sw-moldura"><div class="sw-tela">${htmlTela()}</div></div>
           ${perguntaV}${perguntaF}
           <div class="sw-acoes"><button class="btn btn-link" data-r="reset">↺ Recomeçar</button>${terminou() ? `<button class="btn btn-sec" data-r="outro">🔄 Treinar no ${w11() ? "Windows 10" : "Windows 11"}</button>` : ""}</div></div>`;
+        { const d = c.querySelector(".swc-todas"); if (d) { d.open = !!ui.todas; d.ontoggle = () => { ui.todas = d.open; }; } }
         const mold = c.querySelector(".sw-moldura"), tela = c.querySelector(".sw-tela");
         const ajusta = () => { const k = mold.clientWidth / 1000; tela.style.transform = `scale(${k})`; mold.style.height = (600 * k) + "px"; };
         ajusta(); if (window.ResizeObserver) { if (c._ro) c._ro.disconnect(); c._ro = new ResizeObserver(ajusta); c._ro.observe(mold); }

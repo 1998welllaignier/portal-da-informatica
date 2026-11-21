@@ -57,7 +57,7 @@
 .sp.sp-foco .sp-guia{margin:0 0 8px;flex:none;align-items:center}.sp.sp-foco .sp-bts{flex-direction:row;flex-wrap:wrap;justify-content:flex-end;max-width:46%}
 .sp.sp-foco .sp-moldura{flex:none;margin:0 auto;width:min(100%,calc((100vh - var(--sp-gh,150px) - 26px) * 1.6667))}
 body.sp-travado{overflow:hidden}
-/* 🃏 CARTÃO DA MISSÃO (21/11/2026, proposta aprovada para teste): a barra do Bit clara, com borda grossa, número do passo grande,
+/* 🃏 CARTÃO DA MISSÃO (21/11/2026, aprovado pelo professor para TODOS os simuladores; barra: "classica" volta a antiga): a barra do Bit clara, com borda grossa, número do passo grande,
    o gesto em destaque, frase curta + explicação menor, "Perfeito!" como aviso que some e um só botão principal */
 .sp-cartao .sp-guia{position:relative;background:#fffbeb;color:#1c1f22;border:4px solid #1c1f22;border-radius:20px;box-shadow:5px 5px 0 #facc15;padding:12px 16px;align-items:center;gap:16px;overflow:visible}
 .sp-cartao .sp-bit{width:78px;height:78px;border-radius:50%;background:#2563eb;color:#fff;border:4px solid #1c1f22;flex-direction:column;font-size:15px;font-weight:800;line-height:1}
@@ -265,7 +265,7 @@ body.sp-travado{overflow:hidden}
       const elogio = () => ELOG[Math.floor(Math.random() * ELOG.length)];
       function errou(msg) { if (Date.now() - tAcerto < 450) return; erros++; st.erros = (st.erros || 0) + 1; ctx.salvar(); falar(msg + (erros >= 2 ? ` <br><small>Toque em <b>💡 Mostre onde</b> que eu aponto para você.</small>` : ""), "erro"); if (erros >= 3) mostrarOnde(); }
       /* ---------- desenho ---------- */
-      c.innerHTML = `<div class="sp${at.barra === "cartao" || P.__barraCartao ? " sp-cartao" : ""}"><div class="sp-guia"><div class="sp-bit" aria-hidden="true">🤖</div><div class="sp-fala"><div class="q"></div><div class="f"></div><div class="r" aria-live="polite"></div><div class="sp-prog"></div></div>
+      c.innerHTML = `<div class="sp${at.barra === "classica" ? "" : " sp-cartao"}"><div class="sp-guia"><div class="sp-bit" aria-hidden="true">🤖</div><div class="sp-fala"><div class="q"></div><div class="f"></div><div class="r" aria-live="polite"></div><div class="sp-prog"></div></div>
         <div class="sp-bts"><button type="button" class="onde">💡 Mostre onde</button><button type="button" class="sec rec">↺ Recomeçar</button><button type="button" class="sec foco">⛶ Tela cheia</button></div></div>
         <div class="sp-moldura sp${st.so}"><div class="sp-tela" tabindex="0"></div>${st.status ? "" : `<div class="sp-iniciar"><button type="button">▶ Começar o simulador<small>${!st.demoVisto && at.demo !== false ? "🎬 primeiro um vídeo curtinho · ✋ depois é a sua vez" : "só funciona em tela cheia"}</small></button></div>`}</div></div>`;
       const G = c.querySelector(".sp-guia"), bit = G.querySelector(".sp-bit"), q = G.querySelector(".q"), fEl = G.querySelector(".f"), rEl = G.querySelector(".r"), prog = G.querySelector(".sp-prog");

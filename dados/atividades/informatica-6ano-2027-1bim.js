@@ -37,7 +37,7 @@ PORTAL.registrarAtividades("informatica-6ano-2027-1bim", {
         alvo: "Jogos", itens: ["Fotos", "Jogos", "Músicas", "Trabalhos"],
         enunciado: "<p>Agora dê um <strong>duplo clique</strong> (dois cliques rapidinhos, sem mexer o mouse) na pasta <strong>Jogos</strong>.</p>",
         explicacao: "O <strong>duplo clique</strong> abre pastas, arquivos e programas. Um clique só apenas seleciona (escolhe)." },
-      { tipo: "sim_pc", titulo: "🖥️ No computador: abra a pasta e cuide da janela", barra: "cartao",   // 🧪 21/11/2026: protótipo do "cartão da missão" (aprovação do professor antes de ir para todos)
+      { tipo: "sim_pc", titulo: "🖥️ No computador: abra a pasta e cuide da janela",
         enunciado: "<p>Este é um computador de treino, igualzinho ao de verdade. O <strong>Bit</strong>, o seu ajudante, diz o que fazer, um passo de cada vez, e avisa se algo sair diferente. Se ficar em dúvida, toque em <strong>💡 Mostre onde</strong>.</p>",
         area: [{ nome: "Lixeira", app: "lixeira" }, { nome: "Jogos", tipo: "pasta" }, { nome: "Fotos", tipo: "pasta" }, { nome: "Músicas", tipo: "pasta" }, { nome: "Navegador", app: "web" }],
         pastas: { "Jogos": [{ nome: "jogo-da-velha", ext: "exe" }, { nome: "quebra-cabeca", ext: "exe" }, { nome: "corrida", ext: "exe" }], "Fotos": [{ nome: "passeio", ext: "jpg" }] },

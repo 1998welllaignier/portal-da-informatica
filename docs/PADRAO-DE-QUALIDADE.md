@@ -569,3 +569,8 @@ Questões **contextualizadas** (situação curta: 1–2 frases no 6º, 2–3 no 
 
 ## 🖥️ Tela do simulador widescreen (21/11/2026 — protótipo, junto com o cartão da missão)
 - Em tela cheia, a tela do simulador fica mais larga para ocupar a largura do monitor (altura 600, largura de 1000 até 1440, conforme o formato da tela), sem os "cantos pretos" dos lados. Janela maximizada e menus acompanham a nova largura. Em tela quadrada continua 1000×600.
+
+## 🃏 Cartão da missão em TODOS os simuladores (21/11/2026 — aprovado pelo professor: "em todas mesmo, não deixe nenhum pra trás")
+- **sim_pc (todas as séries, 66 simuladores):** a barra do Bit virou o cartão da missão — fundo claro com borda grossa, número do passo grande ("2 de 8"), o mousezinho/teclas em destaque com o nome do gesto, frase curta (ação em amarelo) + explicação menor embaixo (separadas sozinhas no ":" ou no fim da 1ª frase), "Perfeito!" como aviso verde que aparece e some, erro em balão vermelho, "💡 Mostre onde" como botão principal e os outros menores. Em tela cheia a tela é widescreen (1000 a 1440 de largura). Para voltar a barra antiga num simulador: `barra: "classica"`.
+- **sim_windows (papel de parede, 5º ao 9º):** a lista de metas virou o cartão — a meta da vez em destaque com número grande, mousezinho quando o texto pede um gesto, barrinha de progresso; a lista completa abre em "📋 ver todas as metas".
+- Conferido: 66 demonstrações ✓, mousezinho cobrindo algo = 0, verificador 378 missões / 0 erros.
