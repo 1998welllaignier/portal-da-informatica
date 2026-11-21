@@ -535,3 +535,7 @@ Questões **contextualizadas** (situação curta: 1–2 frases no 6º, 2–3 no 
 - O volume e a marca "▲ ambiente" (o padrão) continuam como combinado, valendo para todas as músicas.
 - 🔀 (20/11/2026, 2º pedido) Aleatório com **todos os estilos** (Pagodinho, 8 bits, Animada, Lo-fi, Programa de TV), revezando um de cada vez; **todas as 10 duplas** possíveis de estilos (ex.: Pagodinho + Lo-fi, revezando os dois); e cada estilo sozinho. Sempre trocando a cada 1 hora de uso.
 - 🎛️ (20/11/2026) A janela 🎵 abre **compacta**: "Tocando agora", liga/desliga e três títulos fechados — 🔊 Volume, 🔀 Modo e 🎵 Música —, cada um já mostrando o que está escolhido. Clicando no título, as opções abrem (uma seção de cada vez; abrir outra fecha a anterior); a opção escolhida fica destacada em roxo. "Para não ficar um janelão sempre."
+
+## 🌀 Novo modelo em espiral — PILOTO (20/11/2026)
+- Aprovado pelo professor: 🔁 Lembra?, 🔀 perguntas misturadas, 👾 Chefão do bimestre, 💬 correção que explica, 🙂 autoavaliação de carinhas, 🃏 álbum de figurinhas, ✂️ missão em 6 etapas, ❓ gancho, 🛠️ "Onde eu uso isso?" prático, ♾️ Laboratório sem fim. Caminho adaptativo fica para depois do reequilíbrio dos níveis.
+- A planta completa está em **docs/NOVO-MODELO.md**. Piloto no 6º ano · 1º bim 2027; o resto continua no modelo antigo até a aprovação.

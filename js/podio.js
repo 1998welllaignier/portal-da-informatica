@@ -355,7 +355,10 @@
   }
 
   /* ======================= 🏆 PONTOS ======================= */
-  const BASE = { pratica: 60, basico: 100, desafio: 150, turbo: 200 }, BONUS = 300, XP_BONUS = 150;
+  const BASE = { pratica: 60, basico: 100, desafio: 150, turbo: 200, lembra: 50, onde: 60, fechar: 60 }, BONUS = 300, XP_BONUS = 150;
+  /* 🌀 modelo em espiral: ♾️ Laboratório sem fim (+10 XP por acerto, até +150) e 🃏 página do álbum completa (+50) */
+  function extrasEspiral(mm, mid, atv) { if (!mm || !mm.espiral) return 0; const lab = (atv || {})[mid + "-lab"], alb = (atv || {})[mid + "-termos"];
+    return Math.min(150, ((lab && lab.ac) || 0) * 10) + (alb && alb.status ? 50 : 0); }
   /* ⭐ Bônus relâmpago: XP a mais por cima (até +150, além dos 1000) e a medalha ⭐ quando o aluno faz todas as tarefas do bônus */
   function bonusDe(mm, atv) {
     const pg = mm.pages.find(x => x.id === "bonus"); if (!pg) return { xp: 0, ok: false };
@@ -396,7 +399,7 @@
       (pg.atividades || []).forEach(at => { const T = (P.tipos || {})[at.tipo] || {}; if (T.semStatus || at.opcional) return;
         max += base; const st = (atv || {})[at.id]; if (!st || !st.status) return;
         raw += base * fator(st); }); });
-    return (max ? Math.round(1000 * raw / max) : 0) + bonusDe(mm, atv).xp + sequencia(atv).bonus;
+    return (max ? Math.round(1000 * raw / max) : 0) + bonusDe(mm, atv).xp + sequencia(atv).bonus + extrasEspiral(mm, mid, atv);
   }
   const nomeCurto = n => { const p = String(n || "").trim().split(/\s+/); return p.length > 1 ? p[0] + " " + p[p.length - 1][0] + "." : p[0] || "?"; };
   /* ranking da missão do dia. alunos = cadastro da turma; prog = documentos de progresso da turma */

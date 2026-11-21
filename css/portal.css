@@ -2542,3 +2542,27 @@ body.lg-travado{overflow:hidden}
 .mus-op:hover{background:#ede9fe}.mus-op.sel{background:#7c3aed;color:#fff;font-weight:700}
 .mus-gr{margin:8px 0 2px;font-weight:800;font-size:.82rem;color:#6d28d9}
 .mus-dica{font-size:.78rem;color:#64748b}
+/* 🌀 MODELO EM ESPIRAL (piloto 6º 2027 1º bim, 20/11/2026) */
+.mn-trilha li.mn-sub{margin-left:18px;font-size:.92em}
+.mn-trilha li.mn-sub>a,.mn-trilha li.mn-sub>span{opacity:.92}
+.mn-trilha li.mn-consulta{margin-top:10px;border-top:2px dashed #cbd5e1;padding-top:6px}
+.gancho{background:#fff7ed;border:3px solid #1c1f22;box-shadow:5px 5px 0 #1c1f22;border-radius:16px;padding:14px 18px;margin:0 0 18px;font-size:1.12rem}
+.gancho p{margin:.35em 0}.gancho-sup{font-weight:900;color:#c2410c;text-transform:uppercase;letter-spacing:.04em;font-size:.9rem}
+.gancho-pe{color:#9a3412;font-weight:700;font-size:.95rem}
+.ver-onde{margin-top:8px}
+.modal-onde .onde-trecho{background:#fffbeb;border-left:5px solid #f59e0b;padding:10px 14px;border-radius:8px;max-height:60vh;overflow:auto}
+.car-q{font-weight:800;margin:6px 0}.car-ops{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:10px}
+.car-op{display:flex;flex-direction:column;align-items:center;gap:4px;min-width:130px;padding:12px;border:3px solid #cbd5e1;border-radius:16px;background:#fff;font:inherit;font-weight:700;cursor:pointer}
+.car-op span{font-size:2.6rem;line-height:1}.car-op.sel{border-color:#7c3aed;background:#f5f3ff;box-shadow:4px 4px 0 #1c1f22}
+.lab-placar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}.lab-placar span{background:#f1f5f9;border-radius:999px;padding:4px 12px}
+.lab-q{display:flex;flex-direction:column;gap:8px}.lab-op{text-align:left;padding:10px 14px;border:2px solid #cbd5e1;border-radius:12px;background:#fff;font:inherit;cursor:pointer}
+.lab-op:hover:not(:disabled){border-color:#7c3aed}.lab-op.certa{background:#dcfce7;border-color:#16a34a}.lab-op.errada{background:#fee2e2;border-color:#dc2626}
+.lab-fb{margin-top:10px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}.lab-fb .fb{flex-basis:100%;margin:0}
+.album{margin-bottom:20px}.alb-pag{border:3px solid #e2e8f0;border-radius:16px;padding:10px 12px;margin:10px 0;background:#f8fafc}
+.alb-pag.atual{border-color:#7c3aed}.alb-pag.cheia{background:#fefce8;border-color:#eab308}
+.alb-tit{font-weight:800;margin:0 0 8px}.alb-tit small{font-weight:700;color:#64748b;margin-left:6px}
+.alb-grade{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px}
+.alb-fig{border:2px dashed #cbd5e1;border-radius:12px;padding:6px;text-align:center;background:#fff;min-height:96px;display:flex;flex-direction:column;justify-content:center}
+.alb-fig.tem{border:3px solid #1c1f22;box-shadow:3px 3px 0 #1c1f22}.alb-fig b{font-size:.82rem}
+.alb-fig .termo-img{margin:0 0 4px;max-width:none}.alb-emo{font-size:2rem}
+.vivi.car-dif{display:flex;flex-wrap:wrap;gap:6px}.vivi.car-dif .vivi-op{width:auto;flex:0 0 auto}

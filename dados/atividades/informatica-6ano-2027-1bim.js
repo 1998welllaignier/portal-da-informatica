@@ -8,6 +8,26 @@ PORTAL.registrarAtividades("informatica-6ano-2027-1bim", {
 
   /* ============ MISSÃO 1 — Primeiros passos: mouse, teclado e janelas ============ */
   m1: {
+    /* 🌀 PILOTO DO MODELO EM ESPIRAL (20/11/2026): gancho, "O que você já sabe?" (1ª missão do ano) e "Onde eu uso isso?" prático */
+    gancho: { html: "<p>😱 A Bia estava fazendo um trabalho no computador, clicou num botão no cantinho da janela e… <b>o trabalho sumiu da tela!</b></p><p>🤔 Será que ela apagou tudo? <b>Onde o trabalho foi parar</b> e <b>como ela faz para ele voltar?</b></p>" },
+    lembra: [
+      { tipo: "escolha", titulo: "🔍 O que você já sabe?",
+        enunciado: "<p>Primeiro dia de Informática! Responda o que você já sabe. Se não souber, tudo bem: chute com calma, e o portal mostra onde está a resposta. 😉</p>",
+        perguntas: [
+          { p: "Para escrever uma letra <b>maiúscula</b>, qual tecla você segura?", opcoes: ["Shift (⇧)", "Enter", "Barra de espaço"], certo: 0, why: "É o <b>Shift</b>: segurando ele, a letra sai maiúscula." },
+          { p: "Para <b>abrir</b> uma pasta no computador, o que fazemos com o mouse?", opcoes: ["Duplo clique (2 cliques rapidinhos)", "Clique com o botão direito", "Giramos a rodinha"], certo: 0, why: "O <b>duplo clique</b> abre pastas, arquivos e programas." },
+          { p: "No <b>celular</b>, tocar uma vez na tela faz o papel de qual ação do mouse?", opcoes: ["Clique", "Rolar a rodinha", "Arrastar"], certo: 0, why: "O toque na tela é o <b>clique</b> do celular." }
+        ] }
+    ],
+    aplicar: [
+      { tipo: "escolha", titulo: "🛠️ E na vida real, o que você faria?",
+        enunciado: "<p>Use o que você aprendeu hoje para resolver cada situação.</p>",
+        perguntas: [
+          { p: "Você está fazendo um trabalho e quer ver um vídeo <b>sem fechar</b> o trabalho. Qual botão da janela do trabalho você usa?", opcoes: ["➖ Minimizar", "❌ Fechar", "⬜ Maximizar"], certo: 0, why: "<b>Minimizar</b> esconde a janela na barra de tarefas sem fechar: o trabalho continua lá, é só clicar no ícone dele para voltar. (Foi isso que aconteceu com a Bia!)" },
+          { p: "Você digitou <b>Brasiu</b> em vez de <b>Brasil</b>, e o cursor está logo depois do <b>u</b>. Qual tecla apaga essa letra errada?", opcoes: ["Backspace (⟵)", "Enter", "Caps Lock"], certo: 0, why: "O <b>Backspace</b> apaga a letra que está antes do cursor." },
+          { p: "No <b>caixa eletrônico</b>, você toca no botão “Saldo” na tela. No computador, essa ação seria um…", opcoes: ["Clique", "Clique direito", "Duplo clique"], certo: 0, why: "Tocar uma vez num botão é como dar um <b>clique</b>: escolhe e aperta o botão." }
+        ] }
+    ],
     pratica: [
       { tipo: "baloes", titulo: "Aquecimento: estoure os balões com o mouse", quantidade: 8,
         enunciado: "<p>Mexa o <strong>mouse</strong> para levar o ponteiro até cada balão e dê um <strong>clique</strong>. Eles mudam de lugar! 🎈</p>",

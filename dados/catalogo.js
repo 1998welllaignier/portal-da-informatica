@@ -90,7 +90,8 @@ PORTAL.catalogo = {
 
     /* ===== 2027 — 6 missões fixas (m1–m6) + 2 extras (m7, m8) + 🔁 Revisão (rv) por bimestre ===== */
     { id: "informatica-6ano-2027-1bim", serie: "6", disciplina: "informatica", unidade: "1º bimestre de 2027", periodo: "2027-1",
-      titulo: "Informática — 6º ano — 1º bimestre de 2027", modo: "individual ou dupla", extras: ["m7", "m8"] },
+      titulo: "Informática — 6º ano — 1º bimestre de 2027", modo: "individual ou dupla", extras: ["m7", "m8"],
+      modelo: "espiral" /* 🌀 PILOTO do novo modelo (20/11/2026): ver docs/NOVO-MODELO.md */ },
     { id: "informatica-7ano-2027-1bim", serie: "7", disciplina: "informatica", unidade: "1º bimestre de 2027", periodo: "2027-1",
       titulo: "Informática — 7º ano — 1º bimestre de 2027", modo: "individual ou dupla", extras: ["m7", "m8"] },
     { id: "informatica-8ano-2027-1bim", serie: "8", disciplina: "informatica", unidade: "1º bimestre de 2027", periodo: "2027-1",

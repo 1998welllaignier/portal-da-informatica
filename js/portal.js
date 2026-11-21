@@ -318,22 +318,24 @@
   /* 🗺️ trilha da missão (barra da esquerda): bolinhas numeradas que ficam verdes e barra de ⚡ XP; atualiza na hora */
   let trilhaAtual = null;
   function paginaFeita(p, mid, prog) {
-    return p.tipo === "relatorio" ? false : p.tipo === "leitura" ? !!(prog.visitas || {})[mid + "/" + p.id] : (p.atividades || []).filter(x => !x.opcional && !((P.tipos || {})[x.tipo] || {}).semStatus).every(x => prog.atv[x.id] && prog.atv[x.id].status);
+    if (p.id === "lab") { const st = prog.atv[mid + "-lab"]; return !!(st && st.ac); }   // ♾️ Laboratório: "feito" quando acertou pelo menos uma
+    return p.tipo === "relatorio" || p.tipo === "consulta" ? false : p.tipo === "leitura" ? !!(prog.visitas || {})[mid + "/" + p.id] : (p.atividades || []).filter(x => !x.opcional && !((P.tipos || {})[x.tipo] || {}).semStatus).every(x => prog.atv[x.id] && prog.atv[x.id].status);
   }
   /* 🔒 Trilha em sequência (12/11/2026): uma etapa só abre quando as anteriores estão feitas (tarefas VERIFICADAS),
      para o aluno não deixar nada para trás. Até o Básico é tudo em fila; o Desafio abre depois do Básico, o Turbo
      depois do Desafio; Perguntas rápidas, Autoavaliação e Resumo abrem depois do Básico (Desafio e Turbo são extras).
      O "Resumo do que fiz" fica sempre aberto. Só vale com o aluno logado e as tarefas abertas. */
   function bloqueioPagina(pages, i, mid, prog) {
-    const p = pages[i]; if (!p || p.id === "relatorio") return null;
+    const p = pages[i]; if (!p || p.id === "relatorio" || p.tipo === "consulta") return null;
     const iB = pages.findIndex(x => x.id === "basico"), iD = pages.findIndex(x => x.id === "desafio");
     let req = [];
     if (iB < 0 || i <= iB) req = pages.slice(0, i).map((_, j) => j);
     else if (p.id === "desafio") req = pages.slice(0, iB + 1).map((_, j) => j);
     else if (p.id === "turbo") { req = pages.slice(0, iB + 1).map((_, j) => j); if (iD >= 0) req.push(iD); }
     else if (p.id === "bonus") req = pages.slice(0, i).map((_, j) => j);
-    else req = pages.slice(0, i).map((_, j) => j).filter(j => j <= iB || !["desafio", "turbo", "bonus"].includes(pages[j].id));
-    const j = req.find(k => pages[k].id !== "relatorio" && !paginaFeita(pages[k], mid, prog));
+    else if (p.id === "lab") req = pages.slice(0, iB + 1).map((_, j) => j);   // ♾️ Laboratório: abre junto com o Desafio (depois do Básico)
+    else req = pages.slice(0, i).map((_, j) => j).filter(j => j <= iB || !["desafio", "turbo", "bonus", "lab"].includes(pages[j].id));
+    const j = req.find(k => pages[k].id !== "relatorio" && pages[k].tipo !== "consulta" && !paginaFeita(pages[k], mid, prog));
     return j == null ? null : pages[j];
   }
   function faltandoNaPagina(p, prog) {
@@ -389,6 +391,7 @@
   }
 
   function montarMissao(aid, mid) {
+    if ((apostila(aid) || {}).modelo === "espiral" && !/^(rv|rc|pf)$/.test(mid)) return montarEspiral(aid, mid);
     const C = P.conteudo[aid], A = P.atividades[aid] || {};
     const m = C.missoes.find(x => x.id === mid);
     const a = A[mid] || {};
@@ -433,6 +436,98 @@
     return { C, m, a, pages };
   }
   P.montarMissao = montarMissao;
+  /* 🌀 MODELO EM ESPIRAL (piloto 20/11/2026, aprovado pelo professor — ver docs/NOVO-MODELO.md).
+     A missão tem 6 etapas e nenhuma aula é uma ilha:
+       🔁 Lembra? (missões anteriores) → 💡 Para começar (com ❓ gancho) → 🎮 Mão na massa → 🎯 Missão (🟢 Básico,
+       e para quem vai além: 🟡 Desafio, 🔴 Turbo, ♾️ Laboratório sem fim) → 🛠️ Onde eu uso isso? (aplicar) → 🏁 Fechamento
+       (perguntas misturadas + resumo + autoavaliação de carinhas). 📖 O que significa? vira consulta (com o 🃏 álbum). */
+  const ehExtra = (aid, mid) => ((apostila(aid) || {}).extras || []).includes(mid);
+  function missoesAntes(aid, mid) {   // as missões fixas que vieram antes desta, da mais recente para a mais antiga
+    const C = P.conteudo[aid], L = C.missoes.filter(x => /^m\d+$/.test(x.id) && !ehExtra(aid, x.id)), i = L.findIndex(x => x.id === mid);
+    return (i < 0 ? L.filter(x => x.id !== mid) : L.slice(0, i)).reverse();
+  }
+  const defCurta = t => semTags(String(t.def || "")).split(/\s+Onde (eu |fica|se |está|aparece)|\s+Para que serve/)[0].replace(/[.:;]\s*$/, "");
+  function perguntaTermo(mm, k, de) {
+    const ts = (mm.termos || []).filter(t => t.termo && t.def); if (ts.length < 3) return null;
+    const alvo = ts[k % ts.length], outras = ts.filter(t => t !== alvo), o1 = outras[(k * 3 + 1) % outras.length], o2 = outras.filter(t => t !== o1)[(k * 5 + 2) % (outras.length - 1)];
+    const ops = [defCurta(alvo), defCurta(o1), defCurta(o2)], ordem = [[0, 1, 2], [1, 0, 2], [2, 0, 1], [1, 2, 0]][k % 4];
+    return { p: `O que significa <b>${esc(semTags(alvo.termo))}</b>?`, opcoes: ordem.map(i => ops[i]), certo: ordem.indexOf(0), why: `${esc(semTags(alvo.termo))}: ${esc(defCurta(alvo))}.`, de };
+  }
+  function perguntaVF(mm, aa, k, de) {
+    const vf = (mm.vf || []).map((t, i) => Object.assign({ t }, ((aa || {}).vf || [])[i] || {})).filter(x => x.v != null); if (!vf.length) return null;
+    const x = vf[k % vf.length];
+    return { p: `Verdadeiro ou falso? ${md(x.t)}`, opcoes: ["✅ Verdadeiro", "❌ Falso"], certo: x.v ? 0 : 1, why: x.why || (x.v ? "É verdadeiro." : "É falso" + (x.corrigir ? `: o certo é “${esc(x.corrigir.certo)}”.` : ".")), de };
+  }
+  function montarEspiral(aid, mid) {
+    const C = P.conteudo[aid], A = P.atividades[aid] || {}, m = C.missoes.find(x => x.id === mid), a = A[mid] || {}, pages = [];
+    const ativ = (lvl, arr) => (arr || []).map((x, i) => Object.assign({ nivel: lvl }, x, { id: x.id || (mid + "-" + lvl + "-" + (i + 1)) }));
+    const antes = missoesAntes(aid, mid), n = +(mid.match(/\d+/) || [0])[0];
+    // 🔁 Lembra?: 2 perguntas da missão anterior + 1 de uma mais antiga (repetição espaçada). Na 1ª missão, "O que você já sabe?"
+    let lembra = a.lembra ? ativ("lembra", a.lembra) : null;
+    if (!lembra && antes.length) {
+      const p1 = antes[0], p2 = antes[1] || antes[0];
+      const qs = [perguntaVF(p1, A[p1.id], n, p1.id), perguntaTermo(p1, n + 1, p1.id), perguntaTermo(p2, n + 2, p2.id) || perguntaVF(p2, A[p2.id], n + 3, p2.id)].filter(Boolean);
+      if (qs.length) lembra = [{ id: mid + "-lembra", nivel: "lembra", tipo: "escolha", titulo: `🔁 Lembra da ${esc(p1.titulo.replace(/ –.*/, ""))}?`,
+        enunciado: "<p>Antes de começar, vamos ver se você lembra do que já estudou. Se não lembrar, tudo bem: o portal mostra onde está a resposta.</p>", perguntas: qs }];
+    }
+    if (lembra && lembra.length) pages.push({ id: "lembra", rotulo: antes.length ? "Lembra?" : "O que você já sabe?", icone: antes.length ? "🔁" : "🔍", tipo: "missao", atividades: lembra });
+    if (m.comecar && m.comecar.length) pages.push({ id: "comecar", rotulo: "Para começar", icone: "💡", tipo: "leitura", gancho: a.gancho || null });
+    if (a.pratica && a.pratica.length) pages.push({ id: "pratica", rotulo: "Mão na massa", icone: "🎮", tipo: "missao", atividades: ativ("basico", a.pratica).map(x => Object.assign(x, { id: x.id.replace("-basico-", "-pratica-") })) });
+    [["basico", "Missão — Básico", "🟢"], ["desafio", "Desafio", "🟡"], ["turbo", "Turbo", "🔴"]].forEach(([k, r, i]) => { const arr = ativ(k, a[k]); if (arr.length) pages.push({ id: k, rotulo: r, icone: i, tipo: "missao", atividades: arr, sub: k !== "basico" }); });
+    // ♾️ Laboratório sem fim: para quem termina antes (piso baixo, teto alto); perguntas sem fim desta missão e das anteriores
+    pages.push({ id: "lab", rotulo: "Laboratório sem fim", icone: "♾️", tipo: "missao", sub: true,
+      atividades: [{ id: mid + "-lab", nivel: "lab", tipo: "lab", opcional: true, titulo: "♾️ Laboratório sem fim: quantas você acerta seguidas?", missoes: [mid, ...antes.map(x => x.id)] }] });
+    // 🛠️ Onde eu uso isso? (agora é aplicar) + o "toque no que você já viveu" (opcional)
+    if (m.ondeUso && m.ondeUso.itens.length) pages.push({ id: "onde", rotulo: "Onde eu uso isso?", icone: "🛠️", tipo: a.aplicar ? "revisao" : "leitura",
+      atividades: [...ativ("onde", a.aplicar), { id: mid + "-onde", nivel: "treino", tipo: "vivi", titulo: "👆 Toque no que você já viu ou já fez", opcional: true,
+        enunciado: "<p>Toque nas situações que já aconteceram com você (ou com alguém da sua casa). Depois, toque em <b>Pronto</b>.</p>", opcoes: m.ondeUso.itens }] });
+    // 🏁 Fechamento: perguntas rápidas MISTURADAS (desta missão + 2 de missões antigas), resumo e autoavaliação de carinhas
+    const fech = [];
+    if (m.vf && m.vf.length && a.vf) { const itens = m.vf.map((t, i) => Object.assign({ t }, a.vf[i] || {}));
+      antes.slice(0, 2).forEach((p0, k) => { const aa = A[p0.id] || {}, L = (p0.vf || []).map((t, i) => Object.assign({ t }, (aa.vf || [])[i] || {})).filter(x => x.v != null && !x.corrigir);
+        if (L.length) { const x = L[(n + k) % L.length]; itens.push(Object.assign({}, x, { t: `🔁 <small>(da ${p0.titulo.replace(/ –.*/, "")})</small> ` + x.t })); } });
+      fech.push({ id: mid + "-vf", nivel: "revisao", tipo: "vf", titulo: "✅ Perguntas rápidas (com algumas de missões passadas 🔁)", itens }); }
+    if (m.resumo && /\*\*/.test(m.resumo.texto)) fech.push({ id: mid + "-resumo", nivel: "revisao", tipo: "completar", titulo: "🧠 Complete o resumo da aula", texto: m.resumo.texto, chaves: m.resumo.chaves });
+    fech.push({ id: mid + "-carinhas", nivel: "revisao", tipo: "carinhas", titulo: "🙂 Como foi a aula para você?", termos: (m.termos || []).map(t => semTags(t.termo)) });
+    pages.push({ id: "fechar", rotulo: "Fechamento", icone: "🏁", tipo: "revisao", atividades: fech });
+    // 📖 consulta (fora da fila, sempre aberta): o dicionário da missão, o treino e o 🃏 álbum de figurinhas
+    if (m.termos && m.termos.length) pages.push({ id: "termos", rotulo: "O que significa? + Álbum", icone: "📖", tipo: "consulta",
+      atividades: [{ id: mid + "-termos", nivel: "treino", tipo: "ligar", titulo: "🃏 Ganhe as figurinhas desta missão: ligue cada palavra ao significado",
+        porRodada: 5, pares: m.termos.map(t => ({ a: t.termo, b: t.def })), explicacao: "Figurinhas desta missão conquistadas! Elas aparecem coloridas no seu álbum. 🃏" }] });
+    pages.push({ id: "relatorio", rotulo: "Resumo do que fiz", icone: "📋", tipo: "relatorio" });
+    return { C, m, a, pages, espiral: true };
+  }
+  P.missoesAntes = missoesAntes;
+  P.espiral = { perguntaTermo, perguntaVF, defCurta };
+  /* 💬 CORREÇÃO QUE EXPLICA (feedback elaborativo, modelo em espiral): ao errar, o botão "📖 Ver onde isso está explicado"
+     abre o pedaço do 💡 Para começar que mais tem a ver com a pergunta (da missão de onde a pergunta veio). */
+  function ondeExplica(aid, mid, texto) {
+    const C = P.conteudo[aid], m = C && C.missoes.find(x => x.id === mid); if (!m || !(m.comecar || []).length) return null;
+    const q = norm(semTags(texto)), pal = [...new Set(q.split(/[^a-z0-9]+/).filter(w => w.length >= 4))];
+    const termos = (m.termos || []).map(t => norm(semTags(String(t.termo).replace(/\(.*?\)/g, " ")).trim())).filter(t => t.length > 2 && q.includes(t));
+    let melhor = null, nota = 0;
+    m.comecar.forEach((b, i) => { const html = blocos([b]), tx = norm(semTags(html)); let n = 0;
+      pal.forEach(w => { if (tx.includes(w)) n++; }); termos.forEach(t => { if (tx.includes(t)) n += 4; });
+      if (n > nota) { nota = n; melhor = { html, i }; } });
+    return melhor && nota >= 2 ? Object.assign(melhor, { m }) : null;
+  }
+  P.ondeExplica = ondeExplica;
+  P.verOndeExplica = function (aid, mid, texto) {
+    const r = ondeExplica(aid, mid, texto);
+    if (!r) { toast("Releia o 💡 Para começar da missão: a resposta está lá."); return; }
+    const box = modal(`📖 Está explicado aqui`, `<p class="ajuda">Do <b>💡 Para começar</b> da ${esc(r.m.titulo.replace(/ –.*/, ""))}:</p><div class="leitura onde-trecho">${r.html}</div>`, "modal-onde");
+    try { ligarTermos(box || document.querySelector(".modal-onde"), (P.conteudo[aid].missoes || []).flatMap(x => x.termos || [])); } catch (e) {}
+  };
+  /* 🃏 ÁLBUM DE FIGURINHAS (gamificação por coleção): cada missão é uma página; a figurinha da palavra fica colorida quando
+     o aluno faz o "ligue cada palavra ao significado" daquela missão. Página completa = +50 XP na missão (podio.js). */
+  function albumFigurinhas(aid, mid) {
+    const C = P.conteudo[aid], prog = getProg(aid), L = C.missoes.filter(x => /^m\d+$/.test(x.id) && (x.termos || []).length);
+    const pagina = mm => { const st = prog.atv[mm.id + "-termos"], tem = !!(st && st.status), ts = mm.termos;
+      return `<div class="alb-pag${tem ? " cheia" : ""}${mm.id === mid ? " atual" : ""}"><p class="alb-tit">${esc(mm.icone || "")} ${esc(mm.titulo.replace(/ –.*/, ""))} <small>${tem ? `${ts.length}/${ts.length} ⭐ página completa (+50 XP)` : `0/${ts.length}`}</small></p>
+        <div class="alb-grade">${ts.map(t => { const img = tem && P.termoImg ? P.termoImg(t.termo, t.rotulo) : ""; return `<div class="alb-fig${tem ? " tem" : ""}" title="${esc(semTags(t.termo))}">${tem ? (img || `<span class="alb-emo">📖</span>`) : `<span class="alb-emo">❔</span>`}<b>${tem ? esc(semTags(t.termo)) : "?"}</b></div>`; }).join("")}</div></div>`; };
+    return h(`<div class="album"><h2>🃏 Meu álbum de figurinhas</h2><p class="ajuda">Para ganhar as figurinhas de uma missão, faça lá embaixo o “ligue cada palavra ao significado”. As figurinhas da sua missão de hoje estão destacadas.</p>${L.map(pagina).join("")}</div>`);
+  }
+
   // 📖 leitura guiada (20/11/2026): o texto do "💡 Para começar", com as palavras explicadas e as ilustrações, pronto para dividir em trechos
   P.leituraBase = async (aid, mid) => {
     await carregar(aid); const C = P.conteudo[aid], m = C && (C.missoes || []).find(x => x.id === mid); if (!m) return null;
@@ -1143,8 +1238,8 @@
     barra(info());
     const navItem = (p, i) => {
       const done = paginaFeita(p, mid, prog);
-      if (seq && bloqueioPagina(pages, i, mid, prog)) return `<li class="trancada" data-pg="${p.id}"><span class="mn-tranca" title="Termine as etapas anteriores para abrir"><span aria-hidden="true">${p.icone}</span> <span class="mn-rot">${esc(p.rotulo)}</span> 🔒</span></li>`;
-      return `<li class="${done ? "ok" : ""}" data-pg="${p.id}"><a href="#/missao/${aid}/${mid}/${p.id}" class="${i === idx ? "atual" : ""}" ${i === idx ? 'aria-current="page"' : ""}>
+      if (seq && bloqueioPagina(pages, i, mid, prog)) return `<li class="trancada${p.sub ? " mn-sub" : ""}" data-pg="${p.id}"><span class="mn-tranca" title="Termine as etapas anteriores para abrir"><span aria-hidden="true">${p.icone}</span> <span class="mn-rot">${esc(p.rotulo)}</span> 🔒</span></li>`;
+      return `<li class="${done ? "ok" : ""}${p.sub ? " mn-sub" : ""}${p.tipo === "consulta" ? " mn-consulta" : ""}" data-pg="${p.id}"><a href="#/missao/${aid}/${mid}/${p.id}" class="${i === idx ? "atual" : ""}" ${i === idx ? 'aria-current="page"' : ""}>
         <span aria-hidden="true">${p.icone}</span> <span class="mn-rot">${esc(p.rotulo)}</span> ${done ? '<span class="feito" title="feito">✔</span>' : ""}</a></li>`;
     };
     trilhaAtual = { aid, mid, seq };
@@ -1175,11 +1270,14 @@
     if (pg.tipo === "relatorio") { el.classList.add("pg-rel"); window.scrollTo(0, 0); }
     // Trilha: antecipa a sequência da aula (rotina previsível, sem surpresas)
     if (pg.id === "comecar" && a.trilha) corpo.appendChild(h(`<div class="painel roteiro-hoje"><strong>📋 A aula de hoje, nesta ordem:</strong><ol>${pages.filter(p => !["relatorio"].includes(p.id)).map(p => `<li>${p.icone || ""} ${esc(p.rotulo)}${p.id === pg.id ? " <em>(você está aqui)</em>" : ""}${p.id === "desafio" || p.id === "turbo" ? " <small>(se quiser, depois do Básico)</small>" : ""}</li>`).join("")}</ol></div>`));
+    // ❓ gancho (modelo em espiral): um probleminha antes do texto, para o aluno ler com um motivo
+    if (pg.id === "comecar" && pg.gancho) corpo.appendChild(h(`<div class="gancho" role="note"><p class="gancho-sup">❓ Pense nisso antes de ler</p>${pg.gancho.html || ""}<p class="gancho-pe">👇 A resposta está no texto abaixo. Leia procurando por ela!</p></div>`));
     if (pg.id === "comecar") corpo.appendChild(h(`<div class="leitura">${blocos(m.comecar, true)}</div>`));
+    if (pg.id === "termos" && pg.tipo === "consulta") corpo.appendChild(albumFigurinhas(aid, mid));
     if (pg.id === "termos") corpo.appendChild(h(`<div class="glossario">${m.termos.map(t => `<details class="termo"><summary>${t.rotulo}</summary><p>${t.def}</p></details>`).join("")}</div>`));
     if (pg.id === "onde") corpo.appendChild(h(`<ul class="onde-uso">${m.ondeUso.itens.map(i => `<li>${i}</li>`).join("")}</ul>`));
     if (pg.tipo === "missao" && pg.id !== "pratica" && m.alertas.length) corpo.appendChild(h(`<div class="alerta" role="note">${m.alertas.map(x => `<p>⚠️ ${x}</p>`).join("")}</div>`));
-    if (pg.tipo === "missao") corpo.appendChild(h(`<p class="nivel-info nivel-${pg.id}">${{ pratica: "🎮 <strong>Mão na massa</strong>: experimente antes de estudar! Todos fazem, e conta no Básico.", basico: "🟢 <strong>Básico</strong>: todos fazem. Vale 1,0 ponto e libera os jogos livres. As respostas estão no 💡 Para começar e no 📖 O que significa?.", desafio: "🟡 <strong>Desafio</strong>: para quem terminou o Básico. Vale +0,25 e aumenta a sua nota do bimestre.", turbo: "🔴 <strong>Turbo</strong>: para quem terminou o Desafio. Vale mais +0,25 na nota do bimestre." }[pg.id]}</p>`));
+    if (pg.tipo === "missao") corpo.appendChild(h(`<p class="nivel-info nivel-${pg.id}">${{ lembra: pg.icone === "🔍" ? "🔍 <strong>O que você já sabe?</strong>: um aquecimento para ver o que você já conhece. Valem pontos!" : "🔁 <strong>Lembra?</strong>: perguntas das missões passadas, para não esquecer. Valem pontos!", lab: "♾️ <strong>Laboratório sem fim</strong>: para quem já terminou o Básico. Perguntas sem fim desta missão e das anteriores. Cada acerto vale XP (até +150) e a sua melhor sequência vira recorde!", pratica: "🎮 <strong>Mão na massa</strong>: experimente antes de estudar! Todos fazem, e conta no Básico.", basico: "🟢 <strong>Básico</strong>: todos fazem. Vale 1,0 ponto e libera os jogos livres. As respostas estão no 💡 Para começar e no 📖 O que significa?.", desafio: "🟡 <strong>Desafio</strong>: para quem terminou o Básico. Vale +0,25 e aumenta a sua nota do bimestre.", turbo: "🔴 <strong>Turbo</strong>: para quem terminou o Desafio. Vale mais +0,25 na nota do bimestre." }[pg.id]}</p>`));
     // 🔒 trava de horário: os textos ficam abertos; as tarefas só no dia e na hora da aula (ou liberadas pelo professor)
     let trava = { aberta: true };
     if (pg.tipo === "missao" || pg.tipo === "revisao") trava = travaPre;
@@ -1477,7 +1575,10 @@
         if (rapido && !emRec && !(s && s.prof)) { st.chutes = (st.chutes || 0) + 1; ctx._seguidos = (ctx._seguidos || 0) + 1; } else ctx._seguidos = 0;
         salvar();
         if (ctx._seguidos >= 3) { ctx._seguidos = 0; pausaChute(el, aid, mid); }
-        feedback("erro", msg + (!emRec && st.tentativas >= 2 && (dicas.length || ctx.resolver) ? " <br><small>Se quiser, peça uma dica ou veja a resolução comentada.</small>" : " <br><small>Sua resposta foi mantida: ajuste e tente de novo.</small>"));
+        const ondeBt = !emRec && (apostila(aid) || {}).modelo === "espiral" && !["lab"].includes(at.tipo) ? ` <button type="button" class="btn btn-sec ver-onde">📖 Ver onde isso está explicado</button>` : "";
+        feedback("erro", msg + (!emRec && st.tentativas >= 2 && (dicas.length || ctx.resolver) ? " <br><small>Se quiser, peça uma dica ou veja a resolução comentada.</small>" : " <br><small>Sua resposta foi mantida: ajuste e tente de novo.</small>") + ondeBt);
+        const vo = fb.querySelector(".ver-onde"); if (vo) vo.onclick = () => { const f = ctx.foco; const txt = f ? [f.p, (f.opcoes || [])[f.certo], f.why, f.t].join(" ") : [at.titulo, at.enunciado, at.explicacao, JSON.stringify(at.itens || at.pares || at.perguntas || "")].join(" ");
+          P.verOndeExplica(aid, (f && f.de) || at.de || mid, txt); };
         atualizarAjuda();
       },
       esconderVerificar() { bV.hidden = true; },
@@ -1497,7 +1598,7 @@
     corpo.addEventListener("change", () => { ctx._ult = Date.now(); });
     corpo.addEventListener("click", e => { if (!(e.target && /^(INPUT|LABEL)$/.test(e.target.tagName))) ctx._ult = Date.now(); });   // depois de cada resposta, o relógio do chute recomeça
     // 📖 tempo mínimo de leitura (20/11/2026): só na 1ª vez, quando a tarefa aparece na tela; já com folga para quem lê rápido
-    if (!st.status && !st.leu && !emRec && !(s && s.prof)) tempoDeLeitura(el, () => { st.leu = 1; ctx._ult = Date.now(); salvar(); });
+    if (!st.status && !st.leu && !emRec && !(s && s.prof) && at.tipo !== "lab") tempoDeLeitura(el, () => { st.leu = 1; ctx._ult = Date.now(); salvar(); });
     // 🤖 Bit (18/11/2026): qualquer tarefa com "robo" ganha o botão "Me ajuda, robô!", mesmo se o tipo dela não chama o Bit sozinho
     //    sem robô próprio, vale o robô padrão do tipo (js/robo-padrao.js, 18/11/2026)
     { const rb = at.robo || (P.roboPadrao && P.roboPadrao(at));
