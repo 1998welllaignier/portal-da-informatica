@@ -578,3 +578,8 @@ Questões **contextualizadas** (situação curta: 1–2 frases no 6º, 2–3 no 
 ## 🎯 Visto com domínio (21/11/2026 — aprovado pelo professor; por enquanto só no piloto/modelo em espiral)
 - Cada tarefa do Básico (inclui o Mão na massa) vale de 0 a 100%: de primeira = 100%; cada erro antes de acertar tira 25% (tarefas grandes: 1 erro "conta" a cada 4 itens); concluiu com a resposta/ajuda = 25%. O **visto sai com média ≥ 70%** (👣 Trilha: 50%). Abaixo disso, o aluno vê "🎯 Quase lá! Básico com 65%" e a lista das tarefas para refazer; **↺ Refazer vale a melhor tentativa**.
 - Barra lateral mostra "🎯 65%"; o painel ao vivo mostra "◐ Básico 65% (visto com 70%)"; o Diário continua aceitando o visto manual do professor. Missões Revisão (rv) e Recuperação (rc) não entram nessa regra.
+
+## ⏱️ Piloto com +25% de tempo (21/11/2026 — pedido do professor)
+- O professor pode pedir o tamanho das missões em porcentagem de tempo ("+20%", "+25%"). A conta usa a estimativa por tipo de tarefa (ex.: ~25 s por passo de simulador, ~15 s por item de classificar, leitura a ~110 palavras/min).
+- Aplicado no piloto (6º ano 1º bim 2027): média 36 → 45 min por missão (+25%), com 34 tarefas novas, todas jogos/simuladores (2 simuladores novos, mensagens, rotas, sinais, classificar, ordenar, explorador de pastas, digitação). O Básico quase não cresceu (para o visto continuar alcançável); o acréscimo foi para o Desafio e o Turbo (o "teto alto"). A 👣 Trilha não mudou.
+- Toda tarefa nova leva o comentário `⏱️ +25% de tempo (21/11/2026)` no arquivo, para achar ou desfazer.

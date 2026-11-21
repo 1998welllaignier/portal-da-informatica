@@ -66,7 +66,10 @@ PORTAL.registrarAtividades("informatica-6ano-2027-1bim", {
           { faca: "Use a <b>rodinha do mouse</b> para <b>rolar</b> a página até o fim, até aparecer 🏁.", ok: "rolar:fim:historia.com", dica: "Deixe o ponteiro em cima do texto da página e gire a rodinha do meio do mouse para baixo." }
         ],
         fimMsg: "Botão direito abriu o menu, o ⊞ abriu o Iniciar, você digitou um endereço e rolou a página com a rodinha!",
-        explicacao: "Botão direito = menu de opções. ⊞ Iniciar = lista dos programas. A rodinha rola a página para cima e para baixo." }
+        explicacao: "Botão direito = menu de opções. ⊞ Iniciar = lista dos programas. A rodinha rola a página para cima e para baixo." },
+      /* ⏱️ +25% de tempo (21/11/2026, pedido do professor) */ { tipo: "baloes", titulo: "Balões rápidos: nível 2", quantidade: 12,
+        enunciado: "<p>Agora são <strong>12 balões</strong>, e eles mudam de lugar! Leve o ponteiro até cada um e dê um <strong>clique</strong>. 🎈</p>",
+        explicacao: "Quanto mais você treina, mais rápido e certeiro fica o clique." }
     ],
     basico: [
       { tipo: "sim_pc", titulo: "⌨️ No computador: Enter, espaço, Backspace e Shift no Bloco de Notas",
@@ -117,7 +120,32 @@ PORTAL.registrarAtividades("informatica-6ano-2027-1bim", {
         enunciado: "<p>Copie cada frase <b>igualzinho</b>. O portal confere letra por letra: <span style='color:#15803d'>verde</span> = certo, <span style='color:#b91c1c'>vermelho</span> = apague com o Backspace e corrija. Acento: aperte a tecla do acento, <b>solte</b>, e depois a vogal.</p>",
         frases: ["Meu e-mail é pedro@escola.com", "Ação! 50% de desconto & frete grátis.", "Hoje fez 30°C em Curionópolis.", "Você já viu a #CampanhaDoLixo?", "Pão, maçã e café: R$ 12,00 (doze reais)."],
         dicas: ["Maiúscula: segure o Shift e aperte a letra. Ç: a tecla ao lado do L.", "ã e õ: til ( ~, ao lado do Ç ) e depois a vogal. é, á: agudo ( ´, ao lado do P ) e depois a vogal. ê, â: Shift + til e depois a vogal."],
-        explicacao: "O computador entende cada detalhe: <b>A</b> e <b>a</b> são diferentes, <b>e</b> e <b>é</b> também. Por isso a senha, o e-mail e o nome do arquivo precisam ser digitados igualzinho." }
+        explicacao: "O computador entende cada detalhe: <b>A</b> e <b>a</b> são diferentes, <b>e</b> e <b>é</b> também. Por isso a senha, o e-mail e o nome do arquivo precisam ser digitados igualzinho." },
+      /* ⏱️ +25% de tempo (21/11/2026, pedido do professor) */ { tipo: "mensagens", titulo: "Que gesto do mouse eu uso?", app: "🖱️ Qual gesto?",
+        botoes: [{ id: "C", rot: "👆 Clique" }, { id: "D", rot: "👆👆 Clique duplo" }, { id: "B", rot: "🖱️ Botão direito" }, { id: "R", rot: "🛞 Rodinha" }, { id: "A", rot: "✊ Arrastar" }],
+        enunciado: "<p>Para cada situação, escolha o <strong>gesto do mouse</strong> certo.</p>",
+        itens: [
+          { de: "", t: "Abrir a pasta Fotos", c: "D", why: "Pastas, arquivos e programas abrem com o clique duplo." },
+          { de: "", t: "Ver o menu de opções de um arquivo", c: "B", why: "O botão direito abre o menu de opções." },
+          { de: "", t: "Descer uma página comprida do site", c: "R", why: "A rodinha rola a página para cima e para baixo." },
+          { de: "", t: "Mudar uma janela de lugar", c: "A", why: "Segure na barra de cima da janela e arraste." },
+          { de: "", t: "Apertar o botão OK", c: "C", why: "Botões se apertam com um clique." },
+          { de: "", t: "Selecionar um arquivo sem abrir", c: "C", why: "Um clique só seleciona (marca)." }],
+        explicacao: "Clique: aperta e seleciona. Clique duplo: abre. Botão direito: menu de opções. Rodinha: rola. Arrastar: segura e move." },
+      /* ⏱️ +25% de tempo (21/11/2026, pedido do professor) */ { tipo: "sim_pc", titulo: "🗂️ No computador: cuide da janela das Fotos",
+        enunciado: "<p>Mais um treino de janelas, agora com a pasta <strong>Fotos</strong>. Siga o <strong>Bit</strong>!</p>",
+        area: [{ nome: "Lixeira", app: "lixeira" }, { nome: "Fotos", tipo: "pasta" }, { nome: "Músicas", tipo: "pasta" }],
+        pastas: { "Fotos": [{ nome: "aniversario", ext: "jpg" }, { nome: "praia", ext: "jpg" }], "Músicas": [{ nome: "forro", ext: "mp3" }] },
+        passos: [
+          { faca: "Abra a pasta <b>Fotos</b> com um <b>duplo clique</b>.", ok: "duplo:ic:Fotos", onde: "ic:Fotos" },
+          { faca: "Deixe a janela na tela toda: clique em <b>Maximizar</b> (☐).", ok: "max:jan:exp", onde: "jan:exp:max" },
+          { faca: "Volte ao tamanho de antes: clique em <b>Restaurar</b> (❐).", ok: "restaurarTam:jan:exp", onde: "jan:exp:max", erros: { "max:jan:exp": "É o mesmo botão, que agora se chama Restaurar. Clique nele de novo." } },
+          { faca: "Esconda a janela: clique em <b>Minimizar</b> (—).", ok: "min:jan:exp", onde: "jan:exp:min" },
+          { faca: "Traga a janela de volta pela <b>barra de tarefas</b>: clique no ícone 📁 lá embaixo.", ok: "restaurar:jan:exp", onde: "bar:exp" },
+          { faca: "Agora <b>feche</b> a janela no <b>X</b>.", ok: "fechar:jan:exp", onde: "jan:exp:fechar" }
+        ],
+        fimMsg: "Você cuidou da janela sozinho: abriu, maximizou, restaurou, minimizou, trouxe de volta e fechou!",
+        explicacao: "➖ Minimizar esconde na barra de tarefas; ☐ Maximizar ocupa a tela toda (e vira ❐ Restaurar); ❌ Fechar fecha." }
     ],
     turbo: [
       {"tipo": "ordenar", "titulo": "🔴 Turbo: ajude a Bia a terminar o trabalho", "enunciado": "<p>A Bia minimizou o trabalho sem querer. Coloque em ordem o que ela faz para continuar e terminar.</p>", "itens": ["Olhar a barra de tarefas, lá embaixo da tela", "Clicar no ícone do trabalho na barra de tarefas", "Clicar em ⬜ Maximizar para a janela ocupar a tela toda", "Terminar de digitar o trabalho", "Clicar em ❌ Fechar quando acabar"], "dicas": ["A janela minimizada continua aberta: ela fica escondida na barra de tarefas."], "explicacao": "Minimizar só esconde a janela na barra de tarefas. Clicando no ícone, ela volta; Maximizar deixa grande; Fechar é só no fim."},
@@ -134,7 +162,21 @@ PORTAL.registrarAtividades("informatica-6ano-2027-1bim", {
           { faca: "Terminou: <b>feche</b> as duas janelas (a Calculadora e a pasta Jogos).", ok: { estado: "fechadas", ids: ["calc", "exp"] }, dica: "O X fica no canto de cima, à direita, de cada janela." }
         ],
         fimMsg: "Você abriu, escondeu, achou na barra de tarefas, maximizou, abriu um programa pelo Iniciar e fechou tudo, quase sem pistas. Turbo completo!",
-        explicacao: "Janela minimizada continua aberta na barra de tarefas: é só clicar no ícone para ela voltar. ☐ ocupa a tela toda; ⊞ abre o Iniciar; X fecha." }
+        explicacao: "Janela minimizada continua aberta na barra de tarefas: é só clicar no ícone para ela voltar. ☐ ocupa a tela toda; ⊞ abre o Iniciar; X fecha." },
+      /* ⏱️ +25% de tempo (21/11/2026, pedido do professor) */ { tipo: "rota", titulo: "Do botão de ligar ao jogo aberto",
+        enunciado: "<p>Clique nas etapas <strong>na ordem</strong> em que acontecem para jogar no computador da sala.</p>",
+        etapas: [
+          { ic: "🔘", t: "Aperto o botão de ligar", dica: "Tudo começa ligando o computador." },
+          { ic: "🪟", t: "Espero a área de trabalho aparecer", dica: "O Windows carrega e mostra a área de trabalho." },
+          { ic: "📁", t: "Abro a pasta Jogos (duplo clique)", dica: "Pasta abre com duplo clique." },
+          { ic: "🎮", t: "Abro o jogo (duplo clique)", dica: "Programa também abre com duplo clique." }],
+        okMsg: "Isso! Ligar → área de trabalho → pasta → jogo.",
+        explicacao: "Primeiro o computador liga e mostra a área de trabalho; depois abrimos pastas e programas com duplo clique." },
+      /* ⏱️ +25% de tempo (21/11/2026, pedido do professor) */ { tipo: "ordenar", titulo: "Arrume a janela, passo a passo",
+        enunciado: "<p>Coloque em ordem o que fazer para deixar a janela grande e depois escondê-la.</p>",
+        itens: ["Abrir a pasta com duplo clique", "Clicar em Maximizar (☐)", "Clicar em Restaurar (❐)", "Clicar em Minimizar (—)", "Trazer de volta pela barra de tarefas"],
+        dicas: ["Primeiro a janela precisa estar aberta."],
+        explicacao: "Abrir → Maximizar → Restaurar → Minimizar → voltar pela barra de tarefas." }
     ],
     vf: [
       { v: true, why: "Duplo clique abre pastas, arquivos e programas." },
@@ -226,14 +268,57 @@ PORTAL.registrarAtividades("informatica-6ano-2027-1bim", {
           { t: "A urna confere o número", c: "P", why: "Conferir é processar." },
           { t: "A foto do candidato aparece", c: "S", why: "A tela mostra o resultado." }],
         explicacao: "Em todo aparelho: a informação entra (microfone, teclado), é processada (entender, conferir) e sai (tela)." },
-      {tipo:  "classificar", titulo:  "Aparelhos da casa: entrada, processamento ou saída?", categorias:  [{id:  "E", rot:  "⌨️ Entrada (o que recebe)"}, {id:  "P", rot:  "⚙️ Processamento (o que faz por dentro)"}, {id:  "S", rot:  "📺 Saída (o que mostra ou entrega)"}], itens:  [{t:  "Micro-ondas: aperto os botões do tempo", c:  "E"}, {t:  "Micro-ondas: o chip conta o tempo", c:  "P"}, {t:  "Micro-ondas: o visor mostra o tempo e o apito toca", c:  "S"}, {t:  "Celular: toco na tela", c:  "E"}, {t:  "Celular: o processador abre o aplicativo", c:  "P"}, {t:  "Celular: o alto-falante toca a música", c:  "S"}], explicacao:  "Todo aparelho digital <b>recebe</b> (entrada), <b>processa</b> e <b>entrega</b> (saída)."}
+      {tipo:  "classificar", titulo:  "Aparelhos da casa: entrada, processamento ou saída?", categorias:  [{id:  "E", rot:  "⌨️ Entrada (o que recebe)"}, {id:  "P", rot:  "⚙️ Processamento (o que faz por dentro)"}, {id:  "S", rot:  "📺 Saída (o que mostra ou entrega)"}], itens:  [{t:  "Micro-ondas: aperto os botões do tempo", c:  "E"}, {t:  "Micro-ondas: o chip conta o tempo", c:  "P"}, {t:  "Micro-ondas: o visor mostra o tempo e o apito toca", c:  "S"}, {t:  "Celular: toco na tela", c:  "E"}, {t:  "Celular: o processador abre o aplicativo", c:  "P"}, {t:  "Celular: o alto-falante toca a música", c:  "S"}], explicacao:  "Todo aparelho digital <b>recebe</b> (entrada), <b>processa</b> e <b>entrega</b> (saída)."},
+      /* ⏱️ +25% de tempo (21/11/2026, pedido do professor) */ { tipo: "rota", titulo: "Da câmera à foto na tela",
+        enunciado: "<p>Você tira uma foto com o celular. Clique nas etapas <strong>na ordem</strong>.</p>",
+        etapas: [
+          { ic: "📷", t: "A câmera capta a imagem (entrada)", dica: "A informação entra pela câmera." },
+          { ic: "🧠", t: "O processador monta a foto (processamento)", dica: "O processador trabalha a imagem." },
+          { ic: "💾", t: "A foto é guardada na memória do celular (armazenamento)", dica: "Guardar para ver depois." },
+          { ic: "📱", t: "A foto aparece na galeria, na tela (saída)", dica: "A tela mostra o resultado." }],
+        okMsg: "Isso! Entrada → processamento → armazenamento → saída.",
+        explicacao: "A câmera é entrada, o processador processa, a memória do celular armazena e a tela mostra (saída)." },
+      /* ⏱️ +25% de tempo (21/11/2026, pedido do professor) */ { tipo: "mensagens", titulo: "Entra, sai ou guarda?", app: "🔌 Que peça é essa?",
+        botoes: [{ id: "E", rot: "⌨️ Entrada" }, { id: "S", rot: "🖥️ Saída" }, { id: "A", rot: "💾 Armazenamento" }],
+        enunciado: "<p>Para cada peça, escolha: ela faz a informação <strong>entrar</strong>, <strong>sair</strong> ou <strong>guarda</strong>?</p>",
+        itens: [
+          { de: "", t: "🖱️ Mouse", c: "E", why: "O mouse manda os movimentos e cliques para dentro." },
+          { de: "", t: "🔊 Caixa de som", c: "S", why: "O som sai pela caixa." },
+          { de: "", t: "💾 Pen drive", c: "A", why: "O pen drive guarda arquivos." },
+          { de: "", t: "🎙️ Microfone", c: "E", why: "A voz entra pelo microfone." },
+          { de: "", t: "📽️ Projetor", c: "S", why: "O projetor mostra a imagem: saída." },
+          { de: "", t: "🗄️ SSD", c: "A", why: "O SSD guarda os arquivos, como o HD." }],
+        explicacao: "Entrada: mouse, microfone. Saída: caixa de som, projetor. Armazenamento: pen drive, SSD." }
     ],
     turbo: [
       { tipo: "escolha", titulo: "Por que salvar?",
         perguntas: [
           { p: "Por que a RAM perde tudo quando falta energia e o HD não?", opcoes: ["A RAM só guarda o que está aberto agora e precisa de energia; o HD guarda para depois", "O HD é maior que a RAM", "A RAM fica fora do gabinete"], certo: 0, why: "RAM = memória do momento; armazenamento = memória que fica." },
           { p: "Qual é o jeito de não perder o trabalho se a luz acabar?", opcoes: ["Salvar sempre (Ctrl + S)", "Deixar o monitor ligado", "Aumentar o volume"], certo: 0, why: "Salvar leva o trabalho da RAM para o armazenamento." }],
-        explicacao: "Quem está só na RAM se apaga ao desligar. Salvar guarda no armazenamento (HD/SSD), que não precisa de energia para manter os arquivos." }
+        explicacao: "Quem está só na RAM se apaga ao desligar. Salvar guarda no armazenamento (HD/SSD), que não precisa de energia para manter os arquivos." },
+      /* ⏱️ +25% de tempo (21/11/2026, pedido do professor) */ { tipo: "sim_pc", titulo: "🧮 No computador: a conta da cantina",
+        enunciado: "<p>Na cantina, o suco custa 4 reais. A turma comprou 7 sucos. Use a Calculadora para descobrir o total e observe as etapas.</p>",
+        area: [{ nome: "Lixeira", app: "lixeira" }, { nome: "Calculadora", app: "calc" }],
+        passos: [
+          { faca: "Abra a <b>Calculadora</b> com um <b>duplo clique</b>.", ok: "duplo:ic:Calculadora", onde: "ic:Calculadora" },
+          { faca: "<b>ENTRADA</b>: digite <b>7 × 4</b> nos botões.", ok: "calc:4", onde: "calc:7", demo: [["clique", "calc:7"], ["clique", "calc:×"], ["clique", "calc:4"]] },
+          { faca: "<b>PROCESSAMENTO</b>: clique em <b>=</b>. A <b>SAÍDA</b> mostra o total: <b>28</b> reais.", ok: { estado: "calc", resultado: "28" }, onde: "calc:=", demo: [["clique", "calc:="]] },
+          { faca: "Feche a Calculadora no <b>X</b>.", ok: "fechar:jan:calc", onde: "jan:calc:fechar" }
+        ],
+        fimMsg: "7 sucos de 4 reais = 28 reais. Entrada (botões), processamento (=) e saída (resultado na tela)!",
+        explicacao: "Os botões são a entrada; o processador faz a conta quando você aperta =; o resultado na tela é a saída." },
+      /* ⏱️ +25% de tempo (21/11/2026, pedido do professor) */ { tipo: "sinais", titulo: "Marque só o que GUARDA arquivos",
+        enunciado: "<p>Marque as peças que <strong>guardam</strong> arquivos mesmo com o computador desligado.</p>",
+        opcoes: [
+          { t: "HD", certo: true },
+          { t: "SSD", certo: true },
+          { t: "Pen drive", certo: true },
+          { t: "Cartão de memória", certo: true },
+          { t: "Memória RAM", certo: false, why: "A RAM apaga tudo quando o computador desliga." },
+          { t: "Monitor", certo: false, why: "O monitor só mostra: é saída." },
+          { t: "Teclado", certo: false, why: "O teclado é entrada." }],
+        dicas: ["Guarda = continua lá depois de desligar."],
+        explicacao: "HD, SSD, pen drive e cartão de memória guardam arquivos. A RAM apaga ao desligar; monitor é saída e teclado é entrada." }
     ],
     vf: [
       { v: false, corrigir: { trecho: "saída", opcoes: ["saída", "entrada"], certo: "entrada" }, why: "O microfone recebe a voz: é entrada." },
@@ -327,7 +412,28 @@ PORTAL.registrarAtividades("informatica-6ano-2027-1bim", {
         explicacao: "Peça quebrada = hardware (troca a peça). Programa travando = software (fecha, atualiza ou reinstala)." },
       { tipo: "escolha", titulo: "O que fazer?",
         perguntas: [{ p: "O aplicativo de mensagens vive travando. O que tentar primeiro?", opcoes: ["Atualizar o aplicativo", "Trocar a tela", "Comprar um celular novo"], certo: 0, why: "Problema de software se resolve no software: atualizar costuma corrigir erros." }],
-        explicacao: "A atualização corrige erros do software." }
+        explicacao: "A atualização corrige erros do software." },
+      /* ⏱️ +25% de tempo (21/11/2026, pedido do professor) */ { tipo: "mensagens", titulo: "Quem resolve o problema?", app: "🛠️ Assistência",
+        botoes: [{ id: "T", rot: "🔧 Técnico (peça)" }, { id: "A", rot: "💿 Atualizar ou reinstalar (programa)" }],
+        enunciado: "<p>Cada problema é de <strong>hardware</strong> (peça) ou de <strong>software</strong> (programa). Escolha quem resolve.</p>",
+        itens: [
+          { de: "", t: "A tela do celular rachou", c: "T", why: "A tela é uma peça: hardware. Precisa trocar a peça." },
+          { de: "", t: "O aplicativo fecha sozinho", c: "A", why: "É um problema de programa: atualizar ou reinstalar costuma resolver." },
+          { de: "", t: "A tecla A do teclado quebrou", c: "T", why: "A tecla é uma peça física." },
+          { de: "", t: "O jogo pede para ser atualizado", c: "A", why: "Atualizar é coisa de software." },
+          { de: "", t: "O cabo do carregador partiu", c: "T", why: "O cabo é hardware." },
+          { de: "", t: "O programa travou e não responde", c: "A", why: "Fechar e abrir de novo, ou reinstalar, é solução de software." }],
+        explicacao: "Hardware (peça) se conserta ou troca com o técnico. Software (programa) se resolve atualizando, fechando e abrindo de novo ou reinstalando." },
+      /* ⏱️ +25% de tempo (21/11/2026, pedido do professor) */ { tipo: "rota", titulo: "Instalar um aplicativo com segurança",
+        enunciado: "<p>Clique nas etapas <strong>na ordem</strong> para instalar um app no celular sem correr risco.</p>",
+        etapas: [
+          { ic: "🏪", t: "Abro a loja oficial de aplicativos", dica: "Só baixe apps da loja oficial do aparelho." },
+          { ic: "🔎", t: "Procuro o aplicativo pelo nome", dica: "Use a busca da loja." },
+          { ic: "⭐", t: "Confiro quem fez e as avaliações", dica: "App desconhecido, sem avaliações, é suspeito." },
+          { ic: "⬇️", t: "Toco em Instalar", dica: "Só depois de conferir." },
+          { ic: "📱", t: "Abro o aplicativo", dica: "Pronto para usar." }],
+        okMsg: "Isso! Loja oficial → procurar → conferir → instalar → abrir.",
+        explicacao: "Aplicativo é software. Baixe sempre da loja oficial e confira quem fez e as avaliações antes de instalar." }
     ],
     turbo: [
       { tipo: "sim_pc", titulo: "🖥️ Investigue o computador de treino",
@@ -339,7 +445,31 @@ PORTAL.registrarAtividades("informatica-6ano-2027-1bim", {
           { faca: "Na <b>barra de endereço</b>, lá em cima, digite <b>professorwell.com.br</b> e aperte <b>Enter</b>.", ok: "/^url:(https?:\\/\\/)?professorwell\\.com\\.br/", onde: "web:url", dica: "Clique na barra de endereço, apague o que tem lá e digite professorwell.com.br." }
         ],
         fimMsg: "Você descobriu o sistema operacional (Windows) e abriu o portal no navegador!",
-        explicacao: "Nos computadores da sala, o sistema operacional é o Windows (logotipo de janelinha no Iniciar). O navegador é o programa que abre o portal: Chrome ou Edge." }
+        explicacao: "Nos computadores da sala, o sistema operacional é o Windows (logotipo de janelinha no Iniciar). O navegador é o programa que abre o portal: Chrome ou Edge." },
+      /* ⏱️ +25% de tempo (21/11/2026, pedido do professor) */ { tipo: "classificar", titulo: "Hardware ou software? Nível 2",
+        enunciado: "<p>Arraste cada item para o lugar certo.</p>",
+        categorias: [{ id: "H", rot: "🔧 Hardware" }, { id: "S", rot: "💿 Software" }],
+        itens: [
+          { t: "Webcam", c: "H", why: "Dá para tocar: peça." },
+          { t: "Navegador de internet", c: "S", why: "É um programa." },
+          { t: "Placa-mãe", c: "H", why: "Peça dentro do gabinete." },
+          { t: "Antivírus", c: "S", why: "Programa que protege o computador." },
+          { t: "Fone de ouvido", c: "H", why: "Peça que dá para pegar." },
+          { t: "Editor de texto", c: "S", why: "Programa para escrever." }],
+        dicas: ["Dá para pegar com a mão? Então é hardware."],
+        explicacao: "Hardware: webcam, placa-mãe, fone. Software: navegador, antivírus, editor de texto." },
+      /* ⏱️ +25% de tempo (21/11/2026, pedido do professor) */ { tipo: "sinais", titulo: "Marque só os SOFTWARES",
+        enunciado: "<p>Marque tudo o que é <strong>software</strong> (programa).</p>",
+        opcoes: [
+          { t: "Windows", certo: true },
+          { t: "Jogo de corrida", certo: true },
+          { t: "Calculadora do computador", certo: true },
+          { t: "Navegador", certo: true },
+          { t: "Mouse", certo: false, why: "Mouse é peça: hardware." },
+          { t: "Impressora", certo: false, why: "Impressora é peça: hardware." },
+          { t: "Gabinete", certo: false, why: "Gabinete é a caixa do computador: hardware." }],
+        dicas: ["Software é programa: não dá para pegar com a mão."],
+        explicacao: "Windows, jogos, calculadora e navegador são programas (software). Mouse, impressora e gabinete são peças (hardware)." }
     ],
     vf: [
       { v: true, why: "O mouse é uma peça física." },
@@ -448,7 +578,23 @@ PORTAL.registrarAtividades("informatica-6ano-2027-1bim", {
           ["Documentos › Escola › Matemática › tabuada.pdf", { r: ["Matemática", "Matematica"], dica: "É a pasta logo antes do nome do arquivo." }],
           ["Imagens › Família › Natal › ceia.jpg", { r: "Natal", dica: "A última pasta antes de ceia.jpg." }],
           ["Downloads › boletim.pdf", { r: "Downloads", dica: "Só tem uma pasta antes do arquivo." }]],
-        explicacao: "No caminho, o arquivo fica dentro da última pasta antes do nome dele." }
+        explicacao: "No caminho, o arquivo fica dentro da última pasta antes do nome dele." },
+      /* ⏱️ +25% de tempo (21/11/2026, pedido do professor) */ { tipo: "explorador_pastas", titulo: "O pen drive da feira de ciências",
+        enunciado: "<p>O pen drive do grupo está uma bagunça! Arraste cada arquivo para a pasta certa (ou clique no arquivo e depois na pasta). Olhe a <strong>extensão</strong>.</p>",
+        pastas: [{ id: "fotos", nome: "Fotos da feira", ic: "🖼️" }, { id: "textos", nome: "Textos", ic: "📝" }, { id: "videos", nome: "Vídeos", ic: "🎬" }, { id: "musicas", nome: "Músicas", ic: "🎵" }],
+        arquivos: [{ nome: "maquete.jpg", p: "fotos" }, { nome: "grupo.png", p: "fotos" }, { nome: "relatorio.docx", p: "textos" }, { nome: "roteiro.txt", p: "textos" }, { nome: "experiencia.mp4", p: "videos" }, { nome: "fundo-musical.mp3", p: "musicas" }],
+        explicacao: ".jpg e .png = imagem; .docx e .txt = texto; .mp4 = vídeo; .mp3 = áudio." },
+      /* ⏱️ +25% de tempo (21/11/2026, pedido do professor) */ { tipo: "mensagens", titulo: "Que tipo de arquivo é esse?", app: "📂 Arquivo novo",
+        botoes: [{ id: "I", rot: "🖼️ Imagem" }, { id: "T", rot: "📝 Texto" }, { id: "V", rot: "🎬 Vídeo" }, { id: "M", rot: "🎵 Áudio" }],
+        enunciado: "<p>Olhe a <strong>extensão</strong> (o final depois do ponto) e diga que tipo de arquivo é.</p>",
+        itens: [
+          { de: "", t: "selfie.jpg", c: "I", why: ".jpg é imagem." },
+          { de: "", t: "trabalho.docx", c: "T", why: ".docx é texto do Word." },
+          { de: "", t: "gol-do-time.mp4", c: "V", why: ".mp4 é vídeo." },
+          { de: "", t: "musica.mp3", c: "M", why: ".mp3 é áudio." },
+          { de: "", t: "print.png", c: "I", why: ".png é imagem." },
+          { de: "", t: "anotacoes.txt", c: "T", why: ".txt é texto simples." }],
+        explicacao: "A extensão diz o tipo: .jpg/.png = imagem; .docx/.txt = texto; .mp4 = vídeo; .mp3 = áudio." }
     ],
     turbo: [
       {"tipo": "classificar", "modo": "tabela", "titulo": "🔴 Turbo: peça, programa ou arquivo? (com as Missões 2 e 3 🔁)", "colunaItem": "Coisa", "colunaResp": "É um…", "enunciado": "<p>Junte o que você aprendeu nas missões passadas com o de hoje: cada coisa é uma <b>peça</b> (hardware), um <b>programa</b> (software) ou um <b>arquivo</b>?</p>", "categorias": [{"id": "H", "rot": "Peça (hardware)"}, {"id": "S", "rot": "Programa (software)"}, {"id": "A", "rot": "Arquivo"}], "itens": [{"t": "Pen drive", "c": "H", "why": "Dá para pegar com a mão: é hardware."}, {"t": "Explorador de Arquivos", "c": "S", "why": "É o programa que mostra as pastas: software."}, {"t": "festa.jpg", "c": "A", "why": "Tem nome e extensão (.jpg): é um arquivo de foto."}, {"t": "Navegador", "c": "S", "why": "Programa que abre sites: software."}, {"t": "HD", "c": "H", "why": "Peça que guarda os arquivos: hardware."}, {"t": "trabalho.docx", "c": "A", "why": "Tem nome e extensão (.docx): é um arquivo de texto."}], "explicacao": "O hardware (peça) guarda e roda os programas (software), e os programas abrem os arquivos."},
@@ -456,7 +602,33 @@ PORTAL.registrarAtividades("informatica-6ano-2027-1bim", {
         enunciado: "<p>A área de trabalho do Pedro está uma bagunça! Organize os 10 arquivos nas pastas certas.</p>",
         pastas: [{ id: "escola", nome: "Escola", ic: "📚" }, { id: "fotos", nome: "Fotos", ic: "🖼️" }, { id: "musicas", nome: "Músicas", ic: "🎵" }, { id: "videos", nome: "Vídeos", ic: "🎬" }],
         arquivos: [{ nome: "trabalho-ciencias.docx", p: "escola" }, { nome: "prova-historia.pdf", p: "escola" }, { nome: "resumo.txt", p: "escola" }, { nome: "aniversario.jpg", p: "fotos" }, { nome: "praia.png", p: "fotos" }, { nome: "forro.mp3", p: "musicas" }, { nome: "rap.mp3", p: "musicas" }, { nome: "jogo-final.mp4", p: "videos" }, { nome: "receita.mp4", p: "videos" }, { nome: "pesquisa-geografia.docx", p: "escola" }],
-        explicacao: "Trabalhos (.docx, .pdf, .txt) na pasta Escola; .jpg e .png em Fotos; .mp3 em Músicas; .mp4 em Vídeos." }
+        explicacao: "Trabalhos (.docx, .pdf, .txt) na pasta Escola; .jpg e .png em Fotos; .mp3 em Músicas; .mp4 em Vídeos." },
+      /* ⏱️ +25% de tempo (21/11/2026, pedido do professor) */ { tipo: "rota", titulo: "Guardar o trabalho no lugar certo",
+        enunciado: "<p>Clique nas etapas <strong>na ordem</strong> para criar uma pasta e guardar o trabalho dentro dela.</p>",
+        etapas: [
+          { ic: "📂", t: "Abro a pasta Documentos", dica: "Comece pelo lugar onde a pasta vai ficar." },
+          { ic: "🖱️", t: "Clico com o botão direito num espaço vazio", dica: "O botão direito abre o menu." },
+          { ic: "➕", t: "Escolho Novo › Pasta", dica: "Assim nasce a pasta nova." },
+          { ic: "⌨️", t: "Digito o nome Ciências e aperto Enter", dica: "Dê um nome que diga o que tem dentro." },
+          { ic: "💾", t: "Salvo o trabalho dentro da pasta Ciências", dica: "Agora ele está no lugar certo." }],
+        okMsg: "Isso! Pasta certa, nome claro, trabalho guardado.",
+        explicacao: "Para organizar: abra o lugar, botão direito › Novo › Pasta, dê um nome claro e guarde os arquivos dentro." },
+      /* ⏱️ +25% de tempo (21/11/2026, pedido do professor) */ { tipo: "ordenar", titulo: "O caminho até a foto",
+        enunciado: "<p>Monte o <strong>caminho</strong> de pastas até a foto, da pasta maior para a menor.</p>",
+        itens: ["Este Computador", "Documentos", "Escola", "Ciências", "foto-maquete.jpg"],
+        dicas: ["Comece pela pasta que guarda todas as outras."],
+        explicacao: "O caminho vai da pasta maior até o arquivo: Este Computador › Documentos › Escola › Ciências › foto-maquete.jpg." },
+      /* ⏱️ +25% de tempo (21/11/2026, pedido do professor) */ { tipo: "sinais", titulo: "Marque os nomes de arquivo BEM dados",
+        enunciado: "<p>Marque os nomes que dizem claramente o que tem dentro do arquivo.</p>",
+        opcoes: [
+          { t: "trabalho-ciencias-maquete.docx", certo: true },
+          { t: "foto-festa-junina-2027.jpg", certo: true },
+          { t: "lista-de-compras.txt", certo: true },
+          { t: "asdfgh.docx", certo: false, why: "Não dá para saber o que tem dentro." },
+          { t: "novo arquivo (3).txt", certo: false, why: "Nome genérico: depois ninguém acha." },
+          { t: "aaa.jpg", certo: false, why: "Não diz nada sobre a foto." }],
+        dicas: ["Um bom nome diz o que tem dentro."],
+        explicacao: "Nome bom é claro: diz o assunto. Nomes como asdfgh ou novo arquivo (3) fazem você perder tempo procurando depois." }
     ],
     vf: [
       { v: false, corrigir: { trecho: "imagem", opcoes: ["imagem", "áudio (música)"], certo: "áudio (música)" }, why: ".mp3 é áudio; imagem é .jpg ou .png." },
@@ -551,7 +723,30 @@ PORTAL.registrarAtividades("informatica-6ano-2027-1bim", {
           ["Quantos gols fizeram os Leões?", { r: "8", tipo: "num", dica: "Linha dos Leões, coluna Gols." }],
           ["Qual time tem 1 vitória?", { r: ["Tubarões", "Tubaroes"], dica: "Procure o 1 na coluna Vitórias." }],
           ["Quantos gols os três times fizeram juntos?", { r: "17", tipo: "num", dica: "8 + 5 + 4." }]],
-        explicacao: "Para ler uma tabela: ache a linha (o time) e a coluna (a informação). Como gols são números, dá para somar: 8 + 5 + 4 = 17." }
+        explicacao: "Para ler uma tabela: ache a linha (o time) e a coluna (a informação). Como gols são números, dá para somar: 8 + 5 + 4 = 17." },
+      /* ⏱️ +25% de tempo (21/11/2026, pedido do professor) */ { tipo: "mensagens", titulo: "Número, texto ou data?", app: "🗂️ Cadastro da escola",
+        botoes: [{ id: "N", rot: "🔢 Número" }, { id: "T", rot: "🔤 Texto" }, { id: "D", rot: "📅 Data" }],
+        enunciado: "<p>Cada informação do cadastro é de um <strong>tipo de dado</strong>. Escolha o tipo.</p>",
+        itens: [
+          { de: "", t: "Nome: Maria Clara", c: "T", why: "Nome é texto: letras." },
+          { de: "", t: "Idade: 11", c: "N", why: "Idade é número: dá para fazer conta." },
+          { de: "", t: "Nascimento: 05/03/2016", c: "D", why: "Dia, mês e ano: é uma data." },
+          { de: "", t: "Turma: 6º A", c: "T", why: "É um texto que identifica a turma." },
+          { de: "", t: "Nota: 8,5", c: "N", why: "Nota é número: dá para fazer a média." },
+          { de: "", t: "Dia da prova: 20/04/2027", c: "D", why: "É uma data." }],
+        explicacao: "Texto: nomes e turmas. Número: idade e nota (dá para fazer conta). Data: dia, mês e ano." },
+      /* ⏱️ +25% de tempo (21/11/2026, pedido do professor) */ { tipo: "classificar", modo: "tabela", colunaItem: "Situação", colunaResp: "Resposta", titulo: "Dá para fazer conta?",
+        enunciado: "<p>Para cada dado, diga se dá para fazer conta com ele.</p>",
+        categorias: [{ id: "S", rot: "➕ Dá para fazer conta" }, { id: "N", rot: "🚫 Não faz sentido fazer conta" }],
+        itens: [
+          { t: "O preço do lanche: R$ 5,00", c: "S", why: "Dá para somar os preços." },
+          { t: "O número da camisa do jogador: 10", c: "N", why: "É só um código: somar camisas não faz sentido." },
+          { t: "A altura: 1,45 m", c: "S", why: "Dá para comparar e calcular." },
+          { t: "O CEP da escola", c: "N", why: "CEP é um código, não uma quantidade." },
+          { t: "Os pontos do jogo: 120", c: "S", why: "Dá para somar pontos." },
+          { t: "O número da casa: 230", c: "N", why: "Número de casa só identifica o endereço." }],
+        dicas: ["Pergunte: isso é uma quantidade ou só um código?"],
+        explicacao: "Quantidades (preço, altura, pontos) servem para contas. Números que são códigos (camisa, CEP, número da casa) não." }
     ],
     turbo: [
       { tipo: "classificar", modo: "tabela", titulo: "Monte a tabela da turma",
@@ -565,7 +760,28 @@ PORTAL.registrarAtividades("informatica-6ano-2027-1bim", {
           { t: "Aniversário", c: "D", why: "Dia e mês." },
           { t: "Terminou o Básico?", c: "L", why: "Sim ou não." },
           { t: "Avatar", c: "M", why: "É uma imagem." }],
-        explicacao: "Escolher o tipo certo de cada coluna é o primeiro passo para o computador saber o que pode fazer com cada dado." }
+        explicacao: "Escolher o tipo certo de cada coluna é o primeiro passo para o computador saber o que pode fazer com cada dado." },
+      /* ⏱️ +25% de tempo (21/11/2026, pedido do professor) */ { tipo: "sinais", titulo: "Marque as informações que são DATAS",
+        enunciado: "<p>Marque só o que é uma <strong>data</strong>.</p>",
+        opcoes: [
+          { t: "25/12/2027", certo: true },
+          { t: "Aniversário: 10 de maio", certo: true },
+          { t: "Prova no dia 15/04", certo: true },
+          { t: "12:30", certo: false, why: "12:30 é uma hora, não uma data." },
+          { t: "R$ 12,00", certo: false, why: "É um valor em dinheiro: número." },
+          { t: "6º ano", certo: false, why: "É texto que identifica a série." }],
+        dicas: ["Data tem dia e mês (e às vezes ano)."],
+        explicacao: "Datas têm dia, mês e ano. Hora (12:30), dinheiro (R$ 12,00) e série (6º ano) são outros tipos de dado." },
+      /* ⏱️ +25% de tempo (21/11/2026, pedido do professor) */ { tipo: "rota", titulo: "Do formulário ao cadastro",
+        enunciado: "<p>Clique nas etapas <strong>na ordem</strong> do que acontece quando você se inscreve no clube de leitura pelo computador.</p>",
+        etapas: [
+          { ic: "📝", t: "Preencho o formulário: nome, idade e data", dica: "Os dados entram." },
+          { ic: "✅", t: "Clico em Enviar", dica: "O botão manda os dados." },
+          { ic: "🧠", t: "O sistema confere se a data é válida", dica: "O computador verifica os dados." },
+          { ic: "💾", t: "Meus dados são guardados no cadastro", dica: "Armazenamento." },
+          { ic: "📧", t: "Aparece a mensagem: inscrição feita!", dica: "A saída mostra o resultado." }],
+        okMsg: "Isso! Preencher → enviar → conferir → guardar → confirmar.",
+        explicacao: "Cada campo do formulário espera um tipo de dado (texto, número, data). O sistema confere, guarda e mostra a confirmação." }
     ],
     vf: [
       { v: true, why: "Idade serve para contas." },
@@ -646,11 +862,54 @@ PORTAL.registrarAtividades("informatica-6ano-2027-1bim", {
     ],
     desafio: [
       {"tipo": "escolha", "titulo": "🟡 Desafio: o que está errado nesta mensagem?", "enunciado": "<p>Leia cada situação e descubra qual regra da netiqueta foi quebrada.</p>", "perguntas": [{"p": "No grupo da turma: <b>“OI GENTE, ALGUÉM TEM A LIÇÃO???”</b>", "opcoes": ["Está tudo em maiúsculas: parece grito", "Faltou pedir permissão para postar", "Passou um dado pessoal"], "certo": 0, "why": "Na internet, maiúsculas parecem <b>grito</b>."}, {"p": "O Davi postou uma foto do grupo de amigos sem falar com ninguém.", "opcoes": ["Faltou pedir permissão a quem aparece na foto", "Ele escreveu tudo em maiúsculas", "Ele passou a senha"], "certo": 0, "why": "A imagem é da pessoa: <b>peça permissão</b> antes de postar."}, {"p": "Alguém escreveu no chat do jogo: “manda o seu endereço que eu te mando um presente”.", "opcoes": ["Pede dado pessoal: não responda e conte a um adulto de confiança", "Pode responder, porque é um presente", "Responda só com o nome da rua"], "certo": 0, "why": "Endereço é <b>dado pessoal</b>: nunca passe para desconhecidos."}]},
-      {tipo:  "escolha", titulo:  "Escolha a versão respeitosa de cada mensagem", perguntas:  [{p:  "“QUE TRABALHO RUIM, VOCÊ NÃO SABE NADA”", opcoes:  ["“Acho que o trabalho pode melhorar. Quer ajuda?”", "“TRABALHO RUIM!!!”", "“Ninguém liga para o seu trabalho.”"], certo:  0, why:  "Mantém a ideia (dá para melhorar) sem gritar e oferece ajuda."}, {p:  "“Sai do grupo, ninguém te chamou”", opcoes:  ["“Vamos combinar juntos quem participa do grupo?”", "“Sai logo daqui.”", "“Ninguém quer você aqui.”"], certo:  0, why:  "Combinar as regras juntos resolve sem excluir ninguém."}, {p:  "“kkkk olha a foto dele, que feio”", opcoes:  ["“Melhor não postar a foto sem ele deixar.”", "“kkkk que foto feia”", "“Manda para todo mundo!”"], certo:  0, why:  "Foto de alguém só com a permissão da pessoa."}], explicacao:  "Dá para dizer a mesma coisa <b>sem ofender</b> e <b>sem gritar</b> (tudo em maiúsculas parece grito)."}
+      {tipo:  "escolha", titulo:  "Escolha a versão respeitosa de cada mensagem", perguntas:  [{p:  "“QUE TRABALHO RUIM, VOCÊ NÃO SABE NADA”", opcoes:  ["“Acho que o trabalho pode melhorar. Quer ajuda?”", "“TRABALHO RUIM!!!”", "“Ninguém liga para o seu trabalho.”"], certo:  0, why:  "Mantém a ideia (dá para melhorar) sem gritar e oferece ajuda."}, {p:  "“Sai do grupo, ninguém te chamou”", opcoes:  ["“Vamos combinar juntos quem participa do grupo?”", "“Sai logo daqui.”", "“Ninguém quer você aqui.”"], certo:  0, why:  "Combinar as regras juntos resolve sem excluir ninguém."}, {p:  "“kkkk olha a foto dele, que feio”", opcoes:  ["“Melhor não postar a foto sem ele deixar.”", "“kkkk que foto feia”", "“Manda para todo mundo!”"], certo:  0, why:  "Foto de alguém só com a permissão da pessoa."}], explicacao:  "Dá para dizer a mesma coisa <b>sem ofender</b> e <b>sem gritar</b> (tudo em maiúsculas parece grito)."},
+      /* ⏱️ +25% de tempo (21/11/2026, pedido do professor) */ { tipo: "mensagens", titulo: "O que eu faço com essa mensagem?", app: "💬 Celular",
+        botoes: [{ id: "R", rot: "💬 Responder com educação" }, { id: "I", rot: "🚫 Não responder e bloquear" }, { id: "A", rot: "🙋 Mostrar a um adulto" }],
+        enunciado: "<p>Chegaram várias mensagens. Escolha a <strong>melhor atitude</strong> para cada uma.</p>",
+        itens: [
+          { de: "", t: "Colega: \"Qual é o dever de casa de Ciências?\"", c: "R", why: "Pergunta normal de um colega: responda com educação." },
+          { de: "", t: "Desconhecido: \"Me manda uma foto sua?\"", c: "A", why: "Pedido estranho de desconhecido: mostre a um adulto de confiança." },
+          { de: "", t: "\"Você ganhou um celular! Clique no link\"", c: "I", why: "É golpe: não clique, não responda e bloqueie." },
+          { de: "", t: "Grupo da turma: \"Parabéns pelo aniversário, Ana!\"", c: "R", why: "Mensagem boa: dá para responder com educação." },
+          { de: "", t: "Desconhecido: \"Qual é o seu endereço?\"", c: "A", why: "Nunca passe o endereço. Mostre a um adulto." },
+          { de: "", t: "\"Sua conta será bloqueada, mande sua senha\"", c: "I", why: "Ninguém sério pede senha por mensagem: é golpe." }],
+        explicacao: "Mensagem boa: responda com educação. Golpe: não clique e bloqueie. Pedido estranho de desconhecido: mostre a um adulto de confiança." },
+      /* ⏱️ +25% de tempo (21/11/2026, pedido do professor) */ { tipo: "rota", titulo: "Caí num site estranho: e agora?",
+        enunciado: "<p>Clique nas etapas <strong>na ordem</strong> do que fazer se aparecer uma promoção boa demais para ser verdade.</p>",
+        etapas: [
+          { ic: "✋", t: "Não clico em nada", dica: "Desconfie de prêmio fácil." },
+          { ic: "❌", t: "Fecho a página", dica: "Saia do site." },
+          { ic: "🙋", t: "Conto para um adulto de confiança", dica: "Peça ajuda." },
+          { ic: "🚫", t: "Não passo nenhum dado pessoal", dica: "Nome, senha e endereço são seus." }],
+        okMsg: "Isso! Não clicar → fechar → contar → proteger seus dados.",
+        explicacao: "Promoção boa demais costuma ser golpe. Não clique, feche, conte a um adulto e nunca passe seus dados." }
     ],
     turbo: [
       {"tipo": "classificar", "modo": "tabela", "titulo": "🔴 Turbo: pode passar para um desconhecido? (com a Missão 5 🔁)", "colunaItem": "Dado", "colunaResp": "No chat do jogo, com quem eu não conheço…", "enunciado": "<p>Lembra dos <b>tipos de dado</b> da Missão 5? Agora decida: este dado pode ir para alguém que você não conhece?</p>", "categorias": [{"id": "S", "rot": "Pode"}, {"id": "N", "rot": "Não pode"}], "itens": [{"t": "O apelido que eu uso no jogo", "c": "S", "why": "O apelido não mostra quem você é."}, {"t": "Meu nome completo", "c": "N", "why": "Nome completo é dado pessoal."}, {"t": "O nome da minha escola", "c": "N", "why": "Mostra onde você está todos os dias: é dado pessoal."}, {"t": "Meu personagem favorito do jogo", "c": "S", "why": "Gosto pessoal sem dado que identifique você."}, {"t": "Minha senha", "c": "N", "why": "A senha é só sua, nem para o melhor amigo."}, {"t": "Meu telefone", "c": "N", "why": "Telefone é dado pessoal (e, lembra?, é do tipo texto!)."}], "explicacao": "Dados pessoais (nome completo, escola, telefone, endereço, senha) ficam com você. Apelido e gostos podem ser compartilhados com cuidado."},
-      {tipo:  "sinais", titulo:  "As regras do grupo da turma", enunciado:  "<p>Marque as boas regras de <b>netiqueta</b> para o grupo da sua turma.</p>", opcoes:  [{t:  "Falar com respeito, sem xingar e sem escrever tudo em maiúsculas", certo:  true}, {t:  "Não postar foto de ninguém sem permissão", certo:  true}, {t:  "Não passar senha nem endereço no grupo", certo:  true}, {t:  "Não espalhar mensagens sem saber se são verdade", certo:  true}, {t:  "Quem errar pode ser zoado", certo:  false}, {t:  "Mandar a senha para o melhor amigo guardar", certo:  false}, {t:  "Postar o print da conversa de outra pessoa sem pedir", certo:  false}], explicacao:  "Netiqueta é a etiqueta da internet: <b>respeito</b>, <b>cuidado com fotos</b> e <b>proteção dos dados</b>."}
+      {tipo:  "sinais", titulo:  "As regras do grupo da turma", enunciado:  "<p>Marque as boas regras de <b>netiqueta</b> para o grupo da sua turma.</p>", opcoes:  [{t:  "Falar com respeito, sem xingar e sem escrever tudo em maiúsculas", certo:  true}, {t:  "Não postar foto de ninguém sem permissão", certo:  true}, {t:  "Não passar senha nem endereço no grupo", certo:  true}, {t:  "Não espalhar mensagens sem saber se são verdade", certo:  true}, {t:  "Quem errar pode ser zoado", certo:  false}, {t:  "Mandar a senha para o melhor amigo guardar", certo:  false}, {t:  "Postar o print da conversa de outra pessoa sem pedir", certo:  false}], explicacao:  "Netiqueta é a etiqueta da internet: <b>respeito</b>, <b>cuidado com fotos</b> e <b>proteção dos dados</b>."},
+      /* ⏱️ +25% de tempo (21/11/2026, pedido do professor) */ { tipo: "sinais", titulo: "Marque as SENHAS FORTES",
+        enunciado: "<p>Marque as senhas difíceis de adivinhar.</p>",
+        opcoes: [
+          { t: "Gato#Azul2027!", certo: true },
+          { t: "Bolo&Chuva_49", certo: true },
+          { t: "Sol*Mar7Lua", certo: true },
+          { t: "123456", certo: false, why: "Sequência fácil: é das primeiras que os golpistas tentam." },
+          { t: "senha", certo: false, why: "A palavra senha é fácil demais." },
+          { t: "maria2016", certo: false, why: "Nome e ano de nascimento são fáceis de descobrir." }],
+        dicas: ["Senha forte mistura letras maiúsculas, minúsculas, números e símbolos."],
+        explicacao: "Senha forte é comprida e mistura maiúsculas, minúsculas, números e símbolos. Sequências, a palavra senha e nome com data de nascimento são fáceis de adivinhar." },
+      /* ⏱️ +25% de tempo (21/11/2026, pedido do professor) */ { tipo: "classificar", titulo: "Atitude boa ou ruim na rede?",
+        enunciado: "<p>Arraste cada atitude para o lugar certo.</p>",
+        categorias: [{ id: "B", rot: "👍 Boa atitude" }, { id: "R", rot: "👎 Atitude ruim" }],
+        itens: [
+          { t: "Pedir licença antes de postar a foto de um colega", c: "B", why: "A imagem é do colega: ele decide." },
+          { t: "Escrever TUDO EM MAIÚSCULAS no grupo", c: "R", why: "Na internet, tudo em maiúsculas parece grito." },
+          { t: "Avisar um adulto quando alguém faz ameaça", c: "B", why: "Ameaça é coisa séria: peça ajuda." },
+          { t: "Espalhar boato sem conferir", c: "R", why: "Antes de repassar, confira se é verdade." },
+          { t: "Responder com educação mesmo discordando", c: "B", why: "Dá para discordar sem ofender." },
+          { t: "Compartilhar a senha com o melhor amigo", c: "R", why: "Senha é pessoal: não se passa para ninguém." }],
+        dicas: ["Pense: eu gostaria que fizessem isso comigo?"],
+        explicacao: "Netiqueta é a boa educação na internet: respeitar, pedir licença, conferir antes de repassar e proteger a senha." }
     ],
     vf: [
       { v: true, why: "Maiúsculas parecem grito." },
@@ -680,7 +939,12 @@ PORTAL.registrarAtividades("informatica-6ano-2027-1bim", {
         fimMsg: "Agudo, circunflexo, til e cedilha: tudo certinho no teclado!",
         explicacao: "No teclado brasileiro (ABNT2): acento agudo ´ e til ~ têm teclas próprias; o circunflexo ^ é Shift + ~; a crase ` é Shift + ´; o Ç tem tecla própria. Primeiro o acento, depois a letra." },
       { tipo: "info", titulo: "Posição das mãos",
-        html: "<p>Coloque os dedos na <strong>fileira base</strong>: mão esquerda em <strong>A S D F</strong>, mão direita em <strong>J K L Ç</strong>. Sinta o <strong>risquinho</strong> no F e no J. Polegares na barra de espaço. Depois de cada letra, volte para a fileira base.</p>" }
+        html: "<p>Coloque os dedos na <strong>fileira base</strong>: mão esquerda em <strong>A S D F</strong>, mão direita em <strong>J K L Ç</strong>. Sinta o <strong>risquinho</strong> no F e no J. Polegares na barra de espaço. Depois de cada letra, volte para a fileira base.</p>" },
+      /* ⏱️ +25% de tempo (21/11/2026, pedido do professor) */ { tipo: "teclado", modo: "copiar", titulo: "✍️ Copie igualzinho: o recado da professora",
+        enunciado: "<p>Copie cada frase <b>igualzinho</b>. <span style='color:#15803d'>Verde</span> = certo; <span style='color:#b91c1c'>vermelho</span> = apague com o Backspace e corrija. Acento: aperte a tecla do acento, <b>solte</b>, e depois a vogal.</p>",
+        frases: ["Amanhã tem aula de Informática.", "Traga o seu fone, por favor.", "A reunião será às 9h."],
+        dicas: ["Maiúscula: segure o Shift e aperte a letra.", "ã: til ( ~ ) e depois a vogal. à: segure o Shift, aperte a tecla do acento agudo e depois o a."],
+        explicacao: "Copiar igualzinho treina olhar o texto, achar as teclas e usar maiúsculas e acentos." }
     ],
     basico: [
       { tipo: "classificar", titulo: "Mão esquerda ou mão direita?",
@@ -722,7 +986,12 @@ PORTAL.registrarAtividades("informatica-6ano-2027-1bim", {
           ["A maçã está na mesa.", { r: "A maçã está na mesa.", exato: true, dica: "A maiúsculo (Shift + a), ç ao lado do L e ponto final." }],
           ["Você já almoçou?", { r: "Você já almoçou?", exato: true, dica: "? = Shift + a tecla da barra ( / )." }],
           ["Ótimo trabalho, João!", { r: "Ótimo trabalho, João!", exato: true, dica: "Ó maiúsculo: ´ e depois Shift + o." }]],
-        explicacao: "Maiúscula com Shift, acento antes da vogal, ç ao lado do L, ? com Shift + barra e ! com Shift + 1." }
+        explicacao: "Maiúscula com Shift, acento antes da vogal, ç ao lado do L, ? com Shift + barra e ! com Shift + 1." },
+      /* ⏱️ +25% de tempo (21/11/2026, pedido do professor) */ { tipo: "teclado", modo: "copiar", titulo: "✍️ Copie a lista da feira",
+        enunciado: "<p>Copie cada linha da lista <b>igualzinho</b>, com vírgulas e acentos.</p>",
+        frases: ["Feijão, arroz e açúcar.", "Maçã, mamão e limão.", "Pão de queijo: 6 unidades."],
+        dicas: ["Ç: a tecla ao lado do L.", "Dois-pontos: segure o Shift e aperte a tecla do ponto e vírgula."],
+        explicacao: "Vírgula, acentos, ç e dois-pontos fazem parte do texto: o computador confere cada um." }
     ],
     turbo: [
       {"tipo": "escolha", "titulo": "🔴 Turbo: o revisor de texto (com a Missão 1 🔁)", "enunciado": "<p>Você é o revisor da turma! Use o que aprendeu hoje e na Missão 1.</p>", "perguntas": [{"p": "O colega digitou <b>sao paulo</b>. O que precisa corrigir?", "opcoes": ["Pôr as maiúsculas e o til: São Paulo", "Só trocar o espaço por um ponto", "Nada, está certo"], "certo": 0, "why": "Nome de cidade começa com <b>maiúscula</b> (Shift) e “São” tem <b>til</b> (~ e depois a)."}, {"p": "Ele digitou <b>Brasiu</b> e o cursor está logo depois do <b>u</b>. Qual tecla apaga a letra errada? 🔁", "opcoes": ["Backspace (⟵)", "Caps Lock", "Enter"], "certo": 0, "why": "O <b>Backspace</b> (Missão 1) apaga a letra antes do cursor."}, {"p": "Para escrever <b>coração</b>, quais teclas especiais ele vai usar?", "opcoes": ["A tecla Ç e o til antes do a", "Só o Shift", "O acento agudo e o Enter"], "certo": 0, "why": "<b>Ç</b> fica ao lado do L, e o <b>ã</b> é til + a."}]},
@@ -731,7 +1000,23 @@ PORTAL.registrarAtividades("informatica-6ano-2027-1bim", {
         colunas: ["Parágrafo", "Digite aqui"],
         linhas: [
           ["Na Informática, aprendi a usar o teclado. Agora escrevo mais rápido e com menos erros!", { r: "Na Informática, aprendi a usar o teclado. Agora escrevo mais rápido e com menos erros!", exato: true, dica: "Confira: vírgula depois de Informática, ponto depois de teclado e exclamação no fim." }]],
-        explicacao: "Treino é o segredo: com os dedos na fileira base, a velocidade aumenta sozinha." }
+        explicacao: "Treino é o segredo: com os dedos na fileira base, a velocidade aumenta sozinha." },
+      /* ⏱️ +25% de tempo (21/11/2026, pedido do professor) */ { tipo: "teclado", modo: "copiar", titulo: "✍️ Um parágrafo de verdade",
+        enunciado: "<p>Agora um parágrafo inteiro. Vá com calma: o importante é acertar, não correr.</p>",
+        frases: ["O computador da sala de Informática liga rápido.", "Eu abro o navegador e digito o endereço do portal.", "Depois faço as missões com atenção e sem pressa."],
+        dicas: ["Errou? Apague com o Backspace e digite de novo.", "Lembre do espaço entre as palavras."],
+        explicacao: "Digitar bem é acertar letra por letra. A velocidade vem com o treino." },
+      /* ⏱️ +25% de tempo (21/11/2026, pedido do professor) */ { tipo: "mensagens", titulo: "Que tecla eu uso?", app: "⌨️ Qual tecla?",
+        botoes: [{ id: "S", rot: "⇧ Shift" }, { id: "C", rot: "⇪ Caps Lock" }, { id: "B", rot: "⌫ Backspace" }, { id: "E", rot: "↵ Enter" }, { id: "D", rot: "Delete" }],
+        enunciado: "<p>Para cada situação, escolha a <strong>tecla</strong> certa.</p>",
+        itens: [
+          { de: "", t: "Fazer só UMA letra maiúscula", c: "S", why: "Segure o Shift e aperte a letra." },
+          { de: "", t: "Escrever TUDO em maiúsculas", c: "C", why: "O Caps Lock liga as maiúsculas até você desligar." },
+          { de: "", t: "Apagar a letra que está antes do cursor", c: "B", why: "O Backspace apaga para trás." },
+          { de: "", t: "Pular para a linha de baixo", c: "E", why: "O Enter começa uma linha nova." },
+          { de: "", t: "Apagar a letra que está depois do cursor", c: "D", why: "O Delete apaga para a frente." },
+          { de: "", t: "Fazer o @ (Shift + 2)", c: "S", why: "Os símbolos de cima das teclas saem com o Shift." }],
+        explicacao: "Shift: uma maiúscula ou o símbolo de cima. Caps Lock: tudo maiúsculo. Backspace: apaga para trás. Delete: apaga para a frente. Enter: linha nova." }
     ],
     vf: [
       { v: true, why: "Os risquinhos guiam os indicadores." },
@@ -797,7 +1082,27 @@ PORTAL.registrarAtividades("informatica-6ano-2027-1bim", {
         enunciado: "<p>Selecione a palavra <strong>INFORMÁTICA</strong> desta frase com duplo clique, copie com <strong>Ctrl + C</strong> e cole na caixa com <strong>Ctrl + V</strong>.</p>",
         colunas: ["O que fazer", "Cole aqui"],
         linhas: [["Copie e cole a palavra INFORMÁTICA", { r: "INFORMÁTICA", exato: true, dica: "Duplo clique na palavra, Ctrl + C, clique na caixa e Ctrl + V." }]],
-        explicacao: "Duplo clique seleciona a palavra; Ctrl + C copia; Ctrl + V cola. Assim não tem erro de digitação!" }
+        explicacao: "Duplo clique seleciona a palavra; Ctrl + C copia; Ctrl + V cola. Assim não tem erro de digitação!" },
+      /* ⏱️ +25% de tempo (21/11/2026, pedido do professor) */ { tipo: "mensagens", titulo: "Qual é o atalho?", app: "⌨️ Atalhos",
+        botoes: [{ id: "C", rot: "Ctrl + C" }, { id: "V", rot: "Ctrl + V" }, { id: "X", rot: "Ctrl + X" }, { id: "Z", rot: "Ctrl + Z" }, { id: "S", rot: "Ctrl + S" }, { id: "A", rot: "Ctrl + A" }],
+        enunciado: "<p>Para cada tarefa, escolha o <strong>atalho de teclado</strong> certo.</p>",
+        itens: [
+          { de: "", t: "Copiar a palavra selecionada", c: "C", why: "Ctrl + C copia." },
+          { de: "", t: "Colar o que foi copiado", c: "V", why: "Ctrl + V cola." },
+          { de: "", t: "Desfazer o que acabei de apagar sem querer", c: "Z", why: "Ctrl + Z desfaz." },
+          { de: "", t: "Salvar o trabalho", c: "S", why: "Ctrl + S salva." },
+          { de: "", t: "Selecionar o texto todo", c: "A", why: "Ctrl + A seleciona tudo." },
+          { de: "", t: "Recortar a frase para mudar de lugar", c: "X", why: "Ctrl + X recorta." }],
+        explicacao: "Ctrl + C copia, Ctrl + V cola, Ctrl + X recorta, Ctrl + Z desfaz, Ctrl + S salva e Ctrl + A seleciona tudo." },
+      /* ⏱️ +25% de tempo (21/11/2026, pedido do professor) */ { tipo: "rota", titulo: "Copiar e colar uma frase",
+        enunciado: "<p>Clique nas etapas <strong>na ordem</strong> para copiar uma frase e colar em outro lugar.</p>",
+        etapas: [
+          { ic: "🖱️", t: "Seleciono a frase (arrasto por cima)", dica: "Primeiro marque o que vai copiar." },
+          { ic: "⌨️", t: "Aperto Ctrl + C", dica: "Copiar." },
+          { ic: "👆", t: "Clico onde quero colar", dica: "Escolha o lugar." },
+          { ic: "⌨️", t: "Aperto Ctrl + V", dica: "Colar." }],
+        okMsg: "Isso! Selecionar → Ctrl + C → clicar no lugar → Ctrl + V.",
+        explicacao: "Para copiar: selecione e aperte Ctrl + C. Para colar: clique no lugar e aperte Ctrl + V." }
     ],
     turbo: [
       { tipo: "escolha", titulo: "Atalhos do mouse",
@@ -806,7 +1111,23 @@ PORTAL.registrarAtividades("informatica-6ano-2027-1bim", {
           { p: "Ctrl + rodinha do mouse:", opcoes: ["Aumenta ou diminui o tamanho da página (zoom)", "Fecha a janela", "Salva"], certo: 0, why: "Zoom." },
           { p: "Clico no 1º arquivo, seguro Shift e clico no 5º. O que acontece?", opcoes: ["Seleciona do 1º ao 5º", "Apaga os 5", "Abre só o 5º"], certo: 0, why: "Shift + clique seleciona tudo entre os dois." },
           { p: "No celular, tocar e segurar num texto mostra:", opcoes: ["Copiar e Colar", "Desligar", "Atualizar"], certo: 0, why: "É o mesmo atalho, em botão." }],
-        explicacao: "Clique triplo = parágrafo; Ctrl + rodinha = zoom; Shift + clique = seleciona um intervalo; no celular, tocar e segurar mostra Copiar e Colar." }
+        explicacao: "Clique triplo = parágrafo; Ctrl + rodinha = zoom; Shift + clique = seleciona um intervalo; no celular, tocar e segurar mostra Copiar e Colar." },
+      /* ⏱️ +25% de tempo (21/11/2026, pedido do professor) */ { tipo: "ordenar", titulo: "Mudar um parágrafo de lugar",
+        enunciado: "<p>Coloque em ordem os passos para <strong>mover</strong> (não copiar) um parágrafo.</p>",
+        itens: ["Selecionar o parágrafo", "Apertar Ctrl + X (recortar)", "Clicar no lugar novo", "Apertar Ctrl + V (colar)", "Apertar Ctrl + S (salvar)"],
+        dicas: ["Mover = recortar e colar."],
+        explicacao: "Mover: selecionar → Ctrl + X → clicar no lugar novo → Ctrl + V. No fim, Ctrl + S salva." },
+      /* ⏱️ +25% de tempo (21/11/2026, pedido do professor) */ { tipo: "sinais", titulo: "Marque os atalhos que EXISTEM de verdade",
+        enunciado: "<p>No Windows, marque os atalhos que existem e fazem o que está escrito.</p>",
+        opcoes: [
+          { t: "Ctrl + C copia", certo: true },
+          { t: "Ctrl + Z desfaz", certo: true },
+          { t: "Alt + Tab troca de janela", certo: true },
+          { t: "Ctrl + P imprime", certo: true },
+          { t: "Ctrl + B apaga o computador", certo: false, why: "Não existe atalho que apague o computador." },
+          { t: "Ctrl + M desliga a internet", certo: false, why: "Esse atalho não desliga a internet." }],
+        dicas: ["Lembre dos atalhos que você praticou na missão."],
+        explicacao: "Ctrl + C copia, Ctrl + Z desfaz, Alt + Tab troca de janela e Ctrl + P abre a impressão. Os outros dois são inventados." }
     ],
     vf: [
       { v: true, why: "C copia, V cola." },
