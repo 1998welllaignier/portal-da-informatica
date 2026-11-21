@@ -553,3 +553,9 @@ Questões **contextualizadas** (situação curta: 1–2 frases no 6º, 2–3 no 
 ## 🧪 Testar como aluno (21/11/2026)
 - Link `#/testar/<apostila>/<missão>` (ex.: `#/testar/informatica-6ano-2027-1bim/m1`): o professor joga como ALUNO, sem código, sem nuvem, sempre zerado, sem botões de resposta e com tempo de leitura/anti-chute valendo. Serve para testar apostilas de outros bimestres (o piloto de 2027) sem mudar o bimestre da escola.
 - `#/ver/...` continua sendo a visualização do professor (com os botões de resposta).
+
+## 🖱️⌨️ Mousezinho e teclinhas nos simuladores (21/11/2026 — ideia do professor; princípio da sinalização, Mayer)
+- Componente único `js/gestos.js` (`P.gesto`): mouse em linha clara com o botão certo aceso (clique, botão direito, clique duplo "2x", arrastar, rolar para cima/baixo com 3 setas azuis grandes) e teclas desenhadas que afundam na ordem (qualquer tecla ou atalho: Backspace, Enter, Delete, Espaço, Tab, Esc, Shift, setas, Ctrl+C/V/X/Z/S, Alt+Tab...).
+- **Vídeo do simulador (🎬)**: a cada ação do Bit, o mousezinho/as teclas aparecem num cartão ACIMA e à ESQUERDA da setinha (nunca cobrindo o menu que abre).
+- **Instrução de cada passo**: versão pequena do mousezinho na frente do texto, descoberta sozinha pelo texto ("clique com o botão direito", "aperte Backspace", "role") ou pela ação do passo. Vale para todos os sim_pc de todas as séries, para o sim_windows (dicas), para o "Me ajuda, robô!" e para o robô do teclado.
+- Todo simulador novo já nasce com isso, sem configurar nada. Testado: 66 demonstrações de sim_pc ✓ e verificador com 378 missões, 0 erros.

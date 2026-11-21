@@ -56,7 +56,7 @@
       box.hidden = false; const fala = box.querySelector(".bf");
       const digita = async (el, txt, meu) => { for (let k = 1; k <= txt.length; k++) { if (meu !== id) return false; el.textContent = txt.slice(0, k); await new Promise(r => setTimeout(r, 30)); } return true; };
       const tocar = async () => { const meu = ++id; box.querySelectorAll(".ab-lin, .ab-tit").forEach(o => o.innerHTML = "");
-        for (const p of R.passos) { if (meu !== id) return; fala.innerHTML = md(p.fala || "");
+        for (const p of R.passos) { if (meu !== id) return; fala.innerHTML = P.gesto ? P.gesto.comInstrucao(md(p.fala || "")) : md(p.fala || "");
           if (p.titulo && !await digita(box.querySelector(`.ab-tit[data-t="${p.painel || 0}"]`), p.titulo, meu)) return;
           if (p.linha != null) { const li = document.createElement("li"); if (p.marca) li.className = "ab-marca"; box.querySelector(`.ab-lin[data-p="${p.painel || 0}"]`).appendChild(li); if (!await digita(li, p.linha, meu)) return; }
           // ⏸️ passo com "pausa" (18/11/2026): o Bit espera o aluno tocar em "▶ …" (ex.: uma passada da bolha por vez)

@@ -55,6 +55,8 @@
     if (k) return ["tecla", k[1]];
     return null;
   };
+  // coloca o mousezinho pequeno na frente de uma instrução (html), se o texto pedir um gesto; g = [tipo, extra] força o gesto
+  gesto.comInstrucao = function (html, g) { g = g || gesto.deTexto(html); return g ? `<span class="gs-linha">${gesto(g[0], g[1], { mini: true })}<span class="gs-txt">${html}</span></span>` : html; };
   P.gesto = gesto;
   if (!document.getElementById("gs-css")) { const s = document.createElement("style"); s.id = "gs-css"; s.textContent = `
 .gs{display:inline-flex;flex-direction:column;align-items:center;gap:4px;vertical-align:middle}
@@ -71,5 +73,6 @@
 .gs-k.larga{min-width:auto}.gs-mais{font-size:1.3rem;color:#1c1f22}
 .gs-mini .gs-k{min-width:30px;height:30px;font-size:.85rem;border-width:2px;box-shadow:0 3px 0 #1c1f22;padding:0 6px}
 @keyframes gsTec{0%,12%,62%,100%{transform:none;box-shadow:0 5px 0 #1c1f22;background:#fff}22%,52%{transform:translateY(5px);box-shadow:0 0 0 #1c1f22;background:#facc15}}
+.gs-linha{display:flex;align-items:center;gap:10px}.gs-linha>.gs{flex:none}.gs-txt{flex:1;min-width:0}
 @media (prefers-reduced-motion:reduce){.gs *{animation:none!important}.gs .gs-on,.gs .gs-dup{fill:#facc15}.gs-chev{opacity:1}}`; document.head.appendChild(s); }
 })();

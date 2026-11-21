@@ -324,7 +324,7 @@
         const perguntaF = st.g.baixar && !st.g.formato ? `<div class="sw-q"><p><b>4️⃣ Qual é o formato da imagem que você baixou?</b> Dica: no 📁 Explorador de Arquivos › Downloads, olhe a coluna <b>Tipo</b> ou ligue <b>Exibir › ${w11() ? "Mostrar › " : ""}Extensões de nomes de arquivos</b>.</p><div class="bts">${["jpg", "png", "webp"].map(e => `<button class="btn btn-sec" data-r="f:${e}">.${e}</button>`).join("")}</div></div>` : "";
         c.innerHTML = `<div class="sw sw${so()}">
           <ul class="sw-check">${ms.map(([k, t], i) => `<li class="${st.g[k] ? "ok" : ""}">${st.g[k] ? "✅" : "⬜"} <b>${i + 1}.</b> ${t}</li>`).join("")}</ul>
-          ${ui.dica ? `<p class="sw-dica">${ui.dica}</p>` : ""}
+          ${ui.dica ? `<p class="sw-dica">${P.gesto ? P.gesto.comInstrucao(ui.dica) : ui.dica}</p>` : ""}
           <div class="sw-moldura"><div class="sw-tela">${htmlTela()}</div></div>
           ${perguntaV}${perguntaF}
           <div class="sw-acoes"><button class="btn btn-link" data-r="reset">↺ Recomeçar</button>${terminou() ? `<button class="btn btn-sec" data-r="outro">🔄 Treinar no ${w11() ? "Windows 10" : "Windows 11"}</button>` : ""}</div></div>`;

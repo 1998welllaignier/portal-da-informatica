@@ -282,7 +282,7 @@ body.sp-travado{overflow:hidden}
         const p = pAtual();
         prog.innerHTML = passos.map((_, i) => `<i class="${i < st.passo ? "ok" : i === st.passo ? "at" : ""}"></i>`).join("");
         if (!p) { q.textContent = `${nomeBit} · tudo pronto`; fEl.innerHTML = "Você terminou! 🎉"; G.querySelector(".onde").hidden = true; return; }
-        q.textContent = `${nomeBit}, o seu ajudante · passo ${st.passo + 1} de ${passos.length}`; fEl.innerHTML = p.faca; G.querySelector(".onde").hidden = false;
+        q.textContent = `${nomeBit}, o seu ajudante · passo ${st.passo + 1} de ${passos.length}`; fEl.innerHTML = P.gesto ? P.gesto.comInstrucao(p.faca, gestoDoPasso(p, passos[st.passo + 1])) : p.faca; G.querySelector(".onde").hidden = false;
       }
       function mostrarOnde(pediu) {
         tela.querySelectorAll(".sp-pisca").forEach(x => x.classList.remove("sp-pisca"));
@@ -566,6 +566,7 @@ body.sp-travado{overflow:hidden}
 .spd-onda.dir{border-color:#f472b6}
 @keyframes spdOnda{to{transform:scale(4.5);opacity:0}}
 .spd-etq{position:fixed;z-index:10051;pointer-events:none;background:#facc15;color:#0f172a;font-weight:900;font-size:15px;border-radius:999px;padding:4px 12px;white-space:nowrap;transform:translate(22px,26px);box-shadow:0 3px 8px rgba(0,0,0,.3)}
+.spd-etq.spd-gesto{background:#fff;border:3px solid #1c1f22;border-radius:14px;padding:6px 10px 8px;box-shadow:4px 4px 0 #1c1f22;white-space:normal;transform:translate(calc(-100% - 10px),calc(-100% - 8px))}.spd-gesto .gs-mouse{width:82px;height:80px}
 .spd-fim{position:fixed;inset:0;z-index:10060;background:rgba(6,20,50,.78);display:flex;align-items:center;justify-content:center}
 .spd-fim>div{background:#fff;border-radius:22px;padding:26px 32px;max-width:560px;text-align:center;font-size:1.15rem}
 .spd-fim h2{margin:6px 0 10px}.spd-fim .row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:16px}
@@ -628,6 +629,11 @@ body.sp-travado{overflow:hidden}
     if (v === "extensoes") return [["clique", onde || "exp:ext"]];
     return onde ? [["clique", onde]] : [];
   }
+  // 🖱️ o gesto do passo: o que o texto pede; senão, a ação principal que o Bit faz na demonstração
+  function gestoDoPasso(p, prox) { const g = P.gesto && P.gesto.deTexto(p.faca); if (g) return g;
+    let acs = []; try { acs = acoesDoPasso(p, prox); } catch (e) {}
+    const a = acs.find(x => x[0] !== "menu") || acs[0]; if (!a) return null;
+    return { clique: ["clique"], menu: ["clique"], escolher: ["clique"], duplo: ["duplo"], direito: ["direito"], arrastar: ["arrastar"], arrastarJan: ["arrastar"], rolar: ["rolarBaixo"], tecla: ["tecla", a[1]] }[a[0]] || null; }
   T.sim_pc.demo = function (at, so, op) {
     op = op || {};
     if (!document.getElementById("spd-css")) { const stl = document.createElement("style"); stl.id = "spd-css"; stl.textContent = DEMO_CSS; document.head.appendChild(stl); }
@@ -656,7 +662,13 @@ body.sp-travado{overflow:hidden}
       const centro = el => { const r = el.getBoundingClientRect(); return [r.left + Math.min(r.width / 2, 60), r.top + Math.min(r.height / 2, 18)]; };
       const vai = async (x, y) => { mouse.style.left = x + "px"; mouse.style.top = y + "px"; return dorme(950, meu); };
       const onda = (x, y, dir) => { const o = document.createElement("div"); o.className = "spd-onda" + (dir ? " dir" : ""); o.style.left = x + "px"; o.style.top = y + "px"; document.body.appendChild(o); setTimeout(() => o.remove(), 700); mouse.classList.add("clica"); setTimeout(() => mouse.classList.remove("clica"), 160); };
-      const etq = txt => { document.querySelectorAll(".spd-etq").forEach(x => x.remove()); if (!txt) return; const e = document.createElement("div"); e.className = "spd-etq"; e.textContent = txt; e.style.left = mouse.style.left; e.style.top = mouse.style.top; document.body.appendChild(e); setTimeout(() => e.remove(), 1600); };
+      const GE = { "clique": ["clique"], "2 cliques rápidos": ["duplo"], "botão direito": ["direito"], "segure e arraste": ["arrastar"], "🖱️ rodinha do mouse": ["rolarBaixo"], "escolha a pasta": ["clique"], "⌫ Backspace (apagar)": ["tecla", "Backspace"] };
+      // 🖱️⌨️ 21/11/2026 (ideia do professor): no lugar da etiqueta de texto, o mousezinho mostra QUAL botão (ou as teclinhas, QUAL tecla)
+      const etq = txt => { document.querySelectorAll(".spd-etq").forEach(x => x.remove()); if (!txt) return; const e = document.createElement("div"); const g = GE[txt] || (/^⌨️ (?!digitando)/.test(txt) ? ["tecla", txt.slice(3)] : null);
+        if (g && P.gesto) { e.className = "spd-etq spd-gesto"; e.innerHTML = P.gesto(g[0], g[1]); } else { e.className = "spd-etq"; e.textContent = txt; } e.style.left = mouse.style.left; e.style.top = mouse.style.top; document.body.appendChild(e);
+        // o mousezinho fica ACIMA e à ESQUERDA da setinha, para não cobrir o menu que abre embaixo/à direita; perto da borda, vira para o outro lado
+        if (g) { const r = e.getBoundingClientRect(); if (r.left < 8) e.style.transform = `translate(18px,${r.top < 8 ? "30px" : "calc(-100% - 8px)"})`; else if (r.top < 8) e.style.transform = "translate(calc(-100% - 10px),30px)"; }
+        setTimeout(() => e.remove(), g ? 2200 : 1600); };
       const me = (tipo, el, x, y, extra) => el.dispatchEvent(new MouseEvent(tipo, Object.assign({ bubbles: true, cancelable: true, clientX: x, clientY: y, button: tipo === "contextmenu" ? 2 : 0 }, extra || {})));
       const pe = (tipo, el, x, y) => el.dispatchEvent(new PointerEvent(tipo, { bubbles: true, cancelable: true, clientX: x, clientY: y, button: 0, pointerId: 1, isPrimary: true }));
       const tecla = (el, t) => { const ctrl = /^Ctrl\+/.test(t), key = ctrl ? t.slice(5).toLowerCase() : t; (el || tela).dispatchEvent(new KeyboardEvent("keydown", { key, ctrlKey: ctrl, bubbles: true, cancelable: true })); };

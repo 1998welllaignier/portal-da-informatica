@@ -84,7 +84,7 @@
     const temTecla = passos.some(p => p.teclas && p.teclas.length);
     box.innerHTML = `<div class="bit-demo" role="region" aria-label="O Bit mostra como faz"><div class="bit-topo">${BIT}<div class="bit-fala" aria-live="polite"><strong>Bit:</strong> <span class="bf">Olha só como eu faço…</span></div></div>
       ${temTecla ? `<div class="bit-palco">${htmlTeclado({ mini: true, ed: o.ed, np: o.np })}${o.semCaixa ? "" : `<div class="bit-caixa"><span class="bc"></span><span class="bit-cur"></span></div>`}</div>` : ""}
-      ${passos.some(p => p.mouse) ? `<div class="bit-mouse"><div class="bm-corpo"><span class="bm-e"></span><span class="bm-d"></span></div><span class="bm-txt"></span></div>` : ""}
+      ${passos.some(p => p.mouse) ? `<div class="bit-mouse${P.gesto ? " bit-gesto" : ""}"><div class="bm-corpo"><span class="bm-e"></span><span class="bm-d"></span></div><span class="bm-txt"></span></div>` : ""}
       <div class="bit-bts"><button type="button" class="btn bit-de-novo">🔁 Ver de novo</button><button type="button" class="btn btn-ok bit-entendi">👍 Entendi! Agora eu faço</button></div></div>`;
     const kb = box.querySelector(".tk"), fala = box.querySelector(".bf"), cx = box.querySelector(".bc"); let rodando = 0;
     const tocar = async () => { const id = ++rodando; if (cx) cx.textContent = o.inicio || ""; if (kb && o.leds) Object.entries(o.leds).forEach(([k, v]) => led(kb, k, v));
@@ -93,7 +93,8 @@
           for (const c of seg) { acender(kb, c, "tk-segura", true); await espera(650); }
           if (ult) { acender(kb, ult, "tk-alvo", true); await espera(250); acender(kb, ult, "tk-ap", true); if (p.leds) Object.entries(p.leds).forEach(([k, v]) => led(kb, k, v)); if (cx && p.mostra != null) cx.textContent = p.mostra; await espera(500); acender(kb, ult, "tk-ap", false); }
           await espera(1300); seg.concat(ult).forEach(c => { acender(kb, c, "tk-segura", false); acender(kb, c, "tk-alvo", false); }); await espera(300); }
-        if (p.mouse) { const m = box.querySelector(".bm-corpo"), t2 = box.querySelector(".bm-txt"); const cls = p.mouse === "dir" ? "bm-dir" : "bm-esq";
+        if (p.mouse && P.gesto) { const bm = box.querySelector(".bit-mouse"); bm.innerHTML = P.gesto(p.mouse === "dir" ? "direito" : p.mouse === "duplo" ? "duplo" : "clique"); await espera(2400); }   // 🖱️ 21/11/2026: o mousezinho novo
+        else if (p.mouse) { const m = box.querySelector(".bm-corpo"), t2 = box.querySelector(".bm-txt"); const cls = p.mouse === "dir" ? "bm-dir" : "bm-esq";
           const n = p.mouse === "duplo" ? 2 : 1; for (let i = 0; i < n; i++) { m.classList.add(cls); await espera(p.mouse === "duplo" ? 160 : 450); m.classList.remove(cls); await espera(p.mouse === "duplo" ? 140 : 300); }
           t2.textContent = p.mouse === "dir" ? "botão DIREITO" : p.mouse === "duplo" ? "clique-clique RAPIDINHO" : "1 clique (botão esquerdo)"; await espera(1500); } }
       if (id === rodando) fala.innerHTML = "Agora é a sua vez: faça igualzinho! 💪"; };
