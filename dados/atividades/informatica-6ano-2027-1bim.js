@@ -115,7 +115,7 @@ PORTAL.registrarAtividades("informatica-6ano-2027-1bim", {
         explicacao: "1 clique (esquerdo) escolhe; duplo clique abre; o botão direito mostra o menu de opções (e a tecla do menu, perto do Ctrl da direita, faz o mesmo)." }
     ],
     desafio: [
-      {"tipo": "classificar", "modo": "tabela", "titulo": "🟡 Desafio: qual ação do mouse resolve?", "colunaItem": "O que você quer fazer", "colunaResp": "Ação", "enunciado": "<p>Situações novas! Para cada uma, escolha a ação do mouse que resolve.</p>", "categorias": [{"id": "C", "rot": "Clique"}, {"id": "D", "rot": "Duplo clique"}, {"id": "B", "rot": "Clique direito"}, {"id": "A", "rot": "Arrastar"}, {"id": "R", "rot": "Rolar"}], "itens": [{"t": "Apertar o botão OK de um aviso", "c": "C", "why": "Apertar um botão é um clique."}, {"t": "Abrir a pasta Fotos", "c": "D", "why": "Pastas abrem com duplo clique."}, {"t": "Ver mais opções de um arquivo (como Renomear)", "c": "B", "why": "O clique direito mostra o menu com mais opções."}, {"t": "Levar um ícone para o outro canto da tela", "c": "A", "why": "Mudar de lugar é arrastar."}, {"t": "Descer a página de um site comprido", "c": "R", "why": "A rodinha rola a página."}], "explicacao": "Cada jeito de usar o mouse serve para uma coisa: clique escolhe, duplo clique abre, clique direito mostra opções, arrastar muda de lugar e a rodinha rola."},
+      {"tipo": "classificar", "modo": "tabela", "titulo": "🟡 Desafio: qual ação do mouse resolve?", "colunaItem": "O que você quer fazer", "colunaResp": "Ação", "enunciado": "<p>Situações novas! Para cada uma, escolha a ação do mouse que resolve.</p>", "categorias": [{"id": "C", "rot": "Clique"}, {"id": "D", "rot": "Duplo clique"}, {"id": "B", "rot": "Clique direito"}, {"id": "A", "rot": "Arrastar"}, {"id": "R", "rot": "Rolar"}], "itens": [{"t": "Apertar o botão OK de um aviso", "c": "C", "why": "Apertar um botão é um clique."}, {"t": "Abrir a pasta Fotos", "c": "D", "why": "Pastas abrem com duplo clique."}, {"t": "Ver o menu de opções de um arquivo", "c": "B", "why": "O clique direito mostra o menu com mais opções."}, {"t": "Levar um ícone para o outro canto da tela", "c": "A", "why": "Mudar de lugar é arrastar."}, {"t": "Descer a página de um site comprido", "c": "R", "why": "A rodinha rola a página."}], "explicacao": "Cada jeito de usar o mouse serve para uma coisa: clique escolhe, duplo clique abre, clique direito mostra opções, arrastar muda de lugar e a rodinha rola."},
       { tipo: "teclado", modo: "copiar", titulo: "✍️ Copie igualzinho: maiúsculas, acentos e símbolos",
         enunciado: "<p>Copie cada frase <b>igualzinho</b>. O portal confere letra por letra: <span style='color:#15803d'>verde</span> = certo, <span style='color:#b91c1c'>vermelho</span> = apague com o Backspace e corrija. Acento: aperte a tecla do acento, <b>solte</b>, e depois a vogal.</p>",
         frases: ["Meu e-mail é pedro@escola.com", "Ação! 50% de desconto & frete grátis.", "Hoje fez 30°C em Curionópolis.", "Você já viu a #CampanhaDoLixo?", "Pão, maçã e café: R$ 12,00 (doze reais)."],
@@ -268,7 +268,7 @@ PORTAL.registrarAtividades("informatica-6ano-2027-1bim", {
           { t: "A urna confere o número", c: "P", why: "Conferir é processar." },
           { t: "A foto do candidato aparece", c: "S", why: "A tela mostra o resultado." }],
         explicacao: "Em todo aparelho: a informação entra (microfone, teclado), é processada (entender, conferir) e sai (tela)." },
-      {tipo:  "classificar", titulo:  "Aparelhos da casa: entrada, processamento ou saída?", categorias:  [{id:  "E", rot:  "⌨️ Entrada (o que recebe)"}, {id:  "P", rot:  "⚙️ Processamento (o que faz por dentro)"}, {id:  "S", rot:  "📺 Saída (o que mostra ou entrega)"}], itens:  [{t:  "Micro-ondas: aperto os botões do tempo", c:  "E"}, {t:  "Micro-ondas: o chip conta o tempo", c:  "P"}, {t:  "Micro-ondas: o visor mostra o tempo e o apito toca", c:  "S"}, {t:  "Celular: toco na tela", c:  "E"}, {t:  "Celular: o processador abre o aplicativo", c:  "P"}, {t:  "Celular: o alto-falante toca a música", c:  "S"}], explicacao:  "Todo aparelho digital <b>recebe</b> (entrada), <b>processa</b> e <b>entrega</b> (saída)."},
+      {tipo:  "classificar", titulo:  "Aparelhos da casa: entrada, processamento ou saída?", categorias:  [{id:  "E", rot:  "⌨️ Entrada (o que recebe)"}, {id:  "P", rot:  "⚙️ Processamento (o que faz por dentro)"}, {id:  "S", rot:  "📺 Saída (o que mostra ou entrega)"}], itens:  [{t:  "Micro-ondas: aperto os botões do tempo", c:  "E"}, {t:  "Micro-ondas: o chip conta o tempo", c:  "P"}, {t:  "Micro-ondas: o visor mostra o tempo e o apito toca", c:  "S"}, {t:  "Celular: toco na tela", c:  "E"}, {t:  "Celular: o processador abre o jogo", c:  "P"}, {t:  "Celular: o alto-falante toca a música", c:  "S"}], explicacao:  "Todo aparelho digital <b>recebe</b> (entrada), <b>processa</b> e <b>entrega</b> (saída)."},
       /* ⏱️ +25% de tempo (21/11/2026, pedido do professor) */ { tipo: "rota", titulo: "Da câmera à foto na tela",
         enunciado: "<p>Você tira uma foto com o celular. Clique nas etapas <strong>na ordem</strong>.</p>",
         etapas: [
@@ -486,7 +486,7 @@ PORTAL.registrarAtividades("informatica-6ano-2027-1bim", {
     gancho: {"html": "<p>📂 A Lara salvou o trabalho de Ciências, mas agora <b>não acha</b> o arquivo. Ela lembra só que era uma <b>foto</b> e que estava escrito “ciencias” no nome.</p><p>🤔 Como ela pode descobrir <b>onde</b> o arquivo foi parar e <b>que tipo</b> de arquivo ele é?</p>"},
     aplicar: [
       {"tipo": "sim_pc", "titulo": "🛠️ Na vida real: ache o trabalho perdido da Lara", "enunciado": "<p>Lembra da Lara? Ela não acha o trabalho de Ciências. Ela lembra só que era uma <b>foto</b> e que tinha <b>ciencias</b> no nome. Use o Explorador de Arquivos para achar!</p>", "abertas": ["exp"], "inicioPasta": "Documentos", "pastas": {"Documentos": [{"nome": "redacao-ferias", "ext": "txt"}, {"nome": "tabuada", "ext": "txt"}, {"nome": "ciencias-planta-feijao", "ext": "jpg", "figura": "🌱"}, {"nome": "ciencias-resumo", "ext": "txt"}, {"nome": "hino-da-escola", "ext": "mp3"}, {"nome": "foto-do-time", "ext": "jpg", "figura": "⚽"}, {"nome": "lista-de-compras", "ext": "txt"}, {"nome": "desenho-mapa", "ext": "jpg", "figura": "🗺️"}]}, "passos": [{"faca": "Primeiro, ligue as <b>Extensões</b> (botão lá em cima, à direita) para ver o tipo de cada arquivo.", "ok": "extensoes:sim", "onde": "exp:ext"}, {"faca": "São muitos arquivos! Use a <b>busca</b> do Explorador: digite <b>ciencias</b> e aperte <b>Enter</b>.", "ok": "/^buscar:.*cienc/", "onde": "exp:busca", "dica": "A caixa de busca fica no alto da janela, à direita."}, {"faca": "Apareceram dois arquivos com <b>ciencias</b>. O trabalho era uma <b>foto</b>: abra o que termina em <b>.jpg</b>.", "ok": "/^abrir:arq:ciencias.*\\.jpg$/", "onde": "arq:ciencias-planta-feijao.jpg", "erros": {"abrir:arq:*": "Esse não é foto. Foto termina em <b>.jpg</b>."}}], "fimMsg": "Achou! Com a busca e a extensão (.jpg = foto), a Lara encontrou o trabalho em segundos.", "explicacao": "Para achar um arquivo: use a busca do Explorador com uma parte do nome e confira a extensão para saber o tipo (.jpg é foto, .txt é texto)."},
-      {"tipo": "escolha", "titulo": "🛠️ E na vida real, o que você faria?", "enunciado": "<p>Use o que você aprendeu hoje para resolver cada situação.</p>", "perguntas": [{"p": "Você baixou o boletim em PDF pelo navegador. Em que pasta ele costuma ir parar?", "opcoes": ["Downloads", "Área de trabalho", "Lixeira"], "certo": 0, "why": "O que você baixa da internet vai para a pasta <b>Downloads</b>."}, {"p": "O arquivo se chama <b>festa.jpg</b>. Que tipo de arquivo ele é?", "opcoes": ["Imagem (foto)", "Música", "Texto"], "certo": 0, "why": "A extensão <b>.jpg</b> mostra que é uma imagem."}, {"p": "Você está fazendo um trabalho e quer guardar o que já fez sem fechar nada. Qual atalho usa?", "opcoes": ["Ctrl + S", "Ctrl + Z", "Alt + Tab"], "certo": 0, "why": "<b>Ctrl + S</b> salva o trabalho na hora."}]}],
+      {"tipo": "escolha", "titulo": "🛠️ E na vida real, o que você faria?", "enunciado": "<p>Use o que você aprendeu hoje para resolver cada situação.</p>", "perguntas": [{"p": "Você baixou o boletim em PDF pelo navegador. Em que pasta ele costuma ir parar?", "opcoes": ["Downloads", "Área de trabalho", "Lixeira"], "certo": 0, "why": "O que você baixa da internet vai para a pasta <b>Downloads</b>."}, {"p": "O arquivo se chama <b>festa.jpg</b>. Que tipo de arquivo ele é?", "opcoes": ["Imagem (foto)", "Música", "Texto"], "certo": 0, "why": "A extensão <b>.jpg</b> mostra que é uma imagem."}, {"p": "Você está fazendo um trabalho e quer guardar o que já fez sem fechar nada. Qual atalho usa?", "opcoes": ["Ctrl + S", "Ctrl + Z", "Enter"], "certo": 0, "why": "<b>Ctrl + S</b> salva o trabalho na hora."}]}],
     pratica: [
       { tipo: "sim_pc", titulo: "📁 No computador: crie a sua pasta e organize os arquivos",
         enunciado: "<p>No Explorador de Arquivos do computador de treino, você vai criar uma pasta, dar nome, guardar arquivos nela e usar a Lixeira. O <strong>Bit</strong> confere cada passo.</p>",
@@ -592,7 +592,7 @@ PORTAL.registrarAtividades("informatica-6ano-2027-1bim", {
           { de: "", t: "trabalho.docx", c: "T", why: ".docx é texto do Word." },
           { de: "", t: "gol-do-time.mp4", c: "V", why: ".mp4 é vídeo." },
           { de: "", t: "musica.mp3", c: "M", why: ".mp3 é áudio." },
-          { de: "", t: "print.png", c: "I", why: ".png é imagem." },
+          { de: "", t: "desenho.png", c: "I", why: ".png é imagem." },
           { de: "", t: "anotacoes.txt", c: "T", why: ".txt é texto simples." }],
         explicacao: "A extensão diz o tipo: .jpg/.png = imagem; .docx/.txt = texto; .mp4 = vídeo; .mp3 = áudio." }
     ],
@@ -872,8 +872,9 @@ PORTAL.registrarAtividades("informatica-6ano-2027-1bim", {
           { de: "", t: "Desconhecido: \"Qual é o seu endereço?\"", c: "A", why: "Endereço é dado pessoal: não se passa para quem você não conhece." },
           { de: "", t: "Grupo da turma: \"Parabéns pelo aniversário, Ana!\"", c: "R", why: "Mensagem boa: dá para responder com educação." },
           { de: "", t: "Desconhecido: \"Não conta para ninguém que a gente conversa\"", c: "A", why: "Pedir segredo de um adulto é sinal de perigo." },
-          { de: "", t: "Alguém: \"Me passa a sua senha do jogo?\"", c: "A", why: "Senha não se passa para ninguém, nem para o melhor amigo." }],
-        explicacao: "Mensagem normal: responda com educação. Pedido de foto, endereço, segredo ou senha: pare a conversa, não responda e conte a um adulto de confiança." },
+          { de: "", t: "Alguém: \"Me passa a sua senha do jogo?\"", c: "A", why: "Senha não se passa para ninguém, nem para o melhor amigo." },
+          { de: "", t: "\"Você ganhou um celular! Clique no link, só hoje!\"", c: "A", why: "Prêmio fácil e pressa: é golpe. Não clique, não responda e conte a um adulto." }],
+        explicacao: "Mensagem normal: responda com educação. Pedido de foto, endereço, segredo ou senha, ou prêmio fácil com link (golpe): pare a conversa, não clique, não responda e conte a um adulto de confiança." },
       /* ⏱️ +25% de tempo (21/11/2026, pedido do professor) */ { tipo: "rota", titulo: "Ofenderam um colega no grupo: e agora?",
         enunciado: "<p>Alguém postou uma ofensa contra um colega no grupo da turma. Clique nas atitudes <strong>na ordem</strong>.</p>",
         etapas: [
@@ -898,6 +899,17 @@ PORTAL.registrarAtividades("informatica-6ano-2027-1bim", {
           { t: "Deseja bom dia no grupo da escola", certo: false, why: "É só uma mensagem educada." }],
         dicas: ["Releia no 💡 Para começar o que é sinal de perigo."],
         explicacao: "Pedir foto, endereço, onde você está ou segredo dos adultos é sinal de perigo: pare a conversa e conte a um adulto de confiança." },
+      /* ⏱️ +25% de tempo (21/11/2026, pedido do professor) */ { tipo: "sinais", titulo: "Marque as SENHAS FORTES",
+        enunciado: "<p>Marque as senhas difíceis de adivinhar.</p>",
+        opcoes: [
+          { t: "Gato#Azul2027!", certo: true },
+          { t: "Bolo&Chuva_49", certo: true },
+          { t: "Sol*Mar7Lua", certo: true },
+          { t: "123456", certo: false, why: "Sequência: é das primeiras que os golpistas tentam." },
+          { t: "flamengo", certo: false, why: "Nome de time é fácil de adivinhar." },
+          { t: "maria2016", certo: false, why: "Nome e ano de nascimento são fáceis de descobrir." }],
+        dicas: ["Releia no 💡 Para começar como é uma senha forte."],
+        explicacao: "Senha forte é comprida e mistura maiúsculas, minúsculas, números e símbolos. Sequências, nome de time, nome e data de nascimento são fáceis de adivinhar." },
       /* ⏱️ +25% de tempo (21/11/2026, pedido do professor) */ { tipo: "classificar", titulo: "Atitude boa ou ruim na rede?",
         enunciado: "<p>Arraste cada atitude para o lugar certo.</p>",
         categorias: [{ id: "B", rot: "👍 Boa atitude" }, { id: "R", rot: "👎 Atitude ruim" }],

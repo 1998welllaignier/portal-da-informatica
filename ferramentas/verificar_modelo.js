@@ -18,12 +18,16 @@
      • "Ver onde isso está explicado" que não acha o trecho certo no Para começar
      • Desafio + Turbo curtos demais perto do Básico (o reequilíbrio pedido antes do caminho adaptativo)
      • palavra difícil sem figurinha (imagem) no álbum
+     • 📖 COBRA SEM EXPLICAR (21/11/2026): tarefa que usa uma palavra técnica (do glossário do portal) que NÃO aparece
+       no Para começar / palavras explicadas / Onde eu uso / resumo desta missão ou das anteriores. Revisão humana decide:
+       trocar o item por um já explicado OU, se a BNCC pedir, acrescentar a explicação na apostila.
+       (sempre nas apostilas em espiral; nas outras, com --cobranca)
    --prints: tira um print de cada etapa das missões em espiral (pasta ferramentas/verificar_prints/)
    ============================================================ */
 const { chromium } = require("playwright");
 const fs = require("fs"), path = require("path");
 const RAIZ = path.join(__dirname, ".."), BASE = process.env.PORTAL_URL || "http://localhost:8765/";
-const so = process.argv.slice(2).find(a => !a.startsWith("--")), PRINTS = process.argv.includes("--prints");
+const so = process.argv.slice(2).find(a => !a.startsWith("--")), PRINTS = process.argv.includes("--prints"), COBRANCA = process.argv.includes("--cobranca");
 
 (async () => {
   const b = await chromium.launch(); const p = await b.newPage({ viewport: { width: 1366, height: 900 } });
@@ -34,7 +38,7 @@ const so = process.argv.slice(2).find(a => !a.startsWith("--")), PRINTS = proces
   const ids = (lista || fs.readdirSync(path.join(RAIZ, "dados/conteudo")).map(f => f.replace(/\.js$/, ""))).filter(id => !so || id === so);
   const rel = { erros: [], avisos: [], ok: 0 };
   for (const aid of ids) {
-    const r = await p.evaluate(async aid => {
+    const r = await p.evaluate(async ([aid, COBRANCA]) => {
       const E = [], W = []; let missoes = 0;
       try { await new Promise((ok, err) => { const ap = PORTAL.apostila && PORTAL.apostila(aid); if (!ap) return err(new Error("não está no catálogo")); ok(); }); } catch (e) { return { E: [aid + ": " + e.message], W, missoes }; }
       // carrega a apostila como o portal faz
@@ -42,6 +46,14 @@ const so = process.argv.slice(2).find(a => !a.startsWith("--")), PRINTS = proces
       if (!PORTAL.conteudo[aid]) { try { await add("dados/conteudo/" + aid + ".js"); await add("dados/atividades/" + aid + ".js"); await add("dados/ilustracoes/" + aid + ".js").catch(() => null); } catch (e) { return { E: [aid + ": não carregou " + e.message], W, missoes }; } }
       const C = PORTAL.conteudo[aid], ap = PORTAL.apostila(aid), esp = ap.modelo === "espiral";
       const ids = new Set(), T = PORTAL.tipos || {};
+      // 📖 cobra sem explicar: glossário = palavras com figurinha + palavras explicadas desta apostila + extras
+      const sem = x => String(x || "").replace(/<[^>]+>/g, " ").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/\s+/g, " ");
+      const EXTRA = ["projetor", "webcam", "placa-mae", "antivirus", "reinstalar", "loja de aplicativos", "golpe", "phishing", "link", "boato", "senha forte", "bloquear", "delete", "backspace", "caps lock", "shift", "enter", "ctrl + p", "ctrl + a", "alt + tab", "este computador", "formulario", "nuvem", "backup", "wi-fi", "roteador", "navegador", "sistema operacional", "extensao", "download", "upload", "e-mail", "spam", "cookies", "virus", "malware", "firewall", "pixel", "byte", "bit", "megabyte", "gigabyte", "algoritmo", "variavel", "pacote", "servidor", "ip"];
+      const GLOS = [...new Set([...Object.keys(window.TERMOS_IMG || {}), ...C.missoes.flatMap(m => (m.termos || []).map(t => sem(t.termo))), ...EXTRA].map(sem).filter(k => k.length >= 3 && !["tela", "guardar", "salvar", "pasta", "peca", "pecas", "arquivo", "programa", "formato", "app", "dados", "dado", "texto", "numero", "imagem", "foto", "jogo", "site", "internet", "computador", "celular", "mouse", "teclado", "monitor", "erro"].includes(k)))];
+      const temP = (txt, k) => new RegExp("(^|[^a-z0-9])" + k.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "([^a-z0-9]|$)").test(txt);
+      const explicadoAte = {}; { let acc = ""; for (const m of C.missoes) { acc += " " + sem(JSON.stringify([m.comecar, m.termos, m.ondeUso, m.resumo, m.alertas, m.objetivo])); explicadoAte[m.id] = acc; } }
+      const L = x => Array.isArray(x) ? x : [];
+      const textoCobrado = at => sem(JSON.stringify([L(at.perguntas).map(q => [q && q.p, q && q.opcoes]), L(at.itens).map(i => typeof i === "string" ? i : i && [i.t, i.p]), L(at.opcoes).map(o => (o && o.t) || o), L(at.etapas).map(e => e && e.t), L(at.pares).map(x => x && [x.a, x.b]), L(at.botoes).map(b => b && b.rot), L(at.arquivos).map(a => a && a.nome)]));   // frases/alvos de digitação são só para copiar
       for (const m of C.missoes) {
         const mid = m.id, onde = `${aid} › ${mid}`; missoes++;
         let mm; try { mm = PORTAL.montarMissao(aid, mid); } catch (e) { E.push(`${onde}: a missão não monta (${e.message})`); continue; }
@@ -57,6 +69,13 @@ const so = process.argv.slice(2).find(a => !a.startsWith("--")), PRINTS = proces
         if (/^m\d+$/.test(mid) && !ap.trilha) {   // a 👣 Trilha (alunos atípicos) não tem Desafio/Turbo de propósito
           const n = k => ((pg[k] || {}).atividades || []).filter(x => !x.opcional).length, nb = n("basico") + n("pratica"), nd = n("desafio") + n("turbo");
           if (nb && nd * 2 < nb) W.push(`${onde}: Desafio + Turbo com ${nd} tarefa(s) para ${nb} do Mão na massa + Básico (reequilibrar antes do caminho adaptativo)`);
+        }
+        if ((esp || COBRANCA) && !/^rc$/.test(mid)) {   // 📖 cobra sem explicar
+          const expl = explicadoAte[mid] || explicadoAte[C.missoes[C.missoes.length - 1].id];
+          mm.pages.forEach(pag => (pag.atividades || []).forEach(at => { if (at.tipo === "sim_pc" || at.tipo === "carinhas" || at.tipo === "lab" || at.tipo === "chefao" || at.tipo === "show") return;
+            const cob = textoCobrado(at), local = expl + " " + sem(at.enunciado) + " " + sem((pag.gancho || {}).html);
+            const falta = GLOS.filter(k => temP(cob, k) && !temP(local, k) && !temP(local, k.split(" ").map(w => w.length > 2 ? (/l$/.test(w) ? w.slice(0, -1) + "is" : w + "s") : w).join(" ")));   // aceita o plural (dado → dados, pessoal → pessoais)
+            if (falta.length) W.push(`${onde} › ${pag.id} › ${String(at.titulo || at.id).replace(/<[^>]+>/g, "").slice(0, 45)}: 📖 cobra sem explicar: ${falta.join(", ")}`); }));
         }
         if (esp && /^m\d+$/.test(mid)) {
           ["lembra", "comecar", "basico", "lab", "onde", "fechar"].forEach(k => { if (!pg[k]) E.push(`${onde}: falta a etapa "${k}" do modelo em espiral`); });
@@ -75,7 +94,7 @@ const so = process.argv.slice(2).find(a => !a.startsWith("--")), PRINTS = proces
       // imagens e fotos citadas nas ilustrações
       const figs = JSON.stringify((PORTAL.ilustracoes || {})[aid] || {}), srcs = [...new Set((figs.match(/(img|fotos|dados)\/[\w\/.-]+\.(webp|png|jpe?g|svg|gif)/g) || []))];
       return { E, W, missoes, srcs };
-    }, aid);
+    }, [aid, COBRANCA]);
     (r.srcs || []).forEach(s => { if (!fs.existsSync(path.join(RAIZ, s))) r.E.push(`${aid}: imagem que não existe no disco: ${s}`); });
     rel.erros.push(...r.E); rel.avisos.push(...r.W); rel.ok += r.missoes;
     console.log(`${r.E.length ? "❌" : r.W.length ? "⚠️ " : "✅"} ${aid}: ${r.missoes} missões · ${r.E.length} erro(s) · ${r.W.length} aviso(s)`);

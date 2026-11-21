@@ -982,6 +982,14 @@ PORTAL.registrarConteudo("informatica-6ano-2027-1bim", {
     {
      "t": "p",
      "h": "Se alguém for ofendido na rede, o que fazer: <strong>não compartilhar</strong> a ofensa, <strong>apoiar o colega</strong>, <strong>guardar o print</strong> (a prova) e <strong>contar a um adulto</strong> ou <strong>denunciar</strong>."
+    },
+    {
+     "t": "p",
+     "h": "🔐 <strong>Senha forte</strong> é a que ninguém adivinha: é <strong>comprida</strong> e mistura <strong>letras maiúsculas, minúsculas, números e símbolos</strong>. Nunca use o seu nome, a sua data de nascimento, o nome do seu time ou sequências como 123456."
+    },
+    {
+     "t": "p",
+     "h": "🎣 <strong>Golpe</strong> na internet costuma chegar como mensagem com <strong>prêmio fácil</strong> (“você ganhou um celular!”), <strong>pressa</strong> (“só hoje!”) ou <strong>pedido de senha ou código</strong>. O que fazer: <strong>não clicar no link, não responder e contar a um adulto de confiança</strong>."
     }
    ],
    "termos": [

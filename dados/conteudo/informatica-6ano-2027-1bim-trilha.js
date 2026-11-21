@@ -104,6 +104,10 @@ PORTAL.registrarConteudo("informatica-6ano-2027-1bim-trilha", {
    "comecar": [
     {
      "t": "p",
+     "h": "O fundo da tela, com os ícones, é a <strong>área de trabalho</strong>."
+    },
+    {
+     "t": "p",
      "h": "Para conversar com o computador usamos o <strong>mouse</strong> e o <strong>teclado</strong>. Cada programa aberto fica dentro de uma <strong>janela</strong>."
     },
     {
@@ -810,6 +814,14 @@ PORTAL.registrarConteudo("informatica-6ano-2027-1bim-trilha", {
     {
      "t": "p",
      "h": "<strong>Dados pessoais</strong> (nome completo, endereço, telefone, escola) não se passam para quem você não conhece. Se um desconhecido pedir foto, endereço ou <strong>segredo</strong>, é <strong>perigo</strong>: <strong>pare a conversa e conte para um adulto de confiança</strong>."
+    },
+    {
+     "t": "p",
+     "h": "🔐 <strong>Senha forte</strong> é comprida e mistura letras, números e símbolos. Nunca use o seu nome nem 123456."
+    },
+    {
+     "t": "p",
+     "h": "🎣 <strong>Golpe</strong>: mensagem de prêmio fácil ou pedindo a senha. <strong>Não clique, não responda e conte a um adulto.</strong>"
     }
    ],
    "termos": [
@@ -871,6 +883,10 @@ PORTAL.registrarConteudo("informatica-6ano-2027-1bim-trilha", {
    "titulo": "Missão 7 – Extra: Digitação sem medo",
    "objetivo": "digitar com as duas mãos, com letra maiúscula e acento.",
    "comecar": [
+    {
+     "t": "p",
+     "h": "O teclado do Brasil se chama <strong>ABNT2</strong>: é o que tem a tecla <strong>Ç</strong>."
+    },
     {
      "t": "p",
      "h": "Os dedos descansam na <strong>fileira base</strong>, a fileira do meio do teclado:"
@@ -990,6 +1006,10 @@ PORTAL.registrarConteudo("informatica-6ano-2027-1bim-trilha", {
    "titulo": "Missão 8 – Extra: Atalhos do teclado e do mouse",
    "objetivo": "usar atalhos para copiar, colar, desfazer e salvar.",
    "comecar": [
+    {
+     "t": "p",
+     "h": "<strong>Selecionar</strong> é marcar o texto: segure o botão do mouse e passe por cima das palavras. <strong>Ctrl + A</strong> seleciona tudo de uma vez."
+    },
     {
      "t": "p",
      "h": "Um <strong>atalho</strong> é um jeito rápido de fazer algo apertando duas teclas juntas. Segure a primeira (<strong>Ctrl</strong>) e aperte a segunda."
