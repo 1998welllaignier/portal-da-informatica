@@ -676,12 +676,16 @@ body.sp-travado{overflow:hidden}
         if (g) { const imp = [...tela.querySelectorAll("[data-k],[data-m],[data-ev],[data-campo],[data-link],button,input,textarea,a,td,label,h1,h2,h3,p,li")].filter(x => x.matches("input,textarea") || (x.getBoundingClientRect().width * x.getBoundingClientRect().height < 45000)).map(x => x.getBoundingClientRect()).filter(r => r.width && r.height);
           if (g[0] === "direito") imp.push({ left: parseFloat(e.style.left), top: parseFloat(e.style.top), right: parseFloat(e.style.left) + 280, bottom: parseFloat(e.style.top) + 320 });   // o menu do botão direito vai abrir aqui
           tela.querySelectorAll(".sp-dlg").forEach(d => imp.push(d.getBoundingClientRect()));
+          // e QUALQUER texto visível na tela (endereço, nomes, títulos): cada pedacinho de texto conta como importante
+          const txtRects = raiz => { const out = [], tw = document.createTreeWalker(raiz, NodeFilter.SHOW_TEXT, { acceptNode: n => /\S/.test(n.nodeValue) ? 1 : 2 }), rg = document.createRange(); let n; while ((n = tw.nextNode())) { rg.selectNodeContents(n); out.push(...rg.getClientRects()); } return out; };
+          imp.push(...txtRects(tela));
           const w = e.offsetWidth, h = e.offsetHeight, x0 = parseFloat(e.style.left), y0 = parseFloat(e.style.top), livre = (x, y) => x > 4 && y > 4 && x + w < innerWidth - 4 && y + h < innerHeight - 4 && !imp.some(r => !(r.right <= x || r.left >= x + w || r.bottom <= y || r.top >= y + h));
           const pos = [[-w - 6, -2], [-w - 6, -h - 6], [-w / 2, -h - 10], [30, -h - 6], [-w - 6, 24], [30, 34]].find(([dx, dy]) => livre(x0 + dx, y0 + dy));
           if (pos && g[0] !== "arrastar") e.style.transform = `translate(${pos[0]}px,${pos[1]}px)`; else e.remove();   // arrastando, as coisas andam na tela: fica só o da faixa
           // a tela muda depois do clique (página nova, janela, caixa de diálogo): se passar a cobrir algo, o mousezinho da setinha sai
           const cobre = () => { if (!e.isConnected) return; const c = e.getBoundingClientRect(), tl = document.querySelector(".spd .sp-tela") || tela, sp = tl.closest(".sp");
             const els = [...tl.querySelectorAll("[data-k],[data-m],[data-ev],[data-campo],[data-link],button,input,textarea,a,td,label,h1,h2,h3,p,li,.sp-dlg")].concat(sp ? [sp.querySelector(".sp-guia")] : []).filter(Boolean);
+            if (txtRects(tl).some(r => r.width && !(r.right <= c.left || r.left >= c.right || r.bottom <= c.top || r.top >= c.bottom))) return e.remove();
             if (els.some(x => { const r = x.getBoundingClientRect(); return r.width && (x.matches("input,textarea,.sp-guia,.sp-dlg") || r.width * r.height < 45000) && !(r.right <= c.left || r.left >= c.right || r.bottom <= c.top || r.top >= c.bottom); })) e.remove(); };
           if (e.isConnected) { const mo = new MutationObserver(cobre); mo.observe(document.querySelector(".spd") || tela, { childList: true, subtree: true, attributes: true, characterData: true }); setTimeout(() => mo.disconnect(), 2000); [150, 500].forEach(t => setTimeout(cobre, t)); } }
         setTimeout(() => e.remove(), g ? 1800 : 1600); };
