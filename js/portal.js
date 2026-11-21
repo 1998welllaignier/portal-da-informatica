@@ -1612,7 +1612,8 @@
     corpo.addEventListener("change", () => { ctx._ult = Date.now(); });
     corpo.addEventListener("click", e => { if (!(e.target && /^(INPUT|LABEL)$/.test(e.target.tagName))) ctx._ult = Date.now(); });   // depois de cada resposta, o relógio do chute recomeça
     // 📖 tempo mínimo de leitura (20/11/2026): só na 1ª vez, quando a tarefa aparece na tela; já com folga para quem lê rápido
-    if (!st.status && !st.leu && !emRec && !(s && s.prof) && at.tipo !== "lab") tempoDeLeitura(el, () => { st.leu = 1; ctx._ult = Date.now(); salvar(); });
+    if (!st.status && !st.leu && !emRec && !(s && s.prof) && !/^(lab|show)$/.test(at.tipo)) tempoDeLeitura(   // 21/11/2026 (professor): o ⚡ show do Lembra? tem relógio próprio, a trava de leitura comia o tempo dele
+      el, () => { st.leu = 1; ctx._ult = Date.now(); salvar(); });
     // 🤖 Bit (18/11/2026): qualquer tarefa com "robo" ganha o botão "Me ajuda, robô!", mesmo se o tipo dela não chama o Bit sozinho
     //    sem robô próprio, vale o robô padrão do tipo (js/robo-padrao.js, 18/11/2026)
     { const rb = at.robo || (P.roboPadrao && P.roboPadrao(at));
