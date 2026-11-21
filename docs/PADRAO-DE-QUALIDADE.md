@@ -583,3 +583,8 @@ Questões **contextualizadas** (situação curta: 1–2 frases no 6º, 2–3 no 
 - O professor pode pedir o tamanho das missões em porcentagem de tempo ("+20%", "+25%"). A conta usa a estimativa por tipo de tarefa (ex.: ~25 s por passo de simulador, ~15 s por item de classificar, leitura a ~110 palavras/min).
 - Aplicado no piloto (6º ano 1º bim 2027): média 36 → 45 min por missão (+25%), com 34 tarefas novas, todas jogos/simuladores (2 simuladores novos, mensagens, rotas, sinais, classificar, ordenar, explorador de pastas, digitação). O Básico quase não cresceu (para o visto continuar alcançável); o acréscimo foi para o Desafio e o Turbo (o "teto alto"). A 👣 Trilha não mudou.
 - Toda tarefa nova leva o comentário `⏱️ +25% de tempo (21/11/2026)` no arquivo, para achar ou desfazer.
+
+## 📖 Só cobra o que foi explicado — e, se a BNCC pedir, a explicação entra (21/11/2026 — professor)
+- Nenhuma tarefa, simulador ou jogo cobra algo que a apostila (Para começar, palavras explicadas, vídeo da missão ou missões anteriores) não explicou antes.
+- Quando aparecer um item fora do conteúdo, há DUAS saídas, escolhidas caso a caso: (1) trocar o item por outro já explicado; ou (2) se o assunto é pedido pela BNCC ou importante para o aluno, ACRESCENTAR a explicação na apostila (em camadas: texto curto, palavra pontilhada, "Você sabia?"), com fato verificado em fonte confiável.
+- Se o modelo do piloto for para a apostila inteira, toda missão passa por essa revisão com muito cuidado (cobrança × explicação × BNCC), além do verificador.
