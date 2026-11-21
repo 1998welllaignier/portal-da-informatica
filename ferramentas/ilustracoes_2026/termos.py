@@ -190,6 +190,144 @@ foto("fibra optica", "fibra-optica", "Foto real: cabo de fibra óptica levando l
 foto("placa-mae|placa mae", "gabinete-aberto", "Foto real: gabinete aberto com a placa-mãe e o cooler sobre o processador.", "Foto: BGN-WMCO · Wikimedia Commons · licença CC BY 3.0 (foto recortada)")
 foto("cabo submarino", "cabo-submarino-praia-crozet", "Foto real: cabo submarino saindo do mar e chegando a uma praia (Ilhas Crozet).", "Foto: CTBTO Preparatory Commission (The Official CTBTO Photostream) · Wikimedia Commons · licença CC BY 2.0")
 
+
+# ---------------- 6º ano 2027 · 1º bimestre (figurinhas do álbum, 20/11/2026) ----------------
+def janela(x, y, w, h, tit="", cor="azul", corpo=""):
+    return (r(x, y, w, h, "#fff", rx=8, lw=3, sombra=4) + r(x, y, w, 26, V[cor][1], rx=8, lw=3)
+            + t(x + 10, y + 18, tit, 12, K, 800, "start")
+            + "".join(r(x + w - 78 + i * 24, y + 5, 18, 16, c_, rx=3, lw=2) for i, c_ in enumerate(["#fde68a", "#bbf7d0", "#fecaca"]))
+            + t(x + w - 69, y + 18, "–", 13, K, 900) + t(x + w - 45, y + 18, "□", 12, K, 900) + t(x + w - 21, y + 18, "x", 12, K, 900) + corpo)
+
+
+def seta_mouse(x, y, esc=1.0):
+    e = esc
+    return p(f"M{x} {y} l0 {34*e} l{9*e} {-8*e} l{7*e} {14*e} l{6*e} {-3*e} l{-7*e} {-14*e} l{12*e} 0 z", "#fff", 3)
+
+
+d("ponteiro", "Ponteiro: a setinha que anda na tela quando você mexe o mouse",
+  monitor(70, 30, 150, 96, "azul", "") + seta_mouse(150, 58, 1.1) + mouse(244, 92, 0.9) + etiqueta(160, 176, "anda junto com o mouse", "azul", 12), "azul")
+d("cursor", "Cursor: a barrinha que pisca onde a letra vai aparecer",
+  r(40, 64, 240, 62, "#fff", rx=10, lw=3, sombra=4) + t(60, 104, "Olá, turm", 26, K, 800, "start") + r(196, 78, 5, 34, "#ef4444", rx=2, lw=0)
+  + etiqueta(198, 160, "a letra aparece aqui", "vermelho", 12), "vermelho")
+d("icone", "Ícone: desenho pequeno que representa um programa, uma pasta ou um arquivo",
+  "".join(r(44 + i * 82, 54, 64, 64, V[c_][0], rx=14, lw=3, sombra=4) + t(76 + i * 82, 96, e, 28, K) for i, (c_, e) in enumerate([("amarelo", "📁"), ("azul", "🌐"), ("verde", "🎵")]))
+  + t(160, 150, "cada desenho abre uma coisa", 13, K, 800))
+d("janela", "Janela: o retângulo onde um programa aparece aberto",
+  janela(40, 34, 240, 130, "Meu trabalho", "azul", "".join(f'<path d="M58 {82+k*16} h{180-k*30}" stroke="{K}" stroke-width="4" stroke-linecap="round"/>' for k in range(4))))
+d("barra de tarefas", "Barra de tarefas: a faixa no pé da tela com o Iniciar e os programas abertos",
+  monitor(40, 20, 240, 130, "azul", "") + r(47, 120, 226, 22, "#1e293b", rx=3, lw=2) + r(52, 123, 22, 16, "#3b82f6", rx=3, lw=1.5)
+  + "".join(r(84 + i * 24, 123, 18, 16, c_, rx=3, lw=1.5) for i, c_ in enumerate(["#facc15", "#22c55e", "#ef4444"])) + t(255, 135, "10:30", 9, "#fff", 800)
+  + etiqueta(160, 186, "lá embaixo da tela", "azul", 12))
+d("area de trabalho|desktop", "Área de trabalho: a tela de fundo, com os ícones",
+  monitor(50, 24, 220, 130, "verde", "") + "".join(r(64, 38 + i * 30, 22, 22, c_, rx=5, lw=2) for i, c_ in enumerate(["#facc15", "#60a5fa", "#f472b6"]))
+  + etiqueta(160, 186, "o fundo, com os ícones", "verde", 12), "verde")
+d("backspace", "Backspace: apaga a letra que está antes do cursor",
+  tecla(40, 58, "⟵ Backspace", 150, "#fecaca") + t(240, 86, "Brasiu", 22, K, 800) + p("M262 70 l14 22 M276 70 l-14 22", "none", 4, ' stroke="#ef4444"')
+  + etiqueta(160, 160, "apaga para trás", "vermelho", 12), "vermelho")
+d("caps lock", "Caps Lock: liga e desliga as letras maiúsculas",
+  tecla(46, 66, "Caps Lock", 130, "#bfdbfe") + c(164, 76, 5, "#22c55e", 2) + t(250, 100, "ABC", 32, "azul", 900)
+  + etiqueta(160, 164, "trava as MAIÚSCULAS", "azul", 12), "azul")
+d("shift", "Shift: segurando, a letra sai maiúscula",
+  tecla(40, 66, "⇧ Shift", 110, "#bfdbfe") + t(170, 100, "+", 28, K, 900) + tecla(190, 66, "a", 56) + t(275, 100, "A", 30, "azul", 900)
+  + etiqueta(160, 164, "segura e aperta", "azul", 12), "azul")
+d("memoria ram|ram", "Memória RAM: guarda o que está sendo usado agora; desligou, esvaziou",
+  r(40, 74, 240, 46, "#22c55e", rx=6, lw=3, sombra=4) + "".join(r(56 + i * 44, 82, 32, 30, "#1c1f22", rx=3, lw=1.5) for i in range(5))
+  + "".join(r(48 + i * 12, 120, 7, 10, "#fde68a", rx=1, lw=1.2) for i in range(19)) + etiqueta(160, 168, "memória de agora (rápida)", "verde", 12), "verde")
+d("touchscreen|tela sensivel ao toque", "Touchscreen: tela que recebe o toque (entrada) e mostra a imagem (saída)",
+  r(120, 24, 84, 150, "#334155", rx=14, sombra=5) + r(128, 38, 68, 116, "#dbeafe", rx=4, lw=2) + c(162, 96, 14, "#facc15", 3)
+  + p("M180 120 q14 -6 18 8 l4 20 h-26 z", "#f1c27d", 3) + etiqueta(60, 70, "toque = entrada", "azul", 11) + etiqueta(262, 140, "imagem = saída", "verde", 11))
+d("sistema operacional", "Sistema operacional: o programa que comanda o computador (Windows, Linux, Android)",
+  r(80, 30, 160, 60, V["roxo"][0], rx=12, lw=3, sombra=4) + t(160, 66, "Sistema operacional", 14, "#fff", 900, contorno=K)
+  + "".join(seta_baixo(110 + i * 50, 96, 120, "roxo", 20) + r(88 + i * 50, 124, 44, 34, "#fff", rx=8, lw=3) + t(110 + i * 50, 147, e, 18, K) for i, e in enumerate(["🖱️", "📁", "🌐"]))
+  + t(160, 182, "comanda as peças e os programas", 12, K, 800), "roxo")
+d("atualizacao|atualizar", "Atualização: versão nova do programa, que conserta erros e traz novidades",
+  r(110, 40, 100, 100, "#fff", rx=50, lw=4, sombra=4) + p("M136 92 a26 26 0 1 1 10 20", "none", 6) + p("M128 104 l10 10 l8 -14", "none", 5)
+  + etiqueta(160, 172, "conserta e melhora", "verde", 12), "verde")
+d("jpeg|jpg", "JPEG (.jpg): tipo de arquivo de foto", arquivo_(126, 40, "JPG", "verde", 70) + etiqueta(160, 172, "arquivo de foto", "verde", 12), "verde")
+d("caminho", "Caminho: o endereço do arquivo, pasta por pasta",
+  r(20, 74, 280, 44, "#fff", rx=10, lw=3, sombra=4) + t(30, 102, "C: › Documentos › Escola › prova.txt", 11, K, 800, "start", fonte="monospace")
+  + etiqueta(160, 160, "o endereço do arquivo", "amarelo", 12), "amarelo")
+d("explorador de arquivos", "Explorador de Arquivos: o programa que mostra as pastas e os arquivos",
+  janela(40, 30, 240, 140, "📁 Explorador", "amarelo", pasta_(60, 76, 56) + pasta_(130, 76, 56) + arquivo_(206, 72, "TXT", "azul", 38)), "amarelo")
+d("salvar como", "Salvar como: escolher o nome e a pasta onde o arquivo vai ficar",
+  janela(40, 34, 240, 130, "💾 Salvar como", "roxo", r(56, 74, 208, 26, "#fff", rx=5, lw=2) + t(64, 92, "Nome: receita_bolo", 12, K, 700, "start")
+  + r(176, 116, 88, 30, "#22c55e", rx=7, lw=3) + t(220, 136, "Salvar", 13, "#fff", 900, contorno=K)), "roxo")
+d("renomear", "Renomear: trocar o nome de um arquivo ou pasta",
+  arquivo_(40, 60, "TXT", "azul", 50) + t(110, 104, "doc1", 18, "vermelho", 800, "start") + seta_dir(160, 98, 196, "azul") + t(204, 104, "receita", 18, "verde", 800, "start")
+  + etiqueta(160, 172, "dar um nome novo", "azul", 12))
+d("dado|dados", "Dado: qualquer informação que o computador guarda",
+  "".join(r(36 + i * 64, 66, 54, 54, V[c_][0], rx=10, lw=3, sombra=3) + t(63 + i * 64, 102, e, 22, K) for i, (c_, e) in enumerate([("azul", "Aa"), ("amarelo", "12"), ("verde", "📅"), ("rosa", "🖼️")]))
+  + t(160, 156, "texto, número, data, imagem…", 13, K, 800))
+d("tipo de dado", "Tipo de dado: cada dado é de um tipo (texto, número, data, lógico…)",
+  r(40, 40, 240, 120, "#fff", rx=10, lw=3, sombra=4) + "".join(t(56, 70 + i * 26, a_, 14, K, 800, "start") + t(260, 70 + i * 26, b_, 14, c_, 900, "end") for i, (a_, b_, c_) in enumerate([("Maria", "texto", "azul"), ("12", "número", "amarelo"), ("10/05/2027", "data", "verde"), ("sim", "lógico", "roxo")])))
+d("texto", "Texto: dado feito de letras (e de algarismos que não são para contas, como o telefone)",
+  r(60, 60, 200, 60, "#fff", rx=10, lw=3, sombra=4) + t(160, 100, "“Maria”", 26, "azul", 900) + etiqueta(160, 160, "letras e nomes", "azul", 12), "azul")
+d("numero", "Número: dado usado em contas",
+  r(60, 60, 200, 60, "#fff", rx=10, lw=3, sombra=4) + t(160, 100, "12 + 3 = 15", 24, "amarelo", 900) + etiqueta(160, 160, "serve para fazer contas", "amarelo", 12), "amarelo")
+d("logico|verdadeiro ou falso", "Lógico: dado que só pode ser verdadeiro ou falso (sim ou não)",
+  r(50, 64, 100, 60, "#22c55e", rx=12, lw=3, sombra=4) + t(100, 102, "SIM", 22, "#fff", 900, contorno=K) + r(170, 64, 100, 60, "#ef4444", rx=12, lw=3, sombra=4) + t(220, 102, "NÃO", 22, "#fff", 900, contorno=K)
+  + etiqueta(160, 162, "só dois valores", "roxo", 12), "roxo")
+d("colecao", "Coleção: muitos dados juntos, organizados (em lista ou em tabela)",
+  "".join(r(60 + i * 14, 40 + i * 14, 150, 90, "#fff", rx=8, lw=3, sombra=3) for i in range(3)) + t(178, 120, "muitos dados juntos", 13, K, 800), "amarelo")
+d("lista", "Lista: vários dados em ordem, um depois do outro",
+  r(80, 26, 160, 150, "#fff", rx=10, lw=3, sombra=4) + "".join(c(102, 52 + i * 30, 10, V["azul"][0], 2.5) + t(102, 57 + i * 30, str(i + 1), 12, "#fff", 900) + f'<path d="M120 {52+i*30} h{90-(i%2)*24}" stroke="{K}" stroke-width="4" stroke-linecap="round"/>' for i in range(4)), "azul")
+d("tabela", "Tabela: dados em linhas e colunas",
+  r(40, 36, 240, 128, "#fff", rx=8, lw=3, sombra=4) + r(40, 36, 240, 32, V["amarelo"][0], rx=8, lw=3)
+  + "".join(f'<path d="M40 {68+i*32} h240" stroke="{K}" stroke-width="2.5"/>' for i in range(1, 3)) + "".join(f'<path d="M{40+i*80} 36 v128" stroke="{K}" stroke-width="2.5"/>' for i in range(1, 3))
+  + t(80, 58, "Time", 13, K, 900) + t(160, 58, "Pontos", 13, K, 900) + t(240, 58, "Gols", 13, K, 900), "amarelo")
+d("netiqueta", "Netiqueta: as regras de boa educação na internet",
+  r(60, 40, 200, 70, "#fff", rx=14, lw=3, sombra=4) + t(160, 82, "Por favor 🙂", 20, "verde", 900) + p("M100 110 l-10 20 l26 -20", "#fff", 3)
+  + etiqueta(160, 166, "educação também na rede", "verde", 12), "verde")
+d("postar|publicar", "Postar: colocar uma mensagem, foto ou vídeo na internet",
+  r(110, 22, 100, 156, "#334155", rx=14, sombra=5) + r(118, 36, 84, 110, "#fff", rx=4, lw=2) + r(126, 46, 68, 50, "#bfdbfe", rx=4, lw=2)
+  + r(126, 112, 68, 24, "#3b82f6", rx=6, lw=2) + t(160, 129, "Postar", 12, "#fff", 900, contorno=K), "azul")
+d("dados pessoais|dado pessoal", "Dados pessoais: nome completo, endereço, telefone, escola: não passe para desconhecidos",
+  r(70, 40, 180, 110, "#fff", rx=10, lw=3, sombra=4) + "".join(t(88, 70 + i * 22, s_, 13, K, 800, "start") for i, s_ in enumerate(["👤 Nome completo", "🏠 Endereço", "📞 Telefone", "🏫 Escola"]))
+  + r(212, 118, 44, 40, "#ef4444", rx=8, lw=3, sombra=3) + p("M222 118 v-10 a12 12 0 0 1 24 0 v10", "none", 4), "vermelho")
+d("senha", "Senha: a chave secreta da sua conta, que é só sua",
+  r(60, 70, 160, 50, "#fff", rx=10, lw=3, sombra=4) + t(140, 103, "••••••••", 22, K, 900) + r(238, 82, 44, 42, "#22c55e", rx=8, lw=3, sombra=3) + p("M248 82 v-10 a12 12 0 0 1 24 0 v10", "none", 4)
+  + etiqueta(160, 164, "só sua, como a chave de casa", "verde", 12), "verde")
+d("print|captura de tela", "Print: foto da tela, que guarda uma prova do que apareceu",
+  monitor(70, 30, 150, 96, "azul", "texto") + r(220, 40, 60, 46, "#fff", rx=6, lw=3, sombra=3) + c(250, 63, 12, "#93c5fd", 3) + t(250, 160, "📸 foto da tela", 13, K, 800))
+d("denunciar", "Denunciar: avisar a rede social sobre uma mensagem ruim ou perigosa",
+  r(70, 50, 180, 90, "#fff", rx=10, lw=3, sombra=4) + r(100, 92, 120, 34, "#ef4444", rx=8, lw=3) + t(160, 114, "🚩 Denunciar", 14, "#fff", 900, contorno=K)
+  + t(160, 78, "mensagem ofensiva", 12, K, 800), "vermelho")
+d("adulto de confianca", "Adulto de confiança: a pessoa a quem você conta quando algo dá errado na internet",
+  c(110, 74, 24, "#f1c27d", 3) + r(86, 100, 48, 60, "#3b82f6", rx=14, lw=3) + c(196, 92, 18, "#f1c27d", 3) + r(178, 112, 36, 46, "#f59e0b", rx=12, lw=3)
+  + r(130, 30, 70, 30, "#fff", rx=10, lw=2.5) + t(165, 50, "conta!", 12, K, 800) + etiqueta(160, 182, "você não está sozinho", "verde", 12), "verde")
+d("digitacao", "Digitação: escrever no teclado usando as duas mãos",
+  teclado(60, 90, 200) + p("M96 92 q-6 -30 20 -34 q26 4 18 34", "#f1c27d", 3) + p("M196 92 q-6 -30 20 -34 q26 4 18 34", "#f1c27d", 3), "azul")
+d("fileira base", "Fileira base: onde os dedos descansam (ASDF e JKLÇ)",
+  "".join(tecla(18 + i * 36, 74, ch, 32, "#fde68a" if ch in "FJ" else "#fff") for i, ch in enumerate("ASDFJKLÇ")) + etiqueta(160, 160, "F e J têm um risquinho", "amarelo", 12), "amarelo")
+d("abnt2", "ABNT2: o teclado brasileiro, que tem a tecla Ç",
+  teclado(50, 60, 220) + c(244, 92, 18, "#facc15", 3) + t(244, 99, "Ç", 18, K, 900) + etiqueta(160, 172, "teclado brasileiro", "azul", 12), "azul")
+d("acento agudo", "Acento agudo: aperte ´ e depois a vogal (á, é, í, ó, ú)",
+  tecla(50, 66, "´", 56) + t(126, 98, "+", 26, K, 900) + tecla(150, 66, "a", 56) + t(250, 100, "á", 34, "azul", 900), "azul")
+d("til", "Til: aperte ~ e depois a vogal (ã, õ)",
+  tecla(50, 66, "~", 56) + t(126, 98, "+", 26, K, 900) + tecla(150, 66, "a", 56) + t(250, 100, "ã", 34, "azul", 900), "azul")
+d("acento circunflexo|circunflexo", "Acento circunflexo: Shift + a tecla do til, depois a vogal (â, ê, ô)",
+  tecla(26, 66, "⇧", 46) + t(84, 98, "+", 22, K, 900) + tecla(100, 66, "^", 46) + t(158, 98, "+", 22, K, 900) + tecla(174, 66, "e", 46) + t(262, 100, "ê", 34, "azul", 900), "azul")
+d("cedilha", "Cedilha: a tecla Ç, ao lado do L", tecla(100, 66, "L", 56) + tecla(164, 66, "Ç", 56, "#fde68a") + t(160, 160, "maçã, coração", 16, K, 800), "amarelo")
+d("pontuacao", "Pontuação: ponto, vírgula, interrogação e outros sinais",
+  "".join(tecla(30 + i * 66, 66, ch, 56) for i, ch in enumerate([".", ",", "?", "!"])) + etiqueta(160, 160, "sinais que organizam a frase", "azul", 12), "azul")
+d("atalho", "Atalho: teclas apertadas juntas para fazer algo rápido",
+  tecla(60, 66, "Ctrl", 80) + t(160, 98, "+", 28, K, 900) + tecla(190, 66, "C", 60, "#fde68a") + etiqueta(160, 160, "jeito rápido, sem menu", "amarelo", 12), "amarelo")
+d("selecionar", "Selecionar: marcar o que você quer usar (fica pintado de azul)",
+  r(40, 70, 240, 50, "#fff", rx=8, lw=3, sombra=4) + r(98, 80, 120, 30, "#93c5fd", rx=3, lw=0) + t(160, 102, "texto marcado", 16, K, 800) + seta_mouse(214, 100, 0.8), "azul")
+d("copiar", "Copiar (Ctrl + C): faz uma cópia do que está selecionado",
+  arquivo_(60, 50, "TXT", "azul", 56) + seta_dir(128, 96, 180, "azul") + arquivo_(196, 50, "TXT", "azul", 56) + t(160, 172, "Ctrl + C", 18, K, 900, fonte="monospace"), "azul")
+d("recortar", "Recortar (Ctrl + X): tira de um lugar para colar em outro",
+  t(160, 100, "✂️", 60) + t(160, 160, "Ctrl + X", 18, K, 900, fonte="monospace"), "rosa")
+d("colar", "Colar (Ctrl + V): põe no lugar o que você copiou",
+  r(110, 40, 100, 110, "#fde68a", rx=8, lw=3, sombra=4) + r(130, 30, 60, 22, "#94a3b8", rx=6, lw=3) + t(160, 106, "📋", 34) + t(160, 180, "Ctrl + V", 18, K, 900, fonte="monospace"), "amarelo")
+d("desfazer", "Desfazer (Ctrl + Z): volta o último passo",
+  p("M200 120 a50 50 0 1 0 -80 -40", "none", 8) + p("M108 64 l12 22 l14 -22 z", "#1c1f22", 2) + t(160, 172, "Ctrl + Z: “ops, volta!”", 15, K, 900), "roxo")
+d("area de transferencia", "Área de transferência: o lugar escondido onde fica guardado o que você copiou",
+  r(100, 50, 120, 90, "#fff", rx=10, lw=3, sombra=4) + r(120, 40, 80, 24, "#94a3b8", rx=6, lw=3) + t(160, 106, "copiei!", 16, K, 800)
+  + etiqueta(160, 172, "guarda o que você copiou", "roxo", 12), "roxo")
+d("zoom", "Zoom: aumentar ou diminuir o tamanho do que aparece na tela",
+  c(140, 90, 40, "#cffafe", 5) + p("M170 120 l40 40", "none", 9) + t(140, 104, "A", 38, K, 900) + t(160, 186, "Ctrl + rodinha", 14, K, 800), "ciano")
+
 if __name__ == "__main__":
     raiz = os.path.dirname(os.path.dirname(AQUI))
     js = ("/* 🖼️ Imagens das palavras difíceis — gerado por ferramentas/ilustracoes_2026/termos.py (não edite à mão).\n"

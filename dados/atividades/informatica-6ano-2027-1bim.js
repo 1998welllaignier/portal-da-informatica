@@ -144,6 +144,9 @@ PORTAL.registrarAtividades("informatica-6ano-2027-1bim", {
 
   /* ============ MISSÃO 2 — Entrada, processamento e saída ============ */
   m2: {
+    /* 🌀 piloto do modelo em espiral (20/11/2026): gancho e "Onde eu uso isso?" prático */
+    gancho: {"html": "<p>🛒 No caixa do mercado, a moça passa o pacote de arroz no <b>leitor de código de barras</b>, ouve um “bip” e o preço aparece na tela.</p><p>🤔 O que aconteceu <b>dentro</b> do computador do caixa entre o “bip” e o preço aparecer? Quem <b>recebeu</b>, quem <b>pensou</b> e quem <b>mostrou</b>?</p>"},
+    aplicar: [{"tipo": "escolha", "titulo": "🛠️ E na vida real, o que você faria?", "enunciado": "<p>Use o que você aprendeu hoje para resolver cada situação.</p>", "perguntas": [{"p": "Na calculadora do celular, você digita <b>7 + 8</b>. Essa parte é…", "opcoes": ["Entrada", "Processamento", "Saída"], "certo": 0, "why": "Digitar é dar informação ao aparelho: é a <b>entrada</b>."}, {"p": "Você fala “Ok, Google” e a resposta aparece na tela. Quem <b>entende</b> o pedido?", "opcoes": ["O processador (processamento)", "O microfone (entrada)", "A tela (saída)"], "certo": 0, "why": "Quem entende e faz as contas é o <b>processador</b>: é o processamento."}, {"p": "Você quer levar o trabalho da escola para imprimir em casa. Onde ele pode ir guardado?", "opcoes": ["No pen drive (armazenamento)", "Na caixa de som (saída)", "No mouse (entrada)"], "certo": 0, "why": "O <b>pen drive</b> guarda arquivos para depois: é armazenamento."}]}],
     pratica: [
       { tipo: "sim_pc", titulo: "🧮 No computador: entrada, processamento e saída na Calculadora",
         enunciado: "<p>Faça a conta na Calculadora do computador de treino e observe as três etapas. O <strong>Bit</strong> guia você.</p>",
@@ -238,6 +241,9 @@ PORTAL.registrarAtividades("informatica-6ano-2027-1bim", {
 
   /* ============ MISSÃO 3 — Hardware e software ============ */
   m3: {
+    /* 🌀 piloto do modelo em espiral (20/11/2026): gancho e "Onde eu uso isso?" prático */
+    gancho: {"html": "<p>📱 O celular do Davi está com dois problemas: o <b>jogo fecha sozinho</b> toda hora, e a <b>tela está rachada</b>.</p><p>🤔 Um desses problemas é de <b>hardware</b> e o outro é de <b>software</b>. Qual é qual? E quem resolve cada um?</p>"},
+    aplicar: [{"tipo": "escolha", "titulo": "🛠️ E na vida real, o que você faria?", "enunciado": "<p>Use o que você aprendeu hoje para resolver cada situação.</p>", "perguntas": [{"p": "O aplicativo de mensagens travou e fechou sozinho. Esse problema é de…", "opcoes": ["Software", "Hardware", "Os dois ao mesmo tempo"], "certo": 0, "why": "O aplicativo é um programa: é <b>software</b>."}, {"p": "O cabo do carregador rompeu. Esse problema é de…", "opcoes": ["Hardware", "Software", "Sistema operacional"], "certo": 0, "why": "O cabo é uma peça física, dá para tocar: é <b>hardware</b>."}, {"p": "Você abriu o computador e apareceu a área de trabalho com as janelas. Quem comanda isso?", "opcoes": ["O sistema operacional (como o Windows)", "O mouse", "O navegador"], "certo": 0, "why": "O <b>sistema operacional</b> é o primeiro a ligar e comanda o resto."}]}],
     pratica: [
       { tipo: "mensagens", titulo: "Hardware ou software?", app: "🧐 O que é isso?",
         botoes: [{ id: "H", rot: "🔧 Hardware" }, { id: "S", rot: "💿 Software" }],
@@ -339,6 +345,9 @@ PORTAL.registrarAtividades("informatica-6ano-2027-1bim", {
 
   /* ============ MISSÃO 4 — Pastas e arquivos ============ */
   m4: {
+    /* 🌀 piloto do modelo em espiral (20/11/2026): gancho e "Onde eu uso isso?" prático */
+    gancho: {"html": "<p>📂 A Lara salvou o trabalho de Ciências, mas agora <b>não acha</b> o arquivo. Ela lembra só que era uma <b>foto</b> e que estava escrito “ciencias” no nome.</p><p>🤔 Como ela pode descobrir <b>onde</b> o arquivo foi parar e <b>que tipo</b> de arquivo ele é?</p>"},
+    aplicar: [{"tipo": "escolha", "titulo": "🛠️ E na vida real, o que você faria?", "enunciado": "<p>Use o que você aprendeu hoje para resolver cada situação.</p>", "perguntas": [{"p": "Você baixou o boletim em PDF pelo navegador. Em que pasta ele costuma ir parar?", "opcoes": ["Downloads", "Área de trabalho", "Lixeira"], "certo": 0, "why": "O que você baixa da internet vai para a pasta <b>Downloads</b>."}, {"p": "O arquivo se chama <b>festa.jpg</b>. Que tipo de arquivo ele é?", "opcoes": ["Imagem (foto)", "Música", "Texto"], "certo": 0, "why": "A extensão <b>.jpg</b> mostra que é uma imagem."}, {"p": "Você está fazendo um trabalho e quer guardar o que já fez sem fechar nada. Qual atalho usa?", "opcoes": ["Ctrl + S", "Ctrl + Z", "Alt + Tab"], "certo": 0, "why": "<b>Ctrl + S</b> salva o trabalho na hora."}]}],
     pratica: [
       { tipo: "sim_pc", titulo: "📁 No computador: crie a sua pasta e organize os arquivos",
         enunciado: "<p>No Explorador de Arquivos do computador de treino, você vai criar uma pasta, dar nome, guardar arquivos nela e usar a Lixeira. O <strong>Bit</strong> confere cada passo.</p>",
@@ -450,6 +459,9 @@ PORTAL.registrarAtividades("informatica-6ano-2027-1bim", {
 
   /* ============ MISSÃO 5 — Tipos de dados ============ */
   m5: {
+    /* 🌀 piloto do modelo em espiral (20/11/2026): gancho e "Onde eu uso isso?" prático */
+    gancho: {"html": "<p>📝 Na ficha de cadastro do clube de futebol, a Yara escreveu o <b>telefone</b> na caixinha de “idade” e a <b>idade</b> na caixinha de “telefone”.</p><p>🤔 Por que o computador <b>reclamou</b>? Telefone não é número?</p>"},
+    aplicar: [{"tipo": "escolha", "titulo": "🛠️ E na vida real, o que você faria?", "enunciado": "<p>Use o que você aprendeu hoje para resolver cada situação.</p>", "perguntas": [{"p": "No cadastro da loja, o campo “Aceita receber ofertas?” só pode ser sim ou não. Que tipo de dado é?", "opcoes": ["Lógico (verdadeiro ou falso)", "Texto", "Data"], "certo": 0, "why": "Sim ou não é o tipo <b>lógico</b> (verdadeiro ou falso)."}, {"p": "O CEP <b>68505-000</b> é feito de algarismos. Que tipo de dado ele é?", "opcoes": ["Texto", "Número", "Lógico"], "certo": 0, "why": "Ninguém faz contas com CEP: ele é um nome feito de algarismos, então é <b>texto</b>."}, {"p": "A playlist com as músicas, uma depois da outra, em ordem, é um exemplo de…", "opcoes": ["Lista", "Tabela", "Dado lógico"], "certo": 0, "why": "Vários dados em ordem, um depois do outro, formam uma <b>lista</b>."}]}],
     pratica: [
       { tipo: "mensagens", titulo: "Número ou texto?", app: "🔢 Que tipo é?",
         botoes: [{ id: "N", rot: "🔢 Número (faz conta)" }, { id: "T", rot: "🔤 Texto" }],
@@ -554,6 +566,9 @@ PORTAL.registrarAtividades("informatica-6ano-2027-1bim", {
 
   /* ============ MISSÃO 6 — Boa convivência na rede ============ */
   m6: {
+    /* 🌀 piloto do modelo em espiral (20/11/2026): gancho e "Onde eu uso isso?" prático */
+    gancho: {"html": "<p>💬 No grupo da turma, alguém escreveu <b>“VOCÊS SÃO MUITO CHATOS!!!”</b>, e outro colega postou uma foto de um amigo <b>sem pedir</b>.</p><p>🤔 O que deu errado nessas duas mensagens? E o que fazer quando algo ruim acontece na internet?</p>"},
+    aplicar: [{"tipo": "escolha", "titulo": "🛠️ E na vida real, o que você faria?", "enunciado": "<p>Use o que você aprendeu hoje para resolver cada situação.</p>", "perguntas": [{"p": "Um desconhecido no chat do jogo pergunta o nome da sua escola. O que você faz?", "opcoes": ["Não responde e conta para um adulto de confiança", "Responde, porque é só o nome da escola", "Passa também o seu telefone"], "certo": 0, "why": "O nome da escola é <b>dado pessoal</b>: não se passa para desconhecidos. Conte para um adulto de confiança."}, {"p": "Você quer postar uma foto da festa em que aparecem os seus amigos. O que fazer antes?", "opcoes": ["Pedir permissão a eles", "Postar e avisar depois", "Postar só no grupo da escola"], "certo": 0, "why": "A imagem é da pessoa: <b>peça permissão</b> antes de postar."}, {"p": "Seu melhor amigo pede a sua senha do jogo emprestada. O que fazer?", "opcoes": ["Não passar: a senha é só sua", "Passar, porque ele é seu amigo", "Passar e trocar depois"], "certo": 0, "why": "A senha é como a chave de casa: <b>é só sua</b>, nem para o melhor amigo."}]}],
     pratica: [
       { tipo: "mensagens", titulo: "Chegou no chat do jogo", app: "🎮 Chat do jogo",
         botoes: [{ id: "OK", rot: "🙂 Pode responder" }, { id: "PE", rot: "🚨 Perigo: parar e contar a um adulto" }],
@@ -632,6 +647,9 @@ PORTAL.registrarAtividades("informatica-6ano-2027-1bim", {
 
   /* ============ MISSÃO 7 — Extra: Digitação sem medo ============ */
   m7: {
+    /* 🌀 piloto do modelo em espiral (20/11/2026): gancho e "Onde eu uso isso?" prático */
+    gancho: {"html": "<p>⌨️ O Kauã digita com <b>um dedo só</b>, olhando para o teclado o tempo todo. A Bia usa <b>as duas mãos</b> e quase não olha.</p><p>🤔 Por que a Bia termina antes? E como ela acha as teclas <b>sem olhar</b>?</p>"},
+    aplicar: [{"tipo": "escolha", "titulo": "🛠️ E na vida real, o que você faria?", "enunciado": "<p>Use o que você aprendeu hoje para resolver cada situação.</p>", "perguntas": [{"p": "Você precisa escrever <b>São Paulo</b>. Como sai o <b>ã</b> no teclado brasileiro (ABNT2)?", "opcoes": ["Aperta o til (~) e depois a letra a", "Aperta a letra a e depois o til", "Segura o Shift e aperta a"], "certo": 0, "why": "No ABNT2, o acento vem primeiro: <b>til (~)</b> e depois a vogal."}, {"p": "Para achar a posição certa das mãos sem olhar, você procura…", "opcoes": ["O risquinho nas teclas F e J", "A tecla Enter", "A barra de espaço"], "certo": 0, "why": "As teclas <b>F e J</b> têm um risquinho em alto-relevo para guiar os indicadores."}, {"p": "Você vai preencher uma inscrição e precisa do seu nome com a primeira letra maiúscula. Como faz?", "opcoes": ["Segura o Shift e aperta a letra", "Aperta o Enter antes da letra", "Aperta a letra duas vezes"], "certo": 0, "why": "Segurando o <b>Shift</b>, a letra sai maiúscula."}]}],
     pratica: [
       { tipo: "sim_pc", titulo: "⌨️ No computador: digite com acento no Bloco de Notas",
         enunciado: "<p>Digite de verdade no Bloco de Notas. O <strong>Bit</strong> confere letra por letra, com acento e maiúscula.</p>",
@@ -706,6 +724,9 @@ PORTAL.registrarAtividades("informatica-6ano-2027-1bim", {
 
   /* ============ MISSÃO 8 — Extra: Atalhos do teclado e do mouse ============ */
   m8: {
+    /* 🌀 piloto do modelo em espiral (20/11/2026): gancho e "Onde eu uso isso?" prático */
+    gancho: {"html": "<p>⏳ A Lara está copiando <b>à mão</b>, letra por letra, um texto enorme da tela para o trabalho. O Kauã olha e diz: “Dá para fazer isso em <b>3 segundos</b>!”</p><p>🤔 Que mágica é essa? Quais teclas o Kauã vai apertar?</p>"},
+    aplicar: [{"tipo": "escolha", "titulo": "🛠️ E na vida real, o que você faria?", "enunciado": "<p>Use o que você aprendeu hoje para resolver cada situação.</p>", "perguntas": [{"p": "Você vai pagar com PIX e precisa colocar um código enorme. O que evita erro de digitação?", "opcoes": ["Copiar (Ctrl + C) e colar (Ctrl + V)", "Digitar o código devagar", "Tirar um print"], "certo": 0, "why": "Copiar e colar não erra nenhuma letra: <b>Ctrl + C</b> e depois <b>Ctrl + V</b>."}, {"p": "Você apagou sem querer um parágrafo do trabalho. Qual atalho traz ele de volta?", "opcoes": ["Ctrl + Z", "Ctrl + S", "Ctrl + A"], "certo": 0, "why": "<b>Ctrl + Z</b> desfaz o último passo."}, {"p": "A letra do site está pequena demais para ler. Como aumentar?", "opcoes": ["Segurar Ctrl e girar a rodinha do mouse", "Clique triplo", "Alt + Tab"], "certo": 0, "why": "<b>Ctrl + rodinha do mouse</b> muda o tamanho (zoom) da página."}]}],
     pratica: [
       { tipo: "sim_pc", titulo: "⚡ No computador: copiar, colar, recortar e desfazer com atalhos",
         enunciado: "<p>No Bloco de Notas do computador de treino, use <strong>só atalhos</strong> do teclado. O <strong>Bit</strong> confere.</p>",
