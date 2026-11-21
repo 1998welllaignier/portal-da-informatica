@@ -551,18 +551,37 @@
     return { el: raiz.querySelector(".leitura"), termos: m.termos || [], titulo: m.titulo, icone: m.icone, objetivo: m.objetivo };
   };
 
+  /* 🎯 VISTO COM DOMÍNIO (21/11/2026, aprovado pelo professor; só nas apostilas do modelo em espiral, por enquanto o piloto):
+     cada tarefa do Básico vale de 0 a 100%: de primeira = 100%; cada erro antes de acertar tira 25% (nas tarefas grandes, com
+     muitos itens, o desconto é dividido: 1 "erro que conta" a cada 4 itens); quem terminou com a resposta/ajuda fica com 25%
+     (mínimo para quem concluiu). O visto sai quando a MÉDIA do Básico chega a 70% (👣 Trilha: 50%). Refazer vale a melhor. */
+  const LIMIAR_DOMINIO = 0.7, LIMIAR_DOMINIO_TRILHA = 0.5;
+  function itensDe(at) { const n = (at.perguntas || at.itens || at.pares || at.passos || at.frases || at.palavras || []).length; const t = String(at.texto || at.frase || at.alvo || "").length; return Math.max(n, at.tipo === "teclado" ? Math.round(t / 25) : 0, 1); }
+  function pontoAt(at, st) {
+    if (!st) return 0; let p = 0;
+    if (st.status === "ajuda") p = 0.25;
+    else if (st.status === "certo") { const f = Math.max(1, Math.round(itensDe(at) / 4)); p = Math.max(0.25, 1 - 0.25 * (st.tentativas || 0) / f); }
+    else if (st.status) p = 1;   // tarefas de produção (o professor confere) contam inteiras
+    return Math.max(p, st.melhor || 0);
+  }
+  P.pontoAt = pontoAt;
   function statusMissao(aid, mid) {
     const { pages } = montarMissao(aid, mid);
-    const prog = getProg(aid);
-    const res = { leitura: [0, 0], basico: [0, 0], desafio: [0, 0], turbo: [0, 0], revisao: [0, 0] };
+    const prog = getProg(aid), ap = apostila(aid) || {}, dominio = ap.modelo === "espiral";
+    const res = { leitura: [0, 0], basico: [0, 0], desafio: [0, 0], turbo: [0, 0], revisao: [0, 0], aprov: null, limiar: null, fracas: [] };
+    let soma = 0;
     pages.forEach(pg => {
       if (pg.tipo === "leitura") { res.leitura[1]++; if (prog.visitas[mid + "/" + pg.id]) res.leitura[0]++; }
       (pg.atividades || []).forEach(at => {
         const k = ["basico", "desafio", "turbo"].includes(at.nivel) ? at.nivel : at.nivel === "revisao" ? "revisao" : null;
         if (!k || at.opcional || (P.tipos[at.tipo] || {}).semStatus) return;
-        res[k][1]++; const s = prog.atv[at.id]; if (s && s.status) res[k][0]++;
+        res[k][1]++; const s = prog.atv[at.id]; if (s && (s.status || s.melhor != null)) res[k][0]++;
+        if (k === "basico") { const pt = pontoAt(at, s); soma += pt; if (s && (s.status || s.melhor != null) && pt < 0.75) res.fracas.push({ id: at.id, pg: pg.id, titulo: String(at.titulo || "").replace(/<[^>]+>/g, ""), pt }); }
       });
     });
+    const feito = !!(res.basico[1] && res.basico[0] === res.basico[1]);
+    if (dominio && res.basico[1] && mid !== "rv" && mid !== "rc") { res.aprov = soma / res.basico[1]; res.limiar = ap.trilha ? LIMIAR_DOMINIO_TRILHA : LIMIAR_DOMINIO; res.basicoOk = feito && res.aprov >= res.limiar - 1e-9; }
+    else res.basicoOk = feito;
     return res;
   }
   P.statusMissao = statusMissao;
@@ -1138,7 +1157,7 @@
     const card = mm => {
       const st = statusMissao(aid, mm.id);
       const pct = st.basico[1] ? Math.round(st.basico[0] / st.basico[1] * 100) : 0;
-      const ok = st.basico[1] && st.basico[0] === st.basico[1];
+      const ok = st.basicoOk;
       const ic = (P.ilustracoes[aid] || { icones: {} }).icones[mm.id];
       return `<a class="card-missao ${ok ? "ok" : ""}" href="#/missao/${aid}/${mm.id}">
         <span class="cm-ic" aria-hidden="true">${ic ? `<span class="cm-svg">${ic}</span>` : esc(mm.icone)}</span>
@@ -1291,7 +1310,7 @@
     if (pg.id === "termos") corpo.appendChild(h(`<div class="glossario">${m.termos.map(t => `<details class="termo"><summary>${t.rotulo}</summary><p>${t.def}</p></details>`).join("")}</div>`));
     if (pg.id === "onde") corpo.appendChild(h(`<ul class="onde-uso">${m.ondeUso.itens.map(i => `<li>${i}</li>`).join("")}</ul>`));
     if (pg.tipo === "missao" && pg.id !== "pratica" && m.alertas.length) corpo.appendChild(h(`<div class="alerta" role="note">${m.alertas.map(x => `<p>⚠️ ${x}</p>`).join("")}</div>`));
-    if (pg.tipo === "missao") corpo.appendChild(h(`<p class="nivel-info nivel-${pg.id}">${{ lembra: pg.icone === "🔍" ? "🔍 <strong>O que você já sabe?</strong>: um aquecimento para ver o que você já conhece. Valem pontos!" : "🔁 <strong>Lembra?</strong>: perguntas das missões passadas, para não esquecer. Valem pontos!", lab: a.trilha ? "♾️ <strong>Laboratório sem fim</strong>: se quiser, depois do Básico. Treine com calma, no seu ritmo: cada acerto vale XP." : "♾️ <strong>Laboratório sem fim</strong>: para quem já terminou o Básico. Perguntas sem fim desta missão e das anteriores. Cada acerto vale XP (até +150) e a sua melhor sequência vira recorde!", pratica: "🎮 <strong>Mão na massa</strong>: experimente antes de estudar! Todos fazem, e conta no Básico.", basico: "🟢 <strong>Básico</strong>: todos fazem. Vale 1,0 ponto e libera os jogos livres. As respostas estão no 💡 Para começar e no 📖 O que significa?.", desafio: "🟡 <strong>Desafio</strong>: para quem terminou o Básico. Vale +0,25 e aumenta a sua nota do bimestre.", turbo: "🔴 <strong>Turbo</strong>: para quem terminou o Desafio. Vale mais +0,25 na nota do bimestre." }[pg.id]}</p>`));
+    if (pg.tipo === "missao") corpo.appendChild(h(`<p class="nivel-info nivel-${pg.id}">${{ lembra: pg.icone === "🔍" ? "🔍 <strong>O que você já sabe?</strong>: um aquecimento para ver o que você já conhece. Valem pontos!" : "🔁 <strong>Lembra?</strong>: perguntas das missões passadas, para não esquecer. Valem pontos!", lab: a.trilha ? "♾️ <strong>Laboratório sem fim</strong>: se quiser, depois do Básico. Treine com calma, no seu ritmo: cada acerto vale XP." : "♾️ <strong>Laboratório sem fim</strong>: para quem já terminou o Básico. Perguntas sem fim desta missão e das anteriores. Cada acerto vale XP (até +150) e a sua melhor sequência vira recorde!", pratica: "🎮 <strong>Mão na massa</strong>: experimente antes de estudar! Todos fazem, e conta no Básico.", basico: "🟢 <strong>Básico</strong>: todos fazem. Vale 1,0 ponto e libera os jogos livres. As respostas estão no 💡 Para começar e no 📖 O que significa?." + ((apostila(aid) || {}).modelo === "espiral" ? ` 🎯 O visto sai quando você acerta pelo menos <strong>${(apostila(aid) || {}).trilha ? 50 : 70}%</strong> (errar menos antes de acertar). Dá para refazer: vale a melhor tentativa.` : ""), desafio: "🟡 <strong>Desafio</strong>: para quem terminou o Básico. Vale +0,25 e aumenta a sua nota do bimestre.", turbo: "🔴 <strong>Turbo</strong>: para quem terminou o Desafio. Vale mais +0,25 na nota do bimestre." }[pg.id]}</p>`));
     // 🔒 trava de horário: os textos ficam abertos; as tarefas só no dia e na hora da aula (ou liberadas pelo professor)
     let trava = { aberta: true };
     if (pg.tipo === "missao" || pg.tipo === "revisao") trava = travaPre;
@@ -1339,6 +1358,12 @@
       else if (corpo.querySelector(".atv")) colocarFiguras(corpo, figs, [...corpo.querySelectorAll(".atv")], "cartao");
       else colocarFiguras(corpo, figs, [], "bloco");
     }
+    // 🎯 terminou o Básico, mas abaixo do mínimo: mostra o que refazer (vale a melhor tentativa)
+    function bannerDominio(x) {
+      const lista = x.fracas.slice().sort((a, b) => a.pt - b.pt).slice(0, 6).map(f => `<li><a href="#/missao/${aid}/${mid}/${f.pg}">${esc(f.titulo || "tarefa")}</a> <small>(${Math.round(f.pt * 100)}%)</small></li>`).join("");
+      return `<div class="banner-concluida banner-dominio" role="status"><p class="bc-tit">🎯 Quase lá! Básico com ${Math.round(x.aprov * 100)}%</p>
+        <p>Para ganhar o <b>✔ visto</b>, chegue a <b>${Math.round(x.limiar * 100)}%</b>. Refaça (↺ Refazer) estas tarefas com calma; <b>vale a sua melhor tentativa</b>:</p><ul class="bd-lista">${lista}</ul></div>`;
+    }
     function bannerNivel(x) {
       const tem = id => pages.some(p => p.id === id);
       const fez = k => x[k][1] > 0 && x[k][0] === x[k][1];
@@ -1362,10 +1387,10 @@
     }
     function atualizarStatus() {
       const x = statusMissao(aid, mid);
-      const linha = (r, k) => x[k][1] ? `<li>${r} <strong>${x[k][0]}/${x[k][1]}</strong>${x[k][0] === x[k][1] ? " ✔" : ""}</li>` : "";
+      const linha = (r, k) => x[k][1] ? `<li>${r} <strong>${x[k][0]}/${x[k][1]}</strong>${k === "basico" && x.aprov != null ? ` <span class="mn-aprov ${x.basicoOk ? "ok" : ""}" title="Aproveitamento do Básico: para o visto, ${Math.round(x.limiar * 100)}%">🎯 ${Math.round(x.aprov * 100)}%</span>` : ""}${(k === "basico" ? x.basicoOk : x[k][0] === x[k][1]) ? " ✔" : ""}</li>` : "";
       el.querySelector("#mn-status").innerHTML = `<ul>${linha("📖 Leitura", "leitura")}${linha("🟢 Básico", "basico")}${linha("🟡 Desafio", "desafio")}${linha("🔴 Turbo", "turbo")}${linha("✅ Revisão", "revisao")}</ul>`;
-      const ok = x.basico[1] && x.basico[0] === x.basico[1];
-      el.querySelector("#banner-ok").innerHTML = ok && pg.tipo === "missao" ? bannerNivel(x) : "";
+      const ok = x.basicoOk, feito = x.basico[1] && x.basico[0] === x.basico[1];
+      el.querySelector("#banner-ok").innerHTML = ok && pg.tipo === "missao" ? bannerNivel(x) : feito && x.aprov != null && pg.tipo === "missao" ? bannerDominio(x) : "";
       const tb = document.querySelector(".tb-info"); if (tb) tb.classList.toggle("tb-ok", !!ok);
     }
     atualizarStatus();
@@ -1600,7 +1625,7 @@
     bV.onclick = () => { if (ctx.verificar) ctx.verificar(); };
     bD.onclick = () => { st.dicas++; salvar(); atualizarAjuda(); };
     bR.onclick = () => { if (!ctx.resolver) return; st.viuResolucao = true; ctx.resolver(); ctx.concluir("ajuda", "Resolução comentada:"); };
-    bRef.onclick = () => { for (const k of Object.keys(st)) delete st[k]; st.tentativas = 0; st.dicas = 0; st.ini = Date.now(); salvar(); feedback("", ""); ctx.reRender(); mostrarStatus(); atualizarAjuda(); onChange && onChange(); };
+    bRef.onclick = () => { const mel = Math.max(st.melhor || 0, st.status ? pontoAt(at, st) : 0); for (const k of Object.keys(st)) delete st[k]; if (mel) st.melhor = mel; st.tentativas = 0; st.dicas = 0; st.ini = Date.now(); salvar(); feedback("", ""); ctx.reRender(); mostrarStatus(); atualizarAjuda(); onChange && onChange(); };
     T.render(corpo, at, ctx);
     // ⌨️ resposta digitada: aviso de que aqui se digita (copiar e colar não funciona), menos nas tarefas que ensinam atalhos
     if (!el.dataset.liberaCopiar && corpo.querySelector("textarea, input[type=text], input:not([type])"))
@@ -1648,7 +1673,7 @@
     const agora = Date.now();
     const ini = tempos.length ? Math.min(...tempos) : agora, fim = tempos.length ? Math.max(...tempos) : agora;
     const hhmm = ms => new Date(ms).toLocaleTimeString("pt-BR").slice(0, 5);
-    const okB = x.basico[1] && x.basico[0] === x.basico[1];
+    const okB = x.basicoOk;
     const base = [s.nomes.join("+"), s.turma, aid, mid, x.basico.join("/"), x.desafio.join("/"), x.turbo.join("/"), x.revisao.join("/"), new Date(fim).toDateString()].join("|");
     let hsh = 0; for (const ch of base) hsh = (hsh * 31 + ch.charCodeAt(0)) >>> 0;
     const codigo = hsh.toString(36).toUpperCase().padStart(6, "0").slice(-6);

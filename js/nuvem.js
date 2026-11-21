@@ -204,14 +204,14 @@
       const chave = aid + "/" + m.id;
       const assinatura = JSON.stringify([r, st]);
       if (enviados[chave] === assinatura) continue;
-      const okB = !!(st.basico[1] && st.basico[0] === st.basico[1]);
+      const okB = !!st.basicoOk;   // 🎯 21/11/2026: no modelo em espiral, o visto pede o aproveitamento mínimo (statusMissao)
       for (let i = 0; i < s.alunoIds.length; i++) {
         const alunoId = s.alunoIds[i];
         const ref = app(i).db.collection("progresso").doc(alunoId + "_" + aid + "_" + m.id);
         if (!okB && m.id !== "rc" && jaOk[chave + alunoId] === undefined) { try { const sn = await ref.get(); jaOk[chave + alunoId] = !!(sn.exists && sn.data().basicoOk); } catch (e) { jaOk[chave + alunoId] = true; } }
         await ref.set(limpo({
           alunoId, turma: s.turma, aid, mid: m.id, unidade: ap.unidade || "", ano: new Date().getFullYear(),
-          leitura: st.leitura, basico: st.basico, desafio: st.desafio, turbo: st.turbo, revisao: st.revisao,
+          leitura: st.leitura, basico: st.basico, ...(st.aprov != null ? { basicoAprov: Math.round(st.aprov * 100), basicoLimiar: Math.round(st.limiar * 100) } : {}), desafio: st.desafio, turbo: st.turbo, revisao: st.revisao,
           // 🔒 o visto não volta atrás (17/11/2026): se entrar tarefa obrigatória nova numa missão já concluída, quem já tinha
           //    o Básico continua com ele (só grava basicoOk:false em quem nunca concluiu)
           ...(okB || m.id === "rc" || !jaOk[chave + alunoId] ? { basicoOk: m.id === "rc" ? false : okB } : {}), atv: JSON.stringify(r.atv), vis: r.vis,  // atv em texto: o Firestore não aceita listas dentro de listas

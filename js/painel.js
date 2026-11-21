@@ -626,6 +626,7 @@
         ${dentro.length ? `${boxAtencao}<div class="tabela-wrap"><table class="pv-tab"><thead><tr><th>Aluno</th><th title="O mesmo número da barra que o aluno vê, do placar e do pódio. Embaixo: a posição no placar (com o mesmo XP, fica na frente quem terminou o Básico primeiro)">⚡ XP da missão</th><th>Entrou</th><th>Progresso na missão de hoje</th><th>Situação</th><th>Última atividade</th></tr></thead><tbody>${dentro.map(({ a, entrou, pm, ult, outra, saidas, chutes }) => {
           const p = pm || {}, okB = !!p.basicoOk, falta = p.basico && p.basico[1] ? p.basico[1] - p.basico[0] : null, par = agora - ult > 600000;
           const sit = okB ? (p.turbo && p.turbo[1] && p.turbo[0] === p.turbo[1] ? `<span class="sit ok">🏆 Missão completa</span>` : `<span class="sit ok">✔ Básico feito (visto)</span>`)
+            : falta === 0 && p.basicoAprov != null ? `<span class="sit wait" title="Terminou o Básico, mas o visto pede ${p.basicoLimiar || 70}% de aproveitamento">◐ Básico ${p.basicoAprov}% (visto com ${p.basicoLimiar || 70}%)</span>`
             : falta != null ? `<span class="sit wait">Faltam ${falta} do Básico</span>` : `<span class="sit bad">Ainda não começou a missão</span>`;
           const xa = xp[a.id];
           // ⚡ mesmo número da barra "XP da missão" que o aluno vê, do placar e do pódio (18/11/2026); embaixo, a posição
