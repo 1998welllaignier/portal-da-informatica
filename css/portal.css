@@ -2566,3 +2566,17 @@ body.lg-travado{overflow:hidden}
 .alb-fig.tem{border:3px solid #1c1f22;box-shadow:3px 3px 0 #1c1f22}.alb-fig b{font-size:.82rem}
 .alb-fig .termo-img{margin:0 0 4px;max-width:none}.alb-emo{font-size:2rem}
 .vivi.car-dif{display:flex;flex-wrap:wrap;gap:6px}.vivi.car-dif .vivi-op{width:auto;flex:0 0 auto}
+/* 🎤 Show do Lembra? e 🏎️ corrida do Laboratório (aprendizagem baseada em jogos, 20/11/2026) */
+.show{background:linear-gradient(135deg,#1e1b4b,#312e81);color:#fff;border:3px solid #1c1f22;box-shadow:6px 6px 0 #1c1f22;border-radius:20px;padding:16px 18px}
+.show-cab{display:flex;justify-content:space-between;align-items:center;font-weight:700}.show-selo{background:#facc15;color:#1c1f22;border:2px solid #1c1f22;border-radius:999px;padding:3px 12px;font-weight:900}
+.show-tempo{height:10px;background:rgba(255,255,255,.2);border-radius:999px;margin:12px 0;overflow:hidden}.show-tempo i{display:block;height:100%;width:100%;background:#22c55e;border-radius:999px;transition:width .12s linear}.show-tempo i.fim{background:#f59e0b}
+.show-q{font-size:1.35rem;font-weight:800;margin:10px 0 14px}.show-q b{color:#fde047}
+.show-ops{display:grid;gap:10px}.show-op{display:flex;gap:12px;align-items:center;text-align:left;padding:12px 14px;border:3px solid #1c1f22;border-radius:14px;background:var(--cor);color:#fff;font:inherit;font-size:1.05rem;font-weight:700;cursor:pointer;box-shadow:4px 4px 0 #1c1f22;transition:transform .1s}
+.show-op:hover:not(:disabled){transform:translate(-2px,-2px);box-shadow:6px 6px 0 #1c1f22}.show-op b{background:#fff;color:#1c1f22;border-radius:8px;min-width:30px;text-align:center;padding:2px 6px}
+.show-op.certa{background:#16a34a;animation:showPulo .5s}.show-op.errada{background:#dc2626;animation:showTreme .4s}.show-op:disabled{cursor:default}
+.show-ok{font-size:1.3rem;font-weight:900;color:#86efac;margin:10px 0 0}.show-fim{text-align:center;padding:10px}.show-emo{font-size:3rem;margin:0}
+@keyframes showPulo{50%{transform:scale(1.04)}}@keyframes showTreme{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.lab-pista{display:grid;grid-template-columns:repeat(10,1fr) auto;gap:3px;align-items:center;background:#334155;border:3px solid #1c1f22;border-radius:12px;padding:6px;margin-bottom:8px}
+.lab-pista span{height:34px;border-radius:6px;background:repeating-linear-gradient(90deg,#475569 0 8px,#64748b 8px 16px);display:grid;place-items:center;font-size:1.4rem}
+.lab-pista span.ok{background:#16a34a}.lab-pista b{font-size:1.5rem;padding:0 4px}.lab-pista.calma span.ok{background:#86efac}
+.lab-voltas{margin:0 0 8px;font-weight:800;color:#15803d}

@@ -41,6 +41,10 @@ Proporção-alvo: Desafio + Turbo com **pelo menos metade** das tarefas de Mão 
 Tudo fica no histórico (git). Ponto de volta do portal **antes** do piloto: commit `862e28f` (marca local `antes-do-modelo-espiral`).
 Dá para voltar tudo, só uma parte (um arquivo, uma função) ou desligar o piloto apagando `modelo: "espiral"` no catálogo. O progresso dos alunos fica na nuvem e não é apagado por essas voltas.
 
+## 🎮 Jogo antes do tradicional (20/11/2026)
+A maior parte do tempo do aluno em simulador ou jogo; alternativas e V ou F só nas checagens rápidas. Gamificações continuam todas.
+🎤 Show do Lembra? (tipo `show`) · 🏎️ corrida no Laboratório · 🛠️ "Onde eu uso isso?" como simulador de situação real (`sim_pc` em `aplicar`; feito na M1, falta M2–M8).
+
 ## Ainda para fazer / decidir
 - 🧭 **Caminho adaptativo**: os níveis do piloto já estão reequilibrados (20/11/2026); falta montar o teste curto do início.
 - 👾 **Chefão do bimestre** no lugar da Revisão (aprovado).

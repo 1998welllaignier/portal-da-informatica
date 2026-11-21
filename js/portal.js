@@ -467,12 +467,13 @@
     const ativ = (lvl, arr) => (arr || []).map((x, i) => Object.assign({ nivel: lvl }, x, { id: x.id || (mid + "-" + lvl + "-" + (i + 1)) }));
     const antes = missoesAntes(aid, mid), n = +(mid.match(/\d+/) || [0])[0];
     // 🔁 Lembra?: 2 perguntas da missão anterior + 1 de uma mais antiga (repetição espaçada). Na 1ª missão, "O que você já sabe?"
-    let lembra = a.lembra ? ativ("lembra", a.lembra) : null;
+    // 🎤 o Lembra? é um "show de perguntas" (aprendizagem baseada em jogos); a escolha escrita à mão também vira show
+    let lembra = a.lembra ? ativ("lembra", a.lembra).map(x => x.tipo === "escolha" ? Object.assign({}, x, { tipo: "show", calmo: trilha }) : x) : null;
     if (!lembra && antes.length) {
       const p1 = antes[0], p2 = antes[1] || antes[0];
       const qs = [perguntaVF(p1, A[p1.id], n, p1.id), perguntaTermo(p1, n + 1, p1.id), perguntaTermo(p2, n + 2, p2.id) || perguntaVF(p2, A[p2.id], n + 3, p2.id)].filter(Boolean);
       if (trilha) qs.splice(1);   // 👣 Trilha: 1 pergunta só, da aula anterior
-      if (qs.length) lembra = [{ id: mid + "-lembra", nivel: "lembra", tipo: "escolha", titulo: `🔁 Lembra da ${esc(p1.titulo.replace(/ –.*/, ""))}?`,
+      if (qs.length) lembra = [{ id: mid + "-lembra", nivel: "lembra", tipo: "show", calmo: trilha, titulo: `🔁 Lembra da ${esc(p1.titulo.replace(/ –.*/, ""))}?`,
         enunciado: "<p>Antes de começar, vamos ver se você lembra do que já estudou. Se não lembrar, tudo bem: o portal mostra onde está a resposta.</p>", perguntas: qs }];
     }
     if (lembra && lembra.length) pages.push({ id: "lembra", rotulo: antes.length ? "Lembra?" : "O que você já sabe?", icone: antes.length ? "🔁" : "🔍", tipo: "missao", atividades: lembra });

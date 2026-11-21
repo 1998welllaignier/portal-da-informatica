@@ -1356,6 +1356,45 @@
   };
 
   /* ------------------------------------------------------------
+     🎤 SHOW DO LEMBRA? (aprendizagem baseada em jogos, 20/11/2026): as perguntas viram um "programa de auditório":
+     uma por vez, botões grandes coloridos, cronômetro visual (sem castigo: só o selo ⚡ de resposta-relâmpago) e festa no acerto.
+     Errou: mostra o porquê, o "📖 Ver onde isso está explicado" e a mesma pergunta volta com as opções em outra ordem.
+     ------------------------------------------------------------ */
+  T.show = {
+    auto: true,
+    render(c, at, ctx) {
+      const st = ctx.st; st.i = st.i || 0; st.rel = st.rel || 0;
+      if (ctx.esconderVerificar) ctx.esconderVerificar();
+      const Q = at.perguntas || [], TEMPO = 20, CORES = ["#2563eb", "#ea580c", "#7c3aed"];
+      let ordem = null, t0 = 0, iv = null, travado = false;
+      const nova = () => { const q = Q[st.i]; ordem = q.opcoes.map((_, k) => k); for (let a = ordem.length - 1; a > 0; a--) { const b = Math.floor(Math.random() * (a + 1)); [ordem[a], ordem[b]] = [ordem[b], ordem[a]]; } };
+      const draw = (msg) => {
+        clearInterval(iv);
+        if (st.status || st.i >= Q.length) { c.innerHTML = `<div class="show-fim"><p class="show-emo">🏆</p><h3>Show completo!</h3><p>Você acertou as ${Q.length} perguntas${st.rel ? ` · ⚡ ${st.rel} resposta${st.rel > 1 ? "s" : ""}-relâmpago` : ""}.</p></div>`; return; }
+        const q = Q[st.i]; if (!ordem) nova(); travado = false; t0 = Date.now();
+        c.innerHTML = `<div class="show"><div class="show-cab"><span class="show-selo">🎤 ${at.calmo ? "Lembra?" : "Show do Lembra?"}</span><span>Pergunta <b>${st.i + 1}</b> de ${Q.length}</span></div>
+          ${at.calmo ? "" : `<div class="show-tempo"><i></i></div>`}
+          <p class="show-q">${md(q.p)}</p><div class="show-ops">${ordem.map((k, j) => `<button type="button" class="show-op" data-k="${k}" style="--cor:${CORES[j % 3]}"><b>${"ABC"[j]}</b><span>${md(q.opcoes[k])}</span></button>`).join("")}</div>
+          <div class="show-msg">${msg || ""}</div></div>`;
+        const barra = c.querySelector(".show-tempo i");
+        if (barra) iv = setInterval(() => { const f = Math.max(0, 1 - (Date.now() - t0) / (TEMPO * 1000)); barra.style.width = (f * 100) + "%"; barra.classList.toggle("fim", f < .3); if (!f || !c.isConnected) clearInterval(iv); }, 120);
+        c.querySelectorAll(".show-op").forEach(b => b.onclick = () => { if (travado) return; travado = true; clearInterval(iv);
+          const k = +b.dataset.k, ok = k === q.certo, rapido = Date.now() - t0 < 8000;
+          c.querySelectorAll(".show-op").forEach(x => { x.disabled = true; if (+x.dataset.k === q.certo && ok) x.classList.add("certa"); });
+          if (ok) { b.classList.add("certa"); if (rapido && !at.calmo) st.rel++; st.i++; ordem = null; ctx.salvar();
+            c.querySelector(".show-msg").innerHTML = `<p class="show-ok">🎉 Acertou!${rapido && !at.calmo ? " ⚡ Resposta-relâmpago!" : ""}</p>`;
+            setTimeout(() => { if (!c.isConnected) return; if (st.i >= Q.length) { ctx.concluir("certo", "🏆 Show completo! Você lembrou de tudo."); draw(); } else draw(); }, 1300); }
+          else { b.classList.add("errada"); ctx.foco = q; ctx.errou(`Não foi dessa vez. ${md(q.why || "")} A pergunta volta com as respostas em outra ordem.`);
+            setTimeout(() => { if (c.isConnected) { nova(); draw(); } }, 2200); } });
+      };
+      ctx.resolver = () => { st.i = Q.length; draw(); };
+      draw();
+    },
+    imprimir(at) { return (at.perguntas || []).map(q => `<p>${md(q.p)}</p><ul class="imp-op">${q.opcoes.map(o => `<li>☐ ${md(o)}</li>`).join("")}</ul>`).join(""); },
+    resumoResposta(at, st) { return `${Math.min(st.i || 0, (at.perguntas || []).length)} de ${(at.perguntas || []).length}${st.rel ? ` · ⚡ ${st.rel} relâmpago` : ""}`; }
+  };
+
+  /* ------------------------------------------------------------
      ♾️ LABORATÓRIO SEM FIM (piso baixo, teto alto): perguntas sem fim desta missão e das anteriores (repetição espaçada).
      Cada acerto = +10 XP (até +150, contado no podio.js); a melhor sequência vira recorde. Opcional: não trava nada.
      ------------------------------------------------------------ */
@@ -1373,15 +1412,17 @@
       let q = null, ult = "", travado = false;
       const nova = () => { if (!uni.length) return null; let x, n = 0; do { x = uni[Math.floor(Math.random() * uni.length)]; } while (x.p === ult && n++ < 8); ult = x.p;
         const ord = x.opcoes.map((_, k) => k).sort(() => Math.random() - .5); return Object.assign({}, x, { opcoes: ord.map(k => x.opcoes[k]), certo: ord.indexOf(x.certo) }); };
-      const placar = () => at.calmo ? `<div class="lab-placar"><span>✅ Você já acertou <b>${st.ac}</b>. Continue no seu ritmo! 🙂</span></div>` : `<div class="lab-placar"><span>✅ Acertos: <b>${st.ac}</b></span><span>🔥 Sequência: <b>${st.seq}</b></span><span>🏅 Recorde: <b>${st.rec}</b></span><span>⚡ XP: <b>+${Math.min(150, st.ac * 10)}</b>${st.ac * 10 >= 150 ? " (máximo!)" : ""}</span></div>`;
+      // 🏎️ a corrida: cada acerto anda uma casa; 10 casas = 1 volta (na Trilha, a tartaruga 🐢, sem pressa)
+      const pista = () => { const pos = st.ac % 10, voltas = Math.floor(st.ac / 10); return `<div class="lab-pista${at.calmo ? " calma" : ""}" aria-label="Corrida: ${st.ac} acertos">${Array.from({ length: 10 }, (_, k) => `<span class="${k < pos ? "ok" : ""}">${k === pos ? (at.calmo ? "🐢" : "🏎️") : ""}</span>`).join("")}<b>🏁</b></div>${voltas ? `<p class="lab-voltas">🏁 ${voltas} volta${voltas > 1 ? "s" : ""} completa${voltas > 1 ? "s" : ""}!</p>` : ""}`; };
+      const placar = () => at.calmo ? `<div class="lab-placar"><span>✅ Você já acertou <b>${st.ac}</b>. Continue no seu ritmo! 🙂</span></div>${pista()}` : `${pista()}<div class="lab-placar"><span>✅ Acertos: <b>${st.ac}</b></span><span>🔥 Sequência: <b>${st.seq}</b></span><span>🏅 Recorde: <b>${st.rec}</b></span><span>⚡ XP: <b>+${Math.min(150, st.ac * 10)}</b>${st.ac * 10 >= 150 ? " (máximo!)" : ""}</span></div>`;
       const draw = (fb) => { if (!q) q = nova();
         if (!q) { c.innerHTML = "<p>Ainda não há perguntas para o laboratório.</p>"; return; }
-        c.innerHTML = `${placar()}<fieldset class="esc-q lab-q"><legend>${md(q.p)}</legend>${q.opcoes.map((o, k) => `<button type="button" class="lab-op" data-k="${k}">${"ABC"[k] || ""} · ${md(o)}</button>`).join("")}</fieldset><div class="lab-fb">${fb || ""}</div>`;
+        c.innerHTML = `<div class="lab-cab">${placar()}</div><fieldset class="esc-q lab-q"><legend>${md(q.p)}</legend>${q.opcoes.map((o, k) => `<button type="button" class="lab-op" data-k="${k}">${"ABC"[k] || ""} · ${md(o)}</button>`).join("")}</fieldset><div class="lab-fb">${fb || ""}</div>`;
         c.querySelectorAll(".lab-op").forEach(b => b.onclick = () => { if (travado) return; travado = true; const k = +b.dataset.k, ok = k === q.certo; st.tot++;
           c.querySelectorAll(".lab-op").forEach(x => { x.disabled = true; if (+x.dataset.k === q.certo) x.classList.add("certa"); }); if (!ok) b.classList.add("errada");
           if (ok) { st.ac++; st.seq++; if (st.seq > st.rec) st.rec = st.seq; } else st.seq = 0;
           ctx.salvar(); const de = q.de, txt = [q.p, q.opcoes[q.certo], q.why].join(" ");
-          c.querySelector(".lab-placar").outerHTML = placar();
+          const pl = c.querySelector(".lab-cab"); if (pl) pl.innerHTML = placar();
           const f = c.querySelector(".lab-fb");
           f.innerHTML = ok ? `<p class="fb fb-ok">✔ Certo! ${st.seq >= 3 && !at.calmo ? `🔥 ${st.seq} seguidas!` : ""}</p>` : `<p class="fb fb-erro">✖ Não foi dessa vez. ${md(q.why || "")}</p><button type="button" class="btn btn-sec lab-onde">📖 Ver onde isso está explicado</button>`;
           f.insertAdjacentHTML("beforeend", `<button type="button" class="btn lab-prox">Próxima pergunta ➜</button>`);
