@@ -2528,3 +2528,17 @@ body.lg-travado{overflow:hidden}
 .modo-telao .tm-el{display:none!important} /* projetor da leitura guiada: sem a faixa da data e sem os enfeites dos cantos (20/11/2026) */
 .mus-agora{margin:6px 0;padding:6px 8px;background:#f1f5f9;border-radius:8px;font-size:.9rem}.mus-agora small{color:#64748b}.mus-est select{max-width:100%}
 .mus-ui .mus-pn{width:min(380px,92vw)}.mus-ui .mus-est{display:block;margin:8px 0}.mus-ui .mus-est select{display:block;width:100%;margin-top:4px;font-size:.92rem}
+/* 🎛️ janela da música com seções que abrem ao clicar (20/11/2026) */
+.mus-ui .mus-pn{max-height:calc(100vh - 90px);overflow:auto}
+.mus-sec{border:2px solid #e9d5ff;border-radius:12px;margin:8px 0;background:#faf5ff}
+.mus-sec>summary{cursor:pointer;padding:9px 12px;font-weight:700;list-style:none;display:flex;gap:6px;align-items:baseline}
+.mus-sec>summary::-webkit-details-marker{display:none}
+.mus-sec>summary::after{content:"▸";margin-left:auto;color:#7c3aed;transition:transform .2s}
+.mus-sec[open]>summary::after{transform:rotate(90deg)}
+.mus-sec>summary b{color:#6d28d9;font-weight:800;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:200px}
+.mus-sec[open]{background:#fff}.mus-sec>:not(summary){margin:0 10px 10px}
+.mus-lista{max-height:42vh;overflow:auto;display:flex;flex-direction:column;gap:3px}
+.mus-op{text-align:left;border:0;background:#f8fafc;border-radius:8px;padding:6px 10px;font:inherit;font-size:.92rem;cursor:pointer}
+.mus-op:hover{background:#ede9fe}.mus-op.sel{background:#7c3aed;color:#fff;font-weight:700}
+.mus-gr{margin:8px 0 2px;font-weight:800;font-size:.82rem;color:#6d28d9}
+.mus-dica{font-size:.78rem;color:#64748b}

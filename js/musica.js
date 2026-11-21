@@ -286,44 +286,55 @@
 
   /* ---------- botão 🎵 (só no computador do professor) ---------- */
   let ui = null, aberto = false;
+  /* 🎛️ Janela da música (20/11/2026, pedido do professor): abre compacta, com cada opção escondida (Volume, Modo, Música);
+     clicando no título, ela abre (uma de cada vez). Cada título já mostra o que está escolhido. */
+  const OUTROS = () => Object.keys(ESTILOS).filter(k => !GRUPO.pagode.includes(k) && !GRUPO.oito.includes(k));
+  const opc = (tipo, k, txt) => `<button type="button" class="mus-op" data-${tipo}="${k}">${txt}</button>`;
   function pintar(forcar) {
     if (!ehProf()) { if (ui) { ui.remove(); ui = null; } return; }
     if (!ui || !ui.isConnected) {
       ui = document.createElement("div"); ui.className = "mus-ui";
       ui.innerHTML = `<button type="button" class="mus-bt" title="Música ambiente (mantém a caixinha de som acordada)"></button>
         <div class="mus-pn" hidden><p class="mus-tit">🎵 Música ambiente</p><p class="mus-sub">Bem baixinha, só para a caixinha de som não desligar sozinha.</p>
-          <button type="button" class="mus-liga"></button>
-          <label class="mus-vol">Volume <input type="range" min="0" max="100" step="1" list="mus-marcas" aria-label="Volume da música ambiente"><output></output></label>
-          <datalist id="mus-marcas"><option value="${AMB}" label="ambiente"></option></datalist>
-          <div class="mus-regua" aria-hidden="true"><span style="left:${AMB}%">▲ ambiente</span></div>
-          <button type="button" class="mus-amb">↺ Voltar ao volume ambiente</button>
           <p class="mus-agora"></p>
-          <label class="mus-est">Modo <select class="mus-modo" aria-label="Modo da música">${["nenhuma", "manual", "todos"].map(k => `<option value="${k}">${MODOS[k]}</option>`).join("")}
-            <optgroup label="🔀 Aleatório em dupla (revezando os dois)">${DUPLAS.map(k => `<option value="${k}">${MODOS[k]}</option>`).join("")}</optgroup>
-            <optgroup label="🔀 Aleatório com um estilo só">${SOS.map(k => `<option value="${k}">${MODOS[k]}</option>`).join("")}</optgroup></select></label>
-          <label class="mus-est">Música <select class="mus-qual" aria-label="Qual música">
-            <optgroup label="🥁 Pagodinho">${GRUPO.pagode.map(k => `<option value="${k}">${ESTILOS[k].nome.replace(/^🥁 /, "")}</option>`).join("")}</optgroup>
-            <optgroup label="👾 Videogame 8 bits">${GRUPO.oito.map(k => `<option value="${k}">${ESTILOS[k].nome.replace(/^👾 /, "")}</option>`).join("")}</optgroup>
-            <optgroup label="🎵 Outros estilos">${Object.keys(ESTILOS).filter(k => !GRUPO.pagode.includes(k) && !GRUPO.oito.includes(k)).map(k => `<option value="${k}">${ESTILOS[k].nome}</option>`).join("")}</optgroup></select></label>
+          <button type="button" class="mus-liga"></button>
+          <details class="mus-sec" data-s="vol"><summary>🔊 Volume: <b class="mus-r-vol"></b></summary>
+            <label class="mus-vol"><input type="range" min="0" max="100" step="1" list="mus-marcas" aria-label="Volume da música ambiente"><output></output></label>
+            <datalist id="mus-marcas"><option value="${AMB}" label="ambiente"></option></datalist>
+            <div class="mus-regua" aria-hidden="true"><span style="left:${AMB}%">▲ ambiente</span></div>
+            <button type="button" class="mus-amb">↺ Voltar ao volume ambiente</button></details>
+          <details class="mus-sec" data-s="modo"><summary>🔀 Modo: <b class="mus-r-modo"></b></summary>
+            <div class="mus-lista">${["nenhuma", "manual", "todos"].map(k => opc("m", k, MODOS[k])).join("")}
+              <p class="mus-gr">🔀 Aleatório em dupla (revezando os dois)</p>${DUPLAS.map(k => opc("m", k, MODOS[k])).join("")}
+              <p class="mus-gr">🔀 Aleatório com um estilo só</p>${SOS.map(k => opc("m", k, MODOS[k])).join("")}</div></details>
+          <details class="mus-sec" data-s="qual"><summary>🎵 Música: <b class="mus-r-qual"></b></summary>
+            <div class="mus-lista"><p class="mus-gr">🥁 Pagodinho</p>${GRUPO.pagode.map(k => opc("e", k, ESTILOS[k].nome.replace(/^🥁 /, ""))).join("")}
+              <p class="mus-gr">👾 Videogame 8 bits</p>${GRUPO.oito.map(k => opc("e", k, ESTILOS[k].nome.replace(/^👾 /, ""))).join("")}
+              <p class="mus-gr">🎵 Outros estilos</p>${OUTROS().map(k => opc("e", k, ESTILOS[k].nome)).join("")}</div>
+            <p class="mus-dica">Escolher uma música aqui deixa no modo ✋ Manual (ela não troca).</p></details>
           <p class="mus-pe">Ela abaixa sozinha durante vídeos, a roleta e as comemorações, e volta depois. Fica memorizado neste computador.</p></div>`;
       document.body.appendChild(ui);
       const pn = ui.querySelector(".mus-pn"), rg = ui.querySelector("input[type=range]");
       // abre no "apertar" do mouse (o rótulo do botão muda quando a música começa, e isso fazia o clique se perder)
-      const alterna = () => { aberto = !aberto; pn.hidden = !aberto; iniciar(); };
+      const alterna = () => { aberto = !aberto; pn.hidden = !aberto; if (!aberto) pn.querySelectorAll("details[open]").forEach(d => d.open = false); iniciar(); };
       const bt0 = ui.querySelector(".mus-bt"); bt0.addEventListener("pointerdown", e => { if (e.button === 0) alterna(); }); bt0.onclick = e => { if (e.detail === 0) alterna(); };
-      ui.querySelector(".mus-liga").onclick = () => { ligada = !ligada; gravarLS("portal:musica", ligada ? "1" : "0"); iniciar(); aplicar(); };
+      ui.querySelector(".mus-liga").onclick = () => { ligada = !ligada; gravarLS("portal:musica", ligada ? "1" : "0"); iniciar(); aplicar(); pintar(true); };
       rg.oninput = () => { vol = +rg.value; gravarLS("portal:musica:vol", String(vol)); if (!ligada) { ligada = true; gravarLS("portal:musica", "1"); } iniciar(); aplicar(); };
-      const se = ui.querySelector(".mus-qual"), sm = ui.querySelector(".mus-modo"); se.value = estilo; sm.value = modo;
-      se.onchange = () => { trocarEstilo(se.value); if (modo !== "manual") mudarModo("manual"); iniciar(); aplicar(); pintar(true); };   // escolher uma música à mão = modo manual
-      sm.onchange = () => { mudarModo(sm.value); iniciar(); aplicar(); pintar(true); };
-      ui.querySelector(".mus-amb").onclick = () => { vol = AMB; gravarLS("portal:musica:vol", String(vol)); iniciar(); aplicar(); };
+      ui.querySelector(".mus-amb").onclick = () => { vol = AMB; gravarLS("portal:musica:vol", String(vol)); iniciar(); aplicar(); pintar(true); };
+      pn.querySelectorAll("details").forEach(d => d.addEventListener("toggle", () => { if (d.open) { pn.querySelectorAll("details[open]").forEach(o => { if (o !== d) o.open = false; }); const sel = d.querySelector(".mus-op.sel"); if (sel) sel.scrollIntoView({ block: "nearest" }); } }));
+      pn.querySelectorAll("[data-m]").forEach(b => b.onclick = () => { mudarModo(b.dataset.m); iniciar(); aplicar(); pintar(true); });
+      pn.querySelectorAll("[data-e]").forEach(b => b.onclick = () => { trocarEstilo(b.dataset.e); if (modo !== "manual" || !ligada) mudarModo("manual"); iniciar(); aplicar(); pintar(true); });   // escolher uma música à mão = modo manual
       document.addEventListener("pointerdown", e => { if (aberto && ui && !ui.contains(e.target)) { aberto = false; pn.hidden = true; } }, true);
     }
     ui.querySelector(".mus-pn").hidden = !aberto;
-    const se2 = ui.querySelector(".mus-qual"), sm2 = ui.querySelector(".mus-modo");
-    if (forcar || document.activeElement !== se2) se2.value = estilo; if (forcar || document.activeElement !== sm2) sm2.value = ligada ? modo : "nenhuma";
+    const mAtual = ligada ? modo : "nenhuma";
+    ui.querySelectorAll("[data-m]").forEach(b => b.classList.toggle("sel", b.dataset.m === mAtual));
+    ui.querySelectorAll("[data-e]").forEach(b => b.classList.toggle("sel", b.dataset.e === estilo));
+    ui.querySelector(".mus-r-modo").textContent = MODOS[mAtual].replace(/^\S+\s/, "");
+    ui.querySelector(".mus-r-qual").textContent = ESTILOS[estilo].nome.replace(/^\S+\s/, "");
+    ui.querySelector(".mus-r-vol").textContent = vol === AMB ? "ambiente (padrão)" : vol + "%";
     const falta = Math.max(0, Math.ceil((HORA - usado) / 60000));
-    ui.querySelector(".mus-agora").innerHTML = !ligada ? "🔇 Sem música ambiente. Os efeitos sonoros continuam funcionando." : `▶ Tocando agora: <b>${esc(ESTILOS[estilo].nome)}</b>${modo === "manual" ? " <small>(fixa)</small>" : `<br><small>Troca daqui a ${falta} min de uso</small>`}`;
+    ui.querySelector(".mus-agora").innerHTML = !ligada ? "🔇 Sem música ambiente. Os efeitos sonoros continuam funcionando." : `▶ Tocando agora: <b>${esc(ESTILOS[estilo].nome)}</b>${modo === "manual" ? " <small>(fixa)</small>" : `<br><small>🔀 Troca daqui a ${falta} min de uso</small>`}`;
     const tocandoAgora = ligada && ctx && ctx.state === "running";
     const htmlBt = !ligada ? "🔇 <small>música desligada</small>" : tocandoAgora ? (videoAtivo() || Date.now() < abafarAte ? "🎵 <small>pausa (vídeo/festa)</small>" : `🎵 <small>${esc(ESTILOS[estilo].nome.replace(/^\S+\s/, ""))}${modo !== "manual" ? " 🔀" : ""}</small>`) : "🎵 <small>toque para ligar a música</small>";
     const bt = ui.querySelector(".mus-bt"); if (bt.dataset.h !== htmlBt) { bt.dataset.h = htmlBt; bt.innerHTML = htmlBt; }   // só troca se mudou (trocar no meio do clique faz o clique se perder)
