@@ -57,6 +57,26 @@
 .sp.sp-foco .sp-guia{margin:0 0 8px;flex:none;align-items:center}.sp.sp-foco .sp-bts{flex-direction:row;flex-wrap:wrap;justify-content:flex-end;max-width:46%}
 .sp.sp-foco .sp-moldura{flex:none;margin:0 auto;width:min(100%,calc((100vh - var(--sp-gh,150px) - 26px) * 1.6667))}
 body.sp-travado{overflow:hidden}
+/* 🃏 CARTÃO DA MISSÃO (21/11/2026, proposta aprovada para teste): a barra do Bit clara, com borda grossa, número do passo grande,
+   o gesto em destaque, frase curta + explicação menor, "Perfeito!" como aviso que some e um só botão principal */
+.sp-cartao .sp-guia{position:relative;background:#fffbeb;color:#1c1f22;border:4px solid #1c1f22;border-radius:20px;box-shadow:5px 5px 0 #facc15;padding:12px 16px;align-items:center;gap:16px;overflow:visible}
+.sp-cartao .sp-bit{width:78px;height:78px;border-radius:50%;background:#2563eb;color:#fff;border:4px solid #1c1f22;flex-direction:column;font-size:15px;font-weight:800;line-height:1}
+.sp-cartao .sp-bit b{font-size:2.3rem;font-weight:900}.sp-cartao .sp-bit .emo{position:absolute;left:-12px;top:-14px;font-size:26px;background:#fff;border:3px solid #1c1f22;border-radius:50%;width:40px;height:40px;display:flex;align-items:center;justify-content:center}
+.sp-cartao .sp-fala .q{display:none}
+.sp-cartao .sp-fala .f{display:flex;align-items:center;gap:16px;font-size:1.45rem;line-height:1.25;margin:0}
+.sp-cartao .spc-gest{flex:none;display:flex;flex-direction:column;align-items:center;gap:4px;background:#fff;border:3px solid #1c1f22;border-radius:14px;padding:6px 10px 8px;box-shadow:3px 3px 0 #1c1f22}
+.sp-cartao .spc-gest .gs-mouse{width:78px;height:76px}.sp-cartao .spc-gest .gs-rot{display:block;font-size:.85rem}.sp-cartao .spc-gest .gs-k{min-width:40px;height:40px;font-size:1rem}
+.sp-cartao .spc-t{font-weight:700}.sp-cartao .spc-t b,.sp-cartao .sp-fala .f b{color:#1c1f22;background:#fde047;padding:0 5px;border-radius:6px}
+.sp-cartao .spc-s{display:block;font-size:1rem;font-weight:500;color:#475569;margin-top:4px}.sp-cartao .spc-s b{background:none;padding:0;color:#1c1f22}
+.sp-cartao .sp-prog{gap:6px;margin-top:10px;max-width:420px}.sp-cartao .sp-prog i{height:10px;border:2px solid #1c1f22;background:#e5e7eb}.sp-cartao .sp-prog i.ok{background:#22c55e}.sp-cartao .sp-prog i.at{background:#facc15}
+.sp-cartao .sp-fala .r.erro{background:#fee2e2;color:#7f1d1d;border:3px solid #1c1f22;font-weight:600}
+.sp-cartao .sp-fala .r.ok{display:block;position:absolute;right:18px;bottom:-20px;background:#16a34a;color:#fff;border:3px solid #1c1f22;border-radius:999px;padding:4px 14px;font-weight:800;box-shadow:3px 3px 0 #1c1f22;margin:0;z-index:3;animation:spcToast 2.2s forwards}
+@keyframes spcToast{0%{transform:scale(.6);opacity:0}12%{transform:scale(1.08);opacity:1}20%,80%{transform:none;opacity:1}100%{opacity:0;visibility:hidden}}
+.sp-cartao .sp-fala .r:not(.erro):not(.ok){display:block;background:#dbeafe;color:#1c1f22;border:3px solid #1c1f22}.sp-cartao .sp-fala .r:empty{display:none!important}
+.sp-cartao .sp-bts{display:grid;grid-template-columns:1fr 1fr;gap:8px;align-content:center}
+.sp-cartao .sp-bts button{background:#fff;color:#1c1f22;border:2px solid #1c1f22;font-size:.85rem;padding:6px 10px}
+.sp-cartao .sp-bts button.onde{grid-column:1/-1;background:#facc15;border-width:3px;font-size:1.1rem;font-weight:900;padding:10px 16px;box-shadow:3px 3px 0 #1c1f22}
+.sp-cartao.sp-foco .sp-bts{display:grid;max-width:none}.sp-cartao .sp-bts button.foco{grid-column:1/-1;font-size:.75rem;padding:3px 8px;border-width:1px;opacity:.85}
 .sp-prop .c{width:420px}.sp-prop .pr-abas{display:flex;gap:2px;padding:6px 10px 0;border-bottom:1px solid #ccc;font-size:12px}.sp-prop .pr-abas span{padding:4px 10px;border:1px solid transparent}.sp-prop .pr-abas .on{border-color:#ccc #ccc #fff;background:#fff;margin-bottom:-1px}
 .sp-prop .pr-corpo{padding:10px 14px;font-size:12.5px;background:#fff}.sp-prop .pr-l{display:grid;grid-template-columns:120px 1fr;gap:6px;padding:3px 0}.sp-prop .pr-l b{font-weight:400;word-break:break-all}.sp-prop .pr-nome{grid-template-columns:40px 1fr;font-size:14px;align-items:center}.sp-prop .pr-nome span{font-size:26px}.sp-prop hr{border:0;border-top:1px solid #ddd;margin:6px 0}
 .sp-iniciar{position:absolute;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;background:rgba(6,20,50,.55);cursor:pointer}
@@ -244,7 +264,7 @@ body.sp-travado{overflow:hidden}
       const elogio = () => ELOG[Math.floor(Math.random() * ELOG.length)];
       function errou(msg) { if (Date.now() - tAcerto < 450) return; erros++; st.erros = (st.erros || 0) + 1; ctx.salvar(); falar(msg + (erros >= 2 ? ` <br><small>Toque em <b>💡 Mostre onde</b> que eu aponto para você.</small>` : ""), "erro"); if (erros >= 3) mostrarOnde(); }
       /* ---------- desenho ---------- */
-      c.innerHTML = `<div class="sp"><div class="sp-guia"><div class="sp-bit" aria-hidden="true">🤖</div><div class="sp-fala"><div class="q"></div><div class="f"></div><div class="r" aria-live="polite"></div><div class="sp-prog"></div></div>
+      c.innerHTML = `<div class="sp${at.barra === "cartao" || P.__barraCartao ? " sp-cartao" : ""}"><div class="sp-guia"><div class="sp-bit" aria-hidden="true">🤖</div><div class="sp-fala"><div class="q"></div><div class="f"></div><div class="r" aria-live="polite"></div><div class="sp-prog"></div></div>
         <div class="sp-bts"><button type="button" class="onde">💡 Mostre onde</button><button type="button" class="sec rec">↺ Recomeçar</button><button type="button" class="sec foco">⛶ Tela cheia</button></div></div>
         <div class="sp-moldura sp${st.so}"><div class="sp-tela" tabindex="0"></div>${st.status ? "" : `<div class="sp-iniciar"><button type="button">▶ Começar o simulador<small>${!st.demoVisto && at.demo !== false ? "🎬 primeiro um vídeo curtinho · ✋ depois é a sua vez" : "só funciona em tela cheia"}</small></button></div>`}</div></div>`;
       const G = c.querySelector(".sp-guia"), bit = G.querySelector(".sp-bit"), q = G.querySelector(".q"), fEl = G.querySelector(".f"), rEl = G.querySelector(".r"), prog = G.querySelector(".sp-prog");
@@ -277,12 +297,17 @@ body.sp-travado{overflow:hidden}
       addEventListener("resize", ajustarGuia);
       G.querySelector(".onde").onclick = () => { st.dicas = (st.dicas || 0); mostrarOnde(true); };
       G.querySelector(".rec").onclick = async () => { if (!await P.confirmar("Recomeçar do primeiro passo?", "Sim, recomeçar")) return; st.passo = 0; st.erros = 0; delete st.status; ctx.salvar(); ctx.reRender(); };
-      function falar(html, tipo, anima) { rEl.className = "r " + (tipo || ""); rEl.innerHTML = html; bit.className = "sp-bit " + (tipo === "ok" ? "feliz" : tipo === "erro" ? "triste" : ""); void bit.offsetWidth; bit.textContent = tipo === "erro" ? "🤔" : tipo === "ok" ? "😄" : "🤖"; }
+      function falar(html, tipo, anima) { rEl.className = "r " + (tipo || ""); rEl.style.animation = "none"; void rEl.offsetWidth; rEl.style.animation = ""; rEl.innerHTML = html; bit.className = "sp-bit " + (tipo === "ok" ? "feliz" : tipo === "erro" ? "triste" : ""); void bit.offsetWidth; const emo = tipo === "erro" ? "🤔" : tipo === "ok" ? "😄" : "🤖"; if (SP.classList.contains("sp-cartao")) { const e = bit.querySelector(".emo"); if (e) e.textContent = emo; if (tipo === "ok") { rEl.innerHTML = "✅ " + html.replace(/<[^>]+>/g, "").replace(/[✅]/g, "").trim(); } } else bit.textContent = emo; }
       function desenharGuia() {
         const p = pAtual();
         prog.innerHTML = passos.map((_, i) => `<i class="${i < st.passo ? "ok" : i === st.passo ? "at" : ""}"></i>`).join("");
-        if (!p) { q.textContent = `${nomeBit} · tudo pronto`; fEl.innerHTML = "Você terminou! 🎉"; G.querySelector(".onde").hidden = true; return; }
-        q.textContent = `${nomeBit}, o seu ajudante · passo ${st.passo + 1} de ${passos.length}`; fEl.innerHTML = P.gesto ? P.gesto.comInstrucao(p.faca, gestoDoPasso(p, passos[st.passo + 1])) : p.faca; G.querySelector(".onde").hidden = false;
+        if (!p) { q.textContent = `${nomeBit} · tudo pronto`; fEl.innerHTML = "Você terminou! 🎉"; if (SP.classList.contains("sp-cartao")) bit.innerHTML = `<span class="emo">😄</span><b>🏆</b>`; G.querySelector(".onde").hidden = true; return; }
+        q.textContent = `${nomeBit}, o seu ajudante · passo ${st.passo + 1} de ${passos.length}`; G.querySelector(".onde").hidden = false;
+        if (SP.classList.contains("sp-cartao")) {   // 🃏 cartão da missão: número grande, gesto em destaque, frase curta + explicação
+          bit.innerHTML = `<span class="emo">${(bit.querySelector(".emo") || {}).textContent || "🤖"}</span><b>${st.passo + 1}</b>de ${passos.length}`;
+          const g = gestoDoPasso(p, passos[st.passo + 1]), [t, s2] = partirInstrucao(p.faca);
+          fEl.innerHTML = `${g && P.gesto ? `<span class="spc-gest">${P.gesto(g[0], g[1])}</span>` : ""}<span><span class="spc-t">${t}</span>${s2 ? `<span class="spc-s">${s2}</span>` : ""}</span>`;
+        } else fEl.innerHTML = P.gesto ? P.gesto.comInstrucao(p.faca, gestoDoPasso(p, passos[st.passo + 1])) : p.faca;
       }
       function mostrarOnde(pediu) {
         tela.querySelectorAll(".sp-pisca").forEach(x => x.classList.remove("sp-pisca"));
@@ -630,6 +655,9 @@ body.sp-travado{overflow:hidden}
     if (v === "extensoes") return [["clique", onde || "exp:ext"]];
     return onde ? [["clique", onde]] : [];
   }
+  // 🃏 separa a instrução em frase curta (o que fazer) + explicação (o porquê / como): no primeiro ":" ou no fim da primeira frase
+  function partirInstrucao(h) { h = String(h || ""); let m = h.match(/^(.{12,}?):\s+(.{8,})$/s); if (m && !/<[^>]*$/.test(m[1])) return [m[1] + ".", m[2].charAt(0).toUpperCase() + m[2].slice(1)];
+    m = h.match(/^(.{12,}?[.!?])\s+(.{8,})$/s); if (m && !/<[^>]*$/.test(m[1])) return [m[1], m[2]]; return [h, ""]; }
   // 🖱️ o gesto do passo: o que o texto pede; senão, a ação principal que o Bit faz na demonstração
   function gestoDoPasso(p, prox) { const g = P.gesto && P.gesto.deTexto(p.faca); if (g) return g;
     let acs = []; try { acs = acoesDoPasso(p, prox); } catch (e) {}
@@ -668,8 +696,8 @@ body.sp-travado{overflow:hidden}
       const etq = txt => { document.querySelectorAll(".spd-etq").forEach(x => x.remove()); if (!txt) return; const e = document.createElement("div"); const g = GE[txt] || (/^⌨️ (?!digitando)/.test(txt) ? ["tecla", txt.slice(3)] : null);
         if (g && P.gesto) { e.className = "spd-etq spd-gesto"; e.innerHTML = P.gesto(g[0], g[1], { mini: true, rotulo: false });
           // o mousezinho GRANDE, com o nome do gesto, vai na faixa do Bit (fora da tela do computador: não cobre nada)
-          const gl = tela.closest(".sp") && tela.closest(".sp").querySelector(".sp-guia .f"); if (gl) { const vel = gl.querySelector(".gs-linha > .gs"), novo = document.createElement("span"); novo.innerHTML = P.gesto(g[0], g[1], { mini: true }); novo.firstChild.classList.add("gs-agora");
-            if (vel) vel.replaceWith(novo.firstChild); else gl.innerHTML = `<span class="gs-linha">${novo.innerHTML}<span class="gs-txt">${gl.innerHTML}</span></span>`; } }
+          const gl = tela.closest(".sp") && tela.closest(".sp").querySelector(".sp-guia .f"); if (gl) { const cart = !!gl.closest(".sp-cartao"), vel = gl.querySelector(".gs-linha > .gs, .spc-gest > .gs"), novo = document.createElement("span"); novo.innerHTML = P.gesto(g[0], g[1], { mini: !cart }); novo.firstChild.classList.add("gs-agora");
+            if (vel) vel.replaceWith(novo.firstChild); else if (cart) gl.insertAdjacentHTML("afterbegin", `<span class="spc-gest">${novo.innerHTML}</span>`); else gl.innerHTML = `<span class="gs-linha">${novo.innerHTML}<span class="gs-txt">${gl.innerHTML}</span></span>`; } }
         else { e.className = "spd-etq"; e.textContent = txt; } e.style.left = mouse.style.left; e.style.top = mouse.style.top; document.body.appendChild(e);
         // o mousezinho fica ACIMA e à ESQUERDA da setinha, para não cobrir o menu que abre embaixo/à direita; perto da borda, vira para o outro lado
         // junto da setinha só onde NÃO cobrir nada importante (botão, campo, item de menu, ícone, texto pequeno): testa 6 lugares; se nenhum estiver livre, fica só o da faixa do Bit
