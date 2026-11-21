@@ -162,6 +162,8 @@
         ${assuntos}
         ${linhas ? `<div class="tabela-wrap"><table class="rel-tab"><thead><tr><th>Nível</th><th>Tarefa</th><th>Resultado</th><th>Começou</th><th>Terminou</th><th>Tempo</th><th>Erros</th><th>Dicas</th></tr></thead><tbody>${linhas}</tbody></table></div>` : (r.pr.v === "P" ? "<p>Nenhuma tarefa concluída neste dia.</p>" : "")}
         ${difTxt}
+        ${(() => { const c = r.tf.find(x => x.at.tipo === "carinhas" && x.st.car); if (!c || !P.tipos.carinhas) return "";   // 🙂 autoavaliação (modelo em espiral)
+          return `<p class="rel-car">🙂 <b>Como disse que se sentiu na aula:</b> ${P.tipos.carinhas.resumoResposta(c.at, c.st)}.</p>`; })()}
         ${leituras ? `<p>📖 Leu ${leituras} parte${leituras > 1 ? "s" : ""} do texto da missão.</p>` : ""}
         ${(() => { const L = au.leituraGuiada; if (!L || !L.feita) return "";   // 📖 leitura guiada (20/11/2026)
           const leu = (L.leitores || []).filter(x => x.id === a.id), ac = (L.acertosPorAluno || {})[a.id] || 0, np = (L.perguntas || []).length;

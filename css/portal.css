@@ -2580,3 +2580,4 @@ body.lg-travado{overflow:hidden}
 .lab-pista span{height:34px;border-radius:6px;background:repeating-linear-gradient(90deg,#475569 0 8px,#64748b 8px 16px);display:grid;place-items:center;font-size:1.4rem}
 .lab-pista span.ok{background:#16a34a}.lab-pista b{font-size:1.5rem;padding:0 4px}.lab-pista.calma span.ok{background:#86efac}
 .lab-voltas{margin:0 0 8px;font-weight:800;color:#15803d}
+.pp-carinhas{margin:8px 0;padding:8px 12px;border:2px solid #e9d5ff;border-radius:12px;background:#faf5ff}.pp-carinhas ul{margin:6px 0 0;padding-left:18px}.rel-car{margin:6px 0}

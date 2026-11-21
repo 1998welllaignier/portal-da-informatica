@@ -1968,6 +1968,21 @@
       return { bas, basC, nAulas, ext, bonus, A, B, provaManual: man != null && man !== "", recManual, nota, r, final, sit, falta, recUsada: r != null && r > nota };
     };
     // dia da chamada: hoje se for dia de aula; senão, a última aula
+    /* 🙂 COMO A TURMA SE SENTIU (autoavaliação de carinhas do modelo em espiral, 20/11/2026): resumo do dia no 📒 Diário,
+       com quem disse "😟 não entendi" ou "😐 mais ou menos" e o que achou mais difícil, para o professor ajudar quem precisa. */
+    const diaDe = ts => { const d = new Date(ts); return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); };
+    const carinhasDoDia = d => {
+      const L = [];
+      prog.forEach(p => { if (!p.aid || !p.mid) return; let atv = {}; try { atv = typeof p.atv === "string" ? JSON.parse(p.atv) : (p.atv || {}); } catch (e) {}
+        const st = atv[p.mid + "-carinhas"]; if (!st || !st.status || !st.car || !st.quando || diaDe(st.quando) !== d) return;
+        const C = P.conteudo[p.aid], m = C && C.missoes.find(x => x.id === p.mid), termos = [...((m && m.termos) || []).map(x => P.util.semTags(x.termo)), "nada difícil"];
+        const a = alunos.find(x => x.id === p.alunoId); if (!a) return;
+        L.push({ a, car: st.car, dif: m ? Object.keys(st.dif || {}).filter(k => st.dif[k]).map(k => termos[k]).filter(Boolean) : [] }); });
+      if (!L.length) return "";
+      const n = v => L.filter(x => x.car === v).length, aten = L.filter(x => x.car !== "3").sort((x, y) => x.car - y.car);
+      return `<details class="pp-carinhas" ${aten.length ? "open" : ""}><summary>🙂 <b>Como a turma se sentiu</b> (autoavaliação): 😀 ${n("3")} · 😐 ${n("2")} · 😟 ${n("1")}</summary>
+        ${aten.length ? `<ul>${aten.map(x => `<li>${x.car === "1" ? "😟" : "😐"} <b>${esc(x.a.nome)}</b>${x.dif.length ? `: achou difícil <i>${x.dif.map(esc).join(", ")}</i>` : ""}</li>`).join("")}</ul>` : `<p class="ajuda">Todos disseram que entenderam tudo. 🎉</p>`}</details>`;
+    };
     let dia = sessionStorage.getItem("painel:diario:" + t.id) || (ehDiaDeAula(hoje) ? hoje : ([...cron.map(c => c.data), ...Object.keys(aulas)].filter(d => d <= hoje).sort().pop() || hoje));
     const salvarAula = async patch => {
       const novo = !aulas[dia];
@@ -1998,6 +2013,7 @@
             <div class="row-btns">${Object.keys(OCORR).map(k => `<button type="button" class="btn btn-sec btn-peq" data-oc="${k}">${OCORR[k]}</button>`).join("")}</div></details>`; })()}
         ${semAula(aulas[dia]) ? "" : `<p class="pp-cont"><span>✅ ${cnt.P} presente${cnt.P === 1 ? "" : "s"}</span> <span>❌ ${cnt.F} falta${cnt.F === 1 ? "" : "s"}</span> <span>📝 ${cnt.J} justificada${cnt.J === 1 ? "" : "s"}</span></p>
         <p class="ajuda">⚡ = veio do portal (o aluno entrou com o código, concluiu o Básico, completou o Desafio ou o Turbo). Toque para corrigir: o que você marca vale mais que o automático. Quem não entrou no portal fica com falta; se ele veio e não entrou, toque em <b>P</b>.</p>
+        ${carinhasDoDia(dia)}
         <ul class="pp-cham">${alunos.map((a, i) => { const p = pres(dia, a.id), c = carimbo(dia, a.id), x = extra(dia, a.id), pa = parcial(dia, a.id) && !c.v, fr = freq(a.id);
           return `<li><span class="n">${i + 1}</span><span class="nm">${nomeA(a)}<br><small>${fr.pct == null ? "sem registros" : fr.pct + "% de presença"}</small></span>
             <span class="seg">${["P", "F", "J"].map(v => `<button type="button" data-pres="${a.id}" data-v="${v}" aria-pressed="${p.v === v}" class="${p.v === v && p.auto ? "auto" : ""}" title="${{ P: "Presente", F: "Falta", J: "Falta justificada" }[v]}">${p.v === v && p.auto && v === "P" ? "⚡P" : v}</button>`).join("")}</span>
