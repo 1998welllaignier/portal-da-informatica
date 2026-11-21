@@ -355,7 +355,7 @@
   }
 
   /* ======================= 🏆 PONTOS ======================= */
-  const BASE = { pratica: 60, basico: 100, desafio: 150, turbo: 200, lembra: 50, onde: 60, fechar: 60 }, BONUS = 300, XP_BONUS = 150;
+  const BASE = { pratica: 60, basico: 100, desafio: 150, turbo: 200, lembra: 50, onde: 60, fechar: 60, chefao: 200 }, BONUS = 300, XP_BONUS = 150;
   /* 🌀 modelo em espiral: ♾️ Laboratório sem fim (+10 XP por acerto, até +150) e 🃏 página do álbum completa (+50) */
   function extrasEspiral(mm, mid, atv) { if (!mm || !mm.espiral) return 0; const lab = (atv || {})[mid + "-lab"], alb = (atv || {})[mid + "-termos"];
     return Math.min(150, ((lab && lab.ac) || 0) * 10) + (alb && alb.status ? 50 : 0); }

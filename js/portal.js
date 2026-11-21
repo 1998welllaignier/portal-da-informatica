@@ -432,6 +432,13 @@
       atividades: [/\*\*/.test(m.resumo.texto)
         ? { id: mid + "-resumo", nivel: "revisao", tipo: "completar", titulo: "Complete o resumo com as palavras do banco", texto: m.resumo.texto, chaves: m.resumo.chaves }
         : { id: mid + "-resumo", tipo: "info", titulo: "Leia com a turma", html: `<p>${md(m.resumo.texto)}</p>${m.resumo.chaves.length ? `<p class="chaves"><strong>Palavras-chave:</strong> ${m.resumo.chaves.map(esc).join(" · ")}</p>` : ""}` }] });
+    // 👾 CHEFÃO DO BIMESTRE (modelo em espiral, aprovado em 20/11/2026): na Revisão, uma batalha com perguntas de TODAS as missões
+    if ((apostila(aid) || {}).modelo === "espiral" && mid === "rv") {
+      const todas = missoesAntes(aid, "__fim__").reverse().map(x => x.id), trilha = !!(apostila(aid) || {}).trilha;
+      pages.splice(Math.min(1, pages.length), 0, { id: "chefao", rotulo: "Chefão do bimestre", icone: "👾", tipo: "missao",
+        atividades: [{ id: "rv-chefao", nivel: "chefao", tipo: "chefao", calmo: trilha, missoes: todas, vida: trilha ? 8 : 12,
+          titulo: "👾 Derrote o Chefão do bimestre!", enunciado: "<p>O <b>Bugzão</b> quer apagar tudo o que você aprendeu no bimestre! Cada pergunta certa é um golpe nele. As perguntas vêm de <b>todas as missões</b>.</p>" }] });
+    }
     pages.push({ id: "relatorio", rotulo: "Resumo do que fiz", icone: "📋", tipo: "relatorio" });
     return { C, m, a, pages };
   }

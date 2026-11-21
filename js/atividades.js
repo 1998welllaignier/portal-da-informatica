@@ -1380,7 +1380,7 @@
         if (barra) iv = setInterval(() => { const f = Math.max(0, 1 - (Date.now() - t0) / (TEMPO * 1000)); barra.style.width = (f * 100) + "%"; barra.classList.toggle("fim", f < .3); if (!f || !c.isConnected) clearInterval(iv); }, 120);
         c.querySelectorAll(".show-op").forEach(b => b.onclick = () => { if (travado) return; travado = true; clearInterval(iv);
           const k = +b.dataset.k, ok = k === q.certo, rapido = Date.now() - t0 < 8000;
-          c.querySelectorAll(".show-op").forEach(x => { x.disabled = true; if (+x.dataset.k === q.certo && ok) x.classList.add("certa"); });
+          c.querySelectorAll(".show-op").forEach(x => { x.disabled = true; if (+x.dataset.k === q.certo) x.classList.add("certa"); });
           if (ok) { b.classList.add("certa"); if (rapido && !at.calmo) st.rel++; st.i++; ordem = null; ctx.salvar();
             c.querySelector(".show-msg").innerHTML = `<p class="show-ok">🎉 Acertou!${rapido && !at.calmo ? " ⚡ Resposta-relâmpago!" : ""}</p>`;
             setTimeout(() => { if (!c.isConnected) return; if (st.i >= Q.length) { ctx.concluir("certo", "🏆 Show completo! Você lembrou de tudo."); draw(); } else draw(); }, 1300); }
@@ -1392,6 +1392,48 @@
     },
     imprimir(at) { return (at.perguntas || []).map(q => `<p>${md(q.p)}</p><ul class="imp-op">${q.opcoes.map(o => `<li>☐ ${md(o)}</li>`).join("")}</ul>`).join(""); },
     resumoResposta(at, st) { return `${Math.min(st.i || 0, (at.perguntas || []).length)} de ${(at.perguntas || []).length}${st.rel ? ` · ⚡ ${st.rel} relâmpago` : ""}`; }
+  };
+
+  /* ------------------------------------------------------------
+     👾 CHEFÃO DO BIMESTRE (aprendizagem baseada em jogos + prática intercalada, 20/11/2026)
+     O "Bugzão" tem uma barra de vida; cada acerto é um golpe. As perguntas vêm misturadas de TODAS as missões do bimestre.
+     Errou: o chefão dá um golpe (perde um ❤️), aparece o porquê e o "📖 Ver onde isso está explicado". Sem ❤️, o chefão
+     recupera 2 de vida e os corações voltam: ninguém "perde", só demora mais. Na Trilha: sem corações, no ritmo do aluno.
+     ------------------------------------------------------------ */
+  T.chefao = {
+    auto: true,
+    render(c, at, ctx) {
+      const st = ctx.st, VIDA = at.vida || 12; if (st.hp == null) st.hp = VIDA; if (st.cor == null) st.cor = 3; st.golpes = st.golpes || 0;
+      if (ctx.esconderVerificar) ctx.esconderVerificar();
+      const aid = (location.hash.match(/#\/missao\/([^/]+)/) || [])[1], C = P.conteudo[aid], A = P.atividades[aid] || {}, E = P.espiral;
+      const pool = []; (at.missoes || []).forEach(id => { const mm = C && C.missoes.find(x => x.id === id); if (!mm) return;
+        for (let k = 0; k < (mm.termos || []).length; k++) { const q = E.perguntaTermo(mm, k, id); if (q) pool.push(Object.assign(q, { tit: mm.titulo })); }
+        for (let k = 0; k < (mm.vf || []).length; k++) { const q = E.perguntaVF(mm, A[id], k, id); if (q) pool.push(Object.assign(q, { tit: mm.titulo })); } });
+      let q = null, ult = "", trava = false;
+      const nova = () => { if (!pool.length) return null; let x, n = 0; do { x = pool[Math.floor(Math.random() * pool.length)]; } while (x.p === ult && n++ < 8); ult = x.p;
+        const ord = x.opcoes.map((_, k) => k).sort(() => Math.random() - .5); return Object.assign({}, x, { opcoes: ord.map(k => x.opcoes[k]), certo: ord.indexOf(x.certo) }); };
+      const cena = (anim) => `<div class="chf-cena ${anim || ""}"><div class="chf-boss"><span class="chf-emo">👾</span><b>Bugzão</b><div class="chf-hp"><i style="width:${100 * st.hp / VIDA}%"></i></div><small>vida ${st.hp}/${VIDA}</small></div>
+        <div class="chf-eu">${at.calmo ? `<span>⭐ golpes: <b>${st.golpes}</b></span>` : `<span class="chf-cor">${"❤️".repeat(st.cor)}${"🤍".repeat(3 - st.cor)}</span><span>⚔️ golpes: <b>${st.golpes}</b></span>`}</div></div>`;
+      const draw = (anim, fb) => {
+        if (st.status || st.hp <= 0) { c.innerHTML = `<div class="chf-fim"><p class="chf-emo">💥🏆</p><h3>Você derrotou o Bugzão!</h3><p>${st.golpes} golpes certeiros com o que aprendeu no bimestre inteiro.</p></div>`; return; }
+        if (!q) q = nova(); if (!q) { c.innerHTML = "<p>Sem perguntas.</p>"; return; } trava = false;
+        c.innerHTML = `${cena(anim)}<p class="chf-de">🔁 ${esc(String(q.tit || "").replace(/ –.*/, ""))}</p><div class="show-ops">${q.opcoes.map((o, k) => `<button type="button" class="show-op" data-k="${k}" style="--cor:${["#2563eb", "#ea580c", "#7c3aed"][k % 3]}"><b>${"ABC"[k]}</b><span>${md(o)}</span></button>`).join("")}</div>
+          <p class="show-q chf-q">${md(q.p)}</p><div class="chf-fb">${fb || ""}</div>`;
+        const qEl = c.querySelector(".chf-q"); c.querySelector(".show-ops").before(qEl);
+        c.querySelectorAll(".show-op").forEach(b => b.onclick = () => { if (trava) return; trava = true; const k = +b.dataset.k, ok = k === q.certo;
+          c.querySelectorAll(".show-op").forEach(x => { x.disabled = true; if (+x.dataset.k === q.certo) x.classList.add("certa"); }); if (!ok) b.classList.add("errada");
+          if (ok) { st.hp--; st.golpes++; ctx.salvar(); const fim = st.hp <= 0;
+            setTimeout(() => { if (!c.isConnected) return; q = null; if (fim) { ctx.concluir("certo", "💥 Bugzão derrotado! Você revisou o bimestre inteiro."); draw(); } else draw("golpe", `<p class="show-ok">💥 Golpe certeiro!</p>`); }, 900); }
+          else { if (!at.calmo) { st.cor--; if (st.cor <= 0) { st.cor = 3; st.hp = Math.min(VIDA, st.hp + 2); } } ctx.salvar(); const de = q.de, txt = [q.p, q.opcoes[q.certo], q.why].join(" ");
+            const f = c.querySelector(".chf-fb"); c.querySelector(".chf-cena").outerHTML = cena("ataque");
+            f.innerHTML = `<p class="fb fb-erro">👾 O Bugzão revidou! ${md(q.why || "")}${!at.calmo && st.cor === 3 && st.hp > 0 ? " <b>Ele recuperou 2 de vida, mas você continua!</b>" : ""}</p><button type="button" class="btn btn-sec chf-onde">📖 Ver onde isso está explicado</button><button type="button" class="btn chf-prox">Próxima pergunta ➜</button>`;
+            f.querySelector(".chf-onde").onclick = () => P.verOndeExplica && P.verOndeExplica(aid, de, txt);
+            f.querySelector(".chf-prox").onclick = () => { q = null; draw(); }; } });
+      };
+      draw();
+    },
+    imprimir() { return "<p>👾 Chefão do bimestre: só no portal.</p>"; },
+    resumoResposta(at, st) { return st.status ? `derrotou o chefão com ${st.golpes || 0} golpes` : `vida do chefão: ${st.hp ?? at.vida}/${at.vida}`; }
   };
 
   /* ------------------------------------------------------------
