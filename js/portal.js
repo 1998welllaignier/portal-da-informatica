@@ -1980,10 +1980,12 @@
       if (r === "apresentar") { if (!P.apresentacao) return telaInicio(); return await P.apresentacao.abrir(mount, a1, a2); }
       // 👀 Visualização do professor (botão no painel, aba Aula): a apostila exatamente como o aluno vê,
       // numa aba só dela, sem código, sem nuvem e sempre zerada (nada vai para o painel)
-      if (r === "ver") {
-        const ap = apostila(a1); if (!ap) return telaInicio();
+      // 🧪 #/testar/<apostila>/<missão>: o professor joga como ALUNO (sem botões de resposta, com tempo de leitura e anti-chute),
+      // sem código, sem nuvem e sempre zerado: serve para testar apostilas de outros bimestres (ex.: o piloto de 2027) — 21/11/2026
+      if (r === "ver" || r === "testar") {
+        const ap = apostila(a1); if (!ap) return telaInicio(); const aluno = r === "testar";
         const s0 = serie(ap.serie), t0 = (s0 && s0.turmas.find(x => x.id === a3)) || (s0 && s0.turmas[0]);
-        sess.set({ serie: ap.serie, turma: t0 ? t0.id : "", modo: "sozinho", nomes: ["Professor"], apelidos: ["👀 Visualização do professor"], prof: true, trilha: !!ap.trilha, entrou: Date.now() });
+        sess.set({ serie: ap.serie, turma: t0 ? t0.id : "", modo: "sozinho", nomes: [aluno ? "Aluno Teste" : "Professor"], apelidos: [aluno ? "🧪 Teste" : "👀 Visualização do professor"], prof: !aluno, teste: aluno, trilha: !!ap.trilha, entrou: Date.now() });
         store.del(progressoKey(a1));
         location.replace("#/" + (a2 ? "missao/" + a1 + "/" + a2 : "apostila/" + a1)); return;
       }

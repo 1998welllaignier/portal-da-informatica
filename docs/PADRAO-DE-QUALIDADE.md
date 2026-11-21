@@ -549,3 +549,7 @@ Questões **contextualizadas** (situação curta: 1–2 frases no 6º, 2–3 no 
 - Nas apostilas `modelo: "espiral"`, a Revisão (rv) abre com uma batalha contra o **Bugzão**: barra de vida (12; Trilha 8), perguntas misturadas de **todas** as missões do bimestre (prática intercalada).
 - Acerto = golpe. Erro = perde ❤️, mostra a resposta certa, o porquê e o "📖 Ver onde isso está explicado". Sem ❤️, o chefão recupera 2 de vida e os corações voltam: ninguém perde, só demora mais.
 - Trilha: sem corações, no ritmo do aluno. XP: +200 ao derrotar.
+
+## 🧪 Testar como aluno (21/11/2026)
+- Link `#/testar/<apostila>/<missão>` (ex.: `#/testar/informatica-6ano-2027-1bim/m1`): o professor joga como ALUNO, sem código, sem nuvem, sempre zerado, sem botões de resposta e com tempo de leitura/anti-chute valendo. Serve para testar apostilas de outros bimestres (o piloto de 2027) sem mudar o bimestre da escola.
+- `#/ver/...` continua sendo a visualização do professor (com os botões de resposta).
