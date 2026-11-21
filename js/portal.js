@@ -1493,22 +1493,20 @@
     if (at.tipo === "tabela") return "<p>Complete cada linha da tabela: digite a resposta na caixa ou escolha na lista. Depois clique em <strong>Verificar</strong>.</p>";
     return "";
   }
-  /* 📖 Tempo mínimo de leitura (20/11/2026, pedido do professor): o botão e as respostas acendem só depois de alguns segundos,
-     calculados pelo tamanho do texto (3,5 palavras por segundo) e com FOLGA de 40% para quem lê rápido, menos 20% (21/11/2026; máximo 12 s).
-     O relógio só começa quando a tarefa aparece na tela. Quem lê nem percebe; quem chuta precisa esperar. */
+  /* 📖 Aviso de leitura (20/11/2026; trocado em 21/11/2026, pedido do professor): antes era um cronômetro (tempo mínimo de leitura);
+     agora é o mesmo aviso com um botão OK: a tarefa libera quando o aluno toca em OK. */
   function tempoDeLeitura(el, pronto) {
+    // 👌 21/11/2026 (professor): no lugar do cronômetro, um botão OK já disponível. O aviso continua no meio da tarefa
+    // ("Primeiro, leia o pedido com calma") e a tarefa só libera quando o aluno toca em OK: ele para e lê, sem esperar relógio.
     const txt = (el.querySelector(".atv-cab h2") || {}).textContent + " " + ((el.querySelector(".atv-enun") || {}).textContent || "") + " " + ((el.querySelector(".atv-corpo") || {}).textContent || "");
-    const pal = txt.split(/\s+/).filter(w => w.length > 1).length, seg = Math.min(12, Math.round(pal / 3.5 * 0.6 * 0.8));   // 21/11/2026 (professor): 20% a menos em todas as travas (máximo 15 s → 12 s)
-    if (seg < 2) return;
+    const pal = txt.split(/\s+/).filter(w => w.length > 1).length;
+    if (pal < 6) return;   // tarefa curtinha: sem aviso
     el.classList.add("atv-lendo");
-    const tag = h(`<div class="atv-ler" role="status">📖 Leia com calma… <b>${seg}</b>s</div>`); el.querySelector(".atv-cab").after(tag);
-    // 20/11/2026 (pedido do professor): a tarefa fica clarinha enquanto conta; o MOTIVO aparece no meio dela, não só lá em cima
-    const corpo = el.querySelector(".atv-corpo"), meio = corpo ? h(`<div class="atv-ler-meio" aria-hidden="true"><div><span>📖</span><b>Primeiro, leia o pedido com calma</b><small>A tarefa libera em <i>${seg}</i> segundos</small></div></div>`) : null;
-    if (meio) { el.appendChild(meio); const pos = () => { meio.style.top = corpo.offsetTop + "px"; meio.style.height = corpo.offsetHeight + "px"; }; pos(); requestAnimationFrame(pos); setTimeout(pos, 400); }
-    let iniciou = false;
-    const comeca = () => { if (iniciou) return; iniciou = true; let r = seg;
-      const iv = setInterval(() => { r--; const b = tag.querySelector("b"); if (b) b.textContent = r; const i2 = meio && meio.querySelector("i"); if (i2) i2.textContent = r; if (r <= 0 || !el.isConnected) { clearInterval(iv); el.classList.remove("atv-lendo"); tag.remove(); if (meio) meio.remove(); pronto && pronto(); } }, 1000); };
-    if ("IntersectionObserver" in window) { const io = new IntersectionObserver(es => { if (es.some(e => e.isIntersecting)) { io.disconnect(); comeca(); } }, { threshold: .35 }); io.observe(el); } else comeca();
+    const tag = h(`<div class="atv-ler" role="status">📖 Leia o pedido com calma e toque em <b>OK</b></div>`); el.querySelector(".atv-cab").after(tag);
+    const corpo = el.querySelector(".atv-corpo"), meio = corpo ? h(`<div class="atv-ler-meio"><div><span>📖</span><b>Primeiro, leia o pedido com calma</b><small>Leu? Então toque em OK para começar.</small><button type="button" class="btn atv-ler-ok">👌 OK, li o pedido</button></div></div>`) : null;
+    const libera = () => { if (!el.classList.contains("atv-lendo")) return; el.classList.remove("atv-lendo"); tag.remove(); if (meio) meio.remove(); pronto && pronto(); };
+    if (meio) { el.appendChild(meio); const pos = () => { meio.style.top = corpo.offsetTop + "px"; meio.style.height = corpo.offsetHeight + "px"; }; pos(); requestAnimationFrame(pos); setTimeout(pos, 400); meio.querySelector(".atv-ler-ok").onclick = libera; }
+    else { const b = h(`<button type="button" class="btn atv-ler-ok">👌 OK</button>`); b.onclick = libera; tag.appendChild(b); }
   }
   /* 🤔 três erros rápidos seguidos: a tarefa pausa uns segundos e mostra onde reler a explicação */
   function pausaChute(el, aid, mid) {

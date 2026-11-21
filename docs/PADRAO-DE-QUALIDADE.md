@@ -563,3 +563,9 @@ Questões **contextualizadas** (situação curta: 1–2 frases no 6º, 2–3 no 
 ## ⚡ Show do Lembra? sem a trava de leitura (21/11/2026 — pedido do professor)
 - Tarefas com relógio próprio (o ⚡ show do "Lembra?", tipo `show`) NÃO recebem o tempo mínimo de leitura: a trava comia o tempo da resposta-relâmpago. Mesma regra do ♾️ Laboratório (`lab`). As outras tarefas continuam com a trava.
 - (21/11/2026, professor) A trava de leitura das tarefas ficou **20% mais curta** (fórmula × 0,8; máximo 12 s em vez de 15 s). O show do "Lembra?" continua SEM trava. Os avisos do professor (pop-up na entrada) não mudaram.
+
+## 👌 Aviso de leitura com botão OK (21/11/2026 — pedido do professor; substitui o cronômetro)
+- No lugar do cronômetro ("a tarefa libera em N segundos"), o mesmo aviso "📖 Primeiro, leia o pedido com calma" aparece no meio da tarefa com o botão **👌 OK, li o pedido**, já disponível. A tarefa libera quando o aluno toca em OK. Tarefa curtinha (menos de 6 palavras) não tem aviso. O show do "Lembra?" e o Laboratório continuam sem aviso. (O desconto de 20% da trava, feito antes no mesmo dia, deixou de valer porque não há mais cronômetro.)
+
+## 🖥️ Tela do simulador widescreen (21/11/2026 — protótipo, junto com o cartão da missão)
+- Em tela cheia, a tela do simulador fica mais larga para ocupar a largura do monitor (altura 600, largura de 1000 até 1440, conforme o formato da tela), sem os "cantos pretos" dos lados. Janela maximizada e menus acompanham a nova largura. Em tela quadrada continua 1000×600.

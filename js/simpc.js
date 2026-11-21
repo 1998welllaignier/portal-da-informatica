@@ -61,7 +61,7 @@ body.sp-travado{overflow:hidden}
    o gesto em destaque, frase curta + explicação menor, "Perfeito!" como aviso que some e um só botão principal */
 .sp-cartao .sp-guia{position:relative;background:#fffbeb;color:#1c1f22;border:4px solid #1c1f22;border-radius:20px;box-shadow:5px 5px 0 #facc15;padding:12px 16px;align-items:center;gap:16px;overflow:visible}
 .sp-cartao .sp-bit{width:78px;height:78px;border-radius:50%;background:#2563eb;color:#fff;border:4px solid #1c1f22;flex-direction:column;font-size:15px;font-weight:800;line-height:1}
-.sp-cartao .sp-bit b{font-size:2.3rem;font-weight:900}.sp-cartao .sp-bit .emo{position:absolute;left:-12px;top:-14px;font-size:26px;background:#fff;border:3px solid #1c1f22;border-radius:50%;width:40px;height:40px;display:flex;align-items:center;justify-content:center}
+.sp-cartao .sp-bit b{font-size:2.3rem;font-weight:900}.sp-cartao .sp-bit .emo{position:absolute;left:-18px;top:-16px;font-size:20px;background:#fff;border:3px solid #1c1f22;border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center}
 .sp-cartao .sp-fala .q{display:none}
 .sp-cartao .sp-fala .f{display:flex;align-items:center;gap:16px;font-size:1.45rem;line-height:1.25;margin:0}
 .sp-cartao .spc-gest{flex:none;display:flex;flex-direction:column;align-items:center;gap:4px;background:#fff;border:3px solid #1c1f22;border-radius:14px;padding:6px 10px 8px;box-shadow:3px 3px 0 #1c1f22}
@@ -73,6 +73,7 @@ body.sp-travado{overflow:hidden}
 .sp-cartao .sp-fala .r.ok{display:block;position:absolute;right:18px;bottom:-20px;background:#16a34a;color:#fff;border:3px solid #1c1f22;border-radius:999px;padding:4px 14px;font-weight:800;box-shadow:3px 3px 0 #1c1f22;margin:0;z-index:3;animation:spcToast 2.2s forwards}
 @keyframes spcToast{0%{transform:scale(.6);opacity:0}12%{transform:scale(1.08);opacity:1}20%,80%{transform:none;opacity:1}100%{opacity:0;visibility:hidden}}
 .sp-cartao .sp-fala .r:not(.erro):not(.ok){display:block;background:#dbeafe;color:#1c1f22;border:3px solid #1c1f22}.sp-cartao .sp-fala .r:empty{display:none!important}
+.sp-cartao.sp-foco .sp-guia{padding:8px 14px}.sp-cartao.sp-foco .sp-bit{width:66px;height:66px}.sp-cartao.sp-foco .sp-bit b{font-size:1.9rem}.sp-cartao.sp-foco .spc-gest .gs-mouse{width:62px;height:60px}.sp-cartao.sp-foco .sp-fala .f{font-size:1.3rem}.sp-cartao.sp-foco .sp-prog{margin-top:6px}
 .sp-cartao .sp-bts{display:grid;grid-template-columns:1fr 1fr;gap:8px;align-content:center}
 .sp-cartao .sp-bts button{background:#fff;color:#1c1f22;border:2px solid #1c1f22;font-size:.85rem;padding:6px 10px}
 .sp-cartao .sp-bts button.onde{grid-column:1/-1;background:#facc15;border-width:3px;font-size:1.1rem;font-weight:900;padding:10px 16px;box-shadow:3px 3px 0 #1c1f22}
@@ -319,7 +320,17 @@ body.sp-travado{overflow:hidden}
       }
       function mostrarFim() { if (fimMostrado) return; fimMostrado = true; S.fim = true; draw(); }
       // escala: a tela tem 1000×600 e encolhe para caber
-      const esc2 = () => { const k = mold.clientWidth / 1000; tela.style.transform = `scale(${k})`; mold.style.height = (600 * k) + "px"; return k; };
+      // 🖥️ 21/11/2026 (cartão da missão): em tela cheia, a tela do simulador fica MAIS LARGA (widescreen) para ocupar o espaço
+      // que sobrava nos lados (os "cantos pretos" em telas 16:9): a altura continua 600 e a largura vai de 1000 até 1440
+      let LW = 1000;
+      const esc2 = () => {
+        if (SP.classList.contains("sp-cartao")) {
+          const foco = SP.classList.contains("sp-foco"), extra = SP.closest(".spd") ? 132 : 26, altD = innerHeight - G.offsetHeight - extra;
+          const nw = foco && altD > 200 ? Math.max(1000, Math.min(1440, Math.round(600 * (SP.clientWidth - 28) / altD))) : 1000;
+          mold.style.width = foco ? `min(100%, ${Math.round(altD * nw / 600)}px)` : "";
+          if (nw !== LW) { LW = nw; tela.style.width = LW + "px"; if (typeof draw === "function") setTimeout(draw, 0); }
+        }
+        const k = mold.clientWidth / LW; tela.style.transform = `scale(${k})`; mold.style.height = (600 * k) + "px"; return k; };
       let K = 1; const ro = new ResizeObserver(() => { K = esc2(); }); ro.observe(mold); K = esc2();
       if (c.__spFoco && !st.status) setTimeout(() => foco(true), 0); // ↺ Recomeçar: continua em tela cheia
       const xy = e => { const r = tela.getBoundingClientRect(); return [(e.clientX - r.left) / K, (e.clientY - r.top) / K]; };
@@ -368,7 +379,7 @@ body.sp-travado{overflow:hidden}
       function draw() {
         const ordem = [...S.jan].sort((a, b) => a.z - b.z);
         tela.innerHTML = `<div class="sp-icons" data-ctx="area">${area.map((ic, i) => `<div class="sp-ic ${S.sel === "ic:" + ic.nome ? "sel" : ""}" style="left:${ic.x}px;top:${ic.y}px" data-ic="${i}" data-ctx="ic:${i}" data-k="ic:${esc(ic.nome)}" ${ic.tipo === "pasta" ? `data-drop="${esc(ic.nome)}"` : ""}><span class="e">${ic.ic || (ic.tipo === "pasta" ? "📁" : ic.app ? APPS[ic.app].ic : icArq(ic))}</span>${esc(ic.nome)}</div>`).join("")}</div>
-          ${ordem.filter(j => !j.min).map(j => `<div class="sp-jan ${j.max ? "max" : ""}" data-jan="${j.id}" style="${j.max ? "left:0;top:0;width:1000px;height:" + (w11() ? 556 : 560) + "px" : `left:${j.x}px;top:${j.y}px;width:${j.w}px;height:${j.h}px`};z-index:${10 + j.z}">
+          ${ordem.filter(j => !j.min).map(j => `<div class="sp-jan ${j.max ? "max" : ""}" data-jan="${j.id}" style="${j.max ? "left:0;top:0;width:" + LW + "px;height:" + (w11() ? 556 : 560) + "px" : `left:${j.x}px;top:${j.y}px;width:${j.w}px;height:${j.h}px`};z-index:${10 + j.z}">
             <div class="sp-tit" data-arrasta="${j.id}"><span>${APPS[j.app] ? APPS[j.app].ic : ""}</span><span class="t">${esc(j.titulo)}</span><button type="button" data-a="min:${j.id}" data-k="jan:${j.id}:min" title="Minimizar">—</button><button type="button" data-a="max:${j.id}" data-k="jan:${j.id}:max" title="${j.max ? "Restaurar" : "Maximizar"}">${j.max ? "❐" : "☐"}</button><button type="button" class="x" data-a="fechar:${j.id}" data-k="jan:${j.id}:fechar" title="Fechar">✕</button></div>
             <div class="sp-corpo">${corpoApp(j)}</div></div>`).join("")}
           <div class="sp-bar">${w11() && WU ? WU.widget11() : ""}${w11() ? "" : `<button type="button" data-a="iniciar" data-k="bar:iniciar" title="Iniciar" class="sp-ini">${WU ? WU.logo("10") : "⊞"}</button><input class="sp-busca10" data-k="bar:busca" placeholder="Digite aqui para pesquisar" value="${esc(S.busca || "")}" aria-label="Pesquisar"><button type="button" title="Visão de Tarefas" class="wu-tv">⧉</button>`}
@@ -408,7 +419,7 @@ body.sp-travado{overflow:hidden}
         else if (alvo === "fundoexp") itens = [{ t: "Exibir", s: "›" }, { t: "Classificar por", s: "›" }, "-", { t: "Colar", s: "Ctrl+V", id: "colar", off: !S.clip }, "-", { t: "Novo › Pasta", i: "📁", id: "novaPasta" }, { t: "Novo › Documento de Texto", i: "📄", id: "novoTxt" }, "-", { t: "Propriedades", id: "prop" }];
         else if (alvo.startsWith("arq:")) { const id = alvo.slice(4); itens = [{ t: "Abrir", id: "abrirArq:" + id, i: "📂" }, "-", { t: "Recortar", s: "Ctrl+X", id: "recortar:" + id }, { t: "Copiar", s: "Ctrl+C", id: "copiar:" + id }, "-", { t: "Excluir", i: "🗑️", id: "excluir:" + id }, { t: "Renomear", id: "renomear:" + id }, "-", /\|zip$/.test(id) ? { t: "Extrair Tudo...", i: "📤", id: "extrair:" + id } : (w11() ? { t: "Compactar para arquivo ZIP", i: "🗜️", id: "zipar:" + id } : { t: "Enviar para › Pasta compactada", i: "🗜️", id: "zipar:" + id }), "-", { t: "Propriedades", i: "🔧", id: "prop:" + id }]; }
         else if (alvo.startsWith("lix:")) itens = [{ t: "Restaurar", id: "restaurar:" + alvo.slice(4), i: "↩️" }, { t: "Excluir", id: "apagarDeVez:" + alvo.slice(4) }];
-        if (itens.length) { S.menu = { x: Math.min(x, 1000 - 240), y: Math.min(y, 560 - itens.length * 27), itens }; S.start = false; draw(); }
+        if (itens.length) { S.menu = { x: Math.min(x, LW - 240), y: Math.min(y, 560 - itens.length * 27), itens }; S.start = false; draw(); }
       }
       function achar(id) { const [p, nome, ext] = id.split("|"); const l = fs[p] || []; const i = l.findIndex(f => f.nome === nome && (f.ext || "") === ext); return { p, i, f: l[i] }; }
       function acaoMenu(m) {

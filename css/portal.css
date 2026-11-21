@@ -2592,3 +2592,7 @@ body.lg-travado{overflow:hidden}
 .chf-de{margin:0 0 4px;font-weight:800;color:#7c3aed;font-size:.9rem}.chf-q{color:#1c1f22}.chf-q b{color:#7c3aed}
 .chf-fb{margin-top:10px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}.chf-fb .fb{flex-basis:100%;margin:0}
 .chf-fim{text-align:center;padding:14px;background:#fefce8;border:3px solid #1c1f22;border-radius:18px;box-shadow:5px 5px 0 #1c1f22}
+
+/* 👌 aviso de leitura com botão OK (21/11/2026) */
+.atv-ler-meio>div{pointer-events:auto}.atv-ler-ok{margin-top:8px;font-size:1.1rem;font-weight:900;padding:.55rem 1.3rem;background:#facc15;color:#1c1f22;border:3px solid #1c1f22;box-shadow:3px 3px 0 #1c1f22;border-radius:12px;cursor:pointer}
+.atv-ler .atv-ler-ok{margin:0 0 0 10px;font-size:.9rem;padding:.2rem .8rem}
