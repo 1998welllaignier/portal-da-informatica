@@ -165,6 +165,12 @@ PORTAL.registrarAtividades("informatica-7ano-2027-4bim", {
 
   m4: {
     pratica: [
+      /* 🎬 SIMULADOR DO EDITOR DE VÍDEO (22/11/2026, pedido do professor): a sala não tem editor de vídeo instalado;
+         aqui a dupla monta o vídeo do projeto no Windows 11 de mentira e exporta. Fica salvo para a próxima aula. */
+      { tipo: "sim_video", titulo: "🎬 Mão na massa: monte o vídeo da equipe no Editor de Vídeo",
+        robo: BIT("🎬 Montar um vídeo", [["Primeiro trago as gravações para o editor: Importar mídia.", "importar"], ["Assisto às tomadas e fico só com a boa de cada cena, na ordem do roteiro.", "tomada boa → ordem"], ["Corto o silêncio do começo e do fim, ponho título e música baixinha.", "cortar → título → música"], ["Por último, exporto com um nome claro.", "exportar", true]]),
+        enunciado: "<p>A equipe já gravou as cenas do roteiro (cada cena foi gravada <strong>duas vezes</strong>: são duas <strong>tomadas</strong>). Agora é com você: abra o editor, escolha a tomada boa de cada cena, corte as sobras, coloque título e música baixinha e exporte. Siga as metas do cartão. Tudo fica salvo: se a aula acabar, você continua na próxima.</p>",
+        explicacao: "Montar no editor: importar → escolher as tomadas boas → ordenar na linha do tempo → cortar as sobras → texto e som → exportar com nome claro." },
       { tipo: "classificar", modo: "tabela", titulo: "Mão na massa: ajuda ou atrapalha a gravação?",
         robo: BIT("🔎 A pergunta", [["O rosto aparece bem e a fala fica clara? Ajuda.", "claro → ajuda"], ["Escuro, barulho ou de pé? Atrapalha.", "escuro/barulho → atrapalha", true]]),
         enunciado: "<p>Use a tabela <strong>Dica · Por quê</strong>.</p>",

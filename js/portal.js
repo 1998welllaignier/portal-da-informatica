@@ -153,7 +153,7 @@
      em tela cheia, a tarefa ocupa a janela inteira com as instruções em cima; ao terminar, volta sozinha ao tamanho normal.
      Vale para: Windows (inclui a aula especial do papel de parede), explorador de pastas, teclado,
      pintura, programação com blocos e os simuladores de grafo, bolha, adivinhe e César. */
-  const SIM_TELA_CHEIA = new Set(["sim_windows", "explorador_pastas", "teclado", "pintura", "blocos", "sim_grafo", "sim_bolha", "sim_adivinhe", "sim_cesar"]);
+  const SIM_TELA_CHEIA = new Set(["sim_windows", "sim_video", "explorador_pastas", "teclado", "pintura", "blocos", "sim_grafo", "sim_bolha", "sim_adivinhe", "sim_cesar"]);
   addEventListener("hashchange", () => document.body.classList.remove("simc-travado"));
   // o próximo passo da lista do simulador: a 1ª caixinha não marcada (lista do Windows: li sem "ok"; listas com caixinhas de marcar)
   const proximoPasso = el => { const li = el.querySelector(".sw-check li:not(.ok)"); if (li) return li;

@@ -527,6 +527,10 @@ PORTAL.registrarConteudo("informatica-7ano-2027-4bim", {
     },
     {
      "t": "p",
+     "h": "<strong>Tomada:</strong> cada vez que você grava a mesma cena é uma <strong>tomada</strong>. Grave duas ou três e, no editor, use a melhor (rosto claro, celular deitado, sem barulho)."
+    },
+    {
+     "t": "p",
      "h": "<strong>Montar no editor:</strong> o <strong>editor</strong> de vídeo ou de áudio junta as partes. Os passos são:"
     },
     {

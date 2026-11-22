@@ -15,7 +15,7 @@
     alarmes: ["⏰", "Alarmes e Relógio"], calc: ["🧮", "Calculadora"], camera: ["📷", "Câmera"], cfg: ["⚙️", "Configurações"],
     email: ["📧", "Email"], exp: ["📁", "Explorador de Arquivos"], fotos: ["🖼️", "Fotos"], chrome: ["🌐", "Google Chrome"],
     mapas: ["🗺️", "Mapas"], store: ["🛍️", "Microsoft Store"], notas: ["📝", "Bloco de Notas"], paint: ["🎨", "Paint"],
-    tempo: ["⛅", "Previsão do Tempo"], musica: ["🎵", "Media Player"], lixeira: ["🗑️", "Lixeira"]
+    tempo: ["⛅", "Previsão do Tempo"], musica: ["🎵", "Media Player"], lixeira: ["🗑️", "Lixeira"], video: ["🎬", "Editor de Vídeo"]
   };
   const COR_BLOCO = { calc: "#4b4b4b", cfg: "#5c2d91", email: "#0063b1", exp: "#c79100", fotos: "#0078d4", chrome: "#2d7d32", notas: "#00577a", paint: "#b4009e", mapas: "#00897b", tempo: "#1e88e5", store: "#0063b1", camera: "#37474f" };
   const css = `
@@ -64,7 +64,7 @@
   const novoEstado = () => ({ todos: false, energia: false, busca: "" });
   function itemApp(id, o, cls) { const c = CATALOGO[id] || ["❔", id], at = o.attr(id); return `<div class="${cls}" ${at || 'title="(não usado neste treino)"'}><span class="e q">${c[0]}</span>${esc(c[1])}</div>`; }
   function resultados(so, o, q) {
-    const lst = Object.keys(CATALOGO).filter(id => id !== "lixeira" && CATALOGO[id][1].toLowerCase().includes(q));
+    const lst = Object.keys(CATALOGO).filter(id => id !== "lixeira" && (id !== "video" || (o.fixados || []).includes("video")) && CATALOGO[id][1].toLowerCase().includes(q));
     const extra = (o.extraRes || []).filter(r => r.casa(q));
     return `<div class="res"><div class="wu-res-h">Melhor correspondência</div>${extra.map(r => `<div class="a" ${r.attr}><span class="e">${r.ic}</span>${esc(r.nome)}</div>`).join("")}${lst.map(id => itemApp(id, o, "a")).join("") || (extra.length ? "" : `<div class="a" style="cursor:default">Nenhum resultado para “${esc(q)}”</div>`)}</div>`;
   }
@@ -72,7 +72,7 @@
   /* menu Iniciar. o = { attr(id) => atributos para abrir (ou "" se não abre), estado, busca?, buscaId?, extraRes?, recentes?, usuario?, fixados?, maisUsados? } */
   function iniciar(so, o) {
     const E = o.estado || novoEstado(), q = String(o.busca != null ? o.busca : E.busca || "").trim().toLowerCase(), u = o.usuario || "Aluno";
-    const todosIds = Object.keys(CATALOGO).filter(id => id !== "lixeira").sort((a, b) => CATALOGO[a][1].localeCompare(CATALOGO[b][1], "pt-BR"));
+    const todosIds = Object.keys(CATALOGO).filter(id => id !== "lixeira" && (id !== "video" || (o.fixados || []).includes("video"))).sort((a, b) => CATALOGO[a][1].localeCompare(CATALOGO[b][1], "pt-BR"));
     const alfabetica = () => { let l = ""; return todosIds.map(id => { const L = CATALOGO[id][1][0].toUpperCase(); const cab = L !== l ? `<div class="l">${L}</div>` : ""; l = L; return cab + itemApp(id, o, "a"); }).join(""); };
     if (so === "11") {
       const fix = (o.fixados || ["exp", "chrome", "notas", "calc", "fotos", "paint", "cfg", "email", "store", "camera", "tempo", "alarmes"]);
