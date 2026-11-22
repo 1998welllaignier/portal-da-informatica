@@ -270,7 +270,7 @@ PORTAL.registrarConteudo("informatica-6ano-2027-4bim-trilha", {
     },
     {
      "t": "p",
-     "h": "Do menor para o maior: <strong>byte → KB → MB → GB</strong>. Muitas fotos? Compacto num .zip."
+     "h": "Do menor para o maior: <strong>byte → KB → MB → GB</strong>. O GB é o maior: 1 GB é cerca de mil MB. Muitas fotos? Compacto num .zip."
     }
    ],
    "termos": [
@@ -305,7 +305,7 @@ PORTAL.registrarConteudo("informatica-6ano-2027-4bim-trilha", {
    "alertas": [],
    "vf": [
     "Um byte tem 8 bits.",
-    "GB é maior que MB.",
+    "GB é maior que MB: 1 GB é cerca de mil MB.",
     "Uma foto é maior que um filme."
    ],
    "resumo": {
@@ -343,7 +343,7 @@ PORTAL.registrarConteudo("informatica-6ano-2027-4bim-trilha", {
     },
     {
      "t": "p",
-     "h": "Os <strong>metadados</strong> são as informações do arquivo. Guarde os arquivos em <strong>pastas</strong>, uma para cada matéria. Bom nome: 2027-ciencias-planetas."
+     "h": "Os <strong>metadados</strong> são as informações do arquivo. Guarde os arquivos em <strong>pastas</strong>, uma para cada matéria. Fotos (.jpg) vão para a pasta Fotos. Um nome como “documento1” se perde. Bom nome: 2027-ciencias-planetas."
     }
    ],
    "termos": [

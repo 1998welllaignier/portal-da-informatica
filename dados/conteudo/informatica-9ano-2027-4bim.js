@@ -290,7 +290,7 @@ PORTAL.registrarConteudo("informatica-9ano-2027-4bim", {
     },
     {
      "t": "p",
-     "h": "<strong>Se a sua imagem for exposta:</strong> o primeiro passo é guardar as provas: <strong>não apague as provas</strong> (guarde prints e links), <strong>peça para retirar</strong>, <strong>denuncie</strong> na plataforma e <strong>conte para um adulto de confiança</strong>."
+     "h": "<strong>Se a sua imagem for exposta:</strong> o primeiro passo é guardar as provas: <strong>não apague as provas</strong> (guarde prints e links), <strong>peça para retirar</strong>, <strong>denuncie</strong> na plataforma (denunciar é avisar a plataforma sobre um conteúdo errado) e <strong>conte para um adulto de confiança</strong>."
     }
    ],
    "termos": [
@@ -521,7 +521,7 @@ PORTAL.registrarConteudo("informatica-9ano-2027-4bim", {
     },
     {
      "t": "p",
-     "h": "<strong>Se for vítima:</strong> não apague as provas, denuncie na plataforma e conte para um adulto de confiança."
+     "h": "<strong>Se for vítima:</strong> não apague as provas, denuncie na plataforma (denunciar é avisar a plataforma sobre um conteúdo errado) e conte para um adulto de confiança."
     },
     {
      "t": "p",

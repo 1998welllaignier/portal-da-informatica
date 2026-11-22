@@ -23,7 +23,7 @@ PORTAL.registrarAtividades("informatica-8ano-2027-4bim-trilha", {
       itens: [{ t: "Uma doença", c: "S" }, { t: "A digital", c: "S" }, { t: "O endereço", c: "C" }], explicacao: "Doença e digital são sensíveis." }],
     basico: [
       { tipo: "ligar", titulo: "Passo 1 · O que significa?", enunciado: SIGNIF, pares: [{ a: "Dado sensível", b: "Dado mais delicado, como a saúde" }, { a: "Biometria", b: "Partes do corpo que identificam" }, { a: "LGPD", b: "A lei que protege os dados" }], explicacao: "Dado sensível, biometria e LGPD." },
-      E("Passo 2 · A digital", "A digital usada no celular é:", ["Biometria", "Senha"], "Biometria."),
+      E("Passo 2 · A digital", "A digital usada no celular é:", ["Biometria", "Religião"], "Biometria."),
       E("Passo 3 · LGPD", "Pela LGPD, posso pedir para:", ["Apagar os meus dados", "Nada"], "Apagar.")],
     vf: [{ v: true }, { v: true }, { v: false, corrigir: { trecho: "A LGPD não protege os dados", opcoes: ["A LGPD não protege os dados", "A LGPD protege os dados"], certo: "A LGPD protege os dados" } }]
   },
@@ -117,4 +117,71 @@ PORTAL.registrarAtividades("informatica-8ano-2027-4bim-trilha", {
     Q("m8", "Golpes", [{ p: "Empresa séria pede o código?", opcoes: ["Não", "Sim"], certo: 0 }, { p: "Sabe o meu nome:", opcoes: ["Prova que é de confiança", "Não prova nada"], certo: 1 }]), pega("m8")
   ].filter(Boolean) };
 })();
+})();
+
+/* ============================================================
+   🌀 MODELO EM ESPIRAL — 🧭 Trilha (21/11/2026, Etapa 4: 4º bimestre de 2027)
+   Mesmo ❓ gancho da turma, "O que você já sabe?" na M1 e 🛠️ "Onde eu uso isso?" calmo
+   (3 itens + 2 perguntas). Sem Desafio/Turbo na Trilha.
+   ============================================================ */
+(function () {
+  const A = PORTAL.atividades["informatica-8ano-2027-4bim-trilha"]; if (!A) return;
+  const GANCHO = {"m1":{"html":"<p>🎁 Um site prometeu um tênis de graça. Para participar, era só preencher: nome completo, endereço, data de nascimento, CPF e uma selfie.</p><p>🤔 Por que um sorteio precisaria de tudo isso? O que alguém pode fazer com esses dados?</p>"},"m2":{"html":"<p>🏥 A Bia descobriu que um aplicativo de jogo guardava se ela tomava algum remédio e qual era a religião da família dela. Ela nunca entendeu para que o jogo precisava disso.</p><p>🤔 Esses dados são mais delicados que o nome? A Bia tem algum direito?</p>"},"m3":{"html":"<p>🔔 Às 3 da manhã, o e-mail do Davi recebeu: <b>“Novo acesso à sua conta de outro aparelho”</b>. Ele estava dormindo.</p><p>🤔 Quem entrou? O que ele deve fazer primeiro?</p>"},"m4":{"html":"<p>📱 Um desconhecido mandou mensagem para a Lia: “Vi que você está na pracinha agora!”. Ela nunca tinha falado com ele.</p><p>🤔 Como ele sabia? Que configurações da conta deixaram isso acontecer?</p>"},"m5":{"html":"<p>👵 A avó do Pedro ganhou um celular e já respondeu a três mensagens estranhas pedindo código. Ela diz que “ninguém explica direito”.</p><p>🤔 Como explicar privacidade para os avós? E para o 6º ano, seria do mesmo jeito?</p>"},"m6":{"html":"<p>🖼️ O cartaz de uma equipe tinha 12 dicas num parágrafo só, sem nenhuma imagem. Ninguém conseguiu ler até o fim.</p><p>🤔 Como deixar o guia fácil de lembrar e com vontade de ler?</p>"},"m7":{"html":"<p>📸 O Gabriel mandou uma foto do quarto novo para um “amigo” do jogo on-line. No dia seguinte, o tal amigo disse o nome da rua dele.</p><p>🤔 A foto não mostrava a rua. Como ele descobriu?</p>"},"m8":{"html":"<p>📞 A mãe da Carol recebeu uma ligação: “Senhora Maria, CPF terminado em 45, aqui é do banco. Confirme o código que chegou por SMS”. Ela pensou: “se sabem o meu CPF, devem ser do banco”.</p><p>🤔 Saber o CPF prova que é o banco? Como eles conseguiram esses dados?</p>"}};
+  Object.keys(GANCHO).forEach(m => { A[m].gancho = GANCHO[m]; });
+  const perg = (titulo, ...ps) => ({ tipo: "escolha", titulo, enunciado: "<p>Use o que você aprendeu hoje. Leia com calma. 😉</p>", perguntas: ps.map(x => ({ p: x[0], opcoes: x[1], certo: 0, why: x[2] })) });
+  const VIDA = (...ps) => perg("🛠️ E na vida real?", ...ps);
+  const msg = (titulo, app, botoes, enun, itens, okMsg, expl) => ({ tipo: "mensagens", titulo, app, botoes: botoes.map(([id, rot]) => ({ id, rot })), enunciado: `<p>${enun}</p>`,
+    itens: itens.map(([t, c, why]) => ({ de: "", t, c, why })), okMsg, explicacao: expl });
+  const rota = (titulo, enun, etapas, okMsg, expl) => ({ tipo: "rota", titulo, enunciado: `<p>${enun}</p>`, etapas: etapas.map(([ic, t]) => ({ ic, t })), okMsg, explicacao: expl });
+  const LEMBRA = (...ps) => { A.m1.lembra = [perg("🔍 O que você já sabe?", ...ps)]; A.m1.lembra[0].enunciado = "<p>Responda o que você já sabe. Se não souber, tudo bem: o portal mostra onde está a resposta. 😉</p>"; };
+  LEMBRA(["Quem engana para pegar dados é um…", ["Golpista", "Professor"], "Um <b>golpista</b>."],
+    ["Antes de postar a foto de um colega, você…", ["Pede permissão", "Posta sem perguntar"], "<b>Peça permissão</b>."]);
+  A.m1.aplicar = [
+    msg("🛠️ Na vida real: é dado pessoal?", "🎁 Formulário", [["S", "🪪 Dado pessoal"], ["N", "🙂 Não diz quem você é"]], "Dado pessoal diz quem você é.",
+      [["Nome completo", "S", "Diz quem você é."], ["Endereço", "S", "Diz onde você mora."], ["“Gosto de azul”", "N", "Sozinho, não diz quem você é."]],
+      "Mandou bem! 🪪", "Nome, endereço e localização são dados pessoais."),
+    VIDA(["Um site pede o seu telefone. Você pergunta…", ["Quem está pedindo? Para quê?", "Qual é a cor do site?"], "<b>Quem? Para quê?</b>"], ["Dar o telefone para qualquer pessoa…", ["Não: eu não dou", "Sim, sempre"], "<b>Não dou</b> para qualquer pessoa."])
+  ];
+  A.m2.aplicar = [
+    msg("🛠️ Na vida real: sensível ou não?", "🗂️ Dados", [["S", "🔴 Dado sensível"], ["N", "🪪 Dado pessoal comum"]], "Dados sensíveis são ainda mais delicados.",
+      [["Uma doença", "S", "Saúde: sensível."], ["A digital", "S", "Biometria: sensível."], ["O endereço", "N", "Pessoal comum."]],
+      "Mandou bem! 🔒", "Saúde, religião e biometria são dados sensíveis."),
+    VIDA(["A lei que protege os seus dados é a…", ["LGPD", "Um jogo"], "A <b>LGPD</b>."], ["Pela LGPD, você pode…", ["Pedir para apagar os seus dados", "Nunca pedir nada"], "Pedir para <b>apagar</b> os seus dados."])
+  ];
+  A.m3.aplicar = [
+    msg("🛠️ Na vida real: seguro ou arriscado?", "🔐 Contas", [["S", "✅ Seguro"], ["R", "⚠️ Arriscado"]], "Use a tabela dos hábitos.",
+      [["Senha diferente em cada conta", "S", "Se uma vazar, as outras ficam seguras."], ["Passar o código para o amigo", "R", "Nunca passe o código."], ["Sair da conta na escola", "S", "O próximo não entra."]],
+      "Conta protegida! 🔐", "Senha diferente, duas etapas e sair da conta."),
+    VIDA(["Pediram o código que chegou no seu celular. Você…", ["Não passa", "Passa rapidinho"], "<b>Não passe</b>."], ["Com duas etapas, sem o código…", ["Ninguém entra", "Todo mundo entra"], "<b>Ninguém entra</b>."])
+  ];
+  A.m4.aplicar = [
+    msg("🛠️ Na vida real: protegida ou exposta?", "⚙️ Configurações", [["P", "🔒 Protegida"], ["E", "⚠️ Exposta"]], "Use a tabela da opção mais protegida.",
+      [["Conta privada", "P", "Protegida."], ["Localização nos posts ligada", "E", "O mais protegido é desligada."], ["Mensagem só de amigos", "P", "Protegida."]],
+      "Mandou bem! ⚙️", "Conta privada, localização desligada e mensagem só de amigos."),
+    VIDA(["Um desconhecido chato manda mensagens. Você…", ["Bloqueia", "Manda o seu endereço"], "<b>Bloqueie</b>."], ["Onde escolher quem vê o quê?", ["Em Configurações", "No papel de parede"], "Em <b>Configurações</b>."])
+  ];
+  A.m5.aplicar = [
+    msg("🛠️ Na vida real: qual parte do plano?", "📋 Plano do guia", [["T", "🎯 Tema"], ["P", "👥 Público"], ["K", "🧩 Tarefas"]], "Use a tabela do 💡 Para começar.",
+      [["Proteger a conta", "T", "Qual assunto: tema."], ["Os avós", "P", "Para quem: público."], ["Escrever e desenhar", "K", "Quem faz o quê: tarefas."]],
+      "Plano pronto! 📋", "Tema, público e tarefas."),
+    VIDA(["No guia, use…", ["Exemplos inventados", "Dados reais dos colegas"], "<b>Exemplos inventados</b>."], ["Para quem o guia é feito é o…", ["Público", "Tema"], "É o <b>público</b>."])
+  ];
+  A.m6.aplicar = [
+    msg("🛠️ Na vida real: ajuda ou atrapalha?", "🎤 Apresentação", [["A", "👍 Ajuda"], ["X", "👎 Atrapalha"]], "Use as dicas para apresentar.",
+      [["Uma dica por slide", "A", "Fica fácil de lembrar."], ["Uma imagem em cada dica", "A", "Ajuda a entender."], ["Passar muito do tempo", "X", "Todas as equipes precisam apresentar."]],
+      "Mandou bem! 🎤", "Uma dica por slide, imagem e tempo respeitado."),
+    VIDA(["Um bom feedback é…", ["Algo bom + uma sugestão", "Só “ficou ruim”"], "<b>Algo bom + uma sugestão</b>."], ["Por que uma imagem em cada dica?", ["Ajuda a entender", "Gasta tinta"], "<b>Ajuda a entender</b>."])
+  ];
+  A.m7.aplicar = [
+    msg("🛠️ Na vida real: como proteger?", "📍 Localização", [["C", "📷 Desligar a localização da câmera"], ["F", "👨‍👩‍👧 Só com a família"], ["D", "🏷️ Postar depois de sair"]], "Use a tabela do 💡 Para começar.",
+      [["A foto mostra onde foi tirada", "C", "Desligue a localização da câmera."], ["Todos veem onde você está agora", "F", "Só com a família."], ["O check-in diz que você não está em casa", "D", "Poste depois de sair."]],
+      "Mandou bem! 📍", "Você decide quem sabe onde você está."),
+    VIDA(["O check-in num post diz que…", ["Você não está em casa", "Você está dormindo"], "Diz que você <b>não está em casa</b>."], ["A localização em tempo real, compartilhe…", ["Só com a família", "Com todo mundo"], "<b>Só com a família</b>."])
+  ];
+  A.m8.aplicar = [
+    msg("🛠️ Na vida real: qual golpe?", "📲 Mensagens", [["C", "📞 Falsa central"], ["E", "📦 Falsa entrega"]], "Use a tabela dos golpes.",
+      [["“Sou do banco, confirme o código”", "C", "Falsa central."], ["“Pague a taxa neste link”", "E", "Falsa entrega."], ["“Aqui é do banco, diga o código do SMS”", "C", "Falsa central."]],
+      "Nenhum golpe passou! 🛡️", "Empresa séria não pede senha nem código."),
+    VIDA(["Sabem o seu nome. Isso prova que é de confiança?", ["Não", "Sim"], "<b>Não prova</b>."], ["Empresa séria pede o código?", ["Não, nunca", "Sim"], "Empresa séria <b>não pede</b>."])
+  ];
 })();

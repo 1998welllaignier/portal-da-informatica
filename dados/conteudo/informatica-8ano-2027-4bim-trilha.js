@@ -477,7 +477,7 @@ PORTAL.registrarConteudo("informatica-8ano-2027-4bim-trilha", {
     },
     {
      "t": "p",
-     "h": "<strong>Feedback</strong>: algo bom + uma sugestão."
+     "h": "Não passo do tempo: todas as equipes apresentam. <strong>Feedback</strong>: algo bom + uma sugestão."
     }
    ],
    "termos": [

@@ -113,3 +113,70 @@ PORTAL.registrarAtividades("informatica-9ano-2027-4bim-trilha", {
   ].filter(Boolean) };
 })();
 })();
+
+/* ============================================================
+   🌀 MODELO EM ESPIRAL — 🧭 Trilha (21/11/2026, Etapa 4: 4º bimestre de 2027)
+   Mesmo ❓ gancho da turma, "O que você já sabe?" na M1 e 🛠️ "Onde eu uso isso?" calmo
+   (3 itens + 2 perguntas). Sem Desafio/Turbo na Trilha.
+   ============================================================ */
+(function () {
+  const A = PORTAL.atividades["informatica-9ano-2027-4bim-trilha"]; if (!A) return;
+  const GANCHO = {"m1":{"html":"<p>🎵 O vídeo do Leo para a feira de ciências foi tirado do ar 1 hora depois de postado. Motivo: a música de fundo era de um cantor famoso, usada sem autorização.</p><p>🤔 Mas a música estava na internet… não era de graça? Que música ele poderia ter usado?</p>"},"m2":{"html":"<p>😴 Na aula de reforço, o Caio cochilou. Alguém tirou uma foto e postou no grupo com legenda engraçada. Em 10 minutos, a escola inteira tinha visto.</p><p>🤔 Era só brincadeira? O Caio tinha algum direito?</p>"},"m3":{"html":"<p>🌊 Rodou no grupo: “Enchente agora no centro de Curionópolis!”, com uma foto de ruas alagadas. Mas a foto era de outra cidade, de 5 anos atrás.</p><p>🤔 A foto era verdadeira ou falsa? Como descobrir antes de repassar?</p>"},"m4":{"html":"<p>🎥 Apareceu um vídeo de um jogador famoso dizendo: “Estou dando 100 celulares! Clique no link”. A voz era igualzinha… mas a boca não acompanhava a fala.</p><p>🤔 Era ele mesmo? Como um vídeo assim é feito?</p>"},"m5":{"html":"<p>📅 Faltando 1 dia para a apresentação, uma equipe descobriu que ninguém tinha feito os slides: cada um achou que era tarefa do outro.</p><p>🤔 O que faltou no começo do projeto?</p>"},"m6":{"html":"<p>🖥️ Um aluno leu 4 slides cheios de texto, de costas para a turma, por 10 minutos. Metade da sala dormiu.</p><p>🤔 Como apresentar para o 6º ano prestar atenção?</p>"},"m7":{"html":"<p>📰 “VOCÊ NÃO VAI ACREDITAR no que aconteceu com esse aluno!”. A Mia clicou e caiu num site cheio de anúncios, sem notícia nenhuma.</p><p>🤔 Quem ganhou com esse clique? Por que alguém inventa uma coisa dessas?</p>"},"m8":{"html":"<p>🎓 No 1º ano do Ensino Médio, a professora pediu: “Mostre um trabalho de que você se orgulha”. A Júlia procurou… e não achou nenhum: tinham ficado espalhados e com nomes como “documento1”.</p><p>🤔 Como guardar os melhores trabalhos para mostrar quando precisar?</p>"}};
+  Object.keys(GANCHO).forEach(m => { A[m].gancho = GANCHO[m]; });
+  const perg = (titulo, ...ps) => ({ tipo: "escolha", titulo, enunciado: "<p>Use o que você aprendeu hoje. Leia com calma. 😉</p>", perguntas: ps.map(x => ({ p: x[0], opcoes: x[1], certo: 0, why: x[2] })) });
+  const VIDA = (...ps) => perg("🛠️ E na vida real?", ...ps);
+  const msg = (titulo, app, botoes, enun, itens, okMsg, expl) => ({ tipo: "mensagens", titulo, app, botoes: botoes.map(([id, rot]) => ({ id, rot })), enunciado: `<p>${enun}</p>`,
+    itens: itens.map(([t, c, why]) => ({ de: "", t, c, why })), okMsg, explicacao: expl });
+  const rota = (titulo, enun, etapas, okMsg, expl) => ({ tipo: "rota", titulo, enunciado: `<p>${enun}</p>`, etapas: etapas.map(([ic, t]) => ({ ic, t })), okMsg, explicacao: expl });
+  const LEMBRA = (...ps) => { A.m1.lembra = [perg("🔍 O que você já sabe?", ...ps)]; A.m1.lembra[0].enunciado = "<p>Responda o que você já sabe. Se não souber, tudo bem: o portal mostra onde está a resposta. 😉</p>"; };
+  LEMBRA(["Copiar o trabalho de outro e dizer que é seu é…", ["Plágio", "Crédito"], "É <b>plágio</b>."],
+    ["Quem cria uma música ou um texto é o…", ["Autor", "Mouse"], "É o <b>autor</b>."]);
+  A.m1.aplicar = [
+    msg("🛠️ Na vida real: posso usar?", "🎵 Obras para o vídeo", [["S", "✅ Sim, livre"], ["C", "📝 Sim, dando o crédito"], ["N", "🚫 Só com autorização"]], "Use a tabela do 💡 Para começar.",
+      [["Música com “© Todos os direitos reservados”", "N", "Só com autorização."], ["Obra em domínio público", "S", "Livre."], ["Foto CC BY", "C", "Dando o crédito."]],
+      "Mandou bem! 🎵", "©: só com autorização; domínio público: livre; CC BY: com crédito."),
+    VIDA(["Dizer que o trabalho do outro é seu é…", ["Plágio", "Crédito"], "É <b>plágio</b>."], ["Para usar uma foto CC BY, você…", ["Dá o crédito", "Esconde o autor"], "<b>Dá o crédito</b>."])
+  ];
+  A.m2.aplicar = [
+    msg("🛠️ Na vida real: pode postar?", "📸 Antes de postar", [["S", "✅ Pode"], ["N", "❌ Não pode"]], "Use a tabela do 💡 Para começar.",
+      [["Todos disseram “pode postar”", "S", "Todos autorizaram."], ["Foto do colega dormindo", "N", "Ele não autorizou."], ["O colega disse “não posta”", "N", "Se disser não, não poste."]],
+      "Respeito à imagem! 📸", "Antes de postar, pergunte."),
+    VIDA(["A sua foto foi exposta. Você…", ["Guarda as provas e conta para um adulto", "Apaga tudo e fica quieto"], "<b>Guarde as provas</b> e conte para um adulto."], ["Antes de postar a foto de alguém, você…", ["Pergunta sempre", "Posta e pronto"], "<b>Pergunte sempre</b>."])
+  ];
+  A.m3.aplicar = [
+    rota("🛠️ Na vida real: a pausa", "Coloque a pausa <b>na ordem</b>.",
+      [["✋", "Pare"], ["🔎", "Pesquise"], ["✅", "Decida"]],
+      "Pausa feita! ⏸️", "Pare, pesquise, decida."),
+    VIDA(["Pesquisar em outras abas é a…", ["Leitura lateral", "Sátira"], "É a <b>leitura lateral</b>."], ["Sátira é…", ["Notícia de humor, não é verdade", "Uma notícia oficial"], "É <b>humor</b>, não é verdade."])
+  ];
+  A.m4.aplicar = [
+    msg("🛠️ Na vida real: qual sinal?", "🎥 Vídeo suspeito", [["B", "👄 Boca"], ["V", "🤖 Voz"], ["P", "🎁 Promessa"]], "Use a tabela dos sinais.",
+      [["A boca não acompanha a fala", "B", "Boca."], ["A voz parece de robô", "V", "Voz."], ["“Ganhe um celular, clique no link!”", "P", "Promessa: presente fácil por link."]],
+      "Olho de detetive! 🎥", "Boca, voz e promessa fácil são sinais de deepfake."),
+    VIDA(["Vídeo com presente fácil por link. Você…", ["Não clica", "Clica rápido"], "<b>Não clique</b>."], ["Deepfake de colega é…", ["Cyberbullying", "Brincadeira sem problema"], "É <b>cyberbullying</b>."])
+  ];
+  A.m5.aplicar = [
+    msg("🛠️ Na vida real: qual parte do plano?", "📋 Plano", [["T", "🎯 Tema"], ["P", "👥 Público"], ["K", "🧩 Tarefas"]], "Use a tabela do 💡 Para começar.",
+      [["Senhas fortes", "T", "Sobre o que é: tema."], ["6º ano", "P", "Para quem: público."], ["Cada um faz uma parte", "K", "Quem faz o quê: tarefas."]],
+      "Plano pronto! 📋", "Tema, público e tarefas."),
+    VIDA(["Usar a foto de um colega no projeto…", ["Só com autorização", "Sem pedir"], "<b>Só com autorização</b>."], ["Para quem o projeto é feito é o…", ["Público", "Tema"], "É o <b>público</b>."])
+  ];
+  A.m6.aplicar = [
+    msg("🛠️ Na vida real: qual critério?", "📏 Rubrica", [["C", "✅ Conteúdo"], ["L", "💬 Clareza"], ["K", "📚 Créditos"]], "Use a tabela da rubrica.",
+      [["“Está certo”", "C", "Conteúdo."], ["“O 6º ano entende”", "L", "Clareza."], ["“Tem as fontes”", "K", "Créditos."]],
+      "Avaliador justo! 📏", "Conteúdo, clareza e créditos."),
+    VIDA(["Um bom feedback é…", ["Algo bom + uma sugestão", "Só “ficou chato”"], "<b>Algo bom + uma sugestão</b>."], ["“Tem as fontes?” é o critério…", ["Créditos", "Clareza"], "<b>Créditos</b>."])
+  ];
+  A.m7.aplicar = [
+    msg("🛠️ Na vida real: qual motivo?", "🤔 Quem ganha?", [["D", "💰 Dinheiro"], ["H", "😂 Humor"], ["E", "🤷 Engano"]], "Use a tabela dos motivos.",
+      [["“Você não vai acreditar!” cheio de anúncios", "D", "Cliques e anúncios."], ["Notícia de site de humor", "H", "Piada."], ["A tia repassou sem checar", "E", "Ninguém ganha."]],
+      "Mandou bem! 🤔", "Toda mentira tem um motivo."),
+    VIDA(["A pergunta de ouro é…", ["Quem ganha se eu acreditar?", "Qual é a cor?"], "<b>Quem ganha se eu acreditar?</b>"], ["“Você não vai acreditar!” é um…", ["Caça-cliques", "Crédito"], "É um <b>caça-cliques</b>."])
+  ];
+  A.m8.aplicar = [
+    rota("🛠️ Na vida real: o portfólio", "Coloque os passos <b>na ordem</b>.",
+      [["1️⃣", "Escolher os melhores trabalhos"], ["2️⃣", "Guardar numa pasta"], ["3️⃣", "Conferir: nada de endereço nem telefone"]],
+      "Portfólio pronto! 🎓", "Escolher, guardar numa pasta e não colocar dados pessoais."),
+    VIDA(["No portfólio, o seu telefone…", ["Não entra", "Entra"], "Dado pessoal <b>não entra</b>."], ["Os trabalhos do portfólio ficam numa…", ["Pasta", "Mochila"], "Numa <b>pasta</b>."])
+  ];
+})();

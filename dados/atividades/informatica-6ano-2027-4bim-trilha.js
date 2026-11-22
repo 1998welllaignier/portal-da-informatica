@@ -21,7 +21,7 @@ PORTAL.registrarAtividades("informatica-6ano-2027-4bim-trilha", {
       itens: ["📱 Seu aparelho", "📶 Roteador de casa (Wi-Fi)", "🖥️ Servidor"], explicacao: "Aparelho → roteador → servidor." }],
     basico: [
       { tipo: "ligar", titulo: "Passo 1 · O que significa?", enunciado: SIGNIF, pares: [{ a: "Roteador", b: "Escolhe o caminho dos pacotes" }, { a: "Servidor", b: "Computador que guarda o site" }, { a: "Wi-Fi", b: "Internet sem fio" }], explicacao: "Roteador, servidor e Wi-Fi." },
-      E("Passo 2 · O site", "O site fica guardado num:", ["Servidor", "Pen drive da escola"], "Servidor."),
+      E("Passo 2 · O site", "O site fica guardado num:", ["Servidor", "Mouse da escola"], "Servidor."),
       E("Passo 3 · Outro continente", "Os continentes se ligam por:", ["Cabos no fundo do mar", "Uma corda no céu"], "Cabos no fundo do mar.")],
     vf: [{ v: true }, { v: true }, { v: false, corrigir: { trecho: "passa pelo céu numa corda", opcoes: ["passa pelo céu numa corda", "passa por cabos no fundo do mar"], certo: "passa por cabos no fundo do mar" } }]
   },
@@ -91,7 +91,7 @@ PORTAL.registrarAtividades("informatica-6ano-2027-4bim-trilha", {
       { tipo: "relembre", de: "m5" }, Object.assign(E("M5 · Trocar", "Antes de trocar, eu vejo se dá para:", ["Consertar", "Jogar fora"], "Consertar."), { de: "m5" }),
       { tipo: "relembre", de: "m6" }, Object.assign(E("M6 · Pilha", "A pilha vai para:", ["O ponto de coleta", "O lixo comum"], "Ponto de coleta."), { de: "m6" }),
       { tipo: "relembre", de: "m7" }, Object.assign(E("M7 · Grupo", "Ofensa no grupo:", ["Conto a um adulto", "Rio junto"], "Conto a um adulto."), { de: "m7" }),
-      { tipo: "relembre", de: "m8" }, Object.assign(E("M8 · Backup", "Backup é:", ["Cópia de segurança", "Um vírus"], "Cópia de segurança."), { de: "m8" })
+      { tipo: "relembre", de: "m8" }, Object.assign(E("M8 · Backup", "Backup é:", ["Cópia de segurança", "Um jogo"], "Cópia de segurança."), { de: "m8" })
     ]
   }
 });
@@ -114,4 +114,71 @@ PORTAL.registrarAtividades("informatica-6ano-2027-4bim-trilha", {
     Q("m8", "Backup", [{ p: "Backup é:", opcoes: ["Cópia de segurança", "Vírus"], certo: 0 }, { p: "A cópia fica:", opcoes: ["No mesmo lugar", "Em outro lugar"], certo: 1 }]), pega("m8")
   ].filter(Boolean) };
 })();
+})();
+
+/* ============================================================
+   🌀 MODELO EM ESPIRAL — 🧭 Trilha (21/11/2026, Etapa 4: 4º bimestre de 2027)
+   Mesmo ❓ gancho da turma, "O que você já sabe?" na M1 e 🛠️ "Onde eu uso isso?" calmo
+   (3 itens + 2 perguntas). Sem Desafio/Turbo na Trilha.
+   ============================================================ */
+(function () {
+  const A = PORTAL.atividades["informatica-6ano-2027-4bim-trilha"]; if (!A) return;
+  const GANCHO = {"m1":{"html":"<p>📸 A Duda mandou para a avó uma foto do aniversário. Por alguns segundos apareceu o reloginho, e depois a foto chegou inteirinha, do outro lado da cidade.</p><p>🤔 Como uma foto “viaja” pelo ar e pelos fios? Ela vai inteira, de uma vez?</p>"},"m2":{"html":"<p>🎬 O Theo assistiu a um vídeo de um youtuber de Portugal. O vídeo atravessou o oceano Atlântico em menos de um segundo!</p><p>🤔 Por onde ele passou? Voou pelo céu ou foi pelo fundo do mar?</p>"},"m3":{"html":"<p>📱 Na hora de gravar a apresentação da escola, o celular da Lia avisou: <b>“Armazenamento cheio”</b>. Ela tinha 300 fotos e 40 vídeos.</p><p>🤔 O que ocupa mais espaço: as fotos ou os vídeos? Como se mede esse espaço?</p>"},"m4":{"html":"<p>🖼️ Uma foto antiga apareceu no computador da escola. Ninguém lembrava quando nem onde ela tinha sido tirada… até a professora clicar com o botão direito e abrir as Propriedades.</p><p>🤔 Como o computador “sabia” a data e o aparelho daquela foto?</p>"},"m5":{"html":"<p>📱 O celular do Gabriel funciona direitinho. Mas saiu um modelo novo, e metade da sala diz que o dele é “velho”.</p><p>🤔 Ele precisa mesmo de um novo, ou só quer? Quem ganha quando a gente troca o aparelho sem precisar?</p>"},"m6":{"html":"<p>🔋 As pilhas do controle da TV acabaram. O irmão do Rafa já ia jogar tudo no lixo da cozinha, junto com o fone quebrado.</p><p>🤔 Qual é o problema? Para onde vai esse lixo depois?</p>"},"m7":{"html":"<p>📲 Às 2 da manhã, o celular da Bia apitou 30 vezes: era o grupo da turma, cheio de figurinhas e um print de uma conversa particular de um colega.</p><p>🤔 O que deu errado nesse grupo? Que combinados fariam falta?</p>"},"m8":{"html":"<p>💧 O celular da Carol caiu na piscina e não ligou mais. Todas as fotos da viagem estavam só nele.</p><p>🤔 Dava para ter salvado as fotos antes? Onde elas deveriam estar também?</p>"}};
+  Object.keys(GANCHO).forEach(m => { A[m].gancho = GANCHO[m]; });
+  const perg = (titulo, ...ps) => ({ tipo: "escolha", titulo, enunciado: "<p>Use o que você aprendeu hoje. Leia com calma. 😉</p>", perguntas: ps.map(x => ({ p: x[0], opcoes: x[1], certo: 0, why: x[2] })) });
+  const VIDA = (...ps) => perg("🛠️ E na vida real?", ...ps);
+  const msg = (titulo, app, botoes, enun, itens, okMsg, expl) => ({ tipo: "mensagens", titulo, app, botoes: botoes.map(([id, rot]) => ({ id, rot })), enunciado: `<p>${enun}</p>`,
+    itens: itens.map(([t, c, why]) => ({ de: "", t, c, why })), okMsg, explicacao: expl });
+  const rota = (titulo, enun, etapas, okMsg, expl) => ({ tipo: "rota", titulo, enunciado: `<p>${enun}</p>`, etapas: etapas.map(([ic, t]) => ({ ic, t })), okMsg, explicacao: expl });
+  const LEMBRA = (...ps) => { A.m1.lembra = [perg("🔍 O que você já sabe?", ...ps)]; A.m1.lembra[0].enunciado = "<p>Responda o que você já sabe. Se não souber, tudo bem: o portal mostra onde está a resposta. 😉</p>"; };
+  LEMBRA(["Uma foto guardada no computador é um…", ["Arquivo", "Teclado"], "É um <b>arquivo</b>."],
+    ["Para a carta chegar, o envelope precisa do…", ["Endereço de quem vai receber", "Preço do pão"], "Do <b>endereço</b>."]);
+  A.m1.aplicar = [
+    msg("🛠️ Na vida real: qual etiqueta?", "📦 Pacote da foto", [["D", "📬 Destino"], ["N", "🔢 Número de ordem"]], "A foto virou pacotes. Qual etiqueta é cada uma?",
+      [["O celular da avó, para onde a foto vai", "D", "Para onde vai."], ["“Pedaço 2”", "N", "A posição do pedaço."], ["“Pedaço 1”", "N", "A posição do pedaço."]],
+      "Mandou bem! 📦", "Destino: para onde vai. Número de ordem: a posição do pedaço."),
+    VIDA(["Na internet, a foto viaja…", ["Dividida em pacotes", "Inteira, de uma vez"], "Em <b>pacotes</b> (pedaços)."], ["Os pacotes chegaram fora de ordem. O que ajuda?", ["O número de ordem", "A cor"], "O <b>número</b> ajuda a montar de novo."])
+  ];
+  A.m2.aplicar = [
+    rota("🛠️ Na vida real: a viagem do vídeo", "Coloque as paradas <b>na ordem</b>, do celular até o site.",
+      [["📱", "Seu aparelho divide em pacotes"], ["📶", "O roteador de casa manda para a internet"], ["🖥️", "O servidor guarda o site"]],
+      "Viagem completa! 🌍", "Aparelho, roteador de casa e servidor."),
+    VIDA(["Quem guarda o site é o…", ["Servidor", "Mouse"], "O <b>servidor</b>."], ["Os continentes se ligam por…", ["Cabos no fundo do mar", "Cordas no céu"], "Por <b>cabos no fundo do mar</b>."])
+  ];
+  A.m3.aplicar = [
+    msg("🛠️ Na vida real: qual medida?", "💾 Armazenamento", [["B", "🔹 Byte"], ["M", "🖼️ MB"], ["G", "🎬 GB"]], "Use a tabela das medidas.",
+      [["Uma letra", "B", "Uma letra: 1 byte."], ["Uma foto", "M", "Uma foto: MB."], ["Um filme", "G", "Um filme: GB."]],
+      "Mandou bem! 💾", "Do menor para o maior: byte, KB, MB, GB."),
+    VIDA(["Muitas fotos para mandar de uma vez? Você…", ["Compacta num .zip", "Desenha as fotos"], "<b>Compacte</b> num .zip."], ["Do menor para o maior, qual vem por último?", ["GB", "MB"], "Do menor para o maior: byte → KB → MB → <b>GB</b>."])
+  ];
+  A.m4.aplicar = [
+    msg("🛠️ Na vida real: nome bom ou ruim?", "📁 Meus arquivos", [["B", "👍 Bom"], ["R", "👎 Ruim"]], "Qual nome ajuda a achar depois?",
+      [["2027-ciencias-planetas", "B", "Ano e assunto."], ["documento1", "R", "Não diz nada."], ["2027-historia-trabalho", "B", "Ano e assunto."]],
+      "Mandou bem! 📁", "Bom nome: o ano e o assunto."),
+    VIDA(["Tamanho e data de criação são…", ["Metadados", "Pastas"], "São <b>metadados</b>."], ["Para guardar os trabalhos, use…", ["Uma pasta para cada matéria", "Tudo misturado"], "<b>Uma pasta para cada matéria</b>."])
+  ];
+  A.m5.aplicar = [
+    msg("🛠️ Na vida real: troca ou não troca?", "📱 Celular", [["F", "✋ Não troca ainda"], ["T", "🔁 Pode pensar em trocar"]], "Antes de trocar: ele funciona? Dá para consertar?",
+      [["Funciona bem, mas saiu um modelo novo", "F", "Trocar só pela moda é obsolescência."], ["A tela quebrou, mas dá para consertar", "F", "Dá para consertar."], ["Quebrou e não tem conserto", "T", "Não funciona e não dá para consertar."]],
+      "Consumidor consciente! 📱", "Antes de trocar: ele funciona? Dá para consertar?"),
+    VIDA(["O que estraga a bateria?", ["O calor", "A capa"], "O <b>calor</b>."], ["Para o celular durar, use…", ["Capa", "Martelo"], "<b>Capa</b> e longe do calor."])
+  ];
+  A.m6.aplicar = [
+    msg("🛠️ Na vida real: para onde vai?", "♻️ Separando o lixo", [["E", "♻️ Ponto de coleta"], ["L", "🗑️ Lixo comum"]], "Pilha, carregador e celular velho vão para o ponto de coleta.",
+      [["Pilha gasta", "E", "Ponto de coleta."], ["Casca de banana", "L", "Não é eletrônico."], ["Carregador quebrado", "E", "Ponto de coleta."]],
+      "Lixo bem separado! ♻️", "Lixo eletrônico vai para o ponto de coleta."),
+    VIDA(["No lixo comum, a pilha…", ["Contamina a terra e a água", "Vira flor"], "<b>Contamina</b> a terra e a água."], ["No ponto de coleta, o lixo vai para a…", ["Reciclagem", "Rua"], "Vai para a <b>reciclagem</b>."])
+  ];
+  A.m7.aplicar = [
+    msg("🛠️ Na vida real: respeita o combinado?", "💬 Grupo da turma", [["S", "✅ Respeita"], ["N", "🚫 Desrespeita"]], "Use os combinados do grupo.",
+      [["Escrever com respeito", "S", "Evita ofensas."], ["Postar foto de colega sem pedir", "N", "Só pedindo antes."], ["Mandar mensagem de madrugada", "N", "As pessoas descansam."]],
+      "Grupo em paz! 💬", "Respeito, pedir antes de postar foto e nada de madrugada."),
+    VIDA(["Alguém foi ofendido no grupo. Você…", ["Conta a um adulto", "Ri junto"], "<b>Conte a um adulto</b>."], ["Foto de colega no grupo:", ["Só pedindo antes", "Sem perguntar"], "<b>Só pedindo antes</b>."])
+  ];
+  A.m8.aplicar = [
+    msg("🛠️ Na vida real: onde guardar a cópia?", "💾 Backup", [["P", "💾 Pen drive"], ["N", "☁️ Nuvem"]], "Use a tabela do 💡 Para começar.",
+      [["Quero ver as fotos de qualquer lugar", "N", "A nuvem acessa de qualquer lugar."], ["Em casa não tem internet", "P", "O pen drive não precisa de internet."], ["Quero a cópia na internet, com senha forte", "N", "A nuvem precisa de senha forte."]],
+      "Cópia segura! 💾", "Backup é uma cópia dos arquivos em outro lugar."),
+    VIDA(["Backup é…", ["Uma cópia dos arquivos em outro lugar", "Um jogo"], "Uma <b>cópia</b> em outro lugar."], ["O celular quebrou. Quem tem backup…", ["Não perde as fotos", "Perde tudo"], "<b>Não perde</b> as fotos."])
+  ];
 })();

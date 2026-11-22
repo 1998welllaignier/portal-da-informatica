@@ -191,7 +191,7 @@ PORTAL.registrarAtividades("informatica-9ano-2027-4bim", {
       { tipo: "escolha", titulo: "🟡 O vídeo do jogador famoso",
         perguntas: [
           { p: "O vídeo do jogador “dando celulares” é provavelmente:", opcoes: ["Um deepfake usado em golpe", "Uma promoção verdadeira", "Um vídeo de treino"], certo: 0 },
-          { p: "Qual é o motivo de quem espalhou?", opcoes: ["Dinheiro (golpe)", "Humor", "Engano"], certo: 0 },
+          { p: "Quem espalhou o vídeo queria:", opcoes: ["Dinheiro (golpe)", "Fazer rir", "Ajudar os fãs"], certo: 0 },
           { p: "O que você faz?", opcoes: ["Não clica, não compartilha e avisa quem mandou", "Clica para ver", "Compartilha com os amigos"], certo: 0 }],
         explicacao: "Deepfake em golpe, por dinheiro: não clique, não compartilhe, avise." }
     ],
@@ -456,4 +456,208 @@ PORTAL.registrarAtividades("informatica-9ano-2027-4bim", {
     Q("m8", "Portfólio", [{ p: "Portfólio é:", opcoes: ["Coleção dos melhores trabalhos", "Uma senha", "Um vírus"], certo: 0 }, { p: "No portfólio, o telefone e o endereço:", opcoes: ["Não entram", "Entram", "Entram em destaque"], certo: 0 }]), pega("m8")
   ].filter(Boolean) };
 })();
+})();
+
+/* ============================================================
+   🌀 MODELO EM ESPIRAL (21/11/2026, levado ao ano todo — Etapa 4: 4º bimestre de 2027)
+   Por missão: ❓ gancho, 🛠️ "Onde eu uso isso?" prático (jogo de situação real + 3 perguntas),
+   "O que você já sabe?" na M1 e ⏱️ +25% de tempo com 2 jogos no 🟡 Desafio e no 🔴 Turbo.
+   ============================================================ */
+(function () {
+  const A = PORTAL.atividades["informatica-9ano-2027-4bim"]; if (!A) return;
+  const mais = (mid, niv, ...ts) => { A[mid][niv] = (A[mid][niv] || []).concat(ts.map(t => Object.assign(t, { maisTempo: "⏱️ +25%" }))); };
+  const perg = (titulo, enun, ...ps) => ({ tipo: "escolha", titulo, enunciado: `<p>${enun}</p>`, perguntas: ps.map(x => ({ p: x[0], opcoes: x[1], certo: 0, why: x[2] })) });
+  const VIDA = (...ps) => perg("🛠️ E na vida real, o que você faria?", "Use o que você aprendeu hoje para responder.", ...ps);
+  const msg = (titulo, app, botoes, enun, itens, okMsg, expl) => ({ tipo: "mensagens", titulo, app, botoes: botoes.map(([id, rot]) => ({ id, rot })), enunciado: `<p>${enun}</p>`,
+    itens: itens.map(([t, c, why, de]) => ({ de: de || "", t, c, why })), okMsg, explicacao: expl });
+  const rota = (titulo, enun, etapas, okMsg, expl) => ({ tipo: "rota", titulo, enunciado: `<p>${enun}</p>`, etapas: etapas.map(([ic, t, dica]) => dica ? { ic, t, dica } : { ic, t }), okMsg, explicacao: expl });
+  const mem = (titulo, pares, expl) => ({ tipo: "memoria", titulo, enunciado: "<p>Vire duas cartas e ache os pares que combinam.</p>", pares: pares.map(([a, b]) => ({ a, b })), porRodada: 3, explicacao: expl });
+  const sin = (titulo, enun, certos, errados, expl) => ({ tipo: "sinais", titulo, enunciado: `<p>${enun}</p>`, opcoes: [...certos.map(t => ({ t, certo: true })), ...errados.map(([t, why]) => ({ t, certo: false, why }))], explicacao: expl });
+  const LEMBRA = "Começou o 4º bimestre! Responda o que você já sabe. Se não souber, tudo bem: chute com calma, e o portal mostra onde está a resposta. 😉";
+  /* ---------- M1 · direitos autorais ---------- */
+  A.m1.gancho = { html: "<p>🎵 O vídeo do Leo para a feira de ciências foi tirado do ar 1 hora depois de postado. Motivo: a música de fundo era de um cantor famoso, usada sem autorização.</p><p>🤔 Mas a música estava na internet… não era de graça? Que música ele poderia ter usado?</p>" };
+  A.m1.lembra = [perg("🔍 O que você já sabe?", LEMBRA,
+    ["Copiar o trabalho de outro e dizer que é seu é…", ["Plágio", "Backup", "Pixel"], "É <b>plágio</b>."],
+    ["Quem cria uma música ou um texto é o…", ["Autor", "Provedor", "Servidor"], "É o <b>autor</b>."],
+    ["Dizer o nome de quem criou a imagem que você usou é dar o…", ["Crédito", "Vírus", "Download"], "É dar o <b>crédito</b>."])];
+  A.m1.aplicar = [
+    msg("🛠️ Na vida real: posso usar na feira?", "🎵 Obras para o vídeo", [["S", "✅ Posso usar"], ["C", "📝 Só com crédito"], ["N", "🚫 Só com autorização do autor"]],
+      "Use a tabela “Situação da obra · Posso usar?”.",
+      [["Música de cantor famoso: “© Todos os direitos reservados”", "N", "Só com autorização do autor."], ["Um conto de Machado de Assis (domínio público)", "S", "Domínio público: livremente."],
+        ["Foto com licença CC BY", "C", "Sim, dando o crédito."], ["Um desenho que você mesmo fez", "S", "Você é o autor."], ["Imagem achada na internet com ©", "N", "Estar na internet não significa ser livre."]],
+      "Usou as obras certas! 🎵", "©: só com autorização; domínio público: livre; CC BY: com crédito."),
+    VIDA(
+      ["Como dar o crédito de uma foto CC BY?", ["Foto: nome do autor · site onde estava · licença", "Não precisa", "Só escrever “internet”"], "<b>Autor · site · licença</b>."],
+      ["No Brasil, a obra entra em domínio público…", ["70 anos depois da morte do autor", "Quando posta na internet", "Depois de 1 ano"], "<b>70 anos</b> depois da morte do autor."],
+      ["Estar na internet significa que a obra é livre?", ["Não", "Sim, sempre", "Só de manhã"], "<b>Não</b>: o autor decide (Lei nº 9.610/1998)."])
+  ];
+  mais("m1", "desafio",
+    rota("📝 Monte o crédito", "Coloque as partes do crédito <b>na ordem</b> do exemplo do 💡 Para começar.",
+      [["📷", "Foto: Maria Souza"], ["🌐", "Banco de Imagens Livres"], ["🅲🅲", "CC BY"]],
+      "Crédito certinho! 📝", "Foto: nome do autor · site onde estava · licença."));
+  mais("m1", "turbo",
+    mem("🧩 Jogo da memória dos direitos", [["Direito autoral", "O autor decide como a obra é usada"], ["©", "Todos os direitos reservados"], ["Domínio público", "Uso livre"],
+      ["CC BY", "Pode usar dando o crédito"], ["Plágio", "Copiar e dizer que é seu"], ["Lei nº 9.610/1998", "Lei dos direitos autorais"]],
+      "Respeitar quem cria é dar o crédito e pedir autorização."));
+
+  /* ---------- M2 · direito de imagem ---------- */
+  A.m2.gancho = { html: "<p>😴 Na aula de reforço, o Caio cochilou. Alguém tirou uma foto e postou no grupo com legenda engraçada. Em 10 minutos, a escola inteira tinha visto.</p><p>🤔 Era só brincadeira? O Caio tinha algum direito?</p>" };
+  A.m2.aplicar = [
+    msg("🛠️ Na vida real: pode publicar?", "📸 Antes de postar", [["S", "✅ Pode"], ["N", "❌ Não pode"]],
+      "Use a tabela do 💡 Para começar.",
+      [["A foto do Caio dormindo, sem ele saber", "N", "Precisa de autorização."], ["A foto do grupo, e todos disseram “pode postar”", "S", "Todos autorizaram."], ["O print da conversa particular de outra pessoa", "N", "Não pode."],
+        ["O vídeo da apresentação, com a autorização das famílias", "S", "Autorizado."], ["O áudio de um colega, sem ele saber", "N", "A voz também tem direito de imagem."]],
+      "Respeito à imagem! 📸", "Ninguém pode publicar a sua foto, o seu vídeo ou a sua voz sem a sua autorização."),
+    VIDA(
+      ["A foto do Caio já foi postada. Qual é o primeiro passo?", ["Guardar as provas (prints e links)", "Apagar tudo correndo", "Postar outra foto"], "Primeiro, <b>guarde as provas</b>."],
+      ["Depois de guardar as provas, ele…", ["Pede para retirar, denuncia na plataforma e conta para um adulto", "Responde com ofensas", "Fica quieto para sempre"], "<b>Pedir para retirar, denunciar e contar para um adulto</b>."],
+      ["Um colega da foto da turma disse “não posta”. Você…", ["Escolhe outra foto ou corta ele da imagem", "Posta assim mesmo", "Posta e marca ele"], "Escolha <b>outra foto</b> ou corte."])
+  ];
+  mais("m2", "desafio",
+    rota("🛡️ Minha imagem foi exposta", "Coloque <b>na ordem</b> o que fazer se a sua imagem for exposta.",
+      [["📸", "Guardar as provas (prints e links)"], ["✋", "Pedir para retirar"], ["🚩", "Denunciar na plataforma"], ["🧑‍🏫", "Contar para um adulto de confiança"]],
+      "Você sabe se proteger! 🛡️", "Guardar provas, pedir para retirar, denunciar e contar para um adulto."));
+  mais("m2", "turbo",
+    sin("🙋 Pedindo do jeito certo", "Marque só as atitudes <b>certas</b> antes de postar uma foto com outras pessoas.",
+      ["Perguntar: “Posso postar essa foto em que você aparece?”", "Na foto da turma, perguntar se todos concordam", "Se alguém disser não, escolher outra foto"],
+      [["Postar e perguntar depois", "A autorização vem antes."], ["Postar porque “todo mundo posta”", "Precisa da autorização."]],
+      "Pedir antes, respeitar o não."));
+
+  /* ---------- M3 · verdade ou fake ---------- */
+  A.m3.gancho = { html: "<p>🌊 Rodou no grupo: “Enchente agora no centro de Curionópolis!”, com uma foto de ruas alagadas. Mas a foto era de outra cidade, de 5 anos atrás.</p><p>🤔 A foto era verdadeira ou falsa? Como descobrir antes de repassar?</p>" };
+  A.m3.aplicar = [
+    msg("🛠️ Na vida real: que tipo de conteúdo enganoso?", "📲 Grupo da família", [["F", "❌ Falso"], ["C", "🕰️ Fora de contexto"], ["E", "✂️ Editado"], ["S", "😂 Sátira"]],
+      "Use a tabela dos tipos de conteúdo enganoso.",
+      [["Foto real de enchente, mas de outra cidade e de 5 anos atrás", "C", "Fora de contexto."], ["“Escola vai fechar amanhã”, sem nenhuma fonte", "F", "Inventado: falso."],
+        ["Vídeo cortado para a pessoa parecer dizer o contrário", "E", "Editado."], ["Notícia de site de humor repassada como verdade", "S", "Sátira que virou desinformação."]],
+      "Checador profissional! 🔎", "Falso, fora de contexto, editado ou sátira compartilhada como verdade."),
+    VIDA(
+      ["Em vez de ficar só no site suspeito, abrir outras abas e pesquisar sobre ele é a…", ["Leitura lateral", "Sátira", "Fonte falsa"], "É a <b>leitura lateral</b>."],
+      ["Procurar o documento, a pesquisa ou a entrevista completa é ir atrás da…", ["Fonte original", "Sátira", "Montagem"], "É a <b>fonte original</b>."],
+      ["A sátira vira desinformação quando…", ["É compartilhada como se fosse verdade", "É engraçada", "Tem imagem"], "Quando é <b>compartilhada como verdade</b>."])
+  ];
+  mais("m3", "desafio",
+    rota("⏸️ A pausa dos 3 passos", "Coloque a pausa dos 3 passos <b>na ordem</b>.",
+      [["✋", "Pare: não compartilhe na hora"], ["🔎", "Pesquise: leitura lateral e fonte original"], ["✅", "Decida: compartilhe só se for verdade"]],
+      "Pausa feita! ⏸️", "Pare, pesquise e decida."));
+  mais("m3", "turbo",
+    mem("🧩 Jogo da memória da checagem", [["Leitura lateral", "Pesquisar em outras abas"], ["Fonte original", "Quem disse primeiro"], ["Fora de contexto", "Real, mas de outro ano ou lugar"],
+      ["Editado", "Cortado para mudar o sentido"], ["Sátira", "Humor compartilhado como verdade"], ["Desinformação", "Conteúdo que engana"]],
+      "Pare, pesquise e decida."));
+
+  /* ---------- M4 · deepfakes ---------- */
+  A.m4.gancho = { html: "<p>🎥 Apareceu um vídeo de um jogador famoso dizendo: “Estou dando 100 celulares! Clique no link”. A voz era igualzinha… mas a boca não acompanhava a fala.</p><p>🤔 Era ele mesmo? Como um vídeo assim é feito?</p>" };
+  A.m4.aplicar = [
+    msg("🛠️ Na vida real: qual sinal de alerta?", "🎥 Vídeo suspeito", [["B", "👄 Boca fora de sincronia"], ["V", "🤖 Voz robótica"], ["P", "👁️ Piscar estranho"], ["M", "✋ Mãos deformadas"], ["G", "🎁 Promessa fácil"]],
+      "Qual sinal de deepfake aparece em cada caso?",
+      [["A boca não acompanha a fala", "B", "Boca fora de sincronia."], ["“Estou dando 100 celulares, clique no link”", "G", "Promessa fácil."], ["A pessoa quase não pisca", "P", "Piscar estranho."],
+        ["A mão tem 6 dedos", "M", "Mãos e dedos deformados."], ["A voz parece de máquina, sem emoção", "V", "Voz robótica."]],
+      "Olho de detetive! 🎥", "Mas atenção: um deepfake pode não ter nenhum sinal. O mais importante é checar a fonte."),
+    VIDA(
+      ["Recebeu o vídeo do famoso “dando” celular. Você…", ["Não clica, não compartilha e avisa quem mandou", "Clica rápido", "Compartilha com todo mundo"], "<b>Não clica, não compartilha e avisa quem mandou</b>."],
+      ["O vídeo não tem nenhum sinal estranho. Então é verdadeiro?", ["Não dá para saber: cheque a fonte", "Sim, com certeza", "Só se tiver música"], "Um deepfake pode não ter sinais: <b>cheque a fonte</b>."],
+      ["Fazer um deepfake de um colega “de brincadeira”…", ["Desrespeita o direito de imagem, é cyberbullying e pode ser crime", "É permitido", "É só uma piada sem problema"], "<b>Desrespeita o direito de imagem</b>, é cyberbullying e pode ser crime."])
+  ];
+  mais("m4", "desafio",
+    sin("🚨 Sinais de deepfake", "Marque só os <b>sinais de alerta</b> de um deepfake.",
+      ["Boca fora de sincronia", "Letras borradas no fundo", "Mãos e dedos deformados", "Famoso “dando” dinheiro por link"],
+      [["O vídeo foi publicado por um site de notícias conhecido, que confirma", "É o que você procura ao checar."], ["A pessoa pisca normalmente", "Não é sinal de alerta."]],
+      "Os sinais ajudam, mas o mais importante é checar a fonte."));
+  mais("m4", "turbo",
+    rota("🛡️ Fui vítima de um deepfake", "Coloque <b>na ordem</b> o que fazer.",
+      [["📸", "Não apagar as provas"], ["🚩", "Denunciar na plataforma"], ["🧑‍🏫", "Contar para um adulto de confiança"]],
+      "Você sabe agir! 🛡️", "Não apagar as provas, denunciar e contar para um adulto."));
+
+  /* ---------- M5 · projeto: planejar ---------- */
+  A.m5.gancho = { html: "<p>📅 Faltando 1 dia para a apresentação, uma equipe descobriu que ninguém tinha feito os slides: cada um achou que era tarefa do outro.</p><p>🤔 O que faltou no começo do projeto?</p>" };
+  A.m5.aplicar = [
+    msg("🛠️ Na vida real: qual parte do plano?", "📋 Plano do projeto", [["T", "🎯 Tema"], ["P", "👥 Público"], ["F", "🖼️ Formato"], ["K", "🧩 Tarefas"], ["C", "📅 Cronograma"], ["N", "📚 Fontes e créditos"]],
+      "Cada decisão é qual parte do plano?",
+      [["Como criar senhas fortes", "T", "Sobre o que é: tema."], ["Alunos do 6º ano", "P", "Para quem: público."], ["Cartaz digital", "F", "Como vai ser: formato."], ["Ana pesquisa, Leo escreve", "K", "Quem faz o quê: tarefas."],
+        ["Aula 1: plano · Aula 2: produção", "C", "Quando: cronograma."], ["Imagem CC BY com crédito", "N", "Fontes e créditos."]],
+      "Plano completo! 📋", "Tema, público, formato, tarefas, cronograma e fontes."),
+    VIDA(
+      ["Dividir o projeto grande em tarefas pequenas, cada uma com um responsável, é…", ["Decompor", "Plagiar", "Silenciar"], "É <b>decompor</b>."],
+      ["A equipe da história esqueceu de combinar…", ["As tarefas (quem faz o quê)", "A cor da camiseta", "O nome da escola"], "Faltaram as <b>tarefas</b>."],
+      ["No guia, pode usar a foto de um colega?", ["Só com autorização", "Sim, sempre", "Só se for engraçada"], "Nada de fotos de colegas <b>sem autorização</b>."])
+  ];
+  mais("m5", "desafio",
+    rota("📅 O cronograma", "Coloque as aulas do cronograma <b>na ordem</b>.",
+      [["1️⃣", "Aula 1: plano"], ["2️⃣", "Aula 2: produção"], ["3️⃣", "Aula 3: apresentação"]],
+      "Cronograma no lugar! 📅", "Plano, produção e apresentação."));
+  mais("m5", "turbo",
+    sin("✅ Regras do projeto", "Marque só o que segue as <b>regras do projeto</b>.",
+      ["Imagens próprias", "Imagem com licença e crédito", "Dizer de onde veio cada informação"],
+      [["Colocar o telefone de um colega como exemplo", "Nada de dados pessoais."], ["Usar a foto de um colega sem pedir", "Só com autorização."]],
+      "Sem dados pessoais, com autorização e com crédito."));
+
+  /* ---------- M6 · projeto: apresentar ---------- */
+  A.m6.gancho = { html: "<p>🖥️ Um aluno leu 4 slides cheios de texto, de costas para a turma, por 10 minutos. Metade da sala dormiu.</p><p>🤔 Como apresentar para o 6º ano prestar atenção?</p>" };
+  A.m6.aplicar = [
+    msg("🛠️ Na vida real: qual dica resolve?", "🎤 Apresentação", [["O", "🗣️ Olhar para o público"], ["L", "🔠 Pouco texto, letra grande"], ["I", "🖼️ Uma ideia por slide"], ["T", "⏱️ Respeitar o tempo"], ["C", "📚 Créditos no fim"]],
+      "Qual dica resolve cada problema?",
+      [["Falou de costas para a turma", "O", "Fale olhando para as pessoas."], ["Slide cheio de texto miudinho", "L", "Pouco texto e letra grande."], ["Três assuntos misturados no mesmo slide", "I", "Uma ideia por slide."],
+        ["Apresentou por 10 minutos e a próxima equipe ficou sem tempo", "T", "Respeite o tempo."], ["Não disse de onde vieram as imagens", "C", "Mostre os créditos."]],
+      "Apresentação nota 10! 🎤", "Olhar o público, pouco texto, uma ideia por slide, tempo e créditos."),
+    VIDA(
+      ["A lista do que vai ser avaliado é a…", ["Rubrica", "Licença", "Sátira"], "É a <b>rubrica</b>."],
+      ["Um bom feedback começa…", ["Por algo bom, depois uma sugestão", "Por uma crítica dura", "Com risada"], "<b>Algo bom + uma sugestão</b>."],
+      ["O critério “Clareza” pergunta…", ["O 6º ano entenderia?", "Tem muitas cores?", "Durou bastante?"], "<b>O 6º ano entenderia?</b>"])
+  ];
+  mais("m6", "desafio",
+    msg("📏 Qual critério da rubrica?", "📏 Rubrica", [["C", "✅ Conteúdo"], ["L", "💬 Clareza"], ["R", "🎨 Criatividade"], ["K", "📚 Créditos"], ["E", "🤝 Equipe"]],
+      "Cada comentário fala de qual critério?",
+      [["“As informações estão certas”", "C", "Conteúdo."], ["“O 6º ano entenderia”", "L", "Clareza."], ["“O guia chama a atenção”", "R", "Criatividade."], ["“As imagens têm crédito”", "K", "Créditos."], ["“Todos participaram”", "E", "Equipe."]],
+      "Avaliador justo! 📏", "Conteúdo, clareza, criatividade, créditos e equipe."));
+  mais("m6", "turbo",
+    msg("💬 Feedback bom ou ruim?", "💬 Feedback", [["B", "👍 Bom feedback"], ["R", "👎 Não ajuda"]],
+      "Feedback bom: algo bom + uma sugestão, com respeito.",
+      [["“Gostei dos desenhos! Uma sugestão: aumentar a letra do slide 2.”", "B", "Algo bom + sugestão."], ["“Ficou chato.”", "R", "Não ajuda a melhorar."], ["“A ideia é ótima! Dá para falar mais devagar?”", "B", "Algo bom + sugestão."], ["“Nem prestei atenção.”", "R", "Não ajuda."]],
+      "Feedback que ajuda! 💬", "Comece por algo bom e sugira uma melhoria, com respeito."));
+
+  /* ---------- M7 · quem ganha com a mentira ---------- */
+  A.m7.gancho = { html: "<p>📰 “VOCÊ NÃO VAI ACREDITAR no que aconteceu com esse aluno!”. A Mia clicou e caiu num site cheio de anúncios, sem notícia nenhuma.</p><p>🤔 Quem ganhou com esse clique? Por que alguém inventa uma coisa dessas?</p>" };
+  A.m7.aplicar = [
+    msg("🛠️ Na vida real: qual é o motivo?", "🤔 Quem ganha?", [["D", "💰 Dinheiro"], ["P", "🗳️ Política"], ["O", "😠 Ódio"], ["H", "😂 Humor"], ["E", "🤷 Engano"]],
+      "Use a tabela dos motivos.",
+      [["“Você não vai acreditar! Clique aqui” abre um site cheio de anúncios", "D", "Cliques geram propaganda."], ["Montagem de um candidato na véspera da eleição", "P", "Atacar ou favorecer um candidato."],
+        ["Perfil falso com apelidos ofensivos para um aluno", "O", "Humilhar uma pessoa."], ["Site de humor: “Escola troca a merenda por pizza”", "H", "Piada que vira “verdade”."], ["A tia repassa a corrente achando que ajuda", "E", "Ninguém ganha: engano."]],
+      "Você descobriu quem ganha! 🤔", "Toda informação falsa tem um motivo."),
+    VIDA(
+      ["A pergunta de ouro é…", ["Quem ganha se eu acreditar e compartilhar isso?", "Quantas curtidas tem?", "É bonito?"], "<b>Quem ganha</b> se eu acreditar e compartilhar?"],
+      ["Títulos como “O número 7 vai te chocar!” são…", ["Caça-cliques", "Fontes originais", "Créditos"], "São <b>caça-cliques</b>."],
+      ["É um golpe para vender um produto falso. Você…", ["Não compra, não compartilha e conversa com um adulto", "Compra para testar", "Compartilha para avisar comprando"], "<b>Não comprar, não compartilhar e conversar com um adulto</b>."])
+  ];
+  mais("m7", "desafio",
+    sin("🎣 Caça-cliques", "Marque só os títulos que são <b>caça-cliques</b>.",
+      ["“Você não vai acreditar…”", "“O número 7 vai te chocar!”", "“O que ela fez depois vai te deixar sem palavras!”"],
+      [["“Prefeitura divulga o calendário de vacinação”", "Título informativo."], ["“Escola abre inscrições para a feira de ciências”", "Título informativo."]],
+      "Títulos chocantes prendem a atenção e rendem propaganda."));
+  mais("m7", "turbo",
+    mem("🧩 Jogo da memória dos motivos", [["💰 Dinheiro", "Cliques geram propaganda"], ["🗳️ Política", "Atacar ou favorecer um candidato"], ["😠 Ódio", "Humilhar uma pessoa ou grupo"],
+      ["😂 Humor", "Piada que vira “verdade”"], ["🤷 Engano", "Ninguém ganha: acreditou e repassou"], ["Economia da atenção", "Atenção vira dinheiro"]],
+      "Quem ganha se eu acreditar?"));
+
+  /* ---------- M8 · portfólio ---------- */
+  A.m8.gancho = { html: "<p>🎓 No 1º ano do Ensino Médio, a professora pediu: “Mostre um trabalho de que você se orgulha”. A Júlia procurou… e não achou nenhum: tinham ficado espalhados e com nomes como “documento1”.</p><p>🤔 Como guardar os melhores trabalhos para mostrar quando precisar?</p>" };
+  A.m8.aplicar = [
+    rota("🛠️ Na vida real: o portfólio da Júlia", "Coloque os passos de montar o portfólio <b>na ordem</b>.",
+      [["1️⃣", "Escolher os melhores trabalhos (3 a 5)"], ["2️⃣", "Organizar numa pasta, com nomes claros"], ["3️⃣", "Descrever cada um: o que é, quando fez, o que aprendeu"], ["4️⃣", "Dar crédito às imagens e fontes"], ["5️⃣", "Proteger: nada de dados pessoais"]],
+      "Portfólio pronto! 🎓", "Escolher, organizar, descrever, dar crédito e proteger."),
+    VIDA(
+      ["Um bom nome para o trabalho no portfólio é…", ["2027-projeto-senhas", "documento1", "sem nome"], "<b>2027-projeto-senhas</b>."],
+      ["No portfólio, você coloca o seu endereço?", ["Não: dados pessoais não entram", "Sim, completo", "Só o número da casa"], "<b>Dados pessoais não entram</b>."],
+      ["“Criado por Ana · Licença: CC BY” quer dizer que outros podem usar…", ["Dando o crédito à Ana", "Sem dizer de onde veio", "Nunca"], "Usar <b>dando o crédito</b>."])
+  ];
+  mais("m8", "desafio",
+    msg("📝 Boa descrição?", "🎓 Portfólio", [["B", "👍 Boa descrição"], ["R", "👎 Incompleta"]],
+      "A descrição diz o que é, quando fez e o que aprendeu?",
+      [["“Guia sobre senhas fortes para o 6º ano, feito em equipe em 2027. Aprendi a criar frases-senha.”", "B", "Tem tudo."], ["“Trabalho.”", "R", "Não diz o que é."],
+        ["“Vídeo sobre reciclagem, de 2026. Aprendi a cortar no editor.”", "B", "O que é, quando e o que aprendeu."], ["“Fiz isso aí.”", "R", "Não diz nada."]],
+      "Descrições caprichadas! 📝", "O que é, quando fez e o que aprendeu."));
+  mais("m8", "turbo",
+    sin("🎓 O que entra no portfólio?", "Marque só o que <b>deve entrar</b> no portfólio.",
+      ["Os 3 a 5 melhores trabalhos", "Uma descrição de cada um", "O crédito das imagens e fontes"],
+      [["O seu telefone e o seu endereço", "Dados pessoais não entram."], ["Todos os trabalhos, até os rascunhos", "Só os melhores."]],
+      "Os melhores trabalhos, descritos, com crédito e sem dados pessoais."));
 })();

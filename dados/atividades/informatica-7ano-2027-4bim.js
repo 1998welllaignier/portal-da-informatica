@@ -43,7 +43,7 @@ PORTAL.registrarAtividades("informatica-7ano-2027-4bim", {
         app: "📦 Gaveta", botoes: [{ id: "D", rot: "🎁 Consertar ou doar" }, { id: "P", rot: "♻️ Ponto de coleta" }],
         itens: [{ de: "Tablet", t: "Funciona, mas ninguém usa mais", c: "D", why: "Ainda funciona: alguém pode usar." },
           { de: "Pilhas", t: "Gastas, não carregam mais", c: "P", why: "Pilha gasta vai para o ponto de coleta." },
-          { de: "Celular antigo", t: "Tela quebrada, placa queimada, sem conserto", c: "P", why: "Sem conserto: reciclagem." },
+          { de: "Celular antigo", t: "Tela quebrada, peças queimadas, sem conserto", c: "P", why: "Sem conserto: reciclagem." },
           { de: "Fone de ouvido", t: "Só o fio soltou, dá para arrumar", c: "D", why: "Dá para consertar." }],
         okMsg: "Gaveta resolvida do jeito certo! ♻️",
         explicacao: "O que funciona ou tem conserto: consertar ou doar. O que não tem: ponto de coleta." }
@@ -170,7 +170,7 @@ PORTAL.registrarAtividades("informatica-7ano-2027-4bim", {
         enunciado: "<p>Use a tabela <strong>Dica · Por quê</strong>.</p>",
         colunaItem: "Na gravação", colunaResp: "Ajuda?",
         categorias: [{ id: "A", rot: "👍 Ajuda" }, { id: "T", rot: "👎 Atrapalha" }],
-        itens: [{ t: "Celular deitado (horizontal)", c: "A" }, { t: "Janela atrás de quem fala, rosto escuro", c: "T" }, { t: "Lugar silencioso", c: "A" }, { t: "Gravar na hora do recreio, com barulho", c: "T" }, { t: "Celular perto de quem fala", c: "A" }],
+        itens: [{ t: "Celular deitado (horizontal)", c: "A" }, { t: "Luz atrás de quem fala, rosto escuro", c: "T" }, { t: "Lugar silencioso", c: "A" }, { t: "Gravar na hora do recreio, com barulho", c: "T" }, { t: "Celular perto de quem fala", c: "A" }],
         explicacao: "Deitado, silencioso e perto ajudam; contraluz e barulho atrapalham." }
     ],
     basico: [
@@ -185,7 +185,7 @@ PORTAL.registrarAtividades("informatica-7ano-2027-4bim", {
         perguntas: [
           { p: "Qual é o melhor nome de arquivo?", opcoes: ["2027-7A-equipe-verde-reciclagem.mp4", "video final final2.mp4", "aaaa.mp4"], certo: 0 },
           { p: "Um vídeo pronto costuma ser salvo em:", opcoes: [".mp4", ".mp3", ".txt"], certo: 0 },
-          { p: "Um podcast pronto costuma ser salvo em:", opcoes: [".mp3", ".mp4", ".jpg"], certo: 0 }],
+          { p: "Um podcast pronto costuma ser salvo em:", opcoes: [".mp3", ".mp4", ".zip"], certo: 0 }],
         explicacao: "Nome claro; vídeo em .mp4; áudio em .mp3." }
     ],
     desafio: [
@@ -234,7 +234,7 @@ PORTAL.registrarAtividades("informatica-7ano-2027-4bim", {
       { tipo: "escolha", titulo: "A licença",
         perguntas: [
           { p: "Com a licença CC BY, outros podem usar o nosso vídeo:", opcoes: ["Desde que deem o crédito à equipe", "Sem dizer nada", "Nunca"], certo: 0 },
-          { p: "Documentar é:", opcoes: ["Registrar como o trabalho foi feito", "Apagar o trabalho", "Copiar o trabalho de outro"], certo: 0 }],
+          { p: "Documentar é:", opcoes: ["Registrar como o trabalho foi feito", "Apagar o trabalho", "Pegar o trabalho de outro"], certo: 0 }],
         explicacao: "CC BY: com crédito. Documentar: registrar como foi feito." }
     ],
     desafio: [
@@ -341,7 +341,7 @@ PORTAL.registrarAtividades("informatica-7ano-2027-4bim", {
         perguntas: [
           { p: "A mesma foto em 12 megapixels ou em 2 megapixels. Qual tem o arquivo maior?", opcoes: ["12 megapixels", "2 megapixels", "São iguais"], certo: 0 },
           { p: "Por que a foto de 12 megapixels é maior?", opcoes: ["Tem mais pixels para guardar", "Tem mais cores bonitas", "Foi tirada de dia"], certo: 0 },
-          { p: "Você deu um zoom enorme numa foto e apareceram quadradinhos. Eles são:", opcoes: ["Os pixels", "Um vírus", "Uma amostra de som"], certo: 0 }],
+          { p: "Você deu um zoom enorme numa foto e apareceram quadradinhos. Eles são:", opcoes: ["Os pixels", "Um erro da tela", "Uma amostra de som"], certo: 0 }],
         explicacao: "Mais pixels = arquivo maior; os quadradinhos do zoom são os pixels." }
     ],
     turbo: [
@@ -423,7 +423,7 @@ PORTAL.registrarAtividades("informatica-7ano-2027-4bim", {
       { tipo: "relembre", de: "m6" },
       { tipo: "escolha", de: "m6", titulo: "M6 · Rubrica", perguntas: [{ p: "O critério “Tempo” confere se o vídeo ficou em:", opcoes: ["Até 1 minuto", "Até 1 hora"], certo: 0 }], explicacao: "Até 1 minuto." },
       { tipo: "relembre", de: "m7" },
-      { tipo: "escolha", de: "m7", titulo: "M7 · Pixel", perguntas: [{ p: "O menor ponto de cor da imagem é o:", opcoes: ["Pixel", "Bit de som"], certo: 0 }], explicacao: "Pixel." },
+      { tipo: "escolha", de: "m7", titulo: "M7 · Pixel", perguntas: [{ p: "O menor ponto de cor da imagem é o:", opcoes: ["Pixel", "Amostra de som"], certo: 0 }], explicacao: "Pixel." },
       { tipo: "relembre", de: "m8" },
       { tipo: "escolha", de: "m8", titulo: "M8 · HTML", perguntas: [{ p: "A tag que faz um link é:", opcoes: ["&lt;a&gt;", "&lt;p&gt;"], certo: 0 }], explicacao: "&lt;a&gt;." }
     ],
@@ -456,7 +456,7 @@ PORTAL.registrarAtividades("informatica-7ano-2027-4bim", {
   A.rc = { basico: [
     Q("m1", "Descarte", [{ p: "O caminho de volta do produto, do consumidor para o fabricante, é a:", opcoes: ["Logística reversa", "Reciclagem de papel", "Linha do tempo"], certo: 0 }, { p: "O lugar certo para o celular sem conserto é:", opcoes: ["O ponto de coleta", "O lixo comum", "A fogueira"], certo: 0 }]), pega("m1"),
     Q("m2", "Dentro do celular", [{ p: "O metal leve usado nas baterias é o:", opcoes: ["Lítio", "Ouro", "Vidro"], certo: 0 }, { p: "Tirar metais do lixo eletrônico pela reciclagem é a:", opcoes: ["Mineração urbana", "Logística de vendas", "Exportação"], certo: 0 }]), pega("m2"),
-    Q("m3", "Roteiro", [{ p: "O roteiro desenhado em quadrinhos é o:", opcoes: ["Storyboard", "Podcast", "Pixel"], certo: 0 }, { p: "Programa só de áudio é o:", opcoes: ["Podcast", "Storyboard", "HTML"], certo: 0 }]), pega("m3"),
+    Q("m3", "Roteiro", [{ p: "O roteiro desenhado em quadrinhos é o:", opcoes: ["Storyboard", "Podcast", "Aterro"], certo: 0 }, { p: "Programa só de áudio é o:", opcoes: ["Podcast", "Storyboard", "HTML"], certo: 0 }]), pega("m3"),
     Q("m4", "Gravar e montar", [{ p: "Salvar o trabalho pronto num arquivo é:", opcoes: ["Exportar", "Importar", "Cortar"], certo: 0 }, { p: "Para o rosto não ficar escuro:", opcoes: ["Luz de frente para quem fala", "Janela atrás de quem fala", "Gravar no escuro"], certo: 0 }]), pega("m4"),
     Q("m5", "Documentar e publicar", [{ p: "A lista de quem fez, com o quê e com quais créditos é a:", opcoes: ["Ficha técnica", "Rubrica", "Licença"], certo: 0 }, { p: "Antes de publicar, o endereço de um colega:", opcoes: ["Sai do vídeo", "Fica em destaque", "Vai na legenda"], certo: 0 }]), pega("m5"),
     Q("m6", "Mostra", [{ p: "As pessoas que assistem são a:", opcoes: ["Plateia", "Rubrica", "Equipe"], certo: 0 }, { p: "Um bom feedback tem:", opcoes: ["Algo bom + uma sugestão", "Só críticas", "Risadas"], certo: 0 }]), pega("m6"),
@@ -464,4 +464,207 @@ PORTAL.registrarAtividades("informatica-7ano-2027-4bim", {
     Q("m8", "Site simples", [{ p: "A tag que faz um título grande é:", opcoes: ["&lt;h1&gt;", "&lt;a&gt;", "&lt;img&gt;"], certo: 0 }, { p: "A descrição da imagem para quem não enxerga é o:", opcoes: ["Texto alternativo", "Link", "Título"], certo: 0 }]), pega("m8")
   ].filter(Boolean) };
 })();
+})();
+
+/* ============================================================
+   🌀 MODELO EM ESPIRAL (21/11/2026, levado ao ano todo — Etapa 4: 4º bimestre de 2027)
+   Por missão: ❓ gancho, 🛠️ "Onde eu uso isso?" prático (jogo de situação real + 3 perguntas),
+   "O que você já sabe?" na M1 e ⏱️ +25% de tempo com 2 jogos no 🟡 Desafio e no 🔴 Turbo.
+   ============================================================ */
+(function () {
+  const A = PORTAL.atividades["informatica-7ano-2027-4bim"]; if (!A) return;
+  const mais = (mid, niv, ...ts) => { A[mid][niv] = (A[mid][niv] || []).concat(ts.map(t => Object.assign(t, { maisTempo: "⏱️ +25%" }))); };
+  const perg = (titulo, enun, ...ps) => ({ tipo: "escolha", titulo, enunciado: `<p>${enun}</p>`, perguntas: ps.map(x => ({ p: x[0], opcoes: x[1], certo: 0, why: x[2] })) });
+  const VIDA = (...ps) => perg("🛠️ E na vida real, o que você faria?", "Use o que você aprendeu hoje para responder.", ...ps);
+  const msg = (titulo, app, botoes, enun, itens, okMsg, expl) => ({ tipo: "mensagens", titulo, app, botoes: botoes.map(([id, rot]) => ({ id, rot })), enunciado: `<p>${enun}</p>`,
+    itens: itens.map(([t, c, why, de]) => ({ de: de || "", t, c, why })), okMsg, explicacao: expl });
+  const rota = (titulo, enun, etapas, okMsg, expl) => ({ tipo: "rota", titulo, enunciado: `<p>${enun}</p>`, etapas: etapas.map(([ic, t, dica]) => dica ? { ic, t, dica } : { ic, t }), okMsg, explicacao: expl });
+  const mem = (titulo, pares, expl) => ({ tipo: "memoria", titulo, enunciado: "<p>Vire duas cartas e ache os pares que combinam.</p>", pares: pares.map(([a, b]) => ({ a, b })), porRodada: 3, explicacao: expl });
+  const sin = (titulo, enun, certos, errados, expl) => ({ tipo: "sinais", titulo, enunciado: `<p>${enun}</p>`, opcoes: [...certos.map(t => ({ t, certo: true })), ...errados.map(([t, why]) => ({ t, certo: false, why }))], explicacao: expl });
+  const LEMBRA = "Começou o 4º bimestre! Responda o que você já sabe. Se não souber, tudo bem: chute com calma, e o portal mostra onde está a resposta. 😉";
+  /* ---------- M1 · descarte ---------- */
+  A.m1.gancho = { html: "<p>📦 Na casa da Júlia tem uma gaveta com 2 celulares velhos, 3 carregadores e um fone quebrado. A mãe dela diz: “um dia a gente joga fora”.</p><p>🤔 Qual é o jeito certo de se livrar disso? E de quem é a responsabilidade?</p>" };
+  A.m1.lembra = [perg("🔍 O que você já sabe?", LEMBRA,
+    ["Pilhas e celulares velhos devem ir para…", ["O ponto de coleta", "O lixo comum", "O fogo"], "Para o <b>ponto de coleta</b>."],
+    ["Doar um aparelho que ainda funciona é…", ["Reutilizar", "Queimar", "Contaminar"], "É <b>reutilizar</b>."],
+    ["Transformar o material usado em matéria-prima de novo é a…", ["Reciclagem", "Gaveta", "Propaganda"], "É a <b>reciclagem</b>."])];
+  A.m1.aplicar = [
+    rota("🛠️ Na vida real: o celular velho da gaveta", "Coloque <b>na ordem</b> o que fazer antes de descartar o celular.",
+      [["🔧", "Dá para consertar?"], ["🎁", "Dá para doar?"], ["🧹", "Apagar os seus dados e tirar o chip e o cartão de memória"], ["♻️", "Levar a um ponto de coleta"]],
+      "Descarte consciente! ♻️", "Consertar, doar, apagar os dados e tirar o chip e o cartão, levar ao ponto de coleta."),
+    VIDA(
+      ["Guardar o celular velho na gaveta para sempre…", ["Não polui, mas os materiais ficam parados", "É o jeito certo de reciclar", "Contamina a água na hora"], "Os materiais <b>ficam parados</b> sem reaproveitamento."],
+      ["O caminho de volta do produto (consumidor → loja → fabricante → reciclagem) é a…", ["Logística reversa", "Mineração", "Obsolescência"], "É a <b>logística reversa</b> (Lei nº 12.305/2010)."],
+      ["Em 2022, segundo a ONU, o lixo eletrônico coletado e reciclado do jeito certo foi…", ["Menos de um quarto", "Todo", "Mais da metade"], "<b>Menos de um quarto</b> dos 62 milhões de toneladas."])
+  ];
+  mais("m1", "desafio",
+    msg("🗑️ Qual destino?", "♻️ Destino do aparelho", [["L", "🗑️ Lixo comum"], ["Q", "🔥 Queimar"], ["G", "📦 Gaveta"], ["P", "♻️ Ponto de coleta"]],
+      "O que acontece em cada destino? Escolha o destino que combina.",
+      [["Vai para o lixão; metais podem contaminar o solo e a água", "L", "Lixo comum."], ["Solta fumaça tóxica", "Q", "Queimar."], ["Não polui, mas não é reaproveitado", "G", "Gaveta."],
+        ["Os materiais voltam a ser usados", "P", "Ponto de coleta."]],
+      "Destinos certos! ♻️", "Só o ponto de coleta leva à reciclagem."));
+  mais("m1", "turbo",
+    mem("🧩 Jogo da memória do descarte", [["Logística reversa", "O produto faz o caminho de volta"], ["Lei nº 12.305/2010", "Política Nacional de Resíduos Sólidos"], ["Aterro", "Para onde vai o lixo comum"],
+      ["Ponto de coleta", "Leva à reciclagem"], ["62 milhões de toneladas", "Lixo eletrônico do mundo em 2022"], ["Consumidor", "Leva o aparelho ao ponto de coleta"]],
+      "Descartar certo é responsabilidade de todos."));
+
+  /* ---------- M2 · metais ---------- */
+  A.m2.gancho = { html: "<p>⛏️ O avô do Caio trabalhou no garimpo de Serra Pelada, aqui em Curionópolis, nos anos 1980. Ele diz que “tem ouro no celular”.</p><p>🤔 Será verdade? Que outros metais estão escondidos dentro de um celular?</p>" };
+  A.m2.aplicar = [
+    msg("🛠️ Na vida real: qual parte do celular?", "📱 Celular desmontado", [["B", "🔋 Bateria"], ["P", "🧩 Placa"], ["S", "🔩 Soldas"], ["T", "📱 Tela"], ["C", "🧱 Corpo"]],
+      "Use a tabela do 💡 Para começar: onde está cada material?",
+      [["Lítio e cobalto", "B", "Na bateria."], ["Cobre, ouro e prata", "P", "Na placa."], ["Estanho", "S", "Nas soldas."], ["Vidro e um pouco de índio", "T", "Na tela."], ["Alumínio ou plástico", "C", "No corpo."]],
+      "Celular desmontado! 📱", "Um celular guarda metais de minas do mundo inteiro."),
+    VIDA(
+      ["O avô do Caio tem razão: tem ouro no celular?", ["Sim, na placa (junto com cobre e prata)", "Não, nenhum", "Só na capa"], "Sim, <b>na placa</b>."],
+      ["A bateria do celular está estufada. O certo é…", ["Parar de usar e levar a um ponto de coleta ou assistência", "Furar para murchar", "Jogar no lixo comum"], "<b>Pare de usar</b> e leve a um ponto de coleta ou assistência."],
+      ["Reciclar o aparelho para tirar metais do lixo em vez de abrir uma mina nova é a…", ["Mineração urbana", "Logística de praia", "Obsolescência"], "É a <b>mineração urbana</b>."])
+  ];
+  mais("m2", "desafio",
+    msg("⚙️ Para que serve?", "🧩 Peças do celular", [["E", "🔋 Guardar a energia"], ["C", "⚡ Conduzir a eletricidade"], ["P", "🔩 Prender as peças"], ["I", "📱 Mostrar a imagem"], ["R", "🧱 Proteger"]],
+      "Para que serve cada parte?",
+      [["Bateria", "E", "Guarda a energia."], ["Placa (circuitos)", "C", "Leva a eletricidade."], ["Soldas", "P", "Prendem as peças na placa."], ["Tela", "I", "Mostra a imagem e sente o toque."], ["Corpo", "R", "Protege o aparelho."]],
+      "Engenheiro de celular! ⚙️", "Cada parte tem um material e uma função."));
+  mais("m2", "turbo",
+    sin("🔥 Bateria perigosa", "Marque só os sinais de que a bateria <b>pode pegar fogo</b>.",
+      ["Bateria estufada", "Bateria furada", "Bateria amassada"],
+      [["Bateria carregada até 100%", "Não é sinal de perigo."], ["Bateria nova, lisa e inteira", "Está normal."]],
+      "Estufada, furada ou amassada: pare de usar e leve a um ponto de coleta ou assistência."));
+
+  /* ---------- M3 · roteiro ---------- */
+  A.m3.gancho = { html: "<p>🎬 A equipe da Lara foi gravar o vídeo sobre reciclagem sem combinar nada. Cada um falava uma coisa, o vídeo ficou com 4 minutos e ninguém entendeu a mensagem.</p><p>🤔 O que faltou antes de apertar o botão de gravar?</p>" };
+  A.m3.aplicar = [
+    rota("🛠️ Na vida real: o roteiro do vídeo", "Coloque as cenas do roteiro <b>na ordem</b>.",
+      [["1️⃣", "Abertura: “Você tem um desses em casa?”"], ["2️⃣", "Problema: “No lixo comum, ele contamina o solo.”"], ["3️⃣", "Solução: “Leve a um ponto de coleta!”"], ["4️⃣", "Fim: nome da equipe e créditos"]],
+      "Roteiro pronto! 🎬", "Abertura, problema, solução e fim."),
+    VIDA(
+      ["O roteiro em desenhos, um quadrinho por cena, é o…", ["Storyboard", "Podcast", "Editor"], "É o <b>storyboard</b>."],
+      ["Um produto só de áudio é um…", ["Podcast", "Storyboard", "Aterro"], "É um <b>podcast</b>."],
+      ["Para filmar o rosto de um colega no vídeo, precisa…", ["Da autorização dele", "De nada", "Só de luz"], "Nada de rosto <b>sem autorização</b>."])
+  ];
+  mais("m3", "desafio",
+    msg("👥 Quem faz o quê na equipe?", "🎬 Equipe do vídeo", [["R", "✍️ Roteirista"], ["N", "🎤 Narrador"], ["C", "📱 Câmera"], ["E", "✂️ Editor"]],
+      "Cada tarefa é de qual membro da equipe?",
+      [["Escrever o que vai ser dito em cada cena", "R", "Roteirista."], ["Falar o texto", "N", "Narrador."], ["Filmar as cenas", "C", "Câmera."], ["Montar o vídeo depois de gravado", "E", "Editor."]],
+      "Equipe organizada! 👥", "Cada membro com uma tarefa."));
+  mais("m3", "turbo",
+    perg("⏱️ O tempo do roteiro", "Use a tabela do roteiro do 💡 Para começar (10 s, 20 s, 20 s, 10 s).",
+      ["Quanto tempo o vídeo tem ao todo?", ["60 segundos (1 minuto)", "40 segundos", "2 minutos"], "10 + 20 + 20 + 10 = <b>60 s</b>."],
+      ["Qual cena é a mais curta?", ["A abertura e o fim (10 s cada)", "O problema", "A solução"], "Abertura e fim: <b>10 s</b> cada."],
+      ["O limite do projeto é…", ["Até 1 minuto", "Até 10 minutos", "Sem limite"], "Produto digital de <b>até 1 minuto</b>."]));
+
+  /* ---------- M4 · gravar e montar ---------- */
+  A.m4.gancho = { html: "<p>📱 O vídeo do Pedro ficou com uma faixa preta dos lados, o rosto escuro e um barulho de moto no meio da fala.</p><p>🤔 O que ele poderia ter feito diferente na hora de gravar?</p>" };
+  A.m4.aplicar = [
+    msg("🛠️ Na vida real: qual dica resolve?", "🎥 Problemas na gravação", [["H", "📱 Celular deitado"], ["L", "💡 Luz de frente"], ["S", "🤫 Lugar silencioso"], ["P", "🎤 Celular perto"], ["R", "🔁 Cena separada"]],
+      "Qual dica de gravação resolve cada problema?",
+      [["O vídeo não ocupa a tela toda do computador", "H", "Grave com o celular deitado (horizontal)."], ["O rosto ficou escuro", "L", "Luz de frente para quem fala."], ["Um barulho de moto atrapalhou a fala", "S", "Lugar silencioso."],
+        ["A voz ficou fraquinha", "P", "Celular perto de quem fala."], ["Errou no meio e teve de regravar tudo", "R", "Grave cada cena separada."]],
+      "Diretor de cinema! 🎥", "Deitado, luz de frente, silêncio, perto e cada cena separada."),
+    VIDA(
+      ["No editor, tirar o “ãããh” e o silêncio do começo é…", ["Cortar", "Importar", "Exportar"], "É <b>cortar</b>."],
+      ["Salvar o vídeo pronto num arquivo .mp4 é…", ["Exportar", "Importar", "Cortar"], "É <b>exportar</b>."],
+      ["Qual nome se acha depois?", ["2027-7A-equipe-verde-reciclagem.mp4", "video final final2", "sem nome"], "Nome com ano, turma, equipe e tema."])
+  ];
+  mais("m4", "desafio",
+    rota("✂️ Monte no editor", "Coloque os passos do editor <b>na ordem</b>.",
+      [["📥", "Importar os arquivos gravados"], ["🎞️", "Ordenar os trechos na linha do tempo"], ["✂️", "Cortar os pedaços que sobram"], ["🔤", "Colocar texto e som (títulos, legendas e música livre)"], ["📤", "Exportar o vídeo pronto"]],
+      "Vídeo montado! ✂️", "Importar, ordenar, cortar, texto e som, exportar."));
+  mais("m4", "turbo",
+    mem("🧩 Jogo da memória do editor", [["Importar", "Trazer os arquivos para o editor"], ["Linha do tempo", "Onde os trechos ficam em ordem"], ["Cortar", "Tirar o que sobra"],
+      ["Legenda", "O texto do que é falado"], ["Exportar", "Salvar o vídeo pronto"], [".mp3", "Arquivo de áudio"]],
+      "Gravar bem e montar com cuidado."));
+
+  /* ---------- M5 · documentar e publicar ---------- */
+  A.m5.gancho = { html: "<p>🌐 A equipe do Davi quer publicar o vídeo. Nele aparece o colega Léo, de uniforme com o nome bordado, na frente de casa, com o número do portão.</p><p>🤔 Pode publicar assim? O que precisa conferir antes?</p>" };
+  A.m5.aplicar = [
+    msg("🛠️ Na vida real: pode publicar?", "🌐 Antes de publicar", [["S", "✅ Pode publicar"], ["N", "✋ Ainda não"]],
+      "Use as perguntas da tabela “Publicar com segurança”.",
+      [["O Léo aparece, mas ninguém pediu autorização", "N", "Não publica, ou corta a pessoa."], ["Aparece o número do portão de uma casa", "N", "Dado pessoal: tire antes."],
+        ["Todos autorizaram, tem créditos e vai para a mostra da escola", "S", "Tudo conferido."], ["A música não tem crédito", "N", "Coloque os créditos."]],
+      "Publicação segura! 🌐", "Autorização, sem dados pessoais, com créditos e em lugar seguro."),
+    VIDA(
+      ["Registrar como o trabalho foi feito é…", ["Documentar", "Exportar", "Cortar"], "É <b>documentar</b>."],
+      ["Na ficha técnica, o crédito da música tem…", ["Autor, site e licença", "Só a cor", "O telefone da equipe"], "Música: <b>autor · site · licença</b>."],
+      ["Com a licença CC BY, outros podem usar o trabalho…", ["Desde que deem o crédito à equipe", "Sem dizer de onde veio", "Nunca"], "Desde que deem <b>o crédito</b>."])
+  ];
+  mais("m5", "desafio",
+    msg("📋 Qual parte da ficha técnica?", "📋 Ficha técnica", [["T", "🎬 Título"], ["E", "👥 Equipe e funções"], ["F", "🛠️ Ferramentas"], ["C", "📚 Créditos"], ["A", "💭 O que aprendemos"]],
+      "Cada informação vai em qual parte da ficha técnica?",
+      [["“Celular no lixo? Não!”", "T", "Título."], ["Ana: roteiro; Beto: narração", "E", "Equipe e funções (só o primeiro nome)."], ["Celular da escola e editor de vídeo", "F", "Ferramentas."],
+        ["Música: autor · site · licença", "C", "Créditos."], ["“Cortar as partes que sobram deixa o vídeo melhor.”", "A", "O que aprendemos."]],
+      "Ficha completa! 📋", "Título, equipe, ferramentas, créditos e o que aprendemos."));
+  mais("m5", "turbo",
+    sin("🔒 Publicar com segurança", "Marque só o que precisa estar certo <b>antes de publicar</b>.",
+      ["Todos que aparecem autorizaram", "Não tem dado pessoal", "Tudo tem crédito", "O lugar de publicação é seguro"],
+      [["O vídeo tem muitas curtidas", "Curtida não é segurança."], ["Aparece o uniforme com o nome", "É dado pessoal: tire antes."]],
+      "Autorização, sem dados pessoais, créditos e lugar seguro."));
+
+  /* ---------- M6 · mostra ---------- */
+  A.m6.gancho = { html: "<p>🎤 Na mostra, enquanto a equipe da Bia apresentava, dois colegas riam e mexiam no celular. No fim, um disse só: “ficou ruim”.</p><p>🤔 Como ser uma plateia que ajuda? E como dar um feedback que serve para melhorar?</p>" };
+  A.m6.aplicar = [
+    msg("🛠️ Na vida real: plateia respeitosa?", "🎤 Mostra da turma", [["S", "👏 Respeitosa"], ["N", "🙅 Desrespeitosa"]],
+      "Cada atitude da plateia é respeitosa ou desrespeitosa?",
+      [["Ficar em silêncio durante o vídeo", "S", "Respeita quem apresenta."], ["Rir do trabalho do colega", "N", "Desrespeita."], ["Aplaudir no fim", "S", "Respeita."],
+        ["Mexer no celular durante a apresentação", "N", "Desrespeita."], ["“A mensagem ficou clara! Sugiro aumentar o volume.”", "S", "Algo bom + uma sugestão."]],
+      "Plateia nota 10! 👏", "Silêncio, aplausos e feedback com algo bom + uma sugestão."),
+    VIDA(
+      ["Um bom feedback tem…", ["Algo bom + uma sugestão", "Só críticas", "Só “ficou ruim”"], "<b>Algo bom + uma sugestão</b>."],
+      ["A apresentação dura…", ["2 minutos: título e tema, o vídeo e uma coisa que aprenderam", "20 minutos", "Só o vídeo, sem falar"], "<b>2 minutos</b>."],
+      ["O vídeo durou 3 minutos. Que critério da rubrica ele não cumpriu?", ["Tempo (até 1 minuto)", "Créditos", "Segurança"], "O critério <b>Tempo</b>."])
+  ];
+  mais("m6", "desafio",
+    msg("📏 Qual critério da rubrica?", "📏 Rubrica", [["M", "🎯 Mensagem"], ["Q", "🎬 Qualidade"], ["T", "⏱️ Tempo"], ["C", "📚 Créditos"], ["S", "🔒 Segurança"]],
+      "Cada pergunta é de qual critério da rubrica?",
+      [["A ideia sobre cuidar do planeta ficou clara?", "M", "Mensagem."], ["Dá para ver e ouvir bem?", "Q", "Qualidade."], ["Ficou em até 1 minuto?", "T", "Tempo."],
+        ["Tem a ficha técnica?", "C", "Créditos."], ["Ninguém aparece sem autorização?", "S", "Segurança."]],
+      "Avaliador justo! 📏", "Mensagem, qualidade, tempo, créditos e segurança."));
+  mais("m6", "turbo",
+    rota("🎤 A apresentação da equipe", "Coloque os passos da apresentação <b>na ordem</b>.",
+      [["1️⃣", "Dizer o título e o tema"], ["2️⃣", "Mostrar o vídeo ou tocar o podcast"], ["3️⃣", "Contar uma coisa que aprenderam fazendo"]],
+      "Apresentação pronta! 🎤", "Título e tema, o produto e o que aprenderam."));
+
+  /* ---------- M7 · pixels e amostras ---------- */
+  A.m7.gancho = { html: "<p>🔍 O Theo deu zoom, zoom e mais zoom numa foto do gato. De repente, o gato virou um monte de quadradinhos coloridos!</p><p>🤔 De onde vieram esses quadradinhos? A foto sempre foi feita deles?</p>" };
+  A.m7.aplicar = [
+    msg("🛠️ Na vida real: que cor é?", "🎨 Mistura RGB", [["P", "⬛ Preto"], ["B", "⬜ Branco"], ["V", "🟥 Vermelho"], ["A", "🟨 Amarelo"]],
+      "Use a tabela RGB (vermelho, verde, azul, de 0 a 255).",
+      [["R 0, G 0, B 0", "P", "Tudo apagado: preto."], ["R 255, G 255, B 255", "B", "Tudo no máximo: branco."], ["R 255, G 0, B 0", "V", "Só vermelho."], ["R 255, G 255, B 0", "A", "Vermelho + verde: amarelo."]],
+      "Mestre das cores! 🎨", "Cada pixel guarda a cor misturando vermelho, verde e azul."),
+    VIDA(
+      ["Os quadradinhos que apareceram no zoom são os…", ["Pixels", "Bytes", "Cabos"], "São os <b>pixels</b>."],
+      ["Uma foto de 4000 × 3000 pixels tem…", ["12 milhões de pixels (12 megapixels)", "7 mil pixels", "1 pixel"], "4000 × 3000 = <b>12 milhões</b>."],
+      ["Mais amostras por segundo deixam o som…", ["Mais fiel, com arquivo maior", "Mais baixo", "Igual"], "<b>Mais fiel</b> e arquivo maior."])
+  ];
+  mais("m7", "desafio",
+    perg("🧮 Contas com pixels e amostras", "Use o 💡 Para começar.",
+      ["Numa música comum, quantas amostras por segundo?", ["44.100", "100", "12"], "<b>44.100</b> amostras por segundo."],
+      ["Quantos números o RGB usa em um pixel?", ["3 (vermelho, verde e azul)", "1", "10"], "<b>3</b>: R, G e B."],
+      ["Mais pixels deixam a foto…", ["Com mais detalhes e arquivo maior", "Com menos detalhes", "Sem cor"], "<b>Mais detalhes</b> e arquivo maior."]));
+  mais("m7", "turbo",
+    mem("🧩 Jogo da memória digital", [["Pixel", "Quadradinho de cor"], ["RGB", "Vermelho, verde e azul"], ["Resolução", "Quantidade de pixels"],
+      ["Megapixel", "Um milhão de pixels"], ["Amostra", "Uma medida da onda do som"], ["255", "O valor máximo de cada cor"]],
+      "Fotos e sons viram números."));
+
+  /* ---------- M8 · HTML ---------- */
+  A.m8.gancho = { html: "<p>🌐 A Mia clicou com o botão direito numa página e viu um monte de &lt;h1&gt;, &lt;p&gt; e &lt;img&gt;. Parecia uma língua secreta!</p><p>🤔 Que “língua” é essa? Dá para uma pessoa da turma escrever uma página?</p>" };
+  A.m8.aplicar = [
+    msg("🛠️ Na vida real: qual tag usar?", "🌐 Montando a página", [["H", "&lt;h1&gt; Título grande"], ["P", "&lt;p&gt; Parágrafo"], ["I", "&lt;img&gt; Imagem"], ["A", "&lt;a&gt; Link"]],
+      "A turma vai fazer uma página sobre reciclagem. Qual tag usar para cada coisa?",
+      [["“Cuide do planeta” em letras grandes", "H", "Título grande."], ["“Leve o celular velho ao ponto de coleta.”", "P", "Parágrafo."], ["A foto do símbolo da reciclagem", "I", "Imagem."], ["“Saiba mais” levando para outra página", "A", "Link."]],
+      "Página montada! 🌐", "h1, p, img e a: título, parágrafo, imagem e link."),
+    VIDA(
+      ["&lt;p&gt; abre o parágrafo. O que fecha?", ["&lt;/p&gt;", "&lt;p&gt; de novo", "Nada"], "<b>&lt;/p&gt;</b> fecha."],
+      ["Quem lê o HTML e mostra a página é o…", ["Navegador", "Microfone", "Mouse"], "O <b>navegador</b>."],
+      ["O alt=\"Símbolo da reciclagem\" na imagem é o…", ["Texto alternativo, para quem não enxerga", "Nome da música", "Endereço da casa"], "É o <b>texto alternativo</b>."])
+  ];
+  mais("m8", "desafio",
+    sin("✅ Uma página bem-feita", "Marque só o que deixa a página <b>bem-feita</b>.",
+      ["Título claro", "Textos curtos", "Imagens com crédito", "Texto alternativo nas imagens"],
+      [["Imagem sem crédito", "Precisa do crédito."], ["Um parágrafo gigante sem título", "Textos curtos e título claro."]],
+      "Título claro, textos curtos, imagens com crédito e texto alternativo."));
+  mais("m8", "turbo",
+    mem("🧩 Jogo da memória do HTML", [["HTML", "A língua das páginas da internet"], ["Tag", "Etiqueta entre &lt; &gt;"], ["&lt;h1&gt;", "Título grande"],
+      ["&lt;p&gt;", "Parágrafo"], ["&lt;img&gt;", "Imagem"], ["&lt;a&gt;", "Link"]],
+      "Você escreve as tags, o navegador mostra a página."));
 })();

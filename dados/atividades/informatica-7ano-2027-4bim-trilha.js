@@ -114,3 +114,70 @@ PORTAL.registrarAtividades("informatica-7ano-2027-4bim-trilha", {
   ].filter(Boolean) };
 })();
 })();
+
+/* ============================================================
+   🌀 MODELO EM ESPIRAL — 🧭 Trilha (21/11/2026, Etapa 4: 4º bimestre de 2027)
+   Mesmo ❓ gancho da turma, "O que você já sabe?" na M1 e 🛠️ "Onde eu uso isso?" calmo
+   (3 itens + 2 perguntas). Sem Desafio/Turbo na Trilha.
+   ============================================================ */
+(function () {
+  const A = PORTAL.atividades["informatica-7ano-2027-4bim-trilha"]; if (!A) return;
+  const GANCHO = {"m1":{"html":"<p>📦 Na casa da Júlia tem uma gaveta com 2 celulares velhos, 3 carregadores e um fone quebrado. A mãe dela diz: “um dia a gente joga fora”.</p><p>🤔 Qual é o jeito certo de se livrar disso? E de quem é a responsabilidade?</p>"},"m2":{"html":"<p>⛏️ O avô do Caio trabalhou no garimpo de Serra Pelada, aqui em Curionópolis, nos anos 1980. Ele diz que “tem ouro no celular”.</p><p>🤔 Será verdade? Que outros metais estão escondidos dentro de um celular?</p>"},"m3":{"html":"<p>🎬 A equipe da Lara foi gravar o vídeo sobre reciclagem sem combinar nada. Cada um falava uma coisa, o vídeo ficou com 4 minutos e ninguém entendeu a mensagem.</p><p>🤔 O que faltou antes de apertar o botão de gravar?</p>"},"m4":{"html":"<p>📱 O vídeo do Pedro ficou com uma faixa preta dos lados, o rosto escuro e um barulho de moto no meio da fala.</p><p>🤔 O que ele poderia ter feito diferente na hora de gravar?</p>"},"m5":{"html":"<p>🌐 A equipe do Davi quer publicar o vídeo. Nele aparece o colega Léo, de uniforme com o nome bordado, na frente de casa, com o número do portão.</p><p>🤔 Pode publicar assim? O que precisa conferir antes?</p>"},"m6":{"html":"<p>🎤 Na mostra, enquanto a equipe da Bia apresentava, dois colegas riam e mexiam no celular. No fim, um disse só: “ficou ruim”.</p><p>🤔 Como ser uma plateia que ajuda? E como dar um feedback que serve para melhorar?</p>"},"m7":{"html":"<p>🔍 O Theo deu zoom, zoom e mais zoom numa foto do gato. De repente, o gato virou um monte de quadradinhos coloridos!</p><p>🤔 De onde vieram esses quadradinhos? A foto sempre foi feita deles?</p>"},"m8":{"html":"<p>🌐 A Mia clicou com o botão direito numa página e viu um monte de &lt;h1&gt;, &lt;p&gt; e &lt;img&gt;. Parecia uma língua secreta!</p><p>🤔 Que “língua” é essa? Dá para uma pessoa da turma escrever uma página?</p>"}};
+  Object.keys(GANCHO).forEach(m => { A[m].gancho = GANCHO[m]; });
+  const perg = (titulo, ...ps) => ({ tipo: "escolha", titulo, enunciado: "<p>Use o que você aprendeu hoje. Leia com calma. 😉</p>", perguntas: ps.map(x => ({ p: x[0], opcoes: x[1], certo: 0, why: x[2] })) });
+  const VIDA = (...ps) => perg("🛠️ E na vida real?", ...ps);
+  const msg = (titulo, app, botoes, enun, itens, okMsg, expl) => ({ tipo: "mensagens", titulo, app, botoes: botoes.map(([id, rot]) => ({ id, rot })), enunciado: `<p>${enun}</p>`,
+    itens: itens.map(([t, c, why]) => ({ de: "", t, c, why })), okMsg, explicacao: expl });
+  const rota = (titulo, enun, etapas, okMsg, expl) => ({ tipo: "rota", titulo, enunciado: `<p>${enun}</p>`, etapas: etapas.map(([ic, t]) => ({ ic, t })), okMsg, explicacao: expl });
+  const LEMBRA = (...ps) => { A.m1.lembra = [perg("🔍 O que você já sabe?", ...ps)]; A.m1.lembra[0].enunciado = "<p>Responda o que você já sabe. Se não souber, tudo bem: o portal mostra onde está a resposta. 😉</p>"; };
+  LEMBRA(["Pilhas e celulares velhos vão para…", ["O ponto de coleta", "O lixo comum"], "Para o <b>ponto de coleta</b>."],
+    ["No ponto de coleta, o lixo vai para a…", ["Reciclagem", "Rua"], "Para a <b>reciclagem</b>."]);
+  A.m1.aplicar = [
+    msg("🛠️ Na vida real: certo ou errado?", "♻️ Celular velho", [["C", "✅ Certo"], ["E", "❌ Errado"]], "Use a tabela do 💡 Para começar.",
+      [["Levar ao ponto de coleta", "C", "O lugar certo."], ["Jogar no lixo comum", "E", "Contamina a terra e a água."], ["Queimar", "E", "Solta fumaça que faz mal."]],
+      "Descarte consciente! ♻️", "O lugar certo é o ponto de coleta."),
+    VIDA(["Antes de doar o celular, você…", ["Apaga os seus dados", "Pinta o celular"], "<b>Apague os seus dados</b>."], ["Queimar lixo eletrônico…", ["Solta fumaça que faz mal", "É o certo"], "Solta <b>fumaça que faz mal</b>."])
+  ];
+  A.m2.aplicar = [
+    msg("🛠️ Na vida real: qual parte?", "📱 Celular desmontado", [["B", "🔋 Bateria"], ["P", "🧩 Placa"], ["T", "📱 Tela"]], "Onde está cada material?",
+      [["Lítio", "B", "Na bateria."], ["Cobre e ouro", "P", "Na placa."], ["Vidro", "T", "Na tela."]],
+      "Mandou bem! 📱", "Cada parte do celular tem um material."),
+    VIDA(["A bateria ficou estufada (inchada). Você…", ["Não fura e leva ao ponto de coleta", "Fura para murchar"], "<b>Não fure</b>: leve ao ponto de coleta."], ["Quem guarda a energia é a…", ["Bateria", "Tela"], "A <b>bateria</b>."])
+  ];
+  A.m3.aplicar = [
+    rota("🛠️ Na vida real: o roteiro", "Coloque as cenas <b>na ordem</b>.",
+      [["1️⃣", "Abertura: “Você tem um desses?”"], ["2️⃣", "Problema: “No lixo, ele polui.”"], ["3️⃣", "Solução: “Leve ao ponto de coleta!”"]],
+      "Roteiro pronto! 🎬", "Abertura, problema e solução."),
+    VIDA(["O roteiro é…", ["O plano do vídeo, cena por cena", "Um tipo de bateria"], "O <b>plano do vídeo</b>."], ["Para filmar o rosto de alguém, você…", ["Pede autorização", "Filma escondido"], "<b>Peça autorização</b>."])
+  ];
+  A.m4.aplicar = [
+    msg("🛠️ Na vida real: qual dica?", "🎥 Gravação", [["H", "📱 Celular deitado"], ["L", "💡 Luz de frente"], ["S", "🤫 Lugar silencioso"]], "Qual dica resolve o problema?",
+      [["O rosto ficou escuro", "L", "Luz de frente."], ["Tinha barulho", "S", "Lugar silencioso."], ["O vídeo não ocupa a tela toda", "H", "Celular deitado."]],
+      "Mandou bem! 🎥", "Deitado, luz de frente e silêncio."),
+    VIDA(["Salvar o vídeo pronto é…", ["Exportar", "Cortar"], "É <b>exportar</b>."], ["No editor, tirar o que sobra é…", ["Cortar", "Exportar"], "É <b>cortar</b>."])
+  ];
+  A.m5.aplicar = [
+    msg("🛠️ Na vida real: pode publicar?", "🌐 Antes de publicar", [["S", "✅ Pode"], ["N", "✋ Ainda não"]], "Todos autorizaram? Não tem endereço nem telefone?",
+      [["Todos autorizaram e não tem endereço nem telefone", "S", "Então pode."], ["Aparece o telefone de um colega", "N", "Não coloco o telefone de ninguém."], ["Um colega não autorizou", "N", "Precisa de autorização."]],
+      "Publicação segura! 🌐", "Autorização e nada de endereço ou telefone."),
+    VIDA(["Na ficha técnica, a equipe aparece com…", ["Só o primeiro nome", "O endereço de cada um"], "<b>Só o primeiro nome</b>."], ["Os créditos dizem…", ["Quem fez a música", "A data de hoje"], "<b>Quem fez</b> a música."])
+  ];
+  A.m6.aplicar = [
+    msg("🛠️ Na vida real: plateia respeitosa?", "🎤 Mostra", [["S", "👏 Respeitosa"], ["N", "🙅 Desrespeitosa"]], "Silêncio no vídeo e aplausos no fim.",
+      [["Silêncio durante o vídeo", "S", "Respeita."], ["Rir do vídeo do colega", "N", "Desrespeita."], ["Aplaudir no fim", "S", "Respeita."]],
+      "Plateia nota 10! 👏", "Silêncio, aplausos e feedback com algo bom + uma sugestão."),
+    VIDA(["Um bom feedback tem…", ["Algo bom + uma sugestão", "Só “ficou ruim”"], "<b>Algo bom + uma sugestão</b>."], ["Pela rubrica, o vídeo ficou no tempo se durou até…", ["1 minuto", "10 minutos"], "Até <b>1 minuto</b>."])
+  ];
+  A.m7.aplicar = [
+    msg("🛠️ Na vida real: que cor?", "🎨 RGB", [["P", "⬛ Preto"], ["B", "⬜ Branco"]], "Use a tabela RGB.",
+      [["R 0, G 0, B 0", "P", "Tudo 0: preto."], ["R 255, G 255, B 255", "B", "Tudo 255: branco."], ["0, 0, 0", "P", "Preto."]],
+      "Mandou bem! 🎨", "Cada pixel guarda uma cor."),
+    VIDA(["Os quadradinhos de cor da foto são os…", ["Pixels", "Cabos"], "Os <b>pixels</b>."], ["Mais pixels deixam a foto…", ["Com mais detalhes", "Sem cor"], "<b>Mais detalhes</b>."])
+  ];
+  A.m8.aplicar = [
+    msg("🛠️ Na vida real: qual tag?", "🌐 Página", [["H", "&lt;h1&gt; Título"], ["P", "&lt;p&gt; Texto"], ["A", "&lt;a&gt; Link"]], "Qual tag usar?",
+      [["“Recicle!” em letras grandes", "H", "Título."], ["“Pilha no ponto de coleta.”", "P", "Texto."], ["“Mais” levando para outra página", "A", "Link."]],
+      "Página montada! 🌐", "h1 é título, p é texto e a é link."),
+    VIDA(["As páginas da internet são escritas em…", ["HTML", "Pixel"], "Em <b>HTML</b>."], ["A tag &lt;a&gt; serve para…", ["Link", "Título"], "Para o <b>link</b>."])
+  ];
+})();

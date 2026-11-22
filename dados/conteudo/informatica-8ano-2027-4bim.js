@@ -183,6 +183,10 @@ PORTAL.registrarConteudo("informatica-8ano-2027-4bim", {
     {
      "t": "p",
      "h": "<strong>Regra prática:</strong> antes de informar um dado, pergunte: <strong>quem está pedindo? Para quê? Precisa mesmo?</strong>"
+    },
+    {
+     "t": "p",
+     "h": "<strong>Privacidade</strong> é o direito de decidir o que os outros sabem sobre você. Num cadastro, informe só o necessário: para avisar um ganhador, basta um contato (e-mail ou telefone). A <strong>senha</strong> nunca se informa a ninguém."
     }
    ],
    "termos": [
@@ -937,7 +941,7 @@ PORTAL.registrarConteudo("informatica-8ano-2027-4bim", {
     "Localização em tempo real mostra onde você está agora.",
     "Check-in num post diz para todos onde você está.",
     "Desligar a localização da câmera ajuda a proteger.",
-    "Cookies são vírus que apagam o computador."
+    "Cookies são biscoitos que o computador come."
    ],
    "resumo": {
     "texto": "O celular sabe onde você está (**GPS**, Wi-Fi, antenas). A localização aparece nos **metadados** das fotos, na **localização em tempo real**, no **histórico** e no **check-in**. Proteja: localização da câmera desligada, tempo real só com a família, histórico apagado e postar depois de sair. **Cookies** rastreiam nos sites.",

@@ -344,7 +344,7 @@ PORTAL.registrarConteudo("informatica-6ano-2027-4bim", {
     "Todos os pacotes precisam ir pelo mesmo caminho.",
     "O site fica guardado num servidor.",
     "Cabos submarinos ligam os continentes pelo fundo do mar.",
-    "O provedor é o vírus que deixa a internet lenta."
+    "O provedor é o cabo que deixa a internet lenta."
    ],
    "resumo": {
     "texto": "Caminho: **aparelho** → **roteador** (Wi-Fi) → **provedor** → **roteadores da internet** → **cabos submarinos** → **servidor**. Cada pacote pode ir por um caminho diferente. O **endereço IP** identifica cada aparelho. A **fibra óptica** leva os dados como luz.",
@@ -412,6 +412,10 @@ PORTAL.registrarConteudo("informatica-6ano-2027-4bim", {
     {
      "t": "p",
      "h": "Do menor para o maior: <strong>bit → byte → KB → MB → GB → TB</strong>."
+    },
+    {
+     "t": "p",
+     "h": "Por exemplo: GB significa gigabyte, e 1 GB é cerca de mil MB. E o <strong>armazenamento</strong> é onde os arquivos ficam guardados: HD, SSD, pen drive, cartão de memória ou a nuvem."
     },
     {
      "t": "p",
@@ -1076,6 +1080,10 @@ PORTAL.registrarConteudo("informatica-6ano-2027-4bim", {
        "Precisa lembrar de atualizar"
       ]
      ]
+    },
+    {
+     "t": "p",
+     "h": "Como fazer o backup: escolher os arquivos importantes, <strong>copiar</strong> para outro lugar (pen drive ou nuvem), conferir se a cópia abre e <strong>repetir</strong> quando tiver arquivos novos."
     },
     {
      "t": "p",

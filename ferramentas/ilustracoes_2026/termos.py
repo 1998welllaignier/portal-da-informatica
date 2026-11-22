@@ -336,6 +336,8 @@ from termos_2027_2bim import registrar as _reg2027b  # noqa: E402
 _reg2027b(d, D, k)
 from termos_2027_3bim import registrar as _reg2027c  # noqa: E402
 _reg2027c(d, D, k)
+from termos_2027_4bim import registrar as _reg2027d  # noqa: E402
+_reg2027d(d, D, k)
 
 if __name__ == "__main__":
     raiz = os.path.dirname(os.path.dirname(AQUI))
@@ -344,4 +346,4 @@ if __name__ == "__main__":
           f"window.TERMOS_IMG = {json.dumps(D, ensure_ascii=False)};\n")
     open(os.path.join(raiz, "dados", "termos-imagens.js"), "w", encoding="utf-8").write(js)
     print(len(D), "termos com imagem;", len(js) // 1024, "KB")
-    print("já tinham figurinha (mantidas):", ", ".join(_reg2027.pulados + _reg2027b.pulados + _reg2027c.pulados))
+    print("já tinham figurinha (mantidas):", ", ".join(_reg2027.pulados + _reg2027b.pulados + _reg2027c.pulados + _reg2027d.pulados))

@@ -263,7 +263,7 @@ PORTAL.registrarConteudo("informatica-9ano-2027-4bim-trilha", {
     },
     {
      "t": "p",
-     "h": "<strong>Sátira</strong> é notícia de humor, não é verdade."
+     "h": "<strong>Sátira</strong> é notícia de humor, não é verdade. Na pausa, o primeiro passo é parar: não compartilhe na hora."
     }
    ],
    "termos": [
@@ -480,7 +480,7 @@ PORTAL.registrarConteudo("informatica-9ano-2027-4bim-trilha", {
     },
     {
      "t": "p",
-     "h": "<strong>Feedback:</strong> algo bom + uma sugestão."
+     "h": "Mostrar as fontes é bom: é respeitar quem criou. No slide, use letra grande: letra pequena a turma não lê de longe. <strong>Feedback:</strong> algo bom + uma sugestão."
     }
    ],
    "termos": [
