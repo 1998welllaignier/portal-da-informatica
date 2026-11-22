@@ -595,12 +595,26 @@ body.modo-trilha { font-size: 21px; line-height: 1.65; }
 .quem-lista li { margin: 6px 0; }
 
 .painel-prof { max-width: 1400px; }
-.pp-cab { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; flex-wrap: wrap; }
-.pp-cab h1 { margin-bottom: 0; }
-.pp-user { display: flex; gap: 10px; align-items: center; color: var(--suave); font-size: .9rem; flex-wrap: wrap; }
-.pp-abas { display: flex; gap: 6px; flex-wrap: wrap; margin: 14px 0 4px; border-bottom: 2px solid var(--linha); }
-.pp-abas a { padding: 8px 14px; border-radius: 10px 10px 0 0; text-decoration: none; color: var(--tinta); font-weight: 600; }
-.pp-abas a.atual { background: var(--papel); border: 2px solid var(--linha); border-bottom-color: var(--papel); margin-bottom: -2px; }
+/* 🧭 topo compacto do painel (22/11/2026): uma barra só, fina e fixa logo abaixo da barra escura do portal */
+.pp-topo { position: sticky; top: var(--pp-top, 0px); z-index: 25; display: flex; align-items: center; justify-content: space-between; gap: 6px 12px; flex-wrap: wrap;
+  margin: -18px -18px 12px; padding: 6px 18px; background: var(--fundo, #f6f7fb); border-bottom: 2px solid var(--linha); box-shadow: 0 6px 10px -10px rgba(15,23,42,.45); }
+.pp-user { display: flex; gap: 6px; align-items: center; color: var(--suave); font-size: .9rem; flex-wrap: wrap; }
+.pp-user .btn { padding: 5px 10px; min-height: 34px; }
+.pp-icones { display: flex; gap: 4px; align-items: center; }
+.pp-ic { padding: 4px 8px !important; min-width: 36px; justify-content: center; background: #fff; border: 1.5px solid var(--linha); color: var(--tinta); }
+.pp-ic:hover { background: #eef2ff; }
+.pp-topo summary.pp-ic { list-style: none; cursor: pointer; display: inline-flex; align-items: center; }
+.pp-topo summary.pp-ic::-webkit-details-marker { display: none; }
+.pp-ajuda, .pp-conta { position: relative; }
+.pp-ajuda[open] > summary, .pp-conta[open] > summary { background: #dbeafe; border-color: #3b82f6; }
+.pp-ajuda-c, .pp-conta-c { position: absolute; right: 0; top: calc(100% + 6px); z-index: 40; background: #fff; border: 2px solid #bfdbfe; border-radius: 12px; box-shadow: 0 12px 30px rgba(15,23,42,.22); color: var(--tinta); }
+.pp-ajuda-c { width: min(760px, 92vw); max-height: 70vh; overflow: auto; padding: 10px 16px; font-size: .92rem; }
+.pp-ajuda-c ul { margin: 6px 0 4px; padding-left: 20px; } .pp-ajuda-c li { margin: 4px 0; }
+.pp-conta-c { display: flex; flex-direction: column; gap: 6px; padding: 10px 14px; min-width: 240px; font-size: .88rem; }
+.pp-abas { display: flex; gap: 4px; flex-wrap: wrap; margin: 0; }
+.pp-abas a { padding: 6px 11px; border-radius: 10px; text-decoration: none; color: var(--tinta); font-weight: 700; font-size: .95rem; border: 2px solid transparent; }
+.pp-abas a:hover { background: #eef2ff; }
+.pp-abas a.atual { background: var(--cor, #3b5bdb); color: #fff; border-color: var(--cor, #3b5bdb); }
 .pp-barra { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
 .pp-barra select { font: inherit; padding: 6px 8px; border-radius: 8px; border: 1px solid var(--linha); }
 .pp-acoes { display: flex; gap: 8px; flex-wrap: wrap; margin-left: auto; }
@@ -645,7 +659,7 @@ body.modo-trilha { font-size: 21px; line-height: 1.65; }
 .aula-v b { font-size: 1.4rem; }
 .aula-v.ok { background: #e5f4e4; color: #1f6b2a; }
 .aula-v-t { font-size: .8rem; color: var(--suave); }
-.aula-ir { position: sticky; top: 0; z-index: 5; display: flex; gap: 8px; flex-wrap: wrap; padding: 10px 0; background: var(--fundo, #f6f7fb); }
+.aula-ir { position: sticky; top: calc(var(--pp-top, 0px) + var(--pp-alt, 0px)); z-index: 5; display: flex; gap: 8px; flex-wrap: wrap; padding: 10px 0; background: var(--fundo, #f6f7fb); }
 .aula-ir a { text-decoration: none; font-weight: 700; padding: 10px 16px; border-radius: 999px; background: #fff; border: 2px solid var(--cor); color: var(--tinta); font-size: 1rem; }
 .aula-ir a:hover, .aula-ir a:focus { background: var(--cor); color: #fff; }
 .aula-tempo { display: flex; gap: 4px; margin: 10px 0 18px; border-radius: var(--r); overflow: hidden; }
@@ -962,9 +976,6 @@ body.modo-trilha { font-size: 21px; line-height: 1.65; }
 .pp-trava { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; border: 2px dashed var(--linha); border-radius: 12px; padding: 8px 12px; margin-top: 10px; }
 .pp-trava .st { font-weight: 800; }
 /* ❓ ajuda de cada aba do painel */
-.pp-ajuda { background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 12px; padding: 8px 14px; margin: 0 0 12px; }
-.pp-ajuda summary { cursor: pointer; font-weight: 800; color: #1e40af; }
-.pp-ajuda ul { margin: 6px 0 4px; padding-left: 20px; } .pp-ajuda li { margin: 4px 0; }
 .pp-hoje { border-color: #f2c14e; }
 .pp-mdia { display: inline-block; background: #fff6e0; border: 1px solid #f2c14e; border-radius: 999px; padding: 1px 10px; font-size: .88rem; font-weight: 700; }
 .pp-mdia-ch { margin: 0 0 8px; }
@@ -1746,17 +1757,15 @@ button.tb-av:hover .avatar-svg, button.tb-av:focus-visible .avatar-svg { transfo
 
 /* 📱 PAINEL DO PROFESSOR NO CELULAR (14/11/2026): tudo dentro da tela, organizado e fácil de tocar */
 @media (max-width: 640px) {
-  .painel-prof .pp-cab { display: block; }
-  .painel-prof .pp-cab h1 { font-size: 1.45rem; }
-  .painel-prof .pp-cab .lead { font-size: .85rem; margin: 2px 0 10px; }
-  /* barra de ações: grade de botões iguais (3 por linha) */
-  .painel-prof .pp-user { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
-  .painel-prof .pp-user > .btn { width: 100%; min-height: 44px; padding: 6px 4px; font-size: .8rem; line-height: 1.15; white-space: normal; justify-content: center; text-align: center; }
-  .painel-prof .pp-user > .pp-sino { grid-column: span 1; }
-  .painel-prof .pp-conta { grid-column: 1 / -1; display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: .78rem; }
-  .painel-prof .pp-email { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+  /* no celular a barra não fica fixa (ocuparia meia tela): rola junto com a página */
+  .painel-prof .pp-topo { position: static; margin: -18px -18px 10px; padding: 8px 10px; }
+  .painel-prof .pp-user { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; width: 100%; }
+  .painel-prof .pp-user > .btn { width: 100%; min-height: 44px; padding: 6px 4px; font-size: .78rem; line-height: 1.15; white-space: normal; justify-content: center; text-align: center; }
+  .painel-prof .pp-icones { grid-column: 1 / -1; justify-content: space-between; }
+  .painel-prof .pp-icones .pp-ic { flex: 1; min-height: 40px; }
+  .painel-prof .pp-ajuda-c, .painel-prof .pp-conta-c { position: fixed; left: 8px; right: 8px; top: 120px; width: auto; }
   /* abas: grade 3 × 2, todas visíveis */
-  .painel-prof .pp-abas { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; border-bottom: 0; margin: 12px 0 6px; }
+  .painel-prof .pp-abas { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; width: 100%; }
   .painel-prof .pp-abas a { border: 2px solid var(--linha); border-radius: 12px; padding: 8px 4px; text-align: center; font-size: .86rem; background: var(--papel); margin: 0; }
   .painel-prof .pp-abas a.atual { background: var(--cor); color: #fff; border-color: var(--cor); }
   .painel-prof .painel { padding: 14px 12px; }
@@ -2600,3 +2609,32 @@ body.lg-travado{overflow:hidden}
 /* 🎯 visto com domínio (21/11/2026) */
 .mn-aprov{font-size:.78rem;font-weight:800;background:#fef3c7;border:1px solid #f59e0b;border-radius:999px;padding:0 6px;color:#92400e}.mn-aprov.ok{background:#dcfce7;border-color:#22c55e;color:#166534}
 .banner-dominio{background:#fffbeb!important;border-color:#f59e0b!important;color:#1c1f22!important}.banner-dominio *{color:#1c1f22!important}.banner-dominio a{color:#1d4ed8!important}.banner-dominio small{color:#92400e!important}.banner-dominio .bd-lista{margin:6px 0 0;padding-left:20px;text-align:left}.banner-dominio .bd-lista a{font-weight:700}
+
+/* 🧭 aba Aula reorganizada, 🔎 procurar aluno, 🪪 ficha e 📅 minha semana (22/11/2026) */
+.painel-prof .pp-alvo, .painel-prof [id^="aula-"] { scroll-margin-top: calc(var(--pp-top, 0px) + var(--pp-alt, 0px) + 64px); }
+.pp-indice { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin: 0 0 12px; font-size: .9rem; }
+.pp-indice > span { font-weight: 800; color: var(--suave); }
+.pp-indice a { padding: 4px 10px; border-radius: 999px; background: #fff; border: 1.5px solid var(--linha); text-decoration: none; color: var(--tinta); font-weight: 700; }
+.pp-indice a:hover { background: #eef2ff; border-color: #3b82f6; }
+.aula-ir a.aula-ir-ferr { background: #f1f5f9; }
+.pp-ferr { margin-top: 18px; padding-top: 6px; border-top: 3px dashed var(--linha); }
+.pp-ferr > h2 { margin: 8px 0 2px; }
+.pp-busca-lista { list-style: none; padding: 0; margin: 8px 0; display: grid; gap: 4px; max-height: 52vh; overflow: auto; }
+.pp-busca-it { width: 100%; text-align: left; background: #fff; border: 1.5px solid var(--linha); border-radius: 10px; padding: 8px 12px; cursor: pointer; }
+.pp-busca-it:hover, .pp-busca-it:focus { background: #eef2ff; border-color: #3b82f6; }
+.pp-busca-t { color: var(--suave); font-size: .88rem; margin-left: 6px; }
+.pp-ficha-tags { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.pp-ficha-tag { background: #eef2ff; border: 1px solid #c7d2fe; border-radius: 999px; padding: 2px 10px; font-size: .88rem; font-weight: 700; }
+.pp-ficha-tag.cinza { background: #f1f5f9; border-color: #cbd5e1; color: #475569; }
+.pp-ficha-num { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0; }
+.pp-ficha-num span { background: #f8fafc; border: 1.5px solid var(--linha); border-radius: 10px; padding: 6px 12px; }
+.pp-ficha-tab td, .pp-ficha-tab th { text-align: center; } .pp-ficha-tab td:first-child, .pp-ficha-tab th:first-child { text-align: left; }
+.sw-res { font-weight: 700; margin: 4px 0 8px; }
+.sw-grade { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px; }
+.sw-dia { background: #f8fafc; border: 2px solid var(--linha); border-radius: 12px; padding: 8px; }
+.sw-dia.hoje { border-color: #f2c14e; background: #fffbeb; }
+.sw-dia h3 { margin: 0 0 6px; font-size: 1rem; }
+.sw-aula { margin: 0 0 8px; }
+.sw-t { margin: 0 0 3px; font-size: .88rem; }
+.sw-rec { text-decoration: none; background: #ffedd5; border: 1px solid #fb923c; border-radius: 999px; padding: 0 7px; font-size: .8rem; }
+.sw-aula .pan-c { width: 100%; }

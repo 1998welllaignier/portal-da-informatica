@@ -17,7 +17,8 @@
   const db = () => N.db();
   const auth = () => N.auth();
 
-  const todasTurmas = () => { const r = []; cat().series.forEach(s => s.turmas.forEach(t => r.push({ ...t, serie: s }))); return r; };
+  // 22/11/2026: o 5º ano (atendimento por vontade própria, fora das turmas oficiais) vai para o FIM de todas as listas e do Panorama
+  const todasTurmas = () => { const r = []; cat().series.filter(s => s.id !== "5").concat(cat().series.filter(s => s.id === "5")).forEach(s => s.turmas.forEach(t => r.push({ ...t, serie: s }))); return r; };
   // 🕘 turma do horário: sem turma escolhida, o painel abre na turma que está em aula agora (15 min de folga antes
   // e depois) ou na próxima aula de hoje. Se o professor trocar de turma à mão, a escolha vale até a próxima aula começar.
   const ss = { get: k => { try { return sessionStorage.getItem(k); } catch (e) { return null; } }, set: (k, v) => { try { sessionStorage.setItem(k, v); } catch (e) {} } };
@@ -215,19 +216,30 @@
      TELAS
      ============================================================ */
   let mountFn;
-  const tela = html => mountFn(`<section class="tela painel-prof">${html}</section>`);
-  const topo = (u, ativo) => `<nav class="migalhas"><a href="#/">Início</a> › <a href="#/painel">Painel do professor</a></nav>
-    <div class="pp-cab"><div><h1>📊 Painel do professor</h1><p class="lead">${esc(cat().professor)} · ${esc(cat().escola)}</p></div>
-      <div class="pp-user"><button class="btn btn-peq pp-sino" id="pp-sino" type="button" title="🔔 Datas de hoje: abre de novo as datas e lembretes do dia, inclusive os que você deixou para ver depois">🔔<span class="pp-sino-n" id="pp-sino-n" hidden></span></button><button class="btn btn-peq pp-ini-btn" id="pp-ini" type="button" title="Iniciar uma aula agora (abre as tarefas da turma)">▶️ Iniciar aula</button><button class="btn btn-peq pp-hor-btn" id="pp-hor" type="button">🕘 Horários</button><button class="btn btn-peq pp-hor-btn" id="pp-cod" type="button">🔑 Códigos</button><button class="btn btn-peq pp-vivo-btn" id="pp-vivo" type="button">🔴 Ao vivo</button><button class="btn btn-peq pp-placar-btn" id="pp-placar" type="button" title="Abre numa aba nova, para deixar no projetor">🏆 Placar</button><button class="btn btn-peq pp-fim-btn" id="pp-fim" type="button" title="Finaliza a aula agora: fecha as tarefas e mostra o pódio">🏁 Finalizar aula</button><span class="pp-conta"><span class="pp-email">${esc(u.email)}</span><button class="btn btn-sec btn-peq" id="pp-sair" type="button">Sair do painel</button></span></div></div>
-    <nav class="pp-abas">${[["aula", "🎤 Aula"], ["", "🏫 Turmas"], ["diario", "📒 Diário"], ["panorama", "🗺️ Panorama"], ["prova", "📝 Prova"], ["config", "⚙️ Configurações"]].map(([k, r]) =>
-      `<a href="#/painel${k ? "/" + k : ""}" class="${ativo === k ? "atual" : ""}">${r}</a>`).join("")}</nav>${ajudaAba(ativo)}`;
+  const tela = html => { const r = mountFn(`<section class="tela painel-prof">${html}</section>`); medirTopo(); return r; };
+  /* a barra do painel fica fixa logo abaixo da barra escura do portal; mede a altura dela (muda com a largura da tela) */
+  function medirTopo() { try { const tb = document.getElementById("topbar"), pt = document.querySelector(".pp-topo"), st = document.documentElement.style;
+    st.setProperty("--pp-top", (tb && getComputedStyle(tb).position === "sticky" ? tb.offsetHeight : 0) + "px");
+    if (pt) st.setProperty("--pp-alt", pt.offsetHeight + "px"); } catch (e) {} }
+  window.addEventListener("resize", () => medirTopo());
+  /* 🧭 TOPO COMPACTO (22/11/2026, avaliação do painel): antes o título, a linha da escola, 8 botões, as abas e a ajuda
+     ocupavam uns 400 px em toda aba. Agora é uma barra só, fina e fixa no alto (acompanha a rolagem), com as abas à esquerda,
+     os botões da aula no meio e os de consulta só com o ícone (o nome aparece ao passar o mouse). */
+  const topo = (u, ativo) => `<div class="pp-topo" role="navigation" aria-label="Painel do professor">
+    <nav class="pp-abas">${[["aula", "🎤 Aula"], ["", "🏫 Turmas"], ["diario", "📒 Diário"], ["panorama", "🗺️ Panorama"], ["prova", "📝 Prova"], ["config", "⚙️ Configurar"]].map(([k, r]) =>
+      `<a href="#/painel${k ? "/" + k : ""}" class="${ativo === k ? "atual" : ""}">${r}</a>`).join("")}</nav>
+    <div class="pp-user">
+      <button class="btn btn-peq pp-ini-btn" id="pp-ini" type="button" title="Iniciar uma aula agora (abre as tarefas da turma)">▶️ Iniciar aula</button><button class="btn btn-peq pp-fim-btn" id="pp-fim" type="button" title="Finaliza a aula agora: fecha as tarefas e mostra o pódio">🏁 Finalizar</button><button class="btn btn-peq pp-vivo-btn" id="pp-vivo" type="button" title="Painel ao vivo da turma">🔴 Ao vivo</button><button class="btn btn-peq pp-placar-btn" id="pp-placar" type="button" title="Abre numa aba nova, para deixar no projetor">🏆 Placar</button>
+      <span class="pp-icones"><button class="btn btn-peq pp-ic" id="pp-busca" type="button" title="🔎 Procurar um aluno (em todas as turmas) e abrir a ficha dele" aria-label="Procurar aluno">🔎</button><button class="btn btn-peq pp-ic" id="pp-semana" type="button" title="📅 Minha semana: as aulas de segunda a quinta, com a missão de cada turma e o que falta registrar" aria-label="Minha semana">📅</button><button class="btn btn-peq pp-ic" id="pp-cod" type="button" title="🔑 Códigos dos alunos (para quem esqueceu)" aria-label="Códigos">🔑</button><button class="btn btn-peq pp-ic" id="pp-hor" type="button" title="🕘 Horários da sala de informática" aria-label="Horários">🕘</button><button class="btn btn-peq pp-ic pp-sino" id="pp-sino" type="button" title="🔔 Datas de hoje: abre de novo as datas e lembretes do dia, inclusive os que você deixou para ver depois" aria-label="Datas de hoje">🔔<span class="pp-sino-n" id="pp-sino-n" hidden></span></button>${ajudaAba(ativo)}<details class="pp-conta"><summary class="btn btn-peq pp-ic" title="Conta: ${esc(u.email)}" aria-label="Conta">👤</summary><div class="pp-conta-c"><b>${esc(cat().professor)}</b><span class="pp-email">${esc(u.email)}</span><button class="btn btn-sec btn-peq" id="pp-sair" type="button">Sair do painel</button></div></details></span>
+    </div></div>`;
   /* ❓ quadro "Para que serve e como usar" de cada aba (fica fechado; o professor abre quando quiser) */
   const AJUDA = {
     aula: ["Use durante a aula, projetando ou no seu computador.", [
       "<b>✏️ Pincel e ⬜ Quadro branco</b>: os botões redondos no canto direito (nesta aba, na 👀 apostila do aluno e no 🎬 modo apresentação). ✏️ = riscar, sublinhar, passar marca-texto, formas, texto, laser e carimbos <b>por cima da página</b> (os riscos acompanham a rolagem; 🖱️ Mouse deixa a página clicável de novo; ⇄ muda a barra de lugar; Ctrl+Z desfaz). ⬜ = quadro branco em tela cheia, com fundos (branco, quadriculado, pautado, lousa verde), páginas, colar imagem (Ctrl+V) e 💾 salvar em imagem. Espelhando a tela, os alunos veem tudo.",
       "<b>📡 Transmitir para os computadores dos alunos</b>: <b>📺 Vídeo em sincronia</b> = escolha o vídeo (ou cole um link do YouTube) e clique em ▶️ Passar para a turma; o player abre aqui, com som (caixinhas), e o seu play, pausa e pulos valem para todos os computadores, que tocam o mesmo vídeo sem som. <b>⬜ Quadro para a turma</b> = o quadro abre aqui e cada traço aparece na hora em todos os computadores (nítido, sem vídeo). <b>🖥️ Espelhar a minha tela</b> = o Chrome pergunta o que mostrar e a sua tela aparece nos computadores (atraso pequeno; para vídeo com som, prefira o 📺). Nos dois, o aluno clica em “Entrar”, a tela fica cheia e travada, com uma barra vermelha em cima explicando; se ele sair da tela cheia ou trocar de janela, o portal dele trava até voltar e o nome aparece em ⚠️. Só recebe quem está com o portal aberto (não vale para quem estuda em casa 🏠). Para liberar: ⏹ Encerrar.",
-      "<b>▶️ Iniciar a aula</b>: as tarefas da turma só abrem quando você inicia a aula. No horário, o painel pergunta sozinho (turma, 📌 missão, 🔒 travar). Fora do horário (reposição), use o botão verde <b>▶️ Iniciar aula</b> na barra de cima. O <b>🏁 Finalizar aula</b> fecha na hora e mostra o pódio; se você não finalizar, <b>as tarefas fecham sozinhas no fim do horário da aula</b> (+15 min). Aula iniciada fora do horário (reposição) dura 1h15 (+15 min) a partir do início. Antes de iniciar, os alunos entram e leem, mas veem “Aguardando o professor”.",
-      "<b>🟧 Meus recados</b> (🔒 só você vê; os alunos não veem): o quadro laranja no topo mostra os lembretes que você deixou para você mesmo sobre esta turma. Para falar com os alunos, use 🏫 Turmas › 📣 Avisos para os alunos. O quadro mostra os recados (os mesmos do 📒 Diário › 🟧 Recados). Depois de ler, toque em “✔ Já li”: o recado sai do quadro em todos os computadores, mas não é apagado; vai para o “📜 Histórico de recados desta turma”, com a data em que foi anotado e a data em que foi lido. Para deixar um recado para a próxima aula, abra “✏️ Deixar um recado…” logo abaixo dos recados.",
+      "<b>▶️ Iniciar a aula</b>: as tarefas da turma só abrem quando você inicia a aula. No horário, o painel pergunta sozinho (turma, 📌 missão, 🔒 travar). Fora do horário (reposição), use o botão verde <b>▶️ Iniciar aula</b> na barra de cima (é o único; nesta aba ele já vem com a turma que está aberta). O <b>🏁 Finalizar aula</b> fecha na hora e mostra o pódio; se você não finalizar, <b>as tarefas fecham sozinhas no fim do horário da aula</b> (+15 min). Aula iniciada fora do horário (reposição) dura 1h15 (+15 min) a partir do início. Antes de iniciar, os alunos entram e leem, mas veem “Aguardando o professor”.",
+      "<b>🧭 Como a aba está arrumada</b>: no alto, a turma e a 📌 Missão de hoje; logo depois, o 📖 roteiro da aula (falas e respostas). Vídeo, 📡 Transmitir, 🏠 quem estuda em casa e 🧩 Apoios ficam em <b>🧰 Ferramentas da aula</b>, depois do roteiro. Para chegar a qualquer parte com um toque, use o <b>Ir para</b> (abaixo da Missão de hoje) ou os atalhos 📺 📡 🧩 na barra fixa do roteiro.",
+      "<b>🟧 Meus recados</b> (🔒 só você vê; os alunos não veem): o lugar dos recados é o <b>📒 Diário › 🟧 Meus recados</b> (escrever, marcar como lido e ver o histórico). Aqui na aula aparecem só os <b>pendentes</b> da turma, num quadro laranja no alto; toque em “✔ Já li” e ele vai para o histórico. Sem recado pendente, o quadro não aparece. Para falar com os alunos, use 🏫 Turmas › 📣 Avisos para os alunos.",
       "<b>🗣️ Para falar à turma</b>: aparecem no topo com a fala pronta. Depois de falar, toque em “✔ Já avisei esta turma” (o aviso some só daquela turma, neste computador).",
       "<b>🕘 A turma já vem certa</b>: ao abrir o painel, ele escolhe sozinho a turma que está em aula agora (ou a próxima aula de hoje) e a missão do dia pela mesma regra do 🗺️ Panorama (a próxima missão que a turma ainda não fez). Para ver outra turma, é só trocar na lista; a sua escolha vale até a próxima aula começar.",
       "<b>A missão da aula</b> é a 📌 Missão de hoje (o roteiro abre nela). Para só olhar o roteiro de outra missão, abra “👁️ Só olhar o roteiro de outra missão”. Aparece o roteiro da aula com as falas, as respostas de cada atividade e quantos alunos já entraram e concluíram o Básico.",
@@ -279,7 +291,7 @@
       "<b>▶️ Tarefas só depois de Iniciar a aula</b>: ligado, as tarefas de cada turma abrem quando você inicia a aula e fecham no 🏁 Finalizar aula. Desligado, ficam sempre abertas.",
       "<b>Começar novo ano</b>: só no início do ano letivo. Desativa todos os alunos (o histórico fica guardado)."]]
   };
-  const ajudaAba = k => { const a = AJUDA[k]; return a ? `<details class="pp-ajuda"><summary>❓ Para que serve esta aba e como usar</summary><p>${a[0]}</p><ul>${a[1].map(x => `<li>${x}</li>`).join("")}</ul></details>` : ""; };
+  const ajudaAba = k => { const a = AJUDA[k]; return a ? `<details class="pp-ajuda"><summary class="btn btn-peq pp-ic" title="❓ Para que serve esta aba e como usar" aria-label="Ajuda desta aba">❓</summary><div class="pp-ajuda-c"><p><b>❓ Para que serve esta aba e como usar</b></p><p>${a[0]}</p><ul>${a[1].map(x => `<li>${x}</li>`).join("")}</ul></div></details>` : ""; };
   /* 🗓️ quadro de horários (igual ao da página inicial): a aula que está acontecendo pisca; fora do horário, avisa que não há aula */
   const COR_S = { "5": ["#16a34a", "#dcfce7"], "6": ["#2563eb", "#dbeafe"], "7": ["#7c3aed", "#ede9fe"], "8": ["#ea580c", "#ffedd5"], "9": ["#db2777", "#fce7f3"] };
   const DIAS_L = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"], EMO_D = ["", "🌅", "🚀", "⚡", "🎯"]; let DUR = 75;
@@ -316,6 +328,92 @@
     document.body.appendChild(dlg); dlg.showModal();
     dlg.addEventListener("click", e => { if (e.target.closest(".ph-aula")) dlg.close(); });
     dlg.addEventListener("close", () => { clearInterval(iv); dlg.remove(); });
+  }
+  /* 🔎 PROCURAR ALUNO (22/11/2026, avaliação do painel): digita parte do nome e acha o aluno em qualquer turma,
+     sem precisar saber a turma; toque no nome para abrir a 🪪 ficha do aluno. */
+  async function abrirBusca() {
+    if (document.querySelector(".pp-busca-dlg")) return;
+    const dlg = h(`<dialog class="pp-dlg pp-dlg-larga pp-busca-dlg"><form method="dialog"><div class="pp-hor-top"><h2>🔎 Procurar aluno</h2><button class="btn btn-sec btn-peq" value="x">Fechar</button></div>
+      <input type="search" id="pb-q" class="pp-cod-busca" placeholder="Digite parte do nome (em todas as turmas)…" autocomplete="off">
+      <label class="pp-auto"><input type="checkbox" id="pb-inat"> mostrar também os desativados</label>
+      <div id="pb-l"><p class="ajuda">Carregando os alunos de todas as turmas…</p></div>
+      <p class="ajuda">Toque no nome para abrir a 🪪 ficha do aluno (turma, presença no portal, missões, apoios e atalhos).</p></form></dialog>`);
+    document.body.appendChild(dlg); dlg.showModal(); dlg.addEventListener("close", () => dlg.remove());
+    const inp = dlg.querySelector("#pb-q"); setTimeout(() => inp.focus(), 50);
+    let todos = [];
+    try { todos = (await Promise.all(todasTurmas().map(t => alunosDaTurma(t.id).catch(() => [])))).flat(); }
+    catch (e) { dlg.querySelector("#pb-l").innerHTML = `<p class="ajuda">Não consegui carregar: ${esc(e.message || e)}</p>`; return; }
+    const pintar = () => {
+      const q = normNome(inp.value), inat = dlg.querySelector("#pb-inat").checked;
+      const xs = todos.filter(a => (inat || a.ativo !== false) && (!q || normNome(a.nome).includes(q)));
+      dlg.querySelector("#pb-l").innerHTML = !q ? `<p class="ajuda">${todos.filter(a => a.ativo !== false && !a.teste).length} alunos ativos em ${todasTurmas().length} turmas. Comece a digitar o nome.</p>`
+        : xs.length ? `<ul class="pp-busca-lista">${xs.slice(0, 60).map(a => `<li><button type="button" class="pp-busca-it" data-pb="${esc(a.id)}"><b>${esc(a.nome)}</b> <span class="pp-busca-t">${esc(nomeTurma(a.turma))}</span>${a.atipico ? " 🧩" : ""}${a.trilha ? " 👣" : ""}${a.emCasa ? " 🏠" : ""}${a.teste ? " 🧪" : ""}${a.ativo === false ? " <small>(desativado)</small>" : ""}</button></li>`).join("")}</ul>${xs.length > 60 ? `<p class="ajuda">Mostrando 60 de ${xs.length}. Digite mais letras.</p>` : ""}`
+        : `<p class="ajuda">Nenhum aluno com “${esc(inp.value)}”.</p>`;
+      dlg.querySelectorAll("[data-pb]").forEach(b => b.onclick = () => { const a = todos.find(x => x.id === b.dataset.pb); dlg.close(); abrirFicha(a); });
+    };
+    inp.oninput = pintar; dlg.querySelector("#pb-inat").onchange = pintar;
+    inp.onkeydown = e => { if (e.key === "Enter") { e.preventDefault(); const b = dlg.querySelector("[data-pb]"); if (b) b.click(); } };
+    pintar();
+  }
+  /* 🪪 FICHA DO ALUNO (22/11/2026): tudo de um aluno numa janela só, com atalhos para o relatório, a turma e o diário */
+  async function abrirFicha(a) {
+    if (!a) return;
+    const dlg = h(`<dialog class="pp-dlg pp-dlg-larga pp-ficha-dlg"><form method="dialog"><div class="pp-hor-top"><h2>🪪 ${a.atipico ? "🧩 " : ""}${esc(a.nome)}</h2><button class="btn btn-sec btn-peq" value="x">Fechar</button></div>
+      <p class="pp-ficha-tags"><span class="pp-ficha-tag">🏫 ${esc(nomeTurma(a.turma))}</span>${a.ativo === false ? `<span class="pp-ficha-tag cinza">desativado</span>` : ""}${a.trilha ? `<span class="pp-ficha-tag">👣 Trilha Passo a Passo</span>` : ""}${a.emCasa ? `<span class="pp-ficha-tag">🏠 Estuda em casa${a.emCasaObs ? ": " + esc(a.emCasaObs) : ""}</span>` : ""}${a.teste ? `<span class="pp-ficha-tag cinza">🧪 aluno de teste</span>` : ""}${a.outraTurma ? `<span class="pp-ficha-tag">🏫 frequenta a aula do ${esc(nomeTurma(a.outraTurma))}</span>` : ""}
+        <button type="button" class="btn btn-link btn-peq" id="pf-cod" title="O código é pessoal: mostre só para o próprio aluno">🔑 Ver código</button></p>
+      <div class="pp-dlg-btns"><a class="btn" href="#/painel/relatorio/${esc(a.id)}">📄 Relatório do aluno (PDF)</a><a class="btn btn-sec" href="#/painel/turma/${esc(a.turma)}" id="pf-turma" title="Abre a turma com as opções deste aluno (código, nome, apoios, Trilha…)">⚙️ Opções do aluno na turma</a><a class="btn btn-sec" href="#/painel/diario/${esc(a.turma)}/frequencia">🗓️ Frequência da turma</a></div>
+      <div id="pf-c"><p class="ajuda">Carregando o que ele fez no portal…</p></div>
+      ${a.atipico ? `<details class="pp-apoios" ${a.apoio ? "open" : ""}><summary><strong>🧩 Apoios</strong></summary><div class="ap-lista">${cartaoApoio(a)}</div></details>` : ""}</form></dialog>`);
+    document.body.appendChild(dlg); dlg.showModal(); dlg.addEventListener("close", () => dlg.remove());
+    dlg.querySelector("#pf-cod").onclick = e => { e.target.outerHTML = `<span class="pp-ficha-tag">🔑 <b class="pp-cod">${esc(a.codigo)}</b></span>`; };
+    dlg.querySelector("#pf-turma").onclick = () => { try { sessionStorage.setItem("painel:abrirAluno", a.id); } catch (e) {} dlg.close(); };
+    dlg.querySelectorAll("a[href^='#/']").forEach(x => x.addEventListener("click", () => setTimeout(() => dlg.open && dlg.close(), 0)));
+    try {
+      const prog = (await db().collection("progresso").where("alunoId", "==", a.id).get()).docs.map(d => ({ id: d.id, ...d.data() }));
+      await Promise.all([...new Set(prog.map(p => p.aid))].map(id => P.carregarApostila(id).catch(() => null)));
+      const dias = new Set(); prog.forEach(p => Object.keys(p.dias || {}).forEach(d => dias.add(d)));
+      const ds = [...dias].sort(), ult = ds[ds.length - 1];
+      const ms = prog.filter(p => p.mid && p.mid !== "rc" && P.conteudo[p.aid] && P.doPeriodo(cat().apostilas.find(y => y.id === p.aid) || {}))
+        .sort((x, y) => (x.aid < y.aid ? -1 : x.aid > y.aid ? 1 : (+String(x.mid).slice(1) || 99) - (+String(y.mid).slice(1) || 99)));
+      const cheio = v => v && v[1] && v[0] === v[1];
+      const linha = p => { const C = P.conteudo[p.aid], b = p.basico || [0, 0];
+        return `<tr><td>${esc(rotMis(C, p.mid))}${/trilha/.test(p.aid) ? " <small>👣</small>" : ""}</td><td>${p.basicoOk ? "✔" : `${b[0]}/${b[1]}`}</td><td>${cheio(p.desafio) ? "⭐" : p.desafio && p.desafio[1] ? `${p.desafio[0]}/${p.desafio[1]}` : "—"}</td><td>${cheio(p.turbo) ? "🚀" : p.turbo && p.turbo[1] ? `${p.turbo[0]}/${p.turbo[1]}` : "—"}</td><td><small>${Object.keys(p.dias || {}).sort().map(d => dataBR(d).slice(0, 5)).join(", ")}</small></td></tr>`; };
+      dlg.querySelector("#pf-c").innerHTML = `<div class="pp-ficha-num"><span><b>${dias.size}</b> dia${dias.size === 1 ? "" : "s"} no portal</span><span>Último acesso: <b>${ult ? dataBR(ult) : "nunca"}</b></span><span><b>${ms.filter(p => p.basicoOk).length}</b> Básico${ms.filter(p => p.basicoOk).length === 1 ? "" : "s"} concluído${ms.filter(p => p.basicoOk).length === 1 ? "" : "s"}</span></div>
+        ${ms.length ? `<div class="tabela-wrap"><table class="pp-tabela pp-ficha-tab"><thead><tr><th>Missão (bimestre em uso)</th><th>Básico</th><th>Desafio</th><th>Turbo</th><th>Dias</th></tr></thead><tbody>${ms.map(linha).join("")}</tbody></table></div>` : `<p class="ajuda">Ainda não fez nenhuma missão neste bimestre.</p>`}
+        <p class="ajuda">Notas, frequência e prova: 📄 Relatório do aluno ou 📒 Diário › 🧮 Boletim.</p>`;
+    } catch (e) { dlg.querySelector("#pf-c").innerHTML = `<p class="ajuda">Não consegui carregar o progresso: ${esc(e.message || e)}</p>`; }
+  }
+  /* 📅 MINHA SEMANA (22/11/2026): de segunda a sexta, cada aula com a turma, o horário, a missão (dada ou prevista),
+     quem veio e os recados pendentes da turma; o que já passou sem registro aparece com ❔. Toque no cartão = Chamada do dia. */
+  async function abrirSemana() {
+    if (document.querySelector(".pp-semana-dlg")) return;
+    const dlg = h(`<dialog class="pp-dlg pp-dlg-larga pp-semana-dlg"><form method="dialog"><div class="pp-hor-top"><h2>📅 Minha semana</h2><span class="row-btns"><button class="btn btn-sec btn-peq" type="button" data-sw="-1">◀ Anterior</button><button class="btn btn-sec btn-peq" type="button" data-sw="0">Esta semana</button><button class="btn btn-sec btn-peq" type="button" data-sw="1">Próxima ▶</button><button class="btn btn-sec btn-peq" value="x">Fechar</button></span></div>
+      <div id="sw-c"><p class="ajuda">Carregando as aulas de todas as turmas…</p></div>
+      <p class="ajuda">✅ dada · ❔ já passou e está sem registro · “previsto” = o que o cronograma planejou · 🟧 recados seus pendentes para a turma. Toque num cartão para abrir a ✅ Chamada daquele dia.</p></form></dialog>`);
+    document.body.appendChild(dlg); dlg.showModal(); dlg.addEventListener("close", () => dlg.remove());
+    const turmas = todasTurmas().filter(t => t.aula && t.aula.ini);
+    let hs, rec = {};
+    try {
+      [hs] = await Promise.all([Promise.all(turmas.map(t => historicoCache(t).catch(e => ({ t, erro: e })))),
+        Promise.all(turmas.map(t => db().collection(DIARIO).doc(t.id).get().then(sn => { rec[t.id] = ((sn.exists && sn.data().lembretes) || []).filter(l => !l.feito).length; }).catch(() => {})))]);
+    } catch (e) { dlg.querySelector("#sw-c").innerHTML = `<p class="ajuda">Não consegui carregar: ${esc(e.message || e)}</p>`; return; }
+    const iso = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+    let desl = 0;
+    const desenhar = () => {
+      const seg = new Date(N.hoje() + "T12:00:00"); seg.setDate(seg.getDate() - ((seg.getDay() + 6) % 7) + 7 * desl);
+      const dias = [0, 1, 2, 3, 4].map(k => { const d = new Date(seg); d.setDate(seg.getDate() + k); return iso(d); }), hoje = N.hoje();
+      const col = dias.map((d, k) => {
+        const xs = hs.filter(x => !x.erro).flatMap(x => x.linhas.filter(l => l.d === d).map(l => ({ l, t: x.t })))
+          .sort((a, b) => (a.t.aula.ini > b.t.aula.ini ? 1 : -1));
+        if (k === 4 && !xs.length) return "";
+        return `<div class="sw-dia ${d === hoje ? "hoje" : ""}"><h3>${["Segunda", "Terça", "Quarta", "Quinta", "Sexta"][k]} <small>${dataBR(d).slice(0, 5)}</small></h3>${xs.length ? xs.map(({ l, t }) => `<div class="sw-aula"><p class="sw-t"><b>${esc(t.aula.ini)}</b> ${esc(nomeTurma(t.id))}${rec[t.id] ? ` <a class="sw-rec" href="#/painel/diario/${t.id}/lembretes" title="Recados seus pendentes para esta turma">🟧 ${rec[t.id]}</a>` : ""}</p>${cartaoAula(l, t.id)}</div>`).join("") : `<p class="ajuda">Sem aula.</p>`}</div>`;
+      }).join("");
+      const semReg = hs.filter(x => !x.erro).flatMap(x => x.linhas.filter(l => dias.includes(l.d) && l.status === "semregistro")).length;
+      dlg.querySelector("#sw-c").innerHTML = `<p class="sw-res">Semana de ${dataBR(dias[0]).slice(0, 5)} a ${dataBR(dias[4]).slice(0, 5)}${semReg ? ` · <b>❔ ${semReg} aula${semReg > 1 ? "s" : ""} sem registro</b>` : ""}</p><div class="sw-grade">${col}</div>`;
+    };
+    dlg.querySelectorAll("[data-sw]").forEach(b => b.onclick = () => { desl = b.dataset.sw === "0" ? 0 : desl + (+b.dataset.sw); desenhar(); });
+    dlg.addEventListener("click", e => { if (e.target.closest(".pan-c, .sw-rec")) setTimeout(() => dlg.open && dlg.close(), 0); });
+    desenhar();
   }
   /* 🔑 códigos da turma do horário (para o aluno que esqueceu): abre num modal, com busca e troca de turma */
   async function abrirCodigos() {
@@ -664,7 +762,7 @@
     iv = setInterval(() => { pinta(); if (estado) botaoFinalizar(dlg.querySelector("#pv-fim"), estado.t.id); }, 30000);
     try { await carregarT(); } catch (err) { dlg.querySelector("#pv-c").innerHTML = `<p class="ajuda">Erro: ${esc(err.message || err)}</p>`; }
   }
-  document.addEventListener("click", e => { if (e.target.closest("#pp-sino")) mostrarAvisos({ manual: true }); if (e.target.closest("#pp-ini")) iniciarAula(null, { manual: true }); if (e.target.closest("#cfg-tema")) abrirTema(); { const pc = e.target.closest("[data-pan-dia]"); if (pc) try { sessionStorage.setItem("painel:diario:" + pc.dataset.panT, pc.dataset.panDia); } catch (x) {} } if (e.target.closest("#pp-hor")) abrirHorarios(); if (e.target.closest("#pp-cod")) abrirCodigos(); if (e.target.closest("#pp-vivo")) abrirAoVivo(); if (e.target.closest("#pp-placar")) window.open("#/painel/placar/" + escolherTurma(null, todasTurmas()), "_blank"); if (e.target.closest("#pp-fim")) finalizarAgora(); if (e.target.closest("#pp-tema")) abrirTema(); });
+  document.addEventListener("click", e => { if (e.target.closest("#pp-sino")) mostrarAvisos({ manual: true }); if (e.target.closest("#pp-ini")) { let tid; try { if (/^#\/painel\/aula/.test(location.hash)) tid = sessionStorage.getItem("painel:turma") || undefined; } catch (x) {} iniciarAula(null, { manual: true, tid }); } if (e.target.closest("#pp-busca")) abrirBusca(); if (e.target.closest("#pp-semana")) abrirSemana(); if (!e.target.closest(".pp-ajuda, .pp-conta")) document.querySelectorAll(".pp-ajuda[open], .pp-conta[open]").forEach(d => d.open = false); if (e.target.closest("#cfg-tema")) abrirTema(); { const pc = e.target.closest("[data-pan-dia]"); if (pc) try { sessionStorage.setItem("painel:diario:" + pc.dataset.panT, pc.dataset.panDia); } catch (x) {} } if (e.target.closest("#pp-hor")) abrirHorarios(); if (e.target.closest("#pp-cod")) abrirCodigos(); if (e.target.closest("#pp-vivo")) abrirAoVivo(); if (e.target.closest("#pp-placar")) window.open("#/painel/placar/" + escolherTurma(null, todasTurmas()), "_blank"); if (e.target.closest("#pp-fim")) finalizarAgora(); if (e.target.closest("#pp-tema")) abrirTema(); });
   // 🎨 tema do portal: automático pela data, ou ligado/desligado à mão (vale para todos os computadores)
   async function abrirTema() {
     if (document.querySelector(".pp-tema-dlg")) return;
@@ -1006,6 +1104,7 @@
     }
     el.querySelector("#inat").onchange = desenhar;
     desenhar();
+    try { const ab = sessionStorage.getItem("painel:abrirAluno"); if (ab) { sessionStorage.removeItem("painel:abrirAluno"); const x = alunos.find(y => y.id === ab); if (x) menuAluno(x); } } catch (e) {}
 
     function verRespostas(p) {
       if (!p) return;
@@ -2061,8 +2160,13 @@
         return `<li class="reg-${st[1]}"><span class="reg-selo">${SELO[st[1]]}</span><div><strong><span class="reg-ic" aria-hidden="true">${st[0]}</span> ${dataBR(d)} (${semana(d)}) · ${esc(encCompleto(d) || "Aula")}</strong>${missaoTxt(a) ? ` <span class="pp-mdia">${missaoTxt(a)}</span>` : ""} <small>${ocorrDe(a) ? esc(OCORR[ocorrDe(a).tipo]) + (ocorrDe(a).nota ? " · " + esc(ocorrDe(a).nota) : "") : d <= hoje && temChamada(d) ? n + " presentes" : d > hoje ? "⏩ prevista" : ""}</small></div>${(a.registro || "").trim() ? `<p>${esc(a.registro).replace(/\n/g, "<br>")}</p>` : ""}<button type="button" class="btn btn-sec btn-peq" data-abrir="${d}">Abrir a chamada deste dia</button></li>`; }).join("")}</ul></div>`;
     }
     function vLembretes() {
-      return `<div class="painel"><p class="pp-so-voce">🔒 <b>Só você vê.</b> Lembretes seus sobre esta turma (aparecem também na aba 🎤 Aula). Os alunos não veem. Para mandar um recado <b>aos alunos</b>: <a href="#/painel/turma/${t.id}">🏫 Turmas › 📣 Avisos para os alunos</a>.</p><div class="row-btns"><input type="text" id="lb-novo" class="grow" placeholder="Ex.: na próxima aula, começar pela correção do labirinto"><button type="button" class="btn" id="lb-add">Adicionar</button></div>
-        <ul class="pp-lb">${lemb().map((l, i) => `<li class="${l.feito ? "feito" : ""}"><label><input type="checkbox" data-lb="${i}" ${l.feito ? "checked" : ""}> ${esc(l.texto)}</label> <small>${l.criadoEm ? dataBR(l.criadoEm.slice(0, 10)) : ""}</small></li>`).join("") || "<li class='ajuda'>Nenhum recado.</li>"}</ul></div>`;
+      // 🟧 22/11/2026: o lugar único dos recados (escrever, ler e histórico); a aba 🎤 Aula mostra só os pendentes
+      const xs = lemb().map((l, i) => ({ ...l, i })), pend = xs.filter(l => !l.feito), lidos = xs.filter(l => l.feito).sort((x, y) => ((y.lidoEm || y.criadoEm || "") > (x.lidoEm || x.criadoEm || "") ? 1 : -1));
+      const li = l => `<li class="${l.feito ? "feito" : ""}"><label><input type="checkbox" data-lb="${l.i}" ${l.feito ? "checked" : ""}> ${esc(l.texto).replace(/\n/g, "<br>")}</label> <small>${l.criadoEm ? "anotado em " + dataBR(l.criadoEm.slice(0, 10)) : ""}${l.lidoEm ? " · lido em " + dataBR(l.lidoEm.slice(0, 10)) : ""}</small></li>`;
+      return `<div class="painel"><p class="pp-so-voce">🔒 <b>Só você vê.</b> Este é o lugar dos seus recados sobre esta turma: escreva aqui; os pendentes aparecem no alto da aba 🎤 Aula na próxima aula. Marque ✔ quando já tiver lido ou feito. Os alunos não veem. Para mandar um recado <b>aos alunos</b>: <a href="#/painel/turma/${t.id}">🏫 Turmas › 📣 Avisos para os alunos</a>.</p>
+        <div class="row-btns"><textarea id="lb-novo" class="grow" rows="2" placeholder="Ex.: na próxima aula, começar pela correção do labirinto"></textarea><button type="button" class="btn" id="lb-add">Guardar recado</button></div>
+        <h3>⏳ Pendentes (${pend.length})</h3><ul class="pp-lb">${pend.map(li).join("") || "<li class='ajuda'>Nenhum recado pendente.</li>"}</ul>
+        ${lidos.length ? `<details class="pp-recado-hist"><summary>📜 Histórico: já lidos (${lidos.length})</summary><ul class="pp-lb">${lidos.map(li).join("")}</ul></details>` : ""}</div>`;
     }
     function render() {
       corpo.innerHTML = ({ chamada: vChamada, frequencia: vFrequencia, boletim: vBoletim, registro: vRegistro, lembretes: vLembretes })[aba]();
@@ -2261,7 +2365,7 @@
       if (aba === "lembretes") {
         const salvar = () => salvarTurma({ lembretes: T.lembretes });
         q("#lb-add").onclick = () => { const v = q("#lb-novo").value.trim(); if (!v) return; T.lembretes = [...lemb(), { texto: v, feito: false, criadoEm: new Date().toISOString() }]; salvar(); render(); };
-        corpo.querySelectorAll("[data-lb]").forEach(c => c.onchange = () => { T.lembretes = lemb().map((l, i) => i === +c.dataset.lb ? { ...l, feito: c.checked } : l); salvar(); render(); });
+        corpo.querySelectorAll("[data-lb]").forEach(c => c.onchange = () => { T.lembretes = lemb().map((l, i) => i === +c.dataset.lb ? { ...l, feito: c.checked, lidoEm: c.checked ? new Date().toISOString() : null } : l); salvar(); render(); });
       }
     }
     render();
@@ -2305,7 +2409,21 @@
         <a class="btn btn-sec" href="#/ver/${ap.id}/${mid}/${t.id}" target="_blank" rel="noopener" title="Abre numa aba nova a apostila exatamente como os alunos veem">👀 Abrir a apostila do aluno</a>
         <a class="btn btn-sec" href="cartaz.html?v=${window.PORTAL_VERSAO || ""}" target="_blank" rel="noopener" title="Abre numa aba nova o cartaz com o endereço do site e os passos para entrar, para projetar">🪧 Cartaz de entrada (projetar)</a>
         <button type="button" class="btn btn-sec" id="tc-bt" title="Ligado: o portal dos alunos desta turma só funciona em tela cheia (vale só hoje). Quem estuda em casa não é afetado.">🖥️ Tela cheia dos alunos…</button></div>
-      <div id="aula"></div>`);
+      <nav class="pp-indice" aria-label="Ir para"><span>Ir para:</span></nav>
+      <div id="aula" class="pp-alvo"></div>
+      <section class="pp-ferr pp-alvo" id="pp-ferr"><h2>🧰 Ferramentas da aula</h2><p class="ajuda">Vídeo, transmissão para os computadores, alunos que estudam em casa e apoios dos atípicos. Use o índice “Ir para” no alto ou na barra do roteiro para chegar aqui.</p><span id="pp-ferr-fim"></span></section>`);
+    /* 🧭 aba Aula reorganizada (22/11/2026): o roteiro vem logo depois da Missão de hoje; vídeo, transmitir, casa e apoios
+       ficam em 🧰 Ferramentas da aula, depois do roteiro, e o índice "Ir para" leva a cada parte com um toque */
+    const ferr = el.querySelector("#pp-ferr-fim"), noFerr = box => ferr.before(box);
+    let recPend = 0;
+    const pintarIndice = () => {
+      const itens = [["#pp-barra-aula", "📌 Missão de hoje"], recPend ? ["#pp-recados", `🟧 Recados (${recPend})`] : [`#/painel/diario/${t.id}/lembretes`, "🟧 Recados", 1],
+        ["#aula", "📖 Roteiro"], ["#aula-resp", "✅ Respostas"], ["#pp-video", "📺 Vídeo"], ["#pp-transmitir", "📡 Transmitir"], ["#pp-apoios", "🧩 Apoios"], ["#pp-ferr", "🧰 Ferramentas"]];
+      const nav = el.querySelector(".pp-indice");
+      nav.innerHTML = `<span>Ir para:</span>` + itens.filter(([h, , ext]) => ext || h === "#pp-ferr" || el.querySelector(h)).map(([h, r, ext]) => ext ? `<a href="${h}" title="Abre o 📒 Diário › 🟧 Meus recados desta turma">${r}</a>` : `<a href="#" data-pp-ir="${h}">${r}</a>`).join("");
+      nav.querySelectorAll("[data-pp-ir]").forEach(a => a.onclick = e => { e.preventDefault(); const alvo = el.querySelector(a.dataset.ppIr); if (!alvo) return; if (alvo.tagName === "DETAILS") alvo.open = true; alvo.scrollIntoView({ behavior: "smooth", block: "start" }); });
+    };
+    el.querySelector(".pp-barra").id = "pp-barra-aula"; el.querySelector(".pp-barra").classList.add("pp-alvo");
     ligarSair(el);
     { const bt = el.querySelector("#tc-bt"), ref = db().collection("config").doc("tela_" + t.id); let on = false;
       const pinta = () => { bt.innerHTML = on ? "🖥️ Tela cheia obrigatória: <b>LIGADA</b>" : "🖥️ Exigir tela cheia dos alunos"; bt.classList.toggle("btn-ok", on); bt.classList.toggle("btn-sec", !on); };
@@ -2314,7 +2432,7 @@
     // 📡 transmitir para os computadores dos alunos (vídeo em sincronia ou espelhar a tela), 18/11/2026
     try { if (P.sala) { const vs = Object.entries((P.videosMissao || {})[ap.base || ap.id] || {}).flatMap(([m, v]) => (Array.isArray(v) ? v : [v]).filter(x => x && /^[\w-]{11}$/.test(x.id || x)).map((x, k) => ({ id: x.id || x, nome: rotMis(C, m) + " · " + (x.nome || (k ? "vídeo extra" : "vídeo")) })));
       vs.sort((x, y) => (x.nome.startsWith(rotMis(C, mid)) ? 0 : 1) - (y.nome.startsWith(rotMis(C, mid)) ? 0 : 1));
-      P.sala.painel(el.querySelector("#aula"), t.id, vs, nomeTurma(t.id)); } } catch (e) {}
+      P.sala.painel(ferr, t.id, vs, nomeTurma(t.id)); const sq = el.querySelector(".sala-quadro"); if (sq) { sq.id = "pp-transmitir"; sq.open = false; } } } catch (e) {}
     // 🚦 Sala de espera + 🏁 Dar a largada (20/11/2026): quem já entrou, quem falta e o botão que começa a aula para todos juntos
     try { if (P.espera) P.espera.painel(el.querySelector(".pp-barra"), { t, C, ap, rotulo: nomeTurma(t.id), participantes: () => participantes(t), ouvirProg }); } catch (e) { console.warn("espera", e); }
     el.querySelector("#sel").onchange = e => { location.hash = "#/painel/aula/" + e.target.value + "/" + mid; };
@@ -2331,7 +2449,7 @@
           <p class="pp-video-acoes"><a class="btn btn-sec" href="https://www.youtube-nocookie.com/embed/${vid}?autoplay=1&rel=0&modestbranding=1" target="_blank" rel="noopener">↗️ Abrir player em nova aba</a>
             <a class="btn btn-link" href="https://youtu.be/${vid}" target="_blank" rel="noopener">Abrir no YouTube</a></p>
           <p class="ajuda">Dê o play aqui mesmo ou abra o player numa aba só dele (ocupa a tela toda, bom para projetar). Use o botão de tela cheia do player. Lembre da caixinha de som: os computadores dos alunos não têm áudio.</p>`;
-        el.querySelector("#aula").before(box);
+        if (!k) box.id = "pp-video"; noFerr(box);
       });
       // 📺 todos os vídeos da apostila (18/11/2026): o professor acha qualquer vídeo na hora, mesmo de outra missão
       const todos = (P.videosMissao || {})[ap.base || ap.id] || {};
@@ -2340,7 +2458,7 @@
         box.innerHTML = `<summary><strong>📺 Todos os vídeos desta apostila</strong> (${itens.length}) · para abrir o vídeo de qualquer missão</summary>
           <div class="pp-video-grupos">${[...new Set(itens.map(x => x.m))].map((m, gi) => `<div class="pp-video-grupo g${gi % 2}"><p class="pp-vg-tit"><b>${esc(rotMis(C, m))}</b>${itens.filter(x => x.m === m).length > 1 ? ` <span class="pp-vg-n">${itens.filter(x => x.m === m).length} vídeos</span>` : ""}</p>
             <ul>${itens.filter(x => x.m === m).map(x => `<li>${esc(x.nome)} — <a href="https://www.youtube-nocookie.com/embed/${x.id}?autoplay=1&rel=0&modestbranding=1" target="_blank" rel="noopener">▶️ Abrir o player</a></li>`).join("")}</ul></div>`).join("")}</div>`;
-        el.querySelector("#aula").before(box); }
+        noFerr(box); }
     } catch (e) { console.warn(e); }
     // 📣 avisos para o professor falar à turma (com a fala pronta); "✔ Já avisei" esconde só para esta turma
     try {
@@ -2365,32 +2483,23 @@
       const lRef = db().collection(DIARIO).doc(t.id);
       const ls = await lRef.get();
       let lista = (ls.exists && ls.data().lembretes) || [];
-      const box = document.createElement("div"); box.className = "painel pp-recados";
+      const box = document.createElement("div"); box.className = "painel pp-recados pp-alvo"; box.id = "pp-recados";
       const desenhar = () => {
         const pend = lista.map((l, i) => ({ ...l, i })).filter(l => !l.feito);
+        // 🟧 22/11/2026: recados num lugar só. Escrever e ver o histórico fica no 📒 Diário › 🟧 Meus recados;
+        // aqui na aula aparecem só os PENDENTES, para ler e tocar em "✔ Já li" (sem recado pendente, o quadro não aparece)
+        const ir = `#/painel/diario/${t.id}/lembretes`;
+        box.hidden = !pend.length; recPend = pend.length; pintarIndice();
         box.innerHTML = `<h2>🟧 Meus recados para esta aula · ${esc(nomeTurma(t.id))}</h2>
-          <p class="pp-so-voce">🔒 <b>Só você vê.</b> São lembretes seus para a aula desta turma; os alunos não veem. Para mandar um recado <b>aos alunos</b>, use <a href="#/painel/turma/${t.id}">🏫 Turmas › 📣 Avisos para os alunos</a>.</p>
-          ${pend.length ? pend.map(l => `<div class="pp-recado"><p>${esc(l.texto).replace(/\n/g, "<br>")}</p>
+          <p class="pp-so-voce">🔒 <b>Só você vê.</b> Para escrever um recado novo ou ver os já lidos: <a href="${ir}">📒 Diário › 🟧 Meus recados</a>. Para avisar <b>os alunos</b>: <a href="#/painel/turma/${t.id}">🏫 Turmas › 📣 Avisos para os alunos</a>.</p>
+          ${pend.map(l => `<div class="pp-recado"><p>${esc(l.texto).replace(/\n/g, "<br>")}</p>
             <div class="pp-recado-pe"><small>${l.criadoEm ? "Anotado em " + dataBR(l.criadoEm.slice(0, 10)) : ""}</small>
-            <button class="btn pp-recado-ok" type="button" data-rok="${l.i}">✔ Já li</button></div></div>`).join("")
-            : `<p class="pp-recado-vazio">Nenhum recado pendente para esta turma.</p>`}
-          ${(() => { const lidos = lista.filter(l => l.feito).slice().sort((a, b) => ((b.lidoEm || b.criadoEm || "") > (a.lidoEm || a.criadoEm || "") ? 1 : -1));
-            return lidos.length ? `<details class="pp-recado-novo pp-recado-hist"><summary>📜 Histórico de recados desta turma (${lidos.length})</summary>
-              ${lidos.map(l => `<div class="pp-recado-velho"><p>${esc(l.texto).replace(/\n/g, "<br>")}</p><small>${l.criadoEm ? "Anotado em " + dataBR(l.criadoEm.slice(0, 10)) : ""}${l.lidoEm ? " · lido em " + dataBR(l.lidoEm.slice(0, 10)) : ""}</small></div>`).join("")}</details>` : ""; })()}
-          <details class="pp-recado-novo"><summary>✏️ Deixar um recado para a próxima aula desta turma</summary>
-            <textarea id="rc-txt" rows="3" placeholder="Ex.: A aluna X precisa terminar o Básico da M2 no começo da aula. Liberar a M2 para ela."></textarea>
-            <button class="btn" type="button" id="rc-add">Guardar recado</button></details>`;
+            <button class="btn pp-recado-ok" type="button" data-rok="${l.i}">✔ Já li</button></div></div>`).join("")}`;
         box.querySelectorAll("[data-rok]").forEach(b => b.onclick = async () => {
           lista = lista.map((l, i) => i === +b.dataset.rok ? { ...l, feito: true, lidoEm: new Date().toISOString() } : l);
-          try { await lRef.set({ lembretes: lista }, { merge: true }); toast("Recado marcado como lido."); } catch (err) { toast("Não foi possível salvar: " + (err.message || err)); }
+          try { await lRef.set({ lembretes: lista }, { merge: true }); toast("Recado marcado como lido. Ele fica no histórico do 📒 Diário."); } catch (err) { toast("Não foi possível salvar: " + (err.message || err)); }
           desenhar();
         });
-        box.querySelector("#rc-add").onclick = async () => {
-          const v = box.querySelector("#rc-txt").value.trim(); if (!v) return;
-          lista = [...lista, { texto: v, feito: false, criadoEm: new Date().toISOString() }];
-          try { await lRef.set({ lembretes: lista }, { merge: true }); toast("Recado guardado."); } catch (err) { toast("Não foi possível salvar: " + (err.message || err)); }
-          desenhar();
-        };
       };
       desenhar();
       el.querySelector(".pp-barra").after(box);
@@ -2408,10 +2517,9 @@
           ${C.missoes.filter(m => m.id !== "rc").map(m => `<option value="${esc(m.id)}" ${hj && hj.mid === m.id ? "selected" : ""}>${esc(m.icone || "")} ${esc(SIG(m.id))} · ${esc(((m.titulo || "").replace(/^[^–]*–\s*/, "") || curto(m)).slice(0, 60))}${esc(sitMis(sit, m.id))}</option>`).join("")}</select></label>
         <label class="pp-auto" title="${hj ? "Só a missão de hoje fica com as tarefas abertas" : "Escolha primeiro a missão de hoje na lista"}"><input type="checkbox" data-hj="trav" ${hj && hj.travar ? "checked" : ""} ${hj ? "" : "disabled"}> 🔒 Travar só nela</label>
         <span class="st">${hj ? (hj.travar ? "🔒 os alunos só fazem as tarefas desta missão" : "✔ o aluno cai direto nela ao digitar o código") : "nenhuma missão definida para hoje"}</span>
-        <span class="pp-ini-st ${iniciada ? "on" : "off"}">${iniciada ? `▶️ Aula iniciada às ${new Date(hj0.iniciadaEm || Date.now()).toTimeString().slice(0, 5)}` : `⏳ Aula não iniciada: tarefas fechadas <button class="btn btn-peq" type="button" data-hj="ini">▶️ Iniciar a aula</button>`}</span>`;
+        <span class="pp-ini-st ${iniciada ? "on" : "off"}">${iniciada ? `▶️ Aula iniciada às ${new Date(hj0.iniciadaEm || Date.now()).toTimeString().slice(0, 5)}` : `⏳ Aula não iniciada: tarefas fechadas · use <b>▶️ Iniciar aula</b> na barra de cima`}</span>`;
       el.querySelector(".pp-barra").appendChild(box);
       const sel = box.querySelector('[data-hj="sel"]'), trav = box.querySelector('[data-hj="trav"]');
-      const bIni = box.querySelector('[data-hj="ini"]'); if (bIni) bIni.onclick = () => iniciarAula(u, { manual: true, tid: t.id });
       sel.onchange = async () => {
         const v = sel.value, m = C.missoes.find(x => x.id === v);
         try {
@@ -2459,14 +2567,14 @@
       if (casa.length) {
         const bc = document.createElement("div"); bc.className = "painel pp-casa";
         bc.innerHTML = `<strong>🏠 Estudam em casa, pelo portal:</strong> ${casa.map(a => esc(a.nome) + (a.emCasaObs ? ` <small>(${esc(a.emCasaObs)})</small>` : "")).join(" · ")}<br><small>O que eles fazem em casa fica registrado nas missões e no relatório de cada um; no 📒 Diário, a presença é J automática.</small>`;
-        el.querySelector("#aula").before(bc);
+        noFerr(bc);
       }
       const atip = todosT.filter(a => a.atipico);
       if (atip.length) {
         const box = document.createElement("details"); box.className = "painel pp-apoios"; box.open = atip.some(a => a.apoio);
         box.innerHTML = `<summary><strong>🧩 Apoios dos alunos atípicos desta turma</strong> (${atip.length})</summary>
           <div class="ap-lista">${atip.map(cartaoApoio).join("")}</div>`;
-        el.querySelector("#aula").before(box);
+        box.id = "pp-apoios"; noFerr(box);
       }
     } catch (e) { console.warn(e); }
     await P.aula.render(el.querySelector("#aula"), ap.id, mid, t.id, { vivo: async (aid, m, turma) => {
@@ -2475,6 +2583,11 @@
       const basico = new Set(prog.filter(p => (p.aid === aid || (cat().apostilas.find(y => y.id === p.aid) || {}).base === aid) && p.mid === m && p.basicoOk).map(p => p.alunoId));
       return { entraram: entraram.size, basico: [...basico].filter(x => entraram.has(x)).length };
     } });
+    pintarIndice();
+    // atalhos para as ferramentas também na barra fixa do roteiro (sempre à vista enquanto rola)
+    try { const ai = el.querySelector(".aula-ir"); if (ai) { [["#pp-video", "📺 Vídeo"], ["#pp-transmitir", "📡 Transmitir"], ["#pp-apoios", "🧩 Apoios"], ["#pp-barra-aula", "⬆️ Missão de hoje"]].filter(([h]) => el.querySelector(h)).forEach(([h, r]) => {
+      const a = document.createElement("a"); a.href = "#"; a.textContent = r; a.className = "aula-ir-ferr"; a.onclick = e => { e.preventDefault(); const alvo = el.querySelector(h); if (alvo.tagName === "DETAILS") alvo.open = true; alvo.scrollIntoView({ behavior: "smooth", block: "start" }); }; ai.appendChild(a); }); } } catch (e) {}
+    medirTopo();
   }
 
   /* -------- Importar alunos (lista colada ou arquivo) -------- */

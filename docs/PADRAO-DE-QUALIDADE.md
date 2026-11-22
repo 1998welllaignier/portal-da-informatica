@@ -640,3 +640,13 @@ Questões **contextualizadas** (situação curta: 1–2 frases no 6º, 2–3 no 
 - A 🔁 Revisão continua igual (a das turmas de segunda é amanhã, 23/11); o 👾 Chefão do bimestre fica para 2027.
 - Explicações acrescentadas ao 💡 Para começar (só frases, nada de tarefa nova): 6º M4 (ícone), 7º M3 (compartilhar), 9º M3 (postar, fonte, perfil falso, print), Trilhas do 8º M4 (janela, e-mail) e do 9º M3 (sincronia, compartilhar). Figurinhas novas: SMS, CC BY, KB/MB/GB, compartilhar dados, propaganda, exemplos, conferir.
 - Verificador: entende `espiralMissoes` (confere só essas missões como espiral).
+
+## 🧭 Painel do professor reorganizado (22/11/2026, avaliação sincera pedida pelo professor; "faça todas as modificações… só me informa depois")
+- 🔙 **Ponto de volta:** o portal como estava às 16h31 de 22/11/2026 está guardado no ramo `backup/painel-antes-2026-11-22` do GitHub. Se o professor não gostar, volta-se a ele (inteiro ou só uma parte).
+- **Topo compacto:** uma barra só, fina e **fixa** no alto (acompanha a rolagem), logo abaixo da barra escura do portal: abas à esquerda; ▶️ Iniciar aula, 🏁 Finalizar, 🔴 Ao vivo e 🏆 Placar no meio; 🔎 🗓️ 🔑 🕘 🔔 ❓ 👤 só com o ícone (o nome aparece ao passar o mouse). A ❓ ajuda de cada aba e a conta (Sair) abrem num menu suspenso. Saiu o título grande, a linha da escola e as migalhas. No celular a barra não fica fixa.
+- **5º ano no fim** de todas as listas de turma, do Panorama e dos horários (é atendimento por vontade própria, fora das 15 turmas oficiais).
+- **Aba 🎤 Aula:** turma + 📌 Missão de hoje no alto → índice **Ir para** → 📖 roteiro logo em seguida → **🧰 Ferramentas da aula** depois do roteiro (vídeo, 📡 transmitir, todos os vídeos, 🏠 em casa, 🧩 apoios). A barra fixa do roteiro ganhou atalhos 📺 📡 🧩 ⬆️.
+- **Recados num lugar só:** escrever, marcar e ver o histórico = 📒 Diário › 🟧 Meus recados. A aba Aula mostra só os **pendentes** (quadro laranja com ✔ Já li); sem pendentes, o quadro some.
+- **▶️ Iniciar aula só na barra de cima** (na aba Aula já vem com a turma aberta).
+- **Novidades:** 🔎 **Procurar aluno** (todas as turmas, pelo nome) → 🪪 **ficha do aluno** (turma, marcas, código escondido, dias no portal, último acesso, missões do bimestre com Básico/Desafio/Turbo, apoios, atalhos para o relatório, as opções na turma e a frequência); 📅 **Minha semana** (segunda a sexta, cada aula com horário, missão dada ou prevista, quem veio, ❔ sem registro e 🟧 recados pendentes; semana anterior e próxima).
+- Regra para telas novas do painel: nada de quadro grande antes do conteúdo principal da aba; o que é consulta fica num ícone ou depois do conteúdo, com índice para chegar lá.
