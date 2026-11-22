@@ -494,7 +494,7 @@ PORTAL.registrarAtividades("informatica-7ano-2027-4bim", {
       "Descarte consciente! ♻️", "Consertar, doar, apagar os dados e tirar o chip e o cartão, levar ao ponto de coleta."),
     VIDA(
       ["Guardar o celular velho na gaveta para sempre…", ["Não polui, mas os materiais ficam parados", "É o jeito certo de reciclar", "Contamina a água na hora"], "Os materiais <b>ficam parados</b> sem reaproveitamento."],
-      ["O caminho de volta do produto (consumidor → loja → fabricante → reciclagem) é a…", ["Logística reversa", "Mineração", "Obsolescência"], "É a <b>logística reversa</b> (Lei nº 12.305/2010)."],
+      ["O caminho de volta do produto (consumidor → loja → fabricante → reciclagem) é a…", ["Logística reversa", "Mineração", "Mudança de casa"], "É a <b>logística reversa</b> (Lei nº 12.305/2010)."],
       ["Em 2022, segundo a ONU, o lixo eletrônico coletado e reciclado do jeito certo foi…", ["Menos de um quarto", "Todo", "Mais da metade"], "<b>Menos de um quarto</b> dos 62 milhões de toneladas."])
   ];
   mais("m1", "desafio",
@@ -518,7 +518,7 @@ PORTAL.registrarAtividades("informatica-7ano-2027-4bim", {
     VIDA(
       ["O avô do Caio tem razão: tem ouro no celular?", ["Sim, na placa (junto com cobre e prata)", "Não, nenhum", "Só na capa"], "Sim, <b>na placa</b>."],
       ["A bateria do celular está estufada. O certo é…", ["Parar de usar e levar a um ponto de coleta ou assistência", "Furar para murchar", "Jogar no lixo comum"], "<b>Pare de usar</b> e leve a um ponto de coleta ou assistência."],
-      ["Reciclar o aparelho para tirar metais do lixo em vez de abrir uma mina nova é a…", ["Mineração urbana", "Logística de praia", "Obsolescência"], "É a <b>mineração urbana</b>."])
+      ["Reciclar o aparelho para tirar metais do lixo em vez de abrir uma mina nova é a…", ["Mineração urbana", "Logística de praia", "Mudança de casa"], "É a <b>mineração urbana</b>."])
   ];
   mais("m2", "desafio",
     msg("⚙️ Para que serve?", "🧩 Peças do celular", [["E", "🔋 Guardar a energia"], ["C", "⚡ Conduzir a eletricidade"], ["P", "🔩 Prender as peças"], ["I", "📱 Mostrar a imagem"], ["R", "🧱 Proteger"]],

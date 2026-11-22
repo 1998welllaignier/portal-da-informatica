@@ -695,8 +695,8 @@ PORTAL.registrarAtividades("informatica-9ano-2027-3bim", {
         ["Uma pessoa surda que usa a Libras quer ler um site do governo", "V", "Traduz para a Libras com um avatar."], ["Uma pessoa com dificuldade de movimento não usa o mouse", "T", "Navega com a tecla Tab."]],
       "Tecnologia para todos! ♿", "Acessibilidade é fazer todas as pessoas conseguirem usar a tecnologia."),
     VIDA(
-      ["Você vai postar uma foto. Para quem usa leitor de tela, você escreve…", ["Um texto alternativo descrevendo a foto", "Nada", "Só emojis"], "Escreva o <b>texto alternativo</b>."],
-      ["A lei que diz que os sites precisam ser acessíveis é a…", ["Lei Brasileira de Inclusão (Lei nº 13.146/2015)", "LAI", "LGPD"], "É a <b>Lei Brasileira de Inclusão</b>."],
+      ["Você vai postar uma foto. Para quem usa leitor de tela, você escreve…", ["Um texto alternativo descrevendo a foto", "Nada", "Só figurinhas"], "Escreva o <b>texto alternativo</b>."],
+      ["A lei que diz que os sites precisam ser acessíveis é a…", ["Lei Brasileira de Inclusão (Lei nº 13.146/2015)", "LAI", "Lei do Inquilinato"], "É a <b>Lei Brasileira de Inclusão</b>."],
       ["A legenda ajuda…", ["Também quem está num lugar barulhento", "Só quem é surdo", "Ninguém"], "Acessibilidade <b>ajuda todo mundo</b>."])
   ];
   mais("m7", "desafio",

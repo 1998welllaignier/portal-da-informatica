@@ -272,8 +272,8 @@ PORTAL.registrarAtividades("informatica-8ano-2027-2bim", {
     desafio: [
       { tipo: "ordenar", titulo: "🟡 As tarefas que dependem umas das outras: coloque em ordem",
         enunciado: "<p>Para postar o vídeo da feira de ciências, cada etapa depende da anterior.</p>",
-        itens: ["Gravar o vídeo", "Editar o vídeo", "Exportar o arquivo", "Enviar para a internet", "Compartilhar o link"],
-        explicacao: "Não dá para editar antes de gravar nem enviar antes de exportar: gravar → editar → exportar → enviar → compartilhar." }
+        itens: ["Gravar o vídeo", "Editar o vídeo", "Salvar o vídeo pronto", "Enviar para a internet", "Compartilhar o link"],
+        explicacao: "Não dá para editar antes de gravar nem enviar antes de salvar o vídeo pronto: gravar → editar → salvar → enviar → compartilhar." }
     ],
     turbo: [
       { tipo: "tabela", titulo: "🔴 Quantos ajudantes para terminar a tempo?", dicas: ["A resposta está no 💡 Para começar da missão: releia a tabela."],

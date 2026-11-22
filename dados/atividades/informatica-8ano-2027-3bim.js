@@ -614,7 +614,7 @@ PORTAL.registrarAtividades("informatica-8ano-2027-3bim", {
       "Detetive de fontes! 📰", "A fonte mais confiável tem autor, data, lugar oficial ou conhecido e detalhes que dá para conferir."),
     VIDA(
       ["“Compartilhe antes que apaguem!” é…", ["Um sinal de alerta", "Uma prova de que é verdade", "Uma fonte oficial"], "É um <b>sinal de alerta</b>."],
-      ["Um site que termina em <b>.gov.br</b> é…", ["Um site oficial do governo", "Um site falso", "Um jogo"], "É <b>site oficial</b>."],
+      ["Um site que termina em <b>.gov.br</b> é…", ["Um site oficial do governo", "Um site de jogos", "Um perfil de humor"], "É <b>site oficial</b>."],
       ["Uma notícia velha pode parecer nova. Para conferir, você olha…", ["A data", "A cor do título", "O tamanho da letra"], "Olhe a <b>data</b>."])
   ];
   mais("m2", "desafio",

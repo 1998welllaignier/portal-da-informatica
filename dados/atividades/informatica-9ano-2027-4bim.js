@@ -366,7 +366,7 @@ PORTAL.registrarAtividades("informatica-9ano-2027-4bim", {
       { tipo: "classificar", modo: "tabela", titulo: "Pode ou não pode no portfólio?",
         colunaItem: "Item", colunaResp: "No portfólio…",
         categorias: [{ id: "S", rot: "✅ Pode" }, { id: "N", rot: "🚫 Não pode" }],
-        itens: [{ t: "O projeto de senhas da equipe", c: "S" }, { t: "O seu endereço e o telefone", c: "N" }, { t: "Um desenho seu com licença CC BY", c: "S" }, { t: "Foto de documento com o seu CPF", c: "N" }],
+        itens: [{ t: "O projeto de senhas da equipe", c: "S" }, { t: "O seu endereço e o telefone", c: "N" }, { t: "Um desenho seu com licença CC BY", c: "S" }, { t: "Foto do seu documento de identidade", c: "N" }],
         explicacao: "Trabalhos sim; dados pessoais não." },
       { tipo: "escolha", titulo: "O nome do arquivo",
         perguntas: [
@@ -497,7 +497,7 @@ PORTAL.registrarAtividades("informatica-9ano-2027-4bim", {
       "Crédito certinho! 📝", "Foto: nome do autor · site onde estava · licença."));
   mais("m1", "turbo",
     mem("🧩 Jogo da memória dos direitos", [["Direito autoral", "O autor decide como a obra é usada"], ["©", "Todos os direitos reservados"], ["Domínio público", "Uso livre"],
-      ["CC BY", "Pode usar dando o crédito"], ["Plágio", "Copiar e dizer que é seu"], ["Lei nº 9.610/1998", "Lei dos direitos autorais"]],
+      ["CC BY", "Pode usar dando o crédito"], ["Plágio", "Copiar e dizer que é seu"], ["Lei nº 9.610/1998", "Lei do direito autoral"]],
       "Respeitar quem cria é dar o crédito e pedir autorização."));
 
   /* ---------- M2 · direito de imagem ---------- */
@@ -577,7 +577,7 @@ PORTAL.registrarAtividades("informatica-9ano-2027-4bim", {
         ["Aula 1: plano · Aula 2: produção", "C", "Quando: cronograma."], ["Imagem CC BY com crédito", "N", "Fontes e créditos."]],
       "Plano completo! 📋", "Tema, público, formato, tarefas, cronograma e fontes."),
     VIDA(
-      ["Dividir o projeto grande em tarefas pequenas, cada uma com um responsável, é…", ["Decompor", "Plagiar", "Silenciar"], "É <b>decompor</b>."],
+      ["Dividir o projeto grande em tarefas pequenas, cada uma com um responsável, é…", ["Decompor", "Plagiar", "Desistir"], "É <b>decompor</b>."],
       ["A equipe da história esqueceu de combinar…", ["As tarefas (quem faz o quê)", "A cor da camiseta", "O nome da escola"], "Faltaram as <b>tarefas</b>."],
       ["No guia, pode usar a foto de um colega?", ["Só com autorização", "Sim, sempre", "Só se for engraçada"], "Nada de fotos de colegas <b>sem autorização</b>."])
   ];
@@ -653,7 +653,7 @@ PORTAL.registrarAtividades("informatica-9ano-2027-4bim", {
     msg("📝 Boa descrição?", "🎓 Portfólio", [["B", "👍 Boa descrição"], ["R", "👎 Incompleta"]],
       "A descrição diz o que é, quando fez e o que aprendeu?",
       [["“Guia sobre senhas fortes para o 6º ano, feito em equipe em 2027. Aprendi a criar frases-senha.”", "B", "Tem tudo."], ["“Trabalho.”", "R", "Não diz o que é."],
-        ["“Vídeo sobre reciclagem, de 2026. Aprendi a cortar no editor.”", "B", "O que é, quando e o que aprendeu."], ["“Fiz isso aí.”", "R", "Não diz nada."]],
+        ["“Vídeo sobre o meio ambiente, de 2026. Aprendi a gravar com o celular deitado.”", "B", "O que é, quando e o que aprendeu."], ["“Fiz isso aí.”", "R", "Não diz nada."]],
       "Descrições caprichadas! 📝", "O que é, quando fez e o que aprendeu."));
   mais("m8", "turbo",
     sin("🎓 O que entra no portfólio?", "Marque só o que <b>deve entrar</b> no portfólio.",
