@@ -339,6 +339,10 @@ PORTAL.registrarConteudo("informatica-9ano-2027-2bim", {
     {
      "t": "p",
      "h": "<strong>Regra de ouro:</strong> banco, escola e empresas sérias <strong>nunca</strong> pedem senha ou código por mensagem. Na dúvida, <strong>ligue para o número oficial</strong> da pessoa ou da empresa."
+    },
+    {
+     "t": "p",
+     "h": "<strong>Se cair num golpe</strong>, faça nesta ordem: 1) pare de responder ao golpista; 2) troque a senha da conta; 3) ative a <strong>verificação em duas etapas</strong> (além da senha, a conta passa a pedir um código no celular); 4) avise um adulto ou o responsável; 5) avise os seus contatos para não caírem também."
     }
    ],
    "termos": [
@@ -465,6 +469,10 @@ PORTAL.registrarConteudo("informatica-9ano-2027-2bim", {
        "OXD → LUA (cada letra <strong>volta</strong> 3 casas)"
       ]
      ]
+    },
+    {
+     "t": "p",
+     "h": "A mensagem normal se chama <strong>texto claro</strong>; a mensagem depois de cifrada se chama <strong>texto cifrado</strong>."
     },
     {
      "t": "p",

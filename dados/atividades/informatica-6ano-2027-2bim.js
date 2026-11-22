@@ -165,7 +165,7 @@ PORTAL.registrarAtividades("informatica-6ano-2027-2bim", {
       { tipo: "escolha", titulo: "Quando a repetição para?",
         perguntas: [
           { p: "“Repita 3 vezes: tocar o sino.” Quantas vezes o sino toca?", opcoes: ["3 vezes", "1 vez", "Para sempre"], certo: 0, why: "A repetição para depois da 3ª vez." },
-          { p: "Um programa ficou travado repetindo o mesmo passo sem parar. Isso é:", opcoes: ["Um laço infinito", "Uma sequência", "Uma seleção"], certo: 0, why: "Laço infinito é a repetição que nunca termina." },
+          { p: "Um programa ficou travado repetindo o mesmo passo sem parar. Isso é:", opcoes: ["Um laço infinito", "Uma sequência", "Um padrão bonito"], certo: 0, why: "Laço infinito é a repetição que nunca termina." },
           { p: "Por que a repetição ajuda a corrigir um algoritmo?", opcoes: ["Porque basta mudar um número, em vez de vários passos", "Porque ela apaga os erros sozinha", "Porque ela deixa o algoritmo mais comprido"], certo: 0, why: "De 4 para 5 passos, muda só o número." }],
         explicacao: "Toda repetição precisa saber quando parar; a que não para é o laço infinito." }
     ],
@@ -536,4 +536,262 @@ PORTAL.registrarAtividades("informatica-6ano-2027-2bim", {
     pega("m8")
   ].filter(Boolean) };
 })();
+})();
+
+/* ============================================================
+   🌀 MODELO EM ESPIRAL (21/11/2026, levado ao ano todo — Etapa 2: 2º bimestre de 2027)
+   Por missão: ❓ gancho, 🛠️ "Onde eu uso isso?" prático (jogo de situação real + 3 perguntas)
+   e ⏱️ +25% de tempo com 2 jogos no 🟡 Desafio e no 🔴 Turbo. Só cobra o que o Para começar explica.
+   ============================================================ */
+(function () {
+  const A = PORTAL.atividades["informatica-6ano-2027-2bim"]; if (!A) return;
+  const mais = (mid, niv, ...ts) => { A[mid][niv] = (A[mid][niv] || []).concat(ts.map(t => Object.assign(t, { maisTempo: "⏱️ +25%" }))); };
+  const perg = (titulo, enun, ...ps) => ({ tipo: "escolha", titulo, enunciado: `<p>${enun}</p>`, perguntas: ps.map(x => ({ p: x[0], opcoes: x[1], certo: 0, why: x[2] })) });
+  const VIDA = (...ps) => perg("🛠️ E na vida real, o que você faria?", "Use o que você aprendeu hoje para responder.", ...ps);
+  const msg = (titulo, app, botoes, enun, itens, okMsg, expl) => ({ tipo: "mensagens", titulo, app, botoes: botoes.map(([id, rot]) => ({ id, rot })), enunciado: `<p>${enun}</p>`,
+    itens: itens.map(([t, c, why]) => ({ de: "", t, c, why })), okMsg, explicacao: expl });
+  const D1 = n => Array.from({ length: n }, () => null);
+  const passos = s => s.split(" ").map(x => [x[0], 1]);   // "R R D" → [["R",1],["R",1],["D",1]]
+
+  /* ---------- M1 · algoritmos do dia a dia ---------- */
+  A.m1.gancho = { html: "<p>🧁 A vó da Lia mandou a receita do bolo por áudio: “bota a farinha, os ovos, mistura e assa”. A Lia fez tudo… e o bolo saiu <b>solado</b>, duro e baixinho.</p><p>🤔 O que faltou na receita da vó? Uma receita pode ser “vaga” demais?</p>" };
+  A.m1.lembra = [perg("🔍 O que você já sabe?", "Começou o 2º bimestre! Responda o que você já sabe. Se não souber, tudo bem: chute com calma, e o portal mostra onde está a resposta. 😉",
+    ["Uma <b>receita de bolo</b>, com os passos numerados, é um exemplo de…", ["Algoritmo", "Hardware", "Pasta"], "A receita tem passos em ordem para chegar ao bolo: é um <b>algoritmo</b>."],
+    ["O computador <b>adivinha</b> o que você quer?", ["Não: ele faz exatamente o que mandamos", "Sim, sempre", "Só se estiver ligado na internet"], "O computador não adivinha nada: faz <b>exatamente</b> o que mandamos, do jeito que mandamos."],
+    ["Cada passo de um algoritmo se chama…", ["Instrução", "Arquivo", "Janela"], "Cada passo é uma <b>instrução</b>."])];
+  A.m1.aplicar = [
+    { tipo: "rota", titulo: "🛠️ Na vida real: ensine o primo a chegar à escola",
+      enunciado: "<p>O seu primo chegou de outra cidade e vai sozinho para a escola amanhã. Monte o algoritmo do caminho: clique nos passos <b>na ordem</b>.</p>",
+      etapas: [
+        { ic: "🏠", t: "Sair de casa e fechar o portão" },
+        { ic: "➡️", t: "Virar à direita na calçada", dica: "Primeiro ele sai de casa; depois escolhe para que lado ir." },
+        { ic: "🚶", t: "Andar até a padaria da esquina" },
+        { ic: "⬅️", t: "Virar à esquerda na padaria" },
+        { ic: "🏫", t: "Andar até o portão da escola e entrar", dica: "Chegar à escola é o resultado: fica no fim." }],
+      okMsg: "Algoritmo claro e preciso: qualquer pessoa que seguir chega à escola! 🏫",
+      explicacao: "Começo (sair de casa), meio (virar e andar) e fim (chegar à escola). Cada passo diz exatamente o que fazer: é um algoritmo bom." },
+    VIDA(
+      ["O manual de montagem de um brinquedo, com os passos numerados, é…", ["Um algoritmo", "Um desenho", "Um jogo"], "Passos em ordem para montar o brinquedo: é um <b>algoritmo</b>."],
+      ["“Faz o suco aí.” Por que essa instrução é ruim?", ["É vaga: não diz exatamente o que fazer", "É comprida demais", "Fala de suco"], "Uma boa instrução é <b>clara e precisa</b>: diz exatamente o que fazer."],
+      ["O GPS diz “siga em frente” e “vire à direita”. Cada frase dessas é uma…", ["Instrução", "Foto", "Música"], "Cada passo do algoritmo é uma <b>instrução</b>."])
+  ];
+  mais("m1", "desafio",
+    { tipo: "rota", titulo: "🦷 O algoritmo de escovar os dentes",
+      enunciado: "<p>Monte o algoritmo de escovar os dentes. Clique nos passos <b>na ordem</b>.</p>",
+      etapas: [{ ic: "🪥", t: "Pegar a escova" }, { ic: "🧴", t: "Colocar o creme dental na escova" }, { ic: "😁", t: "Escovar todos os dentes" }, { ic: "💧", t: "Enxaguar a boca" }, { ic: "🧼", t: "Lavar e guardar a escova" }],
+      okMsg: "Dentes limpinhos! 😁",
+      explicacao: "Começo, meio e fim: cada passo depende do anterior. Sem creme na escova, escovar não adianta tanto." });
+  mais("m1", "turbo",
+    { tipo: "sinais", titulo: "✅ Claras e precisas ou vagas?",
+      enunciado: "<p>Para o computador, toda instrução tem de ser <b>clara e precisa</b>. Marque só as instruções claras e precisas.</p>",
+      opcoes: [{ t: "Colocar 2 colheres de suco em pó no copo", certo: true }, { t: "Andar 3 passos para a frente", certo: true }, { t: "Virar à direita na padaria", certo: true },
+        { t: "Faz o suco aí", certo: false, why: "Vaga: não diz como." }, { t: "Vai até a cozinha", certo: false, why: "Vaga: não diz o caminho." }, { t: "Coloca um pouco de água", certo: false, why: "“Um pouco” não é preciso." }],
+      explicacao: "Instrução boa diz exatamente o que fazer (quanto, para onde, o quê). O computador não adivinha nada." });
+
+  /* ---------- M2 · sequência ---------- */
+  A.m2.gancho = { html: "<p>🔐 O Davi sabe os 4 números da senha do celular da mãe: <b>1, 9, 7, 3</b>. Ele digitou <b>3, 7, 9, 1</b>… e o celular não abriu!</p><p>🤔 Se os números estão certos, por que não abriu? A <b>ordem</b> faz diferença?</p>" };
+  A.m2.aplicar = [
+    { tipo: "robo", titulo: "🛠️ Na vida real: o robô do mercado leva as compras ao caixa", icone: "🛒",
+      enunciado: "<p>O robô do mercado leva o carrinho 🛒 até o caixa ⭐. Clique nas setas, <b>uma por casa</b>, sem bater nas prateleiras 🧱, e depois em <b>▶ Executar</b>.</p>",
+      grade: ["R...#", "###.#", "*...#"],
+      solucao: passos("R R R D D L L L"),
+      dicas: ["Siga o corredor de cima até onde dá para descer.", "Depois de descer, volte para a esquerda até o caixa."],
+      explicacao: "➡️ ➡️ ➡️ ⬇️ ⬇️ ⬅️ ⬅️ ⬅️: cada seta na ordem certa. Uma seta fora do lugar e o carrinho bate na prateleira." },
+    VIDA(
+      ["No micro-ondas, qual é a ordem certa?", ["Pôr a comida, fechar a porta, escolher o tempo, apertar Iniciar", "Apertar Iniciar, pôr a comida, fechar a porta", "Escolher o tempo, abrir a porta, apertar Iniciar"], "Na sequência, cada passo vem na ordem certa: a comida entra antes de apertar Iniciar."],
+      ["Na senha do celular, os números certos na ordem <b>errada</b>…", ["Não abrem o aparelho", "Abrem do mesmo jeito", "Mudam a senha"], "A ordem importa: números certos fora de ordem <b>não abrem</b> o celular."],
+      ["O que faz o comando ⬅️ no labirinto?", ["Anda uma casa para a esquerda", "Anda até a parede", "Volta ao começo"], "Cada seta anda <b>uma casa</b>; ⬅️ vai para a esquerda."])
+  ];
+  mais("m2", "desafio",
+    { tipo: "robo", titulo: "🧀 O ratinho e o queijo",
+      icone: "🐭",
+      enunciado: "<p>Leve o ratinho 🐭 até o queijo ⭐ pelo labirinto. Uma seta por casa!</p>",
+      grade: ["R.#..", ".##.#", "...#.", "#.#..", "#...*"],
+      solucao: passos("D D R D D R R R"),
+      dicas: ["Comece descendo pela coluna A.", "Na linha 3, passe para a coluna B e desça até o fim."],
+      explicacao: "⬇️ ⬇️ ➡️ ⬇️ ⬇️ ➡️ ➡️ ➡️. Cada seta é uma instrução, feita na ordem." });
+  mais("m2", "turbo",
+    { tipo: "rota", titulo: "📱 A sequência de mandar uma mensagem",
+      enunciado: "<p>Coloque na ordem certa os passos para mandar uma mensagem no celular.</p>",
+      etapas: [{ ic: "🔓", t: "Desbloquear o celular" }, { ic: "💬", t: "Abrir o aplicativo de mensagens" }, { ic: "👤", t: "Escolher a pessoa" }, { ic: "⌨️", t: "Digitar a mensagem" }, { ic: "📤", t: "Enviar", dica: "Enviar é sempre o último: só depois de digitar." }],
+      okMsg: "Mensagem enviada! 📤",
+      explicacao: "Se enviar vier antes de digitar, vai uma mensagem vazia. Na sequência, a ordem importa." });
+
+  /* ---------- M3 · repetição ---------- */
+  A.m3.gancho = { html: "<p>⏰ O despertador da Bia toca às 6h. Ela aperta “soneca” e, 5 minutos depois, ele toca <b>de novo</b>… e de novo…</p><p>🤔 Como o celular sabe tocar de novo? E se um programa repetisse uma coisa <b>para sempre</b>, o que aconteceria?</p>" };
+  A.m3.aplicar = [
+    { tipo: "robo", titulo: "🛠️ Na vida real: a volta na quadra", icone: "🏃", compacto: 3,
+      enunciado: "<p>Na Educação Física, o professor mandou dar a volta na quadra até a bandeira ⭐. Em vez de clicar muitas setas iguais, use o <b>repita</b> (botões + e −): chegue com <b>no máximo 3 blocos</b>.</p>",
+      grade: ["R.....", "#####.", "*....."],
+      solucao: [["R", 5], ["D", 2], ["L", 5]],
+      dicas: ["São 5 casas para a direita: um bloco “repita 5× ➡️”.", "Depois desça 2 e volte 5 para a esquerda."],
+      explicacao: "repita 5× ➡️ · repita 2× ⬇️ · repita 5× ⬅️: 12 passos com só 3 blocos. É a repetição deixando o algoritmo curto." },
+    VIDA(
+      ["O semáforo faz sempre verde, amarelo, vermelho, verde… Isso é uma…", ["Repetição", "Música", "Pasta"], "O semáforo <b>repete</b> sempre as mesmas cores."],
+      ["Um programa que repete uma coisa e <b>nunca para</b>…", ["Trava: é o laço infinito", "Fica mais rápido", "Desliga o computador"], "Uma repetição que nunca para é o <b>laço infinito</b>, um erro que trava o programa."],
+      ["O algoritmo diz “repita 4 vezes: pular”, mas agora são 5 pulos. O que você muda?", ["Só o número: de 4 para 5", "O algoritmo inteiro", "Nada"], "Com repetição, muda <b>só um número</b>: é mais fácil de corrigir."])
+  ];
+  mais("m3", "desafio",
+    { tipo: "robo", titulo: "🚀 O caminho do foguete com repita", icone: "🚀", compacto: 4,
+      enunciado: "<p>Leve o foguete 🚀 até a estrela ⭐ usando o <b>repita</b>: no máximo <b>4 blocos</b>.</p>",
+      grade: ["R...##", "###.##", "###...", "#####*"],
+      solucao: [["R", 3], ["D", 2], ["R", 2], ["D", 1]],
+      dicas: ["Conte quantas casas iguais seguidas: cada grupo vira um bloco com repita."],
+      explicacao: "repita 3× ➡️ · repita 2× ⬇️ · repita 2× ➡️ · ⬇️: 8 passos em 4 blocos." });
+  mais("m3", "turbo",
+    { tipo: "pintura", titulo: "🎨 O padrão da faixa da festa",
+      forma: "circulo", n: 9, pretos: [3, 6, 9],
+      regra: "<strong>Repita 3 vezes:</strong> desenhe 2 círculos brancos e depois 1 círculo preto.",
+      dicas: ["O grupo é: branco, branco, preto. Repita o grupo 3 vezes."],
+      explicacao: "Repetir um grupo de passos cria um padrão: ⚪⚪⚫ ⚪⚪⚫ ⚪⚪⚫. Os pretos são o 3º, o 6º e o 9º." });
+
+  /* ---------- M4 · seleção ---------- */
+  A.m4.gancho = { html: "<p>🔋 O celular da Ana mostrou o aviso <b>“bateria fraca”</b> quando estava com 19%. Com 50%, não mostrou nada.</p><p>🤔 Como o celular <b>decide</b> quando mostrar o aviso? Ele está fazendo uma pergunta?</p>" };
+  A.m4.aplicar = [
+    msg("🛠️ Na vida real: a porta automática do mercado", "🚪 Porta automática",
+      [["A", "🚪 Abre (então)"], ["F", "🚪 Fica fechada (senão)"]],
+      "O algoritmo da porta é: <b>se</b> alguém chegar perto, <b>então</b> abre; <b>senão</b>, fica fechada. O que a porta faz em cada situação?",
+      [["Uma moça com o carrinho chega perto da porta", "A", "Alguém chegou perto: a condição é verdadeira, vale o então."],
+        ["Ninguém está perto da porta", "F", "Ninguém perto: a condição é falsa, vale o senão."],
+        ["Um menino corre em direção à porta", "A", "Chegou perto: abre."],
+        ["Todo mundo está lá dentro, longe da porta", "F", "Ninguém perto: fica fechada."]],
+      "Você pensou como a porta automática! 🚪", "A porta faz a mesma pergunta o tempo todo (alguém está perto?) e escolhe o caminho pela resposta: é a seleção."),
+    VIDA(
+      ["No celular: <b>se</b> a bateria estiver abaixo de 20%, <b>então</b> aparece o aviso. Com 19%, aparece?", ["Sim: a condição é verdadeira", "Não", "Só se estiver carregando"], "19% é abaixo de 20%: a condição é <b>verdadeira</b>, vale o então."],
+      ["Qual destas é uma <b>boa condição</b>?", ["Está chovendo?", "Que horas são?", "Qual é o seu nome?"], "Uma boa condição só tem duas respostas: <b>sim ou não</b>."],
+      ["No jogo: <b>se</b> pegar a moeda, ganha pontos; <b>senão</b>, continua igual. Você passou longe da moeda. O que acontece?", ["Continua com os mesmos pontos", "Ganha pontos", "O jogo acaba"], "A condição é falsa: vale o <b>senão</b>."])
+  ];
+  mais("m4", "desafio",
+    { tipo: "pintura", titulo: "🎨 Repetição com seleção: o tapete da sala",
+      forma: "quadrado", n: 8, pretos: [1, 4, 7],
+      regra: "<strong>Repita 8 vezes:</strong> desenhe um quadrado; <strong>se</strong> for o 1º, o 4º ou o 7º, pinte de preto; <strong>senão</strong>, deixe branco.",
+      dicas: ["Conte os quadrados da esquerda para a direita: 1º, 2º, 3º…"],
+      explicacao: "A repetição desenha os 8 quadrados e a seleção decide a cor de cada um: preto no 1º, 4º e 7º." });
+  mais("m4", "turbo",
+    msg("🚦 Atravesso ou espero?", "🚦 Semáforo do pedestre",
+      [["T", "🚶 Atravesso (então)"], ["E", "✋ Espero (senão)"]],
+      "Algoritmo do pedestre: <b>se</b> o sinal estiver verde para o pedestre, <b>então</b> atravesso; <b>senão</b>, espero.",
+      [["O bonequinho do sinal está verde", "T", "Verdadeiro: atravessa."], ["O bonequinho do sinal está vermelho", "E", "Falso: espera."],
+        ["O sinal acabou de ficar vermelho", "E", "Vermelho: espera."], ["O sinal acabou de ficar verde", "T", "Verde: atravessa."]],
+      "Travessia segura! 🚦", "A condição (o sinal está verde?) só tem sim ou não. Sim → então; não → senão."));
+
+  /* ---------- M5 · entradas e saídas ---------- */
+  A.m5.gancho = { html: "<p>🧮 Na cantina, a tia digita na calculadora o preço do suco e o do pão de queijo e mostra o total para o aluno.</p><p>🤔 O que <b>entrou</b> na calculadora, o que ela <b>fez</b> com isso e o que <b>saiu</b> no fim?</p>" };
+  A.m5.aplicar = [
+    msg("🛠️ Na vida real: a máquina de refrigerante", "🥤 Máquina de refrigerante",
+      [["E", "📥 Entrada"], ["P", "⚙️ Processamento"], ["S", "📤 Saída"]],
+      "Na máquina de refrigerante, cada coisa é entrada, processamento ou saída?",
+      [["Você coloca o dinheiro", "E", "É do que a máquina precisa para começar: entrada."], ["Você escolhe a bebida no botão", "E", "A escolha também é uma entrada."],
+        ["A máquina confere o dinheiro e separa a lata", "P", "O que ela faz com as entradas: processamento."], ["A lata cai na portinha", "S", "O resultado no fim: saída."]],
+      "Você entendeu a máquina! 🥤", "Entradas: dinheiro e escolha. Processamento: conferir e separar. Saída: a bebida."),
+    VIDA(
+      ["No aplicativo de mapa, “aonde eu quero ir” é…", ["Uma entrada", "Uma saída", "Um defeito"], "É o que você informa ao aplicativo: <b>entrada</b>. O caminho na tela é a saída."],
+      ["Sem ovos, o bolo não sai. Isso mostra que, se faltar uma ___, o algoritmo não funciona.", ["Entrada", "Saída", "Tela"], "Faltou uma <b>entrada</b>: o algoritmo não funciona."],
+      ["Para que serve saber a <b>saída esperada</b>?", ["Para conferir se o algoritmo deu certo", "Para apagar o algoritmo", "Para não precisar de entradas"], "Sabendo a saída esperada, dá para <b>conferir</b> se deu certo."])
+  ];
+  mais("m5", "desafio",
+    msg("🎤 Mandar um áudio: entrada, processamento ou saída?", "📱 Aplicativo de mensagens",
+      [["E", "📥 Entrada"], ["P", "⚙️ Processamento"], ["S", "📤 Saída"]],
+      "Para mandar um áudio pelo celular, cada coisa é o quê?",
+      [["A sua voz entrando pelo microfone", "E", "É do que o aplicativo precisa: entrada."], ["O celular grava e prepara o áudio", "P", "É o que ele faz com a voz: processamento."],
+        ["O áudio chega enviado na conversa", "S", "É o resultado: saída."], ["Você escolhe para quem enviar", "E", "Também é uma entrada."]],
+      "Áudio enviado! 🎤", "Entrada: a voz e a pessoa escolhida. Processamento: gravar e preparar. Saída: o áudio enviado."));
+  mais("m5", "turbo",
+    { tipo: "memoria", titulo: "🧩 Jogo da memória: problema e saída esperada",
+      enunciado: "<p>Vire duas cartas e ache o <b>problema</b> e a <b>saída esperada</b> que combinam.</p>",
+      pares: [{ a: "Calcular a média da prova", b: "A média" }, { a: "Mandar um áudio", b: "O áudio enviado" }, { a: "Achar o caminho no mapa", b: "O caminho na tela" },
+        { a: "Fazer um bolo", b: "O bolo pronto" }, { a: "Somar 2 + 3 na calculadora", b: "O resultado 5 na tela" }, { a: "Comprar na máquina de refrigerante", b: "A bebida na portinha" }],
+      porRodada: 3,
+      explicacao: "Antes de montar o algoritmo, pense: o que eu quero conseguir no fim? Essa é a saída esperada." });
+
+  /* ---------- M6 · decompor ---------- */
+  A.m6.gancho = { html: "<p>🎒 A turma vai fazer um passeio ao parque, e a professora disse: “Organizem tudo!”. Todo mundo começou a falar ao mesmo tempo.</p><p>🤔 Por onde começar? Dá para uma pessoa só fazer tudo? E se o problema grande virasse vários <b>problemas pequenos</b>?</p>" };
+  A.m6.aplicar = [
+    msg("🛠️ Na vida real: organizar o passeio da turma", "🎒 Passeio ao parque",
+      [["T", "🚌 Transporte"], ["L", "🥪 Lanche"], ["B", "⚽ Brincadeiras"]],
+      "O passeio foi dividido em 3 partes (subproblemas). Em qual parte entra cada tarefa?",
+      [["Combinar o horário do ônibus", "T", "É sobre como chegar ao parque."], ["Levar sanduíches e suco", "L", "É comida: lanche."],
+        ["Levar a bola e a corda", "B", "Para brincar."], ["Contar quantos alunos vão no ônibus", "T", "Também é transporte."], ["Separar os guardanapos", "L", "Faz parte do lanche."]],
+      "Passeio organizado! 🎒", "Dividindo em partes (transporte, lanche, brincadeiras), cada grupo resolve uma e o problema grande fica resolvido."),
+    VIDA(
+      ["Arrumar o quarto: arrumar a cama, guardar as roupas, recolher os brinquedos. Isso é…", ["Decompor o problema em partes", "Uma música", "Um desenho"], "Dividir o problema grande em partes menores é <b>decompor</b>."],
+      ["Cada parte menor de um problema grande se chama…", ["Subproblema", "Saída", "Laço"], "Cada parte é um <b>subproblema</b>."],
+      ["Como os programadores fazem um jogo de celular?", ["Dividem em partes, e cada equipe cuida de uma", "Uma pessoa faz tudo de uma vez", "Copiam outro jogo"], "Personagens, cenário, pontos e sons: cada <b>equipe</b> cuida de uma parte."])
+  ];
+  mais("m6", "desafio",
+    { tipo: "rota", titulo: "🧩 Os 4 passos para decompor",
+      enunciado: "<p>Coloque na ordem os passos para decompor um problema grande.</p>",
+      etapas: [{ ic: "🎯", t: "Dizer qual é o problema grande" }, { ic: "❓", t: "Perguntar: de que partes ele é feito?" }, { ic: "🔧", t: "Resolver uma parte de cada vez" }, { ic: "✅", t: "Juntar tudo e conferir" }],
+      okMsg: "Problema decomposto! 🧩",
+      explicacao: "1. o problema grande; 2. as partes; 3. uma parte de cada vez; 4. juntar e conferir." });
+  mais("m6", "turbo",
+    msg("🎮 As equipes do jogo de celular", "🎮 Fábrica de jogos",
+      [["P", "🧍 Personagens"], ["C", "🏞️ Cenário"], ["N", "🏆 Pontos"], ["S", "🔊 Sons"]],
+      "Um jogo foi dividido em partes, e cada equipe cuida de uma. Para qual equipe vai cada tarefa?",
+      [["Desenhar o herói e o vilão", "P", "Quem aparece no jogo: personagens."], ["Fazer a floresta e o castelo", "C", "Onde a história acontece: cenário."],
+        ["Contar 10 a cada moeda", "N", "Placar: pontos."], ["Criar a musiquinha e o barulho do pulo", "S", "Sons."], ["Fazer o herói piscar e pular", "P", "Movimento do personagem."]],
+      "Jogo pronto para lançar! 🎮", "Cada parte é um subproblema; com equipes cuidando de cada uma, o jogo grande fica pronto."));
+
+  /* ---------- M7 · caça ao erro ---------- */
+  A.m7.gancho = { html: "<p>🤖 O Léo montou as setas do robô até a estrela, apertou ▶ Executar e… o robô <b>bateu na parede</b>!</p><p>🤔 O Léo precisa apagar tudo e começar de novo? Ou dá para <b>achar o passo errado</b> e corrigir só ele?</p>" };
+  A.m7.aplicar = [
+    { tipo: "robo", titulo: "🛠️ Na vida real: o robô entregador de pizza", icone: "🍕",
+      enunciado: "<p>O robô entregador já tem um programa, mas ele bate na parede. Clique em <b>▶ Executar</b> para testar, compare, ache o primeiro passo errado e corrija só ele (você pode apagar e montar de novo).</p>",
+      grade: ["R..#", "#.##", "#..*"],
+      inicial: passos("R R D D R"),
+      solucao: passos("R D D R R"),
+      dicas: ["Teste: o robô bate na parede logo ao descer.", "Ele precisa descer pela coluna B, então vai só uma casa para a direita antes de descer."],
+      explicacao: "O primeiro passo errado era o 2º ➡️ (um passo a mais antes de descer). Programa certo: ➡️ ⬇️ ⬇️ ➡️ ➡️." },
+    VIDA(
+      ["O aplicativo pede para atualizar. Muitas vezes é para…", ["Corrigir bugs", "Apagar suas fotos", "Mudar a sua senha"], "As atualizações costumam <b>corrigir bugs</b> (erros do programa)."],
+      ["O que é <b>depurar</b>?", ["Achar e corrigir o erro", "Desligar o computador", "Escrever o programa mais rápido"], "Depurar (em inglês, debug) é <b>achar e corrigir</b> o erro."],
+      ["Depois de achar o passo errado, o que você faz?", ["Muda só esse passo e testa de novo", "Apaga tudo", "Muda todos os passos"], "Corrigir: mude <b>só esse passo</b> e teste de novo."])
+  ];
+  mais("m7", "desafio",
+    { tipo: "robo", titulo: "🔍 Bug: falta um passo",
+      enunciado: "<p>Este programa tem um <b>passo faltando</b>. Teste, ache onde ele se perde e corrija.</p>",
+      grade: ["R...", "###.", "*..."],
+      inicial: passos("R R R D L L L"),
+      solucao: passos("R R R D D L L L"),
+      dicas: ["Conte: para chegar à linha 3, quantas vezes precisa descer?"],
+      explicacao: "Faltava um ⬇️: o robô tentava ir para a esquerda na linha 2 e batia. Com ➡️ ➡️ ➡️ ⬇️ ⬇️ ⬅️ ⬅️ ⬅️ ele chega." });
+  mais("m7", "turbo",
+    { tipo: "robo", titulo: "🕵️ Bug: passo fora de ordem",
+      icone: "🐭",
+      enunciado: "<p>O ratinho tem um programa quase certo, mas um passo está <b>fora de ordem</b>. Teste, ache o primeiro passo errado e corrija.</p>",
+      grade: ["R.#..", ".##.#", "...#.", "#.#..", "#...*"],
+      inicial: passos("D D D R D R R R"),
+      solucao: passos("D D R D D R R R"),
+      dicas: ["O 3º passo leva o ratinho para uma parede: o ➡️ tinha de vir antes."],
+      explicacao: "O ➡️ estava depois do 3º ⬇️. Trocando a ordem (⬇️ ⬇️ ➡️ ⬇️ ⬇️ ➡️ ➡️ ➡️), o ratinho chega ao queijo." });
+
+  /* ---------- M8 · desenho com a tartaruga ---------- */
+  A.m8.gancho = { html: "<p>🖨️ Na feira de ciências, uma <b>impressora 3D</b> desenhou sozinha um quadrado perfeitinho, andando e virando.</p><p>🤔 Como a máquina sabe para onde andar e quando virar? Alguém precisou escrever o caminho para ela?</p>" };
+  A.m8.aplicar = [
+    { tipo: "robo", titulo: "🛠️ Na vida real: a máquina de corte desenha a placa", icone: "🐢", compacto: 4,
+      enunciado: "<p>A máquina de corte vai recortar a placa retangular da sala. Faça a tartaruga passar por <b>todos os pontos ⚪</b> e terminar na estrela, com <b>no máximo 4 blocos</b> (use o repita).</p>",
+      grade: ["Rooo", "*..o", "oooo"],
+      solucao: [["R", 3], ["D", 2], ["L", 3], ["U", 1]],
+      dicas: ["Lado de cima: 3 casas para a direita. Depois desça 2, volte 3 e suba 1."],
+      explicacao: "repita 3× ➡️ · repita 2× ⬇️ · repita 3× ⬅️ · ⬆️: os lados do retângulo, como a máquina de corte faz." },
+    VIDA(
+      ["O robô aspirador anda pela casa…", ["Seguindo um caminho programado", "Adivinhando onde está a sujeira", "Sem nenhuma instrução"], "Ele segue um <b>caminho programado</b>, como a tartaruga."],
+      ["Um quadrado tem…", ["4 lados iguais", "3 lados", "2 lados compridos e 2 curtos"], "O <b>quadrado</b> tem 4 lados iguais; o retângulo tem 2 compridos e 2 curtos."],
+      ["A escada ➡️ ⬇️ ➡️ ⬇️ ➡️ ⬇️ é o degrau ➡️ ⬇️…", ["Repetido 3 vezes", "Feito uma vez só", "Ao contrário"], "O segredo é achar o <b>padrão</b>: o degrau repetido."])
+  ];
+  mais("m8", "desafio",
+    { tipo: "robo", titulo: "🐢 A escada", icone: "🐢",
+      enunciado: "<p>Desenhe uma <b>escada</b>: passe por todos os pontos ⚪ e termine na estrela.</p>",
+      grade: ["Ro..", ".oo.", "..oo", "...*"],
+      solucao: passos("R D R D R D"),
+      dicas: ["O degrau é: ➡️ e depois ⬇️."],
+      explicacao: "O degrau ➡️ ⬇️ repetido 3 vezes: ➡️ ⬇️ ➡️ ⬇️ ➡️ ⬇️." });
+  mais("m8", "turbo",
+    { tipo: "robo", titulo: "🐢 O quadrado grande em 4 blocos", icone: "🐢", compacto: 4,
+      enunciado: "<p>Desenhe um <b>quadrado de 3 casas de lado</b>: passe por todos os pontos ⚪ e termine na estrela, com <b>no máximo 4 blocos</b>.</p>",
+      grade: ["Rooo", "*..o", "o..o", "oooo"],
+      solucao: [["R", 3], ["D", 3], ["L", 3], ["U", 2]],
+      dicas: ["Cada lado é um bloco com repita: 3 para a direita, 3 para baixo, 3 para a esquerda e 2 para cima."],
+      explicacao: "repita 3× ➡️ · repita 3× ⬇️ · repita 3× ⬅️ · repita 2× ⬆️: o quadrado grande com só 4 blocos." });
+  void D1;
 })();

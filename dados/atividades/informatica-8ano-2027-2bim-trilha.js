@@ -234,3 +234,71 @@ PORTAL.registrarAtividades("informatica-8ano-2027-2bim-trilha", {
   ].filter(Boolean) };
 })();
 })();
+
+/* ============================================================
+   🌀 MODELO EM ESPIRAL NA TRILHA (21/11/2026 — Etapa 2: 2º bimestre de 2027): o mesmo ❓ gancho da turma,
+   "O que você já sabe?" na M1 e o 🛠️ "Onde eu uso isso?" prático em versão calma (jogo curto + 2 perguntas).
+   ============================================================ */
+(function () {
+  const A = PORTAL.atividades["informatica-8ano-2027-2bim-trilha"]; if (!A) return;
+  const GANCHO = {"m1":{"html":"<p>📸 A Júlia mandou uma foto do aniversário para a avó, que mora em outro estado. Em 2 segundos, a avó respondeu: “que linda!”.</p><p>🤔 A foto viajou <b>inteira</b>? Por onde ela passou para chegar tão rápido?</p>"},"m2":{"html":"<p>🔤 Você digita <b>portal.professorwell.com.br</b> e a página aparece. Mas os computadores só se encontram por <b>números</b>, como 203.0.113.25.</p><p>🤔 Quem faz a “tradução” do nome para o número? E o que acontece se essa tradução parar de funcionar?</p>"},"m3":{"html":"<p>🛰️ O Léo jura que a internet vem do <b>satélite</b>. A Mia diz que vem do <b>fundo do mar</b>.</p><p>🤔 Quem tem razão? Como um vídeo de outro país chega até o seu celular?</p>"},"m4":{"html":"<p>📱 A Duda perdeu o celular com todas as fotos do aniversário. Ela chorou, mas a mãe disse: “calma, estão na <b>nuvem</b>”.</p><p>🤔 Como as fotos podem estar num celular perdido e, ao mesmo tempo, guardadas? E a nuvem fica no céu?</p>"},"m5":{"html":"<p>🧹 Arrumar a sala sozinho leva <b>40 minutos</b>: varrer, organizar as cadeiras, limpar o quadro e recolher o lixo. Com 4 colegas, cada um com uma parte…</p><p>🤔 Quanto tempo leva agora? E se os 19 alunos mandarem imprimir ao mesmo tempo, na única impressora da escola?</p>"},"m6":{"html":"<p>📲 A escola quer um aplicativo com a chamada, os pedidos de impressão, o boletim e as rotas do ônibus escolar.</p><p>🤔 Dá para guardar tudo do mesmo jeito? Ou cada parte precisa de uma <b>estrutura</b> diferente?</p>"},"m7":{"html":"<p>🔎 Você digita uma pergunta no buscador e, em menos de 1 segundo, aparecem respostas tiradas de bilhões de páginas.</p><p>🤔 Um computador só conseguiria fazer isso tão rápido? E se esse computador quebrasse?</p>"},"m8":{"html":"<p>🎮 O plano da casa do Caio é de <b>80 mega</b>. Ele achou que o jogo de 300 MB ia baixar em 4 segundos… e demorou bem mais!</p><p>🤔 “80 mega” é 80 o quê? Megabit e megabyte são a mesma coisa?</p>"}};
+  Object.keys(GANCHO).forEach(m => { A[m].gancho = GANCHO[m]; });
+  const perg = (titulo, ...ps) => ({ tipo: "escolha", titulo, enunciado: "<p>Use o que você aprendeu hoje. Leia com calma. 😉</p>", perguntas: ps.map(x => ({ p: x[0], opcoes: x[1], certo: 0, why: x[2] })) });
+  const VIDA = (...ps) => perg("🛠️ E na vida real?", ...ps);
+  const msg = (titulo, app, botoes, enun, itens, okMsg, expl) => ({ tipo: "mensagens", titulo, app, botoes: botoes.map(([id, rot]) => ({ id, rot })), enunciado: `<p>${enun}</p>`,
+    itens: itens.map(([t, c, why]) => ({ de: "", t, c, why })), okMsg, explicacao: expl });
+  const rota = (titulo, enun, etapas, okMsg, expl) => ({ tipo: "rota", titulo, enunciado: `<p>${enun}</p>`, etapas: etapas.map(([ic, t]) => ({ ic, t })), okMsg, explicacao: expl });
+
+  A.m1.lembra = [perg("🔍 O que você já sabe?",
+    ["O aparelho do Wi-Fi da sua casa é o…", ["Roteador", "Monitor"], "É o <b>roteador</b>."],
+    ["A empresa que leva a internet até a sua casa é o…", ["Provedor", "Aplicativo"], "É o <b>provedor</b>."])];
+  A.m1.lembra[0].enunciado = "<p>Responda o que você já sabe. Se não souber, tudo bem: o portal mostra onde está a resposta. 😉</p>";
+  A.m1.aplicar = [
+    rota("🛠️ Na vida real: a foto até a avó", "Clique por onde os pacotes da foto passam, <b>na ordem</b>.",
+      [["📱", "No seu celular"], ["📶", "No roteador da sua casa"], ["🏢", "No provedor"], ["👵", "No celular da avó, que junta os pacotes"]], "A foto chegou! 📸", "A foto vai cortada em pacotes e é juntada no fim."),
+    VIDA(["Cada pedacinho da foto se chama…", ["Pacote", "Pasta"], "Cada pedacinho é um <b>pacote</b>."], ["Para que serve o número do pacote?", ["Para juntar na ordem certa", "Para ligar o celular"], "O número ajuda a <b>juntar</b> os pacotes na ordem."])
+  ];
+  A.m2.aplicar = [
+    rota("🛠️ Na vida real: abrir um site", "Clique no que acontece <b>na ordem</b>.",
+      [["⌨️", "Você digita o nome do site"], ["📇", "O DNS acha o endereço IP pelo nome"], ["🖥️", "A página aparece na tela"]], "Site aberto! 🖥️", "O DNS acha o número (IP) pelo nome do site."),
+    VIDA(["O DNS é como…", ["A agenda do celular", "Um cabo"], "O DNS é a <b>agenda</b> da internet."], ["O número de cada site se chama…", ["Endereço IP", "Nome do site"], "É o <b>endereço IP</b>."])
+  ];
+  A.m3.aplicar = [
+    rota("🛠️ Na vida real: o vídeo de outro país", "Clique no caminho do vídeo <b>na ordem</b>.",
+      [["🏭", "Data center lá fora"], ["🌊", "Cabo submarino, no fundo do mar"], ["🏖️", "Fortaleza (CE)"], ["📱", "A sua tela"]], "Vídeo carregado! 🎬", "O vídeo atravessa o mar por um cabo submarino."),
+    VIDA(["A internet de outros países chega ao Brasil por…", ["Cabos no fundo do mar", "Cartas"], "Pelos <b>cabos submarinos</b>."], ["Um data center é…", ["Um prédio cheio de computadores", "Um cabo"], "É um prédio cheio de computadores que guardam vídeos e sites."])
+  ];
+  A.m4.aplicar = [
+    msg("🛠️ Na vida real: só no celular ou na nuvem?", "☁️ Onde está?", [["C", "📱 Só no celular"], ["N", "☁️ Na nuvem"]], "O celular quebrou. Onde o arquivo estava?",
+      [["As fotos sumiram para sempre", "C", "Só no celular: o arquivo some."], ["As fotos continuaram guardadas", "N", "Na nuvem, continuam lá."], ["Abriu a foto no computador da escola", "N", "Para ver em outro aparelho, estava na nuvem."]],
+      "Mandou bem! ☁️", "Na nuvem, o arquivo não some se o celular quebrar."),
+    VIDA(["Para proteger a nuvem, use…", ["Senha forte", "A senha 1234"], "Use <b>senha forte</b>."], ["No computador da escola, no fim, você…", ["Sai da conta", "Deixa a conta aberta"], "<b>Saia da conta</b>."])
+  ];
+  A.m5.aplicar = [
+    { tipo: "lista_ops", titulo: "🛠️ Na vida real: a fila da impressora", nome: "FILA",
+      enunciado: "<p>Muita gente quer usar a mesma impressora: forma uma fila.</p>",
+      inicial: ["Ana", "Bia"],
+      passos: [{ tipo: "inserir", instr: "O Caio mandou imprimir: insira Caio no fim.", esperado: ["Ana", "Bia", "Caio"], dica: "Digite Caio e clique em Inserir no fim." },
+        { tipo: "pergunta", instr: "Quem imprime primeiro?", r: "Ana" }],
+      explicacao: "Quem chegou primeiro imprime primeiro: é a fila." },
+    VIDA(["4 colegas, cada um com uma parte, ao mesmo tempo: isso é…", ["Paralelismo", "Concorrência"], "Dividir ao mesmo tempo é <b>paralelismo</b>."], ["Muita gente querendo a mesma impressora é…", ["Concorrência", "Paralelismo"], "Disputar a mesma coisa é <b>concorrência</b>."])
+  ];
+  A.m6.aplicar = [
+    msg("🛠️ Na vida real: qual estrutura?", "📲 Aplicativo da escola", [["L", "📝 Lista"], ["F", "🚶 Fila"], ["T", "📋 Tabela"], ["G", "🕸️ Grafo"]], "Para cada parte, qual estrutura?",
+      [["A chamada da turma", "L", "Nomes em ordem: lista."], ["A fila da impressora", "F", "Quem chega primeiro sai primeiro: fila."], ["O boletim", "T", "Linhas e colunas: tabela."], ["O mapa das ruas", "G", "Pontos ligados: grafo."]],
+      "Mandou bem! 📲", "Cada parte com a sua estrutura."),
+    VIDA(["Na fila, quem sai primeiro?", ["Quem chegou primeiro", "Quem chegou por último"], "Na <b>fila</b>, quem chega primeiro sai primeiro."], ["A playlist é uma…", ["Lista", "Tabela"], "Músicas em ordem: <b>lista</b>."])
+  ];
+  A.m7.aplicar = [
+    msg("🛠️ Na vida real: o sistema distribuído", "🌐 Servidores", [["D", "🧩 Dividir o trabalho"], ["N", "🛟 Não parar se um quebrar"]], "Qual ideia aparece em cada situação?",
+      [["Cada computador procura uma parte da resposta", "D", "Dividir o trabalho."], ["Um computador quebrou e outro assumiu", "N", "Não parar se um quebrar."], ["O reserva entrou no lugar do jogador", "N", "Como no time: o jogo continua."]],
+      "Mandou bem! 🌐", "Dividir o trabalho e não parar se um quebrar."),
+    VIDA(["Quando você pesquisa na internet, quem responde?", ["Muitos computadores juntos", "Um computador só"], "Muitos computadores trabalham juntos: <b>sistema distribuído</b>."], ["Se um computador quebra…", ["Outro assume", "Tudo para"], "<b>Outro assume</b>, como o reserva no time."])
+  ];
+  A.m8.aplicar = [
+    msg("🛠️ Na vida real: download ou upload?", "🌐 Internet", [["D", "⬇️ Download"], ["U", "⬆️ Upload"]], "Os dados chegam até você (download) ou você envia (upload)?",
+      [["Baixar um jogo", "D", "Chega até você."], ["Postar um vídeo", "U", "Você envia."], ["Assistir a um filme", "D", "O filme chega até você."]],
+      "Mandou bem! 🌐", "Download é baixar; upload é enviar."),
+    VIDA(["No jogo on-line, o melhor é ping…", ["Baixo", "Alto"], "<b>Ping baixo</b>: o jogo responde rápido."], ["Ping alto deixa o jogo…", ["Lento (lag)", "Mais bonito"], "Ping alto dá <b>lag</b>."])
+  ];
+})();

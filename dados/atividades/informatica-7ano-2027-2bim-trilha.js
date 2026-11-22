@@ -247,3 +247,87 @@ PORTAL.registrarAtividades("informatica-7ano-2027-2bim-trilha", {
   ].filter(Boolean) };
 })();
 })();
+
+/* ============================================================
+   🌀 MODELO EM ESPIRAL NA TRILHA (21/11/2026 — Etapa 2: 2º bimestre de 2027): o mesmo ❓ gancho da turma,
+   "O que você já sabe?" na M1 e o 🛠️ "Onde eu uso isso?" prático em versão calma (jogo curto + 2 perguntas).
+   ============================================================ */
+(function () {
+  const A = PORTAL.atividades["informatica-7ano-2027-2bim-trilha"]; if (!A) return;
+  const GANCHO = {"m1":{"html":"<p>🚌 O motorista do ônibus escolar tem um mapa com as paradas e as ruas entre elas, todo rabiscado. Ele quer passar o mapa para o computador.</p><p>🤔 Como desenhar esse mapa de um jeito que o computador entenda? E como saber qual parada tem <b>mais ruas</b> chegando?</p>"},"m2":{"html":"<p>🚑 A ambulância precisa chegar ao hospital o mais rápido possível. Existe uma rua que vai <b>direto</b> até lá, mas ela é longa e cheia de buracos.</p><p>🤔 O caminho com <b>menos ruas</b> é sempre o mais rápido? Como o aplicativo de mapa decide?</p>"},"m3":{"html":"<p>📱 A rede social mostrou para a Lara: “Pessoas que você talvez conheça: <b>Eva</b>”. A Lara nunca falou com a Eva!</p><p>🤔 Como a rede social escolheu a Eva? E aceitar qualquer sugestão é seguro?</p>"},"m4":{"html":"<p>📒 O Caio anotou os contatos da turma: os nomes numa folha, os telefones em outra e os aniversários numa terceira. Na hora de ligar para a Bia, se perdeu todo.</p><p>🤔 Qual seria o jeito certo de guardar esses dados? Uma lista, uma tabela ou um grafo?</p>"},"m5":{"html":"<p>🗺️ Um aluno novo chegou na escola e passou o recreio inteiro procurando a Sala de Informática. Chegou atrasado e com vergonha.</p><p>🤔 Como a turma poderia ajudar todo aluno novo? E por onde começa um projeto, para não virar bagunça?</p>"},"m6":{"html":"<p>📲 O jogo preferido do Davi pediu <b>atualização</b> de novo, pela terceira vez no mês!</p><p>🤔 Os criadores do jogo erraram tanto assim? Ou existe um <b>ciclo</b> de construir, testar e melhorar que nunca acaba?</p>"},"m7":{"html":"<p>🧳 Um visitante desceu na rodoviária de Curionópolis e perguntou: “Qual é o caminho mais rápido até a feira?”. Cada pessoa ensinou um caminho diferente!</p><p>🤔 Como transformar a cidade num grafo para responder sem dúvida?</p>"},"m8":{"html":"<p>🌽 Na fazenda, fizeram um <b>labirinto de milho</b> para as crianças. O Gui entrou, virou para um lado, virou para o outro… e caiu num beco sem saída três vezes!</p><p>🤔 Existe um jeito esperto de sair de qualquer labirinto? Como os computadores fazem isso?</p>"}};
+  Object.keys(GANCHO).forEach(m => { A[m].gancho = GANCHO[m]; });
+  const perg = (titulo, ...ps) => ({ tipo: "escolha", titulo, enunciado: "<p>Use o que você aprendeu hoje. Leia com calma. 😉</p>", perguntas: ps.map(x => ({ p: x[0], opcoes: x[1], certo: 0, why: x[2] })) });
+  const VIDA = (...ps) => perg("🛠️ E na vida real?", ...ps);
+  const msg = (titulo, app, botoes, enun, itens, okMsg, expl) => ({ tipo: "mensagens", titulo, app, botoes: botoes.map(([id, rot]) => ({ id, rot })), enunciado: `<p>${enun}</p>`,
+    itens: itens.map(([t, c, why]) => ({ de: "", t, c, why })), okMsg, explicacao: expl });
+  const passos = s => s.split(" ").map(x => [x[0], 1]);
+  const G = (vs, as) => ({ vertices: vs.map(([id, rot, x, y]) => ({ id, rot, x, y })), arestas: as });
+
+  A.m1.lembra = [perg("🔍 O que você já sabe?",
+    ["O mapa do celular mostra as esquinas como…", ["Pontos ligados por linhas", "Fotos"], "O computador guarda o mapa como <b>pontos ligados por linhas</b>."],
+    ["Um aplicativo é…", ["Um programa do celular ou do computador", "Um cabo"], "Aplicativo é um <b>programa</b>."])];
+  A.m1.lembra[0].enunciado = "<p>Responda o que você já sabe. Se não souber, tudo bem: o portal mostra onde está a resposta. 😉</p>";
+  A.m1.aplicar = [
+    Object.assign({ tipo: "grafo_montar", titulo: "🛠️ Na vida real: a rede da sala", semPeso: true,
+      enunciado: "<p>Os computadores da sala ligam-se ao <b>Roteador</b>. Clique no Roteador e depois em cada computador para ligar.</p>",
+      descricao: "Rede: Roteador ligado a 3 computadores", okMsg: "Rede montada! 🖧", explicacao: "Cada aparelho é um ponto; cada cabo é uma linha." },
+      G([["R", "Roteador", 260, 180], ["P1", "PC 1", 80, 80], ["P2", "PC 2", 80, 290], ["P3", "PC 3", 440, 180]], [["R", "P1", 1], ["R", "P2", 1], ["R", "P3", 1]])),
+    VIDA(["Cada computador da rede, no grafo, é um…", ["Vértice (ponto)", "Peso"], "Cada ponto é um <b>vértice</b>."],
+      ["O número na linha (como “5 minutos”) é o…", ["Peso", "Vértice"], "O número na linha é o <b>peso</b>."])
+  ];
+  A.m2.aplicar = [
+    { tipo: "sim_grafo", titulo: "🛠️ Na vida real: a ambulância até o hospital",
+      enunciado: "<p>Saindo de <b>Casa</b>, clique nos lugares até o <b>Hospital</b>, pela <b>menor soma</b> de minutos.</p>",
+      vertices: { casa: { nome: "Casa", ic: "🏠", x: 45, y: 120 }, feira: { nome: "Feira", ic: "🧺", x: 200, y: 45 }, ponte: { nome: "Ponte", ic: "🌉", x: 200, y: 195 }, hospital: { nome: "Hospital", ic: "🏥", x: 360, y: 120 } },
+      arestas: [["casa", "feira", 2], ["feira", "hospital", 3], ["casa", "ponte", 4], ["ponte", "hospital", 4], ["casa", "hospital", 9]],
+      inicio: "casa", fim: "hospital", menor: 5, solucao: ["casa", "feira", "hospital"], unidade: "min",
+      dicas: ["Some cada caminho: pela Feira, pela Ponte e direto."], explicacao: "Casa → Feira → Hospital = 2 + 3 = 5 min. Direto são 9." },
+    VIDA(["O caminho mais curto é o de…", ["Menor soma", "Menos linhas"], "O mais curto é o de <b>menor soma</b>."],
+      ["Para saber quanto um caminho leva, você…", ["Soma os pesos", "Conta os pontos"], "Somamos os <b>pesos</b> das linhas."])
+  ];
+  A.m3.aplicar = [
+    msg("🛠️ Na vida real: aceitar a sugestão?", "📱 Rede social", [["S", "✅ Aceito"], ["N", "❌ Não aceito"]],
+      "Só aceite quem você <b>conhece de verdade</b>.",
+      [["O seu primo, que você conhece", "S", "Conhece de verdade: pode aceitar."], ["Uma pessoa que você nunca viu", "N", "Não conhece: não aceite."], ["A sua colega de turma", "S", "Conhece: pode aceitar."]],
+      "Rede segura! 🔒", "A rede sugere amigos dos seus amigos, mas só aceite quem você conhece de verdade."),
+    VIDA(["Quem tem mais amigos tem o maior…", ["Grau", "Peso"], "Mais amigos = maior <b>grau</b>."],
+      ["A rede social sugere…", ["Os amigos dos seus amigos", "Só pessoas famosas"], "Ela sugere os <b>amigos dos seus amigos</b>."])
+  ];
+  A.m4.aplicar = [
+    msg("🛠️ Na vida real: qual estrutura?", "🧠 Guardar os dados", [["L", "📝 Lista"], ["T", "🗂️ Tabela"], ["G", "🕸️ Grafo"]],
+      "Para cada situação, qual estrutura serve?",
+      [["A fila da cantina", "L", "Itens em ordem: lista."], ["O boletim com nome e nota", "T", "Várias informações: tabela."], ["O mapa da cidade", "G", "Pontos e linhas: grafo."]],
+      "Muito bem! 🧠", "Lista: ordem. Tabela: várias informações. Grafo: ligações."),
+    VIDA(["A playlist é uma…", ["Lista", "Grafo"], "Uma música depois da outra: <b>lista</b>."], ["Os contatos do celular são uma…", ["Tabela", "Lista"], "Cada contato tem várias informações: <b>tabela</b>."])
+  ];
+  A.m5.aplicar = [
+    msg("🛠️ Na vida real: quem faz o quê?", "👥 Equipe", [["P", "🔎 Pesquisador"], ["C", "🛠️ Construtor"], ["T", "🧪 Testador"]],
+      "Para cada tarefa do Guia de Rotas, qual papel cuida dela?",
+      [["Juntar os lugares e os tempos", "P", "Juntar dados é do pesquisador."], ["Montar o grafo", "C", "Montar é do construtor."], ["Conferir se o caminho está certo", "T", "Conferir é do testador."]],
+      "Equipe afinada! 👥", "Cada pessoa tem um papel."),
+    VIDA(["O primeiro passo do plano é…", ["O problema: o que queremos resolver", "As tarefas"], "1. Problema; 2. Ideia; 3. Tarefas."], ["Quem junta os dados?", ["🔎 O pesquisador", "🧪 O testador"], "O <b>pesquisador</b> junta os dados."])
+  ];
+  A.m6.aplicar = [
+    { tipo: "rota", titulo: "🛠️ Na vida real: fazer o guia",
+      enunciado: "<p>Coloque os passos do projeto <b>na ordem</b>.</p>",
+      etapas: [{ ic: "🛠️", t: "Construir: montar o grafo" }, { ic: "🧪", t: "Testar: conferir os caminhos" }, { ic: "🔁", t: "Melhorar: corrigir o que estava errado" }],
+      okMsg: "Guia pronto! 🗺️", explicacao: "Construir → testar → melhorar." },
+    VIDA(["Depois de construir, a equipe…", ["Testa", "Apaga tudo"], "Construir → <b>testar</b> → melhorar."], ["Depois de testar, a equipe…", ["Melhora: corrige o que estava errado", "Para de trabalhar"], "Construir → testar → <b>melhorar</b>."])
+  ];
+  A.m7.aplicar = [
+    { tipo: "sim_grafo", titulo: "🛠️ Na vida real: da Escola à Rodoviária",
+      enunciado: "<p>Saindo da <b>Escola</b>, clique nos lugares até a <b>Rodoviária</b>, pela <b>menor soma</b> (tempos de mentirinha).</p>",
+      vertices: { escola: { nome: "Escola", ic: "🏫", x: 45, y: 120 }, praca: { nome: "Praça", ic: "🌳", x: 200, y: 45 }, feira: { nome: "Feira", ic: "🧺", x: 200, y: 195 }, rodo: { nome: "Rodoviária", ic: "🚌", x: 360, y: 120 } },
+      arestas: [["escola", "praca", 6], ["escola", "feira", 9], ["feira", "rodo", 5], ["praca", "rodo", 10]],
+      inicio: "escola", fim: "rodo", menor: 14, solucao: ["escola", "feira", "rodo"], unidade: "min",
+      dicas: ["Some: pela Feira (9 + 5) e pela Praça (6 + 10)."], explicacao: "Escola → Feira → Rodoviária = 9 + 5 = 14 minutos." },
+    VIDA(["Cada lugar da cidade, no grafo, é um…", ["Ponto (vértice)", "Peso"], "Cada lugar vira um <b>ponto</b>."], ["Escola → Feira → Rodoviária leva…", ["9 + 5 = 14 minutos", "6 minutos"], "Somando os pesos: 9 + 5 = <b>14</b>."])
+  ];
+  A.m8.aplicar = [
+    { tipo: "robo", titulo: "🛠️ Na vida real: o labirinto de milho", icone: "🧒",
+      enunciado: "<p>Leve o Gui até a saída ⭐. Se cair num beco sem saída, volte e tente outro caminho.</p>",
+      grade: ["R.#", ".##", "..*"], solucao: passos("D D R R"),
+      dicas: ["Desça pela coluna A e depois vá para a direita."], explicacao: "⬇️ ⬇️ ➡️ ➡️. O corredor B1 é um beco sem saída." },
+    VIDA(["Num beco sem saída, você…", ["Volta e tenta outro caminho", "Fica parado"], "Tentar e <b>voltar</b>."], ["Um beco sem saída é um ponto…", ["Sem continuação", "Onde dá para escolher"], "Beco sem saída: ponto <b>sem continuação</b>."])
+  ];
+})();

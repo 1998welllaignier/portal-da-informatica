@@ -50,5 +50,5 @@ A maior parte do tempo do aluno em simulador ou jogo; alternativas e V ou F só 
 - 👾 **Chefão do bimestre** no começo da Revisão (✅ feito em 21/11/2026): batalha com perguntas de todas as missões; ver PADRAO-DE-QUALIDADE.md.
 - 🎮 **Projeto do ano** (6º: "Meu primeiro jogo") 100% dentro do portal + 🏛️ **Mostra virtual** (culminância digital) com galeria, votação e moderação do professor; ideia de uma "praça 2D" da turma. Roblox: só como extra, não como base.
 - Gancho, Lembra? da 1ª missão e "Onde eu uso" prático escritos para as missões m2–m8.
-- 🌀 **Ano todo (decisão do professor, 21/11/2026)**: ✅ Etapa 1 — 1º bimestre de 2027 do 7º, 8º e 9º + Trilhas (0 erros, 0 avisos). ⏳ Etapas 2 a 4 — 2º, 3º e 4º bimestres de 2027. As apostilas de 2026 em uso agora ficam como estão.
+- 🌀 **Ano todo (decisão do professor, 21/11/2026)**: ✅ Etapa 1 — 1º bimestre de 2027 do 7º, 8º e 9º + Trilhas (0 erros, 0 avisos). ✅ Etapa 2 — 2º bimestre de 2027, 6º ao 9º + Trilhas (0 erros, 0 avisos). ⏳ Etapas 3 e 4 — 3º e 4º bimestres de 2027. As apostilas de 2026 em uso agora ficam como estão.
 - ✅ Verificador automático pronto (ferramentas/verificar_modelo.js). Em 20/11/2026: 378 missões, 0 erros, 25 avisos (todos de Desafio + Turbo curtos).

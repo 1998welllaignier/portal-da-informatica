@@ -244,21 +244,6 @@ PORTAL.registrarConteudo("informatica-7ano-2027-2bim", {
      "termo": "Algoritmo",
      "rotulo": "<strong>Algoritmo</strong>",
      "def": "uma sequência de passos, em ordem, para resolver um problema."
-    },
-    {
-     "termo": "Aplicativo",
-     "rotulo": "<strong>Aplicativo</strong>",
-     "def": "programa do celular ou do computador."
-    },
-    {
-     "termo": "Aplicativo",
-     "rotulo": "<strong>Aplicativo</strong>",
-     "def": "programa do celular ou do computador."
-    },
-    {
-     "termo": "Aplicativo",
-     "rotulo": "<strong>Aplicativo</strong>",
-     "def": "programa do celular ou do computador."
     }
    ],
    "ondeUso": {

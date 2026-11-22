@@ -332,6 +332,8 @@ d("zoom", "Zoom: aumentar ou diminuir o tamanho do que aparece na tela",
 # ---------------- 7º, 8º e 9º ano · 1º bimestre de 2027 (modelo em espiral, 21/11/2026) ----------------
 from termos_2027_1bim import registrar as _reg2027  # noqa: E402
 _reg2027(d, D, k)
+from termos_2027_2bim import registrar as _reg2027b  # noqa: E402
+_reg2027b(d, D, k)
 
 if __name__ == "__main__":
     raiz = os.path.dirname(os.path.dirname(AQUI))
@@ -340,4 +342,4 @@ if __name__ == "__main__":
           f"window.TERMOS_IMG = {json.dumps(D, ensure_ascii=False)};\n")
     open(os.path.join(raiz, "dados", "termos-imagens.js"), "w", encoding="utf-8").write(js)
     print(len(D), "termos com imagem;", len(js) // 1024, "KB")
-    print("já tinham figurinha (mantidas):", ", ".join(_reg2027.pulados))
+    print("já tinham figurinha (mantidas):", ", ".join(_reg2027.pulados + _reg2027b.pulados))

@@ -441,7 +441,7 @@ PORTAL.registrarConteudo("informatica-7ano-2027-2bim-trilha", {
    "comecar": [
     {
      "t": "p",
-     "h": "A turma vai fazer o <strong>Guia de Rotas da Escola</strong> em equipe. Primeiro, o <strong>plano</strong>:"
+     "h": "A turma vai fazer o <strong>Guia de Rotas da Escola</strong> em equipe. Todo projeto começa com um <strong>plano</strong>:"
     },
     {
      "t": "tabela",
@@ -568,7 +568,7 @@ PORTAL.registrarConteudo("informatica-7ano-2027-2bim-trilha", {
     },
     {
      "t": "p",
-     "h": "No fim, a equipe <strong>apresenta</strong>: o problema, o que fez e como usar."
+     "h": "No fim, a equipe <strong>apresenta</strong>: na apresentação, a equipe mostra o problema, o que fez e como usar."
     }
    ],
    "termos": [

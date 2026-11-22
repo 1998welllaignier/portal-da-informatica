@@ -155,6 +155,10 @@ PORTAL.registrarConteudo("informatica-9ano-2027-2bim-trilha", {
        "Lá os aplicativos são conferidos"
       ]
      ]
+    },
+    {
+     "t": "p",
+     "h": "A <strong>atualização</strong> é a versão nova do aplicativo ou do celular: ela fecha as falhas. Um <strong>link</strong> é um endereço que abre uma página: desconfie de link enviado por número estranho. Baixar de qualquer site <strong>não é seguro</strong>."
     }
    ],
    "termos": [

@@ -241,3 +241,73 @@ PORTAL.registrarAtividades("informatica-9ano-2027-2bim-trilha", {
   ].filter(Boolean) };
 })();
 })();
+
+/* ============================================================
+   🌀 MODELO EM ESPIRAL NA TRILHA (21/11/2026 — Etapa 2: 2º bimestre de 2027): o mesmo ❓ gancho da turma,
+   "O que você já sabe?" na M1 e o 🛠️ "Onde eu uso isso?" prático em versão calma (jogo curto + 2 perguntas).
+   ============================================================ */
+(function () {
+  const A = PORTAL.atividades["informatica-9ano-2027-2bim-trilha"]; if (!A) return;
+  const GANCHO = {"m1":{"html":"<p>📲 O celular da tia Nena começou a abrir <b>propagandas sozinho</b> e ficou lento, logo depois que ela baixou um “jogo grátis” de um site desconhecido.</p><p>🤔 O que entrou no celular dela? Por onde entrou? E como evitar?</p>"},"m2":{"html":"<p>💬 A mãe do Gui recebeu: “Oi, mãe, troquei de número. Me manda um Pix urgente? Depois te explico!”. Ela quase mandou… mas o Gui estava ao lado dela!</p><p>🤔 Como o golpista tentou parecer o filho? Que sinais mostravam que era golpe?</p>"},"m3":{"html":"<p>🕵️ Na caça ao tesouro da escola, a primeira pista estava num papel: <b>SDWLR</b>. Ninguém entendeu nada!</p><p>🤔 Como ler uma mensagem secreta? E se cada letra tivesse andado 3 casas no alfabeto?</p>"},"m4":{"html":"<p>🔒 A Bia vai comprar um fone numa loja on-line e viu um <b>cadeadinho</b> do lado do endereço.</p><p>🤔 O cadeado quer dizer que a loja é honesta? Ou ele protege outra coisa?</p>"},"m5":{"html":"<p>😱 A senha do Davi era <b>davi2011</b> em tudo: no jogo, na rede social e no e-mail. Um dia, o site do jogo avisou: “houve um <b>vazamento de dados</b>”.</p><p>🤔 O que pode acontecer com as outras contas do Davi? O que ele deve fazer agora?</p>"},"m6":{"html":"<p>🚪 O portão eletrônico do prédio do Rafa abre quando ele aperta o controle. À noite, a luz da garagem acende quando alguém passa.</p><p>🤔 O programa do portão fica perguntando o tempo todo “apertaram? apertaram?”, ou ele <b>espera</b> algo acontecer para agir?</p>"},"m7":{"html":"<p>🏥 Num hospital, os computadores amanheceram com todos os arquivos virando letras sem sentido. Na tela, uma mensagem: “pague para ter os arquivos de volta”.</p><p>🤔 O que aconteceu? Pagar resolve? O que teria salvado o hospital?</p>"},"m8":{"html":"<p>📜 O Caio recebeu um bilhete normalzinho do primo: “Saí cedo hoje. Ontem choveu muito. Levei o guarda-chuva.”. Só depois ele percebeu que as primeiras letras formavam uma palavra!</p><p>🤔 Como esconder uma mensagem sem ninguém nem perceber que ela existe?</p>"}};
+  Object.keys(GANCHO).forEach(m => { A[m].gancho = GANCHO[m]; });
+  const perg = (titulo, ...ps) => ({ tipo: "escolha", titulo, enunciado: "<p>Use o que você aprendeu hoje. Leia com calma. 😉</p>", perguntas: ps.map(x => ({ p: x[0], opcoes: x[1], certo: 0, why: x[2] })) });
+  const VIDA = (...ps) => perg("🛠️ E na vida real?", ...ps);
+  const msg = (titulo, app, botoes, enun, itens, okMsg, expl) => ({ tipo: "mensagens", titulo, app, botoes: botoes.map(([id, rot]) => ({ id, rot })), enunciado: `<p>${enun}</p>`,
+    itens: itens.map(([t, c, why]) => ({ de: "", t, c, why })), okMsg, explicacao: expl });
+
+  A.m1.lembra = [perg("🔍 O que você já sabe?",
+    ["O programa que protege o celular de programas do mal é o…", ["Antivírus", "Navegador"], "É o <b>antivírus</b>."],
+    ["O lugar seguro para baixar aplicativos é…", ["A loja oficial", "Um site desconhecido"], "Baixe só da <b>loja oficial</b>."])];
+  A.m1.lembra[0].enunciado = "<p>Responda o que você já sabe. Se não souber, tudo bem: o portal mostra onde está a resposta. 😉</p>";
+  A.m1.aplicar = [
+    msg("🛠️ Na vida real: baixar ou não?", "📲 Downloads", [["S", "✅ Pode baixar"], ["N", "🚫 Não baixe"]], "Para cada oferta, decida.",
+      [["Jogo da loja oficial", "S", "Loja oficial: pode."], ["“Jogo pago de graça” num site desconhecido", "N", "Pode ser um cavalo de Troia."], ["Link estranho de um número que você não conhece", "N", "Pode trazer malware."]],
+      "Celular protegido! 🛡️", "Baixe só da loja oficial; desconfie de grátis demais e de links estranhos."),
+    VIDA(["Um programa que finge ser bom e esconde um malware é o…", ["Cavalo de Troia", "Antivírus"], "É o <b>cavalo de Troia</b>."], ["Propaganda demais na tela pode ser…", ["Adware", "Vírus da gripe"], "Pode ser um <b>adware</b>."])
+  ];
+  A.m2.aplicar = [
+    msg("🛠️ Na vida real: golpe ou não?", "💬 Mensagens", [["G", "⚠️ Golpe"], ["O", "✅ Confiável"]], "Procure os sinais: pressa, prêmio fácil, pedido de senha ou de dinheiro.",
+      [["URGENTE! Me manda um Pix agora!", "G", "Pressa e pedido de dinheiro."], ["Você ganhou um celular! Mande a sua senha", "G", "Prêmio fácil e pedido de senha."], ["A aula amanhã começa às 14h", "O", "Não pede nada."]],
+      "Golpe nenhum passa! 🛡️", "Pressa, prêmio fácil e pedido de senha ou dinheiro são sinais de golpe."),
+    VIDA(["Banco pede a senha por mensagem?", ["Nunca", "Sempre"], "Banco <b>nunca</b> pede a senha por mensagem."], ["Enganar a pessoa para ela entregar os dados é…", ["Engenharia social", "DDoS"], "Isso é <b>engenharia social</b>."])
+  ];
+  A.m3.aplicar = [
+    { tipo: "cesar", titulo: "🛠️ Na vida real: a pista da caça ao tesouro", chaveInicial: 3,
+      enunciado: "<p>A pista foi cifrada com a <b>chave 3</b>. Use a tira para decifrar: cada letra volta 3 casas.</p>",
+      tarefas: [{ tipo: "decifrar", claro: "PATIO", cifrado: "SDWLR" }],
+      dicas: ["S volta 3 casas: R, Q, P. Então S → P."], explicacao: "SDWLR → PATIO: o tesouro está no pátio!" },
+    VIDA(["O número de casas que a letra anda é a…", ["Chave", "Senha"], "É a <b>chave</b>."], ["LUA com a chave 3 vira…", ["OXD", "LUA"], "L → O, U → X, A → D: <b>OXD</b>."])
+  ];
+  A.m4.aplicar = [
+    msg("🛠️ Na vida real: tem cadeado?", "🌐 Navegador", [["S", "🔒 Conversa cifrada"], ["N", "⚠️ Sem criptografia"]], "Olhe o começo do endereço.",
+      [["🔒 https://www.lojafone.com.br", "S", "https e cadeado: cifrada."], ["http://www.lojafone.com.br", "N", "Sem o S e sem cadeado."], ["🔒 https://portal.professorwell.com.br", "S", "https e cadeado."]],
+      "Mandou bem! 🔒", "https com cadeado: a conversa com o site é cifrada."),
+    VIDA(["Quem abre o cadeado fechado com a chave pública?", ["Só o dono da chave privada", "Todo mundo"], "Só o dono da <b>chave privada</b>."], ["O cadeado prova que o site é honesto?", ["Não: confira o nome do site", "Sim, sempre"], "O cadeado <b>não</b> prova isso."])
+  ];
+  A.m5.aplicar = [
+    msg("🛠️ Na vida real: forte ou fraca?", "🔐 Senhas inventadas", [["F", "💪 Forte"], ["X", "😟 Fraca"]], "Todas são senhas <b>inventadas</b>, só para treinar.",
+      [["Gato!Azul7Pula", "F", "Comprida e misturada."], ["123456", "X", "Curta e só números."], ["ana2011", "X", "Tem nome e aniversário."]],
+      "Mandou bem! 🔐", "Senha forte é comprida, mistura letras, números e símbolos, e não tem nada pessoal."),
+    VIDA(["O site guarda a sua senha escrita?", ["Não: guarda um hash", "Sim"], "Ele guarda um <b>hash</b>, um resumo embaralhado."], ["Senha forte tem…", ["Letras, números e símbolos misturados", "Só o seu nome"], "Mistura letras, números e símbolos."])
+  ];
+  A.m6.aplicar = [
+    msg("🛠️ Na vida real: evento ou ação?", "⚡ Alarme da sala", [["E", "⚡ Evento (QUANDO)"], ["A", "🎬 Ação (FAÇA)"]], "Cada parte da regra é o evento ou a ação?",
+      [["A porta abre depois das 18h", "E", "É o que acontece."], ["Tocar a sirene", "A", "É o que o programa faz."], ["Alguém digita o código certo", "E", "É o que acontece."], ["Desligar a sirene", "A", "É o que o programa faz."]],
+      "Mandou bem! ⚡", "QUANDO acontece algo (evento), FAÇA uma ação."),
+    VIDA(["O celular vibra quando chega mensagem. O evento é…", ["Chegar a mensagem", "Vibrar"], "O <b>evento</b> é chegar a mensagem."], ["E a ação é…", ["Vibrar", "Chegar a mensagem"], "A <b>ação</b> é vibrar."])
+  ];
+  A.m7.aplicar = [
+    msg("🛠️ Na vida real: o backup da Lara", "💾 Backup", [["S", "✅ Certo"], ["N", "⚠️ Errado"]], "Cada parte do plano segue a regra 3-2-1?",
+      [["Ter o original e mais 2 cópias", "S", "São 3 cópias."], ["Guardar no computador e num HD externo", "S", "São 2 tipos de lugar."], ["Uma cópia na nuvem, fora de casa", "S", "É a 1 cópia fora de casa."], ["Pagar o resgate do ransomware", "N", "Pagar não garante nada."]],
+      "Backup de respeito! 💾", "Regra 3-2-1: 3 cópias, 2 tipos de lugar, 1 fora de casa."),
+    VIDA(["O ransomware tranca os arquivos e pede…", ["Dinheiro (o resgate)", "Uma foto"], "Pede o <b>resgate</b>."], ["A proteção contra o ransomware é o…", ["Backup", "Adware"], "É o <b>backup</b>, a cópia de segurança."])
+  ];
+  A.m8.aplicar = [
+    { tipo: "tabela", titulo: "🛠️ Na vida real: o bilhete secreto do primo",
+      enunciado: "<p>Leia a primeira letra de cada linha, de cima para baixo, e escreva a palavra escondida.</p>",
+      colunas: ["Bilhete", "Palavra escondida"],
+      linhas: [["Mais tarde eu ligo. / Amanhã tem prova. / Remédio na mesa.", { r: "MAR", tipo: "letras" }]],
+      explicacao: "M-A-R: as primeiras letras escondem a palavra MAR." },
+    VIDA(["Esconder uma mensagem sem ninguém perceber é…", ["Esteganografia", "DDoS"], "É a <b>esteganografia</b>."], ["No acróstico, a mensagem está…", ["Nas primeiras letras de cada linha", "No fim do bilhete"], "Nas <b>primeiras letras</b>."])
+  ];
+})();
