@@ -1,4 +1,4 @@
-// Gera material.html (página pública de transparência) a partir dos mesmos dados do PDF
+// Gera material.html (página pública "De portas abertas") a partir dos mesmos dados do PDF
 const fs = require('fs');
 const src = fs.readFileSync('gerar.js', 'utf8');
 const H = eval('(' + src.slice(src.indexOf('const H = {') + 10, src.indexOf('};', src.indexOf('const H = {')) + 1) + ')');
@@ -24,7 +24,7 @@ const ano = a => `<details class="ano" ${a === '6' ? 'open' : ''}><summary><span
 
 const html = `<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>O material da Sala de Informática · Prof. Welington Laignier</title>
-<meta name="description" content="Transparência pedagógica: o material de Informática do Prof. Welington Laignier, do 6º ao 9º ano, e como ele trabalha as 42 habilidades e os 3 eixos da BNCC Computação.">
+<meta name="description" content="De portas abertas: o material de Informática do Prof. Welington Laignier, do 6º ao 9º ano, e como ele trabalha as 42 habilidades e os 3 eixos da BNCC Computação.">
 <link rel="icon" href="img/icone.svg">
 <style>
 :root{--tinta:#1c2333;--suave:#4a5470;--linha:#dde4f5;--bg:#f4f6fb}
@@ -76,7 +76,7 @@ footer{text-align:center;color:var(--suave);font-size:.88rem;padding:20px 16px 3
 <header class="topo"><a class="marca" href="./">Portal da Informática<small>Professor Welington Laignier</small></a><a class="voltar" href="./">← Voltar ao portal</a></header>
 <main>
 <section class="hero">
-  <p class="sup">Transparência pedagógica</p>
+  <p class="sup">De portas abertas</p>
   <h1>O material da <span>Sala de Informática</span></h1>
   <p class="prof">Prof. Welington Laignier</p>
   <p class="sub">O que os alunos do 6º ao 9º ano estudam nas aulas de Informática, com qual material, e como ele cumpre a BNCC Computação. Tudo aberto para famílias, escola e comunidade.</p>

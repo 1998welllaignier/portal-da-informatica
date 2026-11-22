@@ -2646,7 +2646,7 @@ body.lg-travado{overflow:hidden}
   .mus-sec>summary { flex-wrap: wrap; }
   .mus-sec>summary b { max-width: 100%; white-space: normal; }
 }
-/* 📚 chamada da página de transparência do material (22/11/2026) */
+/* 📚 chamada da página "De portas abertas" do material (22/11/2026) */
 .card-material { display: flex; align-items: center; gap: 16px; margin: 18px 0 6px; padding: 18px 20px; border-radius: 18px; text-decoration: none; color: #fff;
   background: radial-gradient(circle at 92% 0, #3a63d8 0, transparent 50%), #141a2e; box-shadow: 0 8px 22px rgba(20,26,46,.22); }
 .card-material:hover { transform: translateY(-1px); box-shadow: 0 12px 26px rgba(20,26,46,.3); }
