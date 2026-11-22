@@ -126,6 +126,10 @@ PORTAL.registrarConteudo("informatica-6ano-2027-4bim-trilha", {
     {
      "t": "p",
      "h": "Os pacotes podem chegar <strong>fora de ordem</strong>. O <strong>número</strong> ajuda a montar de novo."
+    },
+    {
+     "t": "cena",
+     "id": "pacotes-simples"
     }
    ],
    "termos": [

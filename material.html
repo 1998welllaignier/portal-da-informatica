@@ -50,7 +50,7 @@ footer{text-align:center;color:var(--suave);font-size:.88rem;padding:20px 16px 3
 @media print{.topo,.bts{display:none}.ano{break-inside:avoid}details>*{display:block}}
 /* ===== história em rolagem ===== */
 .cena{position:relative}
-.c1{height:260vh}.c2{height:300vh}.c3{height:560vh}.c4{height:240vh}
+.c1{height:150vh}.c2{height:300vh}.c3{height:560vh}
 .palco{position:sticky;top:0;height:100vh;overflow:hidden;display:grid;grid-template-columns:1fr 1.1fr;align-items:center;gap:30px;padding:30px max(20px,calc((100vw - 1100px)/2))}
 .cena .sup{letter-spacing:.16em;text-transform:uppercase;font-size:.8rem;color:#c2410c;font-weight:900;margin:0}
 .cena h1{font-size:clamp(2rem,5vw,3.4rem);line-height:1.05;margin:10px 0}.cena h1 span{color:#2456c8}
@@ -83,7 +83,8 @@ footer{text-align:center;color:var(--suave);font-size:.88rem;padding:20px 16px 3
 .c3-barra i{width:11px;height:11px;border-radius:50%;background:#ef4444}.c3-barra i+i{background:#f59e0b}.c3-barra i+i+i{background:#22c55e}.c3-barra span{margin-left:8px}
 .c3-telas{position:relative;aspect-ratio:1100/620;background:#eef1f8;overflow:hidden}
 .c3-telas img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top;will-change:transform}
-.c4{background:linear-gradient(180deg,#f4f6fb,#fff8ec)}
+.c4{background:linear-gradient(180deg,#f4f6fb,#fff8ec)}.c4 .palco{position:static;height:auto;padding-top:70px;padding-bottom:70px}
+.deg{opacity:0;transform:translateX(60px);transition:opacity .6s ease,transform .6s cubic-bezier(.2,.8,.2,1);transition-delay:calc(var(--i)*.12s)}.deg.vis{opacity:1;transform:none}.sem-mov .deg{opacity:1;transform:none;transition:none}
 .c4-escada{display:flex;flex-direction:column-reverse;gap:10px}
 .deg{width:var(--w);margin-left:auto;background:#141a2e;color:#fff;border-radius:14px;padding:12px 16px;box-shadow:0 8px 0 #c2410c;will-change:transform}
 .deg b{color:#ffd76a;font-size:1.15rem;display:block}.deg span{font-size:.88rem;color:#c9d2f2}
@@ -113,8 +114,8 @@ footer{text-align:center;color:var(--suave);font-size:.88rem;padding:20px 16px 3
       <p class="sup">O que se aprende aqui</p>
       <h1>A <span>Sala de Informática</span> por dentro</h1>
       <p class="prof">Prof. Welington Laignier</p>
-      <p class="sub c1-leg" data-de="0" data-ate=".45">Role a página devagar: o computador vai se montar e contar a história do material.</p>
-      <p class="sub c1-leg" data-de=".45" data-ate="1.1">Aqui, cada aluno do 6º ao 9º ano aprende Computação no <b>Portal da Informática</b>, um material digital criado pelo professor.</p>
+      <p class="sub c1-leg" data-de="0" data-ate=".4">Role a página: o computador se monta e a história do material começa.</p>
+      <p class="sub c1-leg" data-de=".4" data-ate="1.1">Aqui, cada aluno do 6º ao 9º ano aprende Computação no <b>Portal da Informática</b>, um material digital criado pelo professor.</p>
     </div>
     <svg class="c1-pc" viewBox="0 0 520 420" aria-hidden="true">
       <defs><linearGradient id="tela" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1e3a8a"/><stop offset="1" stop-color="#2563eb"/></linearGradient></defs>
@@ -184,7 +185,7 @@ footer{text-align:center;color:var(--suave);font-size:.88rem;padding:20px 16px 3
   </div>
 </div>
 
-<div class="cena c4" data-cena="c4">
+<div class="cena c4">
   <div class="palco">
     <div class="c4-txt">
       <p class="sup">Do 6º ao 9º ano</p>
@@ -298,10 +299,10 @@ footer{text-align:center;color:var(--suave);font-size:.88rem;padding:20px 16px 3
   const C = {
     c1(el, p) {
       const voa = (s, a, b, dx, dy, rot) => { const t = seg(p, a, b), g = $(s, el); g.style.transform = `translate(${(1 - t) * dx}px,${(1 - t) * dy}px) rotate(${(1 - t) * rot}deg)`; g.style.opacity = .15 + .85 * t; };
-      voa(".pc-monitor", 0, .3, 0, -260, -8); voa(".pc-pe", .12, .38, 0, 220, 0);
-      voa(".pc-teclado", .25, .55, -420, 120, -20); voa(".pc-mouse", .35, .62, 380, 160, 30);
-      const tl = $(".pc-tela", el); tl.style.opacity = seg(p, .6, .78);
-      $(".pc-faisca", el).style.opacity = seg(p, .75, .9);
+      voa(".pc-monitor", 0, .25, 0, -260, -8); voa(".pc-pe", .08, .3, 0, 220, 0);
+      voa(".pc-teclado", .18, .45, -420, 120, -20); voa(".pc-mouse", .25, .5, 380, 160, 30);
+      const tl = $(".pc-tela", el); tl.style.opacity = seg(p, .48, .66);
+      $(".pc-faisca", el).style.opacity = seg(p, .62, .78);
       $$(".c1-leg", el).forEach(x => x.classList.toggle("fora", !(p >= +x.dataset.de && p < +x.dataset.ate)));
       $(".rolar", el).style.opacity = 1 - seg(p, 0, .15);
     },
@@ -324,11 +325,11 @@ footer{text-align:center;color:var(--suave);font-size:.88rem;padding:20px 16px 3
       });
       const at = lim(Math.floor(k), 0, n - 1);
       lis.forEach((li, i) => { li.classList.toggle("atual", i === at); li.classList.toggle("feito", i < at); });
-    },
-    c4(el, p) {
-      $$(".deg", el).forEach((d, i) => { const t = seg(p, i * .17, i * .17 + .35); d.style.transform = `translateX(${(1 - t) * 110}%)`; d.style.opacity = t; });
     }
   };
+  // escada: efeito simples, cada degrau aparece quando chega na tela (sem prender a página)
+  const io = "IntersectionObserver" in window ? new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("vis"); io.unobserve(e.target); } }), { threshold: .3 }) : null;
+  $$(".deg").forEach(d => io ? io.observe(d) : d.classList.add("vis"));
   const cenas = $$("[data-cena]");
   if (reduz) { document.documentElement.classList.add("sem-mov"); cenas.forEach(el => C[el.dataset.cena](el, 1)); return; }
   let pedindo = false;

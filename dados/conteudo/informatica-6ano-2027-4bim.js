@@ -167,6 +167,10 @@ PORTAL.registrarConteudo("informatica-6ano-2027-4bim", {
     {
      "t": "p",
      "h": "<strong>Por que em pedaços?</strong> Pedaços pequenos <strong>dividem a estrada</strong> com os pacotes de outras pessoas, e um erro faz reenviar <strong>só um pedaço</strong>, não o arquivo inteiro."
+    },
+    {
+     "t": "cena",
+     "id": "pacotes"
     }
    ],
    "termos": [

@@ -35,6 +35,7 @@ Na internet, a foto viaja dividida em **pacotes** (pedaços).
 | 🔢 Número de ordem | A posição do pedaço |
 
 Os pacotes podem chegar **fora de ordem**. O **número** ajuda a montar de novo.
+{{cena:pacotes-simples}}
 ### 📖 O que significa?
 - **Pacote**: um pedaço da informação.
 - **Destino**: para onde vai.

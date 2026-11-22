@@ -48,6 +48,11 @@ def parse_blocks(lines):
             blocks.append({"t": "tabela", "cab": [inline(c) for c in rows[0]],
                            "linhas": [[inline(c) for c in r] for r in rows[1:]]})
             continue
+        mc = re.match(r"^\{\{cena:([\w-]+)\}\}\s*$", ln.strip())
+        if mc:  # 🎬 cena em rolagem (js/cenas-missao.js): {{cena:pacotes}}
+            blocks.append({"t": "cena", "id": mc.group(1)})
+            i += 1
+            continue
         m = re.match(r"^(\s*)(- \[ \] |- |\d+\. )(.*)$", ln)
         if m:
             itens, ordenada = [], m.group(2)[0].isdigit()

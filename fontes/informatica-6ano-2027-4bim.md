@@ -64,6 +64,7 @@ Quando você manda uma foto pela internet, ela **não vai inteira**. O computado
 
 **Como um quebra-cabeça pelo correio:** imagine mandar um quebra-cabeça para um amigo, uma peça em cada envelope. Os envelopes podem chegar **fora de ordem**, mas o número de cada peça ajuda a **montar de novo**. Se um envelope se **perder**, o amigo pede **só aquela peça** outra vez.
 **Por que em pedaços?** Pedaços pequenos **dividem a estrada** com os pacotes de outras pessoas, e um erro faz reenviar **só um pedaço**, não o arquivo inteiro.
+{{cena:pacotes}}
 ### 📖 O que significa?
 - **Pacote**: um pedaço pequeno da informação que viaja pela internet.
 - **Destino**: o lugar para onde algo vai.
