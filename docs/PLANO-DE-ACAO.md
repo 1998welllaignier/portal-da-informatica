@@ -317,3 +317,19 @@ Sem pressa: primeiro testar até tudo funcionar bem na EMEF JK. Esta seção é 
 4. Quem faltou ou entrou atrasado cai direto na atividade atual; o que ficou para trás abre no fim da aula (ou em casa), para ninguém perder o Básico.
 5. Desafio e Turbo continuam no ritmo do aluno (são para quem terminou).
 **Decidir com o professor:** (a) vale para a missão inteira ou só para o Básico? (b) mostrar o gráfico de acertos para a turma ou só para ele? (c) o placar/pódio conta pontos por rapidez nesse modo ou não?
+
+## 6. 🔐 Proteção, leituras do Firebase e cópia de segurança (anotado em 22/11/2026, à noite, a pedido do professor)
+Situação medida no console (15 a 22/11/2026): **105 mil leituras na semana**; nos dias de aula, entre **21 mil e 30 mil por dia** (pico na segunda, 17/11), para um limite gratuito de **50 mil por dia** (uns 60% no pior dia). Gravações: 3,8 mil na semana (limite de 20 mil por dia). Nada urgente, mas a folga é menor do que parecia.
+
+Fazer (em ordem):
+1. **Fechar `#/ver` e `#/testar`** sem login do painel (hoje abrem qualquer apostila inteira). Fazer fora do horário de aula; o botão "👀 Abrir a apostila do aluno" do painel tem que continuar funcionando.
+2. **Proteger o login por código** (4 números = 10 mil combinações): limitar tentativas (ex.: esperar 1 min depois de 5 erros) e talvez pedir a turma junto.
+3. **Cópia de segurança semanal** do diário, das notas e das provas (planilha ou arquivo no Google Drive do professor).
+4. **Painel que lê menos (pedido do professor):** 🗺️ Panorama, 📅 Minha semana e 🧮 Boletim leem os dados **uma vez por dia** e guardam no computador; mostram "Dados de hoje às HH:MM" e um botão **🔄 Atualizar agora** para buscar de novo quando ele quiser. Atualiza sozinho quando o próprio professor muda algo (chamada, visto, finalizar aula). A aba 🎤 Aula e o 🔴 Ao vivo continuam em tempo real.
+5. **Alerta de uso** do Firebase (ex.: aviso se passar de 40 mil leituras num dia). Precisa de configuração na conta Google dele: fazer junto com ele.
+6. Carregar mais rápido na sala (guardar os arquivos do portal no computador depois da primeira vez).
+7. Registrar os códigos da BNCC nos roteiros de 2026 (como em 2027).
+8. Mais cenas em rolagem só onde o movimento ensina (M2 do 6º 4º bim 2027 — caminho dos pacotes/DNS; busca e ordenação do 8º; lixo eletrônico).
+9. Script para subir as versões (`?v=`) automaticamente a cada publicação.
+10. Daqui a uma semana: conversar sobre o painel novo (o que ele usou e o que ficou esquecido).
+- Pendência dele: ativar a verificação em duas etapas da conta Google do portal no computador de casa (pede o Firebase; dá para fazer por código SMS, sem Bluetooth).
