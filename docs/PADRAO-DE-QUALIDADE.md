@@ -650,3 +650,9 @@ Questões **contextualizadas** (situação curta: 1–2 frases no 6º, 2–3 no 
 - **▶️ Iniciar aula só na barra de cima** (na aba Aula já vem com a turma aberta).
 - **Novidades:** 🔎 **Procurar aluno** (todas as turmas, pelo nome) → 🪪 **ficha do aluno** (turma, marcas, código escondido, dias no portal, último acesso, missões do bimestre com Básico/Desafio/Turbo, apoios, atalhos para o relatório, as opções na turma e a frequência); 📅 **Minha semana** (segunda a sexta, cada aula com horário, missão dada ou prevista, quem veio, ❔ sem registro e 🟧 recados pendentes; semana anterior e próxima).
 - Regra para telas novas do painel: nada de quadro grande antes do conteúdo principal da aba; o que é consulta fica num ícone ou depois do conteúdo, com índice para chegar lá.
+
+## 📚 Transparência: cobertura da BNCC Computação (22/11/2026, pedido do professor)
+- Relatório em PDF "Cobertura da BNCC Computação" (12 páginas) e página pública `material.html`, chamada na página inicial pelo cartão "📚 O material da Sala de Informática".
+- Conclusão verificada: o currículo de 2027 trabalha as **42 habilidades** da BNCC Computação dos Anos Finais nos **3 eixos** (Pensamento Computacional 18, Mundo Digital 8, Cultura Digital 16); cada habilidade tem pelo menos uma missão regular; a Trilha tem as mesmas missões.
+- Como regenerar: `ferramentas/bncc/mapear.js` (lê os roteiros e liga código → missão), depois `gerar_pdf.js` e `gerar_pagina.js` (os caminhos de saída estão no começo de cada script). **Toda missão nova precisa ter o código da BNCC no `datas` do roteiro**, senão some do mapa.
+- A página não mostra nenhum dado de aluno; os resumos das habilidades são em linguagem simples (o texto oficial está no Parecer CNE/CEB nº 2/2022).

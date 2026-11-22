@@ -2646,3 +2646,15 @@ body.lg-travado{overflow:hidden}
   .mus-sec>summary { flex-wrap: wrap; }
   .mus-sec>summary b { max-width: 100%; white-space: normal; }
 }
+/* 📚 chamada da página de transparência do material (22/11/2026) */
+.card-material { display: flex; align-items: center; gap: 16px; margin: 18px 0 6px; padding: 18px 20px; border-radius: 18px; text-decoration: none; color: #fff;
+  background: radial-gradient(circle at 92% 0, #3a63d8 0, transparent 50%), #141a2e; box-shadow: 0 8px 22px rgba(20,26,46,.22); }
+.card-material:hover { transform: translateY(-1px); box-shadow: 0 12px 26px rgba(20,26,46,.3); }
+.cm-ic { font-size: 2.4rem; flex: none; }
+.cm-txt { display: flex; flex-direction: column; gap: 2px; }
+.cm-sup { font-size: .75rem; letter-spacing: .14em; text-transform: uppercase; color: #ffd76a; font-weight: 800; }
+.cm-txt > b { font-size: 1.2rem; }
+.cm-txt > span:last-child { color: #d7defa; font-size: .95rem; }
+.cm-txt > span:last-child b { color: #fff; }
+.cm-ir { margin-left: auto; flex: none; background: #ffd76a; color: #141a2e; font-weight: 900; border-radius: 99px; padding: 8px 16px; white-space: nowrap; }
+@media (max-width: 600px) { .card-material { flex-wrap: wrap; } .cm-ir { margin-left: 0; } }

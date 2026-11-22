@@ -958,6 +958,11 @@
       ${P.videoCartao((cat().videosApresentacao || {}).familias, { para: "🎬 Para famílias e alunos", titulo: "Conheça o Portal da Informática", duracao: "3 min",
         sub: "Veja como funcionam as aulas de Informática do Prof. Welington Laignier e como o aluno aprende no portal. Assista com o som ligado.",
         topicos: ["🔢 Como o aluno entra: só um código de 4 números, sem e-mail e sem senha", "🎯 As missões: videozinho, leitura e “Onde eu uso isso?”", "🖱️ Os simuladores e as tarefas em três níveis, com o robô Bit para ajudar", "🏆 Os pontos, o rei da sala e o pódio no fim da aula", "👀 Como o professor acompanha cada aluno e quem estuda em casa", "🔒 A segurança: nome e notas só aparecem no painel do professor"] })}
+      <a class="card-material" href="material.html">
+        <span class="cm-ic" aria-hidden="true">📚</span>
+        <span class="cm-txt"><span class="cm-sup">Transparência</span><b>O material da Sala de Informática</b>
+          <span>O que os alunos estudam, com qual material e como ele trabalha <b>as 42 habilidades e os 3 eixos da BNCC Computação</b>. Com relatório em PDF.</span></span>
+        <span class="cm-ir">Conhecer ➜</span></a>
     </section>`);
     P.ligarVideoCartao(el);
     return el;
