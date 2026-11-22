@@ -295,7 +295,7 @@ PORTAL.registrarConteudo("informatica-9ano-2027-3bim", {
    "comecar": [
     {
      "t": "p",
-     "h": "<strong>Dados abertos</strong> são informações públicas que qualquer pessoa pode <strong>ver, baixar e usar</strong>: quantos alunos tem cada escola, quanto a prefeitura gastou, quantas pessoas moram na cidade."
+     "h": "<strong>Dados abertos</strong> são informações públicas que qualquer pessoa pode <strong>ver, baixar e usar</strong>: quantos alunos tem cada escola, quanto a prefeitura gastou, quantas pessoas moram na cidade. Quem conta toda a população do país é o <strong>Censo</strong>, a pesquisa feita pelo IBGE."
     },
     {
      "t": "p",

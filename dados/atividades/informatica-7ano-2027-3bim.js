@@ -43,7 +43,7 @@ PORTAL.registrarAtividades("informatica-7ano-2027-3bim", {
         perguntas: [
           { p: "Protocolo é:", opcoes: ["Um conjunto de regras para os aparelhos conversarem", "Um tipo de cabo", "Uma marca de celular"], certo: 0 },
           { p: "Um celular de uma marca conversa com um computador de outra porque:", opcoes: ["Os dois seguem o mesmo protocolo", "São da mesma cor", "Estão na mesma mesa"], certo: 0 },
-          { p: "O erro 404 quer dizer:", opcoes: ["Página não encontrada", "Internet muito rápida", "Senha certa"], certo: 0 }],
+          { p: "O erro 404 quer dizer:", opcoes: ["Página não encontrada", "Internet muito rápida", "Bluetooth ligado"], certo: 0 }],
         explicacao: "Protocolo = regras; o mesmo protocolo deixa marcas diferentes conversarem; 404 = página não encontrada." }
     ],
     desafio: [
@@ -53,8 +53,8 @@ PORTAL.registrarAtividades("informatica-7ano-2027-3bim", {
         colunaItem: "Situação", colunaResp: "Protocolo",
         categorias: [{ id: "H", rot: "🌐 HTTP" }, { id: "S", rot: "🔒 HTTPS" }, { id: "W", rot: "📶 Wi-Fi" }, { id: "B", rot: "🎧 Bluetooth" }],
         itens: [{ t: "O fone sem fio toca a música do celular", c: "B" }, { t: "O notebook entra na rede da escola sem cabo", c: "W" },
-          { t: "Abrir a página do portal, com o cadeado 🔒", c: "S" }, { t: "Abrir uma página antiga, sem o S no endereço", c: "H" }],
-        explicacao: "Fone = Bluetooth; rede sem cabo = Wi-Fi; com cadeado = HTTPS; sem o S = HTTP." }
+          { t: "Abrir a página do portal, com os dados cifrados (embaralhados)", c: "S" }, { t: "Abrir uma página antiga, sem o S no endereço", c: "H" }],
+        explicacao: "Fone = Bluetooth; rede sem cabo = Wi-Fi; cifrado = HTTPS; sem o S = HTTP." }
     ],
     turbo: [
       { tipo: "memoria", titulo: "🔴 Jogo da memória dos protocolos",
@@ -183,7 +183,7 @@ PORTAL.registrarAtividades("informatica-7ano-2027-3bim", {
         itens: [{ de: "Número novo", t: "Oi, troquei de número. Me manda um Pix?", c: "G", why: "Falso parente pedindo dinheiro." },
           { de: "Professor", t: "Tragam a apostila na quinta.", c: "N" },
           { de: "Jogo grátis", t: "Ganhe moedas: entre com a sua senha neste site.", c: "G", why: "Pede a senha." },
-          { de: "Mãe", t: "Chego às 18h para te buscar.", c: "N" }],
+          { de: "Mãe", t: "Chego às 18h na escola.", c: "N" }],
         okMsg: "Você reconhece um golpe! 🎣",
         explicacao: "Pedido de dinheiro ou senha = golpe; avisos sem pedido = normal." }
     ],
@@ -262,7 +262,7 @@ PORTAL.registrarAtividades("informatica-7ano-2027-3bim", {
       { tipo: "escolha", titulo: "🟡 No grupo da turma: qual é a melhor resposta?",
         perguntas: [
           { p: "Um colega manda: “Não entendi a tarefa…”. A melhor resposta:", opcoes: ["Explicar com gentileza e oferecer ajuda", "Responder “Ninguém merece, kkk”", "Responder “LÊ DIREITO!”"], certo: 0 },
-          { p: "Você ficou com raiva de uma mensagem. O melhor:", opcoes: ["Esperar a raiva passar antes de responder", "Responder na hora, em maiúsculas", "Mandar print para todo mundo"], certo: 0 },
+          { p: "Você ficou com raiva de uma mensagem. O melhor:", opcoes: ["Esperar a raiva passar antes de responder", "Responder na hora, em maiúsculas", "Mandar a mensagem para todo mundo"], certo: 0 },
           { p: "Você postou uma brincadeira e o colega ficou chateado. O melhor:", opcoes: ["Pedir desculpas e apagar a mensagem", "Dizer que ele não sabe brincar", "Postar outra"], certo: 0 }],
         explicacao: "Ajudar com gentileza, esperar a raiva passar e pedir desculpas são atitudes de empatia." }
     ],
@@ -496,4 +496,217 @@ PORTAL.registrarAtividades("informatica-7ano-2027-3bim", {
     Q("m8", "Debate", [{ p: "O motivo que explica a sua opinião é o:", opcoes: ["Argumento", "Ataque pessoal", "Print"], certo: 0 }, { p: "“Você não sabe nada” é um:", opcoes: ["Ataque pessoal", "Argumento", "Protocolo"], certo: 0 }]), pega("m8")
   ].filter(Boolean) };
 })();
+})();
+
+/* ============================================================
+   🌀 MODELO EM ESPIRAL (21/11/2026, levado ao ano todo — Etapa 3: 3º bimestre de 2027)
+   Por missão: ❓ gancho, 🛠️ "Onde eu uso isso?" prático (jogo de situação real + 3 perguntas),
+   "O que você já sabe?" na M1 e ⏱️ +25% de tempo com 2 jogos no 🟡 Desafio e no 🔴 Turbo.
+   ============================================================ */
+(function () {
+  const A = PORTAL.atividades["informatica-7ano-2027-3bim"]; if (!A) return;
+  const mais = (mid, niv, ...ts) => { A[mid][niv] = (A[mid][niv] || []).concat(ts.map(t => Object.assign(t, { maisTempo: "⏱️ +25%" }))); };
+  const perg = (titulo, enun, ...ps) => ({ tipo: "escolha", titulo, enunciado: `<p>${enun}</p>`, perguntas: ps.map(x => ({ p: x[0], opcoes: x[1], certo: 0, why: x[2] })) });
+  const VIDA = (...ps) => perg("🛠️ E na vida real, o que você faria?", "Use o que você aprendeu hoje para responder.", ...ps);
+  const msg = (titulo, app, botoes, enun, itens, okMsg, expl) => ({ tipo: "mensagens", titulo, app, botoes: botoes.map(([id, rot]) => ({ id, rot })), enunciado: `<p>${enun}</p>`,
+    itens: itens.map(([t, c, why, de]) => ({ de: de || "", t, c, why })), okMsg, explicacao: expl });
+  const rota = (titulo, enun, etapas, okMsg, expl) => ({ tipo: "rota", titulo, enunciado: `<p>${enun}</p>`, etapas: etapas.map(([ic, t, dica]) => dica ? { ic, t, dica } : { ic, t }), okMsg, explicacao: expl });
+  const mem = (titulo, pares, expl) => ({ tipo: "memoria", titulo, enunciado: "<p>Vire duas cartas e ache os pares que combinam.</p>", pares: pares.map(([a, b]) => ({ a, b })), porRodada: 3, explicacao: expl });
+  const sin = (titulo, enun, certos, errados, expl) => ({ tipo: "sinais", titulo, enunciado: `<p>${enun}</p>`, opcoes: [...certos.map(t => ({ t, certo: true })), ...errados.map(([t, why]) => ({ t, certo: false, why }))], explicacao: expl });
+
+  /* ---------- M1 · protocolos ---------- */
+  A.m1.gancho = { html: "<p>🎧 O fone sem fio do Rafa é de uma marca e funciona direitinho no celular da mãe dele, que é de outra marca.</p><p>🤔 Como aparelhos de marcas diferentes conseguem “conversar”? Quem combinou as regras?</p>" };
+  A.m1.lembra = [perg("🔍 O que você já sabe?", "Começou o 3º bimestre! Responda o que você já sabe. Se não souber, tudo bem: chute com calma, e o portal mostra onde está a resposta. 😉",
+    ["O <b>Wi-Fi</b> serve para…", ["Ligar os aparelhos à rede sem fio", "Imprimir", "Carregar a bateria"], "Wi-Fi liga os aparelhos à <b>rede sem fio</b>."],
+    ["O programa que usamos para abrir sites é o…", ["Navegador", "Servidor", "Bluetooth"], "É o <b>navegador</b>."],
+    ["O fone sem fio conversa com o celular pelo…", ["Bluetooth", "Cabo de rede", "HTTP"], "Pelo <b>Bluetooth</b>, para aparelhos pertinho um do outro."])];
+  A.m1.aplicar = [
+    msg("🛠️ Na vida real: qual protocolo está trabalhando?", "🌐 Protocolos", [["H", "🌐 HTTP"], ["S", "🔒 HTTPS"], ["I", "🏠 IP"], ["W", "📶 Wi-Fi"], ["B", "🎧 Bluetooth"]],
+      "Em cada situação, qual protocolo está trabalhando?",
+      [["O fone sem fio toca a música do celular", "B", "Aparelhos pertinho: Bluetooth."], ["O celular entra na rede sem fio da escola", "W", "Rede sem fio: Wi-Fi."],
+        ["O navegador pede a página do site e recebe a página", "H", "Pedir e receber páginas: HTTP."], ["Você entra no portal e os dados viajam cifrados (embaralhados)", "S", "Dados cifrados: HTTPS."],
+        ["Os dados chegam ao aparelho certo pelo endereço dele", "I", "Endereço de cada aparelho: IP."]],
+      "Mandou bem! 🌐", "Cada protocolo é um conjunto de regras combinadas para os aparelhos conversarem."),
+    VIDA(
+      ["As regras combinadas para os aparelhos conversarem se chamam…", ["Protocolo", "Bateria", "Link"], "São o <b>protocolo</b>."],
+      ["Você clicou num link e apareceu “erro 404”. O que quer dizer?", ["Página não encontrada", "Bluetooth desligado", "Internet rápida"], "O servidor respondeu: a página <b>não existe</b>."],
+      ["Um celular de uma marca conversa com um computador de outra marca porque…", ["Os dois seguem o mesmo protocolo", "São da mesma cor", "Têm a mesma bateria"], "Seguem o <b>mesmo protocolo</b>."])
+  ];
+  mais("m1", "desafio",
+    rota("🌐 A conversa do navegador com o site", "Clique nos passos da conversa (HTTP) <b>na ordem</b>.",
+      [["⌨️", "Você digita o endereço ou clica num link"], ["📨", "O navegador pede a página ao servidor do site"], ["📦", "O servidor responde mandando a página"], ["🖥️", "O navegador mostra a página na tela"]],
+      "Página na tela! 🖥️", "Pedido e resposta: é o HTTP trabalhando."));
+  mais("m1", "turbo",
+    mem("🧩 Jogo da memória dos protocolos", [["🌐 HTTP", "Pedir e receber páginas"], ["🔒 HTTPS", "HTTP com dados cifrados"], ["🏠 IP", "Endereço de cada aparelho"],
+      ["📶 Wi-Fi", "Rede sem fio"], ["🎧 Bluetooth", "Aparelhos pertinho"], ["Erro 404", "Página não encontrada"]],
+      "Cada protocolo tem a sua função."));
+
+  /* ---------- M2 · HTTP, HTTPS e o cadeado ---------- */
+  A.m2.gancho = { html: "<p>🔒 A Lara ia digitar a senha do jogo e reparou que o endereço começava com <b>http://</b>, sem o S e sem o cadeado.</p><p>🤔 Faz diferença? O que pode acontecer com a senha dela no caminho?</p>" };
+  A.m2.aplicar = [
+    msg("🛠️ Na vida real: digitar a senha aqui?", "🌐 Navegador", [["S", "✅ Pode digitar"], ["N", "🚫 Não digite"]],
+      "O site do jogo é <b>www.jogoverde.com.br</b>. Confira o https, o cadeado e o nome, letra por letra.",
+      [["🔒 https://www.jogoverde.com.br/entrar", "S", "Tem https, cadeado e o nome certo."], ["http://www.jogoverde.com.br/entrar", "N", "Sem https: a senha viaja aberta, como cartão-postal."],
+        ["🔒 https://www.jogov3rde.com.br/entrar", "N", "Tem cadeado, mas o nome trocou uma letra: site falso."], ["Link de mensagem: “entre aqui para ganhar moedas”", "N", "Prefira digitar o endereço você mesmo."]],
+      "Senha protegida! 🔒", "Confira o https e o cadeado, leia o nome do site letra por letra e prefira digitar o endereço você mesmo."),
+    VIDA(
+      ["O http:// sem o S é como…", ["Um cartão-postal: quem pegar no caminho lê", "Uma carta lacrada", "Um cofre"], "Os dados viajam abertos, como um <b>cartão-postal</b>."],
+      ["Um site com cadeado 🔒 é sempre honesto?", ["Não: um site falso também pode ter cadeado", "Sim, sempre", "Só se for de jogo"], "O cadeado mostra que a conversa é cifrada, mas <b>não prova</b> que o site é honesto."],
+      ["Recebeu um link com o nome de um site conhecido. O mais seguro é…", ["Digitar o endereço você mesmo", "Clicar rápido", "Mandar para os amigos"], "Prefira <b>digitar o endereço</b> você mesmo."])
+  ];
+  mais("m2", "desafio",
+    sin("🔍 O que conferir antes de digitar a senha?", "Marque só o que você deve <b>conferir</b> antes de digitar uma senha.",
+      ["Se tem https e o cadeado 🔒", "O nome do site, letra por letra", "Se fui eu que digitei o endereço"],
+      [["Se o site é bonito", "Site falso também pode ser bonito."], ["Se o link veio de um número desconhecido, então pode", "Link de mensagem pode levar a site falso."]],
+      "Https e cadeado, o nome certo e o endereço digitado por você."));
+  mais("m2", "turbo",
+    msg("🕵️ O nome certo do site", "🔗 Links", [["V", "✅ Nome certo"], ["F", "⚠️ Nome falso"]],
+      "O site verdadeiro é <b>portal.professorwell.com.br</b>. Golpistas trocam uma letra. Confira cada um.",
+      [["portal.professorwell.com.br", "V", "É o nome certo."], ["portal.professorwe11.com.br", "F", "Dois números 1 no lugar dos L."], ["portal.profesorwell.com.br", "F", "Falta um S."],
+        ["portal.professorwell.com.br/missao", "V", "É o mesmo site, numa página dele."], ["portal.professorwell.com.br.xyz", "F", "O fim do nome mudou: é outro site."]],
+      "Olho de lince! 🕵️", "Uma letra trocada leva a outro site. Leia o nome letra por letra."));
+
+  /* ---------- M3 · senhas e duas etapas ---------- */
+  A.m3.gancho = { html: "<p>📱 Chegou um SMS no celular da Bia com um código. Logo depois, um “amigo” mandou: “me passa esse código que chegou aí? É para um sorteio!”.</p><p>🤔 Por que alguém quer tanto esse código? O que ele protege?</p>" };
+  A.m3.aplicar = [
+    msg("🛠️ Na vida real: que tipo de prova é?", "🔐 Verificação em duas etapas", [["S", "🧠 Algo que você sabe"], ["T", "📱 Algo que você tem"], ["E", "👆 Algo que você é"]],
+      "Na verificação em duas etapas, a conta pede uma segunda prova. Cada prova abaixo é de qual tipo?",
+      [["A senha da conta", "S", "Você sabe: algo que você sabe."], ["O código que chegou por SMS", "T", "Chega no celular que você tem."], ["A sua digital", "E", "Faz parte de você."],
+        ["O PIN do celular", "S", "Você sabe de cabeça."], ["O seu rosto para desbloquear", "E", "Algo que você é."]],
+      "Mandou bem! 🔐", "Com duas provas de tipos diferentes, mesmo quem descobrir a senha não entra."),
+    VIDA(
+      ["Alguém pediu o código que chegou no seu celular. Isso é…", ["Golpe: o código é só seu", "Normal entre amigos", "Um sorteio de verdade"], "Regra de ouro: o código é só seu. Se alguém pedir, <b>é golpe</b>."],
+      ["Uma senha forte tem…", ["12 caracteres ou mais, misturando maiúsculas, minúsculas, números e símbolos", "Só o seu nome", "Só números"], "Comprida e <b>misturada</b>, sem nada pessoal."],
+      ["Usar a mesma senha em todos os sites é…", ["Fraco: o certo é uma diferente para cada conta importante", "O mais seguro", "Obrigatório"], "Use <b>uma senha diferente</b> para cada conta importante."])
+  ];
+  mais("m3", "desafio",
+    sin("💪 Marque as senhas fortes (inventadas)", "São senhas <b>inventadas</b>, só para treinar. Marque só as fortes.",
+      ["Pipa!Verde8Voa", "Lago#Sol55Peixe", "Bola?Azul29Gol"],
+      [["123456", "Curta e só números."], ["bia2014", "Tem nome e data."], ["senha", "Curta e fácil demais."]],
+      "Forte: comprida, misturada e sem nada pessoal."));
+  mais("m3", "turbo",
+    msg("🚨 Pedido de código: o que fazer?", "📱 Mensagens", [["F", "✅ Faça"], ["N", "🚫 Não faça"]],
+      "Chegou um código por SMS e alguém está pedindo. Para cada atitude, faça ou não faça?",
+      [["Mandar o código para o “amigo” do sorteio", "N", "O código é só seu."], ["Não passar o código para ninguém", "F", "É a regra de ouro."],
+        ["Contar para um adulto", "F", "Pedir ajuda é sempre certo."], ["Passar o código para quem diz ser da empresa", "N", "Empresa séria não pede código."]],
+      "Código protegido! 📱", "Se alguém pedir o código, é golpe."));
+
+  /* ---------- M4 · golpes e phishing ---------- */
+  A.m4.gancho = { html: "<p>🎮 No chat do jogo apareceu: “Ganhe <b>10.000 moedas grátis</b>! É só entrar com a sua senha neste site!”.</p><p>🤔 É um presente ou uma isca? Como saber?</p>" };
+  A.m4.aplicar = [
+    msg("🛠️ Na vida real: golpe ou não?", "💬 Mensagens", [["G", "⚠️ É golpe"], ["O", "✅ Parece confiável"]],
+      "Procure os sinais: pressa, prêmio fácil, pedido de senha, código ou dinheiro, erros de português, endereço estranho.",
+      [["Ganhe moedas grátis do jogo: entre com a sua senha neste site", "G", "Moedas grátis pedindo senha: isca.", "Chat do jogo"],
+        ["Oi, troquei de número. Me manda um Pix?", "G", "Falso parente pedindo dinheiro.", "Número desconhecido"],
+        ["Promossão! Celular por 1 real, só hoje!", "G", "Prêmio fácil, pressa e erro de português.", "Loja estranha"],
+        ["A reunião de pais é sexta, às 19h", "O", "Não pede nada.", "Escola"]],
+      "Nenhuma isca te pegou! 🎣", "Phishing usa iscas: mensagens e sites falsos. Os sinais denunciam o golpe."),
+    VIDA(
+      ["Caí num golpe. Qual é o primeiro passo?", ["Parar de responder", "Mandar mais dinheiro", "Apagar o celular"], "Pare de responder, troque a senha, ative as duas etapas, conte a um adulto e avise os contatos."],
+      ["Por que o golpe se chama <b>phishing</b>?", ["Parece fishing, pescaria: usa uma isca", "É o nome de um jogo", "É o nome do golpista"], "Parecido com <b>fishing</b>, pescaria: a mensagem falsa é a isca."],
+      ["“Promossão” escrito assim é…", ["Um sinal de golpe (erro de português)", "Normal em promoções", "Um código"], "Erros de português são <b>sinal de golpe</b>."])
+  ];
+  mais("m4", "desafio",
+    rota("🆘 Caí num golpe: e agora?", "Coloque <b>na ordem</b> o que fazer.",
+      [["🛑", "Parar de responder ao golpista"], ["🔑", "Trocar a senha"], ["📱", "Ativar as duas etapas"], ["🧑‍🏫", "Contar para um adulto de confiança"], ["📢", "Avisar os contatos para não caírem também"]],
+      "Agiu certinho! 🆘", "Parar, trocar a senha, ativar as duas etapas, contar a um adulto e avisar os contatos."));
+  mais("m4", "turbo",
+    sin("🚩 Marque os sinais de golpe", "Marque só os <b>sinais de golpe</b>.",
+      ["“Só hoje!”, “Em 1 hora!”", "Algo caro de graça", "“Mande o código que chegou no SMS”", "Endereço estranho, como banc0-oficial.xyz"],
+      [["Uma mensagem da escola com o horário da reunião", "Não pede nada."], ["O site oficial com o nome certo e o cadeado", "É o site verdadeiro."]],
+      "Pressa, prêmio fácil, pedido de senha, código ou dinheiro, erros de português e endereço estranho."));
+
+  /* ---------- M5 · empatia na rede ---------- */
+  A.m5.gancho = { html: "<p>💬 O Caio escreveu no grupo: “KKK VOCÊ É MUITO LENTO NO JOGO”. Ele estava brincando, mas o amigo ficou triste e saiu do grupo.</p><p>🤔 Por que a brincadeira machucou? O que a mensagem escrita não mostra?</p>" };
+  A.m5.aplicar = [
+    msg("🛠️ Na vida real: enviar ou reescrever?", "💬 Grupo da turma", [["E", "📤 Pode enviar"], ["R", "✏️ Reescreva antes"]],
+      "Antes de enviar, use os combinados: é verdade? É gentil? É necessário?",
+      [["VOCÊ NUNCA ACERTA NADA!!!", "R", "Tudo em maiúsculas parece grito, e machuca."], ["Valeu pela ajuda no trabalho! 😊", "E", "Gentil, e o emoji mostra o tom."],
+        ["Não entendi o dever. Alguém me explica? 🙂", "E", "Pede ajuda com gentileza."], ["Que roupa feia a sua na foto kkk", "R", "Não é gentil nem necessário."], ["Desculpa, não quis te chatear. Vou apagar a mensagem.", "E", "Pedir desculpas e apagar é o combinado."]],
+      "Grupo em paz! 🤝", "Na mensagem escrita, não dá para ver o rosto nem ouvir o tom: os combinados evitam mal-entendidos."),
+    VIDA(
+      ["Escrever TUDO EM MAIÚSCULAS na internet parece…", ["Que você está gritando", "Que você está feliz", "Que você está com pressa"], "Parece <b>grito</b>."],
+      ["Quais são as 3 perguntas antes de postar?", ["É verdade? É gentil? É necessário?", "É engraçado? É rápido? É grande?", "Tem foto? Tem emoji? Tem link?"], "<b>Verdade, gentileza e necessidade.</b>"],
+      ["Machucou alguém sem querer numa mensagem. O que fazer?", ["Pedir desculpas e apagar a mensagem", "Fingir que nada aconteceu", "Mandar outra pior"], "<b>Pedir desculpas e apagar</b>."])
+  ];
+  mais("m5", "desafio",
+    mem("🧩 Jogo da memória dos combinados", [["🔠 TUDO EM MAIÚSCULAS", "Parece grito"], ["🔁 Ler antes de enviar", "Evita arrependimento"], ["🙂 Emoji", "Mostra o tom"],
+      ["⏸️ Esperar a raiva passar", "Evita escrever o que machuca"], ["🤝 Ajudar quem não entendeu", "Explicar com gentileza"], ["Empatia", "Se colocar no lugar do outro"]],
+      "Na internet, a gente não vê o rosto do outro: os combinados ajudam."));
+  mais("m5", "turbo",
+    msg("💡 Empatia em ação", "🎮 Chat do jogo", [["E", "💚 Tem empatia"], ["S", "💔 Sem empatia"]],
+      "No chat do jogo, cada resposta tem empatia ou não?",
+      [["Um colega errou a jogada: “Calma, na próxima a gente consegue!”", "E", "Se colocou no lugar dele."], ["Um colega errou a jogada: “Sai do time, seu inútil”", "S", "Ofende."],
+        ["Alguém novo no jogo pediu ajuda: “Vem, eu te explico!”", "E", "Ajuda com gentileza."], ["Alguém pediu ajuda: “Se vira, ninguém liga”", "S", "Não ajuda e magoa."]],
+      "Jogador gente boa! 💚", "Empatia é se colocar no lugar do outro, também no jogo."));
+
+  /* ---------- M6 · cyberbullying ---------- */
+  A.m6.gancho = { html: "<p>🖼️ No grupo da turma, alguém postou uma montagem com a foto da Duda para zombar. Várias pessoas riram e repassaram. A Duda não quis mais ir à escola.</p><p>🤔 Isso é “só brincadeira”? O que cada pessoa do grupo poderia ter feito?</p>" };
+  A.m6.aplicar = [
+    msg("🛠️ Na vida real: você é o espectador", "👀 Você viu a montagem", [["A", "✅ Ajuda"], ["P", "❌ Piora"]],
+      "Você viu a montagem da Duda no grupo. Cada atitude ajuda ou piora?",
+      [["Curtir e repassar a montagem", "P", "Espalha a humilhação."], ["Não curtir nem repassar", "A", "Não alimenta o cyberbullying."],
+        ["Mandar uma mensagem de apoio para a Duda", "A", "Apoiar o colega."], ["Avisar um adulto de confiança", "A", "É o que o espectador pode fazer."], ["Rir no grupo para não ficar de fora", "P", "Também machuca."]],
+      "Você fez a diferença! 💪", "O espectador não curte nem repassa, apoia o colega e avisa um adulto."),
+    VIDA(
+      ["O que o <b>alvo</b> deve fazer?", ["Não responder com ofensa, guardar prints, bloquear, denunciar e contar a um adulto", "Responder com mais ofensas", "Apagar a própria conta e não contar a ninguém"], "Guardar <b>prints</b>, bloquear, denunciar e contar a um adulto de confiança."],
+      ["Desde 2024, no Brasil, o cyberbullying é…", ["Crime (Lei nº 14.811/2024)", "Permitido", "Só falta de educação"], "É <b>crime</b> desde 2024 (Lei nº 14.811/2024)."],
+      ["Uma discussão em que os dois discordam com respeito é cyberbullying?", ["Não", "Sim", "Depende do horário"], "Discordar com respeito <b>não</b> é cyberbullying."])
+  ];
+  mais("m6", "desafio",
+    msg("🔍 É cyberbullying ou não?", "💬 Grupo", [["C", "⚠️ É cyberbullying"], ["N", "✅ Não é"]],
+      "Cyberbullying é humilhar, ameaçar ou perseguir alguém pela internet, de propósito e várias vezes.",
+      [["Um apelido que humilha, repetido todo dia no grupo", "C", "Ofender de propósito, várias vezes."], ["Dois colegas discordam sobre o passeio, com respeito", "N", "Discordar com respeito não é."],
+        ["Criar um perfil falso para zombar de alguém", "C", "Fingir ser a pessoa para humilhar."], ["Tirar alguém do grupo de propósito, toda vez", "C", "Excluir para machucar."], ["Um colega pede desculpas por uma piada", "N", "Isso é reparar."]],
+      "Você reconheceu! 🔍", "Humilhar, ameaçar ou perseguir, de propósito e várias vezes: é cyberbullying."));
+  mais("m6", "turbo",
+    mem("🧩 Jogo da memória: quem pode fazer o quê", [["🎯 Alvo", "Guardar prints, bloquear e contar a um adulto"], ["👀 Espectador", "Não repassar e apoiar o colega"], ["😈 Autor", "Parar, apagar e pedir desculpas"],
+      ["Print", "A foto da tela, que serve de prova"], ["Denunciar", "Avisar a rede social sobre o abuso"], ["Lei nº 14.811/2024", "Cyberbullying é crime"]],
+      "Cada um na história pode fazer algo para o cyberbullying parar."));
+
+  /* ---------- M7 · Wi-Fi público ---------- */
+  A.m7.gancho = { html: "<p>📶 Na rodoviária, o celular da Mia mostrou duas redes abertas: <b>Rodoviaria_Oficial</b> e <b>Wi-Fi Gratis Rodoviaria</b>.</p><p>🤔 Qual é a verdadeira? E é seguro entrar no aplicativo do banco ali?</p>" };
+  A.m7.aplicar = [
+    msg("🛠️ Na vida real: no Wi-Fi da rodoviária", "📶 Wi-Fi público", [["S", "✅ Pode fazer"], ["N", "🚫 Não faça"]],
+      "A Mia está no Wi-Fi aberto da rodoviária. Para cada atitude, pode fazer ou não?",
+      [["Ver um vídeo de receita", "S", "Nada importante em risco."], ["Entrar no banco e digitar a senha", "N", "Não digite senhas importantes no Wi-Fi público."],
+        ["Perguntar no guichê o nome certo da rede", "S", "Evita a rede falsa."], ["Usar os dados móveis para o que é importante", "S", "A conexão do celular não é compartilhada com estranhos."], ["Deixar o celular entrar sozinho em qualquer rede", "N", "Pode entrar numa rede falsa com o mesmo nome."]],
+      "Viagem segura! 📶", "No Wi-Fi público: nada de senha importante, nome certo da rede, dados móveis para o importante e esquecer a rede depois."),
+    VIDA(
+      ["Um golpista criou a rede “Wi-Fi Gratis Praca”. Isso é…", ["Uma rede falsa para espiar quem entrar", "A rede oficial da praça", "Um protocolo"], "É uma <b>rede falsa</b>, com nome parecido."],
+      ["Depois de usar o Wi-Fi da lanchonete, o melhor é…", ["Esquecer a rede", "Deixar ela salva para sempre", "Contar a senha para todos"], "<b>Esquecer a rede</b>: o celular não entra sozinho de novo."],
+      ["Numa rede aberta, alguém na mesma rede pode tentar ver…", ["O que não está cifrado", "Só a sua foto de perfil", "Nada"], "O que <b>não está cifrado</b>. Por isso, confira o https e o cadeado."])
+  ];
+  mais("m7", "desafio",
+    sin("⚠️ Os riscos do Wi-Fi público", "Marque só os <b>riscos</b> do Wi-Fi público.",
+      ["Alguém na mesma rede tentar ver o que não está cifrado", "Uma rede falsa com nome parecido", "O celular entrar sozinho numa rede falsa com o mesmo nome"],
+      [["A tela do celular ficar mais clara", "Não tem a ver com a rede."], ["A bateria virar Wi-Fi", "Não existe."]],
+      "Bisbilhoteiro na rede, rede falsa e conexão automática."));
+  mais("m7", "turbo",
+    rota("📶 Usar o Wi-Fi da lanchonete com segurança", "Coloque os passos <b>na ordem</b>.",
+      [["❓", "Perguntar ao atendente o nome certo da rede"], ["📶", "Entrar na rede certa"], ["🔒", "Usar só sites com https e cadeado, sem senhas importantes"], ["🗑️", "Esquecer a rede ao sair"]],
+      "Conexão segura! 📶", "Nome certo, https, nada de senha importante e esquecer a rede depois."));
+
+  /* ---------- M8 · debate respeitoso ---------- */
+  A.m8.gancho = { html: "<p>📣 Nos comentários de um vídeo sobre o jogo novo, a conversa virou briga: “você é burro!”, “cala a boca!”. Ninguém mudou de ideia, e todo mundo saiu chateado.</p><p>🤔 Dá para discordar sem brigar? O que faz uma discussão virar debate?</p>" };
+  A.m8.aplicar = [
+    msg("🛠️ Na vida real: argumento ou ataque pessoal?", "💬 Comentários", [["A", "✅ Argumento (ataca a ideia)"], ["P", "❌ Ataque pessoal"]],
+      "Cada comentário critica a ideia ou ataca a pessoa?",
+      [["Eu discordo, porque o jogo fica lento com tantos jogadores.", "A", "Dá um motivo sobre a ideia."], ["Você não sabe nada, seu burro.", "P", "Ataca a pessoa."],
+        ["Entendi o seu ponto, mas penso diferente.", "A", "Respeita e discorda."], ["Ninguém liga para o que você fala.", "P", "Ataca a pessoa."], ["Li no jornal da cidade que a praça vai reabrir.", "A", "Dá a fonte da informação."]],
+      "Debate de respeito! 🤝", "Critique a ideia, não a pessoa. Dê um motivo e, se puder, a fonte."),
+    VIDA(
+      ["No debate, enquanto o outro fala, você…", ["Ouve até o fim", "Interrompe", "Grita mais alto"], "<b>Ouvir até o fim</b> e esperar a vez."],
+      ["No fim do debate, cada um continuou com a sua opinião. Isso é…", ["Normal: aceitar discordar", "Proibido", "Briga"], "<b>Aceitar discordar</b>, e tudo bem."],
+      ["Para dar força ao seu argumento, você pode…", ["Dizer o motivo e de onde veio a informação (a fonte)", "Xingar o outro", "Escrever em maiúsculas"], "Dar o <b>motivo</b> e a <b>fonte</b>."])
+  ];
+  mais("m8", "desafio",
+    sin("🤝 As atitudes do bom debate", "Marque só as atitudes de um <b>debate respeitoso</b>.",
+      ["Esperar o outro terminar antes de responder", "Dizer por que pensa assim", "Aceitar que o outro continue com a opinião dele"],
+      [["Chamar o outro de burro", "Ataque pessoal."], ["Falar todo mundo ao mesmo tempo", "Um fala de cada vez."]],
+      "Ouvir, esperar a vez, dar um motivo e aceitar discordar."));
+  mais("m8", "turbo",
+    mem("🧩 Jogo da memória do debate", [["Argumento", "Ataca a ideia, com um motivo"], ["Ataque pessoal", "Ataca a pessoa"], ["Fonte", "De onde veio a informação"],
+      ["👂 Ouvir até o fim", "Esperar o outro terminar"], ["✋ Esperar a vez", "Um fala de cada vez"], ["🤝 Aceitar discordar", "Cada um pode manter a opinião"]],
+      "Critique a ideia, não a pessoa."));
 })();

@@ -281,3 +281,74 @@ PORTAL.registrarAtividades("informatica-6ano-2027-3bim-trilha", {
   ].filter(Boolean) };
 })();
 })();
+
+/* ============================================================
+   🌀 MODELO EM ESPIRAL NA TRILHA (21/11/2026 — Etapa 3: 3º bimestre de 2027): o mesmo ❓ gancho da turma,
+   "O que você já sabe?" na M1 e o 🛠️ "Onde eu uso isso?" prático em versão calma: o programa já vem quase pronto
+   e o aluno muda só um pedacinho; depois, 2 perguntas.
+   ============================================================ */
+(function () {
+  const A = PORTAL.atividades["informatica-6ano-2027-3bim-trilha"]; if (!A) return;
+  const L = (...x) => ["lista", ...x];
+  const v = n => ({ v: n });
+  const GANCHO = {"m1":{"html":"<p>🎂 O robô da festa devia dizer <b>“Parabéns!”</b> e depois <b>“Hora do bolo!”</b>. Mas ele disse ao contrário, e todo mundo riu.</p><p>🤔 Por que o robô trocou? Ele entende o que a gente quer, ou só faz exatamente o que está escrito?</p>"},"m2":{"html":"<p>⚽ O professor de Educação Física disse: “Façam <b>3 polichinelos</b>! E, <b>se</b> estiver chovendo, o treino é na sala; <b>senão</b>, é na quadra.”</p><p>🤔 Como mandar o computador <b>repetir</b> sem escrever 3 vezes? E como ele <b>escolhe</b> entre a sala e a quadra?</p>"},"m3":{"html":"<p>🚌 O cartão do ônibus da Bia começa com <b>10 viagens</b>. A cada viagem, o leitor do ônibus tira 1.</p><p>🤔 Como o leitor “lembra” quantas viagens ainda restam? Onde esse número fica guardado?</p>"},"m4":{"html":"<p>🎤 Na festa junina, o apresentador anuncia cada quadrilha com a mesma frase: “Palmas para a turma 6º A!”, “Palmas para a turma 6º B!”…</p><p>🤔 Se fosse um programa, seria preciso montar a frase de novo a cada turma? Ou dá para criar um bloco só e mudar só a turma?</p>"},"m5":{"html":"<p>🎵 A playlist do Davi tem 3 músicas. Ele quer saber qual é a <b>2ª</b> e quantas músicas tem ao todo.</p><p>🤔 Como um programa guarda várias músicas numa variável só? E como ele acha a música pela posição?</p>"},"m6":{"html":"<p>🎮 No joguinho do celular, cada vez que você toca na moeda, ganha ponto. Se tocar na bomba, perde.</p><p>🤔 Como o jogo sabe a <b>hora</b> de mudar os pontos? Ele fica esperando você tocar?</p>"},"m7":{"html":"<p>🔍 Antes de rodar o programa, a Ana disse: “vai aparecer 8!”. O Leo disse: “vai aparecer 6!”. Só um acertou.</p><p>🤔 Dá para saber o resultado <b>sem rodar</b>? E, se o programa estiver errado, como achar o bug?</p>"},"m8":{"html":"<p>📚 O Caio escreveu uma história com o nome do personagem, <b>Tito</b>, em 10 cenas. No fim, resolveu trocar o nome para <b>Nina</b>.</p><p>🤔 Ele vai ter que trocar o nome 10 vezes? Ou existe um jeito de trocar em um lugar só?</p>"}};
+  Object.keys(GANCHO).forEach(m => { A[m].gancho = GANCHO[m]; });
+  const perg = (titulo, ...ps) => ({ tipo: "escolha", titulo, enunciado: "<p>Use o que você aprendeu hoje. Leia com calma. 😉</p>", perguntas: ps.map(x => ({ p: x[0], opcoes: x[1], certo: 0, why: x[2] })) });
+  const VIDA = (...ps) => perg("🛠️ E na vida real?", ...ps);
+  const blk = (titulo, enun, caixa, inicio, esperado, solucao, dica, explicacao, extra) => Object.assign({ tipo: "blocos", titulo, enunciado: enun, caixa, inicio, esperado, solucao, dicas: [dica], explicacao }, extra || {});
+
+  A.m1.lembra = [perg("🔍 O que você já sabe?",
+    ["O computador lê os blocos…", ["De cima para baixo", "De baixo para cima"], "De <b>cima para baixo</b>."],
+    ["Para ver o programa funcionar, você aperta…", ["▶️ Rodar o programa", "O botão de desligar"], "Aperte <b>▶️ Rodar o programa</b>."])];
+  A.m1.lembra[0].enunciado = "<p>Responda o que você já sabe. Se não souber, tudo bem: o portal mostra onde está a resposta. 😉</p>";
+  A.m1.aplicar = [
+    blk("🛠️ Na vida real: o aviso no telão", "<p>O aviso tem 2 linhas, mas a segunda está vazia. Clique no <b>???</b> e escreva <b>Amanhã tem passeio.</b> Depois aperte ▶️ Rodar.</p>",
+      ["mostrar", "texto"], [["mostrar", "Atenção, turma!"], ["mostrar", "???"]], ["Atenção, turma!", "Amanhã tem passeio."], [["mostrar", "Atenção, turma!"], ["mostrar", "Amanhã tem passeio."]],
+      "Clique no ??? do segundo bloco e digite a frase.", "Os blocos aparecem na tela de cima para baixo."),
+    VIDA(["O bloco de cima aparece…", ["Primeiro", "Por último"], "De cima para baixo: o de cima aparece <b>primeiro</b>."], ["Onde ficam os blocos para escolher?", ["Nas gavetas", "Na lixeira"], "Os blocos ficam nas <b>gavetas</b>."])
+  ];
+  A.m2.aplicar = [
+    blk("🛠️ Na vida real: os polichinelos", "<p>O professor pediu <b>3 polichinelos</b>, mas o programa faz só 2. Troque o número do <b>repita</b> para <b>3</b> e rode.</p>",
+      ["mostrar", "texto", "numero", "repita"], [["repita", 2, [["mostrar", "polichinelo"]]]], ["polichinelo", "polichinelo", "polichinelo"], [["repita", 3, [["mostrar", "polichinelo"]]]],
+      "Clique no 2 do repita e digite 3.", "O repita faz o bloco de dentro várias vezes."),
+    VIDA(["“Fazer 10 polichinelos” é uma…", ["Repetição", "Seleção"], "Fazer várias vezes é <b>repetição</b>."], ["“Se chover, guarda-chuva; senão, boné” é uma…", ["Seleção", "Repetição"], "Escolher um caminho é <b>seleção</b>."])
+  ];
+  A.m3.aplicar = [
+    blk("🛠️ Na vida real: o placar do jogo", "<p>O placar começa em 0. O time fez um gol de <b>5</b> pontos e outro de <b>3</b>. Falta o segundo número: troque o <b>0</b> do segundo “alterar” por <b>3</b> e rode.</p>",
+      ["mostrar", "texto", "numero", "variavel"], [["definir", "pontos", 0], ["mudar", "pontos", 5], ["mudar", "pontos", 0], ["mostrar", v("pontos")]], ["8"], [["definir", "pontos", 0], ["mudar", "pontos", 5], ["mudar", "pontos", 3], ["mostrar", v("pontos")]],
+      "Clique no 0 do segundo “alterar pontos por” e digite 3.", "0 + 5 + 3 = 8: a variável pontos guardou o placar."),
+    VIDA(["Variável é…", ["Uma caixinha com nome que guarda um valor", "Um botão"], "É uma <b>caixinha com nome</b>."], ["“alterar pontos por 5” faz…", ["Somar 5 aos pontos", "Apagar os pontos"], "<b>Soma</b> 5 ao valor."])
+  ];
+  A.m4.aplicar = [
+    blk("🛠️ Na vida real: chamar a turma", "<p>O bloco <b>saudar</b> já está pronto e já foi chamado para a Ana. Agora chame para o <b>Leo</b>: troque o <b>???</b> por <b>Leo</b> e rode.</p>",
+      ["mostrar", "texto", "variavel", "funcao"], [["funcao", "saudar", [["mostrar", ["juntar", "Olá, ", v("nome")]]]], ["definir", "nome", "Ana"], ["chamar", "saudar"], ["definir", "nome", "???"], ["chamar", "saudar"]], ["Olá, Ana", "Olá, Leo"],
+      [["funcao", "saudar", [["mostrar", ["juntar", "Olá, ", v("nome")]]]], ["definir", "nome", "Ana"], ["chamar", "saudar"], ["definir", "nome", "Leo"], ["chamar", "saudar"]],
+      "Clique no ??? e digite Leo.", "O bloco saudar é o mesmo; só o parâmetro (nome) mudou."),
+    VIDA(["Para o bloco funcionar, eu…", ["Chamo o bloco", "Apago o bloco"], "Eu <b>chamo</b> o bloco."], ["O valor que muda (o nome) é o…", ["Parâmetro", "Bloco solto"], "É o <b>parâmetro</b>."])
+  ];
+  A.m5.aplicar = [
+    blk("🛠️ Na vida real: o lanche da cantina", "<p>A lista <b>lanches</b> é [pão de queijo, bolo, suco]. Queremos o <b>item 2</b>, mas o programa pede o 1. Troque o número para <b>2</b> e rode.</p>",
+      ["mostrar", "texto", "numero", "variavel", "lista"], [["definir", "lanches", L("pão de queijo", "bolo", "suco")], ["mostrar", ["item", v("lanches"), 1]]], ["bolo"], [["definir", "lanches", L("pão de queijo", "bolo", "suco")], ["mostrar", ["item", v("lanches"), 2]]],
+      "Clique no 1 do “obter nº” e digite 2.", "O item da posição 2 é bolo."),
+    VIDA(["Na lista [maçã, uva, caju], o item 1 é…", ["maçã", "caju"], "A posição 1 é <b>maçã</b>."], ["Uma lista guarda…", ["Vários valores", "Um valor só"], "A lista guarda <b>vários valores</b>."])
+  ];
+  A.m6.aplicar = [
+    blk("🛠️ Na vida real: o placar do basquete", "<p>Cada <b>🏀 cesta</b> vale 2 pontos, mas o programa está somando 1. Troque o <b>1</b> por <b>2</b> e rode. O portal vai apertar a cesta 2 vezes.</p>",
+      ["mostrar", "texto", "numero", "variavel", "evento"], [["definir", "pontos", 0], ["quando", "cesta", [["mudar", "pontos", 1], ["mostrar", v("pontos")]]]], ["2", "4"],
+      [["definir", "pontos", 0], ["quando", "cesta", [["mudar", "pontos", 2], ["mostrar", v("pontos")]]]],
+      "Clique no 1 do “alterar pontos por” e digite 2.", "A cesta é o evento; o “quando” diz o que fazer.", { eventos: [["🏀 cesta", "cesta"]], disparos: ["cesta", "cesta"] }),
+    VIDA(["Apertar um botão é um…", ["Evento", "Gaveta"], "É um <b>evento</b>."], ["O bloco ⚡ quando diz…", ["O que fazer quando o evento acontece", "A cor do botão"], "Diz <b>o que fazer</b> quando o evento acontece."])
+  ];
+  A.m7.aplicar = [
+    blk("🛠️ Na vida real: o bug do recado", "<p>O recado devia ser <b>Oi!</b> e depois <b>Tchau!</b>, mas saiu ao contrário. Arraste o “mostrar Oi!” para <b>cima</b> e rode.</p>",
+      ["mostrar", "texto"], [["mostrar", "Tchau!"], ["mostrar", "Oi!"]], ["Oi!", "Tchau!"], [["mostrar", "Oi!"], ["mostrar", "Tchau!"]],
+      "Puxe o bloco “mostrar Oi!” para cima do outro.", "Era a ordem trocada. Achar e consertar o erro é depurar."),
+    VIDA(["Bug é…", ["Um erro no programa", "Um bloco novo"], "<b>Bug</b> é um erro."], ["Achar e consertar o erro é…", ["Depurar", "Rodar"], "É <b>depurar</b>."])
+  ];
+  A.m8.aplicar = [
+    blk("🛠️ Na vida real: as batidas na porta", "<p>Na história, o Tito bate <b>3 vezes</b> na porta, mas o programa bate só 1. Troque o número do <b>repita</b> para <b>3</b> e rode.</p>",
+      ["mostrar", "texto", "numero", "repita"], [["mostrar", "Era uma vez Tito"], ["repita", 1, [["mostrar", "toc"]]], ["mostrar", "Tito abriu a porta"]], ["Era uma vez Tito", "toc", "toc", "toc", "Tito abriu a porta"],
+      [["mostrar", "Era uma vez Tito"], ["repita", 3, [["mostrar", "toc"]]], ["mostrar", "Tito abriu a porta"]], "Clique no 1 do repita e digite 3.", "Cada linha é uma cena; o repita fez as 3 batidas."),
+    VIDA(["Cada linha da tela é uma…", ["Cena", "Lista"], "Cada linha é uma <b>cena</b>."], ["O que se repete na história (toc, toc, toc) usa o…", ["Repita", "Se"], "Usa o <b>repita</b>."])
+  ];
+})();

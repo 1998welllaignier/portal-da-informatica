@@ -590,7 +590,7 @@ PORTAL.registrarConteudo("informatica-6ano-2027-3bim", {
     "Posso criar o meu próprio bloco na gaveta Meus blocos.",
     "Chamar o bloco faz o computador executar o que tem dentro dele.",
     "Parâmetro é o valor que muda a cada vez.",
-    "Para cada nome novo, preciso criar um bloco diferente.",
+    "A cada nome novo, preciso criar um bloco diferente.",
     "Um bloco próprio deixa o programa mais curto."
    ],
    "resumo": {

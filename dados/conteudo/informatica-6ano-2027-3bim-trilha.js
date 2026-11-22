@@ -371,7 +371,7 @@ PORTAL.registrarConteudo("informatica-6ano-2027-3bim-trilha", {
    "vf": [
     "Chamar o bloco faz ele funcionar.",
     "O nome é o parâmetro.",
-    "Para cada nome, preciso de um bloco novo."
+    "A cada nome, preciso de um bloco novo."
    ],
    "resumo": {
     "texto": "Crie o bloco uma vez e **chame** muitas vezes. O **parâmetro** é o que muda.",

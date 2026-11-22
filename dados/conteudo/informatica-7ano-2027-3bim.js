@@ -685,7 +685,7 @@ PORTAL.registrarConteudo("informatica-7ano-2027-3bim", {
    "comecar": [
     {
      "t": "p",
-     "h": "<strong>Empatia</strong> é se colocar no lugar do outro. Na internet, a gente não vê o rosto nem ouve o tom de voz da pessoa, por isso é fácil ser mal entendido."
+     "h": "<strong>Empatia</strong> é se colocar no lugar do outro. Na internet e nos aplicativos de mensagens (programas do celular ou do computador), a gente não vê o rosto nem ouve o tom de voz da pessoa, por isso é fácil ser mal entendido."
     },
     {
      "t": "tabela",

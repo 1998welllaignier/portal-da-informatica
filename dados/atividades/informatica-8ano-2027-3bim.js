@@ -152,7 +152,7 @@ PORTAL.registrarAtividades("informatica-8ano-2027-3bim", {
       { tipo: "escolha", titulo: "Viés de confirmação",
         perguntas: [
           { p: "Quem tem viés de confirmação?", opcoes: ["Todo mundo", "Só quem usa rede social", "Ninguém"], certo: 0 },
-          { p: "O torcedor só acredita nas notícias boas do seu time. Isso é:", opcoes: ["Viés de confirmação", "Checagem de fatos", "Permissão"], certo: 0 }],
+          { p: "O torcedor só acredita nas notícias boas do seu time. Isso é:", opcoes: ["Viés de confirmação", "Ponto de vista diferente", "Permissão"], certo: 0 }],
         explicacao: "Todo mundo tem; acreditar só no que agrada é viés de confirmação." }
     ],
     desafio: [
@@ -557,4 +557,211 @@ PORTAL.registrarAtividades("informatica-8ano-2027-3bim", {
     Q("m8", "Algoritmo", [{ p: "Quem escolhe o que aparece no feed é o:", opcoes: ["Algoritmo de recomendação", "Professor", "Roteador"], certo: 0 }, { p: "Para ver menos de um assunto:", opcoes: ["“Não tenho interesse”", "Assistir até o fim", "Comentar"], certo: 0 }]), pega("m8")
   ].filter(Boolean) };
 })();
+})();
+
+/* ============================================================
+   🌀 MODELO EM ESPIRAL (21/11/2026, levado ao ano todo — Etapa 3: 3º bimestre de 2027)
+   Por missão: ❓ gancho, 🛠️ "Onde eu uso isso?" prático (jogo de situação real + 3 perguntas),
+   "O que você já sabe?" na M1 e ⏱️ +25% de tempo com 2 jogos no 🟡 Desafio e no 🔴 Turbo.
+   ============================================================ */
+(function () {
+  const A = PORTAL.atividades["informatica-8ano-2027-3bim"]; if (!A) return;
+  const mais = (mid, niv, ...ts) => { A[mid][niv] = (A[mid][niv] || []).concat(ts.map(t => Object.assign(t, { maisTempo: "⏱️ +25%" }))); };
+  const perg = (titulo, enun, ...ps) => ({ tipo: "escolha", titulo, enunciado: `<p>${enun}</p>`, perguntas: ps.map(x => ({ p: x[0], opcoes: x[1], certo: 0, why: x[2] })) });
+  const VIDA = (...ps) => perg("🛠️ E na vida real, o que você faria?", "Use o que você aprendeu hoje para responder.", ...ps);
+  const msg = (titulo, app, botoes, enun, itens, okMsg, expl) => ({ tipo: "mensagens", titulo, app, botoes: botoes.map(([id, rot]) => ({ id, rot })), enunciado: `<p>${enun}</p>`,
+    itens: itens.map(([t, c, why, de]) => ({ de: de || "", t, c, why })), okMsg, explicacao: expl });
+  const rota = (titulo, enun, etapas, okMsg, expl) => ({ tipo: "rota", titulo, enunciado: `<p>${enun}</p>`, etapas: etapas.map(([ic, t, dica]) => dica ? { ic, t, dica } : { ic, t }), okMsg, explicacao: expl });
+  const mem = (titulo, pares, expl) => ({ tipo: "memoria", titulo, enunciado: "<p>Vire duas cartas e ache os pares que combinam.</p>", pares: pares.map(([a, b]) => ({ a, b })), porRodada: 3, explicacao: expl });
+  const sin = (titulo, enun, certos, errados, expl) => ({ tipo: "sinais", titulo, enunciado: `<p>${enun}</p>`, opcoes: [...certos.map(t => ({ t, certo: true })), ...errados.map(([t, why]) => ({ t, certo: false, why }))], explicacao: expl });
+  const perm = (titulo, enun, itens, expl) => ({ tipo: "permissoes", titulo, enunciado: `<p>${enun}</p>`, itens: itens.map(([ic, app, pede, c, why]) => ({ ic, app, pede, c, why })), explicacao: expl });
+
+  /* ---------- M1 · compartilhar com responsabilidade ---------- */
+  A.m1.gancho = { html: "<p>📸 O Leo postou uma foto da turma na frente da escola, todos de uniforme, com a legenda “agora no pátio” e a localização ligada.</p><p>🤔 O que essa foto conta sobre ele e os amigos, sem ninguém perceber? Dá para apagar depois, se der problema?</p>" };
+  A.m1.lembra = [perg("🔍 O que você já sabe?", "Começou o 3º bimestre! Responda o que você já sabe. Se não souber, tudo bem: chute com calma, e o portal mostra onde está a resposta. 😉",
+    ["Uma foto da tela do celular, que pode ser guardada e espalhada, é um…", ["Print", "Boleto", "Uniforme"], "É o <b>print</b>."],
+    ["Postar a foto de um colega sem pedir…", ["Não é certo: peça permissão a quem aparece", "É sempre permitido", "Só é errado de noite"], "Peça <b>permissão</b> a quem aparece."],
+    ["Uma foto com o uniforme da escola revela…", ["Onde você estuda", "A sua senha", "O seu signo"], "O uniforme mostra <b>onde você estuda</b>."])];
+  A.m1.aplicar = [
+    msg("🛠️ Na vida real: compartilhar ou não?", "📲 Grupo da turma", [["S", "✅ Pode compartilhar"], ["N", "🚫 Não compartilhe"]],
+      "Use as 4 perguntas: é verdade? É meu para compartilhar? Protege as pessoas? Protege você?",
+      [["O vídeo de um colega caindo da bicicleta, sem ele saber", "N", "Não é seu e pode humilhar."], ["A foto do cartaz da feira de ciências que a sua equipe fez", "S", "É seu e não expõe ninguém."],
+        ["Uma notícia chocante sem autor nem data", "N", "Pode ser boato."], ["Uma selfie com o número da sua casa aparecendo", "N", "Mostra onde você mora: corte essa parte ou não poste."], ["A foto do bolo que você fez", "S", "É seu e não expõe ninguém."]],
+      "Compartilhou com responsabilidade! 📲", "Antes de compartilhar: é verdade? É meu? Protege as pessoas? Protege você?"),
+    VIDA(
+      ["Você postou e apagou 1 minuto depois. Está resolvido?", ["Talvez não: alguém pode ter tirado print ou repassado", "Sim, sempre", "Só se ninguém curtiu"], "Desfazer pode ser impossível: alguém pode ter tirado <b>print</b>."],
+      ["Postar a <b>localização em tempo real</b> revela…", ["Onde você está agora", "A sua idade", "Nada"], "Mostra <b>onde você está agora</b>."],
+      ["Pelo ECA Digital (Lei nº 15.211/2025), as contas de quem tem até 16 anos nas redes sociais…", ["Precisam estar ligadas a um responsável", "São proibidas para sempre", "Não têm regra nenhuma"], "Precisam estar <b>ligadas a um responsável</b>."])
+  ];
+  mais("m1", "desafio",
+    msg("🔍 O que a foto revela?", "📸 Detetive de fotos", [["E", "🏫 Onde estuda"], ["M", "🏠 Onde mora"], ["A", "📍 Onde está agora"], ["D", "🎫 Dados para golpistas"]],
+      "Cada detalhe da foto revela o quê?",
+      [["Camiseta do uniforme com o nome da escola", "E", "Mostra onde você estuda."], ["O número da casa no portão", "M", "Mostra onde você mora."],
+        ["“Estou na praça agora!” com a localização", "A", "Mostra onde você está."], ["O boleto em cima da mesa", "D", "Golpistas usam esses dados."], ["A fachada da sua casa", "M", "Mostra onde você mora."]],
+      "Olho de detetive! 🔍", "Detalhes pequenos expõem você: confira a foto antes de postar."));
+  mais("m1", "turbo",
+    rota("✅ As 4 perguntas antes de compartilhar", "Coloque as perguntas <b>na ordem</b> do 💡 Para começar.",
+      [["✅", "É verdade?"], ["🙋", "É meu para compartilhar?"], ["🛡️", "Protege as pessoas?"], ["🏠", "Protege você?"]],
+      "Pronto para compartilhar com cuidado! ✅", "Se a resposta for “não” para alguma, não compartilhe (ou corte o que mostra demais)."));
+
+  /* ---------- M2 · fontes confiáveis ---------- */
+  A.m2.gancho = { html: "<p>📲 No grupo da família chegou: “URGENTE!!! A ESCOLA VAI FECHAR AMANHÃ, COMPARTILHE ANTES QUE APAGUEM!!!”. Sem nome, sem data, sem link.</p><p>🤔 Acreditar? Repassar? Como saber se é verdade?</p>" };
+  A.m2.aplicar = [
+    msg("🛠️ Na vida real: confiável ou não?", "📰 Notícias recebidas", [["C", "✅ Mais confiável"], ["M", "⚠️ Menos confiável"]],
+      "Use as 5 perguntas: quem escreveu? Onde foi publicado? Quando? Tem provas? Outras fontes confirmam?",
+      [["Notícia no site de um jornal conhecido, com autor e data", "C", "Tem autor, data e lugar conhecido."], ["Corrente sem autor: “compartilhe antes que apaguem!!!”", "M", "Sem autor e com sinal de alerta."],
+        ["Informação no site oficial do governo, terminado em .gov.br", "C", "Site oficial."], ["Print sem link, de origem desconhecida", "M", "Não dá para conferir a origem."], ["Áudio de “um amigo de um amigo”", "M", "Sem fonte que dê para conferir."]],
+      "Detetive de fontes! 📰", "A fonte mais confiável tem autor, data, lugar oficial ou conhecido e detalhes que dá para conferir."),
+    VIDA(
+      ["“Compartilhe antes que apaguem!” é…", ["Um sinal de alerta", "Uma prova de que é verdade", "Uma fonte oficial"], "É um <b>sinal de alerta</b>."],
+      ["Um site que termina em <b>.gov.br</b> é…", ["Um site oficial do governo", "Um site falso", "Um jogo"], "É <b>site oficial</b>."],
+      ["Uma notícia velha pode parecer nova. Para conferir, você olha…", ["A data", "A cor do título", "O tamanho da letra"], "Olhe a <b>data</b>."])
+  ];
+  mais("m2", "desafio",
+    sin("🚨 Os sinais de alerta", "Marque só os <b>sinais de alerta</b> de uma notícia.",
+      ["Título em MAIÚSCULAS com muitos “!!!”", "“Compartilhe antes que apaguem”", "Nenhuma data", "Nenhum autor"],
+      [["Autor com nome e data da publicação", "É bom sinal."], ["Link para a fonte oficial", "Ajuda a conferir."]],
+      "Maiúsculas, “!!!”, pressa para compartilhar, sem data e sem autor: desconfie."));
+  mais("m2", "turbo",
+    rota("🔎 As 5 perguntas da fonte", "Coloque as perguntas <b>na ordem</b> do 💡 Para começar.",
+      [["👤", "Quem escreveu?"], ["🏢", "Onde foi publicado?"], ["📅", "Quando?"], ["📚", "Tem provas?"], ["🔁", "Outras fontes confirmam?"]],
+      "Fonte conferida! 🔎", "Quem, onde, quando, provas e outras fontes."));
+
+  /* ---------- M3 · vieses e bolhas ---------- */
+  A.m3.gancho = { html: "<p>⚽ Depois do clássico, cada torcida só acreditava nas notícias boas do próprio time e jurava que “todo mundo” concordava com ela.</p><p>🤔 Por que a gente acredita mais rápido no que combina com o que já pensa? E por que o celular parece mostrar só gente que concorda com a gente?</p>" };
+  A.m3.aplicar = [
+    msg("🛠️ Na vida real: dentro ou fora da bolha?", "📱 Rede social", [["D", "🫧 Dentro da bolha"], ["F", "🌍 Fura a bolha"]],
+      "Cada atitude deixa a pessoa dentro da bolha ou ajuda a furar a bolha?",
+      [["Seguir só perfis que pensam igual a mim", "D", "Só vejo mais do mesmo."], ["Procurar “quem discorda disso e por quê?”", "F", "Busca o outro lado."],
+        ["Acreditar na hora porque a notícia combina comigo", "D", "É o viés de confirmação."], ["Conversar com respeito com quem pensa diferente", "F", "Ouve outros argumentos."], ["Conferir duas vezes a notícia que agrada demais", "F", "Desconfia do que é perfeito demais."]],
+      "Bolha furada! 🌍", "Seguir fontes diferentes, procurar o outro lado, desconfiar do que agrada demais e conversar com quem pensa diferente."),
+    VIDA(
+      ["Acreditar mais rápido no que combina com o que a gente já pensa é…", ["Viés de confirmação", "Bolha de sabão", "Checagem"], "É o <b>viés de confirmação</b>."],
+      ["Só ver nas redes conteúdos parecidos com os que você curte é estar…", ["Numa bolha (de filtro)", "Fora da internet", "Num site oficial"], "É a <b>bolha</b>."],
+      ["A notícia é perfeita para o que eu penso. O que fazer?", ["Conferir duas vezes", "Compartilhar na hora", "Ignorar quem discorda"], "<b>Desconfie do que agrada demais</b>: confira duas vezes."])
+  ];
+  mais("m3", "desafio",
+    mem("🧩 Jogo da memória das bolhas", [["Viés de confirmação", "Acreditar rápido no que combina comigo"], ["Bolha de filtro", "Ver só mais do mesmo"], ["Ponto de vista", "O jeito de cada um ver o assunto"],
+      ["🔁 Seguir fontes diferentes", "Ver outros pontos de vista"], ["🔎 Procurar o outro lado", "Quem discorda e por quê?"], ["⏸️ Desconfiar do que agrada demais", "Conferir duas vezes"]],
+      "Todo mundo tem viés: saber disso já ajuda."));
+  mais("m3", "turbo",
+    sin("🌍 Como furar a bolha?", "Marque só as atitudes que <b>furam a bolha</b>.",
+      ["Seguir jornais e perfis com outros pontos de vista", "Pesquisar quem discorda e por quê", "Ouvir com respeito quem pensa diferente"],
+      [["Bloquear todo mundo que discorda", "Aumenta a bolha."], ["Só ver vídeos do mesmo assunto o dia todo", "É mais do mesmo."]],
+      "Ver outros pontos de vista fura a bolha."));
+
+  /* ---------- M4 · termos de uso ---------- */
+  A.m4.gancho = { html: "<p>📝 Para jogar o jogo novo, a Bia clicou em <b>“Li e aceito”</b> sem ler nada. Uma semana depois, começou a ver propagandas de tênis em todo lugar.</p><p>🤔 O que ela aceitou? Aquele clique vale como contrato?</p>" };
+  A.m4.aplicar = [
+    msg("🛠️ Na vida real: o que diz esta frase dos termos?", "📝 Termos de uso do jogo", [["I", "🎂 Idade mínima"], ["D", "📋 Dados coletados"], ["C", "🤝 Compartilhamento"], ["P", "📢 Publicidade"], ["X", "🗑️ Apagar a conta"]],
+      "Cada frase dos termos de uso fala de qual assunto?",
+      [["“O serviço é destinado a maiores de 13 anos.”", "I", "Fala da idade mínima."], ["“Coletamos nome, telefone, localização e contatos.”", "D", "Fala dos dados coletados."],
+        ["“Podemos compartilhar seus dados com parceiros.”", "C", "Outras empresas podem receber os dados."], ["“Usamos seus dados para mostrar anúncios personalizados.”", "P", "Propaganda feita para você."],
+        ["“Você pode excluir sua conta em Configurações.”", "X", "Mostra como sair e levar os dados embora."]],
+      "Leitor de termos! 📝", "Antes de aceitar: que dados ele pega? Com quem compartilha? Consigo apagar a conta?"),
+    VIDA(
+      ["Clicar em “Li e aceito” sem ler…", ["Vale como contrato: você concorda com tudo", "Não vale nada", "Só vale para adultos"], "Aquele clique é um <b>contrato</b>."],
+      ["Quando o aplicativo é grátis, muitas vezes quem paga é…", ["A propaganda, escolhida com os seus dados", "O professor", "Ninguém"], "É a <b>propaganda</b>; os seus dados ajudam a escolher qual mostrar."],
+      ["Pela LGPD, você tem o direito de…", ["Pedir para apagar os seus dados", "Nunca saber quais dados a empresa tem", "Ser obrigado a aceitar tudo"], "A LGPD dá o direito de saber, corrigir, <b>apagar</b> e retirar o consentimento."])
+  ];
+  mais("m4", "desafio",
+    rota("📝 As 3 perguntas antes de aceitar", "Coloque <b>na ordem</b> as 3 perguntas do 💡 Para começar.",
+      [["📋", "Que dados ele pega?"], ["🤝", "Com quem ele compartilha?"], ["🗑️", "Consigo apagar a minha conta?"]],
+      "Leitura esperta! 📝", "Dados, compartilhamento e apagar a conta: as 3 perguntas antes de aceitar."));
+  mais("m4", "turbo",
+    mem("🧩 Jogo da memória dos termos", [["Termos de uso", "O contrato do serviço"], ["Consentimento", "A autorização que você dá"], ["LGPD", "Lei Geral de Proteção de Dados"],
+      ["Publicidade personalizada", "Propaganda feita com os seus dados"], ["Até 12 anos", "Precisa da autorização de um responsável"], ["“Atualizamos nossos termos”", "O contrato mudou"]],
+      "Saber o que você aceitou protege os seus dados."));
+
+  /* ---------- M5 · permissões ---------- */
+  A.m5.gancho = { html: "<p>🔦 O Davi baixou um aplicativo de <b>lanterna</b>. Na hora de abrir, ele pediu acesso aos <b>contatos</b> e à <b>localização</b>.</p><p>🤔 Para que uma lanterna precisaria saber quem são os seus amigos e onde você está?</p>" };
+  A.m5.aplicar = [
+    perm("🛠️ Na vida real: permitir ou negar?", "Cada aplicativo pede uma permissão. Use a pergunta de ouro: <b>faz sentido para o que o aplicativo faz?</b>",
+      [["🗺️", "Mapa do ônibus", "sua localização", "S", "Precisa saber onde você está para mostrar o caminho."], ["🔦", "Lanterna", "seus contatos", "N", "Lanterna só precisa da luz do celular."],
+        ["📸", "Câmera de filtros", "a câmera", "S", "É a função dele."], ["🧮", "Calculadora", "o microfone", "N", "Calculadora não precisa ouvir você."], ["🎤", "Gravador de voz", "o microfone", "S", "Precisa ouvir para gravar."]],
+      "Cada permissão é um acesso a uma parte do celular: só dê o que faz sentido."),
+    VIDA(
+      ["A pergunta de ouro das permissões é…", ["Essa permissão faz sentido para o que o aplicativo faz?", "O aplicativo é bonito?", "É grátis?"], "<b>Faz sentido</b> para o que o aplicativo faz?"],
+      ["O jogo pede a localização, mas só precisa dela na hora de jogar. A melhor opção é…", ["Permitir só durante o uso", "Permitir sempre", "Mandar a localização para os amigos"], "<b>Permitir só durante o uso</b>."],
+      ["Você deu uma permissão e se arrependeu. Dá para mudar?", ["Sim, em Configurações → Aplicativos → (o aplicativo) → Permissões", "Não, nunca", "Só comprando outro celular"], "Dá para mudar depois em <b>Configurações</b>."])
+  ];
+  mais("m5", "desafio",
+    perm("🟡 Permitir ou negar? (mais difícil)", "Agora os pedidos são mais escondidos. Pense bem.",
+      [["🎮", "Jogo de corrida", "suas fotos e arquivos", "N", "Um jogo de corrida não precisa das suas fotos."], ["💬", "Aplicativo de mensagens", "o microfone, para mandar áudio", "S", "Precisa para gravar o áudio."],
+        ["🧾", "Leitor de boletos", "a câmera, para ler o código", "S", "Precisa para ler o código de barras."], ["📖", "Livro de receitas", "seus contatos", "N", "Receita não precisa da sua agenda."], ["🌦️", "Previsão do tempo", "sua localização", "S", "Precisa saber a cidade para mostrar o tempo."]],
+      "Câmera, microfone, localização, contatos e fotos: só para quem precisa."));
+  mais("m5", "turbo",
+    mem("🧩 Jogo da memória das permissões", [["📷 Câmera", "Tirar fotos e gravar vídeos"], ["🎤 Microfone", "Ouvir e gravar o som"], ["📍 Localização", "Saber onde você está"],
+      ["👥 Contatos", "Ver a sua agenda"], ["🖼️ Fotos e arquivos", "Ver as suas fotos e documentos"], ["Permitir só durante o uso", "Só quando o aplicativo está aberto"]],
+      "Cada permissão abre uma parte do celular."));
+
+  /* ---------- M6 · pegada digital ---------- */
+  A.m6.gancho = { html: "<p>🔎 A prima da Júlia foi procurar um estágio. A empresa pesquisou o nome dela na internet e achou um comentário grosseiro que ela tinha escrito 5 anos antes.</p><p>🤔 Como um comentário tão velho ainda estava lá? O que mais fica guardado do que a gente faz na internet?</p>" };
+  A.m6.aplicar = [
+    msg("🛠️ Na vida real: pegada ativa ou passiva?", "👣 Pegada digital", [["A", "✍️ Ativa (você publica)"], ["P", "👀 Passiva (é coletado)"]],
+      "Cada rastro é pegada ativa (você publicou de propósito) ou passiva (foi coletado sem você ver)?",
+      [["Um comentário num vídeo", "A", "Você escreveu de propósito."], ["O histórico das suas pesquisas", "P", "É coletado sem você ver."], ["Uma foto que você postou", "A", "Você publicou."],
+        ["O tempo que você passou em cada vídeo", "P", "O aplicativo anota sozinho."], ["A sua localização registrada pelo celular", "P", "Coletada sem você ver."]],
+      "Pegada mapeada! 👣", "Pegada ativa é o que você publica; passiva é o que coletam sem você ver."),
+    VIDA(
+      ["Antes de postar, uma boa pergunta é…", ["“Eu teria orgulho disso daqui a 10 anos?”", "“Vai ter muita curtida?”", "“Está tarde?”"], "Pense: <b>teria orgulho disso daqui a 10 anos?</b>"],
+      ["Deixar a conta privada faz com que…", ["Só quem você aceita veja os seus posts", "Ninguém veja nada, nem você", "Todo mundo veja tudo"], "Só <b>quem você aceita</b> vê os posts."],
+      ["Postar os seus trabalhos e conquistas…", ["Também vira pegada, uma pegada boa", "Não deixa rastro", "É proibido"], "Coisas boas também viram <b>pegada</b>."])
+  ];
+  mais("m6", "desafio",
+    sin("🧹 Como cuidar da pegada", "Marque só as atitudes que <b>cuidam</b> da sua pegada digital.",
+      ["Pesquisar o seu nome de vez em quando", "Apagar posts antigos que não te representam", "Deixar a conta privada", "Postar trabalhos e conquistas"],
+      [["Comentar com raiva e apagar depois", "Alguém pode ter visto ou tirado print."], ["Postar tudo sem pensar", "A pegada fica por muito tempo."]],
+      "A pegada fica por muito tempo: cuide dela."));
+  mais("m6", "turbo",
+    msg("⏳ Daqui a 10 anos, você teria orgulho?", "📱 Antes de postar", [["S", "😊 Teria orgulho"], ["N", "😬 Melhor não postar"]],
+      "Imagine uma escola ou empresa vendo isto daqui a 10 anos.",
+      [["A foto da medalha da olimpíada de matemática", "S", "Uma conquista: pegada boa."], ["Um comentário xingando o juiz do jogo", "N", "Grosseria fica por muito tempo."],
+        ["O vídeo do projeto de ciências da turma", "S", "Mostra o que você sabe fazer."], ["Uma piada que humilha um colega", "N", "Machuca e fica registrada."]],
+      "Pegada de orgulho! ⏳", "Pense antes: a pegada fica."));
+
+  /* ---------- M7 · checagem de fatos ---------- */
+  A.m7.gancho = { html: "<p>🌊 Uma foto de “enchente de hoje em Curionópolis” rodou o grupo da família. Mas tinha algo estranho: as placas da rua estavam escritas em outra língua.</p><p>🤔 Como descobrir de onde veio essa foto? E se for falsa, o que fazer?</p>" };
+  A.m7.aplicar = [
+    rota("🛠️ Na vida real: checar a foto da enchente", "Coloque os passos da checagem <b>na ordem</b>.",
+      [["🤨", "Desconfiar: a notícia é chocante ou boa demais?"], ["📖", "Ler além do título"], ["🔎", "Procurar a fonte original"], ["📅", "Ver a data"], ["🌐", "Buscar em outras fontes e nas agências de checagem"]],
+      "Fato checado! ✅", "E para a foto: a busca reversa de imagem mostra onde ela já apareceu antes."),
+    VIDA(
+      ["Procurar a foto no buscador para ver onde ela já apareceu é a…", ["Busca reversa de imagem", "Bolha de filtro", "Pegada passiva"], "É a <b>busca reversa de imagem</b>."],
+      ["Agências como a Agência Lupa, o Aos Fatos e o Fato ou Fake (do g1) fazem…", ["Checagem de fatos, como profissão", "Propaganda", "Jogos"], "São <b>agências de checagem</b>."],
+      ["Você descobriu que a notícia é falsa. O certo é…", ["Não repassar e avisar o grupo, com calma", "Repassar com “kkk”", "Ficar quieto e repassar depois"], "<b>Não repassar</b> e avisar o grupo com calma."])
+  ];
+  mais("m7", "desafio",
+    msg("🕵️ Qual passo da checagem?", "✅ Checagem", [["D", "🤨 Desconfiar"], ["T", "📖 Ler além do título"], ["F", "🔎 Fonte original"], ["A", "📅 Ver a data"], ["O", "🌐 Outras fontes"]],
+      "Cada atitude é qual passo da checagem?",
+      [["“Isso é bom demais para ser verdade…”", "D", "Primeiro passo: desconfiar."], ["Abrir a notícia e ler o texto inteiro", "T", "Ler além do título."], ["Descobrir quem disse isso primeiro", "F", "Fonte original."],
+        ["Ver que a notícia é de 2019", "A", "Ver a data."], ["Procurar no site de uma agência de checagem", "O", "Buscar em outras fontes."]],
+      "Checador profissional! 🕵️", "Desconfiar, ler além do título, fonte original, data e outras fontes."));
+  mais("m7", "turbo",
+    mem("🧩 Jogo da memória da checagem", [["Checagem de fatos", "Conferir antes de acreditar"], ["Agência de checagem", "Checa notícias como profissão"], ["Fonte original", "Quem disse primeiro"],
+      ["Busca reversa de imagem", "Onde a foto já apareceu"], ["Título", "Pode exagerar o que o texto diz"], ["Notícia falsa", "Não repassar e avisar com calma"]],
+      "Checar antes de compartilhar."));
+
+  /* ---------- M8 · o algoritmo do feed ---------- */
+  A.m8.gancho = { html: "<p>📱 O Davi assistiu a 3 vídeos de gatinhos até o fim. No dia seguinte, o feed dele estava cheio de gatos!</p><p>🤔 Como o aplicativo “sabe” o que mostrar? Quem escolhe o que aparece primeiro no feed?</p>" };
+  A.m8.aplicar = [
+    msg("🛠️ Na vida real: o que o algoritmo entende?", "📱 Feed", [["M", "➕ Mostre mais disso"], ["L", "➖ Mostre menos disso"]],
+      "Para cada coisa que você faz, o algoritmo de recomendação entende “mais” ou “menos”?",
+      [["Curtir o vídeo", "M", "“Gostou: mostre mais.”"], ["Assistir até o fim e assistir de novo", "M", "“Prendeu a atenção.”"], ["Passar rápido", "L", "“Não interessou tanto.”"],
+        ["Tocar em “Não tenho interesse”", "L", "“Mostre menos disso.”"], ["Comentar e compartilhar", "M", "“Interessou muito.”"]],
+      "Você entendeu o algoritmo! 📱", "O algoritmo observa o que você faz para escolher o que aparece primeiro."),
+    VIDA(
+      ["O objetivo do algoritmo do feed costuma ser…", ["Fazer você ficar mais tempo no aplicativo", "Te mandar dormir cedo", "Mostrar tudo em ordem de data"], "Mais tempo no aplicativo = <b>mais propaganda vista</b>."],
+      ["Como você pode treinar o algoritmo?", ["Seguindo perfis diferentes e usando o “Não tenho interesse”", "Curtindo tudo", "Nunca saindo do aplicativo"], "Siga perfis diferentes, use o <b>“Não tenho interesse”</b>, pesquise outros assuntos e faça pausas."],
+      ["O feed mostra os posts…", ["Na ordem que o algoritmo escolhe", "Sempre na ordem em que foram postados", "Ao acaso"], "Um <b>algoritmo de recomendação</b> escolhe a ordem."])
+  ];
+  mais("m8", "desafio",
+    sin("🧠 Treinar o algoritmo", "Marque só as atitudes que ajudam a <b>treinar o algoritmo</b> a seu favor.",
+      ["Seguir perfis diferentes", "Usar o “Não tenho interesse”", "Pesquisar outros assuntos", "Fazer pausas"],
+      [["Assistir de novo tudo o que aparece", "Ensina o algoritmo a mostrar mais do mesmo."], ["Curtir vídeos que nem gostou", "Confunde o feed."]],
+      "Você também treina o algoritmo."));
+  mais("m8", "turbo",
+    mem("🧩 Jogo da memória do feed", [["Algoritmo de recomendação", "Escolhe o que aparece no feed"], ["Engajamento", "Curtir, comentar, compartilhar"], ["❤️ Curtir", "Mostre mais disso"],
+      ["⏭️ Passar rápido", "Não interessou tanto"], ["🙅 Não tenho interesse", "Mostre menos disso"], ["Mais tempo no aplicativo", "Mais propaganda vista"]],
+      "Saber como o feed funciona ajuda a usar com equilíbrio."));
 })();

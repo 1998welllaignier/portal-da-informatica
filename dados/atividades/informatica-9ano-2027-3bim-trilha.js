@@ -230,3 +230,72 @@ PORTAL.registrarAtividades("informatica-9ano-2027-3bim-trilha", {
   ].filter(Boolean) };
 })();
 })();
+
+/* ============================================================
+   🌀 MODELO EM ESPIRAL — 🧭 Trilha (21/11/2026, Etapa 3: 3º bimestre de 2027)
+   Mesmo ❓ gancho da turma, "O que você já sabe?" na M1 e 🛠️ "Onde eu uso isso?" calmo
+   (3 itens + 2 perguntas). Sem Desafio/Turbo na Trilha.
+   ============================================================ */
+(function () {
+  const A = PORTAL.atividades["informatica-9ano-2027-3bim-trilha"]; if (!A) return;
+  const GANCHO = {"m1":{"html":"<p>🌧️ Toda vez que chove forte, a rua da escola alaga e metade da turma falta. Todo mundo reclama, mas nada muda.</p><p>🤔 Por onde começar para resolver um problema assim? Um aplicativo resolveria, ou a solução é outra?</p>"},"m2":{"html":"<p>🍲 A turma queria saber quanto a prefeitura gastou com a merenda no ano passado. Alguém disse: “isso é segredo, ninguém pode saber”.</p><p>🤔 Será? Onde um estudante pode encontrar essa informação?</p>"},"m3":{"html":"<p>📱 O professor mandou a tarefa pelo celular. O Pedro tem celular, mas divide com 3 irmãos e o pacote de dados acabou no dia 10.</p><p>🤔 Ter celular é o mesmo que estar conectado? O que mais faz diferença?</p>"},"m4":{"html":"<p>🛒 No supermercado da cidade abriram 4 caixas de autoatendimento. A tia da Ana, que era operadora de caixa, agora ajuda os clientes a usarem as máquinas.</p><p>🤔 A máquina “roubou” o emprego ou o trabalho mudou? Que profissões vão existir quando você crescer?</p>"},"m5":{"html":"<p>📧 Um e-mail dizendo “Você ganhou um PRÊMIO GRÁTIS, clique já!” foi direto para a pasta Spam. Ninguém mexeu em nada.</p><p>🤔 Como o programa “sabia” que era spam? E se ele errar e esconder um e-mail importante?</p>"},"m6":{"html":"<p>🗑️ A gaveta da casa do João tem 3 celulares velhos, um carregador quebrado e uma bateria estufada. A mãe dele quer jogar tudo no lixo da cozinha.</p><p>🤔 Pode? O que acontece com esse lixo? E a tecnologia só faz mal ao meio ambiente?</p>"},"m7":{"html":"<p>👵 A avó da Clara não consegue ler as mensagens no celular porque a letra é pequena. E o primo dela, que é cego, usa o celular sozinho todos os dias.</p><p>🤔 Como uma pessoa cega usa o celular? O que a tecnologia faz para que todo mundo consiga usar?</p>"},"m8":{"html":"<p>📲 Perto da eleição, chegou no grupo um vídeo chocante com um candidato dizendo algo absurdo. O tio repassou na hora: “olha que vergonha!”.</p><p>🤔 E se o vídeo for uma montagem? Quem pode confirmar? Como agir antes de repassar?</p>"}};
+  Object.keys(GANCHO).forEach(m => { A[m].gancho = GANCHO[m]; });
+  const perg = (titulo, ...ps) => ({ tipo: "escolha", titulo, enunciado: "<p>Use o que você aprendeu hoje. Leia com calma. 😉</p>", perguntas: ps.map(x => ({ p: x[0], opcoes: x[1], certo: 0, why: x[2] })) });
+  const VIDA = (...ps) => perg("🛠️ E na vida real?", ...ps);
+  const msg = (titulo, app, botoes, enun, itens, okMsg, expl) => ({ tipo: "mensagens", titulo, app, botoes: botoes.map(([id, rot]) => ({ id, rot })), enunciado: `<p>${enun}</p>`,
+    itens: itens.map(([t, c, why]) => ({ de: "", t, c, why })), okMsg, explicacao: expl });
+  const rota = (titulo, enun, etapas, okMsg, expl) => ({ tipo: "rota", titulo, enunciado: `<p>${enun}</p>`, etapas: etapas.map(([ic, t]) => ({ ic, t })), okMsg, explicacao: expl });
+
+  A.m1.lembra = [perg("🔍 O que você já sabe?",
+    ["Um programa do celular é um…", ["Aplicativo", "Satélite"], "É um <b>aplicativo</b>."],
+    ["Um aparelho que mede sozinho a chuva é um…", ["Sensor", "Cartaz"], "É um <b>sensor</b>."])];
+  A.m1.lembra[0].enunciado = "<p>Responda o que você já sabe. Se não souber, tudo bem: o portal mostra onde está a resposta. 😉</p>";
+  A.m1.aplicar = [
+    rota("🛠️ Na vida real: a rua que alaga", "Coloque os passos <b>na ordem</b>.",
+      [["1️⃣", "Observar: a rua da escola alaga"], ["2️⃣", "Escolher esse problema"], ["3️⃣", "Ver quem sofre: os alunos"], ["4️⃣", "Imaginar a solução: um sensor que avisa"]],
+      "Método completo! 🏙️", "Observar, escolher, ver quem sofre e imaginar a solução."),
+    VIDA(["Para avisar muita gente ao mesmo tempo, use…", ["Uma mensagem", "Um sensor"], "Uma <b>mensagem</b> avisa muita gente."], ["Para marcar onde estão os problemas, use…", ["Um mapa", "Uma calculadora"], "Um <b>mapa</b>."])
+  ];
+  A.m2.aplicar = [
+    msg("🛠️ Na vida real: aberto ou pessoal?", "🗂️ Dados", [["A", "🔓 Dado aberto"], ["P", "🔒 Dado pessoal"]], "Pode ser publicado?",
+      [["Quantos pedidos de conserto teve o bairro", "A", "Informação pública."], ["O nome e a nota de um aluno", "P", "Dado pessoal: não é publicado."], ["Quantas lâmpadas foram consertadas", "A", "Informação pública."]],
+      "Mandou bem! 🗂️", "Dados abertos qualquer pessoa pode ver; dados pessoais não são publicados."),
+    VIDA(["Na tabela, qual bairro teve mais pedidos?", ["Bairro Novo (15)", "Bairro da Serra (6)"], "O maior número é <b>15</b>, do Bairro Novo."], ["Onde começar o conserto?", ["Onde tem mais pedidos", "Onde tem menos pedidos"], "Onde tem <b>mais pedidos</b>."])
+  ];
+  A.m3.aplicar = [
+    msg("🛠️ Na vida real: que parte?", "📶 Desigualdade digital", [["A", "📱 Acesso"], ["Q", "⚡ Qualidade"], ["H", "🧠 Habilidade"]], "Use a tabela do 💡 Para começar.",
+      [["Família sem internet", "A", "Não tem acesso."], ["Celular dividido por 4 irmãos", "Q", "A conexão e o aparelho não são bons para todos."], ["O avô não sabe usar o aplicativo", "H", "Falta saber usar."]],
+      "Mandou bem! 📶", "Acesso, qualidade e habilidade."),
+    VIDA(["O que ajuda a diminuir a desigualdade digital?", ["Wi-Fi gratuito na praça", "Desligar a internet da escola"], "<b>Wi-Fi gratuito</b> ajuda."], ["Um curso ajuda na…", ["Habilidade", "Qualidade"], "Desenvolve a <b>habilidade</b>."])
+  ];
+  A.m4.aplicar = [
+    msg("🛠️ Na vida real: máquina ou humano?", "💼 Trabalho", [["M", "🤖 Máquina"], ["H", "🧑 Muito humano"]], "Quem faz melhor?",
+      [["Fazer a mesma tarefa repetitiva o dia todo", "M", "Tarefa repetitiva: máquina."], ["Cuidar de uma pessoa doente", "H", "Empatia: humano."], ["Inventar uma ideia nova", "H", "Criatividade: humano."]],
+      "Mandou bem! 💼", "A máquina faz tarefas repetitivas; criatividade e empatia são muito humanas."),
+    VIDA(["Automação é quando…", ["A máquina faz sozinha uma tarefa", "A pessoa faz tudo à mão"], "A máquina faz <b>sozinha</b>."], ["Piloto de drone é uma…", ["Profissão nova", "Tarefa repetitiva"], "É uma <b>profissão nova</b>."])
+  ];
+  A.m5.aplicar = [
+    rota("🛠️ Na vida real: o filtro de spam", "Coloque as etapas da IA <b>na ordem</b>.",
+      [["1️⃣", "Coletar exemplos: e-mails marcados como spam"], ["2️⃣", "Treinar: achar as palavras do spam"], ["3️⃣", "Usar: separar os e-mails novos"]],
+      "A IA aprendeu! 🤖", "Coletar exemplos, treinar e usar."),
+    VIDA(["O chatbot respondeu. Você…", ["Confere em outra fonte", "Copia sem ler"], "<b>Confira em outra fonte</b>: a IA também erra."], ["Na escola, use a IA para…", ["Estudar, não para copiar", "Copiar o trabalho todo"], "Para <b>estudar</b>, não para copiar."])
+  ];
+  A.m6.aplicar = [
+    msg("🛠️ Na vida real: prejudica ou ajuda?", "🌱 Meio ambiente", [["P", "⚠️ Prejudica"], ["A", "🌱 Ajuda"]], "Use a tabela do 💡 Para começar.",
+      [["Satélites vigiando a Amazônia", "A", "Ajuda a proteger a floresta."], ["Pilha jogada no lixo comum", "P", "Lixo eletrônico no lixo comum prejudica."], ["Sensores economizando água", "A", "Ajuda."]],
+      "Mandou bem! 🌱", "A tecnologia pode prejudicar ou ajudar."),
+    VIDA(["O celular velho vai para…", ["O ponto de coleta", "O lixo comum"], "Para o <b>ponto de coleta</b>."], ["Gastar energia à toa…", ["Prejudica o meio ambiente", "Ajuda o meio ambiente"], "<b>Prejudica</b>."])
+  ];
+  A.m7.aplicar = [
+    msg("🛠️ Na vida real: qual recurso?", "♿ Acessibilidade", [["L", "🔊 Leitor de tela"], ["G", "💬 Legenda"], ["V", "🤟 VLibras"]], "Qual recurso ajuda cada pessoa?",
+      [["Uma pessoa cega quer ouvir a tela", "L", "Lê a tela em voz alta."], ["Uma pessoa surda quer entender o vídeo", "G", "Escreve o que é falado."], ["Quem usa a Libras quer ler um texto", "V", "Traduz para a Libras."]],
+      "Tecnologia para todos! ♿", "Acessibilidade: todas as pessoas conseguem usar."),
+    VIDA(["O leitor de tela ajuda…", ["Pessoas cegas", "Só quem enxerga bem"], "Ajuda <b>pessoas cegas</b>."], ["O VLibras traduz para a…", ["Libras", "Língua inglesa"], "Para a <b>Libras</b>."])
+  ];
+  A.m8.aplicar = [
+    msg("🛠️ Na vida real: protege ou espalha?", "🗳️ Grupo da família", [["P", "🛡️ Protege"], ["E", "📢 Espalha o boato"]], "Desconfiar, conferir e não repassar sem conferir.",
+      [["Conferir antes de repassar", "P", "Protege."], ["Repassar na hora o vídeo chocante", "E", "Ajuda o boato a crescer."], ["Desconfiar do vídeo chocante", "P", "Protege."]],
+      "Mandou bem! 🗳️", "Contra boatos: desconfiar, conferir e não repassar sem conferir."),
+    VIDA(["Aos 16 e 17 anos, o voto é…", ["Facultativo (opcional)", "Proibido"], "É <b>facultativo</b>."], ["O TSE proíbe na propaganda…", ["O deepfake", "A urna eletrônica"], "Proíbe o <b>deepfake</b>."])
+  ];
+})();

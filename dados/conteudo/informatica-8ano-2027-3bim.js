@@ -137,6 +137,10 @@ PORTAL.registrarConteudo("informatica-8ano-2027-3bim", {
     },
     {
      "t": "p",
+     "h": "📤 Pode ir: o que é seu e o material da aula, como o <strong>link</strong> (o endereço de uma página) da apostila. ✋ Não vai: o que expõe alguém e a mensagem <strong>sem fonte</strong> (sem dizer de onde veio a informação), que é sinal de boato."
+    },
+    {
+     "t": "p",
      "h": "<strong>Antes de compartilhar, faça 4 perguntas:</strong>"
     },
     {
@@ -463,6 +467,10 @@ PORTAL.registrarConteudo("informatica-8ano-2027-3bim", {
        "Com respeito, ouvindo os argumentos"
       ]
      ]
+    }
+    ,{
+     "t": "p",
+     "h": "⚠️ O contrário também acontece: <strong>bloquear</strong> todo mundo que discorda (fazer a pessoa sumir do seu feed) deixa a bolha ainda <strong>mais fechada</strong>."
     }
    ],
    "termos": [

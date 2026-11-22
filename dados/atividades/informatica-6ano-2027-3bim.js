@@ -580,3 +580,223 @@ PORTAL.registrarAtividades("informatica-6ano-2027-3bim", {
   ].filter(Boolean) };
 })();
 })();
+
+/* ============================================================
+   🌀 MODELO EM ESPIRAL (21/11/2026, levado ao ano todo — Etapa 3: 3º bimestre de 2027)
+   Por missão: ❓ gancho, 🛠️ "Onde eu uso isso?" prático (desafio de blocos de uma situação real + 3 perguntas),
+   "O que você já sabe?" na M1 e ⏱️ +25% de tempo com 2 desafios-jogo no 🟡 Desafio e no 🔴 Turbo.
+   ============================================================ */
+(function () {
+  const A = PORTAL.atividades["informatica-6ano-2027-3bim"]; if (!A) return;
+  const L = (...x) => ["lista", ...x];
+  const v = n => ({ v: n });
+  const mais = (mid, niv, ...ts) => { A[mid][niv] = (A[mid][niv] || []).concat(ts.map(t => Object.assign(t, { maisTempo: "⏱️ +25%" }))); };
+  const perg = (titulo, enun, ...ps) => ({ tipo: "escolha", titulo, enunciado: `<p>${enun}</p>`, perguntas: ps.map(x => ({ p: x[0], opcoes: x[1], certo: 0, why: x[2] })) });
+  const VIDA = (...ps) => perg("🛠️ E na vida real, o que você faria?", "Use o que você aprendeu hoje para responder.", ...ps);
+  const blk = (titulo, enun, caixa, esperado, solucao, dicas, explicacao, extra) => Object.assign({ tipo: "blocos", titulo, enunciado: enun, caixa, esperado, solucao, dicas, explicacao }, extra || {});
+  const tela = linhas => `<p>${linhas.map(x => `<b>${x}</b>`).join("<br>")}</p>`;
+
+  /* ---------- M1 · meu primeiro programa ---------- */
+  A.m1.gancho = { html: "<p>🎂 O robô da festa devia dizer <b>“Parabéns!”</b> e depois <b>“Hora do bolo!”</b>. Mas ele disse ao contrário, e todo mundo riu.</p><p>🤔 Por que o robô trocou? Ele entende o que a gente quer, ou só faz exatamente o que está escrito?</p>" };
+  A.m1.lembra = [perg("🔍 O que você já sabe?", "Começou o 3º bimestre! Responda o que você já sabe. Se não souber, tudo bem: chute com calma, e o portal mostra onde está a resposta. 😉",
+    ["Um <b>programa</b> é…", ["Um algoritmo escrito numa linguagem que o computador entende", "Um computador novo", "Uma pasta de fotos"], "Programa = <b>algoritmo</b> numa linguagem que o computador entende."],
+    ["O computador lê os blocos…", ["De cima para baixo, um de cada vez", "De baixo para cima", "Todos ao mesmo tempo, em qualquer ordem"], "De <b>cima para baixo</b>, um de cada vez: é a sequência."],
+    ["A ordem dos passos importa?", ["Sim: trocar a ordem muda o resultado", "Não, nunca", "Só no celular"], "A ordem importa: “Bom dia” e depois “Tchau” é diferente do contrário."])];
+  A.m1.aplicar = [
+    blk("🛠️ Na vida real: o aviso no telão da escola", `<p>Monte o aviso que vai aparecer no telão da escola, nesta ordem:</p>${tela(["Atenção, turma!", "Amanhã tem passeio.", "Tragam lanche."])}<p>Arraste 3 blocos <b>mostrar na tela</b> e encaixe um embaixo do outro.</p>`,
+      ["mostrar", "texto"], ["Atenção, turma!", "Amanhã tem passeio.", "Tragam lanche."], [["mostrar", "Atenção, turma!"], ["mostrar", "Amanhã tem passeio."], ["mostrar", "Tragam lanche."]],
+      ["Encaixe os blocos: eles grudam um embaixo do outro.", "Clique no texto do bloco para escrever."], "O computador mostrou as frases na ordem dos blocos, de cima para baixo: é a sequência."),
+    VIDA(
+      ["Um bloco ficou <b>solto</b>, sem encaixar no programa. O que acontece com ele?", ["Não roda: o computador não executa ele", "Roda primeiro", "Roda duas vezes"], "O bloco solto <b>não roda</b>."],
+      ["Para ver o resultado do programa, você aperta…", ["▶️ Rodar o programa", "O botão de desligar", "A gaveta 🔤 Texto"], "Aperte <b>▶️ Rodar o programa</b> e veja a 📺 Tela do programa."],
+      ["Na receita de bolo, trocar a ordem dos passos…", ["Pode estragar o resultado", "Não muda nada", "Deixa o bolo maior"], "A <b>ordem importa</b>, na receita e no programa."])
+  ];
+  mais("m1", "desafio",
+    blk("🥤 Conserte a receita do suco", `<p>Os passos da receita estão fora de ordem. Arraste os blocos para ficar assim:</p>${tela(["Pegar o copo", "Colocar o suco em pó", "Encher de água", "Mexer"])}`,
+      ["mostrar", "texto"], ["Pegar o copo", "Colocar o suco em pó", "Encher de água", "Mexer"], [["mostrar", "Pegar o copo"], ["mostrar", "Colocar o suco em pó"], ["mostrar", "Encher de água"], ["mostrar", "Mexer"]],
+      ["Puxe o “Pegar o copo” para cima de todos.", "Depois confira cada passo: o que vem antes do quê?"], "Na sequência, a ordem dos blocos é a ordem em que as coisas acontecem.",
+      { inicio: [["mostrar", "Mexer"], ["mostrar", "Pegar o copo"], ["mostrar", "Encher de água"], ["mostrar", "Colocar o suco em pó"]] }));
+  mais("m1", "turbo",
+    blk("🌅 A rotina da manhã em 5 blocos", `<p>Monte a rotina da manhã do robô Bit, do jeito que ela acontece:</p>${tela(["Acordar", "Escovar os dentes", "Tomar café", "Pegar a mochila", "Ir para a escola"])}`,
+      ["mostrar", "texto"], ["Acordar", "Escovar os dentes", "Tomar café", "Pegar a mochila", "Ir para a escola"],
+      [["mostrar", "Acordar"], ["mostrar", "Escovar os dentes"], ["mostrar", "Tomar café"], ["mostrar", "Pegar a mochila"], ["mostrar", "Ir para a escola"]],
+      ["São 5 blocos mostrar, um embaixo do outro.", "Escreva cada frase igualzinho, com as letras maiúsculas no lugar certo."], "5 blocos, 5 linhas na tela, na ordem certa: o seu programa contou a manhã do Bit."));
+
+  /* ---------- M2 · repetição e seleção ---------- */
+  A.m2.gancho = { html: "<p>⚽ O professor de Educação Física disse: “Façam <b>3 polichinelos</b>! E, <b>se</b> estiver chovendo, o treino é na sala; <b>senão</b>, é na quadra.”</p><p>🤔 Como mandar o computador <b>repetir</b> sem escrever 3 vezes? E como ele <b>escolhe</b> entre a sala e a quadra?</p>" };
+  A.m2.aplicar = [
+    blk("🛠️ Na vida real: o treino de hoje", `<p>Hoje <b>não</b> está chovendo (a variável <b>chovendo</b> já é <b>falso</b>). Monte: <b>repita 3 vezes</b> mostrar <b>polichinelo</b>; depois, <b>se chovendo</b>, mostrar <b>treino na sala</b>; <b>senão</b>, mostrar <b>treino na quadra</b>. A tela deve mostrar:</p>${tela(["polichinelo", "polichinelo", "polichinelo", "treino na quadra"])}`,
+      ["mostrar", "texto", "numero", "variavel", "repita", "se", "comparar"], ["polichinelo", "polichinelo", "polichinelo", "treino na quadra"],
+      [["definir", "chovendo", false], ["repita", 3, [["mostrar", "polichinelo"]]], ["se", v("chovendo"), [["mostrar", "treino na sala"]], [["mostrar", "treino na quadra"]]]],
+      ["O se fica embaixo do repita (fora dele).", "Na condição do se, encaixe o bloco redondo chovendo."], "O repita fez os polichinelos; o se escolheu o caminho: como chovendo é falso, foi o senão.",
+      { inicio: [["definir", "chovendo", false]], exige: ["repita", "se"] }),
+    VIDA(
+      ["O “mostrar fim” está <b>dentro</b> do repita 3 vezes. Quantas vezes aparece “fim”?", ["3 vezes", "1 vez", "Nenhuma"], "Dentro do repita, aparece <b>3 vezes</b>; fora (embaixo), aparece 1 vez."],
+      ["A comparação 10 &gt; 5 é…", ["Verdadeira: 10 é maior que 5", "Falsa", "Um texto"], "10 é maior que 5: <b>verdadeiro</b>."],
+      ["No jogo: <b>se</b> a vida acabar, aparece “Fim de jogo”. Isso é uma…", ["Seleção", "Repetição", "Sequência só"], "Escolher um caminho pela condição é <b>seleção</b>."])
+  ];
+  mais("m2", "desafio",
+    blk("🏀 Ganhou a medalha?", `<p>Quem fizer <b>10 pontos ou mais</b> ganha medalha. A Bia fez <b>8</b> (a variável <b>pontos</b> já vale 8). Use <b>se pontos ≥ 10</b>: mostrar <b>Ganhou a medalha!</b>; <b>senão</b>, mostrar <b>Quase lá!</b>.</p>${tela(["Quase lá!"])}`,
+      ["mostrar", "texto", "numero", "variavel", "se", "comparar"], ["Quase lá!"],
+      [["definir", "pontos", 8], ["se", [">=", v("pontos"), 10], [["mostrar", "Ganhou a medalha!"]], [["mostrar", "Quase lá!"]]]],
+      ["Na gaveta ⚖️ Comparar, pegue o bloco de comparar e escolha ≥.", "Encaixe pontos de um lado e o número 10 do outro."], "8 ≥ 10 é falso: o programa foi para o senão. Teste trocando para 12: aparece “Ganhou a medalha!”.",
+      { inicio: [["definir", "pontos", 8]], exige: ["se", "comparar"] }));
+  mais("m2", "turbo",
+    blk("🥁 A batida da bateria", `<p>A batida é <b>tum</b> e <b>tá</b>, repetida 3 vezes, e no fim <b>fim!</b> uma vez só:</p>${tela(["tum", "tá", "tum", "tá", "tum", "tá", "fim!"])}`,
+      ["mostrar", "texto", "numero", "repita"], ["tum", "tá", "tum", "tá", "tum", "tá", "fim!"],
+      [["repita", 3, [["mostrar", "tum"], ["mostrar", "tá"]]], ["mostrar", "fim!"]],
+      ["Dentro do repita vão DOIS blocos: tum e tá.", "O fim! fica embaixo do repita, fora dele."], "Dá para repetir um grupo de blocos: o repita fez tum-tá 3 vezes e o fim! ficou fora.",
+      { exige: ["repita"] }));
+
+  /* ---------- M3 · variáveis ---------- */
+  A.m3.gancho = { html: "<p>🚌 O cartão do ônibus da Bia começa com <b>10 viagens</b>. A cada viagem, o leitor do ônibus tira 1.</p><p>🤔 Como o leitor “lembra” quantas viagens ainda restam? Onde esse número fica guardado?</p>" };
+  A.m3.aplicar = [
+    blk("🛠️ Na vida real: o cartão do ônibus", `<p>A variável <b>viagens</b> começa em 10. A Bia viajou <b>3 vezes</b>. Use o <b>repita 3 vezes</b> com <b>alterar viagens por -1</b> e, no fim, mostre o saldo com “criar texto com”:</p>${tela(["Viagens: 7"])}`,
+      ["mostrar", "texto", "numero", "variavel", "repita"], ["Viagens: 7"],
+      [["definir", "viagens", 10], ["repita", 3, [["mudar", "viagens", -1]]], ["mostrar", ["juntar", "Viagens: ", v("viagens")]]],
+      ["“alterar viagens por -1” tira 1 da caixinha.", "O mostrar fica embaixo do repita: só no fim."], "A variável guardou o saldo: 10 → 9 → 8 → 7. É assim que o leitor do ônibus funciona.",
+      { inicio: [["definir", "viagens", 10]], exige: ["variavel", "repita"] }),
+    VIDA(
+      ["O placar de um jogo, que muda a cada gol, é uma…", ["Variável", "Repetição", "Gaveta"], "O placar é uma <b>variável</b>: uma caixinha com nome que guarda um valor que muda."],
+      ["definir pontos para 0 → alterar pontos por 5 → alterar pontos por 3. Quanto vale pontos?", ["8", "5", "3"], "0 + 5 + 3 = <b>8</b>."],
+      ["Uma variável pode guardar…", ["Um número ou um texto", "Só números", "Só fotos"], "Pode guardar um <b>número</b> (8) ou um <b>texto</b> (“Ana”)."])
+  ];
+  mais("m3", "desafio",
+    blk("🐷 O cofrinho", `<p>O cofrinho tem <b>5</b> moedas. A Lia colocou <b>3</b> e depois tirou <b>2</b> para comprar um pirulito. Use <b>alterar moedas por</b> duas vezes e mostre:</p>${tela(["Moedas: 6"])}`,
+      ["mostrar", "texto", "numero", "variavel"], ["Moedas: 6"],
+      [["definir", "moedas", 5], ["mudar", "moedas", 3], ["mudar", "moedas", -2], ["mostrar", ["juntar", "Moedas: ", v("moedas")]]],
+      ["Colocar 3 = alterar moedas por 3. Tirar 2 = alterar moedas por -2."], "5 + 3 − 2 = 6. O “alterar por” soma ao que já estava (com número negativo, tira).",
+      { inicio: [["definir", "moedas", 5]], exige: ["variavel"] }));
+  mais("m3", "turbo",
+    blk("🎲 De quem é a vez?", `<p>Uma variável também guarda <b>texto</b>. Use a variável <b>jogador</b>: primeiro “Ana”, mostre a vez; depois troque para “Leo” e mostre de novo:</p>${tela(["Vez de Ana", "Vez de Leo"])}`,
+      ["mostrar", "texto", "variavel"], ["Vez de Ana", "Vez de Leo"],
+      [["definir", "jogador", "Ana"], ["mostrar", ["juntar", "Vez de ", v("jogador")]], ["definir", "jogador", "Leo"], ["mostrar", ["juntar", "Vez de ", v("jogador")]]],
+      ["O mesmo bloco “mostrar criar texto com ‘Vez de ’ e jogador” aparece duas vezes.", "Entre eles, “definir jogador para Leo”."], "A caixinha jogador trocou de valor: primeiro Ana, depois Leo. O mesmo bloco mostrou nomes diferentes.",
+      { exige: ["variavel"] }));
+
+  /* ---------- M4 · um bloco para muitos casos ---------- */
+  A.m4.gancho = { html: "<p>🎤 Na festa junina, o apresentador anuncia cada quadrilha com a mesma frase: “Palmas para a turma 6º A!”, “Palmas para a turma 6º B!”…</p><p>🤔 Se fosse um programa, seria preciso montar a frase de novo a cada turma? Ou dá para criar um bloco só e mudar só a turma?</p>" };
+  A.m4.aplicar = [
+    blk("🛠️ Na vida real: o apresentador da festa junina", `<p>Crie o seu bloco <b>anunciar</b> (gaveta 🧩 Meus blocos) que mostra “Palmas para a turma ” + <b>turma</b> + “!”. Depois: definir turma para “6º A” e chamar anunciar; definir turma para “6º B” e chamar anunciar.</p>${tela(["Palmas para a turma 6º A!", "Palmas para a turma 6º B!"])}`,
+      ["mostrar", "texto", "variavel", "funcao"], ["Palmas para a turma 6º A!", "Palmas para a turma 6º B!"],
+      [["funcao", "anunciar", [["mostrar", ["juntar", "Palmas para a turma ", v("turma"), "!"]]]], ["definir", "turma", "6º A"], ["chamar", "anunciar"], ["definir", "turma", "6º B"], ["chamar", "anunciar"]],
+      ["No “criar texto com”, use a engrenagem para ter 3 pedaços.", "O parâmetro é a variável turma: ela muda antes de cada chamada."], "Um bloco só, chamado duas vezes; só o parâmetro (turma) mudou.",
+      { exige: ["funcao"] }),
+    VIDA(
+      ["No bloco que mostra “Olá, ” + nome, o valor que muda a cada vez (nome) é o…", ["Parâmetro", "Gaveta", "Bloco solto"], "O valor que muda é o <b>parâmetro</b>."],
+      ["O botão “curtir” é o mesmo em todos os posts; só muda o post. Isso lembra…", ["Um bloco para muitos casos", "Um bloco solto", "Uma sequência sem blocos"], "É a ideia de <b>reaproveitar</b> um bloco: o mesmo bloco, com parâmetros diferentes."],
+      ["A saudação precisa mudar. Com o seu próprio bloco, você muda…", ["Em um lugar só", "Em todos os lugares, um por um", "Em nenhum lugar"], "Muda <b>em um lugar só</b>: dentro do bloco."])
+  ];
+  mais("m4", "desafio",
+    blk("🍊 A receita de suco para muitas frutas", `<p>Crie o bloco <b>suco</b> que mostra “Suco de ” + <b>fruta</b>. Chame para <b>laranja</b>, <b>caju</b> e <b>açaí</b>:</p>${tela(["Suco de laranja", "Suco de caju", "Suco de açaí"])}`,
+      ["mostrar", "texto", "variavel", "funcao"], ["Suco de laranja", "Suco de caju", "Suco de açaí"],
+      [["funcao", "suco", [["mostrar", ["juntar", "Suco de ", v("fruta")]]]], ["definir", "fruta", "laranja"], ["chamar", "suco"], ["definir", "fruta", "caju"], ["chamar", "suco"], ["definir", "fruta", "açaí"], ["chamar", "suco"]],
+      ["Antes de cada “suco”, defina a fruta."], "A receita é a mesma; a fruta é o parâmetro.", { exige: ["funcao"] }));
+  mais("m4", "turbo",
+    blk("🏅 O pódio com o seu bloco", `<p>Crie o bloco <b>medalha</b> que mostra duas linhas: “Parabéns, ” + <b>nome</b> + “!” e “Você subiu no pódio!”. Chame para <b>Lia</b> e <b>Rafa</b>:</p>${tela(["Parabéns, Lia!", "Você subiu no pódio!", "Parabéns, Rafa!", "Você subiu no pódio!"])}`,
+      ["mostrar", "texto", "variavel", "funcao"], ["Parabéns, Lia!", "Você subiu no pódio!", "Parabéns, Rafa!", "Você subiu no pódio!"],
+      [["funcao", "medalha", [["mostrar", ["juntar", "Parabéns, ", v("nome"), "!"]], ["mostrar", "Você subiu no pódio!"]]], ["definir", "nome", "Lia"], ["chamar", "medalha"], ["definir", "nome", "Rafa"], ["chamar", "medalha"]],
+      ["Dentro do bloco medalha vão dois mostrar.", "Cada chamada mostra as duas linhas."], "Com o seu bloco, 4 linhas saíram de 2 chamadas. Se precisar mudar a frase, muda num lugar só.", { exige: ["funcao"] }));
+
+  /* ---------- M5 · listas e tipos de dados ---------- */
+  A.m5.gancho = { html: "<p>🎵 A playlist do Davi tem 3 músicas. Ele quer saber qual é a <b>2ª</b> e quantas músicas tem ao todo.</p><p>🤔 Como um programa guarda várias músicas numa variável só? E como ele acha a música pela posição?</p>" };
+  A.m5.aplicar = [
+    blk("🛠️ Na vida real: o cardápio da cantina", `<p>A lista <b>lanches</b> já tem pão de queijo, bolo e suco. Mostre o lanche da <b>posição 2</b> e, depois, quantas opções existem (com “criar texto com” e <b>tamanho de</b>):</p>${tela(["bolo", "Opções: 3"])}`,
+      ["mostrar", "texto", "numero", "variavel", "lista"], ["bolo", "Opções: 3"],
+      [["definir", "lanches", L("pão de queijo", "bolo", "suco")], ["mostrar", ["item", v("lanches"), 2]], ["mostrar", ["juntar", "Opções: ", ["tamanho", v("lanches")]]]],
+      ["Use “em lista lanches obter nº 2”.", "Depois, “tamanho de lanches” dentro do criar texto com."], "O item 2 é bolo, e a lista tem 3 itens (tamanho 3).",
+      { inicio: [["definir", "lanches", L("pão de queijo", "bolo", "suco")]], exige: ["lista"] }),
+    VIDA(
+      ["“verdadeiro” e “falso” são de qual tipo de dado?", ["Lógico", "Número", "Lista"], "Verdadeiro e falso são do tipo <b>lógico</b>: respondem condições."],
+      ["Na lista frutas = [maçã, uva, caju], qual é o <b>item 1</b>?", ["maçã", "caju", "uva"], "A primeira posição é a 1: <b>maçã</b>."],
+      ["O tamanho da lista [maçã, uva, caju] é…", ["3", "1", "5"], "Ela tem 3 itens: tamanho <b>3</b>."])
+  ];
+  mais("m5", "desafio",
+    blk("🚌 A chamada da excursão", `<p>A lista <b>turma</b> já tem Ana, Bia, Caio e Davi. Use o <b>para cada</b> para mostrar uma linha por aluno:</p>${tela(["Ana está no ônibus", "Bia está no ônibus", "Caio está no ônibus", "Davi está no ônibus"])}`,
+      ["mostrar", "texto", "variavel", "lista", "paracada"], ["Ana está no ônibus", "Bia está no ônibus", "Caio está no ônibus", "Davi está no ônibus"],
+      [["definir", "turma", L("Ana", "Bia", "Caio", "Davi")], ["paracada", "a", v("turma"), [["mostrar", ["juntar", v("a"), " está no ônibus"]]]]],
+      ["Dentro do para cada, um mostrar com “criar texto com”: o item e “ está no ônibus”."], "O para cada fez o mesmo bloco para cada item da lista, um de cada vez.",
+      { inicio: [["definir", "turma", L("Ana", "Bia", "Caio", "Davi")]], exige: ["paracada"] }));
+  mais("m5", "turbo",
+    blk("🏆 Os pontos da gincana", `<p>A equipe fez <b>4</b>, <b>6</b> e <b>5</b> pontos nas 3 provas (lista <b>provas</b>). Some tudo com o <b>para cada</b> e a variável <b>total</b>:</p>${tela(["Total: 15"])}`,
+      ["mostrar", "texto", "numero", "variavel", "lista", "paracada"], ["Total: 15"],
+      [["definir", "provas", L(4, 6, 5)], ["definir", "total", 0], ["paracada", "p", v("provas"), [["mudar", "total", v("p")]]], ["mostrar", ["juntar", "Total: ", v("total")]]],
+      ["total começa em 0.", "Dentro do para cada: alterar total pelo item.", "O mostrar fica fora do para cada, no fim."], "0 + 4 + 6 + 5 = 15. A lista e a variável trabalharam juntas.",
+      { inicio: [["definir", "provas", L(4, 6, 5)]], exige: ["paracada", "variavel"] }));
+
+  /* ---------- M6 · projeto: meu joguinho ---------- */
+  A.m6.gancho = { html: "<p>🎮 No joguinho do celular, cada vez que você toca na moeda, ganha ponto. Se tocar na bomba, perde.</p><p>🤔 Como o jogo sabe a <b>hora</b> de mudar os pontos? Ele fica esperando você tocar?</p>" };
+  A.m6.aplicar = [
+    blk("🛠️ Na vida real: o placar do basquete", `<p>No placar eletrônico do basquete, a <b>🏀 cesta</b> vale 2 pontos e o <b>🎯 lance livre</b> vale 1. A variável <b>pontos</b> começa em 0. Faça um <b>⚡ quando</b> para cada botão: alterar pontos e mostrar “Pontos: ” + pontos. O portal vai apertar: cesta, lance livre, cesta.</p>${tela(["Pontos: 2", "Pontos: 3", "Pontos: 5"])}`,
+      ["mostrar", "texto", "numero", "variavel", "evento"], ["Pontos: 2", "Pontos: 3", "Pontos: 5"],
+      [["definir", "pontos", 0], ["quando", "cesta", [["mudar", "pontos", 2], ["mostrar", ["juntar", "Pontos: ", v("pontos")]]]], ["quando", "livre", [["mudar", "pontos", 1], ["mostrar", ["juntar", "Pontos: ", v("pontos")]]]]],
+      ["Dois blocos “⚡ quando”: um para a cesta, outro para o lance livre.", "Cesta: alterar por 2. Lance livre: alterar por 1."], "Cada botão é um evento; o bloco “quando” diz o que fazer quando ele acontece.",
+      { eventos: [["🏀 cesta", "cesta"], ["🎯 lance livre", "livre"]], disparos: ["cesta", "livre", "cesta"], inicio: [["definir", "pontos", 0]], exige: ["evento"] }),
+    VIDA(
+      ["Apertar um botão do controle remoto é um…", ["Evento", "Gaveta", "Item de lista"], "É algo que acontece e o programa percebe: um <b>evento</b>."],
+      ["Qual é a <b>primeira</b> etapa do projeto?", ["Planejar: escrever as regras (evento → ação)", "Testar", "Melhorar"], "1. Planejar; 2. Montar; 3. Testar; 4. Melhorar."],
+      ["Depois de montar, para conferir se os pontos estão certos, você…", ["Testa: roda e confere", "Apaga tudo", "Desliga o computador"], "Testar é <b>rodar e conferir</b>."])
+  ];
+  mais("m6", "desafio",
+    blk("🦘 Pular e agachar", `<p>Faça o personagem reagir a dois botões: <b>⬆️ pular</b> mostra <b>Pulou!</b> e <b>⬇️ agachar</b> mostra <b>Agachou!</b>. O portal vai apertar: pular, agachar, pular.</p>${tela(["Pulou!", "Agachou!", "Pulou!"])}`,
+      ["mostrar", "texto", "evento"], ["Pulou!", "Agachou!", "Pulou!"],
+      [["quando", "pular", [["mostrar", "Pulou!"]]], ["quando", "agachar", [["mostrar", "Agachou!"]]]],
+      ["Pegue dois “⚡ quando” e escolha um botão em cada."], "Cada evento tem a sua ação. O “quando pular” rodou duas vezes porque o botão foi apertado duas vezes.",
+      { eventos: [["⬆️ pular", "pular"], ["⬇️ agachar", "agachar"]], disparos: ["pular", "agachar", "pular"], exige: ["evento"] }));
+  mais("m6", "turbo",
+    blk("💣 As vidas e o fim de jogo", `<p>A variável <b>vidas</b> começa em 3. No <b>⚡ quando 💣 bomba</b>: alterar vidas por -1, mostrar “Vidas: ” + vidas e, <b>se vidas = 0</b>, mostrar <b>Fim de jogo</b>. O portal vai apertar a bomba 3 vezes.</p>${tela(["Vidas: 2", "Vidas: 1", "Vidas: 0", "Fim de jogo"])}`,
+      ["mostrar", "texto", "numero", "variavel", "se", "comparar", "evento"], ["Vidas: 2", "Vidas: 1", "Vidas: 0", "Fim de jogo"],
+      [["definir", "vidas", 3], ["quando", "bomba", [["mudar", "vidas", -1], ["mostrar", ["juntar", "Vidas: ", v("vidas")]], ["se", ["=", v("vidas"), 0], [["mostrar", "Fim de jogo"]]]]]],
+      ["Tudo vai dentro do “quando bomba”, nesta ordem: alterar, mostrar, se.", "No se, use a comparação vidas = 0."], "O evento, a variável e a seleção juntos: na 3ª bomba, as vidas chegam a 0 e o jogo acaba.",
+      { eventos: [["💣 bomba", "bomba"]], disparos: ["bomba", "bomba", "bomba"], inicio: [["definir", "vidas", 3]], exige: ["evento", "se"] }));
+
+  /* ---------- M7 · desafios de lógica ---------- */
+  A.m7.gancho = { html: "<p>🔍 Antes de rodar o programa, a Ana disse: “vai aparecer 8!”. O Leo disse: “vai aparecer 6!”. Só um acertou.</p><p>🤔 Dá para saber o resultado <b>sem rodar</b>? E, se o programa estiver errado, como achar o bug?</p>" };
+  A.m7.aplicar = [
+    blk("🛠️ Na vida real: o brinde da loja", `<p>A loja dá brinde para compras de <b>100 reais ou mais</b>. A compra foi de <b>100</b>, mas o programa mostrou “Sem brinde”. Ache o bug (comparação errada) e conserte:</p>${tela(["Ganhou brinde!"])}`,
+      ["mostrar", "texto", "numero", "variavel", "se", "comparar"], ["Ganhou brinde!"],
+      [["definir", "compras", 100], ["se", [">=", v("compras"), 100], [["mostrar", "Ganhou brinde!"]], [["mostrar", "Sem brinde"]]]],
+      ["“100 ou mais” inclui o 100. O sinal &gt; (maior que) deixa o 100 de fora.", "Troque para ≥."], "Era uma comparação errada: 100 &gt; 100 é falso, mas 100 ≥ 100 é verdadeiro.",
+      { inicio: [["definir", "compras", 100], ["se", [">", v("compras"), 100], [["mostrar", "Ganhou brinde!"]], [["mostrar", "Sem brinde"]]]], exige: ["se"] }),
+    VIDA(
+      ["definir x para 2 → repita 3 vezes: alterar x por 2 → mostrar x. O que aparece?", ["8", "6", "2"], "Rastreando: 2 → 4 → 6 → <b>8</b>."],
+      ["O “fim” apareceu 3 vezes, mas era para aparecer 1. Qual é o erro provável?", ["O “fim” está dentro do repita", "Falta um bloco mostrar", "A ordem está certa"], "Erro <b>fora do lugar</b>: arraste o “fim” para fora do repita."],
+      ["Achar e consertar o erro do programa se chama…", ["Depurar", "Executar", "Encaixar"], "É <b>depurar</b>."])
+  ];
+  mais("m7", "desafio",
+    blk("🐞 Dois bugs no recado", `<p>O recado devia ser: <b>Oi!</b>, depois <b>Vamos jogar?</b> 3 vezes e, por fim, <b>Tchau!</b>. Tem um erro de ordem e um de número. Conserte um de cada vez:</p>${tela(["Oi!", "Vamos jogar?", "Vamos jogar?", "Vamos jogar?", "Tchau!"])}`,
+      ["mostrar", "texto", "numero", "repita"], ["Oi!", "Vamos jogar?", "Vamos jogar?", "Vamos jogar?", "Tchau!"],
+      [["mostrar", "Oi!"], ["repita", 3, [["mostrar", "Vamos jogar?"]]], ["mostrar", "Tchau!"]],
+      ["Ordem: o “Tchau!” tem de ser o último.", "Número: quantas vezes o repita deve repetir?"], "Ordem trocada e número errado: conserte uma coisa de cada vez e teste depois de cada conserto.",
+      { inicio: [["mostrar", "Tchau!"], ["mostrar", "Oi!"], ["repita", 2, [["mostrar", "Vamos jogar?"]]]], exige: ["repita"] }));
+  mais("m7", "turbo",
+    blk("🔴 O bug da contagem", `<p>O programa devia contar <b>1, 2, 3</b> e mostrar <b>Pronto!</b> uma vez só. Rastreie o valor de <b>n</b>, ache o bloco fora do lugar e conserte:</p>${tela(["1", "2", "3", "Pronto!"])}`,
+      ["mostrar", "texto", "numero", "variavel", "repita"], ["1", "2", "3", "Pronto!"],
+      [["definir", "n", 0], ["repita", 3, [["mudar", "n", 1], ["mostrar", v("n")]]], ["mostrar", "Pronto!"]],
+      ["“Pronto!” está aparecendo dentro da repetição.", "Arraste o mostrar Pronto! para fora, embaixo do repita."], "Bloco fora do lugar: dentro do repita, o Pronto! aparecia a cada volta.",
+      { inicio: [["definir", "n", 0], ["repita", 3, [["mudar", "n", 1], ["mostrar", v("n")], ["mostrar", "Pronto!"]]]], exige: ["repita"] }));
+
+  /* ---------- M8 · minha história animada ---------- */
+  A.m8.gancho = { html: "<p>📚 O Caio escreveu uma história com o nome do personagem, <b>Tito</b>, em 10 cenas. No fim, resolveu trocar o nome para <b>Nina</b>.</p><p>🤔 Ele vai ter que trocar o nome 10 vezes? Ou existe um jeito de trocar em um lugar só?</p>" };
+  A.m8.aplicar = [
+    blk("🛠️ Na vida real: a história da Nina", `<p>Use a variável <b>heroi</b> com o valor <b>Nina</b> e monte a história: começo, meio (3 batidas na porta, com o repita) e fim:</p>${tela(["Era uma vez Nina", "toc", "toc", "toc", "Nina abriu a porta"])}`,
+      ["mostrar", "texto", "numero", "variavel", "repita"], ["Era uma vez Nina", "toc", "toc", "toc", "Nina abriu a porta"],
+      [["definir", "heroi", "Nina"], ["mostrar", ["juntar", "Era uma vez ", v("heroi")]], ["repita", 3, [["mostrar", "toc"]]], ["mostrar", ["juntar", v("heroi"), " abriu a porta"]]],
+      ["Use “criar texto com” para juntar o nome com o resto da frase.", "As batidas vão num repita 3 vezes."], "A variável heroi aparece em várias cenas: para trocar o nome, basta trocar em um lugar só.",
+      { exige: ["variavel", "repita"] }),
+    VIDA(
+      ["Toda história tem…", ["Começo, meio e fim", "Só fim", "Só começo"], "O roteiro tem <b>começo</b>, <b>meio</b> e <b>fim</b>."],
+      ["O nome do herói aparece em várias cenas. Para trocar fácil, use…", ["Uma variável", "Um bloco solto", "Uma repetição"], "Com a <b>variável</b> heroi, troca em um lugar só."],
+      ["Na Tela do programa, cada linha é uma…", ["Cena", "Variável", "Lista"], "Cada linha é uma <b>cena</b>."])
+  ];
+  mais("m8", "desafio",
+    blk("🚶 O caminho da Bia até a escola", `<p>Monte a história com a variável <b>heroi</b> = Bia e 4 passos no meio (repita):</p>${tela(["Bia saiu de casa", "passo", "passo", "passo", "passo", "Bia chegou à escola"])}`,
+      ["mostrar", "texto", "numero", "variavel", "repita"], ["Bia saiu de casa", "passo", "passo", "passo", "passo", "Bia chegou à escola"],
+      [["definir", "heroi", "Bia"], ["mostrar", ["juntar", v("heroi"), " saiu de casa"]], ["repita", 4, [["mostrar", "passo"]]], ["mostrar", ["juntar", v("heroi"), " chegou à escola"]]],
+      ["Começo: “heroi saiu de casa”. Meio: repita 4 vezes passo. Fim: “heroi chegou à escola”."], "Sequência, repetição e variável contaram a história.", { exige: ["variavel", "repita"] }));
+  mais("m8", "turbo",
+    blk("🦸 A história com dois personagens", `<p>Use duas variáveis: <b>heroi</b> = Tito e <b>amigo</b> = Lua. Monte:</p>${tela(["Tito encontrou Lua", "Lua disse: oi!", "Tito disse: oi!", "Tito e Lua foram brincar"])}`,
+      ["mostrar", "texto", "variavel"], ["Tito encontrou Lua", "Lua disse: oi!", "Tito disse: oi!", "Tito e Lua foram brincar"],
+      [["definir", "heroi", "Tito"], ["definir", "amigo", "Lua"], ["mostrar", ["juntar", v("heroi"), " encontrou ", v("amigo")]], ["mostrar", ["juntar", v("amigo"), " disse: oi!"]], ["mostrar", ["juntar", v("heroi"), " disse: oi!"]], ["mostrar", ["juntar", v("heroi"), " e ", v("amigo"), " foram brincar"]]],
+      ["Use a engrenagem do “criar texto com” para ter 3 ou 4 pedaços.", "Cuidado com os espaços: “ encontrou ” tem espaço antes e depois."], "Duas variáveis, várias cenas: trocar um nome muda a história inteira.", { exige: ["variavel"] }));
+})();

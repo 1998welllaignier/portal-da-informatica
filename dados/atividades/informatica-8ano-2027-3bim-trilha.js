@@ -228,3 +228,73 @@ PORTAL.registrarAtividades("informatica-8ano-2027-3bim-trilha", {
   ].filter(Boolean) };
 })();
 })();
+
+/* ============================================================
+   🌀 MODELO EM ESPIRAL — 🧭 Trilha (21/11/2026, Etapa 3: 3º bimestre de 2027)
+   Mesmo ❓ gancho da turma, "O que você já sabe?" na M1 e 🛠️ "Onde eu uso isso?" calmo
+   (3 itens + 2 perguntas). Sem Desafio/Turbo na Trilha.
+   ============================================================ */
+(function () {
+  const A = PORTAL.atividades["informatica-8ano-2027-3bim-trilha"]; if (!A) return;
+  const GANCHO = {"m1":{"html":"<p>📸 O Leo postou uma foto da turma na frente da escola, todos de uniforme, com a legenda “agora no pátio” e a localização ligada.</p><p>🤔 O que essa foto conta sobre ele e os amigos, sem ninguém perceber? Dá para apagar depois, se der problema?</p>"},"m2":{"html":"<p>📲 No grupo da família chegou: “URGENTE!!! A ESCOLA VAI FECHAR AMANHÃ, COMPARTILHE ANTES QUE APAGUEM!!!”. Sem nome, sem data, sem link.</p><p>🤔 Acreditar? Repassar? Como saber se é verdade?</p>"},"m3":{"html":"<p>⚽ Depois do clássico, cada torcida só acreditava nas notícias boas do próprio time e jurava que “todo mundo” concordava com ela.</p><p>🤔 Por que a gente acredita mais rápido no que combina com o que já pensa? E por que o celular parece mostrar só gente que concorda com a gente?</p>"},"m4":{"html":"<p>📝 Para jogar o jogo novo, a Bia clicou em <b>“Li e aceito”</b> sem ler nada. Uma semana depois, começou a ver propagandas de tênis em todo lugar.</p><p>🤔 O que ela aceitou? Aquele clique vale como contrato?</p>"},"m5":{"html":"<p>🔦 O Davi baixou um aplicativo de <b>lanterna</b>. Na hora de abrir, ele pediu acesso aos <b>contatos</b> e à <b>localização</b>.</p><p>🤔 Para que uma lanterna precisaria saber quem são os seus amigos e onde você está?</p>"},"m6":{"html":"<p>🔎 A prima da Júlia foi procurar um estágio. A empresa pesquisou o nome dela na internet e achou um comentário grosseiro que ela tinha escrito 5 anos antes.</p><p>🤔 Como um comentário tão velho ainda estava lá? O que mais fica guardado do que a gente faz na internet?</p>"},"m7":{"html":"<p>🌊 Uma foto de “enchente de hoje em Curionópolis” rodou o grupo da família. Mas tinha algo estranho: as placas da rua estavam escritas em outra língua.</p><p>🤔 Como descobrir de onde veio essa foto? E se for falsa, o que fazer?</p>"},"m8":{"html":"<p>📱 O Davi assistiu a 3 vídeos de gatinhos até o fim. No dia seguinte, o feed dele estava cheio de gatos!</p><p>🤔 Como o aplicativo “sabe” o que mostrar? Quem escolhe o que aparece primeiro no feed?</p>"}};
+  Object.keys(GANCHO).forEach(m => { A[m].gancho = GANCHO[m]; });
+  const perg = (titulo, ...ps) => ({ tipo: "escolha", titulo, enunciado: "<p>Use o que você aprendeu hoje. Leia com calma. 😉</p>", perguntas: ps.map(x => ({ p: x[0], opcoes: x[1], certo: 0, why: x[2] })) });
+  const VIDA = (...ps) => perg("🛠️ E na vida real?", ...ps);
+  const msg = (titulo, app, botoes, enun, itens, okMsg, expl) => ({ tipo: "mensagens", titulo, app, botoes: botoes.map(([id, rot]) => ({ id, rot })), enunciado: `<p>${enun}</p>`,
+    itens: itens.map(([t, c, why]) => ({ de: "", t, c, why })), okMsg, explicacao: expl });
+  const perm = (titulo, enun, itens, expl) => ({ tipo: "permissoes", titulo, enunciado: `<p>${enun}</p>`, itens: itens.map(([ic, app, pede, c, why]) => ({ ic, app, pede, c, why })), explicacao: expl });
+  const rota = (titulo, enun, etapas, okMsg, expl) => ({ tipo: "rota", titulo, enunciado: `<p>${enun}</p>`, etapas: etapas.map(([ic, t]) => ({ ic, t })), okMsg, explicacao: expl });
+
+  A.m1.lembra = [perg("🔍 O que você já sabe?",
+    ["Uma foto da tela do celular é um…", ["Print", "Boleto"], "É o <b>print</b>."],
+    ["Uma foto com o uniforme da escola mostra…", ["Onde você estuda", "A sua senha"], "Mostra <b>onde você estuda</b>."])];
+  A.m1.lembra[0].enunciado = "<p>Responda o que você já sabe. Se não souber, tudo bem: o portal mostra onde está a resposta. 😉</p>";
+  A.m1.aplicar = [
+    msg("🛠️ Na vida real: compartilhar ou não?", "📲 Grupo da turma", [["S", "✅ Pode"], ["N", "🚫 Não"]], "Pergunte: é verdade? É meu? Protege as pessoas? Protege você?",
+      [["A foto do cartaz que a sua equipe fez", "S", "É seu e não expõe ninguém."], ["O vídeo de um colega caindo, sem ele saber", "N", "Não é seu e pode humilhar."], ["Uma selfie com o número da sua casa", "N", "Mostra onde você mora."]],
+      "Mandou bem! 📲", "Antes de compartilhar, faça as 4 perguntas."),
+    VIDA(["Você postou e apagou depois. Está resolvido?", ["Talvez não: alguém pode ter tirado print", "Sim, sempre"], "Alguém pode ter tirado <b>print</b>."], ["Postar a foto de um colega…", ["Só depois de pedir permissão", "Sem perguntar nada"], "Peça <b>permissão</b> antes."])
+  ];
+  A.m2.aplicar = [
+    msg("🛠️ Na vida real: confio ou desconfio?", "📰 Notícias", [["C", "✅ Mais confiável"], ["M", "⚠️ Desconfie"]], "Procure o autor, a data e os sinais de alerta.",
+      [["Notícia de jornal com autor e data", "C", "Tem autor e data."], ["“URGENTE!!! COMPARTILHE ANTES QUE APAGUEM!!!”", "M", "Maiúsculas, “!!!” e pressa: alerta."], ["Mensagem sem autor e sem data", "M", "Sem autor e sem data: alerta."]],
+      "Mandou bem! 📰", "Fonte é de onde vem a informação: confira quem escreveu, quando e se outras fontes confirmam."),
+    VIDA(["“Compartilhe antes que apaguem” é…", ["Um sinal de alerta", "Uma prova de verdade"], "É <b>sinal de alerta</b>."], ["Para conferir se a notícia é velha, olhe…", ["A data", "A cor das letras"], "Olhe a <b>data</b>."])
+  ];
+  A.m3.aplicar = [
+    msg("🛠️ Na vida real: bolha ou fora dela?", "📱 Rede social", [["D", "🫧 Fica na bolha"], ["F", "🌍 Fura a bolha"]], "Essa atitude fura a bolha?",
+      [["Seguir só quem pensa igual a mim", "D", "Só vejo opiniões iguais."], ["Procurar o outro lado", "F", "Vejo opiniões diferentes."], ["Seguir fontes diferentes", "F", "Vejo outros pontos de vista."]],
+      "Bolha furada! 🌍", "Para furar a bolha: seguir fontes diferentes e procurar o outro lado."),
+    VIDA(["Na bolha, parece que…", ["Todo mundo pensa igual a você", "Ninguém usa a internet"], "Parece que <b>todo mundo pensa igual</b>."], ["Para furar a bolha, você pode…", ["Procurar o outro lado", "Ver só mais do mesmo"], "<b>Procure o outro lado</b>."])
+  ];
+  A.m4.aplicar = [
+    msg("🛠️ Na vida real: o que diz a frase?", "📝 Termos de uso", [["D", "📋 Dados coletados"], ["C", "🤝 Compartilhamento"], ["X", "🗑️ Apagar a conta"]], "Cada frase dos termos fala de quê?",
+      [["“Coletamos nome e localização.”", "D", "Fala dos dados coletados."], ["“Podemos compartilhar com parceiros.”", "C", "Outras empresas recebem os dados."], ["“Você pode excluir sua conta.”", "X", "Dá para sair."]],
+      "Mandou bem! 📝", "Os termos falam dos seus dados: o que coletam e com quem compartilham."),
+    VIDA(["Clicar em “Li e aceito” é…", ["Aceitar um contrato", "Só um botão sem valor"], "É aceitar um <b>contrato</b>."], ["Pela LGPD, você pode…", ["Pedir para apagar os seus dados", "Nunca saber nada dos seus dados"], "Pode pedir para <b>apagar os seus dados</b>."])
+  ];
+  A.m5.aplicar = [
+    perm("🛠️ Na vida real: permitir ou negar?", "Pergunte: <b>faz sentido para o que o aplicativo faz?</b>",
+      [["🗺️", "Mapa", "sua localização", "S", "Precisa saber onde você está."], ["🔦", "Lanterna", "seus contatos", "N", "Lanterna não precisa da agenda."], ["🧮", "Calculadora", "o microfone", "N", "Calculadora não precisa ouvir."]],
+      "Só dê a permissão que faz sentido."),
+    VIDA(["Permissão é…", ["Deixar o aplicativo usar uma parte do celular", "Comprar um aplicativo"], "É deixar usar <b>uma parte do celular</b>."], ["A pergunta de ouro é…", ["Faz sentido para o que o aplicativo faz?", "O aplicativo é bonito?"], "<b>Faz sentido?</b>"])
+  ];
+  A.m6.aplicar = [
+    msg("🛠️ Na vida real: ativa ou passiva?", "👣 Pegada digital", [["A", "✍️ Ativa"], ["P", "👀 Passiva"]], "Você publicou ou coletaram sem você ver?",
+      [["Um comentário num vídeo", "A", "Você publicou."], ["A sua localização", "P", "Coletada sem você ver."], ["O seu histórico", "P", "Coletado sem você ver."]],
+      "Mandou bem! 👣", "Ativa: o que você publica. Passiva: o que coletam sem você ver."),
+    VIDA(["Antes de postar, pergunte…", ["“Eu teria orgulho disso daqui a 10 anos?”", "“Vai ter curtida?”"], "Teria <b>orgulho daqui a 10 anos</b>?"], ["A pegada digital…", ["Fica por muito tempo", "Some no dia seguinte"], "Fica <b>por muito tempo</b>."])
+  ];
+  A.m7.aplicar = [
+    rota("🛠️ Na vida real: checar a notícia", "Coloque os passos <b>na ordem</b>.",
+      [["🤨", "Desconfiar"], ["📖", "Ler além do título"], ["📅", "Ver a data"], ["🌐", "Procurar em outras fontes"]],
+      "Fato checado! ✅", "Desconfiar, ler além do título, ver a data e procurar em outras fontes."),
+    VIDA(["A Agência Lupa e o Aos Fatos são…", ["Agências de checagem", "Jogos"], "São <b>agências de checagem</b>."], ["O primeiro passo da checagem é…", ["Desconfiar", "Compartilhar"], "Primeiro, <b>desconfiar</b>."])
+  ];
+  A.m8.aplicar = [
+    msg("🛠️ Na vida real: o que o algoritmo entende?", "📱 Feed", [["M", "➕ Mostre mais"], ["L", "➖ Mostre menos"]], "O que o algoritmo entende?",
+      [["Curtir o vídeo", "M", "“Mostre mais disso.”"], ["Assistir até o fim", "M", "“Mostre mais disso.”"], ["Tocar em “Não tenho interesse”", "L", "“Mostre menos disso.”"]],
+      "Mandou bem! 📱", "Um algoritmo escolhe o que aparece no seu feed."),
+    VIDA(["Quem escolhe o que aparece no seu feed é…", ["Um algoritmo", "O professor"], "É um <b>algoritmo</b>."], ["O algoritmo quer que você…", ["Fique mais tempo no aplicativo", "Desligue o celular"], "Quer que você <b>fique mais tempo</b>."])
+  ];
+})();
