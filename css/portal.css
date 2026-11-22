@@ -605,9 +605,9 @@ body.modo-trilha { font-size: 21px; line-height: 1.65; }
 .pp-ic:hover { background: #eef2ff; }
 .pp-topo summary.pp-ic { list-style: none; cursor: pointer; display: inline-flex; align-items: center; }
 .pp-topo summary.pp-ic::-webkit-details-marker { display: none; }
-.pp-ajuda, .pp-conta { position: relative; }
+.pp-ajuda, .pp-conta { position: static; }   /* o menu se ancora na barra (.pp-topo), à direita, sem sair da tela */
 .pp-ajuda[open] > summary, .pp-conta[open] > summary { background: #dbeafe; border-color: #3b82f6; }
-.pp-ajuda-c, .pp-conta-c { position: absolute; right: 0; top: calc(100% + 6px); z-index: 40; background: #fff; border: 2px solid #bfdbfe; border-radius: 12px; box-shadow: 0 12px 30px rgba(15,23,42,.22); color: var(--tinta); }
+.pp-ajuda-c, .pp-conta-c { position: absolute; right: 12px; top: calc(100% + 4px); z-index: 40; background: #fff; border: 2px solid #bfdbfe; border-radius: 12px; box-shadow: 0 12px 30px rgba(15,23,42,.22); color: var(--tinta); }
 .pp-ajuda-c { width: min(760px, 92vw); max-height: 70vh; overflow: auto; padding: 10px 16px; font-size: .92rem; }
 .pp-ajuda-c ul { margin: 6px 0 4px; padding-left: 20px; } .pp-ajuda-c li { margin: 4px 0; }
 .pp-conta-c { display: flex; flex-direction: column; gap: 6px; padding: 10px 14px; min-width: 240px; font-size: .88rem; }
