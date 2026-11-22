@@ -1758,7 +1758,7 @@ button.tb-av:hover .avatar-svg, button.tb-av:focus-visible .avatar-svg { transfo
 /* 📱 PAINEL DO PROFESSOR NO CELULAR (14/11/2026): tudo dentro da tela, organizado e fácil de tocar */
 @media (max-width: 640px) {
   /* no celular a barra não fica fixa (ocuparia meia tela): rola junto com a página */
-  .painel-prof .pp-topo { position: static; margin: -18px -18px 10px; padding: 8px 10px; }
+  .painel-prof .pp-topo { position: static; margin: 0 0 10px; padding: 8px; border: 2px solid var(--linha); border-radius: 12px; }
   .painel-prof .pp-user { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; width: 100%; }
   .painel-prof .pp-user > .btn { width: 100%; min-height: 44px; padding: 6px 4px; font-size: .78rem; line-height: 1.15; white-space: normal; justify-content: center; text-align: center; }
   .painel-prof .pp-icones { grid-column: 1 / -1; justify-content: space-between; }
