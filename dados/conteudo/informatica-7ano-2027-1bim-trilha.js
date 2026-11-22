@@ -200,6 +200,10 @@ PORTAL.registrarConteudo("informatica-7ano-2027-1bim-trilha", {
     {
      "t": "p",
      "h": "Uma <strong>variável</strong> é uma caixinha com nome que guarda um valor: <strong>definir nota para 7</strong> guarda 7 na caixinha “nota”."
+    },
+    {
+     "t": "p",
+     "h": "Para <strong>mudar</strong> o valor da caixinha, use <strong>alterar … por</strong>: <strong>alterar vidas por -1</strong> tira 1 (3 vira 2). É assim que os jogos contam as vidas."
     }
    ],
    "termos": [
@@ -799,8 +803,8 @@ PORTAL.registrarConteudo("informatica-7ano-2027-1bim-trilha", {
      "def": "quem fica com o mouse e o teclado e monta os blocos."
     },
     {
-     "termo": "Navegador",
-     "rotulo": "<strong>Navegador</strong>",
+     "termo": "Navegador da dupla",
+     "rotulo": "<strong>Navegador</strong> (na dupla)",
      "def": "quem lê, planeja e confere, sem mexer no mouse."
     },
     {

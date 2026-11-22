@@ -27,7 +27,7 @@
 const { chromium } = require("playwright");
 const fs = require("fs"), path = require("path");
 const RAIZ = path.join(__dirname, ".."), BASE = process.env.PORTAL_URL || "http://localhost:8765/";
-const so = process.argv.slice(2).find(a => !a.startsWith("--")), PRINTS = process.argv.includes("--prints"), COBRANCA = process.argv.includes("--cobranca");
+const so = process.argv.slice(2).find(a => !a.startsWith("--")), PRINTS = process.argv.includes("--prints"), COBRANCA = process.argv.includes("--cobranca"), COMO_ESP = process.argv.includes("--como-espiral");   // --como-espiral: mede o que falta para virar modelo em espiral
 
 (async () => {
   const b = await chromium.launch(); const p = await b.newPage({ viewport: { width: 1366, height: 900 } });
@@ -38,18 +38,21 @@ const so = process.argv.slice(2).find(a => !a.startsWith("--")), PRINTS = proces
   const ids = (lista || fs.readdirSync(path.join(RAIZ, "dados/conteudo")).map(f => f.replace(/\.js$/, ""))).filter(id => !so || id === so);
   const rel = { erros: [], avisos: [], ok: 0 };
   for (const aid of ids) {
-    const r = await p.evaluate(async ([aid, COBRANCA]) => {
+    const r = await p.evaluate(async ([aid, COBRANCA, COMO_ESP]) => {
       const E = [], W = []; let missoes = 0;
       try { await new Promise((ok, err) => { const ap = PORTAL.apostila && PORTAL.apostila(aid); if (!ap) return err(new Error("não está no catálogo")); ok(); }); } catch (e) { return { E: [aid + ": " + e.message], W, missoes }; }
       // carrega a apostila como o portal faz
       const add = src => new Promise((ok, err) => { const s = document.createElement("script"); s.src = src + "?v=" + Date.now(); s.onload = ok; s.onerror = () => err(new Error(src)); document.head.appendChild(s); });
       if (!PORTAL.conteudo[aid]) { try { await add("dados/conteudo/" + aid + ".js"); await add("dados/atividades/" + aid + ".js"); await add("dados/ilustracoes/" + aid + ".js").catch(() => null); } catch (e) { return { E: [aid + ": não carregou " + e.message], W, missoes }; } }
-      const C = PORTAL.conteudo[aid], ap = PORTAL.apostila(aid), esp = ap.modelo === "espiral";
+      const C = PORTAL.conteudo[aid], ap = PORTAL.apostila(aid), esp = ap.modelo === "espiral" || COMO_ESP;
       const ids = new Set(), T = PORTAL.tipos || {};
       // 📖 cobra sem explicar: glossário = palavras com figurinha + palavras explicadas desta apostila + extras
       const sem = x => String(x || "").replace(/<[^>]+>/g, " ").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/\s+/g, " ");
       const EXTRA = ["projetor", "webcam", "placa-mae", "antivirus", "reinstalar", "loja de aplicativos", "golpe", "phishing", "link", "boato", "senha forte", "bloquear", "delete", "backspace", "caps lock", "shift", "enter", "ctrl + p", "ctrl + a", "alt + tab", "este computador", "formulario", "nuvem", "backup", "wi-fi", "roteador", "navegador", "sistema operacional", "extensao", "download", "upload", "e-mail", "spam", "cookies", "virus", "malware", "firewall", "pixel", "byte", "bit", "megabyte", "gigabyte", "algoritmo", "variavel", "pacote", "servidor", "ip"];
-      const GLOS = [...new Set([...Object.keys(window.TERMOS_IMG || {}), ...C.missoes.flatMap(m => (m.termos || []).map(t => sem(t.termo))), ...EXTRA].map(sem).filter(k => k.length >= 3 && !["tela", "guardar", "salvar", "pasta", "peca", "pecas", "arquivo", "programa", "formato", "app", "dados", "dado", "texto", "numero", "imagem", "foto", "jogo", "site", "internet", "computador", "celular", "mouse", "teclado", "monitor", "erro"].includes(k)))];
+      // palavras do dia a dia que também têm figurinha (campo, troca, posição…): só contam como termo técnico quando são palavra difícil DESTA apostila (21/11/2026)
+      const COMUNS = ["campo", "posicao", "corrigir", "troca", "trocar", "tamanho", "nivel", "niveis", "item", "itens", "valor", "plano", "planejar", "pista", "testar", "teste", "rodar", "chamar", "comparar", "comparacao", "tirar", "procurar", "meio", "menor", "planta", "pedestre", "folha", "folhas", "raiz", "pai", "filho", "peso", "estado", "entrada", "decisao", "ciclo", "ciclos", "crescente", "ordenar", "contador", "colaborar"];
+      const DESTA = new Set(C.missoes.flatMap(m => (m.termos || []).map(t => sem(t.termo))).map(sem));
+      const GLOS = [...new Set([...Object.keys(window.TERMOS_IMG || {}).filter(k => !COMUNS.includes(sem(k)) || DESTA.has(sem(k))), ...C.missoes.flatMap(m => (m.termos || []).map(t => sem(t.termo))), ...EXTRA].map(sem).filter(k => k.length >= 3 && !["tela", "guardar", "salvar", "pasta", "peca", "pecas", "arquivo", "programa", "formato", "app", "dados", "dado", "texto", "numero", "imagem", "foto", "jogo", "site", "internet", "computador", "celular", "mouse", "teclado", "monitor", "erro"].includes(k)))];
       const temP = (txt, k) => new RegExp("(^|[^a-z0-9])" + k.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "([^a-z0-9]|$)").test(txt);
       const explicadoAte = {}; { let acc = ""; for (const m of C.missoes) { acc += " " + sem(JSON.stringify([m.comecar, m.termos, m.ondeUso, m.resumo, m.alertas, m.objetivo])); explicadoAte[m.id] = acc; } }
       const L = x => Array.isArray(x) ? x : [];
@@ -94,7 +97,7 @@ const so = process.argv.slice(2).find(a => !a.startsWith("--")), PRINTS = proces
       // imagens e fotos citadas nas ilustrações
       const figs = JSON.stringify((PORTAL.ilustracoes || {})[aid] || {}), srcs = [...new Set((figs.match(/(img|fotos|dados)\/[\w\/.-]+\.(webp|png|jpe?g|svg|gif)/g) || []))];
       return { E, W, missoes, srcs };
-    }, [aid, COBRANCA]);
+    }, [aid, COBRANCA, COMO_ESP]);
     (r.srcs || []).forEach(s => { if (!fs.existsSync(path.join(RAIZ, s))) r.E.push(`${aid}: imagem que não existe no disco: ${s}`); });
     rel.erros.push(...r.E); rel.avisos.push(...r.W); rel.ok += r.missoes;
     console.log(`${r.E.length ? "❌" : r.W.length ? "⚠️ " : "✅"} ${aid}: ${r.missoes} missões · ${r.E.length} erro(s) · ${r.W.length} aviso(s)`);

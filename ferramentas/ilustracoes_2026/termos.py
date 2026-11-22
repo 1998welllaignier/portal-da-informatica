@@ -329,6 +329,10 @@ d("area de transferencia", "Área de transferência: o lugar escondido onde fica
 d("zoom", "Zoom: aumentar ou diminuir o tamanho do que aparece na tela",
   c(140, 90, 40, "#cffafe", 5) + p("M170 120 l40 40", "none", 9) + t(140, 104, "A", 38, K, 900) + t(160, 186, "Ctrl + rodinha", 14, K, 800), "ciano")
 
+# ---------------- 7º, 8º e 9º ano · 1º bimestre de 2027 (modelo em espiral, 21/11/2026) ----------------
+from termos_2027_1bim import registrar as _reg2027  # noqa: E402
+_reg2027(d, D, k)
+
 if __name__ == "__main__":
     raiz = os.path.dirname(os.path.dirname(AQUI))
     js = ("/* 🖼️ Imagens das palavras difíceis — gerado por ferramentas/ilustracoes_2026/termos.py (não edite à mão).\n"
@@ -336,3 +340,4 @@ if __name__ == "__main__":
           f"window.TERMOS_IMG = {json.dumps(D, ensure_ascii=False)};\n")
     open(os.path.join(raiz, "dados", "termos-imagens.js"), "w", encoding="utf-8").write(js)
     print(len(D), "termos com imagem;", len(js) // 1024, "KB")
+    print("já tinham figurinha (mantidas):", ", ".join(_reg2027.pulados))

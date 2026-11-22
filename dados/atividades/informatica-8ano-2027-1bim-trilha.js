@@ -351,3 +351,103 @@
     pega("m8")
   ].filter(Boolean) };
 })();
+
+/* ============================================================
+   🌀 MODELO EM ESPIRAL NA TRILHA (21/11/2026): o mesmo ❓ gancho da turma, "O que você já sabe?" na M1
+   e o 🛠️ "Onde eu uso isso?" prático em versão calma (jogo curto + 2 perguntas).
+   Tudo cobra só o que o Para começar da Trilha explica.
+   ============================================================ */
+(function () {
+  const A = PORTAL.atividades["informatica-8ano-2027-1bim-trilha"]; if (!A) return;
+  const v = n => ({ v: n });
+  /* ❓ o mesmo gancho da apostila da turma */
+  const GANCHO = {"m1":{"html":"<p>📲 No grupo da turma já são <b>200 mensagens</b>. Elas aparecem uma embaixo da outra: a mais antiga em cima, a mais nova embaixo.</p><p>🤔 Como o aplicativo guarda tantas mensagens <b>em ordem</b>? Será que ele cria 200 variáveis diferentes?</p>"},"m2":{"html":"<p>🛒 A Júlia colocou 5 produtos no carrinho da loja on-line, apagou um e depois apertou <b>“tocar a seguir”</b> numa música da playlist.</p><p>🤔 O que acontece com os <b>outros itens</b> quando um sai da lista ou entra no meio dela? Quem muda de lugar?</p>"},"m3":{"html":"<p>📷 O Teo quer mostrar para a avó a foto do gol que ele fez. A galeria do celular tem <b>500 fotos</b>, fora de ordem.</p><p>🤔 Como ele pode procurar? Quantas fotos ele vai precisar olhar se a do gol for a <b>última</b>?</p>"},"m4":{"html":"<p>🎯 No jogo “adivinhe o número de 1 a 100”, a Bia chuta 1, 2, 3, 4… e já gastou 30 chutes. O Leo ganha sempre com no máximo <b>7 chutes</b>.</p><p>🤔 Qual é o truque do Leo? E por que o truque <b>só funciona</b> se os números estiverem em ordem?</p>"},"m5":{"html":"<p>📸 Na foto da turma, o fotógrafo pediu: “do mais baixo para o mais alto!”. Ninguém sabia por onde começar, e virou uma bagunça.</p><p>🤔 Existe um jeito simples, com regras, para arrumar a fila só trocando <b>vizinhos</b> de lugar?</p>"},"m6":{"html":"<p>🪆 A vó da Duda trouxe uma <b>matrioska</b> de presente. A Duda abriu a boneca e… tinha outra igual dentro, menor. Abriu de novo, e de novo…</p><p>🤔 Quando ela vai parar de abrir? E o que essa boneca tem a ver com o jeito de o computador contar as pastas dentro de pastas?</p>"},"m7":{"html":"<p>⚽ No recreio, os capitães escolhem os times: primeiro o melhor jogador, depois o melhor <b>do que sobrou</b>, e assim por diante.</p><p>🤔 Dá para ordenar uma lista de números do mesmo jeito? Quantas <b>trocas</b> isso precisa, comparado com a bolha?</p>"},"m8":{"html":"<p>🥦 No almoço, o Gui reparou: cada pedacinho do brócolis parece um <b>brócolis pequeno</b>. E cada folhinha da samambaia do quintal parece uma <b>samambaia</b> inteira.</p><p>🤔 Por que a natureza repete a mesma forma em tamanhos menores? E como os jogos usam isso para desenhar montanhas e árvores?</p>"}};
+  Object.keys(GANCHO).forEach(m => { A[m].gancho = GANCHO[m]; });
+  const perg = (titulo, ...ps) => ({ tipo: "escolha", titulo, enunciado: "<p>Use o que você aprendeu hoje. Leia com calma. 😉</p>", perguntas: ps.map(x => ({ p: x[0], opcoes: x[1], certo: 0, why: x[2] })) });
+  const VIDA = (...ps) => perg("🛠️ E na vida real?", ...ps);
+
+  A.m1.lembra = [perg("🔍 O que você já sabe?",
+    ["Uma <b>variável</b> guarda…", ["Um valor com um nome, que pode mudar", "Só fotos"], "A variável guarda um valor com nome, e ele pode mudar (como os pontos de um jogo)."],
+    ["“Repita 3 vezes: ande um passo” é…", ["Repetição", "Lista"], "Fazer o mesmo passo várias vezes é <b>repetição</b>."])];
+  A.m1.lembra[0].enunciado = "<p>Responda o que você lembra do 7º ano. Se não souber, tudo bem: o portal mostra onde está a resposta. 😉</p>";
+
+  A.m1.aplicar = [
+    { tipo: "lista_ops", titulo: "🛠️ Na vida real: a fila da impressora", nome: "IMPRESSAO",
+      enunciado: "<p>A fila da impressora da escola é uma <b>lista</b>: o primeiro enviado sai primeiro.</p>",
+      inicial: ["prova", "bilhete", "cartaz"],
+      passos: [
+        { tipo: "pergunta", instr: "Qual documento sai primeiro? (IMPRESSAO[1])", r: "prova" },
+        { tipo: "pergunta", instr: "Qual é o tamanho da fila?", r: "3", num: true }],
+      explicacao: "A prova está na posição 1 e a fila tem 3 itens (tamanho 3)." },
+    VIDA(["CHAMADA[3] quer dizer…", ["O item da posição 3 da lista CHAMADA", "Que a lista tem 3 itens"], "CHAMADA[3] é o item da <b>posição 3</b>."],
+      ["O <b>tamanho</b> de uma lista é…", ["Quantos itens ela tem", "O nome dela"], "Tamanho = número de itens."])
+  ];
+  A.m2.aplicar = [
+    { tipo: "lista_ops", titulo: "🛠️ Na vida real: a lista do passeio", nome: "PASSEIO",
+      enunciado: "<p>O Kauã chegou atrasado para o passeio. Coloque ele na lista e responda.</p>",
+      inicial: ["Gabi", "Hugo", "Íris"],
+      passos: [
+        { tipo: "inserir", instr: "Insira Kauã no fim.", esperado: ["Gabi", "Hugo", "Íris", "Kauã"], dica: "Digite Kauã e clique em Inserir no fim." },
+        { tipo: "pergunta", instr: "Qual é o tamanho da lista agora?", r: "4", num: true }],
+      explicacao: "Inserir no fim: ninguém muda de lugar e o tamanho aumenta 1 (de 3 para 4)." },
+    VIDA(["Você <b>removeu</b> um produto do carrinho. O tamanho…", ["Diminui 1", "Aumenta 1"], "Remover tira um item: o tamanho <b>diminui 1</b>."],
+      ["Inserir no fim faz os outros itens…", ["Ficarem no mesmo lugar", "Mudarem todos de lugar"], "No fim, ninguém muda de lugar."])
+  ];
+  A.m3.aplicar = [
+    { tipo: "sequencial", titulo: "🛠️ Na vida real: a foto do gol",
+      lista: ["🏖️", "🎂", "🐶", "⚽", "🌻"], alvo: "⚽",
+      enunciado: "<p>Ache a foto do <b>gol ⚽</b> na galeria, olhando uma por uma, da 1ª em diante.</p>",
+      explicacao: "A foto estava na 4ª posição: 4 comparações. Olhar um por um é a busca sequencial." },
+    VIDA(["Olhar foto por foto, desde o começo, é…", ["Busca sequencial", "Apagar as fotos"], "Olhar um por um é a <b>busca sequencial</b>."],
+      ["Cada vez que você olha um item é uma…", ["Comparação", "Lista nova"], "Cada olhada é uma <b>comparação</b>."])
+  ];
+  A.m4.aplicar = [
+    { tipo: "busca_binaria", titulo: "🛠️ Na vida real: a casa nº 47",
+      lista: [11, 25, 32, 40, 47, 55, 61], alvo: 47,
+      enunciado: "<p>As casas da rua estão em <b>ordem</b>. Olhe sempre a casa do <b>meio</b> da parte que sobrou até achar a <b>47</b>.</p>",
+      explicacao: "Meio 4 = 40 → 47 é maior; sobram 5 a 7 → meio 6 = 55 → menor; sobra a 5 = 47. Achou em 3 comparações." },
+    VIDA(["A busca binária só funciona se a lista estiver…", ["Ordenada", "Bagunçada"], "Regra de ouro: só em lista <b>ordenada</b>."],
+      ["No jogo de adivinhar de 1 a 100, o esperto chuta primeiro o…", ["50 (o meio)", "1"], "Chutar o <b>meio</b> joga fora metade a cada vez."])
+  ];
+  A.m5.aplicar = [
+    { tipo: "sim_bolha", titulo: "🛠️ Na vida real: a fila por altura",
+      enunciado: "<p>Clique em <b>⇄</b> para trocar vizinhos até a fila ficar do mais baixo para o mais alto.</p>",
+      valores: [150, 138, 160, 145],
+      explicacao: "Trocando vizinhos fora de ordem: 138, 145, 150, 160. É o método da bolha." },
+    VIDA(["No método da bolha, você compara…", ["Dois vizinhos", "O primeiro e o último"], "A bolha compara <b>vizinhos</b> e troca se o da esquerda for maior."],
+      ["No fim de uma passada, o maior número…", ["Está no final", "Está no começo"], "A cada passada, o maior sobe para o <b>final</b>."])
+  ];
+  A.m6.aplicar = [
+    { tipo: "blocos", titulo: "🛠️ Na vida real: a matrioska",
+      enunciado: "<p>O bloco <b>abrir</b> chama a si mesmo. Falta o texto do <b>caso base</b>: troque o <b>???</b> por <b>a bonequinha não abre</b> e rode. A tela deve mostrar:</p><p><b>abri a boneca 3</b><br><b>abri a boneca 2</b><br><b>a bonequinha não abre</b></p>",
+      caixa: ["mostrar", "texto", "numero", "variavel", "se", "comparar", "funcao"],
+      inicio: [["funcao", "abrir", [["se", ["=", v("n"), 1], [["mostrar", "???"]], [["mostrar", ["juntar", "abri a boneca ", v("n")]], ["mudar", "n", -1], ["chamar", "abrir"]]]]], ["definir", "n", 3], ["chamar", "abrir"]],
+      esperado: ["abri a boneca 3", "abri a boneca 2", "a bonequinha não abre"],
+      solucao: [["funcao", "abrir", [["se", ["=", v("n"), 1], [["mostrar", "a bonequinha não abre"]], [["mostrar", ["juntar", "abri a boneca ", v("n")]], ["mudar", "n", -1], ["chamar", "abrir"]]]]], ["definir", "n", 3], ["chamar", "abrir"]],
+      dicas: ["Clique no ??? (dentro do “faça” do se) e digite a bonequinha não abre."],
+      explicacao: "A bonequinha que não abre é o caso base: é ali que a recursão para." },
+    VIDA(["A parte que faz a recursão <b>parar</b> é o…", ["Caso base", "Passo recursivo"], "O <b>caso base</b> é o caso pequeno que se resolve direto."],
+      ["Sem caso base, a recursão…", ["Nunca para", "Para na hora"], "Sem caso base, ela <b>nunca para</b>."])
+  ];
+  A.m7.aplicar = [
+    { tipo: "ordenar", titulo: "🛠️ Na vida real: os livros por seleção",
+      enunciado: "<p>Os livros têm os números <b>3, 1, 2</b>. Na seleção, a cada rodada o <b>menor do que sobrou</b> vai para a frente. Coloque os estados da estante em ordem, do início ao fim.</p>",
+      itens: ["3, 1, 2 (início)", "1, 3, 2", "1, 2, 3"],
+      dicas: ["1ª rodada: o menor é o 1; ele troca com o 3."],
+      explicacao: "1ª rodada: 1 ↔ 3 → 1, 3, 2 · 2ª: 2 ↔ 3 → 1, 2, 3." },
+    VIDA(["Na seleção, a cada rodada você procura o…", ["Menor do que sobrou", "Maior vizinho"], "A cada rodada, o <b>menor do que sobrou</b> vai para a frente."],
+      ["Escolher os times (o melhor, depois o melhor do que sobrou) lembra…", ["A seleção", "A bolha"], "É a mesma ideia da <b>seleção</b>."])
+  ];
+  A.m8.aplicar = [
+    { tipo: "blocos", titulo: "🛠️ Na vida real: as montanhas fractais do jogo",
+      enunciado: "<p>O jogo desenha montanhas com o triângulo de Sierpinski: a cada nível, os triângulos <b>multiplicam por 3</b>. O programa está mostrando só 2 níveis: troque o número do <b>repita</b> para <b>4</b> e rode. A tela deve mostrar:</p><p><b>Nível 1: 3</b><br><b>Nível 2: 9</b><br><b>Nível 3: 27</b><br><b>Nível 4: 81</b></p>",
+      caixa: ["mostrar", "texto", "numero", "conta", "variavel", "repita"],
+      inicio: [["definir", "t", 1], ["definir", "nivel", 1], ["repita", 2, [["definir", "t", ["*", v("t"), 3]], ["mostrar", ["juntar", "Nível ", v("nivel"), ": ", v("t")]], ["mudar", "nivel", 1]]]],
+      esperado: ["Nível 1: 3", "Nível 2: 9", "Nível 3: 27", "Nível 4: 81"],
+      solucao: [["definir", "t", 1], ["definir", "nivel", 1], ["repita", 4, [["definir", "t", ["*", v("t"), 3]], ["mostrar", ["juntar", "Nível ", v("nivel"), ": ", v("t")]], ["mudar", "nivel", 1]]]],
+      dicas: ["Clique no 2 do repita e digite 4."],
+      explicacao: "A cada nível, o número de triângulos multiplica por 3: 3, 9, 27, 81." },
+    VIDA(["Cada folhinha da samambaia parece uma samambaia inteira. Isso é…", ["Um fractal", "Uma lista"], "Uma parte parecida com o todo é um <b>fractal</b>."],
+      ["No Sierpinski, a cada nível o número de triângulos…", ["Multiplica por 3", "Diminui"], "Cada triângulo vira 3: <b>multiplica por 3</b>."])
+  ];
+})();

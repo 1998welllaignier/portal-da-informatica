@@ -609,7 +609,7 @@ PORTAL.registrarConteudo("informatica-9ano-2027-1bim", {
    "comecar": [
     {
      "t": "p",
-     "h": "Como o computador <strong>guarda</strong> um grafo? Um jeito muito usado é a <strong>lista de vizinhos</strong> (lista de adjacência): para cada vértice, guardamos a <strong>lista</strong> dos vértices ligados a ele."
+     "h": "Como o computador <strong>guarda</strong> um grafo? <strong>Representar</strong> é guardar uma coisa do mundo (um mapa, uma árvore) num formato que o computador entende. Um jeito muito usado é a <strong>lista de vizinhos</strong> (lista de adjacência): para cada vértice, guardamos a <strong>lista</strong> dos vértices ligados a ele."
     },
     {
      "t": "tabela",

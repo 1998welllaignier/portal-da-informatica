@@ -199,6 +199,10 @@ PORTAL.registrarConteudo("informatica-7ano-2027-1bim", {
     {
      "t": "p",
      "h": "Uma <strong>variável</strong> é uma caixinha com nome que guarda um valor: <strong>definir nota para 7</strong> guarda 7 na caixinha “nota”. Depois, o programa pode usar a nota numa conta ou numa condição."
+    },
+    {
+     "t": "p",
+     "h": "Para <strong>mudar</strong> o valor guardado, use o bloco <strong>alterar … por</strong> (gaveta 📦 Variáveis): <strong>alterar vidas por -1</strong> tira 1 da caixinha “vidas” (3 vira 2); <strong>alterar pontos por 10</strong> soma 10 aos pontos. É assim que os jogos contam vidas, pontos e tempo."
     }
    ],
    "termos": [
@@ -948,8 +952,8 @@ PORTAL.registrarConteudo("informatica-7ano-2027-1bim", {
      "def": "quem controla o mouse e o teclado e monta os blocos."
     },
     {
-     "termo": "Navegador",
-     "rotulo": "<strong>Navegador</strong>",
+     "termo": "Navegador da dupla",
+     "rotulo": "<strong>Navegador</strong> (na dupla)",
      "def": "quem lê, planeja, confere cada bloco e procura erros, sem mexer no mouse."
     },
     {

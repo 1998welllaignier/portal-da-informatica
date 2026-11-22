@@ -92,7 +92,7 @@
 
       { tipo: "escolha", titulo: "Passo 4 · No dia a dia",
         perguntas: [
-          { p: "🎵 A playlist de músicas é:", opcoes: ["Uma lista", "Um bloco de repetir"], certo: 0 }],
+          { p: "🎵 A playlist de músicas é:", opcoes: ["Uma lista", "Um bloco mostrar na tela"], certo: 0 }],
         explicacao: "A playlist guarda várias músicas em ordem: é uma <strong>lista</strong>." }
     ],
     vf: [{ v: true }, { v: false, why: "A posição 2 é <strong>uva</strong>. Maçã é a posição 1." }, { v: true }]
@@ -302,7 +302,7 @@
 
       { tipo: "escolha", titulo: "Passo 3 · Hipótese",
         perguntas: [
-          { p: "Hipótese é:", opcoes: ["Um palpite sobre onde está o erro", "A resposta certa do gabarito"], certo: 0 }],
+          { p: "Hipótese é:", opcoes: ["Um palpite sobre onde está o erro", "O nome de um bloco da gaveta"], certo: 0 }],
         explicacao: "A <strong>hipótese</strong> é o palpite que você testa, mudando uma coisa." },
 
       { tipo: "escolha", titulo: "Passo 4 · O método",
@@ -413,4 +413,131 @@
       explicacao: "O gabarito é: → <strong>A lista das respostas certas</strong> · O contador começa em: → <strong>0</strong>" },
     pega("m8")
   ].filter(Boolean) };
+})();
+
+/* ============================================================
+   🌀 MODELO EM ESPIRAL NA TRILHA (21/11/2026): o mesmo ❓ gancho da turma, "O que você já sabe?" na M1
+   e o 🛠️ "Onde eu uso isso?" prático em versão calma: o programa já vem quase pronto e o aluno muda
+   só um pedacinho; depois, 2 perguntas. Tudo cobra só o que o Para começar da Trilha explica.
+   ============================================================ */
+(function () {
+  const A = PORTAL.atividades["informatica-7ano-2027-1bim-trilha"]; if (!A) return;
+  const L = (...x) => ["lista", ...x];
+  const v = n => ({ v: n });
+  /* ❓ o mesmo gancho da apostila da turma */
+  const GANCHO = {"m1":{"html":"<p>🎮 No jogo do celular do Caio, o personagem começa com <b>3 vidas</b>. Cada vez que ele bate num obstáculo, perde uma. Quando chega a <b>0</b>, aparece <b>“Fim de jogo”</b>.</p><p>🤔 Como o jogo <b>guarda</b> quantas vidas ainda restam? E como ele <b>decide</b> a hora de mostrar “Fim de jogo”?</p>"},"m2":{"html":"<p>🎵 A playlist da Duda tem <b>4 músicas</b>. Ela aperta ▶️ uma vez só, e o aplicativo toca uma música depois da outra, do começo ao fim, e <b>para</b> quando acaba.</p><p>🤔 Como o aplicativo guarda as 4 músicas juntas? E como ele <b>sabe</b> que a playlist acabou?</p>"},"m3":{"html":"<p>📱 No celular da tia Rosa, o contato do Pedro tem <b>nome</b>, <b>telefone</b> e <b>aniversário</b>. Quando ela toca em “Pedro”, aparece tudo junto.</p><p>🤔 Isso é uma lista? Como o celular guarda <b>informações diferentes</b> de uma pessoa só e acha o telefone sem procurar por posição?</p>"},"m4":{"html":"<p>🤖 O Léo programou o robô da feira de ciências para dar <b>3 pulinhos</b> e depois dizer <b>“Tchau!”</b>. Na hora da apresentação, o robô disse “Tchau!” <b>três vezes</b>!</p><p>🤔 Onde está o erro? O Léo precisa apagar tudo e começar de novo, ou existe um jeito de detetive para achar o problema?</p>"},"m5":{"html":"<p>🎉 A professora disse: “A turma vai organizar a festa de fim de ano. Organizem tudo!”. Todo mundo ficou perdido, falando ao mesmo tempo.</p><p>🤔 Por onde começar um problema tão grande? E se uma tarefa (como arrumar as cadeiras) se repete várias vezes, é preciso explicar tudo de novo toda vez?</p>"},"m6":{"html":"<p>👫 A Carla e o Davi programaram juntos. A Carla ficou com o mouse <b>a aula inteira</b> e o Davi só olhou. No fim, o programa tinha erros, a Carla disse “a culpa é sua!”, e o Davi não sabia explicar nada.</p><p>🤔 O que deu errado nessa dupla? Como seria uma dupla que funciona?</p>"},"m7":{"html":"<p>🕵️ O programa da secretaria mostrou <b>“Caio — (sem turma)”</b>, e a lista de chamada <b>pulou</b> o nome da Bia.</p><p>🤔 Que <b>pistas</b> esses erros dão? Por onde você começaria a procurar o bug?</p>"},"m8":{"html":"<p>🧠 No fim do quiz da sala, a tela mostra na hora: <b>“Você acertou 3 de 4!”</b>.</p><p>🤔 Como o programa confere cada resposta? E onde ele vai <b>contando</b> os acertos?</p>"}};
+  Object.keys(GANCHO).forEach(m => { A[m].gancho = GANCHO[m]; });
+  const perg = (titulo, ...ps) => ({ tipo: "escolha", titulo, enunciado: "<p>Use o que você aprendeu hoje. Leia com calma. 😉</p>", perguntas: ps.map(x => ({ p: x[0], opcoes: x[1], certo: 0, why: x[2] })) });
+  const VIDA = (...ps) => perg("🛠️ E na vida real?", ...ps);
+
+  A.m1.lembra = [perg("🔍 O que você já sabe?",
+    ["No 6º ano você escreveu <b>algoritmos</b>. Um algoritmo é…", ["Passos em ordem para resolver um problema", "Um tipo de computador"], "Algoritmo = <b>passos em ordem</b>."],
+    ["“Fazer 10 polichinelos” é um exemplo de…", ["🔁 Repetição", "🔀 Seleção"], "Fazer a mesma coisa várias vezes é <b>repetição</b>."])];
+  A.m1.lembra[0].enunciado = "<p>Responda o que você lembra do 6º ano. Se não souber, tudo bem: o portal mostra onde está a resposta. 😉</p>";
+
+  A.m1.aplicar = [
+    { tipo: "blocos", titulo: "🛠️ Na vida real: as 3 vidas do jogo",
+      enunciado: "<p>O personagem do jogo bate em <b>3 obstáculos</b>, mas o programa está contando só 2. Troque o número do <b>repita</b> para <b>3</b> e rode. A tela deve mostrar:</p><p><b>Vidas: 2</b><br><b>Vidas: 1</b><br><b>Vidas: 0</b><br><b>Fim de jogo</b></p>",
+      caixa: ["mostrar", "texto", "numero", "variavel", "repita", "se", "comparar"],
+      inicio: [["definir", "vidas", 3], ["repita", 2, [["mudar", "vidas", -1], ["mostrar", ["juntar", "Vidas: ", v("vidas")]]]], ["se", ["=", v("vidas"), 0], [["mostrar", "Fim de jogo"]]]],
+      esperado: ["Vidas: 2", "Vidas: 1", "Vidas: 0", "Fim de jogo"],
+      solucao: [["definir", "vidas", 3], ["repita", 3, [["mudar", "vidas", -1], ["mostrar", ["juntar", "Vidas: ", v("vidas")]]]], ["se", ["=", v("vidas"), 0], [["mostrar", "Fim de jogo"]]]],
+      dicas: ["Clique no número 2 do repita e digite 3."],
+      explicacao: "A variável vidas guarda quanto falta, o repita tira 1 vida 3 vezes e o se mostra “Fim de jogo” quando chega a 0." },
+    perg("🛠️ E na vida real?",
+      ["No jogo, a <b>vida</b> do personagem fica guardada numa…", ["Variável (caixinha com nome)", "Repetição"], "A vida é uma <b>variável</b>: uma caixinha com nome que guarda um valor."],
+      ["“Se chover, levar guarda-chuva” é um exemplo de…", ["🔀 Seleção", "🔁 Repetição"], "Escolher um caminho conforme a condição é <b>seleção</b>."])
+  ];
+  A.m2.aplicar = [
+    { tipo: "blocos", titulo: "🛠️ Na vida real: a playlist da festa",
+      enunciado: "<p>A playlist é uma <b>lista</b> de músicas. Falta o nome da 3ª música: troque o <b>???</b> por <b>funk</b> e rode. O <b>para cada</b> mostra uma música por linha:</p><p><b>forró</b><br><b>samba</b><br><b>funk</b></p>",
+      caixa: ["mostrar", "texto", "variavel", "lista", "paracada"],
+      inicio: [["definir", "musicas", L("forró", "samba", "???")], ["paracada", "m", v("musicas"), [["mostrar", v("m")]]]],
+      esperado: ["forró", "samba", "funk"],
+      solucao: [["definir", "musicas", L("forró", "samba", "funk")], ["paracada", "m", v("musicas"), [["mostrar", v("m")]]]],
+      dicas: ["Clique no ??? (o 3º item da lista) e digite funk."],
+      explicacao: "A playlist é uma lista com 3 itens; o para cada repete o mostrar uma vez para cada música." },
+    VIDA(["A playlist de músicas é…", ["Uma lista", "Um bloco mostrar na tela"], "A playlist é uma <b>lista</b>: vários itens em ordem."],
+      ["Na lista frutas (maçã, uva, caju, açaí), qual item está na <b>posição 3</b>?", ["caju", "uva"], "Contando a partir do 1: maçã (1), uva (2), <b>caju (3)</b>."])
+  ];
+  A.m3.aplicar = [
+    { tipo: "blocos", titulo: "🛠️ Na vida real: o contato do celular",
+      enunciado: "<p>A ficha do contato tem o campo <b>nome</b> e o campo <b>aniversario</b>. Troque o <b>???</b> por <b>12/05</b> e rode. A tela deve mostrar:</p><p><b>Pedro</b><br><b>12/05</b></p>",
+      caixa: ["mostrar", "texto", "variavel", "ficha"],
+      inicio: [["definir", "contato", ["ficha"]], ["ficha_por", "contato", "nome", "Pedro"], ["ficha_por", "contato", "aniversario", "???"], ["mostrar", ["campo", v("contato"), "nome"]], ["mostrar", ["campo", v("contato"), "aniversario"]]],
+      esperado: ["Pedro", "12/05"],
+      solucao: [["definir", "contato", ["ficha"]], ["ficha_por", "contato", "nome", "Pedro"], ["ficha_por", "contato", "aniversario", "12/05"], ["mostrar", ["campo", v("contato"), "nome"]], ["mostrar", ["campo", v("contato"), "aniversario"]]],
+      dicas: ["Clique no ??? do campo aniversario e digite 12/05."],
+      explicacao: "O contato é uma ficha (registro): cada informação fica num campo com nome." },
+    perg("🛠️ E na vida real?",
+      ["Nome, telefone e aniversário de <b>um</b> contato: o melhor jeito de guardar é…", ["Uma ficha (registro)", "Uma lista de nomes"], "Informações <b>diferentes</b> de uma coisa só = <b>registro</b> (ficha)."],
+      ["Na ficha, em “telefone: 0000-0000”, a palavra <b>telefone</b> é o…", ["Nome do campo", "Valor"], "Cada campo tem um <b>nome</b> (telefone) e um <b>valor</b> (o número)."])
+  ];
+  A.m4.aplicar = [
+    { tipo: "blocos", titulo: "🛠️ Na vida real: o aviso do termômetro",
+      enunciado: "<p>Hoje está <b>35 graus</b>. O aplicativo devia mostrar <b>Beba bastante água!</b>, mas mostrou “Clima agradável”. O erro está no sinal da condição: troque o <b>&lt;</b> por <b>≥</b> e rode. A tela deve mostrar:</p><p><b>Beba bastante água!</b></p>",
+      caixa: ["mostrar", "texto", "numero", "variavel", "se", "comparar"],
+      inicio: [["definir", "temperatura", 35], ["se", ["<", v("temperatura"), 30], [["mostrar", "Beba bastante água!"]], [["mostrar", "Clima agradável"]]]],
+      esperado: ["Beba bastante água!"],
+      solucao: [["definir", "temperatura", 35], ["se", [">=", v("temperatura"), 30], [["mostrar", "Beba bastante água!"]], [["mostrar", "Clima agradável"]]]],
+      dicas: ["Clique no sinal &lt; do bloco de comparar e escolha ≥."],
+      explicacao: "Era uma condição trocada. Uma mudança só consertou o programa: isso é depurar." },
+    perg("🛠️ E na vida real?",
+      ["O aplicativo foi atualizado “com correções de erros”. Alguém…", ["Depurou o programa", "Apagou o aplicativo"], "Achar e consertar erros (bugs) é <b>depurar</b>."],
+      ["Por que mudar <b>uma coisa só</b> de cada vez?", ["Para saber o que resolveu", "Para o programa ficar maior"], "Mudando uma coisa por vez, você sabe <b>o que</b> resolveu."])
+  ];
+  A.m5.aplicar = [
+    { tipo: "blocos", titulo: "🛠️ Na vida real: o aquecimento da Educação Física",
+      enunciado: "<p>O bloco próprio <b>alongar</b> já está pronto. Falta chamar ele <b>de novo</b> no final: pegue o bloco <b>alongar</b> na gaveta 🧩 Meus blocos, encaixe embaixo de <b>polichinelos</b> e rode. A tela deve mostrar:</p><p><b>corrida</b><br><b>alongar os braços</b><br><b>polichinelos</b><br><b>alongar os braços</b></p>",
+      caixa: ["mostrar", "texto", "funcao"],
+      inicio: [["funcao", "alongar", [["mostrar", "alongar os braços"]]], ["mostrar", "corrida"], ["chamar", "alongar"], ["mostrar", "polichinelos"]],
+      esperado: ["corrida", "alongar os braços", "polichinelos", "alongar os braços"],
+      solucao: [["funcao", "alongar", [["mostrar", "alongar os braços"]]], ["mostrar", "corrida"], ["chamar", "alongar"], ["mostrar", "polichinelos"], ["chamar", "alongar"]],
+      dicas: ["O bloco “alongar” aparece na gaveta 🧩 Meus blocos. Encaixe embaixo do último bloco."],
+      explicacao: "O alongamento foi escrito uma vez só e chamado duas vezes: isso é reaproveitar." },
+    perg("🛠️ E na vida real?",
+      ["No trabalho em grupo, cada um faz uma parte. Isso é…", ["Decompor (dividir em partes)", "Depurar"], "Dividir um problema grande em partes menores é <b>decompor</b>."],
+      ["O refrão da música está num bloco próprio. O refrão mudou. Onde você conserta?", ["Só no bloco refrão", "Em todos os lugares, um por um"], "Mudou no bloco, muda em todos os lugares onde ele é chamado."])
+  ];
+  A.m6.aplicar = [
+    { tipo: "blocos", titulo: "🛠️ Na vida real: você é o navegador",
+      enunciado: "<p>Você é o 🧭 <b>navegador</b>. O título “Cardápio de hoje:” apareceu repetido porque está <b>dentro</b> do para cada. Arraste ele para <b>cima</b> do para cada e rode. A tela deve mostrar:</p><p><b>Cardápio de hoje:</b><br><b>arroz</b><br><b>feijão</b></p>",
+      caixa: ["mostrar", "texto", "variavel", "lista", "paracada"],
+      inicio: [["definir", "cardapio", L("arroz", "feijão")], ["paracada", "c", v("cardapio"), [["mostrar", "Cardápio de hoje:"], ["mostrar", v("c")]]]],
+      esperado: ["Cardápio de hoje:", "arroz", "feijão"],
+      solucao: [["definir", "cardapio", L("arroz", "feijão")], ["mostrar", "Cardápio de hoje:"], ["paracada", "c", v("cardapio"), [["mostrar", v("c")]]]],
+      dicas: ["Arraste o bloco “mostrar Cardápio de hoje:” para fora do para cada, logo acima dele."],
+      explicacao: "Dentro do para cada, o título se repetia. O navegador conferiu e a dupla consertou junta." },
+    perg("🛠️ E na vida real?",
+      ["Na dupla, quem fica com o <b>mouse e o teclado</b>?", ["🕹️ O piloto", "🧭 O navegador"], "O <b>piloto</b> monta; o navegador lê, pensa e confere."],
+      ["O programa da dupla deu erro. O erro é…", ["Da dupla", "Só de quem estava com o mouse"], "O erro é <b>da dupla</b>: os dois procuram juntos."])
+  ];
+  A.m7.aplicar = [
+    { tipo: "blocos", titulo: "🛠️ Na vida real: o pódio da corrida",
+      enunciado: "<p>A lista <b>chegada</b> é <b>Lia, Rafa, Gui</b>. O 1º lugar saiu errado: troque a posição <b>2</b> da primeira linha por <b>1</b> e rode. A tela deve mostrar:</p><p><b>1º lugar: Lia</b><br><b>2º lugar: Rafa</b></p>",
+      caixa: ["mostrar", "texto", "numero", "variavel", "lista"],
+      inicio: [["definir", "chegada", L("Lia", "Rafa", "Gui")], ["mostrar", ["juntar", "1º lugar: ", ["item", v("chegada"), 2]]], ["mostrar", ["juntar", "2º lugar: ", ["item", v("chegada"), 2]]]],
+      esperado: ["1º lugar: Lia", "2º lugar: Rafa"],
+      solucao: [["definir", "chegada", L("Lia", "Rafa", "Gui")], ["mostrar", ["juntar", "1º lugar: ", ["item", v("chegada"), 1]]], ["mostrar", ["juntar", "2º lugar: ", ["item", v("chegada"), 2]]]],
+      dicas: ["Clique no número 2 da primeira linha e digite 1."],
+      explicacao: "Apareceu o item errado: era a posição errada. A primeira posição da lista é a 1." },
+    perg("🛠️ E na vida real?",
+      ["Apareceu o item errado da lista. A primeira posição é a…", ["1", "0"], "A lista começa na posição <b>1</b>."],
+      ["Para achar um bug, o detetive muda…", ["Uma coisa de cada vez", "Tudo de uma vez"], "Uma mudança por vez, e testa de novo."])
+  ];
+  A.m8.aplicar = [
+    { tipo: "blocos", titulo: "🛠️ Na vida real: corrigir a prova de V ou F",
+      enunciado: "<p>A prova tem <b>3 questões</b>, mas o programa confere só 2. Troque o número do <b>repita</b> para <b>3</b> e rode. A tela deve mostrar:</p><p><b>Acertos: 2</b></p>",
+      caixa: ["mostrar", "texto", "numero", "variavel", "lista", "repita", "se", "comparar"],
+      inicio: [["definir", "gabarito", L("V", "F", "V")], ["definir", "respostas", L("V", "V", "V")], ["definir", "acertos", 0], ["definir", "i", 1],
+        ["repita", 2, [["se", ["=", ["item", v("gabarito"), v("i")], ["item", v("respostas"), v("i")]], [["mudar", "acertos", 1]]], ["mudar", "i", 1]]], ["mostrar", ["juntar", "Acertos: ", v("acertos")]]],
+      esperado: ["Acertos: 2"],
+      solucao: [["definir", "gabarito", L("V", "F", "V")], ["definir", "respostas", L("V", "V", "V")], ["definir", "acertos", 0], ["definir", "i", 1],
+        ["repita", 3, [["se", ["=", ["item", v("gabarito"), v("i")], ["item", v("respostas"), v("i")]], [["mudar", "acertos", 1]]], ["mudar", "i", 1]]], ["mostrar", ["juntar", "Acertos: ", v("acertos")]]],
+      dicas: ["Clique no 2 do repita e digite 3."],
+      explicacao: "Questão 1: V = V ✅; 2: F × V ❌; 3: V = V ✅. O contador terminou em 2." },
+    perg("🛠️ E na vida real?",
+      ["Antes de contar, o contador começa em…", ["0", "10"], "O <b>contador</b> começa em <b>0</b> e soma 1 a cada acerto."],
+      ["Gabarito <b>B, A</b> e respostas <b>B, C</b>. Quantos acertos?", ["1", "2"], "Só a posição 1 bate (B = B). É <b>1</b> acerto."])
+  ];
 })();

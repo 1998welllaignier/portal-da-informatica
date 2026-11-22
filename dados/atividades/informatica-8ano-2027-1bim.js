@@ -48,7 +48,7 @@
         perguntas: [
           { p: "Guardar o nome de 19 alunos fica melhor em:", opcoes: ["Uma lista com 19 itens", "19 variáveis separadas", "Uma variável com um nome só"], certo: 0, why: "Com lista, percorremos com uma repetição e inserimos novos alunos." },
           { p: "Percorrer a lista é:", opcoes: ["Passar por todos os itens, do primeiro ao último", "Olhar só o primeiro item", "Apagar a lista"], certo: 0 },
-          { p: "Outro nome para a posição de um item é:", opcoes: ["Índice", "Tamanho", "Contador"], certo: 0 },
+          { p: "Outro nome para a posição de um item é:", opcoes: ["Índice", "Tamanho", "Item"], certo: 0 },
           { p: "Lista, vetor e array são:", opcoes: ["Nomes para a mesma estrutura de dados", "Três tipos de computador", "Programas diferentes"], certo: 0, why: "Array (inglês) = fileira arrumada." }],
         explicacao: "Lista (vetor, array) guarda vários itens com um nome só; posição = índice; percorrer = passar por todos." },
 
@@ -585,7 +585,7 @@
       { tipo: "escolha", de: "m2", titulo: "Desafio M2", perguntas: [{ p: "Inserir na posição 1 faz os outros:", opcoes: ["Andarem uma posição para trás", "Sumirem", "Ficarem parados"], certo: 0 }], explicacao: "Todos se deslocam uma posição." },
       { tipo: "escolha", de: "m3", titulo: "Desafio M3", perguntas: [{ p: "Pior caso da busca sequencial em 300 itens:", opcoes: ["300 comparações", "9 comparações", "1 comparação"], certo: 0 }], explicacao: "Olha todos." },
       { tipo: "escolha", de: "m4", titulo: "Desafio M4", perguntas: [{ p: "A busca binária exige que a lista esteja:", opcoes: ["Ordenada", "Desordenada", "Vazia"], certo: 0 }], explicacao: "Sem ordem, não dá para descartar uma metade." },
-      { tipo: "escolha", de: "m5", titulo: "Desafio M5", perguntas: [{ p: "Uma passada sem nenhuma troca significa:", opcoes: ["A lista já está ordenada", "Deu erro", "Falta trocar tudo"], certo: 0 }], explicacao: "O método termina." },
+      { tipo: "escolha", de: "m5", titulo: "Desafio M5", perguntas: [{ p: "Uma passada sem nenhuma troca significa:", opcoes: ["A lista já está ordenada", "Deu erro", "A lista está ao contrário"], certo: 0 }], explicacao: "O método termina." },
       { tipo: "escolha", de: "m6", titulo: "Desafio M6", perguntas: [{ p: "O que acontece com uma recursão sem caso base?", opcoes: ["Não para nunca", "Para logo", "Vira uma lista"], certo: 0 }], explicacao: "Como dois espelhos frente a frente." },
       { tipo: "escolha", de: "m7", titulo: "Desafio M7", perguntas: [{ p: "Qual método troca menos?", opcoes: ["Seleção", "Bolha", "Os dois iguais sempre"], certo: 0 }], explicacao: "Seleção: no máximo uma troca por rodada." },
       { tipo: "escolha", de: "m8", titulo: "Desafio M8", perguntas: [{ p: "Sierpinski no nível 4:", opcoes: ["81", "12", "64"], certo: 0 }], explicacao: "1, 3, 9, 27, 81." }
@@ -593,7 +593,7 @@
     turbo: [
       { tipo: "escolha", de: "m1", titulo: "Turbo · Simulado M1", perguntas: [{ p: "Outro nome para a posição:", opcoes: ["Índice", "Contador", "Mínimo"], certo: 0 }, { p: "50, 31, 7, 2 está em ordem:", opcoes: ["Decrescente", "Crescente", "Alfabética"], certo: 0 }], explicacao: "Posição = índice. Do maior para o menor = decrescente." },
       { tipo: "escolha", de: "m2", titulo: "Turbo · Simulado M2", perguntas: [{ p: "O contador começa em:", opcoes: ["0", "1", "10"], certo: 0 }], explicacao: "Contador começa em 0." },
-      { tipo: "escolha", de: "m3", titulo: "Turbo · Simulado M3", perguntas: [{ p: "Busca sequencial é:", opcoes: ["Olhar um por um", "Olhar pelo meio", "Trocar vizinhos"], certo: 0 }], explicacao: "Um por um, do primeiro ao último." },
+      { tipo: "escolha", de: "m3", titulo: "Turbo · Simulado M3", perguntas: [{ p: "Busca sequencial é:", opcoes: ["Olhar um por um", "Olhar pelo meio", "Olhar só o último"], certo: 0 }], explicacao: "Um por um, do primeiro ao último." },
       { tipo: "escolha", de: "m4", titulo: "Turbo · Simulado M4", perguntas: [{ p: "Até 100 itens ordenados, a busca binária precisa de no máximo:", opcoes: ["7 comparações", "100 comparações", "50 comparações"], certo: 0 }], explicacao: "100 → 50 → 25 → 13 → 7 → 4 → 2 → 1." },
       { tipo: "escolha", de: "m5", titulo: "Turbo · Simulado M5", perguntas: [{ p: "Bubble sort é o:", opcoes: ["Método da bolha", "Busca binária", "Fractal"], certo: 0 }], explicacao: "Ordenação por bolha." },
       { tipo: "escolha", de: "m6", titulo: "Turbo · Simulado M6", perguntas: [{ p: "A parte que faz a recursão parar é o:", opcoes: ["Caso base", "Passo recursivo", "Contador"], certo: 0 }], explicacao: "Caso base = condição de parada." },
@@ -639,4 +639,260 @@
       explicacao: "No triângulo de Sierpinski, quantos triângulos pintados há no nível 3? → <strong>27</strong> · Na árvore fractal, quantos galhos novos no nível 4? → <strong>16</strong> · Qual destes é um fractal da natureza? → <strong>O brócolis</strong>" },
     pega("m8")
   ].filter(Boolean) };
+})();
+
+/* ============================================================
+   🌀 MODELO EM ESPIRAL (21/11/2026, piloto aprovado pelo professor e levado ao ano todo)
+   Por missão: ❓ gancho do Para começar, 🛠️ "Onde eu uso isso?" prático (aplicar = simulador ou jogo
+   de uma situação real + 3 perguntas), "O que você já sabe?" na M1 e ⏱️ +25% de tempo de aula com
+   jogos e simuladores no 🟡 Desafio e no 🔴 Turbo. Tudo cobra só o que o Para começar explica.
+   ============================================================ */
+(function () {
+  const A = PORTAL.atividades["informatica-8ano-2027-1bim"]; if (!A) return;
+  const v = n => ({ v: n });
+  const TAG = "⏱️ +25%";
+  const mais = (mid, niv, ...ts) => { A[mid][niv] = (A[mid][niv] || []).concat(ts.map(t => Object.assign(t, { maisTempo: TAG }))); };
+  const perg = (titulo, enun, ...ps) => ({ tipo: "escolha", titulo, enunciado: `<p>${enun}</p>`, perguntas: ps.map(x => ({ p: x[0], opcoes: x[1], certo: 0, why: x[2] })) });
+  const VIDA = (...ps) => perg("🛠️ E na vida real, o que você faria?", "Use o que você aprendeu hoje para responder.", ...ps);
+
+  /* ---------- M1 · listas ---------- */
+  A.m1.gancho = { html: "<p>📲 No grupo da turma já são <b>200 mensagens</b>. Elas aparecem uma embaixo da outra: a mais antiga em cima, a mais nova embaixo.</p><p>🤔 Como o aplicativo guarda tantas mensagens <b>em ordem</b>? Será que ele cria 200 variáveis diferentes?</p>" };
+  A.m1.lembra = [perg("🔍 O que você já sabe?", "Primeiro dia de Informática do 8º ano! Responda o que você lembra do 7º ano. Se não souber, tudo bem: chute com calma, e o portal mostra onde está a resposta. 😉",
+    ["Uma <b>variável</b> no programa é…", ["Um espaço com nome que guarda um valor que pode mudar", "Um botão do teclado", "Uma pasta do computador"], "A variável guarda um valor com um nome, e esse valor pode mudar (como os <b>pontos</b> de um jogo)."],
+    ["“Repita 3 vezes: ande um passo” é um exemplo de…", ["Repetição", "Variável", "Lista"], "Fazer o mesmo passo várias vezes, sem escrever tudo de novo, é <b>repetição</b>."],
+    ["<b>Percorrer</b> uma lista quer dizer…", ["Passar por todos os itens, do primeiro ao último", "Apagar a lista", "Escolher só o último item"], "Percorrer é passar por <b>todos</b> os itens, do primeiro ao último."])];
+  A.m1.aplicar = [
+    { tipo: "lista_ops", titulo: "🛠️ Na vida real: a fila de impressão da escola", nome: "IMPRESSAO",
+      enunciado: "<p>Os professores mandaram documentos para a impressora da escola. A fila de impressão é uma <b>lista</b>: o primeiro enviado é o primeiro impresso.</p>",
+      inicial: ["prova do 6º A", "bilhete da reunião", "cartaz da feira", "lista de chamada"],
+      passos: [
+        { tipo: "pergunta", instr: "Qual documento sai primeiro? (IMPRESSAO[1])", r: "prova do 6º A", why: "IMPRESSAO[1] = prova do 6º A: o primeiro da fila sai primeiro." },
+        { tipo: "pergunta", instr: "Em que posição está o cartaz da feira?", r: "3", num: true },
+        { tipo: "pergunta", instr: "Qual é o tamanho da fila?", r: "4", num: true },
+        { tipo: "pergunta", instr: "Qual é a última posição da fila?", r: "4", num: true, why: "4: a última posição é sempre igual ao tamanho." }],
+      explicacao: "A fila de impressão é uma lista: cada documento tem uma posição, o tamanho é 4 e a última posição é igual ao tamanho." },
+    VIDA(
+      ["A classificação do campeonato, arrumada pelos pontos, é uma lista…", ["Ordenada", "Desordenada", "Sem tamanho"], "Arrumada em ordem (pelos pontos), é uma lista <b>ordenada</b>."],
+      ["A lista NOTAS tem <b>30 itens</b>. Qual é a última posição?", ["30", "1", "29"], "A última posição é sempre igual ao <b>tamanho</b>: 30."],
+      ["Para mostrar o nome de 19 alunos, o jeito mais esperto é…", ["Percorrer a lista com uma repetição", "Escrever 19 comandos, um por aluno", "Criar 19 variáveis"], "Com a lista, uma <b>repetição</b> percorre todos os itens, sem 19 comandos."])
+  ];
+  mais("m1", "desafio",
+    { tipo: "lista_ops", titulo: "🎮 O ranking do jogo", nome: "RANKING",
+      enunciado: "<p>O ranking do jogo da turma é uma lista ordenada pelos pontos: quem está na posição 1 fez mais pontos.</p>",
+      inicial: ["Lia", "Davi", "Bia", "Rafa", "Gui", "Mel"],
+      passos: [
+        { tipo: "pergunta", instr: "Quem está em RANKING[2]?", r: "Davi" },
+        { tipo: "pergunta", instr: "Em que posição está o Gui?", r: "5", num: true },
+        { tipo: "pergunta", instr: "Qual é o tamanho do ranking?", r: "6", num: true },
+        { tipo: "pergunta", instr: "Quem está na última posição? (RANKING[6])", r: "Mel" }],
+      explicacao: "RANKING[2] = Davi; Gui está na posição 5; o tamanho é 6, e a última posição (6) é a da Mel." });
+  mais("m1", "turbo",
+    { tipo: "lista_ops", titulo: "📲 O histórico de mensagens", nome: "MENSAGENS",
+      enunciado: "<p>No aplicativo, a mensagem mais antiga fica em cima (posição 1) e a mais nova embaixo. Chegou mensagem nova!</p>",
+      inicial: ["Bom dia, turma!", "Amanhã tem prova", "Quem tem o livro?"],
+      passos: [
+        { tipo: "pergunta", instr: "Qual é a mensagem mais antiga? (MENSAGENS[1])", r: "Bom dia, turma!" },
+        { tipo: "inserir", instr: "Chegou a mensagem nova: insira Eu tenho! no fim.", esperado: ["Bom dia, turma!", "Amanhã tem prova", "Quem tem o livro?", "Eu tenho!"], dica: "Digite Eu tenho! e clique em Inserir no fim." },
+        { tipo: "pergunta", instr: "Qual é o tamanho da lista agora?", r: "4", num: true },
+        { tipo: "pergunta", instr: "Em que posição ficou a mensagem nova?", r: "4", num: true, why: "4: entrou no fim, e a última posição é igual ao tamanho." }],
+      explicacao: "A mensagem nova entra no fim: o tamanho passa de 3 para 4, e ela fica na última posição." });
+
+  /* ---------- M2 · inserir, remover e contar ---------- */
+  A.m2.gancho = { html: "<p>🛒 A Júlia colocou 5 produtos no carrinho da loja on-line, apagou um e depois apertou <b>“tocar a seguir”</b> numa música da playlist.</p><p>🤔 O que acontece com os <b>outros itens</b> quando um sai da lista ou entra no meio dela? Quem muda de lugar?</p>" };
+  A.m2.aplicar = [
+    { tipo: "lista_ops", titulo: "🛠️ Na vida real: a lista de presença do passeio", nome: "PASSEIO",
+      enunciado: "<p>O ônibus do passeio vai sair! A lista de presença muda: um aluno chegou atrasado e outro não vai mais.</p>",
+      inicial: ["Gabi", "Hugo", "Íris", "João"],
+      passos: [
+        { tipo: "inserir", instr: "O Kauã chegou atrasado: insira Kauã no fim.", esperado: ["Gabi", "Hugo", "Íris", "João", "Kauã"], dica: "Digite Kauã e clique em Inserir no fim." },
+        { tipo: "remover", instr: "O Hugo não vai mais: remova Hugo.", esperado: ["Gabi", "Íris", "João", "Kauã"], dica: "Clique em “remover” ao lado de Hugo." },
+        { tipo: "pergunta", instr: "Em que posição o João está agora?", r: "3", num: true, why: "3: com a saída do Hugo, quem estava atrás andou uma posição para a frente (João foi da 4 para a 3)." },
+        { tipo: "pergunta", instr: "Qual é o tamanho da lista agora?", r: "4", num: true }],
+      explicacao: "Inserir no fim aumenta o tamanho; remover faz quem estava atrás andar uma posição para a frente e diminui o tamanho." },
+    VIDA(
+      ["Você <b>removeu</b> um produto do carrinho. O tamanho da lista…", ["Diminui 1", "Aumenta 1", "Fica igual"], "Remover tira um item: o tamanho <b>diminui 1</b>."],
+      ["Na playlist, “tocar a seguir” coloca a música…", ["Numa posição do meio da lista", "Sempre no fim", "Fora da lista"], "“Tocar a seguir” <b>insere</b> a música numa posição do meio: quem estava dali para trás anda uma posição."],
+      ["Para contar quantos vieram na lista de presença, o contador começa em…", ["0", "1", "10"], "A variável <b>contadora</b> começa em 0 e soma 1 a cada item que passa no teste."])
+  ];
+  mais("m2", "desafio",
+    { tipo: "lista_ops", titulo: "🎵 A playlist da festa", nome: "PLAYLIST",
+      enunciado: "<p>A playlist da festa da turma vai mudando. Faça as operações e responda.</p>",
+      inicial: ["forró", "samba", "funk", "pop", "rap"],
+      passos: [
+        { tipo: "remover", instr: "Ninguém quis ouvir funk: remova funk.", esperado: ["forró", "samba", "pop", "rap"] },
+        { tipo: "pergunta", instr: "Em que posição o rap está agora?", r: "4", num: true },
+        { tipo: "inserir", instr: "Pediram brega: insira brega no fim.", esperado: ["forró", "samba", "pop", "rap", "brega"] },
+        { tipo: "remover", instr: "Remova samba.", esperado: ["forró", "pop", "rap", "brega"] },
+        { tipo: "pergunta", instr: "Qual é o tamanho da playlist agora?", r: "4", num: true },
+        { tipo: "pergunta", instr: "Quem está em PLAYLIST[2]?", r: "pop" }],
+      explicacao: "Cada remoção faz quem estava atrás andar uma posição para a frente; cada inserção no fim aumenta o tamanho. No fim: forró, pop, rap, brega (tamanho 4)." });
+  mais("m2", "turbo",
+    { tipo: "lista_ops", titulo: "🔢 Conte as notas azuis", nome: "NOTAS",
+      enunciado: "<p>Nota azul é <b>5 ou mais</b>. Conte como o contador: comece em 0 e some 1 a cada nota que passa no teste.</p>",
+      inicial: ["8", "4", "6", "3", "9", "7"],
+      passos: [
+        { tipo: "pergunta", instr: "Quantas notas são azuis (5 ou mais)?", r: "4", num: true, why: "4: o contador foi 0 → 1 (8) → 1 → 2 (6) → 2 → 3 (9) → 4 (7)." },
+        { tipo: "remover", instr: "A nota 4 foi revisada e saiu da lista: remova o 4.", esperado: ["8", "6", "3", "9", "7"] },
+        { tipo: "inserir", instr: "Chegou a nota do aluno novo: insira 5 no fim.", esperado: ["8", "6", "3", "9", "7", "5"] },
+        { tipo: "pergunta", instr: "E agora, quantas notas azuis?", r: "5", num: true, why: "5: o 5 também passa no teste (5 ou mais)." },
+        { tipo: "pergunta", instr: "Qual é o tamanho da lista agora?", r: "6", num: true }],
+      explicacao: "Contar é percorrer a lista com uma variável contadora. Depois das mudanças: 8, 6, 3, 9, 7, 5 → 5 notas azuis em 6." });
+
+  /* ---------- M3 · busca sequencial ---------- */
+  A.m3.gancho = { html: "<p>📷 O Teo quer mostrar para a avó a foto do gol que ele fez. A galeria do celular tem <b>500 fotos</b>, fora de ordem.</p><p>🤔 Como ele pode procurar? Quantas fotos ele vai precisar olhar se a do gol for a <b>última</b>?</p>" };
+  A.m3.aplicar = [
+    { tipo: "sequencial", titulo: "🛠️ Na vida real: ache a foto do gol na galeria",
+      lista: ["🏖️", "🎂", "🐶", "🍕", "🎄", "⚽", "🌻"], alvo: "⚽",
+      enunciado: "<p>As fotos da galeria estão fora de ordem. Olhe uma por uma, da 1ª em diante, até achar a foto do <b>gol ⚽</b>. Conte quantas você olhou.</p>",
+      explicacao: "Você olhou 6 fotos: 6 comparações, e a foto está na posição 6. Olhar uma por uma, do começo, é a busca sequencial." },
+    VIDA(
+      ["Rolar a galeria olhando foto por foto, desde o começo, é…", ["Busca sequencial", "Busca pelo meio", "Apagar a galeria"], "Olhar um por um, desde o começo, é a <b>busca sequencial</b> (ou linear)."],
+      ["Numa lista de <b>1.000 itens</b>, o item procurado é o último. Quantas comparações a busca sequencial faz?", ["1.000", "1", "10"], "É o <b>pior caso</b>: olha todos os 1.000 itens."],
+      ["A busca sequencial funciona numa lista <b>fora de ordem</b>?", ["Sim, funciona em qualquer lista", "Não, só em lista ordenada", "Só se a lista for pequena"], "A busca sequencial funciona em <b>qualquer lista</b>, ordenada ou não. O problema é que pode ficar lenta."])
+  ];
+  mais("m3", "desafio",
+    { tipo: "sequencial", titulo: "🔎 Ache o seu nome na lista de aprovados",
+      lista: ["Rafa", "Lia", "Gui", "Bia", "Téo", "Mel", "Caio", "Ana", "Davi"], alvo: "Ana",
+      enunciado: "<p>A lista de aprovados está <b>fora de ordem</b>. Procure a <b>Ana</b> olhando um por um.</p>",
+      explicacao: "Ana estava na posição 8: foram 8 comparações. Como a lista não está em ordem, não dá para pular: é preciso olhar um por um." });
+  mais("m3", "turbo",
+    { tipo: "sequencial", titulo: "😰 O pior caso: o item é o último",
+      lista: [14, 3, 27, 8, 19, 41, 6, 33, 12, 25, 38, 50], alvo: 50,
+      enunciado: "<p>Procure o <b>50</b> virando as cartas em ordem. Antes de começar, pense: se ele for o último, quantas comparações você vai fazer?</p>",
+      explicacao: "O 50 era o último: 12 comparações, o pior caso. Numa lista de 1.000 itens, seriam 1.000. Por isso a busca sequencial fica lenta em listas grandes." });
+
+  /* ---------- M4 · busca binária ---------- */
+  A.m4.gancho = { html: "<p>🎯 No jogo “adivinhe o número de 1 a 100”, a Bia chuta 1, 2, 3, 4… e já gastou 30 chutes. O Leo ganha sempre com no máximo <b>7 chutes</b>.</p><p>🤔 Qual é o truque do Leo? E por que o truque <b>só funciona</b> se os números estiverem em ordem?</p>" };
+  A.m4.aplicar = [
+    { tipo: "busca_binaria", titulo: "🛠️ Na vida real: ache a casa nº 47 na rua",
+      lista: [3, 11, 18, 25, 32, 40, 47, 55, 61, 70, 78, 86, 93, 99, 105], alvo: 47,
+      enunciado: "<p>O entregador precisa achar a casa <b>47</b>. As casas da rua estão em <b>ordem</b>. Em vez de olhar uma por uma, olhe sempre a casa do <b>meio</b> da parte que sobrou.</p>",
+      explicacao: "15 casas → meio 8 = 55 → 47 é menor; sobram 1 a 7 → meio 4 = 25 → 47 é maior; sobram 5 a 7 → meio 6 = 40 → maior; sobra a 7 = 47. Achou em 4 comparações (a sequencial faria 7)." },
+    VIDA(
+      ["Procurar uma palavra no dicionário de papel abrindo no meio e indo para a frente ou para trás é…", ["Busca binária", "Busca sequencial", "Ler o dicionário inteiro de trás para a frente"], "Olhar o meio e jogar fora uma metade é a <b>busca binária</b>."],
+      ["A busca binária <b>só funciona</b> se a lista estiver…", ["Ordenada", "Desordenada", "Com 100 itens"], "Regra de ouro: só em lista <b>ordenada</b>, senão não dá para saber qual metade jogar fora."],
+      ["Numa lista ordenada de <b>1.000 itens</b>, quantas comparações a busca binária faz no pior caso?", ["10", "1.000", "500"], "Cada comparação corta a lista pela metade: <b>10</b> comparações bastam para 1.000 itens."])
+  ];
+  mais("m4", "desafio",
+    { tipo: "busca_binaria", titulo: "📚 O livro nº 88 na estante",
+      lista: [4, 9, 15, 22, 30, 37, 45, 51, 60, 68, 74, 81, 88, 94, 99], alvo: 88,
+      enunciado: "<p>Os livros da biblioteca estão em <b>ordem</b> pelo número. Ache o <b>88</b> sempre pelo <b>meio</b> da parte que sobrou.</p>",
+      explicacao: "Meio 8 = 51 → maior; sobram 9 a 15 → meio 12 = 81 → maior; sobram 13 a 15 → meio 14 = 94 → menor; sobra a 13 = 88. Achou em 4 comparações." });
+  mais("m4", "turbo",
+    { tipo: "sim_adivinhe", titulo: "🧠 Adivinhe o número de 1 a 1.000", max: 1000, meta: 10,
+      enunciado: "<p>Agora o computador pensou num número de <b>1 a 1.000</b>. Chute sempre o <b>meio</b> do que sobrou. Consegue em até <b>10 chutes</b>?</p>",
+      explicacao: "Cada chute no meio corta as opções pela metade: 1.000 → 500 → 250 → 125 → 63 → 32 → 16 → 8 → 4 → 2 → 1. No máximo 10 chutes." });
+
+  /* ---------- M5 · método da bolha ---------- */
+  A.m5.gancho = { html: "<p>📸 Na foto da turma, o fotógrafo pediu: “do mais baixo para o mais alto!”. Ninguém sabia por onde começar, e virou uma bagunça.</p><p>🤔 Existe um jeito simples, com regras, para arrumar a fila só trocando <b>vizinhos</b> de lugar?</p>" };
+  A.m5.aplicar = [
+    { tipo: "sim_bolha", titulo: "🛠️ Na vida real: a fila por altura na foto",
+      enunciado: "<p>As alturas da turma (em centímetros) estão fora de ordem. Clique em <b>⇄</b> para trocar <b>vizinhos</b> até ficar em <b>ordem crescente</b> (do mais baixo para o mais alto).</p>",
+      valores: [152, 138, 160, 145, 149],
+      explicacao: "Trocando só vizinhos fora de ordem, a fila ficou 138, 145, 149, 152, 160. É o método da bolha: o maior vai “subindo” para o fim." },
+    VIDA(
+      ["No baralho, você arruma as cartas trocando de lugar as vizinhas fora de ordem. Isso lembra…", ["O método da bolha", "A busca binária", "A busca sequencial"], "Trocar vizinhos fora de ordem é o <b>método da bolha</b>."],
+      ["A lista <b>1, 2, 3, 4</b> (já ordenada) termina em quantas passadas?", ["1 passada, sem nenhuma troca", "4 passadas", "Nunca termina"], "Uma lista já ordenada termina em <b>1 passada sem nenhuma troca</b>."],
+      ["No fim de cada passada, o <b>maior</b> número que ainda faltava…", ["Já está no final", "Vai para o começo", "Some da lista"], "A cada passada, o maior que falta “sobe” para o <b>final</b>, como uma bolha."])
+  ];
+  mais("m5", "desafio",
+    { tipo: "bolha", titulo: "😵 A lista ao contrário: 4, 3, 2, 1", lista: [4, 3, 2, 1],
+      enunciado: "<p>Esta é a lista que dá <b>mais trabalho</b> para a bolha. Compare os vizinhos: se o da esquerda for <b>maior</b>, <b>troque</b>; senão, <b>mantenha</b>.</p>",
+      explicacao: "1ª passada: 3, 2, 1, 4 · 2ª: 2, 1, 3, 4 · 3ª: 1, 2, 3, 4. Todo par de vizinhos trocou: é o pior caso da bolha." });
+  mais("m5", "turbo",
+    { tipo: "bolha", titulo: "🔥 Bolha com 5 números: 9, 4, 7, 1, 3", lista: [9, 4, 7, 1, 3],
+      enunciado: "<p>Ordene em ordem <b>crescente</b>, passada por passada. Atenção: o maior que falta sobe para o fim a cada passada.</p>",
+      explicacao: "1ª passada: 4, 7, 1, 3, 9 · 2ª: 4, 1, 3, 7, 9 · 3ª: 1, 3, 4, 7, 9 · 4ª: sem trocas, terminou." });
+
+  /* ---------- M6 · recursão ---------- */
+  A.m6.gancho = { html: "<p>🪆 A vó da Duda trouxe uma <b>matrioska</b> de presente. A Duda abriu a boneca e… tinha outra igual dentro, menor. Abriu de novo, e de novo…</p><p>🤔 Quando ela vai parar de abrir? E o que essa boneca tem a ver com o jeito de o computador contar as pastas dentro de pastas?</p>" };
+  A.m6.aplicar = [
+    { tipo: "blocos", titulo: "🛠️ Na vida real: abrindo a matrioska",
+      enunciado: "<p>A matrioska da Duda tem <b>4 bonecas</b>. Complete o bloco recursivo <b>abrir</b>: <b>se n = 1</b> (caso base), mostrar <b>a bonequinha não abre</b>; <b>senão</b>, mostrar “abri a boneca ” com n, <b>alterar n por -1</b> e <b>chamar abrir</b> de novo. A tela deve mostrar:</p><p><b>abri a boneca 4</b><br><b>abri a boneca 3</b><br><b>abri a boneca 2</b><br><b>a bonequinha não abre</b></p>",
+      caixa: ["mostrar", "texto", "numero", "variavel", "se", "comparar", "funcao"],
+      inicio: [["funcao", "abrir", []], ["definir", "n", 4], ["chamar", "abrir"]],
+      esperado: ["abri a boneca 4", "abri a boneca 3", "abri a boneca 2", "a bonequinha não abre"], exige: ["se", "funcao"],
+      solucao: [["funcao", "abrir", [["se", ["=", v("n"), 1], [["mostrar", "a bonequinha não abre"]], [["mostrar", ["juntar", "abri a boneca ", v("n")]], ["mudar", "n", -1], ["chamar", "abrir"]]]]], ["definir", "n", 4], ["chamar", "abrir"]],
+      dicas: ["Dentro do bloco roxo “para abrir”, coloque um “se … faça … senão”.", "Senão: mostrar (criar texto com “abri a boneca ” e n), alterar n por -1 e, por último, chamar abrir."],
+      explicacao: "Passo recursivo: abrir a boneca e repetir com a de dentro (n − 1). Caso base: a bonequinha que não abre (n = 1). Sem caso base, ela nunca pararia." },
+    VIDA(
+      ["Para contar os arquivos de uma pasta que tem pastas dentro, que têm pastas dentro…, o computador usa…", ["Recursão", "Busca binária", "Método da bolha"], "Uma pasta dentro de pasta é o mesmo problema, menor: o computador usa <b>recursão</b>."],
+      ["Na fila do cinema, quem responde “sou o 1” sem perguntar para ninguém é o…", ["Caso base", "Passo recursivo", "Contador"], "O primeiro da fila responde direto: é o <b>caso base</b>, que faz a recursão parar."],
+      ["O que acontece com uma recursão <b>sem caso base</b>?", ["Nunca para", "Para na hora", "Fica mais rápida"], "Sem caso base, a recursão <b>nunca para</b>, como dois espelhos frente a frente."])
+  ];
+  mais("m6", "desafio",
+    { tipo: "blocos", titulo: "🐸 O sapo recursivo: de 2 em 2",
+      enunciado: "<p>O sapo está na pedra <b>10</b> e pula de <b>2 em 2</b> até a margem (0). Monte o bloco recursivo <b>pular</b>: <b>se n = 0</b>, mostrar <b>Chegou na margem!</b>; senão, mostrar n, <b>alterar n por -2</b> e chamar pular. A tela deve mostrar:</p><p><b>10</b> · <b>8</b> · <b>6</b> · <b>4</b> · <b>2</b> · <b>Chegou na margem!</b> (um por linha)</p>",
+      caixa: ["mostrar", "texto", "numero", "variavel", "se", "comparar", "funcao"],
+      inicio: [["definir", "n", 10]],
+      esperado: ["10", "8", "6", "4", "2", "Chegou na margem!"], exige: ["se", "funcao"],
+      solucao: [["funcao", "pular", [["se", ["=", v("n"), 0], [["mostrar", "Chegou na margem!"]], [["mostrar", v("n")], ["mudar", "n", -2], ["chamar", "pular"]]]]], ["definir", "n", 10], ["chamar", "pular"]],
+      dicas: ["Crie o bloco “para pular” na gaveta 🧩 Meus blocos.", "Embaixo do “definir n para 10”, chame pular.", "Dentro do pular, o senão termina chamando pular de novo."],
+      explicacao: "Cada chamada resolve o mesmo problema, menor (n − 2), até o caso base n = 0." });
+  mais("m6", "turbo",
+    { tipo: "blocos", titulo: "➕ A soma recursiva: 4 + 3 + 2 + 1",
+      enunciado: "<p>Some 4 + 3 + 2 + 1 com recursão. As variáveis <b>n</b> (4) e <b>total</b> (0) já estão prontas. Monte o bloco <b>somar</b>: <b>se n = 0</b>, mostrar “Total: ” com o total; senão, <b>alterar total por n</b>, <b>alterar n por -1</b> e chamar somar. A tela deve mostrar:</p><p><b>Total: 10</b></p>",
+      caixa: ["mostrar", "texto", "numero", "variavel", "se", "comparar", "funcao"],
+      inicio: [["definir", "n", 4], ["definir", "total", 0]],
+      esperado: ["Total: 10"], exige: ["se", "funcao"],
+      solucao: [["funcao", "somar", [["se", ["=", v("n"), 0], [["mostrar", ["juntar", "Total: ", v("total")]]], [["mudar", "total", v("n")], ["mudar", "n", -1], ["chamar", "somar"]]]]], ["definir", "n", 4], ["definir", "total", 0], ["chamar", "somar"]],
+      dicas: ["“alterar total por n”: encaixe a variável n no lugar do número.", "A ordem dentro do senão importa: primeiro soma o n, depois diminui o n."],
+      explicacao: "total: 0 → 4 → 7 → 9 → 10. Quando n chega a 0 (caso base), mostra o total." });
+
+  /* ---------- M7 · ordenação por seleção ---------- */
+  A.m7.gancho = { html: "<p>⚽ No recreio, os capitães escolhem os times: primeiro o melhor jogador, depois o melhor <b>do que sobrou</b>, e assim por diante.</p><p>🤔 Dá para ordenar uma lista de números do mesmo jeito? Quantas <b>trocas</b> isso precisa, comparado com a bolha?</p>" };
+  A.m7.aplicar = [
+    { tipo: "ordenar", titulo: "🛠️ Na vida real: arrumando os livros por seleção",
+      enunciado: "<p>Os livros da estante têm os números <b>5, 9, 2, 7</b>. Arrume pela <b>seleção</b>: a cada rodada, ache o <b>menor do que sobrou</b> e troque com a primeira posição que falta. Coloque os estados da estante em ordem, do início ao fim.</p>",
+      itens: ["5, 9, 2, 7 (início)", "2, 9, 5, 7", "2, 5, 9, 7", "2, 5, 7, 9"],
+      dicas: ["1ª rodada: o menor de todos é o 2; ele troca com o 5."],
+      explicacao: "1ª rodada: 2 ↔ 5 → 2, 9, 5, 7 · 2ª: o menor do que sobrou é o 5, troca com o 9 → 2, 5, 9, 7 · 3ª: 7 ↔ 9 → 2, 5, 7, 9." },
+    VIDA(
+      ["Escolher os times no recreio (o melhor, depois o melhor do que sobrou) lembra…", ["A ordenação por seleção", "A busca sequencial", "O método da bolha"], "Escolher o melhor do que sobrou, rodada por rodada, é a <b>seleção</b>."],
+      ["Qual método faz <b>menos trocas</b>?", ["A seleção: no máximo uma por rodada", "A bolha: uma a cada par fora de ordem", "Os dois trocam igual"], "A <b>seleção</b> troca no máximo uma vez por rodada; a bolha troca a cada par fora de ordem."],
+      ["Na seleção, o menor item de cada rodada vai para…", ["O começo da parte que falta", "O fim da lista", "Fora da lista"], "O menor vai para o <b>começo</b>; na bolha, é o maior que sobe para o fim."])
+  ];
+  mais("m7", "desafio",
+    { tipo: "ordenar", titulo: "🏅 Seleção com 5 números: 4, 7, 3, 9, 1",
+      enunciado: "<p>Faça a ordenação por <b>seleção</b> (crescente) e coloque os estados da lista em ordem, do início ao fim.</p>",
+      itens: ["4, 7, 3, 9, 1 (início)", "1, 7, 3, 9, 4", "1, 3, 7, 9, 4", "1, 3, 4, 9, 7", "1, 3, 4, 7, 9"],
+      dicas: ["1ª rodada: o menor de todos é o 1, que troca com o 4.", "2ª rodada: o menor do que sobrou (7, 3, 9, 4) é o 3."],
+      explicacao: "Rodadas: 1 ↔ 4, depois 3 ↔ 7, depois 4 ↔ 7, depois 7 ↔ 9. Só 4 trocas, uma por rodada." });
+  mais("m7", "turbo",
+    { tipo: "ordenar", titulo: "🔤 Seleção em ordem alfabética: Téo, Lia, Bia, Ana",
+      enunciado: "<p>Agora com nomes, em ordem <b>alfabética</b> (de A a Z). A cada rodada, ache o nome que vem <b>primeiro</b> no alfabeto entre os que sobraram e troque. Coloque os estados em ordem.</p>",
+      itens: ["Téo, Lia, Bia, Ana (início)", "Ana, Lia, Bia, Téo", "Ana, Bia, Lia, Téo"],
+      dicas: ["1ª rodada: Ana é a primeira do alfabeto; ela troca com o Téo."],
+      explicacao: "1ª rodada: Ana ↔ Téo · 2ª: Bia ↔ Lia · 3ª: Lia já está no lugar (sem troca). A seleção pode até ter rodada sem troca." });
+
+  /* ---------- M8 · fractais ---------- */
+  A.m8.gancho = { html: "<p>🥦 No almoço, o Gui reparou: cada pedacinho do brócolis parece um <b>brócolis pequeno</b>. E cada folhinha da samambaia do quintal parece uma <b>samambaia</b> inteira.</p><p>🤔 Por que a natureza repete a mesma forma em tamanhos menores? E como os jogos usam isso para desenhar montanhas e árvores?</p>" };
+  A.m8.aplicar = [
+    { tipo: "blocos", titulo: "🛠️ Na vida real: as montanhas fractais do jogo",
+      enunciado: "<p>Um jogo desenha montanhas com o triângulo de Sierpinski. O programador quer saber quantos triângulos vai desenhar em cada nível. A variável <b>t</b> começa em 1 (nível 0). Use o <b>repita 4 vezes</b>: <b>definir t para t × 3</b> (gaveta ➗ Contas), mostrar “Nível ”, nível, “: ” e t, e <b>alterar nivel por 1</b>. A tela deve mostrar:</p><p><b>Nível 1: 3</b><br><b>Nível 2: 9</b><br><b>Nível 3: 27</b><br><b>Nível 4: 81</b></p>",
+      caixa: ["mostrar", "texto", "numero", "conta", "variavel", "repita"],
+      inicio: [["definir", "t", 1], ["definir", "nivel", 1]],
+      esperado: ["Nível 1: 3", "Nível 2: 9", "Nível 3: 27", "Nível 4: 81"], exige: ["repita", "conta"],
+      solucao: [["definir", "t", 1], ["definir", "nivel", 1], ["repita", 4, [["definir", "t", ["*", v("t"), 3]], ["mostrar", ["juntar", "Nível ", v("nivel"), ": ", v("t")]], ["mudar", "nivel", 1]]]],
+      dicas: ["“definir t para” recebe uma conta: t × 3.", "No “criar texto com”, use a engrenagem para ter 4 pedaços: “Nível ”, nivel, “: ” e t."],
+      explicacao: "A cada nível, o número de triângulos multiplica por 3: 3, 9, 27, 81. O jogo para num nível (o caso base), porque a tela não mostra triângulos menores que um ponto." },
+    VIDA(
+      ["Cada folhinha da samambaia parece uma samambaia inteira, menor. Isso é…", ["Um fractal", "Uma lista ordenada", "Uma busca"], "Figura em que uma parte é parecida com o todo é um <b>fractal</b>."],
+      ["No triângulo de Sierpinski, a cada nível o número de triângulos…", ["Multiplica por 3", "Soma 3", "Dobra"], "Cada triângulo vira 3 menores: o número <b>multiplica por 3</b> (1, 3, 9, 27, 81)."],
+      ["Por que o desenho do fractal no computador <b>para</b> num nível?", ["A tela não mostra triângulos menores que um ponto", "O computador cansa", "Fractais só têm 2 partes"], "Paramos num nível (o caso base) porque a tela não consegue mostrar triângulos menores que um ponto."])
+  ];
+  mais("m8", "desafio",
+    { tipo: "memoria", titulo: "🧩 Jogo da memória dos fractais",
+      enunciado: "<p>Vire duas cartas e ache os pares que combinam.</p>",
+      pares: [{ a: "Fractal", b: "Uma parte parecida com o todo" }, { a: "Sierpinski nível 2", b: "9 triângulos" }, { a: "Árvore fractal nível 3", b: "8 galhos novos" }, { a: "Sierpinski nível 4", b: "81 triângulos" }, { a: "Árvore fractal", b: "O número dobra a cada nível" }, { a: "Triângulo de Sierpinski", b: "Multiplica por 3 a cada nível" }],
+      porRodada: 3,
+      explicacao: "Sierpinski multiplica por 3 (1, 3, 9, 27, 81); a árvore dobra (2, 4, 8, 16). Nos dois, uma parte é parecida com o todo." });
+  mais("m8", "turbo",
+    { tipo: "blocos", titulo: "🌲 A árvore fractal do jogo: dobra a cada nível",
+      enunciado: "<p>No mesmo jogo, as árvores são fractais: o tronco se divide em 2 galhos, cada galho em 2… A variável <b>g</b> começa em 1. Monte o <b>repita 4 vezes</b> com <b>definir g para g × 2</b> e mostre os galhos novos de cada nível:</p><p><b>Nível 1: 2</b><br><b>Nível 2: 4</b><br><b>Nível 3: 8</b><br><b>Nível 4: 16</b></p>",
+      caixa: ["mostrar", "texto", "numero", "conta", "variavel", "repita"],
+      esperado: ["Nível 1: 2", "Nível 2: 4", "Nível 3: 8", "Nível 4: 16"], exige: ["repita", "conta"],
+      solucao: [["definir", "g", 1], ["definir", "nivel", 1], ["repita", 4, [["definir", "g", ["*", v("g"), 2]], ["mostrar", ["juntar", "Nível ", v("nivel"), ": ", v("g")]], ["mudar", "nivel", 1]]]],
+      dicas: ["Crie as variáveis g (1) e nivel (1) antes do repita.", "É o mesmo programa das montanhas, só que multiplica por 2."],
+      explicacao: "A árvore dobra a cada nível: 2, 4, 8, 16. O jeito de programar é o mesmo do Sierpinski; só muda a regra (× 2 em vez de × 3)." });
 })();

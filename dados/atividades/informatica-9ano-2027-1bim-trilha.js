@@ -121,7 +121,7 @@
 
       { tipo: "escolha", titulo: "Passo 4 · No dia a dia",
         perguntas: [
-          { p: "“Digite 1 para…, 2 para…” no telefone é:", opcoes: ["Uma árvore de decisão", "Uma lista de compras"], certo: 0 }],
+          { p: "“Digite 1 para…, 2 para…” no telefone é:", opcoes: ["Uma árvore de decisão", "Um mapa de ruas"], certo: 0 }],
         explicacao: "Cada número escolhido leva a outro galho: é uma <strong>árvore de decisão</strong>." }
     ],
     vf: [{ v: true }, { v: false, why: "“Ele é legal?” não tem resposta clara: cada pessoa responde de um jeito." }, { v: true }]
@@ -338,7 +338,7 @@
       { tipo: "relembre", de: "m5" },
       { tipo: "escolha", de: "m5", titulo: "M5 · Responda", perguntas: [{ p: "Catraca travada + cartão fica:", opcoes: ["Liberada", "Travada"], certo: 0 }], explicacao: "O cartão libera a catraca." },
       { tipo: "relembre", de: "m6" },
-      { tipo: "escolha", de: "m6", titulo: "M6 · Responda", perguntas: [{ p: "O tratador de evento roda:", opcoes: ["Toda vez que o evento acontece", "Uma vez só"], certo: 0 }], explicacao: "Roda toda vez que o evento acontece." },
+      { tipo: "escolha", de: "m6", titulo: "M6 · Responda", perguntas: [{ p: "O tratador roda:", opcoes: ["Toda vez que o evento acontece", "Uma vez só"], certo: 0 }], explicacao: "Roda toda vez que o evento acontece." },
       { tipo: "relembre", de: "m7" },
       { tipo: "escolha", de: "m7", titulo: "M7 · Responda", perguntas: [{ p: "Depois do verde, com um tique, vem:", opcoes: ["Amarelo", "Vermelho"], certo: 0 }], explicacao: "Verde → amarelo." },
       { tipo: "relembre", de: "m8" },
@@ -383,4 +383,114 @@
       explicacao: "Portão → Pátio → Informática (1 + 2) leva: → <strong>3 minutos</strong> · O lugar mais conectado da escola é: → <strong>O Pátio</strong>" },
     pega("m8")
   ].filter(Boolean) };
+})();
+
+/* ============================================================
+   🌀 MODELO EM ESPIRAL NA TRILHA (21/11/2026): o mesmo ❓ gancho da turma, "O que você já sabe?" na M1
+   e o 🛠️ "Onde eu uso isso?" prático em versão calma (simulador curto + 2 perguntas).
+   Tudo cobra só o que o Para começar da Trilha explica.
+   ============================================================ */
+(function () {
+  const A = PORTAL.atividades["informatica-9ano-2027-1bim-trilha"]; if (!A) return;
+  const L = (...x) => ["lista", ...x];
+  const v = n => ({ v: n });
+  /* ❓ o mesmo gancho da apostila da turma */
+  const GANCHO = {"m1":{"html":"<p>🛵 O entregador de lanche pode chegar à sua casa por <b>três caminhos</b>. O aplicativo avisa: “vá pela padaria: <b>5 minutos</b>”.</p><p>🤔 Como o aplicativo escolheu? Ele conhece cada rua? E por que o caminho com <b>mais paradas</b> pode ser o mais rápido?</p>"},"m2":{"html":"<p>🏆 No mata-mata da Copa, muitos times começam e só <b>um</b> fica campeão. No celular, a pasta <b>Fotos</b> tem pastas dentro, que têm arquivos dentro.</p><p>🤔 O que o chaveamento da Copa e as pastas do celular têm em comum? Por que os dois são uma “árvore de cabeça para baixo”?</p>"},"m3":{"html":"<p>📞 Você liga para a operadora e ouve: “Digite <b>1</b> para segunda via, <b>2</b> para falar com um atendente…”. Depois, outra pergunta, e mais outra.</p><p>🤔 Como o atendimento sabe para onde mandar você? E como o jogo do gênio adivinha o personagem só com perguntas de <b>sim ou não</b>?</p>"},"m4":{"html":"<p>👥 A rede social mostra: “Você tem <b>4 amigos</b>” e, quando você toca num amigo, aparece a lista dos amigos dele.</p><p>🤔 Como o programa <b>guarda</b> quem é amigo de quem? E como ele <b>conta</b> os seus amigos tão rápido?</p>"},"m5":{"html":"<p>🥤 Você coloca a moeda na máquina de refrigerante, ela pisca “escolha”, você aperta o botão e a lata cai. Mas se apertar o botão <b>antes</b> da moeda, nada acontece.</p><p>🤔 Como a máquina “lembra” se você já pagou? O mesmo botão pode fazer coisas diferentes?</p>"},"m6":{"html":"<p>🔔 Seu celular está parado em cima da mesa. De repente, chega uma mensagem: ele <b>vibra</b> e mostra a notificação.</p><p>🤔 O celular ficou o tempo todo perguntando “chegou mensagem? chegou?”. Ou ele fica <b>esperando</b> algo acontecer para reagir?</p>"},"m7":{"html":"<p>🚦 Na frente da escola, o semáforo tem um <b>botão para pedestre</b>. A Mila apertou o botão quando o sinal dos carros estava <b>vermelho</b> e… nada mudou.</p><p>🤔 O semáforo estragou? Ou existe uma <b>regra</b> que diz quando o botão funciona?</p>"},"m8":{"html":"<p>🚨 Simulado de incêndio! O alarme tocou na Sala de Informática e todo mundo precisa chegar ao <b>Portão</b> pelo caminho mais curto. Mas o corredor entre o Pátio e a Sala de Informática está <b>em reforma</b>.</p><p>🤔 Como achar a rota de fuga quando um caminho está interditado?</p>"}};
+  Object.keys(GANCHO).forEach(m => { A[m].gancho = GANCHO[m]; });
+  const perg = (titulo, ...ps) => ({ tipo: "escolha", titulo, enunciado: "<p>Use o que você aprendeu hoje. Leia com calma. 😉</p>", perguntas: ps.map(x => ({ p: x[0], opcoes: x[1], certo: 0, why: x[2] })) });
+  const VIDA = (...ps) => perg("🛠️ E na vida real?", ...ps);
+  const escolaReforma = {
+    vertices: [{ id: "Po", rot: "Portão", x: 60, y: 180 }, { id: "Pt", rot: "Pátio", x: 230, y: 180 }, { id: "Ca", rot: "Cantina", x: 230, y: 330 },
+      { id: "In", rot: "Sala de Informática", x: 420, y: 70 }, { id: "Bi", rot: "Biblioteca", x: 420, y: 290 }],
+    arestas: [["Po", "Pt", 1], ["Pt", "Ca", 1], ["Pt", "Bi", 2], ["In", "Bi", 1]]
+  };
+
+  A.m1.lembra = [perg("🔍 O que você já sabe?",
+    ["Casa → Padaria leva 3 minutos e Padaria → Escola leva 2. Quanto tempo leva tudo?", ["5 minutos", "3 minutos"], "Soma os tempos: 3 + 2 = <b>5</b>."],
+    ["O caminho mais rápido é o de…", ["Menor soma de minutos", "Mais ruas"], "O mais curto é o de <b>menor soma</b>."])];
+  A.m1.lembra[0].enunciado = "<p>Responda pelo que você já sabe do dia a dia. Se não souber, tudo bem: o portal mostra onde está a resposta. 😉</p>";
+
+  A.m1.aplicar = [
+    { tipo: "sim_grafo", titulo: "🛠️ Na vida real: o entregador de lanche",
+      enunciado: "<p>Cada número é o tempo em <b>minutos de moto</b>. Saindo da <b>Lanchonete</b>, clique nos lugares, um vizinho por vez, até a <b>Casa</b>, pela <b>menor soma</b>.</p>",
+      vertices: { lanche: { nome: "Lanchonete", ic: "🍔", x: 45, y: 120 }, farmacia: { nome: "Farmácia", ic: "💊", x: 200, y: 45 }, praca: { nome: "Praça", ic: "🌳", x: 200, y: 195 }, casa: { nome: "Casa", ic: "🏠", x: 360, y: 120 } },
+      arestas: [["lanche", "farmacia", 4], ["lanche", "praca", 2], ["praca", "farmacia", 1], ["farmacia", "casa", 2], ["praca", "casa", 6]],
+      inicio: "lanche", fim: "casa", menor: 5, solucao: ["lanche", "praca", "farmacia", "casa"], unidade: "min",
+      dicas: ["Some: Lanchonete → Praça → Farmácia → Casa = 2 + 1 + 2."],
+      explicacao: "Lanchonete → Praça → Farmácia → Casa = 2 + 1 + 2 = 5 min. Mais paradas, menor soma." },
+    VIDA(["No grafo, o tempo de cada rua é o…", ["Peso", "Vértice"], "O número na aresta é o <b>peso</b>."],
+      ["Uma esquina do mapa, no grafo, é um…", ["Vértice", "Peso"], "Cada ponto é um <b>vértice</b>."])
+  ];
+  A.m2.aplicar = [
+    { tipo: "arvore", titulo: "🛠️ Na vida real: as pastas do celular", modo: "pastas",
+      raiz: { t: "📁 Arquivos", filhos: [{ t: "📁 Fotos", filhos: [{ t: "📄 festa.jpg" }] }, { t: "📁 Músicas", filhos: [{ t: "📄 xote.mp3" }] }] },
+      enunciado: "<p>Olhe as pastas do celular da Mila e responda.</p>",
+      perguntas: [{ p: "Qual pasta é a raiz?", r: ["Arquivos"], tipo: "letras" }, { p: "Quantas folhas (arquivos) a árvore tem?", r: "2", num: true }],
+      dicas: ["A raiz é a de cima. As folhas são os arquivos."],
+      explicacao: "Raiz: Arquivos. Folhas: festa.jpg e xote.mp3." },
+    VIDA(["Na árvore, a <b>raiz</b> fica…", ["Em cima, onde tudo começa", "Embaixo, no fim"], "A árvore da computação é desenhada de cabeça para baixo: a <b>raiz</b> fica em cima."],
+      ["Um arquivo, que não tem nada dentro, é uma…", ["Folha", "Raiz"], "Sem filhos, no fim do galho: <b>folha</b>."])
+  ];
+  A.m3.aplicar = [
+    { tipo: "arvore", titulo: "🛠️ Na vida real: em que lixeira vai?", modo: "decisao",
+      raiz: { t: "❓ É de papel?", filhos: [{ r: "Sim", t: "🔵 Lixeira azul" }, { r: "Não", t: "❓ É de plástico?", filhos: [{ r: "Sim", t: "🔴 Lixeira vermelha" }, { r: "Não", t: "🟢 Outra lixeira" }] }] },
+      enunciado: "<p>Siga a árvore de decisão da coleta seletiva, da raiz até a folha.</p>",
+      perguntas: [{ p: "Uma garrafa de <b>plástico</b> vai para qual lixeira?", r: ["vermelha", "Lixeira vermelha"], tipo: "letras" }, { p: "Quantas folhas (decisões) a árvore tem?", r: "3", num: true }],
+      dicas: ["Plástico: é de papel? não → é de plástico? sim."],
+      explicacao: "Plástico: não → sim → 🔴 vermelha. A árvore tem 3 folhas." },
+    VIDA(["Numa árvore de decisão, cada <b>folha</b> é…", ["Uma decisão final", "Uma pergunta"], "A folha é a <b>decisão final</b>."],
+      ["As perguntas da árvore de decisão são de…", ["Sim ou não", "Escrever um texto"], "Cada pergunta tem resposta clara: <b>sim ou não</b>."])
+  ];
+  A.m4.aplicar = [
+    { tipo: "blocos", titulo: "🛠️ Na vida real: os amigos da rede social",
+      enunciado: "<p>O programa devia mostrar os <b>seus</b> amigos, mas o para cada está olhando o campo <b>Ana</b>. Troque <b>Ana</b> por <b>Você</b> no para cada e rode. A tela deve mostrar:</p><p><b>Ana</b><br><b>Bia</b><br><b>Caio</b><br><b>Amigos: 3</b></p>",
+      caixa: ["mostrar", "texto", "variavel", "lista", "paracada", "ficha"],
+      inicio: [["definir", "rede", ["ficha"]], ["ficha_por", "rede", "Você", L("Ana", "Bia", "Caio")], ["ficha_por", "rede", "Ana", L("Você", "Bia")],
+        ["paracada", "x", ["campo", v("rede"), "Ana"], [["mostrar", v("x")]]], ["mostrar", ["juntar", "Amigos: ", ["tamanho", ["campo", v("rede"), "Você"]]]]],
+      esperado: ["Ana", "Bia", "Caio", "Amigos: 3"],
+      solucao: [["definir", "rede", ["ficha"]], ["ficha_por", "rede", "Você", L("Ana", "Bia", "Caio")], ["ficha_por", "rede", "Ana", L("Você", "Bia")],
+        ["paracada", "x", ["campo", v("rede"), "Você"], [["mostrar", v("x")]]], ["mostrar", ["juntar", "Amigos: ", ["tamanho", ["campo", v("rede"), "Você"]]]]],
+      dicas: ["No bloco “campo … da ficha rede” do para cada, apague Ana e escreva Você (com acento)."],
+      explicacao: "Os seus amigos são a lista de vizinhos do vértice Você; o número de amigos é o tamanho dessa lista (o grau)." },
+    VIDA(["Para cada pessoa, a lista dos amigos dela. Isso é a…", ["Lista de vizinhos", "Árvore de decisão"], "É a <b>lista de vizinhos</b>."],
+      ["O grau de um vértice é…", ["Quantos vizinhos ele tem", "O primeiro vizinho"], "Grau = <b>quantos vizinhos</b> o vértice tem."])
+  ];
+  A.m5.aplicar = [
+    { tipo: "rota", titulo: "🛠️ Na vida real: a catraca da escola",
+      enunciado: "<p>A catraca começa <b>travada</b>. Você quer entrar. Clique nos passos na ordem.</p>",
+      etapas: [{ ic: "🔒", t: "Estado: travada" }, { ic: "💳", t: "Entrada: passa o cartão" }, { ic: "🔓", t: "Transição: fica liberada" }, { ic: "🚶", t: "Entrada: empurra e passa" }],
+      okMsg: "Você seguiu o autômato da catraca!",
+      explicacao: "Travada + cartão → liberada; liberada + empurrar → a pessoa passa." },
+    VIDA(["Travada, liberada… isso são…", ["Estados", "Entradas"], "A catraca está sempre num <b>estado</b>."],
+      ["Passar o cartão na catraca é uma…", ["Entrada", "Folha"], "O que acontece com a máquina (cartão, empurrar) é a <b>entrada</b>."])
+  ];
+  A.m6.aplicar = [
+    { tipo: "blocos", titulo: "🛠️ Na vida real: o placar de gols",
+      enunciado: "<p>A cada gol, o portal aperta o botão <b>⚽ gol</b>. Falta somar o gol: arraste o bloco <b>alterar gols por 1</b> (gaveta 📦 Variáveis) para dentro do “quando acontecer”, <b>em cima</b> do mostrar, e rode. A tela deve mostrar:</p><p><b>Gols: 1</b><br><b>Gols: 2</b><br><b>Gols: 3</b></p>",
+      caixa: ["mostrar", "texto", "numero", "variavel", "evento"],
+      eventos: [["⚽ gol", "gol"]], disparos: ["gol", "gol", "gol"],
+      inicio: [["definir", "gols", 0], ["quando", "gol", [["mostrar", ["juntar", "Gols: ", v("gols")]]]]],
+      esperado: ["Gols: 1", "Gols: 2", "Gols: 3"],
+      solucao: [["definir", "gols", 0], ["quando", "gol", [["mudar", "gols", 1], ["mostrar", ["juntar", "Gols: ", v("gols")]]]]],
+      dicas: ["O bloco “alterar … por 1” fica na gaveta 📦 Variáveis. Escolha a variável gols nele."],
+      explicacao: "O gol é o evento; o “quando acontecer” é o tratador, que roda a cada gol: soma 1 e mostra." },
+    VIDA(["Tocar no ícone e o aplicativo abrir: o toque é o…", ["Evento", "Tratador"], "O que acontece é o <b>evento</b>."],
+      ["Os blocos dentro de “quando acontecer” rodam…", ["Toda vez que o evento acontece", "Uma vez só"], "O tratador roda <b>toda vez</b>."])
+  ];
+  A.m7.aplicar = [
+    { tipo: "rota", titulo: "🛠️ Na vida real: atravessar com o botão",
+      enunciado: "<p>O semáforo dos carros está <b>verde</b> e você quer atravessar. Clique nos passos na ordem.</p>",
+      etapas: [{ ic: "🟢", t: "Estado: verde para os carros" }, { ic: "🚶", t: "Você aperta o botão" }, { ic: "🟡", t: "Fica amarelo" }, { ic: "🔴", t: "Fica vermelho e você atravessa" }],
+      okMsg: "Você atravessou em segurança!",
+      explicacao: "Verde + botão → amarelo; depois do tempo do amarelo, vermelho: o pedestre atravessa." },
+    VIDA(["Depois do verde, o semáforo fica…", ["Amarelo", "Vermelho"], "Verde → <b>amarelo</b> → vermelho → verde…"],
+      ["O ciclo do semáforo…", ["Se repete para sempre", "Acontece uma vez só"], "O ciclo <b>se repete</b>."])
+  ];
+  A.m8.aplicar = [
+    Object.assign({ tipo: "grafo", titulo: "🛠️ Na vida real: a rota de fuga com o corredor em reforma", de: "In", para: "Po", unidade: "minutos", descricao: "Grafo da escola sem o corredor Pátio–Informática (em reforma)" }, escolaReforma,
+      { enunciado: "<p>O corredor entre o Pátio e a Sala de Informática está em reforma (ele sumiu do grafo). Começando pela <b>Sala de Informática</b>, clique nos vértices até o <b>Portão</b>.</p>",
+        explicacao: "Sala de Informática → Biblioteca → Pátio → Portão = 1 + 2 + 1 = 4 minutos." }),
+    VIDA(["O lugar mais conectado é o de maior…", ["Grau", "Peso"], "Mais arestas = maior <b>grau</b>."],
+      ["Quando um corredor fecha, o caminho mais curto…", ["Pode mudar", "Nunca muda"], "Sem a aresta, é preciso procurar de novo: o caminho <b>muda</b>."])
+  ];
 })();
