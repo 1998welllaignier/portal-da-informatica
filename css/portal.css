@@ -2640,3 +2640,9 @@ body.lg-travado{overflow:hidden}
 .sw-aula .pan-c { width: 100%; }
 .pp-semana-dlg { width: min(1240px, 96vw); max-width: 96vw; }
 .pp-semana-dlg .sw-grade { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+/* 🎵 música ambiente no celular (22/11/2026): o quadro saía pela direita da tela; agora ocupa a largura toda, com margem */
+@media (max-width: 640px) {
+  .mus-ui .mus-pn { position: fixed; left: 8px; right: 8px; width: auto; bottom: 66px; max-height: calc(100vh - 140px); }
+  .mus-sec>summary { flex-wrap: wrap; }
+  .mus-sec>summary b { max-width: 100%; white-space: normal; }
+}
