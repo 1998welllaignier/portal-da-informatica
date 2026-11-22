@@ -387,7 +387,7 @@
      quem veio e os recados pendentes da turma; o que já passou sem registro aparece com ❔. Toque no cartão = Chamada do dia. */
   async function abrirSemana() {
     if (document.querySelector(".pp-semana-dlg")) return;
-    const dlg = h(`<dialog class="pp-dlg pp-dlg-larga pp-semana-dlg"><form method="dialog"><div class="pp-hor-top"><h2>📅 Minha semana</h2><span class="row-btns"><button class="btn btn-sec btn-peq" type="button" data-sw="-1">◀ Anterior</button><button class="btn btn-sec btn-peq" type="button" data-sw="0">Esta semana</button><button class="btn btn-sec btn-peq" type="button" data-sw="1">Próxima ▶</button><button class="btn btn-sec btn-peq" value="x">Fechar</button></span></div>
+    const dlg = h(`<dialog class="pp-dlg pp-dlg-larga pp-semana-dlg"><form method="dialog"><div class="pp-hor-top"><h2>📅 Minha semana</h2><span class="row-btns"><button class="btn btn-sec btn-peq" type="button" data-sw="-1">◀ Anterior</button><button class="btn btn-sec btn-peq" type="button" data-sw="0">Hoje</button><button class="btn btn-sec btn-peq" type="button" data-sw="1">Próxima ▶</button><button class="btn btn-sec btn-peq" value="x">Fechar</button></span></div>
       <div id="sw-c"><p class="ajuda">Carregando as aulas de todas as turmas…</p></div>
       <p class="ajuda">✅ dada · ❔ já passou e está sem registro · “previsto” = o que o cronograma planejou · 🟧 recados seus pendentes para a turma. Toque num cartão para abrir a ✅ Chamada daquele dia.</p></form></dialog>`);
     document.body.appendChild(dlg); dlg.showModal(); dlg.addEventListener("close", () => dlg.remove());
@@ -398,7 +398,8 @@
         Promise.all(turmas.map(t => db().collection(DIARIO).doc(t.id).get().then(sn => { rec[t.id] = ((sn.exists && sn.data().lembretes) || []).filter(l => !l.feito).length; }).catch(() => {})))]);
     } catch (e) { dlg.querySelector("#sw-c").innerHTML = `<p class="ajuda">Não consegui carregar: ${esc(e.message || e)}</p>`; return; }
     const iso = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
-    let desl = 0;
+    // no sábado e no domingo, abre já na semana que vem (é quando se planeja)
+    let desl = [0, 6].includes(new Date(N.hoje() + "T12:00:00").getDay()) ? 1 : 0;
     const desenhar = () => {
       const seg = new Date(N.hoje() + "T12:00:00"); seg.setDate(seg.getDate() - ((seg.getDay() + 6) % 7) + 7 * desl);
       const dias = [0, 1, 2, 3, 4].map(k => { const d = new Date(seg); d.setDate(seg.getDate() + k); return iso(d); }), hoje = N.hoje();
@@ -411,7 +412,7 @@
       const semReg = hs.filter(x => !x.erro).flatMap(x => x.linhas.filter(l => dias.includes(l.d) && l.status === "semregistro")).length;
       dlg.querySelector("#sw-c").innerHTML = `<p class="sw-res">Semana de ${dataBR(dias[0]).slice(0, 5)} a ${dataBR(dias[4]).slice(0, 5)}${semReg ? ` · <b>❔ ${semReg} aula${semReg > 1 ? "s" : ""} sem registro</b>` : ""}</p><div class="sw-grade">${col}</div>`;
     };
-    dlg.querySelectorAll("[data-sw]").forEach(b => b.onclick = () => { desl = b.dataset.sw === "0" ? 0 : desl + (+b.dataset.sw); desenhar(); });
+    const desl0 = desl; dlg.querySelectorAll("[data-sw]").forEach(b => b.onclick = () => { desl = b.dataset.sw === "0" ? desl0 : desl + (+b.dataset.sw); desenhar(); });
     dlg.addEventListener("click", e => { if (e.target.closest(".pan-c, .sw-rec")) setTimeout(() => dlg.open && dlg.close(), 0); });
     desenhar();
   }
