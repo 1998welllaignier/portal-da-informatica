@@ -425,7 +425,7 @@ PORTAL.registrarConteudo("informatica-8ano-4bim-trilha", {
    "comecar": [
     {
      "t": "p",
-     "h": "Quando você cria uma conta, aparece o botão <strong>“Li e aceito”</strong>. Clicar nele é assinar um <strong>contrato</strong>: os <strong>termos de uso</strong>."
+     "h": "Quando você cria uma conta, aparece uma janela com o botão <strong>“Li e aceito”</strong>. Clicar nele é assinar um <strong>contrato</strong>: os <strong>termos de uso</strong>."
     },
     {
      "t": "p",
@@ -455,7 +455,7 @@ PORTAL.registrarConteudo("informatica-8ano-4bim-trilha", {
     },
     {
      "t": "p",
-     "h": "Aplicativo <strong>grátis</strong> costuma ganhar dinheiro com <strong>propaganda</strong>."
+     "h": "Aplicativo <strong>grátis</strong> costuma ganhar dinheiro com <strong>propaganda</strong>. Quando os termos mudam, o aplicativo avisa por e-mail."
     },
     {
      "t": "p",

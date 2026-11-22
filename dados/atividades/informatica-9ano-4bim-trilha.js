@@ -206,3 +206,32 @@ PORTAL.registrarAtividades("informatica-9ano-4bim-trilha", {
     ]
   }
 });
+
+/* ============================================================
+   🌀 MODELO EM ESPIRAL NAS MISSÕES AINDA NÃO DADAS (22/11/2026, pedido do professor)
+   Só as missões listadas em espiralMissoes no catálogo. Ganham o ❓ gancho, o mesmo ❓ gancho da turma, o 🔁 Lembra? (automático), o 🛠️ "Onde eu uso
+   isso?" prático, o ♾️ Laboratório e o 🏁 Fechamento. ⚖️ EQUILÍBRIO DA NOTA: o Básico, o Desafio e o Turbo NÃO mudam
+   (mesmas tarefas, mesma regra do visto, mesmos 0,25 por Desafio/Turbo): quem já fez as outras missões não perde nada.
+   ============================================================ */
+(function () {
+  const A = PORTAL.atividades["informatica-9ano-4bim-trilha"]; if (!A) return;
+  const perg = (titulo, enun, ...ps) => ({ tipo: "escolha", titulo, enunciado: `<p>${enun}</p>`, perguntas: ps.map(x => ({ p: x[0], opcoes: x[1], certo: 0, why: x[2] })) });
+  const VIDA = (...ps) => perg("🛠️ E na vida real, o que você faria?", "Use o que você aprendeu hoje para responder.", ...ps);
+  const msg = (titulo, app, botoes, enun, itens, okMsg, expl) => ({ tipo: "mensagens", titulo, app, botoes: botoes.map(([id, rot]) => ({ id, rot })), enunciado: `<p>${enun}</p>`,
+    itens: itens.map(([t, c, why]) => ({ de: "", t, c, why })), okMsg, explicacao: expl });
+  const rota = (titulo, enun, etapas, okMsg, expl) => ({ tipo: "rota", titulo, enunciado: `<p>${enun}</p>`, etapas: etapas.map(([ic, t]) => ({ ic, t })), okMsg, explicacao: expl });
+  const GANCHO = {"m3":{"html":"<p>🎵 O vídeo do Leo para a feira de ciências foi tirado do ar 1 hora depois de postado: a música de fundo era de um cantor famoso, usada sem autorização.</p><p>🤔 Mas a música estava na internet… não era de graça? Que música ele poderia ter usado?</p>"},"m4":{"html":"<p>📧 Um e-mail dizendo <b>“Você ganhou um PRÊMIO GRÁTIS, clique já!”</b> foi direto para a pasta Spam. Ninguém mexeu em nada.</p><p>🤔 Como o programa “sabia” que era spam? E se ele errar e esconder um e-mail importante?</p>"}};
+  Object.keys(GANCHO).forEach(m => { if (A[m]) A[m].gancho = GANCHO[m]; });
+  A.m3.aplicar = [
+    msg("🛠️ Na vida real: pode postar?", "📸 Antes de postar", [["S", "✅ Pode"], ["N", "❌ Não pode"]], "Use o 💡 Para começar.",
+      [["Um desenho que eu fiz", "S", "Eu sou o autor."], ["A foto de um colega, sem pedir", "N", "Antes, peça autorização."], ["Uma foto com o crédito do autor (Foto: Ana Lima)", "S", "Deu o crédito."]],
+      "Respeito garantido! 📸", "Dê o crédito e peça autorização."),
+    VIDA(["O famoso “dando” celular por um link, com a boca fora da fala. Você…", ["Desconfia: pode ser deepfake", "Clica rápido"], "Sinais de <b>deepfake</b>: não clique."], ["Copiar o trabalho de alguém e dizer que é seu é…", ["Plágio", "Crédito"], "É <b>plágio</b>."])
+  ];
+  A.m4.aplicar = [
+    msg("🛠️ Na vida real: tem IA aqui?", "🤖 IA no dia a dia", [["S", "🤖 Tem IA"], ["N", "✋ Não tem IA"]], "Use a lista do 💡 Para começar.",
+      [["O corretor do teclado", "S", "Tem IA."], ["O desbloqueio pelo rosto do celular", "S", "Tem IA."], ["Uma régua de plástico", "N", "Não é programa."]],
+      "Mandou bem! 🤖", "A IA aprende com muitos exemplos."),
+    VIDA(["A IA respondeu. Você…", ["Confere a resposta", "Copia sem ler"], "A IA também erra: <b>confira</b>."], ["Na IA, eu não coloco…", ["Meus dados pessoais", "Minhas dúvidas da aula"], "Não coloque <b>dados pessoais</b>."])
+  ];
+})();

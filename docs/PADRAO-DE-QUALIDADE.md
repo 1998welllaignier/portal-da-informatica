@@ -632,3 +632,11 @@ Questões **contextualizadas** (situação curta: 1–2 frases no 6º, 2–3 no 
 - Dica automática no cartão (o que está errado agora) e aviso dentro do simulador (em tela cheia o aviso de baixo não aparece). O editor inteiro cabe na tela, inclusive em 1366 × 768.
 - **Fica salvo** no progresso do aluno (nuvem): continua na outra aula, em qualquer computador. O vídeo exportado fica guardado na tarefa (para a mostra).
 - Entrou no 🎮 Mão na massa da Missão 4 do 7º ano (4º bimestre de 2027), com o robô "Me ajuda". Explicação de **tomada** acrescentada ao Para começar.
+
+## 🌀 4º bimestre de 2026: modelo em espiral só nas missões ainda não dadas (22/11/2026, pedido do professor)
+- Catálogo: `espiralMissoes` em cada apostila de 2026 (base e Trilha): 6º ["m4"], 7º ["m3", "m4"], 8º ["m4"], 9º ["m3", "m4"]. Essas missões ganham ❓ gancho, 🔁 Lembra? (automático, com as missões que a turma já fez), 🛠️ "Onde eu uso isso?" prático (jogo de situação real + perguntas), ♾️ Laboratório sem fim, 🏁 Fechamento com perguntas misturadas e 🙂 carinhas, e o "📖 Ver onde está explicado". O ⭐ Bônus relâmpago continua.
+- ⚖️ **Equilíbrio da nota (conferido por programa, missão por missão, antes e depois):** o Básico, o Desafio e o Turbo têm exatamente as mesmas tarefas (mesmos ids); o visto continua sendo "terminar o Básico" (o visto com domínio de 70% fica só no modelo de 2027); Desafio/Turbo continuam valendo 0,25. As tarefas novas (4 por missão) ficam fora da nota: valem só XP/placar, que é por turma. Quem já fez a missão (7º B na M3, 9º D na M3) não perde nada: as respostas continuam salvas.
+- O 🔁 Lembra? usa uns 2 minutos no começo da aula; o ⭐/♾️ ficam para quem termina antes.
+- A 🔁 Revisão continua igual (a das turmas de segunda é amanhã, 23/11); o 👾 Chefão do bimestre fica para 2027.
+- Explicações acrescentadas ao 💡 Para começar (só frases, nada de tarefa nova): 6º M4 (ícone), 7º M3 (compartilhar), 9º M3 (postar, fonte, perfil falso, print), Trilhas do 8º M4 (janela, e-mail) e do 9º M3 (sincronia, compartilhar). Figurinhas novas: SMS, CC BY, KB/MB/GB, compartilhar dados, propaganda, exemplos, conferir.
+- Verificador: entende `espiralMissoes` (confere só essas missões como espiral).

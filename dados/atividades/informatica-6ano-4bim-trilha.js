@@ -228,3 +228,26 @@ PORTAL.registrarAtividades("informatica-6ano-4bim-trilha", {
     ]
   }
 });
+
+/* ============================================================
+   🌀 MODELO EM ESPIRAL NAS MISSÕES AINDA NÃO DADAS (22/11/2026, pedido do professor)
+   Só as missões listadas em espiralMissoes no catálogo. Ganham o ❓ gancho, o mesmo ❓ gancho da turma, o 🔁 Lembra? (automático), o 🛠️ "Onde eu uso
+   isso?" prático, o ♾️ Laboratório e o 🏁 Fechamento. ⚖️ EQUILÍBRIO DA NOTA: o Básico, o Desafio e o Turbo NÃO mudam
+   (mesmas tarefas, mesma regra do visto, mesmos 0,25 por Desafio/Turbo): quem já fez as outras missões não perde nada.
+   ============================================================ */
+(function () {
+  const A = PORTAL.atividades["informatica-6ano-4bim-trilha"]; if (!A) return;
+  const perg = (titulo, enun, ...ps) => ({ tipo: "escolha", titulo, enunciado: `<p>${enun}</p>`, perguntas: ps.map(x => ({ p: x[0], opcoes: x[1], certo: 0, why: x[2] })) });
+  const VIDA = (...ps) => perg("🛠️ E na vida real, o que você faria?", "Use o que você aprendeu hoje para responder.", ...ps);
+  const msg = (titulo, app, botoes, enun, itens, okMsg, expl) => ({ tipo: "mensagens", titulo, app, botoes: botoes.map(([id, rot]) => ({ id, rot })), enunciado: `<p>${enun}</p>`,
+    itens: itens.map(([t, c, why]) => ({ de: "", t, c, why })), okMsg, explicacao: expl });
+  const rota = (titulo, enun, etapas, okMsg, expl) => ({ tipo: "rota", titulo, enunciado: `<p>${enun}</p>`, etapas: etapas.map(([ic, t]) => ({ ic, t })), okMsg, explicacao: expl });
+  const GANCHO = {"m4":{"html":"<p>📱 Na hora de filmar a festa da escola, o celular da Lia avisou: <b>“Armazenamento cheio”</b>. E no computador, o trabalho de Ciências do Theo sumiu: ele tinha salvado como <b>“documento1”</b>.</p><p>🤔 O que ocupa tanto espaço no celular? E como achar um arquivo perdido no meio de tantos?</p>"}};
+  Object.keys(GANCHO).forEach(m => { if (A[m]) A[m].gancho = GANCHO[m]; });
+  A.m4.aplicar = [
+    msg("🛠️ Na vida real: qual tamanho?", "💾 Arquivos", [["K", "📄 KB (pequeno)"], ["M", "🖼️ MB (médio)"], ["G", "🎬 GB (grande)"]], "Use a lista do 💡 Para começar.",
+      [["Um texto", "K", "Texto: pequeno (KB)."], ["Uma foto", "M", "Foto: médio (MB)."], ["Um filme", "G", "Filme: grande (GB)."]],
+      "Mandou bem! 💾", "Do menor para o maior: KB → MB → GB."),
+    VIDA(["Muitos arquivos para juntar num só? Você…", ["Compacta num .zip", "Desenha os arquivos"], "<b>Compactar</b> é juntar vários arquivos em um só: o .zip."], ["Não acha o arquivo? Você…", ["Digita o nome na lupa 🔍", "Desliga o computador"], "Digite o nome na <b>lupa 🔍</b>."])
+  ];
+})();

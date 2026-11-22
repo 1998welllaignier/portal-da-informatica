@@ -461,3 +461,43 @@
     }
   });
 })();
+
+/* ============================================================
+   🌀 MODELO EM ESPIRAL NAS MISSÕES AINDA NÃO DADAS (22/11/2026, pedido do professor)
+   Só as missões listadas em espiralMissoes no catálogo. Ganham o ❓ gancho, o 🔁 Lembra? (automático), o 🛠️ "Onde eu uso
+   isso?" prático, o ♾️ Laboratório e o 🏁 Fechamento. ⚖️ EQUILÍBRIO DA NOTA: o Básico, o Desafio e o Turbo NÃO mudam
+   (mesmas tarefas, mesma regra do visto, mesmos 0,25 por Desafio/Turbo): quem já fez as outras missões não perde nada.
+   ============================================================ */
+(function () {
+  const A = PORTAL.atividades["informatica-9ano-4bim"]; if (!A) return;
+  const perg = (titulo, enun, ...ps) => ({ tipo: "escolha", titulo, enunciado: `<p>${enun}</p>`, perguntas: ps.map(x => ({ p: x[0], opcoes: x[1], certo: 0, why: x[2] })) });
+  const VIDA = (...ps) => perg("🛠️ E na vida real, o que você faria?", "Use o que você aprendeu hoje para responder.", ...ps);
+  const msg = (titulo, app, botoes, enun, itens, okMsg, expl) => ({ tipo: "mensagens", titulo, app, botoes: botoes.map(([id, rot]) => ({ id, rot })), enunciado: `<p>${enun}</p>`,
+    itens: itens.map(([t, c, why]) => ({ de: "", t, c, why })), okMsg, explicacao: expl });
+  const rota = (titulo, enun, etapas, okMsg, expl) => ({ tipo: "rota", titulo, enunciado: `<p>${enun}</p>`, etapas: etapas.map(([ic, t]) => ({ ic, t })), okMsg, explicacao: expl });
+  /* ---------- M3 · autoria, imagem e deepfakes ---------- */
+  A.m3.gancho = { html: "<p>🎵 O vídeo do Leo para a feira de ciências foi tirado do ar 1 hora depois de postado: a música de fundo era de um cantor famoso, usada sem autorização.</p><p>🤔 Mas a música estava na internet… não era de graça? Que música ele poderia ter usado?</p>" };
+  A.m3.aplicar = [
+    msg("🛠️ Na vida real: posso usar no vídeo?", "🎵 Obras para o vídeo", [["S", "✅ Posso usar"], ["C", "📝 Só dando o crédito"], ["N", "🚫 Só com autorização"]],
+      "Lembre: estar na internet não significa que a obra é livre.",
+      [["Música de cantor famoso, com “© Todos os direitos reservados”", "N", "Só com autorização do autor."], ["Um conto de Machado de Assis (domínio público)", "S", "Domínio público: uso livre."],
+        ["Foto com licença CC BY", "C", "Pode usar dando o crédito ao autor."], ["Um desenho que você mesmo fez", "S", "Você é o autor."], ["Foto de um colega, sem ele saber", "N", "Direito de imagem: precisa da autorização."]],
+      "Usou as obras certas! 🎵", "©: só com autorização; domínio público: livre; CC BY: com crédito; foto de pessoa: com autorização."),
+    VIDA(
+      ["Como dar o crédito de uma foto CC BY?", ["Foto: nome do autor, site onde estava, licença", "Não precisa", "Só escrever “internet”"], "<b>Autor, site e licença</b>."],
+      ["Um vídeo de um famoso “dando” celular por um link. A boca não acompanha a fala. Você…", ["Desconfia: pode ser deepfake, e não clica", "Clica rápido", "Compartilha com todos"], "Boca fora de sincronia e presente fácil por link: sinais de <b>deepfake</b>."],
+      ["Um título chamativo cheio de propaganda foi espalhado para ganhar cliques. O motivo é…", ["Dinheiro", "Humor", "Engano"], "Cliques e propaganda: o motivo é <b>dinheiro</b>."])
+  ];
+  /* ---------- M4 · inteligência artificial ---------- */
+  A.m4.gancho = { html: "<p>📧 Um e-mail dizendo <b>“Você ganhou um PRÊMIO GRÁTIS, clique já!”</b> foi direto para a pasta Spam. Ninguém mexeu em nada.</p><p>🤔 Como o programa “sabia” que era spam? E se ele errar e esconder um e-mail importante?</p>" };
+  A.m4.aplicar = [
+    rota("🛠️ Na vida real: como o filtro de spam aprende", "Coloque as etapas da IA <b>na ordem</b>.",
+      [["1️⃣", "Coletar dados: milhares de e-mails marcados como “spam” ou “normal”"], ["2️⃣", "Treinar: descobrir que “grátis” e “prêmio” aparecem muito no spam"],
+        ["3️⃣", "Testar: separar e-mails novos e conferir os erros"], ["4️⃣", "Usar: mandar sozinho para a pasta Spam"]],
+      "A IA aprendeu! 🤖", "Coletar dados, treinar, testar e usar."),
+    VIDA(
+      ["O chatbot deu uma resposta para o seu trabalho. O certo é…", ["Conferir em outras fontes: a IA também erra", "Copiar sem ler", "Acreditar porque ele falou com certeza"], "<b>Confira em outras fontes</b>."],
+      ["Uma IA treinada quase só com fotos de um tipo de pessoa erra mais com as outras. Isso é…", ["Viés", "Spam", "Chatbot"], "É o <b>viés</b>."],
+      ["Na escola, usar a IA com responsabilidade é…", ["Usar para entender e estudar, sem copiar a tarefa", "Copiar a tarefa inteira", "Colocar os dados pessoais dos colegas"], "Usar para <b>entender e estudar</b>, não para copiar."])
+  ];
+})();

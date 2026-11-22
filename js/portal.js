@@ -390,8 +390,14 @@
     return [...r];
   }
 
+  /* 🌀 22/11/2026 (pedido do professor): no 4º bimestre de 2026, só as missões que AINDA NÃO FORAM DADAS viram espiral
+     (catálogo: espiralMissoes). Nelas muda a forma da aula (gancho, Lembra?, Onde eu uso prático, Laboratório, Fechamento),
+     mas NADA que entra na nota: o Básico, o Desafio e o Turbo continuam com as mesmas tarefas e a mesma regra do visto
+     (o visto com domínio de 70% continua só nas apostilas com modelo: "espiral", as de 2027). */
+  const ehEspiral = (aid, mid) => { const ap = apostila(aid) || {}; return ap.modelo === "espiral" || (ap.espiralMissoes || []).includes(mid); };
+  P.ehEspiral = ehEspiral;
   function montarMissao(aid, mid) {
-    if ((apostila(aid) || {}).modelo === "espiral" && !/^(rv|rc|pf)$/.test(mid)) return montarEspiral(aid, mid);
+    if (ehEspiral(aid, mid) && !/^(rv|rc|pf)$/.test(mid)) return montarEspiral(aid, mid);
     const C = P.conteudo[aid], A = P.atividades[aid] || {};
     const m = C.missoes.find(x => x.id === mid);
     const a = A[mid] || {};
@@ -487,6 +493,7 @@
     if (m.comecar && m.comecar.length) pages.push({ id: "comecar", rotulo: "Para começar", icone: "💡", tipo: "leitura", gancho: a.gancho || null });
     if (a.pratica && a.pratica.length) pages.push({ id: "pratica", rotulo: "Mão na massa", icone: "🎮", tipo: "missao", atividades: ativ("basico", a.pratica).map(x => Object.assign(x, { id: x.id.replace("-basico-", "-pratica-") })) });
     [["basico", "Missão — Básico", "🟢"], ["desafio", "Desafio", "🟡"], ["turbo", "Turbo", "🔴"]].forEach(([k, r, i]) => { const arr = ativ(k, a[k]); if (arr.length) pages.push({ id: k, rotulo: r, icone: i, tipo: "missao", atividades: arr, sub: k !== "basico" }); });
+    { const bz = ativ("bonus", a.bonus); if (bz.length) pages.push({ id: "bonus", rotulo: "Bônus relâmpago", icone: "⭐", tipo: "missao", atividades: bz }); }   // ⭐ 2026: o bônus relâmpago continua
     // ♾️ Laboratório sem fim: para quem termina antes (piso baixo, teto alto); perguntas sem fim desta missão e das anteriores
     pages.push({ id: "lab", rotulo: "Laboratório sem fim", icone: "♾️", tipo: "missao", sub: true,
       atividades: [{ id: mid + "-lab", nivel: "lab", tipo: "lab", opcional: true, calmo: trilha, titulo: trilha ? "♾️ Laboratório sem fim: treine no seu ritmo" : "♾️ Laboratório sem fim: quantas você acerta seguidas?", missoes: [mid, ...antes.map(x => x.id)] }] });
@@ -1612,7 +1619,7 @@
         if (rapido && !emRec && !(s && s.prof)) { st.chutes = (st.chutes || 0) + 1; ctx._seguidos = (ctx._seguidos || 0) + 1; } else ctx._seguidos = 0;
         salvar();
         if (ctx._seguidos >= 3) { ctx._seguidos = 0; pausaChute(el, aid, mid); }
-        const ondeBt = !emRec && (apostila(aid) || {}).modelo === "espiral" && !["lab"].includes(at.tipo) ? ` <button type="button" class="btn btn-sec ver-onde">📖 Ver onde isso está explicado</button>` : "";
+        const ondeBt = !emRec && ehEspiral(aid, mid) && !["lab"].includes(at.tipo) ? ` <button type="button" class="btn btn-sec ver-onde">📖 Ver onde isso está explicado</button>` : "";
         feedback("erro", msg + (!emRec && st.tentativas >= 2 && (dicas.length || ctx.resolver) ? " <br><small>Se quiser, peça uma dica ou veja a resolução comentada.</small>" : " <br><small>Sua resposta foi mantida: ajuste e tente de novo.</small>") + ondeBt);
         const vo = fb.querySelector(".ver-onde"); if (vo) vo.onclick = () => { const f = ctx.foco; const txt = f ? [f.p, (f.opcoes || [])[f.certo], f.why, f.t].join(" ") : [at.titulo, at.enunciado, at.explicacao, JSON.stringify(at.itens || at.pares || at.perguntas || "")].join(" ");
           P.verOndeExplica(aid, (f && f.de) || at.de || mid, txt); };

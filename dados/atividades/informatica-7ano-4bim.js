@@ -514,3 +514,43 @@ PORTAL.registrarAtividades("informatica-7ano-4bim", {
     ]
   }
 });
+
+/* ============================================================
+   🌀 MODELO EM ESPIRAL NAS MISSÕES AINDA NÃO DADAS (22/11/2026, pedido do professor)
+   Só as missões listadas em espiralMissoes no catálogo. Ganham o ❓ gancho, o 🔁 Lembra? (automático), o 🛠️ "Onde eu uso
+   isso?" prático, o ♾️ Laboratório e o 🏁 Fechamento. ⚖️ EQUILÍBRIO DA NOTA: o Básico, o Desafio e o Turbo NÃO mudam
+   (mesmas tarefas, mesma regra do visto, mesmos 0,25 por Desafio/Turbo): quem já fez as outras missões não perde nada.
+   ============================================================ */
+(function () {
+  const A = PORTAL.atividades["informatica-7ano-4bim"]; if (!A) return;
+  const perg = (titulo, enun, ...ps) => ({ tipo: "escolha", titulo, enunciado: `<p>${enun}</p>`, perguntas: ps.map(x => ({ p: x[0], opcoes: x[1], certo: 0, why: x[2] })) });
+  const VIDA = (...ps) => perg("🛠️ E na vida real, o que você faria?", "Use o que você aprendeu hoje para responder.", ...ps);
+  const msg = (titulo, app, botoes, enun, itens, okMsg, expl) => ({ tipo: "mensagens", titulo, app, botoes: botoes.map(([id, rot]) => ({ id, rot })), enunciado: `<p>${enun}</p>`,
+    itens: itens.map(([t, c, why]) => ({ de: "", t, c, why })), okMsg, explicacao: expl });
+  const rota = (titulo, enun, etapas, okMsg, expl) => ({ tipo: "rota", titulo, enunciado: `<p>${enun}</p>`, etapas: etapas.map(([ic, t]) => ({ ic, t })), okMsg, explicacao: expl });
+  /* ---------- M3 · segurança e convivência ---------- */
+  A.m3.gancho = { html: "<p>📲 A tia do Caio recebeu: <b>“Oi, sou eu, seu sobrinho! Troquei de número. Me passa o código que chegou aí?”</b>. A foto era mesmo do Caio…</p><p>🤔 Ela deve passar o código? Como saber se é golpe?</p>" };
+  A.m3.aplicar = [
+    msg("🛠️ Na vida real: golpe ou não?", "📲 Mensagens da família", [["G", "🚨 Golpe"], ["S", "✅ Pode confiar"]],
+      "Procure os sinais de golpe: pressa, prêmio fácil, link estranho, pedido de código ou senha, alguém que “trocou de número”.",
+      [["“Troquei de número, me passa o código que chegou aí?”", "G", "Pede código e diz que trocou de número."], ["“Você ganhou um celular! Clique no link em até 10 minutos!”", "G", "Pressa, prêmio fácil e link."],
+        ["O aviso do próprio aplicativo, depois que você mesmo pediu o código: “não compartilhe este código”", "S", "Você pediu: o aviso protege você."], ["“Sua conta será bloqueada hoje! Digite sua senha aqui”", "G", "Pressa e pedido de senha."]],
+      "Nenhum golpe passou! 🛡️", "Pressa, prêmio fácil, link estranho, pedido de código ou senha e “troquei de número”: desconfie."),
+    VIDA(
+      ["O código que chegou por SMS, você…", ["Não passa para ninguém", "Passa para quem pedir", "Posta no grupo"], "<b>Nunca passe</b> o código."],
+      ["Um colega está sendo ofendido no grupo. Quem vê ajuda quando…", ["Não compartilha e apoia quem está sofrendo", "Ri junto", "Repassa para outro grupo"], "Quem vê <b>não compartilha e apoia</b>."],
+      ["Você discorda do comentário de alguém. O certo é…", ["Criticar a ideia, nunca a pessoa", "Xingar a pessoa", "Responder sem ler"], "<b>Critique a ideia, nunca a pessoa</b>."])
+  ];
+  /* ---------- M4 · grafos ---------- */
+  A.m4.gancho = { html: "<p>🗺️ O Davi vai a pé para a casa do amigo. Tem a rua direta e tem o caminho pela praça. O aplicativo de mapa escolheu o caminho pela praça… mas ele parece mais longo no desenho!</p><p>🤔 Como o mapa decide qual é o caminho mais rápido?</p>" };
+  A.m4.aplicar = [
+    perg("🛠️ Na vida real: o caminho mais curto até a escola", "Os números são minutos de caminhada. <b>Casa —3— Padaria —4— Escola</b> · <b>Casa —9— Escola</b> (rua direta) · <b>Casa —2— Praça —6— Escola</b>.",
+      ["Quanto tempo leva o caminho Casa → Padaria → Escola?", ["7 minutos", "9 minutos", "34 minutos"], "3 + 4 = <b>7 minutos</b>."],
+      ["E o caminho Casa → Praça → Escola?", ["8 minutos", "6 minutos", "26 minutos"], "2 + 6 = <b>8 minutos</b>."],
+      ["Qual é o caminho mais curto?", ["Casa → Padaria → Escola (7 minutos)", "A rua direta (9 minutos)", "Casa → Praça → Escola (8 minutos)"], "Somando os pesos, o menor total é <b>7 minutos</b>, pela Padaria."]),
+    VIDA(
+      ["O caminho com menos arestas (a rua direta) é sempre o mais curto?", ["Não: é preciso somar os pesos", "Sim, sempre", "Só de noite"], "Some os pesos e escolha o <b>menor total</b>."],
+      ["Numa rede social, quem tem mais amigos é o vértice com…", ["Maior grau (mais arestas)", "Menor peso", "Nenhuma aresta"], "<b>Grau</b> é o número de arestas que chegam ao vértice."],
+      ["O GPS acha a rota mais rápida…", ["Somando os pesos de milhares de caminhos, bem rápido", "Adivinhando", "Perguntando ao motorista"], "É o que o <b>GPS</b> faz, muito rápido."])
+  ];
+})();

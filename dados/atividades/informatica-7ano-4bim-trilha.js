@@ -155,7 +155,7 @@ PORTAL.registrarAtividades("informatica-7ano-4bim-trilha", {
         botoes: [{ id: "G", rot: "🚩 Golpe" }, { id: "S", rot: "✅ Segura" }],
         enunciado: "<p>Leia cada mensagem e clique na resposta.</p>",
         itens: [
-          { de: "Número desconhecido", t: "PARABÉNS! Você ganhou um celular. Clique em 10 minutos: bit.ly/premio", c: "G", why: "Prêmio + pressa + link estranho = golpe." },
+          { de: "Número desconhecido", t: "PARABÉNS! Você ganhou um celular. Clique em 10 minutos: premio-gratis.xyz", c: "G", why: "Prêmio + pressa + link estranho = golpe." },
           { de: "Mãe", t: "Filho, chego às 18h.", c: "S" },
           { de: "Número novo", t: "Oi, é a sua tia, troquei de número. Me passa o código que chegou aí?", c: "G", why: "Nunca passe o código." }],
         okMsg: "Você não cai em golpe! Na dúvida, pergunte a um adulto." }
@@ -250,3 +250,31 @@ PORTAL.registrarAtividades("informatica-7ano-4bim-trilha", {
     ]
   }
 });
+
+/* ============================================================
+   🌀 MODELO EM ESPIRAL NAS MISSÕES AINDA NÃO DADAS (22/11/2026, pedido do professor)
+   Só as missões listadas em espiralMissoes no catálogo. Ganham o ❓ gancho, o mesmo ❓ gancho da turma, o 🔁 Lembra? (automático), o 🛠️ "Onde eu uso
+   isso?" prático, o ♾️ Laboratório e o 🏁 Fechamento. ⚖️ EQUILÍBRIO DA NOTA: o Básico, o Desafio e o Turbo NÃO mudam
+   (mesmas tarefas, mesma regra do visto, mesmos 0,25 por Desafio/Turbo): quem já fez as outras missões não perde nada.
+   ============================================================ */
+(function () {
+  const A = PORTAL.atividades["informatica-7ano-4bim-trilha"]; if (!A) return;
+  const perg = (titulo, enun, ...ps) => ({ tipo: "escolha", titulo, enunciado: `<p>${enun}</p>`, perguntas: ps.map(x => ({ p: x[0], opcoes: x[1], certo: 0, why: x[2] })) });
+  const VIDA = (...ps) => perg("🛠️ E na vida real, o que você faria?", "Use o que você aprendeu hoje para responder.", ...ps);
+  const msg = (titulo, app, botoes, enun, itens, okMsg, expl) => ({ tipo: "mensagens", titulo, app, botoes: botoes.map(([id, rot]) => ({ id, rot })), enunciado: `<p>${enun}</p>`,
+    itens: itens.map(([t, c, why]) => ({ de: "", t, c, why })), okMsg, explicacao: expl });
+  const rota = (titulo, enun, etapas, okMsg, expl) => ({ tipo: "rota", titulo, enunciado: `<p>${enun}</p>`, etapas: etapas.map(([ic, t]) => ({ ic, t })), okMsg, explicacao: expl });
+  const GANCHO = {"m3":{"html":"<p>📲 A tia do Caio recebeu: <b>“Oi, sou eu, seu sobrinho! Troquei de número. Me passa o código que chegou aí?”</b>. A foto era mesmo do Caio…</p><p>🤔 Ela deve passar o código? Como saber se é golpe?</p>"},"m4":{"html":"<p>🗺️ O Davi vai a pé para a casa do amigo. Tem a rua direta e tem o caminho pela praça. O aplicativo de mapa escolheu o caminho pela praça… mas ele parece mais longo no desenho!</p><p>🤔 Como o mapa decide qual é o caminho mais rápido?</p>"}};
+  Object.keys(GANCHO).forEach(m => { if (A[m]) A[m].gancho = GANCHO[m]; });
+  A.m3.aplicar = [
+    msg("🛠️ Na vida real: golpe ou não?", "📲 Mensagens", [["G", "🚨 Golpe"], ["S", "✅ Normal"]], "Desconfie de pressa, prêmio fácil, link estranho e pedido de código.",
+      [["“Troquei de número, me passa o código?”", "G", "Pede código: golpe."], ["“Você ganhou um celular! Clique aqui!”", "G", "Prêmio fácil e link: golpe."], ["“A aula de amanhã começa às 13h30.”", "S", "Recado normal, sem pedir nada."]],
+      "Nenhum golpe passou! 🛡️", "O código que chega por mensagem é só seu."),
+    VIDA(["O código que chegou no seu celular, você…", ["Não passa para ninguém", "Passa para quem pedir"], "<b>Nunca passe</b> o código."], ["Alguém te ofendeu no grupo. Você…", ["Tira um print e conta a um adulto", "Responde com ofensa"], "<b>Print</b> e conte a um <b>adulto de confiança</b>."])
+  ];
+  A.m4.aplicar = [
+    perg("🛠️ Na vida real: o caminho mais curto", "Os números são minutos. <b>Casa —1— Praça —3— Escola</b> · <b>Casa —6— Escola</b> (rua direta).",
+      ["Quanto dá Casa → Praça → Escola?", ["4 minutos", "6 minutos"], "1 + 3 = <b>4 minutos</b>."], ["Qual é o caminho mais curto?", ["Pela Praça (4 minutos)", "A rua direta (6 minutos)"], "A menor soma é <b>4</b>: pela Praça."]),
+    VIDA(["Para achar o caminho mais curto, você…", ["Soma os números de cada caminho", "Escolhe o caminho mais bonito"], "<b>Some os números</b> e escolha a menor soma."], ["No grafo, cada rua é uma…", ["Aresta", "Pessoa"], "Cada rua é uma <b>aresta</b>."])
+  ];
+})();

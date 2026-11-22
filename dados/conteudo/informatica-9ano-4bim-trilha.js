@@ -347,7 +347,7 @@ PORTAL.registrarConteudo("informatica-9ano-4bim-trilha", {
     },
     {
      "t": "p",
-     "h": "<strong>Direito de imagem:</strong> antes de postar a foto ou o vídeo de alguém, <strong>peça autorização</strong>."
+     "h": "<strong>Direito de imagem:</strong> antes de postar a foto ou o vídeo de alguém, <strong>peça autorização</strong>. E antes de compartilhar (mandar para outras pessoas) qualquer coisa, confira."
     },
     {
      "t": "p",
@@ -363,7 +363,7 @@ PORTAL.registrarConteudo("informatica-9ano-4bim-trilha", {
      "itens": [
       {
        "nivel": 0,
-       "h": "👄 a <strong>boca</strong> não acompanha a fala;"
+       "h": "👄 a <strong>boca</strong> não acompanha a fala (fica fora de sincronia);"
       },
       {
        "nivel": 0,

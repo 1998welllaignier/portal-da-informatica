@@ -227,3 +227,26 @@ PORTAL.registrarAtividades("informatica-8ano-4bim-trilha", {
     ]
   }
 });
+
+/* ============================================================
+   🌀 MODELO EM ESPIRAL NAS MISSÕES AINDA NÃO DADAS (22/11/2026, pedido do professor)
+   Só as missões listadas em espiralMissoes no catálogo. Ganham o ❓ gancho, o mesmo ❓ gancho da turma, o 🔁 Lembra? (automático), o 🛠️ "Onde eu uso
+   isso?" prático, o ♾️ Laboratório e o 🏁 Fechamento. ⚖️ EQUILÍBRIO DA NOTA: o Básico, o Desafio e o Turbo NÃO mudam
+   (mesmas tarefas, mesma regra do visto, mesmos 0,25 por Desafio/Turbo): quem já fez as outras missões não perde nada.
+   ============================================================ */
+(function () {
+  const A = PORTAL.atividades["informatica-8ano-4bim-trilha"]; if (!A) return;
+  const perg = (titulo, enun, ...ps) => ({ tipo: "escolha", titulo, enunciado: `<p>${enun}</p>`, perguntas: ps.map(x => ({ p: x[0], opcoes: x[1], certo: 0, why: x[2] })) });
+  const VIDA = (...ps) => perg("🛠️ E na vida real, o que você faria?", "Use o que você aprendeu hoje para responder.", ...ps);
+  const msg = (titulo, app, botoes, enun, itens, okMsg, expl) => ({ tipo: "mensagens", titulo, app, botoes: botoes.map(([id, rot]) => ({ id, rot })), enunciado: `<p>${enun}</p>`,
+    itens: itens.map(([t, c, why]) => ({ de: "", t, c, why })), okMsg, explicacao: expl });
+  const rota = (titulo, enun, etapas, okMsg, expl) => ({ tipo: "rota", titulo, enunciado: `<p>${enun}</p>`, etapas: etapas.map(([ic, t]) => ({ ic, t })), okMsg, explicacao: expl });
+  const GANCHO = {"m4":{"html":"<p>📝 Para jogar o jogo novo, a Bia clicou em <b>“Li e aceito”</b> sem ler nada. Uma semana depois, começou a ver propagandas de tênis em todo lugar.</p><p>🤔 O que ela aceitou? Aquele clique vale como contrato?</p>"}};
+  Object.keys(GANCHO).forEach(m => { if (A[m]) A[m].gancho = GANCHO[m]; });
+  A.m4.aplicar = [
+    msg("🛠️ Na vida real: o que diz a frase?", "📝 Termos de uso", [["D", "📋 Dados"], ["C", "🤝 Passa os dados"], ["X", "🗑️ Apagar a conta"]], "Use a lista do 💡 Para começar.",
+      [["“Pegamos seu nome e telefone.”", "D", "Fala dos dados que ele pega."], ["“Passamos seus dados para outras empresas.”", "C", "Passa os dados para outras empresas."], ["“Você pode apagar sua conta.”", "X", "Dá para apagar a conta."]],
+      "Mandou bem! 📝", "Antes de aceitar, leia o que o aplicativo faz com os seus dados."),
+    VIDA(["Clicar em “Li e aceito” é…", ["Assinar um contrato", "Só um botão sem valor"], "É assinar um <b>contrato</b>."], ["Aplicativo grátis costuma ganhar dinheiro com…", ["Propaganda", "Mágica"], "Com <b>propaganda</b>."])
+  ];
+})();

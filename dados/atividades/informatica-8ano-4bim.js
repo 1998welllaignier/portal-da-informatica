@@ -428,3 +428,32 @@ PORTAL.registrarAtividades("informatica-8ano-4bim", {
     ]
   }
 });
+
+/* ============================================================
+   🌀 MODELO EM ESPIRAL NAS MISSÕES AINDA NÃO DADAS (22/11/2026, pedido do professor)
+   Só as missões listadas em espiralMissoes no catálogo. Ganham o ❓ gancho, o 🔁 Lembra? (automático), o 🛠️ "Onde eu uso
+   isso?" prático, o ♾️ Laboratório e o 🏁 Fechamento. ⚖️ EQUILÍBRIO DA NOTA: o Básico, o Desafio e o Turbo NÃO mudam
+   (mesmas tarefas, mesma regra do visto, mesmos 0,25 por Desafio/Turbo): quem já fez as outras missões não perde nada.
+   ============================================================ */
+(function () {
+  const A = PORTAL.atividades["informatica-8ano-4bim"]; if (!A) return;
+  const perg = (titulo, enun, ...ps) => ({ tipo: "escolha", titulo, enunciado: `<p>${enun}</p>`, perguntas: ps.map(x => ({ p: x[0], opcoes: x[1], certo: 0, why: x[2] })) });
+  const VIDA = (...ps) => perg("🛠️ E na vida real, o que você faria?", "Use o que você aprendeu hoje para responder.", ...ps);
+  const msg = (titulo, app, botoes, enun, itens, okMsg, expl) => ({ tipo: "mensagens", titulo, app, botoes: botoes.map(([id, rot]) => ({ id, rot })), enunciado: `<p>${enun}</p>`,
+    itens: itens.map(([t, c, why]) => ({ de: "", t, c, why })), okMsg, explicacao: expl });
+  const rota = (titulo, enun, etapas, okMsg, expl) => ({ tipo: "rota", titulo, enunciado: `<p>${enun}</p>`, etapas: etapas.map(([ic, t]) => ({ ic, t })), okMsg, explicacao: expl });
+  /* ---------- M4 · termos de uso ---------- */
+  A.m4.gancho = { html: "<p>📝 Para jogar o jogo novo, a Bia clicou em <b>“Li e aceito”</b> sem ler nada. Uma semana depois, começou a ver propagandas de tênis em todo lugar.</p><p>🤔 O que ela aceitou? Aquele clique vale como contrato?</p>" };
+  A.m4.aplicar = [
+    msg("🛠️ Na vida real: o que diz esta frase dos termos?", "📝 Termos de uso do jogo", [["I", "🎂 Idade mínima"], ["D", "📋 Dados coletados"], ["C", "🤝 Compartilhamento"], ["P", "📢 Publicidade"], ["X", "🗑️ Apagar a conta"]],
+      "Use a tabela do 💡 Para começar: cada frase fala de qual assunto?",
+      [["“O serviço é destinado a maiores de 13 anos.”", "I", "Fala da idade mínima."], ["“Coletamos nome, telefone, localização e contatos.”", "D", "Fala dos dados coletados."],
+        ["“Podemos compartilhar seus dados com parceiros.”", "C", "Outras empresas podem receber os dados."], ["“Usamos seus dados para mostrar anúncios personalizados.”", "P", "Propaganda feita para você."],
+        ["“Você pode excluir sua conta em Configurações.”", "X", "Mostra se dá para sair."]],
+      "Leitor de termos! 📝", "Antes de aceitar: que dados ele pega? Com quem compartilha? Consigo apagar a conta?"),
+    VIDA(
+      ["Clicar em “Li e aceito” sem ler…", ["Vale como contrato: você concorda com tudo", "Não vale nada", "Só vale para adultos"], "Aquele clique é um <b>contrato</b>."],
+      ["Por que a Bia começou a ver propaganda de tênis?", ["Os dados dela ajudam a escolher a propaganda", "Por acaso", "Porque o jogo quebrou"], "No serviço grátis, <b>quem paga é a propaganda</b>, escolhida com os seus dados."],
+      ["Pela LGPD, a Bia pode…", ["Pedir para apagar os dados dela", "Nunca saber quais dados a empresa tem", "Ser obrigada a aceitar tudo"], "A LGPD dá o direito de saber, corrigir, <b>apagar</b> e retirar o consentimento."])
+  ];
+})();

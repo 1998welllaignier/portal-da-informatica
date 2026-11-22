@@ -525,3 +525,31 @@ PORTAL.registrarAtividades("informatica-6ano-4bim", {
     ]
   }
 });
+
+/* ============================================================
+   🌀 MODELO EM ESPIRAL NAS MISSÕES AINDA NÃO DADAS (22/11/2026, pedido do professor)
+   Só as missões listadas em espiralMissoes no catálogo. Ganham o ❓ gancho, o 🔁 Lembra? (automático), o 🛠️ "Onde eu uso
+   isso?" prático, o ♾️ Laboratório e o 🏁 Fechamento. ⚖️ EQUILÍBRIO DA NOTA: o Básico, o Desafio e o Turbo NÃO mudam
+   (mesmas tarefas, mesma regra do visto, mesmos 0,25 por Desafio/Turbo): quem já fez as outras missões não perde nada.
+   ============================================================ */
+(function () {
+  const A = PORTAL.atividades["informatica-6ano-4bim"]; if (!A) return;
+  const perg = (titulo, enun, ...ps) => ({ tipo: "escolha", titulo, enunciado: `<p>${enun}</p>`, perguntas: ps.map(x => ({ p: x[0], opcoes: x[1], certo: 0, why: x[2] })) });
+  const VIDA = (...ps) => perg("🛠️ E na vida real, o que você faria?", "Use o que você aprendeu hoje para responder.", ...ps);
+  const msg = (titulo, app, botoes, enun, itens, okMsg, expl) => ({ tipo: "mensagens", titulo, app, botoes: botoes.map(([id, rot]) => ({ id, rot })), enunciado: `<p>${enun}</p>`,
+    itens: itens.map(([t, c, why]) => ({ de: "", t, c, why })), okMsg, explicacao: expl });
+  const rota = (titulo, enun, etapas, okMsg, expl) => ({ tipo: "rota", titulo, enunciado: `<p>${enun}</p>`, etapas: etapas.map(([ic, t]) => ({ ic, t })), okMsg, explicacao: expl });
+  /* ---------- M4 · guardar, compactar e achar ---------- */
+  A.m4.gancho = { html: "<p>📱 Na hora de filmar a festa da escola, o celular da Lia avisou: <b>“Armazenamento cheio”</b>. E no computador, o trabalho de Ciências do Theo sumiu: ele tinha salvado como <b>“documento1”</b>.</p><p>🤔 O que ocupa tanto espaço no celular? E como achar um arquivo perdido no meio de tantos?</p>" };
+  A.m4.aplicar = [
+    msg("🛠️ Na vida real: qual medida combina?", "💾 Armazenamento", [["K", "📄 KB"], ["M", "🖼️ MB"], ["G", "🎬 GB"], ["T", "🗄️ TB"]],
+      "Use a tabela das medidas: qual medida combina com cada coisa?",
+      [["Uma foto do celular (3)", "M", "Foto: 2 a 5 MB."], ["Um filme (2)", "G", "Filme: 1 a 3 GB."], ["Um texto curto (alguns)", "K", "Texto curto: alguns KB."],
+        ["Um HD grande (1)", "T", "HD grande: 1 ou 2 TB."], ["Um pen drive (32)", "G", "Pen drive: 16, 32 ou 64 GB."]],
+      "Medidas no lugar! 💾", "Do menor para o maior: bit → byte → KB → MB → GB → TB."),
+    VIDA(
+      ["O celular da Lia está cheio. O que libera mais espaço?", ["Apagar vídeos que ela não usa", "Apagar uma mensagem curta", "Mudar a cor do fundo"], "Vídeos ocupam <b>muito mais</b> que fotos e mensagens."],
+      ["Ela quer mandar 10 fotos de uma vez por e-mail. Pode…", ["Juntar tudo num arquivo .zip (compactar)", "Imprimir as fotos", "Desenhar as fotos"], "<b>Compacte</b> num .zip."],
+      ["O Theo não lembra onde salvou. Qual truque ajuda?", ["Buscar pelo nome na lupa 🔍 da pasta", "Desligar o computador", "Apagar todos os arquivos"], "<b>Buscar pelo nome</b> na lupa 🔍 (e da próxima vez, dar um nome bom)."])
+  ];
+})();

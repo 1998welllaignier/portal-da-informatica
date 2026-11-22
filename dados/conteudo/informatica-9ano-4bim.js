@@ -604,7 +604,7 @@ PORTAL.registrarConteudo("informatica-9ano-4bim", {
       },
       {
        "nivel": 0,
-       "h": "Criar um deepfake de um colega, mesmo “de brincadeira”, desrespeita o direito de imagem, é cyberbullying e pode ser crime."
+       "h": "Criar um deepfake de um colega, mesmo “de brincadeira”, desrespeita o direito de imagem, é cyberbullying e pode ser crime. Antes de <strong>postar</strong> ou compartilhar, confira a <strong>fonte</strong> (de onde veio). Desconfie de <strong>perfil falso</strong> (conta que finge ser outra pessoa). Se for vítima, guarde provas: tire um <strong>print</strong> (a foto da tela)."
       }
      ]
     },

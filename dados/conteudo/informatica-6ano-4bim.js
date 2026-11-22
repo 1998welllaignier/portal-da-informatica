@@ -526,7 +526,7 @@ PORTAL.registrarConteudo("informatica-6ano-4bim", {
     },
     {
      "t": "p",
-     "h": "<strong>Achar um arquivo</strong> fica fácil com 3 truques: 🔍 <strong>buscar</strong> pelo nome (ou parte dele) na lupa da pasta; 🗂️ <strong>filtrar pelo tipo</strong>, olhando a <strong>extensão</strong> (.jpg e .png = foto ou imagem, .mp4 = vídeo, .txt = texto, .zip = compactado); 📅 <strong>ordenar</strong> por data (o mais recente primeiro) ou por tamanho. E dê <strong>nomes bons</strong>: “trabalho-ciencias-6A” se acha; “documento1” se perde."
+     "h": "Na pasta, cada arquivo aparece com um <strong>ícone</strong> (o desenho pequeno que mostra o tipo dele) e o nome. <strong>Achar um arquivo</strong> fica fácil com 3 truques: 🔍 <strong>buscar</strong> pelo nome (ou parte dele) na lupa da pasta; 🗂️ <strong>filtrar pelo tipo</strong>, olhando a <strong>extensão</strong> (.jpg e .png = foto ou imagem, .mp4 = vídeo, .txt = texto, .zip = compactado); 📅 <strong>ordenar</strong> por data (o mais recente primeiro) ou por tamanho. E dê <strong>nomes bons</strong>: “trabalho-ciencias-6A” se acha; “documento1” se perde."
     }
    ],
    "termos": [

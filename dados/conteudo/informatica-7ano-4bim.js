@@ -759,7 +759,7 @@ PORTAL.registrarConteudo("informatica-7ano-4bim", {
       },
       {
        "nivel": 0,
-       "h": "O que fazer: não responda com ofensa, <strong>guarde provas</strong> (print), <strong>bloqueie</strong>, <strong>denuncie</strong> na plataforma e <strong>conte a um adulto de confiança</strong>. Quem vê também ajuda: não compartilha e apoia quem está sofrendo."
+       "h": "O que fazer: não responda com ofensa, <strong>guarde provas</strong> (print), <strong>bloqueie</strong>, <strong>denuncie</strong> na plataforma e <strong>conte a um adulto de confiança</strong>. Quem vê também ajuda: não vai compartilhar (repassar) a ofensa e apoia quem está sofrendo."
       }
      ]
     }
