@@ -5,6 +5,8 @@
 
 > ✅ **No fim de TODA mudança, siga `docs/CHECKLIST-DE-MUDANCAS.md`** (ajuda das abas, padrão de qualidade, plano, versão, celular, aluno de casa…). Pedido do professor em 14/11/2026: nada pode ficar para trás.
 
+> 🏭 **Conversa nova de produção?** Leia também `docs/PASSAGEM-PRODUCAO.md` (passagem de bastão de 23/11/2026: o que está em andamento, pendências por série, como cada material é feito e o que não está no repositório).
+
 > ⭐ **Leia primeiro `docs/PADRAO-DE-QUALIDADE.md`**: a lista viva de tudo o que o professor já aprovou. Todo material novo segue tudo de lá, e **cada melhoria aprovada entra lá no mesmo dia** (regra de 11/11/2026).
 
 ## 1. O que é o projeto
