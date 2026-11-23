@@ -31,11 +31,11 @@ PORTAL.registrarConteudo("informatica-8ano-2027-1bim-trilha", {
      "Pensamento Computacional"
     ],
     [
-     "🫧 Missão 5 – Ordenar: o método da bolha",
+     "🔵 Missão 5 – Ordenar: o método da bolha",
      "Pensamento Computacional"
     ],
     [
-     "🪆 Missão 6 – Recursão: o problema dentro do problema",
+     "🎎 Missão 6 – Recursão: o problema dentro do problema",
      "Pensamento Computacional"
     ],
     [
@@ -570,7 +570,7 @@ PORTAL.registrarConteudo("informatica-8ano-2027-1bim-trilha", {
   },
   {
    "id": "m5",
-   "icone": "🫧",
+   "icone": "🔵",
    "titulo": "Missão 5 – Ordenar: o método da bolha",
    "objetivo": "pôr uma lista em ordem trocando vizinhos.",
    "comecar": [
@@ -696,7 +696,7 @@ PORTAL.registrarConteudo("informatica-8ano-2027-1bim-trilha", {
   },
   {
    "id": "m6",
-   "icone": "🪆",
+   "icone": "🎎",
    "titulo": "Missão 6 – Recursão: o problema dentro do problema",
    "objetivo": "reconhecer a recursão e o caso base, que faz parar.",
    "comecar": [

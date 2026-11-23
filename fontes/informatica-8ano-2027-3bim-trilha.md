@@ -6,7 +6,7 @@ Neste bimestre você vai cumprir **6 missões**. Se sobrar aula, tem **2 missõe
 | Missão | Tema |
 | 📤 Missão 1 – Compartilhar com responsabilidade | Computação e Sociedade |
 | 🔎 Missão 2 – Fontes confiáveis | Computação e Sociedade |
-| 🫧 Missão 3 – Vieses e bolhas | Computação e Sociedade |
+| 🔵 Missão 3 – Vieses e bolhas | Computação e Sociedade |
 | 📜 Missão 4 – Termos de uso: o que eu aceitei? | Computação e Sociedade |
 | 📲 Missão 5 – Permissões dos aplicativos | Computação e Sociedade |
 | 👣 Missão 6 – Pegada digital | Computação e Sociedade |
@@ -78,7 +78,7 @@ Pense antes: é **verdade**? É **meu**? Protege as **pessoas** e **você**? Cui
 Pergunte: **quem** escreveu, **quando**, e se **outras fontes** confirmam. Desconfie de “!!!” e de mensagem sem autor.
 **Palavras-chave:** fonte · boato · autor
 
-## 🫧 Missão 3 – Vieses e bolhas
+## 🔵 Missão 3 – Vieses e bolhas
 **Objetivo:** perceber a bolha das redes.
 📅 **Data da aula:** ........ / ........
 ### 💡 Para começar

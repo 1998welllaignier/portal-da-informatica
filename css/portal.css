@@ -2615,7 +2615,7 @@ body.lg-travado{overflow:hidden}
 .mn-aprov{font-size:.78rem;font-weight:800;background:#fef3c7;border:1px solid #f59e0b;border-radius:999px;padding:0 6px;color:#92400e}.mn-aprov.ok{background:#dcfce7;border-color:#22c55e;color:#166534}
 .banner-dominio{background:#fffbeb!important;border-color:#f59e0b!important;color:#1c1f22!important}.banner-dominio *{color:#1c1f22!important}.banner-dominio a{color:#1d4ed8!important}.banner-dominio small{color:#92400e!important}.banner-dominio .bd-lista{margin:6px 0 0;padding-left:20px;text-align:left}.banner-dominio .bd-lista a{font-weight:700}
 
-/* 🧭 aba Aula reorganizada, 🔎 procurar aluno, 🪪 ficha e 📅 minha semana (22/11/2026) */
+/* 🧭 aba Aula reorganizada, 🔎 procurar aluno, 📇 ficha e 📅 minha semana (22/11/2026) */
 .painel-prof .pp-alvo, .painel-prof [id^="aula-"], .painel-prof [id^="pp-"] { scroll-margin-top: calc(var(--pp-top, 0px) + var(--pp-alt, 0px) + 64px); }
 .pp-indice { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin: 0 0 12px; font-size: .9rem; }
 .pp-indice > span { font-weight: 800; color: var(--suave); }

@@ -15,7 +15,7 @@ PORTAL.registrarConteudo("informatica-8ano-2027-4bim", {
    ],
    "linhas": [
     [
-     "🪪 Missão 1 – Dados pessoais",
+     "📇 Missão 1 – Dados pessoais",
      "Computação e Sociedade"
     ],
     [
@@ -127,7 +127,7 @@ PORTAL.registrarConteudo("informatica-8ano-2027-4bim", {
  "missoes": [
   {
    "id": "m1",
-   "icone": "🪪",
+   "icone": "📇",
    "titulo": "Missão 1 – Dados pessoais",
    "objetivo": "reconhecer quais informações são dados pessoais e por que protegê-las.",
    "comecar": [
@@ -159,7 +159,7 @@ PORTAL.registrarConteudo("informatica-8ano-2027-4bim", {
        "05/03/2013"
       ],
       [
-       "🪪 Documentos",
+       "📇 Documentos",
        "CPF, RG"
       ],
       [

@@ -290,7 +290,7 @@ PORTAL.registrarAtividades("informatica-8ano-2027-2bim-trilha", {
     VIDA(["Na fila, quem sai primeiro?", ["Quem chegou primeiro", "Quem chegou por último"], "Na <b>fila</b>, quem chega primeiro sai primeiro."], ["A playlist é uma…", ["Lista", "Tabela"], "Músicas em ordem: <b>lista</b>."])
   ];
   A.m7.aplicar = [
-    msg("🛠️ Na vida real: o sistema distribuído", "🌐 Servidores", [["D", "🧩 Dividir o trabalho"], ["N", "🛟 Não parar se um quebrar"]], "Qual ideia aparece em cada situação?",
+    msg("🛠️ Na vida real: o sistema distribuído", "🌐 Servidores", [["D", "🧩 Dividir o trabalho"], ["N", "💾 Não parar se um quebrar"]], "Qual ideia aparece em cada situação?",
       [["Cada computador procura uma parte da resposta", "D", "Dividir o trabalho."], ["Um computador quebrou e outro assumiu", "N", "Não parar se um quebrar."], ["O reserva entrou no lugar do jogador", "N", "Como no time: o jogo continua."]],
       "Mandou bem! 🌐", "Dividir o trabalho e não parar se um quebrar."),
     VIDA(["Quando você pesquisa na internet, quem responde?", ["Muitos computadores juntos", "Um computador só"], "Muitos computadores trabalham juntos: <b>sistema distribuído</b>."], ["Se um computador quebra…", ["Outro assume", "Tudo para"], "<b>Outro assume</b>, como o reserva no time."])

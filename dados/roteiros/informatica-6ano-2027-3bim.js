@@ -15,7 +15,7 @@
     "🔊 Caixinha de som",
     "🖥️ Computadores ligados pelo Veyon (Chrome ou Edge atualizados: o editor de blocos precisa deles)",
     "🎬 Vídeo da missão aberto no computador do professor",
-    "🪪 Cartões com os códigos dos alunos",
+    "📇 Cartões com os códigos dos alunos",
     "🎮 Jogos da recreação definidos"
   ];
   PORTAL.registrarRoteiro("informatica-6ano-2027-3bim", {

@@ -1457,7 +1457,7 @@
      CARTÃO DE ATIVIDADE (estrutura comum)
      ============================================================ */
   const NIVEL = { basico: ["🟢", "Básico"], desafio: ["🟡", "Desafio"], turbo: ["🔴", "Turbo"], bonus: ["⭐", "Bônus"], treino: ["🔁", "Treino"], revisao: ["✅", "Revisão"] };
-  /* 🪟 modal simples (abre por cima da página, fecha com o botão ou com Esc) */
+  /* 🔲 modal simples (abre por cima da página, fecha com o botão ou com Esc) */
   function modal(titulo, html, cls) {
     const d = h(`<dialog class="pp-dlg ${cls || ""}"><form method="dialog"><h2>${titulo}</h2><div class="modal-corpo">${html}</div><div class="row-btns"><button class="btn" value="x">Fechar</button></div></form></dialog>`);
     document.body.appendChild(d); d.showModal(); d.addEventListener("close", () => d.remove());

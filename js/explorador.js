@@ -14,7 +14,7 @@
   const X = P.explorador = P.explorador || {};
 
   /* ---------- bichinhos ---------- */
-  const INICIAL = { A: "🐝", B: "🐳", C: "🐶", D: "🦕", E: "🐘", F: "🦭", G: "🐱", H: "🦛", I: "🦎", J: "🐊", K: "🥝", L: "🦁", M: "🐵", N: "🦢", O: "🐆", P: "🦆", Q: "🦝", R: "🦊", S: "🐸", T: "🐢", U: "🐻", V: "🐮", W: "🦘", X: "🐦", Y: "🦬", Z: "🦓" };
+  const INICIAL = { A: "🐝", B: "🐳", C: "🐶", D: "🦕", E: "🐘", F: "🐳", G: "🐱", H: "🦛", I: "🦎", J: "🐊", K: "🥝", L: "🦁", M: "🐵", N: "🦢", O: "🐆", P: "🦆", Q: "🦝", R: "🦊", S: "🐸", T: "🐢", U: "🐻", V: "🐮", W: "🦘", X: "🐦", Y: "🐃", Z: "🦓" };
   const NOME_INI = { A: "Abelha", B: "Baleia", C: "Cachorro", D: "Dinossauro", E: "Elefante", F: "Foca", G: "Gato", H: "Hipopótamo", I: "Iguana", J: "Jacaré", K: "Kiwi", L: "Leão", M: "Macaco", N: "Ninho de cisne", O: "Onça", P: "Pato", Q: "Quati", R: "Raposa", S: "Sapo", T: "Tartaruga", U: "Urso", V: "Vaca", W: "Wallaby", X: "Xexéu", Y: "Iaque", Z: "Zebra" };
   const SECRETOS = [["🐶", "Cachorro"], ["🐱", "Gato"], ["🐸", "Sapo"], ["🦁", "Leão"], ["🐼", "Panda"], ["🐵", "Macaco"], ["🐧", "Pinguim"], ["🦋", "Borboleta"], ["🐙", "Polvo"]];
   const bichoDe = ini => INICIAL[ini] || "⭐";

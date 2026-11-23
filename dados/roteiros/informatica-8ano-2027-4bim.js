@@ -17,7 +17,7 @@
     { min: 5, icone: "🧹", t: "Salvar e organizar" }
   ];
   PORTAL.registrarRoteiro("informatica-8ano-2027-4bim", {
-    antes: ["🔊 Caixinha de som", "🖥️ Computadores ligados pelo Veyon", "🎬 Vídeo da missão aberto no computador do professor", "🪪 Cartões com os códigos dos alunos", "🎮 Jogos da recreação definidos"],
+    antes: ["🔊 Caixinha de som", "🖥️ Computadores ligados pelo Veyon", "🎬 Vídeo da missão aberto no computador do professor", "📇 Cartões com os códigos dos alunos", "🎮 Jogos da recreação definidos"],
     m1: {
       datas: "1ª aula do bimestre · BNCC EF08CO08 · datas pelo calendário da SEMED 2027",
       tempo: T,

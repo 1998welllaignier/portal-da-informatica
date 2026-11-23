@@ -578,7 +578,7 @@ PORTAL.registrarAtividades("informatica-6ano-2027-2bim", {
   mais("m1", "desafio",
     { tipo: "rota", titulo: "🦷 O algoritmo de escovar os dentes",
       enunciado: "<p>Monte o algoritmo de escovar os dentes. Clique nos passos <b>na ordem</b>.</p>",
-      etapas: [{ ic: "🪥", t: "Pegar a escova" }, { ic: "🧴", t: "Colocar o creme dental na escova" }, { ic: "😁", t: "Escovar todos os dentes" }, { ic: "💧", t: "Enxaguar a boca" }, { ic: "🧼", t: "Lavar e guardar a escova" }],
+      etapas: [{ ic: "🦷", t: "Pegar a escova" }, { ic: "🧴", t: "Colocar o creme dental na escova" }, { ic: "😁", t: "Escovar todos os dentes" }, { ic: "💧", t: "Enxaguar a boca" }, { ic: "🧼", t: "Lavar e guardar a escova" }],
       okMsg: "Dentes limpinhos! 😁",
       explicacao: "Começo, meio e fim: cada passo depende do anterior. Sem creme na escova, escovar não adianta tanto." });
   mais("m1", "turbo",

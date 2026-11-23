@@ -990,7 +990,7 @@ PORTAL.registrarConteudo("informatica-8ano-2027-2bim", {
        "O vídeo vem do servidor mais perto, mais rápido"
       ],
       [
-       "🛟 Não parar se um quebrar",
+       "💾 Não parar se um quebrar",
        "Outro computador assume o trabalho",
        "O site continua no ar mesmo com um servidor com defeito"
       ]

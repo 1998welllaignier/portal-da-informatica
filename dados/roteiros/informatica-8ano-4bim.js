@@ -16,7 +16,7 @@
     antes: [
       "📽️ Projetor ligado e vídeo da missão aberto (sem som: você lê os textos)",
       "🖥️ Veyon aberto, todos os computadores aparecendo",
-      "🪪 Cartões com os códigos dos alunos",
+      "📇 Cartões com os códigos dos alunos",
       "🗺️ Mapa de lugares conferido",
       "▶️ Programa do dia testado pelo “Executar programa” do Veyon",
       "✂️ Material da dinâmica (cartões 7, 2, 9, 4, 5 na Missão 1; 20 folhas e 1 caneta na Missão 2; 3 manchetes na Missão 3)",
@@ -41,7 +41,7 @@
           ]
         },
         {
-          titulo: "🫧 Dinâmica: Fila da bolha (5 min)", cor: "c-rosa",
+          titulo: "🔵 Dinâmica: Fila da bolha (5 min)", cor: "c-rosa",
           itens: [
             { acao: "Chame 5 alunos com os cartões 7, 2, 9, 4 e 5, em fila nessa ordem. A turma compara só dois vizinhos por vez: “Estão em ordem? Não? Troquem!” Vá até o fim da fila e faça mais uma ou duas passadas." },
             { fala: "Viram que o maior subiu para o fim, como uma bolha no copo de refrigerante? Cada volta na fila é uma passada. Quando uma passada termina sem nenhuma troca, a lista está ordenada." }

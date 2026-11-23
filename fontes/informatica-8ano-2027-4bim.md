@@ -25,7 +25,7 @@ Prof. Welington · @Welington Laignier
 ## 📘 Como usar esta apostila
 Bem-vindo ao 4º bimestre! O tema é **Privacidade**: o que são os seus dados, quais são os mais delicados, como proteger as suas contas, como configurar a privacidade e, no fim, um **guia de privacidade** feito pela turma. Você vai cumprir **6 missões** e, se sobrar aula, **2 missões extras**. Antes da prova tem a **🔁 Revisão**. Cada missão é uma aula completa: se você faltar, pode fazer a próxima sem problema.
 | Missão | Tema |
-| 🪪 Missão 1 – Dados pessoais | Computação e Sociedade |
+| 📇 Missão 1 – Dados pessoais | Computação e Sociedade |
 | 🔐 Missão 2 – Dados sensíveis e LGPD | Computação e Sociedade |
 | 🛡️ Missão 3 – Segurança das contas | Computação e Sociedade |
 | ⚙️ Missão 4 – Configurar a privacidade | Computação e Sociedade |
@@ -51,7 +51,7 @@ Bem-vindo ao 4º bimestre! O tema é **Privacidade**: o que são os seus dados, 
 🔎 **Todas as respostas estão na apostila:** leia o **💡 Para começar** e o **📖 O que significa?**. Errou? Leia de novo com calma, peça uma **💡 Dica** ou toque em **🤖 Me ajuda, robô!**. Você consegue fazer tudo sozinho!
 **Regra de ouro:** quem conclui o Básico (aparece a faixa verde **✅ Básico concluído**) já pode seguir para o Desafio ou ficar com os jogos livres no final da aula. 🎮 Tudo fica registrado sozinho para o professor.
 
-## 🪪 Missão 1 – Dados pessoais
+## 📇 Missão 1 – Dados pessoais
 **Objetivo:** reconhecer quais informações são dados pessoais e por que protegê-las.
 📅 **Data da aula:** ........ / ........
 ### 💡 Para começar
@@ -61,7 +61,7 @@ Bem-vindo ao 4º bimestre! O tema é **Privacidade**: o que são os seus dados, 
 | 🏠 Endereço | Rua das Flores, 10 |
 | 📞 Telefone | (94) 9 ••••-•••• |
 | 🎂 Data de nascimento | 05/03/2013 |
-| 🪪 Documentos | CPF, RG |
+| 📇 Documentos | CPF, RG |
 | 📸 Foto do rosto | A sua selfie |
 | 📍 Localização | Onde você está agora |
 

@@ -8,7 +8,7 @@
   const C = {
     consciencia: { tit: "✊🏿 Semana da Consciência Negra", sub: "20 de novembro · Dia Nacional de Zumbi e da Consciência Negra", itens: [
       ["📅", "Por que 20 de novembro?", "É a data da morte de Zumbi dos Palmares, em 1695. Desde 2024, o dia é feriado nacional (Lei nº 14.759/2023)."],
-      ["🛖", "O que é um quilombo?", "Era uma comunidade escondida nas matas, formada por pessoas escravizadas que fugiam em busca de liberdade. A palavra vem do quimbundo, língua de Angola, e quer dizer \"acampamento, povoado\". Ainda hoje existem comunidades quilombolas, inclusive aqui no Pará."],
+      ["🏘️", "O que é um quilombo?", "Era uma comunidade escondida nas matas, formada por pessoas escravizadas que fugiam em busca de liberdade. A palavra vem do quimbundo, língua de Angola, e quer dizer \"acampamento, povoado\". Ainda hoje existem comunidades quilombolas, inclusive aqui no Pará."],
       ["🏞️", "Quilombo dos Palmares", "Foi o maior quilombo das Américas, na Serra da Barriga (hoje Alagoas). Ali, pessoas escravizadas que fugiram viveram livres e resistiram por quase 100 anos."],
       ["👑", "Zumbi e Dandara", "Zumbi foi o último líder de Palmares. Dandara foi uma guerreira que lutou ao lado dele. Os dois estão no Livro dos Heróis e Heroínas da Pátria."],
       ["🌳", "O baobá do tema", "O baobá é uma árvore africana que pode viver mais de mil anos. Para muitos povos africanos, é a árvore da memória e dos antepassados."],
@@ -18,7 +18,7 @@
     saci: { tit: "🌪️ Dia do Saci", sub: "31 de outubro", itens: [
       ["📅", "Por que 31 de outubro?", "É o mesmo dia do Halloween, que veio dos Estados Unidos. O Dia do Saci foi criado para valorizar o folclore brasileiro no lugar da festa estrangeira. Em São Paulo, a data é lei estadual (Lei nº 11.669/2004)."],
       ["🧢", "Quem é o Saci", "Um menino de uma perna só, com um gorro vermelho mágico. Ele aparece dentro do redemoinho e faz travessuras: esconde objetos, trança a crina dos cavalos e deixa o leite azedo."],
-      ["🫙", "Como pegar um Saci", "Diz a lenda: jogue uma peneira em cima do redemoinho e prenda o Saci numa garrafa. Quem pega o gorro vermelho dele ganha um desejo!"],
+      ["🏺", "Como pegar um Saci", "Diz a lenda: jogue uma peneira em cima do redemoinho e prenda o Saci numa garrafa. Quem pega o gorro vermelho dele ganha um desejo!"],
       ["🌎", "De onde veio", "A lenda nasceu entre povos indígenas do Sul do Brasil e foi ganhando jeitos africanos e europeus ao longo do tempo: é a cara da mistura do nosso povo."],
       ["📚", "Saci nos livros", "O escritor Monteiro Lobato ajudou a deixar o Saci famoso com o livro \"O Saci\" (1921) e as histórias do Sítio do Picapau Amarelo."]
     ] },
@@ -48,7 +48,7 @@
       ["🕎", "Páscoa judaica", "Para os judeus, a Pessach lembra a libertação do povo hebreu da escravidão no Egito. A palavra \"Páscoa\" vem de \"Pessach\", que quer dizer \"passagem\"."],
       ["🥚", "Ovo e coelho", "O ovo é símbolo de vida nova, e o coelho, que tem muitos filhotes, também. Os ovos de chocolate ficaram populares no século XIX."]
     ] },
-    indigenas: { tit: "🪶 Dia dos Povos Indígenas", sub: "19 de abril", itens: [
+    indigenas: { tit: "🌿 Dia dos Povos Indígenas", sub: "19 de abril", itens: [
       ["📜", "O nome mudou", "Desde 2022, o antigo \"Dia do Índio\" se chama Dia dos Povos Indígenas (Lei nº 14.402/2022), para lembrar que são muitos povos diferentes."],
       ["👥", "Quantos são?", "No Censo 2022, cerca de 1,7 milhão de pessoas se declararam indígenas no Brasil, de centenas de povos, com centenas de línguas diferentes."],
       ["🗣️", "Palavras que usamos todo dia", "Abacaxi, pipoca, mandioca, jacaré, capim e o próprio nome \"Pará\" vêm do tupi. \"Pará\" quer dizer algo como \"rio grande como o mar\"."],

@@ -1,4 +1,4 @@
-/* 🪟 winui.js — peças do Windows 10 e 11 COMPARTILHADAS pelos simuladores (simpc.js e simwin.js), para os dois
+/* 🔲 winui.js — peças do Windows 10 e 11 COMPARTILHADAS pelos simuladores (simpc.js e simwin.js), para os dois
    ficarem iguais e parecidos com o Windows de verdade da sala (pedido do professor, 16/11/2026).
    - botão Iniciar com o ícone de 4 quadrados (desenho simples, sem copiar a marca);
    - menu Iniciar do Windows 10: trilho da esquerda (☰, conta, Documentos, Imagens, Configurações, Ligar/Desligar),

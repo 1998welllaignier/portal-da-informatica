@@ -27,7 +27,7 @@ Bem-vindo ao 3º bimestre! O tema agora é **Redes sociais**: compartilhar com r
 | Missão | Tema |
 | 📤 Missão 1 – Compartilhar com responsabilidade | Computação e Sociedade |
 | 🔎 Missão 2 – Fontes confiáveis | Computação e Sociedade |
-| 🫧 Missão 3 – Vieses e bolhas | Computação e Sociedade |
+| 🔵 Missão 3 – Vieses e bolhas | Computação e Sociedade |
 | 📜 Missão 4 – Termos de uso: o que eu aceitei? | Computação e Sociedade |
 | 📲 Missão 5 – Permissões dos aplicativos | Computação e Sociedade |
 | 👣 Missão 6 – Pegada digital | Computação e Sociedade |
@@ -145,7 +145,7 @@ Escreva **V** para verdadeiro ou **F** para falso:
 **Fonte** é de onde vem a informação. As 5 perguntas: **quem** escreveu, **onde** foi publicado, **quando**, tem **provas**, **outras fontes** confirmam? Sinais de alerta: MAIÚSCULAS e “!!!”, “compartilhe antes que apaguem”, sem autor e sem data.
 **Palavras-chave:** fonte · fonte confiável · boato · corrente · evidência
 
-## 🫧 Missão 3 – Vieses e bolhas
+## 🔵 Missão 3 – Vieses e bolhas
 **Objetivo:** perceber como a gente tende a acreditar no que já pensa e como as redes podem nos fechar numa bolha.
 📅 **Data da aula:** ........ / ........
 ### 💡 Para começar

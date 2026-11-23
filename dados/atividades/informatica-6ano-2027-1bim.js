@@ -122,7 +122,7 @@ PORTAL.registrarAtividades("informatica-6ano-2027-1bim", {
         dicas: ["Maiúscula: segure o Shift e aperte a letra. Ç: a tecla ao lado do L.", "ã e õ: til ( ~, ao lado do Ç ) e depois a vogal. é, á: agudo ( ´, ao lado do P ) e depois a vogal. ê, â: Shift + til e depois a vogal."],
         explicacao: "O computador entende cada detalhe: <b>A</b> e <b>a</b> são diferentes, <b>e</b> e <b>é</b> também. Por isso a senha, o e-mail e o nome do arquivo precisam ser digitados igualzinho." },
       /* ⏱️ +25% de tempo (21/11/2026, pedido do professor) */ { tipo: "mensagens", titulo: "Que gesto do mouse eu uso?", app: "🖱️ Qual gesto?",
-        botoes: [{ id: "C", rot: "👆 Clique" }, { id: "D", rot: "👆👆 Clique duplo" }, { id: "B", rot: "🖱️ Botão direito" }, { id: "R", rot: "🛞 Rodinha" }, { id: "A", rot: "✊ Arrastar" }],
+        botoes: [{ id: "C", rot: "👆 Clique" }, { id: "D", rot: "👆👆 Clique duplo" }, { id: "B", rot: "🖱️ Botão direito" }, { id: "R", rot: "🖲️ Rodinha" }, { id: "A", rot: "✊ Arrastar" }],
         enunciado: "<p>Para cada situação, escolha o <strong>gesto do mouse</strong> certo.</p>",
         itens: [
           { de: "", t: "Abrir a pasta Fotos", c: "D", why: "Pastas, arquivos e programas abrem com o clique duplo." },
@@ -167,7 +167,7 @@ PORTAL.registrarAtividades("informatica-6ano-2027-1bim", {
         enunciado: "<p>Clique nas etapas <strong>na ordem</strong> em que acontecem para jogar no computador da sala.</p>",
         etapas: [
           { ic: "🔘", t: "Aperto o botão de ligar", dica: "Tudo começa ligando o computador." },
-          { ic: "🪟", t: "Espero a área de trabalho aparecer", dica: "O Windows carrega e mostra a área de trabalho." },
+          { ic: "🔲", t: "Espero a área de trabalho aparecer", dica: "O Windows carrega e mostra a área de trabalho." },
           { ic: "📁", t: "Abro a pasta Jogos (duplo clique)", dica: "Pasta abre com duplo clique." },
           { ic: "🎮", t: "Abro o jogo (duplo clique)", dica: "Programa também abre com duplo clique." }],
         okMsg: "Isso! Ligar → área de trabalho → pasta → jogo.",
@@ -342,7 +342,7 @@ PORTAL.registrarAtividades("informatica-6ano-2027-1bim", {
         enunciado: "<p>Para cada item, escolha: é <strong>hardware</strong> (peça que dá para tocar) ou <strong>software</strong> (programa)?</p>",
         itens: [
           { de: "", t: "🖱️ Mouse", c: "H", why: "Dá para pegar com a mão." },
-          { de: "", t: "🪟 Windows", c: "S", why: "É o sistema operacional, um programa." },
+          { de: "", t: "🔲 Windows", c: "S", why: "É o sistema operacional, um programa." },
           { de: "", t: "🔌 Cabo de energia", c: "H", why: "É uma peça física." },
           { de: "", t: "🎮 Um jogo de corrida", c: "S", why: "Jogo é programa." },
           { de: "", t: "🖥️ Monitor", c: "H", why: "É uma peça física." },
@@ -429,7 +429,7 @@ PORTAL.registrarAtividades("informatica-6ano-2027-1bim", {
         etapas: [
           { ic: "🔘", t: "Aperto o botão de ligar (hardware)", dica: "Tudo começa na peça." },
           { ic: "⚙️", t: "O sistema operacional liga primeiro", dica: "Ele é o primeiro software a ligar e comanda o resto." },
-          { ic: "🪟", t: "Aparece a área de trabalho", dica: "Quem mostra a área de trabalho é o sistema operacional." },
+          { ic: "🔲", t: "Aparece a área de trabalho", dica: "Quem mostra a área de trabalho é o sistema operacional." },
           { ic: "🌐", t: "Abro o navegador (aplicativo)", dica: "O navegador é o aplicativo que abre sites." },
           { ic: "💻", t: "Abro o site do portal", dica: "O site abre dentro do navegador." }],
         okMsg: "Isso! Hardware → sistema operacional → área de trabalho → aplicativo → site.",

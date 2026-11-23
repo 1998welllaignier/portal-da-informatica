@@ -52,7 +52,7 @@ No 7º ano você viu que uma **lista** guarda vários dados em ordem e que cada 
 | Algoritmo | Como funciona | Quando usar |
 | 🔎 Busca sequencial | Olha os itens um por um, do começo ao fim, até achar | Em qualquer lista, mesmo desordenada |
 | ✂️ Busca binária | Olha o item do **meio**: se o procurado for maior, descarta a metade da esquerda; se for menor, descarta a da direita; repete com a metade que sobrou | Só em lista **ordenada**; é muito mais rápida em listas grandes |
-| 🫧 Método da bolha | Compara **vizinhos** e troca os que estão fora de ordem; repete as passadas até não haver nenhuma troca | Para colocar uma lista em ordem crescente ou alfabética |
+| 🔵 Método da bolha | Compara **vizinhos** e troca os que estão fora de ordem; repete as passadas até não haver nenhuma troca | Para colocar uma lista em ordem crescente ou alfabética |
 
 **Como achar o meio na busca binária:** some a primeira e a última posição e divida por 2. Se der número quebrado, despreze a vírgula. Exemplo: posições 1 a 8 → (1 + 8) ÷ 2 = 4,5 → meio = posição **4**.
 **Por que a busca binária só funciona em lista ordenada?** Ela joga fora a metade em que o número “não pode estar”. Se a lista estiver fora de ordem, o número procurado pode estar justamente na metade que foi descartada, e a busca erra.

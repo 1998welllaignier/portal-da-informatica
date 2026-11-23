@@ -29,8 +29,8 @@ Neste bimestre você vai descobrir como o computador **guarda, procura e organiz
 | ➕ Missão 2 – Mexendo na lista: inserir, remover e contar | Pensamento Computacional |
 | 🔎 Missão 3 – Busca sequencial: procurar um por um | Pensamento Computacional |
 | 🎯 Missão 4 – Busca binária: procurar pelo meio | Pensamento Computacional |
-| 🫧 Missão 5 – Ordenar: o método da bolha | Pensamento Computacional |
-| 🪆 Missão 6 – Recursão: o problema dentro do problema | Pensamento Computacional |
+| 🔵 Missão 5 – Ordenar: o método da bolha | Pensamento Computacional |
+| 🎎 Missão 6 – Recursão: o problema dentro do problema | Pensamento Computacional |
 | 🏅 Missão 7 – Extra: Ordenação por seleção | Pensamento Computacional |
 | ❄️ Missão 8 – Extra: Fractais | Pensamento Computacional |
 | 🔁 Revisão para a prova | Todas as missões estudadas |
@@ -260,7 +260,7 @@ Escreva **V** para verdadeiro ou **F** para falso:
 A **busca binária** procura sempre pelo **meio** de uma lista **ordenada**: se o procurado é maior, descarta a metade da esquerda; se é menor, a da direita; e repete. Cada comparação corta a lista pela **metade**: 100 itens → no máximo 7 comparações; 1.000 → 10. Muito mais rápida que a sequencial em listas grandes, mas **só funciona com a lista em ordem**.
 **Palavras-chave:** busca binária · meio · descartar · lista ordenada · dividir para conquistar
 
-## 🫧 Missão 5 – Ordenar: o método da bolha
+## 🔵 Missão 5 – Ordenar: o método da bolha
 **Objetivo:** ordenar uma lista comparando e trocando vizinhos, passada por passada, e contar as trocas.
 📅 **Data da aula:** ........ / ........
 ### 💡 Para começar
@@ -311,7 +311,7 @@ Escreva **V** para verdadeiro ou **F** para falso:
 **Ordenar** é pôr a lista em ordem. O **método da bolha** compara **vizinhos** e **troca** os que estão fora de ordem (para crescente: troca quando o da esquerda é maior). Uma volta do começo ao fim é uma **passada**; a cada passada, o maior que falta “sobe” para o final, como uma bolha. Termina quando uma passada não faz nenhuma troca.
 **Palavras-chave:** ordenar · método da bolha · vizinhos · troca · passada · crescente · decrescente
 
-## 🪆 Missão 6 – Recursão: o problema dentro do problema
+## 🎎 Missão 6 – Recursão: o problema dentro do problema
 **Objetivo:** reconhecer a recursão como um problema resolvido usando uma versão menor dele mesmo, sempre com uma condição de parada (caso base).
 📅 **Data da aula:** ........ / ........
 ### 💡 Para começar
@@ -378,7 +378,7 @@ Outro jeito de ordenar é a **ordenação por seleção** (*selection sort*). A 
 | Fim | — | — | **2, 4, 7, 9** |
 
 **Bolha × seleção:**
-| | 🫧 Bolha | 🏅 Seleção |
+| | 🔵 Bolha | 🏅 Seleção |
 | O que compara | Vizinhos | O que sobrou, procurando o menor |
 | Onde o item vai | O maior sobe para o fim | O menor vai para o começo |
 | Trocas | Muitas, uma a cada par fora de ordem | Poucas: no máximo uma por rodada |

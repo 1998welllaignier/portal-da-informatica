@@ -23,7 +23,7 @@
       "🔊 Caixinha de som",
       "🖥️ Computadores ligados pelo Veyon",
       "🎬 Vídeo da missão aberto no computador do professor",
-      "🪪 Cartões com os códigos dos alunos",
+      "📇 Cartões com os códigos dos alunos",
       "🎮 Jogos da recreação definidos"
     ],
     m1: {

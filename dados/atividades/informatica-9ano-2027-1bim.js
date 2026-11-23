@@ -707,7 +707,7 @@
     { tipo: "arvore", titulo: "🎮 Qual jogo a turma vai jogar?", modo: "decisao",
       raiz: { t: "❓ Está chovendo?", filhos: [
         { r: "Sim", t: "❓ Tem computador livre?", filhos: [{ r: "Sim", t: "💻 Jogo no computador" }, { r: "Não", t: "♟️ Xadrez" }] },
-        { r: "Não", t: "❓ A quadra está livre?", filhos: [{ r: "Sim", t: "⚽ Futebol" }, { r: "Não", t: "🪢 Pular corda no pátio" }] }] },
+        { r: "Não", t: "❓ A quadra está livre?", filhos: [{ r: "Sim", t: "⚽ Futebol" }, { r: "Não", t: "🏃 Pular corda no pátio" }] }] },
       enunciado: "<p>A turma decide o jogo do recreio com esta árvore. Siga as respostas.</p>",
       perguntas: [
         { p: "Não está chovendo e a quadra está ocupada. Qual é o jogo?", r: ["Pular corda", "pular corda no patio"], tipo: "letras" },
@@ -772,7 +772,7 @@
     { tipo: "rota", titulo: "🛠️ Na vida real: a máquina de refrigerante",
       enunciado: "<p>A máquina começa no estado <b>esperando moeda</b>. Você quer um refrigerante. Clique nos passos na ordem: estado, entrada, transição…</p>",
       etapas: [
-        { ic: "🪙", t: "Estado: esperando moeda" },
+        { ic: "💰", t: "Estado: esperando moeda" },
         { ic: "👉", t: "Entrada: coloca a moeda" },
         { ic: "✅", t: "Transição: libera a escolha" },
         { ic: "🔘", t: "Entrada: aperta o botão do refrigerante" },
@@ -896,7 +896,7 @@
   mais("m8", "desafio",
     { tipo: "sim_grafo", titulo: "🛍️ O mapa do shopping",
       enunciado: "<p>No mapa do shopping, cada número é o tempo em <b>minutos a pé</b>. Saindo da <b>Entrada</b>, chegue ao <b>Cinema</b> pela <b>menor soma</b>.</p>",
-      vertices: { entrada: { nome: "Entrada", ic: "🚪", x: 45, y: 120 }, lanches: { nome: "Lanches", ic: "🍟", x: 150, y: 45 }, escada: { nome: "Escada", ic: "🪜", x: 150, y: 195 },
+      vertices: { entrada: { nome: "Entrada", ic: "🚪", x: 45, y: 120 }, lanches: { nome: "Lanches", ic: "🍟", x: 150, y: 45 }, escada: { nome: "Escada", ic: "⬆️", x: 150, y: 195 },
         livraria: { nome: "Livraria", ic: "📚", x: 260, y: 45 }, jogos: { nome: "Jogos", ic: "🕹️", x: 260, y: 195 }, cinema: { nome: "Cinema", ic: "🎬", x: 360, y: 120 } },
       arestas: [["entrada", "lanches", 2], ["entrada", "escada", 1], ["escada", "lanches", 2], ["lanches", "livraria", 4], ["escada", "jogos", 5], ["livraria", "cinema", 1], ["jogos", "cinema", 2], ["livraria", "jogos", 3]],
       inicio: "entrada", fim: "cinema", menor: 7, solucao: ["entrada", "lanches", "livraria", "cinema"], unidade: "min",

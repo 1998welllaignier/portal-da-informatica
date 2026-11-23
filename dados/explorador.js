@@ -23,9 +23,9 @@ PORTAL.explorador.missoes = [
       <ul class="ex-lista">
         <li>👆 <strong>Clique</strong>: apertar <strong>uma vez</strong> o botão <strong>esquerdo</strong>. Serve para <strong>escolher</strong> ou apertar um botão na tela.</li>
         <li>✌️ <strong>Duplo clique</strong>: apertar o botão esquerdo <strong>duas vezes bem rápido</strong>. Serve para <strong>abrir</strong> pastas, arquivos e programas.</li>
-        <li>🫳 <strong>Arrastar</strong>: apertar o botão esquerdo, <strong>segurar</strong> e mover o mouse. Serve para <strong>mudar coisas de lugar</strong>.</li>
+        <li>✊ <strong>Arrastar</strong>: apertar o botão esquerdo, <strong>segurar</strong> e mover o mouse. Serve para <strong>mudar coisas de lugar</strong>.</li>
         <li>📋 <strong>Botão direito</strong>: abre um <strong>menu de opções</strong>, como copiar, colar, renomear e excluir.</li>
-        <li>🛞 <strong>Rodinha</strong>: fica no meio e serve para <strong>rolar</strong> a página para cima e para baixo.</li>
+        <li>🖲️ <strong>Rodinha</strong>: fica no meio e serve para <strong>rolar</strong> a página para cima e para baixo.</li>
       </ul>
       <p class="ex-dica">💡 Dica de mestre: segure o mouse com a mão relaxada, com o dedo indicador no botão esquerdo e o dedo médio no direito.</p>`,
     atividades: [
@@ -38,7 +38,7 @@ PORTAL.explorador.missoes = [
         explicacao: "O <strong>duplo clique</strong> serve para <strong>abrir</strong> pastas, arquivos e programas." },
       { id: "mo3", tipo: "classificar", titulo: "Arraste cada tarefa para o movimento certo",
         enunciado: "<p>Arraste (ou clique na tarefa e depois na caixa). A resposta está no texto lá em cima!</p>",
-        categorias: [{ id: "C", rot: "Clique", ic: "👆" }, { id: "D", rot: "Duplo clique", ic: "✌️" }, { id: "A", rot: "Arrastar", ic: "🫳" }, { id: "R", rot: "Botão direito", ic: "📋" }],
+        categorias: [{ id: "C", rot: "Clique", ic: "👆" }, { id: "D", rot: "Duplo clique", ic: "✌️" }, { id: "A", rot: "Arrastar", ic: "✊" }, { id: "R", rot: "Botão direito", ic: "📋" }],
         itens: [{ t: "Apertar o botão OK", ic: "🆗", c: "C" }, { t: "Abrir a pasta Fotos", ic: "📁", c: "D" }, { t: "Mudar um arquivo de lugar", ic: "📄", c: "A" }, { t: "Ver as opções copiar e colar", ic: "📋", c: "R" }, { t: "Abrir um jogo", ic: "🎮", c: "D" }, { t: "Escolher uma cor no Paint", ic: "🎨", c: "C" }],
         explicacao: "Clique escolhe, duplo clique abre, arrastar muda de lugar e o botão direito mostra as opções." },
       { id: "mo4", tipo: "vf", titulo: "Verdadeiro ou falso?",

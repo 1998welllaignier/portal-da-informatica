@@ -130,10 +130,10 @@ PORTAL.registrarAtividades("informatica-8ano-2027-3bim", {
   m3: {
     pratica: [
       { tipo: "classificar", modo: "tabela", titulo: "Mão na massa: dentro ou fora da bolha?",
-        robo: BIT("🫧 A pergunta", [["Vejo <b>só</b> o que concordo? Estou dentro da bolha.", "só igual → dentro"], ["Vejo opiniões diferentes e confiro antes? Fora.", "diferente → fora", true]]),
+        robo: BIT("🔵 A pergunta", [["Vejo <b>só</b> o que concordo? Estou dentro da bolha.", "só igual → dentro"], ["Vejo opiniões diferentes e confiro antes? Fora.", "diferente → fora", true]]),
         enunciado: "<p>Use a tabela <strong>Na bolha · Fora da bolha</strong>.</p>",
         colunaItem: "Situação", colunaResp: "Está…",
-        categorias: [{ id: "D", rot: "🫧 Na bolha" }, { id: "F", rot: "🌍 Fora da bolha" }],
+        categorias: [{ id: "D", rot: "🔵 Na bolha" }, { id: "F", rot: "🌍 Fora da bolha" }],
         itens: [{ t: "Só vejo opiniões iguais às minhas", c: "D" }, { t: "Percebo que as pessoas pensam diferente", c: "F" },
           { t: "Acho que todo mundo concorda comigo", c: "D" }, { t: "Confiro antes, mesmo quando eu concordo", c: "F" }],
         explicacao: "Na bolha: só o igual e a sensação de que todos concordam. Fora: ver o diferente e conferir." }
@@ -158,7 +158,7 @@ PORTAL.registrarAtividades("informatica-8ano-2027-3bim", {
     desafio: [
       { tipo: "mensagens", titulo: "🟡 Essa atitude fura a bolha ou reforça?",
         enunciado: "<p>Para cada atitude, decida.</p>",
-        app: "🫧 Bolha", botoes: [{ id: "F", rot: "📌 Fura a bolha" }, { id: "R", rot: "🫧 Reforça a bolha" }],
+        app: "🔵 Bolha", botoes: [{ id: "F", rot: "📌 Fura a bolha" }, { id: "R", rot: "🔵 Reforça a bolha" }],
         itens: [{ de: "Feed", t: "Curtir só vídeos que concordam comigo", c: "R" }, { de: "Pesquisa", t: "Pesquisar “quem discorda disso e por quê?”", c: "F" },
           { de: "Grupo", t: "Sair do grupo quando alguém pensa diferente", c: "R" }, { de: "Jornal", t: "Ler a mesma notícia em dois jornais diferentes", c: "F" }],
         okMsg: "Você furou a bolha! 📌",
@@ -630,7 +630,7 @@ PORTAL.registrarAtividades("informatica-8ano-2027-3bim", {
   /* ---------- M3 · vieses e bolhas ---------- */
   A.m3.gancho = { html: "<p>⚽ Depois do clássico, cada torcida só acreditava nas notícias boas do próprio time e jurava que “todo mundo” concordava com ela.</p><p>🤔 Por que a gente acredita mais rápido no que combina com o que já pensa? E por que o celular parece mostrar só gente que concorda com a gente?</p>" };
   A.m3.aplicar = [
-    msg("🛠️ Na vida real: dentro ou fora da bolha?", "📱 Rede social", [["D", "🫧 Dentro da bolha"], ["F", "🌍 Fura a bolha"]],
+    msg("🛠️ Na vida real: dentro ou fora da bolha?", "📱 Rede social", [["D", "🔵 Dentro da bolha"], ["F", "🌍 Fura a bolha"]],
       "Cada atitude deixa a pessoa dentro da bolha ou ajuda a furar a bolha?",
       [["Seguir só perfis que pensam igual a mim", "D", "Só vejo mais do mesmo."], ["Procurar “quem discorda disso e por quê?”", "F", "Busca o outro lado."],
         ["Acreditar na hora porque a notícia combina comigo", "D", "É o viés de confirmação."], ["Conversar com respeito com quem pensa diferente", "F", "Ouve outros argumentos."], ["Conferir duas vezes a notícia que agrada demais", "F", "Desconfia do que é perfeito demais."]],

@@ -11,7 +11,7 @@ Neste bimestre você vai cumprir **6 missões**. Se sobrar aula, tem **2 missõe
 | 🛒 Missão 5 – Consumo consciente e obsolescência | Computação e Sociedade |
 | ♻️ Missão 6 – Lixo eletrônico | Computação e Sociedade |
 | 💬 Missão 7 – Extra: Ética no grupo da turma | Computação e Sociedade |
-| 🛟 Missão 8 – Extra: Backup | Cultura Digital |
+| 💾 Missão 8 – Extra: Backup | Cultura Digital |
 | 🔁 Revisão para a prova | Todas as missões estudadas |
 
 **Como funciona a Trilha Passo a Passo:**
@@ -195,7 +195,7 @@ Alguém foi ofendido? **Conte a um adulto**. Foto de colega: só pedindo antes.
 **Ética** no grupo: respeito, nada de foto sem pedir, nada de madrugada. Ofensa? Conte a um adulto.
 **Palavras-chave:** ética · combinado
 
-## 🛟 Missão 8 – Extra: Backup
+## 💾 Missão 8 – Extra: Backup
 **Objetivo:** guardar uma cópia dos arquivos importantes.
 📅 **Data da aula:** ........ / ........
 ### 💡 Para começar

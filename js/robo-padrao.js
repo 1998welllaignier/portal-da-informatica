@@ -64,7 +64,7 @@
       L("Posições 1 a 2: meio = 1 → número 1. O 3 é maior: sobra a posição 2.", "2ª: meio 1 → 1 · o 3 está depois"),
       L("Posição 2: é o 3. Achei em 3 tentativas!", "3ª: posição 2 → 3 ✔", true, 2600)],
       "Agora é a sua vez: comece sempre pelo meio do que sobrou. 💪"),
-    bolha: () => R(["🫧 Outra lista: [4, 2, 3]"], [
+    bolha: () => R(["🔵 Outra lista: [4, 2, 3]"], [
       T("Olha com <b>outra</b> lista, uma passada por vez. Pergunto: “o da esquerda é maior?”", "1ª passada"),
       L("4 e 2: sim → <b>trocar</b>.", "4 e 2 → trocar → [2, 4, 3]"),
       L("4 e 3: sim → <b>trocar</b>. O maior (4) chegou ao fim!", "4 e 3 → trocar → [2, 3, 4]", true),

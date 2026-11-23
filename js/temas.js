@@ -29,7 +29,7 @@
     return [
       ["carnaval", "🎭 Carnaval", md(mais(carn, -6)), md(mais(carn, 1))],          // da quarta antes até a Quarta-feira de Cinzas
       ["pascoa", "🐰 Páscoa", md(mais(pa, -6)), md(pa)],                            // Semana Santa (segunda a domingo de Páscoa)
-      ["indigenas", "🪶 Dia dos Povos Indígenas", ...janela(ano, "04-19")],
+      ["indigenas", "🌿 Dia dos Povos Indígenas", ...janela(ano, "04-19")],
       ["curionopolis", "🎂 Aniversário de Curionópolis", ...janela(ano, "05-10")],
       ["junina", "🌽 Festa Junina", ...janela(ano, "06-24", 1)],                    // 2 semanas, até o dia de São João
       ["folclore", "🍃 Dia do Folclore", ...janela(ano, "08-22")],
@@ -148,7 +148,7 @@
   const DEF = {
     carnaval: { esq: MASCARA, dir: SERPENTINA, cai: { tipo: "confete", n: 40 }, avatar: "mascara", faixa: "🥁 <b>Carnaval:</b> a maior festa popular do Brasil, nos dias antes da Quarta-feira de Cinzas, com escolas de samba, blocos, frevo e marchinhas. A escola <b>Unidos da Informática</b> está na avenida: alegria com respeito, porque o Carnaval é festa para todos!" },
     pascoa: { dir: COELHO, faixa: "🐰 <b>Páscoa:</b> a festa cristã que celebra a ressurreição de Jesus. Virou também tempo de partilha, de esperança e de ovos de chocolate com quem a gente gosta. 🍫" },
-    indigenas: { esq: SOL_FLORESTA, faixa: "🪶 <b>19 de abril · Dia dos Povos Indígenas.</b> O Brasil tem centenas de povos indígenas, cada um com a sua língua, a sua história e a sua cultura. Eles não são coisa do passado: estão aqui hoje. Respeito e valorização!" },
+    indigenas: { esq: SOL_FLORESTA, faixa: "🌿 <b>19 de abril · Dia dos Povos Indígenas.</b> O Brasil tem centenas de povos indígenas, cada um com a sua língua, a sua história e a sua cultura. Eles não são coisa do passado: estão aqui hoje. Respeito e valorização!" },
     curionopolis: { esq: [GARIMPO, BANDEIRA_CUR], dir: BOLO_CUR(new Date().getFullYear() - 1988), cai: { tipo: "balao", n: 12, cores: ["#025f32", "#dfc15a", "#f5c400", "#ffffff", "#025f32", "#dfc15a"] }, faixa: `🎂 <b>10 de maio · Aniversário de Curionópolis!</b> A nossa cidade foi criada em 10 de maio de 1988 e faz ${new Date().getFullYear() - 1988} anos. Parabéns, Curionópolis!` },
     junina: { esq: FOGUEIRA, dir: MILHO, avatar: "palha", faixa: "🌽 <b>Festa Junina:</b> as festas de junho homenageiam Santo Antônio, São João e São Pedro e celebram a colheita, com quadrilha, fogueira, bandeirinhas e comidas de milho. Bem-vindos ao <b>Arraiá da Informática</b>! 🎶" },
     folclore: { esq: [CURUPIRA, BOITATA], dir: IARA_BOTO, passa: SACI, cai: { tipo: "folha", n: 18 }, faixa: "🍃 <b>22 de agosto · Dia do Folclore.</b> Curupira, Iara, Boto, Saci, Boitatá… as lendas, as danças e as brincadeiras que contam a história do nosso povo." },
@@ -163,7 +163,7 @@
 
   /* ---------- nome do tema na plaquinha pendurada embaixo da barra de cima ---------- */
   // [nome divertido, nome oficial] (datas de conscientização sem trocadilho, por respeito)
-  const NOME = { carnaval: ["🎭 Unidos da Informática", "Carnaval"], pascoa: ["🐰 Páscoa Conectada", "Páscoa"], indigenas: ["🪶 Dia dos Povos Indígenas", "19 de abril"],
+  const NOME = { carnaval: ["🎭 Unidos da Informática", "Carnaval"], pascoa: ["🐰 Páscoa Conectada", "Páscoa"], indigenas: ["🌿 Dia dos Povos Indígenas", "19 de abril"],
     curionopolis: ["🎂 Parabéns, Curionópolis!", "Aniversário da cidade · 10 de maio"], junina: ["🌽 Arraiá da Informática", "Festa Junina · São João"], folclore: ["🍃 Lendas do Brasil", "Dia do Folclore · 22 de agosto"],
     patria: ["🇧🇷 Brasil Conectado", "Semana da Pátria · 7 de setembro"], criancas: ["🎈 Criançada Digital", "Dia das Crianças · 12 de outubro"], professor: ["🍎 Mestres do Saber", "Dia do Professor · 15 de outubro"],
     saci: ["🌪️ Redemoinho do Saci", "Dia do Saci · 31 de outubro"], consciencia: ["✊🏿 Semana da Consciência Negra", "20 de novembro · Zumbi e Dandara"], padroeira: ["⛪ Festa da Padroeira", "Nossa Senhora das Graças · 27 de novembro"], natal: ["🎄 Feliz Natal!", "Natal Conectado"] };
@@ -244,7 +244,7 @@
         <rect x="30" y="120" width="60" height="10" rx="2" fill="#92400e"/><path d="M30 121 Q45 114 60 120 Q75 114 90 121" fill="#fff"/></svg>`);
     }
     if (d.cai) particulas(d.cai);
-    // 🪧 a plaquinha pendurada com o nome do tema foi retirada em 20/11/2026, a pedido do professor (atrapalhava a tela dos alunos)
+    // 📋 a plaquinha pendurada com o nome do tema foi retirada em 20/11/2026, a pedido do professor (atrapalhava a tela dos alunos)
     if (d.passa && !reduz()) el("tm-passa", d.passa);
     // cantos: um desenho ou uma lista que vai alternando a cada 3 minutos (troca suave)
     [["esq", d.esq], ["dir", d.dir]].forEach(([lado, v]) => { if (!v) return; const lista = [].concat(v); let i = 0;

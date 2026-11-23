@@ -23,7 +23,7 @@ PORTAL.registrarConteudo("informatica-8ano-2027-3bim-trilha", {
      "Computação e Sociedade"
     ],
     [
-     "🫧 Missão 3 – Vieses e bolhas",
+     "🔵 Missão 3 – Vieses e bolhas",
      "Computação e Sociedade"
     ],
     [
@@ -254,7 +254,7 @@ PORTAL.registrarConteudo("informatica-8ano-2027-3bim-trilha", {
   },
   {
    "id": "m3",
-   "icone": "🫧",
+   "icone": "🔵",
    "titulo": "Missão 3 – Vieses e bolhas",
    "objetivo": "perceber a bolha das redes.",
    "comecar": [

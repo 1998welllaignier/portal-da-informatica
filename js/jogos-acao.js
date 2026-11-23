@@ -227,10 +227,10 @@
         tecla(k, desce) { if (k === "ArrowLeft") teclas.l = desce; else if (k === "ArrowRight") teclas.r = desce; else if (k === " " && desce && preso && !fim) solta(); else return false; }
       }; } });
 
-  /* ---------------- 🫧 Bolhas de Pixels (inspirado em Bubble Shooter) ---------------- */
+  /* ---------------- 🔵 Bolhas de Pixels (inspirado em Bubble Shooter) ---------------- */
   const BC = ["#ef4444", "#3b82f6", "#22c55e", "#eab308", "#a855f7"];
-  J.registrar({ id: "bolhas-pixels", nome: "Bolhas de Pixels", ic: "🫧", cat: "acao", controle: "🖱️ Mire com o mouse e clique para atirar.",
-    como: ["🫧 Lá em cima tem bolhas coloridas (pixels).", "🖱️ Mire com o mouse e clique para atirar a bolha de baixo.", "✨ Junte 3 ou mais da mesma cor: elas estouram!", "⚠️ De vez em quando o teto desce. Não deixe as bolhas chegarem embaixo!"],
+  J.registrar({ id: "bolhas-pixels", nome: "Bolhas de Pixels", ic: "🔵", cat: "acao", controle: "🖱️ Mire com o mouse e clique para atirar.",
+    como: ["🔵 Lá em cima tem bolhas coloridas (pixels).", "🖱️ Mire com o mouse e clique para atirar a bolha de baixo.", "✨ Junte 3 ou mais da mesma cor: elas estouram!", "⚠️ De vez em quando o teto desce. Não deixe as bolhas chegarem embaixo!"],
     demo(c, t, W, H, D) { D.fundo(c, W, H, "#e0f2fe"); [[140, "#ef4444"], [170, "#ef4444"], [200, "#3b82f6"], [230, "#22c55e"]].forEach(([x, cor]) => { if (t > 2.4 && cor === "#ef4444") return; c.fillStyle = cor; c.beginPath(); c.arc(x, 40, 14, 0, 7); c.fill(); });
       const k = Math.min(1, Math.max(0, (t - 1) / 1.2)); c.fillStyle = "#ef4444"; c.beginPath(); c.arc(D.lerp(180, 110, k), D.lerp(190, 40, k), 14, 0, 7); c.fill(); c.strokeStyle = "#64748b"; c.setLineDash([4, 4]); c.beginPath(); c.moveTo(180, 190); c.lineTo(110, 40); c.stroke(); c.setLineDash([]); D.mao(c, 120, 70, t > .7 && t < 1); },
     criar(api) { const { W, H, D } = api; const r = 18, CO = 19, ox = (W - CO * 2 * r) / 2 + r; let g = [], tiro = null, prox = BC[R(4)], mira = { x: W / 2, y: 100 }, pts = 0, fim = false, tiros = 0, desce = 0;

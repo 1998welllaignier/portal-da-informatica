@@ -11,7 +11,7 @@
     { min: 10, icone: "🎮", t: "Recreação (quem concluiu o Básico)" }
   ];
   PORTAL.registrarRoteiro("informatica-6ano-2027-4bim", {
-    antes: ["🔊 Caixinha de som", "🖥️ Computadores ligados pelo Veyon", "🎬 Vídeo da missão aberto no computador do professor", "🪪 Cartões com os códigos dos alunos", "🎮 Jogos da recreação definidos"],
+    antes: ["🔊 Caixinha de som", "🖥️ Computadores ligados pelo Veyon", "🎬 Vídeo da missão aberto no computador do professor", "📇 Cartões com os códigos dos alunos", "🎮 Jogos da recreação definidos"],
     m1: {
       datas: "1ª aula do bimestre · BNCC EF06CO07 · datas pelo calendário da SEMED 2027",
       tempo: T,

@@ -17,7 +17,7 @@
     antes: [
       "🔊 Caixinha de som",
       "🖥️ Computador do aluno ligado, com o portal aberto",
-      "🪪 Cartão com o código do aluno",
+      "📇 Cartão com o código do aluno",
       "✅ Chamada no diário no começo; registro da aula no fim (ou o relatório do painel)"
     ],
     m1: {

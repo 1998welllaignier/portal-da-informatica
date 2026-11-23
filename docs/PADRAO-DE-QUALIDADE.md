@@ -509,6 +509,13 @@ Questões **contextualizadas** (situação curta: 1–2 frases no 6º, 2–3 no 
 - **2 telas:** a própria tela do placar vira o telão, com a faixa de controles embaixo (só na tela do professor).
 - **Registro automático:** ao terminar, a aula do dia no Diário ganha `leituraGuiada` (trechos, quem leu, perguntas e acertos) e uma linha no "📝 Registro das aulas"; o **relatório da família** mostra "📖 Leitura guiada com a turma: 🎤 leu em voz alta o trecho N; acertou X de Y perguntas relâmpago".
 
+## 🧩 Emojis que o Windows 10 mostra (23/11/2026)
+- Os computadores da sala e o do professor têm Windows 10, que só desenha emojis até a versão 12; os mais novos viram um quadradinho (□). Trocados 20 emojis (174 lugares), ex.: 🪪→📇, 🪧→📋, 🫧→🔵, 🛟→💾, 🪟→🔲, 🪆→🎎, 🛞→🖲️, 🫳→✊.
+- Regra: material novo não usa emoji do bloco U+1FA70–1FAFF (fora 🩰🩱🩲🩳 🩸🩹🩺 🪀🪁🪂 🪐🪑🪒🪓🪔🪕) nem 🛖🛝🛞🛟🦬🦭🫙 etc.: escolher um equivalente antigo.
+
+## 📌 Roteiro abre na Missão de hoje (23/11/2026)
+- Na aba Aula, sem missão no endereço, o roteiro abre a 📌 Missão de hoje escolhida para a turma (antes vinha a do cronograma: no dia da M2 do 9º A aparecia a Revisão). Trocar de turma abre a missão de hoje da outra turma.
+
 ## ✨ Transição suave entre telas (23/11/2026, pedido do professor)
 - Em todo o portal (aluno e painel), ao trocar de tela os blocos descem 14 px e se encaixam, um 40 ms depois do outro, em 0,4 s (`cascata` em js/portal.js + `.cx-entra`). Nada exagerado: "suave aos olhos, não lento".
 - Barras presas (sticky/fixed) não se mexem; redesenhar a mesma tela não anima de novo; quem pede menos movimento no aparelho vê direto.

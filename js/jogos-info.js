@@ -125,7 +125,7 @@
   /* ---------------- 🧩 Monte o computador (classificar as peças) ---------------- */
   const PECAS = [["⌨️", "Teclado", "e"], ["🖱️", "Mouse", "e"], ["🎤", "Microfone", "e"], ["📷", "Webcam", "e"], ["🖨️", "Scanner", "e"],
     ["🖥️", "Monitor", "s"], ["🖨️", "Impressora", "s"], ["🔊", "Caixa de som", "s"], ["🎧", "Fone de ouvido", "s"], ["📽️", "Projetor", "s"],
-    ["🧠", "Processador", "p"], ["💽", "HD", "a"], ["💾", "Pen drive", "a"], ["🗃️", "SSD", "a"], ["🪪", "Cartão de memória", "a"]];
+    ["🧠", "Processador", "p"], ["💽", "HD", "a"], ["💾", "Pen drive", "a"], ["🗃️", "SSD", "a"], ["📇", "Cartão de memória", "a"]];
   const CAIXAS = [["e", "⬅️ Entrada", "manda informação para o computador"], ["p", "⚙️ Processamento", "faz as contas"], ["s", "➡️ Saída", "mostra o resultado"], ["a", "📦 Armazenamento", "guarda os arquivos"]];
   J.registrar({ id: "monte-pc", nome: "Peça no lugar certo", ic: "🧩", cat: "info", tipo: "dom", controle: "🖱️ Clique na peça e depois na caixa certa.",
     como: ["🧩 Aparece uma peça do computador.", "🤔 Ela manda informação (entrada), mostra (saída), faz as contas (processamento) ou guarda (armazenamento)?", "🖱️ Clique na caixa certa.", "🏁 Você tem 50 segundos."],

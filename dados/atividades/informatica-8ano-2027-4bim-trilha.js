@@ -9,7 +9,7 @@
 PORTAL.registrarAtividades("informatica-8ano-2027-4bim-trilha", {
   m1: {
     pratica: [{ tipo: "classificar", titulo: "É dado pessoal?", enunciado: "<p>Veja a tabela <strong>Dado pessoal · Exemplo</strong>.</p>",
-      categorias: [{ id: "S", rot: "🪪 É dado pessoal" }, { id: "N", rot: "🌤️ Não é" }],
+      categorias: [{ id: "S", rot: "📇 É dado pessoal" }, { id: "N", rot: "🌤️ Não é" }],
       itens: [{ t: "Ana Souza Lima", c: "S" }, { t: "Rua das Flores, 10", c: "S" }, { t: "A cor do céu", c: "N" }], explicacao: "Nome e endereço dizem quem você é." }],
     basico: [
       { tipo: "ligar", titulo: "Passo 1 · O que significa?", enunciado: SIGNIF, pares: [{ a: "Dado pessoal", b: "Informação que diz quem você é" }, { a: "Privacidade", b: "Decidir o que os outros sabem de você" }], explicacao: "Dado pessoal e privacidade." },
@@ -19,7 +19,7 @@ PORTAL.registrarAtividades("informatica-8ano-2027-4bim-trilha", {
   },
   m2: {
     pratica: [{ tipo: "classificar", titulo: "Comum ou sensível?", enunciado: "<p>Veja a tabela <strong>Dado sensível (exemplos da lei) · Exemplo</strong>.</p>",
-      categorias: [{ id: "S", rot: "🔐 Sensível" }, { id: "C", rot: "🪪 Comum" }],
+      categorias: [{ id: "S", rot: "🔐 Sensível" }, { id: "C", rot: "📇 Comum" }],
       itens: [{ t: "Uma doença", c: "S" }, { t: "A digital", c: "S" }, { t: "O endereço", c: "C" }], explicacao: "Doença e digital são sensíveis." }],
     basico: [
       { tipo: "ligar", titulo: "Passo 1 · O que significa?", enunciado: SIGNIF, pares: [{ a: "Dado sensível", b: "Dado mais delicado, como a saúde" }, { a: "Biometria", b: "Partes do corpo que identificam" }, { a: "LGPD", b: "A lei que protege os dados" }], explicacao: "Dado sensível, biometria e LGPD." },
@@ -137,13 +137,13 @@ PORTAL.registrarAtividades("informatica-8ano-2027-4bim-trilha", {
   LEMBRA(["Quem engana para pegar dados é um…", ["Golpista", "Professor"], "Um <b>golpista</b>."],
     ["Antes de postar a foto de um colega, você…", ["Pede permissão", "Posta sem perguntar"], "<b>Peça permissão</b>."]);
   A.m1.aplicar = [
-    msg("🛠️ Na vida real: é dado pessoal?", "🎁 Formulário", [["S", "🪪 Dado pessoal"], ["N", "🙂 Não diz quem você é"]], "Dado pessoal diz quem você é.",
+    msg("🛠️ Na vida real: é dado pessoal?", "🎁 Formulário", [["S", "📇 Dado pessoal"], ["N", "🙂 Não diz quem você é"]], "Dado pessoal diz quem você é.",
       [["Nome completo", "S", "Diz quem você é."], ["Endereço", "S", "Diz onde você mora."], ["“Gosto de azul”", "N", "Sozinho, não diz quem você é."]],
-      "Mandou bem! 🪪", "Nome, endereço e localização são dados pessoais."),
+      "Mandou bem! 📇", "Nome, endereço e localização são dados pessoais."),
     VIDA(["Um site pede o seu telefone. Você pergunta…", ["Quem está pedindo? Para quê?", "Qual é a cor do site?"], "<b>Quem? Para quê?</b>"], ["Dar o telefone para qualquer pessoa…", ["Não: eu não dou", "Sim, sempre"], "<b>Não dou</b> para qualquer pessoa."])
   ];
   A.m2.aplicar = [
-    msg("🛠️ Na vida real: sensível ou não?", "🗂️ Dados", [["S", "🔴 Dado sensível"], ["N", "🪪 Dado pessoal comum"]], "Dados sensíveis são ainda mais delicados.",
+    msg("🛠️ Na vida real: sensível ou não?", "🗂️ Dados", [["S", "🔴 Dado sensível"], ["N", "📇 Dado pessoal comum"]], "Dados sensíveis são ainda mais delicados.",
       [["Uma doença", "S", "Saúde: sensível."], ["A digital", "S", "Biometria: sensível."], ["O endereço", "N", "Pessoal comum."]],
       "Mandou bem! 🔒", "Saúde, religião e biometria são dados sensíveis."),
     VIDA(["A lei que protege os seus dados é a…", ["LGPD", "Um jogo"], "A <b>LGPD</b>."], ["Pela LGPD, você pode…", ["Pedir para apagar os seus dados", "Nunca pedir nada"], "Pedir para <b>apagar</b> os seus dados."])

@@ -54,7 +54,7 @@ PORTAL.registrarAtividades("informatica-8ano-2027-3bim-trilha", {
     pratica: [
       { tipo: "classificar", titulo: "Na bolha ou fora?",
         enunciado: "<p>Veja a tabela <strong>Na bolha · Fora da bolha</strong>.</p>",
-        categorias: [{ id: "D", rot: "🫧 Na bolha" }, { id: "F", rot: "🌍 Fora da bolha" }],
+        categorias: [{ id: "D", rot: "🔵 Na bolha" }, { id: "F", rot: "🌍 Fora da bolha" }],
         itens: [{ t: "Só vejo opiniões iguais", c: "D" }, { t: "Vejo opiniões diferentes", c: "F" }, { t: "Acho que todos concordam", c: "D" }],
         explicacao: "Só o igual = bolha; o diferente = fora." }
     ],
@@ -262,7 +262,7 @@ PORTAL.registrarAtividades("informatica-8ano-2027-3bim-trilha", {
     VIDA(["“Compartilhe antes que apaguem” é…", ["Um sinal de alerta", "Uma prova de verdade"], "É <b>sinal de alerta</b>."], ["Para conferir se a notícia é velha, olhe…", ["A data", "A cor das letras"], "Olhe a <b>data</b>."])
   ];
   A.m3.aplicar = [
-    msg("🛠️ Na vida real: bolha ou fora dela?", "📱 Rede social", [["D", "🫧 Fica na bolha"], ["F", "🌍 Fura a bolha"]], "Essa atitude fura a bolha?",
+    msg("🛠️ Na vida real: bolha ou fora dela?", "📱 Rede social", [["D", "🔵 Fica na bolha"], ["F", "🌍 Fura a bolha"]], "Essa atitude fura a bolha?",
       [["Seguir só quem pensa igual a mim", "D", "Só vejo opiniões iguais."], ["Procurar o outro lado", "F", "Vejo opiniões diferentes."], ["Seguir fontes diferentes", "F", "Vejo outros pontos de vista."]],
       "Bolha furada! 🌍", "Para furar a bolha: seguir fontes diferentes e procurar o outro lado."),
     VIDA(["Na bolha, parece que…", ["Todo mundo pensa igual a você", "Ninguém usa a internet"], "Parece que <b>todo mundo pensa igual</b>."], ["Para furar a bolha, você pode…", ["Procurar o outro lado", "Ver só mais do mesmo"], "<b>Procure o outro lado</b>."])

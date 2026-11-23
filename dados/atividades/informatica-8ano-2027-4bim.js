@@ -19,14 +19,14 @@ PORTAL.registrarAtividades("informatica-8ano-2027-4bim", {
         robo: BIT("🔎 A pergunta", [["Essa informação <b>identifica</b> uma pessoa? É dado pessoal.", "identifica → dado pessoal"], ["“O céu está azul” não diz nada sobre ninguém.", "não identifica → não é", true]]),
         enunciado: "<p>Use a tabela <strong>Dado pessoal · Exemplo</strong>.</p>",
         colunaItem: "Informação", colunaResp: "É dado pessoal?",
-        categorias: [{ id: "S", rot: "🪪 É dado pessoal" }, { id: "N", rot: "🌤️ Não é" }],
+        categorias: [{ id: "S", rot: "📇 É dado pessoal" }, { id: "N", rot: "🌤️ Não é" }],
         itens: [{ t: "Ana Souza Lima", c: "S" }, { t: "Rua das Flores, 10", c: "S" }, { t: "A previsão do tempo de amanhã", c: "N" }, { t: "A sua selfie", c: "S" }, { t: "Onde você está agora", c: "S" }, { t: "A capital do Brasil", c: "N" }],
         explicacao: "Nome, endereço, foto e localização identificam a pessoa; a previsão do tempo e a capital do país, não." }
     ],
     basico: [
       { tipo: "classificar", titulo: "Separe: dado pessoal ou não?",
         enunciado: "<p>Use o 💡 Para começar.</p>",
-        categorias: [{ id: "S", rot: "🪪 Dado pessoal" }, { id: "N", rot: "🌤️ Não é dado pessoal" }],
+        categorias: [{ id: "S", rot: "📇 Dado pessoal" }, { id: "N", rot: "🌤️ Não é dado pessoal" }],
         itens: [{ t: "Telefone", c: "S" }, { t: "Data de nascimento", c: "S" }, { t: "CPF", c: "S" }, { t: "O nome de um rio", c: "N" }, { t: "Localização", c: "S" }, { t: "A cor do céu", c: "N" }],
         explicacao: "Telefone, data de nascimento, CPF e localização identificam a pessoa." },
       { tipo: "ligar", titulo: "Cada termo e o seu significado",
@@ -48,13 +48,13 @@ PORTAL.registrarAtividades("informatica-8ano-2027-4bim", {
           { de: "Campo", t: "Foto do seu documento de identidade", c: "N", why: "Para um sorteio de camiseta, não precisa." },
           { de: "Campo", t: "A senha do seu e-mail", c: "N", why: "Senha nunca se informa." },
           { de: "Campo", t: "Onde você está agora", c: "N", why: "A localização não é necessária." }],
-        okMsg: "Você só informa o que precisa! 🪪",
+        okMsg: "Você só informa o que precisa! 📇",
         explicacao: "Só o necessário: nome e um contato. Documento, senha e localização não." }
     ],
     turbo: [
       { tipo: "memoria", titulo: "🔴 Jogo da memória dos dados pessoais",
         enunciado: "<p>Vire duas cartas e ache os pares: cada dado pessoal e o seu exemplo.</p>", dicas: ["Os exemplos estão na tabela do 💡 Para começar."],
-        pares: [{ a: "🧑 Nome completo", b: "Ana Souza Lima" }, { a: "🏠 Endereço", b: "Rua das Flores, 10" }, { a: "🪪 Documentos", b: "CPF, RG" }, { a: "📍 Localização", b: "Onde você está agora" }],
+        pares: [{ a: "🧑 Nome completo", b: "Ana Souza Lima" }, { a: "🏠 Endereço", b: "Rua das Flores, 10" }, { a: "📇 Documentos", b: "CPF, RG" }, { a: "📍 Localização", b: "Onde você está agora" }],
         explicacao: "Nome, endereço, documentos e localização." }
     ],
     vf: [
@@ -72,7 +72,7 @@ PORTAL.registrarAtividades("informatica-8ano-2027-4bim", {
         robo: BIT("🔎 A pergunta", [["Se for exposto, pode levar a <b>discriminação</b>? É sensível.", "pode discriminar → sensível"], ["Saúde, religião, opinião política, origem, biometria, genética.", "a lista da lei", true]]),
         enunciado: "<p>Use a tabela <strong>Dado sensível (exemplos da lei) · Exemplo</strong>.</p>",
         colunaItem: "Dado", colunaResp: "Tipo",
-        categorias: [{ id: "C", rot: "🪪 Dado pessoal comum" }, { id: "S", rot: "🔐 Dado sensível" }],
+        categorias: [{ id: "C", rot: "📇 Dado pessoal comum" }, { id: "S", rot: "🔐 Dado sensível" }],
         itens: [{ t: "Uma doença, um remédio que a pessoa toma", c: "S" }, { t: "O endereço", c: "C" }, { t: "A digital usada para desbloquear o celular", c: "S" }, { t: "A religião da pessoa", c: "S" }, { t: "O telefone", c: "C" }, { t: "Em quem a pessoa votou", c: "S" }],
         explicacao: "Saúde, biometria, religião e opinião política são sensíveis; endereço e telefone são dados pessoais comuns." }
     ],
@@ -81,7 +81,7 @@ PORTAL.registrarAtividades("informatica-8ano-2027-4bim", {
         pares: [{ a: "👀 Saber", b: "Quais dados a empresa tem sobre você" }, { a: "✏️ Corrigir", b: "Arrumar um dado errado" }, { a: "🗑️ Apagar", b: "Excluir dados que não são mais necessários" }, { a: "↩️ Retirar o consentimento", b: "Desistir da autorização que deu" }],
         explicacao: "Saber, corrigir, apagar e retirar o consentimento." },
       { tipo: "classificar", titulo: "Separe: comum ou sensível?",
-        categorias: [{ id: "C", rot: "🪪 Comum" }, { id: "S", rot: "🔐 Sensível" }],
+        categorias: [{ id: "C", rot: "📇 Comum" }, { id: "S", rot: "🔐 Sensível" }],
         itens: [{ t: "Nome completo", c: "C" }, { t: "O DNA", c: "S" }, { t: "O rosto usado para desbloquear", c: "S" }, { t: "Data de nascimento", c: "C" }, { t: "A cor da pele, a etnia", c: "S" }],
         explicacao: "DNA, rosto para desbloquear e origem racial ou étnica são sensíveis." },
       { tipo: "escolha", titulo: "LGPD e ANPD",
@@ -490,11 +490,11 @@ PORTAL.registrarAtividades("informatica-8ano-2027-4bim", {
     ["Mostrar onde você está agora é a…", ["Localização em tempo real", "Senha", "Bateria"], "É a <b>localização em tempo real</b>."],
     ["Antes de postar a foto de um colega, você…", ["Pede permissão", "Posta sem perguntar", "Muda o nome dele"], "<b>Peça permissão</b>."])];
   A.m1.aplicar = [
-    msg("🛠️ Na vida real: é dado pessoal?", "🎁 Formulário do “tênis grátis”", [["S", "🪪 Dado pessoal"], ["N", "🙂 Não identifica sozinho"]],
+    msg("🛠️ Na vida real: é dado pessoal?", "🎁 Formulário do “tênis grátis”", [["S", "📇 Dado pessoal"], ["N", "🙂 Não identifica sozinho"]],
       "Dado pessoal é o que identifica você. Cada informação é dado pessoal?",
       [["Nome completo", "S", "Identifica você."], ["CPF", "S", "Documento: identifica você."], ["“Gosto de futebol”", "N", "Sozinho, não diz quem você é."], ["A sua selfie", "S", "A foto do rosto identifica."],
         ["“Minha cor favorita é azul”", "N", "Sozinha, não identifica."]],
-      "Detetive de dados! 🪪", "Nome, endereço, telefone, nascimento, documentos, foto do rosto e localização são dados pessoais."),
+      "Detetive de dados! 📇", "Nome, endereço, telefone, nascimento, documentos, foto do rosto e localização são dados pessoais."),
     VIDA(
       ["Antes de informar um dado, pergunte…", ["Quem está pedindo? Para quê? Precisa mesmo?", "Qual é a cor do site?", "Quantas curtidas tem?"], "<b>Quem? Para quê? Precisa mesmo?</b>"],
       ["“Estuda na escola tal + 8º ano + joga no time do bairro + mora perto da praça”:", ["Juntos, esses dados podem identificar você", "Não dizem nada", "São só gostos"], "<b>Juntos</b>, revelam mais."],
@@ -506,7 +506,7 @@ PORTAL.registrarAtividades("informatica-8ano-2027-4bim", {
       [["“Gosto de pizza”", "Não ajuda a achar a pessoa."], ["“Meu filme favorito é de aventura”", "Não ajuda a achar a pessoa."]],
       "Sozinho, um dado diz pouco; juntos, podem identificar você."));
   mais("m1", "turbo",
-    mem("🧩 Jogo da memória dos dados", [["🧑 Nome completo", "Ana Souza Lima"], ["🏠 Endereço", "Rua das Flores, 10"], ["🪪 Documentos", "CPF, RG"],
+    mem("🧩 Jogo da memória dos dados", [["🧑 Nome completo", "Ana Souza Lima"], ["🏠 Endereço", "Rua das Flores, 10"], ["📇 Documentos", "CPF, RG"],
       ["📸 Foto do rosto", "A sua selfie"], ["📍 Localização", "Onde você está agora"], ["Privacidade", "Escolher quem sabe sobre você"]],
       "Proteger os dados é proteger você."));
 
@@ -524,7 +524,7 @@ PORTAL.registrarAtividades("informatica-8ano-2027-4bim", {
       ["Se dados sensíveis forem expostos, podem levar a…", ["Discriminação (tratar alguém de forma injusta)", "Um prêmio", "Mais bateria"], "Podem levar a <b>discriminação</b>."])
   ];
   mais("m2", "desafio",
-    msg("🔒 Pessoal ou sensível?", "🗂️ Dados", [["P", "🪪 Dado pessoal"], ["S", "🔴 Dado sensível"]],
+    msg("🔒 Pessoal ou sensível?", "🗂️ Dados", [["P", "📇 Dado pessoal"], ["S", "🔴 Dado sensível"]],
       "Use as duas tabelas: dado pessoal comum ou dado sensível?",
       [["O remédio que a pessoa toma", "S", "Saúde: sensível."], ["O telefone", "P", "Pessoal."], ["A digital usada para desbloquear", "S", "Biometria: sensível."], ["O endereço", "P", "Pessoal."], ["A religião", "S", "Sensível."]],
       "Classificação certa! 🔒", "Dados sensíveis são ainda mais delicados: saúde, religião, opinião política, origem racial ou étnica, biometria e dado genético."));

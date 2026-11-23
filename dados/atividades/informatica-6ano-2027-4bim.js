@@ -429,12 +429,12 @@ PORTAL.registrarAtividades("informatica-6ano-2027-4bim", {
     desafio: [
       { tipo: "mensagens", titulo: "🟡 Quem perdeu e quem não perdeu os arquivos?",
         enunciado: "<p>Para cada história, decida se a pessoa perdeu os arquivos.</p>",
-        app: "🛟 Histórias", botoes: [{ id: "S", rot: "😌 Não perdeu" }, { id: "P", rot: "😢 Perdeu" }],
+        app: "💾 Histórias", botoes: [{ id: "S", rot: "😌 Não perdeu" }, { id: "P", rot: "😢 Perdeu" }],
         itens: [{ de: "Ana", t: "O celular quebrou, mas as fotos estavam também na nuvem", c: "S" },
           { de: "Léo", t: "O trabalho estava só no pen drive, e o pen drive sumiu", c: "P", why: "Sem backup, só tinha uma cópia." },
           { de: "Bia", t: "O computador queimou; ela tinha cópia no pen drive e na nuvem", c: "S" },
           { de: "Caio", t: "Fez a cópia no mesmo pen drive do original, e o pen drive estragou", c: "P", why: "A cópia precisa ficar em outro lugar." }],
-        okMsg: "Você entendeu o backup! 🛟",
+        okMsg: "Você entendeu o backup! 💾",
         explicacao: "Quem tinha cópia em outro lugar não perdeu nada." }
     ],
     turbo: [

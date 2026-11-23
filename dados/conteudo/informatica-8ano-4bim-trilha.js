@@ -109,7 +109,7 @@ PORTAL.registrarConteudo("informatica-8ano-4bim-trilha", {
        "Procurar uma palavra no dicionário"
       ],
       [
-       "🫧 Arrumar em ordem",
+       "🔵 Arrumar em ordem",
        "Olha <strong>dois vizinhos</strong>. Se estão fora de ordem, <strong>troca</strong> os dois de lugar",
        "Arrumar os números do menor para o maior"
       ]

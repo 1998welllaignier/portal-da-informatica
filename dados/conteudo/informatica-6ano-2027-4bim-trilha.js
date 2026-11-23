@@ -43,7 +43,7 @@ PORTAL.registrarConteudo("informatica-6ano-2027-4bim-trilha", {
      "Computação e Sociedade"
     ],
     [
-     "🛟 Missão 8 – Extra: Backup",
+     "💾 Missão 8 – Extra: Backup",
      "Cultura Digital"
     ],
     [
@@ -577,7 +577,7 @@ PORTAL.registrarConteudo("informatica-6ano-2027-4bim-trilha", {
   },
   {
    "id": "m8",
-   "icone": "🛟",
+   "icone": "💾",
    "titulo": "Missão 8 – Extra: Backup",
    "objetivo": "guardar uma cópia dos arquivos importantes.",
    "comecar": [

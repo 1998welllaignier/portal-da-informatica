@@ -246,7 +246,7 @@
       "<b>🔁 Revisão para a prova</b>: na última aula antes da prova, escolha 🔁 Revisão na Missão de hoje. Ao ▶️ Iniciar, o painel grava quais missões a turma já estudou e cada aluno vê só os blocos dessas missões (📚 Relembre + atividades com correção automática, Desafio e Turbo misturando as missões). Conta no placar como uma missão.",
       "<b>👀 Abrir a apostila do aluno</b>: abre, numa aba nova, a apostila exatamente como o aluno vê. Nada do que você fizer ali conta.",
       "<b>📺 Vídeo da missão</b>: quando a missão já tem vídeo no seu canal do YouTube (não listado), o player aparece nesta aba. Dê o play ali mesmo ou toque em <b>↗️ Abrir player em nova aba</b>, que abre só o vídeo numa aba própria, ocupando a tela toda (bom para projetar). Só você vê; os alunos não.",
-      "<b>🪧 Cartaz de entrada</b>: abre, numa aba nova, o mesmo cartaz da porta (endereço do site e os 4 passos para entrar), em tela cheia, para projetar no começo da aula. Aperte F11 para tela cheia.",
+      "<b>📋 Cartaz de entrada</b>: abre, numa aba nova, o mesmo cartaz da porta (endereço do site e os 4 passos para entrar), em tela cheia, para projetar no começo da aula. Aperte F11 para tela cheia.",
       "<b>📌 Missão de hoje</b>: escolha a missão na lista do quadro amarelo (qualquer uma, não precisa abrir antes). Quando o aluno digitar o código, ele cai direto nela. Ao escolher, ela já vem 🔒 travada: as tarefas das outras missões ficam fechadas para os alunos (desmarque se quiser liberar). A escolha fica anotada no 📒 Diário, na aula do dia. Vale só para hoje; para tirar, escolha “nenhuma”.",
       "<b>🔒 Travar só nela</b> (opcional): as tarefas das outras missões fecham hoje. Os textos continuam abertos. Quem você liberou individualmente (falta, reposição) continua podendo fazer as outras.",
       "<b>🚨 Se precisar</b> (dentro do quadro da Missão de hoje): libera a turma toda agora, fecha antes da hora ou volta ao normal.",
@@ -330,14 +330,14 @@
     dlg.addEventListener("close", () => { clearInterval(iv); dlg.remove(); });
   }
   /* 🔎 PROCURAR ALUNO (22/11/2026, avaliação do painel): digita parte do nome e acha o aluno em qualquer turma,
-     sem precisar saber a turma; toque no nome para abrir a 🪪 ficha do aluno. */
+     sem precisar saber a turma; toque no nome para abrir a 📇 ficha do aluno. */
   async function abrirBusca() {
     if (document.querySelector(".pp-busca-dlg")) return;
     const dlg = h(`<dialog class="pp-dlg pp-dlg-larga pp-busca-dlg"><form method="dialog"><div class="pp-hor-top"><h2>🔎 Procurar aluno</h2><button class="btn btn-sec btn-peq" value="x">Fechar</button></div>
       <input type="search" id="pb-q" class="pp-cod-busca" placeholder="Digite parte do nome (em todas as turmas)…" autocomplete="off">
       <label class="pp-auto"><input type="checkbox" id="pb-inat"> mostrar também os desativados</label>
       <div id="pb-l"><p class="ajuda">Carregando os alunos de todas as turmas…</p></div>
-      <p class="ajuda">Toque no nome para abrir a 🪪 ficha do aluno (turma, presença no portal, missões, apoios e atalhos).</p></form></dialog>`);
+      <p class="ajuda">Toque no nome para abrir a 📇 ficha do aluno (turma, presença no portal, missões, apoios e atalhos).</p></form></dialog>`);
     document.body.appendChild(dlg); dlg.showModal(); dlg.addEventListener("close", () => dlg.remove());
     const inp = dlg.querySelector("#pb-q"); setTimeout(() => inp.focus(), 50);
     let todos = [];
@@ -355,10 +355,10 @@
     inp.onkeydown = e => { if (e.key === "Enter") { e.preventDefault(); const b = dlg.querySelector("[data-pb]"); if (b) b.click(); } };
     pintar();
   }
-  /* 🪪 FICHA DO ALUNO (22/11/2026): tudo de um aluno numa janela só, com atalhos para o relatório, a turma e o diário */
+  /* 📇 FICHA DO ALUNO (22/11/2026): tudo de um aluno numa janela só, com atalhos para o relatório, a turma e o diário */
   async function abrirFicha(a) {
     if (!a) return;
-    const dlg = h(`<dialog class="pp-dlg pp-dlg-larga pp-ficha-dlg"><form method="dialog"><div class="pp-hor-top"><h2>🪪 ${a.atipico ? "🧩 " : ""}${esc(a.nome)}</h2><button class="btn btn-sec btn-peq" value="x">Fechar</button></div>
+    const dlg = h(`<dialog class="pp-dlg pp-dlg-larga pp-ficha-dlg"><form method="dialog"><div class="pp-hor-top"><h2>📇 ${a.atipico ? "🧩 " : ""}${esc(a.nome)}</h2><button class="btn btn-sec btn-peq" value="x">Fechar</button></div>
       <p class="pp-ficha-tags"><span class="pp-ficha-tag">🏫 ${esc(nomeTurma(a.turma))}</span>${a.ativo === false ? `<span class="pp-ficha-tag cinza">desativado</span>` : ""}${a.trilha ? `<span class="pp-ficha-tag">👣 Trilha Passo a Passo</span>` : ""}${a.emCasa ? `<span class="pp-ficha-tag">🏠 Estuda em casa${a.emCasaObs ? ": " + esc(a.emCasaObs) : ""}</span>` : ""}${a.teste ? `<span class="pp-ficha-tag cinza">🧪 aluno de teste</span>` : ""}${a.outraTurma ? `<span class="pp-ficha-tag">🏫 frequenta a aula do ${esc(nomeTurma(a.outraTurma))}</span>` : ""}
         <button type="button" class="btn btn-link btn-peq" id="pf-cod" title="O código é pessoal: mostre só para o próprio aluno">🔑 Ver código</button></p>
       <div class="pp-dlg-btns"><a class="btn" href="#/painel/relatorio/${esc(a.id)}">📄 Relatório do aluno (PDF)</a><a class="btn btn-sec" href="#/painel/turma/${esc(a.turma)}" id="pf-turma" title="Abre a turma com as opções deste aluno (código, nome, apoios, Trilha…)">⚙️ Opções do aluno na turma</a><a class="btn btn-sec" href="#/painel/diario/${esc(a.turma)}/frequencia">🗓️ Frequência da turma</a></div>
@@ -1813,7 +1813,7 @@
     const nDia = (mes, dow, n) => { const d = new Date(ano, mes - 1, 1); while (d.getDay() !== dow) d.setDate(d.getDate() + 1); d.setDate(d.getDate() + 7 * (n - 1)); return ds(d); }, nDom = (mes, n) => nDia(mes, 0, n);
     return [ // [data, nome, tipo: feriado | facultativo | data]
       [f("01-01"), "🎆 Confraternização Universal", "feriado"], [mv(-48), "🎭 Carnaval (segunda)", "facultativo"], [mv(-47), "🎭 Carnaval (terça)", "facultativo"], [mv(-46), "Quarta-feira de Cinzas", "facultativo"],
-      [mv(-2), "✝️ Sexta-feira Santa", "feriado"], [mv(0), "🐰 Páscoa", "data"], [f("04-19"), "🪶 Dia dos Povos Indígenas", "data"], [f("04-21"), "Tiradentes", "feriado"], [f("05-01"), "👷 Dia do Trabalhador", "feriado"],
+      [mv(-2), "✝️ Sexta-feira Santa", "feriado"], [mv(0), "🐰 Páscoa", "data"], [f("04-19"), "🌿 Dia dos Povos Indígenas", "data"], [f("04-21"), "Tiradentes", "feriado"], [f("05-01"), "👷 Dia do Trabalhador", "feriado"],
       [f("05-10"), "🎂 Aniversário de Curionópolis (1988)", "data"], [mv(60), "Corpus Christi", "facultativo"], [f("06-24"), "🌽 São João", "data"], [f("08-11"), "🎓 Dia do Estudante", "data"], [f("08-15"), "Adesão do Pará", "feriado"],
       [f("08-22"), "🍃 Dia do Folclore", "data"], [f("09-07"), "🇧🇷 Independência do Brasil", "feriado"], [f("10-12"), "🎈 Dia das Crianças · Nossa Senhora Aparecida", "feriado"], [f("10-15"), "🍎 Dia do Professor", "data"],
       [f("10-31"), "🌪️ Dia do Saci", "data"], [f("11-02"), "Finados", "feriado"], [f("11-15"), "Proclamação da República", "feriado"], [f("11-20"), "✊🏿 Dia Nacional de Zumbi e da Consciência Negra", "feriado"], [f("11-27"), "⛪ Nossa Senhora das Graças, padroeira de Curionópolis (feriado municipal)", "feriado"],
@@ -2439,13 +2439,15 @@
     const ap = aps.find(a => a.id === apId) || aps.find(a => !a.oculta && !/trilha/.test(a.id)) || aps[0];
     await P.carregarApostila(ap.id);
     const C = P.conteudo[ap.id];
-    mid = mid && C.missoes.some(m => m.id === mid) ? mid : ((await missaoSugerida(t, C)) || C.missoes[0].id);
+    // 23/11/2026: sem missão no endereço, o roteiro abre a 📌 Missão de hoje escolhida para a turma (antes vinha a do cronograma, e aparecia a Revisão no dia da M2)
+    if (!(mid && C.missoes.some(m => m.id === mid))) { let mh = null; try { const sh = await db().collection("config").doc("hoje_" + t.id).get(); const dh = sh.exists ? sh.data() : null; if (dh && dh.dia === N.hoje() && dh.mid && C.missoes.some(m => m.id === dh.mid)) mh = dh.mid; } catch (e) {}
+      mid = mh || (await missaoSugerida(t, C)) || C.missoes[0].id; }
     const el = tela(topo(u, "aula") + `<div class="painel pp-barra">
         <label>Turma <select id="sel">${turmas.map(x => `<option value="${x.id}" ${x.id === t.id ? "selected" : ""}>${esc(rotuloTurma(x.id))}</option>`).join("")}</select></label>
         ${aps.length > 1 ? `<label>Apostila <select id="ap">${aps.map(a => `<option value="${a.id}" ${a.id === ap.id ? "selected" : ""}>${esc(a.titulo || a.id)}</option>`).join("")}</select></label>` : ""}
         <details class="pp-outra"><summary>👁️ Só olhar o roteiro de outra missão (aberta: ${esc(rotMis(C, mid))})</summary><span class="pp-missoes">${C.missoes.map(m => `<a class="pp-mis ${m.id === mid ? "atual" : ""}" href="#/painel/aula/${t.id}/${m.id}">${esc(m.icone)} ${esc(rotMis(C, m.id))}</a>`).join("")}</span></details>
         <a class="btn btn-sec" href="#/ver/${ap.id}/${mid}/${t.id}" target="_blank" rel="noopener" title="Abre numa aba nova a apostila exatamente como os alunos veem">👀 Abrir a apostila do aluno</a>
-        <a class="btn btn-sec" href="cartaz.html?v=${window.PORTAL_VERSAO || ""}" target="_blank" rel="noopener" title="Abre numa aba nova o cartaz com o endereço do site e os passos para entrar, para projetar">🪧 Cartaz de entrada (projetar)</a>
+        <a class="btn btn-sec" href="cartaz.html?v=${window.PORTAL_VERSAO || ""}" target="_blank" rel="noopener" title="Abre numa aba nova o cartaz com o endereço do site e os passos para entrar, para projetar">📋 Cartaz de entrada (projetar)</a>
         <button type="button" class="btn btn-sec" id="tc-bt" title="Ligado: o portal dos alunos desta turma só funciona em tela cheia (vale só hoje). Quem estuda em casa não é afetado.">🖥️ Tela cheia dos alunos…</button></div>
       <section class="pp-kit" id="pp-ferr" aria-label="Ferramentas da aula"><div class="pp-cx-bar"><b class="pp-cx-tit">🧰 Ferramentas da aula</b><span class="pp-cx-bts"></span><span class="pp-cx-telas"></span></div>
         <div class="pp-cx-pain" hidden><div class="pp-cx-cab"><b></b><button type="button" class="btn btn-sec btn-peq pp-cx-x">✕ Fechar</button></div>
@@ -2477,7 +2479,7 @@
       P.sala.painel(ferr, t.id, vs, nomeTurma(t.id)); const sq = el.querySelector(".sala-quadro"); if (sq) { sq.id = "pp-transmitir"; sq.open = true; } } } catch (e) {}
     // 🚦 Sala de espera + 🏁 Dar a largada (20/11/2026): quem já entrou, quem falta e o botão que começa a aula para todos juntos
     try { if (P.espera) P.espera.painel(el.querySelector(".pp-barra"), { t, C, ap, rotulo: nomeTurma(t.id), participantes: () => participantes(t), ouvirProg }); } catch (e) { console.warn("espera", e); }
-    el.querySelector("#sel").onchange = e => { location.hash = "#/painel/aula/" + e.target.value + "/" + mid; };
+    el.querySelector("#sel").onchange = e => { location.hash = "#/painel/aula/" + e.target.value; };   // outra turma: abre a missão de hoje DELA, não a desta
     const sa = el.querySelector("#ap"); if (sa) sa.onchange = e => { try { sessionStorage.setItem("painel:ap:" + t.serie.id, e.target.value); } catch (x) {} telaAula(u, t.id); };
     // 📺 vídeo da missão (YouTube não listado do professor): player só aqui no painel, para projetar
     try {

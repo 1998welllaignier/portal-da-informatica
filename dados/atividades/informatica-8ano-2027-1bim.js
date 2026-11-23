@@ -326,7 +326,7 @@
       { tipo: "bolha", titulo: "Ordene 5, 2, 8, 1, 4", lista: [5, 2, 8, 1, 4],
         explicacao: "1ª passada: 2, 5, 1, 4, 8 · 2ª: 2, 1, 4, 5, 8 · 3ª: 1, 2, 4, 5, 8 · 4ª: sem trocas, terminou." },
 
-      { tipo: "tabela", titulo: "Escreva as passadas de 4, 3, 2, 1", robo: {"paineis": ["🫧 Bolha com outra lista: 3, 1, 2"], "passos": [{"fala": "Comparo dois vizinhos; se o da esquerda for <b>maior</b>, troco:", "painel": 0, "titulo": "Original: 3, 1, 2"}, {"fala": "3 e 1: troca! 3 e 2: troca!", "painel": 0, "linha": "Passada 1: 1, 2, 3", "marca": true}, {"fala": "Na passada 2 ninguém troca: está em ordem!", "painel": 0, "linha": "Passada 2: 1, 2, 3", "espera": 2400}], "fim": "Agora é a sua vez: escreva as passadas de 4, 3, 2, 1! 💪"},
+      { tipo: "tabela", titulo: "Escreva as passadas de 4, 3, 2, 1", robo: {"paineis": ["🔵 Bolha com outra lista: 3, 1, 2"], "passos": [{"fala": "Comparo dois vizinhos; se o da esquerda for <b>maior</b>, troco:", "painel": 0, "titulo": "Original: 3, 1, 2"}, {"fala": "3 e 1: troca! 3 e 2: troca!", "painel": 0, "linha": "Passada 1: 1, 2, 3", "marca": true}, {"fala": "Na passada 2 ninguém troca: está em ordem!", "painel": 0, "linha": "Passada 2: 1, 2, 3", "espera": 2400}], "fim": "Agora é a sua vez: escreva as passadas de 4, 3, 2, 1! 💪"},
         enunciado: "<p>Faça o método da bolha (crescente) e escreva a lista no fim de cada passada, com vírgulas.</p>",
         colunas: ["Etapa", "Lista"],
         linhas: [["Original", "4, 3, 2, 1"], ["Passada 1", { r: "3, 2, 1, 4", tipo: "letras", ph: "_, _, _, _" }], ["Passada 2", { r: "2, 1, 3, 4", tipo: "letras", ph: "_, _, _, _" }], ["Passada 3", { r: "1, 2, 3, 4", tipo: "letras", ph: "_, _, _, _" }]],
@@ -341,7 +341,7 @@
         explicacao: "Troca quando o da esquerda é maior; o maior sobe para o fim; termina numa passada sem trocas." }
     ],
     desafio: [
-      { tipo: "tabela", titulo: "Agora decrescente: 2, 7, 4, 9", robo: {"paineis": ["🫧 Decrescente com outra lista: 1, 3, 2"], "passos": [{"fala": "Em ordem <b>decrescente</b>, a regra vira: troco quando o da esquerda for <b>menor</b>.", "painel": 0, "titulo": "Original: 1, 3, 2"}, {"fala": "1 e 3: o 1 é menor, troca! Depois 1 e 2: troca de novo!", "painel": 0, "linha": "Passada 1: 3, 2, 1", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: faça as passadas de 2, 7, 4, 9 em ordem decrescente! 💪"},
+      { tipo: "tabela", titulo: "Agora decrescente: 2, 7, 4, 9", robo: {"paineis": ["🔵 Decrescente com outra lista: 1, 3, 2"], "passos": [{"fala": "Em ordem <b>decrescente</b>, a regra vira: troco quando o da esquerda for <b>menor</b>.", "painel": 0, "titulo": "Original: 1, 3, 2"}, {"fala": "1 e 3: o 1 é menor, troca! Depois 1 e 2: troca de novo!", "painel": 0, "linha": "Passada 1: 3, 2, 1", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: faça as passadas de 2, 7, 4, 9 em ordem decrescente! 💪"},
         enunciado: "<p>Ordem <strong>decrescente</strong> (do maior para o menor): troque quando o da esquerda for <strong>menor</strong>.</p>",
         colunas: ["Etapa", "Lista"],
         linhas: [["Original", "2, 7, 4, 9"], ["Passada 1", { r: "7, 4, 9, 2", tipo: "letras", ph: "_, _, _, _" }], ["Passada 2", { r: "7, 9, 4, 2", tipo: "letras", ph: "_, _, _, _" }], ["Passada 3", { r: "9, 7, 4, 2", tipo: "letras", ph: "_, _, _, _" }], ["Quantas trocas ao todo?", { r: "5", tipo: "num", dica: "Passada 1: 3 trocas; passada 2: 1; passada 3: 1." }]],
@@ -459,7 +459,7 @@
 
       { tipo: "classificar", modo: "tabela", titulo: "Bolha ou seleção?",
         colunaItem: "Característica", colunaResp: "Método",
-        categorias: [{ id: "B", rot: "🫧 Bolha" }, { id: "S", rot: "🏅 Seleção" }],
+        categorias: [{ id: "B", rot: "🔵 Bolha" }, { id: "S", rot: "🏅 Seleção" }],
         itens: [
           { t: "Compara sempre os vizinhos", c: "B" },
           { t: "Procura o menor do que sobrou", c: "S" },
@@ -479,10 +479,10 @@
         explicacao: "Ana ↔ Davi; Bia fica; Caio ↔ Elisa. Na 4ª rodada, Davi já está no lugar: Ana, Bia, Caio, Davi, Elisa." }
     ],
     turbo: [
-      { tipo: "tabela", titulo: "Quem troca menos?", robo: {"paineis": ["⚖️ Outra lista: 3, 2, 1"], "passos": [{"fala": "🫧 <b>Bolha</b>: conto cada troca de vizinhos.", "painel": 0, "linha": "Passada 1: 2 trocas · Passada 2: 1 troca = 3 trocas"}, {"fala": "🏅 <b>Seleção</b>: conto as trocas de cada rodada.", "painel": 0, "linha": "Rodada 1: 1 ↔ 3 · depois já está em ordem = 1 troca", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: conte as trocas com 4, 3, 2, 1! 💪"},
+      { tipo: "tabela", titulo: "Quem troca menos?", robo: {"paineis": ["⚖️ Outra lista: 3, 2, 1"], "passos": [{"fala": "🔵 <b>Bolha</b>: conto cada troca de vizinhos.", "painel": 0, "linha": "Passada 1: 2 trocas · Passada 2: 1 troca = 3 trocas"}, {"fala": "🏅 <b>Seleção</b>: conto as trocas de cada rodada.", "painel": 0, "linha": "Rodada 1: 1 ↔ 3 · depois já está em ordem = 1 troca", "marca": true, "espera": 2600}], "fim": "Agora é a sua vez: conte as trocas com 4, 3, 2, 1! 💪"},
         enunciado: "<p>Lista <strong>4, 3, 2, 1</strong> em ordem crescente.</p>",
         colunas: ["Método", "Número de trocas"],
-        linhas: [["🫧 Bolha", { r: "6", tipo: "num", dica: "Passada 1: 3 trocas; passada 2: 2; passada 3: 1." }], ["🏅 Seleção", { r: "2", tipo: "num", dica: "1ª rodada: 1 ↔ 4; 2ª: 2 ↔ 3; depois já está ordenada." }]],
+        linhas: [["🔵 Bolha", { r: "6", tipo: "num", dica: "Passada 1: 3 trocas; passada 2: 2; passada 3: 1." }], ["🏅 Seleção", { r: "2", tipo: "num", dica: "1ª rodada: 1 ↔ 4; 2ª: 2 ↔ 3; depois já está ordenada." }]],
         explicacao: "Bolha: 3 + 2 + 1 = 6 trocas. Seleção: 1 ↔ 4 e 2 ↔ 3 = 2 trocas. A seleção troca muito menos." }
     ],
     vf: [
@@ -805,7 +805,7 @@
       explicacao: "1ª passada: 4, 7, 1, 3, 9 · 2ª: 4, 1, 3, 7, 9 · 3ª: 1, 3, 4, 7, 9 · 4ª: sem trocas, terminou." });
 
   /* ---------- M6 · recursão ---------- */
-  A.m6.gancho = { html: "<p>🪆 A vó da Duda trouxe uma <b>matrioska</b> de presente. A Duda abriu a boneca e… tinha outra igual dentro, menor. Abriu de novo, e de novo…</p><p>🤔 Quando ela vai parar de abrir? E o que essa boneca tem a ver com o jeito de o computador contar as pastas dentro de pastas?</p>" };
+  A.m6.gancho = { html: "<p>🎎 A vó da Duda trouxe uma <b>matrioska</b> de presente. A Duda abriu a boneca e… tinha outra igual dentro, menor. Abriu de novo, e de novo…</p><p>🤔 Quando ela vai parar de abrir? E o que essa boneca tem a ver com o jeito de o computador contar as pastas dentro de pastas?</p>" };
   A.m6.aplicar = [
     { tipo: "blocos", titulo: "🛠️ Na vida real: abrindo a matrioska",
       enunciado: "<p>A matrioska da Duda tem <b>4 bonecas</b>. Complete o bloco recursivo <b>abrir</b>: <b>se n = 1</b> (caso base), mostrar <b>a bonequinha não abre</b>; <b>senão</b>, mostrar “abri a boneca ” com n, <b>alterar n por -1</b> e <b>chamar abrir</b> de novo. A tela deve mostrar:</p><p><b>abri a boneca 4</b><br><b>abri a boneca 3</b><br><b>abri a boneca 2</b><br><b>a bonequinha não abre</b></p>",

@@ -15,7 +15,7 @@ PORTAL.registrarConteudo("informatica-8ano-2027-4bim-trilha", {
    ],
    "linhas": [
     [
-     "🪪 Missão 1 – Dados pessoais",
+     "📇 Missão 1 – Dados pessoais",
      "Computação e Sociedade"
     ],
     [
@@ -98,7 +98,7 @@ PORTAL.registrarConteudo("informatica-8ano-2027-4bim-trilha", {
  "missoes": [
   {
    "id": "m1",
-   "icone": "🪪",
+   "icone": "📇",
    "titulo": "Missão 1 – Dados pessoais",
    "objetivo": "saber quais informações são dados pessoais.",
    "comecar": [

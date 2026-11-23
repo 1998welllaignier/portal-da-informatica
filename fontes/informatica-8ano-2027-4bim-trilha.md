@@ -4,7 +4,7 @@ Prof. Welington · @Welington Laignier
 ## 📘 Como usar esta apostila
 Neste bimestre você vai cumprir **6 missões**. Se sobrar aula, tem **2 missões extras**. Antes da prova tem a **🔁 Revisão**. São as mesmas missões da sua turma.
 | Missão | Tema |
-| 🪪 Missão 1 – Dados pessoais | Computação e Sociedade |
+| 📇 Missão 1 – Dados pessoais | Computação e Sociedade |
 | 🔐 Missão 2 – Dados sensíveis e LGPD | Computação e Sociedade |
 | 🛡️ Missão 3 – Segurança das contas | Computação e Sociedade |
 | ⚙️ Missão 4 – Configurar a privacidade | Computação e Sociedade |
@@ -25,7 +25,7 @@ Neste bimestre você vai cumprir **6 missões**. Se sobrar aula, tem **2 missõe
 🔎 **Todas as respostas estão aqui na apostila.** Errou? Leia de novo com calma e tente outra vez. Você consegue!
 **Regra importante:** quem conclui o Básico (aparece a faixa verde **✅ Básico concluído**) já pode ficar com os jogos livres no final da aula. 🎮
 
-## 🪪 Missão 1 – Dados pessoais
+## 📇 Missão 1 – Dados pessoais
 **Objetivo:** saber quais informações são dados pessoais.
 📅 **Data da aula:** ........ / ........
 ### 💡 Para começar

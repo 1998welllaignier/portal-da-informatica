@@ -126,7 +126,7 @@ PORTAL.registrarConteudo("informatica-8ano-4bim", {
        "Só em lista <strong>ordenada</strong>; é muito mais rápida em listas grandes"
       ],
       [
-       "🫧 Método da bolha",
+       "🔵 Método da bolha",
        "Compara <strong>vizinhos</strong> e troca os que estão fora de ordem; repete as passadas até não haver nenhuma troca",
        "Para colocar uma lista em ordem crescente ou alfabética"
       ]

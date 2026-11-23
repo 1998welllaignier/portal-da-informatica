@@ -694,7 +694,7 @@ PORTAL.registrarAtividades("informatica-8ano-2027-2bim", {
   /* ---------- M7 · sistemas distribuídos ---------- */
   A.m7.gancho = { html: "<p>🔎 Você digita uma pergunta no buscador e, em menos de 1 segundo, aparecem respostas tiradas de bilhões de páginas.</p><p>🤔 Um computador só conseguiria fazer isso tão rápido? E se esse computador quebrasse?</p>" };
   A.m7.aplicar = [
-    msg("🛠️ Na vida real: como o sistema distribuído ajuda?", "🌐 Sistema distribuído", [["D", "🧩 Dividir o trabalho"], ["P", "📍 Ficar perto de você"], ["N", "🛟 Não parar se um quebrar"]],
+    msg("🛠️ Na vida real: como o sistema distribuído ajuda?", "🌐 Sistema distribuído", [["D", "🧩 Dividir o trabalho"], ["P", "📍 Ficar perto de você"], ["N", "💾 Não parar se um quebrar"]],
       "Para cada situação, qual ideia do sistema distribuído está em ação?",
       [["Um servidor procura nas páginas de A a M, e outro, de N a Z", "D", "Cada computador faz uma parte."], ["O vídeo vem de um servidor no Brasil, e não do outro lado do mundo", "P", "A cópia mais perto chega mais rápido."],
         ["Um servidor do jogo quebrou, e outro assumiu sem a partida parar", "N", "É a tolerância a falhas."], ["O banco guarda cópias dos dados em vários lugares", "N", "Se um lugar falhar, os dados continuam guardados."]],
@@ -710,7 +710,7 @@ PORTAL.registrarAtividades("informatica-8ano-2027-2bim", {
       [["🎮", "Você aperta o botão de pular"], ["📨", "O seu movimento vai para os servidores do jogo"], ["🧠", "Os servidores juntam os movimentos de todos os jogadores"], ["📡", "Os servidores mandam a mesma partida para cada jogador"], ["👀", "Todos veem o seu personagem pular"]],
       "Pulo visto por todos! 🎮", "O jogo on-line é distribuído: os servidores mantêm todos na mesma partida."));
   mais("m7", "turbo",
-    { tipo: "sinais", titulo: "🛟 Tolerância a falhas: marque os exemplos",
+    { tipo: "sinais", titulo: "💾 Tolerância a falhas: marque os exemplos",
       enunciado: "<p>Marque só as situações em que o sistema <b>continua funcionando</b> mesmo quando uma parte quebra.</p>",
       opcoes: [{ t: "Um servidor do site quebrou, outro assumiu, e o site continuou no ar", certo: true }, { t: "As fotos estão em dois data centers; um pegou fogo e as fotos continuaram lá", certo: true },
         { t: "No time, o goleiro se machucou e o reserva entrou", certo: true },

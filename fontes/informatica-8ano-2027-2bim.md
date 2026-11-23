@@ -338,7 +338,7 @@ Quando você faz uma pesquisa no buscador, **não é um computador só** que res
 | Ideia | Como funciona | Exemplo |
 | 🧩 Dividir o trabalho | Cada computador faz uma parte | Um servidor procura nas páginas de A a M, outro de N a Z |
 | 📍 Ficar perto de você | Cópias do site ficam em vários lugares do mundo | O vídeo vem do servidor mais perto, mais rápido |
-| 🛟 Não parar se um quebrar | Outro computador assume o trabalho | O site continua no ar mesmo com um servidor com defeito |
+| 💾 Não parar se um quebrar | Outro computador assume o trabalho | O site continua no ar mesmo com um servidor com defeito |
 
 **Tolerância a falhas** é essa capacidade de **continuar funcionando** mesmo quando uma parte quebra. É como um time de futebol: se um jogador se machuca, entra o reserva e o jogo continua.
 **O jogo on-line** também é distribuído: vários jogadores, em casas diferentes, veem o mesmo mapa. Os servidores do jogo recebem os movimentos de todos e mandam a mesma partida para cada um.

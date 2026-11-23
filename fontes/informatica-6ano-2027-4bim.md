@@ -32,7 +32,7 @@ Bem-vindo ao 4º bimestre! O tema é **Rede, arquivos e planeta**: como a inform
 | 🛒 Missão 5 – Consumo consciente e obsolescência | Computação e Sociedade |
 | ♻️ Missão 6 – Lixo eletrônico | Computação e Sociedade |
 | 💬 Missão 7 – Extra: Ética no grupo da turma | Computação e Sociedade |
-| 🛟 Missão 8 – Extra: Backup | Cultura Digital |
+| 💾 Missão 8 – Extra: Backup | Cultura Digital |
 | 🔁 Revisão para a prova | Todas as missões estudadas |
 
 **Cada missão tem 3 níveis:**
@@ -365,7 +365,7 @@ Escreva **V** para verdadeiro ou **F** para falso:
 **Ética** no grupo: escrever com respeito, falar do assunto, respeitar o horário, não postar foto sem pedir, não repassar **print** e conferir notícias. Viu alguém ser ofendido? Não ria, **apoie** e conte a um adulto. Áudios e figurinhas com **moderação**.
 **Palavras-chave:** ética · combinado · print · repassar · moderação
 
-## 🛟 Missão 8 – Extra: Backup
+## 💾 Missão 8 – Extra: Backup
 **Objetivo:** fazer cópias de segurança para não perder os arquivos importantes.
 📅 **Data da aula:** ........ / ........
 ### 💡 Para começar

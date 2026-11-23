@@ -16,7 +16,7 @@
     antes: [
       "📽️ Projetor ligado e vídeo da missão aberto (sem som: você lê os textos)",
       "🖥️ Veyon aberto, todos os computadores aparecendo",
-      "🪪 Cartões com os códigos dos alunos",
+      "📇 Cartões com os códigos dos alunos",
       "🗺️ Mapa de lugares conferido",
       "▶️ Programa do dia testado pelo “Executar programa” do Veyon",
       "✏️ Material da dinâmica (grafo do bairro no quadro na Missão 1; mensagem secreta na Missão 2; 3 imagens “Real ou IA?” na Missão 3)",

@@ -29,7 +29,7 @@ O computador faz **duas coisas** com as listas: **procurar** um item e **arrumar
 | Jeito | Como é | No dia a dia |
 | 🔎 Procurar um por um | Olha o 1º, depois o 2º, depois o 3º… até achar | Procurar o seu nome na lista de chamada |
 | 📖 Procurar pelo meio | Abre no **meio** e deixa de lado a metade onde o item **não pode estar**. Só funciona com a lista **em ordem** | Procurar uma palavra no dicionário |
-| 🫧 Arrumar em ordem | Olha **dois vizinhos**. Se estão fora de ordem, **troca** os dois de lugar | Arrumar os números do menor para o maior |
+| 🔵 Arrumar em ordem | Olha **dois vizinhos**. Se estão fora de ordem, **troca** os dois de lugar | Arrumar os números do menor para o maior |
 
 **Em ordem crescente** quer dizer: do **menor** para o **maior**. Exemplo: 1, 2, 3, 4.
 **Em ordem alfabética** quer dizer: de **A** até **Z**. Exemplo: Ana, Bia, Caio.

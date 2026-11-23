@@ -79,7 +79,7 @@
     ["🏖️ Salva-vidas", { blusa: "regata", cor1: 0, calca: "bermuda", corCalca: 0, objeto: "boia", oculos: "escuro" }],
     ["🎣 Pescador(a)", { blusa: "lisa", cor1: 4, calca: "bermuda", corCalca: 11, chapeu: "palha", objeto: "vara" }],
     ["🤿 Mergulhador(a)", { blusa: "regata", cor1: 9, calca: "bermuda", corCalca: 9, chapeu: "mergulho" }],
-    ["🪦 Coveiro(a)", { blusa: "lisa", cor1: 9, calca: "calca", corCalca: 9, roupa: "macacao", corRoupa: 11, chapeu: "palha", objeto: "pa" }],
+    ["⚰️ Coveiro(a)", { blusa: "lisa", cor1: 9, calca: "calca", corCalca: 9, roupa: "macacao", corRoupa: 11, chapeu: "palha", objeto: "pa" }],
     ["🤡 Palhaço(a)", { blusa: "listras", cor1: 2, cor2: 0, calca: "calca", corCalca: 5, chapeu: "peruca", rosto: "nariz", objeto: "balao" }],
     ["🎩 Mágico(a)", { blusa: "lisa", cor1: 10, calca: "calca", corCalca: 9, roupa: "terno", corRoupa: 9, chapeu: "cartola", objeto: "varinha", rosto: "bigode" }],
     ["🕵️ Detetive", { blusa: "lisa", cor1: 10, calca: "calca", corCalca: 11, roupa: "terno", corRoupa: 11, chapeu: "detetive", objeto: "lupa", rosto: "bigode" }],

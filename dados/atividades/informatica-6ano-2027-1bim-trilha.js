@@ -57,7 +57,7 @@ PORTAL.registrarAtividades("informatica-6ano-2027-1bim-trilha", {
 
       { tipo: "escolha", titulo: "Passo 4 · A janela sumiu!",
         perguntas: [
-          { p: "🪟 Você clicou em ➖ e a janela sumiu. Como ela volta?", opcoes: ["Clico no ícone dela na barra de tarefas", "Desligo o computador", "Aperto Backspace"], certo: 0 }],
+          { p: "🔲 Você clicou em ➖ e a janela sumiu. Como ela volta?", opcoes: ["Clico no ícone dela na barra de tarefas", "Desligo o computador", "Aperto Backspace"], certo: 0 }],
         explicacao: "A janela minimizada <strong>não sumiu</strong>: está na <strong>barra de tarefas</strong>. Um clique no ícone dela e ela volta." }
     ],
     vf: [{ v: true }, { v: false, why: "O ❌ <strong>fecha</strong> o programa. Quem esconde na barra de tarefas é o ➖ (minimizar)." }, { v: true }]

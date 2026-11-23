@@ -8,8 +8,8 @@ Neste bimestre você vai aprender como o computador **guarda, procura e arruma**
 | ➕ Missão 2 – Mexendo na lista: inserir, remover e contar | Pensamento Computacional |
 | 🔎 Missão 3 – Busca sequencial: procurar um por um | Pensamento Computacional |
 | 🎯 Missão 4 – Busca binária: procurar pelo meio | Pensamento Computacional |
-| 🫧 Missão 5 – Ordenar: o método da bolha | Pensamento Computacional |
-| 🪆 Missão 6 – Recursão: o problema dentro do problema | Pensamento Computacional |
+| 🔵 Missão 5 – Ordenar: o método da bolha | Pensamento Computacional |
+| 🎎 Missão 6 – Recursão: o problema dentro do problema | Pensamento Computacional |
 | 🏅 Missão 7 – Extra: Ordenação por seleção | Pensamento Computacional |
 | ❄️ Missão 8 – Extra: Fractais | Pensamento Computacional |
 | 🔁 Revisão para a prova | Todas as missões estudadas |
@@ -161,7 +161,7 @@ Só **2** comparações. A busca sequencial precisaria de **6**.
 A **busca binária** olha sempre o **meio** de uma lista **ordenada** e joga fora **metade** a cada vez. É muito mais rápida que a sequencial, mas **só funciona com a lista em ordem**.
 **Palavras-chave:** busca binária · meio · descartar · lista ordenada
 
-## 🫧 Missão 5 – Ordenar: o método da bolha
+## 🔵 Missão 5 – Ordenar: o método da bolha
 **Objetivo:** pôr uma lista em ordem trocando vizinhos.
 📅 **Data da aula:** ........ / ........
 ### 💡 Para começar
@@ -198,7 +198,7 @@ O maior número **“sobe” para o final**, como uma **bolha** subindo na água
 O **método da bolha** compara **vizinhos** e **troca** quando o da esquerda é maior. Uma volta inteira é uma **passada**; o maior sobe para o final. Termina quando uma passada não faz nenhuma troca.
 **Palavras-chave:** ordenar · método da bolha · vizinhos · troca · passada
 
-## 🪆 Missão 6 – Recursão: o problema dentro do problema
+## 🎎 Missão 6 – Recursão: o problema dentro do problema
 **Objetivo:** reconhecer a recursão e o caso base, que faz parar.
 📅 **Data da aula:** ........ / ........
 ### 💡 Para começar

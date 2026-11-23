@@ -16,7 +16,7 @@
       "🔊 Caixinha de som",
       "🖥️ Computadores ligados pelo Veyon",
       "🎬 Vídeo da missão aberto no computador do professor",
-      "🪪 Cartões com os códigos dos alunos (turmas novas: conferir a importação)",
+      "📇 Cartões com os códigos dos alunos (turmas novas: conferir a importação)",
       "🎮 Jogos da recreação definidos"
     ],
     m1: {

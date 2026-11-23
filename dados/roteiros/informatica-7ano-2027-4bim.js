@@ -17,7 +17,7 @@
     { min: 5, icone: "🧹", t: "Salvar e organizar" }
   ];
   PORTAL.registrarRoteiro("informatica-7ano-2027-4bim", {
-    antes: ["🔊 Caixinha de som", "🖥️ Computadores ligados pelo Veyon", "🎬 Vídeo da missão aberto no computador do professor", "🪪 Cartões com os códigos dos alunos", "🎮 Jogos da recreação definidos", "📱 Para as aulas do projeto (M3 a M6): celulares ou câmera da escola e um editor de vídeo instalado nos computadores (confira antes)"],
+    antes: ["🔊 Caixinha de som", "🖥️ Computadores ligados pelo Veyon", "🎬 Vídeo da missão aberto no computador do professor", "📇 Cartões com os códigos dos alunos", "🎮 Jogos da recreação definidos", "📱 Para as aulas do projeto (M3 a M6): celulares ou câmera da escola e um editor de vídeo instalado nos computadores (confira antes)"],
     m1: {
       datas: "1ª aula do bimestre · BNCC EF07CO10 · datas pelo calendário da SEMED 2027",
       tempo: T,

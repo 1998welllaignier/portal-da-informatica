@@ -15,7 +15,7 @@ PORTAL.registrarAtividades("informatica-5ano-4bim", {
         enunciado: "<p>Para cada item, escolha: é <strong>hardware</strong> (peça que dá para tocar) ou <strong>software</strong> (programa)?</p>",
         itens: [
           { de: "", t: "🖱️ Mouse", c: "H" },
-          { de: "", t: "🪟 Windows", c: "S", why: "É o sistema operacional." },
+          { de: "", t: "🔲 Windows", c: "S", why: "É o sistema operacional." },
           { de: "", t: "💾 Pen drive", c: "H" },
           { de: "", t: "🎮 Um jogo de corrida", c: "S" },
           { de: "", t: "⌨️ Teclado", c: "H" },

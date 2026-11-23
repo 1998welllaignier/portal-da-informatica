@@ -85,7 +85,7 @@ PORTAL.registrarAtividades("informatica-6ano-4bim-trilha", {
     ],
     basico: [
       { tipo: "ordenar", titulo: "Passo 1 · Arrume os passos para escovar os dentes",
-        itens: ["🪥 Colocar pasta na escova", "😁 Escovar os dentes", "💧 Enxaguar a boca", "🧺 Guardar a escova"],
+        itens: ["🦷 Colocar pasta na escova", "😁 Escovar os dentes", "💧 Enxaguar a boca", "🧺 Guardar a escova"],
         enunciado: "<p>Use as setas <strong>▲</strong> e <strong>▼</strong> para deixar os passos <strong>em ordem</strong>.</p>",
         explicacao: "Pasta → escovar → enxaguar → guardar. Isso é um algoritmo!" },
 
