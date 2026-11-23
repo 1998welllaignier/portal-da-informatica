@@ -2446,9 +2446,9 @@
         <label>Turma <select id="sel">${turmas.map(x => `<option value="${x.id}" ${x.id === t.id ? "selected" : ""}>${esc(rotuloTurma(x.id))}</option>`).join("")}</select></label>
         ${aps.length > 1 ? `<label>Apostila <select id="ap">${aps.map(a => `<option value="${a.id}" ${a.id === ap.id ? "selected" : ""}>${esc(a.titulo || a.id)}</option>`).join("")}</select></label>` : ""}
         <details class="pp-outra"><summary>👁️ Só olhar o roteiro de outra missão (aberta: ${esc(rotMis(C, mid))})</summary><span class="pp-missoes">${C.missoes.map(m => `<a class="pp-mis ${m.id === mid ? "atual" : ""}" href="#/painel/aula/${t.id}/${m.id}">${esc(m.icone)} ${esc(rotMis(C, m.id))}</a>`).join("")}</span></details>
-        <a class="btn btn-sec" href="#/ver/${ap.id}/${mid}/${t.id}" target="_blank" rel="noopener" title="Abre numa aba nova a apostila exatamente como os alunos veem">👀 Abrir a apostila do aluno</a>
-        <a class="btn btn-sec" href="cartaz.html?v=${window.PORTAL_VERSAO || ""}" target="_blank" rel="noopener" title="Abre numa aba nova o cartaz com o endereço do site e os passos para entrar, para projetar">📋 Cartaz de entrada (projetar)</a>
-        <button type="button" class="btn btn-sec" id="tc-bt" title="Ligado: o portal dos alunos desta turma só funciona em tela cheia (vale só hoje). Quem estuda em casa não é afetado.">🖥️ Tela cheia dos alunos…</button></div>
+        <a class="pp-cx-b pp-cx-mover" href="#/ver/${ap.id}/${mid}/${t.id}" target="_blank" rel="noopener" title="Abre numa aba nova a apostila exatamente como os alunos veem">👀 Apostila do aluno</a>
+        <a class="pp-cx-b pp-cx-mover" href="cartaz.html?v=${window.PORTAL_VERSAO || ""}" target="_blank" rel="noopener" title="Abre numa aba nova o cartaz com o endereço do site e os passos para entrar, para projetar">📋 Cartaz de entrada</a>
+        <button type="button" class="pp-cx-b pp-cx-mover" id="tc-bt" title="Ligado: o portal dos alunos desta turma só funciona em tela cheia (vale só hoje). Quem estuda em casa não é afetado.">🖥️ Tela cheia dos alunos…</button></div>
       <section class="pp-kit" id="pp-ferr" aria-label="Ferramentas da aula"><div class="pp-cx-bar"><b class="pp-cx-tit">🧰 Ferramentas da aula</b><span class="pp-cx-bts"></span><span class="pp-cx-telas"></span></div>
         <div class="pp-cx-pain" hidden><div class="pp-cx-cab"><b></b><button type="button" class="btn btn-sec btn-peq pp-cx-x">✕ Fechar</button></div>
           <div data-cx="video" hidden><span class="cx-fim"></span></div><div data-cx="transm" hidden><span class="cx-fim"></span></div><div data-cx="apoios" hidden><span class="cx-fim"></span></div></div></section>
@@ -2467,10 +2467,11 @@
       nav.innerHTML = `<span>Ir para:</span>` + itens.filter(([h, , ext]) => ext || el.querySelector(h)).map(([h, r, ext]) => ext ? `<a href="${h}" title="Abre o 📒 Diário › 🟧 Meus recados desta turma">${r}</a>` : `<a href="#" data-pp-ir="${h}">${r}</a>`).join("");
       nav.querySelectorAll("[data-pp-ir]").forEach(a => a.onclick = e => { e.preventDefault(); const alvo = el.querySelector(a.dataset.ppIr); if (!alvo) return; if (alvo.tagName === "DETAILS") alvo.open = true; alvo.scrollIntoView({ behavior: "smooth", block: "start" }); });
     };
+    { const pi = el.querySelector("#pp-ini"); if (pi) pi.hidden = true; }   // 23/11/2026: na aba Aula, "▶️ Iniciar a aula" fica só na 📌 Missão de hoje (sem botão repetido no alto)
     el.querySelector(".pp-barra").id = "pp-barra-aula"; el.querySelector(".pp-barra").classList.add("pp-alvo");
     ligarSair(el);
     { const bt = el.querySelector("#tc-bt"), ref = db().collection("config").doc("tela_" + t.id); let on = false;
-      const pinta = () => { bt.innerHTML = on ? "🖥️ Tela cheia obrigatória: <b>LIGADA</b>" : "🖥️ Exigir tela cheia dos alunos"; bt.classList.toggle("btn-ok", on); bt.classList.toggle("btn-sec", !on); };
+      const pinta = () => { bt.innerHTML = on ? "🖥️ Tela cheia: <b>LIGADA</b>" : "🖥️ Exigir tela cheia"; bt.classList.toggle("on-verde", on); };
       ref.get().then(sn => { const d = sn.exists ? sn.data() : {}; on = !!(d.cheia && d.dia === N.hoje()); pinta(); }).catch(() => pinta());
       bt.onclick = async () => { try { on = !on; await ref.set({ cheia: on, dia: N.hoje(), em: Date.now() }, { merge: true }); pinta(); toast(on ? "🖥️ Tela cheia obrigatória LIGADA: quem sair da tela cheia fica com a apostila travada até voltar." : "🖥️ Tela cheia obrigatória desligada."); } catch (err) { on = !on; pinta(); toast("Não foi possível: " + (err.message || err)); } }; }
     // 📡 transmitir para os computadores dos alunos (vídeo em sincronia ou espelhar a tela), 18/11/2026
@@ -2513,7 +2514,7 @@
       const chave = id => "painel:aviso:" + id + ":" + t.id;
       const pend = AVISOS.filter(x => { try { return !localStorage.getItem(chave(x.id)); } catch (e) { return true; } });
       if (pend.length) {
-        const box = document.createElement("details"); box.className = "painel pp-avisos"; box.open = true;
+        const box = document.createElement("details"); box.className = "painel pp-avisos"; box.open = false;
         box.innerHTML = `<summary><strong>🗣️ Para falar à turma</strong> (${pend.length})</summary>${pend.map(x => `<div class="pp-aviso" data-av="${x.id}">
           <p><strong>${esc(x.tit)}</strong> — ${esc(x.porque)}</p><p class="pp-fala">🗣️ ${esc(x.fala)}</p><p class="ajuda">${esc(x.depois)}</p>
           <button class="btn btn-sec btn-peq" type="button" data-avok="${x.id}">✔ Já avisei esta turma</button></div>`).join("")}`;
@@ -2656,6 +2657,7 @@
     bts.innerHTML = ""; T.forEach(([tipo, x, rot, dica]) => { const b = document.createElement("button"); b.type = "button"; b.className = "pp-cx-b" + (tipo === "gav" ? " gav" : ""); b.title = dica;
       b.textContent = rot + (tipo === "gav" ? " ▾" : ""); if (tipo === "gav") { b.dataset.gav = x; b.setAttribute("aria-expanded", "false"); b.onclick = () => abrir(x); } else b.onclick = x; bts.appendChild(b); });
     cxPain.querySelector(".pp-cx-x").onclick = () => abrir(aberta);
+    el.querySelectorAll(".pp-cx-mover").forEach(b => bts.appendChild(b));   // 👀 apostila do aluno, 📋 cartaz e 🖥️ tela cheia também moram na barra (23/11/2026)
     const pintaT = () => { const m = modoTelas();
       telas.innerHTML = `<span>Telas:</span><button type="button" data-tl="2" class="${m === "2" ? "on" : ""}" title="A sua tela vai para o projetor">🖥️📽️ 2</button><button type="button" data-tl="3" class="${m === "3" ? "on" : ""}" title="Projetor só para os alunos + o seu monitor + o Veyon">🖥️🖥️📽️ 3</button>`;
       telas.querySelectorAll("[data-tl]").forEach(b => b.onclick = () => { setModoTelas(b.dataset.tl); pintaT(); toast(b.dataset.tl === "3" ? "🖥️🖥️📽️ 3 telas: o placar do projetor fica só com o som e a tela cheia; os comandos ficam aqui no painel." : "🖥️📽️ 2 telas: os comandos voltam também para o placar."); }); };

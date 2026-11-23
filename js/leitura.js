@@ -214,7 +214,7 @@
     // 📡 23/11/2026: o vídeo da missão passa EM SINCRONIA no projetor e nas telas dos alunos (mesmo esquema do 📡 Transmitir)
     const passarSinc = () => { if (vid && P.sala && P.sala.passarVideo) P.sala.passarVideo(t.id, vid, "Vídeo da missão: " + semTags(T.titulo || ""), ctx.nomeTurma || t.id,
       // 23/11/2026 (pedido do professor): aqui o botão não "libera a turma": encerra o vídeo e volta para a sala de espera da leitura guiada
-      { fim: "◀ Encerrar o vídeo e voltar para a leitura guiada", aviso: "🎬 Vídeo encerrado: de volta à sala de espera da leitura guiada.", aoFim: () => { if (cx.isConnected && d.fase === "video") { d.fase = "espera"; salvar(); } } }).catch(e => console.warn("sala", e)); };
+      { fim: "◀ Encerrar o vídeo e voltar para a leitura guiada", aviso: "🎬 Vídeo encerrado: de volta ao começo da leitura guiada.", aoFim: () => { if (cx.isConnected && d.fase === "video") { d.fase = "espera"; salvar(); } } }).catch(e => console.warn("sala", e)); };
     const pararSinc = () => { try { if (P.sala && P.sala._PR && P.sala._PR.t) P.sala.parar("🎬 Vídeo encerrado nos computadores. A leitura guiada continua."); } catch (e) {} };
     if (modo === "3" && jan) moverParaProjetor(jan).then(s => { if (s && s.label) try { localStorage.setItem("portal:telaProjetor", s.label); } catch (e) {} });
     // 2 telas: esta própria tela vira o telão, com a faixa de controles embaixo (só aqui, os alunos não veem)
@@ -237,7 +237,7 @@
       ligarPalavras(tela, T.termos, "prof", x => { d.termo = { t: semTags(x.termo), em: Date.now() }; salvar(); });
       const jt = sincTermo(modo === "2" ? cx : tela.parentElement, d, T, `<div class="lg-defbts"><span>👀 Aparecendo na tela de todos${modo === "3" ? " e no telão" : ""}</span><button type="button" class="btn btn-ok lg-deffecha">✕ Fechar para todos</button></div>`);
       if (jt) jt.querySelector(".lg-deffecha").onclick = () => { d.termo = null; salvar(); }; requestAnimationFrame(() => cabeDuasVezes(tela.querySelector(".lg-texto")));
-      st.innerHTML = d.fase === "espera" ? `⏳ Esperando a turma: <b>${(d.espera || {}).on || 0}</b> de ${alunos.length} alunos já entraram` : d.fase === "video" ? "🎬 Vídeo da missão" : `Trecho <b>${d.idx + 1}</b> de ${N} · ${d.fase === "trecho" ? (d.leitor ? `lendo: <b>${esc(d.leitor.nome)}</b>${d.leu ? " ✔" : ""}` : "falta sortear quem lê") : d.fase === "pergunta" ? "🤔 pergunta relâmpago" : "✅ resposta mostrada"}`;
+      st.innerHTML = d.fase === "espera" ? `⏳ Começando a leitura: <b>${(d.espera || {}).on || 0}</b> de ${alunos.length} alunos já entraram` : d.fase === "video" ? "🎬 Vídeo da missão" : `Trecho <b>${d.idx + 1}</b> de ${N} · ${d.fase === "trecho" ? (d.leitor ? `lendo: <b>${esc(d.leitor.nome)}</b>${d.leu ? " ✔" : ""}` : "falta sortear quem lê") : d.fase === "pergunta" ? "🤔 pergunta relâmpago" : "✅ resposta mostrada"}`;
       const B = [];
       if (d.fase === "espera") {
         B.push(["lgc-ok", "📖 Começar pelo texto", () => { d.fase = "trecho"; salvar(); }]);

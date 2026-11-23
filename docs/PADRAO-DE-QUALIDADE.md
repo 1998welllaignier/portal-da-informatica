@@ -509,6 +509,14 @@ Questões **contextualizadas** (situação curta: 1–2 frases no 6º, 2–3 no 
 - **2 telas:** a própria tela do placar vira o telão, com a faixa de controles embaixo (só na tela do professor).
 - **Registro automático:** ao terminar, a aula do dia no Diário ganha `leituraGuiada` (trechos, quem leu, perguntas e acertos) e uma linha no "📝 Registro das aulas"; o **relatório da família** mostra "📖 Leitura guiada com a turma: 🎤 leu em voz alta o trecho N; acertou X de Y perguntas relâmpago".
 
+## 🧹 Arrumação da aba Aula (23/11/2026, pedido do professor: "faz todas")
+- 👀 Apostila do aluno, 📋 Cartaz de entrada e 🖥️ Exigir tela cheia saíram do topo e moram na barra 🧰 Ferramentas da aula.
+- "🗣️ Para falar à turma" fica fechado numa linha (abre com um toque).
+- Na aba Aula, "▶️ Iniciar a aula" fica só na 📌 Missão de hoje (o botão do alto some nessa aba; nas outras abas continua).
+- Leitura guiada: o começo se chama "⏳ Começando a leitura" (para não confundir com a Sala de espera da aula).
+- "Antes de começar" dos roteiros do 7º, 8º e 9º (2026): caixinha de som ligada (vídeo com som, em sincronia), projetor (com 3 telas, janela do telão), portal aberto pelo Veyon › Abrir website.
+- ✏️ Com 3 telas, o pincel e o laser riscados por cima da prévia da leitura guiada aparecem também no telão (BroadcastChannel, sem internet; posição proporcional).
+
 ## 🧩 Emojis que o Windows 10 mostra (23/11/2026)
 - Os computadores da sala e o do professor têm Windows 10, que só desenha emojis até a versão 12; os mais novos viram um quadradinho (□). Trocados 20 emojis (174 lugares), ex.: 🪪→📇, 🪧→📋, 🫧→🔵, 🛟→💾, 🪟→🔲, 🪆→🎎, 🛞→🖲️, 🫳→✊.
 - Regra: material novo não usa emoji do bloco U+1FA70–1FAFF (fora 🩰🩱🩲🩳 🩸🩹🩺 🪀🪁🪂 🪐🪑🪒🪓🪔🪕) nem 🛖🛝🛞🛟🦬🦭🫙 etc.: escolher um equivalente antigo.

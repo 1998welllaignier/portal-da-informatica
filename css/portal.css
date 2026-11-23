@@ -2712,3 +2712,8 @@ body.lg-travado{overflow:hidden}
 .painel-prof .aula-ir{top:calc(var(--pp-top,0px) + var(--pp-alt,0px) + var(--pp-cx,0px) + 6px)}
 .painel-prof .pp-alvo,.painel-prof [id^="aula-"]{scroll-margin-top:calc(var(--pp-top,0px) + var(--pp-alt,0px) + var(--pp-cx,0px) + 70px)}
 @media (max-width:700px){.pp-kit{position:static}.pp-cx-pain{position:static;margin-top:6px;max-height:none}}
+
+a.pp-cx-b{text-decoration:none;display:inline-flex;align-items:center}
+.pp-cx-bts .pp-cx-b.on-verde{background:#16a34a;color:#fff}
+.pp-cx-bts .pp-cx-b{border:0}
+.lousa-cv.lousa-telao{z-index:10070}

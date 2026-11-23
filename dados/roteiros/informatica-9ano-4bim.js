@@ -14,11 +14,12 @@
 
   PORTAL.registrarRoteiro("informatica-9ano-4bim", {
     antes: [
-      "📽️ Projetor ligado e vídeo da missão aberto (sem som: você lê os textos)",
+      "🔊 Caixinha de som ligada (o vídeo da missão passa com som, em sincronia com os computadores)",
+      "📽️ Projetor ligado (com 3 telas: a janela do telão vai para o projetor)",
       "🖥️ Veyon aberto, todos os computadores aparecendo",
       "📇 Cartões com os códigos dos alunos",
       "🗺️ Mapa de lugares conferido",
-      "▶️ Programa do dia testado pelo “Executar programa” do Veyon",
+      "🌐 Portal aberto nos computadores dos alunos (Veyon › Abrir website)",
       "✏️ Material da dinâmica (grafo do bairro no quadro na Missão 1; mensagem secreta na Missão 2; 3 imagens “Real ou IA?” na Missão 3)",
       "🎮 Jogos da recreação fechados até o ✔ do Básico"
     ],

@@ -88,6 +88,36 @@
     const ag = performance.now(); E.laser = E.laser.filter(p => ag - p[2] < 700);
     E.laser.forEach((p, i) => { const f = 1 - (ag - p[2]) / 700; g.save(); g.globalAlpha = f; g.fillStyle = "#ef4444"; g.shadowColor = "#ef4444"; g.shadowBlur = 18; g.beginPath(); g.arc(p[0], p[1], (i === E.laser.length - 1 ? 9 : 6) * f + 2, 0, 7); g.fill(); g.restore(); });
     if (E.laser.length && !raf) raf = requestAnimationFrame(() => { raf = null; redesenhar(); });
+    espelhar();
+  }
+  /* 📽️ 23/11/2026 (pedido do professor): com 3 telas, o que ele risca e aponta (laser) por cima da prévia da leitura guiada
+     aparece também na janela do telão, no projetor. As duas janelas estão no mesmo computador: vai por BroadcastChannel,
+     sem internet. A posição é proporcional (o texto pode ter tamanho diferente nas duas telas). */
+  const canal = "BroadcastChannel" in window ? new BroadcastChannel("portal-lousa") : null;
+  let espPend = false, espelhou = false;
+  const desloca = (o, dx, dy) => { const c = Object.assign({}, o); if (c.pts) c.pts = c.pts.map(p => [p[0] + dx, p[1] + dy]); if (c.a) c.a = [c.a[0] + dx, c.a[1] + dy]; if (c.b) c.b = [c.b[0] + dx, c.b[1] + dy]; if (c.x != null) c.x += dx; if (c.y != null) c.y += dy; return c; };
+  function espelhar() {
+    if (!canal || espPend) return; espPend = true;
+    requestAnimationFrame(() => { espPend = false;
+      const pv = document.querySelector(".lgc-3 .lgc-previa");
+      if (!pv || E.modo !== "pincel") { if (espelhou) { canal.postMessage({ limpar: 1 }); espelhou = false; } return; }
+      const r = pv.getBoundingClientRect(), dx = -(r.left + scrollX), dy = -(r.top + scrollY), ag = performance.now();
+      canal.postMessage({ w: r.width, h: r.height, objs: leve(E.objs.concat(atual ? [atual] : [])).map(o => desloca(o, dx, dy)), laser: E.laser.map(p => [p[0] + dx, p[1] + dy, ag - p[2]]) });
+      espelhou = true; });
+  }
+  if (canal) { let tcv = null, tg = null, ult = null, tlaser = [], traf = null;
+    const pintaTelao = () => { const q = document.querySelector(".lg-telao .lg-quadro"); if (!q) { if (tcv) { tcv.remove(); tcv = null; } return; }
+      if (!tcv) { tcv = document.createElement("canvas"); tcv.className = "lousa-cv lousa-telao"; document.body.appendChild(tcv); tg = tcv.getContext("2d"); }
+      const d2 = devicePixelRatio || 1; tcv.width = Math.round(innerWidth * d2); tcv.height = Math.round(innerHeight * d2); tcv.style.width = innerWidth + "px"; tcv.style.height = innerHeight + "px";
+      tg.setTransform(1, 0, 0, 1, 0, 0); tg.clearRect(0, 0, tcv.width, tcv.height); if (!ult || ult.limpar) return;
+      const Q = q.getBoundingClientRect(), sx = Q.width / ult.w, sy = Q.height / ult.h;
+      tg.setTransform(d2 * sx, 0, 0, d2 * sy, d2 * Q.left, d2 * Q.top); (ult.objs || []).forEach(o => pintar(tg, o));
+      const ag = performance.now(); tlaser = tlaser.filter(p => ag - p[2] < 700);
+      tlaser.forEach((p, i) => { const f = 1 - (ag - p[2]) / 700; tg.save(); tg.globalAlpha = f; tg.fillStyle = "#ef4444"; tg.shadowColor = "#ef4444"; tg.shadowBlur = 18; tg.beginPath(); tg.arc(p[0], p[1], ((i === tlaser.length - 1 ? 9 : 6) * f + 2) / Math.max(.3, (sx + sy) / 2), 0, 7); tg.fill(); tg.restore(); });
+      if (tlaser.length && !traf) traf = requestAnimationFrame(() => { traf = null; pintaTelao(); }); };
+    canal.onmessage = e => { if (!document.querySelector(".lg-telao")) return; ult = e.data || null; const ag = performance.now();
+      if (ult && ult.laser) tlaser = ult.laser.map(p => [p[0], p[1], ag - p[2]]); else tlaser = []; pintaTelao(); };
+    addEventListener("resize", () => { if (ult) pintaTelao(); });
   }
   function mudou() { redesenhar(); if (E.modo === "quadro") E.ouvintes.forEach(fn => { try { fn(estadoQuadro()); } catch (e) {} }); }
   function estadoQuadro() { const q = E.quadro; return q ? { fundo: q.fundo, pag: q.pag, total: q.paginas.length, objs: leve(q.paginas[q.pag].objs) } : null; }
