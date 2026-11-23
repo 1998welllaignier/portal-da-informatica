@@ -251,7 +251,7 @@
         if (d.leu || !d.leitor) { if (pergunta(T, d.idx)) B.push([d.leu ? "lgc-ok" : "lgc-sec", "🤔 Pergunta relâmpago", () => { d.fase = "pergunta"; d.stats = { resp: 0, total: online().length, acertos: 0 }; salvar(); }]);
           B.push([d.leu && !pergunta(T, d.idx) ? "lgc-ok" : "lgc-sec", d.idx < N - 1 ? "Próximo trecho ➜" : "🏁 Terminar e liberar a turma", proximo]); }
       }
-      if (d.fase === "pergunta") B.push(["lgc-ok", "✅ Mostrar a resposta certa", () => { const c = contar(); d.stats = { resp: c.resp, total: c.total, acertos: c.acertos }; c.quem.forEach(id => addXP(id, XP_PERGUNTA)); const P2 = pergunta(T, d.idx); d.perguntas[d.idx] = { termo: P2.termo, acertos: c.acertos, resp: c.resp, quem: c.quem }; d.fase = "resposta"; salvar(); }]);
+      if (d.fase === "pergunta") B.push(["lgc-ok", "✅ Mostrar a resposta certa", mostrarResposta]);
       if (d.fase === "resposta") B.push(["lgc-ok", d.idx < N - 1 ? "Próximo trecho ➜" : "🏁 Terminar e liberar a turma", proximo]);
       // ◀ 23/11/2026 (pedido do professor): do 1º trecho ou do vídeo, "Voltar" leva de novo à sala de espera, para escolher outro começo
       if (d.fase !== "espera") B.push(["lgc-sec", d.fase === "video" || (d.fase === "trecho" && d.idx === 0) ? "◀ Voltar (escolher texto ou vídeo)" : "◀ Voltar", voltar]);
@@ -277,6 +277,8 @@
     function sortear(pular) {
       ctx.roleta({ leitura: true, pular: pular ? pular.id : null, aoEscolher: a => { d.leitor = { id: a.id, nome: a.nome }; d.leu = false; salvar(); } });
     }
+    function mostrarResposta() { if (d.fase !== "pergunta") return; const c = contar(); d.stats = { resp: c.resp, total: c.total, acertos: c.acertos }; c.quem.forEach(id => addXP(id, XP_PERGUNTA)); const P2 = pergunta(T, d.idx); d.perguntas[d.idx] = { termo: P2.termo, acertos: c.acertos, resp: c.resp, quem: c.quem }; d.fase = "resposta"; salvar(); }
+    let autoRev = null;   // ✅ 23/11/2026 (pedido do professor): quando TODOS os alunos que entraram responderem, a resposta certa aparece sozinha
     function proximo() { if (d.idx >= N - 1) return terminar(); d.idx++; d.fase = "trecho"; d.leitor = null; d.leu = false; d.stats = null; salvar(); }
     function voltar() { if (d.fase === "video") { pararSinc(); d.fase = "espera"; d.viuVideo = false; } else if (d.fase === "trecho" && d.idx === 0) { d.fase = "espera"; d.leitor = null; d.leu = false; }
       else if (d.fase === "pergunta" || d.fase === "resposta") { d.fase = "trecho"; } else if (d.idx > 0) { d.idx--; d.fase = "trecho"; d.leitor = d.lidos[d.idx] || null; d.leu = !!d.lidos[d.idx]; } salvar(); }
@@ -295,7 +297,10 @@
     async function encerrar() { if (P.confirmar && !(await P.confirmar("Encerrar a leitura guiada agora? As telas dos alunos voltam ao normal.", "Sim, encerrar"))) return; if (Object.keys(d.lidos).length) return terminar(); d.ativa = false; await gravar(); cx.remove(); }
     const contarEspera = () => { const e = { on: online().length, total: alunos.length }; if (!d.espera || d.espera.on !== e.on || d.espera.total !== e.total) { d.espera = e; return true; } return false; };
     contarEspera(); gravar(); pintar();
-    const iv = setInterval(() => { if (!cx.isConnected) { clearInterval(iv); return; } if (d.fase === "espera" && contarEspera()) { gravar(); pintar(); return; } if (d.fase === "pergunta") { const c = contar(); if (!d.stats || c.resp !== d.stats.resp || c.total !== d.stats.total) { d.stats = { resp: c.resp, total: c.total, acertos: 0 }; gravar(); pintar(); return; } } if (rel) relatorio(); }, 2000);
+    const iv = setInterval(() => { if (!cx.isConnected) { clearInterval(iv); return; } if (d.fase === "espera" && contarEspera()) { gravar(); pintar(); return; } if (d.fase === "pergunta") { const c = contar();
+        if (c.total > 0 && c.resp >= c.total) { if (!autoRev) { const k = d.idx; autoRev = setTimeout(() => { autoRev = null; if (d.fase === "pergunta" && d.idx === k) mostrarResposta(); }, 1500); } }   // um respiro para a última resposta aparecer
+        else if (autoRev) { clearTimeout(autoRev); autoRev = null; }
+        if (!d.stats || c.resp !== d.stats.resp || c.total !== d.stats.total) { d.stats = { resp: c.resp, total: c.total, acertos: 0 }; gravar(); pintar(); return; } } if (rel) relatorio(); }, 2000);
   }
 
   P.leitura = { trechos, pergunta, ouvir, telao, iniciar, htmlFase };
