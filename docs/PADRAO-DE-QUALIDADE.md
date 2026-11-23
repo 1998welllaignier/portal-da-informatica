@@ -520,6 +520,7 @@ Questões **contextualizadas** (situação curta: 1–2 frases no 6º, 2–3 no 
 - Ao clicar em **📖 Leitura guiada**, nada começa sozinho (nem o vídeo). Abre primeiro a **sala de espera** no painel do professor: quantos alunos já entraram (ao vivo, com a tabela "A turma agora" no modo 3 telas) e dois botões: **📖 Começar pelo texto** e **🎬 Começar pelo vídeo** (se a missão não tem vídeo, o botão aparece apagado, avisando).
 - No projetor aparece "A leitura guiada já vai começar!" com **👥 X de Y alunos já entraram**; na tela do aluno, "✔ Você já está dentro. Olhe para o projetor".
 - **◀ Voltar (escolher texto ou vídeo):** no 1º trecho ou durante o vídeo, o botão leva de novo à sala de espera, para trocar o começo (o vídeo nos computadores para).
+- **Vídeo da leitura guiada:** na janela do vídeo, o botão vermelho é **◀ Encerrar o vídeo e voltar para a leitura guiada** (encerra o vídeo nos computadores e volta à sala de espera). "⏹ Encerrar e liberar a turma" fica só para o vídeo passado fora da leitura guiada.
 - Aberta pelo painel no modo 3 telas, vai direto para a sala de espera (sem a pergunta de quantas telas). O Diário só anota "com o vídeo da missão antes" se o vídeo foi mesmo passado.
 
 ## 🎉 Roleta na tela de cada aluno também na leitura guiada (20/11/2026, pedido do professor)

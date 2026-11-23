@@ -208,8 +208,10 @@
     const gravar = () => { d.em = Date.now(); return Promise.all(alvo.map(id => db().collection("config").doc("leitura_" + id).set(JSON.parse(JSON.stringify(d))))).catch(e => console.warn("leitura", e)); };
     await gravar(); bonus();
     // 📡 23/11/2026: o vídeo da missão passa EM SINCRONIA no projetor e nas telas dos alunos (mesmo esquema do 📡 Transmitir)
-    const passarSinc = () => { if (vid && P.sala && P.sala.passarVideo) P.sala.passarVideo(t.id, vid, "Vídeo da missão: " + semTags(T.titulo || ""), ctx.nomeTurma || t.id).catch(e => console.warn("sala", e)); };
-    const pararSinc = () => { try { if (P.sala && P.sala._PR && P.sala._PR.t) P.sala.parar(); } catch (e) {} };
+    const passarSinc = () => { if (vid && P.sala && P.sala.passarVideo) P.sala.passarVideo(t.id, vid, "Vídeo da missão: " + semTags(T.titulo || ""), ctx.nomeTurma || t.id,
+      // 23/11/2026 (pedido do professor): aqui o botão não "libera a turma": encerra o vídeo e volta para a sala de espera da leitura guiada
+      { fim: "◀ Encerrar o vídeo e voltar para a leitura guiada", aviso: "🎬 Vídeo encerrado: de volta à sala de espera da leitura guiada.", aoFim: () => { if (cx.isConnected && d.fase === "video") { d.fase = "espera"; salvar(); } } }).catch(e => console.warn("sala", e)); };
+    const pararSinc = () => { try { if (P.sala && P.sala._PR && P.sala._PR.t) P.sala.parar("🎬 Vídeo encerrado nos computadores. A leitura guiada continua."); } catch (e) {} };
     if (modo === "3" && jan) moverParaProjetor(jan).then(s => { if (s && s.label) try { localStorage.setItem("portal:telaProjetor", s.label); } catch (e) {} });
     // 2 telas: esta própria tela vira o telão, com a faixa de controles embaixo (só aqui, os alunos não veem)
     const cx = h(`<div class="lgc ${modo === "2" ? "lgc-2" : "lgc-3"}" role="dialog" aria-label="Controles da leitura guiada">

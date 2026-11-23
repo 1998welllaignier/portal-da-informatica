@@ -222,7 +222,7 @@
     return sessao;
   }
   function pararNoUnload() { if (PR.t) try { refSala(PR.t).set({ modo: null, dia: hoje(), sessao: null }); } catch (e) {} }
-  async function pararProf() {
+  async function pararProf(aviso) {
     const t = PR.t; clearInterval(PR.hb); PR.hb = null; removeEventListener("beforeunload", pararNoUnload);
     if (PR.presUnsub) PR.presUnsub(); PR.presUnsub = null;
     Object.values(PR.pcs).forEach(pc => { try { pc.close(); } catch (e) {} }); PR.pcs = {};
@@ -231,7 +231,7 @@
     if (PR.dlg) { if (document.fullscreenElement) document.exitFullscreen().catch(() => {}); PR.dlg.remove(); PR.dlg = null; }
     PR.t = null; PR.sessao = null;
     if (t) await refSala(t).set({ modo: null, dia: hoje(), sessao: null }).catch(() => {});
-    P.toast && P.toast("📡 Transmissão encerrada: as telas dos alunos foram liberadas.");
+    P.toast && P.toast(aviso || "📡 Transmissão encerrada: as telas dos alunos foram liberadas.");
   }
   function ouvirPresenca(t, sessao) {
     if (PR.presUnsub) PR.presUnsub();
@@ -266,17 +266,19 @@
   }
 
   /* 📺 vídeo: o player do professor (com som, no projetor) manda play/pausa/pulos para todos */
-  async function passarVideo(t, vid, titulo, rotulo) {
+  // op (23/11/2026): { fim: texto do botão de encerrar, aoFim: o que fazer depois } — a leitura guiada usa para voltar à sala de espera
+  async function passarVideo(t, vid, titulo, rotulo, op) {
+    op = op || {};
     if (PR.t) await pararProf();
     const sessao = await iniciarProf(t, { modo: "video", vid, titulo: titulo || "", estado: "pause", pos: 0, emMs: agora() });
     PR.dlg = document.createElement("div"); PR.dlg.className = "sala-prof";
     PR.dlg.innerHTML = `<div class="sala-barra"><span class="sala-ao-vivo">● AO VIVO</span><span><b>Transmitindo para ${esc(rotulo || t)}:</b> ${esc(titulo || "vídeo")}</span>
         <span class="sala-status">👥 esperando os alunos entrarem…</span>
-        <span class="sala-prof-bts"><button type="button" class="btn btn-sec" id="sp-cheia">⛶ Tela cheia</button><button type="button" class="btn btn-perigo" id="sp-fim">⏹ Encerrar e liberar a turma</button></span></div>
+        <span class="sala-prof-bts"><button type="button" class="btn btn-sec" id="sp-cheia">⛶ Tela cheia</button><button type="button" class="btn btn-perigo" id="sp-fim">${esc(op.fim || "⏹ Encerrar e liberar a turma")}</button></span></div>
       <div class="sala-prof-palco"><div id="sala-prof-yt"></div></div>
       <p class="sala-prof-dica">Dê o ▶️ aqui quando a turma estiver pronta: todos começam juntos. Pausar e pular também vale para todos. O som sai só deste computador (caixinhas).</p>`;
     document.body.appendChild(PR.dlg); document.body.classList.add("sala-prof-aberta");
-    PR.dlg.querySelector("#sp-fim").onclick = () => { document.body.classList.remove("sala-prof-aberta"); pararProf(); };
+    PR.dlg.querySelector("#sp-fim").onclick = async () => { document.body.classList.remove("sala-prof-aberta"); await pararProf(op.aviso); if (op.aoFim) try { op.aoFim(); } catch (e) { console.warn(e); } };
     PR.dlg.querySelector("#sp-cheia").onclick = () => { const e = PR.dlg; document.fullscreenElement ? document.exitFullscreen().catch(() => {}) : e.requestFullscreen && e.requestFullscreen().catch(() => {}); };
     const Y = await yt(); if (PR.sessao !== sessao) return;
     const enviar = estado => { const p = PR.player; if (!p || !p.getCurrentTime || PR.sessao !== sessao) return;
