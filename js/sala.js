@@ -360,5 +360,5 @@
     box.querySelector("#sala-quadro").onclick = () => quadroTurma(t, rotulo);
   }
 
-  P.sala = { ouvir, ativa: () => !!(A.dlg), painel, parar: pararProf, passarVideo, _A: A, _PR: PR };
+  P.sala = { ouvir, ativa: () => !!(A.dlg), painel, parar: pararProf, passarVideo, espelhar, quadroTurma, _A: A, _PR: PR };
 })();

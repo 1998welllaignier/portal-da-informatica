@@ -24,7 +24,16 @@
   let ctx = null, mestre = null, abafo = null, filtro = null, eco = null, prox = 0, acorde = 0, iv = null, abafarAte = 0, tocando = false;
   const esc = x => String(x).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
   const hz = m => 440 * Math.pow(2, (m - 69) / 12);
-  const ehProf = () => /^#\/painel/.test(location.hash);   // só no PAINEL DO PROFESSOR (pedido do professor): em nenhum outro lugar
+  // só no PAINEL DO PROFESSOR, nunca no placar/relatório (23/11/2026: tocava uma por cima da outra com várias abas abertas)
+  const ehProf = () => /^#\/painel/.test(location.hash) && !/^#\/painel\/(placar|relatorio)/.test(location.hash);
+  /* 🎵 UMA ABA SÓ (23/11/2026): a primeira aba do painel que tocar fica "dona" da música; as outras ficam caladas.
+     Se a dona for fechada, outra aba do painel assume em poucos segundos. */
+  const MEU_ID = Math.random().toString(36).slice(2), DONO = "portal:musica:dono";
+  let ultDono = 0;
+  function souDono() { try { const d = JSON.parse(localStorage.getItem(DONO) || "null"), agora = Date.now();
+    if (!d || d.id === MEU_ID || agora - d.ts > 5000) { if (agora - ultDono > 1000) { localStorage.setItem(DONO, JSON.stringify({ id: MEU_ID, ts: agora })); ultDono = agora; } return true; }
+    return false; } catch (e) { return true; } }
+  addEventListener("beforeunload", () => { try { const d = JSON.parse(localStorage.getItem(DONO) || "null"); if (d && d.id === MEU_ID) localStorage.removeItem(DONO); } catch (e) {} });
 
   /* 🎶 ESTILOS (20/11/2026). "animada" é a escolhida pelo professor ("gostei muito… acho que vai ser essa").
      A pedido dele, outros estilos para comparar, todos originais e criados na hora pelo navegador:
@@ -264,7 +273,7 @@
   const videoAtivo = () => { const a = document.activeElement; return ytTocando.size > 0 || !!(a && a.tagName === "IFRAME" && /youtube/.test(a.src || "")) || document.hidden; };
   function aplicar() {
     if (!ctx || !mestre) return;
-    const deveTocar = ligada && ehProf(), calar = !deveTocar || videoAtivo() || Date.now() < abafarAte;
+    const deveTocar = ligada && ehProf() && souDono(), calar = !deveTocar || videoAtivo() || Date.now() < abafarAte;
     const agora = ctx.currentTime;
     mestre.gain.cancelScheduledValues(agora); mestre.gain.setTargetAtTime(deveTocar ? ganho() : 0, agora, 0.3);
     abafo.gain.cancelScheduledValues(agora); abafo.gain.setTargetAtTime(calar ? 0 : 1, agora, calar ? 0.12 : 0.9);

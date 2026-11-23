@@ -2562,7 +2562,14 @@
           tl.innerHTML = `<span class="pp-telas-rot">Telas:</span><button type="button" data-tl="2" class="${m === "2" ? "on" : ""}" title="A sua tela vai para o projetor: todos os botões ficam no placar">🖥️📽️ 2 telas</button><button type="button" data-tl="3" class="${m === "3" ? "on" : ""}" title="Projetor só para os alunos + o seu monitor + o Veyon: os comandos ficam aqui no painel">🖥️🖥️📽️ 3 telas</button>
             ${m === "3" ? `<span class="pp-telas-bts"><button type="button" class="btn btn-peq" data-tl-acao="leitura">📖 Leitura guiada</button><button type="button" class="btn btn-peq" data-tl-acao="roleta">🎡 Roleta da leitura</button><small>🏁 Finalizar: na barra de cima</small></span>` : `<small>Leitura guiada, roleta e finalizar ficam no 🏆 placar.</small>`}`;
           tl.querySelectorAll("[data-tl]").forEach(b => b.onclick = () => { setModoTelas(b.dataset.tl); pintaT(); toast(b.dataset.tl === "3" ? "🖥️🖥️📽️ 3 telas: o placar do projetor fica só com o som e a tela cheia; os comandos ficam aqui." : "🖥️📽️ 2 telas: os comandos voltam para o placar."); });
-          tl.querySelectorAll("[data-tl-acao]").forEach(b => b.onclick = () => ferramentaLeitura(t, b.dataset.tlAcao)); };
+          tl.querySelectorAll("[data-tl-acao]").forEach(b => b.onclick = () => ferramentaLeitura(t, b.dataset.tlAcao));
+          // 📡 23/11/2026: atalhos sempre à mão para mostrar a tela e riscar no quadro (antes só dentro de 🧰 Ferramentas › 📡 Transmitir)
+          const at = document.createElement("span"); at.className = "pp-telas-bts pp-transm";
+          at.innerHTML = `<button type="button" class="btn btn-peq btn-sec" data-tr="tela" title="Mostra a sua tela (ou uma janela) nos computadores dos alunos">🖥️ Mostrar minha tela</button><button type="button" class="btn btn-peq btn-sec" data-tr="quadro" title="Quadro branco: você escreve e risca e aparece na hora nos computadores dos alunos">⬜ Quadro para a turma</button><button type="button" class="btn btn-peq btn-sec" data-tr="mais">📡 Mais (vídeo em sincronia)</button>`;
+          at.querySelector('[data-tr="tela"]').onclick = () => P.sala && P.sala.espelhar ? P.sala.espelhar(t.id, nomeTurma(t.id)) : toast("Transmissão indisponível.");
+          at.querySelector('[data-tr="quadro"]').onclick = () => P.sala && P.sala.quadroTurma ? P.sala.quadroTurma(t.id, nomeTurma(t.id)) : toast("Transmissão indisponível.");
+          at.querySelector('[data-tr="mais"]').onclick = () => { const a2 = el.querySelector("#pp-transmitir"); if (a2) { a2.open = true; a2.scrollIntoView({ behavior: "smooth", block: "start" }); } };
+          tl.appendChild(at); };
         pintaT(); box.appendChild(tl); }
       el.querySelector(".pp-barra").appendChild(box);
       const sel = box.querySelector('[data-hj="sel"]'), trav = box.querySelector('[data-hj="trav"]');
