@@ -2523,7 +2523,8 @@
           ${C.missoes.filter(m => m.id !== "rc").map(m => `<option value="${esc(m.id)}" ${hj && hj.mid === m.id ? "selected" : ""}>${esc(m.icone || "")} ${esc(SIG(m.id))} · ${esc(((m.titulo || "").replace(/^[^–]*–\s*/, "") || curto(m)).slice(0, 60))}${esc(sitMis(sit, m.id))}</option>`).join("")}</select></label>
         <label class="pp-auto" title="${hj ? "Só a missão de hoje fica com as tarefas abertas" : "Escolha primeiro a missão de hoje na lista"}"><input type="checkbox" data-hj="trav" ${hj && hj.travar ? "checked" : ""} ${hj ? "" : "disabled"}> 🔒 Travar só nela</label>
         <span class="st">${hj ? (hj.travar ? "🔒 os alunos só fazem as tarefas desta missão" : "✔ o aluno cai direto nela ao digitar o código") : "nenhuma missão definida para hoje"}</span>
-        <span class="pp-ini-st ${iniciada ? "on" : "off"}">${iniciada ? `▶️ Aula iniciada às ${new Date(hj0.iniciadaEm || Date.now()).toTimeString().slice(0, 5)}` : `⏳ Aula não iniciada: tarefas fechadas · use <b>▶️ Iniciar aula</b> na barra de cima`}</span>`;
+        <span class="pp-ini-st ${iniciada ? "on" : "off"}">${iniciada ? `▶️ Aula iniciada às ${new Date(hj0.iniciadaEm || Date.now()).toTimeString().slice(0, 5)}` : `⏳ Aula não iniciada: tarefas fechadas <button class="btn btn-peq" type="button" data-hj="ini">▶️ Iniciar a aula</button>`}</span>`;
+      { const bIni = box.querySelector('[data-hj="ini"]'); if (bIni) bIni.onclick = () => iniciarAula(u, { manual: true, tid: t.id }); }
       el.querySelector(".pp-barra").appendChild(box);
       const sel = box.querySelector('[data-hj="sel"]'), trav = box.querySelector('[data-hj="trav"]');
       sel.onchange = async () => {
