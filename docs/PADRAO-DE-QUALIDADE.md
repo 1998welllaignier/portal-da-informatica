@@ -519,6 +519,11 @@ Questões **contextualizadas** (situação curta: 1–2 frases no 6º, 2–3 no 
 - ✏️ (mesmo dia) O pincel e o laser da leitura guiada aparecem também **na tela de cada aluno** (2 ou 3 telas): `config/lousaLeitura_<turma>`, em texto (`j`), no máximo 2 gravações por segundo e só enquanto ele desenha; ao trocar de trecho ou de fase, os riscos se apagam sozinhos.
 - 🎵 Música calada por engano: uma aba do painel escondida (minimizada) segurava a música e um vídeo já fechado continuava contando como "tocando". Agora a aba escondida solta a música para a que está à vista, e player que saiu da tela deixa de contar.
 
+## 🎨 Desenhos: o Claude faz quase tudo; o ChatGPT só a capa (23/11/2026, decisão do professor)
+- O professor elogiou os desenhos das palavras pontilhadas ("os desenhos estão ótimos"). O estilo oficial é o de `ferramentas/ilustracoes_2026/linha_clara.py`: contorno preto grosso, cores chapadas, **sombra sólida deslocada**, objetos como de verdade e cores com significado.
+- **ChatGPT só para a capa** (a cena de abertura da primeira página da apostila, com a ficha da turma). Todo o resto é desenhado por código pelo Claude.
+- Exemplo de referência: `ferramentas/ilustracoes_2026/exemplo_mesa.py` (mesa com computador, gabinete e impressora).
+
 ## 🧩 Emojis que o Windows 10 mostra (23/11/2026)
 - Os computadores da sala e o do professor têm Windows 10, que só desenha emojis até a versão 12; os mais novos viram um quadradinho (□). Trocados 20 emojis (174 lugares), ex.: 🪪→📇, 🪧→📋, 🫧→🔵, 🛟→💾, 🪟→🔲, 🪆→🎎, 🛞→🖲️, 🫳→✊.
 - Regra: material novo não usa emoji do bloco U+1FA70–1FAFF (fora 🩰🩱🩲🩳 🩸🩹🩺 🪀🪁🪂 🪐🪑🪒🪓🪔🪕) nem 🛖🛝🛞🛟🦬🦭🫙 etc.: escolher um equivalente antigo.

@@ -23,7 +23,7 @@ Cada conversa do Claude tem o seu próprio computador na nuvem. **Os arquivos qu
 
 | O quê | Onde estava (só na 🏭 Produção) | O que fazer |
 |---|---|---|
-| **Gabaritos das provas** (JSON lido por `ferramentas/gerar_provas.js`) | `/home/claude/gabaritos/`: só os do 2º bim de 2027 do 6º e do 7º (com Trilha). Os de 2026 já foram usados e as provas estão no portal (só o hash). | **Nunca** no repositório. Guardar no Google Drive do professor (conta de professor) ou no computador de casa. Pedir ao professor o OK para copiar. |
+| **Gabaritos das provas** (JSON lido por `ferramentas/gerar_provas.js`) | Estavam em `/home/claude/gabaritos/`: só os do 2º bim de 2027 do 6º e do 7º, com Trilha. Os de 2026 já foram usados e as provas estão no portal (só o hash). | ✅ **Copiados em 23/11/2026, com a autorização dele, para o Google Drive pessoal do professor**, na pasta "Portal da Informática — Gabaritos das provas (NÃO compartilhar)", sem compartilhamento herdado. Gabarito novo vai para a mesma pasta, **nunca** para o repositório. |
 | MP4 dos vídeos prontos | `/home/claude/videos-prontos`, `videos-2027`, `videos-saida`, e o MP4 do ⚔️ duelo das redes em `/home/claude/` | Os postados estão no YouTube. O duelo das redes **ainda não foi postado**: refazer pelo projeto `ferramentas/video2d/2027-8ano-duelo-redes/` (tudo está lá, inclusive `voz-final.mp3`). |
 | Painel da Consciência Negra (54 folhas A4) | `/home/claude/painel-cn2/` (PDF, imagens) | Os **scripts** foram copiados para `ferramentas/painel-a4/` (ver o LEIA-ME de lá). O PDF já foi entregue ao professor. |
 | PDFs do Vinícius, dos aulões e do Wi-Fi do AEE | `/home/claude/*.pdf` | Não são da Produção: são da 👨‍🏫 Vinícius e da 🏫 Escola no dia a dia. |
@@ -88,10 +88,7 @@ Tudo foi publicado e anotado no PADRAO-DE-QUALIDADE.md. O professor dá **Ctrl+F
 1. 🎬 Cenas de abertura de IA nas apostilas de 2027:
    - o 6º ano 1º bim e o 1º bim do 7º, 8º e 9º já estão feitos;
    - faltam os bimestres seguintes, sempre com a **ficha da turma**.
-2. 🌀 Novo modelo em espiral (`docs/NOVO-MODELO.md`):
-   - etapas 1 e 2 prontas (1º e 2º bim de 2027);
-   - **faltam as etapas 3 e 4** (3º e 4º bimestres de 2027).
-   - As apostilas de 2026 em uso ficam como estão.
+2. 🌀 Novo modelo em espiral (`docs/NOVO-MODELO.md`): **as 4 etapas estão prontas**, ou seja, o ano de 2027 inteiro, do 6º ao 9º, com Trilhas (commits "Etapa 3" e "Etapa 4"). Também está pronto o 4º bim de 2026 nas missões ainda não dadas. ⚠️ O `NOVO-MODELO.md` ainda dizia "⏳ Etapas 3 e 4": corrigido em 23/11/2026.
 3. Seção 6 do PLANO-DE-ACAO, nesta ordem:
    - fechar `#/ver` e `#/testar` sem login;
    - proteger o login por código;
@@ -192,8 +189,17 @@ A prova cobra só as missões que a turma estudou: o professor marca no painel n
 6. Ligar no portal (`P.videosMissao` em `js/historia.js`) e mover para "✅ No ar" no `docs/VIDEOS-A-POSTAR.md`.
 
 ### Desenhos
+> ⭐ **Decisão do professor (23/11/2026):** "os desenhos estão ótimos… o ChatGPT provavelmente vai ficar **apenas para o desenho da capa** (a cena da primeira página da apostila); o resto você está tirando de letra".
+
+- **O estilo que ele aprovou e elogiou** é o das imagens das **palavras pontilhadas** (`ferramentas/ilustracoes_2026/termos.py` → `dados/termos-imagens.js`). As peças ficam em **`ferramentas/ilustracoes_2026/linha_clara.py`**:
+  - contorno preto grosso (`#1c1f22`, 3,5 px);
+  - cores vivas chapadas;
+  - **sombra sólida deslocada** (`sombra=4…7`: um retângulo preto igual, deslocado para baixo e para a direita);
+  - objetos como de verdade.
+- **Cores com significado:** azul = entrada, amarelo = processa, verde = saída, roxo = guardar, vermelho = perigo, ciano = rede.
+- **Exemplo de referência** feito para conferir a passagem: `ferramentas/ilustracoes_2026/exemplo_mesa.py` (mesa com monitor, teclado, mouse, impressora e gabinete). Desenho novo começa copiando esse jeito.
 - **Esquemas e explicações:** por código, Estilo B (linha clara), `ferramentas/ilustracoes/`.
-- **Cenas com gente:** imagem gerada no **ChatGPT do computador de casa**, sempre com a **ficha da turma** (`ferramentas/ilustracoes/referencia/ia/ficha_da_turma_IA.png`), sem texto na imagem. Etiquetas e setas entram por código (`ferramentas/ilustracoes_2027/cenas.py`).
+- **Capa / cena de abertura da apostila (e só ela, decisão de 23/11):** imagem gerada no **ChatGPT do computador de casa**, sempre com a **ficha da turma** (`ferramentas/ilustracoes/referencia/ia/ficha_da_turma_IA.png`), sem texto na imagem. Etiquetas e setas entram por código (`ferramentas/ilustracoes_2027/cenas.py`).
 - Desde 20/11 o Claude pode desenhar por código no estilo aprovado, sem depender sempre do ChatGPT.
 - **Nunca:** logos, fotos de figuras públicas, cópia de obras protegidas.
 
