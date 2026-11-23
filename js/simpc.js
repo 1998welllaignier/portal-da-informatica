@@ -290,9 +290,10 @@ body.sp-travado{overflow:hidden}
       /* 🎬 DEMONSTRAÇÃO GUIADA (20/11/2026, pedido do professor): na 1ª vez que o aluno vai fazer este simulador, ele ASSISTE
          antes, obrigatoriamente, o Bit fazendo tudo num computador igual, com o mousezinho andando e clicando, passo a passo.
          Depois de ver uma vez, não precisa ver de novo (fica salvo no progresso); o botão "🎬 Rever como faz" fica sempre ali. */
-      const comecar = () => { if (!st.status && !st.demoVisto && !ctx.demo && at.demo !== false && !P.__profSim) return T.sim_pc.demo(at, st.so, { obrigatorio: true, aoFim: () => { st.demoVisto = 1; ctx.salvar(); foco(true); } }); foco(true); };
+      // 23/11/2026 (pedido do professor): a demonstração virou OPCIONAL: o aluno começa direto; quem quiser ver toca em "🎬 Ver como faz"
+      const comecar = () => foco(true);
       { const ini = c.querySelector(".sp-iniciar"); if (ini) ini.onclick = e => { e.stopPropagation(); comecar(); }; }
-      if (!ctx.demo && at.demo !== false) { const bR = document.createElement("button"); bR.type = "button"; bR.className = "sec rever"; bR.textContent = "🎬 Rever como faz";
+      if (!ctx.demo && at.demo !== false) { const bR = document.createElement("button"); bR.type = "button"; bR.className = "sec rever"; bR.textContent = "🎬 Ver como faz";
         bR.onclick = () => T.sim_pc.demo(at, st.so, { aoFim: () => { if (!st.status) foco(true); } }); G.querySelector(".sp-bts").insertBefore(bR, G.querySelector(".rec")); }
       if (ctx.demo) ctx.demo.forcar = () => { if (pAtual()) acertou(); };
       addEventListener("resize", ajustarGuia);
