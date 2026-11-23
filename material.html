@@ -339,4 +339,25 @@ footer{text-align:center;color:var(--suave);font-size:.88rem;padding:20px 16px 3
   addEventListener("resize", atualizar); atualizar();
 })();
 </script>
+
+<!-- ✨ 23/11/2026: transição suave — os blocos descem um pouquinho e se encaixam ao abrir e ao aparecer na rolagem -->
+<style>
+.cx-entra{animation:cxEntra .4s cubic-bezier(.22,.8,.3,1) backwards;animation-delay:calc(var(--cx-i,0)*40ms)}
+@keyframes cxEntra{from{opacity:0;transform:translateY(-14px)}}
+.cx-espera{opacity:0}
+@media (prefers-reduced-motion:reduce){.cx-entra{animation:none}.cx-espera{opacity:1}}
+</style>
+<script>
+(function(){
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches || !("IntersectionObserver" in window)) return;
+  var main = document.querySelector("main"); if (!main) return;
+  var entrar = function(sec){ var fs = [].slice.call(sec.children).filter(function(c){ var p = getComputedStyle(c).position; return p !== "fixed" && p !== "sticky"; }).slice(0, 10);
+    if (sec.matches(".cena")) fs = [];   // cena em rolagem tem animação própria
+    sec.classList.remove("cx-espera");
+    fs.forEach(function(c, k){ c.style.setProperty("--cx-i", k); c.classList.add("cx-entra"); c.addEventListener("animationend", function(){ c.classList.remove("cx-entra"); }, { once: true }); }); };
+  var secs = [].slice.call(main.children), alto = innerHeight;
+  var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if (e.isIntersecting) { io.unobserve(e.target); entrar(e.target); } }); }, { rootMargin: "0px 0px -8% 0px" });
+  secs.forEach(function(s){ if (s.matches(".cena")) return; if (s.getBoundingClientRect().top < alto) entrar(s); else { s.classList.add("cx-espera"); io.observe(s); } });
+})();
+</script>
 </body></html>

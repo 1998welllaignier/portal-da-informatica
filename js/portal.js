@@ -900,7 +900,19 @@
 
   function modoTrilha(a) { const on = !!(a && a.trilha); document.body.classList.toggle("modo-trilha", on); document.documentElement.classList.toggle("trilha", on); }
 
-  function mount(html) { const a = $app(); a.innerHTML = ""; const el = typeof html === "string" ? h(html) : html; a.appendChild(el); window.scrollTo(0, 0); const f = el.querySelector("h1"); if (f) { f.setAttribute("tabindex", "-1"); f.focus({ preventScroll: true }); } return el; }
+  /* ✨ 23/11/2026 (pedido do professor): transição suave ao trocar de tela, os blocos descem um pouquinho e se encaixam,
+     um logo depois do outro (entrada escalonada). Só quando a tela muda de verdade (redesenhar a mesma tela não anima);
+     barras presas (sticky/fixed) ficam paradas; quem pede menos movimento no aparelho vê a tela direto. */
+  let cxUlt = "";
+  function cascata(el) {
+    const rota = location.hash.split("?")[0]; if (rota === cxUlt) return; cxUlt = rota;
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    let filhos = [...el.children]; if (filhos.length === 1 && filhos[0].children.length > 1) filhos = [...filhos[0].children];
+    let k = 0;
+    filhos.forEach(c => { if (k >= 12 || c.hidden) return; const ps = getComputedStyle(c).position; if (ps === "fixed" || ps === "sticky") return;
+      c.style.setProperty("--cx-i", k++); c.classList.add("cx-entra"); c.addEventListener("animationend", () => { c.classList.remove("cx-entra"); c.style.removeProperty("--cx-i"); }, { once: true }); });
+  }
+  function mount(html) { const a = $app(); a.innerHTML = ""; const el = typeof html === "string" ? h(html) : html; a.appendChild(el); try { cascata(el); } catch (e) {} window.scrollTo(0, 0); const f = el.querySelector("h1"); if (f) { f.setAttribute("tabindex", "-1"); f.focus({ preventScroll: true }); } return el; }
 
   /* ============================================================
      TELAS

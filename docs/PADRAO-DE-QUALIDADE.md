@@ -508,6 +508,11 @@ Questões **contextualizadas** (situação curta: 1–2 frases no 6º, 2–3 no 
 - **2 telas:** a própria tela do placar vira o telão, com a faixa de controles embaixo (só na tela do professor).
 - **Registro automático:** ao terminar, a aula do dia no Diário ganha `leituraGuiada` (trechos, quem leu, perguntas e acertos) e uma linha no "📝 Registro das aulas"; o **relatório da família** mostra "📖 Leitura guiada com a turma: 🎤 leu em voz alta o trecho N; acertou X de Y perguntas relâmpago".
 
+## ✨ Transição suave entre telas (23/11/2026, pedido do professor)
+- Em todo o portal (aluno e painel), ao trocar de tela os blocos descem 14 px e se encaixam, um 40 ms depois do outro, em 0,4 s (`cascata` em js/portal.js + `.cx-entra`). Nada exagerado: "suave aos olhos, não lento".
+- Barras presas (sticky/fixed) não se mexem; redesenhar a mesma tela não anima de novo; quem pede menos movimento no aparelho vê direto.
+- Na página material.html e no site professorwell.com.br, o mesmo efeito ao abrir e quando cada seção aparece na rolagem (as cenas em rolagem mantêm a animação própria).
+
 ## ✂️ Telas dos alunos só com o essencial (23/11/2026, pedido do professor)
 - Nada de explicação exagerada nem letrinha miúda nas telas que aparecem para a turma (leitura guiada e transmissão). Só o título do momento: "A leitura guiada já vai começar!", "Agora vamos ver um vídeo", "📺 Vídeo da turma", "🎤 É a sua vez de ler!", "📖 Lendo agora: <nome>", "🎡 Quem vai ler?", "⏸ Já vai começar", "🎬 Fim do vídeo". Botões curtos ("▶️ Assistir").
 - Vale para toda tela nova da turma: frase curta, sem instrução que o professor já dá falando.

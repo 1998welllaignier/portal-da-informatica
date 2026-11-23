@@ -50,7 +50,10 @@ button, input, select, textarea { font: inherit; color: inherit; }
 
 /* ---------- estrutura ---------- */
 main { max-width: 1180px; margin: 0 auto; padding: 18px 18px 40px; outline: none; }
-.tela { animation: entra .25s ease; }
+/* ✨ transição de tela: cada bloco desce 14px e se encaixa, 40 ms depois do anterior (js/portal.js › cascata) */
+.cx-entra { animation: cxEntra .4s cubic-bezier(.22,.8,.3,1) backwards; animation-delay: calc(var(--cx-i, 0) * 40ms); }
+@keyframes cxEntra { from { opacity: 0; transform: translateY(-14px); } }
+@media (prefers-reduced-motion: reduce) { .cx-entra { animation: none; } }
 @keyframes entra { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 .rodape { text-align: center; padding: 18px; color: var(--suave); font-size: .85rem; border-top: 1px solid var(--linha); }
 .migalhas { font-size: .9rem; color: var(--suave); margin-bottom: 8px; }
