@@ -494,6 +494,27 @@
   // garante que a apostila de cada progresso esteja carregada (sem ela os pontos dariam 0: ex. aluno na trilha adaptada)
   async function carregarAids(prog) { const aids = [...new Set(prog.map(p => p.aid).filter(a => a && !P.conteudo[a]))];
     for (const a of aids) { try { await P.carregarApostila(a); } catch (e) {} } }
+  /* 🖥️ MODO DE TELAS (23/11/2026, pedido do professor): "2" = a tela dele vai para o projetor (tudo fica no placar);
+     "3" = projetor só para os alunos + monitor dele + Veyon: o placar no projetor fica limpo (só 🔊 som e ⛶ tela cheia) e
+     📖 Leitura guiada, 🎡 Roleta e 🏁 Finalizar ficam no painel, na tela dele. Guardado neste computador (o placar, em outra aba, acompanha). */
+  const modoTelas = () => { try { return localStorage.getItem("portal:telas") === "3" ? "3" : "2"; } catch (e) { return "2"; } };
+  const setModoTelas = m => { try { localStorage.setItem("portal:telas", m); } catch (e) {} };
+  P.modoTelas = modoTelas;
+  // abre a 📖 leitura guiada ou a 🎡 roleta a partir do painel (modo 3 telas): carrega a turma e o progresso só enquanto estiverem abertas
+  async function ferramentaLeitura(t, qual) {
+    if (document.querySelector(".lgc, .lgc-escolha, .rl-cobre")) return;
+    await carregarSerie(t);
+    const PART = await participantes(t), alunos = PART.alunos, So = P.sons; let prog = [];
+    const u1 = ouvirProg(PART.turmasProg, async lista => { prog = lista; }, () => {});
+    await new Promise(r => setTimeout(r, 900));   // dá tempo de chegar a lista de quem está online
+    const aberto = () => !!document.querySelector(".lgc, .lgc-escolha, .rl-cobre");
+    const rol = op => roleta(t, alunos, () => prog, PART.turmasProg, So, op);
+    if (qual === "roleta") rol();
+    else { const hjL = await missaoDeHoje(t); const aidL = hjL.aid || (cat().apostilas.find(a => a.serie === t.serie.id && P.doPeriodo(a) && !a.oculta && !a.trilha) || {}).id;
+      const midL = hjL.fixo ? hjL.mid : missaoDaTurmaHoje(prog, hjL.mid);
+      P.leitura.iniciar({ t, alunos, getProg: () => prog, turmas: PART.turmasProg, So, aid: aidL, mid: midL, nomeTurma: nomeTurma(t.id), roleta: rol, modo: "3" }); }
+    let vazio = 0; const iv = setInterval(() => { if (aberto()) { vazio = 0; return; } if (++vazio >= 3) { clearInterval(iv); try { u1(); } catch (e) {} } }, 5000);
+  }
   async function missaoDeHoje(t) {
     const ap = cat().apostilas.find(a => a.serie === t.serie.id && P.doPeriodo(a) && !a.oculta && !a.trilha) || cat().apostilas.find(a => a.serie === t.serie.id && P.doPeriodo(a));
     await P.carregarApostila(ap.id); const C = P.conteudo[ap.id];
@@ -635,6 +656,17 @@
       P.leitura.iniciar({ t, alunos, getProg: () => prog, turmas: PART.turmasProg, So, aid: aidL, mid: midL, nomeTurma: nomeTurma(t.id), roleta: op => roleta(t, alunos, () => prog, PART.turmasProg, So, op) }); };
     // ⭐ XP da leitura guiada de hoje entra no placar (mesmo se o placar for reaberto)
     const u3 = db().collection("config").doc("leitura_" + t.id).onSnapshot(sn => { const d = sn.exists ? sn.data() : null; if (d && d.dia === N.hoje() && d.xp) { P.podio.bonusXP = { dia: d.dia, porId: d.xp }; pintarPlacar(); } }, () => {});
+    const pintaTelas = () => { const tres = modoTelas() === "3"; ["#pl-leitura", "#pl-roleta", "#pl-fim"].forEach(s => { const b = el.querySelector(s); if (b) b.hidden = tres; }); };
+    pintaTelas(); addEventListener("storage", e => { if (e.key === "portal:telas" && document.body.contains(el)) pintaTelas(); });
+    // modo 3 telas: a roleta é girada no painel do professor; aqui no projetor aparece a MESMA roda girando e depois o nome
+    let plRolVisto = "", plRolCx = null;
+    const u4 = db().collection("config").doc("roleta_" + t.id).onSnapshot(sn => { const r = sn.exists ? sn.data() : null;
+      if (!r || r.dia !== N.hoje() || !r.em || Date.now() - r.em > 90000 || document.querySelector(".rl-cobre")) return;
+      const k = r.em + (r.girando ? "g" : "n"); if (k === plRolVisto) return; plRolVisto = k; if (plRolCx) plRolCx.remove();
+      plRolCx = h(`<div class="rol-aluno telao"><div>${r.girando ? (r.roda && P.rodaRoletaHTML ? `<h2 class="rol-tit-roda">🎡 A roleta está girando…</h2>${P.rodaRoletaHTML(r.roda)}` : `<p class="rol-ic rol-gira">🎡</p><h2>A roleta está girando…</h2>`)
+        : `<div class="rol-festa" aria-hidden="true">${["🎉", "✨", "🎊", "⭐", "🎉", "✨", "🎊", "⭐", "🎉", "✨"].map((x, i) => `<i style="--k:${i}">${x}</i>`).join("")}</div><p class="rol-ic">📖</p><p class="rol-sup">Quem vai ler é:</p><h2>${esc(r.nome || "")}</h2>`}</div></div>`);
+      document.body.appendChild(plRolCx); const cx2 = plRolCx; if (r.girando && r.roda && P.rodaGirar) P.rodaGirar(cx2, r.roda); else So && So.sorteado && So.sorteado();
+      setTimeout(() => { if (cx2.isConnected) cx2.remove(); }, r.girando ? 15000 : 8000); }, () => {});
     el.querySelector("#pl-tela").onclick = () => { const d = document.documentElement; (document.fullscreenElement ? document.exitFullscreen() : d.requestFullscreen()).catch(() => {}); };
     const finalizar = async auto => { if (finalizando) return; finalizando = true;
       try { await finalizarAula(t, alunos, prog, mid); if (!auto) { toast("🏁 Aula finalizada!"); finalizarJuntas(t).catch(() => {}); } } catch (err) { toast("Não foi possível finalizar: " + (err.message || err)); } finalizando = false; };
@@ -646,7 +678,7 @@
     const u2 = db().collection("config").doc("podio_" + t.id).onSnapshot(sn => { const d = sn.exists ? sn.data() : null;
       pod = d && d.dia === N.hoje() ? d : null; if (pod && pod.finalizadaEm !== jaVi) { jaVi = pod.finalizadaEm; mostrarPodio(); } });
     const iv = setInterval(() => {
-      if (!document.body.contains(el)) { clearInterval(iv); u1(); u2(); try { u3(); } catch (e) {} return; }
+      if (!document.body.contains(el)) { clearInterval(iv); u1(); u2(); try { u3(); u4(); } catch (e) {} return; }
       const ph = el.querySelector("#pl-hora"); if (ph) ph.textContent = "🕒 " + horaAgora();
       const rel = relogio(), r = el.querySelector("#pl-rel");
       if (rel.fora) r.innerHTML = `<span class="pl-r-txt">Fora do horário da aula</span>`;
@@ -2525,6 +2557,13 @@
         <span class="st">${hj ? (hj.travar ? "🔒 os alunos só fazem as tarefas desta missão" : "✔ o aluno cai direto nela ao digitar o código") : "nenhuma missão definida para hoje"}</span>
         <span class="pp-ini-st ${iniciada ? "on" : "off"}">${iniciada ? `▶️ Aula iniciada às ${new Date(hj0.iniciadaEm || Date.now()).toTimeString().slice(0, 5)}` : `⏳ Aula não iniciada: tarefas fechadas <button class="btn btn-peq" type="button" data-hj="ini">▶️ Iniciar a aula</button>`}</span>`;
       { const bIni = box.querySelector('[data-hj="ini"]'); if (bIni) bIni.onclick = () => iniciarAula(u, { manual: true, tid: t.id }); }
+      { const tl = document.createElement("div"); tl.className = "pp-telas";
+        const pintaT = () => { const m = modoTelas();
+          tl.innerHTML = `<span class="pp-telas-rot">Telas:</span><button type="button" data-tl="2" class="${m === "2" ? "on" : ""}" title="A sua tela vai para o projetor: todos os botões ficam no placar">🖥️📽️ 2 telas</button><button type="button" data-tl="3" class="${m === "3" ? "on" : ""}" title="Projetor só para os alunos + o seu monitor + o Veyon: os comandos ficam aqui no painel">🖥️🖥️📽️ 3 telas</button>
+            ${m === "3" ? `<span class="pp-telas-bts"><button type="button" class="btn btn-peq" data-tl-acao="leitura">📖 Leitura guiada</button><button type="button" class="btn btn-peq" data-tl-acao="roleta">🎡 Roleta da leitura</button><small>🏁 Finalizar: na barra de cima</small></span>` : `<small>Leitura guiada, roleta e finalizar ficam no 🏆 placar.</small>`}`;
+          tl.querySelectorAll("[data-tl]").forEach(b => b.onclick = () => { setModoTelas(b.dataset.tl); pintaT(); toast(b.dataset.tl === "3" ? "🖥️🖥️📽️ 3 telas: o placar do projetor fica só com o som e a tela cheia; os comandos ficam aqui." : "🖥️📽️ 2 telas: os comandos voltam para o placar."); });
+          tl.querySelectorAll("[data-tl-acao]").forEach(b => b.onclick = () => ferramentaLeitura(t, b.dataset.tlAcao)); };
+        pintaT(); box.appendChild(tl); }
       el.querySelector(".pp-barra").appendChild(box);
       const sel = box.querySelector('[data-hj="sel"]'), trav = box.querySelector('[data-hj="trav"]');
       sel.onchange = async () => {

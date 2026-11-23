@@ -2682,3 +2682,10 @@ body.lg-travado{overflow:hidden}
 .rol-aluno .rl-roda-viva .rl-ponteiro{position:absolute;top:-14px;left:50%;transform:translateX(-50%);font-size:2.4rem;color:#0f172a;text-shadow:0 2px 0 #fff}
 .rol-aluno .rol-tit-roda{margin:0 0 6px}
 .rol-aluno.telao .rl-roda-viva{width:min(70vh,80vw)}
+/* 🖥️ chave 2/3 telas na Missão de hoje (23/11/2026) */
+.pp-telas{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:8px;padding-top:8px;border-top:1px dashed var(--linha)}
+.pp-telas-rot{font-weight:800}
+.pp-telas>button{border:2px solid var(--linha);background:#fff;border-radius:999px;padding:4px 12px;font-weight:800;cursor:pointer}
+.pp-telas>button.on{background:#1e40af;color:#fff;border-color:#1e40af}
+.pp-telas-bts{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.pp-telas small{color:var(--suave)}

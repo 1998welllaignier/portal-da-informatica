@@ -189,6 +189,7 @@
       <div class="rl-bts"><button type="button" class="btn btn-sec lgc-cancela">Cancelar</button></div></div></div>`);
     document.body.appendChild(esc1);
     esc1.querySelector(".lgc-cancela").onclick = () => esc1.remove();
+    if (ctx.modo === "3") esc1.querySelector('[data-m="2"]').hidden = true;   // aberto pelo painel no modo 3 telas
     esc1.querySelectorAll("[data-m]").forEach(b => b.onclick = () => {
       const modo = b.dataset.m, comVideo = !!(vid && esc1.querySelector(".lgc-vid input").checked);
       let jan = null; if (modo === "3") jan = window.open("#/telao/" + t.id, "telao-leitura", "popup,width=1280,height=720");   // abre já, no clique (o navegador bloqueia janela aberta depois)
