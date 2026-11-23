@@ -272,7 +272,7 @@
     aplicar();
   });
   // pede ao YouTube para avisar quando o vídeo toca/pausa (vale para os vídeos com enablejsapi=1)
-  setInterval(() => { document.querySelectorAll('iframe[src*="youtube"]').forEach(f => { if (!/enablejsapi=1/.test(f.src) || !f.contentWindow) return;
+  setInterval(() => { document.querySelectorAll('iframe[src*="youtube"]').forEach(f => { if (!/enablejsapi=1/.test(f.src) || /widgetid=/.test(f.src) || f.id || f.dataset.ytApi || !f.contentWindow) return;   // 🩺 23/11/2026: player criado pela API (vídeo em sincronia, telão) já avisa sozinho; mandar "listening" de novo trocava o canal dele e o vídeo travava preto, sem play/pausa
     try { f.contentWindow.postMessage(JSON.stringify({ event: "listening", id: f.dataset.ytId || (f.dataset.ytId = Math.random().toString(36).slice(2)), channel: "widget" }), "*"); } catch (e) {} }); }, 2000);
   const videoAtivo = () => { const a = document.activeElement; return ytTocando.size > 0 || !!(a && a.tagName === "IFRAME" && /youtube/.test(a.src || "")) || document.hidden; };
   function aplicar() {

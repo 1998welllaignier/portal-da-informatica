@@ -521,6 +521,8 @@ Questões **contextualizadas** (situação curta: 1–2 frases no 6º, 2–3 no 
 - Se o vídeo não abrir em 15 s num computador (API do YouTube não carregou, erro do player), o aluno vê **"😕 O vídeo não abriu neste computador · assista pelo projetor"** com **🔁 Tentar de novo**, em vez da tela preta travada; o professor vê na barra do vídeo **"😕 O vídeo não abriu para: <nomes>"**.
 - Antes do play, aparece **"⏸ Tudo pronto! O vídeo começa quando o professor der o play"** (o 1º quadro dos vídeos é preto, parecia defeito).
 - Um player só por computador (antes, avisos seguidos podiam criar dois players ao mesmo tempo).
+- **Causa achada (23/11/2026, 9º A):** o aviso "listening" que a música manda aos vídeos do YouTube (para abaixar o volume) também ia para os players da transmissão e trocava o canal deles: o player do professor deixava de avisar play/pausa e os dos alunos ficavam pretos em "Já vai começar". Regra: a música só fala com iframes simples; player criado pela API (`widgetid=` no endereço ou com `id`) fica de fora.
+- **Telão (3 telas):** um player só no projetor, criado já **sem som**, seguindo o tempo do player do professor pelo relógio do servidor. O som sai só do player do professor.
 
 ## 🧰 Ferramentas da aula numa barra só (23/11/2026, pedido do professor)
 - Na aba 🎤 Aula, todas as ferramentas do momento da aula ficam **juntas numa barra escura logo abaixo da turma**, que **fica presa no alto** enquanto ele rola o roteiro: 📺 Vídeo da missão, 📖 Leitura guiada, 🎡 Roleta, 🖥️ Mostrar minha tela, ⬜ Quadro, 📡 Vídeo nos computadores, 🧩 Apoios e casa, e a escolha **Telas: 2 | 3**.

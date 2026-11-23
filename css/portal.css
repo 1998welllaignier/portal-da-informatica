@@ -2492,7 +2492,7 @@ body.lg-travado{overflow:hidden}
 .lg-texto .ilustracao svg,.lg-texto .ilustracao img{max-height:32vh;width:auto;max-width:100%}
 .lg-texto .termo-link{background:#fef08a;border:0;border-bottom:3px dotted #ca8a04;border-radius:4px;padding:0 3px;font:inherit;font-weight:800;color:#713f12;cursor:pointer}
 .lg-video,.lg-fim{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px;font-size:1.3rem}
-.lg-video iframe{width:100%;height:100%;min-height:60vh;border:0;border-radius:12px}.lg-grande{font-size:4rem;margin:0}
+.lg-video .tl-yt,.lg-video iframe{width:100%;height:100%;min-height:60vh;border:0;border-radius:12px}.lg-grande{font-size:4rem;margin:0}
 .lg-perg{flex:1;display:flex;flex-direction:column;justify-content:center;padding:18px 30px}.lg-perg h2{font-size:2rem;margin:4px 0 16px}.lg-sup{margin:0;font-weight:900;color:#b45309;font-size:1.2rem}
 .lg-ops{display:flex;flex-direction:column;gap:10px}.lg-op{display:flex;align-items:center;gap:14px;text-align:left;font:inherit;font-size:1.25rem;padding:12px 16px;border-radius:14px;border:3px solid #cbd5e1;background:#fff;cursor:pointer}
 .lg-op span{flex:none;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:#e2e8f0;font-weight:900}

@@ -156,7 +156,7 @@
     let salaD = null, ytP = null;
     const ytApi = () => new Promise(r => { if (window.YT && YT.Player) return r(YT); const o = window.onYouTubeIframeAPIReady; window.onYouTubeIframeAPIReady = () => { o && o(); r(YT); }; if (!document.querySelector('script[src*="iframe_api"]')) { const s = document.createElement("script"); s.src = "https://www.youtube.com/iframe_api"; document.head.appendChild(s); } });
     const sincTelao = () => { const p = ytP; if (!p || !p.getCurrentTime || !salaD || salaD.modo !== "video") return; try {
-      const alvo = (salaD.pos || 0) + (salaD.estado === "play" ? (Date.now() - (salaD.emMs || Date.now())) / 1000 : 0);
+      const ag = P.sala && P.sala.agora ? P.sala.agora() : Date.now(), alvo = (salaD.pos || 0) + (salaD.estado === "play" ? (ag - (salaD.emMs || ag)) / 1000 : 0);
       if (Math.abs(p.getCurrentTime() - alvo) > 1.2) p.seekTo(alvo, true);
       if (salaD.estado === "play" && p.getPlayerState() !== 1) p.playVideo(); if (salaD.estado !== "play" && p.getPlayerState() === 1) p.pauseVideo(); } catch (e) {} };
     db().collection("config").doc("sala_" + turma).onSnapshot(sn => { salaD = sn.exists ? sn.data() : null; sincTelao(); }, () => {});
@@ -168,10 +168,14 @@
       const T = await trechos(d.aid, d.mid), chave = JSON.stringify([d.fase, d.idx, d.leitor, d.leu, d.stats, d.fase === "espera" ? d.espera : 0]);
       sincTermo(el, d, T, "");
       if (chave === ult) return; ult = chave;
-      if (d.fase === "video" && q.querySelector(".lg-video iframe")) return;   // não recarrega o vídeo que está tocando
+      if (d.fase === "video" && q.querySelector(".lg-video iframe, .lg-video .tl-yt")) return;   // não recarrega o vídeo que está tocando
       q.innerHTML = htmlFase(d, T, "telao"); ligarPalavras(q, T.termos, "travado"); requestAnimationFrame(() => cabeDuasVezes(q.querySelector(".lg-texto")));
       ytP = null; const ifr = q.querySelector(".lg-video iframe");
-      if (ifr) ytApi().then(Y => { if (!ifr.isConnected) return; ytP = new Y.Player(ifr, { events: { onReady: e => { try { e.target.mute(); } catch (x) {} sincTelao(); } } }); }).catch(() => {});
+      // 🩺 23/11/2026: no projetor, um player só, SEM SOM desde o início (o som sai do player do professor) e preso no tempo dele
+      if (ifr) { const box = document.createElement("div"); box.id = "tl-yt"; box.className = "tl-yt"; ifr.replaceWith(box); if (P.sala && P.sala.relogio) P.sala.relogio();
+        ytApi().then(Y => { if (!box.isConnected) return; ytP = new Y.Player("tl-yt", { videoId: d.video, host: "https://www.youtube-nocookie.com", width: "100%", height: "100%",
+          playerVars: { autoplay: 0, mute: 1, controls: 0, disablekb: 1, fs: 0, rel: 0, modestbranding: 1, playsinline: 1, iv_load_policy: 3 },
+          events: { onReady: e => { try { e.target.mute(); } catch (x) {} sincTelao(); } } }); }).catch(() => {}); }
     }, () => {});
   }
 
