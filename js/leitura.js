@@ -89,7 +89,9 @@
   const cabeDuasVezes = box => { caber(box); setTimeout(() => caber(box), 450); };   // de novo depois que as imagens carregam
   /* ---------- a tela do trecho (igual para o aluno, o telão e a prévia do professor) ---------- */
   function htmlFase(d, T, quem) {   // quem: "aluno" | "telao" | "previa"
-    const n = d.n || T.lista.length, i = Math.min(d.idx || 0, n - 1), cab = `<div class="lg-cab"><span class="lg-selo">📖 Leitura guiada</span><b>${esc(T.icone || "")} ${esc(semTags(T.titulo || ""))}</b><span class="lg-pos">${d.fase === "video" ? "🎬 Vídeo" : `Trecho ${i + 1} de ${n}`}</span></div>`;
+    const n = d.n || T.lista.length, i = Math.min(d.idx || 0, n - 1), cab = `<div class="lg-cab"><span class="lg-selo">📖 Leitura guiada</span><b>${esc(T.icone || "")} ${esc(semTags(T.titulo || ""))}</b><span class="lg-pos">${d.fase === "espera" ? "⏳ Já vai começar" : d.fase === "video" ? "🎬 Vídeo" : `Trecho ${i + 1} de ${n}`}</span></div>`;
+    // ⏳ 23/11/2026 (pedido do professor): ao abrir a leitura guiada, primeiro a sala de espera; ele vê quantos entraram e escolhe começar pelo texto ou pelo vídeo
+    if (d.fase === "espera") { const e = d.espera || {}; return `${cab}<div class="lg-fim lg-espera"><p class="lg-grande">📖</p><h2>A leitura guiada já vai começar!</h2><p>${quem === "aluno" ? "✔ Você já está dentro. Olhe para o projetor e espere o professor." : "Entrem no portal e esperem o professor começar."}</p>${quem !== "aluno" && e.total ? `<p class="lg-esp-num">👥 <b>${e.on || 0}</b> de ${e.total} alunos já entraram</p>` : ""}</div>`; }
     if (d.fase === "video") return `${cab}<div class="lg-video">${quem === "telao" && d.video ? `<iframe src="https://www.youtube-nocookie.com/embed/${esc(d.video)}?rel=0&modestbranding=1&enablejsapi=1" allow="autoplay; encrypted-media; fullscreen" allowfullscreen title="Vídeo da missão"></iframe>`
       : `<p class="lg-grande">🎬</p><h2>Olhe para o projetor!</h2><p>Vamos assistir ao vídeo da missão juntos. Depois, a gente lê o texto.</p>`}</div>`;
     const P2 = d.fase === "pergunta" || d.fase === "resposta" ? pergunta(T, i) : null;
@@ -163,7 +165,7 @@
     db().collection("config").doc("leitura_" + turma).onSnapshot(async sn => {
       const d = sn.exists ? sn.data() : null;
       if (!d || !d.ativa || d.dia !== hoje()) { q.innerHTML = `<div class="lg-fim"><p class="lg-grande">📖</p><h2>Leitura guiada encerrada</h2><p>Pode fechar esta janela.</p></div>`; ult = ""; return; }
-      const T = await trechos(d.aid, d.mid), chave = JSON.stringify([d.fase, d.idx, d.leitor, d.leu, d.stats]);
+      const T = await trechos(d.aid, d.mid), chave = JSON.stringify([d.fase, d.idx, d.leitor, d.leu, d.stats, d.fase === "espera" ? d.espera : 0]);
       sincTermo(el, d, T, "");
       if (chave === ult) return; ult = chave;
       if (d.fase === "video" && q.querySelector(".lg-video iframe")) return;   // não recarrega o vídeo que está tocando
@@ -185,16 +187,13 @@
       <p class="lgc-q">Quantas telas você está usando agora?</p>
       <div class="lgc-telas"><button type="button" data-m="3"><span>🖥️🖥️📽️</span><b>3 telas</b><small>Projetor + o seu monitor (controles e relatório) + o Veyon</small></button>
         <button type="button" data-m="2"><span>🖥️📽️</span><b>2 telas</b><small>Esta tela vai para o projetor; os controles ficam numa faixa só aqui</small></button></div>
-      <label class="lgc-vid"><input type="checkbox" ${vid ? "checked" : "disabled"}> 🎬 Começar pelo vídeo da missão ${vid ? "" : "(esta missão ainda não tem vídeo)"}</label>
       <div class="rl-bts"><button type="button" class="btn btn-sec lgc-cancela">Cancelar</button></div></div></div>`);
+    const comecar = modo => { let jan = null; if (modo === "3") jan = window.open("#/telao/" + t.id, "telao-leitura", "popup,width=1280,height=720");   // abre já, perto do clique (o navegador bloqueia janela aberta muito depois)
+      esc1.remove(); controle(ctx, T, modo, vid, jan); };
+    if (ctx.modo === "3") return comecar("3");   // o painel já sabe que são 3 telas: vai direto para a sala de espera
     document.body.appendChild(esc1);
     esc1.querySelector(".lgc-cancela").onclick = () => esc1.remove();
-    if (ctx.modo === "3") esc1.querySelector('[data-m="2"]').hidden = true;   // aberto pelo painel no modo 3 telas
-    esc1.querySelectorAll("[data-m]").forEach(b => b.onclick = () => {
-      const modo = b.dataset.m, comVideo = !!(vid && esc1.querySelector(".lgc-vid input").checked);
-      let jan = null; if (modo === "3") jan = window.open("#/telao/" + t.id, "telao-leitura", "popup,width=1280,height=720");   // abre já, no clique (o navegador bloqueia janela aberta depois)
-      esc1.remove(); controle(ctx, T, modo, comVideo ? vid : null, jan);
-    });
+    esc1.querySelectorAll("[data-m]").forEach(b => b.onclick = () => comecar(b.dataset.m));
   }
   async function moverParaProjetor(jan) {
     if (!jan || !("getScreenDetails" in window)) return false;
@@ -205,13 +204,12 @@
   async function controle(ctx, T, modo, vid, jan) {
     const { t, alunos, getProg, turmas, So, aid, mid } = ctx, N = T.lista.length;
     const alvo = [...new Set([t.id, ...(turmas || [])])];
-    let d = { ativa: true, dia: hoje(), aid, mid, modo, fase: vid ? "video" : "trecho", idx: 0, n: N, leitor: null, leu: false, xp: {}, lidos: {}, stats: null, video: vid, inicio: Date.now(), perguntas: {} };
+    let d = { ativa: true, dia: hoje(), aid, mid, modo, fase: "espera", espera: null, viuVideo: false, idx: 0, n: N, leitor: null, leu: false, xp: {}, lidos: {}, stats: null, video: vid, inicio: Date.now(), perguntas: {} };
     const gravar = () => { d.em = Date.now(); return Promise.all(alvo.map(id => db().collection("config").doc("leitura_" + id).set(JSON.parse(JSON.stringify(d))))).catch(e => console.warn("leitura", e)); };
     await gravar(); bonus();
     // 📡 23/11/2026: o vídeo da missão passa EM SINCRONIA no projetor e nas telas dos alunos (mesmo esquema do 📡 Transmitir)
     const passarSinc = () => { if (vid && P.sala && P.sala.passarVideo) P.sala.passarVideo(t.id, vid, "Vídeo da missão: " + semTags(T.titulo || ""), ctx.nomeTurma || t.id).catch(e => console.warn("sala", e)); };
     const pararSinc = () => { try { if (P.sala && P.sala._PR && P.sala._PR.t) P.sala.parar(); } catch (e) {} };
-    if (d.fase === "video") passarSinc();
     if (modo === "3" && jan) moverParaProjetor(jan).then(s => { if (s && s.label) try { localStorage.setItem("portal:telaProjetor", s.label); } catch (e) {} });
     // 2 telas: esta própria tela vira o telão, com a faixa de controles embaixo (só aqui, os alunos não veem)
     const cx = h(`<div class="lgc ${modo === "2" ? "lgc-2" : "lgc-3"}" role="dialog" aria-label="Controles da leitura guiada">
@@ -233,8 +231,13 @@
       ligarPalavras(tela, T.termos, "prof", x => { d.termo = { t: semTags(x.termo), em: Date.now() }; salvar(); });
       const jt = sincTermo(modo === "2" ? cx : tela.parentElement, d, T, `<div class="lg-defbts"><span>👀 Aparecendo na tela de todos${modo === "3" ? " e no telão" : ""}</span><button type="button" class="btn btn-ok lg-deffecha">✕ Fechar para todos</button></div>`);
       if (jt) jt.querySelector(".lg-deffecha").onclick = () => { d.termo = null; salvar(); }; requestAnimationFrame(() => cabeDuasVezes(tela.querySelector(".lg-texto")));
-      st.innerHTML = d.fase === "video" ? "🎬 Vídeo da missão" : `Trecho <b>${d.idx + 1}</b> de ${N} · ${d.fase === "trecho" ? (d.leitor ? `lendo: <b>${esc(d.leitor.nome)}</b>${d.leu ? " ✔" : ""}` : "falta sortear quem lê") : d.fase === "pergunta" ? "🤔 pergunta relâmpago" : "✅ resposta mostrada"}`;
+      st.innerHTML = d.fase === "espera" ? `⏳ Esperando a turma: <b>${(d.espera || {}).on || 0}</b> de ${alunos.length} alunos já entraram` : d.fase === "video" ? "🎬 Vídeo da missão" : `Trecho <b>${d.idx + 1}</b> de ${N} · ${d.fase === "trecho" ? (d.leitor ? `lendo: <b>${esc(d.leitor.nome)}</b>${d.leu ? " ✔" : ""}` : "falta sortear quem lê") : d.fase === "pergunta" ? "🤔 pergunta relâmpago" : "✅ resposta mostrada"}`;
       const B = [];
+      if (d.fase === "espera") {
+        B.push(["lgc-ok", "📖 Começar pelo texto", () => { d.fase = "trecho"; salvar(); }]);
+        if (vid) B.push(["lgc-ok", "🎬 Começar pelo vídeo", () => { d.fase = "video"; d.viuVideo = true; salvar(); passarSinc(); }]);
+        else B.push(["lgc-sec lgc-off", "🎬 Esta missão ainda não tem vídeo", () => {}]);
+      }
       if (d.fase === "video") { B.push(["lgc-ok", "📖 Terminou o vídeo: começar a leitura ➜", () => { pararSinc(); d.fase = "trecho"; salvar(); }]); B.push(["lgc-sec", "📡 Abrir o vídeo de novo", passarSinc]); }
       if (d.fase === "trecho") {
         if (!d.leitor) B.push(["lgc-rol", "🎡 Sortear quem lê", sortear]);
@@ -244,7 +247,7 @@
       }
       if (d.fase === "pergunta") B.push(["lgc-ok", "✅ Mostrar a resposta certa", () => { const c = contar(); d.stats = { resp: c.resp, total: c.total, acertos: c.acertos }; c.quem.forEach(id => addXP(id, XP_PERGUNTA)); const P2 = pergunta(T, d.idx); d.perguntas[d.idx] = { termo: P2.termo, acertos: c.acertos, resp: c.resp, quem: c.quem }; d.fase = "resposta"; salvar(); }]);
       if (d.fase === "resposta") B.push(["lgc-ok", d.idx < N - 1 ? "Próximo trecho ➜" : "🏁 Terminar e liberar a turma", proximo]);
-      if (d.fase !== "video" && (d.idx > 0 || d.fase !== "trecho")) B.push(["lgc-sec", "◀ Voltar", voltar]);
+      if (d.fase !== "video" && d.fase !== "espera" && (d.idx > 0 || d.fase !== "trecho")) B.push(["lgc-sec", "◀ Voltar", voltar]);
       if (modo === "3") B.push(["lgc-sec", "📽️ Abrir o telão", () => { const j = window.open("#/telao/" + t.id, "telao-leitura", "popup,width=1280,height=720"); moverParaProjetor(j); }]);
       B.push(["lgc-sai", "✕ Encerrar", encerrar]);
       bts.innerHTML = ""; B.forEach(([c, txt, fn]) => { const b = document.createElement("button"); b.type = "button"; b.className = "btn " + c; b.textContent = txt; b.onclick = fn; bts.appendChild(b); });
@@ -272,9 +275,9 @@
     async function terminar() {
       const leitores = Object.entries(d.lidos).filter(([, x]) => x).map(([i, x]) => ({ id: x.id, nome: x.nome, trecho: +i + 1 }));
       const respostas = {}; Object.values(d.perguntas).forEach(pq => (pq.quem || []).forEach(id => { respostas[id] = (respostas[id] || 0) + 1; }));
-      const reg = { feita: true, aid, mid, titulo: semTags(T.titulo), trechos: N, video: !!vid, leitores, perguntas: Object.entries(d.perguntas).map(([i, x]) => ({ trecho: +i + 1, termo: x.termo, acertos: x.acertos, resp: x.resp })), acertosPorAluno: respostas, xp: d.xp, inicio: d.inicio, fim: Date.now() };
+      const reg = { feita: true, aid, mid, titulo: semTags(T.titulo), trechos: N, video: !!d.viuVideo, leitores, perguntas: Object.entries(d.perguntas).map(([i, x]) => ({ trecho: +i + 1, termo: x.termo, acertos: x.acertos, resp: x.resp })), acertosPorAluno: respostas, xp: d.xp, inicio: d.inicio, fim: Date.now() };
       // 📒 no Diário: a aula do dia ganha o registro da leitura e uma linha no "Registro das aulas" (que também vai para o relatório da família)
-      const linha = `📖 Leitura guiada do texto "${semTags(T.titulo).replace(/^[^–]*–\s*/, "")}"${vid ? " (com o vídeo da missão antes)" : ""}: ${N} trechos; leram em voz alta: ${leitores.map(x => x.nome.split(" ")[0]).join(", ") || "—"}.`;
+      const linha = `📖 Leitura guiada do texto "${semTags(T.titulo).replace(/^[^–]*–\s*/, "")}"${d.viuVideo ? " (com o vídeo da missão antes)" : ""}: ${N} trechos; leram em voz alta: ${leitores.map(x => x.nome.split(" ")[0]).join(", ") || "—"}.`;
       try { await Promise.all(alvo.map(async id => { const ref = db().collection("prof/diario/turmas/" + id + "/aulas").doc(hoje()); let reg0 = ""; try { const sn = await ref.get(); reg0 = (sn.exists && sn.data().registro) || ""; } catch (e) {}
         const registro = reg0.includes("📖 Leitura guiada") ? reg0.replace(/📖 Leitura guiada[^\n]*/, linha) : (reg0 ? reg0.trim() + "\n" : "") + linha;
         return ref.set({ data: hoje(), leituraGuiada: reg, registro }, { merge: true }); })); } catch (e) { console.warn("diário leitura", e); }
@@ -282,8 +285,9 @@
       cx.remove(); P.toast && P.toast("📖 Leitura guiada concluída e anotada no Diário. A turma está liberada!");
     }
     async function encerrar() { if (P.confirmar && !(await P.confirmar("Encerrar a leitura guiada agora? As telas dos alunos voltam ao normal.", "Sim, encerrar"))) return; if (Object.keys(d.lidos).length) return terminar(); d.ativa = false; await gravar(); cx.remove(); }
-    pintar();
-    const iv = setInterval(() => { if (!cx.isConnected) { clearInterval(iv); return; } if (d.fase === "pergunta") { const c = contar(); if (!d.stats || c.resp !== d.stats.resp || c.total !== d.stats.total) { d.stats = { resp: c.resp, total: c.total, acertos: 0 }; gravar(); pintar(); return; } } if (rel) relatorio(); }, 2000);
+    const contarEspera = () => { const e = { on: online().length, total: alunos.length }; if (!d.espera || d.espera.on !== e.on || d.espera.total !== e.total) { d.espera = e; return true; } return false; };
+    contarEspera(); gravar(); pintar();
+    const iv = setInterval(() => { if (!cx.isConnected) { clearInterval(iv); return; } if (d.fase === "espera" && contarEspera()) { gravar(); pintar(); return; } if (d.fase === "pergunta") { const c = contar(); if (!d.stats || c.resp !== d.stats.resp || c.total !== d.stats.total) { d.stats = { resp: c.resp, total: c.total, acertos: 0 }; gravar(); pintar(); return; } } if (rel) relatorio(); }, 2000);
   }
 
   P.leitura = { trechos, pergunta, ouvir, telao, iniciar, htmlFase };

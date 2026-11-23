@@ -2512,6 +2512,8 @@ body.lg-travado{overflow:hidden}
 .lgc-telas button{border:3px solid #cbd5e1;border-radius:16px;background:#f8fafc;padding:14px;cursor:pointer;display:flex;flex-direction:column;gap:4px;font:inherit}.lgc-telas button:hover{border-color:#0ea5e9;background:#f0f9ff}
 .lgc-telas span{font-size:2rem}.lgc-telas b{font-size:1.3rem}.lgc-vid{display:block;margin:12px 0 4px;font-weight:700}
 .lg-def{max-width:520px}
+.lg-esp-num{font-size:1.6rem;background:#e0f2fe;color:#075985;border-radius:999px;padding:8px 22px;margin-top:10px}.lg-esp-num b{font-size:2.2rem}
+.lgc-bts .lgc-off{opacity:.55;cursor:default}
 /* 🎉 festa do nome sorteado (tela do aluno e telão) */
 .rol-aluno>div{position:relative;overflow:visible}
 .rol-festa{position:absolute;inset:0;pointer-events:none}.rol-festa i{position:absolute;left:calc(var(--k) * 10% + 2%);top:-10px;font-style:normal;font-size:2rem;animation:rolCai 2.2s ease-in calc(var(--k) * .12s) 2 both}

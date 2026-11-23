@@ -508,6 +508,11 @@ Questões **contextualizadas** (situação curta: 1–2 frases no 6º, 2–3 no 
 - **2 telas:** a própria tela do placar vira o telão, com a faixa de controles embaixo (só na tela do professor).
 - **Registro automático:** ao terminar, a aula do dia no Diário ganha `leituraGuiada` (trechos, quem leu, perguntas e acertos) e uma linha no "📝 Registro das aulas"; o **relatório da família** mostra "📖 Leitura guiada com a turma: 🎤 leu em voz alta o trecho N; acertou X de Y perguntas relâmpago".
 
+## ⏳ Leitura guiada começa pela sala de espera (23/11/2026, pedido do professor)
+- Ao clicar em **📖 Leitura guiada**, nada começa sozinho (nem o vídeo). Abre primeiro a **sala de espera** no painel do professor: quantos alunos já entraram (ao vivo, com a tabela "A turma agora" no modo 3 telas) e dois botões: **📖 Começar pelo texto** e **🎬 Começar pelo vídeo** (se a missão não tem vídeo, o botão aparece apagado, avisando).
+- No projetor aparece "A leitura guiada já vai começar!" com **👥 X de Y alunos já entraram**; na tela do aluno, "✔ Você já está dentro. Olhe para o projetor".
+- Aberta pelo painel no modo 3 telas, vai direto para a sala de espera (sem a pergunta de quantas telas). O Diário só anota "com o vídeo da missão antes" se o vídeo foi mesmo passado.
+
 ## 🎉 Roleta na tela de cada aluno também na leitura guiada (20/11/2026, pedido do professor)
 - Antes, durante a leitura guiada, o nome sorteado só aparecia na faixa. Agora, em 2 ou 3 telas: na tela **do sorteado** aparece **"🎤 É VOCÊ que vai ler!"** com o nome completo; na tela **dos outros**, **"📖 Quem vai ler é: <nome completo oficial>"**. Os dois com festinha (confete de emojis caindo).
 - No modo 3 telas, a janela **telão** (projetor) também mostra "A roleta está girando…" e depois o nome grande com a festa.
