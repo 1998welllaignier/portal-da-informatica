@@ -247,7 +247,8 @@
       }
       if (d.fase === "pergunta") B.push(["lgc-ok", "✅ Mostrar a resposta certa", () => { const c = contar(); d.stats = { resp: c.resp, total: c.total, acertos: c.acertos }; c.quem.forEach(id => addXP(id, XP_PERGUNTA)); const P2 = pergunta(T, d.idx); d.perguntas[d.idx] = { termo: P2.termo, acertos: c.acertos, resp: c.resp, quem: c.quem }; d.fase = "resposta"; salvar(); }]);
       if (d.fase === "resposta") B.push(["lgc-ok", d.idx < N - 1 ? "Próximo trecho ➜" : "🏁 Terminar e liberar a turma", proximo]);
-      if (d.fase !== "video" && d.fase !== "espera" && (d.idx > 0 || d.fase !== "trecho")) B.push(["lgc-sec", "◀ Voltar", voltar]);
+      // ◀ 23/11/2026 (pedido do professor): do 1º trecho ou do vídeo, "Voltar" leva de novo à sala de espera, para escolher outro começo
+      if (d.fase !== "espera") B.push(["lgc-sec", d.fase === "video" || (d.fase === "trecho" && d.idx === 0) ? "◀ Voltar (escolher texto ou vídeo)" : "◀ Voltar", voltar]);
       if (modo === "3") B.push(["lgc-sec", "📽️ Abrir o telão", () => { const j = window.open("#/telao/" + t.id, "telao-leitura", "popup,width=1280,height=720"); moverParaProjetor(j); }]);
       B.push(["lgc-sai", "✕ Encerrar", encerrar]);
       bts.innerHTML = ""; B.forEach(([c, txt, fn]) => { const b = document.createElement("button"); b.type = "button"; b.className = "btn " + c; b.textContent = txt; b.onclick = fn; bts.appendChild(b); });
@@ -271,7 +272,8 @@
       ctx.roleta({ leitura: true, pular: pular ? pular.id : null, aoEscolher: a => { d.leitor = { id: a.id, nome: a.nome }; d.leu = false; salvar(); } });
     }
     function proximo() { if (d.idx >= N - 1) return terminar(); d.idx++; d.fase = "trecho"; d.leitor = null; d.leu = false; d.stats = null; salvar(); }
-    function voltar() { if (d.fase === "pergunta" || d.fase === "resposta") { d.fase = "trecho"; } else if (d.idx > 0) { d.idx--; d.fase = "trecho"; d.leitor = d.lidos[d.idx] || null; d.leu = !!d.lidos[d.idx]; } salvar(); }
+    function voltar() { if (d.fase === "video") { pararSinc(); d.fase = "espera"; d.viuVideo = false; } else if (d.fase === "trecho" && d.idx === 0) { d.fase = "espera"; d.leitor = null; d.leu = false; }
+      else if (d.fase === "pergunta" || d.fase === "resposta") { d.fase = "trecho"; } else if (d.idx > 0) { d.idx--; d.fase = "trecho"; d.leitor = d.lidos[d.idx] || null; d.leu = !!d.lidos[d.idx]; } salvar(); }
     async function terminar() {
       const leitores = Object.entries(d.lidos).filter(([, x]) => x).map(([i, x]) => ({ id: x.id, nome: x.nome, trecho: +i + 1 }));
       const respostas = {}; Object.values(d.perguntas).forEach(pq => (pq.quem || []).forEach(id => { respostas[id] = (respostas[id] || 0) + 1; }));
