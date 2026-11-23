@@ -147,9 +147,9 @@
     let rolVisto = "", rolCx = null;
     db().collection("config").doc("roleta_" + turma).onSnapshot(sn => { const r = sn.exists ? sn.data() : null; if (!r || r.dia !== hoje() || !r.em || Date.now() - r.em > 90000) return;
       const k = r.em + (r.girando ? "g" : "n"); if (k === rolVisto) return; rolVisto = k; if (rolCx) rolCx.remove();
-      rolCx = h(`<div class="rol-aluno telao"><div>${r.girando ? `<p class="rol-ic rol-gira">🎡</p><h2>A roleta está girando…</h2><p>Quem será que vai ler?</p>`
+      rolCx = h(`<div class="rol-aluno telao"><div>${r.girando ? (r.roda && P.rodaRoletaHTML ? `<h2 class="rol-tit-roda">🎡 A roleta está girando…</h2>${P.rodaRoletaHTML(r.roda)}` : `<p class="rol-ic rol-gira">🎡</p><h2>A roleta está girando…</h2><p>Quem será que vai ler?</p>`)
         : `<div class="rol-festa" aria-hidden="true">${["🎉", "✨", "🎊", "⭐", "🎉", "✨", "🎊", "⭐", "🎉", "✨"].map((e, i) => `<i style="--k:${i}">${e}</i>`).join("")}</div><p class="rol-ic">📖</p><p class="rol-sup">Quem vai ler é:</p><h2>${esc(r.nome || "")}</h2>`}</div></div>`);
-      document.body.appendChild(rolCx); const cx = rolCx; setTimeout(() => { if (cx.isConnected) cx.remove(); }, r.girando ? 15000 : 7000); }, () => {});
+      document.body.appendChild(rolCx); const cx = rolCx; if (r.girando && r.roda && P.rodaGirar) P.rodaGirar(cx, r.roda); setTimeout(() => { if (cx.isConnected) cx.remove(); }, r.girando ? 15000 : 7000); }, () => {});
     let ult = "";
     db().collection("config").doc("leitura_" + turma).onSnapshot(async sn => {
       const d = sn.exists ? sn.data() : null;

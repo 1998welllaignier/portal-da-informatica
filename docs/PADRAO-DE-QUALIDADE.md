@@ -661,3 +661,7 @@ Questões **contextualizadas** (situação curta: 1–2 frases no 6º, 2–3 no 
 - Na página "O que se aprende aqui": cena 1 encurtada, cenas 2 e 3 mantidas, cena 4 (escada) virou efeito simples de aparecer.
 - 🎬 **Cena nas missões:** bloco `{{cena:id}}` na fonte (vira `{"t": "cena", "id": ...}`) e o desenho em `js/cenas-missao.js`. Primeira: **📦 Pacotes** (6º ano, 4º bim de 2027, M1, no fim do 💡 Para começar): a foto sai do celular (origem) em 4 pacotes numerados, viaja por dois caminhos, chega fora de ordem, o pacote 2 se perde e é reenviado, e o destino remonta a foto. Na Trilha, versão simples (`pacotes-simples`, sem a perda). As falas usam só o vocabulário da própria missão.
 - ⚠️ Nomes de classe CSS novos precisam de prefixo próprio (ex.: `cr-` para cenas, `cmat-` para o cartão do material): o cartão novo da página inicial usava `cm-ic`, que já era das missões, e mudava o tamanho do ícone dos cartões das missões. Corrigido.
+
+## 🎡 Roleta e leitura guiada (23/11/2026, pedido em aula)
+- A **mesma roda** gira no projetor (telão da leitura) e na tela de todos os alunos, sincronizada pelo relógio: o painel publica `roda = { nomes, final, dur, t0 }` em `config/roleta_<turma>`; ao parar, aparece o nome sorteado como antes.
+- A **leitura guiada segue a missão escolhida ao iniciar a aula** (o placar relê `config/hoje_<turma>` na hora de começar a leitura, porque pode ter sido aberto antes de iniciar a aula).

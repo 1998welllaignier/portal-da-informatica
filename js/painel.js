@@ -546,8 +546,9 @@
       bts.innerHTML = ""; const n = pool.length, fat = 360 / n, k = Math.floor(Math.random() * n);
       // o ponteiro fica em cima (0°): a fatia k para embaixo dele
       const final = 360 * (5 + Math.floor(Math.random() * 2)) + (360 - (k * fat + fat / 2)) + (Math.random() - .5) * fat * 0.6;
-      publicar({ girando: true, id: null, nome: null });
       const svg = area.querySelector(".rl-svg"), T0 = performance.now(), DUR = 6500; let ultFat = -1;
+      // 23/11/2026: a mesma roda gira no projetor e na tela dos alunos (mesmos nomes, mesmo ângulo final, mesmo tempo)
+      publicar({ girando: true, id: null, nome: null, roda: { nomes: pool.map(a => curto(a.nome)), final, dur: DUR, t0: Date.now() } });
       const ease = x => 1 - Math.pow(1 - x, 3.2);
       const passo = agora => { if (!cx.isConnected) return; const x = Math.min(1, (agora - T0) / DUR), a = final * ease(x); svg.style.transform = `rotate(${a}deg)`;
         const f = Math.floor(((360 - (a % 360)) % 360) / fat); if (f !== ultFat) { ultFat = f; So && So.clec(); }
@@ -557,7 +558,7 @@
     function parou(a) {
       if (!ja.includes(a.id)) ja.push(a.id);
       ref.set({ dia: N.hoje(), ja }, { merge: true }).catch(() => {});
-      publicar({ girando: false, id: a.id, nome: a.nome });
+      publicar({ girando: false, id: a.id, nome: a.nome, roda: null });
       So && So.sorteado();
       const big = h(op.leitura ? `<div class="rl-nome"><p class="rl-sup">📖 Quem vai ler este trecho é…</p><h1>${esc(a.nome)}</h1><div class="rl-bts2"><button type="button" class="btn btn-grande btn-ok rl-vai">✔ Pode ler!</button><button type="button" class="btn btn-grande btn-sec rl-pula">⏭ Pular (sortear outro)</button></div></div>`
         : `<div class="rl-nome"><p class="rl-sup">📖 Quem vai ler é…</p><h1>${esc(a.nome)}</h1><div class="rl-bts2"><button type="button" class="btn btn-grande btn-ok rl-de-novo">🎡 Sortear outro</button><button type="button" class="btn btn-grande btn-sec rl-volta">✕ Voltar ao placar</button></div></div>`);
@@ -626,8 +627,12 @@
     el.querySelector("#pl-volta").onclick = () => { vendoPodio = false; el.querySelector("#pl-volta").hidden = true; corpo.innerHTML = ""; pintarPlacar(); };
     el.querySelector("#pl-roleta").onclick = () => roleta(t, alunos, () => prog, PART.turmasProg, So);
     // 📖 leitura guiada (20/11/2026): vídeo → leitura em trechos com a roleta → liberar
-    el.querySelector("#pl-leitura").onclick = async () => { if (!P.leitura) return toast("Leitura guiada indisponível."); const aidL = hj.aid || (cat().apostilas.find(a => a.serie === t.serie.id && P.doPeriodo(a) && !a.oculta && !a.trilha) || {}).id;
-      P.leitura.iniciar({ t, alunos, getProg: () => prog, turmas: PART.turmasProg, So, aid: aidL, mid, nomeTurma: nomeTurma(t.id), roleta: op => roleta(t, alunos, () => prog, PART.turmasProg, So, op) }); };
+    el.querySelector("#pl-leitura").onclick = async () => { if (!P.leitura) return toast("Leitura guiada indisponível.");
+      // 23/11/2026: segue a missão que o professor escolheu ao INICIAR a aula (relê agora: o placar pode ter sido aberto antes de iniciar)
+      let hjL = hj; try { hjL = await missaoDeHoje(t); } catch (e) {}
+      const aidL = hjL.aid || (cat().apostilas.find(a => a.serie === t.serie.id && P.doPeriodo(a) && !a.oculta && !a.trilha) || {}).id;
+      const midL = hjL.fixo ? hjL.mid : mid;
+      P.leitura.iniciar({ t, alunos, getProg: () => prog, turmas: PART.turmasProg, So, aid: aidL, mid: midL, nomeTurma: nomeTurma(t.id), roleta: op => roleta(t, alunos, () => prog, PART.turmasProg, So, op) }); };
     // ⭐ XP da leitura guiada de hoje entra no placar (mesmo se o placar for reaberto)
     const u3 = db().collection("config").doc("leitura_" + t.id).onSnapshot(sn => { const d = sn.exists ? sn.data() : null; if (d && d.dia === N.hoje() && d.xp) { P.podio.bonusXP = { dia: d.dia, porId: d.xp }; pintarPlacar(); } }, () => {});
     el.querySelector("#pl-tela").onclick = () => { const d = document.documentElement; (document.fullscreenElement ? document.exitFullscreen() : d.requestFullscreen()).catch(() => {}); };

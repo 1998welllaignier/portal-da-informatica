@@ -718,6 +718,16 @@
   /* 🎡 ROLETA DA LEITURA (20/11/2026): o professor sorteia no placar do projetor quem vai ler; o nome sorteado (o OFICIAL,
      nunca o apelido) aparece também aqui, no meio da tela de todos os alunos. config/roleta_<turma> = { dia, em, girando, id, nome } */
   let rolUnsub = null, rolTurma = null, rolVisto = 0, rolCx = null;
+  /* 🎡 23/11/2026: a MESMA roda gira no projetor e na tela dos alunos, sincronizada pelo relógio (roda = { nomes, final, dur, t0 }) */
+  const RCORES = ["#ef4444", "#f59e0b", "#22c55e", "#3b82f6", "#a855f7", "#ec4899", "#14b8a6", "#f97316", "#84cc16", "#6366f1"];
+  P.rodaRoletaHTML = roda => { const L = (roda && roda.nomes) || [], N2 = L.length || 1, R = 200, c = 210, fat = 360 / N2, e = s => String(s).replace(/[&<>"]/g, x => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[x]);
+    const arco = i => { const a0 = (i * fat - 90) * Math.PI / 180, a1 = ((i + 1) * fat - 90) * Math.PI / 180;
+      return N2 === 1 ? `<circle cx="${c}" cy="${c}" r="${R}" fill="${RCORES[0]}"/>` : `<path d="M${c},${c} L${c + R * Math.cos(a0)},${c + R * Math.sin(a0)} A${R},${R} 0 ${fat > 180 ? 1 : 0} 1 ${c + R * Math.cos(a1)},${c + R * Math.sin(a1)} Z" fill="${RCORES[i % RCORES.length]}" stroke="#fff" stroke-width="3"/>`; };
+    const txt = (n, i) => { const m = i * fat + fat / 2, esq = m > 180; return `<text transform="rotate(${esq ? m + 90 : m - 90} ${c} ${c}) translate(${esq ? c - R * .58 : c + R * .58} ${c})" text-anchor="middle" dominant-baseline="middle" font-size="${N2 > 14 ? 13 : N2 > 8 ? 16 : 20}" font-weight="800" fill="#fff" stroke="rgba(0,0,0,.35)" stroke-width=".6">${e(n)}</text>`; };
+    return `<div class="rl-roda rl-roda-viva"><svg viewBox="0 0 420 420" class="rl-svg">${L.map((n, i) => arco(i)).join("")}${L.map(txt).join("")}<circle cx="210" cy="210" r="26" fill="#0f172a" stroke="#fff" stroke-width="5"/></svg><div class="rl-ponteiro" aria-hidden="true">▼</div></div>`; };
+  P.rodaGirar = (box, roda) => { const svg = box && box.querySelector(".rl-svg"); if (!svg || !roda) return; const ease = x => 1 - Math.pow(1 - x, 3.2);
+    const passo = () => { if (!svg.isConnected) return; const x = Math.min(1, Math.max(0, (Date.now() - roda.t0) / roda.dur)); svg.style.transform = `rotate(${roda.final * ease(x)}deg)`; if (x < 1) requestAnimationFrame(passo); };
+    requestAnimationFrame(passo); };
   function ouvirRoleta(s) {
     if (!s || !s.nuvem || !P.nuvem || !P.nuvem.app || rolTurma === s.turma) return;
     if (rolUnsub) rolUnsub(); rolTurma = s.turma;
@@ -727,9 +737,10 @@
       const chave = d.em + (d.girando ? "g" : "n"); if (rolVisto === chave) return; rolVisto = chave;
       if (rolCx) rolCx.remove();
       const souEu = !d.girando && (ss.alunoIds || []).includes(d.id);
-      rolCx = h(`<div class="rol-aluno${souEu ? " eu" : ""}" role="alert"><div>${d.girando ? `<p class="rol-ic">🎡</p><h2>A roleta da leitura está girando…</h2><p>Quem será que vai ler? Olhe para o projetor!</p>`
+      rolCx = h(`<div class="rol-aluno${souEu ? " eu" : ""}" role="alert"><div>${d.girando ? (d.roda ? `<h2 class="rol-tit-roda">🎡 A roleta está girando…</h2>${P.rodaRoletaHTML(d.roda)}` : `<p class="rol-ic">🎡</p><h2>A roleta da leitura está girando…</h2><p>Quem será que vai ler? Olhe para o projetor!</p>`)
         : `<div class="rol-festa" aria-hidden="true">${Array.from("🎉✨🎊⭐🎉✨🎊⭐🎉✨").map((e, k) => `<i style="--k:${k}">${e}</i>`).join("")}</div><p class="rol-ic">${souEu ? "🎤" : "📖"}</p><p class="rol-sup">${souEu ? "É VOCÊ que vai ler! Prepare-se para ler em voz alta:" : "Quem vai ler é:"}</p><h2>${esc(d.nome || "")}</h2><button type="button" class="btn btn-grande btn-ok">👍 Ok</button>`}</div></div>`);
       document.body.appendChild(rolCx); const cx = rolCx, b = cx.querySelector("button"); if (b) b.onclick = () => cx.remove();
+      if (d.girando && d.roda) P.rodaGirar(cx, d.roda);
       setTimeout(() => { if (cx.isConnected && (cx === rolCx)) cx.remove(); }, d.girando ? 15000 : 12000);
     }, () => {}); } catch (e) {}
   }

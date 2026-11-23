@@ -2676,3 +2676,9 @@ body.lg-travado{overflow:hidden}
 .cr-parada { height: auto; } .cr-parada .cr-palco { position: static; min-height: 0; } .cr-parada .cr-fala { display: none; } .cr-parada .cr-passos { display: block; }
 .cr-parada .cr-tit { display: none; }
 @media print { .cr-cena { height: auto; } .cr-palco { position: static; } }
+/* 🎡 a roda girando também no projetor e na tela dos alunos (23/11/2026) */
+.rol-aluno .rl-roda-viva{position:relative;width:min(62vh,82vw);margin:6px auto 0}
+.rol-aluno .rl-roda-viva .rl-svg{width:100%;height:auto;display:block}
+.rol-aluno .rl-roda-viva .rl-ponteiro{position:absolute;top:-14px;left:50%;transform:translateX(-50%);font-size:2.4rem;color:#0f172a;text-shadow:0 2px 0 #fff}
+.rol-aluno .rol-tit-roda{margin:0 0 6px}
+.rol-aluno.telao .rl-roda-viva{width:min(70vh,80vw)}
