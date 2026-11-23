@@ -512,7 +512,7 @@
     if (qual === "roleta") rol();
     else { const hjL = await missaoDeHoje(t); const aidL = hjL.aid || (cat().apostilas.find(a => a.serie === t.serie.id && P.doPeriodo(a) && !a.oculta && !a.trilha) || {}).id;
       const midL = hjL.fixo ? hjL.mid : missaoDaTurmaHoje(prog, hjL.mid);
-      P.leitura.iniciar({ t, alunos, getProg: () => prog, turmas: PART.turmasProg, So, aid: aidL, mid: midL, nomeTurma: nomeTurma(t.id), roleta: rol, modo: "3" }); }
+      P.leitura.iniciar({ t, alunos, getProg: () => prog, turmas: PART.turmasProg, So, aid: aidL, mid: midL, nomeTurma: nomeTurma(t.id), roleta: rol, modo: modoTelas() }); }
     let vazio = 0; const iv = setInterval(() => { if (aberto()) { vazio = 0; return; } if (++vazio >= 3) { clearInterval(iv); try { u1(); } catch (e) {} } }, 5000);
   }
   async function missaoDeHoje(t) {
@@ -2447,18 +2447,22 @@
         <a class="btn btn-sec" href="#/ver/${ap.id}/${mid}/${t.id}" target="_blank" rel="noopener" title="Abre numa aba nova a apostila exatamente como os alunos veem">👀 Abrir a apostila do aluno</a>
         <a class="btn btn-sec" href="cartaz.html?v=${window.PORTAL_VERSAO || ""}" target="_blank" rel="noopener" title="Abre numa aba nova o cartaz com o endereço do site e os passos para entrar, para projetar">🪧 Cartaz de entrada (projetar)</a>
         <button type="button" class="btn btn-sec" id="tc-bt" title="Ligado: o portal dos alunos desta turma só funciona em tela cheia (vale só hoje). Quem estuda em casa não é afetado.">🖥️ Tela cheia dos alunos…</button></div>
+      <section class="pp-kit" id="pp-ferr" aria-label="Ferramentas da aula"><div class="pp-cx-bar"><b class="pp-cx-tit">🧰 Ferramentas da aula</b><span class="pp-cx-bts"></span><span class="pp-cx-telas"></span></div>
+        <div class="pp-cx-pain" hidden><div class="pp-cx-cab"><b></b><button type="button" class="btn btn-sec btn-peq pp-cx-x">✕ Fechar</button></div>
+          <div data-cx="video" hidden><span class="cx-fim"></span></div><div data-cx="transm" hidden><span class="cx-fim"></span></div><div data-cx="apoios" hidden><span class="cx-fim"></span></div></div></section>
       <nav class="pp-indice" aria-label="Ir para"><span>Ir para:</span></nav>
-      <div id="aula" class="pp-alvo"></div>
-      <section class="pp-ferr pp-alvo" id="pp-ferr"><h2>🧰 Ferramentas da aula</h2><p class="ajuda">Vídeo, transmissão para os computadores, alunos que estudam em casa e apoios dos atípicos. Use o índice “Ir para” no alto ou na barra do roteiro para chegar aqui.</p><span id="pp-ferr-fim"></span></section>`);
-    /* 🧭 aba Aula reorganizada (22/11/2026): o roteiro vem logo depois da Missão de hoje; vídeo, transmitir, casa e apoios
-       ficam em 🧰 Ferramentas da aula, depois do roteiro, e o índice "Ir para" leva a cada parte com um toque */
-    const ferr = el.querySelector("#pp-ferr-fim"), noFerr = box => ferr.before(box);
+      <div id="aula" class="pp-alvo"></div>`);
+    /* 🧰 23/11/2026 (pedido do professor: "não estou encontrando nada"): TODAS as ferramentas da aula juntas numa barra só,
+       logo abaixo da turma, que fica presa no alto enquanto ele rola o roteiro. Ações rápidas (leitura guiada, roleta, mostrar a tela,
+       quadro) num toque; o que é grande (vídeo, transmitir, apoios) abre numa gaveta embaixo da barra, uma de cada vez. */
+    const cxPain = el.querySelector(".pp-cx-pain"), gaveta = k => cxPain.querySelector(`[data-cx="${k}"]`);
+    const noFerr = (box, k) => gaveta(k).querySelector(".cx-fim").before(box), ferr = gaveta("transm").querySelector(".cx-fim");
     let recPend = 0;
     const pintarIndice = () => {
       const itens = [["#pp-barra-aula", "📌 Missão de hoje"], recPend ? ["#pp-recados", `🟧 Recados (${recPend})`] : [`#/painel/diario/${t.id}/lembretes`, "🟧 Recados", 1],
-        ["#aula", "📖 Roteiro"], ["#aula-resp", "✅ Respostas"], ["#pp-video", "📺 Vídeo"], ["#pp-transmitir", "📡 Transmitir"], ["#pp-apoios", "🧩 Apoios"], ["#pp-ferr", "🧰 Ferramentas"]];
+        ["#aula", "📖 Roteiro"], ["#aula-resp", "✅ Respostas"]];
       const nav = el.querySelector(".pp-indice");
-      nav.innerHTML = `<span>Ir para:</span>` + itens.filter(([h, , ext]) => ext || h === "#pp-ferr" || el.querySelector(h)).map(([h, r, ext]) => ext ? `<a href="${h}" title="Abre o 📒 Diário › 🟧 Meus recados desta turma">${r}</a>` : `<a href="#" data-pp-ir="${h}">${r}</a>`).join("");
+      nav.innerHTML = `<span>Ir para:</span>` + itens.filter(([h, , ext]) => ext || el.querySelector(h)).map(([h, r, ext]) => ext ? `<a href="${h}" title="Abre o 📒 Diário › 🟧 Meus recados desta turma">${r}</a>` : `<a href="#" data-pp-ir="${h}">${r}</a>`).join("");
       nav.querySelectorAll("[data-pp-ir]").forEach(a => a.onclick = e => { e.preventDefault(); const alvo = el.querySelector(a.dataset.ppIr); if (!alvo) return; if (alvo.tagName === "DETAILS") alvo.open = true; alvo.scrollIntoView({ behavior: "smooth", block: "start" }); });
     };
     el.querySelector(".pp-barra").id = "pp-barra-aula"; el.querySelector(".pp-barra").classList.add("pp-alvo");
@@ -2470,7 +2474,7 @@
     // 📡 transmitir para os computadores dos alunos (vídeo em sincronia ou espelhar a tela), 18/11/2026
     try { if (P.sala) { const vs = Object.entries((P.videosMissao || {})[ap.base || ap.id] || {}).flatMap(([m, v]) => (Array.isArray(v) ? v : [v]).filter(x => x && /^[\w-]{11}$/.test(x.id || x)).map((x, k) => ({ id: x.id || x, nome: rotMis(C, m) + " · " + (x.nome || (k ? "vídeo extra" : "vídeo")) })));
       vs.sort((x, y) => (x.nome.startsWith(rotMis(C, mid)) ? 0 : 1) - (y.nome.startsWith(rotMis(C, mid)) ? 0 : 1));
-      P.sala.painel(ferr, t.id, vs, nomeTurma(t.id)); const sq = el.querySelector(".sala-quadro"); if (sq) { sq.id = "pp-transmitir"; sq.open = false; } } } catch (e) {}
+      P.sala.painel(ferr, t.id, vs, nomeTurma(t.id)); const sq = el.querySelector(".sala-quadro"); if (sq) { sq.id = "pp-transmitir"; sq.open = true; } } } catch (e) {}
     // 🚦 Sala de espera + 🏁 Dar a largada (20/11/2026): quem já entrou, quem falta e o botão que começa a aula para todos juntos
     try { if (P.espera) P.espera.painel(el.querySelector(".pp-barra"), { t, C, ap, rotulo: nomeTurma(t.id), participantes: () => participantes(t), ouvirProg }); } catch (e) { console.warn("espera", e); }
     el.querySelector("#sel").onchange = e => { location.hash = "#/painel/aula/" + e.target.value + "/" + mid; };
@@ -2487,7 +2491,7 @@
           <p class="pp-video-acoes"><a class="btn btn-sec" href="https://www.youtube-nocookie.com/embed/${vid}?autoplay=1&rel=0&modestbranding=1" target="_blank" rel="noopener">↗️ Abrir player em nova aba</a>
             <a class="btn btn-link" href="https://youtu.be/${vid}" target="_blank" rel="noopener">Abrir no YouTube</a></p>
           <p class="ajuda">Dê o play aqui mesmo ou abra o player numa aba só dele (ocupa a tela toda, bom para projetar). Use o botão de tela cheia do player. Lembre da caixinha de som: os computadores dos alunos não têm áudio.</p>`;
-        if (!k) box.id = "pp-video"; noFerr(box);
+        if (!k) box.id = "pp-video"; noFerr(box, "video");
       });
       // 📺 todos os vídeos da apostila (18/11/2026): o professor acha qualquer vídeo na hora, mesmo de outra missão
       const todos = (P.videosMissao || {})[ap.base || ap.id] || {};
@@ -2496,7 +2500,7 @@
         box.innerHTML = `<summary><strong>📺 Todos os vídeos desta apostila</strong> (${itens.length}) · para abrir o vídeo de qualquer missão</summary>
           <div class="pp-video-grupos">${[...new Set(itens.map(x => x.m))].map((m, gi) => `<div class="pp-video-grupo g${gi % 2}"><p class="pp-vg-tit"><b>${esc(rotMis(C, m))}</b>${itens.filter(x => x.m === m).length > 1 ? ` <span class="pp-vg-n">${itens.filter(x => x.m === m).length} vídeos</span>` : ""}</p>
             <ul>${itens.filter(x => x.m === m).map(x => `<li>${esc(x.nome)} — <a href="https://www.youtube-nocookie.com/embed/${x.id}?autoplay=1&rel=0&modestbranding=1" target="_blank" rel="noopener">▶️ Abrir o player</a></li>`).join("")}</ul></div>`).join("")}</div>`;
-        noFerr(box); }
+        noFerr(box, "video"); }
     } catch (e) { console.warn(e); }
     // 📣 avisos para o professor falar à turma (com a fala pronta); "✔ Já avisei" esconde só para esta turma
     try {
@@ -2540,7 +2544,7 @@
         });
       };
       desenhar();
-      el.querySelector(".pp-barra").after(box);
+      el.querySelector("#pp-ferr").after(box);
     } catch (e) { console.warn(e); }
     // 📌 Missão de hoje: o aluno cai direto nela depois do código; se "travar", as tarefas das outras missões fecham
     try {
@@ -2557,20 +2561,6 @@
         <span class="st">${hj ? (hj.travar ? "🔒 os alunos só fazem as tarefas desta missão" : "✔ o aluno cai direto nela ao digitar o código") : "nenhuma missão definida para hoje"}</span>
         <span class="pp-ini-st ${iniciada ? "on" : "off"}">${iniciada ? `▶️ Aula iniciada às ${new Date(hj0.iniciadaEm || Date.now()).toTimeString().slice(0, 5)}` : `⏳ Aula não iniciada: tarefas fechadas <button class="btn btn-peq" type="button" data-hj="ini">▶️ Iniciar a aula</button>`}</span>`;
       { const bIni = box.querySelector('[data-hj="ini"]'); if (bIni) bIni.onclick = () => iniciarAula(u, { manual: true, tid: t.id }); }
-      { const tl = document.createElement("div"); tl.className = "pp-telas";
-        const pintaT = () => { const m = modoTelas();
-          tl.innerHTML = `<span class="pp-telas-rot">Telas:</span><button type="button" data-tl="2" class="${m === "2" ? "on" : ""}" title="A sua tela vai para o projetor: todos os botões ficam no placar">🖥️📽️ 2 telas</button><button type="button" data-tl="3" class="${m === "3" ? "on" : ""}" title="Projetor só para os alunos + o seu monitor + o Veyon: os comandos ficam aqui no painel">🖥️🖥️📽️ 3 telas</button>
-            ${m === "3" ? `<span class="pp-telas-bts"><button type="button" class="btn btn-peq" data-tl-acao="leitura">📖 Leitura guiada</button><button type="button" class="btn btn-peq" data-tl-acao="roleta">🎡 Roleta da leitura</button><small>🏁 Finalizar: na barra de cima</small></span>` : `<small>Leitura guiada, roleta e finalizar ficam no 🏆 placar.</small>`}`;
-          tl.querySelectorAll("[data-tl]").forEach(b => b.onclick = () => { setModoTelas(b.dataset.tl); pintaT(); toast(b.dataset.tl === "3" ? "🖥️🖥️📽️ 3 telas: o placar do projetor fica só com o som e a tela cheia; os comandos ficam aqui." : "🖥️📽️ 2 telas: os comandos voltam para o placar."); });
-          tl.querySelectorAll("[data-tl-acao]").forEach(b => b.onclick = () => ferramentaLeitura(t, b.dataset.tlAcao));
-          // 📡 23/11/2026: atalhos sempre à mão para mostrar a tela e riscar no quadro (antes só dentro de 🧰 Ferramentas › 📡 Transmitir)
-          const at = document.createElement("span"); at.className = "pp-telas-bts pp-transm";
-          at.innerHTML = `<button type="button" class="btn btn-peq btn-sec" data-tr="tela" title="Mostra a sua tela (ou uma janela) nos computadores dos alunos">🖥️ Mostrar minha tela</button><button type="button" class="btn btn-peq btn-sec" data-tr="quadro" title="Quadro branco: você escreve e risca e aparece na hora nos computadores dos alunos">⬜ Quadro para a turma</button><button type="button" class="btn btn-peq btn-sec" data-tr="mais">📡 Mais (vídeo em sincronia)</button>`;
-          at.querySelector('[data-tr="tela"]').onclick = () => P.sala && P.sala.espelhar ? P.sala.espelhar(t.id, nomeTurma(t.id)) : toast("Transmissão indisponível.");
-          at.querySelector('[data-tr="quadro"]').onclick = () => P.sala && P.sala.quadroTurma ? P.sala.quadroTurma(t.id, nomeTurma(t.id)) : toast("Transmissão indisponível.");
-          at.querySelector('[data-tr="mais"]').onclick = () => { const a2 = el.querySelector("#pp-transmitir"); if (a2) { a2.open = true; a2.scrollIntoView({ behavior: "smooth", block: "start" }); } };
-          tl.appendChild(at); };
-        pintaT(); box.appendChild(tl); }
       el.querySelector(".pp-barra").appendChild(box);
       const sel = box.querySelector('[data-hj="sel"]'), trav = box.querySelector('[data-hj="trav"]');
       sel.onchange = async () => {
@@ -2620,14 +2610,14 @@
       if (casa.length) {
         const bc = document.createElement("div"); bc.className = "painel pp-casa";
         bc.innerHTML = `<strong>🏠 Estudam em casa, pelo portal:</strong> ${casa.map(a => esc(a.nome) + (a.emCasaObs ? ` <small>(${esc(a.emCasaObs)})</small>` : "")).join(" · ")}<br><small>O que eles fazem em casa fica registrado nas missões e no relatório de cada um; no 📒 Diário, a presença é J automática.</small>`;
-        noFerr(bc);
+        noFerr(bc, "apoios");
       }
       const atip = todosT.filter(a => a.atipico);
       if (atip.length) {
         const box = document.createElement("details"); box.className = "painel pp-apoios"; box.open = atip.some(a => a.apoio);
         box.innerHTML = `<summary><strong>🧩 Apoios dos alunos atípicos desta turma</strong> (${atip.length})</summary>
           <div class="ap-lista">${atip.map(cartaoApoio).join("")}</div>`;
-        box.id = "pp-apoios"; noFerr(box);
+        box.id = "pp-apoios"; noFerr(box, "apoios");
       }
     } catch (e) { console.warn(e); }
     await P.aula.render(el.querySelector("#aula"), ap.id, mid, t.id, { vivo: async (aid, m, turma) => {
@@ -2637,10 +2627,40 @@
       return { entraram: entraram.size, basico: [...basico].filter(x => entraram.has(x)).length };
     } });
     pintarIndice();
-    // atalhos para as ferramentas também na barra fixa do roteiro (sempre à vista enquanto rola)
-    try { const ai = el.querySelector(".aula-ir"); if (ai) { [["#pp-video", "📺 Vídeo"], ["#pp-transmitir", "📡 Transmitir"], ["#pp-apoios", "🧩 Apoios"], ["#pp-barra-aula", "⬆️ Missão de hoje"]].filter(([h]) => el.querySelector(h)).forEach(([h, r]) => {
-      const a = document.createElement("a"); a.href = "#"; a.textContent = r; a.className = "aula-ir-ferr"; a.onclick = e => { e.preventDefault(); const alvo = el.querySelector(h); if (alvo.tagName === "DETAILS") alvo.open = true; alvo.scrollIntoView({ behavior: "smooth", block: "start" }); }; ai.appendChild(a); }); } } catch (e) {}
+    montarCaixa(el, t, cxPain);
     medirTopo();
+  }
+
+  // 🧰 a barra de ferramentas da aula (23/11/2026)
+  function montarCaixa(el, t, cxPain) {
+    const bar = el.querySelector(".pp-cx-bar"), bts = bar.querySelector(".pp-cx-bts"), telas = bar.querySelector(".pp-cx-telas");
+    const cheia = k => { const g = cxPain.querySelector(`[data-cx="${k}"]`); return g && g.children.length > 1; };
+    const sala = (f, ...a) => P.sala && P.sala[f] ? P.sala[f](...a) : toast("Transmissão indisponível.");
+    const T = [
+      cheia("video") && ["gav", "video", "📺 Vídeo da missão", "Para passar no projetor, com a sua voz"],
+      ["acao", () => ferramentaLeitura(t, "leitura"), "📖 Leitura guiada", "Sala de espera, depois texto ou vídeo, em todas as telas"],
+      ["acao", () => ferramentaLeitura(t, "roleta"), "🎡 Roleta", "Sorteia quem lê, em todas as telas"],
+      ["acao", () => sala("espelhar", t.id, nomeTurma(t.id)), "🖥️ Mostrar minha tela", "A sua tela (ou uma janela) nos computadores dos alunos"],
+      ["acao", () => sala("quadroTurma", t.id, nomeTurma(t.id)), "⬜ Quadro", "Você escreve e risca e aparece nos computadores dos alunos"],
+      cheia("transm") && ["gav", "transm", "📡 Vídeo nos computadores", "O vídeo tocando junto em todos os computadores"],
+      cheia("apoios") && ["gav", "apoios", "🧩 Apoios e casa", "Alunos atípicos e quem estuda em casa"]].filter(Boolean);
+    let aberta = "";
+    const abrir = k => { aberta = aberta === k ? "" : k; cxPain.hidden = !aberta;
+      cxPain.querySelectorAll("[data-cx]").forEach(g => { g.hidden = g.dataset.cx !== aberta; });
+      bts.querySelectorAll("[data-gav]").forEach(b => { b.classList.toggle("on", b.dataset.gav === aberta); b.setAttribute("aria-expanded", b.dataset.gav === aberta); });
+      const it = T.find(x => x[1] === aberta); cxPain.querySelector(".pp-cx-cab b").textContent = it ? it[2] : "";
+      if (!aberta) cxPain.querySelectorAll("iframe").forEach(f => { const s = f.src; f.src = "about:blank"; f.src = s; });   // fechou a gaveta: o vídeo para de tocar
+    };
+    bts.innerHTML = ""; T.forEach(([tipo, x, rot, dica]) => { const b = document.createElement("button"); b.type = "button"; b.className = "pp-cx-b" + (tipo === "gav" ? " gav" : ""); b.title = dica;
+      b.textContent = rot + (tipo === "gav" ? " ▾" : ""); if (tipo === "gav") { b.dataset.gav = x; b.setAttribute("aria-expanded", "false"); b.onclick = () => abrir(x); } else b.onclick = x; bts.appendChild(b); });
+    cxPain.querySelector(".pp-cx-x").onclick = () => abrir(aberta);
+    const pintaT = () => { const m = modoTelas();
+      telas.innerHTML = `<span>Telas:</span><button type="button" data-tl="2" class="${m === "2" ? "on" : ""}" title="A sua tela vai para o projetor">🖥️📽️ 2</button><button type="button" data-tl="3" class="${m === "3" ? "on" : ""}" title="Projetor só para os alunos + o seu monitor + o Veyon">🖥️🖥️📽️ 3</button>`;
+      telas.querySelectorAll("[data-tl]").forEach(b => b.onclick = () => { setModoTelas(b.dataset.tl); pintaT(); toast(b.dataset.tl === "3" ? "🖥️🖥️📽️ 3 telas: o placar do projetor fica só com o som e a tela cheia; os comandos ficam aqui no painel." : "🖥️📽️ 2 telas: os comandos voltam também para o placar."); }); };
+    pintaT();
+    // a barra fica presa no alto; a barra do roteiro ("Ir para") gruda logo abaixo dela
+    const medir = () => document.documentElement.style.setProperty("--pp-cx", bar.offsetHeight + "px");
+    medir(); try { new ResizeObserver(medir).observe(bar); } catch (e) {}
   }
 
   /* -------- Importar alunos (lista colada ou arquivo) -------- */

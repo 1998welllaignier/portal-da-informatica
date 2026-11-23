@@ -259,6 +259,10 @@
   }
   /* ---------- quando abaixar: vídeo tocando, vídeo em outra aba, festa da roleta/pódio ---------- */
   const ytTocando = new Set();
+  // avisa as outras janelas deste computador (a aba dona da música ouve pelo evento "storage")
+  function avisarCalar(ms) { const ate = Date.now() + ms; if ((+lerLS("portal:musica:calar", 0) || 0) < ate - 400) gravarLS("portal:musica:calar", String(ate)); }
+  setInterval(() => { if (ytTocando.size > 0) avisarCalar(1500); }, 1000);
+  addEventListener("storage", e => { if (e.key === "portal:musica:calar") { aplicar(); setTimeout(aplicar, Math.max(0, (+e.newValue || 0) - Date.now()) + 80); } });
   addEventListener("message", e => {
     if (!/youtube(-nocookie)?\.com$/.test((e.origin || "").replace(/^https?:\/\/(www\.)?/, ""))) return;
     let d = e.data; try { d = typeof d === "string" ? JSON.parse(d) : d; } catch (x) { return; }
@@ -272,8 +276,11 @@
     try { f.contentWindow.postMessage(JSON.stringify({ event: "listening", id: f.dataset.ytId || (f.dataset.ytId = Math.random().toString(36).slice(2)), channel: "widget" }), "*"); } catch (e) {} }); }, 2000);
   const videoAtivo = () => { const a = document.activeElement; return ytTocando.size > 0 || !!(a && a.tagName === "IFRAME" && /youtube/.test(a.src || "")) || document.hidden; };
   function aplicar() {
+    // 🔇 23/11/2026: efeito ou vídeo em OUTRA janela (placar/telão no projetor) também abaixa a música, que toca numa aba só
+    if (ytTocando.size > 0) avisarCalar(1500);
     if (!ctx || !mestre) return;
-    const deveTocar = ligada && ehProf() && souDono(), calar = !deveTocar || videoAtivo() || Date.now() < abafarAte;
+    const outra = +lerLS("portal:musica:calar", 0) || 0;
+    const deveTocar = ligada && ehProf() && souDono(), calar = !deveTocar || videoAtivo() || Date.now() < abafarAte || Date.now() < outra;
     const agora = ctx.currentTime;
     mestre.gain.cancelScheduledValues(agora); mestre.gain.setTargetAtTime(deveTocar ? ganho() : 0, agora, 0.3);
     abafo.gain.cancelScheduledValues(agora); abafo.gain.setTargetAtTime(calar ? 0 : 1, agora, calar ? 0.12 : 0.9);
@@ -356,7 +363,7 @@
   P.musica = {
     mudarModo, get modo() { return modo; },
     estilos: Object.fromEntries(Object.entries(ESTILOS).map(([k, v]) => [k, v.nome])), trocarEstilo, renderizar, get estilo() { return estilo; },
-    abafar(ms) { abafarAte = Math.max(abafarAte, Date.now() + (ms || 2000)); aplicar(); setTimeout(aplicar, (ms || 2000) + 60); },
+    abafar(ms) { abafarAte = Math.max(abafarAte, Date.now() + (ms || 2000)); avisarCalar(ms || 2000); aplicar(); setTimeout(aplicar, (ms || 2000) + 60); },
     get ligada() { return ligada; }, AMB
   };
   setTimeout(pintar, 1500); setInterval(pintar, 3000);

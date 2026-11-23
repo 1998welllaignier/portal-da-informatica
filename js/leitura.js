@@ -190,7 +190,7 @@
       <div class="rl-bts"><button type="button" class="btn btn-sec lgc-cancela">Cancelar</button></div></div></div>`);
     const comecar = modo => { let jan = null; if (modo === "3") jan = window.open("#/telao/" + t.id, "telao-leitura", "popup,width=1280,height=720");   // abre já, perto do clique (o navegador bloqueia janela aberta muito depois)
       esc1.remove(); controle(ctx, T, modo, vid, jan); };
-    if (ctx.modo === "3") return comecar("3");   // o painel já sabe que são 3 telas: vai direto para a sala de espera
+    if (ctx.modo === "2" || ctx.modo === "3") return comecar(ctx.modo);   // aberto pelo painel: ele já sabe quantas telas são, vai direto para a sala de espera
     document.body.appendChild(esc1);
     esc1.querySelector(".lgc-cancela").onclick = () => esc1.remove();
     esc1.querySelectorAll("[data-m]").forEach(b => b.onclick = () => comecar(b.dataset.m));

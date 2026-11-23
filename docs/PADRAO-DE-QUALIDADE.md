@@ -508,6 +508,14 @@ Questões **contextualizadas** (situação curta: 1–2 frases no 6º, 2–3 no 
 - **2 telas:** a própria tela do placar vira o telão, com a faixa de controles embaixo (só na tela do professor).
 - **Registro automático:** ao terminar, a aula do dia no Diário ganha `leituraGuiada` (trechos, quem leu, perguntas e acertos) e uma linha no "📝 Registro das aulas"; o **relatório da família** mostra "📖 Leitura guiada com a turma: 🎤 leu em voz alta o trecho N; acertou X de Y perguntas relâmpago".
 
+## 🧰 Ferramentas da aula numa barra só (23/11/2026, pedido do professor)
+- Na aba 🎤 Aula, todas as ferramentas do momento da aula ficam **juntas numa barra escura logo abaixo da turma**, que **fica presa no alto** enquanto ele rola o roteiro: 📺 Vídeo da missão, 📖 Leitura guiada, 🎡 Roleta, 🖥️ Mostrar minha tela, ⬜ Quadro, 📡 Vídeo nos computadores, 🧩 Apoios e casa, e a escolha **Telas: 2 | 3**.
+- Ação rápida = um toque. O que é grande (vídeo, transmitir, apoios) abre numa **gaveta** embaixo da barra, uma de cada vez, com ✕ Fechar; fechar a gaveta para o vídeo.
+- Leitura guiada e roleta funcionam pelo painel em 2 ou 3 telas. Nada de ferramenta solta lá no fim da página. Classe nova: `pp-kit` (`.pp-caixa` já era a caixinha de pergunta).
+
+## 🔇 Música abaixa com efeito de outra janela (23/11/2026)
+- A música toca numa aba só; quando um efeito (roleta, pódio) ou vídeo toca em outra janela do mesmo computador (placar ou telão no projetor), ela abaixa e volta depois (aviso por `portal:musica:calar`).
+
 ## ⏳ Leitura guiada começa pela sala de espera (23/11/2026, pedido do professor)
 - Ao clicar em **📖 Leitura guiada**, nada começa sozinho (nem o vídeo). Abre primeiro a **sala de espera** no painel do professor: quantos alunos já entraram (ao vivo, com a tabela "A turma agora" no modo 3 telas) e dois botões: **📖 Começar pelo texto** e **🎬 Começar pelo vídeo** (se a missão não tem vídeo, o botão aparece apagado, avisando).
 - No projetor aparece "A leitura guiada já vai começar!" com **👥 X de Y alunos já entraram**; na tela do aluno, "✔ Você já está dentro. Olhe para o projetor".
