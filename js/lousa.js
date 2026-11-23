@@ -90,35 +90,48 @@
     if (E.laser.length && !raf) raf = requestAnimationFrame(() => { raf = null; redesenhar(); });
     espelhar();
   }
-  /* 📽️ 23/11/2026 (pedido do professor): com 3 telas, o que ele risca e aponta (laser) por cima da prévia da leitura guiada
-     aparece também na janela do telão, no projetor. As duas janelas estão no mesmo computador: vai por BroadcastChannel,
-     sem internet. A posição é proporcional (o texto pode ter tamanho diferente nas duas telas). */
+  /* 📽️ 23/11/2026 (pedido do professor): durante a leitura guiada, o que ele risca e aponta (laser) por cima do trecho
+     aparece também no TELÃO (3 telas, pelo BroadcastChannel, sem internet) e na TELA DOS ALUNOS (pelo Firebase,
+     config/lousaLeitura_<turma>, no máximo 2 gravações por segundo e só enquanto ele desenha).
+     A posição é proporcional à caixa do trecho (o texto pode quebrar um pouco diferente em cada tela). */
   const canal = "BroadcastChannel" in window ? new BroadcastChannel("portal-lousa") : null;
-  let espPend = false, espelhou = false;
+  let espPend = false, espelhou = false, nuvemT = null, nuvemUlt = 0, nuvemDado = null;
   const desloca = (o, dx, dy) => { const c = Object.assign({}, o); if (c.pts) c.pts = c.pts.map(p => [p[0] + dx, p[1] + dy]); if (c.a) c.a = [c.a[0] + dx, c.a[1] + dy]; if (c.b) c.b = [c.b[0] + dx, c.b[1] + dy]; if (c.x != null) c.x += dx; if (c.y != null) c.y += dy; return c; };
+  function paraNuvem(dado) {   // grava para os alunos, com freio (no máximo a cada 500 ms)
+    const L = P.leituraAtual; if (!L || !L.turmas || !P.nuvem || !P.nuvem.app) return;
+    nuvemDado = dado; if (nuvemT) return;
+    const vai = () => { nuvemT = null; nuvemUlt = Date.now(); const dd = { j: JSON.stringify(nuvemDado), em: Date.now() };   // em texto: o Firebase não aceita lista dentro de lista (os pontos do traço)
+      L.turmas.forEach(id => { try { P.nuvem.app(0).db.collection("config").doc("lousaLeitura_" + id).set(dd).catch(() => {}); } catch (e) {} }); };
+    const falta = 500 - (Date.now() - nuvemUlt); if (falta <= 0) vai(); else nuvemT = setTimeout(vai, falta);
+  }
   function espelhar() {
-    if (!canal || espPend) return; espPend = true;
+    if (espPend) return; espPend = true;
     requestAnimationFrame(() => { espPend = false;
-      const pv = document.querySelector(".lgc-3 .lgc-previa");
-      if (!pv || E.modo !== "pincel") { if (espelhou) { canal.postMessage({ limpar: 1 }); espelhou = false; } return; }
+      const pv = document.querySelector(".lgc-3 .lgc-previa, .lgc-2 .lgc-tela");
+      if (!pv || E.modo !== "pincel") { if (espelhou) { const z = { limpar: 1 }; if (canal) canal.postMessage(z); paraNuvem(z); espelhou = false; } return; }
       const r = pv.getBoundingClientRect(), dx = -(r.left + scrollX), dy = -(r.top + scrollY), ag = performance.now();
-      canal.postMessage({ w: r.width, h: r.height, objs: leve(E.objs.concat(atual ? [atual] : [])).map(o => desloca(o, dx, dy)), laser: E.laser.map(p => [p[0] + dx, p[1] + dy, ag - p[2]]) });
-      espelhou = true; });
+      const dado = { w: r.width, h: r.height, objs: leve(E.objs.concat(atual ? [atual] : [])).map(o => desloca(o, dx, dy)), laser: E.laser.map(p => [Math.round(p[0] + dx), Math.round(p[1] + dy), Math.round(ag - p[2])]) };
+      if (canal) canal.postMessage(dado); paraNuvem(dado); espelhou = true; });
   }
-  if (canal) { let tcv = null, tg = null, ult = null, tlaser = [], traf = null;
-    const pintaTelao = () => { const q = document.querySelector(".lg-telao .lg-quadro"); if (!q) { if (tcv) { tcv.remove(); tcv = null; } return; }
-      if (!tcv) { tcv = document.createElement("canvas"); tcv.className = "lousa-cv lousa-telao"; document.body.appendChild(tcv); tg = tcv.getContext("2d"); }
-      const d2 = devicePixelRatio || 1; tcv.width = Math.round(innerWidth * d2); tcv.height = Math.round(innerHeight * d2); tcv.style.width = innerWidth + "px"; tcv.style.height = innerHeight + "px";
-      tg.setTransform(1, 0, 0, 1, 0, 0); tg.clearRect(0, 0, tcv.width, tcv.height); if (!ult || ult.limpar) return;
-      const Q = q.getBoundingClientRect(), sx = Q.width / ult.w, sy = Q.height / ult.h;
-      tg.setTransform(d2 * sx, 0, 0, d2 * sy, d2 * Q.left, d2 * Q.top); (ult.objs || []).forEach(o => pintar(tg, o));
-      const ag = performance.now(); tlaser = tlaser.filter(p => ag - p[2] < 700);
-      tlaser.forEach((p, i) => { const f = 1 - (ag - p[2]) / 700; tg.save(); tg.globalAlpha = f; tg.fillStyle = "#ef4444"; tg.shadowColor = "#ef4444"; tg.shadowBlur = 18; tg.beginPath(); tg.arc(p[0], p[1], ((i === tlaser.length - 1 ? 9 : 6) * f + 2) / Math.max(.3, (sx + sy) / 2), 0, 7); tg.fill(); tg.restore(); });
-      if (tlaser.length && !traf) traf = requestAnimationFrame(() => { traf = null; pintaTelao(); }); };
-    canal.onmessage = e => { if (!document.querySelector(".lg-telao")) return; ult = e.data || null; const ag = performance.now();
-      if (ult && ult.laser) tlaser = ult.laser.map(p => [p[0], p[1], ag - p[2]]); else tlaser = []; pintaTelao(); };
-    addEventListener("resize", () => { if (ult) pintaTelao(); });
+  // desenha o que veio do professor por cima de uma caixa de trecho (telão ou tela do aluno)
+  const ESP = { cv: null, g: null, ult: null, laser: [], raf: null, caixa: null };
+  function pintarEspelho() {
+    const q = ESP.caixa && ESP.caixa(); if (!q) { if (ESP.cv) { ESP.cv.remove(); ESP.cv = null; } return; }
+    if (!ESP.cv) { ESP.cv = document.createElement("canvas"); ESP.cv.className = "lousa-cv lousa-telao"; document.body.appendChild(ESP.cv); ESP.g = ESP.cv.getContext("2d"); }
+    const top = [...document.querySelectorAll("dialog[open]")].pop(); if (top && top.contains(q) && ESP.cv.parentNode !== top) top.appendChild(ESP.cv); else if ((!top || !top.contains(q)) && ESP.cv.parentNode !== document.body) document.body.appendChild(ESP.cv);
+    const tg = ESP.g, d2 = devicePixelRatio || 1; ESP.cv.width = Math.round(innerWidth * d2); ESP.cv.height = Math.round(innerHeight * d2); ESP.cv.style.width = innerWidth + "px"; ESP.cv.style.height = innerHeight + "px";
+    tg.setTransform(1, 0, 0, 1, 0, 0); tg.clearRect(0, 0, ESP.cv.width, ESP.cv.height); const u = ESP.ult; if (!u || u.limpar || !u.w) return;
+    const Q = q.getBoundingClientRect(), sx = Q.width / u.w, sy = Q.height / u.h;
+    tg.setTransform(d2 * sx, 0, 0, d2 * sy, d2 * Q.left, d2 * Q.top); (u.objs || []).forEach(o => pintar(tg, o));
+    const ag = performance.now(); ESP.laser = ESP.laser.filter(p => ag - p[2] < 700);
+    ESP.laser.forEach((p, i) => { const f = 1 - (ag - p[2]) / 700; tg.save(); tg.globalAlpha = f; tg.fillStyle = "#ef4444"; tg.shadowColor = "#ef4444"; tg.shadowBlur = 18; tg.beginPath(); tg.arc(p[0], p[1], ((i === ESP.laser.length - 1 ? 9 : 6) * f + 2) / Math.max(.3, (sx + sy) / 2), 0, 7); tg.fill(); tg.restore(); });
+    if (ESP.laser.length && !ESP.raf) ESP.raf = requestAnimationFrame(() => { ESP.raf = null; pintarEspelho(); });
   }
+  function receberEspelho(dado, caixa) { ESP.caixa = caixa; ESP.ult = dado || null; const ag = performance.now();
+    ESP.laser = dado && dado.laser ? dado.laser.map(p => [p[0], p[1], ag - p[2]]) : []; pintarEspelho(); }
+  addEventListener("resize", () => { if (ESP.ult) pintarEspelho(); });
+  if (canal) canal.onmessage = e => { if (!document.querySelector(".lg-telao")) return; receberEspelho(e.data, () => document.querySelector(".lg-telao .lg-quadro")); };
+  function limparPincel() { if (E.modo !== "pincel") return; E.objs = []; E.refazer = []; atual = null; E.laser = []; redesenhar(); }
   function mudou() { redesenhar(); if (E.modo === "quadro") E.ouvintes.forEach(fn => { try { fn(estadoQuadro()); } catch (e) {} }); }
   function estadoQuadro() { const q = E.quadro; return q ? { fundo: q.fundo, pag: q.pag, total: q.paginas.length, objs: leve(q.paginas[q.pag].objs) } : null; }
 
@@ -282,5 +295,5 @@
     ((q && q.objs) || []).forEach(o => { if (o.t === "img" && !o._im) { o._im = new Image(); o._im.onload = () => desenharRemoto(canvas, q); o._im.src = o.src; } pintar(x, o); });
   }
 
-  P.lousa = { abrirPincel, abrirQuadro, fechar, estado: () => E, quadro: { estado: estadoQuadro, aoMudar: fn => { E.ouvintes.push(fn); return () => { E.ouvintes = E.ouvintes.filter(x => x !== fn); }; } }, desenharRemoto, QW, QH };
+  P.lousa = { abrirPincel, abrirQuadro, fechar, estado: () => E, quadro: { estado: estadoQuadro, aoMudar: fn => { E.ouvintes.push(fn); return () => { E.ouvintes = E.ouvintes.filter(x => x !== fn); }; } }, desenharRemoto, QW, QH, receberEspelho, limparPincel };
 })();

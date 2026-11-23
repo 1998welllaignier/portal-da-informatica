@@ -113,9 +113,14 @@
     if (!s || !s.nuvem || !P.nuvem || !P.nuvem.app || alTurma === s.turma) return;
     if (alUnsub) alUnsub(); alTurma = s.turma;
     try { alUnsub = db().collection("config").doc("leitura_" + s.turma).onSnapshot(sn => mostrarAluno(sn.exists ? sn.data() : null), () => {}); } catch (e) {}
+    // ✏️ 23/11/2026: o risco e o laser do professor por cima do trecho, na tela do aluno
+    try { db().collection("config").doc("lousaLeitura_" + s.turma).onSnapshot(sn => { let x = sn.exists ? sn.data() : null; try { if (x && x.j) x = Object.assign(JSON.parse(x.j), { em: x.em }); } catch (e) { x = null; }
+      if (!P.lousa || !P.lousa.receberEspelho) return;
+      if (!x || !alCx || !alCx.isConnected || Date.now() - (x.em || 0) > 120000) return P.lousa.receberEspelho(null, () => null);
+      P.lousa.receberEspelho(x, () => alCx && alCx.isConnected ? alCx.querySelector(".lg-quadro") : null); }, () => {}); } catch (e) {}
     addEventListener("hashchange", () => { if (alCx && /^#\/(prova|painel)/.test(location.hash)) fecharAluno(); });
   }
-  function fecharAluno() { if (alCx) { alCx.remove(); alCx = null; } document.body.classList.remove("lg-travado"); P.leituraAtiva = false; }
+  function fecharAluno() { if (P.lousa && P.lousa.receberEspelho) P.lousa.receberEspelho(null, () => null); if (alCx) { alCx.remove(); alCx = null; } document.body.classList.remove("lg-travado"); P.leituraAtiva = false; }
   async function mostrarAluno(d) {
     const s = (P.sess && P.sess.get && P.sess.get()) || null;
     if (!d || !d.ativa || d.dia !== hoje() || !s || /^#\/(prova|painel)/.test(location.hash)) { fecharAluno(); return; }
@@ -273,7 +278,9 @@
           <td>${!x.on ? "⚪ não entrou" : x.junto ? "🟢 acompanhando" : "🟡 em outra tela"}${x.saiu ? ` <span class="lgc-tc">🖥️ saiu ${x.saiu}×</span>` : ""}</td><td>${x.leu ? "🎤 leu" : ""}</td>${P2 ? `<td>${x.r == null ? "…" : d.fase === "resposta" ? (x.r === P2.certa ? "✅" : "❌") : "✔ respondeu"}</td>` : ""}<td>${x.xp ? "⭐ +" + x.xp : ""}</td></tr>`).join("")}</tbody></table>`;
     }
     // a palavra aberta fecha sozinha quando o professor muda de trecho ou de fase
-    const salvar = () => { const passo = d.fase + d.idx; if (d.termo) { if (!d.termo.passo) d.termo.passo = passo; else if (d.termo.passo !== passo) d.termo = null; } gravar(); pintar(); };
+    P.leituraAtual = { turmas: alvo };   // ✏️ a caneta/laser vai para a tela dos alunos destas turmas
+    let passoUlt = d.fase + d.idx;
+    const salvar = () => { const passo = d.fase + d.idx; if (passo !== passoUlt) { passoUlt = passo; if (P.lousa && P.lousa.limparPincel) P.lousa.limparPincel(); } if (d.termo) { if (!d.termo.passo) d.termo.passo = passo; else if (d.termo.passo !== passo) d.termo = null; } gravar(); pintar(); };
     function sortear(pular) {
       ctx.roleta({ leitura: true, pular: pular ? pular.id : null, aoEscolher: a => { d.leitor = { id: a.id, nome: a.nome }; d.leu = false; salvar(); } });
     }
@@ -292,9 +299,9 @@
         const registro = reg0.includes("📖 Leitura guiada") ? reg0.replace(/📖 Leitura guiada[^\n]*/, linha) : (reg0 ? reg0.trim() + "\n" : "") + linha;
         return ref.set({ data: hoje(), leituraGuiada: reg, registro }, { merge: true }); })); } catch (e) { console.warn("diário leitura", e); }
       d.ativa = false; d.fase = "fim"; await gravar();
-      cx.remove(); P.toast && P.toast("📖 Leitura guiada concluída e anotada no Diário. A turma está liberada!");
+      P.leituraAtual = null; cx.remove(); P.toast && P.toast("📖 Leitura guiada concluída e anotada no Diário. A turma está liberada!");
     }
-    async function encerrar() { if (P.confirmar && !(await P.confirmar("Encerrar a leitura guiada agora? As telas dos alunos voltam ao normal.", "Sim, encerrar"))) return; if (Object.keys(d.lidos).length) return terminar(); d.ativa = false; await gravar(); cx.remove(); }
+    async function encerrar() { if (P.confirmar && !(await P.confirmar("Encerrar a leitura guiada agora? As telas dos alunos voltam ao normal.", "Sim, encerrar"))) return; if (Object.keys(d.lidos).length) return terminar(); d.ativa = false; P.leituraAtual = null; await gravar(); cx.remove(); }
     const contarEspera = () => { const e = { on: online().length, total: alunos.length }; if (!d.espera || d.espera.on !== e.on || d.espera.total !== e.total) { d.espera = e; return true; } return false; };
     contarEspera(); gravar(); pintar();
     const iv = setInterval(() => { if (!cx.isConnected) { clearInterval(iv); return; } if (d.fase === "espera" && contarEspera()) { gravar(); pintar(); return; } if (d.fase === "pergunta") { const c = contar();

@@ -516,6 +516,8 @@ Questões **contextualizadas** (situação curta: 1–2 frases no 6º, 2–3 no 
 - Leitura guiada: o começo se chama "⏳ Começando a leitura" (para não confundir com a Sala de espera da aula).
 - "Antes de começar" dos roteiros do 7º, 8º e 9º (2026): caixinha de som ligada (vídeo com som, em sincronia), projetor (com 3 telas, janela do telão), portal aberto pelo Veyon › Abrir website.
 - ✏️ Com 3 telas, o pincel e o laser riscados por cima da prévia da leitura guiada aparecem também no telão (BroadcastChannel, sem internet; posição proporcional).
+- ✏️ (mesmo dia) O pincel e o laser da leitura guiada aparecem também **na tela de cada aluno** (2 ou 3 telas): `config/lousaLeitura_<turma>`, em texto (`j`), no máximo 2 gravações por segundo e só enquanto ele desenha; ao trocar de trecho ou de fase, os riscos se apagam sozinhos.
+- 🎵 Música calada por engano: uma aba do painel escondida (minimizada) segurava a música e um vídeo já fechado continuava contando como "tocando". Agora a aba escondida solta a música para a que está à vista, e player que saiu da tela deixa de contar.
 
 ## 🧩 Emojis que o Windows 10 mostra (23/11/2026)
 - Os computadores da sala e o do professor têm Windows 10, que só desenha emojis até a versão 12; os mais novos viram um quadradinho (□). Trocados 20 emojis (174 lugares), ex.: 🪪→📇, 🪧→📋, 🫧→🔵, 🛟→💾, 🪟→🔲, 🪆→🎎, 🛞→🖲️, 🫳→✊.

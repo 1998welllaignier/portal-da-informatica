@@ -31,6 +31,8 @@
   const MEU_ID = Math.random().toString(36).slice(2), DONO = "portal:musica:dono";
   let ultDono = 0;
   function souDono() { try { const d = JSON.parse(localStorage.getItem(DONO) || "null"), agora = Date.now();
+    // 🩺 23/11/2026: aba escondida (minimizada ou atrás de outra) não segura a música: solta para a aba que está à vista
+    if (document.hidden) { if (d && d.id === MEU_ID) localStorage.removeItem(DONO); return false; }
     if (!d || d.id === MEU_ID || agora - d.ts > 5000) { if (agora - ultDono > 1000) { localStorage.setItem(DONO, JSON.stringify({ id: MEU_ID, ts: agora })); ultDono = agora; } return true; }
     return false; } catch (e) { return true; } }
   addEventListener("beforeunload", () => { try { const d = JSON.parse(localStorage.getItem(DONO) || "null"); if (d && d.id === MEU_ID) localStorage.removeItem(DONO); } catch (e) {} });
@@ -261,7 +263,7 @@
   const ytTocando = new Set();
   // avisa as outras janelas deste computador (a aba dona da música ouve pelo evento "storage")
   function avisarCalar(ms) { const ate = Date.now() + ms; if ((+lerLS("portal:musica:calar", 0) || 0) < ate - 400) gravarLS("portal:musica:calar", String(ate)); }
-  setInterval(() => { if (ytTocando.size > 0) avisarCalar(1500); }, 1000);
+  setInterval(() => { limparYt(); if (ytTocando.size > 0) avisarCalar(1500); }, 1000);
   addEventListener("storage", e => { if (e.key === "portal:musica:calar") { aplicar(); setTimeout(aplicar, Math.max(0, (+e.newValue || 0) - Date.now()) + 80); } });
   addEventListener("message", e => {
     if (!/youtube(-nocookie)?\.com$/.test((e.origin || "").replace(/^https?:\/\/(www\.)?/, ""))) return;
@@ -274,10 +276,12 @@
   // pede ao YouTube para avisar quando o vídeo toca/pausa (vale para os vídeos com enablejsapi=1)
   setInterval(() => { document.querySelectorAll('iframe[src*="youtube"]').forEach(f => { if (!/enablejsapi=1/.test(f.src) || /widgetid=/.test(f.src) || f.id || f.dataset.ytApi || !f.contentWindow) return;   // 🩺 23/11/2026: player criado pela API (vídeo em sincronia, telão) já avisa sozinho; mandar "listening" de novo trocava o canal dele e o vídeo travava preto, sem play/pausa
     try { f.contentWindow.postMessage(JSON.stringify({ event: "listening", id: f.dataset.ytId || (f.dataset.ytId = Math.random().toString(36).slice(2)), channel: "widget" }), "*"); } catch (e) {} }); }, 2000);
-  const videoAtivo = () => { const a = document.activeElement; return ytTocando.size > 0 || !!(a && a.tagName === "IFRAME" && /youtube/.test(a.src || "")) || document.hidden; };
+  // 🩺 23/11/2026: player que já saiu da tela (vídeo encerrado, telão que mudou de fase) não conta mais como "vídeo tocando"
+  const limparYt = () => { if (!ytTocando.size) return; const vivos = new Set([...document.querySelectorAll("iframe")].map(f => f.contentWindow)); [...ytTocando].forEach(w => { if (!vivos.has(w)) ytTocando.delete(w); }); };
+  const videoAtivo = () => { limparYt(); const a = document.activeElement; return ytTocando.size > 0 || !!(a && a.tagName === "IFRAME" && /youtube/.test(a.src || "")) || document.hidden; };
   function aplicar() {
     // 🔇 23/11/2026: efeito ou vídeo em OUTRA janela (placar/telão no projetor) também abaixa a música, que toca numa aba só
-    if (ytTocando.size > 0) avisarCalar(1500);
+    limparYt(); if (ytTocando.size > 0) avisarCalar(1500);
     if (!ctx || !mestre) return;
     const outra = +lerLS("portal:musica:calar", 0) || 0;
     const deveTocar = ligada && ehProf() && souDono(), calar = !deveTocar || videoAtivo() || Date.now() < abafarAte || Date.now() < outra;
