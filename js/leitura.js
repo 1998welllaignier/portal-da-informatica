@@ -150,6 +150,15 @@
       rolCx = h(`<div class="rol-aluno telao"><div>${r.girando ? (r.roda && P.rodaRoletaHTML ? `<h2 class="rol-tit-roda">🎡 A roleta está girando…</h2>${P.rodaRoletaHTML(r.roda)}` : `<p class="rol-ic rol-gira">🎡</p><h2>A roleta está girando…</h2><p>Quem será que vai ler?</p>`)
         : `<div class="rol-festa" aria-hidden="true">${["🎉", "✨", "🎊", "⭐", "🎉", "✨", "🎊", "⭐", "🎉", "✨"].map((e, i) => `<i style="--k:${i}">${e}</i>`).join("")}</div><p class="rol-ic">📖</p><p class="rol-sup">Quem vai ler é:</p><h2>${esc(r.nome || "")}</h2>`}</div></div>`);
       document.body.appendChild(rolCx); const cx = rolCx; if (r.girando && r.roda && P.rodaGirar) P.rodaGirar(cx, r.roda); setTimeout(() => { if (cx.isConnected) cx.remove(); }, r.girando ? 15000 : 7000); }, () => {});
+    // 📡 23/11/2026: no projetor, o vídeo acompanha o que o professor dá play/pausa (config/sala_<turma>), sem som
+    let salaD = null, ytP = null;
+    const ytApi = () => new Promise(r => { if (window.YT && YT.Player) return r(YT); const o = window.onYouTubeIframeAPIReady; window.onYouTubeIframeAPIReady = () => { o && o(); r(YT); }; if (!document.querySelector('script[src*="iframe_api"]')) { const s = document.createElement("script"); s.src = "https://www.youtube.com/iframe_api"; document.head.appendChild(s); } });
+    const sincTelao = () => { const p = ytP; if (!p || !p.getCurrentTime || !salaD || salaD.modo !== "video") return; try {
+      const alvo = (salaD.pos || 0) + (salaD.estado === "play" ? (Date.now() - (salaD.emMs || Date.now())) / 1000 : 0);
+      if (Math.abs(p.getCurrentTime() - alvo) > 1.2) p.seekTo(alvo, true);
+      if (salaD.estado === "play" && p.getPlayerState() !== 1) p.playVideo(); if (salaD.estado !== "play" && p.getPlayerState() === 1) p.pauseVideo(); } catch (e) {} };
+    db().collection("config").doc("sala_" + turma).onSnapshot(sn => { salaD = sn.exists ? sn.data() : null; sincTelao(); }, () => {});
+    setInterval(sincTelao, 2000);
     let ult = "";
     db().collection("config").doc("leitura_" + turma).onSnapshot(async sn => {
       const d = sn.exists ? sn.data() : null;
@@ -159,6 +168,8 @@
       if (chave === ult) return; ult = chave;
       if (d.fase === "video" && q.querySelector(".lg-video iframe")) return;   // não recarrega o vídeo que está tocando
       q.innerHTML = htmlFase(d, T, "telao"); ligarPalavras(q, T.termos, "travado"); requestAnimationFrame(() => cabeDuasVezes(q.querySelector(".lg-texto")));
+      ytP = null; const ifr = q.querySelector(".lg-video iframe");
+      if (ifr) ytApi().then(Y => { if (!ifr.isConnected) return; ytP = new Y.Player(ifr, { events: { onReady: e => { try { e.target.mute(); } catch (x) {} sincTelao(); } } }); }).catch(() => {});
     }, () => {});
   }
 
@@ -196,6 +207,10 @@
     let d = { ativa: true, dia: hoje(), aid, mid, modo, fase: vid ? "video" : "trecho", idx: 0, n: N, leitor: null, leu: false, xp: {}, lidos: {}, stats: null, video: vid, inicio: Date.now(), perguntas: {} };
     const gravar = () => { d.em = Date.now(); return Promise.all(alvo.map(id => db().collection("config").doc("leitura_" + id).set(JSON.parse(JSON.stringify(d))))).catch(e => console.warn("leitura", e)); };
     await gravar(); bonus();
+    // 📡 23/11/2026: o vídeo da missão passa EM SINCRONIA no projetor e nas telas dos alunos (mesmo esquema do 📡 Transmitir)
+    const passarSinc = () => { if (vid && P.sala && P.sala.passarVideo) P.sala.passarVideo(t.id, vid, "Vídeo da missão: " + semTags(T.titulo || ""), ctx.nomeTurma || t.id).catch(e => console.warn("sala", e)); };
+    const pararSinc = () => { try { if (P.sala && P.sala._PR && P.sala._PR.t) P.sala.parar(); } catch (e) {} };
+    if (d.fase === "video") passarSinc();
     if (modo === "3" && jan) moverParaProjetor(jan).then(s => { if (s && s.label) try { localStorage.setItem("portal:telaProjetor", s.label); } catch (e) {} });
     // 2 telas: esta própria tela vira o telão, com a faixa de controles embaixo (só aqui, os alunos não veem)
     const cx = h(`<div class="lgc ${modo === "2" ? "lgc-2" : "lgc-3"}" role="dialog" aria-label="Controles da leitura guiada">
@@ -219,7 +234,7 @@
       if (jt) jt.querySelector(".lg-deffecha").onclick = () => { d.termo = null; salvar(); }; requestAnimationFrame(() => cabeDuasVezes(tela.querySelector(".lg-texto")));
       st.innerHTML = d.fase === "video" ? "🎬 Vídeo da missão" : `Trecho <b>${d.idx + 1}</b> de ${N} · ${d.fase === "trecho" ? (d.leitor ? `lendo: <b>${esc(d.leitor.nome)}</b>${d.leu ? " ✔" : ""}` : "falta sortear quem lê") : d.fase === "pergunta" ? "🤔 pergunta relâmpago" : "✅ resposta mostrada"}`;
       const B = [];
-      if (d.fase === "video") B.push(["lgc-ok", "📖 Terminou o vídeo: começar a leitura ➜", () => { d.fase = "trecho"; salvar(); }]);
+      if (d.fase === "video") { B.push(["lgc-ok", "📖 Terminou o vídeo: começar a leitura ➜", () => { pararSinc(); d.fase = "trecho"; salvar(); }]); B.push(["lgc-sec", "📡 Abrir o vídeo de novo", passarSinc]); }
       if (d.fase === "trecho") {
         if (!d.leitor) B.push(["lgc-rol", "🎡 Sortear quem lê", sortear]);
         else if (!d.leu) { B.push(["lgc-ok", `✔ Leu! (+${XP_LEITOR} XP)`, () => { d.leu = true; addXP(d.leitor.id, XP_LEITOR); d.lidos[d.idx] = d.leitor; salvar(); }]); B.push(["lgc-sec", "⏭ Pular (sortear outro)", () => { const a = d.leitor; d.leitor = null; salvar(); sortear(a); }]); }

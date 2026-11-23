@@ -665,3 +665,4 @@ Questões **contextualizadas** (situação curta: 1–2 frases no 6º, 2–3 no 
 ## 🎡 Roleta e leitura guiada (23/11/2026, pedido em aula)
 - A **mesma roda** gira no projetor (telão da leitura) e na tela de todos os alunos, sincronizada pelo relógio: o painel publica `roda = { nomes, final, dur, t0 }` em `config/roleta_<turma>`; ao parar, aparece o nome sorteado como antes.
 - A **leitura guiada segue a missão escolhida ao iniciar a aula** (o placar relê `config/hoje_<turma>` na hora de começar a leitura, porque pode ter sido aberto antes de iniciar a aula).
+- 📡 **Vídeo da leitura guiada em sincronia (23/11/2026):** ao começar a leitura com vídeo, o portal já abre o 📡 Transmitir com o vídeo da missão: o professor dá ▶️ na tela dele (com som) e o vídeo toca junto nos computadores dos alunos e no telão do projetor (sem som no telão, para não duplicar). "Terminou o vídeo: começar a leitura" encerra a transmissão; "📡 Abrir o vídeo de novo" reabre.

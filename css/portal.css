@@ -2021,7 +2021,7 @@ body.vc-aberto { overflow: hidden; }
 .sala-op h3{margin:0 0 .4em}
 .sala-op label{display:block;margin-bottom:.4em}
 .sala-op select,.sala-op input{width:100%;max-width:100%;margin:.2em 0 .5em}
-.sala-prof{position:fixed;inset:0;z-index:9000;background:#000;display:flex;flex-direction:column}
+.sala-prof{position:fixed;inset:0;z-index:9500;background:#000;display:flex;flex-direction:column}
 .sala-prof .sala-status,.sala-prof-mini .sala-status{font-weight:600}
 .sala-st-fora{background:#fde68a;color:#7c2d12;border-radius:6px;padding:.05em .45em;font-weight:800}
 .sala-prof-bts{margin-left:auto;display:flex;gap:6px;flex-wrap:wrap}
