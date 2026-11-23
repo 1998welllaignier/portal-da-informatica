@@ -41,7 +41,9 @@
     ytProm = new Promise(res => {
       const antes = window.onYouTubeIframeAPIReady;
       window.onYouTubeIframeAPIReady = () => { try { antes && antes(); } catch (e) {} res(window.YT); };
-      const s = document.createElement("script"); s.src = "https://www.youtube.com/iframe_api"; document.head.appendChild(s);
+      const s = document.createElement("script"); s.src = "https://www.youtube.com/iframe_api";
+      s.onerror = () => { ytProm = null; s.remove(); };   // deixa tentar de novo
+      document.head.appendChild(s);
     });
     return ytProm;
   }
@@ -74,7 +76,7 @@
       A.dlg = document.createElement("dialog"); A.dlg.className = "sala-dlg"; A.dlg.setAttribute("aria-labelledby", "sala-txt");
       A.dlg.innerHTML = `<div class="sala-barra" role="status"><span class="sala-ao-vivo">● AO VIVO</span><span id="sala-txt"></span></div>
         <div class="sala-palco"><div class="sala-midia"></div><div class="sala-escudo" aria-hidden="true"></div>
-          <div class="sala-entrar"></div><div class="sala-saiu" hidden></div><div class="sala-fim" hidden>🎬 Fim do vídeo! Aguarde: o professor vai liberar a tela.</div></div>`;
+          <div class="sala-entrar"></div><div class="sala-saiu" hidden></div><div class="sala-falha" hidden></div><div class="sala-fim sala-pausa" hidden>⏸ Tudo pronto! O vídeo começa quando o professor der o play.</div><div class="sala-fim" hidden>🎬 Fim do vídeo! Aguarde: o professor vai liberar a tela.</div></div>`;
       A.dlg.addEventListener("cancel", e => e.preventDefault());
       // nada de teclado durante a transmissão (setas, espaço, Tab…); o Esc do navegador continua saindo da tela cheia
       A.dlg.addEventListener("keydown", e => { if (e.key !== "Escape") { e.preventDefault(); e.stopPropagation(); } }, true);
@@ -123,13 +125,18 @@
   async function iniciarMidia(d) {
     const midia = A.dlg.querySelector(".sala-midia");
     if (d.modo === "video") {
-      if (A.player && A.vidAtual === d.vid) return;
+      if ((A.player || A.criando) && A.vidAtual === d.vid) return;   // já está montando ou tocando este vídeo (evita dois players de uma vez)
       if (A.player && A.player.loadVideoById) { A.vidAtual = d.vid; A.player.loadVideoById({ videoId: d.vid, startSeconds: esperado(d) }); return; }
-      midia.innerHTML = `<div id="sala-yt"></div>`; A.vidAtual = d.vid;
-      const Y = await yt(); if (!ativo() || A.vidAtual !== d.vid) return;
+      /* 🩺 23/11/2026: vários computadores ficaram com a tela preta e travada. Agora, se o vídeo não abrir em 15 s (rede lenta,
+         YouTube bloqueado, erro do player), o aluno vê um aviso no lugar do preto, com "🔁 Tentar de novo", e o professor é avisado */
+      midia.innerHTML = `<div id="sala-yt"></div>`; A.vidAtual = d.vid; A.criando = true; A.pronto = false; falha(null);
+      clearTimeout(A.vigia); A.vigia = setTimeout(() => { if (!A.pronto && ativo() && A.vidAtual === d.vid) falha("demorou"); }, 15000);
+      let Y; try { Y = await Promise.race([yt(), new Promise((_, no) => setTimeout(() => no(new Error("api")), 14000))]); } catch (e) { A.criando = false; if (ativo()) falha("sem-api"); return; }
+      A.criando = false; if (!ativo() || A.vidAtual !== d.vid) return;
       A.player = new Y.Player("sala-yt", { videoId: d.vid, host: "https://www.youtube-nocookie.com", width: "100%", height: "100%",
         playerVars: { autoplay: 1, mute: 1, controls: 0, disablekb: 1, fs: 0, modestbranding: 1, rel: 0, playsinline: 1, iv_load_policy: 3, start: Math.floor(esperado(d)) },
-        events: { onReady: e => { try { e.target.mute(); } catch (x) {} sincronizar(); } } });
+        events: { onReady: e => { A.pronto = true; falha(null); try { e.target.mute(); } catch (x) {} sincronizar(); },
+          onError: e => falha("erro " + (e && e.data)) } });
       clearInterval(A.iv); A.iv = setInterval(sincronizar, 700);
     } else if (d.modo === "quadro") {
       // ⬜ quadro: o desenho chega como dados (traços), nítido e quase sem atraso
@@ -140,12 +147,22 @@
       conectarEspelho(d);
     }
   }
+  function falha(motivo) {
+    const box = A.dlg && A.dlg.querySelector(".sala-falha"); if (!box) return;
+    if (!motivo) { if (!box.hidden) { box.hidden = true; gravar({ falhou: null }, true); } return; }
+    box.innerHTML = `<div class="sala-cartao"><div class="sala-ic">😕</div><h2>O vídeo não abriu neste computador</h2>
+      <p>Sem problema: <b>assista pelo projetor</b>, junto com a turma. O professor já foi avisado.</p>
+      <button type="button" class="btn btn-grande btn-ok" id="sala-tenta">🔁 Tentar de novo</button></div>`;
+    box.querySelector("#sala-tenta").onclick = () => { box.hidden = true; try { A.player && A.player.destroy && A.player.destroy(); } catch (e) {} A.player = null; A.vidAtual = null; A.criando = false; const d = ativo(); if (d) iniciarMidia(d); };
+    box.hidden = false; gravar({ falhou: String(motivo) }, true);
+  }
   function sincronizar() {
     const d = ativo(), p = A.player; if (!d || d.modo !== "video" || !p || !p.getCurrentTime) return;
     try {
       if (p.isMuted && !p.isMuted()) p.mute();
       const cur = p.getCurrentTime(), exp = esperado(d), st = p.getPlayerState();
-      A.dlg.querySelector(".sala-fim").hidden = d.estado !== "fim";
+      A.dlg.querySelector(".sala-fim:not(.sala-pausa)").hidden = d.estado !== "fim";
+      A.dlg.querySelector(".sala-pausa").hidden = !(d.estado === "pause" && (d.pos || 0) < 1);   // antes do play, o 1º quadro do vídeo é preto: explica que vai começar
       if (d.estado === "play") { if (st !== 1 && st !== 3) p.playVideo(); if (Math.abs(cur - exp) > 0.4) p.seekTo(exp, true); }
       else { if (st === 1 || st === 3) p.pauseVideo(); if (d.estado !== "fim" && Math.abs(cur - exp) > 0.3) p.seekTo(exp, true); }
     } catch (e) {}
@@ -170,7 +187,7 @@
     if (r && r.sessao === d.sessao && r.n === pc.__n) pc.setRemoteDescription({ type: "answer", sdp: r.sdp }).catch(() => {});
   }
   function encerrar() {
-    clearInterval(A.iv); clearInterval(A.hb); A.iv = A.hb = null;
+    clearInterval(A.iv); clearInterval(A.hb); clearTimeout(A.vigia); A.iv = A.hb = null; A.criando = false; A.pronto = false;
     try { A.player && A.player.destroy && A.player.destroy(); } catch (e) {} A.player = null; A.vidAtual = null;
     try { A.pc && A.pc.close(); } catch (e) {} A.pc = null;
     if (A.dlg) { if (document.fullscreenElement === A.dlg) document.exitFullscreen().catch(() => {}); A.dlg.remove(); A.dlg = null; }
@@ -244,11 +261,12 @@
   async function pintarStatus() {
     const el = document.querySelectorAll(".sala-status"); if (!el.length) return;
     const vivos = PR.pres.filter(d => Date.now() - (d.em || 0) < 45000 || d.fora);
-    const fora = vivos.filter(d => d.fora);
-    const nomesFora = await Promise.all(fora.map(d => nome(d.alunoId)));
+    const fora = vivos.filter(d => d.fora), semVid = vivos.filter(d => d.falhou);
+    const nomesFora = await Promise.all(fora.map(d => nome(d.alunoId))), nomesSem = await Promise.all(semVid.map(d => nome(d.alunoId)));
     const conectados = PR.stream ? Object.values(PR.pcs).filter(pc => pc.connectionState === "connected").length : null;
     const html = `👥 <b>${vivos.length}</b> ${vivos.length === 1 ? "aluno assistindo" : "alunos assistindo"}${conectados != null ? ` · 🔗 ${conectados} recebendo a sua tela` : ""}`
-      + (fora.length ? ` · <span class="sala-st-fora">⚠️ Saiu da tela cheia: ${nomesFora.map(esc).join(", ")}</span>` : "");
+      + (fora.length ? ` · <span class="sala-st-fora">⚠️ Saiu da tela cheia: ${nomesFora.map(esc).join(", ")}</span>` : "")
+      + (semVid.length ? ` · <span class="sala-st-fora">😕 O vídeo não abriu para: ${nomesSem.map(esc).join(", ")} (estão vendo pelo projetor)</span>` : "");
     el.forEach(e => { e.innerHTML = html; });
   }
   async function atenderOferta(aid, of) {

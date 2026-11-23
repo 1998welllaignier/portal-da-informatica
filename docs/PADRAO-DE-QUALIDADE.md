@@ -508,6 +508,11 @@ Questões **contextualizadas** (situação curta: 1–2 frases no 6º, 2–3 no 
 - **2 telas:** a própria tela do placar vira o telão, com a faixa de controles embaixo (só na tela do professor).
 - **Registro automático:** ao terminar, a aula do dia no Diário ganha `leituraGuiada` (trechos, quem leu, perguntas e acertos) e uma linha no "📝 Registro das aulas"; o **relatório da família** mostra "📖 Leitura guiada com a turma: 🎤 leu em voz alta o trecho N; acertou X de Y perguntas relâmpago".
 
+## 🩺 Vídeo em sincronia sem tela preta (23/11/2026, problema na aula)
+- Se o vídeo não abrir em 15 s num computador (API do YouTube não carregou, erro do player), o aluno vê **"😕 O vídeo não abriu neste computador · assista pelo projetor"** com **🔁 Tentar de novo**, em vez da tela preta travada; o professor vê na barra do vídeo **"😕 O vídeo não abriu para: <nomes>"**.
+- Antes do play, aparece **"⏸ Tudo pronto! O vídeo começa quando o professor der o play"** (o 1º quadro dos vídeos é preto, parecia defeito).
+- Um player só por computador (antes, avisos seguidos podiam criar dois players ao mesmo tempo).
+
 ## 🧰 Ferramentas da aula numa barra só (23/11/2026, pedido do professor)
 - Na aba 🎤 Aula, todas as ferramentas do momento da aula ficam **juntas numa barra escura logo abaixo da turma**, que **fica presa no alto** enquanto ele rola o roteiro: 📺 Vídeo da missão, 📖 Leitura guiada, 🎡 Roleta, 🖥️ Mostrar minha tela, ⬜ Quadro, 📡 Vídeo nos computadores, 🧩 Apoios e casa, e a escolha **Telas: 2 | 3**.
 - Ação rápida = um toque. O que é grande (vídeo, transmitir, apoios) abre numa **gaveta** embaixo da barra, uma de cada vez, com ✕ Fechar; fechar a gaveta para o vídeo.
