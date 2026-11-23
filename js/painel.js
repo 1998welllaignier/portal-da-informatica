@@ -1951,7 +1951,7 @@
   let familiaRelogio = null;
   function vigiarFamilias() { if (familiaRelogio) return; lembrarFamilias().catch(() => {}); familiaRelogio = setInterval(() => lembrarFamilias().catch(() => {}), 60000); }
   async function mostrarAvisos(op = {}) {
-    if (op.manual && document.querySelector(".pp-avisos")) return;
+    if (op.manual && document.querySelector("dialog.pp-avisos[open]")) return;   // 23/11/2026: antes pegava também o quadro "🗣️ Para falar à turma" da aba Aula (mesma classe) e o 🔔 não abria
     const hoje = N.hoje(), d0 = new Date(hoje + "T12:00:00"), ano = d0.getFullYear(), dif = d => Math.round((new Date(d + "T12:00:00") - d0) / 864e5);
     const TIPO = { feriado: "feriado", facultativo: "ponto facultativo", data: "data comemorativa" };
     const lista = [];
