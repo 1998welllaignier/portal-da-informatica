@@ -91,17 +91,17 @@
   function htmlFase(d, T, quem) {   // quem: "aluno" | "telao" | "previa"
     const n = d.n || T.lista.length, i = Math.min(d.idx || 0, n - 1), cab = `<div class="lg-cab"><span class="lg-selo">📖 Leitura guiada</span><b>${esc(T.icone || "")} ${esc(semTags(T.titulo || ""))}</b><span class="lg-pos">${d.fase === "espera" ? "⏳ Já vai começar" : d.fase === "video" ? "🎬 Vídeo" : `Trecho ${i + 1} de ${n}`}</span></div>`;
     // ⏳ 23/11/2026 (pedido do professor): ao abrir a leitura guiada, primeiro a sala de espera; ele vê quantos entraram e escolhe começar pelo texto ou pelo vídeo
-    if (d.fase === "espera") { const e = d.espera || {}; return `${cab}<div class="lg-fim lg-espera"><p class="lg-grande">📖</p><h2>A leitura guiada já vai começar!</h2><p>${quem === "aluno" ? "✔ Você já está dentro. Olhe para o projetor e espere o professor." : "Entrem no portal e esperem o professor começar."}</p>${quem !== "aluno" && e.total ? `<p class="lg-esp-num">👥 <b>${e.on || 0}</b> de ${e.total} alunos já entraram</p>` : ""}</div>`; }
+    if (d.fase === "espera") { const e = d.espera || {}; return `${cab}<div class="lg-fim lg-espera"><p class="lg-grande">📖</p><h2>A leitura guiada já vai começar!</h2>${quem !== "aluno" && e.total ? `<p class="lg-esp-num">👥 <b>${e.on || 0}</b> de ${e.total} alunos já entraram</p>` : ""}</div>`; }
     if (d.fase === "video") return `${cab}<div class="lg-video">${quem === "telao" && d.video ? `<iframe src="https://www.youtube-nocookie.com/embed/${esc(d.video)}?rel=0&modestbranding=1&enablejsapi=1" allow="autoplay; encrypted-media; fullscreen" allowfullscreen title="Vídeo da missão"></iframe>`
-      : `<p class="lg-grande">🎬</p><h2>Olhe para o projetor!</h2><p>Vamos assistir ao vídeo da missão juntos. Depois, a gente lê o texto.</p>`}</div>`;
+      : `<p class="lg-grande">🎬</p><h2>Agora vamos ver um vídeo</h2>`}</div>`;
     const P2 = d.fase === "pergunta" || d.fase === "resposta" ? pergunta(T, i) : null;
     let faixa;
-    if (d.leitor) faixa = quem === "aluno" && d.souEu ? `<div class="lg-leitor eu">🎤 <b>É a sua vez de ler!</b> Leia em voz alta, com calma, para a turma.</div>` : `<div class="lg-leitor">📖 Lendo agora: <b>${esc(d.leitor.nome)}</b>${quem === "aluno" ? " · acompanhe com os olhos" : ""}${d.leu ? " ✔" : ""}</div>`;
-    else faixa = `<div class="lg-leitor sem">🎡 Quem vai ler este trecho? A roleta vai decidir…</div>`;
+    if (d.leitor) faixa = quem === "aluno" && d.souEu ? `<div class="lg-leitor eu">🎤 <b>É a sua vez de ler!</b></div>` : `<div class="lg-leitor">📖 Lendo agora: <b>${esc(d.leitor.nome)}</b>${d.leu ? " ✔" : ""}</div>`;
+    else faixa = `<div class="lg-leitor sem">🎡 Quem vai ler?</div>`;
     if (P2) {
       const st = d.stats || {}, rev = d.fase === "resposta", minha = d.minhaResp;
       return `${cab}<div class="lg-perg"><p class="lg-sup">🤔 Pergunta relâmpago</p><h2>${esc(P2.q)}</h2><div class="lg-ops">${P2.ops.map((o, k) => `<button type="button" class="lg-op${rev && k === P2.certa ? " certa" : ""}${rev && minha === k && k !== P2.certa ? " errada" : ""}${minha === k ? " minha" : ""}" data-op="${k}" ${quem !== "aluno" || rev || minha != null ? "disabled" : ""}><span>${"ABC"[k]}</span>${esc(o)}</button>`).join("")}</div>
-        <p class="lg-info">${rev ? (quem === "aluno" ? (minha == null ? "Você não respondeu a tempo." : minha === P2.certa ? `✅ Você acertou! <b>+${XP_PERGUNTA} XP</b>` : "❌ Não foi dessa vez. Veja a resposta certa em verde.") : `✅ <b>${st.acertos || 0}</b> de ${st.resp || 0} acertaram`) : quem === "aluno" ? (minha != null ? "✔ Resposta enviada! Aguarde o professor mostrar a certa." : "Toque na resposta certa.") : `✋ Responderam: <b>${st.resp || 0}</b> de ${st.total || 0}`}</p></div>`;
+        <p class="lg-info">${rev ? (quem === "aluno" ? (minha == null ? "Você não respondeu a tempo." : minha === P2.certa ? `✅ Você acertou! <b>+${XP_PERGUNTA} XP</b>` : "❌ Não foi dessa vez") : `✅ <b>${st.acertos || 0}</b> de ${st.resp || 0} acertaram`) : quem === "aluno" ? (minha != null ? "✔ Resposta enviada" : "") : `✋ Responderam: <b>${st.resp || 0}</b> de ${st.total || 0}`}</p></div>`;
     }
     return `${cab}${faixa}<div class="lg-texto leitura">${T.lista[i] || ""}</div>`;
   }
@@ -215,8 +215,8 @@
     if (modo === "3" && jan) moverParaProjetor(jan).then(s => { if (s && s.label) try { localStorage.setItem("portal:telaProjetor", s.label); } catch (e) {} });
     // 2 telas: esta própria tela vira o telão, com a faixa de controles embaixo (só aqui, os alunos não veem)
     const cx = h(`<div class="lgc ${modo === "2" ? "lgc-2" : "lgc-3"}" role="dialog" aria-label="Controles da leitura guiada">
-      ${modo === "2" ? `<div class="lg-quadro grande lgc-tela"></div>` : `<div class="lgc-topo"><h2>📖 Leitura guiada · ${esc(ctx.nomeTurma || t.id)}</h2><span class="lgc-dica">📽️ No projetor: a janela “telão”. ${jan ? "Se ela não foi sozinha para o projetor, arraste-a até lá e clique no botão de tela cheia nela." : "⚠️ O navegador bloqueou a janela do projetor: permita janelas (pop-ups) para este site e clique em 📽️ Abrir o telão."}</span></div>
-        <div class="lgc-corpo"><div class="lgc-esq"><p class="lgc-rot">O que o projetor e os alunos estão vendo:</p><div class="lg-quadro lgc-previa"></div></div><div class="lgc-dir"><p class="lgc-rot">📊 A turma agora</p><div class="lgc-rel"></div></div></div>`}
+      ${modo === "2" ? `<div class="lg-quadro grande lgc-tela"></div>` : `<div class="lgc-topo"><h2>📖 Leitura guiada · ${esc(ctx.nomeTurma || t.id)}</h2>${jan ? "" : `<span class="lgc-dica">⚠️ A janela do projetor foi bloqueada: permita pop-ups e clique em 📽️ Abrir o telão.</span>`}</div>
+        <div class="lgc-corpo"><div class="lgc-esq"><p class="lgc-rot">📽️ Projetor e alunos</p><div class="lg-quadro lgc-previa"></div></div><div class="lgc-dir"><p class="lgc-rot">📊 A turma agora</p><div class="lgc-rel"></div></div></div>`}
       <div class="lgc-barra"><div class="lgc-st"></div><div class="lgc-bts"></div></div></div>`);
     document.body.appendChild(cx);
     const tela = cx.querySelector(".lgc-tela, .lgc-previa"), bts = cx.querySelector(".lgc-bts"), st = cx.querySelector(".lgc-st"), rel = cx.querySelector(".lgc-rel");

@@ -508,6 +508,10 @@ Questões **contextualizadas** (situação curta: 1–2 frases no 6º, 2–3 no 
 - **2 telas:** a própria tela do placar vira o telão, com a faixa de controles embaixo (só na tela do professor).
 - **Registro automático:** ao terminar, a aula do dia no Diário ganha `leituraGuiada` (trechos, quem leu, perguntas e acertos) e uma linha no "📝 Registro das aulas"; o **relatório da família** mostra "📖 Leitura guiada com a turma: 🎤 leu em voz alta o trecho N; acertou X de Y perguntas relâmpago".
 
+## ✂️ Telas dos alunos só com o essencial (23/11/2026, pedido do professor)
+- Nada de explicação exagerada nem letrinha miúda nas telas que aparecem para a turma (leitura guiada e transmissão). Só o título do momento: "A leitura guiada já vai começar!", "Agora vamos ver um vídeo", "📺 Vídeo da turma", "🎤 É a sua vez de ler!", "📖 Lendo agora: <nome>", "🎡 Quem vai ler?", "⏸ Já vai começar", "🎬 Fim do vídeo". Botões curtos ("▶️ Assistir").
+- Vale para toda tela nova da turma: frase curta, sem instrução que o professor já dá falando.
+
 ## 🩺 Vídeo em sincronia sem tela preta (23/11/2026, problema na aula)
 - Se o vídeo não abrir em 15 s num computador (API do YouTube não carregou, erro do player), o aluno vê **"😕 O vídeo não abriu neste computador · assista pelo projetor"** com **🔁 Tentar de novo**, em vez da tela preta travada; o professor vê na barra do vídeo **"😕 O vídeo não abriu para: <nomes>"**.
 - Antes do play, aparece **"⏸ Tudo pronto! O vídeo começa quando o professor der o play"** (o 1º quadro dos vídeos é preto, parecia defeito).

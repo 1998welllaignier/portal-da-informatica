@@ -76,7 +76,7 @@
       A.dlg = document.createElement("dialog"); A.dlg.className = "sala-dlg"; A.dlg.setAttribute("aria-labelledby", "sala-txt");
       A.dlg.innerHTML = `<div class="sala-barra" role="status"><span class="sala-ao-vivo">● AO VIVO</span><span id="sala-txt"></span></div>
         <div class="sala-palco"><div class="sala-midia"></div><div class="sala-escudo" aria-hidden="true"></div>
-          <div class="sala-entrar"></div><div class="sala-saiu" hidden></div><div class="sala-falha" hidden></div><div class="sala-fim sala-pausa" hidden>⏸ Tudo pronto! O vídeo começa quando o professor der o play.</div><div class="sala-fim" hidden>🎬 Fim do vídeo! Aguarde: o professor vai liberar a tela.</div></div>`;
+          <div class="sala-entrar"></div><div class="sala-saiu" hidden></div><div class="sala-falha" hidden></div><div class="sala-fim sala-pausa" hidden>⏸ Já vai começar</div><div class="sala-fim" hidden>🎬 Fim do vídeo</div></div>`;
       A.dlg.addEventListener("cancel", e => e.preventDefault());
       // nada de teclado durante a transmissão (setas, espaço, Tab…); o Esc do navegador continua saindo da tela cheia
       A.dlg.addEventListener("keydown", e => { if (e.key !== "Escape") { e.preventDefault(); e.stopPropagation(); } }, true);
@@ -85,14 +85,13 @@
     }
     const video = d.modo === "video";
     A.dlg.querySelector("#sala-txt").innerHTML = d.modo === "quadro"
-      ? `<b>O professor está escrevendo no quadro para toda a sala. Preste atenção!</b> <span>🔒 A tela fica travada até o professor liberar</span>`
+      ? `<b>⬜ Quadro do professor</b>`
       : video
-      ? `<b>O professor está reproduzindo este vídeo para toda a sala. Preste atenção!</b> <span>🔊 O som sai nas caixinhas da sala · 🔒 a tela fica travada até o professor liberar</span>`
-      : `<b>O professor está compartilhando a tela dele com todos da sala. Preste atenção!</b> <span>🔒 A tela fica travada até o professor liberar</span>`;
+      ? `<b>📺 Vídeo da turma</b>`
+      : `<b>🖥️ Tela do professor</b>`;
     A.dlg.querySelector(".sala-entrar").innerHTML = `<div class="sala-cartao"><div class="sala-ic">${video ? "📺" : "🖥️"}</div>
-      <h2>${video ? "Hora de assistir ao vídeo junto com a turma!" : d.modo === "quadro" ? "O professor vai explicar no quadro para a sala toda" : "O professor vai mostrar a tela dele para a sala toda"}</h2>
-      <p>Clique no botão para entrar. A tela vai ficar <b>cheia e travada</b>: não dá para clicar nem sair até o professor liberar.</p>
-      <button type="button" class="btn btn-grande btn-ok" id="sala-ok">${video ? "▶️ Entrar para assistir" : "👀 Entrar para ver"}</button></div>`;
+      <h2>${video ? "Agora vamos ver um vídeo" : d.modo === "quadro" ? "Quadro do professor" : "Tela do professor"}</h2>
+      <button type="button" class="btn btn-grande btn-ok" id="sala-ok">${video ? "▶️ Assistir" : "👀 Ver"}</button></div>`;
     A.dlg.querySelector("#sala-ok").onclick = entrar;
     if (!A.dlg.open) A.dlg.showModal();
     const abertos = [...document.querySelectorAll("dialog[open]")];   // fica por cima de qualquer outra janela do portal
@@ -114,8 +113,7 @@
     const box = A.dlg.querySelector(".sala-saiu");
     if (fora && !A.fora) {
       gravar({ fora: true, saiuEm: Date.now(), saidas: { [hoje()]: firebase.firestore.FieldValue.increment(1) } }, true);
-      box.innerHTML = `<div class="sala-cartao sala-alerta"><div class="sala-ic">⛔</div><h2>O professor exige que você volte para a tela cheia para continuar na aula.</h2>
-        <p><b>O professor foi avisado de que você saiu da tela cheia.</b></p>
+      box.innerHTML = `<div class="sala-cartao sala-alerta"><div class="sala-ic">⛔</div><h2>Volte para a tela cheia</h2><p>O professor foi avisado.</p>
         <button type="button" class="btn btn-grande btn-ok" id="sala-volta">⛶ Voltar para a tela cheia</button></div>`;
       box.querySelector("#sala-volta").onclick = telaCheia;
     } else if (!fora && A.fora) gravar({ fora: false }, true);
@@ -150,8 +148,7 @@
   function falha(motivo) {
     const box = A.dlg && A.dlg.querySelector(".sala-falha"); if (!box) return;
     if (!motivo) { if (!box.hidden) { box.hidden = true; gravar({ falhou: null }, true); } return; }
-    box.innerHTML = `<div class="sala-cartao"><div class="sala-ic">😕</div><h2>O vídeo não abriu neste computador</h2>
-      <p>Sem problema: <b>assista pelo projetor</b>, junto com a turma. O professor já foi avisado.</p>
+    box.innerHTML = `<div class="sala-cartao"><div class="sala-ic">😕</div><h2>O vídeo não abriu aqui</h2><p>Assista pelo projetor.</p>
       <button type="button" class="btn btn-grande btn-ok" id="sala-tenta">🔁 Tentar de novo</button></div>`;
     box.querySelector("#sala-tenta").onclick = () => { box.hidden = true; try { A.player && A.player.destroy && A.player.destroy(); } catch (e) {} A.player = null; A.vidAtual = null; A.criando = false; const d = ativo(); if (d) iniciarMidia(d); };
     box.hidden = false; gravar({ falhou: String(motivo) }, true);
@@ -293,8 +290,7 @@
     PR.dlg.innerHTML = `<div class="sala-barra"><span class="sala-ao-vivo">● AO VIVO</span><span><b>Transmitindo para ${esc(rotulo || t)}:</b> ${esc(titulo || "vídeo")}</span>
         <span class="sala-status">👥 esperando os alunos entrarem…</span>
         <span class="sala-prof-bts"><button type="button" class="btn btn-sec" id="sp-cheia">⛶ Tela cheia</button><button type="button" class="btn btn-perigo" id="sp-fim">${esc(op.fim || "⏹ Encerrar e liberar a turma")}</button></span></div>
-      <div class="sala-prof-palco"><div id="sala-prof-yt"></div></div>
-      <p class="sala-prof-dica">Dê o ▶️ aqui quando a turma estiver pronta: todos começam juntos. Pausar e pular também vale para todos. O som sai só deste computador (caixinhas).</p>`;
+      <div class="sala-prof-palco"><div id="sala-prof-yt"></div></div>`;
     document.body.appendChild(PR.dlg); document.body.classList.add("sala-prof-aberta");
     PR.dlg.querySelector("#sp-fim").onclick = async () => { document.body.classList.remove("sala-prof-aberta"); await pararProf(op.aviso); if (op.aoFim) try { op.aoFim(); } catch (e) { console.warn(e); } };
     PR.dlg.querySelector("#sp-cheia").onclick = () => { const e = PR.dlg; document.fullscreenElement ? document.exitFullscreen().catch(() => {}) : e.requestFullscreen && e.requestFullscreen().catch(() => {}); };
