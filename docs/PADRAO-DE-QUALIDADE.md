@@ -88,6 +88,13 @@ Detalhes técnicos: `AGENTS.md` (checklist do bimestre), `docs/PADRAO-ATIVIDADES
 > 🖥️ **Regra de ouro 5 — Simulador primeiro, computador de verdade só em último caso (definida pelo professor em 20/11/2026)**
 > O que a BNCC pede ou exige de prática no computador é ensinado nos **simuladores ultrarrealistas do portal**, com **correção automática** (o professor não precisa conferir aluno por aluno) e em tela cheia. Tarefa no computador de verdade (sair do portal → checklist → voltar) só existe quando **nenhum simulador consegue fazer o papel**; antes disso, o Claude cria no simulador a função que faltar, com o mesmo realismo do Windows 10/11.
 
+
+## 🛡️ REGRA DE OURO: consertar uma coisa sem bagunçar outra (24/11/2026, pedido do professor, atenção dobrada)
+- Antes de mexer: entender **tudo o que depende** daquele trecho (quem chama a função, que telas usam o dado) e dizer ao professor o que mais a mudança afeta.
+- Mudança **pequena e no lugar certo**: corrigir a causa, sem "aproveitar" para mexer no que está funcionando.
+- **Antes de publicar, sempre:** `node --check` nos arquivos, os roteiros da turma simulada (`ferramentas/aula-simulada/`) e os verificadores ligados ao que mudou (**teste de regressão**: conferir que o que já funcionava continua funcionando). Se algo não puder ser testado aqui, avisar o professor o que conferir na sala.
+- No relato ao professor: o que mudou, o que **não** mudou e o que foi testado.
+
 ## 1. Conteúdo da apostila (cada missão)
 - 💡 Para começar · 📖 O que significa? · 🌎 Onde eu uso isso? · 🎮 Mão na massa · 🟢 Básico · 🟡 Desafio · 🔴 Turbo · ✅ Perguntas rápidas · 🧠 Resumo.
 - **Aluno resolve sozinho:** toda resposta está escrita na apostila; o professor é apoio, não peça principal (`verificar_autonomia.js` = 0 / 0).
