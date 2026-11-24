@@ -2885,3 +2885,7 @@ body.pc-mini .pc-palco-prof, body.pc-mini .pc-lado, body.pc-mini .pc-fab, body.p
 .inicio-jogo .vc-btn { white-space: nowrap; }
 @media (max-width: 760px) { .inicio-jogo .vc { grid-template-columns: 1fr; } .inicio-jogo .vc-mini { max-width: 100%; } }
 .lib-tempo-bts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 10px 0; } .lib-tempo-bts .btn:nth-child(n+4) { grid-column: span 3; }
+.lib-missao .lib-m { display: grid; grid-template-columns: 30px 1fr; gap: 0 8px; width: 100%; text-align: left; margin: 6px 0; align-items: center; }
+.lib-m-sit { grid-row: span 2; font-size: 1.3rem; text-align: center; } .lib-m small { font-weight: 400; opacity: .8; }
+.lib-todas { width: 100%; margin: 8px 0; } .lib-sug-t { margin: 10px 0 0; font-weight: 700; font-size: .9rem; }
+.lib-lista summary { cursor: pointer; font-weight: 700; padding: 6px 0; } .lib-ms { max-height: 46vh; overflow: auto; padding-right: 4px; }

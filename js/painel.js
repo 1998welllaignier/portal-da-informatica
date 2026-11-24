@@ -1266,14 +1266,31 @@
                   ((P.conteudo[apx.id] || {}).missoes || []).filter(m => m.id !== "rc").forEach(m => {
                     if (lista.some(z => z.id === m.id)) return;
                     const t = (m.titulo || "").replace(/^[^–]*–\s*/, "");
-                    lista.push({ id: m.id, t: apx.especial ? "⭐ Aula especial – " + t : SIG(m.id) + " · " + t });
+                    lista.push({ id: m.id, aid: apx.base || apx.id, esp: !!apx.especial, ic: m.icone || "", t: apx.especial ? "⭐ Aula especial – " + t : SIG(m.id) + " · " + t });
                   });
                 }
               } catch (e) {}
-              const r = await P.perguntar(`Qual missão ${a.nome} vai fazer? Ele só consegue abrir as tarefas dela (e as da missão de hoje da turma).\n${lista.map((m, i) => (i + 1) + ") " + m.t).join("\n")}\nDigite só o número da lista (ex.: 1). Deixe em branco para liberar todas.`, "");
+              // 🎯 escolher a missão por BOTÕES (24/11/2026, pedido do professor): todas · ⭐ sugerida (a 1ª que ele não terminou) ·
+              //    📌 a missão de hoje da turma · cada botão mostra ✔ feita, ◐ começou, ○ não começou
+              const prog = m => (pm[a.id] || []).find(q => (q.aid === m.aid || (cat().apostilas.find(y => y.id === q.aid) || {}).base === m.aid) && q.mid === m.id);
+              const sit = m => { const q = prog(m); return !q ? ["○", "não começou"] : q.basicoOk ? ["✔", "terminou o Básico"] : ["◐", `começou (${(q.basico || [0, 0])[0]}/${(q.basico || [0, 0])[1]})`]; };
+              let midHoje = ""; try { const sh = await db().collection("config").doc("hoje_" + a.turma).get(); midHoje = (sh.exists && sh.data().mid) || ""; } catch (e) {}
+              const sug = lista.find(m => !m.esp && !(prog(m) || {}).basicoOk);
+              const r = await new Promise(res => {
+                const dl = document.createElement("dialog"); dl.className = "pp-dlg lib-missao";
+                const bt = (m, extra) => { const [ic, txt] = sit(m); return `<button type="button" class="btn ${m === sug ? "btn-ok" : "btn-sec"} lib-m" data-m="${esc(m.id)}"><span class="lib-m-sit" title="${esc(txt)}">${ic}</span><span class="lib-m-t">${esc(m.ic)} ${esc(m.t)}${extra || ""}</span><small>${esc(txt)}</small></button>`; };
+                const normais = lista.filter(m => !m.esp), esps = lista.filter(m => m.esp);
+                dl.innerHTML = `<h2>🎯 Qual missão ${esc(a.nome)} vai fazer?</h2><p class="ajuda">O aluno só abre as tarefas da missão escolhida (e as da missão de hoje da turma).</p>
+                  ${sug ? `<p class="lib-sug-t">⭐ Sugerida: a primeira que ainda não foi terminada</p>${bt(sug, midHoje === sug.id ? " · 📌 hoje" : "")}` : ""}
+                  <button type="button" class="btn lib-todas" data-m="*">🔓 Todas as missões</button>
+                  <details class="lib-lista" ${sug ? "" : "open"}><summary>📚 Escolher outra missão (${normais.length + esps.length})</summary>
+                    <div class="lib-ms">${normais.filter(m => m !== sug).map(m => bt(m, midHoje === m.id ? " · 📌 hoje" : "")).join("")}${esps.length ? `<p class="lib-sug-t">⭐ Aulas especiais</p>${esps.map(m => bt(m)).join("")}` : ""}</div></details>
+                  <div class="row-btns"><button type="button" class="btn btn-sec" data-m="x">Cancelar</button></div>`;
+                document.body.appendChild(dl); let v = null; dl.addEventListener("close", () => { dl.remove(); res(v); });
+                dl.querySelectorAll("[data-m]").forEach(b2 => b2.onclick = () => { v = b2.dataset.m === "x" ? null : b2.dataset.m; dl.close(); }); dl.showModal();
+              });
               if (r === null) return;
-              const n = String(r).trim().toLowerCase();
-              if (n) { const mm = /^\d+$/.test(n) ? lista[+n - 1] : lista.find(m => m.id.toLowerCase() === n); if (!mm) { await P.aviso(`Número não encontrado. Digite só o número da lista, de 1 a ${lista.length}.`); return; } ms = mm.id; }
+              if (r !== "*") ms = r;
             }
             await db().collection("config").doc("liberar_" + a.turma).set({ alunos: { [a.id]: +d > 0 ? fim.getTime() : 0 }, alunosMissao: { [a.id]: ms } }, { merge: true });
             await P.aviso(+d > 0 ? `Pronto! ${a.nome} pode fazer ${ms ? "só: " + ((lista.find(m => m.id === ms) || {}).t || SIG(ms)) + " (e a missão de hoje da turma)" : "as tarefas de todas as missões"} ${ateTxt}. Depois disso, a liberação acaba sozinha.` : "Liberação retirada."); dlg.close(); return;
