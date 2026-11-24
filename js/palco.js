@@ -421,6 +421,18 @@
       if (!m) { P.aviso ? P.aviso("Não reconheci esse link. Copie o endereço do vídeo no YouTube (ex.: https://youtu.be/…) e tente de novo.") : null; return; }
       ir("video", { vid: m[1], nome: "Vídeo do YouTube" });
     }
+    /* ---- 📚 vídeo de outra missão da mesma apostila (23/11/2026, pedido do professor) ---- */
+    function outraMissao() {
+      const base = (P.apostila && P.apostila(aid) && P.apostila(aid).base) || aid, tudo = (P.videosMissao || {})[base] || {}, C = (P.conteudo || {})[aid] || (P.conteudo || {})[base];
+      const tit = m => { const x = C && C.missoes.find(y => y.id === m); return x ? `${x.icone || ""} ${x.titulo || m}` : m.toUpperCase(); };
+      const lista = Object.entries(tudo).flatMap(([m, v]) => (Array.isArray(v) ? v : [v]).filter(x => x && /^[\w-]{11}$/.test(x.id || x)).map((x, k) => ({ m, id: x.id || x, nome: x.nome || (k ? "vídeo extra (passo a passo)" : "vídeo da missão") })));
+      if (!lista.length) { P.aviso && P.aviso("Esta apostila ainda não tem vídeos cadastrados."); return; }
+      const dl = h(`<dialog class="pp-dlg pc-lista-v"><h2>📚 Vídeos desta apostila</h2><p class="ajuda">Toque num vídeo: ele passa em sincronia no projetor e nos computadores.</p>
+        <div class="pc-lv">${lista.map((v, i) => `<button type="button" class="btn ${v.m === mid ? "btn-ok" : "btn-sec"}" data-i="${i}">${esc(tit(v.m))}<small> · ${esc(v.nome)}${v.m === mid ? " (missão de hoje)" : ""}</small></button>`).join("")}</div>
+        <form method="dialog" class="row-btns"><button class="btn">Cancelar</button></form></dialog>`);
+      document.body.appendChild(dl); dl.addEventListener("close", () => dl.remove()); dl.showModal();
+      dl.querySelectorAll("[data-i]").forEach(b => b.onclick = () => { const v = lista[+b.dataset.i]; dl.close(); ir("video", { vid: v.id, nome: tit(v.m).replace(/^\S+\s/, "") + " · " + v.nome }); });
+    }
     /* ---- ⬇ ir ao painel sem encerrar: os alunos continuam onde estão (sala de espera, slide ou vídeo) ---- */
     let mini = false, pilula = null;
     function minimizar() {
@@ -453,6 +465,7 @@
         B.push(["pc-g pc-azul", "📖 Começar pela leitura", () => ir("leitura")]);
         if (vids.length > 1) vids.slice(1).forEach(v => B.push(["", "🎬 " + v.nome, () => ir("video", { vid: v.id })]));
         B.push(["pc-g pc-largada", "🏁 Dar a largada", largada, "Cada aluno vai para a missão, no próprio ritmo"]);
+        B.push(["", "📚 Vídeo de outra missão", outraMissao, "Todos os vídeos desta apostila, de qualquer missão"]);
         B.push(["", "🔗 Outro vídeo (colar link do YouTube)", colarLink, "Qualquer vídeo do YouTube, em sincronia em todos os computadores"]);
         if (doisTelas) B.push(["", "📽️ Abrir a janela do projetor", garantirTelao]);
         B.push(["pc-mini", "⬇ Ir ao painel (os alunos continuam esperando)", minimizar, "Para ver códigos, chamada etc. Volte pelo botão 🎤 no alto da tela"]);
@@ -464,6 +477,7 @@
         B.push(["", "⏮ Voltar ao início (pausado)", () => remoto("inicio")]);
         if (doisTelas) B.push(["", "📽️ Abrir a janela do projetor", garantirTelao]);
         B.push(["pc-azul", "📖 Ir para a leitura", () => ir("leitura")]);
+        B.push(["", "📚 Vídeo de outra missão", outraMissao]);
         B.push(["", "🔗 Trocar por outro link", colarLink]);
         B.push(["pc-mini", "⬇ Ir ao painel", minimizar, "O vídeo continua; volte pelo botão 🎤 no alto da tela"]);
         B.push(["pc-sai", "✕ Fechar o vídeo (volta à sala de espera)", () => ir("espera")]);

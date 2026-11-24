@@ -2818,3 +2818,4 @@ body.pc-mini .pc-palco-prof, body.pc-mini .pc-lado, body.pc-mini .pc-fab, body.p
 .pc-escudo { position: absolute; inset: 0; z-index: 2; }
 .pc-so-olhe { position: fixed; left: 50%; top: 46px; transform: translate(-50%, -10px); z-index: 10065; background: #111827; color: #fff; padding: 10px 18px; border-radius: 999px; font-size: 18px; opacity: 0; transition: .25s; pointer-events: none; }
 .pc-so-olhe.on { opacity: 1; transform: translate(-50%, 0); }
+.pc-lv { display: grid; gap: 6px; max-height: 60vh; overflow: auto; } .pc-lv .btn { text-align: left; } .pc-lv small { font-weight: 400; opacity: .8; }
