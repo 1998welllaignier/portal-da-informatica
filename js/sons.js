@@ -67,8 +67,13 @@
     // 🎡 roleta: o "clec" de cada fatia que passa no ponteiro, e a festa quando para
     clec() { abafa(1500); if (!pronto()) return; ruido(0, 0.03, 0.35, 3200); nota(hz(96), 0, 0.025, 0.05, "square"); },
     // 🥁 "tan-dam!" curtinho (≈1 s): resultado da pergunta relâmpago (23/11/2026, pedido do professor: mais curto que a comemoração do pódio)
-    tandam() { abafa(1800); if (!pronto()) return; nota(hz(67), 0, 0.14, 0.11, "square"); ruido(0, 0.05, 0.12, 1200);
-      [72, 76, 79].forEach(m => nota(hz(m), 0.2, 0.75, 0.08, "square")); nota(hz(48), 0.2, 0.75, 0.12, "triangle"); ruido(0.2, 0.08, 0.18, 3500); },
+    // 🎮 "tan-dam!" da pergunta relâmpago (23/11/2026, escolhido pelo professor: a versão 2 "videogame", ≈1,6 s):
+    // escadinha 8 bits + "tan… DAM!" com brilho no agudo. Mais curto que a comemoração do pódio.
+    tandam() { abafa(2600); if (!pronto()) return; const sq = (m, t, d, v) => nota(hz(m), t, d, v || 0.1, "square");
+      [67, 71, 74, 79].forEach((m, i) => sq(m, i * 0.065, 0.09, 0.09));            // tu-ru-ru-rum (sobe)
+      sq(74, 0.34, 0.12, 0.11); nota(hz(43), 0.34, 0.12, 0.12, "triangle"); ruido(0.34, 0.05, 0.12, 1200);   // tan…
+      [79, 83, 86].forEach(m => sq(m, 0.56, 0.95, 0.07)); nota(hz(43), 0.56, 0.95, 0.13, "triangle"); ruido(0.56, 0.1, 0.18, 3800);   // DAM!
+      for (let i = 0; i < 8; i++) sq(i % 2 ? 91 : 88, 0.62 + i * 0.07, 0.07, 0.04); },   // brilho no agudo
     sorteado() { abafa(5500); if (!pronto()) return; const d = tcharam(0); estalos(0.3, d); }
   };
   P.sons = S;
