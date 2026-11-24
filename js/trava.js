@@ -114,8 +114,9 @@
           if (pm && pm.ini && hoje < pm.ini) return { aberta: false, casaFutura: pm.ini, ini, lim }; }
         return { aberta: true, casa: true, ini: ini || 0, lim, videoVisto: !!(mid && (cd.videos || {})[mid]) };
       }
-      if ((g.travaHorario || modoAula) && lib.fechadaAte && ms < lib.fechadaAte) return { aberta: false, fechada: true };
       // liberado só para ele: se o professor escolheu a missão, só ela (e a missão de hoje da turma) abre (12/11/2026)
+      // 24/11/2026 (aluno liberado continuava bloqueado): a liberação individual vem ANTES da turma "🔒 fechada"
+      // (aula finalizada), da sala de espera e da aula não iniciada — o professor liberou ESTE aluno de propósito
       const lib1 = ids.filter(id => ((lib.alunos || {})[id] || 0) > ms);
       if (lib1.length) {
         const so = lib1.map(id => (lib.alunosMissao || {})[id]).filter(Boolean);
@@ -123,6 +124,7 @@
         if (!mid || so.includes(mid) || (h && h.mid === mid)) return { aberta: true };
         return { aberta: false, so: so[0], hoje: h && h.travar ? h : null };
       }
+      if ((g.travaHorario || modoAula) && lib.fechadaAte && ms < lib.fechadaAte) return { aberta: false, fechada: true };
       if (modoAula) {
         if (lib.ate && ms < lib.ate) return { aberta: true };
         const iniciada = h && h.iniciadaDia === N().hoje();
