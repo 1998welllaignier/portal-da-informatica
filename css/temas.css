@@ -1,6 +1,6 @@
 /* 🎉 Temas das datas comemorativas (js/temas.js). Usado pelo portal e pela página inicial (professorwell.com.br). */
 /* 🎄 TEMA DE NATAL (1º/12 a 06/01; js/temas.js) — só enfeites, sem mudar a leitura */
-.tema-natal .topbar { background: linear-gradient(90deg, #7f1d1d, #14532d 55%, #7f1d1d); border-bottom: 3px solid #facc15; }
+.tema-natal .topbar { background: linear-gradient(90deg, #7f1d1dd6, #14532dd6 55%, #7f1d1dd6); border-bottom: 3px solid #facc15; }
 .tema-natal .topbar::after, .tema-natal .topbar::before { content: ""; position: absolute; left: 0; right: 0; bottom: -12px; height: 14px; pointer-events: none; z-index: 1;
   background-repeat: repeat-x; background-size: 56px 14px; }
 .tema-natal .topbar::before { background-image: radial-gradient(circle at 14px 8px, #ef4444 0 4.5px, transparent 5px), radial-gradient(circle at 42px 8px, #22c55e 0 4.5px, transparent 5px); animation: tm-pisca 1.4s steps(1) infinite; }
@@ -58,36 +58,36 @@ body.modo-placar .tm-faixa { display: none; }
 @media (prefers-reduced-motion: reduce) { .tm-sino, .tm-chama, .tm-sol, .tm-balao, .tm-pipa, .tm-mola, .tm-orelha { animation: none; } }
 /* cores de cada tema: --tm1 (borda da faixa), --tm2 (linha embaixo da barra de cima), barra de cima e placar */
 .tema-carnaval { --tm1: #a855f7; --tm2: #facc15; --tm-placar: radial-gradient(circle at 20% 0%, #6d28d9, #2e1065 60%, #831843); }
-.tema-carnaval .topbar { background: linear-gradient(90deg, #6d28d9, #be185d, #15803d); }
+.tema-carnaval .topbar { background: linear-gradient(90deg, #6d28d9d6, #be185dd6, #15803dd6); }
 .tema-carnaval .topbar::after { content: ""; position: absolute; left: 0; right: 0; bottom: -10px; height: 10px; pointer-events: none; background: repeating-linear-gradient(90deg, #facc15 0 14px, #22c55e 14px 28px, #ec4899 28px 42px, #3b82f6 42px 56px); clip-path: polygon(0 0, 100% 0, 100% 40%, 0 100%); }
 .tema-pascoa { --tm1: #a78bfa; --tm2: #fbcfe8; --tm-placar: radial-gradient(circle at 20% 0%, #7c3aed, #3b0764 70%); }
-.tema-pascoa .topbar { background: linear-gradient(90deg, #7c3aed, #a78bfa 50%, #f472b6); }
+.tema-pascoa .topbar { background: linear-gradient(90deg, #7c3aedd6, #a78bfad6 50%, #f472b6d6); }
 .tema-indigenas { --tm1: #c2410c; --tm2: #f59e0b; --tm-placar: radial-gradient(circle at 20% 0%, #9a3412, #1c1917 65%, #14532d); }
-.tema-indigenas .topbar { background: linear-gradient(90deg, #7c2d12, #9a3412 40%, #14532d); }
+.tema-indigenas .topbar { background: linear-gradient(90deg, #7c2d12d6, #9a3412d6 40%, #14532dd6); }
 .tema-indigenas .topbar::after { content: ""; position: absolute; left: 0; right: 0; bottom: -12px; height: 12px; pointer-events: none; background: linear-gradient(135deg, #f59e0b 25%, transparent 25%) -6px 0 / 12px 12px, linear-gradient(225deg, #f59e0b 25%, transparent 25%) -6px 0 / 12px 12px, #1c1917; }
 /* cores da bandeira de Curionópolis: dourado, verde e branco (marrom e amarelo do brasão como apoio) */
 .tema-curionopolis { --tm1: #025f32; --tm2: #dfc15a; --tm-placar: radial-gradient(circle at 20% 0%, #037a40, #01311a 60%, #5c2e26); }
-.tema-curionopolis .topbar { background: linear-gradient(90deg, #025f32, #03703b 55%, #8a6d12); }
+.tema-curionopolis .topbar { background: linear-gradient(90deg, #025f32d6, #03703bd6 55%, #8a6d12d6); }
 .tema-curionopolis .topbar::after { content: ""; position: absolute; left: 0; right: 0; bottom: -12px; height: 12px; pointer-events: none;
   background: linear-gradient(90deg, #dfc15a 0 36%, #fff 36% 38%, #025f32 38% 40.5%, #fff 40.5% 59.5%, #025f32 59.5% 62%, #fff 62% 64%, #dfc15a 64%); }
 .tema-junina { --tm1: #ea580c; --tm2: #facc15; --tm-placar: radial-gradient(circle at 20% 0%, #9a3412, #1c0f05 65%); }
-.tema-junina .topbar { background: linear-gradient(90deg, #9a3412, #c2410c 50%, #92400e); }
+.tema-junina .topbar { background: linear-gradient(90deg, #9a3412d6, #c2410cd6 50%, #92400ed6); }
 .tema-junina .topbar::after { content: ""; position: absolute; left: 0; right: 0; bottom: -22px; height: 22px; pointer-events: none; background: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22150%22%20height%3D%2222%22%3E%3Cpath%20d%3D%22M0%202%20Q75%206%20150%202%22%20stroke%3D%22%2378350f%22%20stroke-width%3D%222%22%20fill%3D%22none%22/%3E%3Cpath%20d%3D%22M0%202%20L30%202%20L15%2020%20Z%22%20fill%3D%22%23ef4444%22/%3E%3Cpath%20d%3D%22M30%202%20L60%202%20L45%2020%20Z%22%20fill%3D%22%2322c55e%22/%3E%3Cpath%20d%3D%22M60%202%20L90%202%20L75%2020%20Z%22%20fill%3D%22%233b82f6%22/%3E%3Cpath%20d%3D%22M90%202%20L120%202%20L105%2020%20Z%22%20fill%3D%22%23facc15%22/%3E%3Cpath%20d%3D%22M120%202%20L150%202%20L135%2020%20Z%22%20fill%3D%22%23ec4899%22/%3E%3C/svg%3E") repeat-x; }
 .tema-folclore { --tm1: #16a34a; --tm2: #84cc16; --tm-placar: radial-gradient(circle at 20% 0%, #15803d, #052e16 65%); }
-.tema-folclore .topbar { background: linear-gradient(90deg, #14532d, #15803d 50%, #4d7c0f); }
+.tema-folclore .topbar { background: linear-gradient(90deg, #14532dd6, #15803dd6 50%, #4d7c0fd6); }
 .tema-patria { --tm1: #16a34a; --tm2: #facc15; --tm-placar: radial-gradient(circle at 20% 0%, #15803d, #052e16 55%, #1e3a8a); }
-.tema-patria .topbar { background: linear-gradient(90deg, #15803d, #16a34a 55%, #1d4ed8); }
+.tema-patria .topbar { background: linear-gradient(90deg, #15803dd6, #16a34ad6 55%, #1d4ed8d6); }
 .tema-patria .topbar::after { content: ""; position: absolute; left: 0; right: 0; bottom: -8px; height: 8px; pointer-events: none; background: repeating-linear-gradient(90deg, #16a34a 0 24px, #facc15 24px 48px); }
 .tema-criancas { --tm1: #f43f5e; --tm2: #22c55e; --tm-placar: radial-gradient(circle at 20% 0%, #0ea5e9, #1e1b4b 65%); }
-.tema-criancas .topbar { background: linear-gradient(90deg, #ef4444, #f97316, #eab308, #22c55e, #3b82f6, #8b5cf6); }
+.tema-criancas .topbar { background: linear-gradient(90deg, #ef4444d6, #f97316d6, #eab308d6, #22c55ed6, #3b82f6d6, #8b5cf6d6); }
 .tema-professor { --tm1: #dc2626; --tm2: #16a34a; --tm-placar: radial-gradient(circle at 20% 0%, #1e40af, #0f172a 65%); }
-.tema-professor .topbar { background: linear-gradient(90deg, #1e3a8a, #1d4ed8 60%, #b91c1c); }
+.tema-professor .topbar { background: linear-gradient(90deg, #1e3a8ad6, #1d4ed8d6 60%, #b91c1cd6); }
 .tema-consciencia { --tm1: #b45309; --tm2: #facc15; --tm-placar: radial-gradient(circle at 20% 0%, #78350f, #0c0a09 65%); }
-.tema-consciencia .topbar { background: linear-gradient(90deg, #0c0a09, #292524 60%, #78350f); }
+.tema-consciencia .topbar { background: linear-gradient(90deg, #0c0a09d6, #292524d6 60%, #78350fd6); }
 .tema-consciencia .topbar::after { content: ""; position: absolute; left: 0; right: 0; bottom: -10px; height: 10px; pointer-events: none; background: repeating-linear-gradient(90deg, #b91c1c 0 20px, #facc15 20px 40px, #15803d 40px 60px, #0c0a09 60px 66px); }
 /* padroeira: azul-celeste e branco (como a igreja matriz) com dourado (brasão da paróquia) */
 .tema-padroeira { --tm1: #0284c7; --tm2: #eab308; --tm-placar: radial-gradient(circle at 20% 0%, #0284c7, #0c2a4d 65%); }
-.tema-padroeira .topbar { background: linear-gradient(90deg, #0c4a6e, #0284c7 55%, #7dd3fc); }
+.tema-padroeira .topbar { background: linear-gradient(90deg, #0c4a6ed6, #0284c7d6 55%, #7dd3fcd6); }
 .tema-padroeira .topbar::after { content: ""; position: absolute; left: 0; right: 0; bottom: -8px; height: 8px; pointer-events: none; background: repeating-linear-gradient(90deg, #fff 0 18px, #7dd3fc 18px 24px, #fff 24px 42px, #eab308 42px 46px); }
 .tema-natal { --tm1: #dc2626; --tm2: #facc15; --tm-placar: radial-gradient(circle at 20% 0%, #166534, #0b1d12 60%, #450a0a); }
 .pp-tema-rolar { max-height: 55vh; overflow: auto; padding-right: 4px; }
@@ -123,7 +123,7 @@ body:has(#tb-sair) .tm-cai i { opacity: .5 !important; }
 .cur-dlg { padding-top: 26px; }
 .cur-foto { float: right; width: 92px; margin: 0 0 6px 10px; } .cur-foto img { width: 100%; border-radius: 10px; border: 3px solid #fff; box-shadow: 0 3px 8px rgba(0,0,0,.2); display: block; } .cur-foto figcaption { font-size: .68rem; line-height: 1.2; color: #64748b; text-align: center; margin-top: 3px; }
 .tema-saci { --tm1: #dc2626; --tm2: #16a34a; --tm-placar: radial-gradient(circle at 20% 0%, #7f1d1d, #1c1917 60%, #14532d); }
-.tema-saci .topbar { background: linear-gradient(90deg, #7f1d1d, #b91c1c 50%, #166534); }
+.tema-saci .topbar { background: linear-gradient(90deg, #7f1d1dd6, #b91c1cd6 50%, #166534d6); }
 
 /* 🎮 desafio de saída das curiosidades */
 .dz-rever { display: block; margin: 0 auto 10px; }
