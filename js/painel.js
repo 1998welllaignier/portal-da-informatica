@@ -1183,7 +1183,7 @@
           <button class="btn btn-sec" type="button" data-x="casa">${a.emCasa ? "🏠 Tirar “estuda em casa”" : "🏠 Marcar: estuda em casa (pelo portal)"}</button>
           ${a.emCasa ? `<button class="btn btn-sec" type="button" data-x="casalivre">${casaLivreAtivo(a) ? "📅 Voltar à liberação semanal (uma missão nova por semana)" : "🚀 Abrir todas as missões já, uma por dia (começou com o bimestre quase no fim)"}</button>` : ""}
           <button class="btn btn-sec" type="button" data-x="teste">${a.teste ? "🧪 Voltar a ser aluno comum" : "🧪 Marcar como aluno de teste (não conta na presença, no diário, nas notas e nos relatórios)"}</button>
-          <button class="btn btn-sec" type="button" data-x="libera">🔓 Liberar as tarefas fora do horário (só este aluno)</button>
+          <button class="btn btn-sec" type="button" data-x="libera">🔓 Liberar as tarefas fora do horário (só este aluno: 1 h, 2 h, 3 h, o dia…)</button>
           <button class="btn btn-sec" type="button" data-x="avatar">🧍 Deixar montar o avatar de novo (salvou sem querer)</button>
           <button class="btn btn-sec" type="button" data-x="temas">🎉 Refazer a janela do tema (curiosidades + desafio do relógio)</button>
           <button class="btn btn-sec" type="button" data-x="outra">🏫 Frequenta a aula de outra turma</button>
@@ -1235,8 +1235,23 @@
           }
           if (x === "teste") { await db().collection("alunos").doc(a.id).update({ teste: !a.teste }); }
           if (x === "libera") {
-            const d = await P.perguntar(`Liberar as tarefas de ${a.nome} fora do horário por quantos dias? (1 = até o fim de hoje; 0 = tirar a liberação)`, "1"); if (d === null || isNaN(+d)) return;
-            const fim = new Date(); fim.setHours(23, 59, 0, 0); fim.setDate(fim.getDate() + Math.max(0, +d - 1));
+            // ⏱️ por quanto tempo (24/11/2026, pedido do professor): 1, 2 ou 3 horas, até o fim de hoje, vários dias ou tirar
+            const escolha = await new Promise(res => {
+              const dl = document.createElement("dialog"); dl.className = "pp-dlg lib-tempo";
+              dl.innerHTML = `<h2>🔓 Liberar ${esc(a.nome)} por quanto tempo?</h2><p class="ajuda">As tarefas abrem só para este aluno, fora do horário da turma.</p>
+                <div class="lib-tempo-bts"><button type="button" class="btn btn-ok" data-t="60">⏱️ 1 hora</button><button type="button" class="btn btn-ok" data-t="120">⏱️ 2 horas</button><button type="button" class="btn btn-ok" data-t="180">⏱️ 3 horas</button>
+                <button type="button" class="btn" data-t="dia">🌙 Até o fim de hoje (23h59)</button><button type="button" class="btn btn-sec" data-t="dias">📅 Vários dias…</button></div>
+                <div class="row-btns"><button type="button" class="btn btn-sec" data-t="0">🚫 Tirar a liberação</button><button type="button" class="btn btn-sec" data-t="x">Cancelar</button></div>`;
+              document.body.appendChild(dl); let r = "x"; dl.addEventListener("close", () => { dl.remove(); res(r); });
+              dl.querySelectorAll("[data-t]").forEach(bt => bt.onclick = () => { r = bt.dataset.t; dl.close(); }); dl.showModal();
+            });
+            if (escolha === "x") return;
+            let d = 1; const fim = new Date();
+            if (escolha === "0") d = 0;
+            else if (escolha === "dia") fim.setHours(23, 59, 0, 0);
+            else if (escolha === "dias") { const n = await P.perguntar(`Liberar ${a.nome} por quantos dias? (1 = até o fim de hoje)`, "2"); if (n === null || !(+n > 0)) return; d = +n; fim.setHours(23, 59, 0, 0); fim.setDate(fim.getDate() + d - 1); }
+            else fim.setTime(Date.now() + (+escolha) * 60000);
+            const ateTxt = fim.toDateString() === new Date().toDateString() ? `hoje, até as ${String(fim.getHours()).padStart(2, "0")}h${String(fim.getMinutes()).padStart(2, "0")}` : `${fim.toLocaleDateString("pt-BR")}, 23h59`;
             // pergunta QUAL missão liberar, para o aluno não entrar na missão dos outros dias (12/11/2026)
             let ms = null, lista = [];
             if (+d > 0) {
@@ -1261,7 +1276,7 @@
               if (n) { const mm = /^\d+$/.test(n) ? lista[+n - 1] : lista.find(m => m.id.toLowerCase() === n); if (!mm) { await P.aviso(`Número não encontrado. Digite só o número da lista, de 1 a ${lista.length}.`); return; } ms = mm.id; }
             }
             await db().collection("config").doc("liberar_" + a.turma).set({ alunos: { [a.id]: +d > 0 ? fim.getTime() : 0 }, alunosMissao: { [a.id]: ms } }, { merge: true });
-            await P.aviso(+d > 0 ? `Pronto! ${a.nome} pode fazer ${ms ? "só: " + ((lista.find(m => m.id === ms) || {}).t || SIG(ms)) + " (e a missão de hoje da turma)" : "as tarefas de todas as missões"} até ${fim.toLocaleDateString("pt-BR")}, 23h59.` : "Liberação retirada."); dlg.close(); return;
+            await P.aviso(+d > 0 ? `Pronto! ${a.nome} pode fazer ${ms ? "só: " + ((lista.find(m => m.id === ms) || {}).t || SIG(ms)) + " (e a missão de hoje da turma)" : "as tarefas de todas as missões"} ${ateTxt}. Depois disso, a liberação acaba sozinha.` : "Liberação retirada."); dlg.close(); return;
           }
           if (x === "familia") {
             if (a.lembreteFamilia) { await db().collection("alunos").doc(a.id).update({ lembreteFamilia: "" }); await P.aviso(`Lembrete da família desligado para ${a.nome}.`); }

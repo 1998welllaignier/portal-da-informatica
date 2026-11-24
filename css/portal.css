@@ -2884,3 +2884,4 @@ body.pc-mini .pc-palco-prof, body.pc-mini .pc-lado, body.pc-mini .pc-fab, body.p
 .ij-material .cmat-ir.ij-btn { border-radius: 0; border: 0; color: #10173A; background: #FFD23F; box-shadow: 0 -4px 0 0 #10173A, 0 4px 0 0 #10173A, -4px 0 0 0 #10173A, 4px 0 0 0 #10173A; }
 .inicio-jogo .vc-btn { white-space: nowrap; }
 @media (max-width: 760px) { .inicio-jogo .vc { grid-template-columns: 1fr; } .inicio-jogo .vc-mini { max-width: 100%; } }
+.lib-tempo-bts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 10px 0; } .lib-tempo-bts .btn:nth-child(n+4) { grid-column: span 3; }
