@@ -64,7 +64,7 @@ Tudo foi publicado e anotado no PADRAO-DE-QUALIDADE.md. O professor dá **Ctrl+F
 
 ### 🎤 Aula ao vivo (Produção 2.0, 23/11/2026, à noite) — substitui os itens 1, 3 e 4 acima
 - Vídeo em sincronia e leitura guiada agora passam por `js/palco.js` (um registro só, `config/palco_<turma>`), com **1 tela** ou **2 telas** (antes "2" e "3": o monitor do Veyon não conta mais). Fechar = todos voltam à sala de espera; a 🏁 largada não abre mais o vídeo. Detalhes no PADRAO-DE-QUALIDADE.md (seção 🎤 Aula ao vivo).
-- Testado na **turma simulada** (`ferramentas/aula-simulada/`) e **aprovado pelo professor em aula de verdade em 24/11/2026** (players do YouTube, sala de espera e leitura guiada: "tudo funciona perfeitamente"). Ele avisa se notar algo depois.
+- Testado na **turma simulada** (`ferramentas/aula-simulada/`) e **aprovado pelo professor em aula de verdade em 24/11/2026** (players do YouTube, sala de espera e leitura guiada: "tudo funciona perfeitamente"), inclusive o 🥁 "tan-dam" com o resultado automático da pergunta e as **2 telas** (um clique na janela do projetor; play, voltar ao início e vídeo nos PCs pelos controles do monitor). Ele avisa se notar algo depois.
 - O `leitura.js` antigo (controles `lgc`, telão antigo) ficou só como biblioteca (trechos, palavras); o `sala.js` continua para 🖥️ Mostrar minha tela e ⬜ Quadro.
 
 ### Painel de parede "Brincadeiras que viram arte" (Ivan Cruz): ⏸️ PARADO pelo professor ("deixa quieto sobre o painel", 23/11)
