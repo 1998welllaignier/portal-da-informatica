@@ -503,7 +503,7 @@
   // abre a 📖 leitura guiada ou a 🎡 roleta a partir do painel (modo 3 telas): carrega a turma e o progresso só enquanto estiverem abertas
   async function ferramentaLeitura(t, qual, op) {
     // 🎤 23/11/2026: "leitura"/"video"/"palco" abrem a Aula ao vivo (js/palco.js); "roleta" continua só a roleta
-    if (P.palco && P.palco.aberto() && qual !== "roleta") { if (op && op.momento) P.palco.aberto().ir(op.momento, op); return; }
+    if (P.palco && P.palco.aberto() && qual !== "roleta") { const ab = P.palco.aberto(); if (qual === "video" || qual === "leitura") ab.ir(qual, op); else ab.restaurar(); return; }
     if (document.querySelector(".pc-prof, .lgc, .lgc-escolha, .rl-cobre")) return;
     const modo = modoTelas(); let jan0 = null;
     if (qual !== "roleta" && modo === "3") jan0 = window.open("#/telao/" + t.id, "telao-" + t.id, "popup,width=1280,height=720");   // 2 telas: abre a janela do projetor já no clique (o navegador bloqueia se abrir depois)

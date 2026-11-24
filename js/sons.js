@@ -66,6 +66,9 @@
     teste() { abafa(3500); if (!pronto()) return; tcharam(0); estalos(0.4, 1.2); },
     // 🎡 roleta: o "clec" de cada fatia que passa no ponteiro, e a festa quando para
     clec() { abafa(1500); if (!pronto()) return; ruido(0, 0.03, 0.35, 3200); nota(hz(96), 0, 0.025, 0.05, "square"); },
+    // 🥁 "tan-dam!" curtinho (≈1 s): resultado da pergunta relâmpago (23/11/2026, pedido do professor: mais curto que a comemoração do pódio)
+    tandam() { abafa(1800); if (!pronto()) return; nota(hz(67), 0, 0.14, 0.11, "square"); ruido(0, 0.05, 0.12, 1200);
+      [72, 76, 79].forEach(m => nota(hz(m), 0.2, 0.75, 0.08, "square")); nota(hz(48), 0.2, 0.75, 0.12, "triangle"); ruido(0.2, 0.08, 0.18, 3500); },
     sorteado() { abafa(5500); if (!pronto()) return; const d = tcharam(0); estalos(0.3, d); }
   };
   P.sons = S;

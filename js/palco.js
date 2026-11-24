@@ -120,6 +120,10 @@
   }
   function gravarAluno(extra) { const s = sessaoAluno(), d = ativoAluno(); if (!s || !d) return;
     (s.alunoIds || []).forEach((id, i) => { try { P.nuvem.app(i).db.collection("progresso").doc(id + "_palco").set(Object.assign({ alunoId: id, turma: s.turma, tipo: "palco", sala: d.turmaAula, dia: hoje(), sessao: d.sessao, momento: d.momento, slide: d.slide || 0, ping: Date.now() }, extra || {}), { merge: true }).catch(() => {}); } catch (e) {} }); }
+  let avTm = null;
+  function avisoAluno() { if (!A.cx) return; let a = A.cx.querySelector(".pc-so-olhe"); if (!a) { a = h(`<div class="pc-so-olhe">👀 Só acompanhe: quem comanda é o professor</div>`); A.cx.appendChild(a); }
+    a.classList.add("on"); clearTimeout(avTm); avTm = setTimeout(() => a.classList.remove("on"), 1800); }
+  document.addEventListener("keydown", e => { if (A.cx && A.cx.isConnected && e.key !== "Escape") { e.preventDefault(); e.stopPropagation(); } }, true);
   function fecharAluno() {
     clearInterval(A.iv); clearInterval(A.hb); clearTimeout(A.vigia); A.iv = A.hb = null; try { A.player && A.player.destroy && A.player.destroy(); } catch (e) {} A.player = null; A.vid = null; A.pronto = false;
     if (P.lousa && P.lousa.receberEspelho) P.lousa.receberEspelho(null, () => null);
@@ -131,6 +135,8 @@
     if (!A.cx || !A.cx.isConnected) { A.cx = h(`<div class="pc-aluno" role="dialog" aria-label="Aula ao vivo"><div class="pc-barra-al"><span class="pc-vivo">● AO VIVO</span><span class="pc-al-txt"></span></div><div class="pc-area"><div class="pc-video" hidden></div><div class="pc-falha" hidden></div></div></div>`);
       document.body.appendChild(A.cx); A.st = montarPalco(A.cx.querySelector(".pc-area"));
       A.cx.addEventListener("contextmenu", e => e.preventDefault());
+      // 🔒 o aluno não mexe em nada: cliques fora das respostas da pergunta só mostram um aviso; teclas não fazem nada
+      A.cx.addEventListener("pointerdown", e => { if (e.target.closest(".pc-op:not(:disabled), .pc-falha button")) return; e.preventDefault(); e.stopPropagation(); avisoAluno(); }, true);
       const s0 = sessaoAluno(); medir(P.nuvem.app(0).db.collection("progresso").doc(s0.alunoIds[0] + "_palco"), { alunoId: s0.alunoIds[0], turma: s0.turma, tipo: "palco" });
       clearInterval(A.hb); A.hb = setInterval(() => gravarAluno({}), 15000); }
     document.body.classList.add("pc-travado"); P.leituraAtiva = d.momento === "leitura";
@@ -155,7 +161,7 @@
     const v = d.video || {}; if (!v.vid) return;
     if ((A.player || A.criando) && A.vid === v.vid) return sincAluno();
     if (A.player) { try { A.player.destroy(); } catch (e) {} A.player = null; }
-    box.innerHTML = `<div id="pc-yt-al"></div><div class="pc-pausa" hidden>⏸ O vídeo começa quando o professor der o play</div><div class="pc-fim" hidden>🎬 Fim do vídeo</div>`; A.vid = v.vid; A.criando = true; A.pronto = false; falhaAluno(null);
+    box.innerHTML = `<div id="pc-yt-al"></div><div class="pc-escudo" aria-hidden="true"></div><div class="pc-pausa" hidden>⏸ O vídeo começa quando o professor der o play</div><div class="pc-fim" hidden>🎬 Fim do vídeo</div>`; A.vid = v.vid; A.criando = true; A.pronto = false; falhaAluno(null);
     clearTimeout(A.vigia); A.vigia = setTimeout(() => { if (!A.pronto && A.vid === v.vid && ativoAluno()) falhaAluno("demorou"); }, 15000);
     let Y; try { Y = await Promise.race([yt(), new Promise((_, no) => setTimeout(() => no(new Error("api")), 14000))]); } catch (e) { A.criando = false; falhaAluno("sem-api"); return; }
     A.criando = false; const dd = ativoAluno(); if (!dd || dd.momento !== "video" || A.vid !== v.vid) return;
@@ -256,7 +262,7 @@
     return (Array.isArray(vv) ? vv : [vv]).filter(v => v && /^[\w-]{11}$/.test(v.id || v)).map((v, k) => ({ id: v.id || v, nome: v.nome || (k ? "Vídeo extra (passo a passo)" : "Vídeo da missão") })); };
   function abrir(ctx, op) {
     op = op || {};
-    if (aberto) { if (op.momento) aberto.ir(op.momento, op); return aberto; }
+    if (aberto) { if (op.momento && op.momento !== "espera") aberto.ir(op.momento, op); else aberto.restaurar(); return aberto; }
     const { t, aid, mid } = ctx, doisTelas = ctx.modo === "3", alvo = [...new Set([t.id, ...(ctx.turmas || [])])].filter(x => x === t.id || (ctx.turmasJuntas || []).includes(x));
     const vids = videosDa(aid, mid);
     let M = null, d = { dia: hoje(), sessao: Math.random().toString(36).slice(2, 10), aid, mid, titulo: "", momento: "espera", vivoEm: 0, on: { n: 0, total: ctx.alunos.length },
@@ -318,7 +324,7 @@
       ac.forEach(a => { d.xp[a.id] = (d.xp[a.id] || 0) + XP_PERGUNTA; });
       d.perg = { slide: d.slide, revelada: true, certa: sl.q.certa, resp: ac.length + er.length, total: on.length, acertaram: ac.map(a => nomeCurto(a.nome)), erraram: er.map(a => nomeCurto(a.nome)), semResp: sem.map(a => nomeCurto(a.nome)) };
       d.perguntas[d.slide] = { termo: sl.q.termo, acertos: ac.length, resp: ac.length + er.length, quem: ac.map(a => a.id) };
-      if (P.sons && P.sons.coroa) try { P.sons.coroa(); } catch (e) {}
+      if (P.sons && P.sons.tandam) try { P.sons.tandam(); } catch (e) {}   // 🥁 "tan-dam!" curtinho (pedido do professor)
       salvar();
     }
 
@@ -357,9 +363,9 @@
 
     /* ---- trocar de momento ---- */
     function ir(momento, o2) {
-      o2 = o2 || {};
+      o2 = o2 || {}; restaurar();
       if (d.momento === "leitura" && momento !== "leitura") registrarLeitura();
-      if (momento === "video") { const v = o2.vid ? vids.find(x => x.id === o2.vid) || { id: o2.vid, nome: "Vídeo do YouTube" } : vids[0];
+      if (momento === "video") { const v = o2.vid ? vids.find(x => x.id === o2.vid) || { id: o2.vid, nome: o2.nome || "Vídeo do YouTube" } : vids[0];
         if (!v) { P.toast && P.toast("Esta missão ainda não tem vídeo cadastrado."); return; }
         d.video = { vid: v.id, titulo: v.nome, estado: "pause", pos: 0, emMs: agora() }; ultPub = "";
         if (doisTelas) garantirTelao(); }
@@ -405,11 +411,31 @@
       if (P.lousa && P.lousa.fechar && P.lousa.estado && P.lousa.estado().modo) P.lousa.fechar();
       if (BC) BC.removeEventListener("message", onBC); removeEventListener("beforeunload", sairUnload);
       if (jan && !jan.closed) try { jan.close(); } catch (e) {}
-      P.leituraAtual = null; document.body.classList.remove("pc-aberto"); cx.remove(); aberto = null;
+      P.leituraAtual = null; document.body.classList.remove("pc-aberto", "pc-mini"); if (pilula) pilula.remove(); cx.remove(); aberto = null;
     }
+
+    /* ---- 🔗 qualquer vídeo do YouTube (colar o link), em sincronia, como antes no 📡 Transmitir ---- */
+    async function colarLink() {
+      const txt = P.perguntar ? await P.perguntar("Cole aqui o link do vídeo do YouTube:", "") : null; if (!txt) return;
+      const m = String(txt).match(/(?:youtu\.be\/|v=|embed\/|shorts\/|live\/)([\w-]{11})/) || String(txt).trim().match(/^([\w-]{11})$/);
+      if (!m) { P.aviso ? P.aviso("Não reconheci esse link. Copie o endereço do vídeo no YouTube (ex.: https://youtu.be/…) e tente de novo.") : null; return; }
+      ir("video", { vid: m[1], nome: "Vídeo do YouTube" });
+    }
+    /* ---- ⬇ ir ao painel sem encerrar: os alunos continuam onde estão (sala de espera, slide ou vídeo) ---- */
+    let mini = false, pilula = null;
+    function minimizar() {
+      if (P.lousa && P.lousa.fechar && P.lousa.estado && P.lousa.estado().modo) P.lousa.fechar();
+      mini = true; document.body.classList.add("pc-mini"); document.body.classList.remove("pc-aberto");
+      if (!pilula) { pilula = h(`<button type="button" class="pc-volta"></button>`); pilula.onclick = restaurar; document.body.appendChild(pilula); }
+      pintarPilula();
+    }
+    function restaurar() { if (!mini) return; mini = false; document.body.classList.remove("pc-mini"); document.body.classList.add("pc-aberto"); if (pilula) { pilula.remove(); pilula = null; } pintar(); }
+    function pintarPilula() { if (!pilula) return; const sl = M && M.slides[d.slide];
+      pilula.innerHTML = `<span class="pc-vivo">● AO VIVO</span> 🎤 ${esc(ctx.nomeTurma || t.id)}: ${d.momento === "espera" ? `🚦 sala de espera (👥 ${d.on.n} de ${d.on.total})` : d.momento === "video" ? "🎬 vídeo" : sl && sl.t === "pergunta" ? "🤔 pergunta" : "📖 leitura"} · <b>▲ Voltar para a Aula ao vivo</b>`; }
 
     /* ---- a tela do professor ---- */
     function pintar() {
+      if (mini) return pintarPilula();
       const ehVideo = d.momento === "video";
       cx.dataset.momento = d.momento;
       if (ehVideo && !doisTelas) { st.hidden = true; vbox.hidden = false; mestreLocal(d.video); }
@@ -427,8 +453,10 @@
         B.push(["pc-g pc-azul", "📖 Começar pela leitura", () => ir("leitura")]);
         if (vids.length > 1) vids.slice(1).forEach(v => B.push(["", "🎬 " + v.nome, () => ir("video", { vid: v.id })]));
         B.push(["pc-g pc-largada", "🏁 Dar a largada", largada, "Cada aluno vai para a missão, no próprio ritmo"]);
+        B.push(["", "🔗 Outro vídeo (colar link do YouTube)", colarLink, "Qualquer vídeo do YouTube, em sincronia em todos os computadores"]);
         if (doisTelas) B.push(["", "📽️ Abrir a janela do projetor", garantirTelao]);
-        B.push(["pc-sai", "✕ Fechar (os alunos continuam na sala de espera)", () => fechar()]);
+        B.push(["pc-mini", "⬇ Ir ao painel (os alunos continuam esperando)", minimizar, "Para ver códigos, chamada etc. Volte pelo botão 🎤 no alto da tela"]);
+        B.push(["pc-sai", "✕ Fechar a Aula ao vivo", () => fechar()]);
       } else if (ehVideo) {
         const e = estadoMestre() || {};
         B.push(["pc-g " + (e.tocando ? "pc-amarelo" : "pc-verde"), e.tocando ? "⏸ Pausar" : "▶️ Play", () => remoto(e.tocando ? "pause" : "play")]);
@@ -436,6 +464,8 @@
         B.push(["", "⏮ Voltar ao início (pausado)", () => remoto("inicio")]);
         if (doisTelas) B.push(["", "📽️ Abrir a janela do projetor", garantirTelao]);
         B.push(["pc-azul", "📖 Ir para a leitura", () => ir("leitura")]);
+        B.push(["", "🔗 Trocar por outro link", colarLink]);
+        B.push(["pc-mini", "⬇ Ir ao painel", minimizar, "O vídeo continua; volte pelo botão 🎤 no alto da tela"]);
         B.push(["pc-sai", "✕ Fechar o vídeo (volta à sala de espera)", () => ir("espera")]);
       } else if (sl) {
         if (sl.t === "trecho") {
@@ -450,9 +480,10 @@
         B.push(["pc-ferr", "🧽 Apagar riscos", () => P.lousa && P.lousa.limparPincel && P.lousa.limparPincel()]);
         B.push(["pc-ferr", "🖱️ Mouse (clicar nas palavras)", () => P.lousa && P.lousa.ferramenta && P.lousa.ferramenta("mouse")]);
         if (vids.length) B.push(["", "🎬 Ir para o vídeo", () => { d._viuVideo = true; ir("video"); }]);
+        B.push(["pc-mini", "⬇ Ir ao painel", minimizar, "Os alunos continuam no slide; volte pelo botão 🎤 no alto da tela"]);
         B.push(["pc-sai", "✕ Fechar a leitura (volta à sala de espera)", () => ir("espera")]);
       }
-      bts.innerHTML = ""; B.forEach(([c, txt, fn, dica]) => { const b = document.createElement("button"); b.type = "button"; b.className = "btn pc-b " + (c || ""); b.textContent = txt; if (dica) b.title = dica; b.onclick = fn; bts.appendChild(b); });
+      bts.innerHTML = ""; B.forEach(([c, txt, fn, dica]) => { const b = document.createElement("button"); b.type = "button"; b.className = "btn pc-b " + (c || ""); b.textContent = txt; if (dica) b.title = dica; b.onclick = ev => { try { P.sons && P.sons.destravar && P.sons.destravar(); } catch (e) {} fn(ev); }; bts.appendChild(b); });
       const fer = P.lousa && P.lousa.estado ? P.lousa.estado() : {}; bts.querySelectorAll(".pc-ferr").forEach(b => { const f = /Riscar/.test(b.textContent) ? "pincel" : /Laser/.test(b.textContent) ? "laser" : /Mouse/.test(b.textContent) ? "mouse" : ""; b.classList.toggle("on", !!f && (fer.modo === "pincel" ? fer.ferr === f : f === "mouse")); b.addEventListener("click", () => setTimeout(pintar, 50)); });
       if (ehVideo) pintarRemoto();
       relatorio();
@@ -469,7 +500,7 @@
         <table class="pc-tab"><thead><tr><th>Aluno</th><th>PC</th><th>Agora</th>${perg ? "<th>Resp.</th>" : ""}<th>XP</th></tr></thead><tbody>${linhas.map(x => `<tr class="${x.on ? "" : "fora"}"><td>${esc(nomeCurto(x.a.nome))}${x.leuA ? " 🎤" : ""}</td><td>${x.pc ? "💻 " + x.pc : "–"}</td>
           <td>${!x.on ? "⚪ não entrou" : d.momento === "espera" ? "🟢 na sala de espera" : x.falhou && d.momento === "video" ? "😕 vídeo não abriu" : x.junto ? "🟢 acompanhando" : "🟡 abrindo…"}${x.saiu ? ` <small>🖥️ saiu ${x.saiu}×</small>` : ""}</td>${perg ? `<td>${x.r == null ? "…" : d.perg && d.perg.revelada ? (x.r === sl.q.certa ? "✅" : "❌") : "✔"}</td>` : ""}<td>${x.xp ? "⭐ +" + x.xp : ""}</td></tr>`).join("")}</tbody></table>`;
     }
-    aberto = { ir, fechar, d: () => d, cx };
+    aberto = { ir, fechar, restaurar, minimizar, d: () => d, cx };
     tr.then(() => { if (op.momento && op.momento !== "espera") ir(op.momento, op); });
     salvar(); contar();
     return aberto;
