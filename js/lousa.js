@@ -100,14 +100,14 @@
   function paraNuvem(dado) {   // grava para os alunos, com freio (no máximo a cada 500 ms)
     const L = P.leituraAtual; if (!L || !L.turmas || !P.nuvem || !P.nuvem.app) return;
     nuvemDado = dado; if (nuvemT) return;
-    const vai = () => { nuvemT = null; nuvemUlt = Date.now(); const dd = { j: JSON.stringify(nuvemDado), em: Date.now() };   // em texto: o Firebase não aceita lista dentro de lista (os pontos do traço)
+    const vai = () => { nuvemT = null; nuvemUlt = Date.now(); const dd = { j: JSON.stringify(nuvemDado), em: Date.now(), sessao: L.sessao || null };   // em texto: o Firebase não aceita lista dentro de lista (os pontos do traço)
       L.turmas.forEach(id => { try { P.nuvem.app(0).db.collection("config").doc("lousaLeitura_" + id).set(dd).catch(() => {}); } catch (e) {} }); };
     const falta = 500 - (Date.now() - nuvemUlt); if (falta <= 0) vai(); else nuvemT = setTimeout(vai, falta);
   }
   function espelhar() {
     if (espPend) return; espPend = true;
     requestAnimationFrame(() => { espPend = false;
-      const pv = document.querySelector(".lgc-3 .lgc-previa, .lgc-2 .lgc-tela");
+      const pv = document.querySelector(".pc-prof .pc-area-p .pc-stage:not([hidden])") || document.querySelector(".lgc-3 .lgc-previa, .lgc-2 .lgc-tela");   // 🎤 23/11/2026: o slide da Aula ao vivo
       if (!pv || E.modo !== "pincel") { if (espelhou) { const z = { limpar: 1 }; if (canal) canal.postMessage(z); paraNuvem(z); espelhou = false; } return; }
       const r = pv.getBoundingClientRect(), dx = -(r.left + scrollX), dy = -(r.top + scrollY), ag = performance.now();
       const dado = { w: r.width, h: r.height, objs: leve(E.objs.concat(atual ? [atual] : [])).map(o => desloca(o, dx, dy)), laser: E.laser.map(p => [Math.round(p[0] + dx), Math.round(p[1] + dy), Math.round(ag - p[2])]) };
@@ -130,7 +130,7 @@
   function receberEspelho(dado, caixa) { ESP.caixa = caixa; ESP.ult = dado || null; const ag = performance.now();
     ESP.laser = dado && dado.laser ? dado.laser.map(p => [p[0], p[1], ag - p[2]]) : []; pintarEspelho(); }
   addEventListener("resize", () => { if (ESP.ult) pintarEspelho(); });
-  if (canal) canal.onmessage = e => { if (!document.querySelector(".lg-telao")) return; receberEspelho(e.data, () => document.querySelector(".lg-telao .lg-quadro")); };
+  if (canal) canal.onmessage = e => { const box = () => document.querySelector(".pc-telao .pc-area-t:not([hidden]) .pc-stage") || document.querySelector(".lg-telao .lg-quadro"); if (!box()) return; receberEspelho(e.data, box); };
   function limparPincel() { if (E.modo !== "pincel") return; E.objs = []; E.refazer = []; atual = null; E.laser = []; redesenhar(); }
   function mudou() { redesenhar(); if (E.modo === "quadro") E.ouvintes.forEach(fn => { try { fn(estadoQuadro()); } catch (e) {} }); }
   function estadoQuadro() { const q = E.quadro; return q ? { fundo: q.fundo, pag: q.pag, total: q.paginas.length, objs: leve(q.paginas[q.pag].objs) } : null; }
@@ -295,5 +295,7 @@
     ((q && q.objs) || []).forEach(o => { if (o.t === "img" && !o._im) { o._im = new Image(); o._im.onload = () => desenharRemoto(canvas, q); o._im.src = o.src; } pintar(x, o); });
   }
 
-  P.lousa = { abrirPincel, abrirQuadro, fechar, estado: () => E, quadro: { estado: estadoQuadro, aoMudar: fn => { E.ouvintes.push(fn); return () => { E.ouvintes = E.ouvintes.filter(x => x !== fn); }; } }, desenharRemoto, QW, QH, receberEspelho, limparPincel };
+  // 🎤 23/11/2026: a Aula ao vivo tem os próprios botões (✏️ 🔴 🖱️) e escolhe a ferramenta sem a barra do pincel
+  function ferramenta(f) { if (E.modo !== "pincel") abrirPincel(); escolher(f); }
+  P.lousa = { ferramenta, abrirPincel, abrirQuadro, fechar, estado: () => E, quadro: { estado: estadoQuadro, aoMudar: fn => { E.ouvintes.push(fn); return () => { E.ouvintes = E.ouvintes.filter(x => x !== fn); }; } }, desenharRemoto, QW, QH, receberEspelho, limparPincel };
 })();

@@ -8,7 +8,7 @@
        💡 Você sabia? (curiosidades de informática, todas conferidas).
      Recompensa a quem entra cedo e fica no lugar: os pontos entram no placar da aula (podio.js → ranking).
    - PROFESSOR: na aba 🎤 Aula, o quadro mostra quem já entrou e quem falta, com o botão 🏁 Dar a largada, que abre o vídeo
-     da missão em sincronia em todos os computadores (sala.js) e, depois, as tarefas para todo mundo ao mesmo tempo.
+     ao mesmo tempo (23/11/2026: o vídeo e a leitura guiada vêm ANTES, pela 🎤 Aula ao vivo, js/palco.js).
    Dados (sem mudar as regras do Firebase):
    - config/hoje_<turma>: espera (true/false, gravado no ▶️ Iniciar a aula) e largadaEm (hora da largada; 0 = ainda não);
    - progresso/<alunoId>_espera: { tipo: "espera", alunoId, turma, dia, pontos, avatarBonus, atualizado }.
@@ -174,7 +174,7 @@
         <button type="button" class="es-card" data-op="sabia"><span class="es-card-ic">💡</span><b>Você sabia?</b><small>curiosidades de informática</small></button>
       </div>
       <div class="painel es-palco" hidden></div>
-      <p class="ajuda es-rodape">🏆 Quem entra cedo e espera no lugar já sai na frente: estes pontos entram no placar da aula. Quando o professor der a largada, o vídeo da missão abre sozinho.</p>
+      <p class="ajuda es-rodape">🏆 Quem entra cedo e espera no lugar já sai na frente: estes pontos entram no placar da aula. Quando o professor der a 🏁 largada, a missão abre para todos ao mesmo tempo.</p>
     </section>`);
     const palco = el.querySelector(".es-palco"), pts = el.querySelector(".es-pts"), barraP = el.querySelector(".es-placar b"), st = el.querySelector(".es-status");
     let pararJogo = null, largou = false, emAvatar = false;
@@ -320,16 +320,17 @@
           return `<details class="es-prof-jogos"><summary>🎮 Jogos da Sala de espera: <b>${lib.length}</b> liberados${prox[0] ? ` · próximo: ${esc(prox[0].ic + " " + prox[0].nome)} em ${prox[0].estreia.slice(8, 10)}/${prox[0].estreia.slice(5, 7)}/${prox[0].estreia.slice(0, 4)}` : ""}</summary>
             <p class="ajuda">Os jogos estreiam sozinhos, pelo calendário. Se quiser, solte um antes da hora:</p>
             <p class="es-chips">${prox.map(j => `<button type="button" class="btn btn-sec btn-peq" data-lib="${esc(j.id)}" title="Estreia prevista: ${j.estreia.split("-").reverse().join("/")}">${esc(j.ic + " " + j.nome)} · ${j.estreia.slice(8, 10)}/${j.estreia.slice(5, 7)} → 🔓 liberar agora</button>`).join("") || "todos já estão liberados 🎉"}</p></details>`; })()}
-        <div class="es-prof-acao"><button type="button" class="btn btn-grande btn-ok es-largada">🏁 Dar a largada</button>
-          <p class="ajuda">${vid ? `Abre o <b>vídeo da ${esc(mm ? (mm.titulo || "").replace(/ –.*/, "") : "missão")}</b> em sincronia em todos os computadores (o som sai daqui, pelas caixinhas). Quando o vídeo acabar e você liberar a turma, as tarefas já estão abertas para todos ao mesmo tempo.` : "Abre as tarefas para todos ao mesmo tempo (esta missão não tem vídeo cadastrado)."} Quem chegar depois da largada entra direto na missão.</p></div>`;
+        <div class="es-prof-acao">${P.aulaAoVivo ? `<button type="button" class="btn btn-grande es-aovivo" data-m="video" ${vid ? "" : "disabled title=\"Esta missão ainda não tem vídeo\""}>🎬 Começar pelo vídeo</button><button type="button" class="btn btn-grande es-aovivo" data-m="leitura">📖 Começar pela leitura</button>` : ""}<button type="button" class="btn btn-grande btn-ok es-largada">🏁 Dar a largada</button>
+          <p class="ajuda">🎬 e 📖 aparecem em todas as telas ao mesmo tempo; ao fechar, todos voltam para cá. A 🏁 largada abre as tarefas para todos juntos (cada um no seu ritmo). Quem chegar depois da largada entra direto na missão.</p></div>`;
+      box.querySelectorAll(".es-aovivo").forEach(b => b.onclick = () => P.aulaAoVivo(t, b.dataset.m));
       box.querySelectorAll("[data-lib]").forEach(b => b.onclick = async () => { b.disabled = true;
         try { const g = db.collection("config").doc("geral"), sn = await g.get(), at = (sn.exists && sn.data().jogosLiberados) || [];
           await g.set({ jogosLiberados: [...new Set([...at, b.dataset.lib])] }, { merge: true }); b.textContent = "✅ liberado"; P.toast && P.toast("🎮 Jogo liberado! Os alunos veem na próxima vez que abrirem os jogos."); }
         catch (e) { b.disabled = false; P.toast && P.toast("Não foi possível liberar: " + (e.message || e)); } });
       box.querySelector(".es-largada").onclick = async ev => {
         const b = ev.currentTarget; b.disabled = true; b.textContent = "🏁 Valendo!";
-        try { await hRef.set({ largadaEm: Date.now() }, { merge: true });
-          if (vid && P.sala && P.sala.passarVideo) await P.sala.passarVideo(t.id, vid, mm ? mm.titulo : "Vídeo da missão", rotulo);
+        try { await hRef.set({ largadaEm: Date.now() }, { merge: true });   // 23/11/2026 (pedido do professor): a largada NÃO abre mais o vídeo; o vídeo é antes, pela Aula ao vivo
+          if (P.palco && P.palco.aberto()) P.palco.aberto().fechar(true);
           P.toast && P.toast("🏁 Largada! A turma começou junta.");
         } catch (e) { b.disabled = false; b.textContent = "🏁 Dar a largada"; P.toast && P.toast("Não foi possível dar a largada: " + (e.message || e)); }
       };

@@ -310,5 +310,5 @@
         if (!d.stats || c.resp !== d.stats.resp || c.total !== d.stats.total) { d.stats = { resp: c.resp, total: c.total, acertos: 0 }; gravar(); pintar(); return; } } if (rel) relatorio(); }, 2000);
   }
 
-  P.leitura = { trechos, pergunta, ouvir, telao, iniciar, htmlFase };
+  P.leitura = { trechos, pergunta, ouvir, telao, iniciar, htmlFase, acharTermo, ligarPalavras, semTags, norm };
 })();

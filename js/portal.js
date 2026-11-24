@@ -847,7 +847,7 @@
         P.nuvem.app(0).db.collection("progresso").doc(s.alunoIds[0] + "_tela").set({ alunoId: s.alunoIds[0], turma: s.turma, tipo: "tela", monitor: m }, { merge: true }).catch(() => {}); } } catch (e) {}
     try { ouvirRei(sess.get()); } catch (e) {}
     try { ouvirRoleta(sess.get()); } catch (e) {}
-    try { P.leitura && P.leitura.ouvir(sess.get()); } catch (e) {}
+    try { P.palco && P.palco.ouvir(sess.get()); } catch (e) {}   // 🎤 23/11/2026: a Aula ao vivo (vídeo e leitura guiada) num registro só
     clearInterval(relogioIv);
     const tick = () => {
       const el = document.getElementById("tb-relogio"); if (!el) return clearInterval(relogioIv);
@@ -2074,7 +2074,7 @@
       if (r === "trilhas") return await telaTrilhas();
       if (r === "sobre") return telaSobre();
       if (r === "explorar") { if (!P.explorador || !P.explorador.abrir) return telaInicio(); return await P.explorador.abrir(mount, a1, a2, a3); }
-      if (r === "telao") { if (!P.leitura) return telaInicio(); return await P.leitura.telao(mount, a1); }   // 📽️ janela do projetor da leitura guiada
+      if (r === "telao") { if (!P.palco) return telaInicio(); return await P.palco.telao(mount, a1); }   // 📽️ janela do projetor da Aula ao vivo (2 telas)
       if (r === "painel") { barra(); if (!P.painel) return mount(`<section class="tela"><div class="painel erro"><h1>Painel indisponível</h1><p>O painel precisa de internet. Abra o portal pelo endereço do GitHub.</p></div></section>`); return await P.painel.abrir(mount, a1, a2, a3); }
       const ss = sess.get();
       if (ss && ss.nuvem && P.nuvem && !(await P.nuvem.sessaoValida(ss))) { sess.del(); toast("Sua entrada expirou. Digite o código de novo."); }

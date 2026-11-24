@@ -74,6 +74,7 @@ Em tudo o que for criado (portal, ícones, nomes de app, vídeos, capas, materia
 | Modo Explorador (telas e painel) | `js/explorador.js` |
 | Visual | `css/portal.css` |
 | Padrão de qualidade dos vídeos (2D com bonequinhos, aprovado em 09/11/2026) | `docs/PADRAO-VIDEOS-2D.md` + modelo em `ferramentas/video2d/` |
+| 🎤 Aula ao vivo (sala de espera → vídeo/leitura guiada → largada; 1 ou 2 telas; um registro só `config/palco_<turma>`) | `js/palco.js` · teste obrigatório na turma simulada `ferramentas/aula-simulada/` (LEIA-ME lá) |
 | Vídeos das missões (YouTube não listado, player só no painel, aba Aula) | `js/historia.js`: `P.videosMissao` (apostila → missão → id do YouTube) |
 | Versão (para os navegadores pegarem a versão nova) | `index.html`: `PORTAL_VERSAO` e todos os `?v=` |
 

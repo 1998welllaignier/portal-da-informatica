@@ -236,9 +236,9 @@
   const AJUDA = {
     aula: ["Use durante a aula, projetando ou no seu computador.", [
       "<b>✏️ Pincel e ⬜ Quadro branco</b>: os botões redondos no canto direito (nesta aba, na 👀 apostila do aluno e no 🎬 modo apresentação). ✏️ = riscar, sublinhar, passar marca-texto, formas, texto, laser e carimbos <b>por cima da página</b> (os riscos acompanham a rolagem; 🖱️ Mouse deixa a página clicável de novo; ⇄ muda a barra de lugar; Ctrl+Z desfaz). ⬜ = quadro branco em tela cheia, com fundos (branco, quadriculado, pautado, lousa verde), páginas, colar imagem (Ctrl+V) e 💾 salvar em imagem. Espelhando a tela, os alunos veem tudo.",
-      "<b>📡 Transmitir para os computadores dos alunos</b>: <b>📺 Vídeo em sincronia</b> = escolha o vídeo (ou cole um link do YouTube) e clique em ▶️ Passar para a turma; o player abre aqui, com som (caixinhas), e o seu play, pausa e pulos valem para todos os computadores, que tocam o mesmo vídeo sem som. <b>⬜ Quadro para a turma</b> = o quadro abre aqui e cada traço aparece na hora em todos os computadores (nítido, sem vídeo). <b>🖥️ Espelhar a minha tela</b> = o Chrome pergunta o que mostrar e a sua tela aparece nos computadores (atraso pequeno; para vídeo com som, prefira o 📺). Nos dois, o aluno clica em “Entrar”, a tela fica cheia e travada, com uma barra vermelha em cima explicando; se ele sair da tela cheia ou trocar de janela, o portal dele trava até voltar e o nome aparece em ⚠️. Só recebe quem está com o portal aberto (não vale para quem estuda em casa 🏠). Para liberar: ⏹ Encerrar.",
+      "<b>🎤 Aula ao vivo</b> (o caminho do começo da aula): ▶️ Iniciar a aula → 🚦 os alunos esperam na <b>sala de espera</b> → <b>🎬 Vídeo</b> ou <b>📖 Leitura guiada</b> em todas as telas ao mesmo tempo (troque quando quiser) → ✕ fechar = todos voltam para a sala de espera → <b>🏁 Dar a largada</b> (cada um vai para a missão, no próprio ritmo; a largada não abre vídeo). Use os botões do quadro 🚦 Sala de espera ou da barra 🧰. <b>Telas</b>: 🖥️ <b>1 tela</b> (o projetor repete o seu monitor; comandos numa barra embaixo e 👥 A turma num botão) ou 🖥️📽️ <b>2 telas</b> (abre a janela do projetor, só com o conteúdo e o vídeo com som: clique uma vez nela; no seu monitor ficam o slide, os comandos e a turma). Na leitura: 🎡 sortear quem lê, ✔ Leu, ◀ ▶ slides, ✏️ Riscar, 🔴 Laser, 🧽 Apagar, 🖱️ Mouse (para clicar na palavra pontilhada e abrir para todos). As 🤔 perguntas relâmpago são slides: quando todos responderem, a certa aparece sozinha com quem acertou e quem errou. No vídeo: ▶️/⏸, 🔇/🔊, ⏮ voltar ao início (pausado). Os alunos não precisam clicar em nada. 🖥️ Mostrar minha tela e ⬜ Quadro continuam na barra 🧰.",
       "<b>▶️ Iniciar a aula</b>: as tarefas da turma só abrem quando você inicia a aula. No horário, o painel pergunta sozinho (turma, 📌 missão, 🔒 travar). Fora do horário (reposição), use o botão verde <b>▶️ Iniciar aula</b> na barra de cima (é o único; nesta aba ele já vem com a turma que está aberta). O <b>🏁 Finalizar aula</b> fecha na hora e mostra o pódio; se você não finalizar, <b>as tarefas fecham sozinhas no fim do horário da aula</b> (+15 min). Aula iniciada fora do horário (reposição) dura 1h15 (+15 min) a partir do início. Antes de iniciar, os alunos entram e leem, mas veem “Aguardando o professor”.",
-      "<b>🧭 Como a aba está arrumada</b>: no alto, a turma e a 📌 Missão de hoje; logo depois, o 📖 roteiro da aula (falas e respostas). Vídeo, 📡 Transmitir, 🏠 quem estuda em casa e 🧩 Apoios ficam em <b>🧰 Ferramentas da aula</b>, depois do roteiro. Para chegar a qualquer parte com um toque, use o <b>Ir para</b> (abaixo da Missão de hoje) ou os atalhos 📺 📡 🧩 na barra fixa do roteiro.",
+      "<b>🧭 Como a aba está arrumada</b>: no alto, a turma e a 📌 Missão de hoje; logo depois, o 📖 roteiro da aula (falas e respostas). 🎤 Aula ao vivo, 🎬 Vídeo, 📖 Leitura guiada, 🎡 Roleta, 🖥️ Mostrar minha tela, ⬜ Quadro, 📺 Outros vídeos e 🧩 Apoios ficam em <b>🧰 Ferramentas da aula</b>, depois do roteiro. Para chegar a qualquer parte com um toque, use o <b>Ir para</b> (abaixo da Missão de hoje) ou os atalhos 📺 📡 🧩 na barra fixa do roteiro.",
       "<b>🟧 Meus recados</b> (🔒 só você vê; os alunos não veem): o lugar dos recados é o <b>📒 Diário › 🟧 Meus recados</b> (escrever, marcar como lido e ver o histórico). Aqui na aula aparecem só os <b>pendentes</b> da turma, num quadro laranja no alto; toque em “✔ Já li” e ele vai para o histórico. Sem recado pendente, o quadro não aparece. Para falar com os alunos, use 🏫 Turmas › 📣 Avisos para os alunos.",
       "<b>🗣️ Para falar à turma</b>: aparecem no topo com a fala pronta. Depois de falar, toque em “✔ Já avisei esta turma” (o aviso some só daquela turma, neste computador).",
       "<b>🕘 A turma já vem certa</b>: ao abrir o painel, ele escolhe sozinho a turma que está em aula agora (ou a próxima aula de hoje) e a missão do dia pela mesma regra do 🗺️ Panorama (a próxima missão que a turma ainda não fez). Para ver outra turma, é só trocar na lista; a sua escolha vale até a próxima aula começar.",
@@ -501,20 +501,27 @@
   const setModoTelas = m => { try { localStorage.setItem("portal:telas", m); } catch (e) {} };
   P.modoTelas = modoTelas;
   // abre a 📖 leitura guiada ou a 🎡 roleta a partir do painel (modo 3 telas): carrega a turma e o progresso só enquanto estiverem abertas
-  async function ferramentaLeitura(t, qual) {
-    if (document.querySelector(".lgc, .lgc-escolha, .rl-cobre")) return;
+  async function ferramentaLeitura(t, qual, op) {
+    // 🎤 23/11/2026: "leitura"/"video"/"palco" abrem a Aula ao vivo (js/palco.js); "roleta" continua só a roleta
+    if (P.palco && P.palco.aberto() && qual !== "roleta") { if (op && op.momento) P.palco.aberto().ir(op.momento, op); return; }
+    if (document.querySelector(".pc-prof, .lgc, .lgc-escolha, .rl-cobre")) return;
+    const modo = modoTelas(); let jan0 = null;
+    if (qual !== "roleta" && modo === "3") jan0 = window.open("#/telao/" + t.id, "telao-" + t.id, "popup,width=1280,height=720");   // 2 telas: abre a janela do projetor já no clique (o navegador bloqueia se abrir depois)
     await carregarSerie(t);
     const PART = await participantes(t), alunos = PART.alunos, So = P.sons; let prog = [];
     const u1 = ouvirProg(PART.turmasProg, async lista => { prog = lista; }, () => {});
     await new Promise(r => setTimeout(r, 900));   // dá tempo de chegar a lista de quem está online
-    const aberto = () => !!document.querySelector(".lgc, .lgc-escolha, .rl-cobre");
-    const rol = op => roleta(t, alunos, () => prog, PART.turmasProg, So, op);
+    const aberto = () => !!document.querySelector(".pc-prof, .lgc, .lgc-escolha, .rl-cobre");
+    const rol = o => roleta(t, alunos, () => prog, PART.turmasProg, So, o);
     if (qual === "roleta") rol();
     else { const hjL = await missaoDeHoje(t); const aidL = hjL.aid || (cat().apostilas.find(a => a.serie === t.serie.id && P.doPeriodo(a) && !a.oculta && !a.trilha) || {}).id;
       const midL = hjL.fixo ? hjL.mid : missaoDaTurmaHoje(prog, hjL.mid);
-      P.leitura.iniciar({ t, alunos, getProg: () => prog, turmas: PART.turmasProg, So, aid: aidL, mid: midL, nomeTurma: nomeTurma(t.id), roleta: rol, modo: modoTelas() }); }
+      let juntas = []; try { const sh = await db().collection("config").doc("hoje_" + t.id).get(); const hd = sh.exists ? sh.data() : {}; if (hd.dia === N.hoje()) juntas = hd.junto || []; } catch (e) {}
+      if (!P.palco) return toast("Aula ao vivo indisponível.");
+      P.palco.abrir({ t, alunos, getProg: () => prog, turmas: PART.turmasProg, turmasJuntas: juntas, aid: aidL, mid: midL, nomeTurma: nomeTurma(t.id), roleta: rol, modo, jan: jan0 }, Object.assign({ momento: qual === "palco" ? "espera" : qual }, op || {})); }
     let vazio = 0; const iv = setInterval(() => { if (aberto()) { vazio = 0; return; } if (++vazio >= 3) { clearInterval(iv); try { u1(); } catch (e) {} } }, 5000);
   }
+  P.aulaAoVivo = ferramentaLeitura;
   async function missaoDeHoje(t) {
     const ap = cat().apostilas.find(a => a.serie === t.serie.id && P.doPeriodo(a) && !a.oculta && !a.trilha) || cat().apostilas.find(a => a.serie === t.serie.id && P.doPeriodo(a));
     await P.carregarApostila(ap.id); const C = P.conteudo[ap.id];
@@ -534,7 +541,7 @@
     const msT = v => v == null ? 0 : typeof v === "number" ? v : v.toMillis ? v.toMillis() : (v.seconds || 0) * 1000;
     const ref = db().collection("config").doc("roleta_" + t.id);
     let ja = []; try { const sn = await ref.get(); const d = sn.exists ? sn.data() : {}; if (d.dia === N.hoje()) ja = d.ja || []; } catch (e) {}
-    const cx = h(`<div class="rl-cobre" role="dialog" aria-label="Roleta da leitura"><div class="rl-caixa"><button type="button" class="rl-x" aria-label="Voltar ao placar">✕ Voltar ao placar</button>
+    const cx = h(`<div class="rl-cobre" role="dialog" aria-label="Roleta da leitura"><div class="rl-caixa"><button type="button" class="rl-x" aria-label="Fechar a roleta">${op.leitura ? "✕ Fechar" : "✕ Voltar ao placar"}</button>
       <h2>🎡 Roleta da leitura</h2><p class="rl-sub">Quem vai ler o texto? A roleta decide!</p><div class="rl-area"></div><div class="rl-bts"></div><p class="rl-info"></p></div></div>`);
     document.body.appendChild(cx);
     const fechar = () => { cx.remove(); }; cx.querySelector(".rl-x").onclick = fechar;
@@ -648,14 +655,10 @@
     el.querySelector("#pl-volta").onclick = () => { vendoPodio = false; el.querySelector("#pl-volta").hidden = true; corpo.innerHTML = ""; pintarPlacar(); };
     el.querySelector("#pl-roleta").onclick = () => roleta(t, alunos, () => prog, PART.turmasProg, So);
     // 📖 leitura guiada (20/11/2026): vídeo → leitura em trechos com a roleta → liberar
-    el.querySelector("#pl-leitura").onclick = async () => { if (!P.leitura) return toast("Leitura guiada indisponível.");
-      // 23/11/2026: segue a missão que o professor escolheu ao INICIAR a aula (relê agora: o placar pode ter sido aberto antes de iniciar)
-      let hjL = hj; try { hjL = await missaoDeHoje(t); } catch (e) {}
-      const aidL = hjL.aid || (cat().apostilas.find(a => a.serie === t.serie.id && P.doPeriodo(a) && !a.oculta && !a.trilha) || {}).id;
-      const midL = hjL.fixo ? hjL.mid : mid;
-      P.leitura.iniciar({ t, alunos, getProg: () => prog, turmas: PART.turmasProg, So, aid: aidL, mid: midL, nomeTurma: nomeTurma(t.id), roleta: op => roleta(t, alunos, () => prog, PART.turmasProg, So, op) }); };
+    // 🎤 23/11/2026: a leitura guiada mora na Aula ao vivo do painel (não no placar)
+    { const bl = el.querySelector("#pl-leitura"); if (bl) bl.remove(); }
     // ⭐ XP da leitura guiada de hoje entra no placar (mesmo se o placar for reaberto)
-    const u3 = db().collection("config").doc("leitura_" + t.id).onSnapshot(sn => { const d = sn.exists ? sn.data() : null; if (d && d.dia === N.hoje() && d.xp) { P.podio.bonusXP = { dia: d.dia, porId: d.xp }; pintarPlacar(); } }, () => {});
+    const u3 = db().collection("config").doc("palco_" + t.id).onSnapshot(sn => { const d = sn.exists ? sn.data() : null; if (d && d.dia === N.hoje() && d.xp) { P.podio.bonusXP = { dia: d.dia, porId: d.xp }; pintarPlacar(); } }, () => {});
     const pintaTelas = () => { const tres = modoTelas() === "3"; ["#pl-leitura", "#pl-roleta", "#pl-fim"].forEach(s => { const b = el.querySelector(s); if (b) b.hidden = tres; }); };
     pintaTelas(); addEventListener("storage", e => { if (e.key === "portal:telas" && document.body.contains(el)) pintaTelas(); });
     // modo 3 telas: a roleta é girada no painel do professor; aqui no projetor aparece a MESMA roda girando e depois o nome
@@ -2640,12 +2643,14 @@
     const cheia = k => { const g = cxPain.querySelector(`[data-cx="${k}"]`); return g && g.children.length > 1; };
     const sala = (f, ...a) => P.sala && P.sala[f] ? P.sala[f](...a) : toast("Transmissão indisponível.");
     const T = [
-      cheia("video") && ["gav", "video", "📺 Vídeo da missão", "Para passar no projetor, com a sua voz"],
-      ["acao", () => ferramentaLeitura(t, "leitura"), "📖 Leitura guiada", "Sala de espera, depois texto ou vídeo, em todas as telas"],
+      // 🎤 23/11/2026: vídeo e leitura guiada passam pela Aula ao vivo (um registro só; fechar = volta à sala de espera)
+      ["acao", () => ferramentaLeitura(t, "palco"), "🎤 Aula ao vivo", "Sala de espera, vídeo e leitura guiada em todas as telas, e a 🏁 largada"],
+      ["acao", () => ferramentaLeitura(t, "video"), "🎬 Vídeo", "O vídeo da missão no projetor e em todos os computadores, juntos"],
+      ["acao", () => ferramentaLeitura(t, "leitura"), "📖 Leitura guiada", "O texto em slides, igual em todas as telas, com roleta e perguntas"],
       ["acao", () => ferramentaLeitura(t, "roleta"), "🎡 Roleta", "Sorteia quem lê, em todas as telas"],
       ["acao", () => sala("espelhar", t.id, nomeTurma(t.id)), "🖥️ Mostrar minha tela", "A sua tela (ou uma janela) nos computadores dos alunos"],
       ["acao", () => sala("quadroTurma", t.id, nomeTurma(t.id)), "⬜ Quadro", "Você escreve e risca e aparece nos computadores dos alunos"],
-      cheia("transm") && ["gav", "transm", "📡 Vídeo nos computadores", "O vídeo tocando junto em todos os computadores"],
+      cheia("video") && ["gav", "video", "📺 Outros vídeos", "Todos os vídeos da apostila, para consultar"],
       cheia("apoios") && ["gav", "apoios", "🧩 Apoios e casa", "Alunos atípicos e quem estuda em casa"]].filter(Boolean);
     let aberta = "";
     const abrir = k => { aberta = aberta === k ? "" : k; cxPain.hidden = !aberta;
@@ -2659,8 +2664,8 @@
     cxPain.querySelector(".pp-cx-x").onclick = () => abrir(aberta);
     el.querySelectorAll(".pp-cx-mover").forEach(b => bts.appendChild(b));   // 👀 apostila do aluno, 📋 cartaz e 🖥️ tela cheia também moram na barra (23/11/2026)
     const pintaT = () => { const m = modoTelas();
-      telas.innerHTML = `<span>Telas:</span><button type="button" data-tl="2" class="${m === "2" ? "on" : ""}" title="A sua tela vai para o projetor">🖥️📽️ 2</button><button type="button" data-tl="3" class="${m === "3" ? "on" : ""}" title="Projetor só para os alunos + o seu monitor + o Veyon">🖥️🖥️📽️ 3</button>`;
-      telas.querySelectorAll("[data-tl]").forEach(b => b.onclick = () => { setModoTelas(b.dataset.tl); pintaT(); toast(b.dataset.tl === "3" ? "🖥️🖥️📽️ 3 telas: o placar do projetor fica só com o som e a tela cheia; os comandos ficam aqui no painel." : "🖥️📽️ 2 telas: os comandos voltam também para o placar."); }); };
+      telas.innerHTML = `<span>Telas:</span><button type="button" data-tl="2" class="${m === "2" ? "on" : ""}" title="O projetor repete o seu monitor (tela duplicada)">🖥️ 1 tela</button><button type="button" data-tl="3" class="${m === "3" ? "on" : ""}" title="O projetor é uma tela separada só para os alunos (o monitor do Veyon não conta)">🖥️📽️ 2 telas</button>`;
+      telas.querySelectorAll("[data-tl]").forEach(b => b.onclick = () => { setModoTelas(b.dataset.tl); pintaT(); toast(b.dataset.tl === "3" ? "🖥️📽️ 2 telas: o projetor mostra só o conteúdo (e o vídeo com som); os comandos e a turma ficam aqui no seu monitor." : "🖥️ 1 tela: o projetor repete o seu monitor; os comandos ficam numa barra só sua e 👥 A turma num botão."); }); };
     pintaT();
     // a barra fica presa no alto; a barra do roteiro ("Ir para") gruda logo abaixo dela
     const medir = () => document.documentElement.style.setProperty("--pp-cx", bar.offsetHeight + "px");

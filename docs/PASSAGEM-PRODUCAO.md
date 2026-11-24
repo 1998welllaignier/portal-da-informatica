@@ -62,6 +62,11 @@ Tudo foi publicado e anotado no PADRAO-DE-QUALIDADE.md. O professor dá **Ctrl+F
    - demonstração do simulador agora **opcional** (🎬 Ver como faz);
    - 20 emojis novos trocados por equivalentes que o **Windows 10** mostra.
 
+### 🎤 Aula ao vivo (Produção 2.0, 23/11/2026, à noite) — substitui os itens 1, 3 e 4 acima
+- Vídeo em sincronia e leitura guiada agora passam por `js/palco.js` (um registro só, `config/palco_<turma>`), com **1 tela** ou **2 telas** (antes "2" e "3": o monitor do Veyon não conta mais). Fechar = todos voltam à sala de espera; a 🏁 largada não abre mais o vídeo. Detalhes no PADRAO-DE-QUALIDADE.md (seção 🎤 Aula ao vivo).
+- Testado na **turma simulada** (`ferramentas/aula-simulada/`); falta a confirmação dele **numa aula de verdade** (com o YouTube real: conferir o clique na janela do projetor para liberar o som).
+- O `leitura.js` antigo (controles `lgc`, telão antigo) ficou só como biblioteca (trechos, palavras); o `sala.js` continua para 🖥️ Mostrar minha tela e ⬜ Quadro.
+
 ### Painel de parede "Brincadeiras que viram arte" (Ivan Cruz): ⏸️ PARADO pelo professor ("deixa quieto sobre o painel", 23/11)
 - **Pedido da coordenadora (Tânia Zuqueto, 1º ao 5º):** projeto "Brincadeiras que viram arte". Faixa no alto com esse título, no estilo da faixa "DA CULTURA AFRICANA". Mesmo lugar e tamanho do painel da Consciência Negra: **177 × 170,4 cm, 54 folhas A4, 9 × 6**.
 - **Combinado:**
