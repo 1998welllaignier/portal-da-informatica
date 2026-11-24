@@ -293,7 +293,7 @@
       d.vivoEm = agora(); const o = publico();
       alvo.forEach(id => db().collection("config").doc("palco_" + id).set(o).catch(e => console.warn("palco", e)));
       if (BC) BC.postMessage({ tipo: "estado", turma: t.id, d: o });
-      if (P.podio) P.podio.bonusXP = { dia: hoje(), porId: Object.assign({}, d.xp) };
+      if (P.podio && P.podio.setBonus) alvo.forEach(id => P.podio.setBonus(id, hoje(), d.xp));
       if (!semPintar) pintar();
     }
     if (BC) BC.addEventListener("message", onBC);

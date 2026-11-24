@@ -4,7 +4,7 @@
      Fica em progresso/<alunoId>_avatar (o aluno só grava o próprio documento).
    - Pontos do pódio: só para a festa da aula. NÃO são nota e não vão para o boletim.
      Cada atividade da missão do dia vale pontos (Mão na massa 60, Básico 100, Desafio 150,
-     Turbo 200); errar e pedir dica diminuem. Os pontos = o XP da missão (desde 18/11/2026); a rapidez só desempata.
+     Turbo 200); errar e pedir dica diminuem. Os pontos do placar = XP da missão + sala de espera + leitura guiada (24/11/2026); a rapidez só desempata.
      O total vira uma nota de 0 a 1000 sobre o máximo possível da apostila do aluno,
      por isso a Trilha 👣 (com menos atividades) disputa em pé de igualdade.
    - O pódio final fica em config/podio_<turma> (o professor grava ao finalizar a aula).
@@ -367,7 +367,7 @@
       raw += fator(st); });
     return { xp: Math.round(XP_BONUS * raw / lst.length), ok: n === lst.length };
   }
-  /* 🏆 pontos do placar e do pódio = o MESMO número da barra "⚡ XP da missão" que o aluno vê (18/11/2026: antes o placar
+  /* 🏆 pontos do placar e do pódio = XP da missão (a barra que o aluno vê) + 🚦 sala de espera + 📖 leitura guiada (24/11/2026). Histórico (18/11/2026: antes o placar
      tinha outra escala, com o bônus de rapidez somado, e o aluno via números diferentes). A rapidez agora só DESEMPATA:
      com o mesmo XP, fica na frente quem concluiu o Básico primeiro. */
   function pontosDoc(p, entradaTs, hoje) {
@@ -377,7 +377,7 @@
     const okEm = (p.basicoOkEm || {})[hoje];
     return { pontos: xpDoc(p.aid, p.mid, atv), okB: !!p.basicoOk, okEm: okEm || null, bonusOk: bonusDe(mm, atv).ok };
   }
-  // ⚡ XP da missão (0 a 1000, + até 150 do ⭐ Bônus relâmpago): é também o número do placar e do pódio
+  // ⚡ XP da missão (0 a 1000, + até 150 do ⭐ Bônus relâmpago): é a base do placar e do pódio (somam-se a sala de espera e a leitura guiada)
   /* 🎲 Contra o chute (20/11/2026, pedido do professor): nas tarefas novas (st.r2), acertou de 1ª = pontos inteiros,
      na 2ª tentativa = metade, da 3ª em diante = zero (pode continuar para aprender). Antes era -12% por erro (mínimo 30%). */
   function fator(st) {
@@ -401,6 +401,21 @@
         raw += base * fator(st); }); });
     return (max ? Math.round(1000 * raw / max) : 0) + bonusDe(mm, atv).xp + sequencia(atv).bonus + extrasEspiral(mm, mid, atv);
   }
+  /* ⭐ XP da 📖 leitura guiada de HOJE, por turma (24/11/2026: antes era um valor solto da página, que só existia se a
+     Aula ao vivo estivesse aberta naquela aba; o painel ao vivo e o placar chegavam a posições diferentes). Agora toda tela
+     que mostra pontos ouve o registro da Aula ao vivo da turma (config/palco_<turma>.xp) por esta função. */
+  const bonusT = {}, ouvintesB = {};
+  function setBonus(turma, dia, porId) { bonusT[turma] = { dia, porId: Object.assign({}, porId || {}) }; }
+  function bonusHoje(hoje) { const r = {}; Object.values(bonusT).forEach(b => { if (b.dia === hoje) Object.entries(b.porId).forEach(([k, v]) => { r[k] = (r[k] || 0) + (+v || 0); }); }); return r; }
+  function ouvirBonus(turma, aoMudar) {
+    if (!turma || !P.nuvem || !P.nuvem.app) return () => {};
+    let o = ouvintesB[turma];
+    if (!o) { o = ouvintesB[turma] = { cbs: new Set(), un: null };
+      try { o.un = P.nuvem.app(0).db.collection("config").doc("palco_" + turma).onSnapshot(sn => { const d = sn.exists ? sn.data() : null;
+        if (d && d.dia) setBonus(turma, d.dia, d.xp); o.cbs.forEach(f => { try { f(); } catch (e) {} }); }, () => {}); } catch (e) {} }
+    if (aoMudar) o.cbs.add(aoMudar);
+    return () => { if (aoMudar) o.cbs.delete(aoMudar); };
+  }
   const nomeCurto = n => { const p = String(n || "").trim().split(/\s+/); return p.length > 1 ? p[0] + " " + p[p.length - 1][0] + "." : p[0] || "?"; };
   /* ranking da missão do dia. alunos = cadastro da turma; prog = documentos de progresso da turma */
   function ranking(alunos, prog, mid, hoje) {
@@ -409,15 +424,15 @@
     // 🚦 Sala de espera (20/11/2026): quem entra cedo e espera no lugar sai na frente (aquecimento até 150 + avatar 10)
     const esp = {}; prog.forEach(p => { if (p.tipo === "espera" && p.dia === hoje) esp[p.alunoId] = Math.min(150, p.pontos || 0) + Math.min(10, p.avatarBonus || 0); });
     const docs = {}; prog.forEach(p => { if (p.mid === mid && p.dias && p.dias[hoje] && porId[p.alunoId]) { const o = docs[p.alunoId]; if (!o || (p.atualizado || 0) > (o.atualizado || 0)) docs[p.alunoId] = p; } });
-    const B = P.podio && P.podio.bonusXP && P.podio.bonusXP.dia === hoje ? P.podio.bonusXP.porId : null;
+    const B = bonusHoje(hoje);
     const vistos = new Set(), out = [];
     Object.keys(ent).concat(Object.keys(docs)).forEach(id => {
       if (vistos.has(id) || !porId[id]) return;
       const p = docs[id], par = ((p && p.dupla) || []).filter(x => porId[x]), ids = [id].concat(par);
       ids.forEach(x => vistos.add(x));
       const r = (p && pontosDoc(p, Math.min(...ids.map(x => ent[x] || Infinity).filter(isFinite)) || ent[id], hoje)) || { pontos: 0, okB: false, okEm: null };
-      const pe = Math.max(0, ...ids.map(x => esp[x] || 0)) + ids.reduce((t, x) => t + ((B && B[x]) || 0), 0);   // + ⭐ XP da leitura guiada (leu em voz alta / acertou a pergunta relâmpago)
-      out.push({ ids, nomes: ids.map(x => nomeCurto(porId[x].nome)), avatares: ids.map(x => av[x] || null), pontos: r.pontos + pe, espera: pe, okB: r.okB, okEm: r.okEm, bonusOk: !!r.bonusOk, trilha: ids.some(x => porId[x].trilha), ult: p ? p.atualizado || 0 : 0 });
+      const pEsp = Math.max(0, ...ids.map(x => esp[x] || 0)), pLei = ids.reduce((t, x) => t + ((B && B[x]) || 0), 0), pe = pEsp + pLei;   // 🚦 sala de espera + 📖 leitura guiada (leu em voz alta / acertou a pergunta relâmpago)
+      out.push({ ids, nomes: ids.map(x => nomeCurto(porId[x].nome)), avatares: ids.map(x => av[x] || null), pontos: r.pontos + pe, espera: pe, missao: r.pontos, pEsp, pLei, okB: r.okB, okEm: r.okEm, bonusOk: !!r.bonusOk, trilha: ids.some(x => porId[x].trilha), ult: p ? p.atualizado || 0 : 0 });
     });
     out.sort((x, y) => y.pontos - x.pontos || (x.okEm || 9e15) - (y.okEm || 9e15) || x.nomes[0].localeCompare(y.nomes[0], "pt-BR"));
     out.forEach((e, i) => { e.pos = i > 0 && out[i - 1].pontos === e.pontos && out[i - 1].okEm === e.okEm ? out[i - 1].pos : i + 1; });
@@ -460,5 +475,5 @@
   function sortear() { const n = k => Math.floor(Math.random() * k);
     return Object.assign({}, PADRAO, { tipo: OPC.tipo[n(2)][0], pele: n(PELE.length), cabelo: OPC.cabelo[n(OPC.cabelo.length)][0], corCabelo: n(4) }); }
   P.avatar = { svg, editor, fluxoLogin, daSessao, PADRAO, sortear };
-  P.podio = { ranking, pontosDoc, xpDoc, sequencia, linhaPlacar, podioHTML, confete, nomeCurto, MED, coroa, reis, tituloRei };
+  P.podio = { setBonus, ouvirBonus, ranking, pontosDoc, xpDoc, sequencia, linhaPlacar, podioHTML, confete, nomeCurto, MED, coroa, reis, tituloRei };
 })();

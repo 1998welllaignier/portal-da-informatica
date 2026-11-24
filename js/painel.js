@@ -472,7 +472,9 @@
     _ini[t.id] = null;
     if (!await aulaIniciadaHoje(t.id)) throw new Error("a aula desta turma não foi iniciada hoje. Nada foi registrado (toque em ▶️ Iniciar aula antes)");
     await carregarSerie(t);
-    const hoje = N.hoje(), rk = P.podio.ranking(alunos, prog, mid, hoje);
+    const hoje = N.hoje();
+    try { const sn = await db().collection("config").doc("palco_" + t.id).get(); const d = sn.exists ? sn.data() : null; if (d && d.dia) P.podio.setBonus(t.id, d.dia, d.xp); } catch (e) {}   // ⭐ XP da leitura guiada entra no pódio mesmo sem o placar aberto
+    const rk = P.podio.ranking(alunos, prog, mid, hoje);
     await publicarRei(t, rk);
     const ranking = rk.map(e => ({ ids: e.ids, nomes: e.nomes, pontos: e.pontos, pos: e.pos, avatares: e.avatares.map(a => a || null), trilha: !!e.trilha }));
     await db().collection("config").doc("podio_" + t.id).set({ dia: hoje, mid, finalizadaEm: Date.now(), ranking });
@@ -658,7 +660,7 @@
     // 🎤 23/11/2026: a leitura guiada mora na Aula ao vivo do painel (não no placar)
     { const bl = el.querySelector("#pl-leitura"); if (bl) bl.remove(); }
     // ⭐ XP da leitura guiada de hoje entra no placar (mesmo se o placar for reaberto)
-    const u3 = db().collection("config").doc("palco_" + t.id).onSnapshot(sn => { const d = sn.exists ? sn.data() : null; if (d && d.dia === N.hoje() && d.xp) { P.podio.bonusXP = { dia: d.dia, porId: d.xp }; pintarPlacar(); } }, () => {});
+    const u3 = P.podio.ouvirBonus(t.id, () => pintarPlacar());   // ⭐ XP da leitura guiada de hoje (o mesmo para placar, painel ao vivo e pódio)
     const pintaTelas = () => { const tres = modoTelas() === "3"; ["#pl-leitura", "#pl-roleta", "#pl-fim"].forEach(s => { const b = el.querySelector(s); if (b) b.hidden = tres; }); };
     pintaTelas(); addEventListener("storage", e => { if (e.key === "portal:telas" && document.body.contains(el)) pintaTelas(); });
     // modo 3 telas: a roleta é girada no painel do professor; aqui no projetor aparece a MESMA roda girando e depois o nome
@@ -703,7 +705,7 @@
       <div id="pv-c"><p class="ajuda">Carregando…</p></div>
       <p class="ajuda">Atualiza sozinho quando um aluno avança. “Parado” = sem nenhuma atividade há mais de 10 minutos.</p></form></dialog>`);
     document.body.appendChild(dlg); dlg.showModal();
-    dlg.addEventListener("close", () => { if (unsub) unsub(); clearInterval(iv); dlg.remove(); });
+    dlg.addEventListener("close", () => { if (unsub) unsub(); if (unsub0) unsub0(); clearInterval(iv); dlg.remove(); });
     let estado = null;
     const hojeS = () => N.hoje(), hhmm = ms => { const d = new Date(ms); return String(d.getHours()).padStart(2, "0") + ":" + String(d.getMinutes()).padStart(2, "0"); };
     const pinta = () => {
@@ -752,9 +754,11 @@
       const boxAtencao = (atencao.parados.length + atencao.semComecar.length + atencao.atras.length + atencao.tela.length + atencao.chute.length + atencao.bloq.length)
         ? `<div class="pv-atencao"><p class="pv-at-tit">⚠️ Precisam de atenção agora</p>${atencao.tela.length ? `<p><b>🖥️ Saíram da tela cheia hoje:</b> ${nomesTela}</p>` : ""}${atencao.bloq.length ? `<p><b>🔐 Tentaram entrar com um código que já estava aberto em outro computador:</b> ${atencao.bloq.map(x => `${esc(x.a.nome.split(" ").slice(0, 2).join(" "))} (${hhmm(msT(x.b.em))}, tentou no ${esc(/^PC\d+$/.test(x.b.pc || "") ? "💻 PC " + x.b.pc.slice(2) : "computador " + (x.b.pc || "?"))}${/^PC\d+$/.test(x.b.pcDono || "") ? `, código aberto no 💻 PC ${esc(x.b.pcDono.slice(2))}` : ""}) <button type="button" class="btn btn-peq" data-lib-sessao="${esc(x.a.id)}" data-turma="${esc(x.a.turma || t.id)}" title="Use quando o próprio aluno trocou de computador: o computador antigo sai e o novo entra">🔓 Liberar entrada</button>`).join(" · ")}<br><small>Se o aluno está no computador certo e outra pessoa tentou entrar com o código dele, não libere.</small></p>` : ""}${atencao.chute.length ? `<p><b>🎲 Parecem estar chutando</b> (muitos erros rápidos demais): ${atencao.chute.map(x => esc(x.a.nome.split(" ").slice(0, 2).join(" ")) + ` (${x.chutes}×)`).join(", ")}</p>` : ""}${atencao.parados.length ? `<p><b>😴 Parados há mais de 10 min:</b> ${nomesA(atencao.parados)}</p>` : ""}${atencao.semComecar.length ? `<p><b>🚫 Entraram, mas não começaram a missão:</b> ${nomesA(atencao.semComecar)}</p>` : ""}${atencao.atras.length ? `<p><b>🐢 Atrasados</b> (passou da metade da aula e fizeram menos da metade do Básico): ${nomesA(atencao.atras)}</p>` : ""}</div>`
         : (dentro.length ? `<div class="pv-atencao ok"><p class="pv-at-tit">✅ Ninguém precisa de atenção agora</p></div>` : "");
-      // ⚡ XP da missão (igual à barra do aluno, ao placar e ao pódio) + posição no placar
-      const xpCel = (xm, xa) => { const top = xm > 1000 ? `<b>🏆 1000</b> <span class="pv-xpb">⭐ +${xm - 1000}</span>` : `<b>${xm}</b> XP`;
-        return top + (xa && xa.pontos ? `<small>${xa.pos}º lugar no placar</small>` : ""); };
+      // 🏆 24/11/2026: o número grande é o MESMO do placar (missão + sala de espera + leitura guiada); embaixo, de onde veio cada parte
+      const xpCel = (xm, xa) => { if (!xa || !xa.pontos) return xm ? `<b>${xm}</b> pts` : `<b>0</b> pts`;
+        const dupla = xa.ids && xa.ids.length > 1, partes = [`⚡ ${xa.missao} da missão`];
+        if (xa.pEsp) partes.push(`🚦 ${xa.pEsp} da sala de espera`); if (xa.pLei) partes.push(`📖 ${xa.pLei} da leitura guiada`);
+        return `<b>${xa.pontos}</b> pts <small>${xa.pos}º lugar no placar${dupla ? " (dupla)" : ""}</small><small class="pv-xp-de">${partes.join(" + ")}</small>`; };
       const fr = (v, rot, cls) => { const [f, tt] = v || [0, 0]; if (!tt) return ""; const ok = f === tt;
         return `<span class="pv-n ${cls} ${ok ? "ok" : ""}" title="${rot}: ${f} de ${tt}">${rot} ${ok ? "✔" : f + "/" + tt}<i style="width:${Math.round(100 * f / tt)}%"></i></span>`; };
       const nB = dentro.filter(x => x.pm && x.pm.basicoOk).length, nD = dentro.filter(x => x.pm && x.pm.desafio && x.pm.desafio[1] && x.pm.desafio[0] === x.pm.desafio[1]).length,
@@ -762,18 +766,18 @@
       dlg.querySelector("#pv-c").innerHTML = `<p class="pv-mis">📌 ${esc(missao.icone || "")} <b>${esc(missao.titulo || SIG(mid))}</b></p>
         <div class="pv-chips"><span class="pv-chip">👥 <b>${dentro.length}</b> de ${alunos.length} entraram hoje</span><span class="pv-chip ok">🟢 Básico ✔ <b>${nB}</b>/${dentro.length}</span>
           <span class="pv-chip">🟡 Desafio ✔ <b>${nD}</b></span><span class="pv-chip">🔴 Turbo ✔ <b>${nT}</b></span>${reisV.length ? `<span class="pv-chip rei">👑 ${reisV.map(e => `${P.podio.tituloRei(e.avatares).replace(/ da sala$/, "")}: <b>${e.nomes.map(esc).join(" & ")}</b> (${e.pontos} pts)`).join(" · ")}</span>` : ""}${nPar ? `<span class="pv-chip alerta">😴 Parados <b>${nPar}</b></span>` : ""}</div>
-        ${dentro.length ? `${boxAtencao}<div class="tabela-wrap"><table class="pv-tab"><thead><tr><th>Aluno</th><th title="O mesmo número da barra que o aluno vê, do placar e do pódio. Embaixo: a posição no placar (com o mesmo XP, fica na frente quem terminou o Básico primeiro)">⚡ XP da missão</th><th>Entrou</th><th>Progresso na missão de hoje</th><th>Situação</th><th>Última atividade</th></tr></thead><tbody>${dentro.map(({ a, entrou, pm, ult, outra, saidas, chutes }) => {
+        ${dentro.length ? `${boxAtencao}<div class="tabela-wrap"><table class="pv-tab"><thead><tr><th>Aluno</th><th title="O mesmo número do placar e do pódio: XP da missão + pontos da sala de espera + XP da leitura guiada (embaixo, de onde veio cada parte). Com os mesmos pontos, fica na frente quem terminou o Básico primeiro">🏆 Pontos (placar)</th><th>Entrou</th><th>Progresso na missão de hoje</th><th>Situação</th><th>Última atividade</th></tr></thead><tbody>${dentro.map(({ a, entrou, pm, ult, outra, saidas, chutes }) => {
           const p = pm || {}, okB = !!p.basicoOk, falta = p.basico && p.basico[1] ? p.basico[1] - p.basico[0] : null, par = agora - ult > 600000;
           const sit = okB ? (p.turbo && p.turbo[1] && p.turbo[0] === p.turbo[1] ? `<span class="sit ok">🏆 Missão completa</span>` : `<span class="sit ok">✔ Básico feito (visto)</span>`)
             : falta === 0 && p.basicoAprov != null ? `<span class="sit wait" title="Terminou o Básico, mas o visto pede ${p.basicoLimiar || 70}% de aproveitamento">◐ Básico ${p.basicoAprov}% (visto com ${p.basicoLimiar || 70}%)</span>`
             : falta != null ? `<span class="sit wait">Faltam ${falta} do Básico</span>` : `<span class="sit bad">Ainda não começou a missão</span>`;
           const xa = xp[a.id];
-          // ⚡ mesmo número da barra "XP da missão" que o aluno vê, do placar e do pódio (18/11/2026); embaixo, a posição
+          // ⚡ XP da missão (a barra do aluno); a célula mostra o total do placar com esta parte separada (24/11/2026)
           let atvA = {}; try { atvA = p.atv ? (typeof p.atv === "string" ? JSON.parse(p.atv) : p.atv) : {}; } catch (e) {}
           const xm = pm ? P.podio.xpDoc(aid, mid, atvA) : 0;
           // 💻 em qual computador da sala o aluno está (número dado ao PC pelo atalho ?pc=N; 20/11/2026)
           const sS = prog.find(q => q.tipo === "sessao" && q.alunoId === a.id), pcN = sS && /^PC\d+$/.test(sS.pc || "") && msT(sS.ping) >= ini0.getTime() ? sS.pc.slice(2) : "";
-          return `<tr class="${okB ? "feito" : par ? "parado" : "fazendo"}"><td data-rot="Aluno">${ehRei.has(a.id) ? `<span class="pv-coroa" title="Rei da sala: 1º lugar">${P.podio.coroa(22)}</span>` : ""}${a.atipico ? "🧩 " : ""}${esc(a.nome)}${pcN ? ` <span class="pv-pc" title="Computador da sala onde este aluno entrou">💻 PC ${esc(pcN)}</span>` : ""}${a.trilha ? " 👣" : ""}${tagTurma(a, estado.t)}${saidas ? ` <span class="pv-tela" title="Saiu da tela cheia ${saidas} vez(es) hoje">🖥️ saiu ${saidas}×</span>` : ""}${chutes >= 2 ? ` <span class="pv-tela pv-chute" title="Erros rápidos demais (menos de 4 segundos) nesta missão: sinal de chute">🎲 ${chutes} chutes</span>` : ""}${outra ? `<br><small>está na ${esc(rotMis(C, outra.mid))}</small>` : ""}</td><td data-rot="⚡ XP da missão" class="pv-xp">${xpCel(xm, xa)}</td><td data-rot="Entrou">${hhmm(entrou)}</td>
+          return `<tr class="${okB ? "feito" : par ? "parado" : "fazendo"}"><td data-rot="Aluno">${ehRei.has(a.id) ? `<span class="pv-coroa" title="Rei da sala: 1º lugar">${P.podio.coroa(22)}</span>` : ""}${a.atipico ? "🧩 " : ""}${esc(a.nome)}${pcN ? ` <span class="pv-pc" title="Computador da sala onde este aluno entrou">💻 PC ${esc(pcN)}</span>` : ""}${a.trilha ? " 👣" : ""}${tagTurma(a, estado.t)}${saidas ? ` <span class="pv-tela" title="Saiu da tela cheia ${saidas} vez(es) hoje">🖥️ saiu ${saidas}×</span>` : ""}${chutes >= 2 ? ` <span class="pv-tela pv-chute" title="Erros rápidos demais (menos de 4 segundos) nesta missão: sinal de chute">🎲 ${chutes} chutes</span>` : ""}${outra ? `<br><small>está na ${esc(rotMis(C, outra.mid))}</small>` : ""}</td><td data-rot="🏆 Pontos (placar)" class="pv-xp">${xpCel(xm, xa)}</td><td data-rot="Entrou">${hhmm(entrou)}</td>
             <td class="pv-bars" data-rot="Progresso">${fr(p.leitura, "📖 Leitura", "l")}${fr(p.basico, "🟢 Básico", "b")}${fr(p.desafio, "🟡 Desafio", "d")}${fr(p.turbo, "🔴 Turbo", "t")}${!pm ? "<small>—</small>" : ""}</td>
             <td data-rot="Situação">${sit}</td><td data-rot="Última atividade">${par ? "😴 " : ""}há ${Math.max(0, Math.round((agora - ult) / 60000))} min</td></tr>`; }).join("")}</tbody></table></div>`
         : `<p class="ajuda">Nenhum aluno desta turma entrou hoje ainda.</p>`}
@@ -783,8 +787,9 @@
           b.textContent = "✅ liberado: peça para ele entrar de novo"; toast("🔓 Entrada liberada: o aluno digita o código de novo no computador novo; o antigo sai sozinho."); }
         catch (e) { b.disabled = false; toast("Não foi possível liberar: " + (e.message || e)); } });
     };
+    let unsub0 = null;
     const carregarT = async () => {
-      if (unsub) { unsub(); unsub = null; }
+      if (unsub) { unsub(); unsub = null; } if (unsub0) { unsub0(); unsub0 = null; }
       dlg.querySelector("#pv-c").innerHTML = `<p class="ajuda">Carregando…</p>`;
       const t = turmas.find(x => x.id === tid);
       const ap = cat().apostilas.find(a => a.serie === t.serie.id && P.doPeriodo(a) && !a.oculta && !a.trilha) || cat().apostilas.find(a => a.serie === t.serie.id && P.doPeriodo(a));
@@ -793,6 +798,8 @@
       let fixo = false; try { const hh = await db().collection("config").doc("hoje_" + t.id).get(); fixo = hh.exists && hh.data().dia === N.hoje() && hh.data().mid === mid; } catch (e) {}
       estado = { t, alunos, prog: [], C, mid, midPadrao: mid, fixo, aid: ap.id };
       botaoFinalizar(dlg.querySelector("#pv-fim"), tid);
+      const uB = [...new Set([t.id, ...(PART.turmasProg || [])])].map(id => P.podio.ouvirBonus(id, () => { if (estado && estado.t.id === tid) pinta(); }));   // ⭐ XP da leitura guiada (igual ao placar)
+      unsub0 = () => uB.forEach(f => f());
       unsub = ouvirProg(PART.turmasProg, async lista => { if (estado && estado.t.id === tid) { estado.prog = lista; await carregarAids(estado.prog); pinta(); } },
         err => { dlg.querySelector("#pv-c").innerHTML = `<p class="ajuda">Não foi possível acompanhar ao vivo: ${esc(err.message || err)}</p>`; });
     };

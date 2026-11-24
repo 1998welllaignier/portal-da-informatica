@@ -232,7 +232,7 @@
     const msT = v => v == null ? 0 : typeof v === "number" ? v : v.toMillis ? v.toMillis() : (v.seconds || 0) * 1000;
     const online = () => { const pr = getProg(), ag = Date.now(); return alunos.filter(a => { const s2 = pr.find(p => p.tipo === "sessao" && p.alunoId === a.id); return s2 && ag - msT(s2.ping) < 180000; }); };
     const docL = id => getProg().find(p => p.tipo === "leitura" && p.alunoId === id && p.dia === hoje() && p.aid === aid && p.mid === mid);
-    function bonus() { if (P.podio) P.podio.bonusXP = { dia: hoje(), porId: Object.assign({}, d.xp) }; }
+    function bonus() { if (P.podio && P.podio.setBonus) alvo.forEach(id => P.podio.setBonus(id, hoje(), d.xp)); }
     function addXP(id, n) { d.xp[id] = (d.xp[id] || 0) + n; bonus(); }
     function contar() { const P2 = pergunta(T, d.idx); if (!P2) return { resp: 0, total: 0, acertos: 0, quem: [] };
       const on = online(), rs = on.map(a => ({ a, r: ((docL(a.id) || {}).resp || {})[d.idx] })).filter(x => x.r != null);

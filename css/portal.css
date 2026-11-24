@@ -1811,7 +1811,7 @@ button.tb-av:hover .avatar-svg, button.tb-av:focus-visible .avatar-svg { transfo
 .pv-atencao { background: var(--erro-bg); border: 2px solid #f3b4ad; border-radius: 12px; padding: 8px 12px; margin: 8px 0; }
 .pv-atencao.ok { background: var(--ok-bg); border-color: #9fd5b1; }
 .pv-atencao p { margin: 4px 0; } .pv-at-tit { font-weight: 900; }
-.pv-xp b { font-size: 1.05rem; } .pv-xp .pv-xpb { color: #a16207; font-weight: 700; font-size: .85rem; } .pv-xp small { display: block; color: var(--suave); }
+.pv-xp b { font-size: 1.05rem; } .pv-xp .pv-xpb { color: #a16207; font-weight: 700; font-size: .85rem; } .pv-xp small { display: block; color: var(--suave); } .pv-xp .pv-xp-de { font-size: .72rem; line-height: 1.25; margin-top: 2px; }
 /* 📱 no celular, cada aluno vira um cartão colorido (no computador continua a tabela) */
 @media (max-width: 640px) {
   .pv-tab, .pv-tab tbody, .pv-tab tr, .pv-tab td { display: block; width: 100%; }
