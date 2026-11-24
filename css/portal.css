@@ -2830,3 +2830,57 @@ body.pc-mini .pc-palco-prof, body.pc-mini .pc-lado, body.pc-mini .pc-fab, body.p
 .lousa-lanc button { background: rgba(30,41,59,.62); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,.3); }
 .pc-volta, .pc-fab { -webkit-backdrop-filter: blur(12px) saturate(1.4); backdrop-filter: blur(12px) saturate(1.4); }
 .pc-volta { background: rgba(17,24,39,.68); } .pc-fab { background: rgba(124,58,237,.78); border: 1px solid rgba(255,255,255,.35); }
+
+/* ============ 🎮 PÁGINA INICIAL "Escolha a sua fase" (24/11/2026) — estilo videogame antigo ============
+   Fonte de pixel só em títulos, números e botões (texto longo continua na fonte normal, para ler sem cansar). */
+@font-face { font-family: "PressStart"; src: url(fontes/press-start-2p.woff2) format("woff2"); font-display: swap; }
+.inicio-jogo { --ij-tinta: #10173A; --ij-px: 4px; --ij-pixel: "PressStart", "Courier New", monospace; }
+.inicio-jogo .pix { box-shadow: 0 calc(-1 * var(--ij-px)) 0 0 var(--ij-tinta), 0 var(--ij-px) 0 0 var(--ij-tinta), calc(-1 * var(--ij-px)) 0 0 0 var(--ij-tinta), var(--ij-px) 0 0 0 var(--ij-tinta); }
+.inicio-jogo .pix-s { box-shadow: 0 calc(-1 * var(--ij-px)) 0 0 var(--ij-tinta), 0 var(--ij-px) 0 0 var(--ij-tinta), calc(-1 * var(--ij-px)) 0 0 0 var(--ij-tinta), var(--ij-px) 0 0 0 var(--ij-tinta), calc(2 * var(--ij-px)) calc(2 * var(--ij-px)) 0 0 rgba(16,23,58,.35); }
+.ij-cena { position: relative; overflow: hidden; margin: 14px 4px 0; padding: 26px 20px 0; background: linear-gradient(#63B8FF 0 64%, #9AD3FF 64% 100%); }
+.ij-nuvem { position: absolute; }
+.ij-placa { position: relative; z-index: 2; width: fit-content; max-width: 100%; margin: 6px auto 0; background: #FFF6D8; padding: 18px 30px 22px; text-align: center; color: var(--ij-tinta); }
+.ij-placa h1 { font-family: var(--ij-pixel); font-weight: 400; font-size: clamp(22px, 3.7vw, 46px); line-height: 1.3; margin: 0; color: var(--ij-tinta); text-shadow: 4px 4px 0 #FFD23F; }
+.ij-selo { display: inline-block; margin-top: 14px; background: #FFD23F; padding: 4px 14px; font-family: var(--ij-pixel); font-size: clamp(11px, 1.45vw, 16px); line-height: 1.7; }
+.ij-placa p { margin: 12px auto 0; max-width: 46ch; font-size: 1rem; }
+.ij-perg { position: relative; z-index: 2; text-align: center; margin: 40px 0 0; font-family: var(--ij-pixel); font-weight: 400; font-size: clamp(14px, 1.9vw, 21px); line-height: 1.5; color: #fff; text-shadow: 3px 3px 0 var(--ij-tinta); }
+.ij-morros { position: absolute; z-index: 1; left: 0; right: 0; bottom: 70px; height: 200px; pointer-events: none; }
+.ij-mapa { position: relative; z-index: 2; max-width: 1040px; margin: 96px auto 0; display: grid; grid-template-columns: repeat(5, 1fr); align-items: end; gap: 12px; }
+.ij-fase { display: flex; flex-direction: column; align-items: center; text-decoration: none; color: var(--ij-tinta); margin-bottom: var(--sobe); }
+.ij-bloco { position: relative; width: 104px; height: 104px; background: var(--c); display: grid; place-items: center; transition: transform .12s steps(3); }
+.ij-bloco::before { content: ""; position: absolute; inset: 10px; border: 4px solid rgba(255,255,255,.45); border-right-color: rgba(0,0,0,.2); border-bottom-color: rgba(0,0,0,.2); }
+.ij-bloco > span { position: relative; font-family: var(--ij-pixel); font-size: 48px; line-height: 1; color: #fff; text-shadow: 4px 4px 0 var(--ij-tinta); }
+.ij-rotulo { margin-top: 16px; background: #fff; padding: 6px 12px 8px; text-align: center; min-width: 136px; }
+.ij-rotulo b { display: block; font-family: var(--ij-pixel); font-weight: 400; font-size: 14px; line-height: 1.9; } .ij-rotulo small { font-size: .8rem; color: #334155; }
+.ij-fase:hover .ij-bloco, .ij-fase:focus-visible .ij-bloco { transform: translateY(-10px); }
+.ij-fase:focus-visible { outline: 4px dashed #FFD23F; outline-offset: 6px; }
+.ij-fase.pulou .ij-bloco { animation: ij-pulo .3s steps(4); }
+@keyframes ij-pulo { 40% { transform: translateY(-24px); } }
+.ij-bandeira { position: absolute; left: calc(50% + 4px); top: -58px; width: 30px; height: 20px; background: #FFD23F; box-shadow: 0 0 0 4px var(--ij-tinta); }
+.ij-bloco:has(.ij-bandeira)::after { content: ""; position: absolute; left: 50%; top: -58px; width: 4px; height: 54px; background: var(--ij-tinta); }
+.ij-chao { position: relative; z-index: 1; height: 74px; margin: -20px -20px 0; border-top: 4px solid var(--ij-tinta);
+  background: linear-gradient(#3BB273 0 14px, #2A8C57 14px 22px, #B9733A 22px 100%); }
+.ij-chao::after { content: ""; position: absolute; inset: 22px 0 0; background-image: linear-gradient(90deg, #8C5226 8px, transparent 8px), linear-gradient(#8C5226 8px, transparent 8px); background-size: 48px 32px; opacity: .45; }
+.ij-mais { display: grid; grid-template-columns: 1.2fr 1fr; gap: 28px; margin: 34px 4px 10px; align-items: stretch; }
+.inicio-jogo .vc { margin: 0; border: 0; border-radius: 0; background: #fff; box-shadow: 0 -4px 0 0 #10173A, 0 4px 0 0 #10173A, -4px 0 0 0 #10173A, 4px 0 0 0 #10173A, 8px 8px 0 0 rgba(16,23,58,.35); }
+.inicio-jogo .vc-mini { border-radius: 0; box-shadow: 0 0 0 4px #10173A; }
+.inicio-jogo .vc-txt h2 { font-family: var(--ij-pixel); font-weight: 400; font-size: 15px; line-height: 1.6; }
+.inicio-jogo .vc-para { text-transform: none; letter-spacing: 0; font-size: .82rem; }
+.inicio-jogo .vc-btn { border-radius: 0; font-family: var(--ij-pixel); font-weight: 400; font-size: 11px; line-height: 1.7; box-shadow: 0 0 0 4px #10173A; margin: 8px 4px 4px; }
+.ij-material.card-material { margin: 0; border-radius: 0; background: #FFF6D8; color: #10173A; flex-wrap: wrap; align-items: flex-start; }
+.ij-material .ij-mat-tit { display: block; color: #10173A; font-family: var(--ij-pixel); font-weight: 400; font-size: 15px; line-height: 1.6; margin-bottom: 6px; }
+.ij-btn { display: inline-block; font-family: var(--ij-pixel); font-size: 11px; line-height: 1.7; padding: 6px 12px; background: #FFD23F; color: #10173A; margin: 4px; }
+@media (max-width: 760px) {
+  .ij-placa { padding: 16px 16px 18px; }
+  .ij-mapa { grid-template-columns: 1fr; gap: 24px; margin-top: 28px; padding: 0 6px; }
+  .ij-fase { flex-direction: row; gap: 16px; margin: 0 !important; } .ij-fase:nth-child(even) { flex-direction: row-reverse; }
+  .ij-bloco { width: 80px; height: 80px; flex: none; } .ij-bloco > span { font-size: 36px; }
+  .ij-rotulo { margin: 0; flex: 1; text-align: left; } .ij-fase:nth-child(even) .ij-rotulo { text-align: right; }
+  .ij-bandeira, .ij-bloco:has(.ij-bandeira)::after, .ij-morros { display: none; }
+  .ij-perg { margin-top: 26px; } .ij-mais { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) { .ij-bloco { transition: none; } .ij-fase.pulou .ij-bloco { animation: none; } }
+.ij-material .cmat-txt, .ij-material .cmat-txt span { color: #334155; } .ij-material .cmat-txt span b { color: #10173A; font-family: inherit; }
+.ij-material .cmat-ir.ij-btn { border-radius: 0; border: 0; color: #10173A; background: #FFD23F; box-shadow: 0 -4px 0 0 #10173A, 0 4px 0 0 #10173A, -4px 0 0 0 #10173A, 4px 0 0 0 #10173A; }
+.inicio-jogo .vc-btn { white-space: nowrap; }
+@media (max-width: 760px) { .inicio-jogo .vc { grid-template-columns: 1fr; } .inicio-jogo .vc-mini { max-width: 100%; } }

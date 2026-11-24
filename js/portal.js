@@ -964,30 +964,49 @@
     if (dlg.requestFullscreen && matchMedia("(max-width: 820px)").matches) dlg.requestFullscreen().catch(() => {});
   });
 
+  /* 🎮 PÁGINA INICIAL no estilo videogame antigo (24/11/2026, aprovada pelo professor): "Escolha a sua fase".
+     As séries são fases numa escadinha que sobe (5º → 9º); clicar ou apertar o número no teclado faz o bloco "pular" e abre a série.
+     Fonte de pixel (Press Start 2P, licença OFL, em css/fontes) só em títulos, números e botões; o texto continua na fonte normal. */
   function telaInicio() {
     barra();
-    const el = mount(`<section class="tela">
-      <header class="hero">
-        <p class="hero-escola">${esc(cat().escola)} · ${esc(cat().cidade)}</p>
-        <h1>${esc(cat().portal)}</h1>
-        <p class="hero-prof">${esc(cat().professor)}</p>
-        <p class="hero-tag">Apostilas digitais interativas</p>
-        <p class="hero-sub">Leia, pratique e descubra onde você usa cada conteúdo. Escolha a sua série para começar.</p>
-      </header>
-      <h2 class="sec-tit">Qual é a sua série?</h2>
-      <div class="grid-cards">${cat().series.map(s => `<a class="card-serie" href="#/serie/${s.id}" style="--cor:${s.cor}">
-        <span class="cs-num">${esc(s.nome.split(" ")[0])}</span><span class="cs-nome">${esc(s.nome)}</span>
-        <span class="cs-turmas">${s.nota ? esc(s.nota) : s.turmas.map(t => esc(t.nome)).join(" · ")}</span></a>`).join("")}</div>
-      ${P.videoCartao((cat().videosApresentacao || {}).familias, { para: "🎬 Para famílias e alunos", titulo: "Conheça o Portal da Informática", duracao: "3 min",
+    const ss = cat().series;
+    const el = mount(`<section class="tela inicio-jogo">
+      <div class="ij-cena pix-s">
+        <svg class="ij-nuvem" style="left:4%;top:26px;width:132px" viewBox="0 0 36 14" shape-rendering="crispEdges" aria-hidden="true"><path fill="#10173A" d="M8 2h10v2h4v2h6v2h4v4h2v2H0v-2h2V8h2V6h4z"/><path fill="#fff" d="M9 3h8v2h4v2h6v2h4v3H2v-2h2V8h2V6h3z"/></svg>
+        <svg class="ij-nuvem" style="right:5%;top:120px;width:100px" viewBox="0 0 36 14" shape-rendering="crispEdges" aria-hidden="true"><path fill="#10173A" d="M8 2h10v2h4v2h6v2h4v4h2v2H0v-2h2V8h2V6h4z"/><path fill="#fff" d="M9 3h8v2h4v2h6v2h4v3H2v-2h2V8h2V6h3z"/></svg>
+        <div class="ij-placa pix-s">
+          <h1>Aula de Informática</h1>
+          <span class="ij-selo pix">com o ${esc(cat().professor.replace(/^Professor\s+/i, "Prof. "))}</span>
+          <p>Aqui você lê, pratica nos simuladores e descobre onde usa cada conteúdo no dia a dia.</p>
+        </div>
+        <h2 class="ij-perg">Escolha a sua fase: qual é a sua série?</h2>
+        <svg class="ij-morros" viewBox="0 0 320 55" preserveAspectRatio="none" shape-rendering="crispEdges" aria-hidden="true">
+          <path fill="#2A8C57" d="M0 55V35h8v-6h8v-5h12v5h8v6h8v20zM190 55V30h10v-8h8v-5h16v5h8v8h10v25z"/>
+          <path fill="#3BB273" d="M60 55V40h10v-6h10v-4h18v4h10v6h10v15zM250 55V38h8v-6h12v-4h14v4h10v6h8v17z"/></svg>
+        <nav class="ij-mapa" aria-label="Escolha a sua série">${ss.map((s, i) => { const n = esc(s.nome.split(/[º°ª\s]/)[0]);
+          return `<a class="ij-fase" href="#/serie/${s.id}" data-k="${n}" style="--c:${s.cor};--sobe:${i * 30}px">
+            <span class="ij-bloco pix-s"><span>${n}</span>${i === ss.length - 1 ? `<i class="ij-bandeira" aria-hidden="true"></i>` : ""}</span>
+            <span class="ij-rotulo pix"><b>${esc(s.nome)}</b><small>${s.nota ? esc(s.nota) : "Turmas " + s.turmas.map(t => esc(t.nome.replace(/^\S+\s*/, ""))).join(", ").replace(/, ([^,]*)$/, " e $1")}</small></span></a>`; }).join("")}</nav>
+        <div class="ij-chao" aria-hidden="true"></div>
+      </div>
+      <div class="ij-mais">
+        ${P.videoCartao((cat().videosApresentacao || {}).familias, { para: "🎬 Para famílias e alunos", titulo: "Conheça o Portal da Informática", duracao: "3 min",
         sub: "Veja como funcionam as aulas de Informática do Prof. Welington Laignier e como o aluno aprende no portal. Assista com o som ligado.",
         topicos: ["🔢 Como o aluno entra: só um código de 4 números, sem e-mail e sem senha", "🎯 As missões: videozinho, leitura e “Onde eu uso isso?”", "🖱️ Os simuladores e as tarefas em três níveis, com o robô Bit para ajudar", "🏆 Os pontos, o rei da sala e o pódio no fim da aula", "👀 Como o professor acompanha cada aluno e quem estuda em casa", "🔒 A segurança: nome e notas só aparecem no painel do professor"] })}
-      <a class="card-material" href="material.html">
-        <span class="cmat-ic" aria-hidden="true">📚</span>
-        <span class="cmat-txt"><span class="cmat-sup">O que se aprende aqui</span><b>O material da Sala de Informática</b>
-          <span>O que os alunos estudam, com qual material e como ele trabalha <b>as 42 habilidades e os 3 eixos da BNCC Computação</b>. Com relatório em PDF.</span></span>
-        <span class="cmat-ir">Conhecer ➜</span></a>
+        <a class="card-material ij-material pix-s" href="material.html">
+          <span class="cmat-ic" aria-hidden="true">📚</span>
+          <span class="cmat-txt"><b class="ij-mat-tit">O material da Sala de Informática</b>
+            <span>O que os alunos estudam, com qual material e como ele trabalha <b>as 42 habilidades e os 3 eixos da BNCC Computação</b>. Com relatório em PDF.</span></span>
+          <span class="cmat-ir ij-btn pix">Conhecer o material</span></a>
+      </div>
     </section>`);
     P.ligarVideoCartao(el);
+    // clicar ou apertar o número: o bloco pula (como no jogo) e a série abre
+    const pular = (f, ir) => { f.classList.remove("pulou"); void f.offsetWidth; f.classList.add("pulou"); if (ir) setTimeout(() => { location.hash = f.getAttribute("href"); }, matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 260); };
+    el.querySelectorAll(".ij-fase").forEach(f => f.addEventListener("click", e => { if (e.ctrlKey || e.metaKey || e.shiftKey) return; e.preventDefault(); pular(f, true); }));
+    const tecla = e => { if (!el.isConnected) return removeEventListener("keydown", tecla); if (e.ctrlKey || e.altKey || e.metaKey || /input|textarea|select/i.test((e.target.tagName || ""))) return;
+      const f = el.querySelector('.ij-fase[data-k="' + e.key + '"]'); if (f) { e.preventDefault(); pular(f, true); } };
+    addEventListener("keydown", tecla);
     return el;
   }
 

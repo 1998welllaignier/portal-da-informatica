@@ -743,3 +743,8 @@ Questões **contextualizadas** (situação curta: 1–2 frases no 6º, 2–3 no 
 
 ## 🫧 Vidro só nas peças que flutuam (24/11/2026, opção A do professor)
 - Efeito de vidro (fundo levemente transparente e embaçado) **apenas** no que flutua por cima do conteúdo: barra do topo, bolha de pontos do aluno, botão 🎵 da música, botões do ✏️ pincel, pílula "● AO VIVO" e "👥 A turma". O resto do portal continua com cores chapadas, contorno e sombra dura. Poucas peças, para não pesar nos PCs da sala. As cores dos temas das datas continuam (com leve transparência).
+
+## 🎮 Estilo videogame antigo (8 bits / pixel art) — começa pela página inicial (24/11/2026, aprovado pelo professor)
+- **Página inicial "Escolha a sua fase":** as séries são fases numa escadinha que sobe (5º → 9º), num cenário de jogo (céu, nuvens e morros em pixel, chão de tijolinhos), com o título numa placa e o selo amarelo do professor. Clicar no bloco, ou apertar o número no teclado, faz o bloco **pular** e abre a série. No celular, as fases descem em zigue-zague.
+- **Fonte de pixel** (Press Start 2P, licença OFL, guardada em `css/fontes/`, 11 KB) **só em títulos, números e botões**. Texto de leitura, enunciados e explicações continuam na fonte normal (fonte de pixel em texto longo cansa e atrapalha quem tem dificuldade de leitura). Bordas "de pixel" (cantos dentados, sem arredondar) e sombra dura.
+- **Direção para o resto do portal (com calma, uma tela por vez, sempre com prévia e teste):** página da série, sala de espera, placar, pódio; nas apostilas, só detalhes (títulos e selos de fase concluída). Elementos dos **temas das datas** (como a igrejinha da padroeira) são temporários e **não** entram como peça fixa do estilo.
