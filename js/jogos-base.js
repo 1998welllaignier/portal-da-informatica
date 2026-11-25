@@ -125,8 +125,8 @@
     }
     function menu() {
       parar(); parar = () => {};
-      const hoje = doDia(opc.turma), prox = proximos()[0];
-      box.innerHTML = `<div class="jg-menu-topo"><h3>🎮 Escolha um jogo</h3><span class="ajuda">Os jogos de hoje · ${hoje.length} de ${liberados().length} liberados${prox ? ` · próximo jogo novo: <b>${esc(prox.ic)} ${esc(prox.nome)}</b> em ${prox.estreia.slice(8, 10)}/${prox.estreia.slice(5, 7)}` : ""}</span></div>
+      const hoje = opc.todos ? liberados() : doDia(opc.turma), prox = proximos()[0];   // opc.todos: 🎮 Sala de jogos do 5º ano (todos os jogos; 25/11/2026)
+      box.innerHTML = `<div class="jg-menu-topo"><h3>🎮 Escolha um jogo</h3><span class="ajuda">${opc.todos ? `Todos os ${hoje.length} jogos liberados` : `Os jogos de hoje · ${hoje.length} de ${liberados().length} liberados`}${prox ? ` · próximo jogo novo: <b>${esc(prox.ic)} ${esc(prox.nome)}</b> em ${prox.estreia.slice(8, 10)}/${prox.estreia.slice(5, 7)}` : ""}</span></div>
         <div class="jg-menu">${hoje.map(j => `<button type="button" class="jg-card ${j.cat}" data-j="${esc(j.id)}">${ehNovo(j) ? `<span class="jg-novo">🆕 NOVO</span>` : ""}<span class="jg-ic">${j.ic}</span><b>${esc(j.nome)}</b><small>${j.cat === "acao" ? "🕹️ Ação" : "💻 Informática"}</small>${recordes[j.id] || recT[j.id] ? `<small class="jg-card-rec">${recordes[j.id] ? `⭐ seu ${recordes[j.id]}` : ""}${recordes[j.id] && recT[j.id] ? " · " : ""}${recT[j.id] ? `🏆 turma ${recT[j.id].pts}` : ""}</small>` : ""}</button>`).join("")}</div>
         <p class="jg-mural-bt"><button type="button" class="btn btn-sec btn-peq" data-x="mural">🏆 Mural de recordes da turma e da série</button></p>`;
       box.querySelectorAll("[data-j]").forEach(b => b.onclick = () => comoJogar(lista.find(j => j.id === b.dataset.j)));

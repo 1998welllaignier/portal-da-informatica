@@ -1228,6 +1228,7 @@
         <p class="capa-prof">${esc(cat().professor)}</p></div>
         ${(P.ilustracoes[aid] || {}).mascote ? `<div class="capa-masc">${P.ilustracoes[aid].mascote}</div>` : ""}
       </header>
+      ${a.serie === "5" && P.jogosEspera ? `<a class="jogos5-cta" href="#/jogos"><span class="jogos5-ic">🎮</span><span><b>Sala de jogos</b><small>Todos os jogos do portal para você jogar e bater recordes!</small></span><span class="jogos5-ir">Jogar ▶</span></a>` : ""}
       <div class="grid-missoes">${C.missoes.filter(mm => mm.id !== "rc" || P.recLiberada || s.prof || !s.nuvem).map(card).join("")}</div>
       <details class="painel como-usar"><summary>📘 Como usar esta apostila</summary>${blocos(C.comoUsar.filter(b => !(b.t === "p" && /Tudo na apostila|escreve e desenha/.test(b.h))))}
         <p><strong>No portal:</strong> faça junto com o professor a missão do dia. Quando terminar o 🟢 Básico, aparece a faixa verde <strong>“Básico concluído”</strong>: tudo fica registrado sozinho, e você escolhe entre o Desafio (nota maior) e os jogos livres.</p></details>
@@ -1240,6 +1241,26 @@
       if (!(await confirmar("Apagar todas as suas respostas desta apostila neste computador? Não dá para desfazer.", "Sim, apagar"))) return;
       store.del(progressoKey(aid)); toast("Seus dados desta apostila foram apagados deste computador."); telaApostila(aid);
     };
+  }
+
+  /* 🎮 SALA DE JOGOS DO 5º ANO (25/11/2026, pedido do professor): os alunos do 5º ano (atendimento por vontade própria)
+     jogam TODOS os jogos da Sala de espera, a qualquer hora, sem contar pontos de aula. Os recordes e o progresso dos jogos
+     (ex.: as fases do Byte) ficam no mesmo lugar da Sala de espera: progresso/<aluno>_espera.recordes. */
+  async function telaJogos5() {
+    const s = sess.get(); if (!s) return telaInicio();
+    if (s.serie !== "5" || !P.jogosEspera) { location.replace("#/apostilas"); return; }
+    barra(`<span>🎮 Sala de jogos</span>`);
+    const ids = s.alunoIds || [], nuvem = !!(s.nuvem && P.nuvem && P.nuvem.pronto);
+    const refs = nuvem ? ids.map((id, i) => P.nuvem.app(i).db.collection("progresso").doc(id + "_espera")) : [];
+    const docs = await Promise.all(refs.map(r => r.get().then(x => x.exists ? x.data() : {}).catch(() => ({}))));
+    const recordes = {}; docs.forEach(x => Object.entries(x.recordes || {}).forEach(([k, v]) => { recordes[k] = Math.max(recordes[k] || 0, v || 0); }));
+    mount(`<section class="tela jogos5"><nav class="migalhas"><a href="#/apostilas">Apostilas</a> › 🎮 Sala de jogos</nav>
+      <header class="jogos5-topo"><h1>🎮 Sala de jogos</h1><p>Escolha um jogo, veja como se joga e tente bater o seu recorde. Bom divertimento, ${esc(((s.nomes || [])[0] || "").split(" ")[0])}!</p></header>
+      <div class="painel jogos5-box"></div></section>`);
+    const box = document.querySelector(".jogos5-box");
+    P.jogosEspera.abrir(box, { turma: s.turma, serie: s.serie, todos: true, ganhar: () => {}, recordes, eu: ids, nome: (s.nomes || []).map(n => (n || "").split(" ")[0]).join(" e "),
+      avatar: (s.avatares || [])[0] || null,
+      salvarRecorde: (id, v) => refs.forEach((r, i) => r.set({ alunoId: ids[i], turma: s.turma, recordes: { [id]: v } }, { merge: true }).catch(() => {})) });
   }
 
   // traz da nuvem o que o aluno já fez (espera no máximo 4 segundos)
@@ -2071,6 +2092,7 @@
       if (r === "prova") { barra(); if (!P.prova) return telaInicio(); return await P.prova.abrir(mount, a1); }
       if ((r === "apostilas" || r === "apostila" || r === "missao") && P.prova) { const d = await P.prova.destino(); if (d) { location.replace(d); return; } }
       if (r === "casa") return await telaCasa();
+      if (r === "jogos") return await telaJogos5();
       if (r === "espera") { barra(); if (!P.espera) return telaInicio(); return await P.espera.tela(mount, sess.get()); }
       // 🚦 enquanto a turma está na Sala de espera, quem abre a lista ou uma missão volta para lá (as tarefas ainda estão fechadas)
       if ((r === "apostilas" || r === "apostila" || r === "missao") && P.espera) { try { if (await P.espera.ativaPara(sess.get())) { location.replace("#/espera"); return; } } catch (e) {} }

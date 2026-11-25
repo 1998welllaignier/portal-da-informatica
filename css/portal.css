@@ -2889,3 +2889,10 @@ body.pc-mini .pc-palco-prof, body.pc-mini .pc-lado, body.pc-mini .pc-fab, body.p
 .lib-m-sit { grid-row: span 2; font-size: 1.3rem; text-align: center; } .lib-m small { font-weight: 400; opacity: .8; }
 .lib-todas { width: 100%; margin: 8px 0; } .lib-sug-t { margin: 10px 0 0; font-weight: 700; font-size: .9rem; }
 .lib-lista summary { cursor: pointer; font-weight: 700; padding: 6px 0; } .lib-ms { max-height: 46vh; overflow: auto; padding-right: 4px; }
+
+/* 🎮 Sala de jogos do 5º ano (25/11/2026) */
+.jogos5-cta { display: flex; align-items: center; gap: 14px; margin: 14px 0 18px; padding: 14px 18px; text-decoration: none; color: #fff; background: linear-gradient(90deg, #7C3AED, #2563EB); border-radius: 14px; box-shadow: 0 6px 0 #10173A; transition: transform .12s; }
+.jogos5-cta:hover { transform: translateY(-2px); } .jogos5-cta:active { transform: translateY(3px); box-shadow: 0 3px 0 #10173A; }
+.jogos5-ic { font-size: 2.2rem; } .jogos5-cta b { display: block; font-size: 1.25rem; } .jogos5-cta small { opacity: .9; }
+.jogos5-ir { margin-left: auto; background: #FFD23F; color: #10173A; font-weight: 800; padding: 8px 14px; border-radius: 10px; }
+.jogos5-topo h1 { margin-bottom: 4px; } .jogos5-box { padding: 14px; }

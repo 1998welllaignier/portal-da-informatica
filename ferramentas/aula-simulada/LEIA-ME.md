@@ -21,3 +21,4 @@ Sala de espera → leitura (slide igual em todas as telas, risco do pincel chega
 - `roteiro-pontos.js`: confere que o 🏆 placar e o 🔴 Ao vivo (abertos em outras abas, sem a Aula ao vivo) mostram os MESMOS pontos, com a leitura guiada somada (24/11/2026).
 - `roteiro-byte.js`: o jogo 🤖 Byte: a Aventura na Sala de espera (história, mapa, fase completa, jogo salvo no aluno, game over, Rei Vírus) e o tema 🎮 Byte 8 bits (25/11/2026).
 - `roteiro-outra-turma.js`: aluno que frequenta a aula de outra turma entra na Sala de espera dessa turma (25/11/2026).
+- `roteiro-jogos-5ano.js`: a 🎮 Sala de jogos do 5º ano (botão na apostila, todos os jogos liberados, recorde salvo; outras séries não entram) (25/11/2026).
