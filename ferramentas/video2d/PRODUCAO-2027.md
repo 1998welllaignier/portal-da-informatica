@@ -75,3 +75,15 @@ Referência: o 8º ano · 4º bim. 2026 · M1 "Listas: buscar e ordenar como um 
 | 6º M3–M8, 7º, 8º e 9º | – | – | – |
 
 Peças reaproveitáveis por série (personagens, fichas, telinha, grafo, robô no tabuleiro): `pecas-2027/helpers-<série>ano.js` — colar no começo do cenas.js.
+
+## 🎬 Vídeos extras "bem explicadinhos" (plano de 25/11/2026)
+Padrão: o extra de listas do 8º (8ano-m1-extra) como referência de didática (passo a passo, Bia e o robozinho Bit, exemplos da própria apostila), com o visual completo v2 (câmera, profundidade, abertura de Oscar). Uns 5 a 7 min cada.
+| Ordem | Série · missão | Tema | História | Situação |
+|---|---|---|---|---|
+| 1 | 8º 1º bim. M6 | Recursão | O mistério da boneca que nunca acaba (matrioska, fila do cinema, foguete) | ✅ cenas (2027-8ano-m6-extra) · falta voz |
+| 2 | 9º 1º bim. M5 | Autômatos (máquinas de estados) | a definir | ⏳ |
+| 3 | 9º 2º bim. M4 | Criptografia com chaves e HTTPS | a definir | ⏳ |
+| 4 | 6º 3º bim. M3–M4 | Variáveis · um bloco para muitos casos | a definir | ⏳ |
+| 5 | 8º 1º bim. M4–M5 | Busca binária e bolha (refazer o extra de 2026 no padrão v2) | a definir | ⏳ |
+| 6 | 8º 1º bim. M7–M8 | Ordenação por seleção · fractais | a definir | ⏳ |
+| 7+ | 🟡 médios | 6º seleção; 7º registros, depurar, caminho mais curto, protocolos; 8º DNS, paralelismo; 9º árvores, eventos | a definir | ⏳ |
