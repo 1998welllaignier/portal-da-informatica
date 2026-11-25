@@ -75,23 +75,29 @@
     /* 📌 Missão de hoje da turma (config/hoje_<turma>), só vale no dia em que o professor marcou */
     async hoje(s) {
       if (!s || !s.nuvem || !N() || !N().pronto) return null;
-      const h = await cfg("hoje_" + s.turma), d = N().hoje();
+      const lib = await cfg("liberar_" + s.turma), r = await this.aulaDe(s, lib), h = r.h, d = N().hoje();
       return h && h.dia === d && (h.mid || h.iniciadaDia === d) ? h : null;
+    },
+    /* 🏫 Qual aula vale AGORA para esta sessão: a da turma do aluno ou a de outra turma que ele frequenta
+       (config/liberar_<turma>.outra). 25/11/2026: vale a aula iniciada MAIS RECENTEMENTE hoje. Antes, se a turma dele
+       tivesse tido aula mais cedo no mesmo dia, ela "ganhava" e o aluno via "A aula de hoje já terminou" na aula da outra turma. */
+    async aulaDe(s, lib) {
+      const d = N().hoje(), own = await cfg("hoje_" + s.turma);
+      const outras = [...new Set((s.alunoIds || []).map(id => ((lib || {}).outra || {})[id]).filter(x => x && x !== s.turma))];
+      let melhor = { h: own, tAula: s.turma, t: own && own.dia === d && own.iniciadaDia === d ? (own.iniciadaEm || 1) : 0 };
+      for (const ot of outras) { const ho = await cfg("hoje_" + ot), t = ho && ho.dia === d && ho.iniciadaDia === d ? (ho.iniciadaEm || 1) : 0;
+        if (t > melhor.t) melhor = { h: ho, tAula: ot, t }; }
+      return melhor;
     },
     /* {aberta:true} ou {aberta:false, fechada, horarios:[texto], hoje:{mid,titulo}} */
     async estado(s, mid) {
       if (!s || !s.nuvem || !N() || !N().pronto) return { aberta: true }; // visualização do professor, modo explorador
       let [g, lib, h] = await Promise.all([cfg("geral"), cfg("liberar_" + s.turma), this.hoje(s)]);
-      // 🏫 aluno que frequenta a aula de outra turma (🏫 no painel, config/liberar_<turma>.outra): se a aula dele não foi
-      //    iniciada hoje e a da outra turma foi, vale a aula da outra turma (início, missão, trava e fim) — corrigido em 18/11/2026
+      // 🏫 aluno que frequenta a aula de outra turma (🏫 no painel, config/liberar_<turma>.outra): vale a aula iniciada
+      //    mais recentemente hoje (a dele ou a da outra turma) — início, missão, trava e fim (18/11/2026; ajustado em 25/11/2026)
       let tAula = s.turma;
-      const outras = [...new Set((s.alunoIds || []).map(id => (lib.outra || {})[id]).filter(Boolean))];
-      if (outras.length && !(h && h.iniciadaDia === N().hoje())) {
-        for (const ot of outras) {
-          const ho = await cfg("hoje_" + ot), d = N().hoje();
-          if (ho && ho.dia === d && ho.iniciadaDia === d) { const lo = await cfg("liberar_" + ot); h = ho; tAula = ot; lib = Object.assign({}, lib, { fechadaAte: lo.fechadaAte, ate: lo.ate || lib.ate }); break; }
-        }
-      }
+      { const r = await this.aulaDe(s, lib); tAula = r.tAula;
+        if (tAula !== s.turma) { const lo = await cfg("liberar_" + tAula); lib = Object.assign({}, lib, { fechadaAte: lo.fechadaAte, ate: lo.ate || lib.ate }); } }
       const ms = await agora();
       const ids = s.alunoIds || [];
       // 📝 atividade de recuperação (15/11/2026): abre a qualquer hora para quem o professor liberou, e só para ele
