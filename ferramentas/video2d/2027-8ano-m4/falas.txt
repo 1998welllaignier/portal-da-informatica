@@ -1,21 +1,25 @@
-Busca binária: procurar pelo meio!
+Busca binária: o segredo do Show do Meio!
 
-A Bia desafiou o Léo: pensei num número de um a cem. Você chuta, e eu digo se é maior ou menor. O Léo começou: um? Maior. Dois? Maior. Três? Maior… Desse jeito, ele podia precisar de cem chutes!
+Luzes, câmera, ação! No Show do Meio, a apresentadora Bia pensa num número de um a cem, e o Léo tem que descobrir. A cada chute, a Bia só responde: maior ou menor.
 
-Aí a Bia deu a dica: chuta o meio! Cinquenta? Maior. Então, nem precisa pensar de um a cinquenta: metade jogada fora! Setenta e cinco? Menor. Mais metade fora! Cada chute corta o problema pela metade. Isso é a busca binária.
+O Léo começou: um? Maior! Dois? Maior! Três? Maior! A plateia começou a bocejar. Desse jeito, ele podia precisar de até cem chutes!
 
-Mas atenção, regra de ouro: a busca binária só funciona se a lista estiver ordenada. Numa lista bagunçada, olhar o meio não diz nada sobre os outros.
+Aí, a Bia soprou uma dica: chuta o meio! O Léo respirou fundo: cinquenta? Maior! E olha que beleza: de um a cinquenta, nem precisa mais pensar. Metade do placar apagou de uma vez!
 
-O algoritmo: olhe o item do meio da parte que sobrou. É o procurado? Achou! O procurado é maior? Jogue fora a metade da esquerda. É menor? Jogue fora a metade da direita. E repita com a parte que sobrou.
+Agora, o meio do que sobrou: setenta e cinco? Menor! Lá se foi mais metade. Cada chute corta o problema pela metade. Esse jeito de procurar tem nome: busca binária.
 
-Vamos procurar o trinta e um nesta lista ordenada de oito números. A primeira tentativa olha o meio: a posição quatro, que tem o dezoito. Trinta e um é maior, então a metade da esquerda vai embora. Sobram as posições cinco a oito. O meio agora é a posição seis: trinta e um. Achou!
+Mas atenção, regra de ouro: a busca binária só funciona se a lista estiver ordenada. Numa estante em ordem, olhar o livro do meio já diz para que lado seguir. Numa pilha bagunçada, o meio não diz nada!
 
-Só duas comparações! A busca sequencial, olhando um por um, precisaria de seis.
+O algoritmo tem cinco passos. Olhe o item do meio da parte que sobrou. É o procurado? Achou! O procurado é maior? Jogue fora a metade da esquerda. É menor? Jogue fora a metade da direita. E repita com a parte que sobrou.
 
-E quanto maior a lista, maior a vantagem. Com mil itens, a busca sequencial pode precisar de mil comparações; a binária, de só dez. Com um milhão de itens, a binária precisa de apenas vinte!
+Valendo! Procurar o trinta e um nesta lista de oito números. O meio é a posição quatro, com o dezoito. Trinta e um é maior: a metade da esquerda cai fora! Sobram as posições cinco a oito. O novo meio é a posição seis: trinta e um. Achou!
 
-O Léo chutou o meio a cada vez e acertou o número da Bia em só sete chutes. Missão cumprida!
+Só duas comparações! Agora, uma corrida: a tartaruga da busca sequencial olha um por um e precisa de seis passos. O canguru da busca binária pula pela metade e chega em dois.
+
+E quanto maior a lista, maior a vantagem. Com mil itens, a sequencial pode precisar de mil comparações; a binária, de só dez. Com um milhão de itens, a binária precisa de apenas vinte!
+
+De volta ao show: o Léo chutou sempre o meio e acertou o número da Bia em só sete chutes. A plateia foi à loucura! Missão cumprida!
 
 Onde eu uso isso? No dicionário de papel: a gente abre no meio e vai para a frente ou para trás. Nos contatos do celular, em ordem alfabética. E nos sites de busca, que usam listas ordenadas para responder em milésimos de segundo.
 
-Agora é com vocês: abram a Missão 4 no portal!
+Agora é com vocês: abram a Missão 4 no portal e joguem o Show do Meio!

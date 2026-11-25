@@ -75,3 +75,23 @@ Modelo de referência: `ferramentas/video2d/modelo-cabo-submarino.html` (8º ano
 - O vídeo extra é um reforço que o professor pede **só quando o assunto exigir** (quando ele perceber que a turma vai ter dificuldade mesmo com a explicação e o vídeo curto).
 - Como é: explica a missão inteira do começo ao fim, passo a passo, como para uma criança, com historinha (ex.: Bia e o robozinho Bit com cartas numeradas), usando os mesmos exemplos das tarefas do portal. Pode ser mais longo (o do 8º M1 tem cerca de 6 minutos).
 - Primeiro: `ferramentas/video2d/8ano-m1-extra/` (Listas: busca sequencial, busca binária e método da bolha).
+
+## ✅ Lista de conferência obrigatória (25/11/2026, cobrança do professor: "não temos motivo para economizar")
+Em 25/11/2026 a varredura achou 30 vídeos de 2027 abaixo do padrão (9 a 10 cenas, sem câmera, cara de slide). Nenhum vídeo sai sem cumprir TODOS os itens:
+
+**Roteiro (o vídeo tem que prender E ensinar)**
+1. Uma história com começo, meio e fim que atravessa o vídeo inteiro (o personagem tenta, erra, descobre e vence), não só a 1ª e a última cena.
+2. Um "mundo" ou metáfora para o tema (ex.: 8º M4 = programa de auditório "Show do Meio"; Especial Teclado = Cidade Teclado).
+3. O conteúdo da apostila inteiro e correto: todo conceito, termo e exemplo da missão aparece, explicado e demonstrado (não basta citar).
+4. Ritmo: frases curtas, surpresa e humor; uma ideia por cena; 12 a 20 cenas, conforme o conteúdo.
+
+**Visual**
+5. Abertura "digna de Oscar": mini cena própria do tema, com o título, o subtítulo do problema e o nome do professor em destaque.
+6. Câmera que se mexe: aproxima, afasta, passeia e entra nas coisas (função `camera()`), em quase todas as cenas.
+7. Profundidade: cenário em camadas (fundo, meio, frente), luz e objetos atravessando.
+8. Mostrar acontecendo: o bonequinho FAZ (as coisas caem, acendem, pulam), em vez de cartão ou tabela de texto. Tabela só como resumo.
+9. Bonequinho vivo e presente na maioria das cenas, reagindo (pisca, aponta, comemora, se assusta).
+10. Conceito em letras grandes amarelas, etiquetas com seta e balões de fala.
+11. Legenda não cobre nada (verificador) e quadros conferidos antes de entregar.
+
+Piloto no padrão completo: `ferramentas/video2d/2027-8ano-m4/` (13 cenas, câmera, palco em camadas, plateia que reage).
