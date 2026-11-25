@@ -1,0 +1,43 @@
+Vídeo extra: recursão, explicada bem devagarinho! O mistério da boneca que nunca acaba.
+
+Esta é a Bia, e este é o Bit, o robozinho dela. A avó da Bia mandou um presente de viagem: uma boneca de madeira, gordinha e pintada. O nome dela é matrioska, uma boneca russa.
+
+O Bit sacudiu a boneca e ouviu um barulhinho lá dentro. Ele abriu a boneca no meio e… surpresa: dentro tinha outra boneca, igualzinha, só que menor!
+
+Ele abriu essa também: outra boneca, ainda menor. E dentro dela, mais uma. E mais uma! O Bit ficou nervoso: e se isso não acabar nunca?
+
+Calma, Bit! Repare no que você está fazendo. Para abrir a boneca grande, você abre e depois faz a mesma coisa com a boneca de dentro. Dentro do problema grande, tem o mesmo problema, só que menor.
+
+Isso tem nome: recursão. Recursão é resolver um problema usando uma versão menor dele mesmo. A palavra vem do latim e quer dizer algo como correr de volta: você passa de novo pelo mesmo caminho, só que cada vez mais curto.
+
+E a boneca acabou? Acabou! A última é bem pequenininha e inteira: não abre. Quando o Bit chega nela, ele para. Essa bonequinha que não abre é a parte mais importante da recursão: o caso base.
+
+Caso base é o caso mais simples, que a gente resolve direto, sem repetir nada. Ele também se chama condição de parada, porque é ele que faz a recursão parar.
+
+A outra parte é o passo recursivo: abrir a boneca e repetir com a de dentro, que é menor. Toda recursão tem essas duas partes. O passo recursivo faz de novo, com um problema menor. O caso base é o problema tão pequeno que se resolve na hora.
+
+E se não tivesse caso base? Olha o que acontece com dois espelhos, um de frente para o outro: imagem dentro de imagem, dentro de imagem… para sempre! Uma recursão sem caso base nunca para. No computador, o programa trava.
+
+Segunda aventura! A Bia e o Bit foram ao cinema, e a fila estava enorme. O Bit quis saber: em que posição eu estou? Contar todo mundo lá da frente ia dar um trabalhão!
+
+Então ele fez um truque. Cutucou quem estava na frente e perguntou: qual é a sua posição? Essa pessoa também não sabia, então fez a mesma pergunta para a pessoa da frente dela. E essa, para a da frente… A mesma pergunta foi passando, cada vez mais perto do começo da fila.
+
+Até que a pergunta chegou na primeira pessoa da fila. Ela nem precisou perguntar nada: eu sou a número um! Esse é o caso base: a resposta que se sabe na hora.
+
+Agora, a resposta volta. A segunda pessoa pensa: a da frente é a um, então eu sou um mais um, dois. A terceira: dois mais um, três. Cada um soma um e passa a resposta para trás… até chegar no Bit: posição sete!
+
+Repare no caminho: a pergunta vai para a frente, até o caso base. E a resposta volta para trás, somando um de cada vez. A recursão sempre faz essa ida e volta.
+
+Terceira aventura: o foguete do Bit! Para lançar, ele precisa de uma contagem regressiva. A regra é igual à do portal: se o número for zero, mostra fogo e para. Senão, mostra o número e conta de novo a partir do número menos um.
+
+Vamos seguir passo a passo, contando a partir do três. Três é zero? Não. Então mostra três e conta a partir do dois. Dois é zero? Não. Mostra dois e conta a partir do um. Um é zero? Não. Mostra um e conta a partir do zero. Zero é zero? É! Fogo!
+
+Viu? A cada vez, o número fica um menor: três, dois, um, zero. O passo recursivo vai chegando perto do caso base, até bater nele. Se o número nunca diminuísse, o foguete nunca sairia do chão!
+
+E no editor de blocos? Na gaveta Meus blocos, você cria um bloco seu, com nome. Isso se chama função. Quando o bloco usa ele mesmo lá dentro, ele é recursivo: o bloco contar a partir de chama o próprio contar a partir de, com um número menor.
+
+Hora de lembrar! Recursão: resolver um problema usando uma versão menor dele mesmo. Passo recursivo: chamar o mesmo problema, um pouco menor. Caso base: o caso mais simples, que faz parar. E sem caso base, nunca para!
+
+Onde eu uso isso? Nas pastas do computador: uma pasta tem pastas dentro, que têm outras pastas dentro. Para contar todos os arquivos, o computador abre pasta por pasta, como as bonecas. E na natureza: o galho da samambaia parece uma samambaia menor. Isso é um fractal, assunto da Missão 8!
+
+Agora é com vocês: abram a Missão 6 no portal e mostrem que entenderam a recursão!
