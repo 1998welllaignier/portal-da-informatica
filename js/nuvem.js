@@ -180,6 +180,8 @@
       if (prog.visitas[mid + "/" + pg.id]) vis[pg.id.replace(/[^\w-]/g, "_")] = prog.visitas[mid + "/" + pg.id];
       (pg.atividades || []).forEach(at => { if (prog.atv[at.id] && prog.atv[at.id].status) atv[at.id] = prog.atv[at.id]; });
     });
+    // 🌟 Vez da Helena (25/11/2026): as cartas não são atividades da página; vão junto pelo prefixo "<missão>-hz-"
+    Object.keys(prog.atv || {}).forEach(k => { if (k.indexOf(mid + "-hz-") === 0 && prog.atv[k] && prog.atv[k].status) atv[k] = prog.atv[k]; });
     return { atv, vis };
   }
 

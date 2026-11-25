@@ -351,7 +351,7 @@
       const q = normNome(inp.value), inat = dlg.querySelector("#pb-inat").checked;
       const xs = todos.filter(a => (inat || a.ativo !== false) && (!q || normNome(a.nome).includes(q)));
       dlg.querySelector("#pb-l").innerHTML = !q ? `<p class="ajuda">${todos.filter(a => a.ativo !== false && !a.teste).length} alunos ativos em ${todasTurmas().length} turmas. Comece a digitar o nome.</p>`
-        : xs.length ? `<ul class="pp-busca-lista">${xs.slice(0, 60).map(a => `<li><button type="button" class="pp-busca-it" data-pb="${esc(a.id)}"><b>${esc(a.nome)}</b> <span class="pp-busca-t">${esc(nomeTurma(a.turma))}</span>${a.atipico ? " 🧩" : ""}${a.trilha ? " 👣" : ""}${a.emCasa ? " 🏠" : ""}${a.teste ? " 🧪" : ""}${a.ativo === false ? " <small>(desativado)</small>" : ""}</button></li>`).join("")}</ul>${xs.length > 60 ? `<p class="ajuda">Mostrando 60 de ${xs.length}. Digite mais letras.</p>` : ""}`
+        : xs.length ? `<ul class="pp-busca-lista">${xs.slice(0, 60).map(a => `<li><button type="button" class="pp-busca-it" data-pb="${esc(a.id)}"><b>${esc(a.nome)}</b> <span class="pp-busca-t">${esc(nomeTurma(a.turma))}</span>${a.atipico ? " 🧩" : ""}${a.trilha ? " 👣" : ""}${a.modoHelena ? " 🌟" : ""}${a.emCasa ? " 🏠" : ""}${a.teste ? " 🧪" : ""}${a.ativo === false ? " <small>(desativado)</small>" : ""}</button></li>`).join("")}</ul>${xs.length > 60 ? `<p class="ajuda">Mostrando 60 de ${xs.length}. Digite mais letras.</p>` : ""}`
         : `<p class="ajuda">Nenhum aluno com “${esc(inp.value)}”.</p>`;
       dlg.querySelectorAll("[data-pb]").forEach(b => b.onclick = () => { const a = todos.find(x => x.id === b.dataset.pb); dlg.close(); abrirFicha(a); });
     };
@@ -363,7 +363,7 @@
   async function abrirFicha(a) {
     if (!a) return;
     const dlg = h(`<dialog class="pp-dlg pp-dlg-larga pp-ficha-dlg"><form method="dialog"><div class="pp-hor-top"><h2>📇 ${a.atipico ? "🧩 " : ""}${esc(a.nome)}</h2><button class="btn btn-sec btn-peq" value="x">Fechar</button></div>
-      <p class="pp-ficha-tags"><span class="pp-ficha-tag">🏫 ${esc(nomeTurma(a.turma))}</span>${a.ativo === false ? `<span class="pp-ficha-tag cinza">desativado</span>` : ""}${a.trilha ? `<span class="pp-ficha-tag">👣 Trilha Passo a Passo</span>` : ""}${a.emCasa ? `<span class="pp-ficha-tag">🏠 Estuda em casa${a.emCasaObs ? ": " + esc(a.emCasaObs) : ""}</span>` : ""}${a.teste ? `<span class="pp-ficha-tag cinza">🧪 aluno de teste</span>` : ""}${a.outraTurma ? `<span class="pp-ficha-tag">🏫 frequenta a aula do ${esc(nomeTurma(a.outraTurma))}</span>` : ""}
+      <p class="pp-ficha-tags"><span class="pp-ficha-tag">🏫 ${esc(nomeTurma(a.turma))}</span>${a.ativo === false ? `<span class="pp-ficha-tag cinza">desativado</span>` : ""}${a.trilha ? `<span class="pp-ficha-tag">👣 Trilha Passo a Passo</span>` : ""}${a.modoHelena ? `<span class="pp-ficha-tag">🌟 Modo Helena</span>` : ""}${a.emCasa ? `<span class="pp-ficha-tag">🏠 Estuda em casa${a.emCasaObs ? ": " + esc(a.emCasaObs) : ""}</span>` : ""}${a.teste ? `<span class="pp-ficha-tag cinza">🧪 aluno de teste</span>` : ""}${a.outraTurma ? `<span class="pp-ficha-tag">🏫 frequenta a aula do ${esc(nomeTurma(a.outraTurma))}</span>` : ""}
         <button type="button" class="btn btn-link btn-peq" id="pf-cod" title="O código é pessoal: mostre só para o próprio aluno">🔑 Ver código</button></p>
       <div class="pp-dlg-btns"><a class="btn" href="#/painel/relatorio/${esc(a.id)}">📄 Relatório do aluno (PDF)</a><a class="btn btn-sec" href="#/painel/turma/${esc(a.turma)}" id="pf-turma" title="Abre a turma com as opções deste aluno (código, nome, apoios, Trilha…)">⚙️ Opções do aluno na turma</a><a class="btn btn-sec" href="#/painel/diario/${esc(a.turma)}/frequencia">🗓️ Frequência da turma</a></div>
       <div id="pf-c"><p class="ajuda">Carregando o que ele fez no portal…</p></div>
@@ -1192,6 +1192,7 @@
           <button class="btn btn-sec" type="button" data-x="atipico">${a.atipico ? "🧩 Tirar a marcação de aluno atípico" : "🧩 Marcar como aluno atípico (tem PEI)"}</button>
           ${a.atipico ? `<button class="btn btn-sec" type="button" data-x="apoio">📝 Apoios na aula (só você vê)</button>` : ""}
           <button class="btn btn-sec" type="button" data-x="trilha">${a.trilha ? "👣 Tirar a Trilha Passo a Passo" : "👣 Usar a Trilha Passo a Passo (apostila diferenciada)"}</button>
+          <button class="btn btn-sec" type="button" data-x="helena">${a.modoHelena ? "🌟 Tirar o Modo Helena" : "🌟 Usar o Modo Helena (Vez da Helena: cartas de um toque em dupla e trilha própria sozinho)"}</button>
           <button class="btn btn-sec" type="button" data-x="casa">${a.emCasa ? "🏠 Tirar “estuda em casa”" : "🏠 Marcar: estuda em casa (pelo portal)"}</button>
           ${a.emCasa ? `<button class="btn btn-sec" type="button" data-x="casalivre">${casaLivreAtivo(a) ? "📅 Voltar à liberação semanal (uma missão nova por semana)" : "🚀 Abrir todas as missões já, uma por dia (começou com o bimestre quase no fim)"}</button>` : ""}
           <button class="btn btn-sec" type="button" data-x="teste">${a.teste ? "🧪 Voltar a ser aluno comum" : "🧪 Marcar como aluno de teste (não conta na presença, no diário, nas notas e nos relatórios)"}</button>
@@ -1229,6 +1230,14 @@
             if (!a.trilha && !tem && !await P.confirmar("Esta série ainda não tem Trilha Passo a Passo. A marcação fica guardada e passa a valer quando a Trilha existir. Marcar mesmo assim?")) return;
             await marcarTrilha(a, !a.trilha);
             await P.aviso(a.trilha ? `${a.nome} volta a usar a apostila da turma.` : `Pronto! Quando ${a.nome} digitar o código, o portal abre direto a Trilha Passo a Passo.`);
+          }
+          if (x === "helena") {
+            /* 🌟 Modo Helena (25/11/2026): em dupla, a carta "Vez da <nome>" em cada etapa; sozinho, a Trilha própria (js/helena.js).
+               O visto do dia vem da presença. O aluno lê config/liberar_<turma>.helena; o painel guarda alunos/<id>.modoHelena */
+            const on = !a.modoHelena;
+            await db().collection("alunos").doc(a.id).update({ modoHelena: on });
+            await db().collection("config").doc("liberar_" + a.turma).set({ helena: { [a.id]: on } }, { merge: true });
+            await P.aviso(on ? `Pronto! 🌟 Modo Helena ligado para ${a.nome}.\n\n• Em dupla: a dupla faz a apostila normal e, em cada etapa, aparece a carta "Agora é a vez da ${a.nome.split(" ")[0]}!" (o colega lê em voz alta, ${a.nome.split(" ")[0]} responde com um toque).\n• Sozinho(a): abre a Trilha própria, com cartas de um toque e uma pausa para descansar.\n• O visto do dia vem da presença (não precisa terminar tarefas).` : `${a.nome} voltou ao modo normal.`);
           }
           if (x === "casa") {
             if (a.emCasa) { await db().collection("alunos").doc(a.id).update({ emCasa: false, emCasaObs: "", casaLivre: "" }); await db().collection("config").doc("liberar_" + a.turma).set({ casaLivre: { [a.id]: "" } }, { merge: true }); }
@@ -2083,6 +2092,7 @@
     const aulas = aulasDoBim(aulasSnap);   // 📒 só as aulas deste bimestre
     const alunos = alunosTodos.filter(a => a.ativo !== false && !a.teste);
     const ids = new Set(alunos.map(a => a.id)), emCasa = new Set(alunos.filter(a => a.emCasa).map(a => a.id));
+    const modoHelena = new Set(alunos.filter(a => a.modoHelena).map(a => a.id));   // 🌟 25/11/2026: o visto vem da presença
     const prog = progDoBim(progTodos).filter(p => ids.has(p.alunoId));
     // cronograma: o do diário; se não houver, monta pelas missões do catálogo
     const base = cat().apostilas.find(a => a.serie === t.serie.id && P.doPeriodo(a) && !a.oculta && !a.trilha);
@@ -2125,7 +2135,11 @@
       if (auto && AUTO[d] && AUTO[d].p[id]) return { v: "P", auto: true };
       return temChamada(d) ? (emCasa.has(id) ? { v: "J", auto: true } : repos(d, id) ? { v: "J", auto: true, repos: true } : { v: "F", auto: true, falta: true }) : { v: null }; };
     const temChamada = d => ocorrDe(aulas[d]) ? ocorrDe(aulas[d]).tipo === "ninguem" : Object.values((aulas[d] || {}).presencas || {}).some(v => v) || (auto && AUTO[d] && Object.keys(AUTO[d].p).length > 0);
-    const carimbo = (d, id) => { const a = aulas[d]; if (temManual(a, "carimbos", id)) return { v: nBas(a.carimbos[id]), auto: false }; return auto && AUTO[d] && AUTO[d].c[id] ? { v: AUTO[d].c[id], auto: true } : { v: 0 }; };
+    const carimbo = (d, id) => { const a = aulas[d]; if (temManual(a, "carimbos", id)) return { v: nBas(a.carimbos[id]), auto: false };
+      if (auto && AUTO[d] && AUTO[d].c[id]) return { v: AUTO[d].c[id], auto: true };
+      // 🌟 Modo Helena (25/11/2026, pedido do professor): o importante é vir e conviver; presente em aula de missão = visto do dia
+      if (modoHelena.has(id) && ehAulaMissao(d) && pres(d, id).v === "P") return { v: 1, auto: true, helena: true };
+      return { v: 0 }; };
     const extra = (d, id) => { const a = aulas[d]; if (temManual(a, "extras", id)) return { v: +a.extras[id] || 0, auto: false }; return auto && AUTO[d] && AUTO[d].x[id] ? { v: AUTO[d].x[id], auto: true } : { v: 0 }; };
     const parcial = (d, id) => !!(((aulas[d] || {}).parciais || {})[id]);
     const diasComChamada = () => [...new Set([...Object.keys(aulas), ...(auto ? Object.keys(AUTO) : [])])].filter(d => d <= hoje && temChamada(d)).sort();

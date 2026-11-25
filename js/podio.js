@@ -399,7 +399,7 @@
       (pg.atividades || []).forEach(at => { const T = (P.tipos || {})[at.tipo] || {}; if (T.semStatus || at.opcional) return;
         max += base; const st = (atv || {})[at.id]; if (!st || !st.status) return;
         raw += base * fator(st); }); });
-    return (max ? Math.round(1000 * raw / max) : 0) + bonusDe(mm, atv).xp + sequencia(atv).bonus + extrasEspiral(mm, mid, atv);
+    return (max ? Math.round(1000 * raw / max) : 0) + bonusDe(mm, atv).xp + sequencia(atv).bonus + extrasEspiral(mm, mid, atv) + (P.helena ? P.helena.extras(mid, atv) : 0);   // 🌟 Vez da Helena (25/11/2026)
   }
   /* ⭐ XP da 📖 leitura guiada de HOJE, por turma (24/11/2026: antes era um valor solto da página, que só existia se a
      Aula ao vivo estivesse aberta naquela aba; o painel ao vivo e o placar chegavam a posições diferentes). Agora toda tela

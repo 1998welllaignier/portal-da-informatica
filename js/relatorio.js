@@ -55,12 +55,12 @@
     // tarefas de cada missão, com o título e o nível (vindo da própria apostila)
     const aids = [...new Set(prog.filter(p => p.aid).map(p => p.aid))];
     await Promise.all(aids.map(x => P.carregarApostila(x).catch(() => null)));
-    const tarefas = [];   // { d, aid, mid, at, st }
+    const tarefas = [], vezes = [];   // { d, aid, mid, at, st } · 🌟 vezes = cartas do Modo Helena { d, st }
     const missaoInfo = (aid, mid) => { const C = P.conteudo[aid]; const m = C && C.missoes.find(x => x.id === mid); return m || null; };
     prog.filter(p => p.aid && p.mid && p.mid !== "rc").forEach(p => {
       let atv = {}; try { atv = JSON.parse(p.atv || "{}"); } catch (e) {}
       let ats = {}; try { P.montarMissao(p.aid, p.mid).pages.forEach(pg => (pg.atividades || []).forEach(at => { ats[at.id] = at; })); } catch (e) {}
-      Object.entries(atv).forEach(([id, st]) => { if (!st || !st.status || !st.quando) return; tarefas.push({ d: dia(st.quando), aid: p.aid, mid: p.mid, at: ats[id] || { id, titulo: id }, st }); });
+      Object.entries(atv).forEach(([id, st]) => { if (!st || !st.status || !st.quando) return; if (id.indexOf("-hz-") > 0) { vezes.push({ d: dia(st.quando), st }); return; } tarefas.push({ d: dia(st.quando), aid: p.aid, mid: p.mid, at: ats[id] || { id, titulo: id }, st }); });
       Object.entries(p.vis || {}).forEach(([pid, ts]) => { if (ts) tarefas.push({ d: dia(ts), aid: p.aid, mid: p.mid, leitura: true, at: { titulo: "Leitura: " + pid.replace(/_/g, " ") }, st: { quando: ts } }); });
     });
     tarefas.sort((x, y) => x.st.quando - y.st.quando);
@@ -70,7 +70,7 @@
     const dias = new Set();
     Object.keys(aulas).forEach(d => d <= hoje && dias.add(d));
     Object.keys(entrada.dias || {}).forEach(d => dias.add(d));
-    tarefas.forEach(x => dias.add(x.d));
+    tarefas.forEach(x => dias.add(x.d)); vezes.forEach(x => dias.add(x.d));
     Object.keys(casa.sessoes || {}).forEach(d => dias.add(d));
     if (t && t.aula && per !== "ano" && !/^\d{4}-/.test(per)) {
       const info = P.periodoInfo ? P.periodoInfo() : {};
@@ -165,6 +165,9 @@
         ${(() => { const c = r.tf.find(x => x.at.tipo === "carinhas" && x.st.car); if (!c || !P.tipos.carinhas) return "";   // 🙂 autoavaliação (modelo em espiral)
           return `<p class="rel-car">🙂 <b>Como disse que se sentiu na aula:</b> ${P.tipos.carinhas.resumoResposta(c.at, c.st)}.</p>`; })()}
         ${leituras ? `<p>📖 Leu ${leituras} parte${leituras > 1 ? "s" : ""} do texto da missão.</p>` : ""}
+        ${(() => { const vz = vezes.filter(x => x.d === r.d).map(x => x.st); if (!vz.length || !P.helena || !a.modoHelena) return "";   // 🌟 Modo Helena (25/11/2026): só no relatório de quem é do modo
+          const z = P.helena.resumo(vz), pt = [z.primeira ? `${z.primeira} de primeira` : "", z.nova ? `${z.nova} com nova tentativa` : "", z.contou ? `${z.contou} vez${z.contou > 1 ? "es" : ""} contou o que aprendeu` : "", z.descanso ? `${z.descanso} vez${z.descanso > 1 ? "es" : ""} escolheu descansar` : ""].filter(Boolean);
+          return `<p class="rel-hz">🌟 <b>Vez da ${esc((a.nome || "").split(" ")[0])}</b>: participou de <b>${z.total}</b> carta${z.total > 1 ? "s" : ""} (${pt.join(", ")}).</p>`; })()}
         ${(() => { const L = au.leituraGuiada; if (!L || !L.feita) return "";   // 📖 leitura guiada (20/11/2026)
           const leu = (L.leitores || []).filter(x => x.id === a.id), ac = (L.acertosPorAluno || {})[a.id] || 0, np = (L.perguntas || []).length;
           return `<p class="rel-lg">📖 <b>Leitura guiada com a turma</b>${L.titulo ? ` (${esc(L.titulo)})` : ""}${leu.length ? `: 🎤 <b>leu em voz alta</b> o trecho ${leu.map(x => x.trecho).join(" e ")} para a turma` : ""}${np ? `${leu.length ? ";" : ":"} acertou <b>${ac} de ${np}</b> pergunta${np > 1 ? "s" : ""} relâmpago` : ""}.</p>`; })()}

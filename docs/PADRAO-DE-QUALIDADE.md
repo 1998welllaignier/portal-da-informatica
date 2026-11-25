@@ -780,5 +780,18 @@ Questões **contextualizadas** (situação curta: 1–2 frases no 6º, 2–3 no 
 - Se um aluno do 5º ano chegar depois que o painel ao vivo foi aberto, feche e abra o 🔴 Ao vivo para ele aparecer.
 
 
-## 🎵 Música aleatória troca a cada 10 minutos (25/11/2026, pedido do professor)
+## 🎵 Música aleatória: tempo de troca escolhido pelo professor (25/11/2026, pedido do professor)
+- Padrão 5 min no 🔀 Aleatório; o professor escolhe no painel da música (⏱️ Trocar a cada: 1 min a 1 hora), memorizado no computador.
+
+### (histórico) Música aleatória troca a cada 10 minutos (25/11/2026)
 - Em qualquer modo aleatório da música do painel, a música troca a cada **10 minutos de uso** (antes, 1 hora). Vale para todos os modos 🔀.
+
+
+## 🌟 Modo Helena · "Vez da Helena" (25/11/2026, pedido e aprovado pelo professor)
+- Para alunos que, em dupla, acabavam só assistindo. Marcação na ficha do aluno (🌟 Usar o Modo Helena). Nenhum dado de saúde fica no portal.
+- **Em dupla** (com qualquer colega; o nome dele aparece sozinho): a dupla faz a apostila normal; em cada etapa de tarefas aparece a carta "🌟 Agora é a vez da <nome>!". O colega lê em voz alta (leitura mediada; os PCs da sala não têm som) e o aluno responde com UM toque: 2 ou 3 desenhos grandes, sem digitar, sem arrastar, sem tempo. A etapa só abre depois da resposta ou do "😴 escolheu descansar agora". A última etapa fecha com "conte para o colega o que aprendeu".
+- **Sozinho**: "🌟 Trilha da <nome>": as cartas em sequência, com pausa para descansar a mão no meio e "Contei!" no fim.
+- Tipos de carta: toque no desenho · sim/não · toque na ordem · toque nas caixas até achar · conte para o colega/professor.
+- Pontos para a dupla: de primeira +40 XP, com nova tentativa +25, "contou" +40; até +200 por missão.
+- **Visto do dia pela presença** (presente em aula de missão = visto), não por terminar tarefas. O relatório mostra as vezes (de primeira, com nova tentativa, contou, descansou).
+- **Todo material novo já nasce com as cartas do Modo Helena** (js/helena.js › CARTAS, por apostila e missão). Feito: 8º ano 4º bim 2026 (M1–M4 e Revisão).

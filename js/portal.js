@@ -1340,6 +1340,11 @@
     let travaPre = { aberta: true };
     if (P.trava) { try { travaPre = await P.trava.estado(s, mid); } catch (e) { travaPre = { aberta: true }; } }
     const seq = !!(s.nuvem && travaPre.aberta);
+    /* 🌟 Modo Helena (25/11/2026): sozinha, a missão vira a "Trilha da <nome>" (cartas de um toque); em dupla, a carta da vez
+       aparece em cada etapa de tarefas (js/helena.js). Só com tarefas abertas e quando a missão tem cartas. */
+    let hz = null;
+    if (P.helena && s.nuvem && travaPre.aberta && P.helena.temCartas(aid, mid)) { try { hz = await P.helena.estado(s); } catch (e) { hz = null; } }
+    if (hz && hz.solo) { barra(); return P.helena.telaSolo({ mount, aid, mid, m, hz, apostilaHref: `#/apostila/${aid}` }); }
     if (seq) { const b = bloqueioPagina(pages, idx, mid, prog);
       if (b) { toast(`🔒 Primeiro termine “${b.rotulo}”. A trilha abre uma etapa de cada vez.`); location.replace(`#/missao/${aid}/${mid}/${b.id}`); return; } }
     const info = () => { const x = statusMissao(aid, mid); return `<span class="tb-mis">${esc(m.icone)} ${esc(m.titulo.replace(/ –.*/, ""))}</span><span class="tb-prog">🟢 ${x.basico[0]}/${x.basico[1]}</span>`; };
@@ -1409,6 +1414,7 @@
       <p>📖 Enquanto isso, pode estudar à vontade: <a href="#/missao/${aid}/${mid}/comecar">💡 Para começar</a>, <a href="#/missao/${aid}/${mid}/termos">📖 O que significa?</a> e <a href="#/missao/${aid}/${mid}/onde">🌎 Onde eu uso isso?</a> ficam sempre abertos.</p>
       <p class="ajuda">Precisa fazer fora do horário (faltou, reposição, estuda em casa)? Peça ao professor para liberar.</p></div>`));
     else (pg.atividades || []).forEach((at, i) => corpo.appendChild(cartaoAtividade(aid, mid, at, i, () => { barra(info()); atualizarStatus(); })));
+    if (hz && hz.dupla && trava.aberta && !casaVideo) try { P.helena.naPagina({ aid, mid, pages, pg, hz, aoFechar: () => { barra(info()); atualizarTrilha(aid); } }); } catch (e) { console.warn("vez da helena", e); }
     // 🔌 em casa: vídeo de curiosidade da missão (opcional, depois das tarefas), quando existir (17/11/2026)
     if (trava.casa && trava.aberta) try {
       const vv = ((P.videosMissao || {})[a.base || aid] || {})[mid];
