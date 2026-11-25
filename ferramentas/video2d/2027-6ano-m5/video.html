@@ -216,7 +216,7 @@ const CAB = ["NOME", "PONTOS", "TELEFONE"], LIN = [["Ana", "12", "9 9123-4567"],
 
 const CENAS = [
  { chip: "", fala: F0, sfx: [[.05, "whoosh"], [.5, "pop"], [.9, "pop"], [1.3, "alerta"], [2.4, "pop"]],
-   draw(t, D) { fundoEscuro(t, "#3b0764"); ["🔤", "🔢", "📅", "✅", "🖼️", "🔊"].forEach((e, i) => { const k = seg(t, .3 + i * .15, .6 + i * .15); if (k <= 0) return; g.save(); g.globalAlpha = k; g.font = `64px ${F}`; g.textAlign = "center"; g.fillText(e, 640 + Math.cos(t * 1.2 + i * 1.05) * 300, 300 + Math.sin(t * 1.2 + i * 1.05) * 90); g.restore(); });
+   draw(t, D) { fundoEscuro(t, "#3b0764"); ["🔤", "🔢", "📅", "✅", "🖼️", "🔊"].forEach((e, i) => { const k = seg(t, .3 + i * .15, .6 + i * .15); if (k <= 0) return; g.save(); g.globalAlpha = k; g.fillStyle = "#fff"; g.font = `64px ${F}`; g.textAlign = "center"; g.fillText(e, 640 + Math.cos(t * 1.2 + i * 1.05) * 300, 300 + Math.sin(t * 1.2 + i * 1.05) * 90); g.restore(); });
      abertura(t, "6º ANO · MISSÃO 5", "Tipos de dados", "A PLANILHA", "MALUCA!", 1.9); } },
  { chip: "O PROBLEMA", fala: F1, sfx: [[.1, "whoosh"], [em(F1, "cadastro"), "pop"], [em(F1, "somar"), "click"], [em(F1, "telefones"), "alerta"], [em(F1, "confusão"), "misterio"]],
    draw(t, D) { fundoEscuro(t, "#1e3a8a"); const a = em(F1, "cadastro"), s = em(F1, "telefones"), c = em(F1, "confusão");
@@ -241,7 +241,7 @@ const CENAS = [
      comando("📞 9 9123-4567", 330, 230, seg(t, p + .3, p + .7), "#475569", 320); comando("📮 CEP 68523-000", 330, 320, seg(t, p + .5, p + .9), "#475569", 320);
      if (t > tx) { seta(510, 275, 640, 275, seg(t, tx, tx + .3), "#fde68a"); tipo(780, 275, "🔤", "TEXTO", "#2563eb", seg(t, tx, tx + .4)); }
      if (t > s) { comando("TELEFONE + TELEFONE = ???", 640, 410, seg(t, s, s + .4), "#dc2626", 480); xVermelho(920, 410, 36, seg(t, s + .3, s + .7)); }
-     if (t > c) cartao(t > al ? "Vai para a conta? NÚMERO.  É só um nome? TEXTO." : "Vai para a conta? NÚMERO.", 640, 505, 820, "#0f766e", seg(t, c, c + .4)); } },
+     if (t > c) cartao(t > al ? "Vai para a conta? NÚMERO. Só um nome? TEXTO." : "Vai para a conta? NÚMERO.", 640, 505, 960, "#0f766e", seg(t, c, c + .4)); } },
  { chip: "LISTA E TABELA", fala: F6, sfx: [[.1, "whoosh"], [em(F6, "coleções"), "ding"], [em(F6, "lista"), "pop"], [em(F6, "chamada"), "pop"], [em(F6, "tabela"), "pop"], [em(F6, "linha"), "pop"], [em(F6, "coluna"), "pop"]],
    draw(t, D) { fundoEscuro(t, "#14532d"); const co = em(F6, "coleções"), l = em(F6, "lista"), tb = em(F6, "tabela"), li = em(F6, "linha"), cu = em(F6, "coluna");
      palavra("COLEÇÕES", 640, 95, seg(t, co, co + .4), 56);

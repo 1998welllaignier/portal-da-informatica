@@ -32,7 +32,7 @@ const CENAS = [
    draw(t, D) { fundoEscuro(t, "#1e3a8a"); const i0 = em(F1, "inscrição"), d = em(F1, "dedo"), a = em(F1, "acento"), de = em(F1, "demora");
      comando("⚽ INSCRIÇÃO DO CAMPEONATO", 760, 110, seg(t, i0, i0 + .4), "#16a34a", 520);
      campo(760, 210, 520, digita("thiago araujo", t, d, 1.6), Math.floor(t * 2) % 2, "#2563eb");
-     if (t > d) { const l = "thiago araujo"[Math.min(12, Math.floor((t - d) * 1.6))] || "o"; tec(760, 410, l.toUpperCase(), true); g.font = `60px ${F}`; g.textAlign = "center"; g.fillText("☝️", 760, 390 - Math.abs(Math.sin(t * 6)) * 30); }
+     if (t > d) { const l = "thiago araujo"[Math.min(12, Math.floor((t - d) * 1.6))] || "o"; tec(760, 410, l.toUpperCase(), true); g.fillStyle = "#fff"; g.font = `60px ${F}`; g.textAlign = "center"; g.fillText("☝️", 760, 390 - Math.abs(Math.sin(t * 6)) * 30); }
      if (t > a) { rotulo("SEM ACENTO!", 640, 270, "#fca5a5", seg(t, a, a + .4)); rotulo("SEM MAIÚSCULA!", 880, 270, "#fca5a5", seg(t, a + .4, a + .8)); }
      thiago({ x: 170, y: 610, s: .95, braco: -.6, bracoE: .3, olhar: 1, boca: t > de ? "o" : "", pisca: pisca(t) });
      if (t > de) palavra("QUE DEMORA!", 760, 520, seg(t, de, de + .4), 54); } },

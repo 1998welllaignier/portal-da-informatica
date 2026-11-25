@@ -22,7 +22,7 @@ const LN = [.9, .8, .95, .6, .85, .7];
 
 const CENAS = [
  { chip: "", fala: F0, sfx: [[.05, "whoosh"], [.5, "click"], [.8, "click"], [1.3, "festa"], [2.4, "pop"]],
-   draw(t, D) { fundoEscuro(t, "#4c1d95"); tc(520, 300 + Math.sin(t * 4) * 10, "Ctrl", t > .5 && Math.floor(t * 2) % 2 === 0, 140); tc(700, 300 + Math.cos(t * 4) * 10, "C", t > .8 && Math.floor(t * 2) % 2 === 0); g.save(); g.globalAlpha = seg(t, 1, 1.4); g.font = `70px ${F}`; g.textAlign = "center"; g.fillText("⚡", 820, 300); g.restore();
+   draw(t, D) { fundoEscuro(t, "#4c1d95"); tc(520, 300 + Math.sin(t * 4) * 10, "Ctrl", t > .5 && Math.floor(t * 2) % 2 === 0, 140); tc(700, 300 + Math.cos(t * 4) * 10, "C", t > .8 && Math.floor(t * 2) % 2 === 0); g.save(); g.globalAlpha = seg(t, 1, 1.4); g.fillStyle = "#fff"; g.font = `70px ${F}`; g.textAlign = "center"; g.fillText("⚡", 820, 300); g.restore();
      abertura(t, "6º ANO · MISSÃO 8 · EXTRA", "Atalhos do teclado e do mouse", "OS SUPERPODERES", "DO TECLADO!", 1.9); } },
  { chip: "O PROBLEMA", fala: F1, sfx: [[.1, "whoosh"], [em(F1, "juntar"), "pop"], [em(F1, "letra"), "click"], [em(F1, "apagou"), "alerta"], [em(F1, "chorou"), "misterio"]],
    draw(t, D) { fundoEscuro(t, "#1e3a8a"); const j = em(F1, "juntar"), le = em(F1, "letra"), ap = em(F1, "apagou"), ch = em(F1, "chorou");
@@ -32,15 +32,15 @@ const CENAS = [
      if (t > ap) { xVermelho(900, 330, 50, seg(t, ap, ap + .4)); rotulo("PARÁGRAFO APAGADO!", 900, 420, "#fca5a5", seg(t, ap, ap + .4)); }
      lia({ x: 170, y: 610, s: .95, braco: -.6, bracoE: .3, olhar: 1, boca: t > ap ? "o" : "", pisca: pisca(t) });
      if (t > ch) palavra("SOCORRO!", 700, 510, seg(t, ch, ch + .4), 50); } },
- { chip: "O QUE É ATALHO", fala: F2, legenda: LEG(F2).replace("o Control,", "o Ctrl,"), sfx: [[.1, "whoosh"], [em(F2, "atalho"), "ding"], [em(F2, "juntas"), "pop"], [em(F2, "Control"), "click"], [em(F2, "segunda"), "click"]],
-   draw(t, D) { fundoEscuro(t, "#14532d"); const a = em(F2, "atalho"), c = em(F2, "Control"), s = em(F2, "segunda");
+ { chip: "O QUE É ATALHO", fala: F2, legenda: LEG(F2).replace("o Control,", "o Ctrl,"), sfx: [[.1, "whoosh"], [em(F2, "atalho"), "ding"], [em(F2, "juntas"), "pop"], [em(F2, "Control"), "click"], [em(F2, "aperte"), "click"]],
+   draw(t, D) { fundoEscuro(t, "#14532d"); const a = em(F2, "atalho"), c = em(F2, "Control"), s = em(F2, "aperte");
      palavra("ATALHO = TECLAS JUNTAS", 580, 105, seg(t, a, a + .4), 44);
      if (t > c) { tc(470, 300, "Ctrl", true, 160); rotulo("1º SEGURE", 470, 390, "#fde68a", seg(t, c, c + .4)); }
      if (t > s) { g.fillStyle = "#fff"; g.font = `800 50px ${F}`; g.textAlign = "center"; g.fillText("+", 640, 318); tc(800, 300, "C", Math.floor(t * 2) % 2 === 0); rotulo("2º APERTE", 800, 390, "#fde68a", seg(t, s, s + .4)); } } },
  { chip: "COPIAR, COLAR, RECORTAR", fala: F3, legenda: LEG(F3), sfx: [[.1, "whoosh"], [em(F3, "copia"), "click"], [em(F3, "cola"), "click"], [em(F3, "recorta"), "click"], [em(F3, "original"), "ding"], [em(F3, "embora"), "pop"]],
    draw(t, D) { fundoEscuro(t, "#3b1c6e"); const c1 = em(F3, "Control", 0), c2 = em(F3, "Control", 1), c3 = em(F3, "Control", 2), o = em(F3, "original");
      combo(420, 130, "Ctrl", "C", "📋 COPIA", "#2563eb", t, c1); combo(420, 250, "Ctrl", "V", "📥 COLA", "#16a34a", t, c2); combo(420, 370, "Ctrl", "X", "✂️ RECORTA", "#dc2626", t, c3);
-     if (t > o) cartao("COPIAR deixa o original · RECORTAR leva embora", 640, 490, 820, "#0f766e", seg(t, o, o + .4)); } },
+     if (t > o) cartao("COPIAR deixa o original · RECORTAR leva embora", 640, 490, 940, "#0f766e", seg(t, o, o + .4)); } },
  { chip: "DESFAZER, SALVAR, TUDO", fala: F4, legenda: LEG(F4), sfx: [[.1, "whoosh"], [em(F4, "desfaz"), "click"], [em(F4, "ops"), "pop"], [em(F4, "salva"), "click"], [em(F4, "seleciona"), "click"]],
    draw(t, D) { fundoEscuro(t, "#0e7490"); const c1 = em(F4, "Control", 0), op = em(F4, "ops"), c2 = em(F4, "Control", 1), c3 = em(F4, "Control", 2);
      combo(420, 130, "Ctrl", "Z", "↩️ DESFAZ", "#7c3aed", t, c1); if (t > op) rotulo("“OPS, VOLTA!”", 1000, 190, "#fde68a", seg(t, op, op + .4));

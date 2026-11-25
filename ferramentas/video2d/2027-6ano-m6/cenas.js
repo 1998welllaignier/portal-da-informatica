@@ -9,7 +9,7 @@ function msg(x, y, txt, cor, k, dir, w) { if (k <= 0) return; const z = back(cl(
 function grupo(x, y, w, h, titulo, k) { if (k <= 0) return; const z = back(cl(k)); g.save(); g.translate(x, y); g.scale(z, z); g.fillStyle = "#e5ddd5"; rr(-w / 2, -h / 2, w, h, 18); g.fill(); g.fillStyle = "#075e54"; rr(-w / 2, -h / 2, w, 54, 18); g.fill(); g.fillRect(-w / 2, -h / 2 + 30, w, 24);
   g.fillStyle = "#fff"; g.font = `800 22px ${F}`; g.textAlign = "left"; g.fillText("👥 " + titulo, -w / 2 + 20, -h / 2 + 35); g.restore(); }
 function regra(x, y, ic, txt, cor, k, w) { if (k <= 0) return; const z = back(cl(k)); w = w || 520; g.save(); g.translate(x, y); g.scale(z, z); g.fillStyle = cor; rr(-w / 2, -34, w, 68, 16); g.fill(); g.font = `36px ${F}`; g.textAlign = "left"; g.fillText(ic, -w / 2 + 16, 13); g.fillStyle = "#fff"; g.font = `800 23px ${F}`; g.fillText(txt, -w / 2 + 70, 9); g.restore(); }
-function fogo(x, y, t, k) { if (k <= 0) return; g.save(); g.globalAlpha = k; g.font = `54px ${F}`; g.textAlign = "center"; for (let i = 0; i < 3; i++) g.fillText("🔥", x + (i - 1) * 54, y + Math.sin(t * 8 + i * 2) * 8); g.restore(); }
+function fogo(x, y, t, k) { if (k <= 0) return; g.save(); g.globalAlpha = k; g.fillStyle = "#fff"; g.font = `54px ${F}`; g.textAlign = "center"; for (let i = 0; i < 3; i++) g.fillText("🔥", x + (i - 1) * 54, y + Math.sin(t * 8 + i * 2) * 8); g.restore(); }
 
 const F0 = "Boa convivência na rede: o grupo da turma pegou fogo!",
   F1 = "O grupo da turma virou uma confusão: o Rafa escreveu tudo em maiúsculas, alguém postou uma foto da Gabi sem pedir, e a briga só cresceu. E agora?",
@@ -45,20 +45,20 @@ const CENAS = [
    draw(t, D) { fundoEscuro(t, "#3b1c6e"); const r = em(F3, "respeito"), m = em(F3, "maiúsculas"), gr = em(F3, "grito"), p = em(F3, "pense");
      regra(640, 150, "🙂", "Fale com respeito", "#16a34a", seg(t, r, r + .4), 640);
      regra(640, 260, "🔠", "NÃO ESCREVA TUDO EM MAIÚSCULAS", "#dc2626", seg(t, m, m + .4), 640);
-     if (t > gr) { g.save(); g.globalAlpha = seg(t, gr, gr + .3); g.font = `56px ${F}`; g.textAlign = "center"; g.fillText("📢", 1030, 280); g.restore(); rotulo("PARECE GRITO!", 1030, 330, "#fca5a5", seg(t, gr, gr + .4)); }
+     if (t > gr) { g.save(); g.globalAlpha = seg(t, gr, gr + .3); g.fillStyle = "#fff"; g.font = `56px ${F}`; g.textAlign = "center"; g.fillText("📢", 1030, 280); g.restore(); rotulo("PARECE GRITO!", 1030, 330, "#fca5a5", seg(t, gr, gr + .4)); }
      regra(640, 400, "🤔", "Pense antes de postar", "#2563eb", seg(t, p, p + .4), 640);
      if (t > p + 1.2) rotulo("PODE FICAR LÁ PARA SEMPRE", 640, 470, "#fde68a", seg(t, p + 1.2, p + 1.6)); } },
  { chip: "FOTO E SENHA", fala: F4, sfx: [[.1, "whoosh"], [em(F4, "permissão"), "ding"], [em(F4, "senha"), "pop"], [em(F4, "chave"), "pop"], [em(F4, "amigo"), "alerta"], [em(F4, "forte"), "ding"]],
    draw(t, D) { fundoEscuro(t, "#0e7490"); const pe = em(F4, "permissão"), s = em(F4, "senha"), ch = em(F4, "chave"), fo = em(F4, "forte");
      regra(330, 140, "📸", "Peça permissão", "#16a34a", seg(t, .3, .7), 480); if (t > pe) msg(330, 240, "Posso postar a foto?", "#ffffff", seg(t, pe, pe + .4), 1, 340);
      if (t > s) regra(950, 140, "🔑", "Senha é só sua", "#ca8a04", seg(t, s, s + .4), 480);
-     if (t > ch) { g.save(); g.globalAlpha = seg(t, ch, ch + .3); g.font = `80px ${F}`; g.textAlign = "center"; g.fillText("🗝️", 870, 290); g.fillText("🏠", 1030, 290); g.restore(); }
+     if (t > ch) { g.save(); g.globalAlpha = seg(t, ch, ch + .3); g.fillStyle = "#fff"; g.font = `80px ${F}`; g.textAlign = "center"; g.fillText("🔑", 870, 290); g.fillText("🏠", 1030, 290); g.restore(); }
      if (t > fo) { comando("123456", 380, 400, seg(t, fo, fo + .4), "#dc2626", 220); xVermelho(500, 400, 30, seg(t, fo + .2, fo + .6)); comando("Gato#Azul2027!", 900, 400, seg(t, fo + .5, fo + .9), "#16a34a", 320); visto(1080, 400, 34, seg(t, fo + .7, fo + 1.1));
        rotulo("COMPRIDA + LETRAS + NÚMEROS + SÍMBOLOS", 640, 490, "#fde68a", seg(t, fo + 1, fo + 1.4)); } } },
  { chip: "PERIGO!", fala: F5, sfx: [[.1, "alerta"], [em(F5, "Desconhecido"), "misterio"], [em(F5, "Pare"), "ding"], [em(F5, "adulto"), "ding"], [em(F5, "golpe"), "alerta"], [em(F5, "link"), "pop"]],
    draw(t, D) { fundoEscuro(t, "#7c2d12"); const d = em(F5, "Desconhecido"), p = em(F5, "Pare"), a = em(F5, "adulto"), go = em(F5, "golpe");
      palavra("ATENÇÃO AO PERIGO!", 590, 100, seg(t, 0, .4), 48);
-     if (t > d && t < go - .8) { msg(400, 210, "Me manda seu endereço?", "#ffffff", seg(t, d, d + .4), -1, 380); msg(400, 290, "É segredo, tá?", "#ffffff", seg(t, d + .8, d + 1.2), -1, 260); g.font = `70px ${F}`; g.textAlign = "center"; g.fillText("🕵️", 130, 260); }
+     if (t > d && t < go - .8) { msg(400, 210, "Me manda seu endereço?", "#ffffff", seg(t, d, d + .4), -1, 380); msg(400, 290, "É segredo, tá?", "#ffffff", seg(t, d + .8, d + 1.2), -1, 260); g.fillStyle = "#fff"; g.font = `70px ${F}`; g.textAlign = "center"; g.fillText("👤", 130, 260); }
      if (t > p && t < go - .8) { regra(900, 200, "✋", "PARE e não responda", "#dc2626", seg(t, p, p + .4), 440); if (t > a) regra(900, 300, "🙋", "Conte a um adulto", "#16a34a", seg(t, a, a + .4), 440); }
      if (t > go - .8) { msg(420, 230, "🎁 GANHOU UM CELULAR! SÓ HOJE!", "#ffffff", seg(t, go - .8, go - .4), -1, 480); comando("GOLPE!", 900, 230, seg(t, go, go + .4), "#dc2626", 220); comando("🔗 NÃO CLIQUE NO LINK", 640, 360, seg(t, go + .6, go + 1), "#7c3aed", 440); } } },
  { chip: "SE ALGUÉM FOR OFENDIDO", fala: F6, sfx: [[.1, "whoosh"], [em(F6, "compartilhe"), "alerta"], [em(F6, "Apoie"), "ding"], [em(F6, "print"), "pop"], [em(F6, "denuncie"), "festa"]],
@@ -73,9 +73,9 @@ const CENAS = [
      msg(640, 340, "📌 Regras do grupo: respeito!", "#ffffff", seg(t, r, r + .4), -1, 420);
      rafa({ x: 170, y: 610, s: .85, braco: -.6, bracoE: .3, olhar: 1, boca: t > d ? "riso" : "", pisca: pisca(t) }); gabi({ x: 1110, y: 610, s: .85, braco: t > r ? -2.4 : -.6, bracoE: t > r ? 2.4 : .3, olhar: -1, boca: t > ap ? "riso" : "", pisca: pisca(t) });
      if (t > m) cumprida(t, m); } },
- { chip: "ONDE EU USO ISSO?", fala: F8, sfx: [[.1, "whoosh"], [em(F8, "grupo"), "pop"], [em(F8, "jogos"), "pop"], [em(F8, "festa"), "pop"]],
+ { chip: "ONDE EU USO ISSO?", fala: F8, sfx: [[.1, "whoosh"], [em(F8, "grupo"), "pop"], [em(F8, "jogos"), "pop"], [em(F8, "antes"), "pop"]],
    draw(t, D) { fundoEscuro(t, "#0e7490"); palavra("ONDE EU USO ISSO?", 600, 100, seg(t, 0, .4), 50);
-     [["grupo", "💬", "GRUPO DA TURMA", "#16a34a"], ["jogos", "🎮", "CHAT DOS JOGOS", "#7c3aed"], ["festa", "🎉", "FOTO DA FESTA", "#ea580c"]].forEach(([w, ic, n, c], i) => { const t0 = em(F8, w), x = 260 + i * 380, k = seg(t, t0, t0 + .4); if (k <= 0) return; const z = back(cl(k)); g.save(); g.translate(x, 290); g.scale(z, z); g.fillStyle = c; rr(-110, -80, 220, 160, 18); g.fill(); g.font = `72px ${F}`; g.textAlign = "center"; g.fillText(ic, 0, 25); g.restore(); comando(n, x, 450, seg(t, t0 + .1, t0 + .5), c, 320); }); } },
+     [["grupo", "💬", "GRUPO DA TURMA", "#16a34a"], ["jogos", "🎮", "CHAT DOS JOGOS", "#7c3aed"], ["antes", "🎉", "FOTO DA FESTA", "#ea580c"]].forEach(([w, ic, n, c], i) => { const t0 = em(F8, w), x = 260 + i * 380, k = seg(t, t0, t0 + .4); if (k <= 0) return; const z = back(cl(k)); g.save(); g.translate(x, 290); g.scale(z, z); g.fillStyle = c; rr(-110, -80, 220, 160, 18); g.fill(); g.font = `72px ${F}`; g.textAlign = "center"; g.fillText(ic, 0, 25); g.restore(); comando(n, x, 450, seg(t, t0 + .1, t0 + .5), c, 320); }); } },
  { chip: "", fala: F9, sfx: [[.1, "whoosh"], [1.0, "festa"]],
    draw(t, D) { fimCartao(t, "6º ano · 1º bimestre de 2027 · Missão 6", [GABI, RAFA]); } }
 ];
