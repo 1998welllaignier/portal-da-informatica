@@ -1,19 +1,27 @@
-Listas no programa: a playlist da festa!
+Listas no programa: a barraca da turma!
 
-A Bia vai cuidar das músicas da festa da turma. Ela pensou em criar uma variável para cada música: música um, música dois, música três... São trinta músicas! Vai dar trabalho demais!
+Na festa da escola, a Duda ficou responsável pela barraca de frutas da turma. Ela quis fazer um cardápio no computador e começou a criar uma variável para cada fruta: fruta um, fruta dois, fruta três… Quando o Caio disse que eram dezenove alunos e cada um ia trazer uma fruta, ela quase desistiu!
 
-Para isso existe a lista: uma variável só, que guarda vários itens em ordem. Como a playlist do celular.
+Calma, Duda! Para isso existe a lista: uma variável só, que guarda vários itens em ordem. Como as cestas da barraca, uma do lado da outra.
 
-Cada item tem uma posição, contada a partir do um. Na lista frutas, com maçã, uva, caju e açaí, o item número três é o caju.
+Cada item tem uma posição, contada a partir do um. Na lista frutas, a posição um é a maçã, a dois é a uva, a três é o caju e a quatro é o açaí.
 
-O bloco tamanho conta quantos itens a lista tem: são quatro. E adicionar no fim coloca um item novo no final. Com a banana, agora são cinco.
+O bloco criar lista com monta a lista de uma vez: frutas igual a maçã, uva, caju e açaí.
 
-E o bloco para cada item repete os blocos de dentro uma vez para cada item da lista. Se a lista crescer, ele percorre os itens novos também.
+Para pegar um item, usamos o bloco em lista, obter, com a posição. Em lista frutas, obter o número três: o programa vai até a cesta três e pega… o caju!
 
-Cuidado: pedir o item número seis de uma lista com cinco itens dá problema, porque essa posição não existe.
+E quantas frutas tem? O bloco tamanho de conta os itens. Tamanho de frutas: quatro!
 
-A Bia criou a lista festa e usou o para cada: o programa tocou as trinta músicas, uma por uma. Missão cumprida!
+Chegou banana! O bloco na lista, adicionar no fim, coloca um item novo no final. Agora a lista tem cinco frutas.
 
-Onde eu uso isso? Na playlist, no carrinho da loja on-line e no histórico do navegador. Tudo isso são listas!
+E o melhor: o bloco para cada item na lista repete os blocos de dentro uma vez para cada item. Para cada fruta, mostrar a fruta: e o cardápio vai aparecendo, maçã, uva, caju, açaí, banana, um por linha!
+
+O para cada é uma repetição esperta: você não precisa saber quantos itens tem. Se a lista crescer, ele percorre os novos itens também.
+
+Mas cuidado! O Caio pediu o item número seis de uma lista que tem só cinco. Deu problema! A posição seis não existe. Antes de pedir, confira o tamanho.
+
+O cardápio da barraca ficou pronto, com todas as frutas da turma, e a fila não parava de crescer. Missão cumprida!
+
+Onde eu uso isso? A playlist é uma lista de músicas: o aplicativo toca uma por vez, do começo ao fim. O carrinho da loja online é uma lista: cada produto entra no fim, e o aplicativo mostra quantos itens tem. E o histórico do navegador é a lista dos sites que você visitou, em ordem.
 
 Agora é com vocês: abram a Missão 2 no portal!
