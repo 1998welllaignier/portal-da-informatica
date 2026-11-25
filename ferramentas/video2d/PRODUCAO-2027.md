@@ -7,6 +7,38 @@ Fluxo: `cenas.js` → `novo_video.py` → `prever.py` → narração no ChatGPT 
 
 Download (resolvido em 25/11/2026): os MP3 são baixados pelo Chrome de casa (pacote .tar numa origem neutra) e trazidos pela pasta Downloads.
 
+
+## 📋 INVENTÁRIO OFICIAL (fonte única da verdade — atualizar a CADA mudança; conferido em 25/11/2026 18h50)
+Versões: **v1** = feito no modelo simplificado (9 a 12 cenas, sem câmera) → ABAIXO do padrão, será refeito · **v2** = padrão completo (lista de conferência de docs/PADRAO-VIDEOS-2D.md).
+Voz: o código é o começo do id do MP3 no HeyGen (arquivo `voz_link.txt` da pasta). MP4: onde está o vídeo montado. "No ar" = id no YouTube e em `js/historia.js`.
+
+| Vídeo | Pasta | Versão atual | Voz | MP4 | YouTube / portal | Situação |
+|---|---|---|---|---|---|---|
+| 6º 1ºb M1 Primeiros passos | 2027-6ano-m1-v2 (a v1 é 2027-6ano-m1) | v2 ✅ (23 cenas) | sim (16/11) | – | 9sPLQiecnHc no ar (provavelmente a v2; confirmar a duração no YouTube) | no padrão |
+| 6º 1ºb Especial Teclado | 2027-6ano-m1-teclado | ✅ (34 cenas) | sim | – | MGRoBzcxwX8 no ar | no padrão |
+| 6º 1ºb M2 Entrada, processamento e saída | 2027-6ano-m2 | v1 ❌ | sim (antiga) | – | oLgO5Zz0Bbg no ar | refazer → v2 |
+| 6º 1ºb M3 Hardware e software | 2027-6ano-m3 | v1 ❌ | sim (antiga) | – | Z7urMeervDQ no ar | refazer → v2 |
+| 6º 1ºb M4 Pastas e arquivos | 2027-6ano-m4 | v1 ❌ | ffe0d453 | /tmp (enviado, não postado) | – | refazer → v2 |
+| 6º 1ºb M5 Tipos de dados | 2027-6ano-m5 | v1 ❌ | 9e6d1ec1 | enviado, não postado | – | refazer → v2 |
+| 6º 1ºb M6 Boa convivência na rede | 2027-6ano-m6 | v1 ❌ | cbc67eba | enviado, não postado | – | refazer → v2 |
+| 6º 1ºb M7 Digitação sem medo | 2027-6ano-m7 | v1 ❌ | 39975661 | enviado, não postado | – | refazer → v2 |
+| 6º 1ºb M8 Atalhos | 2027-6ano-m8 | v1 ❌ | 04ed897e | enviado, não postado | – | refazer → v2 |
+| 7º 1ºb M1 Programar com blocos | 2027-7ano-m1 | v1 ❌ | sim (antiga) | – | -Y5vRictuKA no ar | refazer → v2 |
+| 7º 1ºb M2 Listas no programa | 2027-7ano-m2 | v1 ❌ | sim (antiga) | – | 4Uu1LKUF-YY no ar | refazer → v2 |
+| 7º 1ºb M3 Registros | 2027-7ano-m3 | v1 ❌ | a9dcb938 | enviado, não postado | – | refazer → v2 |
+| 7º 1ºb M4 Depurar | 2027-7ano-m4 | v1 ❌ | be32b934 | enviado, não postado | – | refazer → v2 |
+| 7º 1ºb M5 Decompor e reaproveitar | 2027-7ano-m5 | v1 ❌ | c974346d | enviado, não postado | – | refazer → v2 |
+| 7º 1ºb M6 Programar em dupla | 2027-7ano-m6 | v1 ❌ | 467f382b | enviado, não postado | – | refazer → v2 |
+| 7º 1ºb M7 Desafios de depuração | 2027-7ano-m7 | v1 ❌ (só cenas) | – | – | – | refazer → v2 |
+| 7º 1ºb M8 O placar do quiz | 2027-7ano-m8 | v1 ❌ (só cenas) | – | – | – | refazer → v2 |
+| 8º 1ºb M1 a M3, M5 a M8 | 2027-8ano-m1…m8 | v1 ❌ (só cenas) | – | – | – | refazer → v2 |
+| 8º 1ºb M4 Busca binária | 2027-8ano-m4 (a v1 ficou fora do repositório) | **v2 ✅ piloto** (13 cenas, câmera) | – | – | – | esperando a opinião do professor e a voz |
+| 9º 1ºb M1 a M8 | 2027-9ano-m1…m8 | v1 ❌ (só cenas) | – | – | – | refazer → v2 |
+| 6º 2ºb M1 e M2 | 2027-6ano-b2-m1, b2-m2 | v1 ❌ (só cenas) | – | – | – | refazer → v2 |
+| 8º 2ºb Curiosidade: duelo das redes | 2027-8ano-duelo-redes | (14 cenas; conferir) | sim | sim | – | esperando revisão |
+
+Regras para não confundir: (1) a pasta é sempre a do vídeo; quando houver versão nova na mesma pasta, a antiga vai para o histórico do git (nunca duas pastas "vivas" para o mesmo vídeo, exceto 6º M1, já marcado); (2) ao refazer um vídeo que está no ar, o id antigo só sai de `js/historia.js` depois que o professor aprovar o novo; (3) esta tabela é atualizada no mesmo commit de cada mudança.
+
 ## 1º bimestre 2027
 | Pasta | Cenas | Voz (link) | MP4 |
 |---|---|---|---|
