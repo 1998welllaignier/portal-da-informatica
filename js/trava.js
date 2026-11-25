@@ -38,6 +38,10 @@
     try { const sn = await N().db().collection("config").doc(id).get(); v = sn.exists ? sn.data() : {}; } catch (e) { v = {}; }
     cache[id] = { t: Date.now(), v }; return v;
   }
+  // 🎒 o aluno do 5º ano avisa ao painel em qual aula está hoje (progresso/<aluno>_visita), para aparecer no painel daquela turma
+  const visitou = {};
+  function visita(s, tAula, d) { (s.alunoIds || []).forEach((id, i) => { const k = id + tAula + d; if (visitou[k]) return; visitou[k] = 1;
+    try { N().app(i).db.collection("progresso").doc(id + "_visita").set({ alunoId: id, turma: s.turma, tipo: "visita", dia: d, aulaTurma: tAula, em: Date.now() }, { merge: true }).catch(() => { visitou[k] = 0; }); } catch (e) {} }); }
   const tol = () => (P.catalogo.toleranciaTarefas || 15) * 60000;
   const dur = () => (P.catalogo.duracaoAula || 75) * 60000;
   function noHorario(t, ms) {
@@ -83,10 +87,14 @@
        tivesse tido aula mais cedo no mesmo dia, ela "ganhava" e o aluno via "A aula de hoje já terminou" na aula da outra turma. */
     async aulaDe(s, lib) {
       const d = N().hoje(), own = await cfg("hoje_" + s.turma);
-      const outras = [...new Set((s.alunoIds || []).map(id => ((lib || {}).outra || {})[id]).filter(x => x && x !== s.turma))];
+      let outras = [...new Set((s.alunoIds || []).map(id => ((lib || {}).outra || {})[id]).filter(x => x && x !== s.turma))];
+      // 🎒 5º ano (25/11/2026, pedido do professor): os alunos do 5º ano entram na aula de QUALQUER turma que estiver
+      //    acontecendo e fazem a mesma apostila dela (só conta a presença; não têm nota)
+      if (s.serie === "5") outras = P.catalogo.series.filter(x => x.id !== "5").flatMap(x => x.turmas.map(t => t.id));
       let melhor = { h: own, tAula: s.turma, t: own && own.dia === d && own.iniciadaDia === d ? (own.iniciadaEm || 1) : 0 };
       for (const ot of outras) { const ho = await cfg("hoje_" + ot), t = ho && ho.dia === d && ho.iniciadaDia === d ? (ho.iniciadaEm || 1) : 0;
         if (t > melhor.t) melhor = { h: ho, tAula: ot, t }; }
+      if (s.serie === "5" && melhor.tAula !== s.turma && melhor.t) visita(s, melhor.tAula, d);
       return melhor;
     },
     /* {aberta:true} ou {aberta:false, fechada, horarios:[texto], hoje:{mid,titulo}} */

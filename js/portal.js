@@ -1322,7 +1322,7 @@
   async function telaMissao(aid, mid, pid) {
     const s = sess.get(); const a = apostila(aid); if (!a) return telaInicio();
     if (!s) return telaSerie(a.serie, "#/missao/" + aid + "/" + mid);
-    if (s.serie !== a.serie) { toast("Esta apostila é de outra série."); location.hash = "#/apostilas"; return; }
+    if (s.serie !== a.serie && s.serie !== "5") { toast("Esta apostila é de outra série."); location.hash = "#/apostilas"; return; }   // 🎒 o 5º ano faz a apostila da turma em que está assistindo à aula (25/11/2026)
     await carregar(aid);
     await restaurarNuvem(aid);
     if (mid === "rv") await carregarRevisa(s);

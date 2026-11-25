@@ -1,7 +1,7 @@
 /* 🧪 Roteiro (25/11/2026): a 🎮 Sala de jogos do 5º ano — botão na apostila, todos os jogos e o recorde salvo no aluno. */
 const { chromium } = require("playwright"); const T = require("./turma.js");
 (async () => { const b = await chromium.launch({ executablePath: "/usr/bin/google-chrome" });
-  await T.semear({ "alunos/sim1": { id: "sim1", nome: "Pedro Teste", turma: "5-ter", codigo: "1001", ativo: true } });
+  await T.semear({ "alunos/sim1": { id: "sim1", nome: "Pedro Teste", turma: "5-ter", codigo: "1001", ativo: true }, "config/hoje_9A": { dia: "" } });   // nenhuma aula acontecendo (senão o 5º ano vai para a aula, de propósito)
   const pg = await T.pagina(b, "aluno"); await pg.goto(T.BASE + "/");
   await pg.evaluate(() => sessionStorage.setItem("portalJK:sessao", JSON.stringify({ serie: "5", turma: "5-ter", modo: "sozinho", nuvem: true, alunoIds: ["sim1"], nomes: ["Pedro Teste"], apelidos: [""], avatares: [{ tipo: "m" }], entrou: Date.now() })));
   await pg.evaluate(async () => { const app = window.PORTAL.nuvem.app(0); await app.pronto; if (!app.auth.currentUser) await app.auth.signInAnonymously(); });

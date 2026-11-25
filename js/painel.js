@@ -102,9 +102,13 @@
      A presença, o diário e as notas continuam cada um na sua turma. */
   async function participantes(t) {
     const hoje = N.hoje();
-    const [proprios, visit, hj] = await Promise.all([alunosDaTurma(t.id),
+    const [proprios, visit0, hj, vis5] = await Promise.all([alunosDaTurma(t.id),
       db().collection("alunos").where("outraTurma", "==", t.id).get().then(q => q.docs.map(d => ({ id: d.id, ...d.data() }))).catch(() => []),
-      db().collection("config").doc("hoje_" + t.id).get().catch(() => null)]);
+      db().collection("config").doc("hoje_" + t.id).get().catch(() => null),
+      // 🎒 5º ano que veio assistir a esta aula hoje (progresso/<aluno>_visita, gravado pelo aluno; 25/11/2026)
+      db().collection("progresso").where("tipo", "==", "visita").where("dia", "==", hoje).get().then(q => q.docs.map(d => d.data()).filter(x => x.aulaTurma === t.id)).catch(() => [])]);
+    const alunos5 = (await Promise.all(vis5.map(v => db().collection("alunos").doc(v.alunoId).get().then(d => d.exists ? { id: d.id, ...d.data(), visitante: true, quinto: true } : null).catch(() => null)))).filter(Boolean);
+    const visit = [...visit0, ...alunos5];
     const hd = hj && hj.exists ? hj.data() : {};
     const juntas = hd.dia === hoje ? (hd.junto || []).filter(id => { const x = todasTurmas().find(y => y.id === id); return x && x.id !== t.id && x.serie.id === t.serie.id; }) : [];
     const deJuntas = (await Promise.all(juntas.map(id => alunosDaTurma(id).catch(() => [])))).flat();

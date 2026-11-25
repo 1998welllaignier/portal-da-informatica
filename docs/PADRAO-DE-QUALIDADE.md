@@ -773,3 +773,8 @@ Questões **contextualizadas** (situação curta: 1–2 frases no 6º, 2–3 no 
 
 ## 🎮 Sala de jogos do 5º ano (25/11/2026, pedido do professor)
 - Na apostila do 5º ano aparece o botão **🎮 Sala de jogos** (rota `#/jogos`, só para sessões do 5º ano): todos os jogos já liberados da Sala de espera, a qualquer hora, sem contar pontos de aula. Recordes e progresso (ex.: fases do Byte) ficam em `progresso/<aluno>_espera.recordes`, como na Sala de espera. Teste: `roteiro-jogos-5ano.js`.
+
+## 🏫 Quem assiste à aula de outra turma + 🎒 5º ano em qualquer aula (25/11/2026, pedidos do professor em aula)
+- Aluno marcado "🏫 frequenta a aula de outra turma" entra na **Sala de espera** dessa turma e segue **a aula iniciada mais recentemente** hoje (a dele ou a outra). Antes, se a turma dele tivesse tido aula mais cedo no mesmo dia, aparecia "A aula de hoje já terminou" e ele não seguia os cadeadinhos da turma.
+- **5º ano:** entra na aula de **qualquer turma que estiver acontecendo** (a iniciada mais recentemente), faz a **mesma apostila** dela e aparece no painel daquela aula com a marca de visitante (o aluno grava `progresso/<aluno>_visita`). Para eles conta só a presença, sem nota. Quando não há aula acontecendo, eles ficam com a apostila deles e a 🎮 Sala de jogos.
+- Se um aluno do 5º ano chegar depois que o painel ao vivo foi aberto, feche e abra o 🔴 Ao vivo para ele aparecer.
