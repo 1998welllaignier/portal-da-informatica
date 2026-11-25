@@ -75,6 +75,7 @@ function cidade(t, luz, hl) { cidadeFundo(t);
   predioC(500, 150, 300, 330, "#7c3aed", "FÁBRICA CPU", "🧠", luz, t); engrenagem(600, 380, 34, t * 2, "#c4b5fd"); engrenagem(690, 410, 24, -t * 3, "#ddd6fe");
   predioC(960, 230, 300, 250, "#15803d", "TELÃO SAÍDA", "🖥️", luz, t);
   predioC(500, 560, 300, 180, "#b45309", "DEPÓSITO", "💾", luz, t); predioC(140, 560, 260, 180, "#0e7490", "MESA RAM", "🗒️", luz, t);
+  lara({ x: 880, y: 482, s: .55, braco: -1.5 + Math.sin(t * 2) * .3, bracoE: .3, olhar: -1, boca: Math.sin(t * 3) > .6 ? "riso" : "", pisca: pisca(t) });
   if (hl) { const [x, y] = POS[hl]; g.strokeStyle = "#facc15"; g.lineWidth = 8; rr(x - 10, y - 10, hl === "ram" ? 280 : 320, hl === "dep" || hl === "ram" ? 200 : hl === "cpu" ? 350 : 270, 20); g.stroke(); } }
 
 const F0 = "Entrada, processamento e saída: a viagem do dois mais três!",
@@ -105,18 +106,18 @@ const CENAS = [
      g.restore(); abertura(t, "6º ANO · MISSÃO 2", "Entrada, processamento e saída", "A VIAGEM DO", "2 + 3!", 2.2); } },
  { chip: "O MISTÉRIO", fala: F1, sfx: [[.1, "whoosh"], [em(F1, "dois"), "click"], [em(F1, "cinco"), "ding"], [em(F1, "arregalou"), "misterio"], [em(F1, "entrar"), "whoosh"]],
    draw(t, D) { const d = em(F1, "dois"), c = em(F1, "cinco"), a = em(F1, "arregalou"), en = em(F1, "entrar");
-     g.save(); camera(t, [[0, 640, 360, 1], [d, 560, 420, 1.2], [c, 640, 300, 1.15], [en, 640, 300, 1], [en + 1.6, 640, 360, 4.5]]); fundoSala(t);
+     g.save(); camera(t, [[0, 640, 360, 1], [d, 560, 420, 1.2], [c, 640, 300, 1.15], [en, 640, 300, 1], [en + 1.6, 640, 340, 2.2]]); fundoSala(t);
      monitor(640, 380, 1.25, (x, y, w, h) => calcTela(x, y, w, h, t > c ? "5" : t > d + 1.2 ? "2 + 3" : t > d + .8 ? "2 +" : t > d ? "2" : "0")); teclado(640, 520, 1.1, t > d && t < c ? Math.floor(t * 4) % 3 : -1); gabinete(980, 560, .9, true);
      lara({ x: 250, y: 640, s: 1, braco: t > a ? -2.6 : -1.1, bracoE: t > a ? 2.6 : .3, olhar: 1, boca: t > a ? "o" : "", pisca: pisca(t) }); g.restore();
      if (t > a && t < en + .6) balao("O que aconteceu aí dentro?!", 400, 150, 1); if (t > en + 1) { g.fillStyle = `rgba(255,255,255,${cl((t - en - 1) / .6)})`; g.fillRect(0, 0, 1280, 720); } } },
  { chip: "A CIDADE COMPUTADOR", fala: F2, sfx: [[.1, "whoosh"], [em(F2, "cidade"), "festa"], [em(F2, "entrada"), "pop"], [em(F2, "processamento"), "pop"], [em(F2, "saída"), "pop"]],
    draw(t, D) { const ci = em(F2, "cidade"), e = em(F2, "entrada"), p = em(F2, "processamento"), s = em(F2, "saída");
-     g.save(); camera(t, [[0, 640, 360, 1.6], [ci, 640, 470, .62], [e, 210, 350, 1], [p, 650, 300, 1], [s, 1110, 350, 1], [s + 1, 640, 470, .62]]); cidade(t, true, t > s ? "" : t > p ? "cpu" : t > e ? "ent" : ""); g.restore();
+     g.save(); camera(t, [[0, 640, 360, 1.6], [ci, 640, 470, .62], [e, 260, 420, 1], [p, 650, 420, 1], [s, 1060, 420, 1], [s + 1, 640, 470, .62]]); cidade(t, true, t > s ? "" : t > p ? "cpu" : t > e ? "ent" : ""); g.restore();
      if (t < .4) { g.fillStyle = `rgba(255,255,255,${1 - t / .4})`; g.fillRect(0, 0, 1280, 720); }
      if (t > ci) placa("🏙️ DENTRO DO COMPUTADOR", 640, 100, seg(t, ci, ci + .4), "#0e7490"); if (t > s + .8) palavra("ENTRADA → PROCESSAMENTO → SAÍDA", 640, 520, seg(t, s + .8, s + 1.2), 40); } },
  { chip: "1 · ENTRADA", fala: F3, sfx: [[.1, "whoosh"], [em(F3, "Entrada"), "ding"], [em(F3, "teclas"), "click"], [em(F3, "embarcaram"), "festa"]],
    draw(t, D) { const en = em(F3, "Entrada"), tc = em(F3, "teclas"), eb = em(F3, "embarcaram");
-     g.save(); camera(t, [[0, 210, 340, 1.4], [tc, 260, 400, 1.6], [eb, 300, 360, 1.3]]); cidade(t, true, "ent"); teclado(210, 560, .7, t > tc && t < eb ? Math.floor(t * 4) % 3 : -1);
+     g.save(); camera(t, [[0, 210, 330, 1.4], [tc, 260, 330, 1.6], [eb, 300, 300, 1.3]]); cidade(t, true, "ent"); teclado(210, 560, .7, t > tc && t < eb ? Math.floor(t * 4) % 3 : -1);
      ["2", "+", "3"].forEach((s, i) => { const t0 = tc + i * .4; if (t > t0) { const k = cl((t - t0) / .8), x = lerp(150 + i * 60, 150 + i * 60, k), y = lerp(560, 330, io2(k)); passageiro(x + (t > eb ? (t - eb) * 60 : 0), y, s, i === 1 ? "#fb923c" : "#facc15", .9, t); } });
      g.restore(); palavra("ENTRADA", 640, 110, seg(t, en, en + .4), 70); rotulo("a informação chega de fora", 640, 160, "#bfdbfe", seg(t, en + .4, en + .8)); } },
  { chip: "PORTAS DE ENTRADA", fala: F4, sfx: [[.1, "whoosh"], [em(F4, "mouse"), "pop"], [em(F4, "microfone"), "pop"], [em(F4, "câmera"), "pop"], [em(F4, "leitor"), "pop"]],
@@ -127,14 +128,14 @@ const CENAS = [
      palavra("TODAS SÃO PEÇAS DE ENTRADA", 640, 150, seg(t, ts[4] + .5, ts[4] + .9), 44); } },
  { chip: "2 · PROCESSAMENTO", fala: F5, legenda: LEG[5], sfx: [[.1, "whoosh"], [em(F5, "Fábrica"), "pop"], [em(F5, "processador"), "ding"], [em(F5, "unidade"), "pop"], [em(F5, "máquina"), "whoosh"], [em(F5, "cinco"), "festa"]],
    draw(t, D) { const fb = em(F5, "Fábrica"), pr = em(F5, "processador"), un = em(F5, "unidade"), mq = em(F5, "máquina"), ci = em(F5, "cinco");
-     g.save(); camera(t, [[0, 400, 320, 1], [fb, 650, 320, 1.25], [mq, 650, 380, 1.7], [ci, 650, 330, 1.25]]); cidade(t, true, "cpu"); engrenagem(560, 300, 40, t * (t > mq ? 8 : 2), "#c4b5fd"); engrenagem(740, 300, 40, -t * (t > mq ? 8 : 2), "#c4b5fd");
+     g.save(); camera(t, [[0, 400, 420, 1], [fb, 650, 300, 1.25], [mq, 650, 380, 1.7], [ci, 650, 300, 1.25]]); cidade(t, true, "cpu"); engrenagem(560, 300, 40, t * (t > mq ? 8 : 2), "#c4b5fd"); engrenagem(740, 300, 40, -t * (t > mq ? 8 : 2), "#c4b5fd");
      if (t < mq) ["2", "+", "3"].forEach((s, i) => passageiro(lerp(250, 560 + i * 60, cl((t - fb) / 1.2)), 330, s, i === 1 ? "#fb923c" : "#facc15", .8, t));
      else if (t < ci) { const k = cl((t - mq) / (ci - mq)); ["2", "+", "3"].forEach((s, i) => passageiro(lerp(580 + i * 60, 650, k), 330 + k * 40, s, "#facc15", .8 * (1 - k * .7), t)); }
      else passageiro(650 + (t - ci) * 40, 450, "5", "#86efac", 1.1, t); g.restore();
      if (t > pr) palavra("PROCESSADOR (CPU)", 640, 110, seg(t, pr, pr + .4), 60); if (t > un && t < mq) placa("CPU = Unidade Central de Processamento", 640, 180, 1, "#7c3aed", 22); if (t > ci) etiqueta("O RESULTADO!", 1000, 560, 760, 470, seg(t, ci, ci + .4)); } },
  { chip: "3 · SAÍDA", fala: F6, sfx: [[.1, "whoosh"], [em(F6, "Telão"), "pop"], [em(F6, "cinco"), "festa"], [em(F6, "Monitor"), "pop"], [em(F6, "caixa"), "pop"], [em(F6, "impressora"), "pop"], [em(F6, "fone"), "pop"]],
    draw(t, D) { const te = em(F6, "Telão"), ci = em(F6, "cinco"), mo = em(F6, "Monitor"); const ts = ["Monitor", "caixa", "impressora", "fone"].map(w => em(F6, w));
-     g.save(); camera(t, [[0, 800, 330, 1], [te, 1110, 330, 1.3], [mo, 900, 360, 1]]); cidade(t, true, "sai"); passageiro(lerp(820, 1110, cl((t - te) / 1)), 330, "5", "#86efac", 1, t);
+     g.save(); camera(t, [[0, 800, 420, 1], [te, 1110, 300, 1.3], [mo, 900, 300, 1.25]]); cidade(t, true, "sai"); passageiro(lerp(820, 1110, cl((t - te) / 1)), 330, "5", "#86efac", 1, t);
      if (t > ci) { g.fillStyle = "#0f172a"; rr(1010, 290, 200, 120, 12); g.fill(); g.fillStyle = "#86efac"; g.font = `900 80px ${F}`; g.textAlign = "center"; g.fillText("5", 1110, 380); } g.restore();
      palavra("SAÍDA", 640, 110, seg(t, te, te + .4), 70);
      [["🖥️", "MONITOR"], ["🔊", "CAIXA DE SOM"], ["🖨️", "IMPRESSORA"], ["🎧", "FONE"]].forEach(([e, n], i) => { const k = seg(t, ts[i], ts[i] + .4); if (k > 0) { g.fillStyle = "rgba(15,23,42,.85)"; rr(150 + i * 250, 430, 210, 120, 16); g.fill(); emo(e, 255 + i * 250, 495, 46 * back(cl(k))); g.fillStyle = "#bbf7d0"; g.font = `800 16px ${F}`; g.textAlign = "center"; g.fillText(n, 255 + i * 250, 535); } }); } },
@@ -151,7 +152,7 @@ const CENAS = [
      if (t > de) placa("👆 ENTRADA: o toque", 230, 200, 1, "#2563eb", 20); if (t > im) placa("🖼️ SAÍDA: a imagem", 640, 180, 1, "#16a34a", 20); if (t > fo) { placa("🎤 voz entra", 1000, 520, 1, "#2563eb", 18); placa("🔊 som sai", 1110, 200, 1, "#16a34a", 18); } } },
  { chip: "O DEPÓSITO", fala: F9, legenda: LEG[9], sfx: [[.1, "whoosh"], [em(F9, "Depósito"), "pop"], [em(F9, "agá"), "pop"], [em(F9, "ésse"), "pop"], [em(F9, "pen"), "pop"], [em(F9, "cartão"), "pop"], [em(F9, "desligado"), "ding"]],
    draw(t, D) { const dp = em(F9, "Depósito"), ts = ["agá", "ésse", "pen", "cartão"].map(w => em(F9, w)), dl = em(F9, "desligado");
-     g.save(); camera(t, [[0, 640, 470, .62], [dp, 650, 600, 1.2], [ts[0], 650, 560, 1]]); cidade(t, t < dl, "dep");
+     g.save(); camera(t, [[0, 640, 470, .62], [dp, 650, 600, 1.2], [ts[0], 600, 620, 1.15]]); cidade(t, t < dl, "dep");
      [["💽", "HD"], ["⚡", "SSD"], ["🔌", "PEN DRIVE"], ["💳", "CARTÃO"]].forEach(([e, n], i) => { const k = seg(t, ts[i], ts[i] + .4); if (k > 0) { g.fillStyle = "#fef3c7"; rr(330 + i * 160, 330, 140, 130, 14); g.fill(); emo(e, 400 + i * 160, 400, 50 * back(cl(k))); g.fillStyle = NAVY; g.font = `800 17px ${F}`; g.textAlign = "center"; g.fillText(n, 400 + i * 160, 445); } }); g.restore();
      palavra("ARMAZENAMENTO", 640, 110, seg(t, dp, dp + .4), 60); if (t > dl) placa("💡 guarda mesmo DESLIGADO", 640, 200, seg(t, dl, dl + .4), "#b45309", 24); } },
  { chip: "A MESA RAM", fala: F10, sfx: [[.1, "whoosh"], [em(F10, "RAM"), "ding"], [em(F10, "mesa"), "pop"], [em(F10, "desliga"), "alerta"], [em(F10, "vazia"), "misterio"], [em(F10, "perdeu"), "alerta"]],

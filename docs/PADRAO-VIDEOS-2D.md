@@ -94,4 +94,9 @@ Em 25/11/2026 a varredura achou 30 vídeos de 2027 abaixo do padrão (9 a 10 cen
 10. Conceito em letras grandes amarelas, etiquetas com seta e balões de fala.
 11. Legenda não cobre nada (verificador) e quadros conferidos antes de entregar.
 
+### 🤖 Verificador automático (obrigatório, 25/11/2026)
+`python3 ferramentas/video2d/verificador.py <pasta>` (ou `todos`). Desenha o vídeo de verdade e espiona cada texto e cada fundo pintado no canvas. **Só entrega quem sair ✅ APROVADO (zero erros).**
+- ❌ Reprova: legenda cobrindo texto; texto maior que o fundo/barra/contorno atrás dele; texto embaixo do selo; abertura sem mini cena; sem cartão final; câmera parada (menos de 40% das cenas); poucos personagens (menos de 30%); poucas palavras-conceito amarelas (menos de 25%); falta "Onde eu uso isso?" em cena própria; cena sem movimento; roteiro curto; conceitos da apostila faltando (mais de 40% das palavras-chave do resumo).
+- ⚠️ Avisa: ortografia (dicionário pt-BR do LibreOffice; nomes próprios aceitos ficam em `verificador-palavras.txt`), número por extenso sem legenda em algarismos, texto cortado na borda, textos sobrepostos, poucas setas/balões, cena sem efeito sonoro, sem "Missão cumprida".
+
 Piloto no padrão completo: `ferramentas/video2d/2027-8ano-m4/` (13 cenas, câmera, palco em camadas, plateia que reage).

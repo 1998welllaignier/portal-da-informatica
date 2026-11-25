@@ -155,14 +155,14 @@ const CENAS = [
      if (t > ab) cartaoC("1. ABRE", 330, 110, 300, "#fff", seg(t, ab, ab + .4));
      if (t > ms) cartaoC("2. A MESMA COISA COM A DE DENTRO", 860, 110, 620, "#fde68a", seg(t, ms, ms + .4));
      if (t > de) { etiqueta("problema grande", 230, 400, 300, 470, seg(t, de, de + .4)); etiqueta("o MESMO problema, menor", 1040, 280, 960, 420, seg(t, de + .3, de + .7)); }
-     if (t > me) palavra("O MESMO PROBLEMA, SÓ QUE MENOR!", 640, 590, seg(t, me, me + .4), 42); } },
+     if (t > me) palavra("O MESMO PROBLEMA, SÓ QUE MENOR!", 640, 210, seg(t, me, me + .4), 40); } },
  { chip: "RECURSÃO", fala: F5, sfx: [[.1, "whoosh"], [em(F5, "recursão"), "ding"], [em(F5, "versão"), "pop"], [em(F5, "latim"), "misterio"], [em(F5, "correr"), "whoosh"], [em(F5, "curto"), "ding"]],
    draw(t, D) { const r = em(F5, "recursão"), v = em(F5, "versão"), la = em(F5, "latim"), co = em(F5, "correr"); fundoEscuro(t, "#312e81");
      palavra("RECURSÃO", 640, 120, seg(t, r, r + .4), 92);
      if (t > v && t < la) { cartaoC("resolver um problema usando", 640, 300, 760, "#fff", seg(t, v, v + .4)); cartaoC("uma versão MENOR dele mesmo", 640, 430, 760, "#fde68a", seg(t, v + .5, v + .9)); }
      if (t > la) { const k = seg(t, la, la + .4); g.save(); g.globalAlpha = cl(k); g.strokeStyle = "rgba(255,255,255,.35)"; g.lineWidth = 6; g.beginPath(); for (let a = 0; a < 6 * Math.PI; a += .05) { const rr2 = 230 - a * 11; g.lineTo(640 + Math.cos(a) * rr2 * 1.5, 390 + Math.sin(a) * rr2 * .8); } g.stroke(); g.restore();
        if (t > co) { const a = Math.min(6 * Math.PI - .1, (t - co) * 2.2), rr2 = 230 - a * 11; robozinho(640 + Math.cos(a) * rr2 * 1.5, 420 + Math.sin(a) * rr2 * .8, .9 - a * .03, t, true); }
-       cartaoC("latim: “correr de volta”", 640, 250, 520, "#fde68a", seg(t, la, la + .4)); if (t > co + .8) rotulo("o mesmo caminho, cada vez mais curto", 640, 590, "#fde68a", seg(t, co + .8, co + 1.2)); } } },
+       cartaoC("latim: “correr de volta”", 640, 230, 520, "#fde68a", seg(t, la, la + .4)); if (t > co + .8) rotulo("o mesmo caminho, cada vez mais curto", 640, 312, "#fde68a", seg(t, co + .8, co + 1.2)); } } },
  { chip: "A ÚLTIMA BONECA", fala: F6, sfx: [[.1, "whoosh"], [em(F6, "Acabou"), "ding"], [em(F6, "não", 1), "alerta"], [em(F6, "para"), "pop"], [em(F6, "caso"), "festa"]],
    draw(t, D) { const ac = em(F6, "Acabou"), na = em(F6, "não", 1), pa = em(F6, "para"), cb = em(F6, "caso");
      g.save(); camera(t, [[0, 640, 360, 1], [ac, 700, 440, 1.6], [na, 700, 440, 2.1], [cb, 640, 380, 1.1]]); salaCasa(t);
@@ -183,7 +183,7 @@ const CENAS = [
      const k1 = seg(t, p, p + .4), k2 = seg(t, du + .4, du + .8);
      if (k1 > 0) { const z = back(cl(k1)); g.save(); g.translate(350, 380); g.scale(z, z); g.fillStyle = "#dcfce7"; rr(-270, -200, 540, 400, 26); g.fill(); g.fillStyle = "#166534"; g.font = `900 34px ${F}`; g.textAlign = "center"; g.fillText("🔁 PASSO RECURSIVO", 0, -140); g.restore(); matrioska(350, 520, .7, CM[0], .8 * (.5 + .5 * Math.sin(t * 2)), () => matrioska(0, 0, .68, CM[1], 0)); }
      if (k2 > 0) { const z = back(cl(k2)); g.save(); g.translate(930, 380); g.scale(z, z); g.fillStyle = "#fee2e2"; rr(-270, -200, 540, 400, 26); g.fill(); g.fillStyle = "#991b1b"; g.font = `900 34px ${F}`; g.textAlign = "center"; g.fillText("🛑 CASO BASE", 0, -140); g.restore(); matrioska(930, 500, .45, CM[4], 0, null, true); }
-     if (t > fz) rotulo("faz de novo, com um problema MENOR", 350, 560, "#166534", seg(t, fz, fz + .4)); if (t > pq) rotulo("tão pequeno que resolve NA HORA", 930, 560, "#991b1b", seg(t, pq, pq + .4)); } },
+     if (t > fz) rotulo("faz de novo, com um problema MENOR", 350, 540, "#166534", seg(t, fz, fz + .4)); if (t > pq) rotulo("tão pequeno que resolve NA HORA", 930, 540, "#991b1b", seg(t, pq, pq + .4)); } },
  { chip: "⚠️ SEM CASO BASE", fala: F9, sfx: [[.1, "alerta"], [em(F9, "espelhos"), "misterio"], [em(F9, "sempre"), "zum"], [em(F9, "nunca"), "alerta"], [em(F9, "trava"), "desliga"]],
    draw(t, D) { const es = em(F9, "espelhos"), se = em(F9, "sempre"), nu = em(F9, "nunca"), tr = em(F9, "trava"); fundoEscuro(t, "#0f172a");
      if (t < nu + 1.2) { g.save(); camera(t, [[0, 640, 380, 1], [es, 640, 380, 1], [se, 640, 380, 2.4], [nu, 640, 380, 1]]); const nfr = Math.min(9, Math.floor(seg(t, es, se) * 9) + 1);
@@ -211,7 +211,7 @@ const CENAS = [
      g.save(); camera(t, [[0, 400, 400, 1.2], [pr, 300, 420, 1.6], [cb, 420, 400, 1.1]]); cinema(t); fila(t, i => i === 0 && t > nm - .5 ? "fala" : i === 1 ? "fala" : "");
      if (t > nm) selinho("1", 300, 400, seg(t, nm, nm + .4), "#facc15"); g.restore();
      if (t > pr && t < nm) balao("Qual é a sua posição?", 640, 160, 1); if (t > nm) balao("Eu sou a número 1! 😄", 420, 160, seg(t, nm, nm + .3));
-     if (t > cb) { palavra("CASO BASE", 640, 560, seg(t, cb, cb + .4), 70); placaPare(1080, 230, .7, seg(t, cb + .2, cb + .6)); } } },
+     if (t > cb) { palavra("CASO BASE", 640, 290, seg(t, cb, cb + .4), 70); placaPare(1080, 230, .7, seg(t, cb + .2, cb + .6)); } } },
  { chip: "…A RESPOSTA VOLTA", fala: F13, legenda: "Agora, a resposta volta. A segunda pessoa pensa: a da frente é a 1, então eu sou 1 + 1 = 2. A terceira: 2 + 1 = 3. Cada um soma 1 e passa a resposta para trás… até chegar no Bit: posição 7!",
    sfx: [[.1, "whoosh"], [em(F13, "segunda"), "pop"], [em(F13, "terceira"), "pop"], [em(F13, "passa"), "whoosh"], [em(F13, "sete"), "festa"]],
    draw(t, D) { const se = em(F13, "segunda"), te = em(F13, "terceira"), ps = em(F13, "passa"), st = em(F13, "sete");
@@ -268,9 +268,9 @@ const CENAS = [
      const k1 = seg(t, pa, pa + .4); if (k1 > 0) { g.save(); g.globalAlpha = cl(k1); g.fillStyle = "#fff"; rr(60, 140, 560, 440, 24); g.fill(); g.restore();
        const nv = [[340, 230, "Escola"], [200, 350, "6º ano"], [480, 350, "8º ano"], [140, 470, "fotos"], [270, 470, "notas"], [420, 470, "trabalhos"], [550, 470, "jogos"]], pai = [-1, 0, 0, 1, 1, 2, 2];
        nv.forEach(([x, y, nome], i) => { const kk = seg(t, pa + .3 + i * .25, pa + .6 + i * .25); if (kk <= 0) return; if (pai[i] >= 0) { g.strokeStyle = "#94a3b8"; g.lineWidth = 3; g.beginPath(); g.moveTo(nv[pai[i]][0], nv[pai[i]][1] + 30); g.lineTo(x, y - 40); g.stroke(); } pasta(x, y, .55 * back(cl(kk)), ["#f5b82e", "#60a5fa", "#4ade80"][Math.min(2, i ? (i < 3 ? 1 : 2) : 0)], nome, t > ct && i > 0); });
-       if (t > ct) rotulo("pasta dentro de pasta: abre uma por uma 🔁", 340, 560, NAVY, seg(t, ct, ct + .4)); }
+       if (t > ct) rotulo("pasta dentro de pasta: abre uma por uma 🔁", 340, 530, NAVY, seg(t, ct, ct + .4)); }
      const k2 = seg(t, na, na + .4); if (k2 > 0) { g.save(); g.globalAlpha = cl(k2); g.fillStyle = "#ecfccb"; rr(660, 140, 560, 440, 24); g.fill(); g.restore(); samambaia(940, 560, 120, -Math.PI / 2, 7, seg(t, na + .2, na + 3.2));
-       if (t > fr) { g.strokeStyle = "#dc2626"; g.lineWidth = 4; g.beginPath(); g.arc(1035, 380, 60, 0, 7); g.stroke(); rotulo("o galho = uma samambaia menor!", 940, 175, "#166534", seg(t, fr - .6, fr - .2)); palavra("FRACTAL", 940, 535, seg(t, fr, fr + .4), 46); } } } },
+       if (t > fr) { g.strokeStyle = "#dc2626"; g.lineWidth = 4; g.beginPath(); g.arc(1035, 380, 60, 0, 7); g.stroke(); rotulo("o galho = uma samambaia menor!", 940, 175, "#166534", seg(t, fr - .6, fr - .2)); palavra("FRACTAL", 940, 490, seg(t, fr, fr + .4), 46); } } } },
  { chip: "", fala: F21, sfx: [[.1, "whoosh"], [1.0, "festa"]],
    draw(t, D) { fimCartao(t, "8º ano · 1º bimestre de 2027 · Missão 6 · Vídeo extra", [BIAE]); robozinho(1040, 660, 1.4, t, true); } }
 ];

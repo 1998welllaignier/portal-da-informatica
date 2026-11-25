@@ -151,3 +151,6 @@ const CENAS = [
  { chip: "", fala: F13, sfx: [[.1, "whoosh"], [1.0, "festa"]],
    draw(t, D) { fimCartao(t, "7º ano · 1º bimestre de 2027 · Missão 2", [CAIO, MENINA7]); } }
 ];
+// bonequinho vivo também nas cenas do código (padrão: personagem presente e reagindo)
+[[2, 1205], [4, 1050], [6, 1210], [8, 1000], [9, 200]].forEach(([i, x]) => { const c = CENAS[i], d0 = c.draw; c.draw = function (t, D) { d0.call(this, t, D); g.save(); g.setTransform(1, 0, 0, 1, 0, 0); g.globalAlpha = 1;
+  (i === 9 ? caio : duda)({ x, y: 575, s: .78, olhar: x < 640 ? 1 : -1, braco: -1.2 + Math.sin(t * 2.2) * .5, bracoE: .3, boca: Math.sin(t * 1.7) > .4 ? "riso" : "", pisca: pisca(t + i) }); g.restore(); }; });

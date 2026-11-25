@@ -155,7 +155,7 @@ const CENAS = [
      const vidas = t > dois ? 2 : 3, pts = t > mo + .4 ? 10 : 0; g.save(); camera(t, [[0, 640, 360, 1], [es, 780, 300, 1.2], [mo, 780, 300, 1.2], [mo + 2, 640, 360, 1]]);
      telaJogo(560, 120, 560, 300, t, { espinho: 200, moeda: t < mo + .4 ? 420 : null, px: t < es ? 120 : t < mo ? 210 : 420, pulo: t > es && t < es + .4 ? 40 : 0, hud: [vidas, pts] });
      bloco(100, 150, 400, "📦 alterar vidas por -1", "#ea580c", seg(t, es, es + .4), t > es && t < mo); bloco(100, 250, 400, "📦 alterar pontos por 10", "#ea580c", seg(t, mo, mo + .4), t > mo);
-     caixinha(220, 450, "vidas", vidas, 1, t > dois && t < mo); caixinha(440, 450, "pontos", pts, 1, t > mo + .4); g.restore();
+     caixinha(220, 400, "vidas", vidas, 1, t > dois && t < mo); caixinha(440, 400, "pontos", pts, 1, t > mo + .4); g.restore();
      if (t > gv) placa("📦 gaveta Variáveis", 300, 90, seg(t, gv, gv + .4), "#b45309", 20); if (t > es && t < mo) emo("💥", 780, 400, 50); } },
  { chip: "O JOGO FICOU PRONTO!", fala: F11, sfx: [[.1, "festa"], [em(F11, "jogou"), "pop"], [em(F11, "moedas"), "ding"], [em(F11, "turma"), "festa"], [em(F11, "Missão"), "festa"]],
    draw(t, D) { const jo = em(F11, "jogou"), tu = em(F11, "turma"), m = em(F11, "Missão"); g.save(); camera(t, [[0, 640, 300, 1.25], [tu, 640, 360, 1]]); fundoSala(t);
@@ -167,3 +167,6 @@ const CENAS = [
  { chip: "", fala: F13, sfx: [[.1, "whoosh"], [1.0, "festa"]],
    draw(t, D) { fimCartao(t, "7º ano · 1º bimestre de 2027 · Missão 1", [CAIO, MENINA7]); } }
 ];
+// bonequinho vivo também nas cenas do editor (padrão: personagem presente e reagindo)
+[[4, 150], [5, 150], [6, 150], [8, 150], [9, 150], [10, 1200]].forEach(([i, x]) => { const c = CENAS[i], d0 = c.draw; c.draw = function (t, D) { d0.call(this, t, D); g.save(); g.setTransform(1, 0, 0, 1, 0, 0); g.globalAlpha = 1;
+  (i % 2 ? duda : caio)({ x, y: 575, s: .78, olhar: x < 640 ? 1 : -1, braco: i === 8 ? -2.6 : -1.2 + Math.sin(t * 2.2) * .5, bracoE: i === 8 ? 2.6 : .3, boca: i === 8 ? "o" : Math.sin(t * 1.7) > .4 ? "riso" : "", pisca: pisca(t + i) }); g.restore(); }; });
