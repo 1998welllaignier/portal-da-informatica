@@ -16,7 +16,7 @@ Voz: o código é o começo do id do MP3 no HeyGen (arquivo `voz_link.txt` da pa
 |---|---|---|---|---|---|---|
 | 6º 1ºb M1 Primeiros passos | 2027-6ano-m1-v2 (a v1 é 2027-6ano-m1) | v2 ✅ (23 cenas) | sim (16/11) | – | 9sPLQiecnHc no ar (provavelmente a v2; confirmar a duração no YouTube) | no padrão |
 | 6º 1ºb Especial Teclado | 2027-6ano-m1-teclado | ✅ (34 cenas) | sim | – | MGRoBzcxwX8 no ar | no padrão |
-| 6º 1ºb M2 Entrada, processamento e saída | 2027-6ano-m2 | v1 ❌ | sim (antiga) | – | oLgO5Zz0Bbg no ar | refazer → v2 |
+| 6º 1ºb M2 Entrada, processamento e saída | 2027-6ano-m2 | **v2 ✅** (15 cenas, "Cidade Computador"; a v1 está no histórico do git) | precisa de voz NOVA (texto mudou) | – | oLgO5Zz0Bbg no ar = **v1** (trocar depois da aprovação) | v2 pronta, esperando voz |
 | 6º 1ºb M3 Hardware e software | 2027-6ano-m3 | v1 ❌ | sim (antiga) | – | Z7urMeervDQ no ar | refazer → v2 |
 | 6º 1ºb M4 Pastas e arquivos | 2027-6ano-m4 | v1 ❌ | ffe0d453 | /tmp (enviado, não postado) | – | refazer → v2 |
 | 6º 1ºb M5 Tipos de dados | 2027-6ano-m5 | v1 ❌ | 9e6d1ec1 | enviado, não postado | – | refazer → v2 |

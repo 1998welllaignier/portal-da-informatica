@@ -1,17 +1,29 @@
-Entrada, processamento e saída: a viagem da informação!
+Entrada, processamento e saída: a viagem do dois mais três!
 
-A Lara digitou dois mais três na calculadora do computador e, na mesma hora, apareceu cinco na tela. Mas o que aconteceu lá dentro?
+A Lara digitou dois mais três na calculadora do computador e, num piscar de olhos, apareceu cinco na tela. Ela arregalou os olhos: mas o que aconteceu aí dentro? Vamos entrar no computador para descobrir!
 
-Primeiro, a entrada: a informação entra no computador. Teclado, mouse, microfone e câmera são peças de entrada.
+Lá dentro, o computador parece uma cidade! Cada parte tem um trabalho. E todo computador, do celular ao caixa do mercado, trabalha em etapas: entrada, processamento e saída.
 
-Depois, o processamento: o processador, a cê pê u, faz a conta. Ele é o cérebro do computador e fica dentro do gabinete.
+Primeira parada: a Estação Entrada. É por aqui que a informação chega de fora. Quando a Lara apertou as teclas, o dois, o mais e o três embarcaram no trem!
 
-Por fim, a saída: o resultado aparece. Monitor, caixa de som e impressora são peças de saída.
+E o teclado não é a única porta de entrada. O mouse, o microfone, a câmera e o leitor de código de barras do mercado também são peças de entrada.
 
-E tem peça que faz as duas coisas: a tela de toque do celular recebe o seu dedo e também mostra as imagens.
+O trem chegou na Fábrica, o cérebro do computador: o processador, a cê pê u. Cê pê u quer dizer, em português, unidade central de processamento. Ele faz as contas e segue as instruções. Dois mais três… entra na máquina… e sai o cinco!
 
-Para guardar os arquivos existe o armazenamento, como o agá dê e o ésse ésse dê. Já a memória RAM guarda só o que está aberto agora e apaga tudo quando o computador desliga. Por isso, salve sempre!
+Última parada: o Telão Saída. É aqui que o resultado aparece. O cinco surgiu na tela! Monitor, caixa de som, impressora e fone de ouvido são peças de saída: eles mostram ou entregam o resultado.
 
-Onde eu uso isso? No caixa do mercado: o leitor lê o código de barras, o computador acha o preço e a tela mostra o total.
+Viu o caminho? Entrou pelo teclado, foi processado na cê pê u e saiu no monitor. Entrada, processamento, saída: a viagem completa!
+
+E tem peça que é entrada e saída ao mesmo tempo! A tela de toque do celular recebe o seu dedo, que é entrada, e mostra as imagens, que é saída. O fone com microfone ouve a sua voz e toca o som.
+
+Mas e para guardar as coisas? Para isso existe o Depósito: o armazenamento. O agá dê, o ésse ésse dê, o pen drive e o cartão de memória guardam os arquivos para depois, mesmo com o computador desligado.
+
+Já a memória RAM é diferente: é como uma mesa de trabalho. Ela guarda só o que está aberto agora. Quando o computador desliga… a mesa fica vazia! Quem não salvou, perdeu.
+
+Por isso, a regra de ouro: salve sempre! Apertando contrôl ésse, o trabalho sai da mesa e vai para o depósito. Aí, pode desligar sem medo.
+
+A Lara saiu do computador sabendo tudo. Testou de novo: quatro mais quatro… entrada, processamento, saída: oito! Missão cumprida!
+
+Onde eu uso isso? No caixa do mercado: o leitor de código de barras é a entrada, o computador processa o preço, e a tela e o cupom são a saída. No celular: o microfone ouve, o processador entende e a resposta aparece. E na urna eletrônica: você digita, ela confere e mostra a foto do candidato.
 
 Agora é com vocês: abram a Missão 2 no portal!
