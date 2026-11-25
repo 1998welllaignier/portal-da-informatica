@@ -84,7 +84,7 @@
   let estilo = ESTILOS[lerLS("portal:musica:estilo", "animada")] ? lerLS("portal:musica:estilo", "animada") : "animada";
   const E = () => ESTILOS[estilo];
   /* 🔀 MODOS (20/11/2026, pedido do professor): manual (sempre a mesma) · aleatório misto (alterna 1 pagode e 1 de 8 bits)
-     · aleatório só pagodinho · aleatório só 8 bits. No aleatório, troca a cada 1 HORA DE USO: o relógio só anda enquanto
+     · aleatório só pagodinho · aleatório só 8 bits. No aleatório, troca a cada 10 MINUTOS DE USO (era 1 hora até 25/11/2026): o relógio só anda enquanto
      a música está ligada no painel (computador desligado ou portal fechado não conta). */
   const GRUPO = { pagode: Object.keys(ESTILOS).filter(k => /^pagode\d+$/.test(k)), oito: Object.keys(ESTILOS).filter(k => /^oito\d+$/.test(k)) };
   /* 🔀 20/11/2026 (2º pedido): o aleatório também com os OUTROS estilos, e uma variante de cada estilo tocando EM DUPLA com
@@ -99,7 +99,7 @@
   FK.forEach(a => { const k = "so:" + a; MODOS[k] = `🔀 Só ${FAM[a].nome}`; SOS.push(k); });
   const ANTIGO = { misto: "par:pagode+oito", pagode: "so:pagode", oito: "so:oito" };
   const famsDoModo = m => m === "todos" ? FK : m.startsWith("par:") ? m.slice(4).split("+") : m.startsWith("so:") ? [m.slice(3)] : [];
-  const HORA = 3600000;
+  const HORA = 10 * 60000;   // ⏱️ 25/11/2026 (pedido do professor): no aleatório, troca a cada 10 MINUTOS de uso (antes, 1 hora)
   let modo = lerLS("portal:musica:modo", "manual"); modo = ANTIGO[modo] || modo; if (!MODOS[modo] || modo === "nenhuma") modo = "manual";
   let usado = +lerLS("portal:musica:usado", 0) || 0, ultTick = 0, ultGrava = 0;
   function sortearDe(fam, fora) { const L = FAM[fam].L.filter(k => k !== fora); return L.length ? L[Math.floor(Math.random() * L.length)] : FAM[fam].L[0]; }
@@ -107,7 +107,7 @@
     const F = famsDoModo(modo); if (!F.length) return estilo;
     const i = F.indexOf(famDe(estilo)); return sortearDe(F[(i + 1) % F.length], estilo);
   }
-  function contarUso(tocandoMesmo) {   // chamado 4× por segundo: soma o tempo de uso e troca de música depois de 1 hora
+  function contarUso(tocandoMesmo) {   // chamado 4× por segundo: soma o tempo de uso e troca de música depois de 10 minutos
     const ag = Date.now(), dt = ultTick ? Math.min(2000, ag - ultTick) : 0; ultTick = ag;
     if (modo === "manual" || !tocandoMesmo) return;
     usado += dt;
