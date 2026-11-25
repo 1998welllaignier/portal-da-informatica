@@ -10,7 +10,11 @@ const J = (pg, f, a) => pg.evaluate(f, a);
   await al.locator('[data-op="jogos"]').click(); await al.waitForTimeout(1200);
   await sh(al, "1-menu");
   await al.locator('[data-j="byte-aventura"]').click(); await al.waitForTimeout(1500); await sh(al, "2-como");
-  await al.locator('[data-x="jogar"]').click(); await al.waitForTimeout(1200); await sh(al, "3-mapa");
+  await al.locator('[data-x="jogar"]').click(); await al.waitForTimeout(3500); await sh(al, "h1-historia");
+  for (let i = 0; i < 3; i++) { await al.keyboard.press("Enter"); await al.keyboard.press("Enter"); await al.waitForTimeout(3500); }
+  await sh(al, "h4-historia"); await al.keyboard.press("Enter"); await al.keyboard.press("Enter"); await al.waitForTimeout(3600); await sh(al, "h5-historia");
+  await al.keyboard.press("Enter"); await al.keyboard.press("Enter"); await al.keyboard.press("Enter"); await al.keyboard.press("Enter"); await al.waitForTimeout(4000); await sh(al, "h7-historia");
+  await al.keyboard.press("Escape"); await al.waitForTimeout(800); await sh(al, "3-mapa");
   await al.keyboard.press("Enter"); await al.waitForTimeout(600); await sh(al, "4-intro");
   await al.waitForTimeout(3600);
   // joga um pouco: anda para a direita pulando

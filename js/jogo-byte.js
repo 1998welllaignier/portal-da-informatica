@@ -30,8 +30,10 @@
     return (cache[k] = cv);
   }
   const desenha = (c, nome, x, y, esc, flip) => { const s = sprite(nome, esc, flip); if (s) c.drawImage(s, Math.round(x), Math.round(y)); };
+  // a fonte de pixel não tem as maiúsculas com acento agudo/circunflexo: tira só esses (Ã, Õ e Ç ela tem)
+  const semAcento = s => String(s).replace(/[ÁÉÍÓÚÂÊÔ]/g, ch => ({ Á: "A", É: "E", Í: "I", Ó: "O", Ú: "U", Â: "A", Ê: "E", Ô: "O" }[ch]));
   function txt(c, s, x, y, tam, cor, al, sombra) {
-    c.save(); c.font = `${tam}px ${FONTE}`; c.textAlign = al || "left"; c.textBaseline = "top";
+    s = semAcento(s); c.save(); c.font = `${tam}px ${FONTE}`; c.textAlign = al || "left"; c.textBaseline = "top";
     if (sombra) { c.fillStyle = sombra; c.fillText(s, x + Math.max(2, tam / 6), y + Math.max(2, tam / 6)); }
     c.fillStyle = cor || "#fff"; c.fillText(s, x, y); c.restore();
   }
@@ -49,6 +51,8 @@
     abertura: [[67, .1], [72, .1], [76, .1], [79, .3]],
     passou: [[72, .12], [76, .12], [79, .12], [76, .12], [79, .12], [84, .45], [0, .08], [83, .1], [84, .5]],
     morreu: [[71, .1], [70, .1], [69, .1], [68, .35]], fimjogo: [[67, .25], [64, .25], [60, .25], [55, .6]],
+    escolhe: [[76, .04], [81, .06]], comeca: [[72, .06], [76, .06], [79, .06], [84, .06], [88, .16]], pausa: [[76, .07], [72, .07], [76, .07], [72, .12]],
+    tempo: [[84, .06], [0, .04], [84, .06], [0, .04], [84, .06]],
     vitoria: [[72, .15], [72, .15], [72, .15], [72, .45], [68, .45], [70, .45], [72, .3], [70, .15], [72, .8]]
   };
   function tocar(n) { if (!AC || mudo) return; let t = AC.currentTime + .01; (JINGLES[n] || []).forEach(([m, d]) => { nota(m ? hz(m) : 0, t, d * .95, .05); t += d; }); }
@@ -57,8 +61,24 @@
     [69, 72, 76, 72, 69, 72, 76, 79, 77, 76, 74, 72, 71, 72, 74, 0, 69, 72, 76, 72, 81, 79, 77, 76, 74, 72, 71, 69, 71, 0, 0, 0],
     [64, 0, 64, 67, 0, 69, 0, 67, 64, 0, 62, 64, 0, 0, 60, 0, 64, 0, 64, 67, 0, 72, 0, 71, 69, 0, 67, 64, 0, 0, 0, 0],
     [76, 79, 84, 79, 76, 79, 83, 79, 74, 77, 81, 77, 72, 76, 79, 0, 76, 79, 84, 86, 88, 86, 84, 83, 81, 79, 77, 76, 74, 0, 0, 0],
-    [62, 65, 69, 65, 62, 65, 70, 69, 67, 65, 64, 62, 61, 62, 64, 0, 62, 65, 69, 74, 73, 70, 69, 67, 65, 64, 62, 61, 62, 0, 0, 0]];
-  const BAIXO = [[48, 53, 55, 48], [45, 41, 43, 45], [40, 43, 45, 43], [48, 45, 41, 43], [38, 34, 33, 38]];
+    [62, 65, 69, 65, 62, 65, 70, 69, 67, 65, 64, 62, 61, 62, 64, 0, 62, 65, 69, 74, 73, 70, 69, 67, 65, 64, 62, 61, 62, 0, 0, 0],
+    [67, 0, 72, 0, 76, 0, 72, 0, 74, 0, 77, 0, 81, 79, 77, 0, 76, 0, 72, 0, 67, 0, 69, 71, 72, 0, 0, 0, 0, 0, 0, 0]];   // mapa e história
+  const BAIXO = [[48, 53, 55, 48], [45, 41, 43, 45], [40, 43, 45, 43], [48, 45, 41, 43], [38, 34, 33, 38], [48, 50, 53, 55]];
+
+  /* ---------- 📜 a história contada pela equipe da escola (antes da 1ª fase; com legenda, porque os PCs da sala não têm som) ---------- */
+  const HISTORIA = [
+    { quem: "welington", nome: "PROF. WELINGTON", fala: "OLÁ! EU SOU O PROFESSOR WELINGTON. TENHO UMA NOTÍCIA URGENTE: O REI VÍRUS INVADIU O COMPUTADOR DA ESCOLA!", cena: "invasao" },
+    { quem: "welington", nome: "PROF. WELINGTON", fala: "ELE PRENDEU A PRINCESA PIXEL NO CASTELO DO FIREWALL. SÓ O BYTE, NOSSO ROBOZINHO, PODE SALVÁ-LA. E QUEM CONTROLA O BYTE É VOCÊ!", cena: "byte" },
+    { quem: "welington", nome: "PROF. WELINGTON", fala: "SETAS <- E -> ANDAM. ESPAÇO OU SETA PARA CIMA PULA. SEGURE O PULO PARA IR MAIS ALTO!", cena: "teclas" },
+    { quem: "geane", nome: "DIRETORA GEANE", fala: "EU SOU A DIRETORA GEANE. PRESTE ATENÇÃO: ESTAS COISAS SÃO BOAS. PEGUE TODAS!", cena: "bons" },
+    { quem: "geane", nome: "DIRETORA GEANE", fala: "E ESTAS SÃO PERIGO! ENCOSTOU NELAS, PERDE 1 VIDA. NO BUG, SÓ PODE PULAR EM CIMA.", cena: "perigos" },
+    { quem: "marcileia", nome: "COORD. MARCILÉIA", fala: "O CAMINHO TEM 4 MUNDOS E 8 FASES. NO FIM DE CADA FASE, ENTRE NO PORTAL PARA IR À PRÓXIMA.", cena: "mundos" },
+    { quem: "celia", nome: "COORD. CÉLIA", fala: "VOCÊ COMEÇA COM 3 VIDAS, E ELAS FICAM GUARDADAS DE UMA AULA PARA OUTRA. SE TODAS ACABAREM: GAME OVER, E VOLTA TUDO PARA A FASE 1!", cena: "vidas" },
+    { quem: "celia", nome: "COORD. CÉLIA", fala: "PARECE DIFÍCIL? E É! MAS DÁ PARA CHEGAR ATÉ A PRINCESA: QUEM TREINA E TENTA DE NOVO CONSEGUE. 50 CHIPS DÃO +1 VIDA. VOCÊ CONSEGUE!", cena: "consegue" },
+    { quem: "railena", nome: "RAILENA, A SECRETÁRIA", fala: "NA PLACA SAVE EU ANOTO O SEU PROGRESSO. E CADA FASE VENCIDA FICA SALVA NO SEU CÓDIGO PARA A PRÓXIMA AULA!", cena: "save" },
+    { quem: "marckeily", nome: "MARCKEILY", fala: "E EU ENTREGO A BATERIA-ESCUDO PELO CAMINHO. AGORA É COM VOCÊ: VAMOS SALVAR A PRINCESA PIXEL!", cena: "fim" }];
+  function quebra(c, s, maxW, tam) { c.font = `${tam}px ${FONTE}`; const out = []; s = String(s).replace(/[ÁÉÍÓÚÂÊÔ]/g, ch => "AEIOUAEO"["ÁÉÍÓÚÂÊÔ".indexOf(ch)]); let l = "";
+    s.split(" ").forEach(w => { const t = l ? l + " " + w : w; if (c.measureText(t).width > maxW && l) { out.push(l); l = w; } else l = t; }); if (l) out.push(l); return out; }
   let musPos = 0, musT = 0;
   function musica(qual, rapido) { if (!AC || mudo) return; const passo = rapido ? .11 : .15; if (musT < AC.currentTime) musT = AC.currentTime + .05;
     while (musT < AC.currentTime + .25) { const m = MUSICAS[qual], n = m[musPos % m.length]; if (n) nota(hz(n), musT, passo * .9, .022);
@@ -181,8 +201,10 @@
     const ler = k => +(api.ler ? api.ler(k) : 0) || 0;
     let fSalva = Math.max(1, Math.min(FASES + 1, ler("fase"))), ouroBits = ler("ouro"), volta = Math.max(1, ler("volta"));
     const salvar = (k, v) => api.salvar && api.salvar(k, v);
-    let estado = "mapa", sel = Math.min(fSalva, FASES), tempo = 0, pts = 0, msg = "", msgT = 0, eT = 0, acabou = false;
-    let cfg = null, L = null, cam = 0, camMin = 0, p = null, vidas = 3, chipsN = 0, relogio = 0, chefe = null, princesa = null, cpOk = false, ourosAgora = 0, conta = 0;
+    let hist = 0, histT = 0, pausado = false;
+    let estado = ler("hist") ? "mapa" : "historia", sel = Math.min(fSalva, FASES), tempo = 0, pts = 0, msg = "", msgT = 0, eT = 0, acabou = false;
+    const maxFase = () => Math.max(ler("max"), fSalva > FASES ? FASES : fSalva);
+    let cfg = null, L = null, cam = 0, camMin = 0, p = null, vidas = ler("vidas") || 3, chipsN = 0, relogio = 0, chefe = null, princesa = null, cpOk = false, ourosAgora = 0, conta = 0;
     const tecla = {}; let pulou = false, toqueX = 0;
     try { document.fonts && document.fonts.load("16px PressStart"); } catch (e) {}
     const temOuro = (n, k) => !!(ouroBits & (1 << ((n - 1) * 3 + k)));
@@ -202,11 +224,11 @@
     const aviso = (s, t) => { msg = s; msgT = t || 1.2; };
     function batida() { if (p.inv > 0 || estado !== "jogo") return; if (p.escudo) { p.escudo = false; p.inv = 1.4; p.vy = -380; tocar("dano"); aviso("ESCUDO GASTO!"); return; } morrer(); }
     function morrer() { if (estado !== "jogo") return; estado = "morreu"; eT = 2; p.vy = -620; tocar("morreu"); }
-    function ganharChip() { chipsN++; pts += 10; api.ponto && api.ponto(); if (chipsN % 50 === 0) { vidas++; tocar("vida"); aviso("+1 VIDA!"); } else tocar("chip"); }
+    function ganharChip() { chipsN++; pts += 10; api.ponto && api.ponto(); if (chipsN % 50 === 0) { vidas++; salvar("vidas", vidas); tocar("vida"); aviso("+1 VIDA!"); } else tocar("chip"); }
     function venceuFase() { estado = "saindo"; eT = 1.2; p.vx = 0; tocar("passou"); }
     function contagem() { estado = "conta"; conta = Math.max(0, Math.ceil(relogio)); eT = 0;
       const bit = cfg.n; if (bit + 1 > fSalva) { fSalva = Math.min(FASES, bit + 1); salvar("fase", fSalva); }
-      salvar("ouro", ouroBits); pts += 100; api.ponto && api.ponto(); }
+      salvar("ouro", ouroBits); salvar("vidas", vidas); if (cfg.n + 1 > ler("max")) salvar("max", Math.min(FASES, cfg.n + 1)); pts += 100; api.ponto && api.ponto(); }
 
     function fisica(dt) {
       const quer = (tecla.ArrowRight || tecla.d || toqueX > 0 ? 1 : 0) - (tecla.ArrowLeft || tecla.a || toqueX < 0 ? 1 : 0);
@@ -231,10 +253,11 @@
     }
     function update(dt) {
       tempo += dt; if (msgT > 0) msgT -= dt; if (eT > 0) eT -= dt;
-      if (estado === "mapa") return;
+      if (estado === "mapa" || estado === "historia") { musica(5); if (estado === "historia") { const antes = Math.floor(histT * 40); histT += dt; if (Math.floor(histT * 40) > antes && antes < HISTORIA[hist].fala.length && antes % 3 === 0) nota(hz(84 + (antes % 2) * 3), AC ? AC.currentTime : 0, .025, .015); } return; }
+      if (pausado) return;
       if (estado === "intro") { if (eT <= 0) { estado = "entrando"; eT = .8; } return; }
       if (estado === "entrando") { if (eT <= 0) estado = "jogo"; return; }
-      if (estado === "morreu") { p.vy += 1500 * dt; p.y += p.vy * dt; if (eT <= 0) { vidas--; if (vidas > 0) abrirFase(cfg.n, cpOk); else fimDeJogo(); } return; }
+      if (estado === "morreu") { p.vy += 1500 * dt; p.y += p.vy * dt; if (eT <= 0) { vidas--; if (vidas > 0) { salvar("vidas", vidas); abrirFase(cfg.n, cpOk); } else fimDeJogo(); } return; }
       if (estado === "fimjogo") { if (eT <= 0 && !acabou) { acabou = true; api.fim(pts); } return; }
       if (estado === "saindo") { p.x += 60 * dt; if (eT <= 0) contagem(); return; }
       if (estado === "conta") { // ⏱️ o tempo que sobrou vira pontos (tic-tic-tic)
@@ -243,6 +266,7 @@
       if (estado === "vitoria") { if (eT <= 0 && !acabou) { acabou = true; api.fim(pts); } return; }
       // ---- jogando ----
       musica(L.arena && p.x > L.arena ? 4 : cfg.m, relogio < 30);
+      if (relogio > 30 && relogio - dt <= 30) { tocar("tempo"); aviso("CORRA! POUCO TEMPO!", 1.6); }
       relogio -= dt; if (relogio <= 0) { relogio = 0; aviso("ACABOU O TEMPO!", 2); morrer(); return; }
       if (p.inv > 0) p.inv -= dt;
       L.movers.forEach(m => { const nx = m.x0 + (m.x1 - m.x0) * (.5 - .5 * Math.cos((tempo + m.t) * m.vel)); m.dx = m.x ? nx - m.x : 0; m.x = nx; });
@@ -272,12 +296,14 @@
       }
     }
     function fimDeJogo() { estado = "fimjogo"; eT = 3.2; tocar("fimjogo");
-      // ⚠️ como nos jogos antigos: perdeu todas as vidas na fase mais nova, volta para o começo daquele mundo
-      const ini = cfg.m * 2 + 1; if (Math.floor((fSalva - 1) / 2) === cfg.m && fSalva > ini) { fSalva = ini; salvar("fase", fSalva); }
+      // ⚠️ como nos jogos antigos (decisão do professor, 25/11/2026): GAME OVER volta TUDO para a fase 1, com 3 vidas novas.
+      // Fica guardada a fase mais longe a que o aluno já chegou ("você já chegou até a fase X"), para virar meta pessoal.
+      salvar("max", maxFase()); fSalva = 1; salvar("fase", 1); vidas = 3; salvar("vidas", 3);
       salvar("ouro", ouroBits); }
 
     function draw(c) {
       c.imageSmoothingEnabled = false;
+      if (estado === "historia") return historia(c);
       if (estado === "mapa") return mapa(c);
       if (estado === "intro") return intro(c);
       const castelo = L.arena && cam > L.arena - W * .6;
@@ -311,13 +337,15 @@
       c.restore();
       hud(c);
       if (msgT > 0 && msg) txt(c, msg, W / 2, 84, 14, "#fff", "center", TINTA);
+      if (pausado) { c.fillStyle = "rgba(16,23,58,.7)"; c.fillRect(0, 0, W, H); txt(c, "PAUSA", W / 2, 180, 30, "#FFD23F", "center", "#000"); txt(c, "APERTE P PARA CONTINUAR", W / 2, 240, 10, "#fff", "center"); }
       if (estado === "conta" || estado === "passou") { c.fillStyle = "rgba(16,23,58,.78)"; c.fillRect(0, 120, W, 200);
         txt(c, "FASE COMPLETA!", W / 2, 140, 26, "#FFD23F", "center", "#000");
         txt(c, `TEMPO  ${String(conta).padStart(3, "0")}  x 10`, W / 2, 196, 12, "#fff", "center");
         txt(c, `BYTES DOURADOS NESTA FASE: ${ourosAgora}/3`, W / 2, 226, 10, "#FDE68A", "center");
         txt(c, cfg.n < FASES ? `JOGO SALVO: FASE ${cfg.n + 1} LIBERADA` : "", W / 2, 262, 12, "#4ADE80", "center"); }
       if (estado === "fimjogo") { c.fillStyle = "rgba(16,23,58,.88)"; c.fillRect(0, 0, W, H); txt(c, "FIM DE JOGO", W / 2, 140, 30, "#FF5A5F", "center", "#000");
-        txt(c, "AS VIDAS ACABARAM...", W / 2, 210, 12, "#fff", "center"); txt(c, `VOCE CONTINUA DA FASE ${fSalva}`, W / 2, 244, 12, "#FFD23F", "center"); }
+        txt(c, "AS VIDAS ACABARAM... VOLTA PARA A FASE 1.", W / 2, 206, 11, "#fff", "center");
+        txt(c, `VOCÊ JÁ CHEGOU ATÉ A FASE ${maxFase()}!`, W / 2, 240, 12, "#FFD23F", "center"); txt(c, "TREINE E TENTE DE NOVO: VOCÊ CONSEGUE!", W / 2, 274, 11, "#4ADE80", "center"); }
       if (estado === "vitoria") { const f = 9 - eT; c.fillStyle = "rgba(16,23,58,.86)"; c.fillRect(0, 0, W, H);
         for (let i = 0; i < 40; i++) { c.fillStyle = ["#FFD23F", "#FF8BD1", "#4ADE80", "#7CF9FF"][i % 4]; c.fillRect((i * 83 + f * 40 * (i % 3 + 1)) % W, (i * 47 + f * 120) % H, 8, 8); }
         txt(c, "VOCE SALVOU A", W / 2, 60, 20, "#fff", "center", "#000"); txt(c, "PRINCESA PIXEL!", W / 2, 96, 26, "#FFD23F", "center", "#000");
@@ -374,24 +402,65 @@
         if (ativo) desenha(c, "byte", q.x + 18, q.y - 38 - pula, 2); }
       desenha(c, "welington", 24, 300, 3); caixa(c, 20, 118, 108, 40, "#fff"); txt(c, "AJUDE O", 74, 126, 8, TINTA, "center"); txt(c, "BYTE!", 74, 142, 8, TINTA, "center");
       desenha(c, "princesa", 744, 150, 2); if (volta === 1) { c.fillStyle = "#94A3B8"; for (let i = 0; i < 5; i++) c.fillRect(740 + i * 8, 142, 4, 44); }
-      txt(c, `JOGO SALVO: FASE ${Math.min(fSalva, FASES)}`, 20, 400, 9, "#fff", "left", TINTA);
+      txt(c, `JOGO SALVO: FASE ${Math.min(fSalva, FASES)}  VIDAS x${vidas}`, 20, 400, 9, "#fff", "left", TINTA);
+      if (maxFase() > Math.min(fSalva, FASES)) txt(c, `MAIS LONGE: FASE ${maxFase()}`, 20, 380, 8, "#FFD23F", "left", TINTA);
       txt(c, `BYTES DOURADOS ${nOuro()}/24`, W - 20, 400, 9, "#FFD23F", "right", TINTA);
-      txt(c, "<- -> ESCOLHER   ENTER JOGAR   OU CLIQUE NA FASE   (M: SOM)", W / 2, 424, 7, "#FFF6D8", "center");
+      txt(c, "<- -> ESCOLHER   ENTER: JOGAR   H: HISTORIA   M: SOM", W / 2, 424, 7, "#FFF6D8", "center");
+    }
+    // 📜 a história em "slides", no estilo dos jogos antigos: quem fala aparece grande, com o texto sendo escrito
+    function proxHist() { const n = HISTORIA[hist].fala.length; if (histT * 40 < n) { histT = n / 40 + .01; return; }
+      tocar("escolhe"); if (hist < HISTORIA.length - 1) { hist++; histT = 0; } else fimHist(); }
+    function fimHist() { estado = "mapa"; hist = 0; histT = 0; if (!ler("hist")) salvar("hist", 1); tocar("comeca"); }
+    function cenaHist(c, cena, x, y) {
+      const rot = (s, xx, yy, cor) => txt(c, s, xx, yy, 8, cor || "#fff", "center");
+      if (cena === "invasao") { desenha(c, "rei", x - 40, y - 10, 5); }
+      else if (cena === "byte") { desenha(c, "princesa", x + 40, y + 10, 4); c.fillStyle = "#94A3B8"; for (let i = 0; i < 6; i++) c.fillRect(x + 34 + i * 10, y, 5, 74); desenha(c, "byte", x - 60, y + 10 - Math.abs(Math.sin(tempo * 5)) * 10, 4); }
+      else if (cena === "teclas") { J.D.tecla(c, x - 70, y + 20, "←", Math.floor(tempo * 2) % 3 === 0, 44); J.D.tecla(c, x - 20, y + 20, "→", Math.floor(tempo * 2) % 3 === 1, 44); J.D.tecla(c, x + 40, y + 20, "ESPAÇO", Math.floor(tempo * 2) % 3 === 2, 80);
+        desenha(c, "byte2", x - 12, y - 46 - (Math.floor(tempo * 2) % 3 === 2 ? 20 : 0), 2.5); }
+      else if (cena === "bons") { [["chip", 4, "CHIP", "50 = +1 VIDA"], ["ouro", 3.2, "BYTE DOURADO", "3 POR FASE"], ["bateria", 3.2, "BATERIA", "ESCUDO"]].forEach(([sp, e, a, b], i) => {
+          const xx = x - 110 + i * 110; desenha(c, sp, xx - 16, y + 6 + Math.sin(tempo * 3 + i) * 4, e); rot(a, xx, y + 56, "#4ADE80"); rot(b, xx, y + 72); }); }
+      else if (cena === "perigos") { desenha(c, Math.floor(tempo * 6) % 2 ? "bug" : "bug2", x - 130, y + 10, 3); rot("BUG", x - 112, y + 56, "#FF5A5F"); rot("PULE EM CIMA", x - 112, y + 72);
+        faisca(c, { x: x - 10, y: y + 18, fase: 0 }, tempo); rot("FAÍSCA", x, y + 56, "#FF5A5F"); rot("ESPERE APAGAR", x, y + 72);
+        c.fillStyle = TINTA; c.fillRect(x + 80, y + 20, 70, 24); c.fillStyle = "#3BB273"; c.fillRect(x + 80, y + 20, 14, 8); c.fillRect(x + 136, y + 20, 14, 8); rot("BURACO", x + 115, y + 56, "#FF5A5F"); rot("NÃO CAIA!", x + 115, y + 72); }
+      else if (cena === "mundos") { MUNDOS.forEach((M, i) => { const xx = x - 150 + i * 100; caixa(c, xx - 22, y + 4, 44, 44, M.cor); txt(c, String(i + 1), xx, y + 16, 16, "#fff", "center", TINTA); rot(M.nome.split(" ").pop(), xx, y + 62); }); desenha(c, "portal", x + 160, y - 4, 3); }
+      else if (cena === "vidas") { desenha(c, "byte", x - 120, y + 10, 3); txt(c, "x 3", x - 70, y + 30, 16, "#fff"); txt(c, "TEMPO 160", x + 30, y + 30, 14, "#FFD23F"); }
+      else if (cena === "consegue") { desenha(c, "chip", x - 140, y + 20, 4); txt(c, "x 50  =", x - 96, y + 32, 14, "#fff"); desenha(c, "byte", x + 30, y + 10 - Math.abs(Math.sin(tempo * 6)) * 12, 3); txt(c, "+1 VIDA", x + 70, y + 32, 14, "#4ADE80"); }
+      else if (cena === "save") { placaSave(c, x - 40, y + 80, true); desenha(c, "railena", x + 10, y + 32, 3); }
+      else if (cena === "fim") { desenha(c, "bateria", x - 90, y + 14, 4); desenha(c, "byte", x - 20, y + 10 - Math.abs(Math.sin(tempo * 6)) * 14, 4); desenha(c, "princesa", x + 60, y + 10, 4); }
+    }
+    function historia(c) {
+      const H0 = HISTORIA[hist]; c.fillStyle = TINTA; c.fillRect(0, 0, W, H);
+      c.fillStyle = "#FDE68A"; for (let i = 0; i < 24; i++) if ((i + Math.floor(tempo * 2)) % 6) c.fillRect((i * 131) % W, (i * 71) % 150 + 6, 3, 3);
+      txt(c, "BYTE: A AVENTURA", W / 2, 16, 12, "#FFD23F", "center", "#000");
+      cenaHist(c, H0.cena, W / 2 + 40, 60);
+      // quem fala (grande, piscando a boca enquanto o texto aparece) e o balão com a legenda
+      const falando = histT * 40 < H0.fala.length;
+      desenha(c, H0.quem, 34, 200 - (falando && Math.floor(tempo * 8) % 2 ? 4 : 0), 7);
+      txt(c, H0.nome, 76, 326 + 10, 8, "#FFD23F", "center");
+      caixa(c, 176, 196, 596, 150, "#FFF6D8"); c.fillStyle = TINTA; c.beginPath(); c.moveTo(172, 250); c.lineTo(140, 262); c.lineTo(172, 270); c.fill();
+      const vis = H0.fala.slice(0, Math.floor(histT * 40)); quebra(c, vis, 560, 13).forEach((l, i) => txt(c, l, 194, 214 + i * 26, 13, TINTA));
+      if (!falando && Math.floor(tempo * 2) % 2) txt(c, "▼", 746, 322, 12, "#7C3AED");
+      for (let i = 0; i < HISTORIA.length; i++) { c.fillStyle = i === hist ? "#FFD23F" : "#334155"; c.fillRect(W / 2 - HISTORIA.length * 9 + i * 18, 368, 12, 12); }
+      txt(c, "ENTER OU CLIQUE: CONTINUAR      ESC: PULAR A HISTÓRIA", W / 2, 400, 8, "#BFDBFE", "center");
     }
     const obj = {
       update, draw,
       tecla(k, desce) {
         if (desce) ligarSom();
         if (k === "m" || k === "M") { if (desce) mudo = !mudo; return; }
-        const usa = ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", " ", "a", "d", "w", "Enter"].includes(k); if (!usa) return false;
+        if (estado === "historia") { if (!desce) return; if (k === "Escape") fimHist(); else if (k === "Enter" || k === " " || k === "ArrowRight") proxHist(); return; }
+        if ((k === "h" || k === "H") && estado === "mapa") { if (desce) { estado = "historia"; hist = 0; histT = 0; } return; }
+        if ((k === "p" || k === "P" || k === "Escape") && estado === "jogo") { if (desce) { pausado = !pausado; tocar("pausa"); } return; }
+        const usa = ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", " ", "a", "d", "w", "Enter", "Escape"].includes(k); if (!usa) return false;
         if (estado === "mapa") { if (!desce) return;
-          if (k === "ArrowRight" || k === "d") sel = Math.min(Math.min(fSalva, FASES), sel + 1); else if (k === "ArrowLeft" || k === "a") sel = Math.max(1, sel - 1);
-          else if (k === "Enter" || k === " " || k === "ArrowUp") abrirFase(sel); return; }
+          const s0 = sel; if (k === "ArrowRight" || k === "d") sel = Math.min(Math.min(fSalva, FASES), sel + 1); else if (k === "ArrowLeft" || k === "a") sel = Math.max(1, sel - 1);
+          else if (k === "Enter" || k === " " || k === "ArrowUp") { tocar("comeca"); abrirFase(sel); } if (sel !== s0) tocar("escolhe"); return; }
         if (estado === "intro" && desce && (k === "Enter" || k === " ")) { eT = 0; return; }
         tecla[k] = desce; if (k === "ArrowUp" || k === " " || k === "w") pulou = desce;
       },
       desce(x, y) {
         ligarSom();
+        if (estado === "historia") return proxHist();
         if (estado === "mapa") { for (let n = 1; n <= Math.min(fSalva, FASES); n++) { const q = posFase(n); if (x > q.x - 8 && x < q.x + 68 && y > q.y - 50 && y < q.y + 90) { sel = n; return abrirFase(n); } } return; }
         if (estado === "intro") { eT = 0; return; }
         if (y < H * .5) { pulou = true; tecla.toque = true; } else toqueX = x < W / 2 ? -1 : 1;
@@ -420,7 +489,8 @@
     como: ["🤖 Ajude o robozinho Byte a atravessar 4 mundos e salvar a Princesa Pixel do Rei Vírus!",
       "⬅️ ➡️ andar · ⬆️ ou Espaço PULAR (segure para pular mais alto).",
       "🪙 Pegue os chips, pule EM CIMA dos bugs 🐞 e chegue ao portal do fim. Você tem 3 vidas!",
-      "💾 Cada fase vencida fica SALVA: na próxima aula você continua de onde parou."],
+      "💾 Cada fase vencida fica SALVA: na próxima aula você continua de onde parou.",
+      "📜 Na primeira vez, a equipe da escola conta a história e explica cada coisa (no mapa, aperte H para ver de novo)."],
     criar });
   P.jogoByte = { CFG, gerar, FASES, ID };
 })();
