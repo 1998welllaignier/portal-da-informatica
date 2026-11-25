@@ -34,3 +34,12 @@ Referência: o 8º ano · 4º bim. 2026 · M1 "Listas: buscar e ordenar como um 
 - 🔴 Alta (mesma família do que precisou do extra): 8º 1º bim. M4 Busca binária, M5 Método da bolha, M6 Recursão, M7 Ordenação por seleção, M8 Fractais; 9º 1º bim. M5 Autômatos (máquinas de estados); 9º 2º bim. M4 Criptografia hoje (chaves e HTTPS); 6º 3º bim. M3 Variáveis e M4 Um bloco para muitos casos.
 - 🟡 Média: 7º 1º bim. M3 Registros e M4 Depurar; 7º 2º bim. M2 Caminho mais curto; 8º 2º bim. M2 DNS e M5 Paralelismo e concorrência; 9º 1º bim. M2–M3 Árvores e M6 Programação por eventos; 7º 3º bim. M1 Protocolos; 6º 2º bim. M4 Seleção (se… então… senão).
 - 🟢 Atenção ao vocabulário (texto bem explicado resolve): 8º 4º bim. M2 LGPD e dados sensíveis; 9º 4º bim. M1 Licenças; 6º 4º bim. M3 Bits e bytes.
+
+## 2º bimestre 2027
+| Pasta | Cenas | Voz | MP4 |
+|---|---|---|---|
+| 2027-6ano-b2-m1 Algoritmos do dia a dia | ok | ⛔ | – |
+| 2027-6ano-b2-m2 Sequência | ok | ⛔ | – |
+| 6º M3–M8, 7º, 8º e 9º | – | – | – |
+
+Peças reaproveitáveis por série (personagens, fichas, telinha, grafo, robô no tabuleiro): `pecas-2027/helpers-<série>ano.js` — colar no começo do cenas.js.

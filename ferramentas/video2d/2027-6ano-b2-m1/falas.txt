@@ -1,0 +1,19 @@
+Algoritmos do dia a dia!
+
+O Pedro pediu ao robozinho Bit: faz o suco aí! E o Bit ficou parado, piscando. Ele não sabia por onde começar. O Pedro ficou bravo: mas é tão fácil!
+
+Para a gente, é fácil, porque já sabe fazer. Mas o computador não adivinha nada. Ele faz exatamente o que mandamos, do jeito que mandamos. Por isso, precisa de um algoritmo.
+
+Algoritmo é uma lista de passos, em ordem, para resolver um problema ou fazer uma tarefa. Cada passo do algoritmo se chama instrução.
+
+E cada instrução precisa ser clara, sem deixar dúvida, e precisa, dizendo exatamente o que fazer. Faz o suco aí é vago. O bom é assim: um, pegar um copo. Dois, colocar duas colheres de suco em pó. Três, encher o copo com água. Quatro, mexer com a colher.
+
+Todo algoritmo tem começo, meio e fim: começa num ponto, segue os passos e termina quando o problema está resolvido. Se for bem feito, qualquer pessoa que seguir os passos chega ao mesmo resultado.
+
+E um programa de computador é isso: um algoritmo escrito numa linguagem que o computador entende.
+
+O Pedro escreveu os quatro passos, e o Bit fez o suco direitinho. Missão cumprida!
+
+Onde eu uso isso? Na receita de bolo da família. No manual de montagem de um brinquedo, com os passos numerados. No GPS do celular: siga em frente, vire à direita. E no jogo do celular, que funciona porque alguém escreveu milhares de instruções.
+
+Agora é com vocês: abram a Missão 1 no portal!
