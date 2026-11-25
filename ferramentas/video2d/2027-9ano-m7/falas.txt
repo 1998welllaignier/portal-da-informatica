@@ -1,0 +1,17 @@
+O semáforo: um autômato na esquina!
+
+Na frente da escola, a Júlia e o Rafa esperavam para atravessar. O semáforo dos carros ficava verde por muito tempo. Ele apertou o botão de pedestre, e o sinal mudou! Como o semáforo sabe quando mudar?
+
+O semáforo é um autômato com três estados: verde, amarelo e vermelho. A entrada é o tempo: cada vez que o tempo do estado acaba, acontece o evento tique, e ele passa para o próximo estado.
+
+Verde, com tique, vai para amarelo. Amarelo, com tique, vai para vermelho. Vermelho, com tique, volta para verde. E esse ciclo se repete para sempre.
+
+E o botão de pedestre? Uma regra comum é esta: se o semáforo estiver verde e o pedestre apertar o botão, ele vai para o amarelo, para depois ficar vermelho e o pedestre atravessar. Em amarelo ou vermelho, o botão não muda nada.
+
+No programa, uma variável chamada luz guarda o estado. O evento tique usa se, senão para escolher o próximo estado. E o evento botão só muda alguma coisa quando a luz é verde.
+
+A Júlia e o Rafa atravessaram em segurança, sabendo exatamente por que o sinal mudou. Missão cumprida!
+
+Onde eu uso isso? Nos semáforos da cidade, com ou sem botão de pedestre. No micro-ondas e no despertador, que usam temporizador: quando o tempo acaba, eles apitam. E nos jogos, onde o tempo de cada fase é controlado por temporizadores.
+
+Agora é com vocês: abram a Missão 7 no portal!

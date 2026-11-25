@@ -1,0 +1,19 @@
+Árvores de decisão: sim ou não?
+
+Na hora do intervalo, a Júlia desafiou a turma: pensei num objeto da sala de informática! Vocês só podem fazer perguntas de sim ou não. O Rafa começou chutando: é o mouse? Não. É a impressora? Não. Assim ia demorar o recreio inteiro!
+
+O jeito esperto é usar uma árvore de decisão. Cada vértice é uma pergunta. Cada galho é uma resposta: sim ou não. E cada folha é uma decisão final.
+
+Veja: a primeira pergunta, a raiz, é: é eletrônico? Se sim: tem tela? Sim, é o monitor. Não, é o teclado. Se não é eletrônico: serve para escrever? Sim, é o lápis. Não, é a cadeira.
+
+Para usar, comece na raiz, responda, e siga o galho da resposta até chegar a uma folha.
+
+Agora, as contas da árvore. Quantas decisões ela tem? Quatro: as quatro folhas. Quantas perguntas, no máximo, até decidir? Duas: essa é a profundidade. E cada pergunta de sim ou não a mais dobra as folhas: uma pergunta, duas folhas. Duas, quatro. Três, oito.
+
+Mas atenção: uma boa árvore tem perguntas com resposta clara, que dividem as possibilidades. Ele é legal? é uma pergunta ruim: cada pessoa responde de um jeito!
+
+O Rafa montou a árvore e acertou o objeto da Júlia em só duas perguntas: era o teclado! Missão cumprida!
+
+Onde eu uso isso? No atendimento automático do telefone: digite um para isso, dois para aquilo. Na triagem do posto de saúde: cada resposta leva a uma cor de prioridade. E nos filtros das lojas online: preço, tamanho e cor.
+
+Agora é com vocês: abram a Missão 3 no portal!

@@ -1,0 +1,19 @@
+Autômatos: as máquinas de estados!
+
+Na volta da escola, a Júlia empurrou a catraca do ônibus e ela não girou. Passou o cartão, a luz ficou verde, e aí sim ela passou. Depois, a catraca travou de novo. Como a catraca sabe o que fazer?
+
+A catraca está sempre num estado: travada ou liberada. E muda de um para o outro conforme o que acontece: alguém passa o cartão, ou alguém empurra. Uma máquina assim é um autômato, também chamado de máquina de estados.
+
+As mudanças ficam numa tabela de transição: para cada estado e cada entrada, ela diz o próximo estado. Travada, com cartão: fica liberada. Travada, empurrando: continua travada. Liberada, empurrando: gira, a pessoa passa, e volta a ficar travada. Liberada, com cartão: continua liberada.
+
+Cada mudança de estado é uma transição. E o estado em que a máquina começa é o estado inicial: a catraca começa travada.
+
+Vamos seguir as entradas da Júlia: empurrar, cartão, empurrar. Começa travada. Empurrar: continua travada. Cartão: liberada! Empurrar: gira e trava de novo.
+
+Os autômatos estão em todo lugar: no semáforo, que vai do verde para o amarelo e para o vermelho. Na máquina de refrigerante. No elevador. Na porta automática. E no videogame: o personagem parado, correndo ou pulando.
+
+A Júlia desenhou o autômato da catraca e agora sabe explicar por que ela travou. Missão cumprida!
+
+Onde eu uso isso? Na catraca do ônibus e da escola, no semáforo e no elevador. No videogame, onde o personagem muda de estado com os botões. E na máquina de refrigerante, que espera o dinheiro, libera a escolha e entrega a lata.
+
+Agora é com vocês: abram a Missão 5 no portal!

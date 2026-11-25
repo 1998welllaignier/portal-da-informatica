@@ -1,0 +1,19 @@
+Programar com grafos e árvores!
+
+O Rafa desenhou o grafo da escola no caderno: o pátio ligado ao portão, à cantina, à sala de informática e à biblioteca. Mas o computador não enxerga desenho! Como guardar esse grafo num programa?
+
+Representar é guardar uma coisa do mundo num formato que o computador entende. E um jeito muito usado para guardar um grafo é a lista de vizinhos, também chamada de lista de adjacência: para cada vértice, guardamos a lista dos vértices ligados a ele.
+
+O pátio tem como vizinhos: portão, cantina, informática e biblioteca. O portão tem só o pátio. E a informática tem o pátio e a biblioteca.
+
+E o grau do vértice é o tamanho da lista de vizinhos. A lista do pátio tem quatro itens: o pátio tem grau quatro.
+
+No editor, usamos uma ficha chamada vizinhos, com um campo para cada vértice. O valor de cada campo é uma lista. O bloco tamanho de calcula o grau. E o bloco para cada item percorre os vizinhos, um por um.
+
+E a árvore de decisão? Ela vira se, senão, dentro de se, senão. A pergunta da raiz é o primeiro se. Cada galho tem outro se dentro. E as folhas são os blocos mostrar.
+
+O Rafa guardou o grafo da escola em lista de vizinhos e transformou a árvore do objeto em blocos se, senão. Agora o computador entende os dois! Missão cumprida!
+
+Onde eu uso isso? A rede social guarda, para cada pessoa, a lista de amigos, e conta quantos você tem: o grau! O jogo guarda o mapa de salas como lista de vizinhos. E o atendimento automático do telefone é um programa de se dentro de se.
+
+Agora é com vocês: abram a Missão 4 no portal!

@@ -1,0 +1,21 @@
+Programação por eventos: quando acontecer, faça!
+
+O Rafa fez um programa de contador para o jogo da turma, mas ele rodava de cima para baixo, mostrava um número e terminava. Ninguém conseguia apertar nada! E o celular? Ele fica esperando a gente tocar. Como?
+
+Os programas que fizemos até agora rodam de cima para baixo e terminam. Mas o celular, o jogo e a catraca esperam alguma coisa acontecer e, então, reagem. Isso é a programação por eventos.
+
+O evento é o que acontece. O tratador é o que o programa faz quando ele acontece. Tocar no ícone: abrir o aplicativo. Chegar mensagem: vibrar e mostrar a notificação. Apertar o botão de pular: o personagem pula. Passar o cartão na catraca: liberar e acender a luz verde.
+
+No editor, a gaveta Eventos tem o bloco quando acontecer, faça. Os blocos de dentro só rodam quando aquele evento acontece. E rodam de novo, toda vez que ele acontecer.
+
+Veja o contador de cliques. Definir cliques para zero roda uma vez só, no começo. E, quando acontecer o botão verde: alterar cliques por um e mostrar cliques. Apertou três vezes? Aparece um, dois, três.
+
+E tem mais: eventos mais estados formam um autômato no programa. Uma variável guarda o estado, travada ou liberada, e cada evento, cartão ou empurrar, usa um se para decidir a transição.
+
+No portal, quando você aperta Rodar, os eventos acontecem na ordem mostrada em cima do editor, como se alguém apertasse os botões.
+
+O Rafa trocou o programa por um evento de clique, e o contador do jogo da turma funcionou! Missão cumprida!
+
+Onde eu uso isso? Todo aplicativo de celular é programado por eventos: tocar, arrastar, chegar mensagem. A porta automática do mercado reage ao sensor de movimento. E, nos jogos, cada botão do controle é um evento com o seu tratador.
+
+Agora é com vocês: abram a Missão 6 no portal!

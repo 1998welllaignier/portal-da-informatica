@@ -24,7 +24,7 @@ Download (resolvido em 25/11/2026): os MP3 são baixados pelo Chrome de casa (pa
 | 2027-7ano-m7 Desafios de depuração | ok | ⛔ franquia HeyGen | – |
 | 2027-7ano-m8 O placar do quiz | ok | ⛔ franquia HeyGen | – |
 | 8º M1–M8 (2027-8ano-m1…m8) | ok | ⛔ franquia HeyGen | – |
-| 9º M1–M8 | – | – | – |
+| 9º M1–M8 (2027-9ano-m1…m8) | ok | ⛔ franquia HeyGen | – |
 
 ## 2º, 3º e 4º bimestres 2027
 Nenhum vídeo de missão ainda (8 por apostila × 4 séries × 3 bimestres = 96). Pronto à parte: ⚔️ curiosidade "O duelo das redes" (8º, 2º bim.), esperando revisão.

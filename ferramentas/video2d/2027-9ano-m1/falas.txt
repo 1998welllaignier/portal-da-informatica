@@ -1,0 +1,19 @@
+Grafos e o melhor caminho!
+
+A Júlia sempre ia da casa dela até a escola pela rua direta. Um dia, o Rafa chegou antes dela, mesmo morando mais longe. Como ele conseguiu? Ele usou o aplicativo de mapa!
+
+E como o aplicativo sabe o caminho mais rápido? Ele enxerga a cidade como um grafo: pontos ligados por linhas.
+
+Cada ponto é um vértice: uma esquina, uma casa, a escola. Cada ligação entre dois vértices é uma aresta: uma rua. O número na aresta é o peso: os minutos daquela rua. E o grau de um vértice é quantas arestas saem dele: quantas ruas chegam naquela esquina.
+
+Um caminho é uma sequência de vértices ligados por arestas, como casa, padaria, escola. E o tamanho do caminho é a soma dos pesos das arestas.
+
+Veja o bairro da Júlia. A rua direta, da casa até a escola, leva nove minutos. Passando pela praça: quatro mais quatro, oito minutos. E passando pela padaria: três mais dois, só cinco minutos!
+
+Então, o caminho mais curto é o de menor soma dos pesos. E repare: nem sempre é o que tem menos paradas! A rua direta tem uma aresta só, mas soma nove.
+
+O aplicativo de mapa faz essas contas com milhões de ruas, em segundos. No dia seguinte, a Júlia foi pela padaria e chegou junto com o Rafa. Missão cumprida!
+
+Onde eu uso isso? No aplicativo de mapa e no de entrega, que calculam o caminho mais curto. Nas redes sociais, cada pessoa é um vértice e cada amizade é uma aresta: os amigos em comum vêm daí. E na internet, os pacotes seguem o melhor caminho entre os roteadores.
+
+Agora é com vocês: abram a Missão 1 no portal!

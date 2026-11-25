@@ -1,0 +1,21 @@
+O mapa da escola em grafo!
+
+Chegou uma visita na escola, e a diretora pediu ajuda para a turma do nono ano: qual é o caminho mais rápido do portão até a sala de informática? E se um corredor estiver em reforma?
+
+Vamos transformar a escola num grafo! Cada lugar vira um vértice. Cada corredor vira uma aresta. E o peso é o tempo de caminhada, em minutos.
+
+Portão até o pátio: um minuto. Pátio até a cantina: um. Pátio até a sala de informática: dois. Pátio até a biblioteca: dois. E informática até a biblioteca: um minuto.
+
+Primeira pergunta: qual lugar é o mais conectado? É o vértice de maior grau: o pátio, com grau quatro. Ali passa mais gente!
+
+Segunda pergunta: qual o caminho mais curto do portão até a informática? Portão, pátio, informática: um mais dois, três minutos.
+
+E se o corredor do pátio até a informática estiver em reforma? A aresta some, e a gente procura de novo: portão, pátio, biblioteca, informática. Um mais dois mais um: quatro minutos. Quando uma aresta some, o caminho mais curto muda!
+
+O grafo da escola serve para muita coisa: planejar a rota de fuga, que é o caminho mais curto até a saída; decidir onde colocar o bebedouro, no vértice de maior grau; e orientar os visitantes.
+
+A turma entregou o mapa em grafo para a diretora, e a visita chegou à sala de informática em três minutos. Missão cumprida!
+
+Onde eu uso isso? Nos mapas de emergência dos prédios, com a rota de fuga até a saída. Nos shoppings e aeroportos, com o caminho até cada loja ou portão. E no aplicativo de mapa, que recalcula a rota quando uma rua é interditada.
+
+Agora é com vocês: abram a Missão 8 no portal!
