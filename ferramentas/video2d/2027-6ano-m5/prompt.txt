@@ -1,0 +1,21 @@
+Gere uma NOVA narração com o Create Speech do HeyGen (só o MP3, sem vídeo nem avatar), mesma voz Murilo - Bright & Articulate, português do Brasil, voz natural, animada e bem clara, como um narrador de desenho animado contando uma história para crianças de 11 anos, com emoção nas descobertas, sem correr. Faça uma pausa de 2 segundos entre cada parágrafo. Leia exatamente o texto abaixo, sem acrescentar nada. Depois me mande, em texto puro, o link direto (URL completa) do MP3.
+
+Tipos de dados: a planilha maluca!
+
+A Luana montou no computador o cadastro do time da escola. Mas, quando pediu para somar os pontos, o computador somou os telefones! Que confusão!
+
+Tudo o que o computador guarda é dado: um nome, um número, uma foto. Mas cada dado tem um tipo, e o tipo diz o que o computador pode fazer com ele.
+
+Texto são letras, como um nome. Número é para fazer contas. Data é o dia, o mês e o ano. E o lógico só pode ser verdadeiro ou falso: sim ou não.
+
+Imagem, som e vídeo também são tipos de dados: a foto a gente mostra, a música a gente toca, e o vídeo a gente pausa e avança.
+
+Cuidado com a pegadinha: telefone e CEP parecem números, mas são texto. Ninguém soma dois telefones! Se o dado vai para a conta, é número. Se é só um nome feito de algarismos, é texto.
+
+Muitos dados juntos formam coleções. A lista é um dado depois do outro, em ordem, como a lista de chamada. E a tabela tem linhas e colunas: cada linha é um jogador, e cada coluna, uma informação.
+
+A Luana arrumou a tabela: o nome como texto, os pontos como número e o telefone como texto. Agora o computador soma só os pontos. Missão cumprida!
+
+Onde eu uso isso? No cadastro de uma loja, na tabela do campeonato e na playlist de músicas, que é uma lista.
+
+Agora é com vocês: abram a Missão 5 no portal!

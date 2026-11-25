@@ -1,0 +1,19 @@
+Gere uma NOVA narração com o Create Speech do HeyGen (só o MP3, sem vídeo nem avatar), mesma voz Murilo - Bright & Articulate, português do Brasil, voz natural, animada e bem clara, como um narrador de desenho animado contando uma história para crianças de 10 anos, com emoção nas descobertas, sem correr. Faça uma pausa de 2 segundos entre cada parágrafo. Leia exatamente o texto abaixo, sem acrescentar nada. Depois me mande, em texto puro, o link direto (URL completa) do MP3.
+
+Listas e grafos: a festa da turma!
+
+A Lara vai organizar a festa da turma. Ela tem um monte de nomes anotados, tudo bagunçado, e ainda precisa saber quem é amigo de quem. Como deixar isso em ordem?
+
+Primeiro, a lista. Uma lista guarda vários itens, um depois do outro. Cada item ocupa uma posição: o primeiro, o segundo, o terceiro.
+
+Com uma lista, dá para fazer três coisas. Inserir: chegou mais um colega, ele entra na lista. Remover: um colega não pode ir, ele sai da lista. E trocar de lugar: por exemplo, colocar os nomes em ordem alfabética, de A a Z.
+
+Agora, as amizades. Para mostrar quem está ligado a quem, a gente usa um grafo: um desenho de pontos ligados por linhas.
+
+Cada ponto é um vértice, que pode ser uma pessoa, uma cidade ou um lugar. Cada linha é uma aresta: a ligação entre dois vértices. A Lara é amiga da Bia e do Caio: são duas arestas.
+
+Pronto! A Lara fez a lista de convidados em ordem alfabética e desenhou o grafo das amizades. Assim, ela sentou os amigos pertinho uns dos outros. Missão cumprida!
+
+Onde eu uso isso? A lista aparece na fila da merenda, na lista de compras e na playlist de músicas. O grafo aparece no mapa de cidades ligadas por estradas e nas redes de amigos.
+
+Agora é com vocês: abram a Missão 2 no portal!

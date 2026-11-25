@@ -1,0 +1,19 @@
+Gere uma NOVA narração com o Create Speech do HeyGen (só o MP3, sem vídeo nem avatar), mesma voz Murilo - Bright & Articulate, português do Brasil, voz natural, animada e bem clara, como um narrador de desenho animado contando uma história para crianças de 10 anos, com emoção nas descobertas, sem correr. Faça uma pausa de 2 segundos entre cada parágrafo. Leia exatamente o texto abaixo, sem acrescentar nada. Depois me mande, em texto puro, o link direto (URL completa) do MP3.
+
+Verdadeiro ou falso: o robô que decide!
+
+O Pedro e a Lara vão sair para o passeio da escola. Mas o céu está esquisito. Levar guarda-chuva ou boné? Como um computador tomaria essa decisão?
+
+Tudo começa com a sentença lógica: uma frase que só pode ser verdadeira ou falsa. O sol é quente: verdadeiro! Peixe anda de bicicleta: falso!
+
+Existem três palavras mágicas. O NÃO inverte a frase: o que era verdadeiro vira falso. O sol não é quente? Falso!
+
+O E só é verdadeiro se as duas partes forem verdadeiras. Dois mais dois é quatro e três mais três é seis: verdadeiro! Já o OU é verdadeiro se pelo menos uma parte for verdadeira.
+
+Os computadores usam isso para fazer escolhas nos algoritmos: SE uma condição for verdadeira, ENTÃO faz uma coisa. SENÃO, faz outra.
+
+Então, o algoritmo do passeio fica assim: SE estiver chovendo, ENTÃO levo o guarda-chuva. SENÃO, levo o boné. O Pedro olhou pela janela: está chovendo? Verdadeiro! Guarda-chuva na mão. Missão cumprida!
+
+Onde eu uso isso? No semáforo: SE estiver vermelho, ENTÃO para. No jogo: SE a vida acabar, ENTÃO aparece fim de jogo. E na porta automática do mercado, que abre SE alguém chegar perto.
+
+Agora é com vocês: abram a Missão 3 no portal!
