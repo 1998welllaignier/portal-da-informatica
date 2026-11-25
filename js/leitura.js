@@ -21,6 +21,7 @@
    ============================================================ */
 (function () {
   "use strict";
+  const semLegenda = (p => { try { p.unloadModule && (p.unloadModule("captions"), p.unloadModule("cc")); p.setOption && p.setOption("captions", "track", {}); } catch (x) {} });   // 💬 sem a legenda automática do YouTube (25/11/2026)
   const P = window.PORTAL = window.PORTAL || {};
   const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const h = html => { const t = document.createElement("template"); t.innerHTML = html.trim(); return t.content.firstElementChild; };
@@ -179,8 +180,8 @@
       // 🩺 23/11/2026: no projetor, um player só, SEM SOM desde o início (o som sai do player do professor) e preso no tempo dele
       if (ifr) { const box = document.createElement("div"); box.id = "tl-yt"; box.className = "tl-yt"; ifr.replaceWith(box); if (P.sala && P.sala.relogio) P.sala.relogio();
         ytApi().then(Y => { if (!box.isConnected) return; ytP = new Y.Player("tl-yt", { videoId: d.video, host: "https://www.youtube-nocookie.com", width: "100%", height: "100%",
-          playerVars: { autoplay: 0, mute: 1, controls: 0, disablekb: 1, fs: 0, rel: 0, modestbranding: 1, playsinline: 1, iv_load_policy: 3 },
-          events: { onReady: e => { try { e.target.mute(); } catch (x) {} sincTelao(); } } }); }).catch(() => {}); }
+          playerVars: { autoplay: 0, mute: 1, controls: 0, disablekb: 1, fs: 0, rel: 0, modestbranding: 1, playsinline: 1, iv_load_policy: 3, cc_load_policy: 0 },
+          events: { onReady: e => { try { e.target.mute(); } catch (x) {} semLegenda(e.target); sincTelao(); } } }); }).catch(() => {}); }
     }, () => {});
   }
 

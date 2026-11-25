@@ -13,6 +13,8 @@
    - progresso/<alunoId>_sala (o aluno grava): { tipo: "sala", sala: <turma da aula>, dia, sessao, em, fora, saidas, oferta } */
 (function () {
   "use strict";
+  // 💬 25/11/2026: sem a legenda automática do YouTube por cima da legenda que já vem no vídeo
+  const semLegenda = (p => { try { p.unloadModule && (p.unloadModule("captions"), p.unloadModule("cc")); p.setOption && p.setOption("captions", "track", {}); } catch (x) {} });
   const P = window.PORTAL = window.PORTAL || {};
   const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const ICE = { iceServers: [{ urls: "stun:stun.l.google.com:19302" }] };
@@ -132,8 +134,8 @@
       let Y; try { Y = await Promise.race([yt(), new Promise((_, no) => setTimeout(() => no(new Error("api")), 14000))]); } catch (e) { A.criando = false; if (ativo()) falha("sem-api"); return; }
       A.criando = false; if (!ativo() || A.vidAtual !== d.vid) return;
       A.player = new Y.Player("sala-yt", { videoId: d.vid, host: "https://www.youtube-nocookie.com", width: "100%", height: "100%",
-        playerVars: { autoplay: 1, mute: 1, controls: 0, disablekb: 1, fs: 0, modestbranding: 1, rel: 0, playsinline: 1, iv_load_policy: 3, start: Math.floor(esperado(d)) },
-        events: { onReady: e => { A.pronto = true; falha(null); try { e.target.mute(); } catch (x) {} sincronizar(); },
+        playerVars: { autoplay: 1, mute: 1, controls: 0, disablekb: 1, fs: 0, modestbranding: 1, rel: 0, playsinline: 1, iv_load_policy: 3, cc_load_policy: 0, start: Math.floor(esperado(d)) },
+        events: { onReady: e => { A.pronto = true; falha(null); try { e.target.mute(); } catch (x) {} semLegenda(e.target); sincronizar(); },
           onError: e => falha("erro " + (e && e.data)) } });
       clearInterval(A.iv); A.iv = setInterval(sincronizar, 700);
     } else if (d.modo === "quadro") {
@@ -298,7 +300,7 @@
     const enviar = estado => { const p = PR.player; if (!p || !p.getCurrentTime || PR.sessao !== sessao) return;
       refSala(t).set({ estado, pos: p.getCurrentTime(), emMs: agora() }, { merge: true }).catch(() => {}); };
     PR.player = new Y.Player("sala-prof-yt", { videoId: vid, host: "https://www.youtube-nocookie.com", width: "100%", height: "100%",
-      playerVars: { autoplay: 0, controls: 1, rel: 0, modestbranding: 1, playsinline: 1 },
+      playerVars: { autoplay: 0, controls: 1, rel: 0, modestbranding: 1, playsinline: 1, cc_load_policy: 0 },
       events: { onStateChange: e => { const s = e.data;
         if (s === 1) enviar("play"); else if (s === 2 || s === 3) enviar("pause"); else if (s === 0) enviar("fim"); } } });
     // a cada 5 s, reancora o tempo (corrige qualquer escorregão do relógio)

@@ -166,14 +166,16 @@
     let Y; try { Y = await Promise.race([yt(), new Promise((_, no) => setTimeout(() => no(new Error("api")), 14000))]); } catch (e) { A.criando = false; falhaAluno("sem-api"); return; }
     A.criando = false; const dd = ativoAluno(); if (!dd || dd.momento !== "video" || A.vid !== v.vid) return;
     A.player = new Y.Player("pc-yt-al", { videoId: v.vid, host: "https://www.youtube-nocookie.com", width: "100%", height: "100%",
-      playerVars: { autoplay: 1, mute: 1, controls: 0, disablekb: 1, fs: 0, modestbranding: 1, rel: 0, playsinline: 1, iv_load_policy: 3, start: Math.floor(esperado(v)) },
-      events: { onReady: e => { A.pronto = true; falhaAluno(null); try { e.target.mute(); } catch (x) {} sincAluno(); }, onError: e => falhaAluno("erro " + (e && e.data)) } });
+      playerVars: { autoplay: 1, mute: 1, controls: 0, disablekb: 1, fs: 0, modestbranding: 1, rel: 0, playsinline: 1, iv_load_policy: 3, cc_load_policy: 0, start: Math.floor(esperado(v)) },
+      events: { onReady: e => { A.pronto = true; falhaAluno(null); try { e.target.mute(); } catch (x) {} semLegenda(e.target); sincAluno(); }, onError: e => falhaAluno("erro " + (e && e.data)) } });
     clearInterval(A.iv); A.iv = setInterval(sincAluno, 700);
   }
+  // 💬 25/11/2026: os vídeos já têm a legenda dentro; o YouTube ligava a legenda automática por cima (vídeo sem som) e ficava uma em cima da outra
+  const semLegenda = (p => { try { p.unloadModule && (p.unloadModule("captions"), p.unloadModule("cc")); p.setOption && p.setOption("captions", "track", {}); } catch (x) {} });
   function sincAluno() {
     const d = ativoAluno(), p = A.player; if (!d || d.momento !== "video" || !p || !p.getCurrentTime || !A.cx) return;
     const v = d.video || {};
-    try { if (p.isMuted && !p.isMuted()) p.mute();
+    try { if (p.isMuted && !p.isMuted()) p.mute(); if (!A.semCC || Date.now() - A.semCC > 5000) { A.semCC = Date.now(); semLegenda(p); }
       const cur = p.getCurrentTime(), exp = esperado(v), st = p.getPlayerState();
       A.cx.querySelector(".pc-fim").hidden = v.estado !== "fim"; A.cx.querySelector(".pc-pausa").hidden = !(v.estado === "pause" && (v.pos || 0) < 1);
       if (v.estado === "play") { if (st !== 1 && st !== 3) p.playVideo(); if (Math.abs(cur - exp) > 0.5) p.seekTo(exp, true); }
@@ -227,8 +229,8 @@
       vid = v.vid; vbox.innerHTML = `<div id="pc-yt-t"></div>`;
       const Y = await yt(); if (vid !== v.vid) return;
       player = new Y.Player("pc-yt-t", { videoId: v.vid, host: "https://www.youtube-nocookie.com", width: "100%", height: "100%",
-        playerVars: { autoplay: 0, controls: 1, rel: 0, modestbranding: 1, playsinline: 1, iv_load_policy: 3 },
-        events: { onReady: e => { try { e.target.unMute(); e.target.setVolume(100); } catch (x) {} relatar(); }, onStateChange: () => relatar() } });
+        playerVars: { autoplay: 0, controls: 1, rel: 0, modestbranding: 1, playsinline: 1, iv_load_policy: 3, cc_load_policy: 0 },
+        events: { onReady: e => { try { e.target.unMute(); e.target.setVolume(100); } catch (x) {} semLegenda(e.target); relatar(); }, onStateChange: () => relatar() } });
     }
     function comando(m) { const p = player; if (!p || !p.playVideo) return; try {
       if (m.cmd === "play") { p.unMute(); p.playVideo(); } else if (m.cmd === "pause") p.pauseVideo(); else if (m.cmd === "mudo") p.mute(); else if (m.cmd === "som") { p.unMute(); p.setVolume(100); }
@@ -342,8 +344,8 @@
       if (mestre) { try { mestre.destroy(); } catch (e) {} mestre = null; }
       vbox.innerHTML = `<div id="pc-yt-p"></div>`; const Y = await yt(); if (!d.video || d.video.vid !== v.vid) return;
       mestre = new Y.Player("pc-yt-p", { videoId: v.vid, host: "https://www.youtube-nocookie.com", width: "100%", height: "100%",
-        playerVars: { autoplay: 0, controls: 1, rel: 0, modestbranding: 1, playsinline: 1, iv_load_policy: 3 },
-        events: { onReady: e => { try { e.target.unMute(); e.target.setVolume(100); } catch (x) {} pintarRemoto(); },
+        playerVars: { autoplay: 0, controls: 1, rel: 0, modestbranding: 1, playsinline: 1, iv_load_policy: 3, cc_load_policy: 0 },
+        events: { onReady: e => { try { e.target.unMute(); e.target.setVolume(100); } catch (x) {} semLegenda(e.target); pintarRemoto(); },
           onStateChange: e => { const s = e.data; publicarVideo({ estado: s === 1 || s === 3 ? "play" : s === 0 ? "fim" : "pause", pos: e.target.getCurrentTime() }); pintar(); } } });
       mestre._vid = v.vid;
       const iv = setInterval(() => { if (!mestre || mestre._vid !== v.vid) return clearInterval(iv); try { if (mestre.getPlayerState() === 1) { publicarVideo({ estado: "play", pos: mestre.getCurrentTime() }); pintarRemoto(); } } catch (e) {} }, 1000);
