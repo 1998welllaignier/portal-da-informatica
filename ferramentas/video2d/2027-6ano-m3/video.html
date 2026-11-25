@@ -291,12 +291,12 @@ const CENAS = [
    draw(t, D) { const b = em(F2, "banda"), i2 = em(F2, "instrumentos"), m = em(F2, "música");
      g.save(); camera(t, [[0, 640, 360, 3], [b, 640, 360, 1], [m, 640, 330, 1.1]]); palcoBanda(t); if (t > b + .5) [["⌨️", 250], ["🖥️", 500], ["🖱️", 760], ["💾", 1020]].forEach(([e, x], i) => emo(e, x, 430, 80));
      if (t > b + 1.2) notasVoando(t, 14, 100, 60, 1080, 280); g.restore();
-     placa("🎸 INSTRUMENTOS = as PEÇAS", 380, 120, seg(t, i2, i2 + .4), "#2563eb", 22); placa("🎵 MÚSICA = os PROGRAMAS", 900, 120, seg(t, m, m + .4), "#db2777", 22); } },
+     placa("🎸 INSTRUMENTOS = as PEÇAS", 380, 120, seg(t, b + .5, b + .9), "#2563eb", 22); placa("🎵 MÚSICA = os PROGRAMAS", 900, 120, seg(t, b + 1.2, b + 1.6), "#db2777", 22); } },
  { chip: "HARDWARE", fala: F3, sfx: [[.1, "whoosh"], [em(F3, "hardware"), "ding"], [em(F3, "tocar"), "pop"], [em(F3, "Teclado"), "pop"], [em(F3, "monitor"), "pop"], [em(F3, "processador"), "pop"], [em(F3, "pen"), "pop"]],
    draw(t, D) { const hw = em(F3, "hardware"), tc = em(F3, "tocar"); const ts = ["Teclado", "mouse", "monitor", "processador", "cabo", "pen"].map(w => em(F3, w));
-     g.save(); camera(t, [[0, 640, 360, 1], [tc, 420, 420, 1.3], [ts[1], 640, 380, 1]]); palcoBanda(t);
+     g.save(); camera(t, [[0, 640, 360, 1], [tc, 300, 420, 1.2], [ts[1], 640, 380, 1]]); palcoBanda(t);
      [["⌨️", "TECLADO"], ["🖱️", "MOUSE"], ["🖥️", "MONITOR"], ["🧠", "PROCESSADOR"], ["🔌", "CABO"], ["💾", "PEN DRIVE"]].forEach(([e, n], i) => { const k = seg(t, ts[i], ts[i] + .4); if (k <= 0) return; const x = 170 + i * 188; emo(e, x, 400, 70 * back(cl(k))); pedestal(x, 440, n, k); });
-     pedro({ x: 420, y: 640, s: .85, braco: t > tc ? -1.2 : -.6, bracoE: .3, olhar: 1, boca: "riso", pisca: pisca(t) }); if (t > tc && t < ts[1]) maoApontando(470, 430, -.4, .8); g.restore();
+     pedro({ x: 90, y: 640, s: .85, braco: t > tc ? -1.2 : -.6, bracoE: .3, olhar: 1, boca: "riso", pisca: pisca(t) }); g.restore();
      palavra("HARDWARE", 640, 120, seg(t, hw, hw + .4), 80); rotulo("as peças físicas: dá para TOCAR", 640, 180, "#bfdbfe", seg(t, tc, tc + .4)); } },
  { chip: "SOFTWARE", fala: F4, sfx: [[.1, "whoosh"], [em(F4, "software"), "ding"], [em(F4, "pegar"), "alerta"], [em(F4, "navegador"), "pop"], [em(F4, "jogos"), "pop"], [em(F4, "editor"), "pop"], [em(F4, "aplicativos"), "pop"]],
    draw(t, D) { const sw = em(F4, "software"), pg = em(F4, "pegar"); const ts = ["navegador", "jogos", "editor", "aplicativos"].map(w => em(F4, w));
