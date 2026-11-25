@@ -13,7 +13,8 @@ Solução pedida ao professor: liberar o domínio em claude.ai → Configuraçõ
 | 2027-6ano-m5 Tipos de dados | ok | ok | – |
 | 2027-6ano-m6 Boa convivência na rede | ok | ok | – |
 | 2027-6ano-m7 Digitação sem medo | ok | ok | – |
-| 2027-6ano-m8 Atalhos | ok | pedido | – |
+| 2027-6ano-m8 Atalhos | ok | ok | – |
+| 2027-7ano-m3 Registros | ok | pedido | – |
 | 7º M3–M8 | – | – | – |
 | 8º M1–M8 | – | – | – |
 | 9º M1–M8 | – | – | – |

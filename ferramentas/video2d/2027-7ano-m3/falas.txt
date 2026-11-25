@@ -1,0 +1,17 @@
+Registros: a ficha de cada personagem!
+
+O Caio está criando um jogo e guardou tudo em listas separadas: uma de nomes, outra de vidas e outra de forças. Quando apagou um personagem de uma lista só, tudo se misturou: o dragão ficou com a força da fada!
+
+Uma lista guarda vários itens parecidos, como os nomes da turma. Mas, para guardar informações diferentes sobre uma coisa só, usamos um registro: uma ficha.
+
+A ficha tem campos. Cada campo tem um nome e um valor: o campo nome vale Dragão, o campo vida vale cem, e o campo força vale oitenta.
+
+No editor de blocos, o bloco nova ficha cria uma ficha vazia. Depois, o bloco na ficha, o campo vida vale cem, escreve o valor. E o bloco campo vida da ficha lê o que está guardado.
+
+Na lista, a gente acha o item pela posição: primeiro, segundo, terceiro. Na ficha, a gente acha pelo nome do campo. E uma lista de fichas é exatamente uma tabela: cada ficha é uma linha, e cada campo, uma coluna.
+
+O Caio fez uma ficha para cada personagem e juntou todas numa lista. Agora, se um personagem sai, sai a ficha inteira, e nada se mistura. Missão cumprida!
+
+Onde eu uso isso? No contato do celular, com nome, telefone e aniversário. Na ficha dos personagens dos jogos. E na ficha de matrícula da secretaria da escola.
+
+Agora é com vocês: abram a Missão 3 no portal!
