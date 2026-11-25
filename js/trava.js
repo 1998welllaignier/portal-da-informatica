@@ -98,7 +98,30 @@
       return melhor;
     },
     /* {aberta:true} ou {aberta:false, fechada, horarios:[texto], hoje:{mid,titulo}} */
+    /* 🏠🔓 Reposição em casa (25/11/2026, pedido do professor): o professor libera VÁRIAS missões que o aluno perdeu
+       (config/liberar_<turma>.repo = { alunoId: { mids: ["m1","m2"], ate: ms } }). Ele faz essas missões de casa, na hora
+       que quiser, com a sessão de 2 horas por dia e o vídeo da missão antes das tarefas (igual ao 🏠 estudo em casa).
+       As outras missões continuam com as regras normais da aula (🔒 "feita na aula com a turma"). */
+    repoEh(lib, ids, ms) {
+      if (!ids || !ids.length) return null;
+      const rs = ids.map(id => ((lib || {}).repo || {})[id]).filter(r => r && r.ate > ms && Array.isArray(r.mids) && r.mids.length);
+      if (rs.length !== ids.length) return null;
+      const mids = rs[0].mids.filter(m => rs.every(r => r.mids.includes(m)));
+      return mids.length ? { mids, ate: Math.min(...rs.map(r => r.ate)) } : null;
+    },
+    async repo(s) {
+      if (!s || !s.nuvem || !N() || !N().pronto) return null;
+      const lib = await cfg("liberar_" + s.turma); return this.repoEh(lib, s.alunoIds || [], await agora());
+    },
     async estado(s, mid) {
+      const r = await this.estado0(s, mid);
+      // 🏠🔓 missão que NÃO está na reposição em casa: segue a regra da aula; se estiver fechada, o aviso explica
+      if (!r.aberta && mid && mid !== "rc" && s && s.nuvem && N() && N().pronto && !r.casaFim) {
+        try { const rp = await this.repo(s); if (rp && !rp.mids.includes(mid)) return Object.assign({}, r, { repoFora: rp }); } catch (e) {}
+      }
+      return r;
+    },
+    async estado0(s, mid) {
       if (!s || !s.nuvem || !N() || !N().pronto) return { aberta: true }; // visualização do professor, modo explorador
       let [g, lib, h] = await Promise.all([cfg("geral"), cfg("liberar_" + s.turma), this.hoje(s)]);
       // 🏫 aluno que frequenta a aula de outra turma (🏫 no painel, config/liberar_<turma>.outra): vale a aula iniciada
@@ -128,6 +151,14 @@
           if (pm && pm.ini && hoje < pm.ini) return { aberta: false, casaFutura: pm.ini, ini, lim }; }
         return { aberta: true, casa: true, ini: ini || 0, lim, videoVisto: !!(mid && (cd.videos || {})[mid]) };
       }
+      // 🏠🔓 reposição em casa: a missão liberada abre a qualquer hora (até a data escolhida), como no estudo em casa.
+      //    Exceção: se ela é a missão de hoje da turma e a aula está acontecendo, vale a aula normal.
+      { const rp = this.repoEh(lib, ids, ms), hojeD = N().hoje();
+        if (rp && mid && rp.mids.includes(mid) && !(h && h.mid === mid && h.iniciadaDia === hojeD)) {
+          const cd = await this.casaDoc(s), ini = (cd.sessoes || {})[hojeD], lim = this.casaLimite();
+          if (ini && ms > ini + lim) return { aberta: false, casaFim: true, ini, lim, repo: rp };
+          return { aberta: true, casa: true, repo: rp, ini: ini || 0, lim, videoVisto: !!(cd.videos || {})[mid] };
+        } }
       // liberado só para ele: se o professor escolheu a missão, só ela (e a missão de hoje da turma) abre (12/11/2026)
       // 24/11/2026 (aluno liberado continuava bloqueado): a liberação individual vem ANTES da turma "🔒 fechada"
       // (aula finalizada), da sala de espera e da aula não iniciada — o professor liberou ESTE aluno de propósito

@@ -795,3 +795,11 @@ Questões **contextualizadas** (situação curta: 1–2 frases no 6º, 2–3 no 
 - Pontos para a dupla: de primeira +40 XP, com nova tentativa +25, "contou" +40; até +200 por missão.
 - **Visto do dia pela presença** (presente em aula de missão = visto), não por terminar tarefas. O relatório mostra as vezes (de primeira, com nova tentativa, contou, descansou).
 - **Todo material novo já nasce com as cartas do Modo Helena** (js/helena.js › CARTAS, por apostila e missão). Feito: 8º ano 4º bim 2026 (M1–M4 e Revisão).
+
+## 🏠🔓 Reposição em casa (25/11/2026)
+- No painel, ⚙️ do aluno › 🔓 Liberar › escolhe até quando › **🏠 Reposição em casa: marcar várias missões**.
+- O aluno faz **de casa** só as missões marcadas, na hora que quiser, até a data escolhida, com a sessão de 2 horas por dia e o vídeo da missão antes das tarefas (mesma regra do 🏠 estudo em casa).
+- Na lista de missões dele aparecem a faixa "🏠 Reposição em casa", **🔓 Liberada para fazer de casa** nas marcadas e **🔒 Feita na aula, com a turma** nas outras. As outras seguem a regra normal da aula.
+- Se a missão marcada for a missão de hoje da turma e a aula estiver acontecendo, vale a aula normal.
+- "🚫 Tirar a liberação" também tira a reposição. Dados: `config/liberar_<turma>.repo = { alunoId: { mids, ate } }`.
+- Teste de regressão: `ferramentas/aula-simulada/roteiro-reposicao.js`.

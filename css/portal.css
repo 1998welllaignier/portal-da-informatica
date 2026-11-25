@@ -2943,3 +2943,14 @@ body.hz-aberta{overflow:hidden}
 .rel-hz{background:#fefce8;border-left:5px solid #facc15;padding:6px 10px;border-radius:8px}
 @media (max-width:700px){.hz-op{min-width:140px;min-height:140px}.hz-ic{font-size:3.4rem}.hz-perg{font-size:1.5rem}.hz-tit{font-size:1.6rem}.hz-caixa{width:84px;height:84px;font-size:2.2rem}}
 @media (prefers-reduced-motion:reduce){.hz-caixa.hz-brilha,.hz-carta.hz-treme{animation:none}}
+
+/* 🏠🔓 Reposição em casa (25/11/2026): missões liberadas para fazer de casa × feitas na aula */
+.cm-repo { display: inline-block; align-self: flex-start; font-size: .78rem; font-weight: 700; padding: .15rem .55rem; border-radius: 999px; background: #eceff3; color: #555; margin-bottom: .35rem; }
+.cm-repo.ok { background: #e3f6e8; color: #1d6b35; }
+.card-missao.repo-nao { opacity: .72; }
+.card-missao.repo-sim { box-shadow: 0 0 0 3px #3fae5c inset; }
+.repo-faixa { border-left: 6px solid #3fae5c; }
+.repo-faixa h2 { margin-top: 0; }
+.lib-repo-ms { display: grid; gap: 4px; max-height: 40vh; overflow: auto; margin: 6px 0; }
+.lib-repo-m { display: flex; gap: 6px; align-items: center; padding: 6px 8px; border: 1px solid var(--linha); border-radius: 8px; cursor: pointer; }
+.lib-repo-m input { flex: 0 0 20px; width: 20px; height: 20px; margin: 0; }

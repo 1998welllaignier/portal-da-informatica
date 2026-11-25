@@ -1306,14 +1306,28 @@
                   <button type="button" class="btn lib-todas" data-m="*">🔓 Todas as missões</button>
                   <details class="lib-lista" ${sug ? "" : "open"}><summary>📚 Escolher outra missão (${normais.length + esps.length})</summary>
                     <div class="lib-ms">${normais.filter(m => m !== sug).map(m => bt(m, midHoje === m.id ? " · 📌 hoje" : "")).join("")}${esps.length ? `<p class="lib-sug-t">⭐ Aulas especiais</p>${esps.map(m => bt(m)).join("")}` : ""}</div></details>
+                  <details class="lib-lista lib-repo"><summary>🏠 Reposição em casa: marcar várias missões</summary>
+                    <p class="ajuda">Para quem faltou: o aluno faz <strong>de casa</strong> as missões marcadas, na hora que quiser, até a data escolhida (até ${Math.round((cat().casaMinutos || 120) / 60)} h por dia, com o vídeo antes das tarefas). As outras aparecem com 🔒 “feita na aula, com a turma”.</p>
+                    <div class="lib-repo-ms">${normais.map(m => { const [ic, txt] = sit(m); return `<label class="lib-repo-m"><input type="checkbox" value="${esc(m.id)}"> <span title="${esc(txt)}">${ic}</span> ${esc(m.ic)} ${esc(m.t)}</label>`; }).join("")}</div>
+                    <p class="row-btns"><button type="button" class="btn btn-ok" data-repo="1">🏠 Liberar as marcadas para fazer de casa</button></p></details>
                   <div class="row-btns"><button type="button" class="btn btn-sec" data-m="x">Cancelar</button></div>`;
                 document.body.appendChild(dl); let v = null; dl.addEventListener("close", () => { dl.remove(); res(v); });
-                dl.querySelectorAll("[data-m]").forEach(b2 => b2.onclick = () => { v = b2.dataset.m === "x" ? null : b2.dataset.m; dl.close(); }); dl.showModal();
+                dl.querySelectorAll("[data-m]").forEach(b2 => b2.onclick = () => { v = b2.dataset.m === "x" ? null : b2.dataset.m; dl.close(); });
+                dl.querySelector("[data-repo]").onclick = async () => { const ms2 = [...dl.querySelectorAll(".lib-repo-m input:checked")].map(c => c.value);
+                  if (!ms2.length) { await P.aviso("Marque pelo menos uma missão para a reposição em casa."); return; } v = { repo: ms2 }; dl.close(); };
+                dl.showModal();
               });
               if (r === null) return;
+              // 🏠🔓 reposição em casa (25/11/2026): grava só em liberar_<turma>.repo; a liberação de aula não muda
+              if (r && r.repo) {
+                await db().collection("config").doc("liberar_" + a.turma).set({ repo: { [a.id]: { mids: r.repo, ate: fim.getTime(), em: Date.now() } } }, { merge: true });
+                const nomes = r.repo.map(id => (lista.find(m => m.id === id) || {}).t || SIG(id));
+                await P.aviso(`Pronto! ${a.nome} pode fazer de casa, na hora que quiser, até ${ateTxt}:\n\n• ${nomes.join("\n• ")}\n\nSão até ${Math.round((cat().casaMinutos || 120) / 60)} horas por dia, com o vídeo antes das tarefas. As outras missões continuam na aula, com a turma.`); dlg.close(); return;
+              }
               if (r !== "*") ms = r;
             }
-            await db().collection("config").doc("liberar_" + a.turma).set({ alunos: { [a.id]: +d > 0 ? fim.getTime() : 0 }, alunosMissao: { [a.id]: ms } }, { merge: true });
+            // 🚫 tirar a liberação também tira a reposição em casa (25/11/2026)
+            await db().collection("config").doc("liberar_" + a.turma).set(Object.assign({ alunos: { [a.id]: +d > 0 ? fim.getTime() : 0 }, alunosMissao: { [a.id]: ms } }, +d > 0 ? {} : { repo: { [a.id]: { mids: [], ate: 0 } } }), { merge: true });
             await P.aviso(+d > 0 ? `Pronto! ${a.nome} pode fazer ${ms ? "só: " + ((lista.find(m => m.id === ms) || {}).t || SIG(ms)) + " (e a missão de hoje da turma)" : "as tarefas de todas as missões"} ${ateTxt}. Depois disso, a liberação acaba sozinha.` : "Liberação retirada."); dlg.close(); return;
           }
           if (x === "familia") {

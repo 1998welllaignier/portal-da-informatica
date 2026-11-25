@@ -6,7 +6,7 @@ const { chromium } = require("playwright"); const T = require("./turma.js");
   await prof.locator("dialog[open] [data-x=libera]").click(); await prof.waitForTimeout(600);
   await prof.screenshot({ path: require("os").tmpdir() + "/liberar-tempo.png" });
   await prof.locator("dialog.lib-tempo [data-t='60']").click(); await prof.waitForTimeout(1500);
-  await prof.screenshot({ path: require("os").tmpdir() + "/liberar-missao.png" }); await prof.locator("dialog.lib-missao details summary").click(); await prof.waitForTimeout(300); await prof.screenshot({ path: require("os").tmpdir() + "/liberar-missao-lista.png" });
+  await prof.screenshot({ path: require("os").tmpdir() + "/liberar-missao.png" }); await prof.locator("dialog.lib-missao details.lib-lista:not(.lib-repo) summary").click(); await prof.waitForTimeout(300); await prof.screenshot({ path: require("os").tmpdir() + "/liberar-missao-lista.png" });
   await prof.locator("dialog.lib-missao .lib-m.btn-ok").click(); await prof.waitForTimeout(1200);
   console.log("aviso:", (await prof.locator("dialog[open]").last().innerText()).replace(/\n/g, " ").slice(0, 200));
   const st = await T.loja(); const v = (st["config/liberar_9A"] || {}).alunos || {}; console.log("libera ate (min a partir de agora):", Math.round((v.sim1 - Date.now()) / 60000), "missão:", JSON.stringify((st["config/liberar_9A"] || {}).alunosMissao));
