@@ -62,8 +62,8 @@ const CENAS = [
      if (t < tb) { comando("LISTA: PELA POSIÇÃO", 330, 120, seg(t, p, p + .4), "#2563eb", 360); ["Ana", "Bruno", "Caio"].forEach((s, j) => { caixa(330, 210 + j * 80, s, "#fff", seg(t, p + .2 + j * .2, p + .5 + j * .2), 180); comando("#" + (j + 1), 470, 210 + j * 80, seg(t, p + .3 + j * .2, p + .6 + j * .2), "#475569", 70); });
        if (t > c) { comando("FICHA: PELO NOME DO CAMPO", 900, 120, seg(t, c, c + .4), "#ca8a04", 440); ficha(900, 290, "🐉 Dragão", DRAGAO, seg(t, c + .2, c + .6), "#ca8a04", 1); } }
      if (t > tb) { palavra("LISTA DE FICHAS = TABELA", 600, 100, seg(t, tb, tb + .4), 46); tabela(640, 170, 660, ["NOME", "VIDA", "FORÇA"], [["Dragão", "100", "80"], ["Fada", "60", "20"], ["Robô", "90", "50"]], ["#ca8a04", "#16a34a", "#dc2626"], seg(t, tb + .2, tb + .6), -1);
-       if (t > li) { g.strokeStyle = "#facc15"; g.lineWidth = 5; g.strokeRect(308, 240, 664, 56); rotulo("FICHA = LINHA", 640, 440, "#fde68a", seg(t, li, li + .4)); }
-       if (t > co) { g.strokeStyle = "#f472b6"; g.lineWidth = 5; g.strokeRect(532, 168, 216, 238); rotulo("CAMPO = COLUNA", 640, 490, "#f9a8d4", seg(t, co, co + .4)); } } } },
+       if (t > li) { g.strokeStyle = "#facc15"; g.lineWidth = 5; g.strokeRect(308, 214, 664, 46); rotulo("FICHA = LINHA", 640, 440, "#fde68a", seg(t, li, li + .4)); }
+       if (t > co) { g.strokeStyle = "#f472b6"; g.lineWidth = 5; g.strokeRect(528, 168, 224, 186); rotulo("CAMPO = COLUNA", 640, 490, "#f9a8d4", seg(t, co, co + .4)); } } } },
  { chip: "A SOLUÇÃO", fala: F6, sfx: [[.1, "whoosh"], [em(F6, "ficha"), "pop"], [em(F6, "lista"), "ding"], [em(F6, "sai"), "alerta"], [em(F6, "mistura"), "ding"], [em(F6, "Missão"), "festa"]],
    draw(t, D) { fundoEscuro(t, "#14532d"); const fi = em(F6, "ficha"), li = em(F6, "lista"), sa = em(F6, "sai"), mi = em(F6, "mistura"), m = em(F6, "Missão");
      const tirou = t > sa + .6; const fs = [["🐉 Dragão", DRAGAO], ["🧚 Fada", FADA], ["🤖 Robô", ROBO]];
