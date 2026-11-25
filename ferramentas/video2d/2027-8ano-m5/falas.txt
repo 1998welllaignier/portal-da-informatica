@@ -1,0 +1,23 @@
+O método da bolha: ordenar trocando vizinhos!
+
+Na missão passada, a Bia aprendeu que a busca binária é muito rápida. Mas só funciona com a lista ordenada! E a lista de notas da turma estava toda bagunçada. Como o computador coloca uma lista em ordem?
+
+Um dos jeitos mais simples é o método da bolha. Em inglês, bubble sort. A ideia é comparar vizinhos: dois números que estão lado a lado.
+
+Os passos são estes. Compare os dois primeiros vizinhos. O da esquerda é maior? Troque os dois de lugar. Não é? Mantenha. Ande uma casa e compare o próximo par. Quando chegar ao fim, terminou uma passada, e o maior número já está no final. Faça outra passada, até uma passada inteira sem nenhuma troca.
+
+Vamos ordenar seis, três, nove, um. Primeira passada: seis e três? Seis é maior: troca! Seis e nove? Mantém. Nove e um? Troca! O nove, o maior, chegou ao final.
+
+Segunda passada: três e seis? Mantém. Seis e um? Troca! O seis encostou no nove. Terceira passada: três e um? Troca! E pronto: um, três, seis, nove. Mais uma passada confere: nenhuma troca. Ordenada!
+
+Por que bolha? Porque, a cada passada, o maior número que ainda falta sobe para o final, como uma bolha subindo na água.
+
+Uma lista que já está em ordem termina numa passada só, sem nenhuma troca. E a lista ao contrário, quatro, três, dois, um, é a que dá mais trabalho: todo par de vizinhos troca.
+
+O método da bolha é fácil de entender, mas compara vizinhos muitas e muitas vezes. Por isso fica lento em listas grandes. Existem métodos que trocam menos, e você vai ver um deles na Missão 7.
+
+A Bia ordenou as notas com o método da bolha, e agora a busca binária funciona. Missão cumprida!
+
+Onde eu uso isso? Ao organizar as cartas na mão, no baralho, trocando as que estão fora de ordem. Na fila por altura na foto da turma. E nas planilhas e aplicativos, que ordenam nomes, preços e notas com um clique.
+
+Agora é com vocês: abram a Missão 5 no portal!

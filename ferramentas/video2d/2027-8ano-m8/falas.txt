@@ -1,0 +1,21 @@
+Fractais: a parte parece o todo!
+
+No caminho da escola, o Léo arrancou uma folha de samambaia e reparou numa coisa estranha: cada folhinha do galho parecia uma samambaia inteira, só que pequenininha!
+
+Isso tem nome: fractal. Fractal é uma figura em que uma parte é parecida com o todo. A samambaia é assim. O brócolis também: cada pedacinho parece um brócolis pequeno.
+
+E como se desenha um fractal? Com recursão, igual à Missão 6: a mesma regra, repetida dentro dela mesma, em tamanhos cada vez menores.
+
+O mais famoso é o triângulo de Sierpinski, criado pelo matemático polonês Wacław Sierpiński. No nível zero, é um triângulo. No nível um, ele vira três triângulos menores, e o do meio fica vazio.
+
+No nível dois, cada um dos três vira três menores: nove. No nível três, vinte e sete. No nível quatro, oitenta e um! A cada nível, o número de triângulos multiplica por três.
+
+E por que o desenho não continua para sempre? Porque a gente para num nível: é o caso base. A tela não consegue mostrar um triângulo menor que um pontinho.
+
+Outro fractal é a árvore. Um tronco se divide em dois galhos. Cada galho se divide em dois galhos menores. No nível um, são dois galhos novos. No nível dois, quatro. No nível três, oito. No nível quatro, dezesseis. Aqui, a cada nível, o número dobra.
+
+O Léo desenhou a sua árvore fractal no portal e descobriu por que a samambaia parece samambaia em todo pedaço. Missão cumprida!
+
+Onde eu uso isso? Na natureza: samambaia, brócolis romanesco, raios, flocos de neve e rios vistos de cima. Nos jogos e filmes, montanhas e árvores são criadas pelo computador com fractais. E até algumas antenas de celular têm forma de fractal.
+
+Agora é com vocês: abram a Missão 8 no portal!

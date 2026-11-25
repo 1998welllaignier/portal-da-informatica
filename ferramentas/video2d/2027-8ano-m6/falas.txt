@@ -1,0 +1,23 @@
+Recursão: o problema dentro do problema!
+
+O Léo ganhou uma boneca russa, a matrioska. Abriu, e dentro tinha outra boneca igual, só que menor. Abriu essa, e tinha outra, menor ainda. Até chegar na última, a bonequinha que não abre.
+
+Isso é recursão: um problema que se resolve usando uma versão menor dele mesmo. Abrir a boneca é: abrir, e depois fazer a mesma coisa com a boneca de dentro.
+
+Toda recursão tem duas partes. O passo recursivo: resolver usando o mesmo problema, só que menor. E o caso base, também chamado de condição de parada: o caso pequeno que se resolve direto, sem repetir. Na matrioska, é a bonequinha que não abre. Acabou!
+
+E sem caso base? A recursão nunca para! É como dois espelhos, um de frente para o outro: imagem dentro de imagem, para sempre.
+
+Outro exemplo: a fila do cinema. A Bia quer saber em que posição está, mas a fila é enorme. Ela pergunta para quem está na frente: qual é a sua posição? Essa pessoa faz a mesma pergunta para a da frente dela, e assim por diante.
+
+Até chegar no primeiro da fila, que responde: sou o um! Esse é o caso base. Aí, cada um soma um e devolve a resposta para trás: dois, três, quatro… e a Bia descobre: sou a quinta!
+
+No programa, uma contagem regressiva pode ser recursiva. Para contar a partir de n: se n for zero, mostre Fogo! e pare. Esse é o caso base. Senão, mostre n e conte a partir de n menos um. Esse é o passo recursivo.
+
+Contar a partir de três: mostra três e conta a partir de dois. Mostra dois e conta a partir de um. Mostra um e conta a partir de zero. Zero é o caso base: Fogo! No editor, um bloco próprio que chama a si mesmo é recursivo.
+
+O Léo fechou todas as matrioskas de novo, da menor para a maior, e já sabe explicar a recursão. Missão cumprida!
+
+Onde eu uso isso? Nas pastas do computador: pasta dentro de pasta, dentro de pasta. Para contar os arquivos, o computador usa recursão. Na matrioska e nos espelhos frente a frente. E nos fractais, como a samambaia, que você vai ver na Missão 8.
+
+Agora é com vocês: abram a Missão 6 no portal!

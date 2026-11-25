@@ -1,0 +1,21 @@
+Gere uma NOVA narração com o Create Speech do HeyGen (só o MP3, sem vídeo nem avatar), mesma voz Murilo - Bright & Articulate, português do Brasil, voz natural, animada e bem clara, como um narrador de desenho animado contando uma história para crianças de 12 anos, com emoção nas descobertas, sem correr. Faça uma pausa de 2 segundos entre cada parágrafo. Leia exatamente o texto abaixo, sem acrescentar nada. Depois me mande, em texto puro, o link direto (URL completa) do MP3.
+
+Depurar: o detetive dos erros!
+
+O Caio fez um programa que devia mostrar Olá três vezes e, no final, Fim. Mas apareceu Olá, Fim, Olá, Fim, Olá, Fim! Ele ficou bravo e já ia apagar tudo.
+
+Calma, Caio! Todo programador erra, até os profissionais. Um erro no programa se chama bug, que em inglês quer dizer inseto. E achar e consertar o erro se chama depurar.
+
+Por que inseto? Em mil novecentos e quarenta e sete, uma mariposa ficou presa dentro de um computador enorme e causou uma falha. Os cientistas colaram a mariposa no caderno, e o nome pegou.
+
+Os erros mais comuns nos blocos são: ordem trocada, bloco no lugar errado, número errado no repita, condição trocada, valor errado e repetição sem fim.
+
+Para achar o erro, use o método do detetive. Passo um: rodar. Passo dois: comparar com o que devia aparecer e achar a linha onde começou a diferença. Passo três: achar o bloco responsável. Passo quatro: mudar uma coisa só e testar de novo.
+
+Por que uma coisa só? Porque, se você muda tudo de uma vez, não sabe o que resolveu. E pode até criar um erro novo!
+
+O Caio comparou: a segunda linha devia ser Olá, mas saiu Fim. Então, o bloco mostrar Fim estava dentro do repita! Ele tirou o bloco para fora, testou de novo, e deu certo. Missão cumprida!
+
+Onde eu uso isso? Quando o aplicativo atualiza com correções de erros, foi alguém depurando. Quando a receita dá errado, você pensa no que fez diferente. E nos jogos, os testadores jogam muitas vezes caçando bugs.
+
+Agora é com vocês, detetives: abram a Missão 4 no portal!

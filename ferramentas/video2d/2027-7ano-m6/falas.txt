@@ -1,0 +1,21 @@
+Programar em dupla: piloto e navegador!
+
+O Caio e a Duda foram fazer um programa juntos, no mesmo computador. Os dois queriam mexer no mouse ao mesmo tempo, um apagava o bloco do outro, e no fim ninguém sabia o que o programa fazia.
+
+Programadores de verdade trabalham muito em dupla. Um computador, duas cabeças e dois papéis: o piloto e o navegador.
+
+O piloto fica com o mouse e o teclado e monta os blocos. Mas não decide tudo sozinho.
+
+O navegador lê o enunciado, pensa no próximo passo, confere cada bloco e procura erros. E não pega o mouse!
+
+E a cada dez minutos, troquem de papel! Assim, os dois aprendem tudo.
+
+O jeito de trabalhar tem quatro passos. Planejar: ler o problema juntos e dividir em partes. Montar: o piloto monta uma parte, e o navegador confere. Testar: rodar depois de cada parte, não só no final. Trocar: trocar de papel e seguir para a próxima parte.
+
+E os combinados da dupla: falar com respeito, como acho que esse bloco vai dentro do repita. Ouvir a ideia do outro antes de testar a sua. E lembrar que o erro é da dupla, não de um só.
+
+O Caio virou piloto, a Duda virou navegadora, e depois trocaram. O programa ficou pronto, e os dois sabiam explicar cada bloco. Missão cumprida!
+
+Onde eu uso isso? No carro, o motorista dirige e quem está do lado olha o mapa. No jogo cooperativo, um ataca e o outro cuida do time. E nas empresas de tecnologia, programar em dupla ajuda a errar menos e a ensinar os novatos.
+
+Agora é com vocês: formem as duplas e abram a Missão 6 no portal!

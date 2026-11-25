@@ -1,0 +1,19 @@
+Busca sequencial: procurar um por um!
+
+O Léo perdeu a chave do armário da sala de informática. Tem dez gavetas, e ele não lembra em qual guardou. O que fazer?
+
+O jeito mais simples: abrir a primeira gaveta, depois a segunda, depois a terceira, até encontrar. Isso se chama busca sequencial, ou busca linear.
+
+O algoritmo tem cinco passos. Um: comece na posição um. Dois: compare o item com o que você procura. Três: é igual? Achou! Diga a posição e pare. Quatro: não é? Vá para a próxima posição e volte ao passo dois. Cinco: acabou a lista sem achar? O item não está na lista.
+
+Vamos procurar o nove na lista cinco, oito, dois, nove, quatro. Primeira comparação: cinco. Não é. Segunda: oito. Não é. Terceira: dois. Não é. Quarta: nove. Achou! Está na posição quatro.
+
+Cada vez que olhamos um item, fazemos uma comparação. Quanto mais comparações, mais lenta a busca. Numa lista de mil itens, se o procurado for o primeiro, é uma comparação só. Esse é o melhor caso. Mas, se for o último, ou se nem estiver na lista, são mil comparações. Esse é o pior caso.
+
+A busca sequencial tem uma vantagem: funciona em qualquer lista, ordenada ou bagunçada. Mas, em listas muito grandes, ela pode ficar lenta.
+
+O Léo abriu gaveta por gaveta e achou a chave na sétima. Sete comparações! Missão cumprida!
+
+Onde eu uso isso? Quando você procura uma foto rolando a galeria do celular, uma por uma. Quando procura seu nome numa lista de aprovados fora de ordem. E o Ctrl F do navegador procura a palavra olhando o texto do começo ao fim.
+
+Agora é com vocês: abram a Missão 3 no portal!

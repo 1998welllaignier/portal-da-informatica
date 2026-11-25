@@ -1,0 +1,19 @@
+Ordenação por seleção: escolher o menor!
+
+A Bia achou o método da bolha trabalhoso: troca, troca, troca, vizinho por vizinho. Não tem um jeito de trocar menos?
+
+Tem! É a ordenação por seleção. Em inglês, selection sort. A ideia é como escolher os times no recreio: o capitão escolhe o melhor, depois o melhor do que sobrou, e assim por diante.
+
+Os passos: procure o menor item de toda a lista. Troque ele com o item da primeira posição: pronto, a primeira posição está certa. Depois, procure o menor do que sobrou e troque com a segunda posição. E repita até a última.
+
+Vamos ordenar sete, dois, nove, quatro. Primeira rodada: o menor de todos é o dois. Troca com o sete: dois, sete, nove, quatro. O dois já está no lugar certo!
+
+Segunda rodada: do que sobrou, o menor é o quatro. Troca com o sete: dois, quatro, nove, sete. Terceira rodada: o menor do que sobrou é o sete. Troca com o nove. E pronto: dois, quatro, sete, nove!
+
+Bolha ou seleção? A bolha compara vizinhos, e o maior sobe para o fim. A seleção procura o menor do que sobrou, e ele vai para o começo. E a grande diferença: a bolha faz muitas trocas, uma para cada par fora de ordem. A seleção faz poucas: no máximo uma troca por rodada.
+
+A Bia ordenou a lista com só três trocas. Missão cumprida!
+
+Onde eu uso isso? Ao escolher os times no recreio. Ao arrumar as cartas na mão, puxando sempre a menor para a esquerda. E no pódio: primeiro se decide o primeiro lugar, depois o segundo, entre os que sobraram.
+
+Agora é com vocês: abram a Missão 7 no portal!

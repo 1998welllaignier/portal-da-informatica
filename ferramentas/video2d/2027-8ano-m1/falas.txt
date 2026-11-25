@@ -1,0 +1,19 @@
+Listas: dados em fila!
+
+O Léo é o ajudante da chamada e precisa guardar o nome dos dezenove colegas no programa. Ele criou uma variável para cada um: aluno um, aluno dois, aluno três… Para mostrar todos, precisou de dezenove comandos. E, quando chegou um aluno novo, teve que criar mais uma variável!
+
+A Bia mostrou o jeito certo: uma lista. Lista é um conjunto de vários itens, um depois do outro, em ordem, todos com o mesmo nome. É como a fila da merenda: cada pessoa tem o seu lugar.
+
+Cada item tem uma posição, também chamada de índice. Na lista CHAMADA, a posição um é a Ana, a dois é o Bruno, e a três é a Carla. Então, CHAMADA na posição três quer dizer: a Carla!
+
+O número de itens é o tamanho da lista. A lista CHAMADA tem cinco nomes, então o tamanho é cinco. E a última posição é sempre igual ao tamanho.
+
+Com a lista, para mostrar todos os nomes, basta percorrer a lista com uma repetição: um bloco só, e não dezenove. Chegou aluno novo? É só inserir na lista.
+
+E mais: uma lista pode estar ordenada, em ordem crescente, decrescente ou alfabética, ou pode estar bagunçada. Guarde isso: lista ordenada é muito mais fácil de procurar. Você vai ver nas próximas missões!
+
+O Léo trocou as dezenove variáveis por uma lista só, a CHAMADA. O programa ficou curto, e aluno novo entra num instante. Missão cumprida!
+
+Onde eu uso isso? O histórico de mensagens do celular é uma lista, da mais antiga para a mais nova. A classificação do campeonato é uma lista ordenada pelos pontos. E a fila de impressão da escola também: o primeiro documento enviado é o primeiro impresso.
+
+Agora é com vocês: abram a Missão 1 no portal!
