@@ -84,7 +84,7 @@
   let estilo = ESTILOS[lerLS("portal:musica:estilo", "animada")] ? lerLS("portal:musica:estilo", "animada") : "animada";
   const E = () => ESTILOS[estilo];
   /* 🔀 MODOS (20/11/2026, pedido do professor): manual (sempre a mesma) · aleatório misto (alterna 1 pagode e 1 de 8 bits)
-     · aleatório só pagodinho · aleatório só 8 bits. No aleatório, troca a cada 10 MINUTOS DE USO (era 1 hora até 25/11/2026): o relógio só anda enquanto
+     · aleatório só pagodinho · aleatório só 8 bits. No aleatório, troca a cada X MINUTOS DE USO, escolhidos no painel (padrão 5; era 1 hora até 25/11/2026): o relógio só anda enquanto
      a música está ligada no painel (computador desligado ou portal fechado não conta). */
   const GRUPO = { pagode: Object.keys(ESTILOS).filter(k => /^pagode\d+$/.test(k)), oito: Object.keys(ESTILOS).filter(k => /^oito\d+$/.test(k)) };
   /* 🔀 20/11/2026 (2º pedido): o aleatório também com os OUTROS estilos, e uma variante de cada estilo tocando EM DUPLA com
@@ -99,7 +99,13 @@
   FK.forEach(a => { const k = "so:" + a; MODOS[k] = `🔀 Só ${FAM[a].nome}`; SOS.push(k); });
   const ANTIGO = { misto: "par:pagode+oito", pagode: "so:pagode", oito: "so:oito" };
   const famsDoModo = m => m === "todos" ? FK : m.startsWith("par:") ? m.slice(4).split("+") : m.startsWith("so:") ? [m.slice(3)] : [];
-  const HORA = 10 * 60000;   // ⏱️ 25/11/2026 (pedido do professor): no aleatório, troca a cada 10 MINUTOS de uso (antes, 1 hora)
+  /* ⏱️ 25/11/2026 (pedido do professor): no aleatório, troca a cada X MINUTOS de uso. Padrão: 5 min (era 10; antes, 1 hora).
+     O próprio professor escolhe o tempo no painel da música (⏱️ Trocar a cada…), e fica memorizado neste computador. */
+  const TEMPOS = [1, 2, 3, 5, 10, 15, 20, 30, 60];
+  let trocaMin = +lerLS("portal:musica:troca", 5) || 5; if (!TEMPOS.includes(trocaMin)) trocaMin = 5;
+  let HORA = trocaMin * 60000;
+  const txtTempo = m => m === 60 ? "1 hora" : m + (m === 1 ? " minuto" : " minutos");
+  function mudarTempo(m) { m = +m; if (!TEMPOS.includes(m)) return; trocaMin = m; HORA = m * 60000; gravarLS("portal:musica:troca", String(m)); if (usado >= HORA) usado = HORA - 1000; }
   let modo = lerLS("portal:musica:modo", "manual"); modo = ANTIGO[modo] || modo; if (!MODOS[modo] || modo === "nenhuma") modo = "manual";
   let usado = +lerLS("portal:musica:usado", 0) || 0, ultTick = 0, ultGrava = 0;
   function sortearDe(fam, fora) { const L = FAM[fam].L.filter(k => k !== fora); return L.length ? L[Math.floor(Math.random() * L.length)] : FAM[fam].L[0]; }
@@ -107,7 +113,7 @@
     const F = famsDoModo(modo); if (!F.length) return estilo;
     const i = F.indexOf(famDe(estilo)); return sortearDe(F[(i + 1) % F.length], estilo);
   }
-  function contarUso(tocandoMesmo) {   // chamado 4× por segundo: soma o tempo de uso e troca de música depois de 10 minutos
+  function contarUso(tocandoMesmo) {   // chamado 4× por segundo: soma o tempo de uso e troca de música depois do tempo escolhido
     const ag = Date.now(), dt = ultTick ? Math.min(2000, ag - ultTick) : 0; ultTick = ag;
     if (modo === "manual" || !tocandoMesmo) return;
     usado += dt;
@@ -327,6 +333,9 @@
             <div class="mus-lista">${["nenhuma", "manual", "todos"].map(k => opc("m", k, MODOS[k])).join("")}
               <p class="mus-gr">🔀 Aleatório em dupla (revezando os dois)</p>${DUPLAS.map(k => opc("m", k, MODOS[k])).join("")}
               <p class="mus-gr">🔀 Aleatório com um estilo só</p>${SOS.map(k => opc("m", k, MODOS[k])).join("")}</div></details>
+          <details class="mus-sec" data-s="tempo"><summary>⏱️ Trocar a cada: <b class="mus-r-tempo"></b></summary>
+            <div class="mus-lista">${TEMPOS.map(m => opc("t", m, txtTempo(m))).join("")}</div>
+            <p class="mus-dica">Vale para os modos 🔀 Aleatório. O tempo só conta enquanto a música está tocando.</p></details>
           <details class="mus-sec" data-s="qual"><summary>🎵 Música: <b class="mus-r-qual"></b></summary>
             <div class="mus-lista"><p class="mus-gr">🥁 Pagodinho</p>${GRUPO.pagode.map(k => opc("e", k, ESTILOS[k].nome.replace(/^🥁 /, ""))).join("")}
               <p class="mus-gr">👾 Videogame 8 bits</p>${GRUPO.oito.map(k => opc("e", k, ESTILOS[k].nome.replace(/^👾 /, ""))).join("")}
@@ -343,6 +352,7 @@
       ui.querySelector(".mus-amb").onclick = () => { vol = AMB; gravarLS("portal:musica:vol", String(vol)); iniciar(); aplicar(); pintar(true); };
       pn.querySelectorAll("details").forEach(d => d.addEventListener("toggle", () => { if (d.open) { pn.querySelectorAll("details[open]").forEach(o => { if (o !== d) o.open = false; }); const sel = d.querySelector(".mus-op.sel"); if (sel) sel.scrollIntoView({ block: "nearest" }); } }));
       pn.querySelectorAll("[data-m]").forEach(b => b.onclick = () => { mudarModo(b.dataset.m); iniciar(); aplicar(); pintar(true); });
+      pn.querySelectorAll("[data-t]").forEach(b => b.onclick = () => { mudarTempo(b.dataset.t); pintar(true); });
       pn.querySelectorAll("[data-e]").forEach(b => b.onclick = () => { trocarEstilo(b.dataset.e); if (modo !== "manual" || !ligada) mudarModo("manual"); iniciar(); aplicar(); pintar(true); });   // escolher uma música à mão = modo manual
       document.addEventListener("pointerdown", e => { if (aberto && ui && !ui.contains(e.target)) { aberto = false; pn.hidden = true; } }, true);
     }
@@ -352,6 +362,8 @@
     ui.querySelectorAll("[data-e]").forEach(b => b.classList.toggle("sel", b.dataset.e === estilo));
     ui.querySelector(".mus-r-modo").textContent = MODOS[mAtual].replace(/^\S+\s/, "");
     ui.querySelector(".mus-r-qual").textContent = ESTILOS[estilo].nome.replace(/^\S+\s/, "");
+    ui.querySelectorAll("[data-t]").forEach(b => b.classList.toggle("sel", +b.dataset.t === trocaMin));
+    ui.querySelector(".mus-r-tempo").textContent = txtTempo(trocaMin);
     ui.querySelector(".mus-r-vol").textContent = vol === AMB ? "ambiente (padrão)" : vol + "%";
     const falta = Math.max(0, Math.ceil((HORA - usado) / 60000));
     ui.querySelector(".mus-agora").innerHTML = !ligada ? "🔇 Sem música ambiente. Os efeitos sonoros continuam funcionando." : `▶ Tocando agora: <b>${esc(ESTILOS[estilo].nome)}</b>${modo === "manual" ? " <small>(fixa)</small>" : `<br><small>🔀 Troca daqui a ${falta} min de uso</small>`}`;
