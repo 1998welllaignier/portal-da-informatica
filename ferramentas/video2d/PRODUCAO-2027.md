@@ -23,7 +23,7 @@ Voz: o código é o começo do id do MP3 no HeyGen (arquivo `voz_link.txt` da pa
 | 6º 1ºb M6 Boa convivência na rede | 2027-6ano-m6 | v1 ❌ | cbc67eba | enviado, não postado | – | refazer → v2 |
 | 6º 1ºb M7 Digitação sem medo | 2027-6ano-m7 | v1 ❌ | 39975661 | enviado, não postado | – | refazer → v2 |
 | 6º 1ºb M8 Atalhos | 2027-6ano-m8 | v1 ❌ | 04ed897e | enviado, não postado | – | refazer → v2 |
-| 7º 1ºb M1 Programar com blocos | 2027-7ano-m1 | v1 ❌ | sim (antiga) | – | -Y5vRictuKA no ar | refazer → v2 |
+| 7º 1ºb M1 Programar com blocos | 2027-7ano-m1 | **v2 ✅** (14 cenas, "Monte o seu jogo"; v1 no histórico) | precisa de voz NOVA | – | -Y5vRictuKA no ar = **v1** (trocar depois da aprovação) | v2 pronta, esperando voz |
 | 7º 1ºb M2 Listas no programa | 2027-7ano-m2 | v1 ❌ | sim (antiga) | – | 4Uu1LKUF-YY no ar | refazer → v2 |
 | 7º 1ºb M3 Registros | 2027-7ano-m3 | v1 ❌ | a9dcb938 | enviado, não postado | – | refazer → v2 |
 | 7º 1ºb M4 Depurar | 2027-7ano-m4 | v1 ❌ | be32b934 | enviado, não postado | – | refazer → v2 |

@@ -1,17 +1,27 @@
-Programar com blocos: o robô que só obedece!
+Programar com blocos: monte o seu jogo!
 
-O Caio montou um programa para o robô dar três pulos e depois dizer fim. Apertou o play, e o robô gritou fim três vezes! O que deu errado?
+O Caio teve uma ideia: criar um joguinho para a turma, o Pulo do Caio! Ele sentou no computador e mandou: faz um jogo aí! E… nada aconteceu. A Duda riu: o computador não entende o nosso jeito de falar. Você tem que falar a língua dele!
 
-Um programa é um algoritmo numa linguagem que o computador entende. Aqui, essa linguagem são blocos que se encaixam como peças de montar.
+No sexto ano, você aprendeu que algoritmo é uma lista de passos em ordem. Um programa é um algoritmo escrito numa linguagem que o computador entende. E a nossa linguagem são blocos que se encaixam, como peças de montar!
 
-O computador lê os blocos de cima para baixo, um de cada vez, e faz exatamente o que eles mandam. Isso é a sequência.
+O computador lê os blocos de cima para baixo, um de cada vez, e faz exatamente o que eles mandam. Nem mais, nem menos.
 
-O bloco repita faz os blocos de dentro dele várias vezes. Repita três vezes: pular. E o robô pula, pula, pula!
+Primeiro bloco: mostrar na tela. Ele escreve uma mensagem na tela do programa. Mostrar na tela, Olá! E aparece: Olá!
 
-O bloco se escolhe um caminho. Se a nota for maior ou igual a cinco, mostrar passou. Senão, mostrar recuperação.
+Agora, o personagem precisa pular. O Caio podia colocar três blocos pular, um embaixo do outro. Mas tem o bloco repita! Repita três vezes, pular. E ele faz os blocos de dentro várias vezes: pulo, pulo, pulo!
 
-E o programa do Caio? O bloco fim estava dentro do repita! Ele tirou o bloco lá de dentro e colocou embaixo. Agora, três pulos e um fim só. A posição do bloco muda o resultado!
+E o bloco se, faça, senão escolhe um caminho conforme uma condição. Se o personagem pegou a moeda, mostrar mais dez pontos. Senão, mostrar tente de novo. É como na escola: se a nota for cinco ou mais, passou; senão, recuperação.
 
-Onde eu uso isso? O despertador usa seleção: se for seis horas, ele toca. E, no jogo, a vida do personagem é uma variável, uma caixinha que guarda um número.
+Viu? São as mesmas três ideias dos algoritmos. Sequência: um bloco embaixo do outro, como acordar, escovar os dentes e tomar café. Repetição: blocos dentro do repita, como fazer dez polichinelos. Seleção: blocos dentro do se, como levar guarda-chuva se chover, senão, levar boné.
 
-Agora é com vocês: abram a Missão 1 no portal!
+Mas atenção à ordem! O Caio colocou o mostrar fim dentro do repita, e apareceu fim, fim, fim, três vezes! Quando ele tirou o bloco para fora, embaixo do repita, o fim apareceu só uma vez, no final. A posição do bloco muda o resultado!
+
+Todo jogo precisa contar vidas e pontos. Para isso, existe a variável: uma caixinha com nome que guarda um valor. Definir vidas para três guarda três na caixinha vidas.
+
+E para mudar o valor guardado, usamos o bloco alterar por, na gaveta Variáveis. O personagem bateu no espinho: alterar vidas por menos um, e três vira dois. Pegou a moeda: alterar pontos por dez. É assim que os jogos contam vidas, pontos e tempo!
+
+O Pulo do Caio ficou pronto! A Duda jogou, pegou moedas, desviou dos espinhos, e a turma toda quis jogar também. Missão cumprida!
+
+Onde eu uso isso? O despertador do celular é um programa com seleção: se for seis horas, então toca. Nos jogos, a vida do personagem é uma variável, que começa em três e diminui quando ele leva dano. E a máquina de lavar segue uma sequência, molhar, bater, enxaguar e centrifugar, com repetições.
+
+Agora é com vocês: abram a Missão 1 no portal e montem os seus blocos!
