@@ -20,3 +20,4 @@ Os prints vão para a pasta temporária (`aula-*.png`). O roteiro termina com `e
 Sala de espera → leitura (slide igual em todas as telas, risco do pincel chegando ao aluno e ao projetor, palavra difícil, roleta, pergunta que se revela sozinha com quem acertou/errou) → vídeo (alunos tocando juntos e sem som, mudo/som, voltar ao início pausado) → fechar (todos voltam à sala de espera) → largada (aluno vai para a missão).
 - `roteiro-pontos.js`: confere que o 🏆 placar e o 🔴 Ao vivo (abertos em outras abas, sem a Aula ao vivo) mostram os MESMOS pontos, com a leitura guiada somada (24/11/2026).
 - `roteiro-byte.js`: o jogo 🤖 Byte: a Aventura na Sala de espera (história, mapa, fase completa, jogo salvo no aluno, game over, Rei Vírus) e o tema 🎮 Byte 8 bits (25/11/2026).
+- `roteiro-outra-turma.js`: aluno que frequenta a aula de outra turma entra na Sala de espera dessa turma (25/11/2026).

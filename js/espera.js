@@ -30,17 +30,25 @@
     const k = s.turma + "|" + s.entrou; if (memo.k === k && Date.now() - memo.em < 4000) return memo.v;
     const v = await calcular(s).catch(() => null); memo = { k, em: Date.now(), v }; return v;
   }
+  /* 🏫 25/11/2026: aluno que frequenta a aula de OUTRA turma (config/liberar_<turma>.outra) também entra na Sala de espera
+     da turma em que assiste à aula. Antes, só a turma do cadastro era olhada, e ele ficava de fora (ia direto às apostilas). */
   async function calcular(s) {
     const db = N().app(0).db;
-    const [g, hs] = await Promise.all([db.collection("config").doc("geral").get().then(x => x.exists ? x.data() : {}).catch(() => ({})),
-      db.collection("config").doc("hoje_" + s.turma).get().then(x => x.exists ? x.data() : null).catch(() => null)]);
+    const [g, lib] = await Promise.all([db.collection("config").doc("geral").get().then(x => x.exists ? x.data() : {}).catch(() => ({})),
+      db.collection("config").doc("liberar_" + s.turma).get().then(x => x.exists ? x.data() : {}).catch(() => ({}))]);
     if (g.modoAula === false || g.salaEspera === false) return null;
     if (P.trava && await P.trava.casaEh(s).catch(() => false)) return null;      // 🏠 em casa não tem sala de espera
+    const outras = [...new Set((s.alunoIds || []).map(id => (lib.outra || {})[id]).filter(x => x && x !== s.turma))];
+    for (const tid of [s.turma, ...outras]) { const v = await calcularT(s, tid, db); if (v) return Object.assign(v, { _turma: tid }); }
+    return null;
+  }
+  async function calcularT(s, tid, db) {
+    const hs = await db.collection("config").doc("hoje_" + tid).get().then(x => x.exists ? x.data() : null).catch(() => null);
     const d = hoje(), h = hs || {};
     if (h.dia === d && h.iniciadaDia === d) return h.espera && !h.largadaEm ? h : null;
     // ainda não iniciada: só na janela da aula da turma (de 40 min antes até o fim do horário) e se a aula não foi finalizada hoje
     if (h.finalizadaEm && new Date(h.finalizadaEm).toLocaleDateString("sv-SE") === d) return null;
-    const t = P.turma && P.turma(s.turma); if (!t || !t.aula || !t.aula.ini) return null;
+    const t = P.turma && P.turma(tid); if (!t || !t.aula || !t.aula.ini) return null;
     const agora = new Date(); if (agora.getDay() !== t.aula.dia) return null;
     const [H, M] = t.aula.ini.split(":").map(Number), ini = new Date(agora); ini.setHours(H, M, 0, 0);
     const dur = ((P.catalogo && P.catalogo.duracaoAula) || 75) * 60000;
@@ -241,7 +249,7 @@
       await Promise.all(ids.map(async (id, i) => { const ref = N().app(i).db.collection("progresso").doc(id + "_avatar");
         try { const sn = await ref.get(), x = sn.exists ? sn.data() : {};
           await ref.set(Object.assign({ alunoId: id, turma: s.turma, tipo: "avatar", usadoEm: d }, x.avatar ? {} : { avatar: P.avatar.sortear(), atualizado: Date.now() }), { merge: true }); } catch (e) {} }));
-      const hh = await N().app(0).db.collection("config").doc("hoje_" + s.turma).get().then(x => x.exists ? x.data() : {}).catch(() => ({}));
+      const hh = await N().app(0).db.collection("config").doc("hoje_" + ((h && h._turma) || s.turma)).get().then(x => x.exists ? x.data() : {}).catch(() => ({}));
       if (P.trava && P.trava.limpar) P.trava.limpar();
       memo = { k: "", em: 0, v: null };
       if (hh.dia === d && hh.iniciadaDia === d && hh.mid) { try { sessionStorage.setItem("portalJK:hoje", hh.aid + "/" + hh.mid); sessionStorage.setItem("portalJK:hojeIr:" + hh.dia + ":" + hh.mid, 1); } catch (e) {}
@@ -251,10 +259,11 @@
     vivo = { sair };
     // ouve a missão de hoje da turma: quando o professor der a largada (ou iniciar sem sala de espera), a sala fecha sozinha
     let unsub = null;
-    try { unsub = N().app(0).db.collection("config").doc("hoje_" + s.turma).onSnapshot(sn => { const x = sn.exists ? sn.data() : {};
+    const tAula = (h && h._turma) || s.turma;   // 🏫 a turma em que o aluno assiste à aula (a dele ou a outra turma)
+    try { unsub = N().app(0).db.collection("config").doc("hoje_" + tAula).onSnapshot(sn => { const x = sn.exists ? sn.data() : {};
       const iniHoje = x.dia === d && x.iniciadaDia === d;
       if (iniHoje && !valendo(x)) return sair();
-      if (iniHoje) { h = x; st.textContent = "🚦 Aula iniciada: esperando o professor dar a 🏁 largada…"; } }, () => {}); } catch (e) {}
+      if (iniHoje) { h = Object.assign(x, { _turma: tAula }); st.textContent = "🚦 Aula iniciada: esperando o professor dar a 🏁 largada…"; } }, () => {}); } catch (e) {}
     // e, a cada 20 s, confere se ainda está na janela da aula (sem início, a sala não fica aberta para sempre)
     const iv = setInterval(async () => { if (!el.isConnected) { if (!largou) sair(true); return clearInterval(iv); }
       memo = { k: "", em: 0, v: null }; const v = await ativaPara(P.sess.get()); if (!v) sair(); }, 20000);
