@@ -144,6 +144,14 @@
   const MACA_LIVROS = `<svg viewBox="0 0 120 110" width="100" height="92"><rect x="14" y="84" width="92" height="14" rx="2" fill="#1d4ed8"/><rect x="20" y="70" width="80" height="14" rx="2" fill="#dc2626"/><rect x="10" y="56" width="88" height="14" rx="2" fill="#16a34a"/><path d="M14 63 H94" stroke="#fff" stroke-width="1.5"/>
       <path d="M60 22 Q46 16 42 32 Q40 52 60 54 Q80 52 78 32 Q74 16 60 22 Z" fill="#ef4444"/><path d="M60 22 Q62 12 68 8" stroke="#78350f" stroke-width="3" fill="none"/><path d="M62 16 Q72 8 78 16 Q70 20 62 16 Z" fill="#22c55e"/><ellipse cx="52" cy="32" rx="3" ry="6" fill="#fff" opacity=".5"/></svg>`;
 
+  // 🎮 desenhos do tema Byte 8 bits (pixel art de js/pixel-byte.js)
+  const NUVEM_PX = w => `<svg viewBox="0 0 36 14" width="${w}" shape-rendering="crispEdges"><path fill="#10173A" d="M8 2h10v2h4v2h6v2h4v4h2v2H0v-2h2V8h2V6h4z"/><path fill="#fff" d="M9 3h8v2h4v2h6v2h4v3H2v-2h2V8h2V6h3z"/></svg>`;
+  const NUVENS_PIXEL = `<i style="top:74px;animation-duration:70s">${NUVEM_PX(110)}</i><i style="top:150px;animation-duration:95s;animation-delay:-40s">${NUVEM_PX(80)}</i><i style="top:240px;animation-duration:120s;animation-delay:-80s">${NUVEM_PX(130)}</i>`;
+  const byteCena = () => { const B = P.pixelByte; if (!B) return "";
+    return `<div class="tm-byte-cena"><span class="tm-byte-pula">${B.svg("byte", 5)}</span><span class="tm-bloco"></span></div>`; };
+  const portalCena = () => { const B = P.pixelByte; if (!B) return "";
+    return `<div class="tm-byte-cena"><span class="tm-chip-gira">${B.svg("chip", 5)}</span>${B.svg("portal", 6)}</div>`; };
+
   /* ---------- cada tema: classes do CSS, enfeites dos cantos, o que cai, faixa de mensagem e enfeite do avatar ---------- */
   const DEF = {
     carnaval: { esq: MASCARA, dir: SERPENTINA, cai: { tipo: "confete", n: 40 }, avatar: "mascara", faixa: "🥁 <b>Carnaval:</b> a maior festa popular do Brasil, nos dias antes da Quarta-feira de Cinzas, com escolas de samba, blocos, frevo e marchinhas. A escola <b>Unidos da Informática</b> está na avenida: alegria com respeito, porque o Carnaval é festa para todos!" },
@@ -158,6 +166,8 @@
     saci: { esq: [SACI, CURUPIRA], passa: SACI, cai: { tipo: "folha", n: 14 }, avatar: "carapuca", faixa: "🌪️ <b>31 de outubro · Dia do Saci.</b> No Brasil, em vez do Halloween, a gente celebra o nosso folclore: o Saci-Pererê, de uma perna só e gorro vermelho, que apronta travessuras dentro do redemoinho!" },
     consciencia: { esq: [BAOBA, ZUMBI_DANDARA, SANKOFA, QUILOMBO, CAPOEIRA], faixa: "✊🏿 <b>20 de novembro · Dia Nacional de Zumbi e da Consciência Negra.</b> Zumbi e Dandara dos Palmares lutaram pela liberdade do povo negro. Conheça e valorize a história e a cultura afro-brasileira, que estão na nossa música, na comida, nas palavras e no jeito de ser do Brasil. <b>Racismo é crime</b> (Lei nº 7.716/1989): respeito é para todos." },
     padroeira: { esq: [IGREJA_CUR, MEDALHA], cai: { tipo: "estrela", n: 14 }, faixa: "⛪ <b>27 de novembro · Festa de Nossa Senhora das Graças, padroeira de Curionópolis.</b> Dias de festejo, fé e encontro na nossa cidade." },
+    // 🎮 Byte 8 bits (25/11/2026): tema MANUAL (sem data), no estilo da página inicial "Escolha a sua fase" e do jogo Byte: a Aventura
+    byte: { esq: () => byteCena(), dir: () => portalCena(), passa: () => P.pixelByte ? P.pixelByte.svg("byte2", 4) : "", html: NUVENS_PIXEL },
     natal: { natal: true, avatar: "gorro", faixa: "🎄 <b>Natal:</b> a festa cristã que celebra o nascimento de Jesus. É tempo de família, de solidariedade e de fazer o bem a quem está perto. Feliz Natal e boas festas!" }
   };
 
@@ -167,6 +177,7 @@
     curionopolis: ["🎂 Parabéns, Curionópolis!", "Aniversário da cidade · 10 de maio"], junina: ["🌽 Arraiá da Informática", "Festa Junina · São João"], folclore: ["🍃 Lendas do Brasil", "Dia do Folclore · 22 de agosto"],
     patria: ["🇧🇷 Brasil Conectado", "Semana da Pátria · 7 de setembro"], criancas: ["🎈 Criançada Digital", "Dia das Crianças · 12 de outubro"], professor: ["🍎 Mestres do Saber", "Dia do Professor · 15 de outubro"],
     saci: ["🌪️ Redemoinho do Saci", "Dia do Saci · 31 de outubro"], consciencia: ["✊🏿 Semana da Consciência Negra", "20 de novembro · Zumbi e Dandara"], padroeira: ["⛪ Festa da Padroeira", "Nossa Senhora das Graças · 27 de novembro"], natal: ["🎄 Feliz Natal!", "Natal Conectado"] };
+  NOME.byte = ["🎮 Byte 8 bits", "Tema manual"];
   P.temaNome = id => (NOME[id] || [""])[0];
 
   /* ---------- enfeite do avatar (só em quem está sem chapéu e sem boné) ---------- */
@@ -245,9 +256,11 @@
     }
     if (d.cai) particulas(d.cai);
     // 📋 a plaquinha pendurada com o nome do tema foi retirada em 20/11/2026, a pedido do professor (atrapalhava a tela dos alunos)
-    if (d.passa && !reduz()) el("tm-passa", d.passa);
+    const val = v => typeof v === "function" ? v() : v;
+    if (d.passa && !reduz()) el("tm-passa", val(d.passa));
+    if (d.html) el("tm-html", d.html);
     // cantos: um desenho ou uma lista que vai alternando a cada 3 minutos (troca suave)
-    [["esq", d.esq], ["dir", d.dir]].forEach(([lado, v]) => { if (!v) return; const lista = [].concat(v); let i = 0;
+    [["esq", d.esq], ["dir", d.dir]].forEach(([lado, v]) => { if (!v) return; const lista = [].concat(v).map(val); let i = 0;
       const c = el("tm-canto " + lado, lista[0]); if (lista.length < 2) return;
       const iv = setInterval(() => { if (!c.isConnected) return clearInterval(iv); c.classList.add("troca");
         setTimeout(() => { i = (i + 1) % lista.length; c.innerHTML = lista[i]; c.classList.remove("troca"); }, 600); }, 180000); });

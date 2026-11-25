@@ -45,7 +45,8 @@
     const L = liberados(); if (L.length <= max) return L;
     let seed = 0; for (const c of hojeS() + (turma || "")) seed = (seed * 31 + c.charCodeAt(0)) >>> 0;
     const rnd = () => { seed = (seed * 1664525 + 1013904223) >>> 0; return seed / 4294967296; };
-    const novos = L.filter(ehNovo), resto = L.filter(j => !ehNovo(j)).map(j => [rnd(), j]).sort((a, b) => a[0] - b[0]).map(x => x[1]);
+    const novos = L.filter(ehNovo).sort((a, b) => a.estreia < b.estreia ? 1 : a.estreia > b.estreia ? -1 : 0),   // o mais novo primeiro (25/11/2026)
+       resto = L.filter(j => !ehNovo(j)).map(j => [rnd(), j]).sort((a, b) => a[0] - b[0]).map(x => x[1]);
     // mistura ação e informática
     const out = novos.slice(0, max);
     for (const cat of ["acao", "info", "acao", "info", "acao", "info"]) { if (out.length >= max) break; const i = resto.findIndex(j => j.cat === cat && !out.includes(j)); if (i >= 0) out.push(resto.splice(i, 1)[0]); }
@@ -157,7 +158,10 @@
       const api = {
         ponto: el => { const t = Date.now(); if (t - ultPonto < 1200) return; ultPonto = t; opc.ganhar && opc.ganhar(5, el || area); },
         fim: pts => { if (acabou) return; acabou = true; setTimeout(() => fim(j, Math.max(0, Math.round(pts || 0))), 500); },
-        avatar: opc.avatar, area, esc, R, D
+        avatar: opc.avatar, area, esc, R, D,
+        // 💾 progresso salvo do jogo (fases liberadas etc.; 25/11/2026): fica nos recordes do aluno com a chave "<jogo>_<nome>"
+        ler: k => recordes[j.id + "_" + k] || 0,
+        salvar: (k, v) => { recordes[j.id + "_" + k] = v; opc.salvarRecorde && opc.salvarRecorde(j.id + "_" + k, v); }
       };
       parar = j.tipo === "dom" ? (j.criar(api) || (() => {})) : rodarCanvas(area, j, api);
     }

@@ -817,6 +817,7 @@
     let atual = "auto"; try { const sn = await db().collection("config").doc("tema").get(); if (sn.exists) atual = sn.data().modo || "auto"; } catch (e) {}
     const cal = P.temaCalendario ? P.temaCalendario() : [], hojeT = P.temaPelaData ? P.temaPelaData(new Date()) : null, nomeHoje = (cal.find(x => x.id === hojeT) || {}).nome;
     const ops = [["auto", "📅 Automático pela data (recomendado)", `Entra e sai sozinho no calendário abaixo. Hoje: ${nomeHoje || "sem tema"}.`]]
+      .concat([["byte", "🎮 Byte 8 bits (videogame antigo)", "Tema manual, sem data: o portal inteiro no estilo da página inicial, com o robozinho Byte. Fica até você trocar."]])
       .concat(cal.map(x => [x.id, x.nome + " agora", `No automático: de ${x.ini} a ${x.fim}`])).concat([["nenhum", "⚪ Sem tema", "Portal normal, mesmo nas datas comemorativas"]]);
     const dlg = h(`<dialog class="pp-dlg pp-tema-dlg"><form method="dialog"><h2>🎨 Tema do portal</h2>
       <p class="ajuda">Vale para todos os computadores (alunos, placar e o seu), a partir da próxima vez que a página abrir.</p>
