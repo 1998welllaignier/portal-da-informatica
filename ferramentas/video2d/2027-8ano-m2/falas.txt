@@ -2,13 +2,13 @@ Mexendo na lista: inserir, remover e contar!
 
 A Bia organiza a fila para a apresentação da turma: Ana, Bia, Caio e Duda. Mas aí chegou o Enzo, a Bia precisou sair, e a Gabi pediu para ser a primeira. E agora, quem fica em qual posição?
 
-Uma lista muda o tempo todo. E são três operações básicas: inserir no fim, inserir numa posição e remover.
+Uma lista muda o tempo todo, e cada mudança é uma operação. São três operações básicas: inserir no fim, inserir numa posição e remover.
 
 Inserir no fim coloca um item novo depois do último. Ninguém muda de lugar, e o tamanho aumenta um. O Enzo entrou no fim: agora a lista tem cinco.
 
-Remover tira um item. E quem estava atrás anda uma posição para a frente. A Bia saiu: o Caio, que estava na posição três, passou para a dois. E o tamanho diminuiu um.
+Remover tira um item. E quem estava atrás se desloca uma posição para a frente. A Bia saiu: o Caio, que estava na posição três, passou para a dois. E o tamanho diminuiu um.
 
-Inserir numa posição coloca o item no meio, ou no começo. Aí, quem estava dali para trás anda uma posição para trás. A Gabi entrou na posição um, e todo mundo andou uma casa.
+Inserir numa posição coloca o item no meio, ou no começo. Aí, quem estava dali para trás precisa se deslocar uma posição para trás. A Gabi entrou na posição um, e todo mundo andou uma casa.
 
 E para contar? A gente percorre a lista com uma variável contadora, que começa em zero e soma um cada vez que o item passa no teste. Quantas notas são maiores ou iguais a cinco na lista oito, quatro, seis, três, nove? Oito, sim: um. Quatro, não. Seis, sim: dois. Três, não. Nove, sim: três! A resposta é três.
 
