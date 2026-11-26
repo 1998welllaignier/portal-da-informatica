@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset="utf-8"><title>9º ano · Missão 5</title>
+<!doctype html><html><head><meta charset="utf-8"><title>9º ano · Missão 5 · Autômatos</title>
 <style>html,body{margin:0;background:#000}canvas{display:block}</style></head><body>
 <canvas id="c" width="1280" height="720"></canvas>
 <script>const W = 1280, H = 720, c = document.getElementById("c"), g = c.getContext("2d"); const F = "Poppins, 'DejaVu Sans', sans-serif"; window.SELO_SERIE = "9º ano · 1º bim. 2027";</script>
@@ -189,9 +189,9 @@ function cadeado(x, y, s, aberto) { g.save(); g.translate(x, y); g.scale(s, s); 
 function lupa(x, y, s) { g.save(); g.translate(x, y); g.scale(s, s); g.strokeStyle = "#fde047"; g.lineWidth = 10; g.beginPath(); g.arc(0, 0, 34, 0, 7); g.stroke(); g.lineCap = "round"; g.lineWidth = 14; g.beginPath(); g.moveTo(24, 24); g.lineTo(56, 56); g.stroke(); g.restore(); }
 function escudo(x, y, s) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = "#16a34a"; g.beginPath(); g.moveTo(0, -70); g.lineTo(60, -46); g.lineTo(56, 10); g.quadraticCurveTo(40, 52, 0, 70); g.quadraticCurveTo(-40, 52, -56, 10); g.lineTo(-60, -46); g.closePath(); g.fill(); g.restore(); }
 
-/* ================= 9º ano · 2027 · 1º bimestre · Missão 5 · Autômatos: máquinas de estados ================= */
-const RAFA = { camisa: "#7c3aed" }, JULIA = { camisa: "#0d9488", cabelo: "longo" };
-const rafa = o => boneco(Object.assign({}, RAFA, o)), julia = o => boneco(Object.assign({}, JULIA, o));
+/* ================= 8º ano · 2027 · 1º bimestre · Missão 4 · Busca binária (v2, padrão completo: o Show do Meio) ================= */
+const BIA8 = { camisa: "#f97316", cabelo: "longo" };
+const bia8 = o => boneco(Object.assign({}, BIA8, o));
 function carta(v, x, y, cor, a, w) { if (a <= 0) return; g.save(); g.globalAlpha = cl(a); w = w || 104; g.fillStyle = cor || "#fff"; rr(x - w / 2, y - 60, w, 120, 16); g.fill(); g.strokeStyle = NAVY; g.lineWidth = 4; rr(x - w / 2, y - 60, w, 120, 16); g.stroke();
   g.fillStyle = NAVY; g.font = `800 46px ${F}`; g.textAlign = "center"; g.textBaseline = "middle"; g.fillText(v, x, y + 2); g.restore(); g.textBaseline = "alphabetic"; }
 const em = (f, w, n) => { const p = f.split(/\s+/); let c = 0; const i = p.findIndex(x => x.toLowerCase().replace(/[^\wà-úç]/g, "").startsWith(w.toLowerCase()) && c++ === (n || 0)); return Math.max(0, i) / 2.55 + .35; };
@@ -216,13 +216,70 @@ function tabela(x, y, w, cab, lin, cores, k, hl, alt) { if (k <= 0) return; cons
   cab.forEach((c, j) => { g.fillStyle = cores[j] || "#334155"; rr(j * cw + 2, 0, cw - 4, lh - 4, 8); g.fill(); g.fillStyle = "#fff"; g.font = `800 20px ${F}`; g.textAlign = "center"; g.fillText(c, j * cw + cw / 2, lh / 2 + 5); });
   lin.forEach((l, i) => l.forEach((c, j) => { g.fillStyle = hl === j ? "#fef08a" : (i % 2 ? "#e2e8f0" : "#f8fafc"); rr(j * cw + 2, (i + 1) * lh, cw - 4, lh - 4, 6); g.fill(); g.fillStyle = c && c[0] === "!" ? "#dc2626" : NAVY; g.font = `700 19px ${F}`; g.textAlign = "center"; g.fillText(c && c[0] === "!" ? c.slice(1) : c, j * cw + cw / 2, (i + 1) * lh + lh / 2 + 5); }));
   g.restore(); }
-// grafo: nós {id:[x,y,rot]}, arestas [[a,b,peso]]
-function grafo(N, A, k, hlN, hlA) { if (k <= 0) return; g.save(); g.globalAlpha = cl(k);
-  A.forEach(([a, b, p], i) => { const [x1, y1] = N[a], [x2, y2] = N[b], on = (hlA || []).includes(i); g.strokeStyle = on ? "#facc15" : "#94a3b8"; g.lineWidth = on ? 9 : 5; g.beginPath(); g.moveTo(x1, y1); g.lineTo(x2, y2); g.stroke();
-    if (p != null) { const mx = (x1 + x2) / 2, my = (y1 + y2) / 2; g.fillStyle = on ? "#facc15" : "#fff"; g.beginPath(); g.arc(mx, my, 20, 0, 7); g.fill(); g.fillStyle = NAVY; g.font = `800 20px ${F}`; g.textAlign = "center"; g.fillText(String(p), mx, my + 7); } });
-  Object.entries(N).forEach(([id, [x, y, r]]) => { const on = (hlN || []).includes(id); g.fillStyle = on ? "#facc15" : "#2563eb"; g.beginPath(); g.arc(x, y, 34, 0, 7); g.fill(); g.strokeStyle = "#fff"; g.lineWidth = 3; g.stroke(); emo(r || "", x, y + 12, 34); rotulo(id, x, y + 58, "#e2e8f0", 1); });
-  g.restore(); }
+/* ===== peças do "Show do Meio" (8º M4 v2) ===== */
+const io2 = k => k < .5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2;
+// câmera: kf = [[t, x, y, zoom], ...] — interpola e aplica (centro da tela vai para x,y)
+function camera(t, kf) { let a = kf[0], b = kf[kf.length - 1]; for (let i = 0; i < kf.length - 1; i++) if (t >= kf[i][0] && t <= kf[i + 1][0]) { a = kf[i]; b = kf[i + 1]; break; }
+  const k = io2(cl((t - a[0]) / Math.max(.01, b[0] - a[0]))), x = lerp(a[1], b[1], k), y = lerp(a[2], b[2], k), z = lerp(a[3], b[3], k);
+  g.save(); g.setTransform(1, 0, 0, 1, 0, 0); g.fillStyle = "#0d1631"; g.fillRect(0, 0, 1280, 720); g.restore(); g.translate(640, 360); g.scale(z, z); g.translate(-x, -y); }
+function palco(t, luzOn) { // fundo de estúdio de TV com camadas
+  const gr = g.createLinearGradient(0, 0, 0, 720); gr.addColorStop(0, "#1e1b4b"); gr.addColorStop(1, "#0b0a24"); g.fillStyle = gr; g.fillRect(-400, -300, 2080, 1320);
+  for (let i = 0; i < 14; i++) { g.fillStyle = i % 2 ? "#7f1d1d" : "#991b1b"; g.fillRect(-400 + i * 150, -300, 150, 700); } // cortina ao fundo
+  g.fillStyle = "rgba(0,0,0,.35)"; g.fillRect(-400, -300, 2080, 700);
+  for (let i = 0; i < 24; i++) { const on = (Math.floor(t * 4) + i) % 3 === 0; g.fillStyle = on ? "#fde047" : "#78350f"; g.beginPath(); g.arc(-60 + i * 60, 30, 7, 0, 7); g.fill(); } // lâmpadas
+  g.fillStyle = "#312e81"; g.fillRect(-400, 470, 2080, 60); g.fillStyle = "#4338ca"; g.fillRect(-400, 470, 2080, 8); // palco
+  if (luzOn !== false) for (let i = 0; i < 2; i++) { const a = Math.sin(t * 1.3 + i * 2) * .35; g.save(); g.translate(200 + i * 880, -40); g.rotate(a); const lg = g.createLinearGradient(0, 0, 0, 560); lg.addColorStop(0, "rgba(255,240,180,.35)"); lg.addColorStop(1, "rgba(255,240,180,0)"); g.fillStyle = lg; g.beginPath(); g.moveTo(-20, 0); g.lineTo(20, 0); g.lineTo(180, 560); g.lineTo(-180, 560); g.closePath(); g.fill(); g.restore(); } }
+function plateia(t, humor, y) { y = y || 640; for (let i = 0; i < 18; i++) { const x = 30 + i * 72 + (i % 2) * 20, b = humor === "festa" ? Math.abs(Math.sin(t * 8 + i)) * 14 : humor === "sono" ? 0 : Math.sin(t * 2 + i) * 2;
+    g.fillStyle = ["#0f172a", "#1e293b", "#111827"][i % 3]; g.beginPath(); g.arc(x, y - b, 30, Math.PI, 0); g.fill(); g.fillRect(x - 34, y - b, 68, 120);
+    if (humor === "sono" && i % 4 === 1) emo("😴", x, y - 40, 26); if (humor === "festa" && i % 3 === 0) emo("🙌", x, y - 60 - b, 26); } }
+function regua100(t, x0, w, y, ini, fim, chutes, rotulos) { const X = v => x0 + (v - 1) / 99 * w;
+  g.fillStyle = "#0f172a"; rr(x0 - 20, y - 46, w + 40, 92, 20); g.fill();
+  for (let v = 1; v <= 100; v++) { const on = v >= ini && v <= fim; g.fillStyle = on ? (v % 10 === 0 ? "#facc15" : "#22c55e") : "#334155"; rr(X(v) - 3.5, y - 26, 7, 52, 3); g.fill(); }
+  [1, 25, 50, 75, 100].forEach(v => { g.fillStyle = "#e2e8f0"; g.font = `800 18px ${F}`; g.textAlign = "center"; g.fillText(String(v), X(v), y + 70); });
+  chutes.forEach(([v, s], j) => { g.fillStyle = "#facc15"; g.beginPath(); g.moveTo(X(v), y - 30); g.lineTo(X(v) - 13, y - 56); g.lineTo(X(v) + 13, y - 56); g.fill();
+    if (rotulos !== false && (j === chutes.length - 1 || (rotulos !== "ultimo" && Math.abs(chutes[j + 1][0] - v) >= 10))) { g.fillStyle = s === "MAIOR" ? "#16a34a" : s === "MENOR" ? "#dc2626" : "#facc15"; g.font = `900 22px ${F}`; const tx = v + (s ? " · " + s : ""), tw = g.measureText(tx).width + 24; rr(X(v) - tw / 2, y - 100, tw, 36, 18); g.fill(); g.fillStyle = "#fff"; g.textAlign = "center"; g.fillText(tx, X(v), y - 75); } });
+  return X; }
+function placaShow(txt, x, y, k, cor) { if (k <= 0) return; const z = back(cl(k)); g.save(); g.translate(x, y); g.scale(z, z); g.font = `900 30px ${F}`; const w = g.measureText(txt).width + 50;
+  g.fillStyle = "#0f172a"; rr(-w / 2 - 6, -36, w + 12, 72, 18); g.fill(); g.fillStyle = cor || "#facc15"; rr(-w / 2, -30, w, 60, 14); g.fill(); g.fillStyle = NAVY; g.textAlign = "center"; g.fillText(txt, 0, 11); g.restore(); }
+function microfone2(x, y, s) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = "#334155"; rr(-6, 0, 12, 50, 4); g.fill(); g.fillStyle = "#94a3b8"; g.beginPath(); g.arc(0, -6, 14, 0, 7); g.fill(); g.restore(); }
+function livroLomb(x, y, w, h, n, cor, k) { if (k <= 0) return; g.save(); g.globalAlpha = cl(k); g.fillStyle = cor; rr(x, y, w, h, 4); g.fill(); g.fillStyle = "rgba(255,255,255,.85)"; rr(x + 4, y + h * .35, w - 8, 30, 4); g.fill(); g.fillStyle = NAVY; g.font = `800 18px ${F}`; g.textAlign = "center"; g.fillText(String(n), x + w / 2, y + h * .35 + 22); g.restore(); }
 
+const emE = (f, w, n) => { const p = f.split(/\s+/); let c = 0; const i = p.findIndex(x => x.toLowerCase().replace(/[^\wà-úç]/g, "") === w.toLowerCase() && c++ === (n || 0)); return Math.max(0, i) / 2.55 + .35; };
+function cel(x, y, v, cor, k, w) { if (k <= 0) return; const z = back(cl(k)); w = w || 84; g.save(); g.translate(x, y); g.scale(z, z); g.fillStyle = cor || "#fff"; rr(-w / 2, -28, w, 56, 12); g.fill(); g.strokeStyle = NAVY; g.lineWidth = 3; g.stroke(); g.fillStyle = NAVY; g.font = `800 24px ${F}`; g.textAlign = "center"; g.fillText(v, 0, 9); g.restore(); }
+function variavel(x, y, nome, val, k, cor) { if (k <= 0) return; const z = back(cl(k)); g.save(); g.translate(x, y); g.scale(z, z); g.fillStyle = cor || "#ca8a04"; rr(-90, -60, 180, 36, 10); g.fill(); g.fillStyle = "#fff"; g.font = `800 18px ${F}`; g.textAlign = "center"; g.fillText("📦 " + nome, 0, -36);
+  g.fillStyle = "#fff"; rr(-70, -18, 140, 76, 12); g.fill(); g.strokeStyle = cor || "#ca8a04"; g.lineWidth = 5; g.stroke(); g.fillStyle = NAVY; g.font = `900 48px ${F}`; g.fillText(String(val), 0, 40); g.restore(); }
+function cartaoC(txt, x, y, w, cor, k, sub) { if (k <= 0) return; const s = back(cl(k)); g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = cor; g.shadowColor = "rgba(0,0,0,.25)"; g.shadowBlur = 14; rr(-w / 2, -50, w, 100, 22); g.fill(); g.shadowBlur = 0;
+  let tam = 34; g.font = `800 ${tam}px ${F}`; while (g.measureText(txt).width > w - 40 && tam > 18) { tam -= 2; g.font = `800 ${tam}px ${F}`; }
+  g.fillStyle = NAVY; g.textAlign = "center"; g.textBaseline = "middle"; g.fillText(txt, 0, sub ? -14 : 0); if (sub) { g.font = `600 21px ${F}`; g.fillStyle = "#334155"; g.fillText(sub, 0, 24); } g.restore(); g.textBaseline = "alphabetic"; }
+const CAIO = { camisa: "#0ea5e9" }, MENINA7 = { camisa: "#f43f5e", cabelo: "longo" };
+const caio = o => boneco(Object.assign({}, CAIO, o)), duda = o => boneco(Object.assign({}, MENINA7, o));
+function passo(n, txt, x, y, w, k, hl) { if (k <= 0) return; const z = back(cl(k)); g.save(); g.translate(x, y); g.scale(z, z); g.fillStyle = hl ? "#fde68a" : "#fff"; rr(0, -28, w, 56, 14); g.fill(); g.fillStyle = "#0891b2"; g.beginPath(); g.arc(30, 0, 20, 0, 7); g.fill();
+  g.fillStyle = "#fff"; g.font = `900 22px ${F}`; g.textAlign = "center"; g.fillText(String(n), 30, 8); g.fillStyle = NAVY; g.font = `700 22px ${F}`; g.textAlign = "left"; g.fillText(txt, 64, 8); g.restore(); }
+function samambaia(x, y, tam, ang, prof, k) { if (prof <= 0 || tam < 3 || k <= 0) return; const x2 = x + Math.cos(ang) * tam * Math.min(1, k * 2), y2 = y + Math.sin(ang) * tam * Math.min(1, k * 2);
+  g.strokeStyle = prof > 3 ? "#166534" : "#22c55e"; g.lineWidth = Math.max(1, prof * .9); g.beginPath(); g.moveTo(x, y); g.lineTo(x2, y2); g.stroke(); const kk = (k - .12) / .88;
+  samambaia(x2, y2, tam * .78, ang + .06, prof - 1, kk); samambaia(x + (x2 - x) * .45, y + (y2 - y) * .45, tam * .42, ang - 1.0, prof - 1, kk); samambaia(x + (x2 - x) * .45, y + (y2 - y) * .45, tam * .42, ang + 1.0, prof - 1, kk); }
+function placaPare(x, y, s, k) { if (k <= 0) return; const z = back(cl(k)) * s; g.save(); g.translate(x, y); g.scale(z, z); g.fillStyle = "#dc2626"; g.strokeStyle = "#fff"; g.lineWidth = 6; g.beginPath(); for (let i = 0; i < 8; i++) { const a = Math.PI / 8 + i * Math.PI / 4; g.lineTo(Math.cos(a) * 60, Math.sin(a) * 60); } g.closePath(); g.fill(); g.stroke();
+  g.fillStyle = "#fff"; g.font = `900 30px ${F}`; g.textAlign = "center"; g.textBaseline = "middle"; g.fillText("PARE", 0, 2); g.restore(); g.textBaseline = "alphabetic"; }
+const RAFA = { camisa: "#7c3aed" }, JULIA = { camisa: "#0d9488", cabelo: "longo" };
+const rafa = o => boneco(Object.assign({}, RAFA, o)), julia = o => boneco(Object.assign({}, JULIA, o));
+function arv(T, o) { o = o || {}; const nomes = Object.keys(T);
+  nomes.forEach((n, i) => { const [x, y, , p] = T[n]; if (!p || (o.vis && !o.vis.includes(n))) return; const k = o.k == null ? 1 : seg(o.k, i * .12, .3 + i * .12); if (k <= 0) return; const [px, py] = T[p], on = o.aHl && o.aHl.includes(n); g.save(); g.globalAlpha = cl(k); g.strokeStyle = on ? "#facc15" : "#94a3b8"; g.lineWidth = on ? 10 : 6; g.lineCap = "round"; g.beginPath(); g.moveTo(px, py + 28); g.lineTo(x, y - 28); g.stroke(); g.restore(); });
+  nomes.forEach((n, i) => { if (o.vis && !o.vis.includes(n)) return; const [x, y, e] = T[n], k = o.k == null ? 1 : seg(o.k, i * .12, .3 + i * .12); if (k <= 0) return; const z = back(cl(k)), on = o.hl && o.hl.includes(n), c = (o.cor && o.cor[n]) || (on ? "#fde68a" : "#fff"); g.save(); g.translate(x, y); g.scale(z, z);
+    g.font = `800 20px ${F}`; const w = Math.max(150, g.measureText(n).width + 70); g.fillStyle = c; rr(-w / 2, -28, w, 56, 14); g.fill(); g.strokeStyle = on ? "#f59e0b" : NAVY; g.lineWidth = on ? 5 : 3; g.stroke(); g.restore(); emo(e, x - w / 2 * z + 26 * z, y + 10 * z, 26 * z); if (z > .6) { g.fillStyle = NAVY; g.font = `800 20px ${F}`; g.textAlign = "center"; g.fillText(n, x + 14, y + 7); } }); }
+/* ===== 9º M5 · Autômatos (v2) ===== */
+const ES = { travada: [400, 300, "#fecaca", "🔒"], liberada: [880, 300, "#bbf7d0", "🔓"] };
+function seta(x1, y1, cx, cy, x2, y2, cor, w, k) { if (k <= 0) return; g.save(); g.globalAlpha = cl(k); g.strokeStyle = cor; g.fillStyle = cor; g.lineWidth = w || 5; g.beginPath(); g.moveTo(x1, y1); g.quadraticCurveTo(cx, cy, x2, y2); g.stroke(); const a = Math.atan2(y2 - cy, x2 - cx); g.beginPath(); g.moveTo(x2, y2); g.lineTo(x2 - 18 * Math.cos(a - .45), y2 - 18 * Math.sin(a - .45)); g.lineTo(x2 - 18 * Math.cos(a + .45), y2 - 18 * Math.sin(a + .45)); g.fill(); g.restore(); }
+function etq(txt, x, y, cor, k) { if (k <= 0) return; g.save(); g.globalAlpha = cl(k); g.font = `800 20px ${F}`; const w = g.measureText(txt).width + 24; g.fillStyle = cor || "#fff"; rr(x - w / 2, y - 18, w, 36, 10); g.fill(); g.fillStyle = NAVY; g.textAlign = "center"; g.fillText(txt, x, y + 7); g.restore(); }
+// o: {atual, hl: "tc"|"te"|"le"|"lc", ini, k}
+function automato(o) { o = o || {}; const k = o.k == null ? 1 : o.k, [tx, ty] = ES.travada, [lx, ly] = ES.liberada, H = n => o.hl === n ? "#facc15" : "#cbd5e1";
+  seta(tx + 60, ty - 50, 640, 140, lx - 60, ly - 50, H("tc"), o.hl === "tc" ? 8 : 5, seg(k, .2, .5)); etq("💳 cartão", 640, 175, o.hl === "tc" ? "#fde68a" : "#fff", seg(k, .2, .5));
+  seta(lx - 60, ly + 50, 640, 460, tx + 60, ty + 50, H("le"), o.hl === "le" ? 8 : 5, seg(k, .3, .6)); etq("✋ empurrar (gira)", 640, 425, o.hl === "le" ? "#fde68a" : "#fff", seg(k, .3, .6));
+  seta(tx - 60, ty - 40, tx - 220, ty, tx - 60, ty + 40, H("te"), o.hl === "te" ? 8 : 5, seg(k, .4, .7)); etq("✋ empurrar", tx - 170, ty - 70, o.hl === "te" ? "#fde68a" : "#fff", seg(k, .4, .7));
+  seta(lx + 60, ly - 40, lx + 220, ly, lx + 60, ly + 40, H("lc"), o.hl === "lc" ? 8 : 5, seg(k, .5, .8)); etq("💳 cartão", lx + 170, ly - 70, o.hl === "lc" ? "#fde68a" : "#fff", seg(k, .5, .8));
+  if (o.ini) { seta(tx - 10, ty + 190, tx - 10, ty + 150, tx - 10, ty + 72, "#fde047", 6, o.ini); rotulo("início", tx - 10, ty + 215, "#fde68a", o.ini); }
+  Object.entries(ES).forEach(([n, [x, y, c, e]], i) => { const kk = seg(k, i * .1, .3 + i * .1); if (kk <= 0) return; const z = back(cl(kk)), on = o.atual === n; g.save(); g.translate(x, y); g.scale(z, z); if (on) { g.shadowColor = "#facc15"; g.shadowBlur = 30; } g.fillStyle = c; g.beginPath(); g.arc(0, 0, 70, 0, 7); g.fill(); g.shadowBlur = 0; g.strokeStyle = on ? "#f59e0b" : NAVY; g.lineWidth = on ? 8 : 4; g.stroke(); g.restore(); emo(e, x, y - 4 * z, 40 * z); if (z > .7) { g.fillStyle = NAVY; g.font = `900 20px ${F}`; g.textAlign = "center"; g.fillText(n, x, y + 38); } }); }
+function catraca(x, y, s, livre, rot) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = "#64748b"; rr(-40, -160, 80, 220, 10); g.fill(); g.fillStyle = livre ? "#22c55e" : "#ef4444"; g.shadowColor = g.fillStyle; g.shadowBlur = 20; g.beginPath(); g.arc(0, -130, 16, 0, 7); g.fill(); g.shadowBlur = 0;
+  g.fillStyle = "#1e293b"; rr(-30, -100, 60, 36, 6); g.fill(); emo("💳", 0, -74, 22); g.save(); g.translate(0, -20); g.rotate(rot || 0); g.strokeStyle = "#cbd5e1"; g.lineWidth = 12; g.lineCap = "round"; for (let i = 0; i < 3; i++) { const a = i * 2.094; g.beginPath(); g.moveTo(0, 0); g.lineTo(Math.cos(a) * 110, Math.sin(a) * 30); g.stroke(); } g.fillStyle = "#94a3b8"; g.beginPath(); g.arc(0, 0, 18, 0, 7); g.fill(); g.restore(); g.restore(); }
 const F0 = "Autômatos: as máquinas de estados!",
   F1 = "Na volta da escola, a Júlia empurrou a catraca do ônibus e ela não girou. Passou o cartão, a luz ficou verde, e aí sim ela passou. Depois, a catraca travou de novo. Como a catraca sabe o que fazer?",
   F2 = "A catraca está sempre num estado: travada ou liberada. E muda de um para o outro conforme o que acontece: alguém passa o cartão, ou alguém empurra. Uma máquina assim é um autômato, também chamado de máquina de estados.",
@@ -233,48 +290,48 @@ const F0 = "Autômatos: as máquinas de estados!",
   F7 = "A Júlia desenhou o autômato da catraca e agora sabe explicar por que ela travou. Missão cumprida!",
   F8 = "Onde eu uso isso? Na catraca do ônibus e da escola, no semáforo e no elevador. No videogame, onde o personagem muda de estado com os botões. E na máquina de refrigerante, que espera o dinheiro, libera a escolha e entrega a lata.",
   F9 = "Agora é com vocês: abram a Missão 5 no portal!";
-function estado(x, y, txt, cor, ativo, k) { if (k <= 0) return; const z = back(cl(k)); g.save(); g.translate(x, y); g.scale(z, z); if (ativo) { g.shadowColor = "#facc15"; g.shadowBlur = 30; } g.fillStyle = cor; g.beginPath(); g.arc(0, 0, 90, 0, 7); g.fill(); g.shadowBlur = 0;
-  g.strokeStyle = ativo ? "#facc15" : "#fff"; g.lineWidth = ativo ? 8 : 4; g.stroke(); g.restore(); emo(txt[0], x, y - 5, 50 * z); g.fillStyle = "#fff"; g.font = `800 22px ${F}`; g.textAlign = "center"; g.fillText(txt[1], x, y + 45); }
-function automato(t, at, k, lb) { k = k == null ? 1 : k; estado(400, 320, ["🔒", "Travada"], "#dc2626", at === 0, k); estado(880, 320, ["🔓", "Liberada"], "#16a34a", at === 1, k);
-  if (lb !== false) { setaCurva(470, 250, 810, 250, "#fde68a"); rotulo("💳 cartão", 640, 190, "#fde68a", k); setaCurva(810, 390, 470, 390, "#fde68a"); rotulo("🚶 empurrar (gira)", 640, 470, "#fde68a", k);
-    rotulo("🚶 empurrar: continua", 400, 180, "#fecaca", k); rotulo("💳 cartão: continua", 880, 180, "#bbf7d0", k); } }
+const TT = [["travada", "💳 cartão", "liberada"], ["travada", "✋ empurrar", "travada"], ["liberada", "✋ empurrar", "travada"], ["liberada", "💳 cartão", "liberada"]];
 
 const CENAS = [
- { chip: "", fala: F0, sfx: [[.05, "whoosh"], [.6, "pop"], [1.1, "ding"]],
-   draw(t, D) { fundoEscuro(t, "#3b1c6e"); g.save(); g.translate(470, 40); g.scale(.55, .55); automato(t, Math.floor(t * 1.2) % 2, seg(t, .2, .7), false); g.restore();
-     abertura(t, "9º ANO · MISSÃO 5", "Autômatos", "AS MÁQUINAS", "DE ESTADOS!", 1.6); } },
- { chip: "O PROBLEMA", fala: F1, sfx: [[.1, "whoosh"], [em(F1, "girou"), "alerta"], [em(F1, "cartão"), "click"], [em(F1, "verde"), "ding"], [em(F1, "travou"), "pop"], [em(F1, "sabe"), "misterio"]],
-   draw(t, D) { fundoEscuro(t, "#1e3a8a"); const gi = em(F1, "girou"), c = em(F1, "cartão"), v = em(F1, "verde"), tr = em(F1, "travou"), s = em(F1, "sabe");
-     const lib = t > v && t < tr; g.fillStyle = "#94a3b8"; rr(560, 220, 40, 260, 10); g.fill(); g.save(); g.translate(600, 300); g.rotate(lib ? (t - v) * 1.5 : 0); g.fillStyle = "#cbd5e1"; rr(0, -10, 200, 20, 10); g.fill(); g.restore();
-     g.fillStyle = lib ? "#22c55e" : "#ef4444"; g.beginPath(); g.arc(580, 200, 18, 0, 7); g.fill(); if (t > gi && t < c) xVermelho(700, 260, 24, 1); if (t > c && t < v + .5) emo("💳", 520, 260, 40);
-     if (t > s) palavra("COMO A CATRACA SABE?", 640, 540, seg(t, s, s + .4), 40);
-     julia({ x: 330, y: 600, s: .8, braco: -1.2, bracoE: .3, olhar: 1, boca: t > gi && t < c ? "o" : "", pisca: pisca(t) }); } },
- { chip: "ESTADOS", fala: F2, sfx: [[.1, "whoosh"], [em(F2, "travada"), "pop"], [em(F2, "liberada"), "pop"], [em(F2, "autômato"), "ding"]],
-   draw(t, D) { fundoEscuro(t, "#14532d"); const tv = em(F2, "travada"), lb = em(F2, "liberada"), au = em(F2, "autômato");
-     estado(400, 300, ["🔒", "Travada"], "#dc2626", false, seg(t, tv, tv + .4)); estado(880, 300, ["🔓", "Liberada"], "#16a34a", false, seg(t, lb, lb + .4));
-     if (t > au) { comando("⚙️ AUTÔMATO = MÁQUINA DE ESTADOS", 640, 100, seg(t, au, au + .4), "#16a34a", 520); rotulo("sempre num estado; muda conforme as entradas", 640, 480, "#bbf7d0", seg(t, au + .4, au + .8)); } } },
- { chip: "TABELA DE TRANSIÇÃO", fala: F3, sfx: [[.1, "whoosh"], [em(F3, "tabela"), "ding"], [em(F3, "liberada"), "pop"], [em(F3, "continua"), "pop"], [em(F3, "gira"), "pop"], [em(F3, "continua", 1), "pop"]],
-   draw(t, D) { fundoEscuro(t, "#1e3a8a"); const ts = [em(F3, "Travada"), em(F3, "Travada", 1), em(F3, "Liberada", 1), em(F3, "Liberada", 2)];
-     const L = [["🔒 Travada", "💳 cartão", "🔓 Liberada"], ["🔒 Travada", "🚶 empurrar", "🔒 Travada"], ["🔓 Liberada", "🚶 empurrar", "🔒 Travada (gira)"], ["🔓 Liberada", "💳 cartão", "🔓 Liberada"]].filter((_, i) => t > ts[i] - .3);
-     tabela(640, 120, 900, ["ESTADO ATUAL", "ENTRADA", "PRÓXIMO ESTADO"], L, ["#334155", "#ca8a04", "#16a34a"], seg(t, 0, .5), 2, 64); } },
+ { chip: "", fala: F0, sfx: [[.05, "whoosh"], [.6, "pop"], [1.2, "ding"]],
+   draw(t, D) { fundoEscuro(t, "#0f172a"); g.save(); camera(t, [[0, 640, 260, 1.05], [1.8, 640, 330, .95]]); g.translate(0, 60); automato({ k: t, atual: (t % 2) < 1 ? "travada" : "liberada" }); g.restore(); abertura(t, "9º ANO · MISSÃO 5", "Autômatos", "AS MÁQUINAS", "DE ESTADOS!", 1.9); } },
+ { chip: "A CATRACA", fala: F1, sfx: [[.1, "whoosh"], [em(F1, "empurrou"), "alerta"], [em(F1, "cartão"), "pop"], [em(F1, "verde"), "ding"], [em(F1, "passou", 1), "whoosh"], [em(F1, "travou"), "alerta"]],
+   draw(t, D) { const ep = em(F1, "empurrou"), ca = em(F1, "cartão"), ve = em(F1, "verde"), pa = em(F1, "passou", 1), tr = em(F1, "travou"), co = em(F1, "Como"); fundoEscuro(t, "#1e3a8a");
+     const livre = t > ve && t < tr, rot = t > pa ? Math.min(2.094, (t - pa) * 3) : t > ep && t < ca ? Math.sin((t - ep) * 30) * .04 : 0;
+     g.save(); camera(t, [[0, 640, 360, 1], [ca, 600, 340, 1.08], [co, 640, 360, 1]]); g.fillStyle = "#334155"; g.fillRect(-100, 470, 1480, 300); catraca(640, 470, 1.4, livre, rot);
+     julia({ x: t > pa ? 640 + Math.min(1, (t - pa) * .8) * 340 : 400, y: 565, s: .85, olhar: 1, braco: t > ep && t < ca ? -.6 : t > ca && t < ve ? -1.2 : .3, bracoE: .3, boca: t > ep && t < ve ? "o" : "riso", pisca: pisca(t) }); g.restore();
+     if (t > ep && t < ca) balao("Ué, não gira!", 320, 170, seg(t, ep, ep + .4)); if (t > tr && t < co) placaShow("travou de novo 🔒", 900, 180, seg(t, tr, tr + .4), "#fecaca"); if (t > co) palavra("COMO ELA SABE? 🤔", 560, 120, seg(t, co, co + .4), 46); } },
+ { chip: "ESTADOS", fala: F2, sfx: [[.1, "whoosh"], [em(F2, "travada"), "pop"], [em(F2, "liberada"), "pop"], [em(F2, "cartão"), "pop"], [em(F2, "autômato"), "ding"]],
+   draw(t, D) { const es = em(F2, "estado"), tr = em(F2, "travada"), li = em(F2, "liberada"), mu = em(F2, "muda"), au = em(F2, "autômato"), me = em(F2, "máquina", 1); fundoEscuro(t, "#0f172a");
+     g.save(); camera(t, [[0, 640, 340, 1], [mu, 640, 320, 1.03], [au, 640, 340, 1]]); g.translate(0, 40); automato({ k: t > mu ? 1 + (t - mu) : seg(t, tr, li + .3) * .35, atual: t > li && t < mu ? "liberada" : t > tr && t < mu ? "travada" : "" }); g.restore();
+     palavra(t > au ? "AUTÔMATO 🤖" : "ESTADO", 560, 80, t > au ? seg(t, au, au + .4) : seg(t, es, es + .4), 54); if (t > me) rotulo("= máquina de estados", 560, 140, "#bbf7d0", seg(t, me, me + .4)); } },
+ { chip: "TABELA DE TRANSIÇÃO", fala: F3, sfx: [[.1, "whoosh"], [em(F3, "tabela"), "ding"], [em(F3, "Travada"), "pop"], [em(F3, "Travada", 1), "pop"], [em(F3, "Liberada"), "pop"], [em(F3, "Liberada", 1), "pop"]],
+   draw(t, D) { const ta = em(F3, "tabela"), ts = [em(F3, "Travada"), em(F3, "Travada", 1), em(F3, "Liberada"), em(F3, "Liberada", 1)]; fundoEscuro(t, "#312e81"); const at = ts.filter(x => t > x).length - 1;
+     palavra("TABELA DE TRANSIÇÃO", 560, 80, seg(t, ta, ta + .4), 46);
+     g.save(); camera(t, [[0, 640, 330, 1], [ts[1], 620, 320, 1.03], [ts[3] + 1.5, 640, 330, 1]]); tabela(560, 160, 780, ["estado", "entrada", "próximo estado"], TT.slice(0, at + 1), ["#0891b2", "#ca8a04", "#16a34a"], seg(t, ta, ta + .4), at, 64); g.restore();
+     julia({ x: 1160, y: 570, s: .55, olhar: -1, braco: -1.2, bracoE: .3, boca: "riso", pisca: pisca(t) }); } },
  { chip: "TRANSIÇÃO E ESTADO INICIAL", fala: F4, sfx: [[.1, "whoosh"], [em(F4, "transição"), "ding"], [em(F4, "inicial"), "ding"]],
-   draw(t, D) { fundoEscuro(t, "#3b1c6e"); const tr = em(F4, "transição"), i = em(F4, "inicial"); automato(t, t > i ? 0 : -1, 1);
-     if (t > tr && t < i) rotulo("➡️ CADA SETA = UMA TRANSIÇÃO", 640, 560, "#fde68a", 1); if (t > i) { comando("▶️ INICIAL", 190, 320, seg(t, i, i + .4), "#7c3aed", 170); } } },
- { chip: "SEGUINDO AS ENTRADAS", fala: F5, sfx: [[.1, "whoosh"], [em(F5, "Começa"), "pop"], [em(F5, "Empurrar"), "pop"], [em(F5, "Cartão"), "ding"], [em(F5, "Empurrar", 1), "pop"]],
-   draw(t, D) { fundoEscuro(t, "#14532d"); const c = em(F5, "Começa"), e1 = em(F5, "Empurrar"), ca = em(F5, "Cartão"), e2 = em(F5, "Empurrar", 1);
-     const at = t > e2 + .4 ? 0 : t > ca + .4 ? 1 : 0; automato(t, t > c ? at : -1, 1);
-     ["🚶 empurrar", "💳 cartão", "🚶 empurrar"].forEach((s, i) => { const t0 = [e1, ca, e2][i]; caixa(440 + i * 200, 580 - 40, s, t > t0 ? "#fde68a" : "#fff", 1, 180); }); } },
- { chip: "AUTÔMATOS POR TODO LADO", fala: F6, sfx: [[.1, "whoosh"], [em(F6, "semáforo"), "pop"], [em(F6, "refrigerante"), "pop"], [em(F6, "elevador"), "pop"], [em(F6, "porta"), "pop"], [em(F6, "videogame"), "pop"]],
-   draw(t, D) { fundoEscuro(t, "#0e7490"); [["semáforo", "🚦", "Semáforo"], ["refrigerante", "🥤", "Máquina de refri"], ["elevador", "🛗", "Elevador"], ["porta", "🚪", "Porta automática"], ["videogame", "🎮", "Videogame"]].forEach(([w, e, n], i) => {
-       const t0 = em(F6, w); if (t <= t0) return; const x = 200 + i * 220; g.globalAlpha = cl(seg(t, t0, t0 + .4)); g.fillStyle = "#fff"; rr(x - 95, 200, 190, 200, 18); g.fill(); g.globalAlpha = 1; emo(e, x, 310, 70); g.fillStyle = NAVY; g.font = `800 19px ${F}`; g.textAlign = "center"; g.fillText(n, x, 375); });
-     palavra("ONDE TEM AUTÔMATO?", 640, 110, seg(t, 0, .4), 44); } },
- { chip: "A SOLUÇÃO", fala: F7, sfx: [[.1, "whoosh"], [em(F7, "autômato"), "ding"], [em(F7, "travou"), "pop"], [em(F7, "Missão"), "festa"]],
-   draw(t, D) { fundoEscuro(t, "#14532d"); const m = em(F7, "Missão"); g.save(); g.translate(120, 0); g.scale(.85, .85); automato(t, Math.floor(t) % 2, 1); g.restore();
-     julia({ x: 140, y: 620, s: .8, braco: -2.4, bracoE: 2.4, olhar: 1, boca: "riso", pisca: pisca(t) }); if (t > m) cumprida(t, m); } },
+   draw(t, D) { const tr = em(F4, "transição"), ini = em(F4, "inicial"); fundoEscuro(t, "#0f172a"); const hl = t > tr && t < ini ? ["tc", "le", "te", "lc"][Math.floor((t - tr) * 2) % 4] : "";
+     g.save(); camera(t, [[0, 640, 330, 1], [ini, 520, 360, 1.05]]); automato({ hl, ini: seg(t, ini, ini + .4), atual: t > ini ? "travada" : "" }); g.restore();
+     if (t > tr && t < ini) etiqueta("cada seta = uma transição", 1040, 520, 900, 440, seg(t, tr, tr + .4)); if (t > ini) palavra("ESTADO INICIAL: travada", 560, 80, seg(t, ini, ini + .4), 44); } },
+ { chip: "SEGUINDO AS ENTRADAS", fala: F5, sfx: [[.1, "whoosh"], [em(F5, "Começa"), "pop"], [em(F5, "Empurrar"), "alerta"], [em(F5, "Cartão"), "ding"], [em(F5, "Empurrar", 1), "whoosh"]],
+   draw(t, D) { const ent = em(F5, "empurrar"), co = em(F5, "Começa"), e1 = em(F5, "Empurrar"), c1 = em(F5, "Cartão"), e2 = em(F5, "Empurrar", 1); fundoEscuro(t, "#14532d");
+     const atual = t > e2 + .6 ? "travada" : t > c1 ? "liberada" : "travada", hl = t > e2 ? "le" : t > c1 ? "tc" : t > e1 ? "te" : "";
+     g.save(); g.translate(0, 50); g.scale(.95, .95); automato({ atual, hl, ini: t > co && t < e1 ? 1 : 0 }); g.restore();
+     ["✋ empurrar", "💳 cartão", "✋ empurrar"].forEach((s, i) => { const t0 = [e1, c1, e2][i]; etq(s, 300 + i * 220, 100, t > t0 ? "#fde68a" : "#e2e8f0", seg(t, ent + i * .25, ent + .3 + i * .25)); if (t > t0) visto(385 + i * 220, 100, 16, 1); }); } },
+ { chip: "EM TODO LUGAR", fala: F6, sfx: [[.1, "whoosh"], [em(F6, "semáforo"), "pop"], [em(F6, "refrigerante"), "pop"], [em(F6, "elevador"), "pop"], [em(F6, "porta"), "pop"], [em(F6, "videogame"), "pop"]],
+   draw(t, D) { const se = em(F6, "semáforo"), re = em(F6, "refrigerante"), el = em(F6, "elevador"), po = em(F6, "porta"), vg = em(F6, "videogame"); fundoEscuro(t, "#0f172a");
+     if (t < re) { const k = seg(t, se, se + .4); g.fillStyle = "#1e293b"; rr(560, 120, 160, 400, 30); g.fill(); const c = Math.floor((t - se) * 1.2) % 3; ["#22c55e", "#facc15", "#ef4444"].forEach((cor, i) => { g.globalAlpha = k * (c === i ? 1 : .2); g.fillStyle = cor; g.beginPath(); g.arc(640, 190 + i * 125, 50, 0, 7); g.fill(); g.globalAlpha = 1; });
+       ["verde", "amarelo", "vermelho"].forEach((s, i) => etq(s, 860, 190 + i * 125, c === i ? "#fde68a" : "#fff", k)); seta(930, 210, 980, 250, 930, 295, "#fde047", 4, k); seta(930, 335, 980, 375, 930, 420, "#fde047", 4, k); palavra("SEMÁFORO 🚦", 300, 120, k, 44); return; }
+     [[re, "🥤", "refrigerante"], [el, "🛗", "elevador"], [po, "🚪", "porta automática"], [vg, "🎮", "videogame"]].forEach(([t0, e, n], i) => { const k = seg(t, t0, t0 + .4); if (k <= 0) return; const z = back(cl(k)), x = 200 + i * 290; g.save(); g.translate(x, 300); g.scale(z, z); g.fillStyle = "#fff"; rr(-125, -130, 250, 260, 22); g.fill(); g.restore(); emo(e, x, 290, 80 * z); if (k > .8) { g.fillStyle = NAVY; g.font = `800 21px ${F}`; g.textAlign = "center"; g.fillText(n, x, 380); } });
+     if (t > vg) rotulo("parado → correndo → pulando", 1070, 470, "#fde68a", seg(t, vg + .5, vg + .9)); palavra("EM TODO LUGAR!", 560, 90, seg(t, re, re + .4), 48); } },
+ { chip: "MISSÃO CUMPRIDA", fala: F7, sfx: [[.1, "whoosh"], [em(F7, "desenhou"), "pop"], [em(F7, "Missão"), "festa"]],
+   draw(t, D) { const de = em(F7, "desenhou"), mc = em(F7, "Missão"); fundoEscuro(t, "#1e3a8a"); g.save(); camera(t, [[0, 600, 360, 1], [mc, 640, 330, .9]]); g.translate(-80, 60); g.scale(.85, .85); automato({ k: t - de + .2, ini: seg(t, de + 1, de + 1.4), atual: "travada" }); g.restore();
+     julia({ x: 1150, y: 565, s: .8, olhar: -1, braco: t > mc ? -2.6 : -1.2, bracoE: t > mc ? 2.6 : .3, boca: "riso", pisca: pisca(t) }); if (t > mc) cumprida(t, mc); } },
  { chip: "ONDE EU USO ISSO?", fala: F8, sfx: [[.1, "whoosh"], [em(F8, "catraca"), "pop"], [em(F8, "videogame"), "pop"], [em(F8, "refrigerante"), "pop"]],
-   draw(t, D) { ondeUso(t, F8, [["catraca", "🚌", "Catraca e semáforo:", "estados e entradas"], ["videogame", "🎮", "Videogame:", "parado, correndo, pulando"], ["refrigerante", "🥤", "Máquina de refri:", "espera, libera, entrega"]]); } },
+   draw(t, D) { ondeUso(t, F8, [["catraca", "🚦", "Catraca e semáforo:", "travada ↔ liberada"], ["videogame", "🎮", "Videogame:", "estados com os botões"], ["refrigerante", "🥤", "Máquina de refrigerante:", "espera, libera, entrega"]]); } },
  { chip: "", fala: F9, sfx: [[.1, "whoosh"], [1.0, "festa"]],
-   draw(t, D) { fimCartao(t, "9º ano · 1º bimestre de 2027 · Missão 5", [RAFA, JULIA]); } }
+   draw(t, D) { fimCartao(t, "9º ano · 1º bimestre de 2027 · Missão 5", [JULIA, RAFA]); } }
 ];
 
 

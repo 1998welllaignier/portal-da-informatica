@@ -43,7 +43,8 @@ Voz: o código é o começo do id do MP3 no HeyGen (arquivo `voz_link.txt` da pa
 | 9º 1ºb M2 Árvores | 2027-9ano-m2 | v2 ✅ (10 cenas, verificador ok) | – | – | – | falta voz nova |
 | 9º 1ºb M3 Árvores de decisão | 2027-9ano-m3 | v2 ✅ (10 cenas, verificador ok) | – | – | – | falta voz nova |
 | 9º 1ºb M4 Programar com grafos e árvores | 2027-9ano-m4 | v2 ✅ (10 cenas, verificador ok) | – | – | – | falta voz nova |
-| 9º 1ºb M5 a M8 | 2027-9ano-m5…m8 | v1 ❌ (só cenas) | – | – | – | refazer → v2 |
+| 9º 1ºb M5 Autômatos | 2027-9ano-m5 | v2 ✅ (10 cenas, verificador ok) | – | – | – | falta voz nova |
+| 9º 1ºb M6 a M8 | 2027-9ano-m6…m8 | v1 ❌ (só cenas) | – | – | – | refazer → v2 |
 | 6º 2ºb M1 e M2 | 2027-6ano-b2-m1, b2-m2 | v1 ❌ (só cenas) | – | – | – | refazer → v2 |
 | 8º 2ºb Curiosidade: duelo das redes | 2027-8ano-duelo-redes | (14 cenas; conferir) | sim | sim | – | esperando revisão |
 
