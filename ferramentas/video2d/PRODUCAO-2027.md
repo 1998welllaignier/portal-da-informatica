@@ -48,7 +48,7 @@ Voz: o código é o começo do id do MP3 no HeyGen (arquivo `voz_link.txt` da pa
 | 9º 1ºb M7 O semáforo | 2027-9ano-m7 | v2 ✅ (9 cenas, verificador ok) | – | – | – | falta voz nova |
 | 9º 1ºb M8 O mapa da escola em grafo | 2027-9ano-m8 | v2 ✅ (11 cenas, verificador ok) | – | – | – | falta voz nova |
 | 6º 2ºb M1 Algoritmos do dia a dia | 2027-6ano-b2-m1 | v2 ✅ (10 cenas, verificador ok) | – | – | – | falta voz nova |
-| 6º 2ºb M2 Sequência | 2027-6ano-b2-m2 | v1 ❌ (só cenas) | – | – | – | refazer → v2 |
+| 6º 2ºb M2 Sequência | 2027-6ano-b2-m2 | v2 ✅ (10 cenas, verificador ok) | – | – | – | falta voz nova |
 | 8º 2ºb Curiosidade: duelo das redes | 2027-8ano-duelo-redes | (14 cenas; conferir) | sim | sim | – | esperando revisão |
 
 Regras para não confundir: (1) a pasta é sempre a do vídeo; quando houver versão nova na mesma pasta, a antiga vai para o histórico do git (nunca duas pastas "vivas" para o mesmo vídeo, exceto 6º M1, já marcado); (2) ao refazer um vídeo que está no ar, o id antigo só sai de `js/historia.js` depois que o professor aprovar o novo; (3) esta tabela é atualizada no mesmo commit de cada mudança.

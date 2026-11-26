@@ -2,7 +2,7 @@ Sequência: a ordem importa!
 
 A Tainá estava atrasada para a aula de informática. Calçou o tênis bem rápido e depois a meia. Resultado: a meia ficou por cima do tênis! Todo mundo riu, e ela teve que fazer tudo de novo.
 
-Na sequência, as instruções são feitas uma depois da outra, de cima para baixo, na ordem em que estão escritas. E o computador nunca pula um passo e nunca muda a ordem sozinho.
+Na sequência, as instruções, ou comandos, são feitas uma depois da outra, de cima para baixo, na ordem em que estão escritas. O computador vai executar cada passo, e nunca pula um passo, nem muda a ordem sozinho.
 
 A ordem importa! Calçar a meia e depois o tênis: perfeito. Trocou? A meia fica por cima. Entrar na sala antes de abrir a porta? Você bate na porta fechada. Escovar os dentes antes de colocar o creme dental? Escova sem creme!
 
