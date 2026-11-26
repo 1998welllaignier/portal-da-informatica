@@ -14,7 +14,7 @@ Até chegar no primeiro da fila, que responde: sou o um! Esse é o caso base. A�
 
 No programa, uma contagem regressiva pode ser recursiva. Para contar a partir de n: se n for zero, mostre Fogo! e pare. Esse é o caso base. Senão, mostre n e conte a partir de n menos um. Esse é o passo recursivo.
 
-Contar a partir de três: mostra três e conta a partir de dois. Mostra dois e conta a partir de um. Mostra um e conta a partir de zero. Zero é o caso base: Fogo! No editor, um bloco próprio que chama a si mesmo é recursivo.
+Contar a partir de três: mostra três e conta a partir de dois. Mostra dois e conta a partir de um. Mostra um e conta a partir de zero. Zero é o caso base: Fogo! No editor, um bloco próprio é uma função. E uma função que chama a si mesma é recursiva.
 
 O Léo fechou todas as matrioskas de novo, da menor para a maior, e já sabe explicar a recursão. Missão cumprida!
 
