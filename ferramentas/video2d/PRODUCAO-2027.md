@@ -25,7 +25,7 @@ Voz: o código é o começo do id do MP3 no HeyGen (arquivo `voz_link.txt` da pa
 | 6º 1ºb M8 Atalhos | 2027-6ano-m8 | v2 ✅ (14 cenas, verificador ok) | 04ed897e | enviado, não postado | – | falta voz nova |
 | 7º 1ºb M1 Programar com blocos | 2027-7ano-m1 | **v2 ✅** (14 cenas, "Monte o seu jogo"; v1 no histórico) | precisa de voz NOVA | – | -Y5vRictuKA no ar = **v1** (trocar depois da aprovação) | v2 pronta, esperando voz |
 | 7º 1ºb M2 Listas no programa | 2027-7ano-m2 | **v2 ✅** (14 cenas, "A Barraca da Turma"; v1 no histórico) | precisa de voz NOVA | – | 4Uu1LKUF-YY no ar = **v1** (trocar depois da aprovação) | v2 pronta, esperando voz |
-| 7º 1ºb M3 Registros | 2027-7ano-m3 | v1 ❌ | a9dcb938 | enviado, não postado | – | refazer → v2 |
+| 7º 1ºb M3 Registros | 2027-7ano-m3 | v2 ✅ (12 cenas, verificador ok) | a9dcb938 | enviado, não postado | – | falta voz nova |
 | 7º 1ºb M4 Depurar | 2027-7ano-m4 | v1 ❌ | be32b934 | enviado, não postado | – | refazer → v2 |
 | 7º 1ºb M5 Decompor e reaproveitar | 2027-7ano-m5 | v1 ❌ | c974346d | enviado, não postado | – | refazer → v2 |
 | 7º 1ºb M6 Programar em dupla | 2027-7ano-m6 | v1 ❌ | 467f382b | enviado, não postado | – | refazer → v2 |
