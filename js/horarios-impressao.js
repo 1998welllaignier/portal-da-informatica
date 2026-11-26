@@ -72,11 +72,11 @@
     <p class="prof">${esc(cat.professor || "Professor Welington Laignier")}</p>
     <p class="esc">EMEF Juscelino Kubitschek · Curionópolis – PA · <b>professorwell.com.br</b></p></div></header>
   <h2>🗓️ Horários das aulas na Sala de Informática</h2>
-  <table><thead><tr><th class="hora">Começa às</th>${dias.map(d => `<th>${DIAS[d]}</th>`).join("")}</tr></thead><tbody>${linhas}</tbody></table>
+  <table><thead><tr><th class="hora">Início</th>${dias.map(d => `<th>${DIAS[d]}</th>`).join("")}</tr></thead><tbody>${linhas}</tbody></table>
   ${mono ? "" : `<div class="legenda">${series.map(s => `<span style="--c:${COR[s.id] || "#334155"}"><i></i>${esc(s.nome)}</span>`).join("")}</div>`}
   <div class="caixas">
     <div class="cx"><h3>⏰ Como são as aulas</h3>
-      <p>As aulas são no <b>contraturno</b>, uma vez por semana para cada turma. Na tabela está o horário em que a aula de cada turma <b>começa</b>.</p>
+      <p>As aulas são no <b>contraturno</b>, uma vez por semana para cada turma.</p>
       <p>Chegue no horário: quem entra cedo já começa ganhando pontos na sala de espera.</p>
       ${dias.includes(5) ? "" : `<p>Sexta-feira: sem aulas com alunos (manutenção dos computadores e planejamento).</p>`}
       ${temAG ? `<p>🎒 <b>Agregados</b>: sem horário fixo; fazem as missões pelo portal.</p>` : ""}</div>
