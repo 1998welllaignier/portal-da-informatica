@@ -39,3 +39,8 @@ _(nenhum: todos os áudios combinados chegaram)_
 
 ## ⏳ Prontos, ainda não postados
 - ⚔️ **8º ano · 2º bim. 2027 · Curiosidade (Velocidade da internet): O duelo das redes, 2,4 GHz × 5 GHz** (18/11/2026, narração Murilo, ~3 min): `ferramentas/video2d/2027-8ano-duelo-redes/`. Esperando a revisão do professor; depois sobe como privado/não listado na playlist "8º ano · 2º bimestre 2027" e entra na apostila quando o 2º bimestre de 2027 for produzido (missões F1 "Como a internet funciona" e E2 "Velocidade da internet").
+
+## 📌 Anotado em 25/11/2026 (combinados do professor)
+- **Vinheta de 10 s** (ferramentas/video2d/vinheta) em todos os vídeos de 2027 (regra) e, de 2026, só nos que ainda vão ser dados em aula. Levantamento no Registro das aulas do painel (25/11): de 2026 faltam só **6º ano M4** (6º A e 6º B, 26/11) e **9º ano M3** (9º D, 26/11). Subir de novo com vinheta (privado → revisão → não listado), trocar o link no portal e **deixar o vídeo antigo no canal** como link alternativo. Subir em lotes por dia (o YouTube tem limite diário que não divulga).
+- **🔁 Vídeo da Revisão:** a Revisão também é aula e pode ter vídeo. Como cada turma chega à Revisão com missões diferentes, **decidir e produzir só na semana da Revisão**, quando já se souber quais missões cada turma teve (sugestão: capítulos curtos por missão, que o portal toca conforme as missões dadas da turma).
+
