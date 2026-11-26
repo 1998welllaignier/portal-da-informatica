@@ -1,5 +1,5 @@
 """Finaliza um vídeo v4 quando chega o MP3.
-uso: python3 finalizar.py <pasta> <voz.mp3> <saida.mp4> [--so-alinhar]
+uso: python3 finalizar.py <pasta> <voz.mp3> <saida.mp4> [--so-alinhar] [--sem-vinheta]
 1) acha as pausas da voz; 2) alinha frases↔pausas (programação dinâmica por sílabas); 3) insere 0,9 s de respiro
 em cada troca de parágrafo (sem esticar a voz); 4) grava, gera música/efeitos e mistura."""
 import sys, os, re, json, math, subprocess, shutil
@@ -71,4 +71,16 @@ if not chk.startswith("OK"): sys.exit(2)
 cwd = os.getcwd(); os.chdir(pasta)
 run("python3 gravar.py imagem_voz.mp4 voz/durs.json"); run(f"python3 audio.py eventos.json $(cat duracao.txt) trilha_voz.wav")
 run('ffmpeg -loglevel error -y -i imagem_voz.mp4 -i voz/voz_pausas.wav -i trilha_voz.wav -filter_complex "[1:a]aresample=44100,apad[v];[2:a][v]amix=inputs=2:duration=first:normalize=0[a]" -map 0:v -map "[a]" -c:v copy -c:a aac -b:a 192k -movflags +faststart tmp_final.mp4')
-os.replace("tmp_final.mp4", saida); os.chdir(cwd); print("FEITO", os.path.join(pasta, saida))
+os.replace("tmp_final.mp4", saida); os.chdir(cwd)
+# 🎮 vinheta de entrada de 10 s (padrão desde 25/11/2026): colada ANTES do vídeo; a voz e a legenda do vídeo não mudam
+if "--sem-vinheta" not in sys.argv:
+    h = open(f"{pasta}/video.html", encoding="utf-8").read()
+    tit = re.search(r"<title>(.*?)</title>", h).group(1); selo = re.search(r'SELO_SERIE = "([^"]*)"', h).group(1)
+    partes = [x.strip() for x in tit.split("·")]
+    mis = next((x for x in partes if x.lower().startswith("missão")), "Missão").upper()
+    if any("extra" in x.lower() for x in partes): mis += " · EXTRA"
+    titulo = partes[-1].upper() if len(partes) > 1 else tit.upper()
+    tmpv = saida + ".vinheta.mp4"; sem = saida + ".sem-vinheta.mp4"; os.replace(saida, sem)
+    subprocess.run([sys.executable, os.path.join(os.path.dirname(os.path.abspath(__file__)), "vinheta", "gerar_vinheta.py"), mis, titulo, selo.upper(), tmpv, sem, saida], check=True)
+    os.remove(tmpv); print("com vinheta:", mis, "|", titulo, "| (sem vinheta guardado em", sem + ")")
+print("FEITO", saida)

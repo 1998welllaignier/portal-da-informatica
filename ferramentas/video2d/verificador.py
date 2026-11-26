@@ -156,6 +156,10 @@ async def verificar(pg, pasta, dic, extra_ok):
         falta = [k for k in chaves if not all(p in txt for p in re.findall(r"\w+", k.lower()) if len(p) > 3)]
         if chaves and len(falta) / len(chaves) > .4: rel.append(("ERRO", f"conteúdo incompleto: faltam conceitos da apostila: {', '.join(falta)}"))
         elif falta: rel.append(("AVISO", f"conceitos da apostila não citados: {', '.join(falta)}"))
+    # 🎮 vinheta de entrada (10 s): a ferramenta existe e o título da aba tem "Missão N" e um título para ela digitar
+    if not os.path.exists(f"{AQUI}/vinheta/gerar_vinheta.py"): rel.append(("ERRO", "ferramenta da vinheta de entrada não encontrada"))
+    tit_ = await pg.title()
+    if not re.search(r"Missão \d", tit_) or len([x for x in tit_.split("·") if x.strip()]) < 2: rel.append(("ERRO", f"título da aba sem “Missão N · título” (a vinheta precisa dele): “{tit_}”"))
     # ---------- visual, quadro a quadro ----------
     vistos = set(); parado = []; borda = {}; com_pers = set(); usa = {}
     for i in range(n):
