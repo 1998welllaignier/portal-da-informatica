@@ -2,7 +2,7 @@ O método da bolha: ordenar trocando vizinhos!
 
 Na missão passada, a Bia aprendeu que a busca binária é muito rápida. Mas só funciona com a lista ordenada! E a lista de notas da turma estava toda bagunçada. Como o computador coloca uma lista em ordem?
 
-Um dos jeitos mais simples é o método da bolha. Em inglês, bubble sort. A ideia é comparar vizinhos: dois números que estão lado a lado.
+Um dos jeitos mais simples é o método da bolha, que coloca a lista em ordem crescente ou decrescente. Em inglês, bubble sort. A ideia é comparar vizinhos: dois números que estão lado a lado.
 
 Os passos são estes. Compare os dois primeiros vizinhos. O da esquerda é maior? Troque os dois de lugar. Não é? Mantenha. Ande uma casa e compare o próximo par. Quando chegar ao fim, terminou uma passada, e o maior número já está no final. Faça outra passada, até uma passada inteira sem nenhuma troca.
 
