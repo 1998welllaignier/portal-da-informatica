@@ -76,10 +76,18 @@ function caixinha(x, y, nome, valor, k, brilho) { if (k <= 0) return; const z = 
   g.fillStyle = "#fff"; g.font = `800 20px ${F}`; g.textAlign = "center"; g.fillText("📦 " + nome, 0, -34); g.fillStyle = "#fef3c7"; rr(-60, -14, 120, 60, 12); g.fill(); g.fillStyle = NAVY; g.font = `900 40px ${F}`; g.fillText(String(valor), 0, 31); g.restore(); }
 function leitor(x, y, k) { if (k <= 0) return; g.save(); g.globalAlpha = cl(k); g.fillStyle = "#facc15"; g.beginPath(); g.moveTo(x, y); g.lineTo(x - 26, y - 16); g.lineTo(x - 26, y + 16); g.fill(); g.restore(); }
 
+function fundoSala(t) {
+  g.fillStyle = "#f6e7c8"; g.fillRect(0, 0, W, H);
+  g.fillStyle = "#e9d3a6"; g.fillRect(0, 500, W, 220);
+  g.fillStyle = "#2f5d4a"; rr(120, 70, 520, 250, 14); g.fill(); g.strokeStyle = "#b07a3c"; g.lineWidth = 12; g.stroke();
+  g.fillStyle = "rgba(255,255,255,.75)"; g.font = `700 30px ${F}`; g.textAlign = "left"; g.fillText("Informática", 160, 285);
+  g.fillStyle = "#fff"; g.beginPath(); g.arc(1090, 120, 46, 0, 7); g.fill(); g.strokeStyle = NAVY; g.lineWidth = 6; g.stroke();
+  g.beginPath(); g.moveTo(1090, 120); g.lineTo(1090, 92); g.moveTo(1090, 120); g.lineTo(1112, 128); g.stroke();
+}
 const F0 = "Programar com blocos: monte o seu jogo!",
   F1 = "O Caio teve uma ideia: criar um joguinho para a turma, o Pulo do Caio! Ele sentou no computador e mandou: faz um jogo aí! E… nada aconteceu. A Duda riu: o computador não entende o nosso jeito de falar. Você tem que falar a língua dele!",
   F2 = "No sexto ano, você aprendeu que algoritmo é uma lista de passos em ordem. Um programa é um algoritmo escrito numa linguagem que o computador entende. E a nossa linguagem são blocos que se encaixam, como peças de montar!",
-  F3 = "O computador lê os blocos de cima para baixo, um de cada vez, e faz exatamente o que eles mandam. Nem mais, nem menos.",
+  F3 = "O computador lê os blocos de cima para baixo, um de cada vez, e faz exatamente o que eles mandam. Nem mais, nem menos. Isso se chama executar o programa.",
   F4 = "Primeiro bloco: mostrar na tela. Ele escreve uma mensagem na tela do programa. Mostrar na tela, Olá! E aparece: Olá!",
   F5 = "Agora, o personagem precisa pular. O Caio podia colocar três blocos pular, um embaixo do outro. Mas tem o bloco repita! Repita três vezes, pular. E ele faz os blocos de dentro várias vezes: pulo, pulo, pulo!",
   F6 = "E o bloco se, faça, senão escolhe um caminho conforme uma condição. Se o personagem pegou a moeda, mostrar mais dez pontos. Senão, mostrar tente de novo. É como na escola: se a nota for cinco ou mais, passou; senão, recuperação.",
@@ -99,7 +107,7 @@ const pulo = (t, t0, n, dt) => { if (t < t0) return 0; const i = Math.floor((t -
 const CENAS = [
  { chip: "", fala: F0, sfx: [[.05, "whoosh"], [.5, "click"], [.9, "pop"], [1.3, "pop"], [1.7, "festa"]],
    draw(t, D) { g.save(); camera(t, [[0, 820, 280, 2.2], [1.4, 640, 360, 1]]); fundoEscuro(t, "#3b1c6e"); telaJogo(560, 110, 520, 300, t, { pulo: pulo(t, .4, 4, .45), moeda: 380, px: 120 + cl(t / 2) * 180 });
-     ["🟨", "🟦", "🟪"].forEach((e, i) => { const k = seg(t, .3 + i * .2, .6 + i * .2); if (k > 0) bloco(180, 220 + i * 66 - (1 - cl(k)) * 80, 240, ["▶️ mostrar", "🔁 repita", "🔀 se"][i], ["#7c3aed", "#f59e0b", "#2563eb"][i], 1); }); g.restore();
+     ["🟨", "🟦", "🟪"].forEach((e, i) => { const k = seg(t, .3 + i * .2, .6 + i * .2); if (k > 0) bloco(180 - (1 - cl(k)) * 200, 220 + i * 66, 240, ["▶️ mostrar", "🔁 repita", "🔀 se"][i], ["#7c3aed", "#f59e0b", "#2563eb"][i], 1); }); g.restore();
      abertura(t, "7º ANO · MISSÃO 1", "Programar com blocos", "MONTE O", "SEU JOGO!", 1.8); } },
  { chip: "O PLANO DO CAIO", fala: F1, sfx: [[.1, "whoosh"], [em(F1, "ideia"), "ding"], [em(F1, "faz"), "pop"], [em(F1, "nada"), "misterio"], [em(F1, "riu"), "pop"], [em(F1, "língua"), "ding"]],
    draw(t, D) { const id = em(F1, "ideia"), fz = em(F1, "faz"), na = em(F1, "nada"), ri = em(F1, "riu"), li = em(F1, "língua");
@@ -110,7 +118,7 @@ const CENAS = [
    draw(t, D) { fundoEscuro(t, "#14532d"); const al = em(F2, "algoritmo"), pr = em(F2, "programa"), bl = em(F2, "linguagem", 1), mo = em(F2, "montar");
      g.save(); camera(t, [[0, 640, 360, 1], [bl, 520, 330, 1.2], [mo, 640, 360, 1]]);
      if (t > al && t < bl) ["1. ________", "2. ________", "3. ________"].forEach((s, i) => caixa(640, 200 + i * 70, s, "#fff", 1, 300));
-     if (t > bl) [["▶️ mostrar na tela Olá!", "#7c3aed"], ["🔁 repita 3 vezes", "#f59e0b"], ["🔀 se … senão", "#2563eb"]].forEach(([s, c], i) => { const k = cl((t - bl - i * .4) / .6); if (k > 0) bloco(330, 150 + i * 70 - (1 - io2(k)) * 260, 380, s, c, 1, k >= 1 && k < 1.3); }); g.restore();
+     if (t > bl) [["▶️ mostrar na tela Olá!", "#7c3aed"], ["🔁 repita 3 vezes", "#f59e0b"], ["🔀 se … senão", "#2563eb"]].forEach(([s, c], i) => { const k = cl((t - bl - i * .4) / .6); if (k > 0) bloco(330 - (1 - io2(k)) * 560, 160 + i * 70, 380, s, c, 1, k >= 1 && k < 1.3); }); g.restore();
      if (t > pr) palavra("PROGRAMA = ALGORITMO NA LÍNGUA DO COMPUTADOR", 640, 110, seg(t, pr, pr + .4), 34); if (t > mo) placa("🧩 encaixam como peças de montar", 940, 300, seg(t, mo, mo + .4), "#16a34a", 22); } },
  { chip: "DE CIMA PARA BAIXO", fala: F3, sfx: [[.1, "whoosh"], [em(F3, "cima"), "pop"], [em(F3, "um"), "click"], [em(F3, "exatamente"), "ding"]],
    draw(t, D) { fundoEscuro(t, "#1e3a8a"); const ci = em(F3, "cima"), ex = em(F3, "exatamente"); const k = t > ci ? Math.min(3, Math.floor((t - ci) / .9)) : -1;
@@ -130,18 +138,18 @@ const CENAS = [
      palavra("REPITA", 640, 100, seg(t, rp, rp + .4), 60); if (t > tr && t < rp) rotulo("3 blocos iguais… dá para encurtar!", 310, 400, "#fecaca", 1); } },
  { chip: "🔀 SE… SENÃO", fala: F6, legenda: L[6], sfx: [[.1, "whoosh"], [em(F6, "condição"), "ding"], [em(F6, "moeda"), "ding"], [em(F6, "Senão"), "alerta"], [em(F6, "escola"), "pop"]],
    draw(t, D) { fundoEscuro(t, "#1e3a8a"); const co = em(F6, "condição"), mo = em(F6, "moeda"), sn = em(F6, "Senão"), es = em(F6, "escola");
-     g.save(); camera(t, [[0, 640, 360, 1], [mo, 800, 330, 1.15], [es, 640, 360, 1]]);
+     g.save(); camera(t, [[0, 640, 360, 1], [mo, 640, 330, 1.05], [es, 640, 360, 1]]);
      bocaC(80, 140, 520, 250, "🔀 se pegou a moeda, faça", "#2563eb", seg(t, co, co + .4), t > mo && t < sn); bloco(120, 202, 320, "▶️ mostrar “+10 pontos”", "#7c3aed", seg(t, mo, mo + .4)); rotulo("senão", 120, 300, "#bfdbfe", seg(t, sn, sn + .3)); bloco(120, 312, 320, "▶️ mostrar “tente de novo”", "#7c3aed", seg(t, sn, sn + .4), t > sn && t < es);
      const pegou = t > mo && t < sn; telaJogo(660, 140, 480, 290, t, { moeda: pegou ? null : 300, px: pegou ? 300 : 120 + cl((t - co) / 2) * 120, msg: pegou ? ["+10 pontos ⭐"] : t > sn && t < es ? ["tente de novo"] : null }); g.restore();
      if (t > es) placa("🏫 se nota ≥ 5 → passou · senão → recuperação", 640, 520 - 30, seg(t, es, es + .4), "#16a34a", 22); } },
- { chip: "AS 3 IDEIAS", fala: F7, sfx: [[.1, "whoosh"], [em(F7, "Sequência"), "pop"], [em(F7, "Repetição"), "pop"], [em(F7, "Seleção"), "pop"]],
+ { chip: "AS 3 IDEIAS", fala: F7, legenda: F7.replace("três ideias", "3 ideias").replace("dez polichinelos", "10 polichinelos"), sfx: [[.1, "whoosh"], [em(F7, "Sequência"), "pop"], [em(F7, "Repetição"), "pop"], [em(F7, "Seleção"), "pop"]],
    draw(t, D) { fundoEscuro(t, "#14532d"); const sq = em(F7, "Sequência"), rp = em(F7, "Repetição"), se = em(F7, "Seleção");
      [["➡️ SEQUÊNCIA", sq, "#2563eb", ["⏰", "🪥", "☕"]], ["🔁 REPETIÇÃO", rp, "#f59e0b", ["🤸 × 10"]], ["🔀 SELEÇÃO", se, "#7c3aed", ["🌧️ → ☂️", "☀️ → 🧢"]]].forEach(([n, t0, c, ic], i) => { const k = seg(t, t0, t0 + .5); if (k <= 0) return; const x = 230 + i * 410, on = t > t0 && (i === 2 || t < [rp, se][i]);
        g.save(); g.translate(x, 330); g.scale(back(cl(k)) * (on ? 1.08 : 1), back(cl(k)) * (on ? 1.08 : 1)); g.fillStyle = on ? c : "rgba(255,255,255,.12)"; rr(-180, -150, 360, 300, 24); g.fill(); g.restore();
        placa(n, x, 220, k, c, 24); ic.forEach((e, j) => { const yy = 330 + (j - (ic.length - 1) / 2) * 60; if (i === 1) emo("🤸", x + Math.sin(t * 8) * 10, 330 - Math.abs(Math.sin(t * 8)) * 20, 60), rotulo("× 10", x + 70, 340, "#fff", 1); else emo(e, x, yy + 18, 44); }); }); } },
- { chip: "⚠️ A ORDEM IMPORTA", fala: F8, sfx: [[.1, "whoosh"], [em(F8, "dentro"), "pop"], [em(F8, "fim"), "alerta"], [em(F8, "tirou"), "click"], [em(F8, "final"), "ding"], [em(F8, "resultado"), "ding"]],
+ { chip: "⚠️ A ORDEM IMPORTA", fala: F8, legenda: F8.replace("três vezes", "3 vezes"), sfx: [[.1, "whoosh"], [em(F8, "dentro"), "pop"], [em(F8, "fim"), "alerta"], [em(F8, "tirou"), "click"], [em(F8, "final"), "ding"], [em(F8, "resultado"), "ding"]],
    draw(t, D) { fundoEscuro(t, "#7f1d1d"); const de = em(F8, "dentro"), f1 = em(F8, "fim", 1), ti = em(F8, "tirou"), fi = em(F8, "final"); const fora = t > ti + .4;
-     g.save(); camera(t, [[0, 640, 360, 1], [f1, 840, 300, 1.15], [ti, 360, 300, 1.15], [fi, 640, 360, 1]]);
+     g.save(); camera(t, [[0, 640, 360, 1], [f1, 700, 320, 1.05], [ti, 600, 320, 1.05], [fi, 640, 360, 1]]);
      bocaC(120, 150, 400, fora ? 150 : 200, "🔁 repita 3 vezes", "#f59e0b", 1); bloco(160, 212, 240, "🦘 pular", "#ea580c", 1); bloco(fora ? 120 : 160, fora ? 320 : 272, 240, "▶️ mostrar “fim”", "#7c3aed", 1, t > de && t < fi);
      telaJogo(640, 150, 480, 300, t, { msg: t > f1 && !fora ? ["fim", "fim", "fim"] : fora && t > fi ? ["fim"] : null }); g.restore();
      if (t > f1 && !fora) placa("DENTRO do repita: 3 vezes!", 640, 520 - 20, 1, "#dc2626", 22); if (fora && t > fi) placa("FORA (embaixo): só 1 vez, no final", 640, 520 - 20, 1, "#16a34a", 22); if (t > em(F8, "resultado")) palavra("A POSIÇÃO MUDA O RESULTADO!", 640, 100, seg(t, em(F8, "resultado"), em(F8, "resultado") + .4), 40); } },
@@ -152,17 +160,17 @@ const CENAS = [
      palavra("VARIÁVEL", 640, 110, seg(t, v, v + .4), 70); rotulo("uma caixinha com nome que guarda um valor", 640, 170, "#ddd6fe", seg(t, cx, cx + .4)); } },
  { chip: "ALTERAR … POR", fala: F10, legenda: L[10], sfx: [[.1, "whoosh"], [em(F10, "gaveta"), "click"], [em(F10, "espinho"), "alerta"], [em(F10, "dois"), "pop"], [em(F10, "moeda"), "ding"], [em(F10, "tempo"), "festa"]],
    draw(t, D) { fundoEscuro(t, "#0e7490"); const gv = em(F10, "gaveta"), es = em(F10, "espinho"), dois = em(F10, "dois"), mo = em(F10, "moeda");
-     const vidas = t > dois ? 2 : 3, pts = t > mo + .4 ? 10 : 0; g.save(); camera(t, [[0, 640, 360, 1], [es, 780, 300, 1.2], [mo, 780, 300, 1.2], [mo + 2, 640, 360, 1]]);
+     const vidas = t > dois ? 2 : 3, pts = t > mo + .4 ? 10 : 0; g.save(); camera(t, [[0, 640, 360, 1], [es, 640, 330, 1.1], [mo, 640, 330, 1.1], [mo + 2, 640, 360, 1]]);
      telaJogo(560, 120, 560, 300, t, { espinho: 200, moeda: t < mo + .4 ? 420 : null, px: t < es ? 120 : t < mo ? 210 : 420, pulo: t > es && t < es + .4 ? 40 : 0, hud: [vidas, pts] });
      bloco(100, 150, 400, "📦 alterar vidas por -1", "#ea580c", seg(t, es, es + .4), t > es && t < mo); bloco(100, 250, 400, "📦 alterar pontos por 10", "#ea580c", seg(t, mo, mo + .4), t > mo);
      caixinha(220, 400, "vidas", vidas, 1, t > dois && t < mo); caixinha(440, 400, "pontos", pts, 1, t > mo + .4); g.restore();
      if (t > gv) placa("📦 gaveta Variáveis", 300, 90, seg(t, gv, gv + .4), "#b45309", 20); if (t > es && t < mo) emo("💥", 780, 400, 50); } },
  { chip: "O JOGO FICOU PRONTO!", fala: F11, sfx: [[.1, "festa"], [em(F11, "jogou"), "pop"], [em(F11, "moedas"), "ding"], [em(F11, "turma"), "festa"], [em(F11, "Missão"), "festa"]],
    draw(t, D) { const jo = em(F11, "jogou"), tu = em(F11, "turma"), m = em(F11, "Missão"); g.save(); camera(t, [[0, 640, 300, 1.25], [tu, 640, 360, 1]]); fundoSala(t);
-     monitor(640, 360, 1.35, (x, y, w, h) => telaJogo(x, y, w, h, t, { px: 30 + ((t * 60) % (w - 60)), pulo: Math.abs(Math.sin(t * 3)) * 50, moeda: 150 + ((t * 20) % 60), hud: [3, Math.floor(t * 3) * 10] }));
+     monitor(640, 470, 1.1, (x, y, w, h) => telaJogo(x, y, w, h, t, { px: 30 + ((t * 60) % (w - 60)), pulo: Math.abs(Math.sin(t * 3)) * 50, moeda: 150 + ((t * 20) % 60), hud: [3, Math.floor(t * 3) * 10] }));
      duda({ x: 330, y: 640, s: 1, braco: -1.2, bracoE: .3, olhar: 1, boca: "riso", pisca: pisca(t) }); caio({ x: 960, y: 640, s: 1, braco: -2.4, bracoE: 2.4, olhar: -1, boca: "riso", pisca: pisca(t + .4) });
      if (t > tu) for (let i = 0; i < 5; i++) pessoa(120 + i * 260, 700, 1, ["#0ea5e9", "#a855f7", "#22c55e", "#f59e0b", "#ef4444"][i]); g.restore(); if (t > tu) confete(t, tu); if (t > m) cumprida(t, m); } },
- { chip: "ONDE EU USO ISSO?", fala: F12, sfx: [[.1, "whoosh"], [em(F12, "despertador"), "pop"], [em(F12, "jogos"), "pop"], [em(F12, "máquina"), "pop"]],
+ { chip: "ONDE EU USO ISSO?", fala: F12, legenda: F12.replace("seis horas", "6 horas").replace("começa em três", "começa em 3"), sfx: [[.1, "whoosh"], [em(F12, "despertador"), "pop"], [em(F12, "jogos"), "pop"], [em(F12, "máquina"), "pop"]],
    draw(t, D) { ondeUso(t, F12, [["despertador", "⏰", "Despertador:", "se for 6h, então toca"], ["jogos", "🎮", "Jogos:", "a vida é uma variável"], ["máquina", "🧺", "Máquina de lavar:", "sequência com repetições"]]); } },
  { chip: "", fala: F13, sfx: [[.1, "whoosh"], [1.0, "festa"]],
    draw(t, D) { fimCartao(t, "7º ano · 1º bimestre de 2027 · Missão 1", [CAIO, MENINA7]); } }

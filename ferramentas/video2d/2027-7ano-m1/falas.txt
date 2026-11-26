@@ -4,7 +4,7 @@ O Caio teve uma ideia: criar um joguinho para a turma, o Pulo do Caio! Ele sento
 
 No sexto ano, você aprendeu que algoritmo é uma lista de passos em ordem. Um programa é um algoritmo escrito numa linguagem que o computador entende. E a nossa linguagem são blocos que se encaixam, como peças de montar!
 
-O computador lê os blocos de cima para baixo, um de cada vez, e faz exatamente o que eles mandam. Nem mais, nem menos.
+O computador lê os blocos de cima para baixo, um de cada vez, e faz exatamente o que eles mandam. Nem mais, nem menos. Isso se chama executar o programa.
 
 Primeiro bloco: mostrar na tela. Ele escreve uma mensagem na tela do programa. Mostrar na tela, Olá! E aparece: Olá!
 

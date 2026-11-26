@@ -104,7 +104,7 @@ const telaPC = (t, org) => (x, y, w, h) => areaTrabalho(x, y, w, h, t, org);
 const CENAS = [
  { chip: "", fala: F0, sfx: [[.05, "whoosh"], [.4, "misterio"], [1.2, "pop"], [1.7, "ding"]],
    draw(t, D) { g.save(); camera(t, [[0, 640, 300, 1.4], [1.5, 640, 340, 1]]); cenaInterna(t);
-     BAG.forEach(([n, e], i) => { const a = t * 1.6 + i * .52, r = 120 + (i % 4) * 70 + Math.sin(t + i) * 10; icone(640 + Math.cos(a) * r * 1.5, 300 + Math.sin(a) * r * .7, e, n, 1.1); }); // redemoinho de arquivos
+     BAG.forEach(([n, e], i) => { const a = t * 1.6 + i * .52, r = 120 + (i % 4) * 70 + Math.sin(t + i) * 10; icone(640 + Math.cos(a) * r * 1.5, 300 + Math.sin(a) * r * .7, e, "", 1.1); }); // redemoinho de arquivos
      armario(640, 330, .55, ["Escola", "Fotos", "Músicas"], 0, seg(t, 1, 1.8)); g.restore();
      abertura(t, "6º ANO · MISSÃO 4", "Pastas e arquivos", "O MISTÉRIO DO", "TRABALHO SUMIDO!", 1.9); } },
  { chip: "O PROBLEMA", fala: F1, sfx: [[.1, "whoosh"], [em(F1, "Pedro"), "pop"], [em(F1, "olha"), "whoosh"], [em(F1, "misturado"), "alerta"], [em(F1, "Cadê"), "misterio"]],
@@ -122,7 +122,7 @@ const CENAS = [
      if (t > a1 && t < a2) placa("“sem título 3” = 🐱 gato?!", 640, 120, seg(t, a1, a1 + .3), "#dc2626", 26); if (t > a2 && t < la) placa("“sem título 4” = 🎵 música?!", 640, 120, seg(t, a2, a2 + .3), "#dc2626", 26); } },
  { chip: "VAMOS ENTRAR!", fala: F3, sfx: [[.1, "whoosh"], [em(F3, "perdido"), "pop"], [em(F3, "entrar"), "voa"], [em(F3, "bagunça"), "whoosh"]],
    draw(t, D) { const pe = em(F3, "perdido"), en = em(F3, "bagunça");
-     g.save(); camera(t, [[0, 640, 400, 1], [en, 640, 380, 1.05], [en + 1.2, 640, 330, 5]]); quarto(t); monitor(640, 380, 1.2, telaPC(t, 0)); teclado(640, 505, 1, -1);
+     g.save(); camera(t, [[0, 640, 400, 1], [en, 640, 380, 1.05], [en + 1.2, 640, 253, 3.2]]); quarto(t); monitor(640, 380, 1.2, telaPC(t, 0)); teclado(640, 505, 1, -1);
      pedro({ x: 380, y: 700, s: 1, olhar: 1, braco: -.8, bracoE: .3, boca: t > pe ? "riso" : "", pisca: pisca(t) }); lara({ x: 900, y: 700, s: 1, olhar: -1, braco: t > en ? -2.5 : -1.4, bracoE: .3, boca: "riso", pisca: pisca(t + .4) }); g.restore();
      if (t > pe && t < en + .5) balao("Ele só está PERDIDO!", 900, 180, 1); if (t > en + .9) { g.fillStyle = `rgba(255,255,255,${cl((t - en - .9) / .4)})`; g.fillRect(0, 0, 1280, 720); } } },
  { chip: "ARQUIVO", fala: F4, sfx: [[.1, "whoosh"], [em(F4, "arquivo"), "ding"], [em(F4, "texto"), "pop"], [em(F4, "foto"), "pop"], [em(F4, "música"), "pop"], [em(F4, "vídeo"), "pop"], [em(F4, "nome"), "ding"]],
@@ -133,7 +133,7 @@ const CENAS = [
      if (t > no) etiqueta("cada um tem um NOME", 640, 190, 650, 480, seg(t, no, no + .4)); } },
  { chip: "PASTA", fala: F5, sfx: [[.1, "whoosh"], [em(F5, "pastas"), "ding"], [em(F5, "gaveta"), "pop"], [em(F5, "outras"), "whoosh"], [em(F5, "divisórias"), "pop"]],
    draw(t, D) { const pa = em(F5, "pastas"), ga = em(F5, "gaveta"), ou = em(F5, "outras");
-     g.save(); camera(t, [[0, 640, 330, 1], [ga, 760, 300, 1.1], [ou, 820, 260, 1.2]]); cenaInterna(t);
+     g.save(); camera(t, [[0, 640, 330, 1], [ga, 740, 300, 1.1], [ou, 730, 260, 1.15]]); cenaInterna(t);
      armario(820, 330, .78, ["Escola", "Fotos", "Músicas"], 0, seg(t, ga, ga + .8));
      if (t > ou) ["Ciências", "Português", "Informática"].forEach((n, i) => pasta(700 + i * 120, 125, .55 * back(seg(t, ou + i * .2, ou + .4 + i * .2)), "#fb923c", "", false));
      [["redacao", "docx"], ["passeio", "jpg"]].forEach(([n, e], i) => arqP(300 + i * 200, 360, .95, n, e, t)); g.restore();
@@ -159,13 +159,13 @@ const CENAS = [
  { chip: "CAMINHO", fala: F9, sfx: [[.1, "whoosh"], [em(F9, "caminho"), "ding"], [em(F9, "Documentos"), "pop"], [em(F9, "Escola"), "pop"], [em(F9, "Informática"), "pop"], [em(F9, "trabalho"), "festa"]],
    draw(t, D) { const ca = em(F9, "caminho"), ps = [em(F9, "Documentos"), em(F9, "Escola"), em(F9, "Informática"), em(F9, "trabalho")];
      const n = ps.filter(x => t > x).length, cx = [200, 520, 840, 1160][Math.max(0, n - 1)];
-     g.save(); camera(t, [[0, 640, 360, .8], [ps[0], 200, 380, 1.1], [ps[1], 520, 380, 1.1], [ps[2], 840, 380, 1.1], [ps[3], 1160, 380, 1.1], [ps[3] + 1.2, 680, 360, .78]]); cenaInterna(t);
+     g.save(); camera(t, [[0, 640, 360, .8], [ps[0], 600, 380, .9], [ps[3], 680, 380, .9], [ps[3] + 1.2, 680, 360, .78]]); cenaInterna(t);
      g.fillStyle = "#334155"; g.fillRect(-200, 520, 1700, 80); for (let x = -200; x < 1500; x += 80) { g.fillStyle = "#facc15"; g.fillRect(x, 556, 40, 8); }
      ["📁 Documentos", "📁 Escola", "📁 Informática"].forEach((s, i) => placaRua(s, 200 + i * 320, 420, seg(t, ps[i], ps[i] + .4), ["#15803d", "#1d4ed8", "#7c3aed"][i]));
      if (t > ps[3]) arqP(1160, 440, 1, "trabalho", "docx", t, true); lara({ x: lerp(60, cx - 60, 1), y: 600, s: .8, olhar: 1, braco: -1.4, bracoE: .3, pisca: pisca(t) }); g.restore();
      if (t > ca) palavra("CAMINHO = ENDEREÇO", 640, 110, seg(t, ca, ca + .4), 58); if (t > ps[3] + .8) placa("Documentos › Escola › Informática › trabalho.docx", 640, 200, seg(t, ps[3] + .8, ps[3] + 1.2), "#0f172a", 22); } },
- { chip: "SALVAR COMO · CTRL + S", fala: F10, legenda: L6[10], sfx: [[.1, "whoosh"], [em(F10, "onde"), "tec"], [em(F10, "nome"), "tec"], [em(F10, "clique"), "ding"], [em(F10, "Control"), "tec"], [em(F10, "save"), "ding"]],
-   draw(t, D) { const on = em(F10, "onde"), no = em(F10, "nome"), cl_ = em(F10, "clique"), ct = em(F10, "Control"), sv = em(F10, "save"); fundoEscuro(t, "#1e3a8a");
+ { chip: "SALVAR COMO · CTRL + S", fala: F10, legenda: L6[10], sfx: [[.1, "whoosh"], [em(F10, "onde"), "tec"], [em(F10, "nome"), "tec"], [em(F10, "clique"), "ding"], [em(F10, "Ctrl"), "tec"], [em(F10, "save"), "ding"]],
+   draw(t, D) { const on = em(F10, "onde"), no = em(F10, "nome"), cl_ = em(F10, "clique"), ct = em(F10, "Ctrl"), sv = em(F10, "save"); fundoEscuro(t, "#1e3a8a");
      const passo = t > cl_ ? 3 : t > no ? 2 : t > on ? 1 : 0;
      if (t < ct) { g.save(); camera(t, [[0, 640, 380, 1], [on, 560, 360, 1.15], [no, 700, 420, 1.2], [cl_, 640, 380, 1.05]]); janelaSalvar(640, 380, seg(t, 0, .5), passo, "trabalho-ciencias"); g.restore(); palavra("SALVAR COMO", 640, 100, seg(t, .1, .5), 56); }
      else { tecla("Ctrl", 520, 380, seg(t, ct, ct + .4), 160); palavra("+", 640, 380, seg(t, ct + .2, ct + .5), 70); tecla("S", 760, 380, seg(t, ct + .3, ct + .7)); palavra("ATALHO: SALVA NA HORA", 640, 120, seg(t, ct, ct + .4), 50);
@@ -181,7 +181,7 @@ const CENAS = [
      pedro({ x: 1150, y: 640, s: .8, olhar: -1, braco: -1.2, bracoE: .3, boca: "riso", pisca: pisca(t) }); } },
  { chip: "MISSÃO CUMPRIDA", fala: F12, sfx: [[.1, "whoosh"], [em(F12, "Explorador"), "pop"], [em(F12, "Escola"), "pop"], [em(F12, "Ciências"), "ding"], [em(F12, "Entregue"), "festa"]],
    draw(t, D) { const ex = em(F12, "Explorador"), es = em(F12, "Escola"), ci = em(F12, "Ciências", 1), en = em(F12, "Entregue"), mc = em(F12, "Missão");
-     g.save(); camera(t, [[0, 640, 360, 1], [ex, 640, 330, 1.7], [en, 640, 430, .95]]); quarto(t);
+     g.save(); camera(t, [[0, 640, 360, 1], [ex, 640, 330, 1.7], [en, 640, 320, .95]]); quarto(t);
      monitor(640, 380, 1.2, (x, y, w, h) => { g.fillStyle = "#f8fafc"; g.fillRect(x, y, w, h); g.fillStyle = "#e2e8f0"; g.fillRect(x, y, w, h * .14); g.fillStyle = NAVY; g.font = `700 ${Math.round(h * .07)}px ${F}`; g.textAlign = "left"; g.fillText("📁 Explorador de Arquivos", x + 10, y + h * .1);
        const linhas = ["📁 Escola", "    📁 Ciências", "        📄 trabalho-ciencias.docx", "    📁 Português", "    📁 Informática"]; linhas.forEach((l, i) => { if (t > es + i * .25 || i === 0 && t > es) { g.fillStyle = i === 2 && t > ci ? "#bbf7d0" : "transparent"; g.fillRect(x + 6, y + h * (.2 + i * .15) - h * .08, w - 12, h * .12); g.fillStyle = NAVY; g.fillText(l, x + 14, y + h * (.2 + i * .15)); } }); });
      teclado(640, 505, 1, -1); pedro({ x: 380, y: 700, s: 1, olhar: 1, braco: t > en ? -2.6 : -1, bracoE: t > en ? 2.6 : .3, boca: t > ci ? "riso" : "", pisca: pisca(t) }); lara({ x: 900, y: 700, s: 1, olhar: -1, braco: t > en ? -2.6 : -.6, bracoE: t > en ? 2.6 : .3, boca: "riso", pisca: pisca(t + .3) }); g.restore();

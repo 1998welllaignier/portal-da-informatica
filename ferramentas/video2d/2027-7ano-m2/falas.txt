@@ -16,7 +16,7 @@ Chegou banana! O bloco na lista, adicionar no fim, coloca um item novo no final.
 
 E o melhor: o bloco para cada item na lista repete os blocos de dentro uma vez para cada item. Para cada fruta, mostrar a fruta: e o cardápio vai aparecendo, maçã, uva, caju, açaí, banana, um por linha!
 
-O para cada é uma repetição esperta: você não precisa saber quantos itens tem. Se a lista crescer, ele percorre os novos itens também.
+O para cada é uma repetição esperta: você não precisa saber quantos itens tem. Se a lista crescer, ele percorre os novos itens também. Percorrer é passar por todos os itens, um por um.
 
 Mas cuidado! O Caio pediu o item número seis de uma lista que tem só cinco. Deu problema! A posição seis não existe. Antes de pedir, confira o tamanho.
 

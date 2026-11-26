@@ -20,6 +20,6 @@ E as músicas que a banda toca são os aplicativos: cada um faz uma tarefa para 
 
 Agora o Pedro entendeu: a tela estava inteira, as peças estavam funcionando. Quem travou foi o jogo, um aplicativo: problema de software! Ele fechou o jogo, abriu de novo, e voltou a funcionar. Missão cumprida!
 
-Onde eu uso isso? Quando o celular trava, o problema costuma ser de software; quando a tela quebra, é de hardware. Quando você instala um jogo, está colocando um software novo no aparelho. E, na oficina de celular, o técnico troca peças, que é hardware, ou formata e atualiza o sistema, que é software.
+Onde eu uso isso? Quando o celular trava, o problema costuma ser de software; quando a tela quebra, é de hardware. Quando você instala um jogo, está colocando um software novo no aparelho. E, na oficina de celular, o técnico troca peças, que é hardware, ou formata o aparelho e faz a atualização do sistema, que é software.
 
 Agora é com vocês: abram a Missão 3 no portal!

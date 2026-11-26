@@ -6,11 +6,11 @@ O Léo começou: um? Maior! Dois? Maior! Três? Maior! A plateia começou a boce
 
 Aí, a Bia soprou uma dica: chuta o meio! O Léo respirou fundo: cinquenta? Maior! E olha que beleza: de um a cinquenta, nem precisa mais pensar. Metade do placar apagou de uma vez!
 
-Agora, o meio do que sobrou: setenta e cinco? Menor! Lá se foi mais metade. Cada chute corta o problema pela metade. Esse jeito de procurar tem nome: busca binária.
+Agora, o meio do que sobrou: setenta e cinco? Menor! Lá se foi mais metade. Cada chute corta o problema pela metade. Esse jeito de procurar tem nome: busca binária. Ela usa a estratégia de dividir para conquistar: cortar o problema grande em pedaços menores.
 
 Mas atenção, regra de ouro: a busca binária só funciona se a lista estiver ordenada. Numa estante em ordem, olhar o livro do meio já diz para que lado seguir. Numa pilha bagunçada, o meio não diz nada!
 
-O algoritmo tem cinco passos. Olhe o item do meio da parte que sobrou. É o procurado? Achou! O procurado é maior? Jogue fora a metade da esquerda. É menor? Jogue fora a metade da direita. E repita com a parte que sobrou.
+O algoritmo tem cinco passos. Olhe o item do meio da parte que sobrou. É o procurado? Achou! O procurado é maior? Jogue fora a metade da esquerda. É menor? Jogue fora a metade da direita. E repita com a parte que sobrou. Descartar é jogar fora a parte em que o item com certeza não está.
 
 Valendo! Procurar o trinta e um nesta lista de oito números. O meio é a posição quatro, com o dezoito. Trinta e um é maior: a metade da esquerda cai fora! Sobram as posições cinco a oito. O novo meio é a posição seis: trinta e um. Achou!
 

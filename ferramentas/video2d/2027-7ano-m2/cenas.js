@@ -82,7 +82,7 @@ const F0 = "Listas no programa: a barraca da turma!",
   F6 = "E quantas frutas tem? O bloco tamanho de conta os itens. Tamanho de frutas: quatro!",
   F7 = "Chegou banana! O bloco na lista, adicionar no fim, coloca um item novo no final. Agora a lista tem cinco frutas.",
   F8 = "E o melhor: o bloco para cada item na lista repete os blocos de dentro uma vez para cada item. Para cada fruta, mostrar a fruta: e o cardápio vai aparecendo, maçã, uva, caju, açaí, banana, um por linha!",
-  F9 = "O para cada é uma repetição esperta: você não precisa saber quantos itens tem. Se a lista crescer, ele percorre os novos itens também.",
+  F9 = "O para cada é uma repetição esperta: você não precisa saber quantos itens tem. Se a lista crescer, ele percorre os novos itens também. Percorrer é passar por todos os itens, um por um.",
   F10 = "Mas cuidado! O Caio pediu o item número seis de uma lista que tem só cinco. Deu problema! A posição seis não existe. Antes de pedir, confira o tamanho.",
   F11 = "O cardápio da barraca ficou pronto, com todas as frutas da turma, e a fila não parava de crescer. Missão cumprida!",
   F12 = "Onde eu uso isso? A playlist é uma lista de músicas: o aplicativo toca uma por vez, do começo ao fim. O carrinho da loja online é uma lista: cada produto entra no fim, e o aplicativo mostra quantos itens tem. E o histórico do navegador é a lista dos sites que você visitou, em ordem.",
@@ -103,7 +103,7 @@ const CENAS = [
      g.save(); camera(t, [[0, 640, 360, 1], [va, 700, 300, 1.15], [dz, 640, 360, 1]]); fundoEscuro(t, "#1e3a8a");
      const n = t > va ? Math.min(t > dz ? 19 : 3, Math.floor((t - va) * (t > dz ? 8 : 1.2)) + 1) : 0; for (let i = 0; i < n; i++) caixa(420 + (i % 5) * 170, 140 + Math.floor(i / 5) * 66, "fruta" + (i + 1), "#fff", 1, 150);
      duda({ x: 170, y: 640, s: .95, braco: t > de ? -2.6 : -1, bracoE: t > de ? 2.6 : .3, olhar: 1, boca: t > dz ? "o" : "", pisca: pisca(t) }); if (t > dz) caio({ x: 1150, y: 640, s: .8, braco: -1.4, bracoE: .3, olhar: -1, pisca: pisca(t + .4) }); g.restore();
-     if (t > dz) balao("São 19 alunos!", 1060, 400, 1); if (t > de) palavra("19 VARIÁVEIS?! 😵", 760, 520, seg(t, de, de + .4), 44); } },
+     if (t > dz) balao("São 19 alunos!", 1060, 400, 1); if (t > de) palavra("19 VARIÁVEIS?! 😵", 760, 470, seg(t, de, de + .4), 44); } },
  { chip: "A LISTA", fala: F2, sfx: [[.1, "whoosh"], [em(F2, "lista"), "ding"], [em(F2, "cestas"), "pop"]],
    draw(t, D) { const l = em(F2, "lista"), c = em(F2, "cestas"); g.save(); camera(t, [[0, 640, 360, 1.2], [c, 640, 360, 1]]); fundoEscuro(t, "#14532d"); barraca(t, 180, 230, 920); if (t > c) cestas(t, F4L, i => seg(t, c + i * .2, c + .3 + i * .2), -1); g.restore();
      palavra("LISTA", 640, 110, seg(t, l, l + .4), 80); rotulo("UMA variável só, com VÁRIOS itens em ordem", 640, 170, "#bbf7d0", seg(t, l + .4, l + .8)); } },
@@ -122,11 +122,11 @@ const CENAS = [
  { chip: "TAMANHO", fala: F6, legenda: L[6], sfx: [[.1, "whoosh"], [em(F6, "tamanho"), "click"], [em(F6, "quatro"), "ding"]],
    draw(t, D) { const tm = em(F6, "tamanho"), q = em(F6, "quatro"); g.save(); camera(t, [[0, 640, 360, 1.1], [q, 640, 360, 1]]); fundoEscuro(t, "#1e3a8a"); barraca(t, 180, 230, 920); cestas(t, F4L, 1, -1);
      const n = t > tm ? Math.min(4, Math.floor((t - tm) / .5) + 1) : 0; for (let i = 0; i < n; i++) visto(300 + i * 170, 320, 18, 1); g.restore();
-     bloco(330, 90, 620, "📏 tamanho de frutas", "#0d9488", seg(t, tm, tm + .4), true); if (t > q) palavra("= 4", 1050, 130, seg(t, q, q + .4), 70); } },
+     bloco(330, 90, 620, "📏 tamanho de frutas", "#0d9488", seg(t, tm, tm + .4), true); if (t > q) palavra("= 4", 1050, 130, seg(t, q, q + .4), 70); if (t > q + .3) etiqueta("CONTOU 4 ITENS", 1030, 470, 830, 340, seg(t, q + .3, q + .7)); } },
  { chip: "ADICIONAR NO FIM", fala: F7, legenda: L[7], sfx: [[.1, "whoosh"], [em(F7, "banana"), "pop"], [em(F7, "adicionar"), "click"], [em(F7, "final"), "whoosh"], [em(F7, "cinco"), "ding"]],
-   draw(t, D) { const ba = em(F7, "banana"), ad = em(F7, "adicionar"), fi = em(F7, "final"), ci = em(F7, "cinco"); g.save(); camera(t, [[0, 640, 360, 1], [fi, 900, 360, 1.15], [ci, 760, 360, .95]]); fundoEscuro(t, "#14532d"); barraca(t, 100, 230, 1080);
+   draw(t, D) { const ba = em(F7, "banana"), ad = em(F7, "adicionar"), fi = em(F7, "final"), ci = em(F7, "cinco"); g.save(); camera(t, [[0, 640, 360, 1], [fi, 700, 360, 1.05], [ci, 700, 360, .95]]); fundoEscuro(t, "#14532d"); barraca(t, 100, 230, 1080);
      cestas(t, F4L, 1, -1); if (t > ba) { const k = cl((t - fi) / .9); if (t < fi) emo("🍌", 1180, 270 + Math.sin(t * 6) * 6, 60); else cesta(lerp(1180, 940, io2(k)), lerp(270, 400, io2(k)), "banana", 5, 1, k >= 1); } g.restore();
-     bloco(240, 90, 800, "➕ na lista frutas · adicionar no fim “banana”", "#16a34a", seg(t, ad, ad + .4), t > ad); if (t > ci) placa("tamanho: 4 → 5", 1080, 560 - 30, 1, "#0d9488", 22); } },
+     bloco(240, 90, 800, "➕ na lista frutas · adicionar no fim “banana”", "#16a34a", seg(t, ad, ad + .4), t > ad); if (t > fi) etiqueta("ITEM NOVO", 1090, 250, 940, 380, seg(t, fi, fi + .4)); if (t > ci) placa("tamanho: 4 → 5", 1080, 560 - 30, 1, "#0d9488", 22); } },
  { chip: "👉 PARA CADA", fala: F8, sfx: [[.1, "whoosh"], [em(F8, "cada"), "ding"], [em(F8, "maçã"), "pop"], [em(F8, "uva"), "pop"], [em(F8, "caju"), "pop"], [em(F8, "açaí"), "pop"], [em(F8, "banana"), "festa"]],
    draw(t, D) { fundoEscuro(t, "#3b1c6e"); const ca = em(F8, "cada"); const ts = ["maçã", "uva", "caju", "açaí", "banana"].map(w => em(F8, w)); const n = ts.filter(x => t > x).length; const LL = [...F4L, "banana"];
      g.save(); camera(t, [[0, 640, 360, 1], [ts[0], 640, 380, 1.05]]); bocaC(90, 110, 520, 150, "👉 para cada fruta na lista frutas", "#f59e0b", seg(t, ca, ca + .4), true); bloco(130, 172, 320, "▶️ mostrar fruta", "#7c3aed", seg(t, ca + .3, ca + .6));

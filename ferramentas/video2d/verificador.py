@@ -150,7 +150,7 @@ async def verificar(pg, pasta, dic, extra_ok):
     # conteúdo da apostila
     ap = apostila(pasta)
     if ap and ap.get("resumo"):
-        txt = " ".join(c["fala"] for c in cenas).lower()
+        txt = " ".join(c["fala"] + " " + c["leg"] for c in cenas).lower()   # a legenda mostra a forma escrita (ex.: fala "Control mais S", legenda "Ctrl + S")
         chaves = ap["resumo"].get("chaves", [])
         falta = [k for k in chaves if not all(p in txt for p in re.findall(r"\w+", k.lower()) if len(p) > 3)]
         if chaves and len(falta) / len(chaves) > .4: rel.append(("ERRO", f"conteúdo incompleto: faltam conceitos da apostila: {', '.join(falta)}"))
