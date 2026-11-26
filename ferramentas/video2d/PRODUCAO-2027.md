@@ -18,7 +18,7 @@ Voz: o código é o começo do id do MP3 no HeyGen (arquivo `voz_link.txt` da pa
 | 6º 1ºb Especial Teclado | 2027-6ano-m1-teclado | ✅ (34 cenas) | sim | – | MGRoBzcxwX8 no ar | no padrão |
 | 6º 1ºb M2 Entrada, processamento e saída | 2027-6ano-m2 | **v2 ✅** (15 cenas, "Cidade Computador"; a v1 está no histórico do git) | precisa de voz NOVA (texto mudou) | – | oLgO5Zz0Bbg no ar = **v1** (trocar depois da aprovação) | v2 pronta, esperando voz |
 | 6º 1ºb M3 Hardware e software | 2027-6ano-m3 | **v2 ✅** (13 cenas, "A Banda do Computador"; v1 no histórico) | precisa de voz NOVA | – | Z7urMeervDQ no ar = **v1** (trocar depois da aprovação) | v2 pronta, esperando voz |
-| 6º 1ºb M4 Pastas e arquivos | 2027-6ano-m4 | v1 ❌ | ffe0d453 | /tmp (enviado, não postado) | – | refazer → v2 |
+| 6º 1ºb M4 Pastas e arquivos | 2027-6ano-m4 | v2 ✅ (Armário Gigante, 15 cenas, aprovado no verificador) | voz antiga não serve (roteiro novo) | – | – | falta voz nova |
 | 6º 1ºb M5 Tipos de dados | 2027-6ano-m5 | v1 ❌ | 9e6d1ec1 | enviado, não postado | – | refazer → v2 |
 | 6º 1ºb M6 Boa convivência na rede | 2027-6ano-m6 | v1 ❌ | cbc67eba | enviado, não postado | – | refazer → v2 |
 | 6º 1ºb M7 Digitação sem medo | 2027-6ano-m7 | v1 ❌ | 39975661 | enviado, não postado | – | refazer → v2 |

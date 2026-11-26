@@ -1,17 +1,29 @@
-Pastas e arquivos: a gaveta bagunçada!
+Pastas e arquivos: o mistério do trabalho sumido!
 
-O Pedro precisa entregar o trabalho de Ciências, mas a área de trabalho do computador dele é uma bagunça: fotos, músicas, vídeos e textos, tudo misturado. Cadê o trabalho?
+Amanhã é dia de entregar o trabalho de Ciências, e o Pedro fez tudo no computador. Mas olha a área de trabalho dele: fotos, músicas, vídeos e textos, tudo misturado! Cadê o trabalho?
 
-Um arquivo é qualquer coisa guardada no computador: um texto, uma foto, uma música, um vídeo. E uma pasta é como uma gaveta que organiza os arquivos. Dentro de uma pasta, pode ter outras pastas.
+Ele abriu o sem título três: era a foto do gato. Abriu o sem título quatro: era uma música! O Pedro já estava quase chorando quando a Lara chegou.
 
-Todo arquivo tem um nome e uma extensão: o final depois do ponto, que mostra o tipo dele. Ponto jota pê gê é imagem. Ponto eme pê três é música. Ponto eme pê quatro é vídeo. Ponto pê dê éfe é um documento para ler e imprimir.
+Calma, Pedro! Seu trabalho não sumiu, ele só está perdido. Vem comigo: vamos entrar no computador e arrumar essa bagunça de uma vez!
 
-O lugar onde o arquivo mora se chama caminho, como um endereço: Documentos, depois Escola, depois Informática, e aí o arquivo. Cada pasta fica dentro da outra.
+Aqui dentro, tudo o que fica guardado é um arquivo: um texto, uma foto, uma música, um vídeo. Cada arquivo tem um nome, para a gente achar depois.
 
-Para não perder nada, salve sempre! O atalho Control mais S salva na hora. E o salvar como deixa escolher o lugar e o nome. Para trocar o nome depois, é só clicar com o botão direito e escolher renomear.
+E para os arquivos não ficarem jogados, existem as pastas. Uma pasta é como uma gaveta que organiza os arquivos. E dentro de uma pasta pode ter outras pastas, como uma gaveta com divisórias.
 
-O Pedro criou a pasta Escola, com uma pasta para cada matéria, e colocou cada arquivo no seu lugar. O trabalho estava ali, em Escola, Ciências. Missão cumprida!
+Repare no nome do arquivo: trabalho, ponto, docx. O que vem depois do ponto é a extensão. Ela conta que tipo de arquivo é, e qual programa vai abrir.
 
-Onde eu uso isso? Na galeria do celular, que separa as fotos por álbum. No pen drive do trabalho da escola. E no Explorador de Arquivos do Windows, que mostra todas as pastas do computador.
+Vamos conhecer a turma? Ponto txt e ponto docx são textos. Ponto jpg e ponto png são imagens. Ponto mp3 é música. Ponto mp4 é vídeo. E ponto pdf é um documento para ler e imprimir.
 
-Agora é com vocês: abram a Missão 4 no portal!
+E tem novidade: o ponto jxl, o novo jpeg. Ele deixa a foto menor com a mesma qualidade, e os navegadores começaram a abrir em dois mil e vinte e seis. Mas o jpg ainda é o mais usado, porque formato novo demora para chegar a todo lugar.
+
+Agora, o segredo para nunca mais se perder: o caminho. É o endereço do arquivo. Documentos, depois Escola, depois Informática, e aí o trabalho. Cada pasta fica dentro da outra, como ruas de um bairro.
+
+Para guardar um trabalho, use o salvar como: escolha onde guardar, dê um nome e clique em salvar. E o atalho Control mais S salva na hora. O S vem de save, que quer dizer salvar.
+
+E capriche no nome! Redação meio ambiente é muito melhor que sem título três. Para trocar o nome depois, clique com o botão direito e escolha renomear.
+
+Pronto! No Explorador de Arquivos, o Pedro criou a pasta Escola, com uma pasta para cada matéria. E o trabalho estava em Escola, Ciências. Entregue no prazo. Missão cumprida!
+
+Onde eu uso isso? Na galeria do celular, as fotos ficam em álbuns, que são pastas. Quando você baixa um boletim em pdf, ele vai para a pasta Downloads. E na secretaria da escola, cada turma tem uma pasta com os documentos dos alunos.
+
+Agora é com vocês: abram a Missão 4 no portal e organizem as suas pastas!

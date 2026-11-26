@@ -140,7 +140,6 @@ async def verificar(pg, pasta, dic, extra_ok):
             rel.append(("AVISO", f"cena {i+1}: número por extenso na fala sem legenda com algarismos"))
     palavras = len(" ".join(c["fala"] for c in cenas).split())
     if palavras < (550 if extra else 150): rel.append(("ERRO", f"roteiro curto demais ({palavras} palavras): conteúdo raso"))
-    if not any(nm in " ".join(c["fala"] for c in cenas[1:4]) for nm in NOMES): rel.append(("AVISO", "o começo não apresenta personagem/história (cenas 2 a 4)"))
     # ortografia
     ruins = set()
     for c in cenas:
@@ -186,6 +185,7 @@ async def verificar(pg, pasta, dic, extra_ok):
     if not usa.get("balao"): rel.append(("AVISO", "nenhum balão de fala"))
     if not extra and not usa.get("cumprida"): rel.append(("AVISO", "sem “Missão cumprida”"))
     fp = len([i for i in com_pers if 0 < i < n - 1]) / max(1, n - 2)
+    if not any(i in com_pers for i in (1, 2, 3)): rel.append(("AVISO", "o começo não apresenta personagem/história (cenas 2 a 4)"))
     if fp < .3: rel.append(("ERRO", f"poucos personagens (bonequinhos/robô) em cena: {round(fp*100)}% das cenas (mínimo 30%)"))
     for i, ts in borda.items(): rel.append(("AVISO", f"cena {i+1}: texto cortado na borda da tela (pode ser o enquadramento da câmera): {', '.join(sorted(ts))[:120]}"))
     return nome, n, round(ini[-1]), rel
