@@ -1132,7 +1132,11 @@
       if (apels.some(a => a && !/^[\p{L}\p{N}' ._-]{1,20}$/u.test(a))) return erro("O apelido pode ter só letras, números e espaços (até 20).");
       bc.disabled = true; bc.textContent = "Conferindo…";
       let infos;
-      try { infos = await Promise.all(cods.map((c, i) => P.nuvem.conferirCodigo(i, t.value, c))); }
+      try { infos = await Promise.all(cods.map((c, i) => P.nuvem.conferirCodigo(i, t.value, c)));
+        // 🎒 Agregados (26/11/2026): enquanto o professor não junta o 5º ano (botão no painel), o código do aluno ainda está na
+        //    turma antiga do 5º (arquivada); procura lá também, e ele entra como antes, sem precisar escolher turma
+        if ((turma(t.value) || {}).livre) { const arq = cat().series.flatMap(x => x.turmas.filter(y => y.arquivada).map(y => y.id));
+          infos = await Promise.all(infos.map(async (x, i) => { if (x) return x; for (const ta of arq) { const y = await P.nuvem.conferirCodigo(i, ta, cods[i]).catch(() => null); if (y) return Object.assign({}, y, { turma: y.turma || ta }); } return null; })); } }
       catch (err) {
         console.warn(err); bc.disabled = false; bc.textContent = "Continuar ➜";
         return erro(`Não foi possível conferir o código agora (sem internet?). <a href="#" id="antigo">Entrar sem código, só neste computador</a>.`);
@@ -1147,7 +1151,8 @@
       if (tReal.length > 1) return erro("Vocês são de turmas diferentes. Entrem um de cada vez (Sozinho).");
       const turmaSess = tReal[0];
       // 🎒 Agregados (26/11/2026): a turma é livre e cada aluno usa as missões DA SÉRIE DELE (gravada no código pelo painel)
-      let serieSess = sid;
+      const seT = cat().series.find(x => x.turmas.some(y => y.id === turmaSess));
+      let serieSess = seT && !seT.agregados ? seT.id : sid;
       if ((turma(turmaSess) || {}).livre) {
         const sx = [...new Set(infos.map(x => x.serie || ""))];
         if (sx.some(x => !serie(x))) return erro("O professor ainda não marcou a sua série nos Agregados. Chame o professor.");
@@ -2200,7 +2205,7 @@
     try {
       if (!hs.length) return telaInicio();
       const [r, a1, a2, a3] = hs;
-      if (r === "serie") return telaSerie(a1);
+      if (r === "serie") { const se = serie(a1); if (se && se.oculta && cat().series.some(x => x.agregados)) { location.replace("#/serie/ag"); return; } return telaSerie(a1); }   // 🎒 5º ano → Agregados (endereço antigo salvo no navegador)
       if (r === "historia") { if (!P.historia) return telaInicio(); return await P.historia.abrir(mount, a1, a2, a3); }
       if (r === "apresentar") { if (!P.apresentacao) return telaInicio(); return await P.apresentacao.abrir(mount, a1, a2); }
       // 👀 Visualização do professor (botão no painel, aba Aula): a apostila exatamente como o aluno vê,
