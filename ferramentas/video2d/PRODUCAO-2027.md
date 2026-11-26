@@ -33,7 +33,8 @@ Voz: o código é o começo do id do MP3 no HeyGen (arquivo `voz_link.txt` da pa
 | 7º 1ºb M8 O placar do quiz | 2027-7ano-m8 | v2 ✅ (11 cenas, verificador ok) | – | – | – | falta voz nova |
 | 8º 1ºb M1 Listas: dados em fila | 2027-8ano-m1 | v2 ✅ (10 cenas, verificador ok) | – | – | – | falta voz nova |
 | 8º 1ºb M2 Inserir, remover e contar | 2027-8ano-m2 | v2 ✅ (10 cenas, verificador ok) | – | – | – | falta voz nova |
-| 8º 1ºb M3, M5 a M8 | 2027-8ano-m3…m8 | v1 ❌ (só cenas) | – | – | – | refazer → v2 |
+| 8º 1ºb M3 Busca sequencial | 2027-8ano-m3 | v2 ✅ (10 cenas, verificador ok) | – | – | – | falta voz nova |
+| 8º 1ºb M5 a M8 | 2027-8ano-m5…m8 | v1 ❌ (só cenas) | – | – | – | refazer → v2 |
 | 8º 1ºb M4 Busca binária | 2027-8ano-m4 (a v1 ficou fora do repositório) | **v2 ✅ piloto** (13 cenas, câmera) | – | – | – | esperando a opinião do professor e a voz |
 | 9º 1ºb M1 a M8 | 2027-9ano-m1…m8 | v1 ❌ (só cenas) | – | – | – | refazer → v2 |
 | 6º 2ºb M1 e M2 | 2027-6ano-b2-m1, b2-m2 | v1 ❌ (só cenas) | – | – | – | refazer → v2 |

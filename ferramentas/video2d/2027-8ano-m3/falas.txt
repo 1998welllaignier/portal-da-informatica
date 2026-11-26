@@ -8,7 +8,7 @@ O algoritmo tem cinco passos. Um: comece na posição um. Dois: compare o item c
 
 Vamos procurar o nove na lista cinco, oito, dois, nove, quatro. Primeira comparação: cinco. Não é. Segunda: oito. Não é. Terceira: dois. Não é. Quarta: nove. Achou! Está na posição quatro.
 
-Cada vez que olhamos um item, fazemos uma comparação. Quanto mais comparações, mais lenta a busca. Numa lista de mil itens, se o procurado for o primeiro, é uma comparação só. Esse é o melhor caso. Mas, se for o último, ou se nem estiver na lista, são mil comparações. Esse é o pior caso.
+Cada vez que olhamos um item, fazemos uma comparação. Quanto mais comparações, mais lenta a busca, e menor a eficiência. Numa lista de mil itens, se o procurado for o primeiro, é uma comparação só. Esse é o melhor caso. Mas, se for o último, ou se nem estiver na lista, são mil comparações. Esse é o pior caso.
 
 A busca sequencial tem uma vantagem: funciona em qualquer lista, ordenada ou bagunçada. Mas, em listas muito grandes, ela pode ficar lenta.
 
