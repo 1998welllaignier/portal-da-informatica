@@ -1,0 +1,19 @@
+Meu primeiro programa!
+
+Hoje a Tainá quer que o computador diga bom dia. Mas o computador não adivinha nada! Ele só faz o que mandarem, e numa linguagem que ele entende. Que linguagem será essa?
+
+Um programa é um algoritmo escrito numa linguagem que o computador entende. No portal, essa linguagem são os blocos, que se encaixam como peças de montar.
+
+Veja como usar o editor de blocos. Primeiro, abra uma gaveta, onde os blocos ficam guardados. Segundo, arraste o bloco para a área branca. Terceiro, para encaixar, coloque um bloco embaixo do outro. Quarto, clique no texto para escrever. Quinto, aperte Rodar o programa.
+
+Quando você roda, o computador vai executar os blocos de cima para baixo, um de cada vez, e faz exatamente o que eles mandam. Isso se chama sequência.
+
+Atenção: a ordem importa! Mostrar bom dia e depois mostrar tchau é diferente de mostrar tchau e depois mostrar bom dia.
+
+Outro cuidado: um bloco solto, que não está encaixado no programa, o computador não executa. Se ficou sobrando, encaixe!
+
+A Tainá montou os blocos na ordem certa, encaixou tudo e apertou Rodar. Na tela do programa apareceu: Bom dia! O computador obedeceu. Missão cumprida!
+
+Onde eu uso isso? Todo jogo e todo aplicativo é um programa. A receita de bolo é uma sequência, porque a ordem dos passos importa. E o despertador do celular segue o que foi programado.
+
+Agora é com vocês: abram a Missão 1 no portal!

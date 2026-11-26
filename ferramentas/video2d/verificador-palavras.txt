@@ -102,3 +102,6 @@ ransomware
 rânsom
 xod
 pixels
+leo
+post
+posts

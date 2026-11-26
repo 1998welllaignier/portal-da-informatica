@@ -1,0 +1,23 @@
+Cabos submarinos e data centers!
+
+A Bia mandou um vídeo de outro país, e ele chegou em segundos. O Léo pensou: deve ter vindo por satélite! Será mesmo? Quase tudo viaja por cabos no fundo do mar.
+
+Os cabos submarinos ligam o Brasil à América do Norte, à Europa e à África. São os grandes caminhos da internet entre os continentes.
+
+Dentro de cada cabo existe a fibra óptica: um fio de vidro mais fino que um cabelo. Os dados viajam nela como pulsos de luz, muito rápido.
+
+Os cabos chegam ao Brasil em cidades do litoral. Um exemplo é Fortaleza, no Ceará, onde eles saem do mar na Praia do Futuro.
+
+Do cabo, os dados seguem até o data center. É um prédio cheio de servidores, que são computadores potentes que guardam sites, vídeos e aplicativos.
+
+Um data center não pode parar. Primeiro, precisa de energia, com geradores para quando a luz acaba. Segundo, de refrigeração, porque os servidores esquentam. Terceiro, de segurança, para só entrar quem pode. Quarto, de cópias dos dados, para não perder nada.
+
+Veja o caminho do vídeo. O celular manda o pedido, que passa pelo cabo submarino até o data center. O servidor responde, e o vídeo volta pelo mesmo caminho, em segundos.
+
+E o satélite? Ele existe e é útil em áreas rurais e em navios, onde não chega cabo. Mas transmite menos dados e com mais demora.
+
+O Léo entendeu: o vídeo da Bia veio pelo cabo submarino, passou pela fibra óptica e saiu de um data center cheio de servidores. Missão cumprida!
+
+Onde eu uso isso? Ao assistir a um vídeo de outro país, ele chega por cabo submarino. Ao salvar fotos no aplicativo, elas ficam em servidores de um data center. E, se um navio corta um cabo, a internet pode ficar lenta.
+
+Agora é com vocês: abram a Missão 3 no portal!

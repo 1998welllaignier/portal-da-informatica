@@ -1,0 +1,19 @@
+Um bloco para muitos casos!
+
+O Pedro precisa saudar três amigos: Ana, Leo e Bia. Ele montou os mesmos blocos três vezes, trocando só o nome. Que trabalheira! Será que dá para reaproveitar?
+
+Dá, sim! Você pode criar o seu próprio bloco, na gaveta Meus blocos. O bloco saudar guarda dentro dele o que fazer: mostrar Olá e o nome.
+
+Depois, é só chamar o bloco. Toda vez que você chama saudar, o computador faz o que está dentro dele.
+
+Mas e o nome, que muda? Ele é o parâmetro: o valor que muda a cada vez. Aqui, a variável nome.
+
+Veja um bloco para muitos casos. Definir nome para Ana, chamar saudar: aparece Olá, Ana. Definir nome para Leo, chamar saudar: aparece Olá, Leo. O bloco saudar é o mesmo; só o parâmetro mudou.
+
+Isso tem duas vantagens. O programa fica mais curto. E, se precisar mudar a saudação, você muda em um lugar só, dentro do bloco. Isso é reaproveitar.
+
+O Pedro criou o bloco saudar e o chamou três vezes, mudando só o nome. Ficou curtinho, e ele ainda pode mudar a saudação em um lugar só. Missão cumprida!
+
+Onde eu uso isso? O botão curtir é o mesmo em todos os posts; só muda o post. A receita de suco serve para várias frutas: a fruta é o parâmetro. E na chamada da escola, a pergunta é a mesma; só muda o nome.
+
+Agora é com vocês: abram a Missão 4 no portal!

@@ -1,0 +1,19 @@
+Repetição e seleção em blocos!
+
+O Pedro quer que o robô Bit pule três vezes. Ele montou três blocos iguais: pula, pula, pula. E se fossem cem pulos? Haja bloco! Como encurtar isso?
+
+A solução é o bloco repita. Ele faz os blocos que estão dentro dele várias vezes. Repita três vezes: mostrar pula. Isso é a repetição! Um bloco só faz o trabalho de três.
+
+Preste atenção: dentro ou fora? O que está dentro do repita se repete. O que está embaixo, fora dele, aparece uma vez só, no final. Se o mostrar fim ficar dentro, ele aparece três vezes!
+
+Agora a seleção. O bloco se, faça, senão faz o computador escolher um caminho. Se chover, mostrar guarda-chuva; senão, mostrar boné. Quem escolhe o caminho é a condição.
+
+A condição é uma pergunta de sim ou não. A resposta é verdadeiro ou falso. Chove? Se for verdadeiro, vai o guarda-chuva. Se for falso, vai o boné.
+
+Para o programa comparar valores, existe a gaveta Comparar. Dez maior que cinco? Verdadeiro. Dois menor que nove? Verdadeiro. Cinco igual a seis? Falso. E tem também o maior ou igual.
+
+O Pedro usou o repita para encurtar os pulos e o se para decidir: se a luz está verde, o Bit anda; senão, ele para. Menos blocos e decisões certas. Missão cumprida!
+
+Onde eu uso isso? Fazer dez polichinelos é uma repetição. Se chover, levo guarda-chuva é uma seleção. E, no jogo, se a vida acabar, aparece Fim de jogo.
+
+Agora é com vocês: abram a Missão 2 no portal!

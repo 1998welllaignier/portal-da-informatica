@@ -1,0 +1,19 @@
+Variáveis: as caixinhas do programa!
+
+A Tainá está fazendo um joguinho e precisa guardar os pontos do jogador. Mas onde o programa guarda o número de pontos? E como ele muda quando o jogador acerta?
+
+A solução é a variável: uma caixinha com nome que guarda um valor. Esta caixinha se chama pontos e guarda o valor zero.
+
+Três blocos mexem na variável. Definir coloca um valor na caixinha. Alterar por soma um número ao que já estava lá. E o bloco redondo pega o valor que está guardado.
+
+Veja passo a passo. Definir pontos para zero: a caixinha fica com zero. Alterar pontos por cinco: agora tem cinco. Alterar por três: soma, e a caixinha fica com oito!
+
+Dá para juntar texto e variável. O bloco criar texto com junta os pedaços: a palavra Pontos mais o valor da variável. Na tela aparece: Pontos, oito.
+
+A variável pode guardar um número, como oito, ou um texto, como Ana. O valor guardado pode ser de um tipo ou de outro.
+
+A Tainá criou a variável pontos, definiu para zero e, a cada acerto, alterou por um. O placar do jogo funcionou! Missão cumprida!
+
+Onde eu uso isso? O placar de um jogo é uma variável que muda a cada gol. As vidas do personagem diminuem quando ele cai. E o saldo do bilhete do ônibus muda a cada viagem.
+
+Agora é com vocês: abram a Missão 3 no portal!
