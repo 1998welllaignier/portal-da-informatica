@@ -171,7 +171,7 @@ function abertura(t, rotuloSerie, titulo, l1, l2, t1) { t1 = t1 || 1.6;
 function fimCartao(t, linha, pessoas) { fundoEscuro(t); g.textAlign = "center"; g.globalAlpha = out(seg(t, 0, .6)); g.fillStyle = AMAR; g.font = `800 62px ${F}`; g.fillText("Prof. Welington Laignier", 640, 300);
   g.fillStyle = "#fff"; g.font = `700 30px ${F}`; g.fillText(linha, 640, 350); g.font = `800 40px ${F}`; g.fillStyle = "#cfe0ff"; g.fillText(linha.match(/Missão \d/)[0].replace("Missão", "Abram a Missão") + " no portal!", 640, 430); g.globalAlpha = 1;
   (pessoas || []).forEach((p, i) => boneco(Object.assign({ x: i ? 1040 : 240, y: 700, s: .9, braco: -2.8 + Math.sin(t * 10 + i) * .25, bracoE: 2.8, pisca: pisca(t + i * .7) }, p))); confete(t, .9); }
-function cumprida(t, t0) { if (t > t0) { g.fillStyle = "#1b2c5a"; g.globalAlpha = out(seg(t, t0, t0 + .3)); rr(190, 58, 900, 118, 26); g.fill(); g.globalAlpha = 1; } palavra("MISSÃO CUMPRIDA!", 640, 120, seg(t, t0, t0 + .4), 72); confete(t, t0); }
+function cumprida(t, t0) { if (t > t0) { g.fillStyle = "#1b2c5a"; g.globalAlpha = out(seg(t, t0, t0 + .3)); rr(70, 92, 860, 112, 26); g.fill(); g.globalAlpha = 1; } palavra("MISSÃO CUMPRIDA!", 500, 148, seg(t, t0, t0 + .4), 72); confete(t, t0); }
 function estrela(x, y, r, cor) { g.save(); g.translate(x, y); g.fillStyle = cor || AMAR; g.strokeStyle = "#b45309"; g.lineWidth = 3; g.beginPath(); for (let i = 0; i < 10; i++) { const a = -Math.PI / 2 + i * Math.PI / 5, rr2 = i % 2 ? r * .45 : r; g.lineTo(Math.cos(a) * rr2, Math.sin(a) * rr2); } g.closePath(); g.fill(); g.stroke(); g.restore(); }
 function robozinho(x, y, s, t, feliz) { g.save(); g.translate(x, y); g.scale(s, s); const b = Math.sin((t || 0) * 6) * 3;
   g.fillStyle = "#64748b"; g.fillRect(-4, -78 + b, 8, 16); g.fillStyle = "#ef4444"; g.beginPath(); g.arc(0, -82 + b, 7, 0, 7); g.fill();
@@ -336,7 +336,7 @@ const CENAS = [
      g.save(); camera(t, [[0, 520, 380, 1.05], [ts[1], 560, 400, 1.2], [ts[2], 700, 420, 1.5], [ts[3], 820, 430, 1.9], [ne, 760, 400, 1.35]]); salaCasa(t);
      for (let i = 0; i < 5; i++) { if (i > n) break; const ab = i < n ? 1 : 0; matrioska(xs[i], 470, sc[i], CM[i % 6], ab ? .0001 : 0); if (ab) { g.save(); g.translate(xs[i] + 40 * sc[i] / .8, 470 - 110 * sc[i] / .8); g.rotate(.4); matrioska(0, 0, sc[i] * .55, CM[i % 6], 0); g.restore(); } }
      bitE(t, 1040, 640, 1.4, false); if (t > ne) { g.fillStyle = "#67e8f9"; g.beginPath(); g.ellipse(1080, 530 + (t * 40) % 20, 6, 10, 0, 0, 7); g.fill(); } g.restore();
-     if (t > ne) balao("E se isso não acabar NUNCA?! 😰", 860, 130, seg(t, ne, ne + .3)); } },
+     if (t > ne) balao("E se isso não acabar NUNCA?! 😰", 640, 150, seg(t, ne, ne + .3)); } },
  { chip: "O MESMO, SÓ QUE MENOR", fala: F4, sfx: [[.1, "whoosh"], [em(F4, "abre"), "pop"], [em(F4, "mesma"), "ding"], [em(F4, "Dentro"), "whoosh"], [em(F4, "menor"), "ding"]],
    draw(t, D) { const ab = em(F4, "abre"), ms = em(F4, "mesma"), de = em(F4, "Dentro"), me = em(F4, "menor"); fundoEscuro(t, "#1e3a8a");
      g.save(); camera(t, [[0, 640, 360, 1], [de, 640, 380, .95]]); const a = io2(seg(t, ab, ab + .8));

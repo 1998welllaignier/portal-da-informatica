@@ -86,7 +86,7 @@ const CENAS = [
    draw(t, D) { const ma = em(F1, "maiúscula"), fo = em(F1, "foto"), br = em(F1, "briga"), tr = em(F1, "triste"), fg = em(F1, "fogo"); const n = t > br ? 4 : t > fo + .5 ? 3 : t > fo ? 2 : t > ma ? 1 : 0;
      g.save(); camera(t, [[0, 640, 360, 1], [ma, 640, 260, 1.35], [br, 640, 320, 1.1], [fg, 640, 360, 1]]); praca(t); chat(640, 350, 420, 380, "Turma 6º A 😎", MSG, n, t, seg(t, br, fg + .5));
      rafa({ x: 230, y: 680, s: .95, olhar: 1, braco: -1.6, bracoE: .3, boca: "o", pisca: pisca(t) }); gabi({ x: 1050, y: 680, s: .95, olhar: -1, braco: .3, bracoE: .3, boca: t > tr ? "o" : "", pisca: pisca(t + .4) }); g.restore();
-     if (t > tr) emo("😢", 1050, 470, 40); if (t > fg) palavra("O GRUPO PEGOU FOGO!", 640, 72, seg(t, fg, fg + .4), 56); } },
+     if (t > tr) emo("😢", 1050, 470, 40); if (t > fg) palavra("O GRUPO PEGOU FOGO!", 560, 100, seg(t, fg, fg + .4), 56); } },
  { chip: "GENTE DE VERDADE", fala: F2, sfx: [[.1, "whoosh"], [em(F2, "Bit"), "ding"], [em(F2, "gente"), "pop"], [em(F2, "pessoa"), "pop"]],
    draw(t, D) { const bi = em(F2, "Bit"), ge = em(F2, "gente"), pe = em(F2, "pessoa");
      g.save(); camera(t, [[0, 640, 360, 1], [ge, 640, 380, 1.1]]); praca(t);

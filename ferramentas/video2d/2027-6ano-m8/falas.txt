@@ -1,19 +1,27 @@
 Atalhos: os superpoderes do teclado!
 
-A Lia precisa juntar o texto de duas páginas no trabalho. Ela está digitando tudo de novo, letra por letra. E, quando apagou um parágrafo sem querer, quase chorou!
+A Lia precisa juntar no trabalho o texto de duas páginas. E ela está digitando tudo de novo, letra por letra! Para piorar, apagou um parágrafo sem querer e quase chorou. Será que não existe um jeito mais rápido?
 
-Um atalho é um jeito rápido de fazer algo apertando teclas juntas. Segure a primeira tecla, o Control, e aperte a segunda.
+Existe, e se chama atalho! Na rua, atalho é o caminho mais curto. No computador, atalho é uma combinação de teclas que faz uma ação rápida. O jeito certo é assim: segure a primeira tecla, o Control, e, sem soltar, aperte a segunda.
 
-Control mais C copia. Control mais V cola. E Control mais X recorta: tira do lugar para colar em outro. Copiar deixa o original; recortar leva embora.
+Mas, antes de copiar, é preciso selecionar. Selecionar é marcar o texto, o arquivo ou a imagem. Arraste o mouse por cima, e o texto fica pintado de azul.
 
-Control mais Z desfaz o último passo: é o famoso ops, volta! Control mais S salva, e Control mais A seleciona tudo.
+Com o texto selecionado, Control mais C copia. O computador guarda uma cópia num lugar escondido, a área de transferência. E o original continua no lugar.
 
-Alt mais Tab troca de janela, e Windows mais E abre o Explorador de Arquivos.
+Agora, clique onde quer o texto e aperte Control mais V para colar. Pronto: a cópia aparece, sem digitar nenhuma letra!
 
-O mouse também tem atalhos: duplo clique seleciona uma palavra, clique triplo seleciona o parágrafo, e Control com a rodinha aumenta ou diminui o zoom.
+E Control mais X recorta: tira o texto do lugar para colar em outro. A diferença é esta: copiar deixa o original; recortar leva embora.
 
-A Lia selecionou o texto, copiou com Control mais C e colou com Control mais V. E o parágrafo apagado? Control mais Z, e ele voltou! Missão cumprida!
+Apagou sem querer? Control mais Z serve para desfazer o último passo. É o famoso ops, volta! E, se apertar de novo, volta mais um passo.
 
-Onde eu uso isso? No celular, tocando e segurando o texto para copiar e colar. Para copiar o código do PIX sem errar. E no trabalho da escola, quando algo some sem querer.
+Mais dois superpoderes: Control mais S salva o trabalho, e Control mais A seleciona tudo de uma vez.
 
-Agora é com vocês: abram a Missão 8 no portal!
+Alt mais Tab troca de uma janela para outra. E a tecla Windows mais E abre o Explorador de Arquivos, onde ficam as suas pastas.
+
+O mouse também tem atalhos: duplo clique seleciona uma palavra, clique triplo seleciona o parágrafo inteiro, e Control com a rodinha do mouse aumenta ou diminui o zoom.
+
+A Lia selecionou o texto, copiou com Control mais C e colou com Control mais V. E o parágrafo apagado? Control mais Z, e ele voltou! Trabalho pronto rapidinho. Missão cumprida!
+
+Onde eu uso isso? No celular, tocando e segurando o texto, aparecem os botões copiar e colar. Para copiar o código do PIX sem errar nenhum número. E no trabalho da escola, quando algo some sem querer: Control mais Z!
+
+Agora é com vocês: abram a Missão 8 no portal e usem os superpoderes do teclado!

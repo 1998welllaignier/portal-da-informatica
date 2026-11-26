@@ -103,3 +103,8 @@ Piloto no padrão completo: `ferramentas/video2d/2027-8ano-m4/` (13 cenas, câme
 
 ## 🎮 Vinheta de entrada (aprovada em 25/11/2026: versão de 10 s)
 Antes de todo vídeo de missão: o Prof. Welington em pixel art (o do jogo Byte) corre numa mini fase pegando chips com placar, bate no bloco ?, o balão escreve “BEM-VINDO À MISSÃO!” letra por letra, missão e título digitados (acentos desenhados ponto a ponto), o Byte chega e os dois comemoram, START! e a tela se desfaz em quadradinhos. Música e efeitos de 8 bits do jogo. `python3 ferramentas/video2d/vinheta/gerar_vinheta.py "MISSÃO 6" "TÍTULO" "8º ANO · 1º BIM. 2027" vinheta.mp4 [video.mp4 final.mp4]` — é colada ANTES do vídeo, então a voz e a legenda do vídeo não mudam.
+
+### Selo do professor (26/11/2026)
+- O verificador reprova qualquer texto que **encoste** no selo (antes só reprovava quando cobria mais de 15% do texto).
+- `palavra()` (lib.js) desvia sozinha do selo: desliza para a esquerda ou, se não couber, desce.
+- A placa do "MISSÃO CUMPRIDA!" foi para `rr(70, 92, 860, 112)`, com o texto em (500, 148), longe do selo.

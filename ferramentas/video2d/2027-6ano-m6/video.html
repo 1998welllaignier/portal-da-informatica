@@ -171,7 +171,7 @@ function abertura(t, rotuloSerie, titulo, l1, l2, t1) { t1 = t1 || 1.6;
 function fimCartao(t, linha, pessoas) { fundoEscuro(t); g.textAlign = "center"; g.globalAlpha = out(seg(t, 0, .6)); g.fillStyle = AMAR; g.font = `800 62px ${F}`; g.fillText("Prof. Welington Laignier", 640, 300);
   g.fillStyle = "#fff"; g.font = `700 30px ${F}`; g.fillText(linha, 640, 350); g.font = `800 40px ${F}`; g.fillStyle = "#cfe0ff"; g.fillText(linha.match(/Missão \d/)[0].replace("Missão", "Abram a Missão") + " no portal!", 640, 430); g.globalAlpha = 1;
   (pessoas || []).forEach((p, i) => boneco(Object.assign({ x: i ? 1040 : 240, y: 700, s: .9, braco: -2.8 + Math.sin(t * 10 + i) * .25, bracoE: 2.8, pisca: pisca(t + i * .7) }, p))); confete(t, .9); }
-function cumprida(t, t0) { if (t > t0) { g.fillStyle = "#1b2c5a"; g.globalAlpha = out(seg(t, t0, t0 + .3)); rr(190, 58, 900, 118, 26); g.fill(); g.globalAlpha = 1; } palavra("MISSÃO CUMPRIDA!", 640, 120, seg(t, t0, t0 + .4), 72); confete(t, t0); }
+function cumprida(t, t0) { if (t > t0) { g.fillStyle = "#1b2c5a"; g.globalAlpha = out(seg(t, t0, t0 + .3)); rr(70, 92, 860, 112, 26); g.fill(); g.globalAlpha = 1; } palavra("MISSÃO CUMPRIDA!", 500, 148, seg(t, t0, t0 + .4), 72); confete(t, t0); }
 function estrela(x, y, r, cor) { g.save(); g.translate(x, y); g.fillStyle = cor || AMAR; g.strokeStyle = "#b45309"; g.lineWidth = 3; g.beginPath(); for (let i = 0; i < 10; i++) { const a = -Math.PI / 2 + i * Math.PI / 5, rr2 = i % 2 ? r * .45 : r; g.lineTo(Math.cos(a) * rr2, Math.sin(a) * rr2); } g.closePath(); g.fill(); g.stroke(); g.restore(); }
 function robozinho(x, y, s, t, feliz) { g.save(); g.translate(x, y); g.scale(s, s); const b = Math.sin((t || 0) * 6) * 3;
   g.fillStyle = "#64748b"; g.fillRect(-4, -78 + b, 8, 16); g.fillStyle = "#ef4444"; g.beginPath(); g.arc(0, -82 + b, 7, 0, 7); g.fill();
@@ -277,7 +277,7 @@ const CENAS = [
    draw(t, D) { const ma = em(F1, "maiúscula"), fo = em(F1, "foto"), br = em(F1, "briga"), tr = em(F1, "triste"), fg = em(F1, "fogo"); const n = t > br ? 4 : t > fo + .5 ? 3 : t > fo ? 2 : t > ma ? 1 : 0;
      g.save(); camera(t, [[0, 640, 360, 1], [ma, 640, 260, 1.35], [br, 640, 320, 1.1], [fg, 640, 360, 1]]); praca(t); chat(640, 350, 420, 380, "Turma 6º A 😎", MSG, n, t, seg(t, br, fg + .5));
      rafa({ x: 230, y: 680, s: .95, olhar: 1, braco: -1.6, bracoE: .3, boca: "o", pisca: pisca(t) }); gabi({ x: 1050, y: 680, s: .95, olhar: -1, braco: .3, bracoE: .3, boca: t > tr ? "o" : "", pisca: pisca(t + .4) }); g.restore();
-     if (t > tr) emo("😢", 1050, 470, 40); if (t > fg) palavra("O GRUPO PEGOU FOGO!", 640, 72, seg(t, fg, fg + .4), 56); } },
+     if (t > tr) emo("😢", 1050, 470, 40); if (t > fg) palavra("O GRUPO PEGOU FOGO!", 560, 100, seg(t, fg, fg + .4), 56); } },
  { chip: "GENTE DE VERDADE", fala: F2, sfx: [[.1, "whoosh"], [em(F2, "Bit"), "ding"], [em(F2, "gente"), "pop"], [em(F2, "pessoa"), "pop"]],
    draw(t, D) { const bi = em(F2, "Bit"), ge = em(F2, "gente"), pe = em(F2, "pessoa");
      g.save(); camera(t, [[0, 640, 360, 1], [ge, 640, 380, 1.1]]); praca(t);

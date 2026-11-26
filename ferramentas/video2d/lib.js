@@ -70,7 +70,12 @@ function balao(txt, x, y, k) {
   g.fillStyle = "#1e2a4a"; g.textAlign = "center"; g.textBaseline = "middle"; g.fillText(txt, 0, -36); g.restore();
 }
 function palavra(txt, x, y, k, tam) {
-  if (k <= 0) return; const s = back(cl(k)); g.save(); g.translate(x, y); g.scale(s, s); g.rotate(-.03);
+  if (k <= 0) return; const s = back(cl(k));
+  // 🛡️ 26/11/2026: o título nunca encosta no selo do professor (canto de cima à direita); se encostar, desliza para a esquerda (ou desce)
+  g.save(); g.font = `800 ${tam || 76}px ${F}`; const m = g.getTransform(), hw = g.measureText(txt).width / 2 + 9, hh = (tam || 76) / 2 + 9;
+  const sx0 = m.a * (x - hw) + m.e, sx1 = m.a * (x + hw) + m.e, sy0 = m.d * (y - hh) + m.f, sy1 = m.d * (y + hh) + m.f; g.restore();
+  if (m.a > 0 && sx1 > W - 380 && sy0 < 86 && sx0 < W - 12) { const dx = sx1 - (W - 384); if (sx0 - dx >= 16) x -= dx / m.a; else y += (86 - sy0) / m.d; }
+  g.save(); g.translate(x, y); g.scale(s, s); g.rotate(-.03);
   g.font = `800 ${tam || 76}px ${F}`; g.textAlign = "center"; g.textBaseline = "middle";
   g.lineJoin = "round"; g.lineWidth = 14; g.strokeStyle = "#1e2a4a"; g.strokeText(txt, 0, 0);
   g.fillStyle = "#ffd23f"; g.fillText(txt, 0, 0); g.restore();

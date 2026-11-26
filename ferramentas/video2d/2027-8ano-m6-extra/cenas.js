@@ -145,7 +145,7 @@ const CENAS = [
      g.save(); camera(t, [[0, 520, 380, 1.05], [ts[1], 560, 400, 1.2], [ts[2], 700, 420, 1.5], [ts[3], 820, 430, 1.9], [ne, 760, 400, 1.35]]); salaCasa(t);
      for (let i = 0; i < 5; i++) { if (i > n) break; const ab = i < n ? 1 : 0; matrioska(xs[i], 470, sc[i], CM[i % 6], ab ? .0001 : 0); if (ab) { g.save(); g.translate(xs[i] + 40 * sc[i] / .8, 470 - 110 * sc[i] / .8); g.rotate(.4); matrioska(0, 0, sc[i] * .55, CM[i % 6], 0); g.restore(); } }
      bitE(t, 1040, 640, 1.4, false); if (t > ne) { g.fillStyle = "#67e8f9"; g.beginPath(); g.ellipse(1080, 530 + (t * 40) % 20, 6, 10, 0, 0, 7); g.fill(); } g.restore();
-     if (t > ne) balao("E se isso não acabar NUNCA?! 😰", 860, 130, seg(t, ne, ne + .3)); } },
+     if (t > ne) balao("E se isso não acabar NUNCA?! 😰", 640, 150, seg(t, ne, ne + .3)); } },
  { chip: "O MESMO, SÓ QUE MENOR", fala: F4, sfx: [[.1, "whoosh"], [em(F4, "abre"), "pop"], [em(F4, "mesma"), "ding"], [em(F4, "Dentro"), "whoosh"], [em(F4, "menor"), "ding"]],
    draw(t, D) { const ab = em(F4, "abre"), ms = em(F4, "mesma"), de = em(F4, "Dentro"), me = em(F4, "menor"); fundoEscuro(t, "#1e3a8a");
      g.save(); camera(t, [[0, 640, 360, 1], [de, 640, 380, .95]]); const a = io2(seg(t, ab, ab + .8));

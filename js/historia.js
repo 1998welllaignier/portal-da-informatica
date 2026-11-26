@@ -19,14 +19,15 @@
   P.registrarHistoria = (id, d) => { P.historias[id] = d; };
   // missões que já têm história (para mostrar o botão no painel)
   P.historiasDisponiveis = { "informatica-6ano-4bim": ["m1"], "informatica-7ano-4bim": ["m1"], "informatica-8ano-4bim": ["m2"], "informatica-9ano-4bim": ["m1"] };
+  // 🎮 26/11/2026: 6º M4 e 9º M3 (4º bim. 2026) com a vinheta de entrada; o vídeo antigo fica como alternativo.
   // 📺 vídeos das missões (com a voz), hospedados no canal do professor no YouTube (@professorwelllaignier),
   // NÃO LISTADOS e "conteúdo para crianças". Aparecem só no painel do professor (aba Aula), nunca para os alunos.
   // Para acrescentar um vídeo: apostila base → missão → id do YouTube (o que vem depois de youtu.be/).
   P.videosMissao = {
-    "informatica-6ano-4bim": { m1: "c6VL4LyYfoU", m2: "tewalJ_tQyA", m3: "8HyYA5FcGaQ", m4: "t8OrHlUPoKE" },
+    "informatica-6ano-4bim": { m1: "c6VL4LyYfoU", m2: "tewalJ_tQyA", m3: "8HyYA5FcGaQ", m4: ["hXc5rYZ3ZVA", { id: "t8OrHlUPoKE", nome: "🎞️ Versão anterior (sem vinheta)", sub: "o mesmo vídeo, sem a abertura em pixel art" }] },
     "informatica-7ano-4bim": { m1: ["H-I9rr3zvcA", { id: "CU1eC_bPv-w", nome: "🔌 Curiosidade: o cabo de rede por dentro", sub: "o que tem dentro do cabo da sala de informática", curiosidade: true }], m2: "GZV5XHt8ffQ", m3: "pXqdg8IYbMI", m4: "KZi4Yco_RwI" },
     "informatica-8ano-4bim": { m1: ["147fmYY0uNU", "PKB6Wp09WP8"], m2: "TIIizqcGvQ4", m3: "gDbjAzGVP3k", m4: "TBagAmKBMew" }, // m1: [principal, extra passo a passo]
-    "informatica-9ano-4bim": { m1: "9kQjYVojNag", m2: "epiTtUxQ3Yg", m3: "0blVJESjpzs", m4: "jLz6jur-msY" },
+    "informatica-9ano-4bim": { m1: "9kQjYVojNag", m2: "epiTtUxQ3Yg", m3: ["ktBI5GZfEvo", { id: "0blVJESjpzs", nome: "🎞️ Versão anterior (sem vinheta)", sub: "o mesmo vídeo, sem a abertura em pixel art" }], m4: "jLz6jur-msY" },
     // 2027 · 1º bimestre (subidos em 16/11/2026; o Especial Teclado é o 2º vídeo da M1)
     "informatica-7ano-2027-1bim": { m1: "-Y5vRictuKA", m2: "4Uu1LKUF-YY" },   // M1 em 17/11 e M2 em 18/11/2026 (aprovados e não listados em 18/11)
     "informatica-6ano-2027-1bim": { m1: ["9sPLQiecnHc", { id: "MGRoBzcxwX8", nome: "⌨️ Especial Teclado", sub: "a caça ao tesouro na Cidade Teclado, 8 min" }], m2: "oLgO5Zz0Bbg", m3: "Z7urMeervDQ" },

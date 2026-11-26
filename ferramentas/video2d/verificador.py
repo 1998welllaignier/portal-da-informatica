@@ -72,7 +72,7 @@ def checar_quadro(ops, cena, t):
         if o["t"] != "cena" or o["a"] < .35 or not o["letra"]: continue
         b = o["b"]; ar = area(b) or 1; s = o["s"][:40]
         if legb and inter(b, legb) / ar > .12: out.append(("ERRO", f"legenda cobre o texto “{s}”"))
-        if inter(b, selob) / ar > .15: out.append(("ERRO", f"texto “{s}” embaixo do selo do professor"))
+        if inter(b, selob) / ar > .02 and inter(b, selob) > 120: out.append(("ERRO", f"texto “{s}” encostando/embaixo do selo do professor"))
         vis_ = area([max(0, b[0]), max(0, b[1]), min(W, b[2]), min(H, b[3])]) / ar
         if o["a"] > .6 and .35 < vis_ < .97 and o["fs"] >= 18: out.append(("AVISO", f"texto cortado na borda da tela: “{s}”"))
         # fundo (barra/contorno/cartão) atrás do texto: o desenho pintado logo antes, alinhado com ele
