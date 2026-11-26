@@ -70,6 +70,7 @@
   async function estado(s) {
     if (P.carregarPeriodo) await P.carregarPeriodo(); const cfgSnap = await db().collection("config").doc(P.docProva ? P.docProva(s.turma) : "prova_" + s.turma).get();
     const cfg = cfgSnap.exists ? cfgSnap.data() : {};
+    P.caixaProva = !!cfg.ferramentas; if (P.caixa) P.caixa.atualizar();   // 🧰 26/11/2026: caixa de ferramentas só se o professor ligou
     const hojeStr = N.hoje();
     const ate = cfg.ate || null;
     const aberta = !!cfg.aberta && cfg.dia === hojeStr && !(ate && Date.now() > ate);
@@ -266,13 +267,15 @@
     let unCfg = null;
     try { unCfg = db().collection("config").doc(P.docProva ? P.docProva(s.turma) : "prova_" + s.turma).onSnapshot(sn => {
       const c = sn.exists ? sn.data() : {}; extraMin = +((c.extra || {})[e.alunoId] || 0);
+      // 🧰 26/11/2026: o professor decide, ao ligar a prova, se ela tem a caixa de ferramentas (calculadora, conversor, rascunho)
+      P.caixaProva = !!c.ferramentas; if (P.caixa) P.caixa.atualizar();
       const p2 = !!((c.pausa || {})[e.alunoId]); if (p2 !== pausado) { pausado = p2; UI.pausar(pausado); vivo({ pausado }); } tic(); }, () => {}); } catch (x) {}
     // 🖥️ tela cheia vigiada (20/11/2026): sair da tela cheia cobre a prova e conta no painel do professor
     const cheia = () => P.telaCheia ? P.telaCheia.esta() : (!!document.fullscreenElement || (Math.abs(innerHeight - screen.height) < 6 && Math.abs(innerWidth - screen.width) < 6));
     let estavaCheia = cheia();
     const vigiaTela = () => { const c = cheia(); if (estavaCheia && !c && !enviando) { vivo({ saidas: (vivoEstado.saidas || 0) + 1 }); } estavaCheia = c; UI.telaCheia(c); };
     document.addEventListener("fullscreenchange", vigiaTela); addEventListener("resize", vigiaTela); UI.telaCheia(cheia());
-    const limpar = () => { clearInterval(ivRel); clearInterval(ivVivo); try { unCfg && unCfg(); } catch (x) {} document.removeEventListener("fullscreenchange", vigiaTela); removeEventListener("resize", vigiaTela); };
+    const limpar = () => { P.caixaProva = false; if (P.caixa) P.caixa.atualizar(); clearInterval(ivRel); clearInterval(ivVivo); try { unCfg && unCfg(); } catch (x) {} document.removeEventListener("fullscreenchange", vigiaTela); removeEventListener("resize", vigiaTela); };
     addEventListener("hashchange", limpar, { once: true });
     async function enviar(tempo) {
       if (enviando) return; enviando = true; clearInterval(ivRel);

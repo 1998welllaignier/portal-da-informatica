@@ -1706,7 +1706,7 @@
         ${aulasTxt}
         <div class="pp-missoes-prova"><p><strong>A prova cobra só as missões marcadas</strong>. O painel já marcou as que foram dadas nas aulas (com a data de cada uma); confira antes de ligar. Pode desmarcar ou marcar à vontade.</p><div class="pp-mis-grade">${caixasM}</div></div>
         <p class="ajuda">Ligado, o aluno digita o código e cai direto na prova. Um relógio mostra quanto falta até o horário-limite; quando o tempo acaba, a prova é enviada sozinha com as respostas marcadas. Ao terminar, o aluno vê a nota e o portal sai sozinho.</p>
-        <div class="row-btns">${ligada ? `<button class="btn" id="pv-off" type="button">⏹️ Encerrar a prova</button>` : `<label>A prova termina às <input type="time" id="pv-ate" value="${hm(fimPadrao)}"></label><button class="btn btn-grande" id="pv-on" type="button">📝 Ligar o Dia de prova</button>`}
+        <div class="row-btns">${ligada ? `<button class="btn btn-sec" id="pv-cx-tg" type="button" title="Liga ou desliga a caixa de ferramentas na prova de quem está fazendo agora">🧰 Caixa de ferramentas: <b>${cfg.ferramentas ? "LIGADA" : "DESLIGADA"}</b></button><button class="btn" id="pv-off" type="button">⏹️ Encerrar a prova</button>` : `<label class="pv-cx-op" title="Calculadora, conversor de tamanhos e rascunho. O dicionário não aparece na prova, porque daria as respostas."><input type="checkbox" id="pv-cx" ${cfg.ferramentas ? "checked" : ""}> 🧰 Com caixa de ferramentas (🧮 calculadora, 📏 conversor e 📝 rascunho)</label><label>A prova termina às <input type="time" id="pv-ate" value="${hm(fimPadrao)}"></label><button class="btn btn-grande" id="pv-on" type="button">📝 Ligar o Dia de prova</button>`}
           <button class="btn btn-sec" id="pv-cp" type="button">📋 Copiar notas</button>
           <button class="btn btn-sec" id="pv-gab" type="button">👁️ Mostrar gabarito</button></div></div>
       <div class="painel pp-gab" id="gab"><h2>Gabarito</h2>${gab}</div>
@@ -1724,8 +1724,11 @@
       if (!missoes.length) { toast("Marque pelo menos uma missão que a turma estudou."); return; }
       on.disabled = true;
       const ts = firebase.firestore.Timestamp ? firebase.firestore.Timestamp.fromMillis(fim.getTime()) : fim.getTime();
-      await cfgRef.set({ aberta: true, dia: hoje, abertaEm: Date.now(), ate: fim.getTime(), ateTs: ts, recuperacao: [...rec], missoes, tres: [...tres], recAtv: [...recAtv], ...(cfg.recMissoes ? { recMissoes: cfg.recMissoes } : {}) });
+      const ferramentas = !!(corpo.querySelector("#pv-cx") || {}).checked;
+      await cfgRef.set({ aberta: true, dia: hoje, abertaEm: Date.now(), ate: fim.getTime(), ateTs: ts, ferramentas, recuperacao: [...rec], missoes, tres: [...tres], recAtv: [...recAtv], ...(cfg.recMissoes ? { recMissoes: cfg.recMissoes } : {}) });
       toast("Dia de prova ligado até as " + hm(fim.getTime())); recarregar(); };
+    { const tg = corpo.querySelector("#pv-cx-tg"); if (tg) tg.onclick = async () => { tg.disabled = true; await cfgRef.set({ ferramentas: !cfg.ferramentas }, { merge: true });
+        toast(cfg.ferramentas ? "🧰 Caixa de ferramentas desligada na prova." : "🧰 Caixa de ferramentas ligada na prova."); recarregar(); }; }
     if (off) off.onclick = async () => { off.disabled = true; await cfgRef.set({ aberta: false, encerradaEm: Date.now() }, { merge: true }); toast("Prova encerrada."); recarregar(); };
     corpo.querySelector("#pv-gab").onclick = e => { const g = corpo.querySelector("#gab"); g.classList.toggle("on"); e.target.textContent = g.classList.contains("on") ? "🙈 Esconder gabarito" : "👁️ Mostrar gabarito"; };
     corpo.querySelector("#pv-cp").onclick = async () => {

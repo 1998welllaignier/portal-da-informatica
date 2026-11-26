@@ -3022,3 +3022,67 @@ body.hz-aberta{overflow:hidden}
 /* 🧾 de onde vem cada ponto (26/11/2026) */
 .mn-xp .xp-partes{margin:6px 0 0;font-size:.8rem;line-height:1.35;display:flex;flex-wrap:wrap;gap:2px 6px;opacity:.9}
 .mn-xp .xp-partes span{white-space:nowrap}
+/* 🧰 caixa de ferramentas do aluno (26/11/2026): botão fixo + painel arrastável (não é janela, não escurece a tela) */
+/* 26/11/2026 (2ª versão, pedido do professor): o botão saiu do canto de baixo (lá ficam a igrejinha e os enfeites das datas)
+   e virou uma ABA laranja colada na borda esquerda, no meio da altura: bem à vista, sem cobrir a tarefa. */
+.cx-bt{position:fixed;left:0;top:50%;transform:translateY(-50%);z-index:2900;display:flex;flex-direction:column;align-items:center;gap:6px;width:54px;
+  border:3px solid #fff;border-left:0;background:linear-gradient(160deg,#fb923c,#ea580c);color:#fff;border-radius:0 18px 18px 0;padding:10px 4px 10px 2px;
+  cursor:pointer;box-shadow:0 8px 22px rgba(234,88,12,.45),0 2px 6px rgba(0,0,0,.25);font:inherit;text-shadow:0 1px 2px rgba(0,0,0,.25)}
+.cx-bt span{font-size:1.9rem;line-height:1}
+.cx-bt small{writing-mode:vertical-rl;transform:rotate(180deg);font-weight:900;font-size:.95rem;letter-spacing:.06em}
+.cx-bt i{font-style:normal;font-size:.9rem;line-height:1.15;display:flex;flex-direction:column;gap:1px;background:rgba(255,255,255,.22);border-radius:8px;padding:3px 2px}
+.cx-bt:hover{background:linear-gradient(160deg,#f97316,#c2410c);width:60px}
+.cx-bt.on{background:#0f766e;box-shadow:0 8px 22px rgba(15,118,110,.45)}
+.cx-bt.chegou{animation:cx-chegou .7s ease-in-out 3}
+@keyframes cx-chegou{0%,100%{transform:translateY(-50%) translateX(0)}50%{transform:translateY(-50%) translateX(10px) scale(1.06)}}
+.cx-balao{position:fixed;left:68px;top:50%;transform:translateY(-50%);z-index:2902;width:min(300px,calc(100vw - 84px));color:#fff;padding:14px 16px;border-radius:16px;
+  background:rgba(15,23,42,.84);-webkit-backdrop-filter:blur(10px) saturate(140%);backdrop-filter:blur(10px) saturate(140%);border:1px solid rgba(255,255,255,.28);
+  box-shadow:0 14px 34px rgba(0,0,0,.35);font-size:.95rem;line-height:1.35;animation:cx-balao .3s ease-out}
+.cx-balao::before{content:"";position:absolute;left:-9px;top:50%;margin-top:-9px;border:9px solid transparent;border-left:0;border-right-color:rgba(15,23,42,.84)}
+.cx-bl-tit{display:block;font-size:1.1rem;margin-bottom:4px}.cx-balao p{margin:4px 0}.cx-balao ul{margin:4px 0 6px;padding-left:2px;list-style:none}.cx-balao li{margin:2px 0}
+.cx-bl-p{font-size:.85rem;opacity:.9}
+.cx-bl-ok{display:block;margin:10px 0 0 auto;border:0;background:#fb923c;color:#fff;font:inherit;font-weight:900;padding:8px 16px;border-radius:999px;cursor:pointer;box-shadow:0 4px 10px rgba(0,0,0,.25)}
+.cx-bl-ok:hover{background:#ea580c}
+/* ✋ mãozinha que ensina a arrastar a caixa (no estilo da mãozinha dos simuladores) */
+.cx-mao{position:fixed;z-index:2904;font-size:40px;pointer-events:none;filter:drop-shadow(0 3px 4px #0006);animation:cx-mao-arrasta 2.4s ease-in-out infinite}
+@keyframes cx-mao-arrasta{0%{transform:translate(0,0);opacity:1}15%{transform:translate(0,6px) scale(.9);opacity:1}55%{transform:translate(90px,6px) scale(.9);opacity:1}70%{transform:translate(90px,0) scale(1);opacity:.5}85%,100%{transform:translate(0,0);opacity:0}}
+.cx-mao-balao{position:fixed;z-index:2905;max-width:300px;color:#fff;padding:10px 14px;border-radius:14px;background:rgba(30,58,138,.88);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,.3);box-shadow:0 10px 26px rgba(0,0,0,.35);font-size:.95rem;line-height:1.35;animation:cx-balao2 .3s ease-out}
+@keyframes cx-balao2{from{opacity:0;transform:translateY(-6px)}}
+.cx-caixa.cx-pisca .cx-cab{animation:cx-cab-pisca 1s ease-in-out infinite}
+@keyframes cx-cab-pisca{50%{background:#14b8a6;box-shadow:inset 0 0 0 3px #fde68a}}
+@media (prefers-reduced-motion: reduce){.cx-mao,.cx-caixa.cx-pisca .cx-cab{animation:none}}
+@keyframes cx-balao{from{opacity:0;transform:translateY(-50%) translateX(-8px)}}
+@media (prefers-reduced-motion: reduce){.cx-bt.chegou,.cx-balao{animation:none}}
+.cx-caixa{position:fixed;z-index:2901;width:min(320px,calc(100vw - 16px));background:#fff;border:3px solid #0f766e;border-radius:16px;box-shadow:0 14px 34px rgba(0,0,0,.28);overflow:hidden;color:#0f172a;font-size:.95rem}
+.cx-caixa.arrastando{opacity:.92;box-shadow:0 20px 44px rgba(0,0,0,.35)}
+.cx-cab{display:flex;align-items:center;gap:6px;background:#0f766e;color:#fff;padding:6px 8px;cursor:grab;user-select:none;touch-action:none}
+.cx-caixa.arrastando .cx-cab{cursor:grabbing}
+.cx-cab b{flex:1;font-size:.95rem}.cx-arr{opacity:.8;font-size:1.1rem}
+.cx-cab button{border:0;background:rgba(255,255,255,.18);color:#fff;border-radius:8px;width:30px;height:28px;cursor:pointer;font:inherit}
+.cx-cab button:hover{background:rgba(255,255,255,.32)}
+.cx-caixa.min .cx-abas,.cx-caixa.min .cx-corpo{display:none}
+.cx-abas{display:flex;gap:2px;background:#ccfbf1;padding:4px}
+.cx-abas button{flex:1;border:0;background:transparent;border-radius:8px;padding:5px 2px;font:inherit;font-size:.78rem;font-weight:700;color:#134e4a;cursor:pointer}
+.cx-abas button.on{background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.15)}
+.cx-corpo{padding:10px;max-height:min(62vh,440px);overflow:auto}
+.cx-visor{background:#0f172a;color:#e2e8f0;border-radius:10px;padding:6px 10px;text-align:right;min-height:58px;display:flex;flex-direction:column;justify-content:flex-end}
+.cx-hist{opacity:.7;min-height:1.1em}.cx-expr{font-size:1.6rem;word-break:break-all;font-variant-numeric:tabular-nums}
+.cx-teclas{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-top:8px}
+.cx-teclas button{border:2px solid #cbd5e1;background:#f8fafc;border-radius:10px;padding:9px 0;font:inherit;font-size:1.15rem;font-weight:800;cursor:pointer}
+.cx-teclas button:hover{border-color:#0f766e}.cx-teclas button.op{background:#e0f2fe;color:#075985}.cx-teclas button.lim{background:#fee2e2;color:#991b1b}
+.cx-teclas button.ig{grid-column:1/-1;background:#0f766e;color:#fff;border-color:#0f766e}
+.cx-dica{font-size:.8rem;color:#475569;margin:8px 0 0}
+.cx-lin{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.cx-conv input,.cx-conv select,.cx-dic input{font:inherit;padding:6px 8px;border:2px solid #cbd5e1;border-radius:8px;min-width:0}
+.cx-conv input{width:96px;font-size:1.1rem;font-weight:800}.cx-conv select{flex:1}
+.cx-cv-res table{width:100%;border-collapse:collapse;margin-top:8px;font-variant-numeric:tabular-nums}
+.cx-cv-res td{padding:4px 6px;border-bottom:1px solid #e2e8f0}.cx-cv-res td:first-child{text-align:right;font-weight:800}
+.cx-cv-res tr.eu td{background:#ccfbf1}.cx-passo{font-size:.75rem;color:#64748b}
+.cx-dic input{width:100%}.cx-dic-l{margin-top:8px}.cx-dic details{border-bottom:1px solid #e2e8f0;padding:4px 0}
+.cx-dic summary{font-weight:800;cursor:pointer;color:#0f766e}.cx-dic details div{font-size:.88rem;padding:4px 0 2px}
+.cx-rasc textarea{width:100%;box-sizing:border-box;font:inherit;font-size:1rem;border:2px dashed #94a3b8;border-radius:10px;padding:8px;resize:vertical;background:#fffbeb}
+.cx-mini{border:2px solid #cbd5e1;background:#fff;border-radius:8px;padding:3px 8px;font:inherit;font-size:.8rem;cursor:pointer}
+@media print{.cx-bt,.cx-caixa{display:none!important}}
+.cx-caixa:focus{outline:none}.cx-caixa:focus-visible{outline:3px solid #f59e0b}
+.cx-mao-balao.lado-dir::before{content:"";position:absolute;left:-9px;top:14px;border:9px solid transparent;border-left:0;border-right-color:rgba(30,58,138,.88)}

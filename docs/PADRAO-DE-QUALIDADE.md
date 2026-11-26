@@ -839,3 +839,9 @@ O botão 🎮 Sala de jogos (o mesmo do 5º ano) aparece na lista de missões de
 - Embaixo da barra de XP, o aluno vê "🏆 No placar da aula: N pts" (o número do projetor), com as partes: ⚡ missão + 🚦📖 sala de espera e leitura.
 - 🧾 Embaixo da barra, de onde veio cada ponto: 📘 tarefas + ⭐ bônus relâmpago + 🔥 sequência + ♾️ laboratório + 🃏 álbum + 🌟 Vez da Helena (só as partes que existem; `P.podio.xpPartes`, a soma é sempre o total).
 - Roteiro `roteiro-pontos-sync.js`; antes de publicar qualquer coisa: `bash ferramentas/aula-simulada/testar-tudo.sh`.
+
+### 🧰 Caixa de ferramentas do aluno (26/11/2026, aprovado pelo professor)
+- Botão **🧰 Ferramentas**: aba laranja colada na borda esquerda, no meio da altura (o canto de baixo é dos enfeites das datas), nas missões e na apostila (`js/caixa.js`). Na 1ª entrada do dia de cada aluno, a aba balança e um aviso em efeito vidro explica o que tem nela, com **👍 OK, entendi**; ao abrir a caixa pela 1ª vez no dia, uma **mãozinha** mostra como arrastar a barra de cima (balão ao lado, com OK). Abre um painel que **não é janela**: não escurece a tela, não trava a tarefa, pode ser **arrastado** pela barra de cima e **encolhido** (➖), para nunca cobrir os números da tarefa. Tudo dentro da página: o aluno não sai da tela cheia.
+- 🧮 Calculadora (botões e teclado; conta feita pelo portal, sem eval) · 📏 Conversor de tamanhos (bit, byte, KB, MB, GB, TB, com a conta de cada linha; **1 GB ≈ 1000 MB e 1 byte = 8 bits, como nas apostilas**) · 📖 Dicionário da missão (os termos da aula; na apostila, de todas) · 📝 Rascunho (só daquele aluno, some quando ele sai).
+- Não aparece na sala de espera, nos jogos, no início nem no painel. **Na 📝 prova:** só se o professor marcar "🧰 Com caixa de ferramentas" ao ligar a prova (dá para ligar e desligar com a prova em andamento), e **sem o 📖 dicionário**, que daria as respostas.
+- Toda apostila nova já nasce com ela: tarefas com contas podem dizer "use a 🧰 calculadora".

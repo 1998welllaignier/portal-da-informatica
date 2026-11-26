@@ -28,6 +28,12 @@ Tudo o que ficou combinado para depois da renovação. Fazer nesta ordem, um ass
      com pausa para respirar e explicação de que chutar não compensa. Detalhes na resposta de 26/11 (tempo de leitura, precisão de 60% nas últimas 10, erro volta depois etc.).
 5. 🎒 **Encontro dos Agregados** (aba Aula só para a turma AG): 3 decisões pendentes com o professor.
 6. Seção 6 (proteção, leituras do Firebase, cópia de segurança): itens 2 a 10.
+7. 🎮 **Jogo do Byte (inspirado no Super Mario) com a nossa cara** (pedido de 26/11, 20h36): o professor vai mandar **fotos reais da EMEF JK** para inspirar
+   as cores e os cenários; os **funcionários da escola podem virar personagens** (o professor disse que já tem a autorização de todos); o
+   **Professor Welington vira o protagonista, no lugar do Byte**. Combinar com ele o estilo antes de desenhar.
+8. 🔑 **Mudar a forma de entrar (logar) no portal** (pedido de 26/11, 20h36): conversar com o professor sobre como ele quer; junto com o item de
+   segurança do login (limite de tentativas no código de 4 números).
+9. 👣 Trocar o aluno para o Passo a Passo na hora, pelo painel (inclusive agregados de qualquer série) — pedido de 26/11, na fila de hoje; se não der hoje, fica aqui.
 
 ## 📌 SITUAÇÃO REAL — varredura completa de 20/11/2026 (vale esta seção; o resto do arquivo é histórico)
 Varredura pedida pelo professor em 20/11/2026: cada item abaixo foi conferido no código do portal, nos commits e na lista de vídeos.

@@ -40,3 +40,4 @@ Sala de espera → leitura (slide igual em todas as telas, risco do pincel chega
 - `roteiro-lab.js`: ♾️ Laboratório sem fim (26/11/2026) — abre só depois de Básico + Desafio + Turbo; tempo de leitura; combo; pausa de 5 s com 3 erros rápidos; aviso de precisão (< 6 em 10 não pontua); pergunta errada volta; XP entra no pódio.
 - `roteiro-pontos-sync.js`: 🏆 o MESMO número em todo lugar (26/11/2026) — barra do aluno = nuvem (`xp`) = parte da missão no placar; placar = Ao vivo = linha "No placar da aula" do aluno; inclui ♾️ laboratório, 🚦 espera e 📖 leitura.
 - `testar-tudo.sh`: roda todos os roteiros e diz quem passou e quem falhou. **Rodar antes de toda publicação.**
+- `roteiro-caixa.js`: 🧰 caixa de ferramentas do aluno (26/11/2026) — botão fixo, painel arrastável que não trava a tarefa, calculadora (botões e teclado), conversor (1 GB ≈ 1000 MB), dicionário, rascunho; some na espera e nos jogos; na prova só com o professor ligando, sem o dicionário.
