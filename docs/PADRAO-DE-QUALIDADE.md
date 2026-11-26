@@ -806,3 +806,6 @@ Questões **contextualizadas** (situação curta: 1–2 frases no 6º, 2–3 no 
 
 ## 🏁 Fim da missão (25/11/2026)
 No “Resumo do que fiz”, quem concluiu o básico vê, bem visível no alto, **🎮 Abrir a Sala de jogos** (abre para qualquer série, só depois de concluir) e **⛶ Sair da tela cheia** (para fechar; essa saída não conta como saída da tela cheia nem traz o bloqueio de volta enquanto ele estiver no resumo). Quem não concluiu vê quanto falta. Teste: `roteiro-fim-missao.js`.
+
+## 🎮 Sala de jogos para todas as séries (25/11/2026)
+O botão 🎮 Sala de jogos (o mesmo do 5º ano) aparece na lista de missões de todas as apostilas (2026 e 2027). **Fora da aula** o aluno entra com o código e joga à vontade. **Na hora da aula da turma** (aula iniciada no painel, até o ⏹️ Finalizar) o botão vira “🔒 Sala de jogos fechada durante a aula” e o endereço direto também não abre: ela só abre pelo 🏁 fim da missão, com o básico concluído. A Sala de espera continua igual. Testes: `roteiro-jogos-aula.js`, `roteiro-fim-missao.js`, `roteiro-jogos-5ano.js`.

@@ -22,7 +22,8 @@ Sala de espera → leitura (slide igual em todas as telas, risco do pincel chega
 - `roteiro-byte.js`: o jogo 🤖 Byte: a Aventura na Sala de espera (história, mapa, fase completa, jogo salvo no aluno, game over, Rei Vírus) e o tema 🎮 Byte 8 bits (25/11/2026).
 - `roteiro-helena.js, roteiro-reposicao.js`: 🌟 Modo Helena: carta da vez em dupla (nome do colega, erro, acerto, XP, não repete, sobe para a nuvem), Trilha sozinho (achar, ordem, pausa, descanso, contei) e aluno comum sem mudança (25/11/2026).
 - `roteiro-outra-turma.js`: aluno que frequenta a aula de outra turma entra na Sala de espera dessa turma (25/11/2026).
-- `roteiro-jogos-5ano.js`: a 🎮 Sala de jogos do 5º ano (botão na apostila, todos os jogos liberados, recorde salvo; outras séries não entram) (25/11/2026).
+- `roteiro-jogos-5ano.js`: a 🎮 Sala de jogos do 5º ano (botão na apostila, todos os jogos liberados, recorde salvo; desde 25/11/2026 as outras séries também entram) (25/11/2026).
 - `roteiro-5ano-aula.js`: aluno do 5º ano entra na aula da turma que está acontecendo (sala de espera → missão da apostila dela) e aparece no painel ao vivo (25/11/2026).
 - `roteiro-outra-turma-2.js`: a turma do aluno teve aula mais cedo; vale a aula iniciada mais recentemente (25/11/2026).
-- `roteiro-fim-missao.js`: 🏁 fim da missão no Resumo do que fiz (básico concluído: 🎮 Sala de jogos para qualquer série e ⛶ Sair da tela cheia sem contar saída; incompleto: aviso; colega que não terminou não entra em #/jogos) (25/11/2026).
+- `roteiro-fim-missao.js`: 🏁 fim da missão no Resumo do que fiz (básico concluído: 🎮 Sala de jogos para qualquer série e ⛶ Sair da tela cheia sem contar saída; incompleto: aviso; botão da Sala de jogos na lista de missões de todas as séries) (25/11/2026).
+- `roteiro-jogos-aula.js`: 🎮🔒 Sala de jogos na lista de missões de todas as séries: fechada na hora da aula da turma (só abre pelo 🏁 fim da missão) e aberta fora da aula (25/11/2026).

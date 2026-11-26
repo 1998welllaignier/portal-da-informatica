@@ -1,5 +1,5 @@
 /* 🧪 Roteiro (25/11/2026): 🏁 fim da missão no "Resumo do que fiz" — básico concluído mostra 🎮 Sala de jogos (abre para qualquer série
-   que terminou) e ⛶ Sair da tela cheia; básico incompleto mostra o aviso; quem não passou pelo resumo continua sem entrar em #/jogos. */
+   que terminou) e ⛶ Sair da tela cheia; básico incompleto mostra o aviso; a Sala de jogos também fica na lista de missões. */
 const { chromium } = require("playwright"); const T = require("./turma.js");
 (async () => { const b = await chromium.launch({ executablePath: "/usr/bin/google-chrome" });
   await T.semear({ "config/hoje_9A": { dia: "" } });
@@ -23,6 +23,8 @@ const { chromium } = require("playwright"); const T = require("./turma.js");
   await a.locator("#rel-sair").click(); await a.waitForTimeout(500); console.log("saiu da tela cheia:", await a.evaluate(() => !document.fullscreenElement));
   await a.locator("#rel-jogos").click(); await a.waitForTimeout(2500); console.log("jogos: url", a.url(), "jogos na sala", await a.locator(".jogos5-box [data-j]").count());
   await a.screenshot({ path: "/tmp/fim-3-sala.png" });
-  // colega que não terminou não entra direto
-  const a2 = await T.aluno(b, 1); await a2.evaluate(() => location.hash = "#/jogos"); await a2.waitForTimeout(2000); console.log("colega sem terminar em #/jogos foi para:", a2.url());
+  // 🎮 a Sala de jogos fica também na lista de missões (todas as séries, 25/11/2026)
+  const a2 = await T.aluno(b, 1); await a2.evaluate(x => location.hash = "#/apostila/" + x, aid); await a2.waitForTimeout(2500); await T.fecharJanelas(a2);
+  console.log("botão da Sala de jogos na lista de missões (9º ano):", await a2.locator(".jogos5-cta").count()); await a2.screenshot({ path: "/tmp/fim-4-lista.png" });
+  await a2.locator(".jogos5-cta").click(); await a2.waitForTimeout(2500); console.log("colega entrou na sala:", a2.url(), await a2.locator(".jogos5-box [data-j]").count(), "jogos");
   console.log("erros", a.erros, a2.erros); await b.close(); })();

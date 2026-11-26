@@ -1232,7 +1232,7 @@
         <p class="capa-prof">${esc(cat().professor)}</p></div>
         ${(P.ilustracoes[aid] || {}).mascote ? `<div class="capa-masc">${P.ilustracoes[aid].mascote}</div>` : ""}
       </header>
-      ${a.serie === "5" && P.jogosEspera ? `<a class="jogos5-cta" href="#/jogos"><span class="jogos5-ic">🎮</span><span><b>Sala de jogos</b><small>Todos os jogos do portal para você jogar e bater recordes!</small></span><span class="jogos5-ir">Jogar ▶</span></a>` : ""}
+      ${P.jogosEspera && !s.prof ? `<a class="jogos5-cta" id="cta-jogos" href="#/jogos"><span class="jogos5-ic">🎮</span><span><b>Sala de jogos</b><small>Todos os jogos do portal para você jogar e bater recordes!</small></span><span class="jogos5-ir">Jogar ▶</span></a>` : ""}
       ${repo ? `<div class="painel repo-faixa" role="note"><h2>🏠 Reposição em casa</h2><p>O Prof. Welington Laignier liberou para você fazer <strong>de casa</strong>, na hora que quiser, até <strong>${new Date(repo.ate).toLocaleDateString("pt-BR")}</strong>: ${repo.mids.map(x => `<b>🔓 ${esc(rotMis(aid, x))}</b>`).join(", ")}.</p><p>⏱️ São até <strong>${Math.round((P.catalogo.casaMinutos || 120) / 60)} horas de estudo por dia</strong> (o tempo começa na primeira tarefa). Antes das tarefas, assista ao vídeo da missão. As missões com 🔒 são feitas na aula, junto com a turma.</p></div>` : ""}
       <div class="grid-missoes">${C.missoes.filter(mm => mm.id !== "rc" || P.recLiberada || s.prof || !s.nuvem).map(card).join("")}</div>
       <details class="painel como-usar"><summary>📘 Como usar esta apostila</summary>${blocos(C.comoUsar.filter(b => !(b.t === "p" && /Tudo na apostila|escreve e desenha/.test(b.h))))}
@@ -1242,19 +1242,31 @@
         <button class="btn btn-sec" id="apagar" type="button">🧹 Apagar meus dados deste computador</button></div>
     </section>`);
     document.getElementById("exp").onclick = () => exportar(aid);
+    // 🔒 na hora da aula da turma, a Sala de jogos livre fica fechada (abre pelo 🏁 fim da missão, com o básico concluído)
+    const ctaJ = document.getElementById("cta-jogos");
+    if (ctaJ && !jogosLiberadoPeloFim(s)) aulaAgora(s).then(sim => { if (!sim || !ctaJ.isConnected) return;
+      ctaJ.outerHTML = `<div class="jogos5-cta jogos5-fechada" id="cta-jogos" role="note"><span class="jogos5-ic">🔒</span><span><b>Sala de jogos fechada durante a aula</b><small>Termine o 🟢 Básico da missão: no “Resumo do que fiz” ela abre para você.</small></span></div>`; });
     document.getElementById("apagar").onclick = async () => {
       if (!(await confirmar("Apagar todas as suas respostas desta apostila neste computador? Não dá para desfazer.", "Sim, apagar"))) return;
       store.del(progressoKey(aid)); toast("Seus dados desta apostila foram apagados deste computador."); telaApostila(aid);
     };
   }
 
-  /* 🎮 SALA DE JOGOS DO 5º ANO (25/11/2026, pedido do professor): os alunos do 5º ano (atendimento por vontade própria)
+  /* 🎮🔒 Aula acontecendo agora para a turma do aluno? (config/hoje_<turma>.iniciadaDia = hoje; o ⏹️ Finalizar limpa).
+     Nesse horário a Sala de jogos livre fica fechada; ela só abre pelo 🏁 fim da missão (básico concluído). Sem internet: não bloqueia. */
+  async function aulaAgora(s) {
+    if (!s || !s.nuvem || !P.nuvem || !P.nuvem.pronto || !s.turma) return false;
+    try { const h = await Promise.race([P.nuvem.db().collection("config").doc("hoje_" + s.turma).get(), new Promise((_, no) => setTimeout(() => no(new Error("tempo")), 4000))]);
+      return !!(h.exists && h.data().iniciadaDia === P.nuvem.hoje()); } catch (e) { return false; }
+  }
+  const jogosLiberadoPeloFim = s => { try { return sessionStorage.getItem("jogos-liberados") === s.turma + "|" + new Date().toDateString(); } catch (e) { return false; } };
+  /* 🎮 SALA DE JOGOS (25/11/2026, pedido do professor): começou no 5º ano e agora aparece para todas as séries, na lista de missões. Os alunos
      jogam TODOS os jogos da Sala de espera, a qualquer hora, sem contar pontos de aula. Os recordes e o progresso dos jogos
      (ex.: as fases do Byte) ficam no mesmo lugar da Sala de espera: progresso/<aluno>_espera.recordes. */
   async function telaJogos5() {
     const s = sess.get(); if (!s) return telaInicio();
-    let lib = false; try { lib = sessionStorage.getItem("jogos-liberados") === s.turma + "|" + new Date().toDateString(); } catch (e) {}   // aberta pelo 🏁 fim da missão (básico concluído)
-    if ((s.serie !== "5" && !lib) || !P.jogosEspera) { location.replace("#/apostilas"); return; }
+    if (!P.jogosEspera) { location.replace("#/apostilas"); return; }   // 🎮 desde 25/11/2026 aberta para todas as séries (antes só o 5º ano), a pedido do professor
+    if (!jogosLiberadoPeloFim(s) && await aulaAgora(s)) { location.replace("#/apostilas"); return; }   // 🔒 na hora da aula, só pelo fim da missão
     barra(`<span>🎮 Sala de jogos</span>`);
     const ids = s.alunoIds || [], nuvem = !!(s.nuvem && P.nuvem && P.nuvem.pronto);
     const refs = nuvem ? ids.map((id, i) => P.nuvem.app(i).db.collection("progresso").doc(id + "_espera")) : [];

@@ -12,7 +12,7 @@ const { chromium } = require("playwright"); const T = require("./turma.js");
   await pg.locator('[data-j="byte-aventura"]').click(); await pg.waitForTimeout(800); await pg.locator('[data-x="jogar"]').click(); await pg.waitForTimeout(1500);
   await pg.keyboard.press("Escape"); await pg.waitForTimeout(500); await pg.keyboard.press("Enter"); await pg.waitForTimeout(1500);
   const loja = await T.loja(); console.log("salvo:", JSON.stringify((loja["progresso/sim1_espera"] || {}).recordes));
-  // aluno do 6º ano não entra
+  // desde 25/11/2026 a Sala de jogos é de todas as séries: o aluno do 6º ano também entra
   await pg.evaluate(() => sessionStorage.setItem("portalJK:sessao", JSON.stringify({ serie: "6", turma: "6A", modo: "sozinho", nuvem: true, alunoIds: ["sim2"], nomes: ["X"], entrou: Date.now() })));
-  await pg.goto(T.BASE + "/#/jogos"); await pg.reload(); await pg.waitForTimeout(2500); console.log("6º ano em #/jogos foi para:", pg.url());
+  await pg.goto(T.BASE + "/#/jogos"); await pg.reload(); await pg.waitForTimeout(2500); console.log("6º ano em #/jogos ficou em:", pg.url(), "jogos:", await pg.locator(".jogos5-box [data-j]").count());
   console.log("erros", pg.erros); await b.close(); })();
