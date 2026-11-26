@@ -85,3 +85,13 @@ google
 onedrive
 icloud
 drive
+ddos
+denial
+distributed
+pin
+service
+fishing
+phishing
+pix
+hash
+sms

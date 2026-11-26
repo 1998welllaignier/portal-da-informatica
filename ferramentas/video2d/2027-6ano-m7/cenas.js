@@ -141,7 +141,7 @@ const CENAS = [
      if (t > ap) balao(t > ca ? "…e volta para casa! 🏠" : "o indicador sobe no R…", 560, 80, seg(t, ap, ap + .3)); } },
  { chip: "O RISQUINHO", fala: F5, sfx: [[.1, "whoosh"], [em(F5, "risquinho"), "ding"], [em(F5, "indicadores"), "pop"], [em(F5, "pronto"), "festa"]],
    draw(t, D) { const ri = em(F5, "risquinho"), ind = em(F5, "indicadores"), pr = em(F5, "pronto"); const [fx, fy] = kp(640, 200, 56, "F");
-     fundoEscuro(t, "#312e81"); g.save(); camera(t, [[0, 640, 330, 1], [ri, fx, fy + 10, 2.6], [ind, 640, 330, 1.05]]); kb(640, 200, 56, { risco: true, hl: t > ri ? { F: "#fde047", J: "#fde047" } : {} }); maos(640, 200, 56, seg(t, ind, ind + .6)); g.restore();
+     fundoEscuro(t, "#312e81"); g.save(); camera(t, [[0, 640, 330, 1], [ri, fx, fy + 10, 1.9], [ind, 640, 330, 1.05]]); kb(640, 200, 56, { risco: true, hl: t > ri ? { F: "#fde047", J: "#fde047" } : {} }); maos(640, 200, 56, seg(t, ind, ind + .6)); g.restore();
      if (t < ri) palavra("SEM OLHAR?", 520, 90, seg(t, 0, .4), 54);
      if (t > ri && t < ind) etiqueta("risquinho em alto-relevo", 560, 60, 640, 390, seg(t, ri, ri + .4));
      if (t > pr) cartaoC("😎 mão na posição certa!", 640, 520, 460, "#bbf7d0", seg(t, pr, pr + .4)); robozinho(1170, 600, .9, t, true); } },
@@ -191,7 +191,7 @@ const CENAS = [
        for (let i = 0; i < 5; i++) { const k = seg(t, tr + .5 + i * .45, tr + 1 + i * .45); if (k <= 0) continue; const h = (70 + i * 55) * cl(k); g.fillStyle = ["#93c5fd", "#60a5fa", "#3b82f6", "#22c55e", "#16a34a"][i]; rr(320 + i * 140, 500 - h, 100, h, 10); g.fill(); rotulo("dia " + (i + 1), 370 + i * 140, 520, "#fff", 1); }
        rotulo("mais rápido e com menos erros ⬆️", 640, 170, "#fde68a", seg(t, tr + 2, tr + 2.4)); thiago({ x: 1120, y: 680, s: .8, olhar: -1, braco: .3, bracoE: .3, boca: "riso", pisca: pisca(t) }); return; }
      const n = Math.min(13, Math.floor((t - ag) * 9));
-     g.save(); camera(t, [[ag, 600, 280, 1.3], [ins, 640, 360, 1]]); quarto7(t); monitor(560, 450, 1.75, telaInsc("Thiago Araújo", n, t > ins)); kb(560, 478, 15, {});
+     g.save(); camera(t, [[ag, 600, 320, 1.05], [ins, 640, 360, 1]]); quarto7(t); monitor(560, 500, 1.5, telaInsc("Thiago Araújo", n, t > ins)); kb(560, 538, 15, {});
      thiago({ x: 1000, y: 690, s: 1, olhar: -1, braco: t > ins ? -2.6 : .2, bracoE: t > ins ? 2.6 : .3, boca: "riso", pisca: pisca(t) }); g.restore();
      if (t > mc) cumprida(t, mc); } },
  { chip: "ONDE EU USO ISSO?", fala: F13, sfx: [[.1, "whoosh"], [em(F13, "provas"), "pop"], [em(F13, "cadastros"), "pop"], [em(F13, "profissões"), "pop"]],

@@ -83,7 +83,7 @@ const F0 = "Atalhos: os superpoderes do teclado!",
 const CENAS = [
  { chip: "", fala: F0, sfx: [[.05, "whoosh"], [.5, "voa"], [1.2, "tec"], [1.8, "ding"]],
    draw(t, D) { g.save(); camera(t, [[0, 640, 300, 1.4], [1.6, 640, 320, 1]]); fundoEscuro(t, "#1e1b4b"); for (let i = 0; i < 40; i++) { g.fillStyle = "rgba(255,255,255,.7)"; g.fillRect((i * 173) % 1280, (i * 97) % 420, 3, 3); }
-     const fx = 200 + ((t * 260) % 1100), fy = 220 + Math.sin(t * 3) * 30; capa(fx, fy, 1, t); tecla(fx, fy, 150, "Ctrl", false, "#e0e7ff");
+     const fx = 160 + ((t * 260) % 960), fy = 220 + Math.sin(t * 3) * 30; capa(fx, fy, 1, t); tecla(fx, fy, 150, "Ctrl", false, "#e0e7ff");
      tecla(420, 300, 96, "C", Math.floor(t * 2) % 2 === 0, "#fef9c3"); tecla(640, 300, 96, "V", Math.floor(t * 2 + 1) % 2 === 0, "#fef9c3"); tecla(860, 300, 96, "Z", t % 1.5 < .4, "#fef9c3"); g.restore();
      abertura(t, "6º ANO · MISSÃO 8", "Atalhos do teclado e do mouse", "OS SUPERPODERES", "DO TECLADO!", 1.9); } },
  { chip: "O PROBLEMA", fala: F1, legenda: legA(F1), sfx: [[.1, "whoosh"], [em(F1, "letra"), "tec"], [em(F1, "letra", 1), "tec"], [em(F1, "apagou"), "sumiu"], [em(F1, "chorou"), "alerta"], [em(F1, "Será"), "misterio"]],
@@ -162,8 +162,8 @@ const CENAS = [
  { chip: "MISSÃO CUMPRIDA", fala: F11, legenda: legA(F11), sfx: [[.1, "whoosh"], [emE(F11, "C"), "tec"], [emE(F11, "V"), "tec"], [emE(F11, "Z"), "tec"], [em(F11, "Missão"), "festa"]],
    draw(t, D) { const c = emE(F11, "C"), v = emE(F11, "V"), z = emE(F11, "Z"), mc = em(F11, "Missão");
      g.save(); camera(t, [[0, 640, 330, 1.12], [mc, 640, 380, 1]]); mesaLia(t);
-     doc(360, 300, 400, 220, "📄 Página 1", PAG1, t > c && t < v ? { i: [0, 1, 2], f: 1 } : null, { fs: 16 }); doc(800, 300, 400, 220, "📄 Trabalho da Lia", t > v + .3 ? PAG1 : ["", "", ""], null, { fs: 16, cor: "#7c3aed", alfa: { 2: t > z + .3 ? 1 : 0 } });
-     voando("📋 o texto inteiro", 360, 300, 800, 300, seg(t, v - .2, v + .6));
+     doc(360, 360, 400, 220, "📄 Página 1", PAG1, t > c && t < v ? { i: [0, 1, 2], f: 1 } : null, { fs: 16 }); doc(800, 360, 400, 220, "📄 Trabalho da Lia", t > v + .3 ? PAG1 : ["", "", ""], null, { fs: 16, cor: "#7c3aed", alfa: { 2: t > z + .3 ? 1 : 0 } });
+     voando("📋 o texto inteiro", 360, 360, 800, 360, seg(t, v - .2, v + .6));
      lia({ x: 1050, y: 690, s: .95, olhar: -1, braco: t > mc ? -2.6 : -1, bracoE: t > mc ? 2.6 : .3, boca: "riso", pisca: pisca(t) }); g.restore();
      if (t > c && t < mc) combo(640, 520, "Ctrl", t > z ? "Z" : t > v ? "V" : "C", t > z ? z : t > v ? v : c, t, 1); if (t > mc) cumprida(t, mc); } },
  { chip: "ONDE EU USO ISSO?", fala: F12, legenda: legA(F12), sfx: [[.1, "whoosh"], [em(F12, "celular"), "pop"], [em(F12, "PIX"), "pop"], [em(F12, "escola"), "pop"]],
