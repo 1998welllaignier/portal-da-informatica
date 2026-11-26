@@ -2982,3 +2982,10 @@ body.hz-aberta{overflow:hidden}
 .pp-ag-migra h3, .pp-ag-sem h3, .pp-ag-grupo h3 { margin: 0 0 .4rem; }
 .pp-ag-grupo { border-top: 6px solid var(--cor, #0f9d8a); }
 .pp-ag-sem { border-left: 6px solid #e0a100; }
+.pp-ag-bt.on-verde { background: #e3f6e8; border-color: #3fae5c; }
+.pp-ag-chegou { border: 3px solid #e2583e; background: #fff5f2; }
+.pp-ag-chegou p { margin: 0 0 .5rem; }
+.pp-ag-lista { display: flex; flex-direction: column; gap: .35rem; max-height: 50vh; overflow: auto; margin: .5rem 0; }
+.pp-ag-item { display: flex; align-items: center; gap: .45rem; padding: .45rem .6rem; border: 1px solid #e2e8f0; border-radius: 10px; cursor: pointer; }
+.pp-ag-item input { width: 1.25rem; height: 1.25rem; }
+.pp-visit-ag { background: #fff1ec; color: #9a2b1d; }

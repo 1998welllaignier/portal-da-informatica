@@ -37,10 +37,11 @@
     const [g, lib] = await Promise.all([db.collection("config").doc("geral").get().then(x => x.exists ? x.data() : {}).catch(() => ({})),
       db.collection("config").doc("liberar_" + s.turma).get().then(x => x.exists ? x.data() : {}).catch(() => ({}))]);
     if (g.modoAula === false || g.salaEspera === false) return null;
-    if (P.agEh && P.agEh(s)) return null;                                          // 🎒 Agregados: sem aula, sem sala de espera
     if (P.trava && await P.trava.casaEh(s).catch(() => false)) return null;      // 🏠 em casa não tem sala de espera
     let outras = [...new Set((s.alunoIds || []).map(id => (lib.outra || {})[id]).filter(x => x && x !== s.turma))];
     // 🎒 5º ano: entra na Sala de espera da aula que estiver acontecendo (a iniciada mais recentemente hoje), de qualquer turma
+    // 🎒 Agregados (26/11/2026): só entra na Sala de espera da aula em que o professor o incluiu (sem inclusão: sem sala de espera)
+    if (P.agEh && P.agEh(s)) { const r = P.trava && P.trava.aulaDe ? await P.trava.aulaDe(s, lib).catch(() => null) : null; if (!r || r.tAula === s.turma) return null; const v = await calcularT(s, r.tAula, db); return v ? Object.assign(v, { _turma: r.tAula }) : null; }
     if (s.serie === "5" && P.trava && P.trava.aulaDe) { const r = await P.trava.aulaDe(s, lib).catch(() => null); outras = r && r.t && r.tAula !== s.turma ? [r.tAula] : []; }
     for (const tid of [s.turma, ...outras]) { const v = await calcularT(s, tid, db); if (v) return Object.assign(v, { _turma: tid }); }
     return null;

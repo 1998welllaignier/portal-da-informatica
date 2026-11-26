@@ -115,6 +115,11 @@
     const alunos5 = (await Promise.all(vis5.map(v => db().collection("alunos").doc(v.alunoId).get().then(d => d.exists ? { id: d.id, ...d.data(), visitante: true, quinto: true } : null).catch(() => null)))).filter(Boolean);
     const visit = [...visit0, ...alunos5];
     const hd = hj && hj.exists ? hj.data() : {};
+    // 🎒 agregados incluídos hoje nesta aula (botão 🎒 da aba Aula): participam como alunos da turma (roleta, vídeo, leitura, placar, pódio)
+    if (hd.dia === hoje && hd.iniciadaDia === hoje && (hd.agregados || []).length) {
+      const ags = (await Promise.all(hd.agregados.map(id => db().collection("alunos").doc(id).get().then(d => d.exists ? { id: d.id, ...d.data(), visitante: true, agregado: true } : null).catch(() => null)))).filter(Boolean);
+      visit.push(...ags);
+    }
     const juntas = hd.dia === hoje ? (hd.junto || []).filter(id => { const x = todasTurmas().find(y => y.id === id); return x && x.id !== t.id && x.serie.id === t.serie.id; }) : [];
     const deJuntas = (await Promise.all(juntas.map(id => alunosDaTurma(id).catch(() => [])))).flat();
     const m = new Map(); [...proprios, ...deJuntas, ...visit].forEach(a => { if (!m.has(a.id)) m.set(a.id, a); });
@@ -125,7 +130,8 @@
   async function visitantesDe(tid) {
     try { const q = await db().collection("alunos").where("outraTurma", "==", tid).get(); return q.docs.map(d => ({ id: d.id, ...d.data(), visitante: true })).filter(a => a.ativo !== false && !a.teste); } catch (e) { return []; }
   }
-  const tagVisitante = a => a.visitante ? ` <span class="pp-visit" title="Não é desta turma no sistema: participa da aula daqui">🏫 da turma ${esc(nomeTurma(a.turma))} · participa desta aula</span>` : "";
+  const tagVisitante = a => a.agregado ? ` <span class="pp-visit pp-visit-ag" title="Agregado incluído nesta aula: participa como aluno da turma, sem diário e sem nota">🎒 agregado${(cat().series.find(x => x.id === a.serie) || {}).nome ? " · " + esc(cat().series.find(x => x.id === a.serie).nome) : ""} · participa desta aula</span>`
+    : a.visitante ? ` <span class="pp-visit" title="Não é desta turma no sistema: participa da aula daqui">🏫 da turma ${esc(nomeTurma(a.turma))} · participa desta aula</span>` : "";
   const tagOutra = a => a.outraTurma && !a.visitante ? ` <span class="pp-visit pp-visit-fora" title="Frequenta a aula de outra turma">🏫 frequenta a aula do ${esc(nomeTurma(a.outraTurma))}</span>` : "";
   async function lerProg(turmaIds) { return (await Promise.all(turmaIds.map(id => progressoDaTurma(id)))).flat(); }
   function ouvirProg(turmaIds, cb, onErr) {
@@ -255,6 +261,7 @@
   /* ❓ quadro "Para que serve e como usar" de cada aba (fica fechado; o professor abre quando quiser) */
   const AJUDA = {
     aula: ["Use durante a aula, projetando ou no seu computador.", [
+      "<b>🎒 Agregados</b> (botão na barra da turma): depois do ▶️ Iniciar aula, se tiver agregado no portal o painel pergunta sozinho se quer incluir; quem chegar no meio da aula aparece numa faixa com <b>✔ Incluir na aula</b>. O agregado incluído participa como aluno da turma (sala de espera, vídeo, leitura guiada, roleta, placar e pódio), <b>sem diário, sem nota e sem prova</b>, e a tela dele entra na aula em até 15 segundos. Vale só nesta aula: quando ela acaba, ele volta às missões da série dele.",
       "<b>✏️ Pincel e ⬜ Quadro branco</b>: os botões redondos no canto direito (nesta aba, na 👀 apostila do aluno e no 🎬 modo apresentação). ✏️ = riscar, sublinhar, passar marca-texto, formas, texto, laser e carimbos <b>por cima da página</b> (os riscos acompanham a rolagem; 🖱️ Mouse deixa a página clicável de novo; ⇄ muda a barra de lugar; Ctrl+Z desfaz). ⬜ = quadro branco em tela cheia, com fundos (branco, quadriculado, pautado, lousa verde), páginas, colar imagem (Ctrl+V) e 💾 salvar em imagem. Espelhando a tela, os alunos veem tudo.",
       "<b>🎤 Aula ao vivo</b> (o caminho do começo da aula): ▶️ Iniciar a aula → 🚦 os alunos esperam na <b>sala de espera</b> → <b>🎬 Vídeo</b> ou <b>📖 Leitura guiada</b> em todas as telas ao mesmo tempo (troque quando quiser) → ✕ fechar = todos voltam para a sala de espera → <b>🏁 Dar a largada</b> (cada um vai para a missão, no próprio ritmo; a largada não abre vídeo). Use os botões do quadro 🚦 Sala de espera ou da barra 🧰. <b>Telas</b>: 🖥️ <b>1 tela</b> (o projetor repete o seu monitor; comandos numa barra embaixo e 👥 A turma num botão) ou 🖥️📽️ <b>2 telas</b> (abre a janela do projetor, só com o conteúdo e o vídeo com som: clique uma vez nela; no seu monitor ficam o slide, os comandos e a turma). Na leitura: 🎡 sortear quem lê, ✔ Leu, ◀ ▶ slides, ✏️ Riscar, 🔴 Laser, 🧽 Apagar, 🖱️ Mouse (para clicar na palavra pontilhada e abrir para todos). As 🤔 perguntas relâmpago são slides: quando todos responderem, a certa aparece sozinha com quem acertou e quem errou. No vídeo: ▶️/⏸, 🔇/🔊, ⏮ voltar ao início (pausado). Os alunos não precisam clicar em nada. 🖥️ Mostrar minha tela e ⬜ Quadro continuam na barra 🧰.",
       "<b>▶️ Iniciar a aula</b>: as tarefas da turma só abrem quando você inicia a aula. No horário, o painel pergunta sozinho (turma, 📌 missão, 🔒 travar). Fora do horário (reposição), use o botão verde <b>▶️ Iniciar aula</b> na barra de cima (é o único; nesta aba ele já vem com a turma que está aberta). O <b>🏁 Finalizar aula</b> fecha na hora e mostra o pódio; se você não finalizar, <b>as tarefas fecham sozinhas no fim do horário da aula</b> (+15 min). Aula iniciada fora do horário (reposição) dura 1h15 (+15 min) a partir do início. Antes de iniciar, os alunos entram e leem, mas veem “Aguardando o professor”.",
@@ -982,7 +989,7 @@
         const m = esp ? (P.conteudo[esp].missoes.find(x => x.id === "ae")) : C.missoes.find(x => x.id === v);
         const titulo = m ? (esp ? "⭐ Aula especial – " + m.titulo.replace(/^[^–]*– ?/, "") : m.titulo.replace(/ –.*/, "") + " – " + m.titulo.replace(/^[^–]*– ?/, "")) : "";
         const revisa = v === "rv" ? await revisaDaTurma(t) : [];
-        await db().collection("config").doc("hoje_" + t.id).set({ dia: hoje, aid: esp || ap.base || ap.id, mid: v, titulo, travar: !!(v && travar), iniciadaDia: hoje, iniciadaEm: Date.now(), revisa, junto: junto || [], espera: !!espera, largadaEm: 0 }, { merge: true });
+        await db().collection("config").doc("hoje_" + t.id).set({ dia: hoje, aid: esp || ap.base || ap.id, mid: v, titulo, travar: !!(v && travar), iniciadaDia: hoje, iniciadaEm: Date.now(), revisa, junto: junto || [], espera: !!espera, largadaEm: 0, agregados: [] }, { merge: true });
         await db().collection("config").doc("liberar_" + t.id).set({ fechadaAte: 0 }, { merge: true });
         await db().collection("config").doc("tela_" + t.id).set({ cheia: !!tela, dia: hoje, em: Date.now() }, { merge: true });
         await sincronizarCasa(t, alunos).catch(() => {});
@@ -2561,6 +2568,68 @@
         ${perfil ? `<details class="ap-bl perfil"><summary class="ap-tit">👤 Perfil (dificuldades e habilidades)</summary><span>${perfil}</span></details>` : ""}`
         : `<p class="ajuda">Ainda sem anotação. Em Turmas, toque no nome do aluno → 📝 Apoios na aula.</p>`}</article>`;
   }
+  /* 🎒 AGREGADOS NA AULA (26/11/2026, pedido do professor): botão 🎒 na aba Aula. Mostra os agregados (com 🟢 quem está no portal
+     agora) e inclui quem o professor marcar NESTA aula de hoje (config/hoje_<turma>.agregados): eles participam como alunos da turma
+     (sala de espera, vídeo, leitura guiada, roleta, placar e pódio), sem diário, sem nota e sem prova. Vale só nesta aula: ao
+     iniciar outra aula a lista começa vazia; quando a aula acaba, eles voltam às missões da série deles.
+     Aula iniciada + agregado no portal que ainda não foi incluído → o painel pergunta sozinho (uma vez por aluno por dia). */
+  function agregadosNaAula(el, t) {
+    const barra = el.querySelector(".pp-barra"); if (!barra || t.livre) return;
+    const bt = h(`<button type="button" class="pp-cx-b pp-ag-bt" title="Incluir agregados nesta aula (participam como alunos da turma, sem diário e sem nota)">🎒 Agregados</button>`);
+    const faixa = h(`<div class="painel pp-ag-chegou" hidden></div>`);
+    barra.appendChild(bt); barra.after(faixa);
+    const hoje = () => N.hoje(), kNao = () => "painel:agNao:" + t.id + ":" + hoje();
+    const naoQuer = () => { try { return JSON.parse(sessionStorage.getItem(kNao()) || "[]"); } catch (e) { return []; } };
+    const marcarNao = ids => { try { sessionStorage.setItem(kNao(), JSON.stringify([...new Set([...naoQuer(), ...ids])])); } catch (e) {} };
+    const msT = v => v == null ? 0 : typeof v === "number" ? v : v.toMillis ? v.toMillis() : (v.seconds || 0) * 1000;
+    const serieNome = a => (cat().series.find(x => x.id === a.serie) || { nome: "sem série" }).nome;
+    async function ler() {
+      const [hj, ags, ses] = await Promise.all([db().collection("config").doc("hoje_" + t.id).get().then(x => x.exists ? x.data() : {}).catch(() => ({})),
+        alunosDaTurma("AG").catch(() => []), db().collection("progresso").where("turma", "==", "AG").where("tipo", "==", "sessao").get().then(q => q.docs.map(d => d.data())).catch(() => [])]);
+      const ini = hj.dia === hoje() && hj.iniciadaDia === hoje(), dentro = ini ? (hj.agregados || []) : [];
+      const on = new Set(ses.filter(x => Date.now() - msT(x.ping) < 180000).map(x => x.alunoId));
+      const lista = ags.filter(a => a.ativo !== false && !a.teste).map(a => ({ ...a, on: on.has(a.id), dentro: dentro.includes(a.id) })).sort((a, b) => (b.on - a.on) || a.nome.localeCompare(b.nome, "pt-BR"));
+      return { ini, dentro, lista };
+    }
+    const pintar = x => { bt.innerHTML = x.dentro.length ? `🎒 Agregados: <b>${x.dentro.length} na aula</b>` : "🎒 Agregados"; bt.classList.toggle("on-verde", !!x.dentro.length); };
+    async function gravar(ids) { await db().collection("config").doc("hoje_" + t.id).set({ agregados: ids }, { merge: true }); }
+    async function abrir(op = {}) {
+      const x = await ler(); pintar(x);
+      if (!x.ini) return P.aviso("🎒 Primeiro toque em ▶️ Iniciar aula. Depois é só tocar em 🎒 Agregados para incluir quem chegou.");
+      if (!x.lista.length) return P.aviso("Ainda não há alunos na turma 🎒 Agregados. Cadastre na aba 👥 Turmas › 🎒 Agregados.");
+      const dlg = h(`<dialog class="pp-dlg"><form method="dialog"><h2>🎒 Agregados nesta aula (${esc(nomeTurma(t.id))})</h2>
+        <p>${op.chegou ? "Tem agregado no portal agora. " : ""}Marque quem vai participar <b>desta aula</b> como aluno da turma: sala de espera, vídeo, leitura guiada, roleta, placar e pódio. <b>Sem diário e sem nota.</b> Quando a aula acabar, cada um volta para as missões da série dele.</p>
+        <div class="pp-ag-lista">${x.lista.map(a => `<label class="pp-ag-item"><input type="checkbox" value="${esc(a.id)}" ${a.dentro || (op.chegou && a.on && !naoQuer().includes(a.id)) ? "checked" : ""}> ${a.on ? "🟢" : "⚪"} <b>${esc(a.nome)}</b> <small>${esc(serieNome(a))}${a.on ? " · no portal agora" : ""}</small></label>`).join("")}</div>
+        <p class="ajuda">🟢 = está no portal agora. Quem não está pode ser marcado também: entra na aula assim que digitar o código.</p>
+        <div class="row-btns"><button class="btn btn-ok" value="ok">✔ Incluir na aula</button><button class="btn" value="nao">Agora não</button></div></form></dialog>`);
+      document.body.appendChild(dlg); dlg.showModal();
+      dlg.addEventListener("close", async () => {
+        const v = dlg.returnValue, ids = [...dlg.querySelectorAll("input:checked")].map(i => i.value); dlg.remove();
+        if (v === "ok") { try { await gravar(ids); const nomes = x.lista.filter(a => ids.includes(a.id)).map(a => a.nome.split(" ")[0]);
+            toast(ids.length ? `🎒 Na aula: ${nomes.join(", ")}. Em até 15 segundos a tela deles entra na aula.` : "🎒 Nenhum agregado nesta aula."); } catch (e) { P.aviso("Não deu para incluir: " + (e.message || e)); } }
+        marcarNao(x.lista.filter(a => a.on).map(a => a.id));
+        faixa.hidden = true; pintar(await ler());
+      });
+    }
+    bt.onclick = () => abrir();
+    // 🔔 chegou agregado: na abertura da aba (logo depois do ▶️ Iniciar) pergunta numa janela; depois, avisa numa faixa (sem atrapalhar)
+    let primeira = true;
+    async function vigiar() {
+      if (!el.isConnected) return clearInterval(iv);
+      const x = await ler(); pintar(x); if (!x.ini) return;
+      const novos = x.lista.filter(a => a.on && !a.dentro && !naoQuer().includes(a.id));
+      if (!novos.length) { faixa.hidden = true; return; }
+      if (primeira) { if (document.querySelector("dialog[open]")) { setTimeout(() => vigiar().catch(() => {}), 3000); return; } primeira = false; return abrir({ chegou: true }); }   // espera os avisos do dia fecharem
+      faixa.innerHTML = `<p>🎒 <b>Chegou agregado:</b> ${novos.map(a => `${esc(a.nome.split(" ")[0])} <small>(${esc(serieNome(a))})</small>`).join(", ")}. Incluir nesta aula?</p>
+        <div class="row-btns"><button type="button" class="btn btn-ok btn-peq" data-ag="sim">✔ Incluir na aula</button><button type="button" class="btn btn-peq" data-ag="nao">Agora não</button></div>`;
+      faixa.hidden = false;
+      faixa.querySelector('[data-ag="sim"]').onclick = async () => { try { await gravar([...new Set([...x.dentro, ...novos.map(a => a.id)])]); toast(`🎒 Na aula: ${novos.map(a => a.nome.split(" ")[0]).join(", ")}. Em até 15 segundos a tela entra na aula.`); } catch (e) { P.aviso("Não deu para incluir: " + (e.message || e)); } faixa.hidden = true; pintar(await ler()); };
+      faixa.querySelector('[data-ag="nao"]').onclick = () => { marcarNao(novos.map(a => a.id)); faixa.hidden = true; };
+      primeira = false;
+    }
+    const iv = setInterval(() => vigiar().catch(() => {}), 30000); setTimeout(() => vigiar().catch(() => {}), 1500);
+  }
+
   async function telaAula(u, tid, mid) {
     const turmas = turmasDeAula();
     tid = escolherTurma(tid, turmas);
@@ -2601,6 +2670,7 @@
     };
     { const pi = el.querySelector("#pp-ini"); if (pi) pi.hidden = true; }   // 23/11/2026: na aba Aula, "▶️ Iniciar a aula" fica só na 📌 Missão de hoje (sem botão repetido no alto)
     el.querySelector(".pp-barra").id = "pp-barra-aula"; el.querySelector(".pp-barra").classList.add("pp-alvo");
+    try { agregadosNaAula(el, t); } catch (e) { console.warn("agregados", e); }   // 🎒 26/11/2026
     ligarSair(el);
     { const bt = el.querySelector("#tc-bt"), ref = db().collection("config").doc("tela_" + t.id); let on = false;
       const pinta = () => { bt.innerHTML = on ? "🖥️ Tela cheia: <b>LIGADA</b>" : "🖥️ Exigir tela cheia"; bt.classList.toggle("on-verde", on); };

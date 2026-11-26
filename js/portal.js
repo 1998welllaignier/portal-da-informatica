@@ -639,8 +639,38 @@
   /* ⏱️ cronômetro da aula: durante a aula da turma, mostra quanto falta para o fim (contagem regressiva) e o horário final;
      nos últimos 10 minutos fica vermelho e nos últimos 5 pisca. Horário de Curionópolis (UTC−3). */
   let relogioIv = null, podioUnsub = null, podioTurma = null, podioVisto = 0;
+  /* 🎒 AGREGADO INCLUÍDO NA AULA (26/11/2026): o professor inclui o agregado na aula de uma turma (painel, aba Aula, botão 🎒).
+     A cada 15 s o portal confere (trava.aulaDe): incluído → P.agAula = a turma da aula; o aluno vai para a sala de espera ou para a
+     missão da turma e passa a ouvir a leitura guiada, o vídeo, a roleta, o placar e o pódio dela. Acabou a aula → volta às missões dele. */
+  P.agAula = null; let agIv = null, agRodando = false;
+  async function agChecar() {
+    const s = sess.get(); if (!s || !s.nuvem || !P.agEh(s) || !P.trava || !P.trava.aulaDe || agRodando) return;
+    agRodando = true;
+    try {
+      let r = null; try { r = await P.trava.aulaDe(s, {}); } catch (e) {}
+      const nova = r && r.tAula !== s.turma ? r.tAula : null, antes = P.agAula;
+      if (nova === antes) return;
+      P.agAula = nova;
+      try { P.palco && P.palco.ouvir(s); P.sala && P.sala.ouvir(s); ouvirRoleta(s); ouvirRei(s); ouvirPodio(s); } catch (e) {}
+      const dia = P.nuvem.hoje(), k = "portalJK:agIn:" + dia + ":" + (nova || antes);
+      if (nova) {
+        let ja = false; try { ja = !!sessionStorage.getItem(k); sessionStorage.setItem(k, "1"); } catch (e) {}
+        if (ja || /^#\/(prova|painel)/.test(location.hash)) return;
+        toast(`🎒 Você entrou na aula do ${(turma(nova) || {}).nome || nova}! Agora você participa junto com a turma.`);
+        if (P.espera && await P.espera.ativaPara(s).catch(() => null)) { location.replace("#/espera"); return; }
+        const h = r.h; if (h && h.aid && h.mid && !location.hash.startsWith(`#/missao/${h.aid}/${h.mid}`)) location.replace(`#/missao/${h.aid}/${h.mid}`);
+      } else if (antes) {
+        toast("🏁 A aula acabou. Você voltou para as suas missões.");
+        if (!/^#\/(jogos|prova)/.test(location.hash)) location.replace("#/apostilas");
+      }
+    } finally { agRodando = false; }
+  }
   // 🏁 quando o professor finaliza a aula, aparece para o aluno a posição dele no pódio
   function ouvirPodio(s) {
+    // 🎒 agregado incluído numa aula: ouve o pódio daquela turma (P.agAula); quando a aula acaba, continua ouvindo a última
+    if (s && P.agEh(s)) { if (!s.nuvem || !P.nuvem || !P.nuvem.app || !P.agAula || podioTurma === P.agAula) return;
+      if (podioUnsub) podioUnsub(); podioTurma = P.agAula;
+      try { podioUnsub = P.nuvem.app(0).db.collection("config").doc("podio_" + P.agAula).onSnapshot(sn => mostrarPodioDoc(sn, s), () => {}); } catch (e) {} return; }
     if (!s || !s.nuvem || !P.nuvem || !P.nuvem.app || podioTurma === s.turma) return;
     if (podioUnsub) podioUnsub(); podioTurma = s.turma;
     // 🏫 18/11/2026: quem frequenta a aula de outra turma também vê o pódio dessa turma (config/liberar_<turma>.outra)
@@ -752,9 +782,10 @@
     const passo = () => { if (!svg.isConnected) return; const x = Math.min(1, Math.max(0, (Date.now() - roda.t0) / roda.dur)); svg.style.transform = `rotate(${roda.final * ease(x)}deg)`; if (x < 1) requestAnimationFrame(passo); };
     requestAnimationFrame(passo); };
   function ouvirRoleta(s) {
-    if (!s || !s.nuvem || !P.nuvem || !P.nuvem.app || rolTurma === s.turma) return;
-    if (rolUnsub) rolUnsub(); rolTurma = s.turma;
-    try { rolUnsub = P.nuvem.app(0).db.collection("config").doc("roleta_" + s.turma).onSnapshot(sn => {
+    const tR = s && P.agEh(s) ? P.agAula : s && s.turma;   // 🎒 agregado: a roleta da aula em que foi incluído
+    if (!s || !s.nuvem || !P.nuvem || !P.nuvem.app || !tR || rolTurma === tR) return;
+    if (rolUnsub) rolUnsub(); rolTurma = tR;
+    try { rolUnsub = P.nuvem.app(0).db.collection("config").doc("roleta_" + tR).onSnapshot(sn => {
       const d = sn.exists ? sn.data() : null, ss = sess.get(); if (!d || !ss || d.dia !== P.nuvem.hoje() || !d.em || Date.now() - d.em > 90000) return;
       if (/^#\/(painel|prova)/.test(location.hash)) return; // não atrapalha a prova
       const chave = d.em + (d.girando ? "g" : "n"); if (rolVisto === chave) return; rolVisto = chave;
@@ -768,9 +799,10 @@
     }, () => {}); } catch (e) {}
   }
   function ouvirRei(s) {
-    if (!s || !s.nuvem || !P.nuvem || !P.nuvem.app || reiTurma === s.turma) return;
-    if (reiUnsub) reiUnsub(); reiTurma = s.turma; reiEu = null;
-    try { reiUnsub = P.nuvem.app(0).db.collection("config").doc("rei_" + s.turma).onSnapshot(sn => {
+    const tR = s && P.agEh(s) ? P.agAula : s && s.turma;   // 🎒 agregado: o placar da aula em que foi incluído
+    if (!s || !s.nuvem || !P.nuvem || !P.nuvem.app || !tR || reiTurma === tR) return;
+    if (reiUnsub) reiUnsub(); reiTurma = tR; reiEu = null;
+    try { reiUnsub = P.nuvem.app(0).db.collection("config").doc("rei_" + tR).onSnapshot(sn => {
       const d = sn.exists ? sn.data() : null, ss = sess.get(); if (!ss || ss.turma !== s.turma) return;
       try { placarBola(d && d.dia === P.nuvem.hoje() ? d : null); } catch (e) {}
       const g = d && d.dia === P.nuvem.hoje() ? (d.grupos || []).find(x => (x.ids || []).some(id => (ss.alunoIds || []).includes(id))) : null;
@@ -872,6 +904,7 @@
     try { ouvirRei(sess.get()); } catch (e) {}
     try { ouvirRoleta(sess.get()); } catch (e) {}
     try { P.palco && P.palco.ouvir(sess.get()); } catch (e) {}   // 🎤 23/11/2026: a Aula ao vivo (vídeo e leitura guiada) num registro só
+    try { if (P.agEh(sess.get())) { agChecar(); if (!agIv) agIv = setInterval(agChecar, 15000); } } catch (e) {}
     clearInterval(relogioIv);
     const tick = () => {
       const el = document.getElementById("tb-relogio"); if (!el) return clearInterval(relogioIv);
@@ -1251,7 +1284,8 @@
     barra(`<span>${esc(a.titulo)}</span>`);
     // 🏠🔓 reposição em casa (25/11/2026): 🔓 nas missões liberadas para fazer de casa e 🔒 nas que são feitas na aula
     let repo = null; if (P.trava && P.trava.repo) { try { repo = await P.trava.repo(s); } catch (e) { repo = null; } }
-    const ehAG = P.agEh(s), abAG = ehAG ? await missaoAbertaAG(s, true) : null;
+    const hAG = P.agEh(s) && P.trava ? await P.trava.hoje(s).catch(() => null) : null, naAulaAG = !!(hAG && (hAG.aid === aid || hAG.aid === a.base));
+    const ehAG = P.agEh(s) && !naAulaAG, abAG = ehAG ? await missaoAbertaAG(s, true) : null;   // 🎒 na aula de uma turma, sem a trava de uma por vez
     const card = mm => {
       const st = statusMissao(aid, mm.id);
       if (abAG && mm.id !== "rc" && (abAG.aid !== aid || abAG.mid !== mm.id)) { const ic0 = (P.ilustracoes[aid] || { icones: {} }).icones[mm.id];
@@ -1386,11 +1420,13 @@
   async function telaMissao(aid, mid, pid) {
     const s = sess.get(); const a = apostila(aid); if (!a) return telaInicio();
     if (!s) return telaSerie(a.serie, "#/missao/" + aid + "/" + mid);
-    if (s.serie !== a.serie && (s.serie !== "5" || P.agEh(s))) { toast("Esta apostila é de outra série."); location.hash = "#/apostilas"; return; }   // 🎒 o 5º ano faz a apostila da turma em que está assistindo à aula (25/11/2026); nos Agregados, só a da série dele
+    // 🎒 agregado incluído na aula de uma turma: a apostila da aula dela abre (mesmo sendo de outra série) e a trava de uma missão por vez não vale
+    const hAG = P.agEh(s) && P.trava ? await P.trava.hoje(s).catch(() => null) : null, naAulaAG = !!(hAG && (hAG.aid === aid || hAG.aid === a.base));
+    if (s.serie !== a.serie && (s.serie !== "5" || P.agEh(s)) && !naAulaAG) { toast("Esta apostila é de outra série."); location.hash = "#/apostilas"; return; }   // 🎒 o 5º ano faz a apostila da turma em que está assistindo à aula (25/11/2026); nos Agregados, só a da série dele
     await carregar(aid);
     await restaurarNuvem(aid);
     // 🎒 Agregados: uma missão por vez (a que começou e ainda não terminou o Básico)
-    if (P.agEh(s) && mid !== "rc") { const st0 = statusMissao(aid, mid);
+    if (P.agEh(s) && mid !== "rc" && !naAulaAG) { const st0 = statusMissao(aid, mid);
       if (!(st0.basico[0] > 0 && !st0.basicoOk)) { const ab = await missaoAbertaAG(s);
         if (ab && (ab.aid !== aid || ab.mid !== mid)) { toast(`🔒 Termine primeiro o Básico da ${ab.titulo.replace(/ –.*/, "")}. Depois você escolhe a próxima.`); location.replace(`#/missao/${ab.aid}/${ab.mid}`); return; } } }
     if (mid === "rv") await carregarRevisa(s);

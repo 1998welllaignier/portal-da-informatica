@@ -190,12 +190,15 @@
   }
   async function ouvir(s) {
     if (!s || !s.nuvem || !P.nuvem || !P.nuvem.app || s.prof) return;
-    if (A.turma === s.turma && A.unsubs.length) return;
-    A.unsubs.forEach(u => { try { u(); } catch (e) {} }); A.unsubs = []; A.docs = {}; A.turma = s.turma;
+    // 🎒 Agregados (26/11/2026): só ouve a aula da turma em que o professor o incluiu hoje (P.agAula, atualizado pelo portal.js)
+    const ehAG = !!(P.agEh && P.agEh(s)), chave = ehAG ? s.turma + "|" + (P.agAula || "") : s.turma;
+    if (A.turma === chave && (A.unsubs.length || ehAG)) return;
+    A.unsubs.forEach(u => { try { u(); } catch (e) {} }); A.unsubs = []; A.docs = {}; A.turma = chave;
+    if (ehAG && !P.agAula) return;
     try {
       const lb = await db().collection("config").doc("liberar_" + s.turma).get().catch(() => null), Lb = (lb && lb.exists && lb.data()) || {};
       if ((s.alunoIds || []).length && s.alunoIds.every(id => (Lb.casa || {})[id])) return;   // 🏠 quem estuda em casa não participa
-      const turmas = [s.turma, ...new Set((s.alunoIds || []).map(id => (Lb.outra || {})[id]).filter(Boolean))];   // 🏫 quem frequenta a aula de outra turma
+      const turmas = ehAG ? [P.agAula] : [s.turma, ...new Set((s.alunoIds || []).map(id => (Lb.outra || {})[id]).filter(Boolean))];   // 🏫 quem frequenta a aula de outra turma
       turmas.forEach(t => {
         A.unsubs.push(db().collection("config").doc("palco_" + t).onSnapshot(sn => { A.docs[t] = sn.exists ? sn.data() : null; A.receb[t] = Date.now(); atualizarAluno(); }, () => {}));
         // ✏️ risco e laser do professor por cima do slide (só os da leitura de agora: confere a sessão, não o relógio do computador)

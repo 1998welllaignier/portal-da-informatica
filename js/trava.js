@@ -32,8 +32,8 @@
     return Date.now() + dif;
   }
   const cache = {};
-  async function cfg(id) {
-    const c = cache[id]; if (c && Date.now() - c.t < 60000) return c.v;
+  async function cfg(id, ttl) {
+    const c = cache[id]; if (c && Date.now() - c.t < (ttl || 60000)) return c.v;
     let v = {};
     try { const sn = await N().db().collection("config").doc(id).get(); v = sn.exists ? sn.data() : {}; } catch (e) { v = {}; }
     cache[id] = { t: Date.now(), v }; return v;
@@ -90,8 +90,18 @@
       let outras = [...new Set((s.alunoIds || []).map(id => ((lib || {}).outra || {})[id]).filter(x => x && x !== s.turma))];
       // 🎒 5º ano (25/11/2026, pedido do professor): os alunos do 5º ano entram na aula de QUALQUER turma que estiver
       //    acontecendo e fazem a mesma apostila dela (só conta a presença; não têm nota)
-      //    🎒 26/11/2026: nos Agregados (turma livre) não: lá o aluno faz as missões da série dele, sem aula de outra turma
-      if (P.agEh && P.agEh(s)) return { h: own, tAula: s.turma, t: 0 };
+      /* 🎒 Agregados (26/11/2026): fora de aula, o aluno faz as missões da série dele. Se o professor INCLUIU o agregado na aula
+         de uma turma (config/hoje_<turma>.agregados, botão 🎒 no painel), vale essa aula enquanto ela estiver iniciada hoje:
+         sala de espera, vídeo, leitura guiada, roleta, missão da turma, pontos e pódio (sem diário, sem nota, sem prova). */
+      if (P.agEh && P.agEh(s)) {
+        const ids = s.alunoIds || []; let mg = { h: own, tAula: s.turma, t: 0 };
+        if (ids.length) for (const ot of P.catalogo.series.flatMap(x => x.turmas.filter(y => !y.livre && !y.arquivada).map(y => y.id))) {
+          const ho = await cfg("hoje_" + ot, 15000), t = ho && ho.dia === d && ho.iniciadaDia === d && ids.every(id => (ho.agregados || []).includes(id)) ? (ho.iniciadaEm || 1) : 0;
+          if (t > mg.t) mg = { h: ho, tAula: ot, t };
+        }
+        if (mg.t) visita(s, mg.tAula, d);
+        return mg;
+      }
       if (s.serie === "5") outras = P.catalogo.series.filter(x => x.id !== "5").flatMap(x => x.turmas.map(t => t.id));
       let melhor = { h: own, tAula: s.turma, t: own && own.dia === d && own.iniciadaDia === d ? (own.iniciadaEm || 1) : 0 };
       for (const ot of outras) { const ho = await cfg("hoje_" + ot), t = ho && ho.dia === d && ho.iniciadaDia === d ? (ho.iniciadaEm || 1) : 0;
@@ -126,8 +136,15 @@
     async estado0(s, mid) {
       if (!s || !s.nuvem || !N() || !N().pronto) return { aberta: true }; // visualização do professor, modo explorador
       // 🎒 Agregados (26/11/2026): turma livre, sem horário e sem aula: as tarefas ficam sempre abertas
-      //    (a regra de uma missão por vez fica no portal.js, em missaoAbertaAG)
-      if (P.agEh && P.agEh(s)) return { aberta: true, livre: true };
+      //    (a regra de uma missão por vez fica no portal.js, em missaoAbertaAG). Incluído numa aula: segue a aula da turma;
+      //    quando ela acaba (finalizada ou no fim do horário), volta a ser livre.
+      if (P.agEh && P.agEh(s)) {
+        const ra = await this.aulaDe(s, {}); if (ra.tAula === s.turma) return { aberta: true, livre: true };
+        const r0 = await this.estadoAula(s, mid); return r0.fechada || r0.encerrada || r0.aguardando ? { aberta: true, livre: true } : Object.assign(r0, { agAula: ra.tAula });
+      }
+      return this.estadoAula(s, mid);
+    },
+    async estadoAula(s, mid) {
       let [g, lib, h] = await Promise.all([cfg("geral"), cfg("liberar_" + s.turma), this.hoje(s)]);
       // 🏫 aluno que frequenta a aula de outra turma (🏫 no painel, config/liberar_<turma>.outra): vale a aula iniciada
       //    mais recentemente hoje (a dele ou a da outra turma) — início, missão, trava e fim (18/11/2026; ajustado em 25/11/2026)
