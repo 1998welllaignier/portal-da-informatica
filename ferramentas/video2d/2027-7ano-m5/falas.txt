@@ -1,19 +1,25 @@
 Decompor e reaproveitar: o segredo dos problemas grandes!
 
-A turma da Duda ficou responsável pela festa de fim de ano. Decoração, comida, música, brincadeiras… Era coisa demais! Todo mundo ficou perdido, sem saber por onde começar.
+A turma da Duda ficou responsável pela festa de fim de ano. Decoração, comida, música, brincadeiras, convite, limpeza… Era coisa demais! Todo mundo falando ao mesmo tempo, e ninguém sabia por onde começar.
 
-O segredo é decompor: dividir o problema grande em partes menores, que dá para resolver uma de cada vez. Um grupo cuida da decoração, outro da comida, outro da música e outro das brincadeiras.
+O segredo é decompor: dividir o problema grande em partes menores, que dá para resolver uma de cada vez. A festa virou quatro partes: decoração, comida, música e brincadeiras.
 
-No programa é igual. E tem mais um truque: quando uma parte se repete em vários lugares, a gente cria um bloco nosso, com nome. Ele é escrito uma vez só e chamado sempre que precisar. Isso é reaproveitar.
+Aí cada grupo cuidou de uma parte. Isso é colaborar: trabalhar junto, cada um fazendo um pedaço do mesmo projeto. E, no fim, as partes se juntam e formam a festa inteira.
 
-Pense numa música com refrão. Sem bloco próprio, você escreve o refrão inteiro toda vez. Com o bloco refrão, você escreve uma vez só, e o programa fica assim: verso um, refrão, verso dois, refrão.
+No programa é igual. A Duda programou a festa no editor de blocos e percebeu uma coisa: o grito da turma aparecia de novo e de novo. Os mesmos blocos, copiados em vários lugares!
 
-No editor, o bloco próprio fica na gaveta Meus blocos. Você usa o bloco para fazer algo, dá um nome, como refrão, e coloca dentro dele os blocos da parte que se repete.
+Quando uma parte se repete, a gente cria um bloco próprio, com nome. Ele também é chamado de função. Dentro dele ficam os blocos da parte que se repete, escritos uma vez só.
 
-As vantagens: o programa fica mais curto. Se precisar consertar, conserta num lugar só, e vale em todos. O nome do bloco diz o que ele faz. E dá para dividir o trabalho: cada colega cria um bloco.
+Depois, é só chamar o bloco sempre que precisar. Chamar é usar o bloco no programa: cada vez que ele é chamado, todos os blocos de dentro são executados. Isso é reaproveitar.
 
-A turma da Duda dividiu a festa em partes, e cada grupo fez a sua. E o grito da turma, que se repetia a festa inteira, virou um bloco só. Missão cumprida!
+Pense numa música com refrão. Sem bloco próprio, você escreve o refrão inteiro toda vez. Com o bloco refrão, escreve uma vez só, e o programa fica assim: verso um, refrão, verso dois, refrão.
 
-Onde eu uso isso? Numa receita grande, que é dividida em massa, recheio e cobertura. No jogo, quando o mesmo movimento é usado por vários personagens. E num trabalho em grupo, quando cada um faz uma parte.
+No editor, o bloco próprio fica na gaveta Meus blocos. Você pega o bloco para fazer algo, dá um nome, como grito, e coloca dentro dele os blocos que se repetem.
 
-Agora é com vocês: abram a Missão 5 no portal!
+E as vantagens? O programa fica mais curto. Se precisar consertar, conserta num lugar só, e vale em todos. O nome do bloco diz o que ele faz. E dá para dividir o trabalho: cada colega cria um bloco.
+
+A turma da Duda dividiu a festa em partes, e cada grupo fez a sua. E o grito da turma virou um bloco só, chamado a festa inteira. Foi a melhor festa do ano. Missão cumprida!
+
+Onde eu uso isso? Num trabalho em grupo, quando cada um faz uma parte. Na fábrica de carros, onde cada setor monta uma peça. E no botão compartilhar, um bloco pronto que todo aplicativo reaproveita.
+
+Agora é com vocês: abram a Missão 5 no portal e dividam para conquistar!
