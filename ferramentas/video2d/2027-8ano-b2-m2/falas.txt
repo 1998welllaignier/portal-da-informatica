@@ -1,0 +1,21 @@
+DNS: a agenda da internet!
+
+O Léo quis abrir o portal da turma. Digitou o nome do site, e a página apareceu em um segundo. Mas os computadores só se encontram por números! Como o navegador achou o computador certo?
+
+Os computadores se encontram pelo endereço IP, que é um número, como 203.0.113.25. Só que o IP é difícil de decorar. Por isso nós digitamos nomes, como portal.professorwell.com.br.
+
+Quem faz a tradução do nome para o número é o DNS, do inglês Domain Name System, que quer dizer Sistema de Nomes de Domínio. Ele funciona como a agenda de contatos do celular: você toca em Mãe, e o celular liga para o número dela.
+
+Veja o que acontece. Primeiro, você digita o nome do site no navegador. Segundo, o navegador pergunta ao servidor DNS: qual é o IP desse nome? Terceiro, o servidor DNS responde com o endereço IP. Quarto, o navegador pede a página ao computador daquele IP. Quinto, a página chega e aparece na tela.
+
+Um domínio tem partes. Em portal.professorwell.com.br, lendo da direita para a esquerda: ponto br é o país, o Brasil. Ponto com é o tipo, comercial. Professorwell é o nome escolhido. E portal é uma parte do site. No Brasil, os nomes que terminam em ponto br são registrados no Registro.br.
+
+E se o DNS parar de funcionar? A internet parece fora do ar, mesmo com o Wi-Fi ligado, porque o navegador não consegue achar o IP pelo nome.
+
+Cuidado: golpistas criam nomes parecidos para enganar, como professorwell com um zero no lugar do O, ou um nome com uma letra a menos. Conferir o nome do site, letra por letra, é uma proteção.
+
+O Léo entendeu: o navegador perguntou ao DNS, recebeu o IP e só então pediu a página. E, antes de clicar, ele conferiu o nome letra por letra. Missão cumprida!
+
+Onde eu uso isso? Toda vez que você digita o nome de um site, o DNS trabalha antes de a página aparecer. Quando você clica num link no aplicativo de mensagens, o DNS acha o computador do site. E, contra golpes, conferir o nome do site, letra por letra, protege você.
+
+Agora é com vocês: abram a Missão 2 no portal!

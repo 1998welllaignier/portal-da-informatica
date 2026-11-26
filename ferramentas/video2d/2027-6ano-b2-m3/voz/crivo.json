@@ -1,0 +1,125 @@
+[
+ {
+  "cena": 0,
+  "arquivo": "00-516291635b.mp3",
+  "segundos": 3.62,
+  "pal_por_s": 1.1,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[animado] Repetição: repita, repita, repita!"
+ },
+ {
+  "cena": 1,
+  "arquivo": "01-827c0a63e9.mp3",
+  "segundos": 19.2,
+  "pal_por_s": 1.82,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[suspense] O Pedro precisava levar o robô Bit até a estrela. Para isso, escreveu seis setas iguais: direita, direita, direita, direita, direita, direita. Que cansaço! E se fossem cem setas? [animado] O Bit ia esperar até amanhã!"
+ },
+ {
+  "cena": 2,
+  "arquivo": "02-6c3d9020ec.mp3",
+  "segundos": 16.1,
+  "pal_por_s": 2.42,
+  "crivo": "DIFERENÇA",
+  "dif": [
+   {
+    "op": "replace",
+    "texto": "as",
+    "ouvido": "a"
+   }
+  ],
+  "texto": "[explicando] Mas o Pedro descobriu o comando repita. Em vez de escrever seis setas, ele escreveu: repita seis vezes, seta para a direita. A repetição é fazer o mesmo passo várias vezes. E o Bit andou as seis casas, sozinho!"
+ },
+ {
+  "cena": 3,
+  "arquivo": "03-f14611487b.mp3",
+  "segundos": 13.44,
+  "pal_por_s": 2.01,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[explicando] Veja a diferença. Sem repetição, são seis comandos. Com repetição: repita quatro vezes seta para a direita, repita duas vezes seta para baixo. São só dois comandos!"
+ },
+ {
+  "cena": 4,
+  "arquivo": "04-69271c4ad0.mp3",
+  "segundos": 12.02,
+  "pal_por_s": 2.16,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[explicando] Dá para repetir também as coisas do dia a dia. [suspense] Bater palma três vezes? [explicando] Repita três vezes: bater palma. [suspense] Pular cinco vezes? [explicando] Repita cinco vezes: pular."
+ },
+ {
+  "cena": 5,
+  "arquivo": "05-318dc1f236.mp3",
+  "segundos": 10.32,
+  "pal_por_s": 2.81,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[explicando] A repetição deixa o algoritmo mais curto, mais fácil de ler e mais fácil de corrigir. Se precisar mudar de quatro para cinco passos, é só trocar um número!"
+ },
+ {
+  "cena": 6,
+  "arquivo": "06-19569ded85.mp3",
+  "segundos": 12.91,
+  "pal_por_s": 2.32,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[explicando] A repetição também se chama laço. Em inglês, loop, que quer dizer volta, como numa corda que dá a volta. Repetição e laço são dois nomes para a mesma ideia."
+ },
+ {
+  "cena": 7,
+  "arquivo": "07-d21eb5cc88.mp3",
+  "segundos": 13.92,
+  "pal_por_s": 1.51,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[explicando] Atenção: toda repetição precisa saber quando parar. Repita três vezes para depois da terceira vez. [surpresa] Um, dois, três, e pronto, parou!"
+ },
+ {
+  "cena": 8,
+  "arquivo": "08-6d8cec76ce.mp3",
+  "segundos": 12.98,
+  "pal_por_s": 2.39,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[suspense] E se a repetição não tiver quando parar? [explicando] Aí vira o laço infinito: o Bit anda, anda, anda e nunca termina! Isso trava o programa. É um erro comum de programação."
+ },
+ {
+  "cena": 9,
+  "arquivo": "09-e6f4e4b4d3.mp3",
+  "segundos": 15.24,
+  "pal_por_s": 2.69,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[explicando] Dá para repetir um grupo de passos. Repita quatro vezes: ande uma casa, vire à direita. O Bit desenha um quadrado! O que se repete sempre do mesmo jeito é um padrão, e achar o padrão ajuda a usar a repetição."
+ },
+ {
+  "cena": 10,
+  "arquivo": "10-11153dd8a0.mp3",
+  "segundos": 10.63,
+  "pal_por_s": 2.07,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[animado] O Pedro usou o comando repita, e o Bit chegou na estrela com só dois comandos. Menos setas, menos cansaço. [surpresa] Missão cumprida!"
+ },
+ {
+  "cena": 11,
+  "arquivo": "11-1b89576fca.mp3",
+  "segundos": 17.11,
+  "pal_por_s": 2.05,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[animado] Onde eu uso isso? No despertador: quando você aperta soneca, ele repete o alarme. Na música, no modo repetir, ela toca de novo e de novo. E no semáforo: verde, amarelo, vermelho, verde, sem parar."
+ },
+ {
+  "cena": 12,
+  "arquivo": "12-3b53731c8c.mp3",
+  "segundos": 4.27,
+  "pal_por_s": 2.34,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[animado] Agora é com vocês: abram a Missão 3 no portal!"
+ }
+]

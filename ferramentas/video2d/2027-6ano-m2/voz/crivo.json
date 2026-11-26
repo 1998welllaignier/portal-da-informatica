@@ -1,0 +1,137 @@
+[
+ {
+  "cena": 0,
+  "arquivo": "00-409b03d3af.mp3",
+  "segundos": 6.96,
+  "pal_por_s": 1.44,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[animado] Entrada, processamento e saída: a viagem do dois mais três!"
+ },
+ {
+  "cena": 1,
+  "arquivo": "01-20967acf44.mp3",
+  "segundos": 15.86,
+  "pal_por_s": 2.21,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[suspense] A Lara digitou dois mais três na calculadora do computador e, num piscar de olhos, apareceu cinco na tela. Ela arregalou os olhos: mas o que aconteceu aí dentro? [surpresa] Vamos entrar no computador para descobrir!"
+ },
+ {
+  "cena": 2,
+  "arquivo": "02-ad33e2e134.mp3",
+  "segundos": 13.8,
+  "pal_por_s": 2.03,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[explicando] Lá dentro, o computador parece uma cidade! Cada parte tem um trabalho. E todo computador, do celular ao caixa do mercado, trabalha em etapas: entrada, processamento e saída."
+ },
+ {
+  "cena": 3,
+  "arquivo": "03-609d1419e9.mp3",
+  "segundos": 11.06,
+  "pal_por_s": 2.71,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[explicando] Primeira parada: a Estação Entrada. É por aqui que a informação chega de fora. Quando a Lara apertou as teclas, o dois, o mais e o três embarcaram no trem!"
+ },
+ {
+  "cena": 4,
+  "arquivo": "04-d7c6265cdf.mp3",
+  "segundos": 10.56,
+  "pal_por_s": 2.84,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[explicando] E o teclado não é a única porta de entrada. O mouse, o microfone, a câmera e o leitor de código de barras do mercado também são peças de entrada."
+ },
+ {
+  "cena": 5,
+  "arquivo": "05-c5054288f6.mp3",
+  "segundos": 19.15,
+  "pal_por_s": 2.3,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[explicando] O trem chegou na Fábrica, o cérebro do computador: o processador, a cê pê u. Cê pê u quer dizer, em português, unidade central de processamento. Ele faz as contas e segue as instruções. Dois mais três… entra na máquina… e sai o cinco!"
+ },
+ {
+  "cena": 6,
+  "arquivo": "06-e485503843.mp3",
+  "segundos": 16.58,
+  "pal_por_s": 2.11,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[explicando] Última parada: o Telão Saída. É aqui que o resultado aparece. O cinco surgiu na tela! Monitor, caixa de som, impressora e fone de ouvido são peças de saída: eles mostram ou entregam o resultado."
+ },
+ {
+  "cena": 7,
+  "arquivo": "07-16f9878d7d.mp3",
+  "segundos": 11.04,
+  "pal_por_s": 1.99,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[suspense] Viu o caminho? [explicando] Entrou pelo teclado, foi processado na cê pê u e saiu no monitor. Entrada, processamento, saída: a viagem completa!"
+ },
+ {
+  "cena": 8,
+  "arquivo": "08-7b887a1b56.mp3",
+  "segundos": 15.19,
+  "pal_por_s": 2.83,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[explicando] E tem peça que é entrada e saída ao mesmo tempo! A tela de toque do celular recebe o seu dedo, que é entrada, e mostra as imagens, que é saída. O fone com microfone ouve a sua voz e toca o som."
+ },
+ {
+  "cena": 9,
+  "arquivo": "09-bb871d058c.mp3",
+  "segundos": 17.11,
+  "pal_por_s": 2.22,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[suspense] Mas e para guardar as coisas? [explicando] Para isso existe o Depósito: o armazenamento. O agá dê, o ésse ésse dê, o pen drive e o cartão de memória guardam os arquivos para depois, mesmo com o computador desligado."
+ },
+ {
+  "cena": 10,
+  "arquivo": "10-33819b5a29.mp3",
+  "segundos": 13.08,
+  "pal_por_s": 2.45,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[explicando] Já a memória RAM é diferente: é como uma mesa de trabalho. Ela guarda só o que está aberto agora. Quando o computador desliga… a mesa fica vazia! Quem não salvou, perdeu."
+ },
+ {
+  "cena": 11,
+  "arquivo": "11-9b7c12ee74.mp3",
+  "segundos": 11.47,
+  "pal_por_s": 2.27,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[explicando] Por isso, a regra de ouro: salve sempre! Apertando contrôl ésse, o trabalho sai da mesa e vai para o depósito. Aí, pode desligar sem medo."
+ },
+ {
+  "cena": 12,
+  "arquivo": "12-9caf6761cc.mp3",
+  "segundos": 12.07,
+  "pal_por_s": 1.57,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[animado] A Lara saiu do computador sabendo tudo. Testou de novo: quatro mais quatro… entrada, processamento, saída: oito! [surpresa] Missão cumprida!"
+ },
+ {
+  "cena": 13,
+  "arquivo": "13-f3dd99d24d.mp3",
+  "segundos": 25.22,
+  "pal_por_s": 2.26,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[animado] Onde eu uso isso? No caixa do mercado: o leitor de código de barras é a entrada, o computador processa o preço, e a tela e o cupom são a saída. No celular: o microfone ouve, o processador entende e a resposta aparece. E na urna eletrônica: você digita, ela confere e mostra a foto do candidato."
+ },
+ {
+  "cena": 14,
+  "arquivo": "14-0202c7ceca.mp3",
+  "segundos": 4.03,
+  "pal_por_s": 2.48,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[animado] Agora é com vocês: abram a Missão 2 no portal!"
+ }
+]

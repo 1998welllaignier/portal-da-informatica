@@ -1,0 +1,110 @@
+[
+ {
+  "cena": 0,
+  "arquivo": "00-8dc4235965.mp3",
+  "segundos": 2.83,
+  "pal_por_s": 2.12,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[animado] Caça ao erro: ache o bug!"
+ },
+ {
+  "cena": 1,
+  "arquivo": "01-b7d9d2c3b2.mp3",
+  "segundos": 14.28,
+  "pal_por_s": 2.45,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[suspense] O robô Bit foi programado para fazer um sanduíche, mas o resultado saiu bem esquisito: o presunto ficou do lado de fora do pão! A Tainá e o Pedro ficaram curiosos: onde está o erro?"
+ },
+ {
+  "cena": 2,
+  "arquivo": "02-ed4bf790d1.mp3",
+  "segundos": 9.31,
+  "pal_por_s": 1.93,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[explicando] Até os melhores programadores erram. Um erro num programa se chama bug. Em inglês, bug quer dizer inseto."
+ },
+ {
+  "cena": 3,
+  "arquivo": "03-5aac53aadc.mp3",
+  "segundos": 20.3,
+  "pal_por_s": 1.87,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[suspense] Por que inseto? [explicando] Em 1947, a equipe da cientista Grace Hopper achou uma mariposa presa dentro de um computador enorme, que estava dando defeito. Eles colaram a mariposa no caderno, com a anotação: primeiro caso de bug encontrado."
+ },
+ {
+  "cena": 4,
+  "arquivo": "04-04efbb95fb.mp3",
+  "segundos": 8.18,
+  "pal_por_s": 1.96,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[explicando] Achar e corrigir o erro se chama depurar. Em inglês, debug, que significa tirar o inseto."
+ },
+ {
+  "cena": 5,
+  "arquivo": "05-31f3ec09c5.mp3",
+  "segundos": 28.2,
+  "pal_por_s": 1.74,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[suspense] Como caçar o erro, passo a passo? [explicando] Primeiro, testar: execute o algoritmo e veja o que acontece. [suspense] Segundo, comparar: o resultado é o esperado? Onde ficou diferente? [explicando] Terceiro, achar: vá passo a passo até achar o primeiro passo errado. Quarto, corrigir: mude só esse passo e teste de novo."
+ },
+ {
+  "cena": 6,
+  "arquivo": "06-5e6b5108fa.mp3",
+  "segundos": 10.75,
+  "pal_por_s": 2.51,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[explicando] Atenção: não mude todos os passos de uma vez! Assim você nunca vai saber qual era o erro. Mude só o passo errado, e teste de novo."
+ },
+ {
+  "cena": 7,
+  "arquivo": "07-654e9525b6.mp3",
+  "segundos": 22.68,
+  "pal_por_s": 2.43,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[explicando] Vamos caçar o erro do Bit! Testar: o pão fechou, e o presunto ficou do lado de fora. Comparar: o esperado era o presunto dentro do pão. Achar: o passo dois fechou o pão cedo demais, é o primeiro passo errado. Corrigir: colocar o presunto antes de fechar o pão. Testando de novo, deu certo!"
+ },
+ {
+  "cena": 8,
+  "arquivo": "08-8ab9d377cf.mp3",
+  "segundos": 11.28,
+  "pal_por_s": 2.22,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[explicando] Os erros mais comuns são quatro: um passo fora de ordem, um passo que falta, um passo a mais, ou um número errado na repetição."
+ },
+ {
+  "cena": 9,
+  "arquivo": "09-a85c585786.mp3",
+  "segundos": 11.16,
+  "pal_por_s": 2.06,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[animado] O Bit fez o sanduíche direitinho, e a turma aprendeu: errar faz parte, e depurar é achar e corrigir o erro. [surpresa] Missão cumprida!"
+ },
+ {
+  "cena": 10,
+  "arquivo": "10-33b3f649a2.mp3",
+  "segundos": 18.84,
+  "pal_por_s": 2.44,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[animado] Onde eu uso isso? Quando o aplicativo pede para atualizar, muitas vezes é para corrigir bugs. Quando a receita não dá certo, você confere passo a passo onde errou. E no jogo, quando o personagem atravessa a parede, é um bug que os programadores precisam corrigir."
+ },
+ {
+  "cena": 11,
+  "arquivo": "11-c383c995a6.mp3",
+  "segundos": 3.91,
+  "pal_por_s": 2.56,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[animado] Agora é com vocês: abram a Missão 7 no portal!"
+ }
+]

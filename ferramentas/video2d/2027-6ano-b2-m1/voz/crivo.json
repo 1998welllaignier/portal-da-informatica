@@ -1,0 +1,92 @@
+[
+ {
+  "cena": 0,
+  "arquivo": "00-505475ecb8.mp3",
+  "segundos": 2.47,
+  "pal_por_s": 2.02,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[animado] Algoritmos do dia a dia!"
+ },
+ {
+  "cena": 1,
+  "arquivo": "01-4f35ab5958.mp3",
+  "segundos": 13.58,
+  "pal_por_s": 2.21,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[suspense] O Pedro pediu ao robozinho Bit: faz o suco aí! E o Bit ficou parado, piscando. Ele não sabia por onde começar. [animado] O Pedro ficou bravo: mas é tão fácil!"
+ },
+ {
+  "cena": 2,
+  "arquivo": "02-b234814de8.mp3",
+  "segundos": 12.24,
+  "pal_por_s": 2.53,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[explicando] Para a gente, é fácil, porque já sabe fazer. Mas o computador não adivinha nada. Ele faz exatamente o que mandamos, do jeito que mandamos. Por isso, precisa de um algoritmo."
+ },
+ {
+  "cena": 3,
+  "arquivo": "03-9190d5c1e1.mp3",
+  "segundos": 11.04,
+  "pal_por_s": 2.08,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[explicando] Algoritmo é uma lista de passos, em ordem, para resolver um problema ou fazer uma tarefa. Cada passo do algoritmo se chama instrução."
+ },
+ {
+  "cena": 4,
+  "arquivo": "04-2b908560d6.mp3",
+  "segundos": 23.83,
+  "pal_por_s": 2.22,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[explicando] E cada instrução precisa ser clara, sem deixar dúvida. E o algoritmo precisa ser preciso: dizer exatamente o que fazer. Faz o suco aí é vago. O bom é assim: um, pegar um copo. Dois, colocar duas colheres de suco em pó. Três, encher o copo com água. Quatro, mexer com a colher."
+ },
+ {
+  "cena": 5,
+  "arquivo": "05-1d3a032ca7.mp3",
+  "segundos": 14.52,
+  "pal_por_s": 2.34,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[explicando] Todo algoritmo tem começo, meio e fim: começa num ponto, segue os passos e termina quando o problema está resolvido. Se for bem feito, qualquer pessoa que seguir os passos chega ao mesmo resultado."
+ },
+ {
+  "cena": 6,
+  "arquivo": "06-25b758e014.mp3",
+  "segundos": 6.74,
+  "pal_por_s": 2.37,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[explicando] E um programa de computador é isso: um algoritmo escrito numa linguagem que o computador entende."
+ },
+ {
+  "cena": 7,
+  "arquivo": "07-fa0eda32ab.mp3",
+  "segundos": 7.32,
+  "pal_por_s": 2.05,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[animado] O Pedro escreveu os quatro passos, e o Bit fez o suco direitinho. [surpresa] Missão cumprida!"
+ },
+ {
+  "cena": 8,
+  "arquivo": "08-041528bd67.mp3",
+  "segundos": 15.62,
+  "pal_por_s": 2.82,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[animado] Onde eu uso isso? Na receita de bolo da família. No manual de montagem de um brinquedo, com os passos numerados. No GPS do celular: siga em frente, vire à direita. E no jogo do celular, que funciona porque alguém escreveu milhares de instruções."
+ },
+ {
+  "cena": 9,
+  "arquivo": "09-ae36f2fe7a.mp3",
+  "segundos": 3.84,
+  "pal_por_s": 2.6,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[animado] Agora é com vocês: abram a Missão 1 no portal!"
+ }
+]

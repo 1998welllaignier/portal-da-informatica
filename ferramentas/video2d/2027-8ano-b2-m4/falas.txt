@@ -1,0 +1,21 @@
+Nuvem: seus arquivos em qualquer lugar!
+
+O Léo deixou o celular cair na água, e o aparelho morreu. Será que ele perdeu todas as fotos? Calma! A Bia lembrou: se elas estavam na nuvem, estão salvas.
+
+A nuvem não fica no céu. Ela é um conjunto de servidores em um data center, que guardam os seus arquivos e ficam ligados à internet o tempo todo.
+
+Armazenamento no aparelho: o arquivo fica só nele, e se ele quebra, o arquivo vai junto. Armazenamento na nuvem: o arquivo fica nos servidores, e você acessa de qualquer aparelho com internet.
+
+Alguns exemplos de serviços na nuvem são o Google Drive, o OneDrive e o iCloud. Eles também servem de backup, ou seja, uma cópia de segurança do que é importante.
+
+Sincronizar é manter tudo igual nos aparelhos. Você tira uma foto no celular, ela vai para a nuvem e aparece também no computador, sozinha.
+
+Também dá para compartilhar um arquivo com um link. Mas cuidado: um link aberto pode ser acessado por qualquer pessoa que o receba. Quando o trabalho acabar, tire o compartilhamento.
+
+Para proteger a sua conta na nuvem: use uma senha forte, ative a verificação em duas etapas e, em computador da escola, saia da conta ao terminar.
+
+O Léo entendeu: as fotos estavam na nuvem, então ele entrou na conta pelo computador e recuperou tudo. E já ativou a verificação em duas etapas. Missão cumprida!
+
+Onde eu uso isso? Nas fotos do celular, que podem ir para a nuvem. No trabalho em grupo, com todos editando o mesmo arquivo. E no backup do aplicativo de mensagens, para não perder as conversas.
+
+Agora é com vocês: abram a Missão 4 no portal!

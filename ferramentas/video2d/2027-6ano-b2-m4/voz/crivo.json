@@ -1,0 +1,110 @@
+[
+ {
+  "cena": 0,
+  "arquivo": "00-cd9051b87b.mp3",
+  "segundos": 3.48,
+  "pal_por_s": 1.15,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[animado] Seleção: se, então, senão!"
+ },
+ {
+  "cena": 1,
+  "arquivo": "01-b425a98a0c.mp3",
+  "segundos": 14.18,
+  "pal_por_s": 2.33,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[suspense] O Pedro ia sair de casa para a escola. Olhou pela janela e ficou na dúvida: levo o guarda-chuva ou não? A Tainá respondeu: depende! Se estiver chovendo, leva. [animado] Senão, vai sem."
+ },
+ {
+  "cena": 2,
+  "arquivo": "02-65dec68b7f.mp3",
+  "segundos": 19.32,
+  "pal_por_s": 2.33,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[explicando] Quando o algoritmo precisa escolher um caminho, ele usa a seleção. [suspense] Primeiro vem a pergunta: está chovendo? [explicando] Se a resposta for sim, o caminho é levar o guarda-chuva. Se for não, o caminho é ir sem guarda-chuva. A seleção também se chama decisão."
+ },
+ {
+  "cena": 3,
+  "arquivo": "03-298d3d76ed.mp3",
+  "segundos": 14.06,
+  "pal_por_s": 1.64,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[explicando] Para escrever a seleção, usamos três palavrinhas: se, então e senão. Se a condição for verdadeira, então faz uma coisa. Senão, faz outra."
+ },
+ {
+  "cena": 4,
+  "arquivo": "04-dd68423e34.mp3",
+  "segundos": 7.82,
+  "pal_por_s": 2.04,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[explicando] Outro exemplo: o semáforo. Se o sinal estiver verde, então a Tainá atravessa. Senão, ela espera."
+ },
+ {
+  "cena": 5,
+  "arquivo": "05-5c67653be7.mp3",
+  "segundos": 7.63,
+  "pal_por_s": 2.1,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[explicando] E no celular: se a senha estiver certa, então o celular abre. Senão, aparece: senha incorreta."
+ },
+ {
+  "cena": 6,
+  "arquivo": "06-369913ba67.mp3",
+  "segundos": 17.06,
+  "pal_por_s": 2.29,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[explicando] A condição é sempre uma pergunta que só tem duas respostas: sim, que é verdadeiro, ou não, que é falso. [suspense] Está chovendo? [explicando] É uma boa condição. [suspense] Que horas são? [explicando] Não é, porque a resposta não é sim nem não."
+ },
+ {
+  "cena": 7,
+  "arquivo": "07-a3054910d8.mp3",
+  "segundos": 14.76,
+  "pal_por_s": 2.17,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[explicando] Hoje o sol está brilhando. [suspense] Está chovendo? [explicando] Falso! Então o Pedro segue pelo senão: sem guarda-chuva. Mas, se a chuva chegar, a condição fica verdadeira, e ele leva o guarda-chuva."
+ },
+ {
+  "cena": 8,
+  "arquivo": "08-ad06f6b097.mp3",
+  "segundos": 14.76,
+  "pal_por_s": 2.17,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[explicando] Dá para juntar seleção e repetição! Repita cinco vezes: desenhe um quadrado. Se for o segundo ou o quarto, pinte de preto. Senão, deixe branco. Assim o computador faz desenhos com padrões."
+ },
+ {
+  "cena": 9,
+  "arquivo": "09-7ca57aa3b8.mp3",
+  "segundos": 12.48,
+  "pal_por_s": 1.92,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[animado] No dia seguinte, o Pedro olhou o céu. Está chovendo? Verdadeiro! Então ele levou o guarda-chuva e chegou seco na escola. [surpresa] Missão cumprida!"
+ },
+ {
+  "cena": 10,
+  "arquivo": "10-ea63f32985.mp3",
+  "segundos": 18.67,
+  "pal_por_s": 2.41,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[animado] Onde eu uso isso? No celular: se a bateria estiver abaixo de vinte por cento, então aparece o aviso de bateria fraca. Na porta automática do mercado: se alguém chegar perto, então ela abre. E no jogo: se você pegar a moeda, então ganha pontos."
+ },
+ {
+  "cena": 11,
+  "arquivo": "11-2065ca419f.mp3",
+  "segundos": 3.67,
+  "pal_por_s": 2.72,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[animado] Agora é com vocês: abram a Missão 4 no portal!"
+ }
+]

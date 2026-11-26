@@ -1,0 +1,101 @@
+[
+ {
+  "cena": 0,
+  "arquivo": "00-1fab354031.mp3",
+  "segundos": 2.78,
+  "pal_por_s": 2.51,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[animado] Entradas e saídas: do que eu preciso?"
+ },
+ {
+  "cena": 1,
+  "arquivo": "01-ed5e8a8f07.mp3",
+  "segundos": 15.91,
+  "pal_por_s": 2.2,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[suspense] A Tainá quis fazer um bolo de aniversário para o Pedro. Foi misturando sem pensar: farinha, leite, açúcar... e, na hora de assar, cadê os ovos? Sem ovos, o bolo não deu certo! [animado] Que problema!"
+ },
+ {
+  "cena": 2,
+  "arquivo": "02-c85bee6fce.mp3",
+  "segundos": 14.11,
+  "pal_por_s": 2.34,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[explicando] Antes de resolver um problema, vale fazer duas perguntas. [suspense] Primeira: do que eu preciso? Segunda: o que eu quero conseguir no fim? [explicando] O problema é a situação que queremos resolver com o algoritmo."
+ },
+ {
+  "cena": 3,
+  "arquivo": "03-2f23c842e4.mp3",
+  "segundos": 11.54,
+  "pal_por_s": 1.82,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[explicando] Tudo o que precisamos receber para começar são as entradas. No bolo, as entradas são: farinha, ovos, leite, açúcar e fermento."
+ },
+ {
+  "cena": 4,
+  "arquivo": "04-828ff4cdb8.mp3",
+  "segundos": 11.71,
+  "pal_por_s": 2.39,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[explicando] O que fazemos com as entradas é o processamento: misturar, colocar na forma e assar. [surpresa] E o resultado que queremos no fim é a saída: o bolo pronto!"
+ },
+ {
+  "cena": 5,
+  "arquivo": "05-0610619031.mp3",
+  "segundos": 14.64,
+  "pal_por_s": 2.25,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[explicando] No computador é igual. Na calculadora, as entradas são os números e a conta: dois mais três. O processamento é o cálculo. E a saída é o resultado, cinco, que aparece na tela."
+ },
+ {
+  "cena": 6,
+  "arquivo": "06-ebe0c3abbe.mp3",
+  "segundos": 15.43,
+  "pal_por_s": 2.33,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[suspense] Por que isso ajuda? [explicando] Se faltar uma entrada, o algoritmo não funciona: sem ovos, não sai o bolo. E, sabendo a saída esperada, dá para conferir se o algoritmo deu certo. Esse é o resultado esperado!"
+ },
+ {
+  "cena": 7,
+  "arquivo": "07-7ef84fdfab.mp3",
+  "segundos": 23.04,
+  "pal_por_s": 2.6,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[explicando] Veja mais exemplos. Para calcular a média da prova, as entradas são as notas, e a saída é a média. Para mandar um áudio, a entrada é a voz, pelo microfone, e a saída é o áudio enviado. Para achar o caminho no mapa, as entradas são onde estou e aonde vou, e a saída é o caminho na tela."
+ },
+ {
+  "cena": 8,
+  "arquivo": "08-ed8ee86210.mp3",
+  "segundos": 14.47,
+  "pal_por_s": 1.87,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[animado] A Tainá refez o bolo. Separou as entradas: farinha, ovos, leite, açúcar e fermento. Seguiu o processamento e conferiu a saída esperada: um bolo pronto! [surpresa] Missão cumprida!"
+ },
+ {
+  "cena": 9,
+  "arquivo": "09-3639aff085.mp3",
+  "segundos": 19.7,
+  "pal_por_s": 2.74,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[animado] Onde eu uso isso? Na calculadora do celular: você digita os números, que são as entradas, e vê o resultado, que é a saída. No aplicativo de mapa: você diz aonde quer ir e recebe o caminho. E na máquina de café: você escolhe a bebida e põe o dinheiro, e recebe a bebida."
+ },
+ {
+  "cena": 10,
+  "arquivo": "10-09fa033a60.mp3",
+  "segundos": 4.03,
+  "pal_por_s": 2.48,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[animado] Agora é com vocês: abram a Missão 5 no portal!"
+ }
+]

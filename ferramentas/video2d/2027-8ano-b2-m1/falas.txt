@@ -1,0 +1,21 @@
+Como a internet funciona: o caminho dos pacotes!
+
+A Bia mandou uma foto para o Léo, e ela chegou em um segundo. O Léo ficou curioso: por onde ela passou? A resposta começa assim: a internet não é uma coisa só, nem fica num lugar só. Ela é uma rede de redes.
+
+A rede da sua casa, a rede da escola e as redes das empresas do mundo inteiro estão ligadas umas às outras. Uma rede é isso: dois ou mais aparelhos ligados para trocar dados, por cabo ou sem fio.
+
+Quando você manda uma foto, ela não viaja inteira. O computador corta a foto em pedacinhos chamados pacotes.
+
+Cada pacote leva três coisas. Um pedaço dos dados, que é a parte da foto. O endereço IP de destino, que diz para qual aparelho ele vai. IP vem do inglês Internet Protocol, protocolo da internet. E o número do pacote, que diz a ordem para montar tudo de novo, como caixa três de dez.
+
+O caminho de um pacote: ele sai do celular, passa pelo roteador da casa, que é o aparelho do Wi-Fi, e vai ao provedor, a empresa que leva a internet até você. Depois passa por vários roteadores, que escolhem por onde seguir, e chega ao aparelho de destino.
+
+Os pacotes de uma mesma mensagem podem ir por caminhos diferentes e chegar fora de ordem. Mas o número de cada um permite remontar tudo. E se um pacote se perde, só ele é enviado de novo.
+
+Para tudo isso dar certo, todos os aparelhos seguem as mesmas regras para conversar. Essas regras se chamam protocolos, e o conjunto mais usado na internet é o TCP/IP.
+
+A foto da Bia foi cortada em pacotes, passou pelos roteadores, e o aparelho do Léo juntou tudo na ordem certa. Missão cumprida!
+
+Onde eu uso isso? Ao mandar um áudio no aplicativo de mensagens, ele vai cortado em pacotes até o celular do seu amigo. Quando o vídeo trava e depois volta, alguns pacotes se atrasaram ou foram enviados de novo. E o Wi-Fi da escola tem um roteador que recebe os pacotes de todos os computadores da sala.
+
+Agora é com vocês: abram a Missão 1 no portal!

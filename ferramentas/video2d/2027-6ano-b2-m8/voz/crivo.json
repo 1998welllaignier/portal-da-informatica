@@ -1,0 +1,110 @@
+[
+ {
+  "cena": 0,
+  "arquivo": "00-2a32d10685.mp3",
+  "segundos": 2.54,
+  "pal_por_s": 1.57,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[animado] Desenho com a tartaruga!"
+ },
+ {
+  "cena": 1,
+  "arquivo": "01-c9c8d28799.mp3",
+  "segundos": 8.3,
+  "pal_por_s": 2.65,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[suspense] A Tainá e o Pedro queriam desenhar um quadrado, mas sem lápis: só mandando uma tartaruga andar pela tela. Será que dá?"
+ },
+ {
+  "cena": 2,
+  "arquivo": "02-9d50421fd0.mp3",
+  "segundos": 16.22,
+  "pal_por_s": 2.1,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[explicando] Nos anos 1960, o pesquisador Seymour Papert e a sua equipe criaram a linguagem Logo, feita para crianças aprenderem a programar. Nela, uma tartaruga anda pela tela e deixa um rastro, como um lápis."
+ },
+ {
+  "cena": 3,
+  "arquivo": "03-97f8158474.mp3",
+  "segundos": 14.52,
+  "pal_por_s": 2.34,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[explicando] Hoje vamos desenhar no quadriculado: cada seta anda uma casa, e o caminho da tartaruga vira o desenho. Os pontos brancos mostram por onde ela precisa passar. Quando ela passa, o ponto fica verde."
+ },
+ {
+  "cena": 4,
+  "arquivo": "04-3ec48b8ce1.mp3",
+  "segundos": 17.9,
+  "pal_por_s": 1.56,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[explicando] Um quadrado tem quatro lados iguais. Para desenhar um quadrado de duas casas de lado, sem repetição, são oito comandos: direita, direita, baixo, baixo, esquerda, esquerda, cima, cima."
+ },
+ {
+  "cena": 5,
+  "arquivo": "05-4f8712f72b.mp3",
+  "segundos": 12.6,
+  "pal_por_s": 1.98,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[explicando] Com repetição, fica mais curto: repita duas vezes direita, repita duas vezes baixo, repita duas vezes esquerda, repita duas vezes cima. São só quatro blocos!"
+ },
+ {
+  "cena": 6,
+  "arquivo": "06-d5b86b0ce9.mp3",
+  "segundos": 8.16,
+  "pal_por_s": 2.21,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[explicando] O segredo do desenho é achar o padrão. Um quadrado é: ande um lado, vire, repetido quatro vezes."
+ },
+ {
+  "cena": 7,
+  "arquivo": "07-5934272616.mp3",
+  "segundos": 12.74,
+  "pal_por_s": 2.12,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[explicando] Um retângulo também tem quatro lados, mas dois são compridos e dois são curtos. No quadrado, os lados são iguais. No retângulo, dois compridos e dois curtos."
+ },
+ {
+  "cena": 8,
+  "arquivo": "08-f409c0a279.mp3",
+  "segundos": 14.28,
+  "pal_por_s": 1.82,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[explicando] Uma linha reta é repetir várias vezes a mesma seta. E uma escada é o degrau, direita e baixo, repetido: direita, baixo, direita, baixo, direita, baixo."
+ },
+ {
+  "cena": 9,
+  "arquivo": "09-c010e3f9ca.mp3",
+  "segundos": 13.34,
+  "pal_por_s": 1.95,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[animado] A Tainá e o Pedro desenharam o quadrado, o retângulo e até uma escada, juntando sequência e repetição. A repetição ajuda a desenhar figuras. [surpresa] Missão cumprida!"
+ },
+ {
+  "cena": 10,
+  "arquivo": "10-5d29d6db2f.mp3",
+  "segundos": 18.6,
+  "pal_por_s": 2.37,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[animado] Onde eu uso isso? As máquinas de corte e as impressoras 3D seguem algoritmos de ande até aqui e vire, como a tartaruga. O robô aspirador anda pela casa seguindo um caminho programado. E nos jogos, os personagens andam por caminhos calculados por algoritmos."
+ },
+ {
+  "cena": 11,
+  "arquivo": "11-3fc86e48ce.mp3",
+  "segundos": 3.91,
+  "pal_por_s": 2.56,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[animado] Agora é com vocês: abram a Missão 8 no portal!"
+ }
+]

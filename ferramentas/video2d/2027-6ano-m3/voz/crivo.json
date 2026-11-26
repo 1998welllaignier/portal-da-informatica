@@ -1,0 +1,119 @@
+[
+ {
+  "cena": 0,
+  "arquivo": "00-ace04dcb71.mp3",
+  "segundos": 3.55,
+  "pal_por_s": 1.97,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[animado] Hardware e software: a banda do computador!"
+ },
+ {
+  "cena": 1,
+  "arquivo": "01-f408dce281.mp3",
+  "segundos": 19.1,
+  "pal_por_s": 2.46,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[suspense] O Pedro estava no meio do jogo quando o celular travou. A rodinha ficou girando, girando… Ele ficou tão bravo que já ia jogar o celular na cama! A Lara segurou o braço dele: calma! Isso é problema de hardware ou de software? E o Pedro: hã?"
+ },
+ {
+  "cena": 2,
+  "arquivo": "02-4855d278ee.mp3",
+  "segundos": 9.62,
+  "pal_por_s": 2.39,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[explicando] Para entender, imagine que o computador é uma banda. Todo computador tem duas partes que trabalham juntas, como os instrumentos e a música."
+ },
+ {
+  "cena": 3,
+  "arquivo": "03-c5216fcb20.mp3",
+  "segundos": 13.32,
+  "pal_por_s": 2.03,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[explicando] Os instrumentos são o hardware: as peças físicas, que dá para tocar com a mão. Teclado, mouse, monitor, processador, cabo e pen drive. Tudo isso é hardware."
+ },
+ {
+  "cena": 4,
+  "arquivo": "04-a68853565d.mp3",
+  "segundos": 14.35,
+  "pal_por_s": 2.65,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[explicando] E a música é o software: os programas. [surpresa] Dá para ouvir, dá para ver funcionando, mas não dá para pegar com a mão! [explicando] O navegador, os jogos, o editor de texto e os aplicativos do celular são software."
+ },
+ {
+  "cena": 5,
+  "arquivo": "05-eb427ceff2.mp3",
+  "segundos": 12.26,
+  "pal_por_s": 2.28,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[explicando] Um precisa do outro! Instrumento sem música fica parado: hardware sem software não faz nada. E música sem instrumento não toca: o software precisa do hardware para funcionar."
+ },
+ {
+  "cena": 6,
+  "arquivo": "06-65e17ba426.mp3",
+  "segundos": 12.0,
+  "pal_por_s": 2.42,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[explicando] Tem até uma brincadeira para lembrar: hardware é o que você chuta; software é o que você xinga quando trava! [suspense] Mas calma, ninguém precisa chutar nem xingar nada, tá?"
+ },
+ {
+  "cena": 7,
+  "arquivo": "07-23ceb30003.mp3",
+  "segundos": 15.07,
+  "pal_por_s": 2.65,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[explicando] Toda banda tem um maestro. No computador, ele se chama sistema operacional: um software especial, que é o primeiro a ligar e comanda todo o resto. Ele mostra a área de trabalho, abre as janelas e conversa com as peças."
+ },
+ {
+  "cena": 8,
+  "arquivo": "08-27baf8266e.mp3",
+  "segundos": 10.15,
+  "pal_por_s": 2.07,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[explicando] Os sistemas operacionais mais conhecidos são o Windows e o Linux, nos computadores, e o Android e o iOS, nos celulares."
+ },
+ {
+  "cena": 9,
+  "arquivo": "09-f0b4cbb34c.mp3",
+  "segundos": 18.5,
+  "pal_por_s": 2.59,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[explicando] E as músicas que a banda toca são os aplicativos: cada um faz uma tarefa para você. O navegador abre os sites, como este portal. O editor de texto serve para escrever trabalhos. A calculadora faz contas. O tocador de música toca as músicas. E o jogo… diverte!"
+ },
+ {
+  "cena": 10,
+  "arquivo": "10-d36c8db1f8.mp3",
+  "segundos": 15.72,
+  "pal_por_s": 2.23,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[explicando] Agora o Pedro entendeu: a tela estava inteira, as peças estavam funcionando. Quem travou foi o jogo, um aplicativo: problema de software! Ele fechou o jogo, abriu de novo, e voltou a funcionar. Missão cumprida!"
+ },
+ {
+  "cena": 11,
+  "arquivo": "11-369b126a6a.mp3",
+  "segundos": 19.58,
+  "pal_por_s": 2.76,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[animado] Onde eu uso isso? Quando o celular trava, o problema costuma ser de software; quando a tela quebra, é de hardware. Quando você instala um jogo, está colocando um software novo no aparelho. E, na oficina de celular, o técnico troca peças, que é hardware, ou formata e atualiza o sistema, que é software."
+ },
+ {
+  "cena": 12,
+  "arquivo": "12-3b53731c8c.mp3",
+  "segundos": 4.22,
+  "pal_por_s": 2.37,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[animado] Agora é com vocês: abram a Missão 3 no portal!"
+ }
+]
