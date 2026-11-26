@@ -22,14 +22,16 @@
     const series = [...new Map(H.map(x => [x.t.serie.id, x.t.serie])).values()].sort((a, b) => String(a.id).localeCompare(String(b.id)));
     const temAG = (cat.series || []).some(s => s.agregados);
     const hoje = new Date().toLocaleDateString("pt-BR", { timeZone: "America/Sao_Paulo" });
-    const linhas = inis.map((i, k) => {
-      const turno = i < 720 ? "manha" : "tarde", trocou = !k || (inis[k - 1] < 720) !== (i < 720);
-      return (trocou ? `<tr class="turno"><th colspan="${dias.length + 1}">${turno === "manha" ? "☀️ Manhã" : "🌇 Tarde"}</th></tr>` : "") +
-        `<tr><th class="hora">${fhm(i)}</th>${dias.map(d => {
-          const xs = H.filter(x => x.dia === d && x.i === i);
-          return xs.length ? `<td>${xs.map(x => `<span class="turma s${esc(x.t.serie.id)}" style="--c:${COR[x.t.serie.id] || "#334155"};--f:${FUNDO[x.t.serie.id] || "#f1f5f9"}">${esc(x.t.nome)}</span>`).join("")}</td>` : `<td class="vazio">—</td>`;
-        }).join("")}</tr>`;
-    }).join("");
+    // 26/11/2026 (2ª versão, pedido do professor: "não dá para diferenciar manhã, tarde, 1º e 2º horário"):
+    // um bloco para cada turno, com faixa de título própria, e cada linha com o nome do horário (1º, 2º…) e a hora de início
+    const turnos = [["manha", "☀️", "Manhã", inis.filter(i => i < 720)], ["tarde", "🌇", "Tarde", inis.filter(i => i >= 720)]].filter(x => x[3].length);
+    const chip = x => `<span class="turma" style="--c:${COR[x.t.serie.id] || "#334155"};--f:${FUNDO[x.t.serie.id] || "#f1f5f9"}">${esc(x.t.nome)}</span>`;
+    const blocos = turnos.map(([k, ic, nome, hs]) => `<section class="turno t-${k}">
+      <h3 class="turno-tit"><span class="ic">${ic}</span> ${nome.toUpperCase()}</h3>
+      <table><thead><tr><th class="hora">Horário</th>${dias.map(d => `<th>${DIAS[d]}</th>`).join("")}</tr></thead>
+      <tbody>${hs.map((i, n) => `<tr class="${n % 2 ? "par" : ""}"><th class="hora"><span class="ord">${n + 1}º horário</span><span class="hh">${fhm(i)}</span></th>${dias.map(d => {
+        const xs = H.filter(x => x.dia === d && x.i === i);
+        return xs.length ? `<td>${xs.map(chip).join("")}</td>` : `<td class="vazio">—</td>`; }).join("")}</tr>`).join("")}</tbody></table></section>`).join("");
     return `<!DOCTYPE html><html lang="pt-BR"><head><meta charset="utf-8"><title>Horários de Informática · ${esc(cat.professor || "")}</title>
 <style>
   @page { size: A4 portrait; margin: 12mm; }
@@ -42,15 +44,26 @@
   .cab h1 { margin: 0; font-size: 21pt; line-height: 1.1; }
   .cab .prof { margin: 1mm 0 0; font-size: 15pt; font-weight: 800; ${mono ? "" : "color: #1d4ed8;"} }
   .cab .esc { margin: 1mm 0 0; font-size: 10.5pt; color: ${mono ? "#000" : "#475569"}; }
-  h2 { font-size: 15pt; margin: 6mm 0 3mm; text-align: center; letter-spacing: .02em; }
+  h2 { font-size: 15pt; margin: 5mm 0 3.5mm; text-align: center; letter-spacing: .02em; }
+  .turno { margin: 0 0 5mm; border: ${mono ? "0.7mm solid #000" : "0.6mm solid var(--tc)"}; border-radius: 3.5mm; overflow: hidden; }
+  .t-manha { --tc: #d97706; --tf: #fef3c7; --tt: #78350f; }
+  .t-tarde { --tc: #4338ca; --tf: #e0e7ff; --tt: #1e1b4b; }
+  .turno-tit { margin: 0; padding: 2.2mm 4mm; font-size: 15pt; font-weight: 900; letter-spacing: .12em; display: flex; align-items: center; gap: 2mm;
+    ${mono ? "border-bottom: 0.7mm solid #000;" : "background: var(--tc); color: #fff;"} }
+  ${mono ? ".t-manha .turno-tit { background: #fff; color: #000; } .t-tarde .turno-tit { background: #000; color: #fff; }" : ""}
+  .turno-tit .ic { font-size: 16pt; letter-spacing: 0; }
   table { width: 100%; border-collapse: collapse; table-layout: fixed; }
-  th, td { border: ${mono ? "0.4mm solid #000" : "0.35mm solid #cbd5e1"}; padding: 4.5mm 1.8mm; text-align: center; vertical-align: middle; }
-  thead th { font-size: 11.5pt; ${mono ? "background: #fff; border-bottom: 0.9mm solid #000;" : "background: #0f172a; color: #fff;"} }
-  th.hora { width: 27mm; font-size: 15pt; ${mono ? "" : "background: #f8fafc;"} }
-  thead th.hora { font-size: 11.5pt; ${mono ? "" : "background: #0f172a; color: #fff;"} }
-  th.hora small { display: block; font-size: 9pt; font-weight: 500; color: ${mono ? "#000" : "#64748b"}; }
-  tr.turno th { text-align: left; font-size: 11pt; padding: 1.6mm 3mm; ${mono ? "background: #fff; border-top: 0.9mm solid #000;" : "background: #e0e7ff; color: #1e3a8a;"} }
-  .turma { display: block; font-weight: 800; font-size: 20pt; border-radius: 2.5mm; padding: 4mm 0;
+  th, td { border: ${mono ? "0.35mm solid #000" : "0.3mm solid #cbd5e1"}; padding: 3.4mm 1.8mm; text-align: center; vertical-align: middle; }
+  tr:first-child th, tr:first-child td { border-top: 0; }
+  th:first-child, td:first-child { border-left: 0; } th:last-child, td:last-child { border-right: 0; }
+  tbody tr:last-child th, tbody tr:last-child td { border-bottom: 0; }
+  thead th { font-size: 10.5pt; padding: 1.8mm; ${mono ? "background: #fff; border-bottom: 0.6mm solid #000;" : "background: var(--tf); color: var(--tt);"} }
+  th.hora { width: 31mm; }
+  tbody th.hora { ${mono ? "" : "background: var(--tf); color: var(--tt);"} }
+  th.hora .ord { display: block; font-size: 9.5pt; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; }
+  th.hora .hh { display: block; font-size: 17pt; font-weight: 900; line-height: 1.1; }
+  tbody tr.par td { ${mono ? "background: repeating-linear-gradient(135deg, #fff 0 2.2mm, #eee 2.2mm 2.6mm);" : "background: #f8fafc;"} }
+  .turma { display: block; font-weight: 800; font-size: 20pt; border-radius: 2.5mm; padding: 3.8mm 0; background: #fff;
     ${mono ? "border: 0.6mm solid #000;" : "background: var(--f); color: var(--c); border: 0.5mm solid var(--c);"} }
   td.vazio { color: ${mono ? "#000" : "#94a3b8"}; font-size: 12pt; }
   .legenda { display: flex; flex-wrap: wrap; gap: 2mm 4mm; justify-content: center; margin: 3mm 0 0; font-size: 10pt; }
@@ -72,7 +85,7 @@
     <p class="prof">${esc(cat.professor || "Professor Welington Laignier")}</p>
     <p class="esc">EMEF Juscelino Kubitschek · Curionópolis – PA · <b>professorwell.com.br</b></p></div></header>
   <h2>🗓️ Horários das aulas na Sala de Informática</h2>
-  <table><thead><tr><th class="hora">Início</th>${dias.map(d => `<th>${DIAS[d]}</th>`).join("")}</tr></thead><tbody>${linhas}</tbody></table>
+  ${blocos}
   ${mono ? "" : `<div class="legenda">${series.map(s => `<span style="--c:${COR[s.id] || "#334155"}"><i></i>${esc(s.nome)}</span>`).join("")}</div>`}
   <div class="caixas">
     <div class="cx"><h3>⏰ Como são as aulas</h3>
