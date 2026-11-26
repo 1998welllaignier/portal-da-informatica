@@ -36,3 +36,4 @@ Sala de espera → leitura (slide igual em todas as telas, risco do pincel chega
 - `roteiro-respostas.js`: aba Aula em todas as missões de todas as apostilas (sem erro, nenhuma atividade sem resposta, faixa do tempo padrão) (26/11/2026).
 - `roteiro-horarios-imprimir.js`: 🕘 Horários › 🖨️ Imprimir horários (preto e branco e colorida) abre a folha A4 com as turmas atuais (26/11/2026).
 - `roteiro-area-professor.js`: 🔒 Área do professor, Trilhas e Imprimir só com a conta do professor; aluno imprime só a apostila da série dele (26/11/2026).
+- `roteiro-youtube-link.js`: 🧰 Ferramentas › 🔗 Vídeo do YouTube › colar o link › ▶️ Passar → aparece no aluno (26/11/2026).
