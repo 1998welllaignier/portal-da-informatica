@@ -1,14 +1,18 @@
 Depurar: o detetive dos erros!
 
-O Caio fez um programa que devia mostrar Olá três vezes e, no final, Fim. Mas apareceu Olá, Fim, Olá, Fim, Olá, Fim! Ele ficou bravo e já ia apagar tudo.
+O Caio fez um programa que devia mostrar Olá três vezes e, no final, Fim. Mas, quando ele rodou, apareceu Olá, Fim, Olá, Fim, Olá, Fim! Ele ficou bravo e já ia jogar tudo no lixo.
 
-Calma, Caio! Todo programador erra, até os profissionais. Um erro no programa se chama bug, que em inglês quer dizer inseto. E achar e consertar o erro se chama depurar.
+Calma, Caio! Todo programador erra, até os profissionais. Um erro no programa se chama bug, que em inglês quer dizer inseto. E achar e consertar o erro se chama depurar. Em inglês, debug: tirar o inseto.
 
-Por que inseto? Em mil novecentos e quarenta e sete, uma mariposa ficou presa dentro de um computador enorme e causou uma falha. Os cientistas colaram a mariposa no caderno, e o nome pegou.
+Mas por que inseto? Em mil novecentos e quarenta e sete, uma mariposa ficou presa dentro de um computador enorme e causou uma falha. Os cientistas colaram a mariposa no caderno de anotações, e o nome pegou.
 
-Os erros mais comuns nos blocos são: ordem trocada, bloco no lugar errado, número errado no repita, condição trocada, valor errado e repetição sem fim.
+Os erros mais comuns nos blocos são: ordem trocada, bloco dentro ou fora do lugar, número errado no repita, condição trocada, valor errado e repetição sem fim, aquela que nunca termina, porque a condição de parar nunca acontece.
 
-Para achar o erro, use o método do detetive. Passo um: rodar. Passo dois: comparar com o que devia aparecer e achar a linha onde começou a diferença. Passo três: achar o bloco responsável. Passo quatro: mudar uma coisa só e testar de novo.
+Para depurar, primeiro é preciso testar: rodar o programa para ver se ele faz o que devia. De um lado, o resultado esperado, o que devia aparecer. Do outro, o resultado obtido, o que apareceu de verdade.
+
+Agora, o método do detetive. Passo um: rodar. Passo dois: comparar o esperado com o obtido, linha por linha, e achar a linha onde começou a diferença.
+
+Passo três: achar o bloco responsável por aquela linha. Passo quatro: mudar uma coisa só e testar de novo.
 
 Por que uma coisa só? Porque, se você muda tudo de uma vez, não sabe o que resolveu. E pode até criar um erro novo!
 
