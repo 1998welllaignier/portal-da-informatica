@@ -203,7 +203,7 @@
       palco.hidden = false;
       if (op === "jogos") { const b = document.createElement("div"); palco.innerHTML = ""; palco.appendChild(b);
         // 🎮 biblioteca de jogos (js/jogos-base.js): menu do dia, tutorial animado, recorde pessoal; sem ela, os 4 jogos simples
-        pararJogo = P.jogosEspera ? P.jogosEspera.abrir(b, { telaCheia: false, turma: s.turma, serie: s.serie, ganhar, recordes, eu: ids, nome: nomes.join(" e "), avatar: (P.sess.get() || {}).avatares ? P.sess.get().avatares[0] : null,
+        pararJogo = P.jogosEspera ? P.jogosEspera.abrir(b, { turma: s.turma, serie: s.serie, ganhar, recordes, eu: ids, nome: nomes.join(" e "), avatar: (P.sess.get() || {}).avatares ? P.sess.get().avatares[0] : null,
           salvarRecorde: (id, v) => refs.forEach(r => r.set({ recordes: { [id]: v } }, { merge: true }).catch(() => {})) }) : jogos(b, ganhar); }
       else if (op === "sabia") {
         let ordem = embaralha(FATOS), i = 0;

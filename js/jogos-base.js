@@ -110,8 +110,9 @@
     /* 🖥️ TELA CHEIA (26/11/2026, pedido do professor): ao tocar em ▶️ jogar, o jogo ocupa a tela inteira (tela cheia do próprio jogo);
        ao sair do jogo (🚪 Sair do jogo, ❓ Como jogar ou 🎮 Outro jogo no fim) volta ao normal. Se a página já estava em tela cheia,
        continua em tela cheia (o navegador volta para a página). Jogar de novo continua em tela cheia. */
-    // ⚠️ 26/11/2026 (urgente): na Sala de espera NÃO (opc.telaCheia === false): o vídeo e a leitura da Aula ao vivo, a roleta e o
-    //    pódio aparecem por cima da página, e um jogo em tela cheia escondia tudo isso do aluno. Só a 🎮 Sala de jogos usa tela cheia.
+    // ⚠️ 26/11/2026: a Sala de espera também usa tela cheia (pedido do professor), protegida pelo vigia abaixo: vídeo, leitura,
+    //    roleta, pódio ou janela por cima → o jogo sai da tela cheia na hora; na largada a sala de espera troca de tela e a tela cheia
+    //    do jogo some junto. opc.telaCheia === false desliga, se um dia precisar.
     const usaCheia = opc.telaCheia !== false;
     if (usaCheia) box.classList.add("jg-fs");
     // 🛟 segurança: se abrir a Aula ao vivo, a roleta, o pódio ou uma janela por cima, o jogo sai da tela cheia na hora
