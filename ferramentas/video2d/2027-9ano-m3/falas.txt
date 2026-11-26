@@ -2,7 +2,7 @@
 
 Na hora do intervalo, a Júlia desafiou a turma: pensei num objeto da sala de informática! Vocês só podem fazer perguntas de sim ou não. O Rafa começou chutando: é o mouse? Não. É a impressora? Não. Assim ia demorar o recreio inteiro!
 
-O jeito esperto é usar uma árvore de decisão. Cada vértice é uma pergunta. Cada galho é uma resposta: sim ou não. E cada folha é uma decisão final.
+O jeito esperto é usar uma árvore de decisão. Cada vértice é uma pergunta, uma condição. Cada galho é uma resposta: sim ou não. E cada folha é uma decisão final.
 
 Veja: a primeira pergunta, a raiz, é: é eletrônico? Se sim: tem tela? Sim, é o monitor. Não, é o teclado. Se não é eletrônico: serve para escrever? Sim, é o lápis. Não, é a cadeira.
 

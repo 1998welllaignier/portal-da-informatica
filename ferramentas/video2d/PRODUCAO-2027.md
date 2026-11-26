@@ -41,7 +41,8 @@ Voz: o código é o começo do id do MP3 no HeyGen (arquivo `voz_link.txt` da pa
 | 8º 1ºb M4 Busca binária | 2027-8ano-m4 (a v1 ficou fora do repositório) | **v2 ✅ piloto** (13 cenas, câmera) | – | – | – | esperando a opinião do professor e a voz |
 | 9º 1ºb M1 Grafos | 2027-9ano-m1 | v2 ✅ (10 cenas, verificador ok) | – | – | – | falta voz nova |
 | 9º 1ºb M2 Árvores | 2027-9ano-m2 | v2 ✅ (10 cenas, verificador ok) | – | – | – | falta voz nova |
-| 9º 1ºb M3 a M8 | 2027-9ano-m3…m8 | v1 ❌ (só cenas) | – | – | – | refazer → v2 |
+| 9º 1ºb M3 Árvores de decisão | 2027-9ano-m3 | v2 ✅ (10 cenas, verificador ok) | – | – | – | falta voz nova |
+| 9º 1ºb M4 a M8 | 2027-9ano-m4…m8 | v1 ❌ (só cenas) | – | – | – | refazer → v2 |
 | 6º 2ºb M1 e M2 | 2027-6ano-b2-m1, b2-m2 | v1 ❌ (só cenas) | – | – | – | refazer → v2 |
 | 8º 2ºb Curiosidade: duelo das redes | 2027-8ano-duelo-redes | (14 cenas; conferir) | sim | sim | – | esperando revisão |
 
