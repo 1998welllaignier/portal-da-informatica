@@ -77,7 +77,7 @@
 
   /* ---------------- motor dos jogos de canvas ---------------- */
   function montarCanvas(area, W, H) {
-    const cv = document.createElement("canvas"); cv.width = W; cv.height = H; cv.className = "jg-canvas"; cv.tabIndex = 0; area.appendChild(cv);
+    const cv = document.createElement("canvas"); cv.width = W; cv.height = H; cv.className = "jg-canvas"; cv.tabIndex = 0; cv.style.setProperty("--ar", String(W / H)); area.appendChild(cv);
     const ctx = cv.getContext("2d");
     const pos = ev => { const r = cv.getBoundingClientRect(); return { x: (ev.clientX - r.left) * W / r.width, y: (ev.clientY - r.top) * H / r.height }; };
     return { cv, ctx, pos };
@@ -107,6 +107,14 @@
   function abrir(box, opc) {
     // opc: { turma, ganhar(n, el), recordes: {id: pts}, salvarRecorde(id, pts) }
     let parar = () => {};
+    /* 🖥️ TELA CHEIA (26/11/2026, pedido do professor): ao tocar em ▶️ jogar, o jogo ocupa a tela inteira (tela cheia do próprio jogo);
+       ao sair do jogo (🚪 Sair do jogo, ❓ Como jogar ou 🎮 Outro jogo no fim) volta ao normal. Se a página já estava em tela cheia,
+       continua em tela cheia (o navegador volta para a página). Jogar de novo continua em tela cheia. */
+    box.classList.add("jg-fs");
+    // ⌨️ Esc continua sendo tecla do jogo (ex.: pular a história do Byte): o navegador só sai da tela cheia se SEGURAR o Esc
+    const trava = on => { try { const k = navigator.keyboard; if (!k) return; on ? k.lock && k.lock(["Escape"]).catch(() => {}) : k.unlock && k.unlock(); } catch (e) {} };
+    const cheiaOn = () => { try { if (document.fullscreenElement !== box && box.requestFullscreen) box.requestFullscreen({ navigationUI: "hide" }).then(() => trava(true)).catch(() => {}); } catch (e) {} };
+    const cheiaOff = () => { try { if (document.fullscreenElement === box) { trava(false); document.exitFullscreen().catch(() => {}); } } catch (e) {} };
     const recordes = opc.recordes || {};
     // 🏆 recordes da turma e da série (publicados pelo painel do professor em config/recordes_*; 20/11/2026)
     let recT = {}, recS = {};
@@ -115,7 +123,7 @@
       return Promise.all([db.collection("config").doc("recordes_" + opc.turma).get(), opc.serie ? db.collection("config").doc("recordes_s" + opc.serie).get() : null])
         .then(([a, b]) => { recT = (a && a.exists && a.data().jogos) || {}; recS = (b && b.exists && b.data().jogos) || {}; }).catch(() => {}); } catch (e) { return Promise.resolve(); } };
     function mural() {
-      parar(); parar = () => {};
+      parar(); parar = () => {}; cheiaOff();
       const lin = liberados().map(j => { const t = recT[j.id], sr = recS[j.id], eu = recordes[j.id];
         return `<tr><th>${j.ic} ${esc(j.nome)}</th><td>${t ? `${meu(t) ? "⭐ " : ""}<b>${esc(t.nome)}</b> · ${t.pts}` : "—"}</td><td>${sr ? `<b>${esc(sr.nome)}</b> <small>(${esc(sr.turma || "")})</small> · ${sr.pts}` : "—"}</td><td>${eu || "—"}</td></tr>`; }).join("");
       box.innerHTML = `<div class="jg-como-topo"><h3>🏆 Mural de recordes</h3><button type="button" class="btn btn-sec btn-peq" data-x="menu">← Jogos</button></div>
@@ -124,7 +132,7 @@
       box.querySelector('[data-x="menu"]').onclick = menu;
     }
     function menu() {
-      parar(); parar = () => {};
+      parar(); parar = () => {}; cheiaOff();
       const hoje = opc.todos ? liberados() : doDia(opc.turma), prox = proximos()[0];   // opc.todos: 🎮 Sala de jogos do 5º ano (todos os jogos; 25/11/2026)
       box.innerHTML = `<div class="jg-menu-topo"><h3>🎮 Escolha um jogo</h3><span class="ajuda">${opc.todos ? `Todos os ${hoje.length} jogos liberados` : `Os jogos de hoje · ${hoje.length} de ${liberados().length} liberados`}${prox ? ` · próximo jogo novo: <b>${esc(prox.ic)} ${esc(prox.nome)}</b> em ${prox.estreia.slice(8, 10)}/${prox.estreia.slice(5, 7)}` : ""}</span></div>
         <div class="jg-menu">${hoje.map(j => `<button type="button" class="jg-card ${j.cat}" data-j="${esc(j.id)}">${ehNovo(j) ? `<span class="jg-novo">🆕 NOVO</span>` : ""}<span class="jg-ic">${j.ic}</span><b>${esc(j.nome)}</b><small>${j.cat === "acao" ? "🕹️ Ação" : "💻 Informática"}</small>${recordes[j.id] || recT[j.id] ? `<small class="jg-card-rec">${recordes[j.id] ? `⭐ seu ${recordes[j.id]}` : ""}${recordes[j.id] && recT[j.id] ? " · " : ""}${recT[j.id] ? `🏆 turma ${recT[j.id].pts}` : ""}</small>` : ""}</button>`).join("")}</div>
@@ -133,7 +141,7 @@
       box.querySelector('[data-x="mural"]').onclick = mural;
     }
     function comoJogar(j) {
-      parar();
+      parar(); cheiaOff();
       box.innerHTML = `<div class="jg-como"><div class="jg-como-topo"><h3>${j.ic} ${esc(j.nome)}</h3><button type="button" class="btn btn-sec btn-peq" data-x="menu">← Outros jogos</button></div>
         <div class="jg-como-corpo"><div class="jg-demo"><canvas width="360" height="220"></canvas><span class="jg-demo-tag">👀 Veja como se joga</span></div>
           <div><p class="jg-como-t">Como jogar:</p><ol class="jg-passos">${j.como.map(p => `<li>${p}</li>`).join("")}</ol>
@@ -147,9 +155,9 @@
       setTimeout(() => { const b = box.querySelector('[data-x="jogar"]'); b && b.focus(); }, 50);
     }
     function jogar(j) {
-      parar();
+      parar(); cheiaOn();
       box.innerHTML = `<div class="jg-topo"><h3>${j.ic} ${esc(j.nome)}</h3><span class="jg-rec">${recordes[j.id] ? `⭐ Seu recorde: <b>${recordes[j.id]}</b>` : "⭐ Faça o seu primeiro recorde!"}${recT[j.id] ? ` · 🏆 Turma: <b>${esc(recT[j.id].nome)} ${recT[j.id].pts}</b>` : ""}</span>
-          <button type="button" class="btn btn-sec btn-peq" data-x="como">❓ Como jogar</button><button type="button" class="btn btn-sec btn-peq" data-x="menu">🎮 Outros jogos</button></div>
+          <button type="button" class="btn btn-sec btn-peq" data-x="como">❓ Como jogar</button><button type="button" class="btn btn-sec btn-peq" data-x="menu">🚪 Sair do jogo</button></div>
         <div class="jg-area"></div>`;
       box.querySelector('[data-x="menu"]').onclick = menu;
       box.querySelector('[data-x="como"]').onclick = () => comoJogar(j);
@@ -187,7 +195,7 @@
     // opc.abrirJogo: abre direto o “como jogar” de um jogo (prévia do professor no painel e testes)
     const direto = opc.abrirJogo && lista.find(j => j.id === opc.abrirJogo);
     if (direto) comoJogar(direto); else menu();
-    return () => parar();
+    return () => { parar(); cheiaOff(); };
   }
 
   /* imagem do avatar do aluno para usar dentro dos jogos (ex.: a corrida) */
