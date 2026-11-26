@@ -1,0 +1,23 @@
+O caminho mais curto!
+
+O Caio estava atrasado para a escola e tinha três caminhos para escolher. A Duda avisou: nem sempre o caminho com menos paradas é o mais rápido! Como descobrir qual é o melhor?
+
+Um caminho é uma sequência de vértices ligados por arestas, um depois do outro: casa, padaria, escola. O caminho que escolhemos para ir de um lugar a outro também se chama rota.
+
+Para saber quanto um caminho custa, somamos os pesos das arestas dele. Casa, padaria, escola: três mais dois, cinco minutos.
+
+Vamos testar os três caminhos. Pela rua direta, são nove minutos. Pela padaria, três mais dois, cinco minutos. Pela praça, quatro mais quatro, oito minutos. O mais curto é o de menor soma: cinco minutos!
+
+Repare: a rua direta tem uma aresta só, mas leva nove minutos. O caminho mais curto é o de menor soma, e não o de menos paradas!
+
+Para achar o caminho mais curto, siga três passos. Primeiro: liste todos os caminhos possíveis. Segundo: some os pesos de cada um. Terceiro: escolha o menor total.
+
+E se uma rua fechar? Se a aresta padaria e escola estiver interditada, o caminho mais curto muda para casa, praça, escola: oito minutos. É isso que o aplicativo de mapa faz quando aparece um bloqueio.
+
+Em mil novecentos e cinquenta e seis, o holandês Edsger Dijkstra criou um algoritmo que acha o caminho mais curto sem precisar testar todos os caminhos um por um. Os aplicativos de mapa usam ideias que vieram dele.
+
+O Caio escolheu casa, padaria, escola: cinco minutos! Chegou a tempo, e a Duda comemorou. Missão cumprida!
+
+Onde eu uso isso? No aplicativo de mapa e no aplicativo de transporte, que calculam a rota mais rápida até um endereço. No entregador de comida, que escolhe o caminho que gasta menos tempo. E no ônibus escolar, que passa pelas casas num caminho que gasta menos tempo e combustível.
+
+Agora é com vocês: abram a Missão 2 no portal!

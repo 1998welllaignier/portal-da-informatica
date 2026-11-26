@@ -1,0 +1,23 @@
+Grafos de amizades: quem conhece quem?
+
+A Duda abriu a rede social, e apareceu uma mensagem: pessoas que você talvez conheça. O Caio ficou curioso: como o aplicativo sabe disso? Será mágica?
+
+Grafos também mostram pessoas. Cada pessoa é um vértice, e cada amizade é uma aresta. Esse grafo não tem peso: só importa quem está ligado a quem.
+
+Uma rede social é um grande grafo de pessoas, que são os vértices, ligadas por amizades ou por quem segue quem, que são as arestas.
+
+O grau mostra quantas amizades cada pessoa tem. A Ana tem grau três. A Bia, o Caio e o Davi têm grau dois. E a Eva tem grau um. Quem tem mais conexões é quem tem o maior grau: a Ana!
+
+A Eva não é amiga da Ana, mas as duas têm um amigo em comum: o Davi. Amigo em comum é a pessoa ligada a duas outras ao mesmo tempo.
+
+Num grafo sem peso, a distância é o número de arestas do caminho mais curto entre duas pessoas. A Ana e a Eva estão a dois passos de distância.
+
+É assim que a rede social faz a sugestão de amizade: ela procura no grafo os amigos dos seus amigos. Para a Ana, o aplicativo sugere a Eva!
+
+Mas cuidado! A sugestão não quer dizer que a pessoa é de confiança. A regra é aceitar só quem eu conheço de verdade.
+
+A Duda e o Caio entenderam: a rede é um grafo de amizades, e o aplicativo procura os amigos dos amigos. E só aceitaram quem conheciam de verdade. Missão cumprida!
+
+Onde eu uso isso? Nas redes sociais, quando aparece: pessoas que você talvez conheça. No grupo da turma, no aplicativo de mensagens, onde todos estão ligados ao mesmo grupo. E na pesquisa de saúde: os cientistas usam grafos de contatos para entender como uma gripe passa de pessoa para pessoa.
+
+Agora é com vocês: abram a Missão 3 no portal!

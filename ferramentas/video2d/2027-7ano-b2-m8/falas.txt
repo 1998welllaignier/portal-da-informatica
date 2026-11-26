@@ -1,0 +1,21 @@
+Labirintos: um grafo escondido!
+
+O robô Bit entrou num labirinto e agora não acha a saída! O Caio e a Duda querem ajudar. Será que existe um jeito de pensar que sempre funciona?
+
+Todo labirinto é um grafo escondido! Cada cruzamento, onde dá para escolher o caminho, e cada beco sem saída viram vértices. Cada corredor entre eles vira uma aresta.
+
+A entrada e a saída são o vértice de começo e o vértice de fim. O cruzamento é um vértice com grau três ou mais. E o beco sem saída é um vértice com grau um.
+
+Para sair de um labirinto, usamos uma estratégia: um plano para resolver o problema. A primeira é a mão na parede: encoste a mão numa parede e nunca solte. Funciona nos labirintos em que todas as paredes estão ligadas umas às outras.
+
+A segunda estratégia é tentar e voltar: siga um caminho; se der num beco sem saída, volte até o último cruzamento e tente outro. Olha o Bit: beco sem saída, volta! Outro caminho, beco de novo, volta! E agora, a saída!
+
+Os computadores usam essa estratégia para resolver labirintos, quebra-cabeças e jogos. O nome dela, em programação, é retrocesso, em inglês, backtracking.
+
+A terceira estratégia é marcar o caminho: marque por onde já passou, como com um fio ou uma pedrinha, para não repetir.
+
+O Bit usou o tentar e voltar, marcou o caminho e achou a saída! Missão cumprida!
+
+Onde eu uso isso? Nos jogos de labirinto e de aventura, em que os inimigos acham o caminho até você. O robô aspirador precisa achar o caminho pela casa sem ficar preso. E os parques e as fazendas fazem labirintos de plantas para os visitantes.
+
+Agora é com vocês: abram a Missão 8 no portal!

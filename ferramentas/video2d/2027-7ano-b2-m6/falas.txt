@@ -1,0 +1,21 @@
+Construir e apresentar: o Guia de Rotas!
+
+O plano estava pronto, e hoje a equipe do Caio e da Duda vai construir o Guia de Rotas da Escola. O pesquisador já trouxe os dados: cinco ligações entre os lugares, cada uma com o tempo em minutos.
+
+Primeiro, construir: montar o grafo com os dados. O Portão vira um vértice, o Pátio vira outro, e assim por diante. Cada ligação vira uma aresta, com o peso em minutos.
+
+Depois, testar: conferir os caminhos mais curtos. Do Portão até a Biblioteca, passando pelo Pátio: um mais dois, três minutos. Passando pelo Pátio e pela Sala de Informática: um mais dois mais um, quatro minutos. O mais curto é três!
+
+Em seguida, ouvir: pedir a opinião de quem vai usar o guia. A opinião, ou retorno, é o que os usuários dizem sobre o projeto, para melhorar. Um aluno novo testou o guia e deu uma ideia!
+
+Por fim, melhorar: corrigir e fazer a nova versão. E o ciclo recomeça: construir, testar, ouvir e melhorar. Cada volta do ciclo gera uma versão melhor.
+
+Os aplicativos do celular fazem isso o tempo todo: por isso recebem atualizações. Uma atualização é uma nova versão, feita depois de ouvir os usuários.
+
+Chegou a hora da apresentação: mostrar o projeto para a turma, de forma curta e clara, em poucos minutos. Um: qual era o problema. Dois: o que fizemos. Três: como usar. Quatro: o que aprendemos.
+
+A equipe apresentou o guia, e o aluno novo nunca mais se perdeu na escola! Missão cumprida!
+
+Onde eu uso isso? Nas atualizações do celular, que são novas versões. Na feira de ciências, em que cada equipe apresenta o projeto aos visitantes. E no jogo que recebe uma fase nova: os criadores testaram e melhoraram antes.
+
+Agora é com vocês: abram a Missão 6 no portal!

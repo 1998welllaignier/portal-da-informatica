@@ -1,0 +1,21 @@
+Grafos: pontos e ligações!
+
+O Caio e a Duda mostraram o mapa do bairro para o robô Bit. Mas o computador não enxerga um mapa, uma turma ou uma rede como nós. Ele guarda tudo de um jeito bem simples: pontos ligados por linhas. Esse desenho se chama grafo!
+
+Cada ponto do grafo é um vértice, também chamado de nó. Um vértice pode ser um lugar, uma pessoa ou um computador. Aqui, a escola, a praça e o mercado são vértices.
+
+Cada linha que liga dois vértices é uma aresta. Ela mostra que eles estão conectados: pode ser uma rua, uma amizade ou um cabo. A rua que liga a escola à praça é uma aresta.
+
+O peso é o número escrito em uma aresta. Pode ser distância, tempo ou preço. Da escola até a praça, são cinco minutos de caminhada. Da praça ao mercado, quatro minutos. E da escola direto ao mercado, doze minutos.
+
+O grau é quantas arestas chegam a um vértice. A praça se liga à escola e ao mercado, então o grau dela é dois. E esses vértices ligados diretamente a ela são os vizinhos da praça.
+
+Para ler um grafo, escreva as ligações numa tabela. Cada linha da tabela é uma aresta: escola e praça, cinco. Praça e mercado, quatro. Escola e mercado, doze. Nesse grafo, há três vértices e três arestas.
+
+Em mil setecentos e trinta e seis, o matemático Leonhard Euler estudou as sete pontes da cidade de Königsberg. Ele desenhou as margens do rio como pontos e as pontes como linhas, e provou que não dava para passear atravessando cada ponte uma vez só. Foi o primeiro grafo da história da Matemática!
+
+Com o grafo, o robô Bit entendeu o mapa do bairro, e o Caio e a Duda descobriram os vértices, as arestas, os pesos e o grau de cada lugar. Missão cumprida!
+
+Onde eu uso isso? No aplicativo de mapa: cada esquina é um vértice, e cada rua é uma aresta. Na rede de computadores da escola: cada computador é um vértice, e cada cabo é uma aresta. E nas linhas de ônibus: cada parada é um vértice.
+
+Agora é com vocês: abram a Missão 1 no portal!

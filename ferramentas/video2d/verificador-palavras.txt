@@ -40,3 +40,12 @@ quiz
 wayground
 line
 backtracking
+contrôl
+ésse
+cpu
+ssd
+pen
+android
+windows
+ios
+touchscreen

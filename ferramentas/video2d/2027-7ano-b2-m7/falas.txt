@@ -1,0 +1,21 @@
+Mapa de Curionópolis em grafo!
+
+O Caio recebeu uma missão: explicar a um visitante como ir da Escola até a Rodoviária, em Curionópolis. Falar rua por rua é confuso! Então ele teve uma ideia: transformar a cidade num grafo.
+
+Um mapa é o desenho de um lugar visto de cima, com ruas e pontos importantes. O grafo é um modelo do mapa: um jeito simplificado de representar algo real.
+
+Os pontos de referência são lugares conhecidos que ajudam a se localizar, como a igreja e a praça. E a rodoviária é o lugar onde os ônibus de viagem chegam e partem.
+
+Para montar o grafo de qualquer lugar, são quatro passos. Um: escolher os lugares, e cada lugar vira um vértice. Dois: ver o que liga, e cada rua entre dois lugares vira uma aresta. Três: medir, e o tempo ou a distância vira o peso. Quatro: usar, achando caminhos e o caminho mais curto.
+
+Os tempos são de mentirinha, inventados para o exercício: o importante é o jeito de pensar. Escola a Praça: 6 minutos. Praça a Igreja: 2. Praça a Feira: 4. Escola a Feira: 9. Feira a Rodoviária: 5. Igreja a Rodoviária: 8.
+
+Vamos comparar caminhos da Escola até a Rodoviária. Escola, Praça, Feira, Rodoviária: seis mais quatro mais cinco, quinze minutos.
+
+Agora, Escola, Feira, Rodoviária: nove mais cinco, quatorze minutos. É o mais curto!
+
+O Caio explicou ao visitante: vá pela Feira, são quatorze minutos! O grafo ajudou a achar o caminho mais curto. Missão cumprida!
+
+Onde eu uso isso? Para explicar a um visitante como chegar à escola. O mototáxi e o entregador escolhem o caminho mais rápido pela cidade. E a prefeitura planeja as rotas do ônibus escolar.
+
+Agora é com vocês: abram a Missão 7 no portal!

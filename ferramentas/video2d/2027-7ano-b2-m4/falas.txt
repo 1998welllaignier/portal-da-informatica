@@ -1,0 +1,21 @@
+Estrutura certa: como guardar os dados?
+
+A Duda ia programar um aplicativo da escola, mas travou na primeira pergunta: como guardar os dados? Antes de programar, o programador decide como organizar as informações. Esse jeito de organizar se chama estrutura de dados.
+
+Escolher bem a estrutura deixa o programa simples. Escolher mal deixa tudo difícil. Por isso, vamos conhecer três estruturas: a lista, a tabela e o grafo.
+
+A lista guarda itens um depois do outro, em ordem. Serve para guardar coisas em sequência: a lista de compras, a fila da cantina e a playlist de músicas.
+
+A tabela guarda dados em linhas e colunas. Cada linha é um registro, a ficha de uma coisa. E cada informação do registro é um campo. Por exemplo, no boletim: o nome do aluno, a nota e as faltas.
+
+O grafo, que você já conhece, é feito de vértices ligados por arestas. Serve para mostrar o que está ligado a quê: o mapa da cidade, a rede de amigos e a rede de computadores.
+
+Como escolher? Faça três perguntas. A ordem dos itens importa, e cada item tem só uma informação? Então use uma lista. Cada item tem várias informações, como nome, idade e telefone? Então use uma tabela. O importante é quem está ligado a quem? Então use um grafo.
+
+Vamos treinar! Músicas na ordem em que vão tocar? Lista. Nome, turma e nota de cada aluno? Tabela. Cidades que têm estrada entre si? Grafo!
+
+A Duda escolheu: a playlist do aplicativo é uma lista, a agenda de contatos é uma tabela, e o mapa é um grafo. Aplicativo organizado! Missão cumprida!
+
+Onde eu uso isso? A playlist de músicas é uma lista: uma depois da outra. A agenda de contatos do celular é uma tabela: cada contato tem nome, telefone e foto. E o aplicativo de mapa guarda as ruas num grafo.
+
+Agora é com vocês: abram a Missão 4 no portal!

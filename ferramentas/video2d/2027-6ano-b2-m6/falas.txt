@@ -1,0 +1,23 @@
+Decompor: dividir para resolver!
+
+A turma ia fazer um aniversário, e a Tainá e o Pedro ficaram com a organização. Era um problema grande: balões, bolo, música, limpeza, tudo misturado! Eles não sabiam por onde começar.
+
+Primeiro, o Pedro tentou fazer tudo ao mesmo tempo, sozinho. Encheu balão, cortou bolo, ligou a música... e foi um desastre! Os balões estouraram, e o bolo caiu.
+
+Foi quando o robozinho Bit apareceu com uma dica: decompor! Decompor é dividir um problema grande em partes menores e mais fáceis. O nome do processo é decomposição.
+
+Olha como ficou! Decoração: balões, faixa e toalha. Comida: bolo, salgados e suco. Diversão: músicas e brincadeiras. Limpeza: recolher o lixo e arrumar a sala. Cada parte menor é um subproblema.
+
+Cada parte pode ser resolvida por uma pessoa ou por uma equipe. Equipe é um grupo de pessoas que dividem as partes de um trabalho. A Tainá ficou com a decoração, o Pedro com a comida, uma equipe com a diversão e o Bit com a limpeza.
+
+O segredo tem quatro passos. Um: diga qual é o problema grande. Dois: pergunte de que partes ele é feito. Três: resolva uma parte de cada vez. Quatro: junte tudo e confira.
+
+Vamos ver acontecendo! A decoração ficou pronta: balões e faixa no lugar. A comida ficou pronta: bolo na mesa. A diversão ficou pronta: música tocando. A limpeza ficou pronta: sala arrumada. Juntando tudo, o problema grande está resolvido!
+
+Os programadores também fazem assim. Um jogo de celular é dividido em partes: os personagens, o cenário, os pontos e os sons. E cada equipe cuida de uma.
+
+No fim, a festa foi um sucesso! O que parecia impossível ficou fácil, porque a Tainá e o Pedro souberam decompor o problema e resolveram uma parte de cada vez. Missão cumprida!
+
+Onde eu uso isso? Para arrumar o quarto: arrumar a cama, guardar as roupas e recolher os brinquedos. No trabalho em grupo da escola: cada um faz uma parte, como pesquisar, fazer o cartaz e ensaiar a apresentação. E num time de futebol: goleiro, defesa, meio-campo e ataque dividem o jogo.
+
+Agora é com vocês: abram a Missão 6 no portal!

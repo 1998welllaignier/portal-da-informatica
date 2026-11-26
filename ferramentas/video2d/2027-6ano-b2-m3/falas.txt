@@ -1,0 +1,25 @@
+Repetição: repita, repita, repita!
+
+O Pedro precisava levar o robô Bit até a estrela. Para isso, escreveu seis setas iguais: direita, direita, direita, direita, direita, direita. Que cansaço! E se fossem cem setas? O Bit ia esperar até amanhã!
+
+Mas o Pedro descobriu o comando repita. Em vez de escrever seis setas, ele escreveu: repita seis vezes, seta para a direita. A repetição é fazer o mesmo passo várias vezes. E o Bit andou as seis casas, sozinho!
+
+Veja a diferença. Sem repetição, são seis comandos. Com repetição: repita quatro vezes seta para a direita, repita duas vezes seta para baixo. São só dois comandos!
+
+Dá para repetir também as coisas do dia a dia. Bater palma três vezes? Repita três vezes: bater palma. Pular cinco vezes? Repita cinco vezes: pular.
+
+A repetição deixa o algoritmo mais curto, mais fácil de ler e mais fácil de corrigir. Se precisar mudar de quatro para cinco passos, é só trocar um número!
+
+A repetição também se chama laço. Em inglês, loop, que quer dizer volta, como numa corda que dá a volta. Repetição e laço são dois nomes para a mesma ideia.
+
+Atenção: toda repetição precisa saber quando parar. Repita três vezes para depois da terceira vez. Um, dois, três, e pronto, parou!
+
+E se a repetição não tiver quando parar? Aí vira o laço infinito: o Bit anda, anda, anda e nunca termina! Isso trava o programa. É um erro comum de programação.
+
+Dá para repetir um grupo de passos. Repita quatro vezes: ande uma casa, vire à direita. O Bit desenha um quadrado! O que se repete sempre do mesmo jeito é um padrão, e achar o padrão ajuda a usar a repetição.
+
+O Pedro usou o comando repita, e o Bit chegou na estrela com só dois comandos. Menos setas, menos cansaço. Missão cumprida!
+
+Onde eu uso isso? No despertador: quando você aperta soneca, ele repete o alarme. Na música, no modo repetir, ela toca de novo e de novo. E no semáforo: verde, amarelo, vermelho, verde, sem parar.
+
+Agora é com vocês: abram a Missão 3 no portal!
