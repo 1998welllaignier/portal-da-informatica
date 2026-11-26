@@ -381,6 +381,10 @@
     box.dataset.xp = xp; box.classList.toggle("cheio", cheio);
     const bon = xp > 1000 ? xp - 1000 : 0;
     box.innerHTML = `<div class="xp-cab"><span>⚡ XP da missão</span><b>${cheio ? `🏆 COMPLETA!${bon ? ` <span class="xp-bonus">⭐ +${bon}</span>` : ""}` : `${xp} / 1000`}</b></div><div class="xp-trilho"><i style="width:${Math.max(xp ? 3 : 0, Math.min(100, xp / 10))}%"></i></div>`;
+    // 🧾 26/11/2026 (pedido do professor): de onde veio cada ponto, para o aluno ver que tudo o que ele faz soma no placar
+    try { const z = P.podio && P.podio.xpPartes ? P.podio.xpPartes(aid, mid, prog.atv) : null;
+      const ps = z ? [["📘", "tarefas", z.tarefas], ["⭐", "bônus relâmpago", z.bonus], ["🔥", "sequência", z.sequencia], ["♾️", "laboratório", z.lab], ["🃏", "álbum", z.album], ["🌟", "Vez da Helena", z.helena]].filter(x => x[2] > 0) : [];
+      if (ps.length > 1 || (ps.length === 1 && ps[0][1] !== "tarefas")) box.insertAdjacentHTML("beforeend", `<p class="xp-partes">${ps.map(([ic, r, v], k) => `<span>${k ? "+ " : ""}${ic} ${v} ${r}</span>`).join(" ")}</p>`); } catch (e) {}
     if (xp > antes && antes) { box.classList.remove("subiu"); void box.offsetWidth; box.classList.add("subiu"); }
     linhaPlacarXP();
   }

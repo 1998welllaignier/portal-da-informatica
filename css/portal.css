@@ -3019,3 +3019,6 @@ body.hz-aberta{overflow:hidden}
 /* 🏆 total do placar embaixo da barra de XP (26/11/2026) */
 .mn-xp .xp-placar{margin:6px 0 0;font-size:.9rem;line-height:1.3}
 .mn-xp .xp-placar small{display:block;opacity:.8;font-size:.8rem}
+/* 🧾 de onde vem cada ponto (26/11/2026) */
+.mn-xp .xp-partes{margin:6px 0 0;font-size:.8rem;line-height:1.35;display:flex;flex-wrap:wrap;gap:2px 6px;opacity:.9}
+.mn-xp .xp-partes span{white-space:nowrap}

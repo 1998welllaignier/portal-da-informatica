@@ -837,4 +837,5 @@ O botão 🎮 Sala de jogos (o mesmo do 5º ano) aparece na lista de missões de
 - O ♾️ Laboratório sem fim agora vai para a nuvem (antes ficava de fora e o placar não somava o XP dele).
 - Na 🔁 Revisão e na 📝 Recuperação, o placar usa o mesmo filtro de missões que o aluno vê (antes o painel contava todas e dava menos pontos).
 - Embaixo da barra de XP, o aluno vê "🏆 No placar da aula: N pts" (o número do projetor), com as partes: ⚡ missão + 🚦📖 sala de espera e leitura.
+- 🧾 Embaixo da barra, de onde veio cada ponto: 📘 tarefas + ⭐ bônus relâmpago + 🔥 sequência + ♾️ laboratório + 🃏 álbum + 🌟 Vez da Helena (só as partes que existem; `P.podio.xpPartes`, a soma é sempre o total).
 - Roteiro `roteiro-pontos-sync.js`; antes de publicar qualquer coisa: `bash ferramentas/aula-simulada/testar-tudo.sh`.

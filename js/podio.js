@@ -397,6 +397,22 @@
     return { atual, bonus: Math.min(100, bonus) };
   }
   function xpDe(p, atv) { return p && typeof p.xp === "number" && isFinite(p.xp) && p.xp >= 0 ? Math.round(p.xp) : xpDoc(p.aid, p.mid, atv); }
+  /* 🧾 26/11/2026 (pedido do professor): de onde vem cada ponto da barra do aluno. A soma das partes é SEMPRE o xpDoc
+     (o roteiro-pontos-sync confere). */
+  function xpPartes(aid, mid, atv) {
+    const z = { tarefas: 0, bonus: 0, sequencia: 0, lab: 0, album: 0, helena: 0, total: 0 };
+    if (!P.montarMissao || !P.conteudo[aid]) return z;
+    let mm; try { mm = P.montarMissao(aid, mid); } catch (e) { return z; }
+    let max = 0, raw = 0;
+    mm.pages.forEach(pg => { const base = BASE[pg.id]; if (!base) return;
+      (pg.atividades || []).forEach(at => { const T = (P.tipos || {})[at.tipo] || {}; if (T.semStatus || at.opcional) return;
+        max += base; const st = (atv || {})[at.id]; if (!st || !st.status) return; raw += base * fator(st); }); });
+    z.tarefas = max ? Math.round(1000 * raw / max) : 0; z.bonus = bonusDe(mm, atv).xp; z.sequencia = sequencia(atv).bonus;
+    if (mm.espiral) { const lab = (atv || {})[mid + "-lab"], alb = (atv || {})[mid + "-termos"];
+      z.lab = lab ? (lab.xp != null ? Math.max(0, +lab.xp || 0) : Math.min(150, (lab.ac || 0) * 10)) : 0; z.album = alb && alb.status ? 50 : 0; }
+    z.helena = P.helena ? P.helena.extras(mid, atv) : 0;
+    z.total = z.tarefas + z.bonus + z.sequencia + z.lab + z.album + z.helena; return z;
+  }
   function xpDoc(aid, mid, atv) {
     if (!P.montarMissao || !P.conteudo[aid]) return 0;
     let mm; try { mm = P.montarMissao(aid, mid); } catch (e) { return 0; }
@@ -482,5 +498,5 @@
   function sortear() { const n = k => Math.floor(Math.random() * k);
     return Object.assign({}, PADRAO, { tipo: OPC.tipo[n(2)][0], pele: n(PELE.length), cabelo: OPC.cabelo[n(OPC.cabelo.length)][0], corCabelo: n(4) }); }
   P.avatar = { svg, editor, fluxoLogin, daSessao, PADRAO, sortear };
-  P.podio = { setBonus, ouvirBonus, ranking, pontosDoc, xpDoc, xpDe, sequencia, linhaPlacar, podioHTML, confete, nomeCurto, MED, coroa, reis, tituloRei };
+  P.podio = { setBonus, ouvirBonus, ranking, pontosDoc, xpDoc, xpDe, xpPartes, sequencia, linhaPlacar, podioHTML, confete, nomeCurto, MED, coroa, reis, tituloRei };
 })();
