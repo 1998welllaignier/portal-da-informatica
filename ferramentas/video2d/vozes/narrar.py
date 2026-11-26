@@ -69,7 +69,7 @@ def tokens(s):
     out = [sem_acento(x) for x in out]
     return [LETRA.get(x, x) for x in out]
 LETRA = {"a": "a", "be": "b", "ce": "c", "de": "d", "efe": "f", "ge": "g", "aga": "h", "jota": "j", "ca": "k", "ele": "l", "eme": "m", "ene": "n", "pe": "p", "que": "q", "erre": "r", "esse": "s", "te": "t", "ve": "v", "dablio": "w", "xis": "x", "ipsilon": "y", "ze": "z"}
-IGNORAR = {"e", "o", "a", "de", "um", "uma", "1"}   # o Whisper costuma comer/acrescentar estes; não contam como erro sozinhos
+IGNORAR = {"e", "o", "a", "as", "os", "ao", "aos", "de", "da", "do", "das", "dos", "no", "na", "em", "um", "uma", "1"}   # o Whisper costuma comer/acrescentar estes; não contam como erro sozinhos
 def diferencas(texto, ouvido):
     a, b = tokens(texto), tokens(ouvido); dif = []
     for op, i1, i2, j1, j2 in difflib.SequenceMatcher(None, a, b, autojunk=False).get_opcodes():

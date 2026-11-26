@@ -1,0 +1,23 @@
+Escolher a estrutura certa!
+
+O Léo e a Bia vão criar um aplicativo da escola. Mas, antes de programar, é preciso decidir como guardar os dados. Essa escolha é a estrutura de dados. Com a estrutura certa, o programa fica simples e rápido.
+
+A primeira é a lista: itens em ordem, um depois do outro, com um nome só. Use quando precisar guardar vários itens do mesmo tipo, como a chamada da turma.
+
+A segunda é a fila: uma lista em que o primeiro que entra é o primeiro que sai. Use quando precisar atender por ordem de chegada, como a fila de impressão.
+
+Na dúvida entre lista e fila, pergunte: como vou atender? Se for por ordem de chegada, é fila. Se for só guardar vários itens do mesmo tipo, é lista.
+
+A terceira é a tabela: dados em linhas e colunas. Cada linha é um registro, como um aluno, e cada coluna é um campo, como nome e nota. Use quando cada item tem várias informações, como a ficha dos alunos.
+
+A quarta é o grafo: pontos, os vértices, ligados por linhas, as arestas. Use quando o que importa são as ligações, como o mapa das ruas ou uma rede de amigos.
+
+No projeto do aplicativo, a turma escolhe a estrutura de cada parte. Chamada da turma: lista, vários nomes em ordem. Pedidos de impressão: fila, imprime por ordem de chegada. Boletim, com nome, notas e faltas: tabela, porque cada aluno tem várias informações. Rotas dos ônibus escolares: grafo, paradas ligadas pelas ruas.
+
+E como se faz um projeto? Projeto é um trabalho com começo, meio e fim para resolver um problema. Os passos são: Um, entender o problema. Dois, listar os dados. Três, escolher a estrutura. Quatro, testar com um exemplo. Cinco, apresentar.
+
+O aplicativo ficou pronto, com cada parte guardada na estrutura certa. Estrutura certa, programa simples! Missão cumprida!
+
+Onde eu uso isso? O aplicativo de mapas usa grafos para achar o caminho. A planilha de notas do professor é uma tabela. E a playlist é uma lista, enquanto a fila de atendimento do posto de saúde é uma fila.
+
+Agora é com vocês: abram a Missão 6 no portal!

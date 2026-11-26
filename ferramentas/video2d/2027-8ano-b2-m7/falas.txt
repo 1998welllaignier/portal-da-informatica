@@ -1,0 +1,21 @@
+Muitos computadores, um só sistema!
+
+Quando você pesquisa no buscador, não é um computador só que responde. São milhares de servidores, em vários lugares do mundo, trabalhando juntos. Isso se chama sistema distribuído.
+
+Sistema distribuído são vários computadores, em lugares diferentes, ligados em rede e trabalhando juntos como se fossem um só. Cada um deles é um servidor: um computador que fica ligado o tempo todo para guardar e entregar dados.
+
+A primeira ideia é dividir o trabalho. Cada computador faz uma parte. Um servidor procura nas páginas de A até M, e outro procura de N até Z. Assim, a resposta sai bem mais rápido.
+
+A segunda ideia é ficar perto de você. Uma cópia do site fica guardada em vários lugares do mundo. O vídeo chega do servidor mais perto, então chega mais rápido.
+
+A terceira ideia é não parar se um quebrar. Se um servidor estraga, outro assume o trabalho, e o site continua no ar. Essa capacidade se chama tolerância a falhas. É como no futebol: se um jogador se machuca, entra o reserva e o jogo continua.
+
+O jogo on-line também é distribuído. Jogadores em casas diferentes veem o mesmo mapa, porque os servidores recebem os movimentos de todos e mandam a mesma partida para cada um.
+
+Vamos testar? Buscador com milhares de servidores: é distribuído. Um computador sozinho, em cima da mesa: não é. Cópias do mesmo dado em vários lugares: ajudam a não perder nada. Se um servidor quebra, o sistema continua: tolerância a falhas!
+
+Então, o sistema distribuído divide o trabalho, guarda cópias perto de você e continua funcionando mesmo quando uma parte quebra. Missão cumprida!
+
+Onde eu uso isso? O buscador responde em menos de um segundo, porque milhares de servidores dividem a busca. Os jogos on-line mantêm todos na mesma partida. E os aplicativos de banco guardam cópias dos dados em vários lugares, para não perder nada.
+
+Agora é com vocês: abram a Missão 7 no portal!

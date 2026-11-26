@@ -1,0 +1,21 @@
+Quanto custa a velocidade? Vamos entender!
+
+O plano de internet diz cem mega. Isso quer dizer cem ême bê pê ésse: cem megabits por segundo. Mas atenção: o tamanho dos arquivos é medido em megabytes, ou ême bê.
+
+O bit é o menor pedaço de informação do computador: zero ou um. O byte é um grupo de oito bits. Então, um byte é igual a oito bits.
+
+Para saber quantos megabytes chegam por segundo, divida os ême bê pê ésse por oito. Internet de oitenta: oitenta dividido por oito dá dez megabytes por segundo. Internet de quarenta: cinco megabytes por segundo. Internet de dezesseis: dois megabytes por segundo.
+
+Quanto tempo demora o download? O tempo é o tamanho do arquivo dividido pelos megabytes por segundo. Um vídeo de cinquenta megabytes, a dez por segundo: cinquenta dividido por dez, cinco segundos. Um jogo de trezentos megabytes, a cinco por segundo: sessenta segundos, um minuto.
+
+Download é baixar: os dados chegam até você. Upload é enviar: você manda os dados para a internet, como ao postar um vídeo. Muitos planos têm upload menor que o download.
+
+A latência, também chamada de ping, é o tempo que um pacote leva para ir até o servidor e voltar. Ela é medida em milissegundos. Nos jogos on-line, ping baixo é melhor: o jogo responde na hora. Ping alto causa o famoso lag.
+
+Vamos testar? Um byte tem oito bits: verdadeiro. Oitenta ême bê pê ésse baixam oitenta megabytes por segundo: falso, são dez. Postar um vídeo é upload: verdadeiro. Nos jogos, quanto maior o ping, melhor: falso!
+
+Então, para saber a velocidade do download, divida os ême bê pê ésse por oito. E lembre: latência baixa é melhor. Missão cumprida!
+
+Onde eu uso isso? Para escolher um plano de internet, compare a velocidade de download e de upload. Antes de baixar um jogo, dá para calcular quanto tempo vai demorar. E nos jogos on-line, o número do ping mostra se a conexão está boa.
+
+Agora é com vocês: abram a Missão 8 no portal!

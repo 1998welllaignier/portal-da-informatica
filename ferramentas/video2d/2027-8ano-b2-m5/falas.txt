@@ -1,0 +1,23 @@
+Paralelismo e concorrência: tudo ao mesmo tempo!
+
+O Léo tinha que arrumar a sala de aula sozinho: varrer, organizar as cadeiras, limpar o quadro e recolher o lixo. Eram quatro tarefas de dez minutos cada. Quanto tempo ia levar?
+
+Aí a Bia chamou mais três colegas. Quatro pessoas, cada uma com uma parte, ao mesmo tempo! Terminou muito mais rápido: dez minutos. Isso é paralelismo: fazer várias tarefas ao mesmo tempo.
+
+O processador do computador faz o mesmo. Processador, ou cê pê u, do inglês Central Processing Unit, unidade central de processamento, é a peça que faz as contas e executa os programas. Ele tem vários núcleos, e cada núcleo cuida de uma parte do trabalho ao mesmo tempo.
+
+Veja na conta: quatro tarefas de dez minutos, com um núcleo, levam quarenta minutos. Com quatro núcleos, só dez. Oito tarefas: oitenta minutos com um núcleo, e apenas vinte com quatro.
+
+Mas nem tudo dá para dividir. Se uma tarefa depende da outra, ela precisa esperar: isso se chama dependência. Para fazer um bolo, dá para separar os ingredientes, untar a forma e ligar o forno ao mesmo tempo. Mas assar só depois de misturar, e a calda só depois de assar.
+
+Já a concorrência é quando várias tarefas querem usar a mesma coisa, o mesmo recurso, ao mesmo tempo. Exemplo: dezenove alunos mandam imprimir ao mesmo tempo, mas a escola tem uma impressora só.
+
+Ela não imprime tudo junto: forma uma fila e atende um pedido de cada vez. Fila é a organização em que o primeiro que chega é o primeiro a ser atendido.
+
+Então, como separar? Quatro colegas varrendo partes diferentes da sala: paralelismo. Dezenove pedidos disputando uma impressora só: concorrência, que vira fila. E dois amigos editando a mesma linha do arquivo ao mesmo tempo: também concorrência, e o programa precisa organizar.
+
+O Léo e a Bia entenderam: dividir o trabalho faz terminar mais rápido, e, quando todo mundo disputa a mesma coisa, vira fila. Missão cumprida!
+
+Onde eu uso isso? Num jogo, um núcleo cuida da imagem enquanto outro cuida do som, ao mesmo tempo. Na fila de impressão da escola, que organiza os pedidos. E ao baixar vários arquivos ao mesmo tempo, que dividem a mesma internet, e cada um vai mais devagar.
+
+Agora é com vocês: abram a Missão 5 no portal!
