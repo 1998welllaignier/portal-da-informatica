@@ -1,19 +1,31 @@
 Tipos de dados: a planilha maluca!
 
-A Luana montou no computador o cadastro do time da escola. Mas, quando pediu para somar os pontos, o computador somou os telefones! Que confusão!
+A Luana montou no computador o cadastro do time da escola: o nome, os pontos e o telefone de cada jogador. Aí ela pediu para o computador somar… e ele somou os telefones! Deu um número gigante. Que confusão!
 
-Tudo o que o computador guarda é dado: um nome, um número, uma foto. Mas cada dado tem um tipo, e o tipo diz o que o computador pode fazer com ele.
+O robozinho Bit apareceu na tela: o problema não é a conta, Luana. É o tipo do dado! Vem comigo para a Fábrica de Dados.
 
-Texto são letras, como um nome. Número é para fazer contas. Data é o dia, o mês e o ano. E o lógico só pode ser verdadeiro ou falso: sim ou não.
+Aqui dentro, tudo o que o computador guarda é dado: um nome, um número, uma foto. Os dados chegam pela esteira, um atrás do outro.
 
-Imagem, som e vídeo também são tipos de dados: a foto a gente mostra, a música a gente toca, e o vídeo a gente pausa e avança.
+Mas os dados não são todos iguais. Cada dado tem um tipo, e o tipo diz o que o computador pode fazer com ele. Por isso a máquina separa cada pacote na caixa certa.
 
-Cuidado com a pegadinha: telefone e CEP parecem números, mas são texto. Ninguém soma dois telefones! Se o dado vai para a conta, é número. Se é só um nome feito de algarismos, é texto.
+Primeira caixa: texto. São letras, como um nome ou uma rua. Com texto, o computador junta palavras, procura letras e põe em ordem alfabética.
 
-Muitos dados juntos formam coleções. A lista é um dado depois do outro, em ordem, como a lista de chamada. E a tabela tem linhas e colunas: cada linha é um jogador, e cada coluna, uma informação.
+Segunda caixa: número. Número é para fazer contas: somar, tirar a média, medir. Doze mais nove mais quinze: trinta e seis pontos!
 
-A Luana arrumou a tabela: o nome como texto, os pontos como número e o telefone como texto. Agora o computador soma só os pontos. Missão cumprida!
+Terceira: data, com dia, mês e ano. Com a data, o computador conta quantos dias faltam e sabe o que vem antes e o que vem depois.
 
-Onde eu uso isso? No cadastro de uma loja, na tabela do campeonato e na playlist de músicas, que é uma lista.
+Quarta: lógico. Ele só pode ser verdadeiro ou falso, sim ou não. Também se chama booleano, por causa do matemático inglês George Boole. Ele serve para decidir: se veio à aula, marca presença.
 
-Agora é com vocês: abram a Missão 5 no portal!
+E tem mais: imagem, som e vídeo também são tipos de dados. A foto a gente mostra e recorta, a música a gente toca e muda o volume, e o vídeo a gente pausa e avança.
+
+Agora, a pegadinha! O telefone chegou, e a máquina quase jogou ele na caixa de número. Errado! Telefone e CEP parecem números, mas são texto: ninguém soma dois telefones! Se o dado vai para a conta, é número. Se é só um nome feito de algarismos, é texto.
+
+Quando temos muitos dados juntos, eles formam uma coleção. A lista é um dado depois do outro, em ordem, como a lista de chamada ou a lista de compras.
+
+E a tabela organiza os dados em linhas e colunas. A linha é deitada, a coluna é em pé. Cada linha é um jogador, e cada coluna é uma informação, como no boletim: aluno, nota e faltas.
+
+De volta à planilha, a Luana arrumou tudo: o nome como texto, os pontos como número e o telefone como texto. Agora o computador soma só os pontos: trinta e seis! Missão cumprida!
+
+Onde eu uso isso? No cadastro de uma loja: o nome é texto, a idade é número, o nascimento é data e aceita receber ofertas é verdadeiro ou falso. Na tabela do campeonato, com uma linha por time. E na playlist, que é uma lista de músicas.
+
+Agora é com vocês: abram a Missão 5 no portal e separem os dados na caixa certa!

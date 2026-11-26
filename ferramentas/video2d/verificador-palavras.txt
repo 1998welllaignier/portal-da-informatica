@@ -19,3 +19,7 @@ mp4
 redacao
 pedro
 lara
+luana
+boole
+booleano
+playlist
