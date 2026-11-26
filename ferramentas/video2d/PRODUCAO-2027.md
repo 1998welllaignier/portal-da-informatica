@@ -1,5 +1,21 @@
 # Produção dos vídeos das missões 2027 (iniciada em 25/11/2026)
 
+## 📍 SITUAÇÃO EM 26/11/2026, 10h30 (pausa até a renovação do limite — leia isto primeiro)
+
+**Vídeos com VOZ Gemini (Charon) prontos e conferidos** (crivo OK, vinheta, legenda de 1 linha), guardados no computador do professor em
+`C:\Users\V&W\Downloads\Videos-Missoes-2027\` (mp4 + as vozes em `vozes-gemini-parte1.zip` e `parte2.zip`, para não pagar de novo):
+6º b2 M2, M4, M5, M6, M7, M8 · 7º M3. **Ainda NÃO subiram para o YouTube nem para o portal.**
+
+**Fila de voz que ficou parada (nada pela metade):**
+- 6º b2 M1 (já tem voz, falta remontar) e 6º b2 M3 (voz falhou no crivo antes do conserto do "as/a"; refazer).
+- 7º M4–M8 · 8º M1, M2, M3, M5–M8 · 9º M1–M8 · 7º b2 M1–M8 · 6º M6–M8 · 6º M2–M5 · 7º M1–M2 · 8º M4 · 8º b2 M1–M8.
+- 9º b2 M1–M8 · 6º b3 M1–M4 · 7º b3 M1–M3 · 8º b3 M1–M3 · 9º b3 M1–M3.
+- Como rodar: `/tmp/finais/lote.sh <pastas…>` (se o /tmp tiver sido apagado, o script está descrito na conversa: narrar.py <pasta> <série> --montar /tmp/finais/<pasta>.mp4, pula quem não tem "erros: 0  avisos: 0").
+
+**Vídeos SEM voz já aprovados (0 erros, 0 avisos, legenda OK, quadros conferidos) e no GitHub:** todos os da lista acima.
+**Ainda não feitos:** 7º b3 M4, 8º b3 M4, 9º b3 M4 (Golpes e phishing; Termos de uso; Tecnologia e trabalho) e todo o 4º bimestre de 2027; extras.
+**Gasto Gemini até agora:** US$ 1,12 (vozes/custos.csv).
+
 Ordem: por bimestre; 5º ano fica de fora (acompanha a turma da sala).
 Fluxo: `cenas.js` → `novo_video.py` → `prever.py` → narração no ChatGPT (HeyGen, voz Murilo) → `voz_link.txt` → baixar MP3 → `finalizar.py` → `verificar_legenda.py` → revisão do professor → YouTube (privado → não listado).
 
