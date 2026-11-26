@@ -6,7 +6,7 @@ Para a gente, é fácil, porque já sabe fazer. Mas o computador não adivinha n
 
 Algoritmo é uma lista de passos, em ordem, para resolver um problema ou fazer uma tarefa. Cada passo do algoritmo se chama instrução.
 
-E cada instrução precisa ser clara, sem deixar dúvida, e precisa, dizendo exatamente o que fazer. Faz o suco aí é vago. O bom é assim: um, pegar um copo. Dois, colocar duas colheres de suco em pó. Três, encher o copo com água. Quatro, mexer com a colher.
+E cada instrução precisa ser clara, sem deixar dúvida. E o algoritmo precisa ser preciso: dizer exatamente o que fazer. Faz o suco aí é vago. O bom é assim: um, pegar um copo. Dois, colocar duas colheres de suco em pó. Três, encher o copo com água. Quatro, mexer com a colher.
 
 Todo algoritmo tem começo, meio e fim: começa num ponto, segue os passos e termina quando o problema está resolvido. Se for bem feito, qualquer pessoa que seguir os passos chega ao mesmo resultado.
 
