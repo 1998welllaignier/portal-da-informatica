@@ -2,7 +2,7 @@ Listas: dados em fila!
 
 O Léo é o ajudante da chamada e precisa guardar o nome dos dezenove colegas no programa. Ele criou uma variável para cada um: aluno um, aluno dois, aluno três… Para mostrar todos, precisou de dezenove comandos. E, quando chegou um aluno novo, teve que criar mais uma variável!
 
-A Bia mostrou o jeito certo: uma lista. Lista é um conjunto de vários itens, um depois do outro, em ordem, todos com o mesmo nome. É como a fila da merenda: cada pessoa tem o seu lugar.
+A Bia mostrou o jeito certo: uma lista. Lista é uma estrutura de dados: um conjunto de vários itens, um depois do outro, em ordem, todos com o mesmo nome. É como a fila da merenda: cada pessoa tem o seu lugar.
 
 Cada item tem uma posição, também chamada de índice. Na lista CHAMADA, a posição um é a Ana, a dois é o Bruno, e a três é a Carla. Então, CHAMADA na posição três quer dizer: a Carla!
 
