@@ -1,10 +1,33 @@
 # Plano de ação — Portal da Informática (combinado em 07/11/2026)
 
+## 🔄 DEPOIS DA RENOVAÇÃO DO LIMITE (anotado em 26/11/2026, 17h, a pedido do professor) — LER PRIMEIRO
+Tudo o que ficou combinado para depois da renovação. Fazer nesta ordem, um assunto de cada vez, com teste de regressão antes de publicar.
+
+1. 🎬 **Vídeos das missões** (detalhes em `ferramentas/video2d/PRODUCAO-2027.md`, seção "SITUAÇÃO EM 26/11/2026"):
+   - subir para o YouTube e ligar no portal os 7 vídeos com voz que já estão no computador do professor (6º b2 M2, M4–M8 · 7º M3);
+   - fila de voz Gemini (6º b2 M1 remontar, 6º b2 M3 refazer, e o resto da lista);
+   - fazer os que faltam: 7º, 8º e 9º do 3º bim M4 e todo o 4º bimestre de 2027;
+   - fiscalizar o gasto do Gemini a cada lote (até 26/11: US$ 1,12).
+2. 🗓️ **Editor de horários em ⚙️ Configurar** (aprovado em 26/11): incluir, excluir e mudar dia, hora de início e turma de cada horário, salvo na nuvem
+   (ex.: `config/horarios`), com os horários do catálogo como padrão. Todos passam a ler dali: trava, sala de espera, painel (🕘 Horários, Missão de hoje,
+   ▶️ Iniciar), aviso de horário dos alunos e a 🖨️ folha impressa. Mexe na trava da aula: fazer fora do horário de aula, com regressão completa.
+3. 🔐 **Segurança do site** (pedido de 26/11; ver também a seção 6 lá embaixo):
+   - ✅ feito em 26/11: `#/professor`, `#/trilhas`, `#/imprimir`, `#/ver` e `#/testar` só com a conta do professor (roteiro-area-professor.js).
+   - Limite de tentativas no login por código (4 números) — seção 6, item 2.
+   - As apostilas (textos, gabaritos da correção automática) ficam em arquivos `.js` públicos do site: quem souber abrir o código-fonte vê tudo, inclusive
+     os materiais de 2027. Estudar: tirar os gabaritos do arquivo do aluno (correção conferida por regra na nuvem) e só publicar o bimestre em uso.
+   - A "visualização do professor" é marcada só no navegador (sessão com `prof: true`): conferir que o que ela mostra (respostas, "Como explicar")
+     exige a conta do professor também.
+   - Revisar as regras do Firestore (`docs/firestore.rules`) uma por uma.
+4. 🧪 **Laboratório sem fim**: proposta de pontuação mais expressiva entregue em 26/11 (sem limite, com bônus de sequência). Implementar depois do ok do professor.
+5. 🎒 **Encontro dos Agregados** (aba Aula só para a turma AG): 3 decisões pendentes com o professor.
+6. Seção 6 (proteção, leituras do Firebase, cópia de segurança): itens 2 a 10.
+
 ## 📌 SITUAÇÃO REAL — varredura completa de 20/11/2026 (vale esta seção; o resto do arquivo é histórico)
 Varredura pedida pelo professor em 20/11/2026: cada item abaixo foi conferido no código do portal, nos commits e na lista de vídeos.
 
 ### ✅ Pronto e no ar (conferido)
-- 🎒 **26/11/2026 — Turma Agregados** (turma livre, cada um na sua série, uma missão por vez, jogos sempre abertos). Falta: o professor tocar em **🎒 Trazer os alunos do 5º ano** na aba 👥 Turmas › Agregados (junta as turmas antigas do 5º, sem apagar ninguém).
+- 🎒 **26/11/2026 — Turma Agregados** (turma livre, cada um na sua série, uma missão por vez, jogos sempre abertos). O professor tocou em **🎒 Trazer os alunos do 5º ano** (26/11); se a faixa ainda aparecer em 👥 Turmas › Agregados, é porque faltou alguém: tocar de novo.
 - **4º bimestre de 2026:** M1–M4 das 4 séries, 🔁 Revisão, 📝 recuperação (`rc`), 👣 Trilhas, prova no portal, ⭐ aula especial "Meu papel de parede"; **todos os vídeos no ar** (M1–M4, aula especial, estudo em casa v4, apresentações); 🎬 cenas de abertura de IA nas missões que ainda vão acontecer (20/11).
 - **Painel:** Diário (chamada, vistos, frequência), 🖨️ Boletim em PDF (turma + individuais), 🗺️ Panorama, Missão de hoje sugerida, ▶️ Iniciar a aula, 📝 trabalho avaliativo automático para turma sem missão dada até a prova, 🔴 Ao vivo com ⚠️ atenção e 🎲 chutômetro, 📡 Sala ao vivo (vídeo em sincronia, espelhar tela, quadro branco), ✏️ pincel, 📄 relatório do aluno para a família, avisos de fim de aula, redundâncias do painel resolvidas (14/11).
 - **Aluno:** 🏠 estudo em casa (2 h por dia, liberação semanal, opção "todas abertas, uma por dia"), 🧍 avatar, 🏆 placar e pódio, 👑 rei da sala, 🤖 Bit nas tarefas práticas, 🎨 temas por data (inclusive 🎄 Natal, de 01/12 a 06/01) sem a plaquinha, 🚦 Sala de espera + 🏁 largada, 🎮 23 jogos com calendário de estreias, 💡 curiosidades com 📷 fotos reais, 🎲 contra o chute (tempo de leitura, ponto inteiro só de primeira, pausa, alternativas embaralhadas).
@@ -323,7 +346,7 @@ Sem pressa: primeiro testar até tudo funcionar bem na EMEF JK. Esta seção é 
 Situação medida no console (15 a 22/11/2026): **105 mil leituras na semana**; nos dias de aula, entre **21 mil e 30 mil por dia** (pico na segunda, 17/11), para um limite gratuito de **50 mil por dia** (uns 60% no pior dia). Gravações: 3,8 mil na semana (limite de 20 mil por dia). Nada urgente, mas a folga é menor do que parecia.
 
 Fazer (em ordem):
-1. **Fechar `#/ver` e `#/testar`** sem login do painel (hoje abrem qualquer apostila inteira). Fazer fora do horário de aula; o botão "👀 Abrir a apostila do aluno" do painel tem que continuar funcionando.
+1. ✅ (26/11/2026) **Fechar `#/ver` e `#/testar`** sem login do painel (hoje abrem qualquer apostila inteira). Fazer fora do horário de aula; o botão "👀 Abrir a apostila do aluno" do painel tem que continuar funcionando.
 2. **Proteger o login por código** (4 números = 10 mil combinações): limitar tentativas (ex.: esperar 1 min depois de 5 erros) e talvez pedir a turma junto.
 3. **Cópia de segurança semanal** do diário, das notas e das provas (planilha ou arquivo no Google Drive do professor).
 4. **Painel que lê menos (pedido do professor):** 🗺️ Panorama, 📅 Minha semana e 🧮 Boletim leem os dados **uma vez por dia** e guardam no computador; mostram "Dados de hoje às HH:MM" e um botão **🔄 Atualizar agora** para buscar de novo quando ele quiser. Atualiza sozinho quando o próprio professor muda algo (chamada, visto, finalizar aula). A aba 🎤 Aula e o 🔴 Ao vivo continuam em tempo real.
