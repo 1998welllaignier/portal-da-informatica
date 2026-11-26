@@ -6,7 +6,7 @@ Para achar, ele precisa entender uma árvore. Na computação, a árvore é um g
 
 A raiz é o vértice de cima, onde tudo começa: a pasta Documentos. Quem está logo acima é o pai; logo abaixo, os filhos. A pasta Escola é filha de Documentos. A folha é o vértice sem filhos, no fim do galho: os arquivos. E o nível é quantos passos da raiz até o vértice: Documentos é nível zero, Escola é nível um.
 
-O que faz um grafo ser árvore? Três regras. Tem uma raiz só: tudo começa num lugar. Não tem voltas: não dá para sair de um vértice e voltar a ele sem repetir o caminho. E, de um vértice a outro, existe um único caminho.
+O que faz um grafo ser árvore? Três regras. Tem uma raiz só: tudo começa num lugar. Não tem voltas, ou seja, não tem ciclo: não dá para sair de um vértice e voltar a ele sem repetir o caminho. E, de um vértice a outro, existe um único caminho.
 
 Da raiz até o mapa ponto png, por exemplo, só existe um caminho: Documentos, Escola, mapa ponto png. Esse caminho é o endereço do arquivo!
 
