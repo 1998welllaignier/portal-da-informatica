@@ -1,0 +1,21 @@
+Dados abertos: a informação da cidade é de todos!
+
+O Rafa quer saber onde começar o conserto das lâmpadas da cidade. Mas por onde começar? Ele precisa de informação! A Júlia sorri: existem os dados abertos, informações públicas que qualquer pessoa pode ver, baixar e usar. Quantos alunos tem cada escola, quanto a prefeitura gastou, quantas pessoas moram na cidade.
+
+Por que esses dados existem? No Brasil, a Lei de Acesso à Informação, a ele a i, garante a qualquer pessoa o direito de pedir e receber informações públicas. As prefeituras também publicam os gastos no Portal da Transparência. Transparência é mostrar para a população como o dinheiro público é usado.
+
+Onde encontrar dados? O Portal da Transparência, da prefeitura ou do governo, tem gastos, salários e contratos públicos. O í bê gê é Cidades, em cidades ponto í bê gê é ponto gov ponto bê érre, mostra população, escolas, área e outros números de cada cidade. E o Portal Brasileiro de Dados Abertos, dados ponto gov ponto bê érre, reúne milhares de tabelas do governo.
+
+E o que é o í bê gê é? É o Instituto Brasileiro de Geografia e Estatística, o órgão que faz o censo e as pesquisas sobre o Brasil. O censo é uma pesquisa que conta toda a população do país.
+
+Mas cuidado: nem tudo é publicado! O número de alunos de uma escola é dado aberto. Já o nome, o endereço e a nota de um aluno são dados pessoais. Dado pessoal é qualquer informação que identifica uma pessoa, como nome, endereço e cê pê éfe. Esses não são publicados.
+
+Vamos treinar com uma tabela de dados inventados: pedidos de conserto de lâmpada no mês. Bairro das Flores, doze. Bairro do Rio, sete. Bairro Novo, quinze. Bairro da Serra, seis. Dá para somar: doze mais sete mais quinze mais seis dá quarenta pedidos. O maior é o Bairro Novo, com quinze. É por lá que o conserto começa!
+
+Hora de testar! Dados abertos podem ser vistos e usados por qualquer pessoa: verdadeiro. O nome e a nota de um aluno são dados abertos: falso. A ele a i garante o direito de pedir informações públicas: verdadeiro. Na tabela de treino, o bairro com mais pedidos é o Bairro do Rio: falso.
+
+O Rafa abriu a tabela, somou os pedidos e viu que o Bairro Novo tem o maior número. Agora ele sabe onde começar o conserto das lâmpadas! Dados abertos ajudaram a decidir. Missão cumprida!
+
+Onde eu uso isso? Num trabalho de Geografia sobre a população da cidade. Para saber quanto a prefeitura gastou com a merenda. E para decidir onde agir primeiro num problema do bairro.
+
+Agora é com vocês: abram a Missão 2 no portal!

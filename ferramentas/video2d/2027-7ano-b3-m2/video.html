@@ -1,0 +1,386 @@
+<!doctype html><html><head><meta charset="utf-8"><title>7º ano · 3º bim · Missão 2 · HTTP, HTTPS e o cadeado</title>
+<style>html,body{margin:0;background:#000}canvas{display:block}</style></head><body>
+<canvas id="c" width="1280" height="720"></canvas>
+<script>const W = 1280, H = 720, c = document.getElementById("c"), g = c.getContext("2d"); const F = "Poppins, 'DejaVu Sans', sans-serif"; window.SELO_SERIE = "7º ano · 3º bim. 2027";</script>
+<script src="../lib.js"></script>
+<script>
+/* ================= peças de cenário ================= */
+const NAVY = "#14213d", AZUL = "#2f7be0", AMAR = "#ffd23f", ROSA = "#ff6fa5", VERDE = "#2fc26f";
+const ANA = { camisa: ROSA, cabelo: "longo" };
+const ana = o => boneco(Object.assign({}, ANA, o));
+function fundoSala(t) {
+  g.fillStyle = "#f6e7c8"; g.fillRect(0, 0, W, H);
+  g.fillStyle = "#e9d3a6"; g.fillRect(0, 500, W, 220);
+  g.fillStyle = "#2f5d4a"; rr(120, 70, 520, 250, 14); g.fill(); g.strokeStyle = "#b07a3c"; g.lineWidth = 12; g.stroke();
+  g.fillStyle = "rgba(255,255,255,.75)"; g.font = `700 30px ${F}`; g.textAlign = "left"; g.fillText("Informática", 160, 130);
+  g.fillStyle = "#fff"; g.beginPath(); g.arc(1090, 120, 46, 0, 7); g.fill(); g.strokeStyle = NAVY; g.lineWidth = 6; g.stroke();
+  g.beginPath(); g.moveTo(1090, 120); g.lineTo(1090, 92); g.moveTo(1090, 120); g.lineTo(1112, 128); g.stroke();
+}
+function mesa(x, y) { g.fillStyle = "#b07a3c"; g.fillRect(x - 230, y, 460, 26); g.fillStyle = "#8a5a28"; g.fillRect(x - 210, y + 26, 20, 190); g.fillRect(x + 190, y + 26, 20, 190); }
+function monitor(x, y, s, tela) { // tela(x0,y0,w,h)
+  g.save(); g.translate(x, y); g.scale(s, s);
+  g.fillStyle = "#2b2f3a"; rr(-150, -200, 300, 190, 16); g.fill();
+  g.fillStyle = "#3a3f4d"; g.fillRect(-14, -12, 28, 34); rr(-70, 18, 140, 14, 7); g.fill();
+  g.save(); rr(-136, -186, 272, 160, 8); g.clip(); g.fillStyle = "#eaf6ff"; g.fillRect(-136, -186, 272, 160); if (tela) tela(-136, -186, 272, 160); g.restore();
+  g.restore();
+}
+function teclado(x, y, s, pressK) {
+  g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = "#3a3f4d"; rr(-130, -20, 260, 46, 10); g.fill();
+  g.fillStyle = "#e9edf5"; for (let r = 0; r < 3; r++) for (let k = 0; k < 11; k++) { rr(-120 + k * 22, -14 + r * 13, 18, 10, 2); g.fill(); }
+  g.restore();
+}
+function mouse(x, y, s) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = "#e9edf5"; g.beginPath(); g.ellipse(0, 0, 22, 32, 0, 0, 7); g.fill(); g.strokeStyle = "#3a3f4d"; g.lineWidth = 3; g.stroke(); g.beginPath(); g.moveTo(0, -32); g.lineTo(0, -6); g.stroke(); g.restore(); }
+function microfone(x, y, s) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = "#3a3f4d"; rr(-18, -60, 36, 62, 18); g.fill(); g.strokeStyle = "#3a3f4d"; g.lineWidth = 6; g.beginPath(); g.arc(0, -20, 30, .1 * Math.PI, .9 * Math.PI); g.stroke(); g.beginPath(); g.moveTo(0, 10); g.lineTo(0, 34); g.moveTo(-20, 34); g.lineTo(20, 34); g.stroke(); g.restore(); }
+function gabinete(x, y, s, luz) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = "#2b2f3a"; rr(-60, -200, 120, 200, 12); g.fill(); g.fillStyle = "#3a3f4d"; rr(-44, -184, 88, 18, 4); g.fill(); rr(-44, -158, 88, 18, 4); g.fill(); g.fillStyle = luz ? "#3dff8b" : "#555"; g.beginPath(); g.arc(0, -40, 9, 0, 7); g.fill(); g.restore(); }
+function caixaSom(x, y, s, t) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = "#2b2f3a"; rr(-40, -110, 80, 110, 12); g.fill(); g.fillStyle = "#555"; g.beginPath(); g.arc(0, -40, 26, 0, 7); g.fill(); g.beginPath(); g.arc(0, -88, 12, 0, 7); g.fill();
+  if (t != null) { g.strokeStyle = AMAR; g.lineWidth = 5; for (let i = 0; i < 3; i++) { const r = 40 + ((t * 60 + i * 22) % 66); g.globalAlpha = 1 - (r - 40) / 66; g.beginPath(); g.arc(30, -50, r, -.6, .6); g.stroke(); } g.globalAlpha = 1; } g.restore(); }
+function impressora(x, y, s, k) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = "#fff"; g.fillRect(-50, -70 + 60 * (1 - k), 100, 70); g.strokeStyle = "#ccd"; g.lineWidth = 3; for (let i = 0; i < 3; i++) { g.beginPath(); g.moveTo(-34, -50 + i * 16 + 60 * (1 - k)); g.lineTo(34, -50 + i * 16 + 60 * (1 - k)); g.stroke(); }
+  g.fillStyle = "#3a3f4d"; rr(-90, -40, 180, 80, 14); g.fill(); g.fillStyle = "#2b2f3a"; g.fillRect(-60, 0, 120, 10); g.fillStyle = "#3dff8b"; g.beginPath(); g.arc(66, -20, 6, 0, 7); g.fill(); g.restore(); }
+function celular(x, y, s, tela) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = "#1c1f27"; rr(-80, -160, 160, 320, 26); g.fill(); g.save(); rr(-70, -146, 140, 292, 16); g.clip(); g.fillStyle = "#dff3ff"; g.fillRect(-70, -146, 140, 292); if (tela) tela(); g.restore(); g.restore(); }
+function pasta(x, y, s, cor, nome, aberta) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = cor || "#f5b82e"; rr(-60, -50, 50, 20, 6); g.fill(); rr(-60, -40, 120, 84, 10); g.fill(); if (aberta) { g.fillStyle = "#ffd977"; g.beginPath(); g.moveTo(-60, 44); g.lineTo(-44, -12); g.lineTo(70, -12); g.lineTo(60, 44); g.fill(); }
+  if (nome) { g.fillStyle = NAVY; g.font = `800 22px ${F}`; g.textAlign = "center"; g.fillText(nome, 0, 74); } g.restore(); }
+function arquivo(x, y, s, rot, cor, txt) { g.save(); g.translate(x, y); g.rotate(rot || 0); g.scale(s, s); g.fillStyle = "#fff"; g.beginPath(); g.moveTo(-34, -44); g.lineTo(18, -44); g.lineTo(34, -28); g.lineTo(34, 44); g.lineTo(-34, 44); g.closePath(); g.fill(); g.strokeStyle = cor || AZUL; g.lineWidth = 4; g.stroke();
+  g.fillStyle = cor || AZUL; g.fillRect(-22, -14, 44, 6); g.fillRect(-22, 0, 44, 6); g.fillRect(-22, 14, 30, 6); if (txt) { g.font = `800 16px ${F}`; g.textAlign = "center"; g.fillText(txt, 0, 36); } g.restore(); }
+function desenhoAna(x0, y0, w, h, k) { // sol, casa e grama, aparecendo conforme k
+  if (k <= 0) return; g.save(); g.lineCap = "round";
+  g.fillStyle = "#7ed957"; g.fillRect(x0, y0 + h * .78, w * cl(k * 3), h * .22);
+  if (k > .25) { const kk = cl((k - .25) * 3); g.fillStyle = "#ffcc33"; g.beginPath(); g.arc(x0 + w * .8, y0 + h * .25, 22 * kk, 0, 7); g.fill(); }
+  if (k > .5) { const kk = cl((k - .5) * 3); g.fillStyle = "#e8553d"; g.globalAlpha = kk; g.fillRect(x0 + w * .22, y0 + h * .48, w * .32, h * .3); g.fillStyle = "#8a3b20"; g.beginPath(); g.moveTo(x0 + w * .18, y0 + h * .5); g.lineTo(x0 + w * .38, y0 + h * .26); g.lineTo(x0 + w * .58, y0 + h * .5); g.fill(); }
+  g.restore();
+}
+function cursor(x, y, clique) { g.save(); g.translate(x, y); g.fillStyle = "#fff"; g.strokeStyle = "#111"; g.lineWidth = 2.5; g.beginPath(); g.moveTo(0, 0); g.lineTo(0, 30); g.lineTo(8, 23); g.lineTo(14, 36); g.lineTo(19, 34); g.lineTo(13, 21); g.lineTo(23, 21); g.closePath(); g.fill(); g.stroke();
+  if (clique > 0 && clique < 1) { g.strokeStyle = `rgba(255,210,63,${1 - clique})`; g.lineWidth = 4; g.beginPath(); g.arc(0, 0, 10 + clique * 30, 0, 7); g.stroke(); } g.restore(); }
+function seta(x1, y1, x2, y2, k, cor) { if (k <= 0) return; const x = lerp(x1, x2, k), y = lerp(y1, y2, k), an = Math.atan2(y2 - y1, x2 - x1); g.strokeStyle = cor || "#fff"; g.fillStyle = cor || "#fff"; g.lineWidth = 7; g.lineCap = "round"; g.beginPath(); g.moveTo(x1, y1); g.lineTo(x, y); g.stroke();
+  g.beginPath(); g.moveTo(x + 6 * Math.cos(an), y + 6 * Math.sin(an)); g.lineTo(x - 20 * Math.cos(an - .5), y - 20 * Math.sin(an - .5)); g.lineTo(x - 20 * Math.cos(an + .5), y - 20 * Math.sin(an + .5)); g.fill(); }
+function pacotes(x1, y1, x2, y2, t, n, cor) { g.save(); g.globalCompositeOperation = "lighter"; for (let i = 0; i < n; i++) { const k = ((t * .9 + i / n) % 1), x = lerp(x1, x2, k), y = lerp(y1, y2, k); const gr = g.createRadialGradient(x, y, 0, x, y, 24); gr.addColorStop(0, cor || "rgba(140,240,255,1)"); gr.addColorStop(1, "rgba(60,190,255,0)"); g.fillStyle = gr; g.beginPath(); g.arc(x, y, 24, 0, 7); g.fill(); } g.restore(); }
+function cartao(txt, x, y, w, cor, k, sub) { if (k <= 0) return; const s = back(cl(k)); g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = cor; g.shadowColor = "rgba(0,0,0,.25)"; g.shadowBlur = 14; rr(-w / 2, -56, w, 112, 22); g.fill(); g.shadowBlur = 0;
+  g.fillStyle = "#fff"; let tamC = 34; g.font = `800 ${tamC}px ${F}`; while (g.measureText(txt).width > w - 36 && tamC > 18) { tamC -= 2; g.font = `800 ${tamC}px ${F}`; } g.textAlign = "center"; g.textBaseline = "middle"; g.fillText(txt, 0, sub ? -14 : 0); if (sub) { g.font = `600 19px ${F}`; g.fillText(sub, 0, 24); } g.restore(); }
+function fundoEscuro(t, cor) { const gr = g.createLinearGradient(0, 0, 0, H); gr.addColorStop(0, cor || "#1b2c5a"); gr.addColorStop(1, "#0d1631"); g.fillStyle = gr; g.fillRect(0, 0, W, H);
+  g.fillStyle = "rgba(255,255,255,.05)"; for (let i = 0; i < 40; i++) { const x = (rnd(i) * W + t * 10 * (1 + rnd(i + 3))) % W, y = rnd(i + 9) * H; g.beginPath(); g.arc(x, y, 2 + rnd(i + 1) * 3, 0, 7); g.fill(); } }
+function confete(t, t0) { const k = t - t0; if (k < 0 || k > 2.6) return; for (let i = 0; i < 70; i++) { const x = rnd(i) * W + Math.sin(k * 3 + i) * 30, y = -20 + k * (220 + rnd(i + 4) * 260) - rnd(i + 8) * 200; g.save(); g.translate(x, y); g.rotate(k * 5 + i); g.fillStyle = [AMAR, ROSA, VERDE, AZUL, "#fff"][i % 5]; g.fillRect(-6, -3, 12, 6); g.restore(); } }
+function maoApontando(x, y, ang, s, espelho, manga) { // mãozinha de desenho animado; ponta do indicador em (x,y)
+  g.save(); g.translate(x, y); g.rotate(ang); g.scale(s, espelho ? -s : s);
+  const PELE = "#f6cfa8", CONT = "#b9825c";
+  const partes = () => { // mesmas formas para o contorno e para o preenchimento
+    rr(-76, -12, 76, 24, 12); g.fill();                                   // indicador
+    g.beginPath(); g.ellipse(-98, 12, 40, 34, 0, 0, 7); g.fill();          // palma
+    g.beginPath(); g.ellipse(-66, 26, 20, 23, 0, 0, 7); g.fill();          // dedos dobrados
+    g.beginPath(); g.ellipse(-84, -14, 24, 12, -.35, 0, 7); g.fill();      // polegar
+  };
+  // punho da camiseta
+  g.fillStyle = CONT; rr(-176, -26, 54, 76, 16); g.fill();
+  g.fillStyle = manga || ROSA; rr(-172, -22, 46, 68, 13); g.fill();
+  g.fillStyle = "#ffffff"; rr(-134, -24, 14, 72, 7); g.fill();
+  // contorno macio (mesmas formas, um pouco maiores, por baixo)
+  g.save(); g.fillStyle = CONT; g.strokeStyle = CONT; g.lineWidth = 7; g.lineJoin = "round";
+  [[-76,-12,76,24]].forEach(()=>{}); g.translate(0, 0);
+  const contorno = () => { rr(-79, -15, 82, 30, 15); g.fill(); g.beginPath(); g.ellipse(-98, 12, 44, 38, 0, 0, 7); g.fill(); g.beginPath(); g.ellipse(-66, 26, 24, 27, 0, 0, 7); g.fill(); g.beginPath(); g.ellipse(-84, -14, 28, 16, -.35, 0, 7); g.fill(); };
+  contorno(); g.restore();
+  g.fillStyle = PELE; partes();
+  // dobrinhas dos dedos e unha
+  g.strokeStyle = CONT; g.lineWidth = 3; g.lineCap = "round";
+  [[14, 18], [27, 30], [39, 40]].forEach(([a, b]) => { g.beginPath(); g.moveTo(-78, a); g.quadraticCurveTo(-64, a + 5, -50, b); g.stroke(); });
+  g.beginPath(); g.moveTo(-70, -2); g.lineTo(-60, -2); g.stroke();
+  g.fillStyle = "rgba(255,255,255,.55)"; g.beginPath(); g.ellipse(-12, -3, 7, 5, 0, 0, 7); g.fill();
+  g.fillStyle = "rgba(255,255,255,.35)"; g.beginPath(); g.ellipse(-104, 0, 14, 9, -.4, 0, 7); g.fill();
+  g.fillStyle = "rgba(240,120,120,.25)"; g.beginPath(); g.ellipse(-110, 26, 12, 8, 0, 0, 7); g.fill();
+  g.restore();
+}
+const pisca = (t, p) => (t % (p || 2.3)) < .11;
+
+/* ================= peças extras do 7º ano ================= */
+const LEO = { camisa: AZUL }, BIA = { camisa: "#22c55e", cabelo: "longo" };
+const leo = o => boneco(Object.assign({}, LEO, o)), bia = o => boneco(Object.assign({}, BIA, o));
+function roteador(x, y, s, t, bone) { g.save(); g.translate(x, y); g.scale(s, s);
+  g.strokeStyle = "#3a3f4d"; g.lineWidth = 7; g.lineCap = "round"; g.beginPath(); g.moveTo(-40, -30); g.lineTo(-52, -80); g.moveTo(40, -30); g.lineTo(52, -80); g.stroke();
+  g.fillStyle = "#e9edf5"; rr(-80, -34, 160, 56, 14); g.fill(); g.strokeStyle = "#94a3b8"; g.lineWidth = 3; g.stroke();
+  for (let i = 0; i < 4; i++) { g.fillStyle = (Math.floor((t || 0) * 6) + i) % 3 ? "#22c55e" : "#bbf7d0"; g.beginPath(); g.arc(-48 + i * 22, -6, 5, 0, 7); g.fill(); }
+  if (bone) { g.fillStyle = "#1d4ed8"; g.beginPath(); g.ellipse(0, -40, 46, 22, 0, Math.PI, 0); g.fill(); g.fillRect(-46, -42, 92, 8); g.fillStyle = "#1e3a8a"; rr(0, -40, 66, 10, 5); g.fill(); g.fillStyle = AMAR; g.beginPath(); g.arc(0, -52, 7, 0, 7); g.fill(); }
+  g.restore(); }
+function rack(x, y, s, t) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = "#1e293b"; rr(-70, -220, 140, 220, 10); g.fill();
+  for (let i = 0; i < 7; i++) { g.fillStyle = "#334155"; rr(-58, -206 + i * 29, 116, 22, 4); g.fill(); g.fillStyle = (Math.floor(t * 5 + i * 1.7) % 4) ? "#22c55e" : "#fde047"; g.beginPath(); g.arc(44, -195 + i * 29, 4, 0, 7); g.fill(); g.fillStyle = "#38bdf8"; g.beginPath(); g.arc(32, -195 + i * 29, 4, 0, 7); g.fill(); } g.restore(); }
+function pacote(x, y, s, num, cor, rot) { g.save(); g.translate(x, y); g.rotate(rot || 0); g.scale(s, s); g.fillStyle = cor || "#fff7d6"; rr(-36, -26, 72, 52, 8); g.fill(); g.strokeStyle = "#b45309"; g.lineWidth = 3; g.stroke();
+  g.beginPath(); g.moveTo(-36, -24); g.lineTo(0, 4); g.lineTo(36, -24); g.stroke(); if (num != null) { g.fillStyle = "#b45309"; g.beginPath(); g.arc(24, 14, 13, 0, 7); g.fill(); g.fillStyle = "#fff"; g.font = `800 16px ${F}`; g.textAlign = "center"; g.textBaseline = "middle"; g.fillText(num, 24, 15); g.textBaseline = "alphabetic"; } g.restore(); }
+function casa(x, y, s, cor, placa) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = cor; g.fillRect(-60, -80, 120, 80); g.fillStyle = "#8a3b20"; g.beginPath(); g.moveTo(-74, -78); g.lineTo(0, -140); g.lineTo(74, -78); g.fill();
+  g.fillStyle = "#5b3a1e"; g.fillRect(-16, -46, 32, 46); g.fillStyle = "#bfe3ff"; g.fillRect(24, -64, 24, 20); if (placa) { g.fillStyle = "#fff"; rr(-56, -112 + 140, 112, 30, 6); g.fill(); g.fillStyle = NAVY; g.font = `800 16px ${F}`; g.textAlign = "center"; g.fillText(placa, 0, 48); } g.restore(); }
+function no(x, y, r, cor) { g.fillStyle = cor || "#60a5fa"; g.beginPath(); g.arc(x, y, r, 0, 7); g.fill(); g.strokeStyle = "#fff"; g.lineWidth = 3; g.stroke(); }
+function linha(x1, y1, x2, y2, cor, w) { g.strokeStyle = cor || "rgba(255,255,255,.5)"; g.lineWidth = w || 4; g.beginPath(); g.moveTo(x1, y1); g.lineTo(x2, y2); g.stroke(); }
+function ondaAudio(x, y, w, t, cor) { g.strokeStyle = cor || AMAR; g.lineWidth = 5; g.lineCap = "round"; for (let i = 0; i < 12; i++) { const h = 8 + Math.abs(Math.sin(t * 7 + i * 1.3)) * 26; g.beginPath(); g.moveTo(x + i * w / 12, y - h / 2); g.lineTo(x + i * w / 12, y + h / 2); g.stroke(); } }
+function carro(x, y, cor, s) { g.save(); g.translate(x, y); g.scale(s || 1, s || 1); g.fillStyle = cor; rr(-40, -26, 80, 26, 10); g.fill(); rr(-24, -42, 46, 20, 8); g.fill(); g.fillStyle = "#bfe3ff"; rr(-18, -38, 16, 12, 3); g.fill(); rr(4, -38, 14, 12, 3); g.fill(); g.fillStyle = "#111"; g.beginPath(); g.arc(-22, 0, 9, 0, 7); g.arc(22, 0, 9, 0, 7); g.fill(); g.restore(); }
+
+/* ================= cenas ================= */
+/* peças extras reaproveitáveis (vídeos v4) */
+function bola(x, y, r) { g.save(); g.translate(x, y); g.fillStyle = "#fff"; g.strokeStyle = NAVY; g.lineWidth = 4; g.beginPath(); g.arc(0, 0, r, 0, 7); g.fill(); g.stroke();
+  g.fillStyle = NAVY; g.beginPath(); for (let i = 0; i < 5; i++) { const a = -Math.PI / 2 + i * 2 * Math.PI / 5; g.lineTo(Math.cos(a) * r * .38, Math.sin(a) * r * .38); } g.fill();
+  g.lineWidth = 3; for (let i = 0; i < 5; i++) { const a = -Math.PI / 2 + i * 2 * Math.PI / 5; g.beginPath(); g.moveTo(Math.cos(a) * r * .38, Math.sin(a) * r * .38); g.lineTo(Math.cos(a) * r * .95, Math.sin(a) * r * .95); g.stroke(); } g.restore(); }
+function livro(x, y, s, cor) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = cor || AZUL; rr(-46, -34, 92, 68, 8); g.fill(); g.fillStyle = "#fff"; rr(-40, -28, 38, 56, 4); g.fill(); rr(2, -28, 38, 56, 4); g.fill();
+  g.strokeStyle = "#94a3b8"; g.lineWidth = 3; for (let i = 0; i < 4; i++) { g.beginPath(); g.moveTo(-34, -16 + i * 12); g.lineTo(-8, -16 + i * 12); g.moveTo(8, -16 + i * 12); g.lineTo(34, -16 + i * 12); g.stroke(); } g.restore(); }
+function robo(x, y, s) { g.save(); g.translate(x, y); g.scale(s, s); g.strokeStyle = NAVY; g.lineWidth = 5; g.lineJoin = "round"; g.fillStyle = "#e0f2fe";
+  rr(-34, -70, 68, 52, 10); g.fill(); g.stroke(); rr(-40, -12, 80, 66, 10); g.fill(); g.stroke(); g.beginPath(); g.moveTo(0, -70); g.lineTo(0, -88); g.stroke(); g.fillStyle = "#ef4444"; g.beginPath(); g.arc(0, -92, 7, 0, 7); g.fill();
+  g.fillStyle = NAVY; g.beginPath(); g.arc(-14, -46, 6, 0, 7); g.arc(14, -46, 6, 0, 7); g.fill(); g.beginPath(); g.moveTo(-12, -30); g.lineTo(12, -30); g.stroke();
+  g.beginPath(); g.moveTo(-40, 6); g.lineTo(-60, 30); g.moveTo(40, 6); g.lineTo(60, 30); g.moveTo(-18, 54); g.lineTo(-18, 76); g.moveTo(18, 54); g.lineTo(18, 76); g.stroke(); g.restore(); }
+function lapis(x, y, s, rot) { g.save(); g.translate(x, y); g.rotate(rot || 0); g.scale(s, s); g.fillStyle = "#facc15"; g.fillRect(-8, -70, 16, 70); g.fillStyle = "#f1c7a0"; g.beginPath(); g.moveTo(-8, 0); g.lineTo(8, 0); g.lineTo(0, 22); g.fill(); g.fillStyle = NAVY; g.beginPath(); g.moveTo(-3, 14); g.lineTo(3, 14); g.lineTo(0, 22); g.fill(); g.fillStyle = "#f472b6"; g.fillRect(-8, -84, 16, 14); g.restore(); }
+function calendario(x, y, s, txt, cor) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = "#fff"; g.strokeStyle = NAVY; g.lineWidth = 4; rr(-70, -60, 140, 120, 12); g.fill(); g.stroke();
+  g.fillStyle = cor || "#ef4444"; rr(-70, -60, 140, 36, 12); g.fill(); g.fillRect(-70, -36, 140, 12); g.fillStyle = "#fff"; g.font = `800 20px ${F}`; g.textAlign = "center"; g.textBaseline = "middle"; g.fillText(txt, 0, -41);
+  g.strokeStyle = NAVY; g.lineWidth = 3; g.beginPath(); g.moveTo(-40, -70); g.lineTo(-40, -50); g.moveTo(40, -70); g.lineTo(40, -50); g.stroke();
+  g.strokeStyle = "#cbd5e1"; g.lineWidth = 2; for (let i = 0; i < 3; i++) for (let j = 0; j < 4; j++) g.strokeRect(-56 + j * 29, -14 + i * 22, 24, 18); g.fillStyle = "rgba(255,210,63,.9)"; g.fillRect(31, 30, 24, 18); g.restore(); }
+function pensamento(x, y, w, h) { g.save(); g.fillStyle = "#fff"; g.strokeStyle = NAVY; g.lineWidth = 4; g.beginPath(); g.ellipse(x, y, w / 2, h / 2, 0, 0, 7); g.fill(); g.stroke();
+  const ax = arguments[4] || x - w * .45, ay = arguments[5] || y + h * .97, ex = x - w * .5, ey = y + h * .12; [[.3, 16], [.6, 11], [.85, 7]].forEach(([k, r]) => { g.beginPath(); g.arc(lerp(ex, ax, k), lerp(ey, ay, k), r, 0, 7); g.fill(); g.stroke(); }); g.restore(); }
+function banana(x, y, s, rot) { g.save(); g.translate(x, y); g.rotate(rot || 0); g.scale(s, s); g.fillStyle = "#facc15"; g.strokeStyle = "#a16207"; g.lineWidth = 4; g.beginPath(); g.moveTo(-50, -10); g.quadraticCurveTo(0, 50, 50, -10); g.quadraticCurveTo(0, 22, -50, -10); g.fill(); g.stroke();
+  g.fillStyle = "#713f12"; g.fillRect(46, -18, 8, 10); g.restore(); }
+function passaro(x, y, s, t) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = "#38bdf8"; g.strokeStyle = NAVY; g.lineWidth = 3; g.beginPath(); g.ellipse(0, 0, 30, 22, 0, 0, 7); g.fill(); g.stroke(); g.beginPath(); g.arc(26, -16, 15, 0, 7); g.fill(); g.stroke();
+  g.fillStyle = "#f59e0b"; g.beginPath(); g.moveTo(40, -18); g.lineTo(54, -13); g.lineTo(40, -8); g.fill(); g.fillStyle = NAVY; g.beginPath(); g.arc(30, -19, 3, 0, 7); g.fill();
+  g.fillStyle = "#0ea5e9"; g.beginPath(); g.moveTo(-8, -6); g.quadraticCurveTo(-20, -40, 10, -30); g.closePath(); g.fill(); g.stroke(); g.restore(); }
+function arvore(x, y, s) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = "#a16207"; g.fillRect(-10, -70, 20, 70); g.fillStyle = "#86efac"; g.strokeStyle = "#15803d"; g.lineWidth = 4;
+  g.beginPath(); g.arc(0, -110, 52, 0, 7); g.arc(-40, -80, 36, 0, 7); g.arc(40, -80, 36, 0, 7); g.fill(); g.restore(); }
+function olho(x, y, s) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = "#fff"; g.strokeStyle = NAVY; g.lineWidth = 5; g.beginPath(); g.moveTo(-50, 0); g.quadraticCurveTo(0, -46, 50, 0); g.quadraticCurveTo(0, 46, -50, 0); g.fill(); g.stroke(); g.fillStyle = "#2f7be0"; g.beginPath(); g.arc(0, 0, 18, 0, 7); g.fill(); g.fillStyle = NAVY; g.beginPath(); g.arc(0, 0, 8, 0, 7); g.fill(); g.restore(); }
+function cama(x, y, s, quem) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = "#fff"; g.strokeStyle = NAVY; g.lineWidth = 5; rr(-150, -40, 300, 60, 10); g.fill(); g.stroke(); g.fillStyle = "#c4b5fd"; rr(-150, -100, 24, 150, 8); g.fill(); g.stroke(); rr(126, -70, 24, 120, 8); g.fill(); g.stroke();
+  if (quem) { g.fillStyle = "#fff"; rr(-120, -64, 60, 28, 12); g.fill(); g.stroke(); g.fillStyle = quem.pele || "#f1c7a0"; g.beginPath(); g.arc(-80, -68, 30, 0, 7); g.fill(); g.fillStyle = quem.cab || "#3b2416"; g.beginPath(); g.arc(-84, -74, 30, Math.PI * .6, Math.PI * 1.45); g.closePath(); g.fill();
+    g.strokeStyle = NAVY; g.lineWidth = 3; g.beginPath(); g.arc(-74, -66, 6, 0, Math.PI); g.stroke(); g.beginPath(); g.arc(-90, -66, 6, 0, Math.PI); g.stroke(); }
+  g.fillStyle = "#bfdbfe"; g.strokeStyle = NAVY; g.lineWidth = 4; g.beginPath(); g.moveTo(-60, -40); g.quadraticCurveTo(30, -70, 140, -40); g.lineTo(140, 0); g.lineTo(-60, 0); g.closePath(); g.fill(); g.stroke(); g.restore(); }
+function zzz(x, y, s) { g.save(); g.fillStyle = "#6366f1"; g.font = `800 ${34 * s}px ${F}`; g.fillText("z", x, y); g.font = `800 ${46 * s}px ${F}`; g.fillText("z", x + 28 * s, y - 30 * s); g.font = `800 ${60 * s}px ${F}`; g.fillText("Z", x + 62 * s, y - 70 * s); g.restore(); }
+function lua(x, y, r) { g.save(); g.fillStyle = "#fde047"; g.strokeStyle = "#a16207"; g.lineWidth = 3; g.beginPath(); g.arc(x, y, r, Math.PI * .35, Math.PI * 1.65); g.quadraticCurveTo(x - r * .1, y, x + r * .58, y + r * .8); g.fill(); g.stroke(); g.restore(); }
+function texto(txt, x, y, cor, tam2) { g.save(); g.font = `800 ${tam2 || 30}px ${F}`; g.textAlign = "center"; g.textBaseline = "middle"; g.lineJoin = "round"; g.lineWidth = 8; g.strokeStyle = "#fff"; g.strokeText(txt, x, y); g.fillStyle = cor || NAVY; g.fillText(txt, x, y); g.restore(); }
+function setaCurva(x1, y1, x2, y2, cor) { g.save(); g.strokeStyle = cor || NAVY; g.fillStyle = cor || NAVY; g.lineWidth = 5; g.lineCap = "round"; const mx = (x1 + x2) / 2, my = Math.min(y1, y2) - 50; g.beginPath(); g.moveTo(x1, y1); g.quadraticCurveTo(mx, my, x2, y2); g.stroke();
+  const an = Math.atan2(y2 - my, x2 - mx); g.beginPath(); g.moveTo(x2, y2); g.lineTo(x2 - 18 * Math.cos(an - .45), y2 - 18 * Math.sin(an - .45)); g.lineTo(x2 - 18 * Math.cos(an + .45), y2 - 18 * Math.sin(an + .45)); g.fill(); g.restore(); }
+
+function predio(x, y, s, cor, nome) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = cor || "#64748b"; g.fillRect(-60, -200, 120, 200); g.fillStyle = "#e0f2fe"; for (let r = 0; r < 6; r++) for (let c = 0; c < 3; c++) g.fillRect(-46 + c * 34, -186 + r * 30, 22, 18); if (nome) { g.fillStyle = AMAR; rr(-80, -244, 160, 36, 10); g.fill(); g.fillStyle = NAVY; g.font = `800 20px ${F}`; g.textAlign = "center"; g.fillText(nome, 0, -219); } g.restore(); }
+function nuvem(x, y, s) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = "#fff"; g.beginPath(); g.arc(-60, 10, 50, 0, 7); g.arc(0, -20, 70, 0, 7); g.arc(70, 10, 50, 0, 7); g.fill(); g.fillRect(-60, 10, 130, 50); g.restore(); }
+function foto(x, y, s, rot) { g.save(); g.translate(x, y); g.rotate(rot || 0); g.scale(s, s); g.fillStyle = "#fff"; rr(-40, -32, 80, 64, 8); g.fill(); g.fillStyle = "#7dd3fc"; g.fillRect(-32, -24, 64, 40); g.fillStyle = "#4ade80"; g.beginPath(); g.moveTo(-32, 16); g.lineTo(-8, -6); g.lineTo(10, 10); g.lineTo(32, -10); g.lineTo(32, 16); g.fill(); g.fillStyle = "#fde047"; g.beginPath(); g.arc(18, -12, 6, 0, 7); g.fill(); g.restore(); }
+function barra(x, y, w, k, cor, rot) { g.fillStyle = "rgba(255,255,255,.12)"; rr(x, y, w, 40, 20); g.fill(); g.fillStyle = cor; rr(x, y, Math.max(40, w * k), 40, 20); g.fill(); if (rot) { g.fillStyle = "#fff"; g.font = `800 22px ${F}`; g.textAlign = "left"; g.fillText(rot, x, y - 12); } }
+// fundo do mar (do teste aprovado)
+function escola(x, y, s) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = "#fde68a"; g.fillRect(-90, -110, 180, 110); g.fillStyle = "#b91c1c"; g.beginPath(); g.moveTo(-104, -108); g.lineTo(0, -170); g.lineTo(104, -108); g.fill();
+  g.fillStyle = "#5b3a1e"; g.fillRect(-18, -52, 36, 52); g.fillStyle = "#bfe3ff"; g.fillRect(-70, -86, 34, 26); g.fillRect(36, -86, 34, 26); g.restore(); }
+function cronometro(x, y, s, t) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = "#e5e7eb"; g.fillRect(-10, -78, 20, 16); g.fillStyle = "#fff"; g.beginPath(); g.arc(0, 0, 64, 0, 7); g.fill(); g.strokeStyle = NAVY; g.lineWidth = 8; g.stroke();
+  g.strokeStyle = "#ef4444"; g.lineWidth = 6; g.lineCap = "round"; g.beginPath(); g.moveTo(0, 0); g.lineTo(Math.sin(t * 4) * 48, -Math.cos(t * 4) * 48); g.stroke(); g.fillStyle = NAVY; g.beginPath(); g.arc(0, 0, 7, 0, 7); g.fill(); g.restore(); }
+// mapa visto de cima: escola (esq.) e praça (dir.) com 3 ruas
+function pessoa(x, y, s, cor) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = cor; g.beginPath(); g.arc(0, -10, 26, Math.PI, 0); g.fill(); g.fillRect(-26, -10, 52, 24); g.fillStyle = "#f1c7a0"; g.beginPath(); g.arc(0, -50, 20, 0, 7); g.fill();
+  g.fillStyle = "#222"; g.beginPath(); g.arc(-7, -52, 3, 0, 7); g.arc(7, -52, 3, 0, 7); g.fill(); g.strokeStyle = "#222"; g.lineWidth = 2.5; g.beginPath(); g.arc(0, -46, 8, .2, Math.PI - .2); g.stroke(); g.restore(); }
+
+function noDecisao(txt, x, y, k, cor) { if (k <= 0) return; const s = back(cl(k)); g.save(); g.translate(x, y); g.scale(s, s); g.font = `800 22px ${F}`; const w = g.measureText(txt).width + 34; g.fillStyle = cor || "#fff"; rr(-w / 2, -28, w, 56, 16); g.fill(); g.strokeStyle = NAVY; g.lineWidth = 3; g.stroke();
+  g.fillStyle = NAVY; g.textAlign = "center"; g.textBaseline = "middle"; g.fillText(txt, 0, 2); g.restore(); g.textBaseline = "alphabetic"; }
+function rotulo(txt, x, y, cor, k) { if (k <= 0) return; g.save(); g.globalAlpha = cl(k); g.fillStyle = cor; g.font = `800 20px ${F}`; g.textAlign = "center"; g.fillText(txt, x, y); g.restore(); }
+function fonteAgua(x, y, s, t) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = "#94a3b8"; g.beginPath(); g.ellipse(0, 0, 70, 20, 0, 0, 7); g.fill(); g.fillStyle = "#38bdf8"; g.beginPath(); g.ellipse(0, -4, 56, 12, 0, 0, 7); g.fill();
+  g.fillStyle = "#94a3b8"; g.fillRect(-8, -60, 16, 56); g.strokeStyle = "#7dd3fc"; g.lineWidth = 4; for (let i = -1; i <= 1; i += 2) { g.beginPath(); g.moveTo(0, -60); g.quadraticCurveTo(i * 30, -90 - Math.sin(t * 6) * 4, i * 46, -10); g.stroke(); } g.restore(); }
+function arvoreDesenho(x, y, s) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = "#8a5a28"; g.fillRect(-10, -60, 20, 60); g.fillStyle = "#22c55e"; g.beginPath(); g.arc(0, -90, 50, 0, 7); g.arc(-34, -66, 34, 0, 7); g.arc(34, -66, 34, 0, 7); g.fill(); g.restore(); }
+// ---- abertura padrão "digna de Oscar": nome da missão no alto, mini cena (desenhada antes), faixa com o problema e o nome do professor ----
+function abertura(t, rotuloSerie, titulo, l1, l2, t1) { t1 = t1 || 1.6;
+  const kt = out(seg(t, .1, .6)); g.save(); g.globalAlpha = kt; g.textAlign = "center"; g.lineJoin = "round"; g.strokeStyle = "rgba(20,30,60,.9)"; g.fillStyle = AMAR; g.font = `800 24px ${F}`; g.lineWidth = 6; g.strokeText(rotuloSerie, 640, 70); g.fillText(rotuloSerie, 640, 70); g.fillStyle = "#fff"; g.font = `800 48px ${F}`; g.lineWidth = 10; g.strokeText(titulo, 640, 122); g.fillText(titulo, 640, 122); g.restore();
+  const km = seg(t, t1, t1 + .5); if (km > 0) { g.fillStyle = "rgba(10,16,36,.62)"; g.globalAlpha = out(km); rr(130, 420, 1020, 150, 26); g.fill(); g.globalAlpha = 1; palavra(l1, 640, 478, km, 54); palavra(l2, 640, 546, seg(t, t1 + .2, t1 + .7), 60); }
+  const kp = back(seg(t, .3, .8)); if (kp > 0) { g.save(); g.translate(640, 662); g.scale(kp, kp); g.fillStyle = AMAR; rr(-250, -30, 500, 60, 30); g.fill(); g.fillStyle = NAVY; g.font = `800 28px ${F}`; g.textAlign = "center"; g.textBaseline = "middle"; g.fillText("Prof. Welington Laignier", 0, 1); g.restore(); g.textBaseline = "alphabetic"; } }
+function fimCartao(t, linha, pessoas) { fundoEscuro(t); g.textAlign = "center"; g.globalAlpha = out(seg(t, 0, .6)); g.fillStyle = AMAR; g.font = `800 62px ${F}`; g.fillText("Prof. Welington Laignier", 640, 300);
+  g.fillStyle = "#fff"; g.font = `700 30px ${F}`; g.fillText(linha, 640, 350); g.font = `800 40px ${F}`; g.fillStyle = "#cfe0ff"; g.fillText(linha.match(/Missão \d/)[0].replace("Missão", "Abram a Missão") + " no portal!", 640, 430); g.globalAlpha = 1;
+  (pessoas || []).forEach((p, i) => boneco(Object.assign({ x: i ? 1040 : 240, y: 700, s: .9, braco: -2.8 + Math.sin(t * 10 + i) * .25, bracoE: 2.8, pisca: pisca(t + i * .7) }, p))); confete(t, .9); }
+function cumprida(t, t0) { if (t > t0) { g.fillStyle = "#1b2c5a"; g.globalAlpha = out(seg(t, t0, t0 + .3)); rr(70, 92, 860, 112, 26); g.fill(); g.globalAlpha = 1; } palavra("MISSÃO CUMPRIDA!", 500, 148, seg(t, t0, t0 + .4), 72); confete(t, t0); }
+function estrela(x, y, r, cor) { g.save(); g.translate(x, y); g.fillStyle = cor || AMAR; g.strokeStyle = "#b45309"; g.lineWidth = 3; g.beginPath(); for (let i = 0; i < 10; i++) { const a = -Math.PI / 2 + i * Math.PI / 5, rr2 = i % 2 ? r * .45 : r; g.lineTo(Math.cos(a) * rr2, Math.sin(a) * rr2); } g.closePath(); g.fill(); g.stroke(); g.restore(); }
+function robozinho(x, y, s, t, feliz) { g.save(); g.translate(x, y); g.scale(s, s); const b = Math.sin((t || 0) * 6) * 3;
+  g.fillStyle = "#64748b"; g.fillRect(-4, -78 + b, 8, 16); g.fillStyle = "#ef4444"; g.beginPath(); g.arc(0, -82 + b, 7, 0, 7); g.fill();
+  g.fillStyle = "#e2e8f0"; g.strokeStyle = NAVY; g.lineWidth = 4; rr(-34, -64 + b, 68, 50, 14); g.fill(); g.stroke(); g.fillStyle = "#1e293b"; rr(-26, -56 + b, 52, 30, 8); g.fill();
+  g.fillStyle = "#67e8f9"; if (feliz) { g.lineWidth = 4; g.strokeStyle = "#67e8f9"; g.beginPath(); g.arc(-11, -38 + b, 6, Math.PI, 0); g.arc(11, -38 + b, 6, Math.PI, 0); g.stroke(); } else { g.beginPath(); g.arc(-11, -41 + b, 6, 0, 7); g.arc(11, -41 + b, 6, 0, 7); g.fill(); }
+  g.fillStyle = "#3b82f6"; g.strokeStyle = NAVY; rr(-28, -12, 56, 44, 12); g.fill(); g.stroke(); g.fillStyle = "#fde047"; g.beginPath(); g.arc(0, 10, 7, 0, 7); g.fill();
+  g.fillStyle = "#334155"; rr(-26, 32, 20, 12, 5); g.fill(); rr(6, 32, 20, 12, 5); g.fill(); g.restore(); }
+function tabuleiro(x0, y0, cols, rows, cel, paredes) { for (let r = 0; r < rows; r++) for (let c2 = 0; c2 < cols; c2++) { const p = paredes && paredes.includes(r * cols + c2); g.fillStyle = p ? "#9a3412" : ((r + c2) % 2 ? "#dbeafe" : "#eff6ff"); rr(x0 + c2 * cel + 2, y0 + r * cel + 2, cel - 4, cel - 4, 8); g.fill();
+  if (p) { g.strokeStyle = "#7c2d12"; g.lineWidth = 2; for (let k = 1; k < 3; k++) { g.beginPath(); g.moveTo(x0 + c2 * cel + 4, y0 + r * cel + k * cel / 3); g.lineTo(x0 + c2 * cel + cel - 4, y0 + r * cel + k * cel / 3); g.stroke(); } } } }
+function comando(txt, x, y, k, cor, w) { if (k <= 0) return; const s = back(cl(k)); g.save(); g.translate(x, y); g.scale(s, s); g.font = `800 24px ${F}`; const ww = Math.max(w || 0, g.measureText(txt).width + 36); g.fillStyle = cor || "#2563eb"; rr(-ww / 2, -26, ww, 52, 14); g.fill(); g.fillStyle = "rgba(0,0,0,.15)"; rr(-ww / 2, 16, ww, 10, 6); g.fill();
+  g.fillStyle = "#fff"; g.textAlign = "center"; g.textBaseline = "middle"; g.fillText(txt, 0, 1); g.restore(); g.textBaseline = "alphabetic"; }
+function xVermelho(x, y, r, k) { if (k <= 0) return; g.save(); g.globalAlpha = cl(k); g.strokeStyle = "#ef4444"; g.lineWidth = 12; g.lineCap = "round"; g.beginPath(); g.moveTo(x - r, y - r); g.lineTo(x + r, y + r); g.moveTo(x + r, y - r); g.lineTo(x - r, y + r); g.stroke(); g.restore(); }
+function visto(x, y, r, k) { if (k <= 0) return; g.save(); g.globalAlpha = cl(k); g.fillStyle = "#16a34a"; g.beginPath(); g.arc(x, y, r, 0, 7); g.fill(); g.strokeStyle = "#fff"; g.lineWidth = r * .22; g.lineCap = "round"; g.beginPath(); g.moveTo(x - r * .45, y); g.lineTo(x - r * .1, y + r * .35); g.lineTo(x + r * .5, y - r * .35); g.stroke(); g.restore(); }
+function cadeado(x, y, s, aberto) { g.save(); g.translate(x, y); g.scale(s, s); g.strokeStyle = "#64748b"; g.lineWidth = 12; g.beginPath(); g.arc(0, -30 - (aberto ? 16 : 0), 26, Math.PI, 0); g.stroke(); g.fillStyle = "#f59e0b"; g.strokeStyle = "#b45309"; g.lineWidth = 4; rr(-40, -30, 80, 66, 12); g.fill(); g.stroke(); g.fillStyle = "#78350f"; g.beginPath(); g.arc(0, 0, 9, 0, 7); g.fill(); g.fillRect(-4, 0, 8, 18); g.restore(); }
+function lupa(x, y, s) { g.save(); g.translate(x, y); g.scale(s, s); g.strokeStyle = "#fde047"; g.lineWidth = 10; g.beginPath(); g.arc(0, 0, 34, 0, 7); g.stroke(); g.lineCap = "round"; g.lineWidth = 14; g.beginPath(); g.moveTo(24, 24); g.lineTo(56, 56); g.stroke(); g.restore(); }
+function escudo(x, y, s) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = "#16a34a"; g.beginPath(); g.moveTo(0, -70); g.lineTo(60, -46); g.lineTo(56, 10); g.quadraticCurveTo(40, 52, 0, 70); g.quadraticCurveTo(-40, 52, -56, 10); g.lineTo(-60, -46); g.closePath(); g.fill(); g.restore(); }
+
+/* ================= 8º ano · 2027 · 1º bimestre · Missão 4 · Busca binária (v2, padrão completo: o Show do Meio) ================= */
+const BIA8 = { camisa: "#f97316", cabelo: "longo" };
+const bia8 = o => boneco(Object.assign({}, BIA8, o));
+function carta(v, x, y, cor, a, w) { if (a <= 0) return; g.save(); g.globalAlpha = cl(a); w = w || 104; g.fillStyle = cor || "#fff"; rr(x - w / 2, y - 60, w, 120, 16); g.fill(); g.strokeStyle = NAVY; g.lineWidth = 4; rr(x - w / 2, y - 60, w, 120, 16); g.stroke();
+  g.fillStyle = NAVY; g.font = `800 46px ${F}`; g.textAlign = "center"; g.textBaseline = "middle"; g.fillText(v, x, y + 2); g.restore(); g.textBaseline = "alphabetic"; }
+const em = (f, w, n) => { const p = f.split(/\s+/); let c = 0; const i = p.findIndex(x => x.toLowerCase().replace(/[^\wà-úç]/g, "").startsWith(w.toLowerCase()) && c++ === (n || 0)); return Math.max(0, i) / 2.55 + .35; };
+function emo(e, x, y, tam) { g.save(); g.fillStyle = "#fff"; g.globalAlpha = 1; g.font = `${tam || 60}px ${F}`; g.textAlign = "center"; g.fillText(e, x, y); g.restore(); }
+function ondeUso(t, F_, itens) { fundoEscuro(t, "#0e7490"); palavra("ONDE EU USO ISSO?", 640, 100, seg(t, 0, .4), 50);
+  itens.forEach(([w, e, a, b], i) => { const t0 = em(F_, w), k = seg(t, t0, t0 + .4); if (k <= 0) return; const z = back(cl(k)), x = 250 + i * 390; g.save(); g.translate(x, 340); g.scale(z, z);
+    g.fillStyle = "#fff"; rr(-180, -150, 360, 300, 22); g.fill(); g.restore(); emo(e, x, 310, 90 * z); g.fillStyle = NAVY; g.font = `800 22px ${F}`; g.textAlign = "center"; g.fillText(a, x, 390); g.font = `600 18px ${F}`; g.fillStyle = "#475569"; g.fillText(b, x, 428); }); }
+function bloco(x, y, w, txt, cor, k, brilho) { if (k <= 0) return; const z = back(cl(k)); g.save(); g.translate(x, y); g.scale(z, z);
+  if (brilho) { g.shadowColor = "#facc15"; g.shadowBlur = 24; } g.fillStyle = cor; g.beginPath(); g.moveTo(0, 0); g.lineTo(24, 0); g.lineTo(30, 8); g.lineTo(50, 8); g.lineTo(56, 0); g.lineTo(w, 0); g.lineTo(w, 48); g.lineTo(56, 48); g.lineTo(50, 56); g.lineTo(30, 56); g.lineTo(24, 48); g.lineTo(0, 48); g.closePath(); g.fill(); g.shadowBlur = 0;
+  g.fillStyle = "#fff"; g.font = `800 22px ${F}`; g.textAlign = "left"; g.fillText(txt, 16, 32); g.restore(); }
+function caixa(x, y, txt, cor, k, w) { if (k <= 0) return; const z = back(cl(k)); w = w || 140; g.save(); g.translate(x, y); g.scale(z, z); g.fillStyle = cor || "#fff"; rr(-w / 2, -30, w, 60, 12); g.fill(); g.fillStyle = NAVY; g.font = `800 22px ${F}`; g.textAlign = "center"; g.fillText(txt, 0, 8); g.restore(); }
+function bocaC(x, y, w, h, txt, cor, k, brilho) { if (k <= 0) return; const z = back(cl(k)); g.save(); g.translate(x, y); g.scale(z, z); if (brilho) { g.shadowColor = "#facc15"; g.shadowBlur = 24; }
+  g.fillStyle = cor; rr(0, 0, w, 52, 10); g.fill(); rr(0, 0, 34, h, 8); g.fill(); rr(0, h - 30, w * .55, 30, 8); g.fill(); g.shadowBlur = 0;
+  g.fillStyle = "#fff"; g.font = `800 22px ${F}`; g.textAlign = "left"; g.fillText(txt, 16, 34); g.restore(); }
+function telinha(x, y, w, tit, linhas, k, hl, ok) { if (k <= 0) return; const z = back(cl(k)), h = 66 + linhas.length * 44; g.save(); g.translate(x, y); g.scale(z, z);
+  g.fillStyle = "#0f172a"; rr(-w / 2, 0, w, h, 14); g.fill(); g.fillStyle = "#334155"; rr(-w / 2, 0, w, 42, 14); g.fill();
+  g.fillStyle = "#e2e8f0"; g.font = `800 19px ${F}`; g.textAlign = "center"; g.fillText(tit, 0, 28);
+  linhas.forEach((s, i) => { const yy = 56 + i * 44; if (hl === i) { g.fillStyle = "#7f1d1d"; rr(-w / 2 + 10, yy - 4, w - 20, 38, 8); g.fill(); }
+    g.fillStyle = hl === i ? "#fecaca" : ok ? "#86efac" : "#f8fafc"; g.font = `700 22px ${F}`; g.textAlign = "left"; g.fillText((i + 1) + ".  " + s, -w / 2 + 24, yy + 23); });
+  g.restore(); }
+function tabela(x, y, w, cab, lin, cores, k, hl, alt) { if (k <= 0) return; const z = back(cl(k)), cw = w / cab.length, lh = alt || 46; g.save(); g.translate(x, y); g.scale(z, z); g.translate(-w / 2, 0);
+  cab.forEach((c, j) => { g.fillStyle = cores[j] || "#334155"; rr(j * cw + 2, 0, cw - 4, lh - 4, 8); g.fill(); g.fillStyle = "#fff"; g.font = `800 20px ${F}`; g.textAlign = "center"; g.fillText(c, j * cw + cw / 2, lh / 2 + 5); });
+  lin.forEach((l, i) => l.forEach((c, j) => { g.fillStyle = hl === j ? "#fef08a" : (i % 2 ? "#e2e8f0" : "#f8fafc"); rr(j * cw + 2, (i + 1) * lh, cw - 4, lh - 4, 6); g.fill(); g.fillStyle = c && c[0] === "!" ? "#dc2626" : NAVY; g.font = `700 19px ${F}`; g.textAlign = "center"; g.fillText(c && c[0] === "!" ? c.slice(1) : c, j * cw + cw / 2, (i + 1) * lh + lh / 2 + 5); }));
+  g.restore(); }
+/* ===== peças do "Show do Meio" (8º M4 v2) ===== */
+const io2 = k => k < .5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2;
+// câmera: kf = [[t, x, y, zoom], ...] — interpola e aplica (centro da tela vai para x,y)
+function camera(t, kf) { let a = kf[0], b = kf[kf.length - 1]; for (let i = 0; i < kf.length - 1; i++) if (t >= kf[i][0] && t <= kf[i + 1][0]) { a = kf[i]; b = kf[i + 1]; break; }
+  const k = io2(cl((t - a[0]) / Math.max(.01, b[0] - a[0]))), x = lerp(a[1], b[1], k), y = lerp(a[2], b[2], k), z = lerp(a[3], b[3], k);
+  g.save(); g.setTransform(1, 0, 0, 1, 0, 0); g.fillStyle = "#0d1631"; g.fillRect(0, 0, 1280, 720); g.restore(); g.translate(640, 360); g.scale(z, z); g.translate(-x, -y); }
+function palco(t, luzOn) { // fundo de estúdio de TV com camadas
+  const gr = g.createLinearGradient(0, 0, 0, 720); gr.addColorStop(0, "#1e1b4b"); gr.addColorStop(1, "#0b0a24"); g.fillStyle = gr; g.fillRect(-400, -300, 2080, 1320);
+  for (let i = 0; i < 14; i++) { g.fillStyle = i % 2 ? "#7f1d1d" : "#991b1b"; g.fillRect(-400 + i * 150, -300, 150, 700); } // cortina ao fundo
+  g.fillStyle = "rgba(0,0,0,.35)"; g.fillRect(-400, -300, 2080, 700);
+  for (let i = 0; i < 24; i++) { const on = (Math.floor(t * 4) + i) % 3 === 0; g.fillStyle = on ? "#fde047" : "#78350f"; g.beginPath(); g.arc(-60 + i * 60, 30, 7, 0, 7); g.fill(); } // lâmpadas
+  g.fillStyle = "#312e81"; g.fillRect(-400, 470, 2080, 60); g.fillStyle = "#4338ca"; g.fillRect(-400, 470, 2080, 8); // palco
+  if (luzOn !== false) for (let i = 0; i < 2; i++) { const a = Math.sin(t * 1.3 + i * 2) * .35; g.save(); g.translate(200 + i * 880, -40); g.rotate(a); const lg = g.createLinearGradient(0, 0, 0, 560); lg.addColorStop(0, "rgba(255,240,180,.35)"); lg.addColorStop(1, "rgba(255,240,180,0)"); g.fillStyle = lg; g.beginPath(); g.moveTo(-20, 0); g.lineTo(20, 0); g.lineTo(180, 560); g.lineTo(-180, 560); g.closePath(); g.fill(); g.restore(); } }
+function plateia(t, humor, y) { y = y || 640; for (let i = 0; i < 18; i++) { const x = 30 + i * 72 + (i % 2) * 20, b = humor === "festa" ? Math.abs(Math.sin(t * 8 + i)) * 14 : humor === "sono" ? 0 : Math.sin(t * 2 + i) * 2;
+    g.fillStyle = ["#0f172a", "#1e293b", "#111827"][i % 3]; g.beginPath(); g.arc(x, y - b, 30, Math.PI, 0); g.fill(); g.fillRect(x - 34, y - b, 68, 120);
+    if (humor === "sono" && i % 4 === 1) emo("😴", x, y - 40, 26); if (humor === "festa" && i % 3 === 0) emo("🙌", x, y - 60 - b, 26); } }
+function regua100(t, x0, w, y, ini, fim, chutes, rotulos) { const X = v => x0 + (v - 1) / 99 * w;
+  g.fillStyle = "#0f172a"; rr(x0 - 20, y - 46, w + 40, 92, 20); g.fill();
+  for (let v = 1; v <= 100; v++) { const on = v >= ini && v <= fim; g.fillStyle = on ? (v % 10 === 0 ? "#facc15" : "#22c55e") : "#334155"; rr(X(v) - 3.5, y - 26, 7, 52, 3); g.fill(); }
+  [1, 25, 50, 75, 100].forEach(v => { g.fillStyle = "#e2e8f0"; g.font = `800 18px ${F}`; g.textAlign = "center"; g.fillText(String(v), X(v), y + 70); });
+  chutes.forEach(([v, s], j) => { g.fillStyle = "#facc15"; g.beginPath(); g.moveTo(X(v), y - 30); g.lineTo(X(v) - 13, y - 56); g.lineTo(X(v) + 13, y - 56); g.fill();
+    if (rotulos !== false && (j === chutes.length - 1 || (rotulos !== "ultimo" && Math.abs(chutes[j + 1][0] - v) >= 10))) { g.fillStyle = s === "MAIOR" ? "#16a34a" : s === "MENOR" ? "#dc2626" : "#facc15"; g.font = `900 22px ${F}`; const tx = v + (s ? " · " + s : ""), tw = g.measureText(tx).width + 24; rr(X(v) - tw / 2, y - 100, tw, 36, 18); g.fill(); g.fillStyle = "#fff"; g.textAlign = "center"; g.fillText(tx, X(v), y - 75); } });
+  return X; }
+function placaShow(txt, x, y, k, cor) { if (k <= 0) return; const z = back(cl(k)); g.save(); g.translate(x, y); g.scale(z, z); g.font = `900 30px ${F}`; const w = g.measureText(txt).width + 50;
+  g.fillStyle = "#0f172a"; rr(-w / 2 - 6, -36, w + 12, 72, 18); g.fill(); g.fillStyle = cor || "#facc15"; rr(-w / 2, -30, w, 60, 14); g.fill(); g.fillStyle = NAVY; g.textAlign = "center"; g.fillText(txt, 0, 11); g.restore(); }
+function microfone2(x, y, s) { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = "#334155"; rr(-6, 0, 12, 50, 4); g.fill(); g.fillStyle = "#94a3b8"; g.beginPath(); g.arc(0, -6, 14, 0, 7); g.fill(); g.restore(); }
+function livroLomb(x, y, w, h, n, cor, k) { if (k <= 0) return; g.save(); g.globalAlpha = cl(k); g.fillStyle = cor; rr(x, y, w, h, 4); g.fill(); g.fillStyle = "rgba(255,255,255,.85)"; rr(x + 4, y + h * .35, w - 8, 30, 4); g.fill(); g.fillStyle = NAVY; g.font = `800 18px ${F}`; g.textAlign = "center"; g.fillText(String(n), x + w / 2, y + h * .35 + 22); g.restore(); }
+
+/* ===== peças comuns do 7º ano · 3º bimestre ===== */
+const CAIO = { camisa: "#0ea5e9" }, MENINA7 = { camisa: "#f43f5e", cabelo: "longo" };
+const caio = o => boneco(Object.assign({}, CAIO, o)), duda = o => boneco(Object.assign({}, MENINA7, o));
+function camera(t, kf) { let a = kf[0], b = kf[kf.length - 1]; for (let i = 0; i < kf.length - 1; i++) if (t >= kf[i][0] && t <= kf[i + 1][0]) { a = kf[i]; b = kf[i + 1]; break; }
+  const k = io2(cl((t - a[0]) / Math.max(.01, b[0] - a[0]))), x = lerp(a[1], b[1], k), y = lerp(a[2], b[2], k), z = lerp(a[3], b[3], k); g.translate(640, 360); g.scale(z, z); g.translate(-x, -y); }
+const emE = (f, w, n) => { const p = f.split(/\s+/); let c = 0; const i = p.findIndex(x => x.toLowerCase().replace(/[^\wà-úç]/g, "") === w.toLowerCase() && c++ === (n || 0)); return Math.max(0, i) / 2.55 + .35; };
+function seta(x1, y1, cx, cy, x2, y2, cor, w, k) { if (k <= 0) return; g.save(); g.globalAlpha = cl(k); g.strokeStyle = cor; g.fillStyle = cor; g.lineWidth = w || 5; g.beginPath(); g.moveTo(x1, y1); g.quadraticCurveTo(cx, cy, x2, y2); g.stroke(); const a = Math.atan2(y2 - cy, x2 - cx); g.beginPath(); g.moveTo(x2, y2); g.lineTo(x2 - 18 * Math.cos(a - .45), y2 - 18 * Math.sin(a - .45)); g.lineTo(x2 - 18 * Math.cos(a + .45), y2 - 18 * Math.sin(a + .45)); g.fill(); g.restore(); }
+function etq(txt, x, y, cor, k) { if (k <= 0) return; g.save(); g.globalAlpha = cl(k); g.font = `800 20px ${F}`; const w = g.measureText(txt).width + 24; g.fillStyle = cor || "#fff"; rr(x - w / 2, y - 18, w, 36, 10); g.fill(); g.fillStyle = NAVY; g.textAlign = "center"; g.textBaseline = "alphabetic"; g.fillText(txt, x, y + 7); g.restore(); }
+function onda(x, y, p, cor) { if (p <= 0 || p >= 1) return; g.save(); g.globalAlpha = 1 - p; g.strokeStyle = cor || "#fde047"; g.lineWidth = 5; g.beginPath(); g.arc(x, y, 20 + p * 60, 0, 7); g.stroke(); g.restore(); }
+// janela de navegador: url na barra; o.cad = "ok" (https + cadeado) | "nao" (sem cadeado) ; conteudo(x0,y0,w,h)
+function navegador(x, y, w, h, url, k, o, conteudo) { if (k <= 0) return; o = o || {}; const z = back(cl(k)); g.save(); g.translate(x, y); g.scale(z, z);
+  g.fillStyle = "rgba(0,0,0,.3)"; rr(-w / 2 + 6, -h / 2 + 8, w, h, 16); g.fill(); g.fillStyle = "#f1f5f9"; rr(-w / 2, -h / 2, w, h, 16); g.fill(); g.fillStyle = "#cbd5e1"; rr(-w / 2, -h / 2, w, 60, 16); g.fill(); g.fillRect(-w / 2, -h / 2 + 30, w, 30);
+  ["#ef4444", "#facc15", "#22c55e"].forEach((c, i) => { g.fillStyle = c; g.beginPath(); g.arc(-w / 2 + 26 + i * 24, -h / 2 + 30, 7, 0, 7); g.fill(); });
+  const bx = -w / 2 + 120, bw = w - 150; g.fillStyle = o.hlUrl ? "#fef08a" : "#fff"; rr(bx, -h / 2 + 12, bw, 38, 19); g.fill();
+  let tam = 22; g.font = `700 ${tam}px ${F}`; while (g.measureText(url).width > bw - 90 && tam > 11) { tam--; g.font = `700 ${tam}px ${F}`; }
+  if (o.cad === "ok") cadeado(bx + 26, -h / 2 + 41, .3, false); else if (o.cad === "nao") { g.fillStyle = "#dc2626"; g.font = `800 15px ${F}`; g.textAlign = "left"; g.fillText("Não seguro", bx + 14, -h / 2 + 37); }
+  g.font = `700 ${tam}px ${F}`; g.fillStyle = NAVY; g.textAlign = "left"; g.textBaseline = "alphabetic"; g.fillText(url, bx + (o.cad === "nao" ? 112 : 50), -h / 2 + 37);
+  g.save(); rr(-w / 2, -h / 2 + 60, w, h - 60, 12); g.clip(); if (conteudo) conteudo(-w / 2, -h / 2 + 60, w, h - 60); g.restore(); g.restore(); }
+function telaPag(x0, y0, w, h, titulo, cor) { g.fillStyle = cor || "#eff6ff"; g.fillRect(x0, y0, w, h); g.fillStyle = NAVY; g.font = `800 26px ${F}`; g.textAlign = "center"; g.fillText(titulo, x0 + w / 2, y0 + h / 2 + 8); }
+function balaoPensa(txt, x, y, k) { balao(txt, x, y, k); }
+function cartaoC(txt, x, y, w, cor, k, sub) { if (k <= 0) return; const s = back(cl(k)); g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = cor; g.shadowColor = "rgba(0,0,0,.25)"; g.shadowBlur = 14; rr(-w / 2, -50, w, 100, 22); g.fill(); g.shadowBlur = 0;
+  let tam = 34; g.font = `800 ${tam}px ${F}`; while (g.measureText(txt).width > w - 40 && tam > 18) { tam -= 2; g.font = `800 ${tam}px ${F}`; }
+  g.fillStyle = NAVY; g.textAlign = "center"; g.textBaseline = "middle"; g.fillText(txt, 0, sub ? -14 : 0); if (sub) { g.font = `600 21px ${F}`; g.fillStyle = "#334155"; g.fillText(sub, 0, 24); } g.restore(); g.textBaseline = "alphabetic"; }
+/* ===== peças da Missão 2 (HTTP, HTTPS e o cadeado) ===== */
+const SIG = s => s.replace(/agá tê tê pê ésse/g, "HTTPS").replace(/agá tê tê pê/g, "HTTP").replace(/\bé o ésse\b/g, "é o S");
+function carta(x, y, s, lacrada, k) { if (k <= 0) return; g.save(); g.translate(x, y); g.scale(s * back(cl(k)), s * back(cl(k)));
+  g.fillStyle = lacrada ? "#fef3c7" : "#fff"; g.strokeStyle = NAVY; g.lineWidth = 5; rr(-90, -60, 180, 120, 10); g.fill(); g.stroke();
+  if (lacrada) { g.beginPath(); g.moveTo(-90, -60); g.lineTo(0, 10); g.lineTo(90, -60); g.stroke(); g.fillStyle = "#dc2626"; g.beginPath(); g.arc(0, 8, 16, 0, 7); g.fill(); }
+  else { g.strokeStyle = "#94a3b8"; g.lineWidth = 4; for (let i = 0; i < 4; i++) { g.beginPath(); g.moveTo(-70, -30 + i * 20); g.lineTo(i < 2 ? 10 : 30, -30 + i * 20); g.stroke(); } g.strokeRect(50, -50, 30, 30); }
+  g.restore(); }
+function espiao(x, y, s, lendo, t) { g.save(); g.translate(x, y); g.scale(s, s); emo("🕵️", 0, 0, 90); if (lendo) { g.font = `800 22px ${F}`; g.fillStyle = "#facc15"; g.textAlign = "center"; g.fillText("👀", 0, -70 + Math.sin(t * 8) * 4); } g.restore(); }
+function caminho(x1, x2, y, t, cor) { g.save(); g.strokeStyle = cor || "#94a3b8"; g.lineWidth = 8; g.lineCap = "round"; g.setLineDash([2, 18]); g.lineDashOffset = -t * 50; g.beginPath(); g.moveTo(x1, y); g.lineTo(x2, y); g.stroke(); g.restore(); }
+const F0 = "HTTP, HTTPS e o cadeado!",
+  F1 = "O Caio ia digitar a senha do jogo num site. Mas a Duda gritou: espera! Será que esse site é seguro? Antes de digitar uma senha, é preciso saber o que o endereço e o cadeado do navegador querem dizer.",
+  F2 = "O agá tê tê pê é como um cartão-postal: quem pegar no caminho consegue ler. No endereço, ele aparece como http dois pontos barra barra. Os dados viajam abertos!",
+  F3 = "Já o agá tê tê pê ésse é como uma carta lacrada: no caminho, ninguém lê. O ésse vem de secure, que em inglês quer dizer seguro. Os dados viajam cifrados, ou seja, embaralhados, e só o site e você conseguem ler.",
+  F4 = "Quando a conversa com o site é cifrada, o navegador mostra o cadeado ao lado do endereço. O endereço do site é o texto que aparece na barra de cima do navegador.",
+  F5 = "Atenção, a pegadinha! O cadeado mostra que a conversa é cifrada, mas não prova que o site é honesto. Um site falso também pode ter cadeado. Site falso é a página que imita um site verdadeiro para roubar dados.",
+  F6 = "Por isso, antes de digitar uma senha, faça três coisas. Primeiro, confira se tem https e cadeado, porque sem eles a senha viaja aberta. Segundo, leia o nome do site, letra por letra. Terceiro, prefira digitar o endereço você mesmo, porque links de mensagens podem levar a sites falsos.",
+  F7 = "Veja o exemplo: golpistas criam nomes parecidos, trocando uma letra. A Duda leu o nome letra por letra e achou a letra trocada. Era um site falso, mesmo com cadeado!",
+  F8 = "O Caio não digitou a senha, e a Duda mostrou que o cadeado só cifra a conversa, e que o nome do site precisa ser conferido. Missão cumprida!",
+  F9 = "Onde eu uso isso? Ao entrar no portal da escola: o endereço começa com https e tem o cadeado. Antes de digitar a senha de um jogo ou de uma rede social. E ao receber um link com o nome de um site conhecido escrito um pouco diferente.",
+  F10 = "Agora é com vocês: abram a Missão 2 no portal!";
+const CENAS = [
+ { chip: "", fala: F0, sfx: [[.05, "whoosh"], [.7, "alerta"], [1.6, "pop"], [2.4, "festa"]],
+   draw(t, D) { fundoEscuro(t, "#4c1d95"); g.save(); camera(t, [[0, 640, 380, 1.05], [2.8, 640, 370, 1]]);
+     caminho(180, 1100, 330, t, "#94a3b8"); const a = seg(t, .3, 1.5); carta(lerp(200, 640, a), 270, .8, false, seg(t, .1, .4)); const b = seg(t, 1.6, 2.6); carta(lerp(640, 1080, b), 270, .8, true, seg(t, 1.6, 1.9));
+     espiao(640, 400, .9, t < 1.6, t); if (t > 1.6) { cadeado(lerp(640, 1080, b) + 20, 350, .7, false); } g.restore(); abertura(t, "7º ANO · 3º BIM. · MISSÃO 2", "HTTP, HTTPS e o cadeado", "CARTÃO-POSTAL OU", "CARTA LACRADA?", 2.4); } },
+ { chip: "O PROBLEMA", fala: F1, sfx: [[.1, "whoosh"], [em(F1, "senha"), "pop"], [em(F1, "espera"), "alerta"], [em(F1, "seguro"), "ding"], [em(F1, "cadeado"), "pop"]],
+   draw(t, D) { const se = em(F1, "senha"), es = em(F1, "espera"), sg = em(F1, "seguro"), ca = em(F1, "cadeado"); fundoEscuro(t, "#1e3a5f"); g.save(); camera(t, [[0, 640, 360, 1], [es, 700, 350, 1.06], [ca, 760, 330, 1.1]]);
+     navegador(780, 340, 560, 330, "https://site-do-jogo", seg(t, 0, .4), { cad: "ok" }, (x0, y0, w, h) => { g.fillStyle = "#eff6ff"; g.fillRect(x0, y0, w, h); g.fillStyle = NAVY; g.font = `800 26px ${F}`; g.textAlign = "center"; g.fillText("Entre no jogo", x0 + w / 2, y0 + 60); g.fillStyle = "#fff"; rr(x0 + 90, y0 + 100, w - 180, 54, 10); g.fill(); g.strokeStyle = "#94a3b8"; g.lineWidth = 3; g.stroke(); g.fillStyle = NAVY; g.font = `800 30px ${F}`; g.fillText(t > se ? "••••••" : "", x0 + w / 2, y0 + 138); });
+     if (t > ca) etiqueta("cadeado", 560, 140, 650, 200, seg(t, ca, ca + .4)); g.restore();
+     caio({ x: 120, y: 590, s: .75, olhar: 1, braco: t > se && t < es ? -1.6 : .3, bracoE: .3, boca: t > es ? "o" : "riso", pisca: pisca(t) }); duda({ x: 260, y: 590, s: .75, olhar: -1, braco: t > es ? -2.4 : .3, bracoE: .3, boca: t > es ? "o" : "riso", pisca: pisca(t + 1) });
+     if (t > es && t < sg) balao("Espera!", 290, 380, seg(t, es, es + .3)); if (t > sg) balao("Esse site é seguro?", 320, 380, seg(t, sg, sg + .3)); } },
+ { chip: "HTTP: CARTÃO-POSTAL", fala: F2, sfx: [[.1, "whoosh"], [em(F2, "cartão"), "pop"], [em(F2, "ler"), "alerta"], [em(F2, "barra"), "pop"], [em(F2, "abertos"), "festa"]],
+   draw(t, D) { const ht = em(F2, "agá"), cp = em(F2, "cartão"), le = em(F2, "ler"), ba = em(F2, "http"), ab = em(F2, "abertos"); fundoEscuro(t, "#7c2d12"); palavra("HTTP", 560, 90, seg(t, ht, ht + .4), 70); g.save(); camera(t, [[0, 640, 380, 1], [le, 640, 360, 1.06], [ab, 640, 370, 1]]);
+     caminho(200, 1080, 400, t); const k = seg(t, cp, le + .6); carta(lerp(240, 1040, k), 340, .85, false, seg(t, cp, cp + .4)); espiao(640, 500, 1, t > le, t); if (t > le) etiqueta("quem pegar no caminho lê", 880, 200, 700, 330, seg(t, le, le + .4));
+     navegador(250, 215, 400, 150, "http://", seg(t, ba, ba + .4), { cad: "nao" }, null); g.restore(); if (t > ab) cartaoC("dados abertos", 640, 590, 340, "#fecaca", seg(t, ab, ab + .4));
+     caio({ x: 120, y: 610, s: .6, olhar: 1, braco: t > le ? .3 : -.7, bracoE: .3, boca: t > le ? "o" : "riso", pisca: pisca(t) }); } },
+ { chip: "HTTPS: CARTA LACRADA", fala: F3, sfx: [[.1, "whoosh"], [em(F3, "lacrada"), "pop"], [em(F3, "secure"), "ding"], [em(F3, "embaralhados"), "pop"], [em(F3, "conseguem"), "festa"]],
+   draw(t, D) { const lc = em(F3, "lacrada"), se = em(F3, "secure"), ci = em(F3, "cifrados"), co = em(F3, "conseguem"); fundoEscuro(t, "#14532d"); palavra("HTTPS", 560, 90, seg(t, 0.3, .7), 70); g.save(); camera(t, [[0, 640, 380, 1], [se, 640, 340, 1.06], [co, 640, 380, 1]]);
+     caminho(200, 1080, 400, t, "#4ade80"); const k = seg(t, lc, lc + 3); carta(lerp(240, 1040, k), 340, .85, true, seg(t, lc, lc + .4)); espiao(640, 500, 1, false, t); if (t > lc + 1.2) emo("❌", 640, 330, 70 * back(cl(seg(t, lc + 1.2, lc + 1.6)))); cadeado(1040, 450, .8, false);
+     if (t > se) { etiqueta("secure = seguro (em inglês)", 800, 240, 1020, 410, seg(t, se, se + .4)); } if (t > ci) cartaoC("cifrado = embaralhado", 640, 590, 420, "#bbf7d0", seg(t, ci, ci + .4)); g.restore();
+     duda({ x: 120, y: 610, s: .6, olhar: 1, braco: t > co ? -2.6 : -.7, bracoE: t > co ? 2.6 : .3, boca: "riso", pisca: pisca(t) }); } },
+ { chip: "O CADEADO", fala: F4, sfx: [[.1, "whoosh"], [em(F4, "cadeado"), "ding"], [em(F4, "endereço"), "pop"], [em(F4, "barra"), "pop"]],
+   draw(t, D) { const ca = em(F4, "cadeado"), en = em(F4, "endereço", 1), ba = em(F4, "barra"); fundoEscuro(t, "#0e7490"); palavra("CADEADO", 560, 90, seg(t, ca, ca + .4), 72); g.save(); camera(t, [[0, 640, 370, 1], [ca, 520, 280, 1.2], [en, 760, 280, 1.2], [ba + 1, 640, 360, 1]]);
+     navegador(640, 330, 760, 360, "https://portal.professorwell.com.br", 1, { cad: "ok", hlUrl: t > en }, (x0, y0, w, h) => { g.fillStyle = "#eff6ff"; g.fillRect(x0, y0, w, h); emo("🏫", x0 + w / 2, y0 + h / 2 + 30, 90); });
+     if (t > ca) etiqueta("cadeado: conversa cifrada", 380, 430, 395, 240, seg(t, ca, ca + .4)); if (t > en) etiqueta("endereço do site", 900, 430, 880, 240, seg(t, en, en + .4)); g.restore();
+     caio({ x: 110, y: 610, s: .6, olhar: 1, braco: -.7, bracoE: .3, boca: "riso", pisca: pisca(t) }); } },
+ { chip: "A PEGADINHA", fala: F5, sfx: [[.1, "whoosh"], [em(F5, "pegadinha"), "alerta"], [em(F5, "não"), "ding"], [em(F5, "falso"), "alerta"], [em(F5, "roubar"), "pop"]],
+   draw(t, D) { const pe = em(F5, "pegadinha"), na = em(F5, "não"), fa = em(F5, "falso"), ro = em(F5, "roubar"); fundoEscuro(t, "#7f1d1d"); palavra("A PEGADINHA!", 560, 90, seg(t, pe, pe + .4), 66); g.save(); camera(t, [[0, 640, 370, 1], [fa, 640, 340, 1.08]]);
+     navegador(520, 350, 560, 320, "https://site-falso", seg(t, 0, .4), { cad: "ok" }, (x0, y0, w, h) => { g.fillStyle = "#fef2f2"; g.fillRect(x0, y0, w, h); emo("🎭", x0 + w / 2, y0 + h / 2 + 30, 100); });
+     if (t > na) { emo("🤥", 960, 330, 90 * back(cl(seg(t, na, na + .4)))); xVermelho(520 - 150, 235, 22, seg(t, na, na + .4)); }
+     if (t > fa) etiqueta("site falso, mas com cadeado", 980, 520, 700, 420, seg(t, fa, fa + .4)); if (t > ro) emo("💸", 880, 240, 60 * back(cl(seg(t, ro, ro + .3)))); g.restore();
+     duda({ x: 110, y: 610, s: .6, olhar: 1, braco: -2.2, bracoE: .3, boca: "o", pisca: pisca(t) }); if (t > na) balao("Cadeado não é prova!", 330, 480, seg(t, na, na + .3)); } },
+ { chip: "TRÊS CONFERÊNCIAS", fala: F6, sfx: [[.1, "whoosh"], [em(F6, "primeiro"), "pop"], [em(F6, "segundo"), "pop"], [em(F6, "terceiro"), "pop"], [em(F6, "falsos"), "alerta"]],
+   draw(t, D) { const p1 = em(F6, "primeiro"), p2 = em(F6, "segundo"), p3 = em(F6, "terceiro"), fa = em(F6, "falsos"); fundoEscuro(t, "#312e81"); g.save(); camera(t, [[0, 640, 350, 1], [p2, 640, 340, 1.04], [p3, 640, 350, 1.04]]);
+     [["🔒 Confira https e cadeado", "sem eles, a senha viaja aberta", p1], ["🔤 Leia o nome do site, letra por letra", "golpistas trocam uma letra", p2], ["⌨️ Prefira digitar o endereço", "links de mensagens podem levar a sites falsos", p3]].forEach(([a, b, t0], i) => cartaoC(a, 640, 190 + i * 130, 760, ["#fde68a", "#bfdbfe", "#bbf7d0"][i], seg(t, t0, t0 + .4), b)); g.restore();
+     caio({ x: 120, y: 610, s: .6, olhar: 1, braco: -.7, bracoE: .3, boca: "riso", pisca: pisca(t) }); duda({ x: 1160, y: 610, s: .6, olhar: -1, braco: .3, bracoE: .3, boca: "riso", pisca: pisca(t + 1) }); palavra("ANTES DE DIGITAR A SENHA", 540, 90, seg(t, .3, .7), 40); } },
+ { chip: "A LETRA TROCADA", fala: F7, sfx: [[.1, "whoosh"], [em(F7, "parecidos"), "pop"], [em(F7, "letra", 1), "alerta"], [em(F7, "falso"), "ding"]],
+   draw(t, D) { const pa = em(F7, "parecidos"), le = em(F7, "letra"), tr = em(F7, "trocada"), fa = em(F7, "falso"); fundoEscuro(t, "#0f172a"); g.save(); camera(t, [[0, 640, 360, 1], [le, 700, 330, 1.08], [fa, 640, 360, 1]]);
+     navegador(640, 210, 760, 200, "https://portal.professorwel.com.br", seg(t, 0, .4), { cad: "ok" }, (x0, y0, w, h) => emo("🎭", x0 + w / 2, y0 + h / 2 + 30, 70)); navegador(640, 470, 760, 200, "https://portal.professorwell.com.br", seg(t, pa, pa + .4), { cad: "ok" }, (x0, y0, w, h) => emo("🏫", x0 + w / 2, y0 + h / 2 + 30, 70));
+     if (t > tr) etiqueta("faltou uma letra: o l", 1100, 170, 990, 142, seg(t, tr, tr + .4)); if (t > fa) { etq("FALSO", 1120, 260, "#fecaca", seg(t, fa, fa + .4)); etq("VERDADEIRO", 1120, 530, "#bbf7d0", seg(t, fa, fa + .4)); } g.restore();
+     duda({ x: 110, y: 610, s: .6, olhar: 1, braco: -.7, bracoE: .3, boca: t > tr ? "o" : "riso", pisca: pisca(t) }); lupa(250, 560, 1.1); } },
+ { chip: "MISSÃO CUMPRIDA", fala: F8, sfx: [[.1, "whoosh"], [em(F8, "não"), "pop"], [em(F8, "cadeado"), "ding"], [em(F8, "Missão"), "festa"]],
+   draw(t, D) { const na = em(F8, "não"), ca = em(F8, "cadeado"), mc = em(F8, "Missão"); fundoEscuro(t, "#14532d"); g.save(); camera(t, [[0, 640, 400, 1], [mc, 640, 380, 1.04]]);
+     cadeado(640, 480, 1.4, false); visto(760, 400, 40, seg(t, ca, ca + .4)); if (t > na) emo("🛡️", 480, 400, 80 * back(cl(seg(t, na, na + .4)))); g.restore();
+     caio({ x: 200, y: 610, s: .75, olhar: 1, braco: t > mc ? -2.6 : .3, bracoE: t > mc ? 2.6 : .3, boca: "riso", pisca: pisca(t) }); duda({ x: 1080, y: 610, s: .75, olhar: -1, braco: t > mc ? -2.6 : -.7, bracoE: t > mc ? 2.6 : .3, boca: "riso", pisca: pisca(t + 1) }); robozinho(900, 600, .7, t, true); if (t > mc) cumprida(t, mc); } },
+ { chip: "ONDE EU USO ISSO?", fala: F9, sfx: [[.1, "whoosh"], [em(F9, "portal"), "pop"], [em(F9, "senha"), "pop"], [em(F9, "link"), "pop"]],
+   draw(t, D) { ondeUso(t, F9, [["portal", "🏫", "Portal da escola", "começa com https e tem o cadeado"], ["senha", "🎮", "Senha de jogo ou rede", "confira antes de digitar"], ["link", "🔗", "Link parecido", "nome conhecido escrito diferente"]]); } },
+ { chip: "", fala: F10, sfx: [[.1, "whoosh"], [1.0, "festa"]],
+   draw(t, D) { fimCartao(t, "7º ano · 3º bimestre de 2027 · Missão 2", [CAIO, MENINA7]); } }
+];
+for (let i = 1; i <= 9; i++) CENAS[i].legenda = SIG([F0, F1, F2, F3, F4, F5, F6, F7, F8, F9][i]);
+
+
+
+/* ================= tempo das cenas ================= */
+// Sem o MP3: estimativa pelo número de palavras. Com o MP3: window.DURS = [...] (segundos de cada cena, vindos das pausas da voz).
+const est = f => Math.max(4.2, f.split(/\s+/).length / 2.55 + 1.3);
+let DUR = CENAS.map((s, i) => (window.DURS && window.DURS[i]) || est(s.fala));
+function inicio() { const a = [0]; DUR.forEach(d => a.push(a[a.length - 1] + d)); return a; }
+let INI = inicio(), T = INI[INI.length - 1];
+window.definirDuracoes = d => { DUR = d; INI = inicio(); T = INI[INI.length - 1]; window.T = T; };
+
+function legenda(txt, k) { // legenda de UMA linha (26/11/2026, pedido do professor): o texto vai em trechos que cabem numa linha,
+  // de preferência quebrando na pontuação; as palavras acendem e, quando o trecho acaba, entra o próximo
+  const pal = txt.split(" ").filter(Boolean), n = Math.floor(pal.length * cl(k * 1.08)); g.font = `700 28px ${F}`;
+  const MAX = 1060, esp = g.measureText(" ").width, wd = pal.map(p => g.measureText(p).width);
+  const larg = a => a.reduce((s, i, k2) => s + wd[i] + (k2 ? esp : 0), 0);
+  const cortaEm = (idx, re) => { const o = [[]]; idx.forEach((i, k2) => { o[o.length - 1].push(i); if (re.test(pal[i]) && k2 < idx.length - 1) o.push([]); }); return o; };
+  const equilibra = idx => { const n2 = Math.ceil(larg(idx) / MAX), alvo = larg(idx) / n2, o = [[]]; let w = 0;   // divide em partes de largura parecida
+    idx.forEach(i => { if (o[o.length - 1].length && w + esp + wd[i] > alvo * 1.04 && o.length < n2) { o.push([]); w = 0; } w += (o[o.length - 1].length ? esp : 0) + wd[i]; o[o.length - 1].push(i); }); return o; };
+  const junta = partes => { const o = []; partes.forEach(pt => { const u = o[o.length - 1]; if (u && larg(u.concat(pt)) <= MAX) o[o.length - 1] = u.concat(pt); else o.push(pt); }); return o; };
+  const tr = []; cortaEm(pal.map((_, i) => i), /[.!?:;…]$/).forEach(fr => {   // 1º frase por frase; 2º nas vírgulas; 3º em partes iguais
+    if (larg(fr) <= MAX) return tr.push(fr);
+    junta(cortaEm(fr, /,$/).flatMap(pt => larg(pt) <= MAX ? [pt] : equilibra(pt))).forEach(x => tr.push(x)); });
+  const linhas = tr.filter(t => t.length), atual = Math.min(n, pal.length - 1), ln = linhas.find(t => t.includes(atual)) || linhas[linhas.length - 1];
+  const lh = 40, y0 = H - 22 - lh; g.fillStyle = "rgba(10,16,36,.72)"; rr(70, y0 - 10, W - 140, lh + 18, 14); g.fill();
+  const tw = ln.reduce((s, i, k2) => s + wd[i] + (k2 ? esp : 0), 0); let x = (W - tw) / 2;
+  ln.forEach(i => { g.fillStyle = i < n ? "#fff" : "rgba(255,255,255,.45)"; g.textAlign = "left"; g.fillText(pal[i], x, y0 + 22); x += wd[i] + esp; });
+}
+function render(t) {
+  g.setTransform(1, 0, 0, 1, 0, 0); g.globalAlpha = 1; g.textBaseline = "alphabetic";
+  let i = INI.findIndex((s, k) => t >= s && t < INI[k + 1]); if (i < 0) i = CENAS.length - 1;
+  const tl = t - INI[i], D = DUR[i], cena = CENAS[i];
+  // as animações foram pensadas no tempo estimado; com a voz real, o tempo da cena estica ou encolhe junto
+  const esc = est(cena.fala) / D, tt = tl * esc;
+  g.save(); cena.draw(tt, D); g.restore();
+  g.setTransform(1, 0, 0, 1, 0, 0); g.globalAlpha = 1; g.textAlign = "left";
+  if (cena.chip) chip(cena.chip, 0, tt);
+  selo(t);
+  if (i > 0 && i < CENAS.length - 1) legenda(cena.legenda || cena.fala, tl / Math.max(.1, D - .9));
+  // transição suave
+  const tr = cl(1 - tl / .25); if (i > 0 && tr > 0) { g.fillStyle = `rgba(13,22,49,${tr})`; g.fillRect(0, 0, W, H); }
+}
+window.listaSfx = () => { const o = []; CENAS.forEach((s, i) => (s.sfx || []).forEach(([tt, tipo]) => o.push([INI[i] + tt * DUR[i] / est(s.fala), tipo]))); return o; };
+window.render = render; window.T = T; window.CENAS = CENAS;
+document.fonts.load(`800 40px Poppins`).then(() => { window.pronto = true; render(0); });
+</script></body></html>

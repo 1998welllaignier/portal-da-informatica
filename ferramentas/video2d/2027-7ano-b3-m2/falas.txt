@@ -1,0 +1,21 @@
+HTTP, HTTPS e o cadeado!
+
+O Caio ia digitar a senha do jogo num site. Mas a Duda gritou: espera! Será que esse site é seguro? Antes de digitar uma senha, é preciso saber o que o endereço e o cadeado do navegador querem dizer.
+
+O agá tê tê pê é como um cartão-postal: quem pegar no caminho consegue ler. No endereço, ele aparece como http dois pontos barra barra. Os dados viajam abertos!
+
+Já o agá tê tê pê ésse é como uma carta lacrada: no caminho, ninguém lê. O ésse vem de secure, que em inglês quer dizer seguro. Os dados viajam cifrados, ou seja, embaralhados, e só o site e você conseguem ler.
+
+Quando a conversa com o site é cifrada, o navegador mostra o cadeado ao lado do endereço. O endereço do site é o texto que aparece na barra de cima do navegador.
+
+Atenção, a pegadinha! O cadeado mostra que a conversa é cifrada, mas não prova que o site é honesto. Um site falso também pode ter cadeado. Site falso é a página que imita um site verdadeiro para roubar dados.
+
+Por isso, antes de digitar uma senha, faça três coisas. Primeiro, confira se tem https e cadeado, porque sem eles a senha viaja aberta. Segundo, leia o nome do site, letra por letra. Terceiro, prefira digitar o endereço você mesmo, porque links de mensagens podem levar a sites falsos.
+
+Veja o exemplo: golpistas criam nomes parecidos, trocando uma letra. A Duda leu o nome letra por letra e achou a letra trocada. Era um site falso, mesmo com cadeado!
+
+O Caio não digitou a senha, e a Duda mostrou que o cadeado só cifra a conversa, e que o nome do site precisa ser conferido. Missão cumprida!
+
+Onde eu uso isso? Ao entrar no portal da escola: o endereço começa com https e tem o cadeado. Antes de digitar a senha de um jogo ou de uma rede social. E ao receber um link com o nome de um site conhecido escrito um pouco diferente.
+
+Agora é com vocês: abram a Missão 2 no portal!

@@ -1,0 +1,23 @@
+Problemas de Curionópolis: vamos pensar como quem resolve!
+
+Toda cidade tem problemas: buraco na rua, lâmpada queimada, lixo fora de hora, ônibus atrasado, internet fraca. Uma noite, o Rafa volta da escola e a rua está escura: as lâmpadas dos postes queimaram! A Júlia diz: calma, vamos pensar como quem resolve.
+
+Primeiro passo: observar. Liste os problemas que você vê. Segundo: escolher um problema só, como as lâmpadas queimadas dos postes. Terceiro: descobrir quem é afetado, quem sofre as consequências: quem volta da escola ou do trabalho à noite.
+
+Quarto passo: pensar nos dados que ajudariam: onde está cada poste e há quanto tempo está apagado. Quinto: imaginar uma solução com tecnologia, como um aplicativo para avisar a lâmpada queimada, com foto e localização. Sexto: testar. Mostre a ideia para as pessoas e melhore: pergunte aos vizinhos se usariam o aplicativo.
+
+Esse jeito de pensar tem nome. Decomposição é dividir um problema grande em partes menores. E pensamento computacional é resolver problemas dividindo em partes, achando padrões e criando passos, como um programador. Só que a serviço da cidade!
+
+Atenção: a tecnologia nem sempre é a resposta! Às vezes, a solução é uma conversa, um cartaz ou uma reunião com a associação do bairro. A tecnologia ajuda quando organiza informações, avisa as pessoas certas ou mostra os dados.
+
+Veja os tipos de solução. O aplicativo avisa e recebe pedidos, como pedir o conserto de um buraco com foto. O mapa colaborativo é um mapa na internet em que várias pessoas marcam informações, como as lâmpadas queimadas espalhadas pela cidade. A planilha é uma tabela no computador que organiza e conta os casos, quando há muitos pedidos de conserto sem controle.
+
+O sensor é um aparelho que mede algo sozinho, como a chuva, a temperatura ou o nível do rio. Ele ajuda quando o rio sobe com a chuva e ninguém percebe a tempo. E a mensagem automática avisa muita gente ao mesmo tempo, como quando muda o horário do ônibus escolar.
+
+Hora de testar! Decomposição é juntar vários problemas num só: falso. Saber quem é afetado ajuda a criar uma boa solução: verdadeiro. A tecnologia sempre é a melhor resposta: falso. O mapa colaborativo deixa várias pessoas marcarem informações: verdadeiro.
+
+Hora de juntar tudo! O Rafa observou, escolheu as lâmpadas, descobriu quem sofre, pensou nos dados, imaginou um aplicativo com foto e localização e testou com os vizinhos. Ele pensou como quem resolve. Missão cumprida!
+
+Onde eu uso isso? No caminho de casa para a escola: que problema você vê todo dia? Num projeto da escola, para melhorar o bairro. E ao conversar com a associação de moradores.
+
+Agora é com vocês: abram a Missão 1 no portal!

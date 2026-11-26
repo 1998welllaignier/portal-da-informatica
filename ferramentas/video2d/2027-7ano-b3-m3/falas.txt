@@ -1,0 +1,21 @@
+Senhas e verificação em duas etapas!
+
+O Caio criou a senha do jogo com o nome dele e o ano em que nasceu. Um golpista só precisou tentar o nome e o ano, e a conta abriu na hora! Será que dá para criar uma senha melhor?
+
+Primeiro, a senha fraca. Ela é curta, como um dois três quatro cinco seis. Tem nome, apelido ou data de nascimento. É só números ou só letras. E é a mesma em todos os sites. Por isso, ela é fraca!
+
+Agora, a senha forte. Ela é comprida: doze caracteres ou mais. Caractere é cada letra, número, símbolo ou espaço. Ela não tem nada pessoal, mistura maiúsculas, minúsculas, números e símbolos, e é uma diferente para cada conta importante.
+
+Uma dica é a frase-senha: junte palavras que só você imagina e misture com números e símbolos. Pipa, exclamação, Verde, oito, Voa: é longa e fácil de lembrar. Mas é só um exemplo: não use esta! Outro exemplo inventado é Lago, jogo da velha, Sol, cinco cinco, Peixe.
+
+Agora, a verificação em duas etapas. Além da senha, a conta pede uma segunda prova. Assim, mesmo se alguém descobrir a senha, não entra!
+
+São três tipos de prova. Algo que você sabe, como a senha ou o pin, que é uma senha curta de números, como a do celular. Algo que você tem, como o código que chega no celular. E algo que você é, como a digital ou o rosto.
+
+A regra de ouro: o código que chega no celular é só seu. Se alguém pedir esse código, é golpe!
+
+O Caio trocou a senha por uma forte, usou a verificação em duas etapas e não passou o código para ninguém. Missão cumprida!
+
+Onde eu uso isso? Ao criar a conta de um jogo ou de um e-mail. Quando chega um código por ésse ême ésse para entrar numa conta. E ao desbloquear o celular com a digital.
+
+Agora é com vocês: abram a Missão 3 no portal!

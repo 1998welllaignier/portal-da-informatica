@@ -1,0 +1,23 @@
+Protocolos: as regras da conversa!
+
+A Duda tem um celular de uma marca. O Caio tem um computador de outra marca. Mas como os dois conseguem conversar pela rede, se são aparelhos tão diferentes? O segredo se chama protocolo!
+
+Pense num telefonema. Todo mundo segue as mesmas regras, sem perceber. Primeiro, quem atende diz: alô! Segundo, quem ligou se apresenta. Terceiro, os dois conversam, um de cada vez. E quarto, os dois se despedem e desligam.
+
+Os aparelhos também precisam de regras combinadas para conversar. Esse conjunto de regras se chama protocolo. Se o celular e o computador seguem o mesmo protocolo, eles se entendem, mesmo sendo de marcas diferentes!
+
+O agá tê tê pê é o protocolo das páginas da internet: ele serve para pedir e receber as páginas. O agá tê tê pê ésse faz o mesmo, mas com os dados cifrados, ou seja, embaralhados.
+
+O í pê é o protocolo da internet: ele dá um endereço a cada aparelho, para os dados chegarem ao lugar certo. O uai-fai liga os aparelhos à rede sem fio. E o Bluetooth liga aparelhos pertinho um do outro, como o fone sem fio.
+
+Quem conversa na internet? O navegador é o programa que abre os sites, como o Chrome ou o Edge. O servidor é o computador que guarda o site e responde aos pedidos. E o link é o texto ou botão que, ao ser clicado, abre outra página.
+
+Agora, a conversa em quatro passos. Primeiro, você digita o endereço ou clica num link. Segundo, o navegador pede a página ao servidor. Terceiro, o servidor responde, mandando a página. E quarto, o navegador mostra a página na tela!
+
+E se a página não existe? Então o servidor responde com o famoso erro quatro zero quatro: página não encontrada!
+
+Agora a Duda e o Caio sabem: protocolo é o conjunto de regras que os aparelhos seguem para conversar, e por isso o celular e o computador se entendem. Missão cumprida!
+
+Onde eu uso isso? Toda vez que você abre um site, o navegador e o servidor seguem o agá tê tê pê. O fone sem fio conversa com o celular pelo Bluetooth. E o celular entra no uai-fai da escola seguindo o protocolo do uai-fai.
+
+Agora é com vocês: abram a Missão 1 no portal!
