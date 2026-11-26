@@ -34,3 +34,4 @@ Sala de espera → leitura (slide igual em todas as telas, risco do pincel chega
 - `roteiro-agregados-entrada.js`: endereço antigo #/serie/5 vai para os 🎒 Agregados com a turma já marcada; aluno do 5º ainda na turma antiga entra com o código de sempre; agregado entra na série dele (26/11/2026).
 - `roteiro-agregados-roleta.js`: Aula ao vivo já aberta + agregado incluído pelo 🎒 → entra na roleta sem reabrir (26/11/2026).
 - `roteiro-respostas.js`: aba Aula em todas as missões de todas as apostilas (sem erro, nenhuma atividade sem resposta, faixa do tempo padrão) (26/11/2026).
+- `roteiro-horarios-imprimir.js`: 🕘 Horários › 🖨️ Imprimir horários (preto e branco e colorida) abre a folha A4 com as turmas atuais (26/11/2026).

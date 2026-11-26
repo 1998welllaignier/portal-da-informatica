@@ -349,7 +349,7 @@
     DUR = cat().duracaoAula || 75;
     if (document.querySelector(".pp-hor-dlg")) return;
     const H = todasTurmas().filter(t => t.aula && t.aula.ini).map(t => ({ t, dia: t.aula.dia, i: hm(t.aula.ini) })).sort((a, b) => a.dia - b.dia || a.i - b.i || (a.t.serie.id === "5") - (b.t.serie.id === "5"));
-    const dlg = h(`<dialog class="pp-dlg pp-dlg-larga pp-hor-dlg"><form method="dialog"><div class="pp-hor-top"><h2>🕘 Horários da Sala de Informática</h2><button class="btn btn-sec btn-peq" value="x">Fechar</button></div>
+    const dlg = h(`<dialog class="pp-dlg pp-dlg-larga pp-hor-dlg"><form method="dialog"><div class="pp-hor-top"><h2>🕘 Horários da Sala de Informática</h2><span class="row-btns"><button class="btn btn-peq" type="button" id="ph-imp" title="Folha A4 em pé para entregar aos alunos (preto e branco ou colorida); sai sempre com os horários atuais">🖨️ Imprimir horários</button><button class="btn btn-sec btn-peq" value="x">Fechar</button></span></div>
       <div class="pp-agora"><span class="pulso"></span><span id="ph-txt"></span></div><div class="pp-semana" id="ph-sem"></div>
       <p class="ajuda">Cada aula dura 1h15. A aula que está acontecendo agora pisca. Toque numa turma para abrir a aula dela no painel.</p></form></dialog>`);
     const desenhar = () => {
@@ -373,6 +373,10 @@
       dlg.querySelector(".pp-agora").classList.toggle("vivo", !!atuais.length);
     };
     desenhar(); const iv = setInterval(desenhar, 30000);
+    // 🖨️ 26/11/2026: folha dos horários para os alunos (js/horarios-impressao.js), sempre com os horários atuais do catálogo
+    dlg.querySelector("#ph-imp").onclick = async () => { if (!P.horariosImpressao) return P.aviso("Atualize a página (F5) e tente de novo.");
+      const modo = await P.escolher("Vai imprimir em qual impressora?", [["mono", "⚫ Preto e branco"], ["cor", "🎨 Colorida"]]); if (!modo) return;
+      P.horariosImpressao.abrir(todasTurmas(), modo); };
     document.body.appendChild(dlg); dlg.showModal();
     dlg.addEventListener("click", e => { if (e.target.closest(".ph-aula")) dlg.close(); });
     dlg.addEventListener("close", () => { clearInterval(iv); dlg.remove(); });
