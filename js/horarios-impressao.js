@@ -15,7 +15,7 @@
 
   // turmas: [{ id, nome, aula: { dia, ini }, serie: { id, nome } }] (o painel manda todasTurmas())
   function html(turmas, modo) {
-    const cat = P.catalogo || {}, dur = cat.duracaoAula || 75, mono = modo === "mono";
+    const cat = P.catalogo || {}, mono = modo === "mono";
     const H = turmas.filter(t => t.aula && t.aula.ini && !t.livre && !t.arquivada).map(t => ({ t, dia: t.aula.dia, i: hm(t.aula.ini) }));
     const dias = [...new Set(H.map(x => x.dia))].sort((a, b) => a - b);
     const inis = [...new Set(H.map(x => x.i))].sort((a, b) => a - b);
@@ -25,7 +25,7 @@
     const linhas = inis.map((i, k) => {
       const turno = i < 720 ? "manha" : "tarde", trocou = !k || (inis[k - 1] < 720) !== (i < 720);
       return (trocou ? `<tr class="turno"><th colspan="${dias.length + 1}">${turno === "manha" ? "☀️ Manhã" : "🌇 Tarde"}</th></tr>` : "") +
-        `<tr><th class="hora">${fhm(i)}<small>às ${fhm(i + dur)}</small></th>${dias.map(d => {
+        `<tr><th class="hora">${fhm(i)}</th>${dias.map(d => {
           const xs = H.filter(x => x.dia === d && x.i === i);
           return xs.length ? `<td>${xs.map(x => `<span class="turma s${esc(x.t.serie.id)}" style="--c:${COR[x.t.serie.id] || "#334155"};--f:${FUNDO[x.t.serie.id] || "#f1f5f9"}">${esc(x.t.nome)}</span>`).join("")}</td>` : `<td class="vazio">—</td>`;
         }).join("")}</tr>`;
@@ -72,11 +72,11 @@
     <p class="prof">${esc(cat.professor || "Professor Welington Laignier")}</p>
     <p class="esc">EMEF Juscelino Kubitschek · Curionópolis – PA · <b>professorwell.com.br</b></p></div></header>
   <h2>🗓️ Horários das aulas na Sala de Informática</h2>
-  <table><thead><tr><th class="hora">Horário</th>${dias.map(d => `<th>${DIAS[d]}</th>`).join("")}</tr></thead><tbody>${linhas}</tbody></table>
+  <table><thead><tr><th class="hora">Começa às</th>${dias.map(d => `<th>${DIAS[d]}</th>`).join("")}</tr></thead><tbody>${linhas}</tbody></table>
   ${mono ? "" : `<div class="legenda">${series.map(s => `<span style="--c:${COR[s.id] || "#334155"}"><i></i>${esc(s.nome)}</span>`).join("")}</div>`}
   <div class="caixas">
     <div class="cx"><h3>⏰ Como são as aulas</h3>
-      <p>Cada aula dura <b>${Math.floor(dur / 60)}h${String(dur % 60).padStart(2, "0")}</b>, no contraturno, uma vez por semana para cada turma.</p>
+      <p>As aulas são no <b>contraturno</b>, uma vez por semana para cada turma. Na tabela está o horário em que a aula de cada turma <b>começa</b>.</p>
       <p>Chegue no horário: quem entra cedo já começa ganhando pontos na sala de espera.</p>
       ${dias.includes(5) ? "" : `<p>Sexta-feira: sem aulas com alunos (manutenção dos computadores e planejamento).</p>`}
       ${temAG ? `<p>🎒 <b>Agregados</b>: sem horário fixo; fazem as missões pelo portal.</p>` : ""}</div>

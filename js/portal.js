@@ -1897,14 +1897,18 @@
         <h3 class="r-sub">O que foi feito</h3>
         <ol class="r-lista">${linhas.join("")}</ol>
         <p class="r-rod">Gerado em ${new Date(agora).toLocaleDateString("pt-BR")} às ${hhmm(agora)} · ${esc(cat().escola)} — ${esc(cat().cidade)} · ${esc(cat().professor)}</p>
-      </section></div>`);
+      </section>
+      ${okB ? `<div class="rel-fim rel-fim-baixo nao-imprimir"><div class="rel-fim-tx"><strong>🏁 Missão concluída!</strong><span>Você terminou o básico. Escolha o que fazer agora:</span></div>
+        <div class="rel-fim-bts"><button class="btn rel-jogos" type="button">🎮 Abrir a Sala de jogos</button><button class="btn btn-sec rel-sair" type="button" hidden>⛶ Sair da tela cheia</button></div></div>`
+      : `<div class="rel-fim rel-fim-nao rel-fim-baixo nao-imprimir"><div class="rel-fim-tx"><strong>🎮 Sala de jogos</strong><span>Ela abre quando você terminar o básico (${x.basico[0]} de ${x.basico[1]}). Falta pouco!</span></div></div>`}</div>`);
     // 🏁 fim da missão (25/11/2026, pedido do professor): quem terminou o básico abre a Sala de jogos ou sai da tela cheia para fechar
-    const bj = el.querySelector("#rel-jogos"), bs = el.querySelector("#rel-sair");
-    if (bj) bj.onclick = () => { try { sessionStorage.setItem("jogos-liberados", s.turma + "|" + new Date().toDateString()); } catch (e) {} location.hash = "#/jogos"; };
-    if (bs) { const pinta = () => { bs.hidden = !emTelaCheia(); }, ouvir = () => { if (!bs.isConnected) return removeEventListener("fullscreenchange", ouvir); pinta(); };
+    // (26/11/2026) os mesmos botões aparecem em cima e embaixo do resumo; os de cima têm id, os de baixo só a classe
+    const bjs = el.querySelectorAll(".rel-jogos"), bss = [...el.querySelectorAll(".rel-sair")];
+    bjs.forEach(bj => { bj.onclick = () => { try { sessionStorage.setItem("jogos-liberados", s.turma + "|" + new Date().toDateString()); } catch (e) {} location.hash = "#/jogos"; }; });
+    if (bss.length) { const pinta = () => { bss.forEach(b => { b.hidden = !emTelaCheia(); }); }, ouvir = () => { if (!bss[0].isConnected) return removeEventListener("fullscreenchange", ouvir); pinta(); };
       addEventListener("fullscreenchange", ouvir); pinta(); setTimeout(pinta, 300);
       // saída de propósito, com a missão concluída: o bloqueio da 🖥️ tela cheia não volta nem conta "saída" enquanto ele estiver nesta página
-      bs.onclick = () => { P.saidaFim = location.hash; try { (document.exitFullscreen ? document.exitFullscreen() : document.webkitExitFullscreen && document.webkitExitFullscreen()); } catch (e) {} }; }
+      bss.forEach(bs => { bs.onclick = () => { P.saidaFim = location.hash; try { (document.exitFullscreen ? document.exitFullscreen() : document.webkitExitFullscreen && document.webkitExitFullscreen()); } catch (e) {} }; }); }
     el.querySelector("#rel-imp").onclick = () => { document.body.classList.add("so-relatorio"); window.print(); setTimeout(() => document.body.classList.remove("so-relatorio"), 500); };
     return el;
   }

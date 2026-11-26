@@ -2967,6 +2967,7 @@ body.hz-aberta{overflow:hidden}
 .rel-fim-nao { background: #f1f5f9; color: #14213d; box-shadow: none; border: 2px dashed #94a3b8; }
 .rel-fim-nao .rel-fim-tx strong { color: #14213d; }
 @media print { .rel-fim { display: none !important; } }
+.rel-fim.rel-fim-baixo { margin: 18px 0 0; }
 
 /* 🔒 Sala de jogos fechada na hora da aula (25/11/2026) */
 .jogos5-cta.jogos5-fechada { background: #e2e8f0; color: #334155; box-shadow: 0 4px 0 #94a3b8; cursor: default; }

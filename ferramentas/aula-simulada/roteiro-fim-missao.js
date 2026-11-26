@@ -18,9 +18,9 @@ const { chromium } = require("playwright"); const T = require("./turma.js");
   await a.evaluate(() => { let fs = document.documentElement; Object.defineProperty(document, "fullscreenElement", { get: () => fs, configurable: true });
     document.exitFullscreen = () => { fs = null; document.dispatchEvent(new Event("fullscreenchange")); window.dispatchEvent(new Event("fullscreenchange")); return Promise.resolve(); };
     window.dispatchEvent(new Event("fullscreenchange")); }); await a.waitForTimeout(300);
-  console.log("em tela cheia: sair visível", await a.locator("#rel-sair:visible").count());
+  console.log("em tela cheia: sair visível", await a.locator("#rel-sair:visible").count(), "· embaixo: sair", await a.locator(".rel-fim-baixo .rel-sair:visible").count(), "jogos", await a.locator(".rel-fim-baixo .rel-jogos").count());
   await a.screenshot({ path: "/tmp/fim-2-completo.png" });
-  await a.locator("#rel-sair").click(); await a.waitForTimeout(500); console.log("saiu da tela cheia:", await a.evaluate(() => !document.fullscreenElement));
+  await a.locator(".rel-fim-baixo .rel-sair").click(); await a.waitForTimeout(500); console.log("saiu da tela cheia (botão de baixo):", await a.evaluate(() => !document.fullscreenElement));
   await a.locator("#rel-jogos").click(); await a.waitForTimeout(2500); console.log("jogos: url", a.url(), "jogos na sala", await a.locator(".jogos5-box [data-j]").count());
   await a.screenshot({ path: "/tmp/fim-3-sala.png" });
   // 🎮 a Sala de jogos fica também na lista de missões (todas as séries, 25/11/2026)
