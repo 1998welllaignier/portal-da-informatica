@@ -32,3 +32,4 @@ Sala de espera → leitura (slide igual em todas as telas, risco do pincel chega
 - `roteiro-espera-jogo-video.js`: aluno jogando na Sala de espera + professor começa pelo vídeo: o jogo não fica em tela cheia e o vídeo aparece e toca na tela do aluno (26/11/2026, depois da regressão da tela cheia).
 - `roteiro-jogos-cheia-aovivo.js`: 🎮 Sala de jogos em tela cheia (jogar entra, Sair do jogo sai) e, com aluno jogando em tela cheia, o vídeo da Aula ao vivo e a roleta aparecem por cima (o jogo sai da tela cheia sozinho) (26/11/2026).
 - `roteiro-agregados-entrada.js`: endereço antigo #/serie/5 vai para os 🎒 Agregados com a turma já marcada; aluno do 5º ainda na turma antiga entra com o código de sempre; agregado entra na série dele (26/11/2026).
+- `roteiro-agregados-roleta.js`: Aula ao vivo já aberta + agregado incluído pelo 🎒 → entra na roleta sem reabrir (26/11/2026).

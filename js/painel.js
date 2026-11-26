@@ -124,7 +124,27 @@
     const deJuntas = (await Promise.all(juntas.map(id => alunosDaTurma(id).catch(() => [])))).flat();
     const m = new Map(); [...proprios, ...deJuntas, ...visit].forEach(a => { if (!m.has(a.id)) m.set(a.id, a); });
     const alunos = [...m.values()].filter(a => a.ativo !== false && !a.teste).sort((a, b) => a.nome.localeCompare(b.nome, "pt-BR"));
-    return { alunos, turmasProg: [...new Set([t.id, ...alunos.map(a => a.turma)])] };
+    // 🎒 a turma Agregados entra sempre na escuta do progresso: um agregado incluído com a tela já aberta aparece na hora
+    //    (sessão/online para a roleta, pontos no placar) sem precisar fechar e abrir de novo (26/11/2026)
+    const temAG = !t.livre && cat().series.some(x => x.agregados);
+    const r = { t, alunos, turmasProg: [...new Set([t.id, ...alunos.map(a => a.turma), ...(temAG ? ["AG"] : [])])] };
+    PARTS.add(r); if (PARTS.size > 40) PARTS.delete(PARTS.values().next().value);
+    // escuta a lista de agregados desta aula (vale também para a janela do projetor e outra aba do painel)
+    if (temAG && !OUV_AG[t.id]) { let ult = JSON.stringify((hd.dia === hoje && hd.iniciadaDia === hoje && hd.agregados) || []);
+      try { OUV_AG[t.id] = db().collection("config").doc("hoje_" + t.id).onSnapshot(sn => { const d = sn.exists ? sn.data() : {}, hj2 = N.hoje();
+        const ids = d.dia === hj2 && d.iniciadaDia === hj2 ? (d.agregados || []) : [], k = JSON.stringify(ids); if (k === ult) return; ult = k; atualizarAgregados(t.id, ids).catch(() => {}); }, () => {}); } catch (e) {} }
+    return r;
+  }
+  /* 🎒 telas abertas (placar, Ao vivo, sala de espera, Aula ao vivo, roleta) guardam a lista de quem participa; quando o professor
+     inclui ou tira um agregado (botão 🎒), a lista de TODAS elas é atualizada no mesmo lugar (mesma lista), sem reabrir nada. */
+  const PARTS = new Set(), OUV_AG = {};
+  async function atualizarAgregados(tid, ids) {
+    const docs = (await Promise.all(ids.map(id => db().collection("alunos").doc(id).get().then(d => d.exists ? { id: d.id, ...d.data(), visitante: true, agregado: true } : null).catch(() => null)))).filter(a => a && a.ativo !== false);
+    PARTS.forEach(r => { if (!r.t || r.t.id !== tid) return;
+      for (let i = r.alunos.length - 1; i >= 0; i--) if (r.alunos[i].agregado && !ids.includes(r.alunos[i].id)) r.alunos.splice(i, 1);
+      docs.forEach(a => { if (!r.alunos.some(x => x.id === a.id)) r.alunos.push(a); });
+      r.alunos.sort((a, b) => a.nome.localeCompare(b.nome, "pt-BR"));
+      if (!r.turmasProg.includes("AG")) r.turmasProg.push("AG"); });
   }
   // 🏫 alunos de outras turmas que frequentam a aula desta turma (alunos/{id}.outraTurma = esta turma), 18/11/2026
   async function visitantesDe(tid) {
@@ -2592,7 +2612,7 @@
       return { ini, dentro, lista };
     }
     const pintar = x => { bt.innerHTML = x.dentro.length ? `🎒 Agregados: <b>${x.dentro.length} na aula</b>` : "🎒 Agregados"; bt.classList.toggle("on-verde", !!x.dentro.length); };
-    async function gravar(ids) { await db().collection("config").doc("hoje_" + t.id).set({ agregados: ids }, { merge: true }); }
+    async function gravar(ids) { await db().collection("config").doc("hoje_" + t.id).set({ agregados: ids }, { merge: true }); try { await atualizarAgregados(t.id, ids); } catch (e) {} }
     async function abrir(op = {}) {
       const x = await ler(); pintar(x);
       if (!x.ini) return P.aviso("🎒 Primeiro toque em ▶️ Iniciar aula. Depois é só tocar em 🎒 Agregados para incluir quem chegou.");

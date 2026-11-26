@@ -33,7 +33,8 @@ const espera = ms => new Promise(r => setTimeout(r, ms));
   R.a1Depois = a1.url(); R.a2Depois = a2.url();
   R.agAula = await a1.evaluate(() => window.PORTAL.agAula); R.palcoOuve = await a1.evaluate(() => window.PORTAL.palco._A.turma + " · docs: " + Object.keys(window.PORTAL.palco._A.docs).join(","));
   await a1.screenshot({ path: "/tmp/aga-2-pedro.png" });
-  // 3) o painel mostra o Pedro entre os participantes (sala de espera)
+  // 3) o painel mostra o Pedro entre os participantes (sala de espera) SEM recarregar (lista ao vivo) e depois de recarregar
+  R.painelSemRecarregar = await pr.evaluate(() => document.body.innerText.includes("Pedro Quinto"));
   await pr.reload(); await pr.waitForTimeout(6000); await T.fecharJanelas(pr);
   R.painelMostraPedro = await pr.evaluate(() => document.body.innerText.includes("Pedro Quinto"));
   // 4) largada: Pedro vai para a missão da turma (9º ano) e as tarefas abrem
