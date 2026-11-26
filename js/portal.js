@@ -1918,6 +1918,7 @@
      ============================================================ */
   async function telaImprimir(aid) {
     const a = apostila(aid); if (!a) return telaInicio();
+    { const ss = sess.get(); if (!(ss && ss.serie === a.serie) && !(await profLogado())) return ss ? telaRestrita() : telaSerie(a.serie, "#/imprimir/" + aid); }
     await carregar(aid);
     modoTrilha(a);
     const C = P.conteudo[aid];
@@ -1996,7 +1997,21 @@
   /* ============================================================
      ÁREA DO PROFESSOR e PRIVACIDADE
      ============================================================ */
+  // 🔒 26/11/2026 (segurança): Área do professor, Trilhas e versões para imprimir só com a conta do professor
+  //    (a versão para imprimir também abre para o aluno logado na série daquela apostila)
+  async function profLogado() {
+    try { if (!P.nuvem || !P.nuvem.auth) return false; const a = P.nuvem.auth();
+      const u = a.currentUser || await new Promise(ok => { const x = a.onAuthStateChanged(v => { x(); ok(v); }); setTimeout(() => ok(a.currentUser), 4000); });
+      return !!(u && !u.isAnonymous && u.email === P.nuvem.EMAIL_PROFESSOR); } catch (e) { return false; }
+  }
+  function telaRestrita() {
+    barra();
+    mount(`<section class="tela"><div class="painel restrita"><h1>🔒 Área do professor</h1>
+      <p>Esta página é só para o professor. Entre no painel com a sua conta e depois volte por aqui.</p>
+      <p class="row-btns"><a class="btn" href="#/painel">🔑 Entrar no painel do professor</a> <a class="btn btn-sec" href="#/">← Início</a></p></div></section>`);
+  }
   async function telaProfessor() {
+    if (!(await profLogado())) return telaRestrita();
     barra();
     await Promise.all(cat().apostilas.map(a => carregar(a.id).catch(() => null)));
     const o = cat().orientacoes;
@@ -2029,6 +2044,7 @@
 
   /* -------- Trilhas Passo a Passo (só pela Área do professor) -------- */
   async function telaTrilhas() {
+    if (!(await profLogado())) return telaRestrita();
     barra();
     const lista = cat().apostilas.filter(a => a.trilha).sort((a, b) => (P.doPeriodo(b) ? 1 : 0) - (P.doPeriodo(a) ? 1 : 0));  // as do bimestre em uso primeiro
     await Promise.all(lista.map(a => carregar(a.id).catch(() => null)));
