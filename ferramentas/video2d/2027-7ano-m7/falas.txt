@@ -1,18 +1,18 @@
 Desafios de depuração: hoje é dia de detetive!
 
-Chegou um chamado na delegacia dos programas: três programas quebrados! Um mostra o colega errado, outro esqueceu a idade de todo mundo, e o terceiro repete a mesma coisa errada em vários lugares.
+Chegou um chamado na Delegacia dos Programas: três programas quebrados! Um mostra o colega errado, outro esqueceu a idade de todo mundo, e o terceiro repete a mesma coisa errada em vários lugares. Quem vai resolver?
 
-A Duda e o Caio vão usar o mesmo método da Missão 4: rodar, comparar, achar o bloco e mudar uma coisa só, testando de novo.
+A dupla de detetives Duda e Caio vai usar o método da Missão 4: rodar, comparar com o esperado, achar o bloco responsável, mudar uma coisa só e corrigir. E cada palpite sobre onde está o erro tem nome: hipótese. A gente testa a hipótese mudando uma coisa.
 
-Caso um: o programa devia mostrar o segundo nome da lista, a Bia, mas mostrou o Caio. Pista: a posição está errada. Lembre: na lista do editor, a contagem começa no um! O bloco pedia o item três, e o certo é o item dois.
+Caso um: o programa devia mostrar o segundo nome da lista, a Bia, mas mostrou o Caio. A pista, o sinal que ajuda a achar o erro, é esta: a posição está errada. Na lista do editor, a contagem começa no um. O bloco pedia o item três, e o certo é o item dois. Corrigido!
 
-Caso dois: apareceu sem idade para todo mundo. Pista: o nome do campo está diferente! Na ficha, o campo se chama idade, mas o bloco procurava idadee, com dois e. Uma letra a mais, e o programa não acha nada.
+Caso dois: apareceu sem campo, no lugar da idade de todo mundo. Pista: o nome do campo está diferente! Na ficha, o campo se chama idade, mas o bloco procurava idadee, com dois e. Uma letra a mais, e o programa não acha nada.
 
-Caso três: a saudação saiu errada em três lugares. Pista: quando o erro se repete em vários lugares, ele mora dentro do bloco próprio. Conserte lá dentro, uma vez só, e vale em todos!
+Caso três: a saudação saiu errada em três lugares. Pista: quando o erro se repete em vários lugares, ele mora dentro do bloco próprio. Conserte lá dentro, uma vez só, e o conserto vale em todos!
 
 E se um item aparecer repetido, ou faltar? Confira se o para cada está percorrendo a lista certa, e se o bloco está dentro ou fora do lugar.
 
-Três casos, três programas consertados. A dupla de detetives fechou a delegacia mais cedo. Missão cumprida!
+Três casos resolvidos. Depurar é isso: achar o erro e corrigir. A dupla de detetives fechou a delegacia mais cedo. Missão cumprida!
 
 Onde eu uso isso? O mecânico testa uma peça de cada vez até achar o defeito do carro. O médico faz perguntas e exames, que são pistas. E, na conta de matemática errada, você refaz passo a passo para achar onde errou.
 
