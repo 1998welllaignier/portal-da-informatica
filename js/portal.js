@@ -2234,6 +2234,9 @@
       // sem código, sem nuvem e sempre zerado: serve para testar apostilas de outros bimestres (ex.: o piloto de 2027) — 21/11/2026
       if (r === "ver" || r === "testar") {
         const ap = apostila(a1); if (!ap) return telaInicio(); const aluno = r === "testar";
+        // 🔒 26/11/2026: só o professor (logado nesta aba, ou com o passe de 2 min que o botão 👀 do painel deixa ao abrir a aba nova)
+        let passe = false; try { const x = JSON.parse(localStorage.getItem("portalJK:passeVer") || "null"); passe = !!(x && x.ate > Date.now()); localStorage.removeItem("portalJK:passeVer"); } catch (e) {}
+        if (!passe && !(await profLogado())) return telaRestrita();
         const s0 = serie(ap.serie), t0 = (s0 && s0.turmas.find(x => x.id === a3)) || (s0 && s0.turmas[0]);
         sess.set({ serie: ap.serie, turma: t0 ? t0.id : "", modo: "sozinho", nomes: [aluno ? "Aluno Teste" : "Professor"], apelidos: [aluno ? "🧪 Teste" : "👀 Visualização do professor"], prof: !aluno, teste: aluno, trilha: !!ap.trilha, entrou: Date.now() });
         store.del(progressoKey(a1));
