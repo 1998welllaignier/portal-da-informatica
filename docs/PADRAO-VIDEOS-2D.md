@@ -34,6 +34,15 @@ Modelo de referência: `ferramentas/video2d/modelo-cabo-submarino.html` (8º ano
 4. Gravar: `python3 ferramentas/video2d/gravar.py <cena.html> <saida.mp4>` (Chrome sem tela + ffmpeg). Depois juntar a voz e a música com `-c:v copy`.
 5. Versão: os vídeos v3 (estilo antigo) estão no YouTube; os refeitos neste padrão são a **v4**.
 
+## 🎙️ Voz Gemini e crivo da narração (26/11/2026)
+- **Voz:** `gemini-2.5-pro-tts`, voz **Charon**, a mesma para todos os vídeos; o estilo (sorriso na voz, pausas antes das palavras importantes, sem tom de desenho animado) e o ajuste leve por série estão em `ferramentas/video2d/vozes/estilos.json`. A chave fica só em `~/.segredos/` (nunca no repositório).
+- **Emoção por momento:** antes de cada trecho vai uma direção entre colchetes — `[suspense]`, `[animado]`, `[explicando]`, `[surpresa]` — que a voz usa e não lê. `narrar.py` marca sozinho (problema = suspense, descoberta = surpresa, conceito = explicando, abertura, "Onde eu uso isso?" e fim = animado); para acertar uma cena à mão: `<pasta>/emocoes.json` com `{"3": "[suspense] texto…"}`.
+- **Comando:** `python3 vozes/narrar.py <pasta> <série> --montar <saida.mp4>` (gera cena por cena, passa pelo crivo, junta as cenas e chama `finalizar.py --usar-cortes`, que põe a vinheta).
+- **✅ Crivo obrigatório (não deixar passar nada):**
+  1. **Palavras extras, trocadas ou faltando:** cada cena é transcrita (Whisper local) e comparada palavra por palavra com o texto (números por extenso e em algarismos contam como iguais). Diferença → a cena é gerada de novo (até 3 vezes); se continuar, o vídeo **não é montado** e a cena é revista. Ex.: no teste de 26/11 a voz disse "na sétima *gaveta*" sem a palavra estar no texto.
+  2. **Segundos:** duração e velocidade (palavras por segundo) de cada cena, numa faixa normal; o custo é por segundo de áudio, e o suspense alonga um pouco.
+  3. **Gasto:** toda chamada vai para `vozes/custos.csv` (tokens de texto, tokens de áudio, segundos, US$), com limite de segurança (`--limite-usd`, padrão US$ 10) que interrompe a geração; a cada lote, conferir o gasto real no Google Cloud (Faturamento › Relatórios) e avisar o professor. Preço: US$ 1 por milhão de tokens de texto e US$ 20 por milhão de tokens de áudio (cerca de 25 tokens por segundo).
+
 ## Custo
 - O primeiro vídeo de cada série gasta um pouco mais (criar cenários novos).
 - Os seguintes reaproveitam bonequinho, balões, etiquetas e selo: custo parecido com o da História de antes.
@@ -93,6 +102,7 @@ Em 25/11/2026 a varredura achou 30 vídeos de 2027 abaixo do padrão (9 a 10 cen
 9. Bonequinho vivo e presente na maioria das cenas, reagindo (pisca, aponta, comemora, se assusta).
 10. Conceito em letras grandes amarelas, etiquetas com seta e balões de fala.
 11. Legenda não cobre nada (verificador) e quadros conferidos antes de entregar.
+12. **Narração passou no crivo** (`vozes/narrar.py`, 26/11/2026): nenhuma palavra extra, trocada ou faltando; segundos e velocidade de cada cena conferidos; custo registrado em `vozes/custos.csv` e gasto real conferido no Google Cloud a cada lote.
 
 ### 🤖 Verificador automático (obrigatório, 25/11/2026)
 `python3 ferramentas/video2d/verificador.py <pasta>` (ou `todos`). Desenha o vídeo de verdade e espiona cada texto e cada fundo pintado no canvas. **Só entrega quem sair ✅ APROVADO (zero erros).**

@@ -1,0 +1,21 @@
+Entradas e saídas: do que eu preciso?
+
+A Tainá quis fazer um bolo de aniversário para o Pedro. Foi misturando sem pensar: farinha, leite, açúcar... e, na hora de assar, cadê os ovos? Sem ovos, o bolo não deu certo! Que problema!
+
+Antes de resolver um problema, vale fazer duas perguntas. Primeira: do que eu preciso? Segunda: o que eu quero conseguir no fim? O problema é a situação que queremos resolver com o algoritmo.
+
+Tudo o que precisamos receber para começar são as entradas. No bolo, as entradas são: farinha, ovos, leite, açúcar e fermento.
+
+O que fazemos com as entradas é o processamento: misturar, colocar na forma e assar. E o resultado que queremos no fim é a saída: o bolo pronto!
+
+No computador é igual. Na calculadora, as entradas são os números e a conta: dois mais três. O processamento é o cálculo. E a saída é o resultado, cinco, que aparece na tela.
+
+Por que isso ajuda? Se faltar uma entrada, o algoritmo não funciona: sem ovos, não sai o bolo. E, sabendo a saída esperada, dá para conferir se o algoritmo deu certo. Esse é o resultado esperado!
+
+Veja mais exemplos. Para calcular a média da prova, as entradas são as notas, e a saída é a média. Para mandar um áudio, a entrada é a voz, pelo microfone, e a saída é o áudio enviado. Para achar o caminho no mapa, as entradas são onde estou e aonde vou, e a saída é o caminho na tela.
+
+A Tainá refez o bolo. Separou as entradas: farinha, ovos, leite, açúcar e fermento. Seguiu o processamento e conferiu a saída esperada: um bolo pronto! Missão cumprida!
+
+Onde eu uso isso? Na calculadora do celular: você digita os números, que são as entradas, e vê o resultado, que é a saída. No aplicativo de mapa: você diz aonde quer ir e recebe o caminho. E na máquina de café: você escolhe a bebida e põe o dinheiro, e recebe a bebida.
+
+Agora é com vocês: abram a Missão 5 no portal!

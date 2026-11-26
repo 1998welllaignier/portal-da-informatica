@@ -1,0 +1,23 @@
+Caça ao erro: ache o bug!
+
+O robô Bit foi programado para fazer um sanduíche, mas o resultado saiu bem esquisito: o presunto ficou do lado de fora do pão! A Tainá e o Pedro ficaram curiosos: onde está o erro?
+
+Até os melhores programadores erram. Um erro num programa se chama bug. Em inglês, bug quer dizer inseto.
+
+Por que inseto? Em 1947, a equipe da cientista Grace Hopper achou uma mariposa presa dentro de um computador enorme, que estava dando defeito. Eles colaram a mariposa no caderno, com a anotação: primeiro caso de bug encontrado.
+
+Achar e corrigir o erro se chama depurar. Em inglês, debug, que significa tirar o inseto.
+
+Como caçar o erro, passo a passo? Primeiro, testar: execute o algoritmo e veja o que acontece. Segundo, comparar: o resultado é o esperado? Onde ficou diferente? Terceiro, achar: vá passo a passo até achar o primeiro passo errado. Quarto, corrigir: mude só esse passo e teste de novo.
+
+Atenção: não mude todos os passos de uma vez! Assim você nunca vai saber qual era o erro. Mude só o passo errado, e teste de novo.
+
+Vamos caçar o erro do Bit! Testar: o pão fechou, e o presunto ficou do lado de fora. Comparar: o esperado era o presunto dentro do pão. Achar: o passo dois fechou o pão cedo demais, é o primeiro passo errado. Corrigir: colocar o presunto antes de fechar o pão. Testando de novo, deu certo!
+
+Os erros mais comuns são quatro: um passo fora de ordem, um passo que falta, um passo a mais, ou um número errado na repetição.
+
+O Bit fez o sanduíche direitinho, e a turma aprendeu: errar faz parte, e depurar é achar e corrigir o erro. Missão cumprida!
+
+Onde eu uso isso? Quando o aplicativo pede para atualizar, muitas vezes é para corrigir bugs. Quando a receita não dá certo, você confere passo a passo onde errou. E no jogo, quando o personagem atravessa a parede, é um bug que os programadores precisam corrigir.
+
+Agora é com vocês: abram a Missão 7 no portal!

@@ -1,0 +1,23 @@
+Seleção: se, então, senão!
+
+O Pedro ia sair de casa para a escola. Olhou pela janela e ficou na dúvida: levo o guarda-chuva ou não? A Tainá respondeu: depende! Se estiver chovendo, leva. Senão, vai sem.
+
+Quando o algoritmo precisa escolher um caminho, ele usa a seleção. Primeiro vem a pergunta: está chovendo? Se a resposta for sim, o caminho é levar o guarda-chuva. Se for não, o caminho é ir sem guarda-chuva. A seleção também se chama decisão.
+
+Para escrever a seleção, usamos três palavrinhas: se, então e senão. Se a condição for verdadeira, então faz uma coisa. Senão, faz outra.
+
+Outro exemplo: o semáforo. Se o sinal estiver verde, então a Tainá atravessa. Senão, ela espera.
+
+E no celular: se a senha estiver certa, então o celular abre. Senão, aparece: senha incorreta.
+
+A condição é sempre uma pergunta que só tem duas respostas: sim, que é verdadeiro, ou não, que é falso. Está chovendo? É uma boa condição. Que horas são? Não é, porque a resposta não é sim nem não.
+
+Hoje o sol está brilhando. Está chovendo? Falso! Então o Pedro segue pelo senão: sem guarda-chuva. Mas, se a chuva chegar, a condição fica verdadeira, e ele leva o guarda-chuva.
+
+Dá para juntar seleção e repetição! Repita cinco vezes: desenhe um quadrado. Se for o segundo ou o quarto, pinte de preto. Senão, deixe branco. Assim o computador faz desenhos com padrões.
+
+No dia seguinte, o Pedro olhou o céu. Está chovendo? Verdadeiro! Então ele levou o guarda-chuva e chegou seco na escola. Missão cumprida!
+
+Onde eu uso isso? No celular: se a bateria estiver abaixo de vinte por cento, então aparece o aviso de bateria fraca. Na porta automática do mercado: se alguém chegar perto, então ela abre. E no jogo: se você pegar a moeda, então ganha pontos.
+
+Agora é com vocês: abram a Missão 4 no portal!

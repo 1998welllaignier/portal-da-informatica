@@ -1,9 +1,10 @@
 import sys, json, base64, subprocess, urllib.request, os
 KEY = open(os.path.expanduser("~/.segredos/google-gemini.key")).read().strip()
+TEMPERATURA = 0.6   # 26/11/2026: mais baixa = a voz improvisa menos (menos palavras inventadas), sem ficar monótona
 def falar(texto, voz, saida, modelo="gemini-3.1-flash-tts-preview", estilo=""):
     prompt = (estilo + "\n\n" if estilo else "") + texto
     body = {"contents":[{"role":"user","parts":[{"text":prompt}]}],
-            "generationConfig":{"responseModalities":["AUDIO"],"speechConfig":{"voiceConfig":{"prebuiltVoiceConfig":{"voiceName":voz}}}}}
+            "generationConfig":{"responseModalities":["AUDIO"],"temperature":TEMPERATURA,"speechConfig":{"voiceConfig":{"prebuiltVoiceConfig":{"voiceName":voz}}}}}
     req = urllib.request.Request(f"https://aiplatform.googleapis.com/v1/publishers/google/models/{modelo}:generateContent?key={KEY}",
         data=json.dumps(body).encode(), headers={"Content-Type":"application/json"})
     d = json.load(urllib.request.urlopen(req, timeout=180))

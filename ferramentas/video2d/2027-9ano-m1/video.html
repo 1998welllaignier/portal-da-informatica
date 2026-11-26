@@ -263,7 +263,7 @@ function placaPare(x, y, s, k) { if (k <= 0) return; const z = back(cl(k)) * s; 
 /* ===== 9º M1 · Grafos (v2) ===== */
 const RAFA = { camisa: "#7c3aed" }, JULIA = { camisa: "#0d9488", cabelo: "longo" };
 const rafa = o => boneco(Object.assign({}, RAFA, o)), julia = o => boneco(Object.assign({}, JULIA, o));
-const BN = { Casa: [240, 330, "🏠"], Padaria: [640, 170, "🥖"], Praça: [640, 470, "🌳"], Escola: [1040, 330, "🏫"] };
+const BN = { Casa: [240, 330, "🏠"], Padaria: [640, 170, "🥖"], Praça: [640, 445, "🌳"], Escola: [1040, 330, "🏫"] };
 const BA = [["Casa", "Padaria", 3], ["Padaria", "Escola", 2], ["Casa", "Praça", 4], ["Praça", "Escola", 4], ["Casa", "Escola", 9]];
 const temA = (lst, a, b) => lst && lst.some(([x, y]) => (x === a && y === b) || (x === b && y === a));
 // modo: 0 = mapa (ruas), 1 = grafo; hl = arestas acesas [[a,b],...]; cor do destaque
@@ -299,13 +299,13 @@ const CENAS = [
    draw(t, D) { const ra = em(F1, "Rafa"), an = em(F1, "antes"), co = em(F1, "conseguiu"), ap = em(F1, "aplicativo"); fundoEscuro(t, "#166534");
      g.save(); camera(t, [[0, 640, 330, 1], [an, 760, 330, 1.05], [ap, 640, 360, 1]]); g.translate(-60, 0); bairro(t, 0, {});
      const pj = seg(t, .4, an + 2.5), pr = seg(t, ra, an); const [jx, jy] = noCaminho(PD, pj); bolinha(jx, jy, "#0d9488", "J");
-     if (t > ra) { const [rx, ry] = noCaminho(PA, pr); bolinha(rx, ry, "#7c3aed", "R"); } g.restore();
+     if (t > ra) { const [rx, ry] = noCaminho(PA, pr); bolinha(rx, ry - 30, "#7c3aed", "R"); } g.restore();
      if (t > an && t < ap) placaShow("O Rafa chegou antes! 🏁", 880, 470, seg(t, an, an + .4), "#e9d5ff"); if (t > co && t < ap) balao("Como?!", 300, 180, seg(t, co, co + .4));
      if (t > ap) { celular(1110, 430, .5, () => { g.fillStyle = "#dcfce7"; g.fillRect(-70, -146, 140, 292); g.strokeStyle = "#7c3aed"; g.lineWidth = 6; g.beginPath(); g.moveTo(-50, 40); g.lineTo(0, -100); g.lineTo(50, 40); g.stroke(); emo("📍", 50, 40, 30); }); rotulo("aplicativo de mapa", 1020, 540, "#fde68a", seg(t, ap, ap + .4)); balao("Usei o app! 📱", 1040, 210, seg(t, ap, ap + .4)); }
      rafa({ x: 1180, y: 570, s: .62, olhar: -1, braco: t > an ? -2.5 : .3, bracoE: .3, boca: "riso", pisca: pisca(t) }); } },
  { chip: "O GRAFO", fala: F2, sfx: [[.1, "whoosh"], [em(F2, "grafo"), "ding"], [em(F2, "linhas"), "pop"]],
    draw(t, D) { const gr = em(F2, "grafo"), li = em(F2, "linhas"); fundoEscuro(t, t > gr ? "#0f172a" : "#166534"); g.save(); camera(t, [[0, 640, 330, 1], [gr, 640, 340, 1.04]]); bairro(t, seg(t, gr - .3, gr + .9), {}); g.restore();
-     if (t > gr) palavra("GRAFO", 360, 90, seg(t, gr, gr + .4), 64); if (t > li) cartaoC("pontos ligados por linhas", 960, 560 - 80, 420, "#fde68a", seg(t, li, li + .4)); robozinho(1180, 130, .7, t, t > gr); } },
+     if (t > gr) palavra("GRAFO", 360, 90, seg(t, gr, gr + .4), 64); if (t > li) cartaoC("pontos ligados por linhas", 960, 150, 420, "#fde68a", seg(t, li, li + .4)); robozinho(1180, 130, .7, t, t > gr); } },
  { chip: "VÉRTICE, ARESTA, PESO, GRAU", fala: F3, legenda: L91[3], sfx: [[.1, "whoosh"], [em(F3, "vértice"), "pop"], [em(F3, "aresta"), "pop"], [em(F3, "peso"), "pop"], [em(F3, "grau"), "ding"]],
    draw(t, D) { const ve = em(F3, "vértice"), ar = em(F3, "aresta"), pe = em(F3, "peso"), gr = em(F3, "grau"); fundoEscuro(t, "#0f172a");
      g.save(); camera(t, [[0, 640, 340, 1], [ve, 600, 330, 1.04], [ar, 640, 320, 1.04], [pe, 640, 330, 1], [gr, 620, 330, 1.03]]);

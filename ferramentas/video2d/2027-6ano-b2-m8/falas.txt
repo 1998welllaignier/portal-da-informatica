@@ -1,0 +1,23 @@
+Desenho com a tartaruga!
+
+A Tainá e o Pedro queriam desenhar um quadrado, mas sem lápis: só mandando uma tartaruga andar pela tela. Será que dá?
+
+Nos anos 1960, o pesquisador Seymour Papert e a sua equipe criaram a linguagem Logo, feita para crianças aprenderem a programar. Nela, uma tartaruga anda pela tela e deixa um rastro, como um lápis.
+
+Hoje vamos desenhar no quadriculado: cada seta anda uma casa, e o caminho da tartaruga vira o desenho. Os pontos brancos mostram por onde ela precisa passar. Quando ela passa, o ponto fica verde.
+
+Um quadrado tem quatro lados iguais. Para desenhar um quadrado de duas casas de lado, sem repetição, são oito comandos: direita, direita, baixo, baixo, esquerda, esquerda, cima, cima.
+
+Com repetição, fica mais curto: repita duas vezes direita, repita duas vezes baixo, repita duas vezes esquerda, repita duas vezes cima. São só quatro blocos!
+
+O segredo do desenho é achar o padrão. Um quadrado é: ande um lado, vire, repetido quatro vezes.
+
+Um retângulo também tem quatro lados, mas dois são compridos e dois são curtos. No quadrado, os lados são iguais. No retângulo, dois compridos e dois curtos.
+
+Uma linha reta é repetir várias vezes a mesma seta. E uma escada é o degrau, direita e baixo, repetido: direita, baixo, direita, baixo, direita, baixo.
+
+A Tainá e o Pedro desenharam o quadrado, o retângulo e até uma escada, juntando sequência e repetição. A repetição ajuda a desenhar figuras. Missão cumprida!
+
+Onde eu uso isso? As máquinas de corte e as impressoras 3D seguem algoritmos de ande até aqui e vire, como a tartaruga. O robô aspirador anda pela casa seguindo um caminho programado. E nos jogos, os personagens andam por caminhos calculados por algoritmos.
+
+Agora é com vocês: abram a Missão 8 no portal!
