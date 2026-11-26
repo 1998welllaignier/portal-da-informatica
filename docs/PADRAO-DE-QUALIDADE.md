@@ -803,3 +803,6 @@ Questões **contextualizadas** (situação curta: 1–2 frases no 6º, 2–3 no 
 - Se a missão marcada for a missão de hoje da turma e a aula estiver acontecendo, vale a aula normal.
 - "🚫 Tirar a liberação" também tira a reposição. Dados: `config/liberar_<turma>.repo = { alunoId: { mids, ate } }`.
 - Teste de regressão: `ferramentas/aula-simulada/roteiro-reposicao.js`.
+
+## 🏁 Fim da missão (25/11/2026)
+No “Resumo do que fiz”, quem concluiu o básico vê, bem visível no alto, **🎮 Abrir a Sala de jogos** (abre para qualquer série, só depois de concluir) e **⛶ Sair da tela cheia** (para fechar; essa saída não conta como saída da tela cheia nem traz o bloqueio de volta enquanto ele estiver no resumo). Quem não concluiu vê quanto falta. Teste: `roteiro-fim-missao.js`.

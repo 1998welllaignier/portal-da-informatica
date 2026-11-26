@@ -25,3 +25,4 @@ Sala de espera → leitura (slide igual em todas as telas, risco do pincel chega
 - `roteiro-jogos-5ano.js`: a 🎮 Sala de jogos do 5º ano (botão na apostila, todos os jogos liberados, recorde salvo; outras séries não entram) (25/11/2026).
 - `roteiro-5ano-aula.js`: aluno do 5º ano entra na aula da turma que está acontecendo (sala de espera → missão da apostila dela) e aparece no painel ao vivo (25/11/2026).
 - `roteiro-outra-turma-2.js`: a turma do aluno teve aula mais cedo; vale a aula iniciada mais recentemente (25/11/2026).
+- `roteiro-fim-missao.js`: 🏁 fim da missão no Resumo do que fiz (básico concluído: 🎮 Sala de jogos para qualquer série e ⛶ Sair da tela cheia sem contar saída; incompleto: aviso; colega que não terminou não entra em #/jogos) (25/11/2026).

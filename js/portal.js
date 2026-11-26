@@ -783,7 +783,7 @@
   }
   P.telaCheia = { esta: emTelaCheia, pedir: pedirTelaCheia };
   function checarTela() {
-    const s = sess.get(), deve = !P.foraDoPortal && telaOn && !tcCasa && s && s.nuvem && !/^#\/painel/.test(location.hash) && !emTelaCheia() && !(P.sala && P.sala.ativa());   // 📡 a transmissão ao vivo tem o próprio bloqueio
+    const s = sess.get(), deve = !P.foraDoPortal && !(P.saidaFim && P.saidaFim === location.hash) && telaOn && !tcCasa && s && s.nuvem && !/^#\/painel/.test(location.hash) && !emTelaCheia() && !(P.sala && P.sala.ativa());   // 📡 a transmissão ao vivo tem o próprio bloqueio
     if (!deve) { if (telaDlg && telaDlg.open) telaDlg.close(); return; }
     if (!telaDlg) {
       telaDlg = h(`<dialog class="tela-cheia-dlg" aria-labelledby="tc-h"><div class="tc-ic">🖥️</div><h2 id="tc-h">Aula em TELA CHEIA</h2>
@@ -811,6 +811,7 @@
   let telaEstava = null;
   function contarSaida() {
     if (P.foraDoPortal) { telaEstava = false; return; }   // 🚪 saiu de propósito para uma tarefa no computador: não conta
+    if (P.saidaFim && P.saidaFim === location.hash) { telaEstava = false; return; }   // 🏁 terminou a missão e saiu pelo botão do Resumo: não conta
     const s = sess.get(); if (!telaOn || tcCasa || !s || !s.nuvem || !P.nuvem || !P.nuvem.app) return;
     const fora = !emTelaCheia(); if (telaEstava === true && fora) {
       const hoje = P.nuvem.hoje();
@@ -1252,7 +1253,8 @@
      (ex.: as fases do Byte) ficam no mesmo lugar da Sala de espera: progresso/<aluno>_espera.recordes. */
   async function telaJogos5() {
     const s = sess.get(); if (!s) return telaInicio();
-    if (s.serie !== "5" || !P.jogosEspera) { location.replace("#/apostilas"); return; }
+    let lib = false; try { lib = sessionStorage.getItem("jogos-liberados") === s.turma + "|" + new Date().toDateString(); } catch (e) {}   // aberta pelo 🏁 fim da missão (básico concluído)
+    if ((s.serie !== "5" && !lib) || !P.jogosEspera) { location.replace("#/apostilas"); return; }
     barra(`<span>🎮 Sala de jogos</span>`);
     const ids = s.alunoIds || [], nuvem = !!(s.nuvem && P.nuvem && P.nuvem.pronto);
     const refs = nuvem ? ids.map((id, i) => P.nuvem.app(i).db.collection("progresso").doc(id + "_espera")) : [];
@@ -1773,6 +1775,9 @@
     const el = h(`<div class="rel-wrap">
       <div class="rel-instr nao-imprimir">${s.nuvem ? `<p>✅ <strong>Não precisa de print:</strong> o que você fez já vai sozinho para o painel do professor.</p>` : `<p>📸 <strong>Tire um print desta tela</strong> e envie ao professor: tecla <kbd>PrtSc</kbd> ou <kbd>Windows</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd>.</p>`}
         <button class="btn btn-sec btn-peq" type="button" id="rel-imp">🖨️ Imprimir</button></div>
+      ${okB ? `<div class="rel-fim nao-imprimir"><div class="rel-fim-tx"><strong>🏁 Missão concluída!</strong><span>Você terminou o básico. Escolha o que fazer agora:</span></div>
+        <div class="rel-fim-bts"><button class="btn rel-jogos" type="button" id="rel-jogos">🎮 Abrir a Sala de jogos</button><button class="btn btn-sec rel-sair" type="button" id="rel-sair" hidden>⛶ Sair da tela cheia</button></div></div>`
+      : `<div class="rel-fim rel-fim-nao nao-imprimir"><div class="rel-fim-tx"><strong>🎮 Sala de jogos</strong><span>Ela abre quando você terminar o básico (${x.basico[0]} de ${x.basico[1]}). Falta pouco!</span></div></div>`}
       <section class="relatorio" id="relatorio" aria-label="Resumo da missão">
         <header class="r-cab"><div><p class="r-portal">💻 ${esc(cat().portal)}</p><p class="r-prof">${esc(cat().professor)}</p></div>
           <h2 class="r-tit">📋 Resumo da missão</h2>
@@ -1790,6 +1795,13 @@
         <ol class="r-lista">${linhas.join("")}</ol>
         <p class="r-rod">Gerado em ${new Date(agora).toLocaleDateString("pt-BR")} às ${hhmm(agora)} · ${esc(cat().escola)} — ${esc(cat().cidade)} · ${esc(cat().professor)}</p>
       </section></div>`);
+    // 🏁 fim da missão (25/11/2026, pedido do professor): quem terminou o básico abre a Sala de jogos ou sai da tela cheia para fechar
+    const bj = el.querySelector("#rel-jogos"), bs = el.querySelector("#rel-sair");
+    if (bj) bj.onclick = () => { try { sessionStorage.setItem("jogos-liberados", s.turma + "|" + new Date().toDateString()); } catch (e) {} location.hash = "#/jogos"; };
+    if (bs) { const pinta = () => { bs.hidden = !emTelaCheia(); }, ouvir = () => { if (!bs.isConnected) return removeEventListener("fullscreenchange", ouvir); pinta(); };
+      addEventListener("fullscreenchange", ouvir); pinta(); setTimeout(pinta, 300);
+      // saída de propósito, com a missão concluída: o bloqueio da 🖥️ tela cheia não volta nem conta "saída" enquanto ele estiver nesta página
+      bs.onclick = () => { P.saidaFim = location.hash; try { (document.exitFullscreen ? document.exitFullscreen() : document.webkitExitFullscreen && document.webkitExitFullscreen()); } catch (e) {} }; }
     el.querySelector("#rel-imp").onclick = () => { document.body.classList.add("so-relatorio"); window.print(); setTimeout(() => document.body.classList.remove("so-relatorio"), 500); };
     return el;
   }

@@ -2954,3 +2954,16 @@ body.hz-aberta{overflow:hidden}
 .lib-repo-ms { display: grid; gap: 4px; max-height: 40vh; overflow: auto; margin: 6px 0; }
 .lib-repo-m { display: flex; gap: 6px; align-items: center; padding: 6px 8px; border: 1px solid var(--linha); border-radius: 8px; cursor: pointer; }
 .lib-repo-m input { flex: 0 0 20px; width: 20px; height: 20px; margin: 0; }
+
+/* 🏁 fim da missão no Resumo do que fiz (25/11/2026): Sala de jogos e sair da tela cheia, bem visíveis */
+.rel-fim { display: flex; align-items: center; justify-content: space-between; gap: 18px; flex-wrap: wrap; margin: 0 0 18px; padding: 18px 22px; border-radius: 18px;
+  background: linear-gradient(135deg, #1b2c5a, #2f4c9a); color: #fff; box-shadow: 0 6px 18px rgba(20, 33, 61, .25); }
+.rel-fim-tx { display: flex; flex-direction: column; gap: 4px; }
+.rel-fim-tx strong { font-size: 1.35rem; color: #ffd23f; }
+.rel-fim-tx span { font-size: 1rem; opacity: .92; }
+.rel-fim-bts { display: flex; gap: 12px; flex-wrap: wrap; }
+.rel-fim .rel-jogos { font-size: 1.15rem; padding: 14px 24px; background: #ffd23f; color: #14213d; border-color: #ffd23f; font-weight: 800; }
+.rel-fim .rel-sair { font-size: 1.05rem; padding: 14px 20px; background: #fff; color: #14213d; }
+.rel-fim-nao { background: #f1f5f9; color: #14213d; box-shadow: none; border: 2px dashed #94a3b8; }
+.rel-fim-nao .rel-fim-tx strong { color: #14213d; }
+@media print { .rel-fim { display: none !important; } }

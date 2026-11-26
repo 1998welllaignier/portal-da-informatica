@@ -1,0 +1,65 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><style>@font-face{font-family:PS;src:url(press-start-2p.woff2)}body{margin:0;background:#000}</style></head><body><canvas id="c" width="1280" height="720"></canvas>
+<script>
+/* 🎮 VINHETA DE ENTRADA DAS MISSÕES (25/11/2026, pedido do professor): o Prof. Welington em pixel art (o mesmo do jogo "Byte: a Aventura")
+   entra andando, bate no bloco ? e ganha um chip, o balão escreve "BEM-VINDO À MISSÃO!" letra por letra, o título é digitado
+   e a tela se desfaz em quadradinhos, como na troca de fase do jogo. Duração: VINHETA_DUR segundos. Som: vinheta_som.py. */
+const W = 1280, H = 720, g = document.getElementById("c").getContext("2d");
+window.VINHETA_DUR = 8; // 8 s (aprovado pelo professor em 25/11/2026)
+let PX = null, MISSAO = "MISSÃO 1", TITULO = "TÍTULO", SERIE = "", MODO = 10; // 10 = versão aprovada (mini fase com chips e placar); 8 = versão curta
+const cl = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x)), lerp = (a, b, k) => a + (b - a) * k;
+function spr(gr, x, y, s, passo) { gr.forEach((l, r) => { if (passo && r >= gr.length - 3) l = " " + l.slice(0, -1); [...l].forEach((ch, c) => { if (ch !== "." && ch !== " " && PX.cores[ch]) { g.fillStyle = PX.cores[ch]; g.fillRect(Math.round(x + c * s), Math.round(y + r * s), s, s); } }); }); }
+// ---- texto em pixel com acento desenhado ponto a ponto (a fonte do jogo não tem acentos) ----
+const ACENTO = { "~": [[2, -2], [3, -2], [6, -2], [1, -1], [4, -1], [5, -1]], "´": [[4, -2], [5, -2], [3, -1], [4, -1]], "`": [[2, -2], [3, -2], [3, -1], [4, -1]],
+  "^": [[3, -2], [4, -2], [2, -1], [5, -1]], "¸": [[3, 1], [4, 1], [4, 2], [3, 2]] };
+const TIPO = { "Ã": "~", "Õ": "~", "Á": "´", "É": "´", "Í": "´", "Ó": "´", "Ú": "´", "À": "`", "Â": "^", "Ê": "^", "Ô": "^", "Ç": "¸" };
+function ptxt(s, x, y, tam, cor, sombra, centro) { s = s.toUpperCase(); g.font = `${tam}px PS`; g.textAlign = "left"; g.textBaseline = "alphabetic";
+  const u = tam / 8, w = [...s].length * tam; let x0 = centro ? x - w / 2 : x;
+  const desenha = (dx, dy, c) => { g.fillStyle = c; [...s].forEach((ch, i) => { const base = ch.normalize("NFD")[0], cx = x0 + i * tam + dx;
+    g.fillText(base, cx, y + dy); const ac = TIPO[ch]; if (ac) ACENTO[ac].forEach(([a, b]) => g.fillRect(Math.round(cx + a * u), Math.round(y + dy - 7 * u + b * u - (ac === "¸" ? -7 * u : u)), Math.ceil(u), Math.ceil(u))); }); };
+  if (sombra) desenha(u * .6, u * .6, sombra); desenha(0, 0, cor); return w; }
+function caixa(x, y, w, h, fundo) { g.fillStyle = "#10173A"; g.fillRect(x - 6, y - 6, w + 12, h + 12); g.fillStyle = fundo; g.fillRect(x, y, w, h); }
+function bloco(x, y, usado) { caixa(x, y, 84, 84, usado ? "#B9733A" : "#FFD23F"); if (!usado) { g.fillStyle = "#E0A800"; g.fillRect(x, y + 72, 84, 12); g.fillRect(x + 72, y, 12, 84); ptxt("?", x + 26, y + 60, 34, "#10173A"); }
+  g.fillStyle = "#10173A"; [[8, 8], [68, 8], [8, 68], [68, 68]].forEach(([a, b]) => g.fillRect(x + a, y + b, 8, 8)); }
+const MINI = [[.3, .7], [.8, 1.2], [1.3, 1.7]]; // pulos da mini fase (versão de 10 s)
+function frame(t) {
+  const T0 = t; let mini = -1; if (MODO === 10) { if (t >= 3.6) t -= 2; else if (t > 1.6) { mini = t - 1.6; t = 1.6; } }
+  // céu do jogo com estrelas piscando (camada de trás)
+  const gr = g.createLinearGradient(0, 0, 0, H); gr.addColorStop(0, "#1b2c5a"); gr.addColorStop(1, "#0d1631"); g.fillStyle = gr; g.fillRect(0, 0, W, H);
+  for (let i = 0; i < 70; i++) { g.fillStyle = (Math.floor(T0 * 6) + i) % 6 ? "#3b4b80" : "#FFD23F"; g.fillRect((i * 211 + 37) % W, (i * 97) % 470, 6, 6); }
+  // montanhas pixeladas (meio) e chão do Vale do Teclado (frente), rolando enquanto ele anda
+  const rola = Math.min(t, 1.6) * 40 + (MODO === 10 ? Math.min(Math.max(T0 - 1.6, 0), 2) * 320 : 0);
+  g.fillStyle = "#24386e"; for (let x = 0; x < W + 16; x += 16) { const xx = x + rola * .5, h = 90 + 60 * Math.abs(Math.sin(xx / 190)) + 30 * Math.abs(Math.sin(xx / 70)); g.fillRect(x, 560 - h, 16, h); }
+  for (let x = -32; x < W + 32; x += 32) { const xx = x - rola % 32; g.fillStyle = "#3BB273"; g.fillRect(xx, 560, 32, 16); g.fillStyle = "#2A8C57"; g.fillRect(xx, 572, 32, 4); g.fillStyle = (Math.round((x + Math.floor(rola / 32) * 32) / 32)) % 2 ? "#B9733A" : "#8C5226"; g.fillRect(xx, 576, 32, 144); }
+  // o professor entra andando, pula no bloco ? e ganha um chip
+  const S = 14, hw = 12 * S, anda = cl(t / 1.6), X = lerp(-hw, 260, 1 - Math.pow(1 - anda, 2));
+  const pT = t - 1.75, festa = t - 5.7, pulo = (pT > 0 && pT < .5 ? Math.sin(pT / .5 * Math.PI) * 120 : 0) + (festa > 0 && festa < .45 ? Math.sin(festa / .45 * Math.PI) * 70 : 0), mp = mini >= 0 ? MINI.reduce((s_, [a_, b_]) => s_ + (mini > a_ && mini < b_ ? Math.sin((mini - a_) / (b_ - a_) * Math.PI) * 120 : 0), 0) : 0, Y = 560 - 16 * S - pulo - mp;
+  const bate = pT > .2 && pT < .38, bY = 150 - (bate ? 14 : 0);
+  bloco(X + hw / 2 - 42 + (MODO === 10 && T0 < 3.6 ? (3.6 - T0) * 600 : 0), bY, pT > .25);
+  if (pT > .25 && pT < 1.3) { const k = (pT - .25) / 1.05, cy = bY - 30 - Math.sin(Math.min(1, k * 1.4) * Math.PI / 2) * 90; spr(PX.chip, X + hw / 2 - 24, cy, 6); if (k > .3) ptxt("+1", X + hw / 2 + 40, cy + 10, 20, "#FFD23F", "#10173A"); }
+  spr(PX.wel, X, Y, S, (t < 1.6 || (mini >= 0 && mp === 0)) && Math.floor(T0 * 10) % 2);
+  if (t > 6.4) { const a = Math.sin((t - 6.4) * 16) > 0; g.fillStyle = PX.cores.s; g.fillRect(X + (a ? 11 : 12) * S, Y + (a ? 8 : 9) * S, S, S * 2); } // tchauzinho
+  // o robozinho Byte chega correndo para comemorar junto
+  if (t > 4.6) { const k = cl((t - 4.6) / 1), bx = lerp(W + 40, 560, 1 - Math.pow(1 - k, 2)), bp = festa > .05 && festa < .5 ? Math.sin((festa - .05) / .45 * Math.PI) * 80 : 0;
+    spr(k < 1 && Math.floor(t * 10) % 2 ? PX.byte2 : PX.byte, bx, 560 - 16 * 6 - bp, 6); }
+  // estrelinhas de pixel na comemoração
+  if (festa > 0 && festa < 1.2) for (let i = 0; i < 16; i++) { const a = i / 16 * 6.283, r = 40 + festa * 260, x = 520 + Math.cos(a) * r, y = 380 + Math.sin(a) * r * .6; g.fillStyle = ["#FFD23F", "#7CF9FF", "#FF8BD1", "#3DDC97"][i % 4]; g.fillRect(Math.round(x / 8) * 8, Math.round(y / 8) * 8, 10, 10); }
+  // mini fase (10 s): chips vindo pela direita, o professor pula e pega; placar no canto, como no jogo
+  let pegos = 0; if (MODO === 10) { for (let i = 0; i < 3; i++) { const cx = 500 + i * 160 - Math.max(0, Math.min(T0 - 1.6, 2)) * 320, peg = T0 - 1.6 > .49 + i * .5;
+      if (peg) pegos++; else if (T0 > 1.2 && cx < W) { for (let j = 0; j < 2; j++) spr(PX.chip, cx + j * 56 - 28, 250 + (j % 2) * 10 - Math.abs(Math.sin(T0 * 6 + i)) * 6, 6); } }
+    pegos *= 2; if (T0 > 1.6) { const tot = pegos + (T0 > 3.85 ? 1 : 0); g.globalAlpha = T0 > 9.2 ? 0 : 1; spr(PX.chip, 40, 40, 5); ptxt("× " + String(tot).padStart(2, "0"), 100, 78, 20, "#fff", "#10173A");
+      ptxt("PONTOS " + String(tot * 100).padStart(6, "0"), 40, 120, 16, "#FFD23F", "#10173A"); g.globalAlpha = 1; } }
+  // plaquinha com o nome (embaixo do professor)
+  if (t > 1.6) { const k = cl((t - 1.6) / .2); caixa(X - 70, 612, 330 * k, 48, "#FFD23F"); if (k >= 1) ptxt("PROF. WELINGTON", X + 95, 646, 16, "#10173A", null, true); }
+  // balão de fala, escrito letra por letra
+  if (t > 2.6) { const s = "BEM-VINDO À MISSÃO!", n = Math.floor(cl((t - 2.6) / 1.3) * s.length); caixa(X + 200, 250, 470, 80, "#fff"); g.fillStyle = "#10173A"; g.fillRect(X + 205, 336, 24, 18); g.fillRect(X + 190, 354, 18, 14);
+    ptxt(s.slice(0, n), X + 222, 304, 20, "#10173A"); }
+  // missão e título digitados, como na tela de fase do jogo
+  if (t > 3.6) { ptxt(MISSAO, 900, 385, 28, "#FFD23F", "#10173A", true); const n = Math.floor(cl((t - 3.9) / 1.1) * [...TITULO].length); const tam = Math.min(40, Math.floor(560 / Math.max(1, [...TITULO].length)));
+    ptxt([...TITULO].slice(0, n).join(""), 900, 445, tam, "#fff", "#e0a800", true); if (SERIE && t > 5) ptxt(SERIE, 900, 482, 14, "#9fb3e8", null, true); }
+  if (t > 5.9 && t < 7.2 && Math.floor(t * 8) % 2) ptxt("START!", 1130, 330, 24, "#7CF9FF", "#10173A", true);
+  // a tela se desfaz em quadradinhos (troca de fase)
+  if (t > 7.3) { const k = cl((t - 7.3) / .6); for (let i = 0; i < 40; i++) for (let j = 0; j < 23; j++) if (((i * 7 + j * 13) % 23) / 23 < k) { g.fillStyle = "#0d1631"; g.fillRect(i * 32, j * 32, 32, 32); } }
+}
+window.iniciar = (px, missao, titulo, serie, modo) => { PX = px; MISSAO = missao; TITULO = titulo; SERIE = serie || ""; MODO = modo || 8; window.VINHETA_DUR = MODO; return document.fonts.load("20px PS"); };
+window.frame = frame;
+</script></body></html>
