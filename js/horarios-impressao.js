@@ -78,7 +78,6 @@
     <div class="cx"><h3>⏰ Como são as aulas</h3>
       <p>As aulas são no <b>contraturno</b>, uma vez por semana para cada turma.</p>
       <p>Chegue no horário: quem entra cedo já começa ganhando pontos na sala de espera.</p>
-      ${dias.includes(5) ? "" : `<p>Sexta-feira: sem aulas com alunos (manutenção dos computadores e planejamento).</p>`}
       ${temAG ? `<p>🎒 <b>Agregados</b>: sem horário fixo; fazem as missões pelo portal.</p>` : ""}</div>
     <div class="cx"><h3>🌐 Como entrar no portal</h3>
       <p class="site">professorwell.com.br</p>
