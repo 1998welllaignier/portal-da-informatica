@@ -4,9 +4,9 @@ A Bia achou o método da bolha trabalhoso: troca, troca, troca, vizinho por vizi
 
 Tem! É a ordenação por seleção. Em inglês, selection sort. A ideia é como escolher os times no recreio: o capitão escolhe o melhor, depois o melhor do que sobrou, e assim por diante.
 
-Os passos: procure o menor item de toda a lista. Troque ele com o item da primeira posição: pronto, a primeira posição está certa. Depois, procure o menor do que sobrou e troque com a segunda posição. E repita até a última.
+Os passos: procure o menor item, o mínimo, de toda a lista. Troque ele com o item da primeira posição: pronto, a primeira posição está certa. Depois, procure o menor do que sobrou e troque com a segunda posição. E repita até a última.
 
-Vamos ordenar sete, dois, nove, quatro. Primeira rodada: o menor de todos é o dois. Troca com o sete: dois, sete, nove, quatro. O dois já está no lugar certo!
+Vamos ordenar sete, dois, nove, quatro. Primeira rodada: o menor de todos é o dois. Troca com o sete: dois, sete, nove, quatro. O dois já está no lugar certo: começou a parte ordenada!
 
 Segunda rodada: do que sobrou, o menor é o quatro. Troca com o sete: dois, quatro, nove, sete. Terceira rodada: o menor do que sobrou é o sete. Troca com o nove. E pronto: dois, quatro, sete, nove!
 
