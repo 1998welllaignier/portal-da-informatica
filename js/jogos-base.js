@@ -110,10 +110,17 @@
     /* 🖥️ TELA CHEIA (26/11/2026, pedido do professor): ao tocar em ▶️ jogar, o jogo ocupa a tela inteira (tela cheia do próprio jogo);
        ao sair do jogo (🚪 Sair do jogo, ❓ Como jogar ou 🎮 Outro jogo no fim) volta ao normal. Se a página já estava em tela cheia,
        continua em tela cheia (o navegador volta para a página). Jogar de novo continua em tela cheia. */
-    box.classList.add("jg-fs");
+    // ⚠️ 26/11/2026 (urgente): na Sala de espera NÃO (opc.telaCheia === false): o vídeo e a leitura da Aula ao vivo, a roleta e o
+    //    pódio aparecem por cima da página, e um jogo em tela cheia escondia tudo isso do aluno. Só a 🎮 Sala de jogos usa tela cheia.
+    const usaCheia = opc.telaCheia !== false;
+    if (usaCheia) box.classList.add("jg-fs");
+    // 🛟 segurança: se abrir a Aula ao vivo, a roleta, o pódio ou uma janela por cima, o jogo sai da tela cheia na hora
+    const vigia = new MutationObserver(ms => { if (document.fullscreenElement !== box) return;
+      if (ms.some(m => [...m.addedNodes].some(n => n.nodeType === 1 && (n.matches("dialog, .pc-aluno, .rol-aluno, .rl-cobre, .sala-dlg, .pp-dlg, .pc-volta") || (n.querySelector && n.querySelector(".pc-aluno, .rol-aluno"))))) || document.querySelector("dialog[open]")) cheiaOff(); });
+    try { vigia.observe(document.body, { childList: true }); } catch (e) {}
     // ⌨️ Esc continua sendo tecla do jogo (ex.: pular a história do Byte): o navegador só sai da tela cheia se SEGURAR o Esc
     const trava = on => { try { const k = navigator.keyboard; if (!k) return; on ? k.lock && k.lock(["Escape"]).catch(() => {}) : k.unlock && k.unlock(); } catch (e) {} };
-    const cheiaOn = () => { try { if (document.fullscreenElement !== box && box.requestFullscreen) box.requestFullscreen({ navigationUI: "hide" }).then(() => trava(true)).catch(() => {}); } catch (e) {} };
+    const cheiaOn = () => { try { if (usaCheia && document.fullscreenElement !== box && box.requestFullscreen) box.requestFullscreen({ navigationUI: "hide" }).then(() => trava(true)).catch(() => {}); } catch (e) {} };
     const cheiaOff = () => { try { if (document.fullscreenElement === box) { trava(false); document.exitFullscreen().catch(() => {}); } } catch (e) {} };
     const recordes = opc.recordes || {};
     // 🏆 recordes da turma e da série (publicados pelo painel do professor em config/recordes_*; 20/11/2026)
@@ -195,7 +202,7 @@
     // opc.abrirJogo: abre direto o “como jogar” de um jogo (prévia do professor no painel e testes)
     const direto = opc.abrirJogo && lista.find(j => j.id === opc.abrirJogo);
     if (direto) comoJogar(direto); else menu();
-    return () => { parar(); cheiaOff(); };
+    return () => { parar(); cheiaOff(); try { vigia.disconnect(); } catch (e) {} };
   }
 
   /* imagem do avatar do aluno para usar dentro dos jogos (ex.: a corrida) */
