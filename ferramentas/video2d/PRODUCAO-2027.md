@@ -29,8 +29,8 @@ Voz: o código é o começo do id do MP3 no HeyGen (arquivo `voz_link.txt` da pa
 | 7º 1ºb M4 Depurar | 2027-7ano-m4 | v2 ✅ (12 cenas, verificador ok) | be32b934 | enviado, não postado | – | falta voz nova |
 | 7º 1ºb M5 Decompor e reaproveitar | 2027-7ano-m5 | v2 ✅ (13 cenas, verificador ok) | c974346d | enviado, não postado | – | falta voz nova |
 | 7º 1ºb M6 Programar em dupla | 2027-7ano-m6 | v2 ✅ (12 cenas, verificador ok) | 467f382b | enviado, não postado | – | falta voz nova |
-| 7º 1ºb M7 Desafios de depuração | 2027-7ano-m7 | v1 ❌ (só cenas) | – | – | – | falta voz nova |
-| 7º 1ºb M8 O placar do quiz | 2027-7ano-m8 | v1 ❌ (só cenas) | – | – | – | refazer → v2 |
+| 7º 1ºb M7 Desafios de depuração | 2027-7ano-m7 | v2 ✅ (10 cenas, verificador ok) | – | – | – | falta voz nova |
+| 7º 1ºb M8 O placar do quiz | 2027-7ano-m8 | v2 ✅ (11 cenas, verificador ok) | – | – | – | falta voz nova |
 | 8º 1ºb M1 a M3, M5 a M8 | 2027-8ano-m1…m8 | v1 ❌ (só cenas) | – | – | – | refazer → v2 |
 | 8º 1ºb M4 Busca binária | 2027-8ano-m4 (a v1 ficou fora do repositório) | **v2 ✅ piloto** (13 cenas, câmera) | – | – | – | esperando a opinião do professor e a voz |
 | 9º 1ºb M1 a M8 | 2027-9ano-m1…m8 | v1 ❌ (só cenas) | – | – | – | refazer → v2 |

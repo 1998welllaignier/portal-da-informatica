@@ -2,18 +2,20 @@ O placar do quiz: o programa que conta os pontos!
 
 A Duda criou um quiz de quatro perguntas para a turma. Mas, para saber quantos pontos cada colega fez, ela conferia resposta por resposta, na mão. Com dezenove alunos, ia demorar a aula inteira!
 
-Todo jogo de perguntas tem um programa que confere as respostas e conta os pontos. Ele usa duas listas do mesmo tamanho: o gabarito, com as respostas certas, e as respostas do jogador.
+Quiz é um jogo de perguntas e respostas. E todo quiz tem um programa que confere as respostas e conta os pontos. Ele usa duas listas do mesmo tamanho: o gabarito, com as respostas certas, e as respostas do jogador.
 
-O programa compara posição por posição. Posição um: B e B, acertou! Posição dois: A e C, errou. Posição três: D e D, acertou! Posição quatro: C e C, acertou!
+O programa vai comparar posição por posição. Posição um: B e B, acertou! Posição dois: A e C, errou. Posição três: D e D, acertou! Posição quatro: C e C, acertou!
 
-Para contar os acertos, usamos uma variável contadora. Ela começa em zero e aumenta um a cada acerto, como um placar.
+Para contar os acertos, usamos uma variável contadora. Ela começa em zero e aumenta um a cada acerto, como o placar de um jogo.
 
-O programa fica assim: definir acertos para zero. Definir i para um, que é a posição que estamos conferindo. Repita quatro vezes: se o item i do gabarito for igual ao item i das respostas, então altere acertos por um. Depois, altere i por um, para ir para a próxima posição.
+O programa fica assim. Definir acertos para zero. Definir i para um: o i guarda a posição que estamos conferindo. Repita quatro vezes: se o item i do gabarito for igual ao item i das respostas, então altere acertos por um. Depois, altere i por um, para ir para a próxima posição.
 
-No final, mostrar na tela os acertos: três! O bloco alterar por um, na gaveta Variáveis, soma um ao valor da variável.
+Vamos rodar! Com i igual a um, acertou, e os acertos vão para um. Com i igual a dois, errou, e nada muda. Com i igual a três, acertou: dois. Com i igual a quatro, acertou: três!
 
-Agora, o programa da Duda corrige o quiz da turma inteira num piscar de olhos. Missão cumprida!
+No final, o programa mostra na tela os acertos: três! E o bloco alterar por um, que fica na gaveta Variáveis, é o que soma um ao valor da variável.
 
-Onde eu uso isso? No placar do Wayground e dos jogos online. Na prova do portal, que compara suas respostas com o gabarito. E no contador de passos do celular, que soma um a cada passo.
+Agora, o programa da Duda corrige o quiz da turma inteira num piscar de olhos, e ainda monta o pódio. Missão cumprida!
+
+Onde eu uso isso? No placar do Wayground e dos jogos on-line. Na prova do portal, que compara as suas respostas com o gabarito. E no contador de passos do celular, que soma um a cada passo.
 
 Agora é com vocês: abram a Missão 8 no portal e montem o seu placar!
