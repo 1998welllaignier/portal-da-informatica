@@ -2,7 +2,7 @@ Fractais: a parte parece o todo!
 
 No caminho da escola, o Léo arrancou uma folha de samambaia e reparou numa coisa estranha: cada folhinha do galho parecia uma samambaia inteira, só que pequenininha!
 
-Isso tem nome: fractal. Fractal é uma figura em que uma parte é parecida com o todo. A samambaia é assim. O brócolis também: cada pedacinho parece um brócolis pequeno.
+Isso tem nome: fractal. Fractal é uma figura em que uma parte é parecida com o todo: isso se chama autossemelhança. A samambaia é assim. O brócolis também: cada pedacinho parece um brócolis pequeno.
 
 E como se desenha um fractal? Com recursão, igual à Missão 6: a mesma regra, repetida dentro dela mesma, em tamanhos cada vez menores.
 
