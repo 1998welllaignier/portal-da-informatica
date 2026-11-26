@@ -831,3 +831,10 @@ O botão 🎮 Sala de jogos (o mesmo do 5º ano) aparece na lista de missões de
 - XP **sem teto** (só placar e pódio; NÃO é nota): acerto vale 10; 🔥 combo com 5 seguidas = 15, 10 = 20, 20 = 30. Errou: o combo volta ao começo, mas **nada do que ganhou se perde**. 🏁 A cada 10 acertos que pontuaram: +50.
 - Contra o chute (tudo avisado ao aluno, em mensagens curtas): 📖 respostas só liberam depois de 2 a 4,5 s de leitura; 🎯 acertou menos de 6 das últimas 10 = não pontua até melhorar; ⏸️ 3 erros rápidos seguidos = pausa de **5 s** (só no laboratório; curta de propósito, para o aluno não levantar da cadeira), com a explicação de que chutar não compensa; 🔁 a errada volta depois e, acertando na volta, vale metade; alternativas embaralhadas; erro nunca tira ponto.
 - O placar do laboratório mostra XP, combo (quanto vale o próximo acerto), recorde e precisão, e uma dica de quanto falta para o próximo combo.
+
+### 🏆 Pontos sincronizados em todo lugar (26/11/2026, pedido do professor)
+- O aluno grava na nuvem o XP da missão exatamente como a barra dele mostra (`progresso.xp`); o placar, o 🔴 Ao vivo, o pódio e os relatórios usam esse número (documento antigo sem `xp`: calcula como antes).
+- O ♾️ Laboratório sem fim agora vai para a nuvem (antes ficava de fora e o placar não somava o XP dele).
+- Na 🔁 Revisão e na 📝 Recuperação, o placar usa o mesmo filtro de missões que o aluno vê (antes o painel contava todas e dava menos pontos).
+- Embaixo da barra de XP, o aluno vê "🏆 No placar da aula: N pts" (o número do projetor), com as partes: ⚡ missão + 🚦📖 sala de espera e leitura.
+- Roteiro `roteiro-pontos-sync.js`; antes de publicar qualquer coisa: `bash ferramentas/aula-simulada/testar-tudo.sh`.

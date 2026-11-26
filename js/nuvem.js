@@ -178,7 +178,8 @@
     const atv = {}, vis = {};
     pages.forEach(pg => {
       if (prog.visitas[mid + "/" + pg.id]) vis[pg.id.replace(/[^\w-]/g, "_")] = prog.visitas[mid + "/" + pg.id];
-      (pg.atividades || []).forEach(at => { if (prog.atv[at.id] && prog.atv[at.id].status) atv[at.id] = prog.atv[at.id]; });
+      // ♾️ 26/11/2026: o Laboratório sem fim não tem "status" (é sem fim); antes ficava de fora e o XP dele não chegava ao painel, ao placar nem ao pódio
+      (pg.atividades || []).forEach(at => { const st = prog.atv[at.id]; if (st && (st.status || (at.tipo === "lab" && (st.tot || st.xp)))) atv[at.id] = st; });
     });
     // 🌟 Vez da Helena (25/11/2026): as cartas não são atividades da página; vão junto pelo prefixo "<missão>-hz-"
     Object.keys(prog.atv || {}).forEach(k => { if (k.indexOf(mid + "-hz-") === 0 && prog.atv[k] && prog.atv[k].status) atv[k] = prog.atv[k]; });
@@ -204,7 +205,8 @@
       if (!Object.keys(r.atv).length && !Object.keys(r.vis).length) continue;
       const st = P.statusMissao(aid, m.id);
       const chave = aid + "/" + m.id;
-      const assinatura = JSON.stringify([r, st]);
+      let xpVisto = null; try { if (P.podio && P.podio.xpDoc) xpVisto = P.podio.xpDoc(aid, m.id, prog.atv || {}); } catch (e) {}
+      const assinatura = JSON.stringify([r, st, xpVisto]);
       if (enviados[chave] === assinatura) continue;
       const okB = !!st.basicoOk;   // 🎯 21/11/2026: no modelo em espiral, o visto pede o aproveitamento mínimo (statusMissao)
       for (let i = 0; i < s.alunoIds.length; i++) {
@@ -219,6 +221,8 @@
           ...(okB || m.id === "rc" || !jaOk[chave + alunoId] ? { basicoOk: m.id === "rc" ? false : okB } : {}), atv: JSON.stringify(r.atv), vis: r.vis,  // atv em texto: o Firestore não aceita listas dentro de listas
           ...(m.id === "rc" && Array.isArray(P.recMissoes) && P.notaRecuperacao ? (x => x ? { notaRec: x.nota, recFeitas: x.feitas, recTotal: x.total, recMissoes: P.recMissoes } : {})(P.notaRecuperacao(aid)) : {}),
           dupla: s.alunoIds.length > 1 ? s.alunoIds.filter(x => x !== alunoId) : [],
+          // 🏆 26/11/2026: o XP da missão exatamente como a barra do aluno mostra; o placar, o Ao vivo e o pódio usam este número
+          ...(xpVisto != null ? { xp: xpVisto } : {}),
           dias: { [dia]: Date.now() }, atualizado: Date.now()
         }), { merge: true });
         if (okB && m.id !== "rc") await ref.set({ basicoOkEm: { [dia]: Date.now() } }, { merge: true });
@@ -243,6 +247,7 @@
       let atv = {}; try { atv = typeof d.atv === "string" ? JSON.parse(d.atv) : (d.atv || {}); } catch (e) { atv = {}; }
       Object.entries(atv).forEach(([id, st]) => {
         const loc = prog.atv[id];
+        if (st && !st.status && loc && (loc.tot || 0) >= (st.tot || 0)) return;   // ♾️ laboratório: fica o que tem mais respostas (não volta atrás)
         if (!loc || !loc.status || ((st.quando || 0) > (loc.quando || 0) && st.status)) { prog.atv[id] = st; mudou = true; }
       });
       Object.entries(d.vis || {}).forEach(([pg, t]) => { if (!prog.visitas[mid + "/" + pg]) { prog.visitas[mid + "/" + pg] = t; mudou = true; } });

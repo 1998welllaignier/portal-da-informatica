@@ -382,6 +382,17 @@
     const bon = xp > 1000 ? xp - 1000 : 0;
     box.innerHTML = `<div class="xp-cab"><span>⚡ XP da missão</span><b>${cheio ? `🏆 COMPLETA!${bon ? ` <span class="xp-bonus">⭐ +${bon}</span>` : ""}` : `${xp} / 1000`}</b></div><div class="xp-trilho"><i style="width:${Math.max(xp ? 3 : 0, Math.min(100, xp / 10))}%"></i></div>`;
     if (xp > antes && antes) { box.classList.remove("subiu"); void box.offsetWidth; box.classList.add("subiu"); }
+    linhaPlacarXP();
+  }
+  /* 🏆 26/11/2026 (pedido do professor: "o mesmo número em todo lugar"): embaixo da barra, o total do PLACAR, que é o número do
+     painel, do projetor e do pódio (missão + 🚦 sala de espera + 📖 leitura guiada). Só aparece com a aula valendo e na missão do placar. */
+  function linhaPlacarXP() {
+    const box = document.getElementById("mn-xp"); if (!box || !trilhaAtual) return;
+    let ln = box.querySelector(".xp-placar"); const mp = minhaPos;
+    const ok = mp && !mp.congelado && mp.pontos != null && (!mp.mid || mp.mid === trilhaAtual.mid);
+    if (!ok) { if (ln) ln.remove(); return; }
+    if (!ln) { ln = document.createElement("p"); ln.className = "xp-placar"; box.appendChild(ln); }
+    ln.innerHTML = `🏆 No placar da aula: <b>${mp.pontos} pts</b>${mp.extra ? `<small>⚡ ${mp.missao || 0} da missão + 🚦📖 ${mp.extra} da sala de espera e da leitura</small>` : ""}`;
   }
   function getProg(aid) { const k = progressoKey(aid); return (k && store.get(k, null)) || { visitas: {}, atv: {}, atualizado: 0 }; }
   // ⚡ XP da missão (a barra): é a base do placar; o placar soma ainda 🚦 sala de espera e 📖 leitura guiada (24/11/2026)
@@ -710,7 +721,7 @@
   }
   function segura(ms) { clearTimeout(bolhaTo); bolhaTo = setTimeout(() => { if (bolha) { bolha.classList.add("sai"); setTimeout(() => { if (bolha && bolha.classList.contains("sai")) { bolha.remove(); bolha = null; } }, 700); } }, ms); }
   function novaPos(mp) {
-    const antes = minhaPos; minhaPos = mp;
+    const antes = minhaPos; minhaPos = mp; try { linhaPlacarXP(); } catch (e) {}
     if (!mp || Date.now() > esperaPos) return;
     if (antes && !mp.congelado && !antes.congelado && antes.pos === mp.pos && antes.pontos === mp.pontos) return;
     if (!bolha || !bolha.isConnected) { bolha = h(`<div class="pts-bolha" role="status"><b class="pts-mais"></b><span class="pts-pos"></span></div>`); document.body.appendChild(bolha); bolha.querySelector(".pts-mais").hidden = true; }
@@ -810,7 +821,7 @@
       try { placarBola(d && d.dia === P.nuvem.hoje() ? d : null); } catch (e) {}
       const g = d && d.dia === P.nuvem.hoje() ? (d.grupos || []).find(x => (x.ids || []).some(id => (ss.alunoIds || []).includes(id))) : null;
       if (d && d.dia === P.nuvem.hoje()) { const meu = (d.lista || []).find(x => (x.ids || []).some(id => (ss.alunoIds || []).includes(id)));
-        novaPos(d.congelado ? { congelado: true } : meu ? { pos: meu.pos, pontos: meu.pontos, total: d.total || (d.lista || []).length, dupla: (ss.alunoIds || []).length > 1 } : null); }
+        novaPos(d.congelado ? { congelado: true } : meu ? { pos: meu.pos, pontos: meu.pontos, total: d.total || (d.lista || []).length, dupla: (ss.alunoIds || []).length > 1, mid: d.mid || "", missao: meu.missao, extra: meu.extra } : null); }
       if (d && d.congelado) return; // placar congelado: a coroa fica com quem estava na frente
       const novo = g ? (g.titulo || "Rei da sala") : null, antes = reiEu; reiEu = novo; aplicarCoroa();
       const voce = (ss.alunoIds || []).length > 1 ? "Vocês são" : "Você é";

@@ -378,7 +378,9 @@
     let mm; try { mm = P.montarMissao(p.aid, p.mid); } catch (e) { return null; }
     let atv = {}; try { atv = typeof p.atv === "string" ? JSON.parse(p.atv) : (p.atv || {}); } catch (e) {}
     const okEm = (p.basicoOkEm || {})[hoje];
-    return { pontos: xpDoc(p.aid, p.mid, atv), okB: !!p.basicoOk, okEm: okEm || null, bonusOk: bonusDe(mm, atv).ok };
+    // 🏆 26/11/2026: se o aluno gravou o XP que a barra dele mostra (p.xp), vale esse número: o placar fica igual ao computador do aluno
+    //    (mesmo na 🔁 Revisão, em que a missão do aluno tem só as missões que a turma estudou). Documento antigo: calcula aqui.
+    return { pontos: xpDe(p, atv), okB: !!p.basicoOk, okEm: okEm || null, bonusOk: bonusDe(mm, atv).ok };
   }
   // ⚡ XP da missão (0 a 1000, + até 150 do ⭐ Bônus relâmpago): é a base do placar e do pódio (somam-se a sala de espera e a leitura guiada)
   /* 🎲 Contra o chute (20/11/2026, pedido do professor): nas tarefas novas (st.r2), acertou de 1ª = pontos inteiros,
@@ -394,6 +396,7 @@
     let atual = 0, bonus = 0; l.forEach(st => { if (st.status === "certo" && !(st.tentativas || 0) && !(st.dicas || 0)) { atual++; if (atual % 3 === 0) bonus += 20; } else atual = 0; });
     return { atual, bonus: Math.min(100, bonus) };
   }
+  function xpDe(p, atv) { return p && typeof p.xp === "number" && isFinite(p.xp) && p.xp >= 0 ? Math.round(p.xp) : xpDoc(p.aid, p.mid, atv); }
   function xpDoc(aid, mid, atv) {
     if (!P.montarMissao || !P.conteudo[aid]) return 0;
     let mm; try { mm = P.montarMissao(aid, mid); } catch (e) { return 0; }
@@ -439,6 +442,7 @@
     });
     out.sort((x, y) => y.pontos - x.pontos || (x.okEm || 9e15) - (y.okEm || 9e15) || x.nomes[0].localeCompare(y.nomes[0], "pt-BR"));
     out.forEach((e, i) => { e.pos = i > 0 && out[i - 1].pontos === e.pontos && out[i - 1].okEm === e.okEm ? out[i - 1].pos : i + 1; });
+    out.mid = mid;
     return out;
   }
 
@@ -478,5 +482,5 @@
   function sortear() { const n = k => Math.floor(Math.random() * k);
     return Object.assign({}, PADRAO, { tipo: OPC.tipo[n(2)][0], pele: n(PELE.length), cabelo: OPC.cabelo[n(OPC.cabelo.length)][0], corCabelo: n(4) }); }
   P.avatar = { svg, editor, fluxoLogin, daSessao, PADRAO, sortear };
-  P.podio = { setBonus, ouvirBonus, ranking, pontosDoc, xpDoc, sequencia, linhaPlacar, podioHTML, confete, nomeCurto, MED, coroa, reis, tituloRei };
+  P.podio = { setBonus, ouvirBonus, ranking, pontosDoc, xpDoc, xpDe, sequencia, linhaPlacar, podioHTML, confete, nomeCurto, MED, coroa, reis, tituloRei };
 })();

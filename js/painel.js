@@ -512,9 +512,9 @@
     if (!await aulaIniciadaHoje(t.id)) return;
     let dados, chave;
     if (congelado) { chave = N.hoje() + "|congelado"; dados = { dia: N.hoje(), congelado: true, em: Date.now() }; }
-    else { const rs = marcarRei(rk), grupos = rs.map(e => ({ ids: e.ids, titulo: P.podio.tituloRei(e.avatares) })), lista = rk.map(e => ({ ids: e.ids, pos: e.pos, pontos: e.pontos, nomes: e.nomes }));   // 🏆 20/11/2026: nomes OFICIAIS (como no projetor) para o placar na tela do aluno
+    else { const rs = marcarRei(rk), grupos = rs.map(e => ({ ids: e.ids, titulo: P.podio.tituloRei(e.avatares) })), lista = rk.map(e => ({ ids: e.ids, pos: e.pos, pontos: e.pontos, nomes: e.nomes, missao: e.missao || 0, extra: e.espera || 0 }));   // 🏆 20/11/2026: nomes OFICIAIS (como no projetor) para o placar na tela do aluno
       chave = N.hoje() + "|" + JSON.stringify(lista);
-      dados = { dia: N.hoje(), congelado: false, ids: [].concat(...grupos.map(g => g.ids)), grupos, lista, total: rk.length, em: Date.now() }; }
+      dados = { dia: N.hoje(), congelado: false, ids: [].concat(...grupos.map(g => g.ids)), grupos, lista, total: rk.length, mid: rk.mid || "", em: Date.now() }; }
     if (reiGravado[t.id] === chave) return; reiGravado[t.id] = chave;
     // 🏫 também na turma de quem veio de outra turma para esta aula: assim eles veem a posição e o placar
     const alvo = [...new Set([t.id, ...(outras || [])])];
@@ -826,7 +826,7 @@
           const xa = xp[a.id];
           // ⚡ XP da missão (a barra do aluno); a célula mostra o total do placar com esta parte separada (24/11/2026)
           let atvA = {}; try { atvA = p.atv ? (typeof p.atv === "string" ? JSON.parse(p.atv) : p.atv) : {}; } catch (e) {}
-          const xm = pm ? P.podio.xpDoc(aid, mid, atvA) : 0;
+          const xm = pm ? (typeof pm.xp === "number" ? P.podio.xpDe(pm, atvA) : P.podio.xpDoc(aid, mid, atvA)) : 0;   // 26/11/2026: o número que o aluno vê
           // 💻 em qual computador da sala o aluno está (número dado ao PC pelo atalho ?pc=N; 20/11/2026)
           const sS = prog.find(q => q.tipo === "sessao" && q.alunoId === a.id), pcN = sS && /^PC\d+$/.test(sS.pc || "") && msT(sS.ping) >= ini0.getTime() ? sS.pc.slice(2) : "";
           return `<tr class="${okB ? "feito" : par ? "parado" : "fazendo"}"><td data-rot="Aluno">${ehRei.has(a.id) ? `<span class="pv-coroa" title="Rei da sala: 1º lugar">${P.podio.coroa(22)}</span>` : ""}${a.atipico ? "🧩 " : ""}${esc(a.nome)}${pcN ? ` <span class="pv-pc" title="Computador da sala onde este aluno entrou">💻 PC ${esc(pcN)}</span>` : ""}${a.trilha ? " 👣" : ""}${tagTurma(a, estado.t)}${saidas ? ` <span class="pv-tela" title="Saiu da tela cheia ${saidas} vez(es) hoje">🖥️ saiu ${saidas}×</span>` : ""}${chutes >= 2 ? ` <span class="pv-tela pv-chute" title="Erros rápidos demais (menos de 4 segundos) nesta missão: sinal de chute">🎲 ${chutes} chutes</span>` : ""}${outra ? `<br><small>está na ${esc(rotMis(C, outra.mid))}</small>` : ""}</td><td data-rot="🏆 Pontos (placar)" class="pv-xp">${xpCel(xm, xa)}</td><td data-rot="Entrou">${hhmm(entrou)}</td>
@@ -2475,7 +2475,7 @@
             const docs = prog.filter(p => p.alunoId === a.id && p.mid && aps.includes(p.aid));
             const porM = {}; let feitas = 0, de1 = 0;
             docs.forEach(p => { let atv = {}; try { atv = typeof p.atv === "string" ? JSON.parse(p.atv) : (p.atv || {}); } catch (x) {}
-              const xp = P.podio.xpDoc(p.aid, p.mid, atv); if (!porM[p.mid] || xp > porM[p.mid]) porM[p.mid] = xp;
+              const xp = P.podio.xpDe(p, atv); if (!porM[p.mid] || xp > porM[p.mid]) porM[p.mid] = xp;
               Object.values(atv).forEach(st => { if (st && st.status) { feitas++; if (!(st.tentativas || 0)) de1++; } }); });
             const seq = Object.keys(porM).sort((x, y) => ordemM(x) - ordemM(y)).map(m => porM[m]);
             const med = l => l.reduce((x, y) => x + y, 0) / l.length;

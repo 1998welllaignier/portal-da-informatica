@@ -38,3 +38,5 @@ Sala de espera → leitura (slide igual em todas as telas, risco do pincel chega
 - `roteiro-area-professor.js`: 🔒 Área do professor, Trilhas e Imprimir só com a conta do professor; aluno imprime só a apostila da série dele (26/11/2026).
 - `roteiro-youtube-link.js`: 🧰 Ferramentas › 🔗 Vídeo do YouTube › colar o link › ▶️ Passar → aparece no aluno (26/11/2026).
 - `roteiro-lab.js`: ♾️ Laboratório sem fim (26/11/2026) — abre só depois de Básico + Desafio + Turbo; tempo de leitura; combo; pausa de 5 s com 3 erros rápidos; aviso de precisão (< 6 em 10 não pontua); pergunta errada volta; XP entra no pódio.
+- `roteiro-pontos-sync.js`: 🏆 o MESMO número em todo lugar (26/11/2026) — barra do aluno = nuvem (`xp`) = parte da missão no placar; placar = Ao vivo = linha "No placar da aula" do aluno; inclui ♾️ laboratório, 🚦 espera e 📖 leitura.
+- `testar-tudo.sh`: roda todos os roteiros e diz quem passou e quem falhou. **Rodar antes de toda publicação.**
