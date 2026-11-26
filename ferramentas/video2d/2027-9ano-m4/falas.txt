@@ -10,7 +10,7 @@ E o grau do vértice é o tamanho da lista de vizinhos. A lista do pátio tem qu
 
 No editor, usamos uma ficha chamada vizinhos, com um campo para cada vértice. O valor de cada campo é uma lista. O bloco tamanho de calcula o grau. E o bloco para cada item percorre os vizinhos, um por um.
 
-E a árvore de decisão? Ela vira se, senão, dentro de se, senão. A pergunta da raiz é o primeiro se. Cada galho tem outro se dentro. E as folhas são os blocos mostrar.
+E a árvore de decisão? Ela vira se, senão, dentro de se, senão: é o se aninhado. A pergunta da raiz é o primeiro se. Cada galho tem outro se dentro. E as folhas são os blocos mostrar.
 
 O Rafa guardou o grafo da escola em lista de vizinhos e transformou a árvore do objeto em blocos se, senão. Agora o computador entende os dois! Missão cumprida!
 
