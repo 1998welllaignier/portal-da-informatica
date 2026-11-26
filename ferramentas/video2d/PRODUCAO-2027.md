@@ -46,7 +46,7 @@ Voz: o código é o começo do id do MP3 no HeyGen (arquivo `voz_link.txt` da pa
 | 9º 1ºb M5 Autômatos | 2027-9ano-m5 | v2 ✅ (10 cenas, verificador ok) | – | – | – | falta voz nova |
 | 9º 1ºb M6 Programação por eventos | 2027-9ano-m6 | v2 ✅ (11 cenas, verificador ok) | – | – | – | falta voz nova |
 | 9º 1ºb M7 O semáforo | 2027-9ano-m7 | v2 ✅ (9 cenas, verificador ok) | – | – | – | falta voz nova |
-| 9º 1ºb M8 O mapa da escola | 2027-9ano-m8 | v1 ❌ (só cenas) | – | – | – | refazer → v2 |
+| 9º 1ºb M8 O mapa da escola em grafo | 2027-9ano-m8 | v2 ✅ (11 cenas, verificador ok) | – | – | – | falta voz nova |
 | 6º 2ºb M1 e M2 | 2027-6ano-b2-m1, b2-m2 | v1 ❌ (só cenas) | – | – | – | refazer → v2 |
 | 8º 2ºb Curiosidade: duelo das redes | 2027-8ano-duelo-redes | (14 cenas; conferir) | sim | sim | – | esperando revisão |
 
