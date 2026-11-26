@@ -19,7 +19,7 @@ Tudo o que ficou combinado para depois da renovação. Fazer nesta ordem, um ass
    - A "visualização do professor" é marcada só no navegador (sessão com `prof: true`): conferir que o que ela mostra (respostas, "Como explicar")
      exige a conta do professor também.
    - Revisar as regras do Firestore (`docs/firestore.rules`) uma por uma.
-4. 🧪 **Laboratório sem fim** — APROVADO pelo professor em 26/11 (17h45):
+4. ✅ (FEITO e publicado em 26/11, 18h) 🧪 **Laboratório sem fim** — APROVADO pelo professor em 26/11 (17h45); pausa de 5 s pedida por ele:
    - sem teto de XP; +10 por acerto; combo da sequência (5 seguidos = 15, 10 = 20, 20 = 30); errou → o combo volta a 10, mas **nada do que ganhou se perde**;
    - 🏁 volta completa (10 acertos) = +50;
    - abre **só depois das 3 etapas** (🟢 Básico, 🟡 Desafio e 🔴 Turbo); não vale nota no bimestre, só placar e pódio;

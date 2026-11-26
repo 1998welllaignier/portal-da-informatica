@@ -356,9 +356,12 @@
 
   /* ======================= 🏆 PONTOS ======================= */
   const BASE = { pratica: 60, basico: 100, desafio: 150, turbo: 200, lembra: 50, onde: 60, fechar: 60, chefao: 200 }, BONUS = 300, XP_BONUS = 150;
-  /* 🌀 modelo em espiral: ♾️ Laboratório sem fim (+10 XP por acerto, até +150) e 🃏 página do álbum completa (+50) */
+  /* 🌀 modelo em espiral: ♾️ Laboratório sem fim e 🃏 página do álbum completa (+50).
+     26/11/2026: o laboratório guarda o próprio XP (lab.xp: sem teto, com combo e voltas; na Trilha até +150).
+     Antes era +10 por acerto até +150: quem ainda não tem lab.xp continua com essa conta. */
   function extrasEspiral(mm, mid, atv) { if (!mm || !mm.espiral) return 0; const lab = (atv || {})[mid + "-lab"], alb = (atv || {})[mid + "-termos"];
-    return Math.min(150, ((lab && lab.ac) || 0) * 10) + (alb && alb.status ? 50 : 0); }
+    const xLab = lab ? (lab.xp != null ? Math.max(0, +lab.xp || 0) : Math.min(150, (lab.ac || 0) * 10)) : 0;
+    return xLab + (alb && alb.status ? 50 : 0); }
   /* ⭐ Bônus relâmpago: XP a mais por cima (até +150, além dos 1000) e a medalha ⭐ quando o aluno faz todas as tarefas do bônus */
   function bonusDe(mm, atv) {
     const pg = mm.pages.find(x => x.id === "bonus"); if (!pg) return { xp: 0, ok: false };

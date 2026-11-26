@@ -1454,27 +1454,63 @@
       let q = null, ult = "", travado = false;
       const nova = () => { if (!uni.length) return null; let x, n = 0; do { x = uni[Math.floor(Math.random() * uni.length)]; } while (x.p === ult && n++ < 8); ult = x.p;
         const ord = x.opcoes.map((_, k) => k).sort(() => Math.random() - .5); return Object.assign({}, x, { opcoes: ord.map(k => x.opcoes[k]), certo: ord.indexOf(x.certo) }); };
-      // 🏎️ a corrida: cada acerto anda uma casa; 10 casas = 1 volta (na Trilha, a tartaruga 🐢, sem pressa)
-      const pista = () => { const pos = st.ac % 10, voltas = Math.floor(st.ac / 10); return `<div class="lab-pista${at.calmo ? " calma" : ""}" aria-label="Corrida: ${st.ac} acertos">${Array.from({ length: 10 }, (_, k) => `<span class="${k < pos ? "ok" : ""}">${k === pos ? (at.calmo ? "🐢" : "🏎️") : ""}</span>`).join("")}<b>🏁</b></div>${voltas ? `<p class="lab-voltas">🏁 ${voltas} volta${voltas > 1 ? "s" : ""} completa${voltas > 1 ? "s" : ""}!</p>` : ""}`; };
-      const placar = () => at.calmo ? `<div class="lab-placar"><span>✅ Você já acertou <b>${st.ac}</b>. Continue no seu ritmo! 🙂</span></div>${pista()}` : `${pista()}<div class="lab-placar"><span>✅ Acertos: <b>${st.ac}</b></span><span>🔥 Sequência: <b>${st.seq}</b></span><span>🏅 Recorde: <b>${st.rec}</b></span><span>⚡ XP: <b>+${Math.min(150, st.ac * 10)}</b>${st.ac * 10 >= 150 ? " (máximo!)" : ""}</span></div>`;
-      const draw = (fb) => { if (!q) q = nova();
+      /* ♾️ 26/11/2026 (aprovado pelo professor): pontuação sem teto, com 🔥 combo e 🏁 volta completa, e VÁRIAS travas contra o chute,
+         tudo avisado ao aluno. Errar nunca tira ponto: o combo volta ao começo, mas o XP já ganho fica.
+         - acerto vale 10; com 5 seguidas, 15; com 10, 20; com 20, 30 · a cada 10 acertos que pontuaram, 🏁 +50
+         - 📖 as respostas só liberam depois de um tempinho de leitura (2 a 4,5 s, conforme o tamanho da pergunta)
+         - 🎯 precisão: se acertou menos de 60% das últimas 10, não pontua até melhorar
+         - ⏸️ 3 erros rápidos seguidos = pausa de 5 s (só no laboratório; curta, para ele não levantar da cadeira)
+         - 🔁 a pergunta errada volta depois; acertando na volta, vale metade
+         Na 👣 Trilha (calmo): sem combo e sem pressão, como antes (+10 por acerto, até +150). */
+      const calmo = !!at.calmo;
+      if (st.xp == null) st.xp = Math.min(150, st.ac * 10);   // quem já tinha jogado antes continua com o que ganhou
+      st.hist = Array.isArray(st.hist) ? st.hist.slice(-10) : []; st.validos = st.validos || 0; st.voltasB = st.voltasB || 0;
+      const comboVal = n => n >= 20 ? 30 : n >= 10 ? 20 : n >= 5 ? 15 : 10;
+      const precisao = () => { const n = st.hist.length, a = st.hist.filter(Boolean).length; return { n, a, ok: n < 5 || a / n >= .6 }; };
+      const voltar = []; let desde = 0, rapidos = 0, liberaEm = 0, pausaAte = 0;
+      // 🏎️ a corrida: cada acerto que pontuou anda uma casa; 10 casas = 1 volta (na Trilha, a tartaruga 🐢, sem pressa)
+      const pista = () => { const base = calmo ? st.ac : st.validos, pos = base % 10, voltas = Math.floor(base / 10); return `<div class="lab-pista${calmo ? " calma" : ""}" aria-label="Corrida: ${base} acertos">${Array.from({ length: 10 }, (_, k) => `<span class="${k < pos ? "ok" : ""}">${k === pos ? (calmo ? "🐢" : "🏎️") : ""}</span>`).join("")}<b>🏁</b></div>${voltas ? `<p class="lab-voltas">🏁 ${voltas} volta${voltas > 1 ? "s" : ""} completa${voltas > 1 ? "s" : ""}!${calmo ? "" : " (+50 cada)"}</p>` : ""}`; };
+      const placar = () => { if (calmo) return `<div class="lab-placar"><span>✅ Você já acertou <b>${st.ac}</b>. Continue no seu ritmo! 🙂</span></div>${pista()}`;
+        const pr = precisao(), prox = st.seq < 5 ? 5 : st.seq < 10 ? 10 : st.seq < 20 ? 20 : 0;
+        return `${pista()}<div class="lab-placar"><span>⚡ XP do laboratório: <b>+${st.xp}</b></span><span>🔥 Combo: <b>${st.seq}</b> seguidas · acerto vale <b>${comboVal(st.seq + 1)}</b></span><span>🏅 Recorde: <b>${st.rec}</b></span><span class="${pr.ok ? "" : "lab-ruim"}">🎯 Precisão: <b>${pr.a} de ${pr.n}</b></span></div>
+          <p class="lab-dica">${prox ? `💡 Faltam <b>${prox - st.seq}</b> acerto${prox - st.seq > 1 ? "s" : ""} seguido${prox - st.seq > 1 ? "s" : ""} para cada acerto valer <b>${comboVal(prox)}</b>.` : "🔥 Combo máximo: cada acerto vale <b>30</b>!"} 🏁 A cada 10 acertos, <b>+50</b>.</p>`; };
+      const nova2 = () => { desde++; const i = voltar.findIndex(v => desde - v.em >= 4); if (i >= 0) { const v = voltar.splice(i, 1)[0]; const ord = v.q.opcoes.map((_, k) => k).sort(() => Math.random() - .5);
+          return Object.assign({}, v.q, { opcoes: ord.map(k => v.q.opcoes[k]), certo: ord.indexOf(v.q.certo), volta: true }); } return nova(); };
+      const draw = (fb) => { if (!q) q = nova2();
         if (!q) { c.innerHTML = "<p>Ainda não há perguntas para o laboratório.</p>"; return; }
-        c.innerHTML = `<div class="lab-cab">${placar()}</div><fieldset class="esc-q lab-q"><legend>${md(q.p)}</legend>${q.opcoes.map((o, k) => `<button type="button" class="lab-op" data-k="${k}">${"ABC"[k] || ""} · ${md(o)}</button>`).join("")}</fieldset><div class="lab-fb">${fb || ""}</div>`;
-        c.querySelectorAll(".lab-op").forEach(b => b.onclick = () => { if (travado) return; travado = true; const k = +b.dataset.k, ok = k === q.certo; st.tot++;
+        const espera = Math.max(0, pausaAte - Date.now());
+        if (espera > 0 && !calmo) { let n = Math.ceil(espera / 1000);
+          c.innerHTML = `<div class="lab-cab">${placar()}</div><div class="lab-pausa" role="status"><p class="lab-pausa-n">⏸️ <b>${n}</b></p><p><b>Respira!</b> Você errou 3 seguidas rapidinho: isso é chute. Chutar não compensa: o combo zera e, acertando menos de 6 em 10, o laboratório não dá pontos. Leia a pergunta com calma e responda. 🙂</p></div>`;
+          const tk = setInterval(() => { if (!c.isConnected) return clearInterval(tk); n--; const el = c.querySelector(".lab-pausa-n b"); if (el) el.textContent = Math.max(0, n); if (n <= 0) { clearInterval(tk); draw(); } }, 1000); return; }
+        const tam = (q.p + q.opcoes.join(" ")).length, leitura = calmo ? 1200 : Math.max(2000, Math.min(4500, 1200 + tam * 22));
+        c.innerHTML = `<div class="lab-cab">${placar()}</div>${q.volta ? `<p class="lab-volta-q">${calmo ? "🔁 Esta você errou antes. Tente de novo, com calma! 🙂" : "🔁 Esta você errou antes. Acertando agora, vale metade."}</p>` : ""}<fieldset class="esc-q lab-q"><legend>${md(q.p)}</legend><div class="lab-lendo" style="--t:${leitura}ms"><span></span><b>📖 Lendo… as respostas liberam já já</b></div>${q.opcoes.map((o, k) => `<button type="button" class="lab-op" data-k="${k}" disabled>${"ABC"[k] || ""} · ${md(o)}</button>`).join("")}</fieldset><div class="lab-fb">${fb || ""}</div>`;
+        liberaEm = Date.now() + leitura;
+        setTimeout(() => { if (!c.isConnected) return; c.querySelectorAll(".lab-op").forEach(b => { if (!b.classList.contains("certa") && !b.classList.contains("errada")) b.disabled = false; }); const l = c.querySelector(".lab-lendo"); if (l) l.remove(); }, leitura);
+        c.querySelectorAll(".lab-op").forEach(b => b.onclick = () => { if (travado || Date.now() < liberaEm) return; travado = true; const k = +b.dataset.k, ok = k === q.certo; st.tot++;
+          const rapido = Date.now() - liberaEm < 1500;
           c.querySelectorAll(".lab-op").forEach(x => { x.disabled = true; if (+x.dataset.k === q.certo) x.classList.add("certa"); }); if (!ok) b.classList.add("errada");
-          if (ok) { st.ac++; st.seq++; if (st.seq > st.rec) st.rec = st.seq; } else st.seq = 0;
+          let msg = "", ganho = 0, combo0 = st.seq;
+          if (ok) { st.ac++; st.seq++; if (st.seq > st.rec) st.rec = st.seq; rapidos = 0; } else { st.seq = 0; if (rapido) rapidos++; else rapidos = 0; voltar.push({ q: Object.assign({}, q, { volta: false }), em: desde }); }
+          st.hist.push(ok ? 1 : 0); st.hist = st.hist.slice(-10); const pr = precisao();
+          if (calmo) { if (ok && st.xp < 150) { ganho = Math.min(10, 150 - st.xp); st.xp += ganho; } }
+          else if (ok && !pr.ok) msg = `<p class="fb lab-aviso">⏸️ Certo, mas <b>não pontuou</b>: você acertou só <b>${pr.a} de ${pr.n}</b> nas últimas. Abaixo de 6 em 10 o laboratório não dá pontos. Pare de chutar e leia com calma: logo volta a pontuar!</p>`;
+          else if (ok) { ganho = comboVal(st.seq); if (q.volta) ganho = Math.ceil(ganho / 2 / 5) * 5; st.validos++; st.xp += ganho;
+            if (st.validos % 10 === 0) { st.voltasB++; st.xp += 50; msg = `<p class="fb lab-volta-ok">🏁 <b>Volta completa!</b> +50 de bônus (${st.validos} acertos valendo pontos).</p>`; } }
+          if (!ok && !calmo && rapidos >= 3) { rapidos = 0; pausaAte = Date.now() + 5000; }
           ctx.salvar(); const de = q.de, txt = [q.p, q.opcoes[q.certo], q.why].join(" ");
           const pl = c.querySelector(".lab-cab"); if (pl) pl.innerHTML = placar();
           const f = c.querySelector(".lab-fb");
-          f.innerHTML = ok ? `<p class="fb fb-ok">✔ Certo! ${st.seq >= 3 && !at.calmo ? `🔥 ${st.seq} seguidas!` : ""}</p>` : `<p class="fb fb-erro">✖ Não foi dessa vez. ${md(q.why || "")}</p><button type="button" class="btn btn-sec lab-onde">📖 Ver onde isso está explicado</button>`;
+          const perdeu = !ok && !calmo && combo0 >= 2 ? ` <b>🔥 Combo perdido</b>, mas os seus <b>${st.xp} XP</b> continuam seus! Acerte 5 seguidas para o combo voltar.` : "";
+          f.innerHTML = ok ? `<p class="fb fb-ok">✔ Certo!${ganho ? ` <b>+${ganho} XP</b>${!calmo && st.seq >= 5 ? ` (combo 🔥 ${st.seq} seguidas)` : ""}${q.volta && !calmo ? " (pergunta que voltou: metade)" : ""}` : ""}${calmo && st.xp >= 150 ? " Você já ganhou todos os pontos do laboratório. Continue treinando! 🙂" : ""}</p>${msg}`
+            : `<p class="fb fb-erro">✖ Não foi dessa vez.${perdeu} ${md(q.why || "")}</p>${calmo ? "" : `<p class="fb lab-info">🔁 Esta pergunta vai voltar daqui a pouco.${rapido ? " ⚡ Você respondeu muito rápido: leia antes de clicar." : ""}</p>`}<button type="button" class="btn btn-sec lab-onde">📖 Ver onde isso está explicado</button>`;
           f.insertAdjacentHTML("beforeend", `<button type="button" class="btn lab-prox">Próxima pergunta ➜</button>`);
           const lo = f.querySelector(".lab-onde"); if (lo) lo.onclick = () => P.verOndeExplica && P.verOndeExplica(aid, de, txt);
-          f.querySelector(".lab-prox").onclick = () => { travado = false; q = nova(); draw(); };
-          if (ok) setTimeout(() => { if (travado && c.isConnected && c.querySelector(".lab-prox")) { travado = false; q = nova(); draw(); } }, 1400); });
+          f.querySelector(".lab-prox").onclick = () => { travado = false; q = nova2(); draw(); };
+          if (ok) setTimeout(() => { if (travado && c.isConnected && c.querySelector(".lab-prox")) { travado = false; q = nova2(); draw(); } }, msg ? 2600 : 1400); });
       };
       draw();
     },
     imprimir() { return "<p>♾️ Laboratório sem fim: só no portal.</p>"; },
-    resumoResposta(at, st) { return `${st.ac || 0} acertos de ${st.tot || 0} · recorde ${st.rec || 0} seguidas`; }
+    resumoResposta(at, st) { return `${st.ac || 0} acertos de ${st.tot || 0} · recorde ${st.rec || 0} seguidas${st.xp != null ? ` · +${st.xp} XP` : ""}`; }
   };
 })();
