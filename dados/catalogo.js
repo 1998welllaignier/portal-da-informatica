@@ -46,8 +46,15 @@ PORTAL.catalogo = {
   duracaoAula: 75,
   toleranciaTarefas: 15, // minutos antes e depois da aula em que as tarefas ficam abertas (trava de horário)
   series: [
-    { id: "5", nome: "5º ano", faixa: "menor", cor: "#e2583e",
-      turmas: [ { id: "5-seg", nome: "Segunda 15h" , aula: { dia: 1, ini: "15:00" }, missoes4: {"2026-11-09": "m1", "2026-11-16": "m2", "2026-11-23": "m3", "2026-11-30": "m4"} }, { id: "5-ter", nome: "Terça 9h" , aula: { dia: 2, ini: "09:00" }, missoes4: {"2026-11-03": "m1", "2026-11-10": "m2", "2026-11-17": "m3", "2026-11-24": "m4"} } ],
+    /* 🎒 AGREGADOS (26/11/2026, pedido do professor): turma livre, sem horário fixo, para quem não é aluno oficial dele
+       (o antigo 5º ano e alunos do 6º ao 9º de fora das turmas). Cada aluno faz as missões DA SÉRIE DELE (alunos/<id>.serie),
+       uma missão por vez (só abre outra depois do 🟢 Básico da que começou), a qualquer hora, com a Sala de jogos sempre aberta. */
+    { id: "ag", nome: "Agregados", faixa: "menor", cor: "#e2583e", bloco: "★", agregados: true,
+      turmas: [ { id: "AG", nome: "Agregados", livre: true } ],
+      nota: "Cada um na sua série, no seu ritmo" },
+    /* o 5º ano virou parte dos Agregados (26/11/2026): a série fica só para as apostilas do 5º ano e o histórico das turmas antigas */
+    { id: "5", nome: "5º ano", faixa: "menor", cor: "#e2583e", oculta: true,
+      turmas: [ { id: "5-seg", nome: "Segunda 15h", arquivada: true , aula: { dia: 1, ini: "15:00" }, missoes4: {"2026-11-09": "m1", "2026-11-16": "m2", "2026-11-23": "m3", "2026-11-30": "m4"} }, { id: "5-ter", nome: "Terça 9h", arquivada: true , aula: { dia: 2, ini: "09:00" }, missoes4: {"2026-11-03": "m1", "2026-11-10": "m2", "2026-11-17": "m3", "2026-11-24": "m4"} } ],
       nota: "Atendimento individual" },
     { id: "6", nome: "6º ano", faixa: "menor", cor: "#2f7de1",
       turmas: [ { id: "6A", nome: "6º A" , aula: { dia: 4, ini: "13:30" }, missoes4: {"2026-11-05": "m1", "2026-11-12": "m2", "2026-11-19": "m3", "2026-11-26": "m4", "2026-12-03": "rv"} }, { id: "6B", nome: "6º B" , aula: { dia: 4, ini: "15:00" }, missoes4: {"2026-11-05": "m1", "2026-11-12": "m2", "2026-11-19": "m3", "2026-11-26": "m4", "2026-12-03": "rv"} }, { id: "6C", nome: "6º C" , aula: { dia: 1, ini: "07:30" }, missoes4: {"2026-11-09": "m1", "2026-11-16": "m2", "2026-11-23": "rv"} } ] },

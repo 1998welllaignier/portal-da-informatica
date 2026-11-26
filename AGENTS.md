@@ -65,6 +65,7 @@ Em tudo o que for criado (portal, ícones, nomes de app, vídeos, capas, materia
 | Roteiro da "Tela da aula" do professor | `dados/roteiros/<apostila>.js` |
 | Ilustrações das apostilas | `dados/ilustracoes/<apostila>.js` |
 | Séries, turmas e lista de apostilas | `dados/catalogo.js` |
+| 🎒 Turma Agregados (livre, série por aluno, uma missão por vez) | `dados/catalogo.js` (`livre`), `missaoAbertaAG` em `js/portal.js`, `js/trava.js`, aba Turmas em `js/painel.js` (`turmasDeAula`) |
 | Modo Explorador (Santos Dumont): missões | `dados/explorador.js` |
 | Telas do aluno, navegação, faixa do Básico | `js/portal.js` |
 | Tipos de atividade (escolha, ligar, robô, grafo…) | `js/atividades.js` |

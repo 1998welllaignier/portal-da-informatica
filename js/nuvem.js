@@ -66,7 +66,7 @@
     if (snap.exists) {
       const d = snap.data();
       if (!d.ativo || d.turma !== turmaId) return null;
-      return { acessoId: id, alunoId: d.alunoId, nome: d.nome || "", trilha: !!d.trilha, turma: turmaId };
+      return { acessoId: id, alunoId: d.alunoId, nome: d.nome || "", trilha: !!d.trilha, turma: turmaId, serie: d.serie || "" };   // 🎒 serie: só nos Agregados (26/11/2026)
     }
     // 🏫 18/11/2026: o aluno escolheu a turma onde ASSISTE à aula, mas o código é da turma dele. Procura o código nas outras
     //    turmas da mesma série e aceita se o professor marcou que ele frequenta esta turma (config/liberar_<turma dele>.outra)

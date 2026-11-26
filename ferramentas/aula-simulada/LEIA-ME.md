@@ -27,3 +27,4 @@ Sala de espera → leitura (slide igual em todas as telas, risco do pincel chega
 - `roteiro-outra-turma-2.js`: a turma do aluno teve aula mais cedo; vale a aula iniciada mais recentemente (25/11/2026).
 - `roteiro-fim-missao.js`: 🏁 fim da missão no Resumo do que fiz (básico concluído: 🎮 Sala de jogos para qualquer série e ⛶ Sair da tela cheia sem contar saída; incompleto: aviso; botão da Sala de jogos na lista de missões de todas as séries) (25/11/2026).
 - `roteiro-jogos-aula.js`: 🎮🔒 Sala de jogos na lista de missões de todas as séries: fechada na hora da aula da turma (só abre pelo 🏁 fim da missão) e aberta fora da aula (25/11/2026).
+- `roteiro-agregados.js`: 🎒 turma Agregados — juntar o 5º ano (mesmo código, ninguém apagado, desativado continua desativado), aluno novo com série, entrada pelo código na série dele, tarefas abertas sem aula, uma missão por vez, Sala de jogos aberta e Agregados fora das telas de aula (26/11/2026).

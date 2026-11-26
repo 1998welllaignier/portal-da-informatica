@@ -37,6 +37,7 @@
     const [g, lib] = await Promise.all([db.collection("config").doc("geral").get().then(x => x.exists ? x.data() : {}).catch(() => ({})),
       db.collection("config").doc("liberar_" + s.turma).get().then(x => x.exists ? x.data() : {}).catch(() => ({}))]);
     if (g.modoAula === false || g.salaEspera === false) return null;
+    if (P.agEh && P.agEh(s)) return null;                                          // 🎒 Agregados: sem aula, sem sala de espera
     if (P.trava && await P.trava.casaEh(s).catch(() => false)) return null;      // 🏠 em casa não tem sala de espera
     let outras = [...new Set((s.alunoIds || []).map(id => (lib.outra || {})[id]).filter(x => x && x !== s.turma))];
     // 🎒 5º ano: entra na Sala de espera da aula que estiver acontecendo (a iniciada mais recentemente hoje), de qualquer turma

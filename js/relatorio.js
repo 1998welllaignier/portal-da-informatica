@@ -108,7 +108,7 @@
 
     // ---------- cada aula ----------
     // apostila do bimestre da turma (para achar o título da 📌 Missão do dia, quando o aluno não fez tarefa)
-    const apSerie = t ? P.catalogo.apostilas.filter(x => x.serie === t.serie.id && P.doPeriodo(x)) : [];
+    const apSerie = t ? P.catalogo.apostilas.filter(x => x.serie === ((t.livre && a.serie) || t.serie.id) && P.doPeriodo(x)) : [];   // 🎒 Agregados: a série do aluno
     const baseAid = (apSerie.find(x => !x.oculta && !x.trilha && !x.especial) || {}).id, baseEsp = (apSerie.find(x => x.especial) || {}).id;
     await Promise.all([baseAid, baseEsp].filter(Boolean).map(x => P.carregarApostila(x).catch(() => null)));
     const iniAula = t && t.aula && t.aula.ini ? minutos(t.aula.ini) : null;

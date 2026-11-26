@@ -2971,3 +2971,14 @@ body.hz-aberta{overflow:hidden}
 /* 🔒 Sala de jogos fechada na hora da aula (25/11/2026) */
 .jogos5-cta.jogos5-fechada { background: #e2e8f0; color: #334155; box-shadow: 0 4px 0 #94a3b8; cursor: default; }
 .jogos5-cta.jogos5-fechada:hover, .jogos5-cta.jogos5-fechada:active { transform: none; box-shadow: 0 4px 0 #94a3b8; }
+
+/* 🎒 Agregados (26/11/2026): turma livre, cada um na sua série, uma missão por vez */
+.ag-faixa { border-left: 6px solid #0f9d8a; }
+.ag-faixa h2 { margin-top: 0; }
+.card-missao.ag-trancada { opacity: .62; filter: grayscale(.35); }
+.card-missao.ag-trancada .cm-repo { background: #fde8e6; color: #9a2b1d; }
+.pp-ag-info { border-left: 6px solid #0f9d8a; }
+.pp-ag-migra { border: 3px dashed #0f9d8a; background: #ecfdf8; }
+.pp-ag-migra h3, .pp-ag-sem h3, .pp-ag-grupo h3 { margin: 0 0 .4rem; }
+.pp-ag-grupo { border-top: 6px solid var(--cor, #0f9d8a); }
+.pp-ag-sem { border-left: 6px solid #e0a100; }

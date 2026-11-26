@@ -90,6 +90,8 @@
       let outras = [...new Set((s.alunoIds || []).map(id => ((lib || {}).outra || {})[id]).filter(x => x && x !== s.turma))];
       // 🎒 5º ano (25/11/2026, pedido do professor): os alunos do 5º ano entram na aula de QUALQUER turma que estiver
       //    acontecendo e fazem a mesma apostila dela (só conta a presença; não têm nota)
+      //    🎒 26/11/2026: nos Agregados (turma livre) não: lá o aluno faz as missões da série dele, sem aula de outra turma
+      if (P.agEh && P.agEh(s)) return { h: own, tAula: s.turma, t: 0 };
       if (s.serie === "5") outras = P.catalogo.series.filter(x => x.id !== "5").flatMap(x => x.turmas.map(t => t.id));
       let melhor = { h: own, tAula: s.turma, t: own && own.dia === d && own.iniciadaDia === d ? (own.iniciadaEm || 1) : 0 };
       for (const ot of outras) { const ho = await cfg("hoje_" + ot), t = ho && ho.dia === d && ho.iniciadaDia === d ? (ho.iniciadaEm || 1) : 0;
@@ -123,6 +125,9 @@
     },
     async estado0(s, mid) {
       if (!s || !s.nuvem || !N() || !N().pronto) return { aberta: true }; // visualização do professor, modo explorador
+      // 🎒 Agregados (26/11/2026): turma livre, sem horário e sem aula: as tarefas ficam sempre abertas
+      //    (a regra de uma missão por vez fica no portal.js, em missaoAbertaAG)
+      if (P.agEh && P.agEh(s)) return { aberta: true, livre: true };
       let [g, lib, h] = await Promise.all([cfg("geral"), cfg("liberar_" + s.turma), this.hoje(s)]);
       // 🏫 aluno que frequenta a aula de outra turma (🏫 no painel, config/liberar_<turma>.outra): vale a aula iniciada
       //    mais recentemente hoje (a dele ou a da outra turma) — início, missão, trava e fim (18/11/2026; ajustado em 25/11/2026)

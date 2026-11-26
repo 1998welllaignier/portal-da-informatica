@@ -811,3 +811,10 @@ No “Resumo do que fiz”, quem concluiu o básico vê, bem visível no alto, *
 
 ## 🎮 Sala de jogos para todas as séries (25/11/2026)
 O botão 🎮 Sala de jogos (o mesmo do 5º ano) aparece na lista de missões de todas as apostilas (2026 e 2027). **Fora da aula** o aluno entra com o código e joga à vontade. **Na hora da aula da turma** (aula iniciada no painel, até o ⏹️ Finalizar) o botão vira “🔒 Sala de jogos fechada durante a aula” e o endereço direto também não abre: ela só abre pelo 🏁 fim da missão, com o básico concluído. A Sala de espera continua igual. Testes: `roteiro-jogos-aula.js`, `roteiro-fim-missao.js`, `roteiro-jogos-5ano.js`.
+
+## 🎒 Turma Agregados (26/11/2026, pedido do professor)
+- Turma **livre** (`livre: true` em `dados/catalogo.js`, série `ag`), **sem horário fixo**, para quem não é aluno oficial do professor: o antigo 5º ano (as turmas `5-seg` e `5-ter` ficaram `arquivada: true`, só com o histórico) e alunos do 6º ao 9º de fora das turmas.
+- **Cada aluno usa as missões da série dele**: `alunos/<id>.serie` (painel) e `acessos/AG_<código>.serie` (lido no login). O painel pergunta a série ao ➕ adicionar ou 🔀 mudar para os Agregados; 🎓 Mudar a série no ⚙️.
+- **Uma missão por vez**: a missão "aberta" é a que o aluno começou (alguma tarefa do 🟢 Básico feita) e ainda não terminou o Básico; as outras ficam 🔒 até lá (`missaoAbertaAG` em `js/portal.js`). Tarefas sempre abertas (`js/trava.js`), sem Sala de espera, Sala de jogos sempre aberta.
+- No painel, os Agregados aparecem só na aba 👥 Turmas (uma tabela por série); as telas de aula usam `turmasDeAula()`, sem eles.
+- Teste: `ferramentas/aula-simulada/roteiro-agregados.js`.

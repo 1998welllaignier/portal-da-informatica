@@ -18,7 +18,10 @@
   const auth = () => N.auth();
 
   // 22/11/2026: o 5º ano (atendimento por vontade própria, fora das turmas oficiais) vai para o FIM de todas as listas e do Panorama
-  const todasTurmas = () => { const r = []; cat().series.filter(s => s.id !== "5").concat(cat().series.filter(s => s.id === "5")).forEach(s => s.turmas.forEach(t => r.push({ ...t, serie: s }))); return r; };
+  // 🎒 26/11/2026: o 5º ano entrou na turma 🎒 Agregados (turma livre, sem horário), que fica no FIM; as turmas antigas do 5º
+  //    ficam arquivadas (só o histórico). turmasDeAula() = só as turmas com aula (sem os Agregados): aula, placar, diário, prova…
+  const todasTurmas = () => { const r = []; cat().series.filter(s => !s.agregados).concat(cat().series.filter(s => s.agregados)).forEach(s => s.turmas.filter(t => !t.arquivada).forEach(t => r.push({ ...t, serie: s }))); return r; };
+  const turmasDeAula = () => todasTurmas().filter(t => !t.livre);
   // 🕘 turma do horário: sem turma escolhida, o painel abre na turma que está em aula agora (15 min de folga antes
   // e depois) ou na próxima aula de hoje. Se o professor trocar de turma à mão, a escolha vale até a próxima aula começar.
   const ss = { get: k => { try { return sessionStorage.getItem(k); } catch (e) { return null; } }, set: (k, v) => { try { sessionStorage.setItem(k, v); } catch (e) {} } };
@@ -33,10 +36,12 @@
     return null;
   }
   function escolherTurma(tid, turmas) {
-    if (tid) { if (tid !== ss.get("painel:turma")) ss.set("painel:turmaManual", String(Date.now())); return tid; }
+    const tem = id => id && turmas.some(x => x.id === id);   // 🎒 a turma guardada pode não estar nesta lista (ex.: Agregados fora das telas de aula)
+    if (tem(tid)) { if (tid !== ss.get("painel:turma")) ss.set("painel:turmaManual", String(Date.now())); return tid; }
     const a = turmaDaHora(turmas), manual = +ss.get("painel:turmaManual") || 0;
     if (a && manual < a.desde) return a.id;
-    return ss.get("painel:turma") || (a && a.id) || (turmas.find(x => x.serie.id === "6") || turmas[0]).id;
+    const g = ss.get("painel:turma");
+    return (tem(g) && g) || (a && a.id) || (turmas.find(x => x.serie.id === "6") || turmas[0]).id;
   }
   // 🔁 missão sugerida pela mesma regra do Panorama: a da aula de hoje (registrada › portal › próxima que falta);
   // fora do dia da aula, a da próxima aula. Sem histórico, cai no cronograma antigo (missaoDoDia).
@@ -65,7 +70,7 @@
     const ok = Object.entries(missoes4Bim(t)).filter(([d, m]) => d <= hoje && C.missoes.some(x => x.id === m)).sort();
     return ok.length ? ok[ok.length - 1][1] : null;
   }
-  const nomeTurma = id => { const t = todasTurmas().find(x => x.id === id); return t ? t.nome + (t.serie.id === "5" ? " (5º ano)" : "") : id; };
+  const nomeTurma = id => { const t = todasTurmas().find(x => x.id === id) || (P.turma && P.turma(id)); return t ? (t.livre ? "🎒 " : "") + t.nome + (t.serie.id === "5" ? " (5º ano)" : "") : id; };
   // 🏷️ missão sempre com número e título: "M2 · Listas e grafos no dia a dia" (pedido em 14/11/2026)
   const tituloCurto = m => String((m && m.titulo) || "").replace(/^[^–]*–\s*/, "");
   const SIG = mid => mid === "rv" ? "🔁" : mid === "ae" ? "⭐" : String(mid || "").toUpperCase(); // 🔁 Revisão não vira "RV"
@@ -158,7 +163,7 @@
     });
     return porNome;
   }
-  async function adicionarAlunos(tid, lista, ano) {
+  async function adicionarAlunos(tid, lista, ano, serieAG) {   // serieAG: só nos 🎒 Agregados (a série do aluno)
     const usados = await codigosUsados(tid);
     const atuais = await alunosDaTurma(tid);
     const passados = await marcadosDoAnoPassado(ano).catch(() => new Map());
@@ -174,8 +179,9 @@
       const codigo = sorteiaCodigo(usados);
       const ant = passados.get(normNome(nome)), herda = ant && !ant.repetido ? ant : null;
       const marcas = herda ? { ...(herda.trilha ? { trilha: true } : {}), ...(herda.atipico ? { atipico: true } : {}), veioDe: herda.id } : {};
-      ops.push(b => b.set(db().collection("alunos").doc(id), { nome, turma: tid, codigo, ativo: true, ano, criadoEm: Date.now(), ...marcas }));
-      ops.push(b => b.set(db().collection("acessos").doc(tid + "_" + codigo), { alunoId: id, turma: tid, ativo: true, nome, ...(marcas.trilha ? { trilha: true } : {}) }));
+      const sx = serieAG ? { serie: String(serieAG) } : {};
+      ops.push(b => b.set(db().collection("alunos").doc(id), { nome, turma: tid, codigo, ativo: true, ano, criadoEm: Date.now(), ...marcas, ...sx }));
+      ops.push(b => b.set(db().collection("acessos").doc(tid + "_" + codigo), { alunoId: id, turma: tid, ativo: true, nome, ...(marcas.trilha ? { trilha: true } : {}), ...sx }));
       feitos.push({ id, nome, codigo, trilha: !!marcas.trilha, atipico: !!marcas.atipico, duvida: !!(ant && ant.repetido) });
     });
     await lotes(ops);
@@ -187,16 +193,26 @@
       b => b.set(db().collection("acessos").doc(a.turma + "_" + a.codigo), { alunoId: a.id, turma: a.turma, ativo, nome: a.nome, ...(a.trilha ? { trilha: true } : {}) })
     ]);
   }
-  async function novoCodigo(a, novaTurma) {
-    const tid = novaTurma || a.turma;
-    const codigo = sorteiaCodigo(await codigosUsados(tid));
+  /* op.serie: a série do aluno nos 🎒 Agregados; op.mesmoCodigo: na mudança de turma, tenta manter o código (se estiver livre lá) */
+  async function novoCodigo(a, novaTurma, op = {}) {
+    const tid = novaTurma || a.turma, usados = await codigosUsados(tid);
+    const codigo = op.mesmoCodigo && novaTurma && a.codigo && !usados.has(String(a.codigo)) ? String(a.codigo) : sorteiaCodigo(usados);
+    const tt = P.turma && P.turma(tid), serieX = op.serie || (tt && tt.livre ? a.serie : "");
+    const ativo = op.manterAtivo ? a.ativo !== false : true;
     await lotes([
       b => b.delete(db().collection("acessos").doc(a.turma + "_" + a.codigo)),
-      b => b.update(db().collection("alunos").doc(a.id), { turma: tid, codigo, ativo: true, ...(novaTurma ? { turmaAnterior: a.turma, trocouEm: Date.now() } : {}) }),
-      b => b.set(db().collection("acessos").doc(tid + "_" + codigo), { alunoId: a.id, turma: tid, ativo: true, nome: a.nome, ...(a.trilha ? { trilha: true } : {}) })
+      b => b.update(db().collection("alunos").doc(a.id), { turma: tid, codigo, ativo, ...(serieX ? { serie: String(serieX) } : {}), ...(novaTurma ? { turmaAnterior: a.turma, trocouEm: Date.now() } : {}) }),
+      b => b.set(db().collection("acessos").doc(tid + "_" + codigo), { alunoId: a.id, turma: tid, ativo, nome: a.nome, ...(a.trilha ? { trilha: true } : {}), ...(serieX ? { serie: String(serieX) } : {}) })
     ]);
     return codigo;
   }
+  // 🎒 série do aluno nos Agregados: o portal do aluno lê no código (acessos) e o painel no cadastro (alunos)
+  async function mudarSerieAG(a, serieX) {
+    await lotes([b => b.update(db().collection("alunos").doc(a.id), { serie: String(serieX) }),
+      b => b.set(db().collection("acessos").doc(a.turma + "_" + a.codigo), { serie: String(serieX) }, { merge: true })]);
+  }
+  const OPS_SERIE = () => cat().series.filter(x => !x.agregados).map(x => [x.id, x.nome]);
+  const perguntarSerie = (nome) => P.escolher(`Qual é a série de ${nome}? Nos 🎒 Agregados, cada aluno faz as missões da série dele.`, OPS_SERIE());
   /* 📌 Apostila diferenciada: o código do aluno passa a abrir a Trilha Passo a Passo da série */
   async function marcarTrilha(a, on) {
     await lotes([
@@ -257,6 +273,7 @@
       "<b>🧩 Apoios</b>: o que fazer com cada aluno atípico da turma. Só você vê."]],
     "": ["A lista de alunos de cada turma, com códigos e progresso.", [
       "<b>Toque no nome do aluno</b> para: gerar novo código, corrigir o nome, mudar de turma, marcar 🧩 (tem PEI), escrever os 📝 Apoios, usar a 👣 Trilha Passo a Passo, marcar 🧪 aluno de teste, liberar as tarefas fora do horário só para ele e marcar que ele frequenta a aula de outra turma.",
+      "<b>🎒 Agregados</b> (turma livre, sem horário): para quem não é seu aluno oficial (o antigo 5º ano e alunos do 6º ao 9º de fora das turmas). Cada aluno faz as missões <b>da série dele</b>, na hora que quiser, <b>uma por vez</b> (a que começou fica aberta até terminar o 🟢 Básico; as outras ficam 🔒), e a 🎮 Sala de jogos fica sempre aberta. Ao <b>➕ Adicionar aluno</b> ou <b>🔀 Mudar de turma</b> para os Agregados, o painel pergunta a série; para trocar depois, use <b>🎓 Mudar a série</b> no ⚙️. Os Agregados não aparecem nas telas de aula (Aula, Placar, Diário, Prova).",
       "<b>🏠 Estuda em casa</b>: o aluno faz as missões de casa, sem trava de aula: ao entrar vê a tela “🏠 Estudo em casa” (vídeo de instruções na 1ª vez, prazo e sugestão de semanas), faz <b>uma missão por dia, até 2 horas</b> (cronômetro no canto), assiste ao vídeo da missão até o fim antes das tarefas (o longo, quando houver). No Diário fica J (justificada) sozinho.",
       "<b>📣 Avisos para os alunos</b> (botão nesta aba): para todos, só presenciais, só os de casa ou um aluno; escolha quantas vezes aparece (1, 2, 3, 5 ou até apagar) e uma data para sumir. O aluno lê um aviso de cada vez, com um cronômetro de leitura antes do “OK, já li”. Aqui você vê 👀 quem já leu.",
       "<b>🧪 Aluno de teste</b> não conta na presença, no diário, nas notas nem nos relatórios. Use nos seus próprios cadastros.",
@@ -607,7 +624,7 @@
   }
   /* 🏆 Placar ao vivo (para o projetor): ranking que muda na hora; congela nos últimos 5 min; vira pódio ao finalizar */
   async function telaPlacar(u, tid) {
-    const turmas = todasTurmas(), t = turmas.find(x => x.id === tid) || turmas.find(x => x.id === escolherTurma(null, turmas));
+    const turmas = turmasDeAula(), t = turmas.find(x => x.id === tid) || turmas.find(x => x.id === escolherTurma(null, turmas));
     DUR = cat().duracaoAula || 75;
     document.body.classList.add("modo-placar");
     window.addEventListener("hashchange", function sai() { document.body.classList.remove("modo-placar"); window.removeEventListener("hashchange", sai); });
@@ -703,7 +720,7 @@
   async function abrirAoVivo() {
     DUR = cat().duracaoAula || 75;
     if (document.querySelector(".pp-vivo-dlg")) return;
-    const turmas = todasTurmas(); let tid = escolherTurma(null, turmas), unsub = null, iv = null;
+    const turmas = turmasDeAula(); let tid = escolherTurma(null, turmas), unsub = null, iv = null;
     const dlg = h(`<dialog class="pp-dlg pp-dlg-larga pp-vivo-dlg"><form method="dialog"><div class="pp-hor-top"><h2>🔴 Ao vivo</h2><button class="btn btn-sec btn-peq" value="x">Fechar</button></div>
       <div class="row-btns"><label>Turma <select id="pv-t">${turmas.map(x => `<option value="${x.id}" ${x.id === tid ? "selected" : ""}>${esc(rotuloTurma(x.id))}</option>`).join("")}</select></label><span class="grow" id="pv-rel"></span><button type="button" class="btn btn-peq pp-placar-btn" id="pv-placar">🏆 Placar no projetor</button><button type="button" class="btn btn-peq" id="pv-fim">🏁 Finalizar aula</button></div>
       <div id="pv-c"><p class="ajuda">Carregando…</p></div>
@@ -830,7 +847,7 @@
       <div class="row-btns"><button type="button" class="btn" id="tm-ok">Salvar</button><button class="btn btn-sec" value="x">Fechar</button></div>
       <details class="pp-tema-reset"><summary>🔄 Refazer a janela do tema para uma turma inteira</summary>
         <p class="ajuda">Apaga o “já viu” das curiosidades e do desafio do relógio: na próxima entrada com o código, a janela abre de novo para todos da turma escolhida. Pontos e tarefas não mudam. Para um aluno só, use o ⚙️ ao lado do nome dele.</p>
-        <div class="row-btns"><label>Turma <select id="tm-rt">${todasTurmas().map(x => `<option value="${x.id}" ${x.id === escolherTurma(null, todasTurmas()) ? "selected" : ""}>${esc(rotuloTurma(x.id))}</option>`).join("")}</select></label>
+        <div class="row-btns"><label>Turma <select id="tm-rt">${turmasDeAula().map(x => `<option value="${x.id}" ${x.id === escolherTurma(null, turmasDeAula()) ? "selected" : ""}>${esc(rotuloTurma(x.id))}</option>`).join("")}</select></label>
         <button type="button" class="btn btn-sec" id="tm-reset">🔄 Refazer para esta turma</button></div></details></form></dialog>`);
     document.body.appendChild(dlg); dlg.showModal(); dlg.addEventListener("close", () => dlg.remove());
     dlg.querySelector("#tm-reset").onclick = async () => { const tid = dlg.querySelector("#tm-rt").value;
@@ -864,7 +881,7 @@
   // 🏁 finalizar à força pelo cabeçalho do painel (turma do horário; dá para trocar)
   async function finalizarAgora() {
     if (document.querySelector(".pp-fim-dlg")) return;
-    const turmas = todasTurmas(), tid = escolherTurma(null, turmas);
+    const turmas = turmasDeAula(), tid = escolherTurma(null, turmas);
     const dlg = h(`<dialog class="pp-dlg pp-fim-dlg"><form method="dialog"><h2>🏁 Finalizar a aula agora?</h2>
       <p><label>Turma <select id="ff-t">${turmas.map(x => `<option value="${x.id}" ${x.id === tid ? "selected" : ""}>${esc(rotuloTurma(x.id))}</option>`).join("")}</select></label></p>
       <p class="ajuda">As tarefas fecham, o pódio aparece no placar (com confete) e cada aluno vê na tela a sua posição, também com confete. Os pontos do pódio não são nota.</p>
@@ -898,7 +915,7 @@
     return Object.keys(casa).length;
   }
   async function iniciarAula(u, op = {}) {
-    const turmas = todasTurmas(), atual = op.tid ? turmas.find(x => x.id === op.tid) : turmaAgora(turmas);
+    const turmas = turmasDeAula(), atual = op.tid ? turmas.find(x => x.id === op.tid) : turmaAgora(turmas);
     const dlg = h(`<dialog class="pp-dlg pp-ini-dlg"><form method="dialog"><div id="ini-c"></div></form></dialog>`);
     document.body.appendChild(dlg); dlg.showModal();
     const fechado = new Promise(r => dlg.addEventListener("close", () => { dlg.remove(); r(); }));
@@ -1054,10 +1071,10 @@
   }
   async function perguntarInicio(u) {
     // 🏠 uma vez por dia, atualiza em todas as turmas a lista de quem estuda em casa (fica sem trava)
-    if (!ss.get("painel:casa:" + N.hoje())) { ss.set("painel:casa:" + N.hoje(), "1"); todasTurmas().forEach(t => alunosDaTurma(t.id).then(al => sincronizarCasa(t, al).then(() => gravarPlanoCasa(t))).catch(() => {})); }
+    if (!ss.get("painel:casa:" + N.hoje())) { ss.set("painel:casa:" + N.hoje(), "1"); turmasDeAula().forEach(t => alunosDaTurma(t.id).then(al => sincronizarCasa(t, al).then(() => gravarPlanoCasa(t))).catch(() => {})); }
     try {
       const g = await config(); if (g.modoAula === false) return;
-      const t = turmaAgora(todasTurmas()); if (!t) return;
+      const t = turmaAgora(turmasDeAula()); if (!t) return;
       const hoje = N.hoje(), k = "painel:ini:" + t.id + ":" + hoje;
       if (ss.get(k)) return; ss.set(k, "1");
       const hs = await db().collection("config").doc("hoje_" + t.id).get();
@@ -1127,15 +1144,39 @@
       dlg.querySelector("[data-fecha]").onclick = () => dlg.close(); dlg.onclose = () => dlg.remove(); dlg.showModal();
     };
     el.querySelector("#avs").onclick = async () => abrirAvisosAlunos(t, (await alunosDaTurma(t.id)).filter(a => a.ativo !== false && !a.teste));
-    const aps = cat().apostilas.filter(a => a.serie === t.serie.id && P.doPeriodo(a) && !a.oculta);
-    await Promise.all(cat().apostilas.filter(a => a.serie === t.serie.id && P.doPeriodo(a)).map(a => P.carregarApostila(a.id).catch(() => null)));
-    const [alunos0, prog0, visit] = await Promise.all([alunosDaTurma(t.id), progressoDaTurma(t.id), visitantesDe(t.id)]);
+    // 🎒 Agregados (26/11/2026): cada aluno tem a SUA série (alunos/<id>.serie); o progresso vem pelo aluno (o antigo, do 5º ano, ficou com a turma de antes)
+    const ehAG = !!t.livre, alunosAG = ehAG ? await alunosDaTurma(t.id) : null;
+    const seriesT = ehAG ? cat().series.filter(x => !x.agregados && alunosAG.some(a => a.serie === x.id)).map(x => x.id) : [t.serie.id];
+    const aps = cat().apostilas.filter(a => seriesT.includes(a.serie) && P.doPeriodo(a) && !a.oculta);
+    await Promise.all(cat().apostilas.filter(a => seriesT.includes(a.serie) && P.doPeriodo(a)).map(a => P.carregarApostila(a.id).catch(() => null)));
+    const progPorAluno = lst => Promise.all(lst.map(v => db().collection("progresso").where("alunoId", "==", v.id).get().then(q => q.docs.map(d => ({ id: d.id, ...d.data() }))).catch(() => []))).then(x => x.flat());
+    const [alunos0, prog0, visit] = await Promise.all([ehAG ? alunosAG : alunosDaTurma(t.id), ehAG ? progPorAluno(alunosAG) : progressoDaTurma(t.id), ehAG ? [] : visitantesDe(t.id)]);
     // 🏫 quem é de outra turma mas frequenta esta aula aparece no fim, com a etiqueta (o progresso dele vem da turma dele)
     const progVis = (await Promise.all(visit.map(v => db().collection("progresso").where("alunoId", "==", v.id).get().then(q => q.docs.map(d => ({ id: d.id, ...d.data() }))).catch(() => [])))).flat();
     const alunos = alunos0.concat(visit), prog = prog0.concat(progVis);
     const pm = {}; prog.forEach(p => { (pm[p.alunoId] = pm[p.alunoId] || []).push(p); });
-    const missoes = []; aps.forEach(a => { const C = P.conteudo[a.id]; if (C) C.missoes.filter(m => m.id !== "rc").forEach(m => missoes.push({ aid: a.id, m })); });
+    const missoes = []; aps.forEach(a => { const C = P.conteudo[a.id]; if (C) C.missoes.filter(m => m.id !== "rc").forEach(m => missoes.push({ aid: a.id, m, serie: a.serie })); });
     const corpo = el.querySelector("#corpo");
+    /* 🎒 Juntar as turmas antigas do 5º ano nos Agregados (26/11/2026): um botão, sem apagar ninguém. Cada aluno vem com a série
+       5º ano, o MESMO código (se já existir igual nos Agregados, sorteia outro e avisa) e o mesmo histórico (progresso fica no aluno). */
+    if (ehAG) (async () => {
+      const arq = cat().series.flatMap(x => x.turmas.filter(y => y.arquivada).map(y => ({ id: y.id, nome: y.nome, se: x })));
+      const antigos = (await Promise.all(arq.map(y => alunosDaTurma(y.id).then(l => l.map(a => ({ ...a, _se: y.se.id }))).catch(() => [])))).flat();
+      if (!antigos.length || !el.isConnected) return;
+      const box = h(`<div class="painel pp-ag-migra"><h3>🎒 Juntar o 5º ano aqui</h3>
+        <p>Ainda há <b>${antigos.length} aluno${antigos.length > 1 ? "s" : ""}</b> nas turmas antigas do 5º ano (${arq.map(y => esc(y.nome)).join(" e ")}). Toque no botão para trazer todos para os 🎒 Agregados, com a série 5º ano.</p>
+        <p class="ajuda">Ninguém é apagado: o histórico, os pontos e o avatar continuam. O código continua o mesmo; só muda se já existir um igual aqui (o painel avisa quem mudou). Desativados continuam desativados.</p>
+        <button class="btn btn-ok" type="button">🎒 Trazer os ${antigos.length} alunos do 5º ano</button></div>`);
+      corpo.before(box);
+      box.querySelector("button").onclick = async () => {
+        if (!await P.confirmar(`Trazer ${antigos.length} aluno(s) do 5º ano para os Agregados? Eles passam a entrar pela fase 🎒 Agregados da página inicial.`, "Sim, trazer todos")) return;
+        const b = box.querySelector("button"); b.disabled = true; b.textContent = "Juntando…";
+        const mudou = [], erros = [];
+        for (const a of antigos) { try { const c = await novoCodigo(a, t.id, { serie: a.serie || a._se, mesmoCodigo: true, manterAtivo: true }); if (String(c) !== String(a.codigo)) mudou.push(`${a.nome}: novo código ${c}`); } catch (e) { erros.push(a.nome); } }
+        await P.aviso(`Pronto! ${antigos.length - erros.length} aluno(s) agora estão nos 🎒 Agregados.` + (mudou.length ? `\n\nCódigos que mudaram (já existia igual aqui):\n${mudou.join("\n")}` : "\n\nTodos continuam com o mesmo código.") + (erros.length ? `\n\n⚠️ Não deu para trazer: ${erros.join(", ")}. Tente de novo.` : ""));
+        telaTurmas(u, t.id);
+      };
+    })();
     function desenhar() {
       const verInat = el.querySelector("#inat").checked;
       const lista = alunos.filter(a => verInat || a.ativo);
@@ -1148,10 +1189,19 @@
         return `<td class="pp-c ${p.basicoOk ? "ok" : "meio"} pp-clic" title="${esc(tit)} · clique para ver as respostas" data-ver="${esc(p.id)}" tabindex="0">${p.basicoOk ? "✔" : `${b[0]}/${b[1]}`}${d[1] && d[0] === d[1] ? "⭐" : ""}</td>`;
       };
       const dias = a => { const s = new Set(); (pm[a.id] || []).forEach(p => Object.keys(p.dias || {}).forEach(d => s.add(d))); return s.size; };
-      corpo.innerHTML = `<div class="painel pp-tabela-wrap"><p class="ajuda">✔ Básico concluído · ⭐ Desafio completo · 3/5 = andamento do Básico · — não começou. Passe o mouse para ver os detalhes. <strong>${alunos.filter(a => a.ativo && !a.visitante).length}</strong> alunos ativos${alunos.some(a => a.visitante) ? ` + <strong>${alunos.filter(a => a.visitante).length}</strong> de outra turma que participam desta aula (🏫)` : ""}.</p>
-        <table class="pp-tabela"><thead><tr><th>Aluno</th><th>Código</th><th title="dias em que entrou no portal">Dias</th>${missoes.map(x => `<th title="${esc(x.m.titulo)}">${esc(x.m.icone)}<br><small>${esc(SIG(x.m.id))}</small><br><span class="pp-th-t">${esc(tituloCurto(x.m))}</span></th>`).join("")}<th></th></tr></thead>
-        <tbody>${lista.map(a => `<tr class="${a.ativo ? "" : "inativo"}${a.visitante ? " visit" : ""}"><td>${a.atipico ? '<span title="Aluno atípico (tem PEI)">🧩</span> ' : ""}${esc(a.nome)}${tagVisitante(a)}${tagOutra(a)}${a.trilha ? ' <span title="Usa a Trilha Passo a Passo">👣</span>' : ""}${a.emCasa ? ' <span title="Estuda em casa, pelo portal">🏠</span>' : ""}${a.lembreteFamilia ? ' <span title="Lembrete da família no fim de cada aula">🎬</span>' : ""}${a.emCasa && casaLivreAtivo(a) ? ' <span title="Todas as missões abertas, uma por dia (liberação semanal desligada neste ano)">🚀</span>' : ""}${a.ativo ? "" : " <small>(desativado)</small>"}</td><td class="pp-cod">${esc(a.codigo)}</td><td>${dias(a)}</td>${missoes.map(x => cel(a, x)).join("")}
-          <td><button class="btn btn-link btn-peq" data-a="${a.id}" type="button">⚙️</button></td></tr>`).join("")}</tbody></table></div>`;
+      const tabela = (L, M) => `<table class="pp-tabela"><thead><tr><th>Aluno</th><th>Código</th><th title="dias em que entrou no portal">Dias</th>${M.map(x => `<th title="${esc(x.m.titulo)}">${esc(x.m.icone)}<br><small>${esc(SIG(x.m.id))}</small><br><span class="pp-th-t">${esc(tituloCurto(x.m))}</span></th>`).join("")}<th></th></tr></thead>
+        <tbody>${L.map(a => `<tr class="${a.ativo ? "" : "inativo"}${a.visitante ? " visit" : ""}"><td>${a.atipico ? '<span title="Aluno atípico (tem PEI)">🧩</span> ' : ""}${esc(a.nome)}${tagVisitante(a)}${tagOutra(a)}${a.trilha ? ' <span title="Usa a Trilha Passo a Passo">👣</span>' : ""}${a.emCasa ? ' <span title="Estuda em casa, pelo portal">🏠</span>' : ""}${a.lembreteFamilia ? ' <span title="Lembrete da família no fim de cada aula">🎬</span>' : ""}${a.emCasa && casaLivreAtivo(a) ? ' <span title="Todas as missões abertas, uma por dia (liberação semanal desligada neste ano)">🚀</span>' : ""}${a.ativo ? "" : " <small>(desativado)</small>"}</td><td class="pp-cod">${esc(a.codigo)}</td><td>${dias(a)}</td>${M.map(x => cel(a, x)).join("")}
+          <td><button class="btn btn-link btn-peq" data-a="${a.id}" type="button">⚙️</button></td></tr>`).join("")}</tbody></table>`;
+      const ajudaTopo = `<p class="ajuda">✔ Básico concluído · ⭐ Desafio completo · 3/5 = andamento do Básico · — não começou. Passe o mouse para ver os detalhes. <strong>${alunos.filter(a => a.ativo && !a.visitante).length}</strong> alunos ativos${alunos.some(a => a.visitante) ? ` + <strong>${alunos.filter(a => a.visitante).length}</strong> de outra turma que participam desta aula (🏫)` : ""}.</p>
+        `;
+      if (!ehAG) corpo.innerHTML = `<div class="painel pp-tabela-wrap">${ajudaTopo}${tabela(lista, missoes)}</div>`;
+      else {   // 🎒 Agregados: uma tabela por série, cada uma com as missões da série
+        const grupos = cat().series.filter(x => !x.agregados).map(x => ({ se: x, L: lista.filter(a => a.serie === x.id) })).filter(g => g.L.length);
+        const semSerie = lista.filter(a => !cat().series.some(x => !x.agregados && x.id === a.serie));
+        corpo.innerHTML = `<div class="painel pp-ag-info"><p>🎒 <b>Turma livre, sem horário.</b> Cada aluno faz as missões <b>da série dele</b>, na hora que quiser, <b>uma por vez</b>: a que ele começou fica aberta até terminar o 🟢 Básico; as outras ficam 🔒. A 🎮 Sala de jogos fica sempre aberta. A série de cada um fica no ⚙️ (🎓 Mudar a série).</p></div>
+          ${semSerie.length ? `<div class="painel pp-ag-sem"><h3>⚠️ Sem série marcada (${semSerie.length})</h3><p class="ajuda">Estes alunos ainda não entram: toque no ⚙️ e escolha 🎓 Mudar a série.</p>${tabela(semSerie, [])}</div>` : ""}
+          ${grupos.map(g => `<div class="painel pp-tabela-wrap pp-ag-grupo" style="--cor:${g.se.cor}"><h3>${esc(g.se.nome)} <small>(${g.L.length} aluno${g.L.length > 1 ? "s" : ""})</small></h3>${ajudaTopo}${tabela(g.L, missoes.filter(x => x.serie === g.se.id))}</div>`).join("")}`;
+      }
       corpo.querySelectorAll("[data-a]").forEach(b => b.onclick = () => menuAluno(alunos.find(a => a.id === b.dataset.a)));
       corpo.querySelectorAll("[data-ver]").forEach(td => { const f = () => verRespostas(prog.find(p => p.id === td.dataset.ver)); td.onclick = f; td.onkeydown = e => { if (e.key === "Enter") f(); }; });
     }
@@ -1189,6 +1239,7 @@
           <button class="btn btn-sec" value="cod" type="button" data-x="cod">🔑 Gerar novo código</button>
           <button class="btn btn-sec" value="nome" type="button" data-x="nome">✏️ Corrigir nome</button>
           <button class="btn btn-sec" type="button" data-x="turma">🔀 Mudar de turma</button>
+          ${(P.turma(a.turma) || {}).livre ? `<button class="btn btn-sec" type="button" data-x="serie">🎓 Mudar a série (Agregados) · hoje: ${esc((cat().series.find(y => y.id === a.serie) || { nome: "sem série" }).nome)}</button>` : ""}
           <button class="btn btn-sec" type="button" data-x="atipico">${a.atipico ? "🧩 Tirar a marcação de aluno atípico" : "🧩 Marcar como aluno atípico (tem PEI)"}</button>
           ${a.atipico ? `<button class="btn btn-sec" type="button" data-x="apoio">📝 Apoios na aula (só você vê)</button>` : ""}
           <button class="btn btn-sec" type="button" data-x="trilha">${a.trilha ? "👣 Tirar a Trilha Passo a Passo" : "👣 Usar a Trilha Passo a Passo (apostila diferenciada)"}</button>
@@ -1215,8 +1266,13 @@
             const opc = todasTurmas().filter(y => y.id !== a.turma);
             const r = await P.perguntar("Para qual turma? Digite o código da turma (antes do parêntese): " + opc.map(y => y.id + " (" + rotuloTurma(y.id) + ")").join(", "));
             const nt = opc.find(y => y.id.toLowerCase() === String(r || "").trim().toLowerCase()); if (!nt) { if (r) await P.aviso("Turma não encontrada."); return; }
-            const c = await novoCodigo(a, nt.id); await P.aviso(`${a.nome} agora está no ${nomeTurma(nt.id)}. Novo código: ${c}. O histórico continua guardado.`);
+            // 🎒 para os Agregados: escolhe a série dele e tenta manter o mesmo código
+            let sx = ""; if (nt.livre) { sx = await perguntarSerie(a.nome); if (!sx) return; }
+            const c = await novoCodigo(a, nt.id, nt.livre ? { serie: sx, mesmoCodigo: true } : {});
+            await P.aviso(`${a.nome} agora está ${nt.livre ? "nos" : "no"} ${nomeTurma(nt.id)}${sx ? " (" + (cat().series.find(y => y.id === sx) || {}).nome + ")" : ""}. ${String(c) === String(a.codigo) ? "O código continua o mesmo: " : "Novo código: "}${c}. O histórico continua guardado.`);
           }
+          if (x === "serie") { const sx = await perguntarSerie(a.nome); if (!sx || sx === a.serie) return; await mudarSerieAG(a, sx);
+            await P.aviso(`Pronto! ${a.nome} agora faz as missões do ${(cat().series.find(y => y.id === sx) || {}).nome}. O código continua o mesmo; se estiver no portal, peça para sair e entrar de novo.`); }
           if (x === "avatar") { if (!await P.confirmar(`Apagar o avatar de ${a.nome}? Na próxima entrada com o código, ${a.nome.split(" ")[0]} monta um avatar novo (só desta vez). Se já estiver na aula, peça para clicar em Sair e entrar de novo.`)) return;
             await db().collection("progresso").doc(a.id + "_avatar").delete(); await P.aviso(`Pronto! ${a.nome.split(" ")[0]} pode sair e entrar de novo com o código: o portal abre a tela de montar o avatar. Os pontos e as tarefas não mudam.`); }
           if (x === "temas") { // 🎉 19/11/2026: o aluno entrou, a janela do tema deu errado e ele ficou sem fazer: apaga o "já viu" para abrir de novo
@@ -1355,9 +1411,10 @@
       const n = arrumarNome(await P.perguntar(`Nome completo do aluno novo (${nomeTurma(t.id)}):`));
       if (!n) return;
       if (n.split(" ").length < 2) return await P.aviso("Digite nome e sobrenome.");
+      let sx = ""; if (t.livre) { sx = await perguntarSerie(n); if (!sx) return; }   // 🎒 Agregados: a série dele
       try {
         const cfg = await config();
-        const r = await adicionarAlunos(t.id, [{ nome: n }], cfg.ano);
+        const r = await adicionarAlunos(t.id, [{ nome: n }], cfg.ano, sx);
         if (!r.length) return await P.aviso("Já existe um aluno com esse nome nesta turma.");
         await P.aviso(`${r[0].nome} foi adicionado(a). Código: ${r[0].codigo}`);
         telaTurmas(u, t.id);
@@ -1452,7 +1509,7 @@
 
   /* -------- Presença: quem entrou em cada dia -------- */
   async function telaPresenca(u, tid) {
-    const turmas = todasTurmas();
+    const turmas = turmasDeAula();
     tid = escolherTurma(tid, turmas);
     const t = turmas.find(x => x.id === tid) || turmas[0];
     const el = tela(topo(u, "presenca") + `<div class="painel pp-barra"><label>Turma <select id="sel">${turmas.map(x => `<option value="${x.id}" ${x.id === t.id ? "selected" : ""}>${esc(rotuloTurma(x.id))}</option>`).join("")}</select></label></div>
@@ -1534,7 +1591,7 @@
   /* -------- Tela da aula: roteiro visual + respostas + contador ao vivo -------- */
   /* -------- Prova do bimestre: Dia de prova, notas, recuperação e gabarito -------- */
   async function telaProvaPainel(u, tid) {
-    const turmas = todasTurmas();
+    const turmas = turmasDeAula();
     tid = escolherTurma(tid, turmas);
     try { sessionStorage.setItem("painel:turma", tid); } catch (e) {}
     const t = turmas.find(x => x.id === tid) || turmas[0];
@@ -2088,7 +2145,7 @@
     return P.prova.notaDe(ac, d.nq || qs.length);
   }
   async function telaDiario(u, tid, aba) {
-    const turmas = todasTurmas();
+    const turmas = turmasDeAula();
     tid = escolherTurma(tid, turmas);
     try { sessionStorage.setItem("painel:turma", tid); } catch (e) {}
     const t = turmas.find(x => x.id === tid) || turmas[0];
@@ -2505,7 +2562,7 @@
         : `<p class="ajuda">Ainda sem anotação. Em Turmas, toque no nome do aluno → 📝 Apoios na aula.</p>`}</article>`;
   }
   async function telaAula(u, tid, mid) {
-    const turmas = todasTurmas();
+    const turmas = turmasDeAula();
     tid = escolherTurma(tid, turmas);
     try { sessionStorage.setItem("painel:turma", tid); } catch (e) {}
     const t = turmas.find(x => x.id === tid) || turmas[0];
@@ -2747,7 +2804,7 @@
   /* -------- Importar alunos (lista colada ou arquivo) -------- */
   const subConfig = k => `<div class="painel pp-barra"><span class="pp-missoes">${[["importar", "📥 Importar alunos"], ["ano", "📅 Ano letivo e aulas"]].map(([x, r]) => `<a class="pp-mis ${x === k ? "atual" : ""}" href="#/painel/${x}">${r}</a>`).join("")}<button class="btn btn-sec btn-peq" type="button" id="cfg-tema">🎨 Tema do portal (decoração por época)</button></span></div>`;
   async function telaImportar(u) {
-    const turmas = todasTurmas();
+    const turmas = turmasDeAula();
     const cfg = await config();
     const el = tela(topo(u, "config") + subConfig("importar") + `
       <div class="painel"><h2>Colar uma lista</h2><p>Um aluno por linha, com nome completo. Nomes que já existem na turma são ignorados. Cada aluno novo recebe um código de 4 números.</p>

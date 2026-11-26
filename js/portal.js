@@ -253,6 +253,29 @@
   const disciplina = id => cat().disciplinas.find(d => d.id === id);
   P.carregarApostila = id => carregar(id);
   P.serie = serie; P.turma = turma; P.apostila = apostila; P.sess = sess; P.store = store;
+  /* 🎒 AGREGADOS (26/11/2026): turma livre (sem horário), cada um na sua série e UMA MISSÃO POR VEZ:
+     a missão "aberta" é a que o aluno começou (já fez alguma tarefa do 🟢 Básico) e ainda não terminou o Básico.
+     Enquanto ela existir, as outras missões ficam 🔒; terminou o Básico, escolhe a próxima. */
+  P.agEh = s => { const t = s && turma(s.turma); return !!(t && t.livre); };
+  let _agCache = { k: "", t: 0, v: null };
+  async function missaoAbertaAG(s, fresco) {
+    if (!P.agEh(s) || s.prof) return null;
+    const k = (s.alunoIds || []).join(",") + "|" + s.serie;
+    if (!fresco && _agCache.k === k && Date.now() - _agCache.t < 15000) return _agCache.v;
+    let v = null;
+    const aps = cat().apostilas.filter(a => a.serie === s.serie && !a.oculta && P.doPeriodo(a)).map(a => trilhaDe(a.id) ? apostila(trilhaDe(a.id)) : a).filter(Boolean);
+    for (const a of aps) {
+      try { await carregar(a.id); await restaurarNuvem(a.id); } catch (e) { continue; }
+      const C = P.conteudo[a.id]; if (!C) continue;
+      const m = C.missoes.find(mm => { if (mm.id === "rc") return false; const st = statusMissao(a.id, mm.id); return st.basico[0] > 0 && !st.basicoOk; });
+      if (m) { v = { aid: a.id, mid: m.id, titulo: m.titulo, icone: m.icone, apTitulo: a.titulo }; break; }
+    }
+    _agCache = { k, t: Date.now(), v }; return v;
+  }
+  P.missaoAbertaAG = missaoAbertaAG;
+  const faixaAG = ab => `<div class="painel ag-faixa" role="note"><h2>🎒 Uma missão de cada vez</h2>${ab
+    ? `<p>Você está na <b>${esc(ab.icone || "")} ${esc(ab.titulo)}</b>. Termine o <b>🟢 Básico</b> dela para escolher a próxima. As outras ficam 🔒 até lá.</p><p><a class="btn" href="#/missao/${esc(ab.aid)}/${esc(ab.mid)}">Continuar a missão ▶</a></p>`
+    : `<p>Escolha uma missão e comece. Quando você começar, termine o <b>🟢 Básico</b> dela antes de abrir outra. Você estuda na hora que quiser, e a 🎮 Sala de jogos fica sempre aberta.</p>`}</div>`;
 
   /* ---------------- carregamento das apostilas ---------------- */
   const loading = {};
@@ -887,6 +910,14 @@
   P.confirmar = confirmar;
   P.aviso = msg => caixa(msg, { botoes: [["ok", "OK", "btn-ok"]] }).then(() => undefined);
   P.perguntar = (msg, valor, longo) => caixa(msg, { botoes: [["ok", "OK", "btn-ok"], ["nao", "Cancelar"]], campo: longo ? "longo" : "curto", valor });
+  // 🔘 escolha com botões grandes (26/11/2026, Agregados: escolher a série): devolve o valor escolhido ou null
+  P.escolher = (msg, ops) => new Promise(res => {
+    const d = document.createElement("dialog"); d.className = "pp-dlg pp-caixa";
+    d.innerHTML = `<form method="dialog"><p class="pp-caixa-msg">${esc(msg)}</p><div class="row-btns">${ops.map(([v, r]) => `<button class="btn btn-ok" value="${esc(v)}">${esc(r)}</button>`).join(" ")}<button class="btn" value="">Cancelar</button></div></form>`;
+    document.body.appendChild(d);
+    d.addEventListener("close", () => { const v = d.returnValue; res(ops.some(o => String(o[0]) === v) ? v : null); d.remove(); });
+    d.showModal();
+  });
   async function sair() {
     const s = sess.get();
     if (!(await confirmar(s && s.nuvem ? "Sair do portal? O que você fez já está guardado no painel do professor." : "Sair do portal? Seu progresso fica guardado neste navegador (veja “Privacidade e progresso”).", "Sim, sair"))) return;
@@ -970,7 +1001,7 @@
      Fonte de pixel (Press Start 2P, licença OFL, em css/fontes) só em títulos, números e botões; o texto continua na fonte normal. */
   function telaInicio() {
     barra();
-    const ss = cat().series;
+    const ss = cat().series.filter(s => !s.oculta);   // 🎒 o 5º ano ficou dentro dos Agregados (26/11/2026)
     const el = mount(`<section class="tela inicio-jogo">
       <div class="ij-cena pix-s">
         <svg class="ij-nuvem" style="left:4%;top:26px;width:132px" viewBox="0 0 36 14" shape-rendering="crispEdges" aria-hidden="true"><path fill="#10173A" d="M8 2h10v2h4v2h6v2h4v4h2v2H0v-2h2V8h2V6h4z"/><path fill="#fff" d="M9 3h8v2h4v2h6v2h4v3H2v-2h2V8h2V6h3z"/></svg>
@@ -984,7 +1015,7 @@
         <svg class="ij-morros" viewBox="0 0 320 55" preserveAspectRatio="none" shape-rendering="crispEdges" aria-hidden="true">
           <path fill="#2A8C57" d="M0 55V35h8v-6h8v-5h12v5h8v6h8v20zM190 55V30h10v-8h8v-5h16v5h8v8h10v25z"/>
           <path fill="#3BB273" d="M60 55V40h10v-6h10v-4h18v4h10v6h10v15zM250 55V38h8v-6h12v-4h14v4h10v6h8v17z"/></svg>
-        <nav class="ij-mapa" aria-label="Escolha a sua série">${ss.map((s, i) => { const n = esc(s.nome.split(/[º°ª\s]/)[0]);
+        <nav class="ij-mapa" aria-label="Escolha a sua série">${ss.map((s, i) => { const n = esc(s.bloco || s.nome.split(/[º°ª\s]/)[0]);
           return `<a class="ij-fase" href="#/serie/${s.id}" data-k="${n}" style="--c:${s.cor};--sobe:${i * 30}px">
             <span class="ij-bloco pix-s"><span>${n}</span>${i === ss.length - 1 ? `<i class="ij-bandeira" aria-hidden="true"></i>` : ""}</span>
             <span class="ij-rotulo pix"><b>${esc(s.nome)}</b><small>${s.nota ? esc(s.nota) : "Turmas " + s.turmas.map(t => esc(t.nome.replace(/^\S+\s*/, ""))).join(", ").replace(/, ([^,]*)$/, " e $1")}</small></span></a>`; }).join("")}</nav>
@@ -1027,7 +1058,7 @@
       <h1>${esc(s.nome)} — entrar no portal</h1>
       <form class="painel form-id" id="fcod" novalidate>
         <fieldset><legend>1. Turma</legend>
-          <div class="opcoes-turma">${s.turmas.map(t => `<label class="opt-turma"><input type="radio" name="turma" value="${t.id}" ${s.turmas.length === 1 ? "checked" : ""}><span>${esc(t.nome)}${t.aula && t.aula.ini ? `<small class="opt-hora">${["dom", "seg", "ter", "qua", "qui", "sex", "sáb"][t.aula.dia]} ${t.aula.ini}</small>` : ""}</span></label>`).join("")}</div>
+          <div class="opcoes-turma">${s.turmas.filter(t => !t.arquivada).map((t, _i, tv) => `<label class="opt-turma"><input type="radio" name="turma" value="${t.id}" ${tv.length === 1 ? "checked" : ""}><span>${esc(t.nome)}${t.aula && t.aula.ini ? `<small class="opt-hora">${["dom", "seg", "ter", "qua", "qui", "sex", "sáb"][t.aula.dia]} ${t.aula.ini}</small>` : ""}</span></label>`).join("")}</div>
         </fieldset>
         <fieldset><legend>2. Vai fazer sozinho ou em dupla?</legend>
           <div class="opcoes-turma">
@@ -1082,6 +1113,14 @@
       const tReal = [...new Set(infos.map(x => x.turma || t.value))];
       if (tReal.length > 1) return erro("Vocês são de turmas diferentes. Entrem um de cada vez (Sozinho).");
       const turmaSess = tReal[0];
+      // 🎒 Agregados (26/11/2026): a turma é livre e cada aluno usa as missões DA SÉRIE DELE (gravada no código pelo painel)
+      let serieSess = sid;
+      if ((turma(turmaSess) || {}).livre) {
+        const sx = [...new Set(infos.map(x => x.serie || ""))];
+        if (sx.some(x => !serie(x))) return erro("O professor ainda não marcou a sua série nos Agregados. Chame o professor.");
+        if (sx.length > 1) return erro("Vocês são de séries diferentes. Entrem um de cada vez (Sozinho).");
+        serieSess = sx[0];
+      }
       form.hidden = true;
       const cf = el.querySelector("#confirma");
       cf.innerHTML = `<div class="painel confirma-quem">
@@ -1106,7 +1145,7 @@
             cf.querySelector("#sb-tentar").onclick = () => { cf.innerHTML = ""; form.hidden = false; const bc2 = el.querySelector("#fcod button[type=submit], #fcod .btn-grande"); if (bc2) bc2.click(); else el.querySelector("#c1").focus(); };
             cf.querySelector("#sb-voltar").onclick = () => { cf.innerHTML = ""; form.hidden = false; el.querySelector("#c1").focus(); };
             return; } }
-        sess.set({ serie: sid, turma: turmaSess, modo, nuvem: true, alunoIds: infos.map(x => x.alunoId), nomes: infos.map(x => x.nome), apelidos: infos.map((x, i) => apels[i] || ""), entrou: Date.now(),
+        sess.set({ serie: serieSess, turma: turmaSess, modo, nuvem: true, alunoIds: infos.map(x => x.alunoId), nomes: infos.map(x => x.nome), apelidos: infos.map((x, i) => apels[i] || ""), entrou: Date.now(),
           trilha: infos.length === 1 && !!infos[0].trilha });
         // 🚦 Sala de espera (20/11/2026): no dia e na hora da aula, quem entra vai para a sala de espera (jogos que dão pontos,
         //    avatar sem pressa, espiar a missão) até o professor dar a 🏁 largada; o avatar de 4 minutos fica para casa e outros dias
@@ -1190,12 +1229,13 @@
       <nav class="migalhas"><a href="#/">Início</a> › ${esc(se.nome)}</nav>
       <h1>Olá, ${esc(s.nomes.map((n, i) => curto(s, i)).join(" e "))}! 👋</h1>
       <p class="lead">Escolha a apostila que o professor pediu.</p>
+      ${P.agEh(s) ? `<div id="ag-faixa"></div>` : ""}
       ${Object.keys(porDisc).map(did => { const d = disciplina(did); return `<h2 class="sec-tit">${d.icone} ${esc(d.nome)}</h2>
         <div class="grid-cards">${porDisc[did].map(a => `<a class="card-apostila" href="#/apostila/${a.id}">
           <span class="ca-un">${esc(a.unidade)}</span><strong>${esc(a.titulo)}</strong><span class="ca-modo">${esc(a.modo)}</span></a>`).join("")}</div>`; }).join("")}
       ${lista.length ? "" : `<p class="painel">Ainda não há apostilas para esta série.</p>`}
       ${hoje ? `<p class="painel destaque hoje-destaque">📌 <strong>Missão de hoje</strong>, escolhida pelo professor: <a class="btn" href="#/abrir/${esc(hoje)}">abrir agora →</a></p>` : ""}
-    </section>`);
+    </section>`);    if (P.agEh(s)) missaoAbertaAG(s, true).then(ab => { const x = document.getElementById("ag-faixa"); if (x) x.outerHTML = faixaAG(ab); }).catch(() => {});
   }
 
   /* -------- capa da apostila -------- */
@@ -1211,8 +1251,13 @@
     barra(`<span>${esc(a.titulo)}</span>`);
     // 🏠🔓 reposição em casa (25/11/2026): 🔓 nas missões liberadas para fazer de casa e 🔒 nas que são feitas na aula
     let repo = null; if (P.trava && P.trava.repo) { try { repo = await P.trava.repo(s); } catch (e) { repo = null; } }
+    const ehAG = P.agEh(s), abAG = ehAG ? await missaoAbertaAG(s, true) : null;
     const card = mm => {
       const st = statusMissao(aid, mm.id);
+      if (abAG && mm.id !== "rc" && (abAG.aid !== aid || abAG.mid !== mm.id)) { const ic0 = (P.ilustracoes[aid] || { icones: {} }).icones[mm.id];
+        return `<a class="card-missao ag-trancada${st.basicoOk ? " ok" : ""}" href="#/missao/${esc(abAG.aid)}/${esc(abAG.mid)}" title="Termine primeiro o Básico da missão que você começou"><span class="cm-repo">🔒 Termine primeiro: ${esc(abAG.titulo.replace(/ –.*/, ""))}</span>
+        <span class="cm-ic" aria-hidden="true">${ic0 ? `<span class="cm-svg">${ic0}</span>` : esc(mm.icone)}</span><span class="cm-tit">${esc(mm.titulo)}</span><span class="cm-obj">${mm.objetivo}</span>
+        <span class="cm-prog"><span>${st.basicoOk ? "🟢 Básico ✔" : "🔒 Fechada por enquanto"}</span></span></a>`; }
       const rpTag = repo && mm.id !== "rc" ? (repo.mids.includes(mm.id) ? `<span class="cm-repo ok">🔓 Liberada para fazer de casa</span>` : `<span class="cm-repo">🔒 Feita na aula, com a turma</span>`) : "";
       const pct = st.basico[1] ? Math.round(st.basico[0] / st.basico[1] * 100) : 0;
       const ok = st.basicoOk;
@@ -1234,6 +1279,7 @@
       </header>
       ${P.jogosEspera && !s.prof ? `<a class="jogos5-cta" id="cta-jogos" href="#/jogos"><span class="jogos5-ic">🎮</span><span><b>Sala de jogos</b><small>Todos os jogos do portal para você jogar e bater recordes!</small></span><span class="jogos5-ir">Jogar ▶</span></a>` : ""}
       ${repo ? `<div class="painel repo-faixa" role="note"><h2>🏠 Reposição em casa</h2><p>O Prof. Welington Laignier liberou para você fazer <strong>de casa</strong>, na hora que quiser, até <strong>${new Date(repo.ate).toLocaleDateString("pt-BR")}</strong>: ${repo.mids.map(x => `<b>🔓 ${esc(rotMis(aid, x))}</b>`).join(", ")}.</p><p>⏱️ São até <strong>${Math.round((P.catalogo.casaMinutos || 120) / 60)} horas de estudo por dia</strong> (o tempo começa na primeira tarefa). Antes das tarefas, assista ao vídeo da missão. As missões com 🔒 são feitas na aula, junto com a turma.</p></div>` : ""}
+      ${ehAG ? faixaAG(abAG) : ""}
       <div class="grid-missoes">${C.missoes.filter(mm => mm.id !== "rc" || P.recLiberada || s.prof || !s.nuvem).map(card).join("")}</div>
       <details class="painel como-usar"><summary>📘 Como usar esta apostila</summary>${blocos(C.comoUsar.filter(b => !(b.t === "p" && /Tudo na apostila|escreve e desenha/.test(b.h))))}
         <p><strong>No portal:</strong> faça junto com o professor a missão do dia. Quando terminar o 🟢 Básico, aparece a faixa verde <strong>“Básico concluído”</strong>: tudo fica registrado sozinho, e você escolhe entre o Desafio (nota maior) e os jogos livres.</p></details>
@@ -1340,9 +1386,13 @@
   async function telaMissao(aid, mid, pid) {
     const s = sess.get(); const a = apostila(aid); if (!a) return telaInicio();
     if (!s) return telaSerie(a.serie, "#/missao/" + aid + "/" + mid);
-    if (s.serie !== a.serie && s.serie !== "5") { toast("Esta apostila é de outra série."); location.hash = "#/apostilas"; return; }   // 🎒 o 5º ano faz a apostila da turma em que está assistindo à aula (25/11/2026)
+    if (s.serie !== a.serie && (s.serie !== "5" || P.agEh(s))) { toast("Esta apostila é de outra série."); location.hash = "#/apostilas"; return; }   // 🎒 o 5º ano faz a apostila da turma em que está assistindo à aula (25/11/2026); nos Agregados, só a da série dele
     await carregar(aid);
     await restaurarNuvem(aid);
+    // 🎒 Agregados: uma missão por vez (a que começou e ainda não terminou o Básico)
+    if (P.agEh(s) && mid !== "rc") { const st0 = statusMissao(aid, mid);
+      if (!(st0.basico[0] > 0 && !st0.basicoOk)) { const ab = await missaoAbertaAG(s);
+        if (ab && (ab.aid !== aid || ab.mid !== mid)) { toast(`🔒 Termine primeiro o Básico da ${ab.titulo.replace(/ –.*/, "")}. Depois você escolhe a próxima.`); location.replace(`#/missao/${ab.aid}/${ab.mid}`); return; } } }
     if (mid === "rv") await carregarRevisa(s);
     if (mid === "rc") await carregarRec(s);
     modoTrilha(a);
