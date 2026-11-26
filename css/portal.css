@@ -2997,3 +2997,6 @@ body.hz-aberta{overflow:hidden}
 .jg-fs:fullscreen .jg-canvas { width: min(100%, calc((100vh - 96px) * var(--ar, 1.78))); max-width: none; height: auto; }
 .jg-fs:fullscreen .jg-topo h3 { font-size: 1.35rem; }
 .jg-fs::backdrop { background: #f1f5f9; }
+/* ✅ Respostas da aba Aula: "Como explicar para a turma" embaixo de cada resposta (26/11/2026) */
+.aula-explic { margin-top: 6px; } .aula-explic summary { cursor: pointer; color: #1864ab; font-weight: 600; font-size: .92rem; }
+.aula-explic > :not(summary) { font-size: .95rem; }

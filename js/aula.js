@@ -107,6 +107,67 @@
         else html = `<p class="aula-obs">${limpo(at.explicacao || "")}</p>`;
         html += `<p class="aula-obs">🤖 Se o aluno travar, ele clica em “Me ajuda, robô!” e o Bit mostra a mini simulação.</p>`; break;
       }
+      /* ✅ 26/11/2026 (pedido do professor): respostas de verdade dos simuladores e atividades interativas (antes só "o portal confere") */
+      case "show":
+        html = `<ul class="aula-lista">${(at.perguntas || []).map(q => `<li>${limpo(q.p)} → ${q.certo >= 0 ? forte((q.opcoes || [])[q.certo]) : "<em>resposta pessoal</em>"}</li>`).join("")}</ul>`; break;
+      case "rota":
+        html = `<ol class="aula-lista">${(at.etapas || []).map(e => `<li>${esc(e.ic || "")} ${forte(e.t)}</li>`).join("")}</ol>`; break;
+      case "sim_pc": case "sim_windows":
+        html = (at.passos || []).length ? `<ol class="aula-lista">${at.passos.map(p => `<li>${limpo(p.faca || p.t || "")}</li>`).join("")}</ol>` : ""; break;
+      case "lista_ops": {
+        let lst = (at.inicial || []).slice();
+        html = `<p>Lista ${esc(at.nome || "")} no começo: ${(at.inicial || []).map((x, i) => `${i + 1} ${esc(x)}`).join(" · ")}</p><ol class="aula-lista">${(at.passos || []).map(p => {
+          if (p.esperado) lst = p.esperado.slice();
+          return `<li>${limpo(p.instr)} → ${p.esperado ? "fica: " + forte(p.esperado.map((x, i) => `${i + 1} ${x}`).join(" · ")) : forte(p.r)}</li>`; }).join("")}</ol>`; break;
+      }
+      case "lampadas":
+        html = `<ol class="aula-lista">${(at.fases || []).map(f => `<li>${limpo(f.pede)}${f.dica ? ` → ${forte(f.dica)}` : ""}${f.why ? ` <span class="aula-obs">(${limpo(f.why)})</span>` : ""}</li>`).join("")}</ol>`; break;
+      case "duplo_clique":
+        html = `<p>Dar <strong>dois cliques rápidos</strong> na pasta ${forte(at.alvo)}.</p>`; break;
+      case "baloes":
+        html = `<p>Estourar os ${forte(at.quantidade || "")} balões: levar a setinha até o balão e clicar uma vez com o botão esquerdo.</p>`; break;
+      case "explorador_pastas": {
+        const pn = id => { const x = (at.pastas || []).find(y => y.id === id); return x ? (x.ic || "") + " " + x.nome : id; };
+        html = `<ul class="aula-lista">${(at.pastas || []).map(pa => `<li>${forte(pn(pa.id))}: ${(at.arquivos || []).filter(a => a.p === pa.id).map(a => esc(a.nome)).join(" · ")}</li>`).join("")}</ul>`; break;
+      }
+      case "robo": {
+        const D = { U: "⬆️", D: "⬇️", L: "⬅️", R: "➡️" };
+        html = (at.solucao || []).length ? `<p>Um caminho certo: ${forte(at.solucao.map(([d, n]) => (n > 1 ? `repita ${n}× ` : "") + D[d]).join(" "))}</p>` : ""; break;
+      }
+      case "bits": {
+        const v = at.valores || [8, 4, 2, 1], bin = n => v.map(x => { if (n >= x) { n -= x; return 1; } return 0; }).join("");
+        html = `<ul class="aula-lista">${(at.fases || []).map(f => { const b = bin(f.alvo), soma = v.filter((x, i) => b[i] === "1"); return `<li>${f.alvo} → ${forte(b)} <span class="aula-obs">(${soma.join(" + ")} = ${f.alvo}; acende ${soma.map(x => "a de " + x).join(", ")})</span></li>`; }).join("")}</ul>`; break;
+      }
+      case "cabo":
+        html = `<ul class="aula-lista">${(at.perguntas || []).map(q => `<li>${limpo(q.p)} → ${forte((q.opcoes || [])[q.certo])}${q.why ? ` <span class="aula-obs">(${limpo(q.why)})</span>` : ""}</li>`).join("")}</ul>`; break;
+      case "sim_grafo": {
+        const nm = id => ((at.vertices || {})[id] || {}).nome || id;
+        html = `<p>Caminho: ${forte((at.solucao || []).map(nm).join(" → "))}${at.menor != null ? ` = ${forte(at.menor + " " + (at.unidade || ""))}` : ""}</p>`; break;
+      }
+      case "grafo_montar": {
+        const nm = id => ((at.vertices || []).find(v => v.id === id) || {}).rot || id;
+        html = `<ul class="aula-lista">${(at.arestas || []).map(([a, b, w]) => `<li>${forte(nm(a) + " – " + nm(b))}${w != null ? " (" + esc(w) + ")" : ""}</li>`).join("")}</ul>`; break;
+      }
+      case "sim_adivinhe":
+        html = `<p>Chutar sempre o <strong>meio</strong> (busca binária): de 1 a ${esc(at.max || 100)}, no máximo ${forte(at.meta || 7)} chutes.</p>`; break;
+      case "caminho":
+        html = `<p>${forte((at.etapas || []).join(" → "))}</p>${(at.extras || []).map(x => `<p>${limpo(x.rot)} → ${forte(x.r)}</p>`).join("")}${(at.distratores || []).length ? `<p class="aula-obs">Não entram: ${at.distratores.map(esc).join(", ")}</p>` : ""}`; break;
+      case "permissoes":
+        html = `<ul class="aula-lista">${(at.itens || []).map(i => `<li>${esc(i.ic || "")} ${esc(i.app)} pede ${esc(i.pede)} → ${forte(i.c === "S" ? "✅ Permitir" : "⛔ Negar")}${i.why ? ` <span class="aula-obs">(${limpo(i.why)})</span>` : ""}</li>`).join("")}</ul>`; break;
+      case "arvore":
+        html = `<ul class="aula-lista">${(at.perguntas || []).map(q => `<li>${limpo(q.p)} → ${forte(Array.isArray(q.r) ? q.r[0] : q.r)}</li>`).join("")}</ul>`; break;
+      case "sim_cesar":
+        html = `<p>${esc(at.cifrada || "")} → ${forte(at.resposta || "")}</p>`; break;
+      case "cesar":
+        html = `<ul class="aula-lista">${(at.tarefas || []).map(t => `<li>${t.tipo === "cifrar" ? `Cifrar ${esc(t.claro)} → ${forte(t.cifrado)}` : `Decifrar ${esc(t.cifrado)} → ${forte(t.claro)}`}</li>`).join("")}</ul>`; break;
+      case "sim_bolha": {
+        const ord = (at.valores || []).slice().sort((a, b) => typeof a === "number" ? a - b : String(a).localeCompare(String(b), "pt-BR"));
+        html = `<p>Fica: ${forte(ord.join(", "))}</p>`; break;
+      }
+      case "blocos": {
+        const txt = bl => (bl || []).map(b => Array.isArray(b) ? (b[0] === "repita" ? `repita ${b[1]} vezes [ ${txt(b[2])} ]` : b[0] === "se" || b[0] === "seSenao" ? `${b[0]} ${esc(JSON.stringify(b[1]))} [ ${txt(b[2])} ]${b[3] ? " senão [ " + txt(b[3]) + " ]" : ""}` : `${b[0]} ${b.slice(1).filter(x => !Array.isArray(x)).map(x => `“${x}”`).join(" ")}`) : String(b)).join(" · ");
+        html = `${at.solucao ? `<p>Programa: ${forte(txt(at.solucao))}</p>` : ""}${(at.esperado || []).length ? `<p>A tela mostra: ${forte(at.esperado.join(" · "))}</p>` : ""}`; break;
+      }
       default:
         html = `<p class="aula-obs">Atividade interativa: o portal confere sozinho.${at.explicacao ? " " + limpo(at.explicacao) : ""}</p>`;
     }
@@ -114,6 +175,16 @@
   }
 
   const NIVEIS = [["basico", "🟢 Básico"], ["desafio", "🟡 Desafio"], ["turbo", "🔴 Turbo"]];
+  /* ⏱️ faixa do tempo da aula (26/11/2026, aprovada pelo professor): UMA faixa para todas as séries, no formato atual da aula
+     (sala de espera → vídeo → leitura guiada com roleta → largada e missão → pódio → Sala de jogos), 75 min. Um roteiro pode
+     ter a sua própria faixa só se marcar tempoProprio: true (ex.: aula especial). */
+  const TEMPO_PADRAO = [
+    { min: 5, icone: "🚦", t: "Chegada e sala de espera" },
+    { min: 8, icone: "🎬", t: "Vídeo da missão" },
+    { min: 15, icone: "📖", t: "Leitura guiada com roleta (com o Onde eu uso isso?)" },
+    { min: 35, icone: "🏁", t: "Largada: missão no portal (Mão na massa → Básico → Desafio → Turbo)" },
+    { min: 5, icone: "🏆", t: "Finalizar e pódio" },
+    { min: 7, icone: "🎮", t: "Sala de jogos (quem concluiu o Básico)" }];
 
   /* ---------- a tela ---------- */
   P.aula = {
@@ -123,11 +194,16 @@
       const ap = P.apostila(aid), C = P.conteudo[aid], R = (P.roteiros[aid] || {}), r = R[mid] || {};
       const m = C.missoes.find(x => x.id === mid) || C.missoes[0];
       const { pages } = P.montarMissao(aid, m.id);
-      const porNivel = {}; pages.forEach(pg => (pg.atividades || []).forEach(at => { if (!(P.tipos[at.tipo] || {}).semStatus) (porNivel[at.nivel || pg.id] = porNivel[at.nivel || pg.id] || []).push(at); }));
-      const vf = pages.flatMap(pg => (pg.atividades || []).filter(a => a.tipo === "vf"));
-      const total = (r.tempo || []).reduce((s, x) => s + x.min, 0);
+      /* ✅ 26/11/2026: Respostas separadas pela parte da missão, na ordem em que o aluno faz (🎮 Mão na massa, 🟢 Básico, 🟡 Desafio,
+         🔴 Turbo, ⭐ Bônus, 🌎 Onde uso, ✔✖ Perguntas rápidas…). Antes o Mão na massa ficava misturado no Básico. */
+      const ROT = { pratica: "🎮 Mão na massa", basico: "🟢 Básico", desafio: "🟡 Desafio", turbo: "🔴 Turbo", bonus: "⭐ Bônus", lembra: "🔁 Lembra? (missões anteriores)", onde: "🌎 Onde eu uso isso?", fechar: "✔✖ Perguntas rápidas e fechamento", termos: "📖 O que significa?", lab: "♾️ Laboratório" };
+      const PULA = ["lab", "carinhas", "chefao", "autoavaliacao"];   // sorteadas ou pessoais: sem uma resposta fixa
+      const grupos = pages.map(pg => ({ id: pg.id, rot: ROT[pg.id] || `${pg.icone || ""} ${pg.rotulo || pg.id}`.trim(), ats: (pg.atividades || []).filter(at => !(P.tipos[at.tipo] || {}).semStatus && !PULA.includes(at.tipo)) })).filter(g => g.ats.length);
+      const termosM = m.termos || [];
+      const tempo = r.tempoProprio && r.tempo ? r.tempo : TEMPO_PADRAO, total = tempo.reduce((s, x) => s + x.min, 0);
 
-      const cartaoResp = at => { const x = resposta(at); return `<div class="aula-resp ${x.auto ? "" : "prof"}"><p class="aula-resp-tit">${x.auto ? "✔" : "👀"} ${limpo(at.titulo || "")}</p>${x.html}</div>`; };
+      const cartaoResp = at => { const x = resposta(at); let ex = ""; try { ex = P.explicacaoProf ? P.explicacaoProf(at, termosM, aid, m.id) : ""; } catch (e) {}
+        return `<div class="aula-resp ${x.auto ? "" : "prof"}"><p class="aula-resp-tit">${x.auto ? "✔" : "👀"} ${limpo(at.titulo || "")}</p>${x.html}${ex ? `<details class="aula-explic"><summary>💬 Como explicar para a turma</summary>${ex}</details>` : ""}</div>`; };
       const html = `
       <div class="aula" style="--cor:${esc((P.serie(ap.serie) || {}).cor || "#3b5bdb")}">
         <header class="aula-cab">
@@ -139,7 +215,7 @@
           ${[["abrir", "🎬 Abrir"], ["onde", "🌎 Onde uso"], ["resp", "✅ Respostas"], ["atencao", "⚠️ Atenção"], ["pergs", "💬 Perguntas"]].map(([k, t]) => `<a href="#" data-ir="${k}">${t}</a>`).join("")}
         </nav>
 
-        ${r.tempo ? `<section class="aula-tempo" aria-label="Linha do tempo da aula (${total} min)">${r.tempo.map(x => `<div class="aula-t" style="flex:${x.min}"><span class="aula-t-i">${x.icone}</span><span class="aula-t-m">${x.min} min</span><span class="aula-t-t">${esc(x.t)}</span></div>`).join("")}</section>` : ""}
+        ${tempo ? `<section class="aula-tempo" aria-label="Linha do tempo da aula (${total} min)">${tempo.map(x => `<div class="aula-t" style="flex:${x.min}"><span class="aula-t-i">${x.icone}</span><span class="aula-t-m">${x.min} min</span><span class="aula-t-t">${esc(x.t)}</span></div>`).join("")}</section>` : ""}
 
         ${R.antes ? `<section class="aula-card c-cinza"><h2>☑️ Antes de começar</h2><ul class="aula-check">${R.antes.map(x => `<li><label><input type="checkbox"> ${esc(x)}</label></li>`).join("")}</ul></section>` : ""}
 
@@ -160,8 +236,7 @@
 
         <section class="aula-card c-amarelo" id="aula-resp"><h2>✅ Respostas</h2>
           <p class="aula-obs">✔ = o portal corrige sozinho · 👀 = você confere. Geradas das atividades do portal.</p>
-          ${NIVEIS.filter(([k]) => porNivel[k]).map(([k, t], i) => `<details class="aula-nivel" ${i === 0 ? "open" : ""}><summary>${t} <span>(${porNivel[k].length})</span></summary>${porNivel[k].filter(a => a.tipo !== "vf").map(cartaoResp).join("")}</details>`).join("")}
-          ${vf.length ? `<details class="aula-nivel"><summary>✔✖ V ou F</summary>${vf.map(cartaoResp).join("")}</details>` : ""}
+          ${grupos.map((g, i) => `<details class="aula-nivel" ${g.id === "pratica" || g.id === "basico" || (i === 0 && !grupos.some(x => x.id === "pratica" || x.id === "basico")) ? "open" : ""}><summary>${esc(g.rot)} <span>(${g.ats.length})</span></summary>${g.ats.map(cartaoResp).join("")}</details>`).join("")}
         </section>
 
         ${r.atencao ? `<section class="aula-card c-laranja" id="aula-atencao"><h2>⚠️ Atenção: onde mais erram</h2><ul class="aula-grande">${r.atencao.map(x => `<li>${esc(x)}</li>`).join("")}</ul></section>` : ""}
