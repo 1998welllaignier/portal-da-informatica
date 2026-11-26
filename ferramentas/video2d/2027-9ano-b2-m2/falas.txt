@@ -1,0 +1,27 @@
+Engenharia social, força bruta e DDoS: três ataques!
+
+A mãe do Rafa recebeu uma mensagem no celular: oi, mãe, troquei de número, me manda um Pix. O Rafa estava do lado dela e levou um susto: mãe, eu não troquei de número! Isso é golpe!
+
+Isso se chama engenharia social: enganar uma pessoa para ela mesma entregar dados, senhas ou dinheiro. Aqui, o criminoso não precisa de programa nenhum. Ele conta com a confiança da vítima.
+
+Um tipo de engenharia social é o phishing, que parece com fishing, pescaria em inglês. É uma mensagem ou um site falso, que imita um banco, uma loja ou a escola, e serve de isca. Por exemplo: sua conta será bloqueada, clique aqui!
+
+Como reconhecer o golpe? Fique de olho nos sinais: pressa, como agora ou só hoje. Prêmio fácil. Pedido de código, senha ou dinheiro. Número ou endereço estranho. E erros de português.
+
+E guarde a regra de ouro: banco, escola e empresas sérias nunca pedem senha ou código por mensagem. Na dúvida, ligue para o número oficial da pessoa ou da empresa.
+
+Agora, o segundo ataque: a força bruta. Um programa tenta todas as senhas possíveis, uma por uma, até acertar. Ele testa zero zero zero zero, depois zero zero zero um, zero zero zero dois… até achar o PIN!
+
+Quantas senhas existem num PIN de quatro números? De zero zero zero zero até nove nove nove nove: dez mil. Cada senha possível é uma combinação, e um programa testa tudo rapidinho. Já uma senha longa, com letras, números e símbolos, tem tantas combinações que levaria anos.
+
+Muitos sistemas também bloqueiam depois de várias tentativas erradas, como o celular. Assim, o programa de força bruta não consegue testar tudo.
+
+O terceiro ataque é o dê dê ó ésse. A sigla vem do inglês Distributed Denial of Service, que quer dizer negação de serviço distribuída. Milhares de computadores acessam um site ao mesmo tempo, e ele cai!
+
+Imagine o site de uma loja no dia da promoção: de repente, fora do ar! Mas calma: quando um site cai num dia de muito acesso, pode ser excesso de visitas normais ou um ataque.
+
+A mãe do Rafa respirou fundo e ligou para o número de sempre do filho. Ele atendeu, tranquilo: não mandei mensagem nenhuma! O Pix não saiu, e o golpe falhou. Missão cumprida!
+
+Onde eu uso isso? A mensagem do parente com número novo pedindo dinheiro é engenharia social. O bloqueio do celular depois de várias senhas erradas protege contra a força bruta. E quando um site cai num dia de muito acesso, pode ser excesso de visitas ou um ataque dê dê ó ésse.
+
+Agora é com vocês: abram a Missão 2 no portal!

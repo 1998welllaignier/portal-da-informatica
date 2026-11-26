@@ -1,0 +1,25 @@
+Cifra de César: a mensagem secreta!
+
+Na aula, o Rafa passou um bilhete para a Júlia. Só tinha três letras: ó, xis, dê. A Júlia ficou sem entender: que língua é essa? O Rafa riu: é um código secreto! Só quem tem a chave consegue ler.
+
+Isso é criptografia: a técnica de esconder o sentido de uma mensagem, para que só quem tem a chave consiga ler. Quem pegar o bilhete no meio do caminho vê só uma bagunça de letras.
+
+Uma das criptografias mais antigas é a cifra de César, usada pelo general romano Júlio César. Nela, cada letra anda algumas casas no alfabeto. E o número de casas é a chave.
+
+Vamos usar a chave três. O A anda três casas e vira D. O B vira E. O C vira F, e assim por diante. Depois do Z, volta para o começo: o X vira A, o Y vira B, e o Z vira C.
+
+Agora, cifrar! Cifrar é transformar a mensagem normal em mensagem secreta. Vamos cifrar a palavra LUA. O éle anda três casas e vira ó. O u vira xis. E o a vira dê. A mensagem normal, LUA, é o texto claro. O resultado, OXD, é o texto cifrado!
+
+E para decifrar? É o caminho de volta: cada letra volta três casas. O ó vira éle, o xis vira u, e o dê vira a. Foi assim que a Júlia leu o bilhete do Rafa: lua!
+
+Mas a cifra de César tem um ponto fraco. O alfabeto tem vinte e seis letras, então só existem vinte e cinco chaves úteis, porque andar vinte e seis casas volta para a mesma letra.
+
+Dá para testar todas as chaves em poucos minutos: é um ataque de força bruta! Chave um: sem sentido. Chave dois: nada também. Chave três: lua! Achou!
+
+Por isso, hoje os computadores usam criptografias muito mais fortes. Os aplicativos de mensagens, por exemplo, usam criptografia para proteger as conversas.
+
+A Júlia respondeu ao Rafa com outro bilhete cifrado, na mesma chave, e o Rafa decifrou na hora. Só os dois entenderam o segredo. Missão cumprida!
+
+Onde eu uso isso? Em mensagens secretas entre amigos, nas brincadeiras e nos jogos de enigma. Nos aplicativos de mensagens, que usam uma criptografia muito mais forte. E nos escape rooms e nas caças ao tesouro, que costumam usar a cifra de César.
+
+Agora é com vocês: abram a Missão 3 no portal!

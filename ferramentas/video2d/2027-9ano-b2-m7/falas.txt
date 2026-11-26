@@ -1,0 +1,23 @@
+Seus arquivos foram sequestrados!
+
+Um dia, o computador do Rafa mostra uma mensagem assustadora: os arquivos foram cifrados, e só voltam se ele pagar dinheiro. As fotos, os trabalhos da escola, tudo trancado! O que a Júlia vai sugerir?
+
+Isso é um ransomware. É um malware que sequestra os arquivos: ele vai cifrando todos eles, um por um, como fotos, trabalhos e documentos, e mostra uma mensagem pedindo dinheiro. Esse dinheiro se chama resgate. O nome junta rânsom, que quer dizer resgate, com software, que quer dizer programa.
+
+Pagar não é garantia: o criminoso pode não devolver nada. Especialistas em segurança recomendam não pagar e ter backup.
+
+O backup é o remédio. Backup é uma cópia de segurança dos arquivos. Quem tem backup apaga o computador infectado e recupera tudo da cópia.
+
+Para um bom backup, siga a regra três dois um. Três cópias dos arquivos importantes: o original e mais duas cópias. Em dois tipos diferentes de armazenamento, como o computador e um agá dê externo. E uma cópia fora de casa, ou fora da escola: na nuvem.
+
+O agá dê externo é um disco que fica fora do computador, ligado pelo cabo u ésse bê. O pen drive é um pequeno dispositivo de memória, ligado na entrada u ésse bê. E a nuvem é guardar arquivos em computadores de uma empresa, pela internet.
+
+Atenção! Depois do backup, deixe o agá dê externo desligado do computador. Se ele ficar ligado, o ransomware pode cifrar a cópia também.
+
+Vamos testar? O ransomware cifra os arquivos e pede dinheiro: verdadeiro. Pagar o resgate garante que os arquivos voltam: falso. Na regra três dois um, uma cópia fica fora de casa: verdadeiro. O agá dê de backup deve ficar sempre ligado: falso! Quem tem backup recupera os arquivos sem pagar: verdadeiro.
+
+O Rafa apagou o computador infectado e recuperou tudo da cópia, sem pagar nada. O backup salvou o dia! Missão cumprida!
+
+Onde eu uso isso? Hospitais e prefeituras já ficaram sem sistema por causa de ransomware. O backup do celular na nuvem recupera fotos e conversas. E guardar o trabalho da escola também no pen drive ou na nuvem é um backup.
+
+Agora é com vocês: abram a Missão 7 no portal!

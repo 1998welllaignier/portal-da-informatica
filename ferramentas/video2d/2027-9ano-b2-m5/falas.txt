@@ -1,0 +1,25 @@
+Senhas fortes, contas seguras!
+
+O Rafa usa a mesma senha em todos os sites: um dois três quatro cinco seis. Aí, um dos sites sofre um vazamento de dados: os dados são roubados e espalhados. Agora os criminosos podem entrar nas contas dele! Como se proteger?
+
+Vamos começar pela senha fraca. Ela é curta, como um dois três quatro cinco seis, ou dois mil e dez. Tem nome, apelido ou data de nascimento. Usa só números ou só letras. E é a mesma em todos os sites. Fácil demais de adivinhar!
+
+Agora, a senha forte. Ela é comprida, com doze caracteres ou mais. Não tem nada pessoal. Mistura letras maiúsculas e minúsculas, números e símbolos. E é diferente para cada conta importante.
+
+Mas como lembrar uma senha tão comprida? Use uma frase-senha: junte palavras que só você sabe e misture. Por exemplo: Gato, exclamação, Azul, sete, Pula. É longa e fácil de lembrar. Outro exemplo inventado: Rio, jogo da velha, Tocantins, cinquenta e cinco, Peixe.
+
+E como um site sério guarda a sua senha? Ele não guarda a senha escrita. Ele guarda um hash: um resumo embaralhado, feito por uma conta que não dá para desfazer.
+
+Quando você entra, o site faz a mesma conta com o que você digitou e compara os resumos. Se forem iguais, você entra. Assim, mesmo que roubem os dados do site, os criminosos não leem as senhas diretamente.
+
+Além da senha, existem proteções extras. A verificação em duas etapas pede um código no celular. O gerenciador de senhas é um programa que guarda todas as senhas com segurança, e você decora só uma. E nunca compartilhe: senha é pessoal, nem para o melhor amigo.
+
+E se um site avisar sobre um vazamento? Troque a senha dele e a de todos os lugares onde ela se repetia. Por isso, use uma senha diferente para cada conta importante.
+
+Hora de testar! Senha com data de nascimento: fraca. Um site sério guarda o hash, e não a senha escrita: verdadeiro. O hash pode ser desfeito facilmente: falso. A verificação em duas etapas pede um código além da senha: verdadeiro. Mesma senha em todos os sites: perigoso!
+
+O Rafa criou uma frase-senha comprida, ativou a verificação em duas etapas e passou a usar uma senha diferente em cada conta. Contas protegidas! Missão cumprida!
+
+Onde eu uso isso? Ao criar a conta de um jogo ou de uma rede social. Quando um site avisa sobre um vazamento, para trocar a senha. E no código por ésse ême ésse, ao entrar numa conta: é a verificação em duas etapas.
+
+Agora é com vocês: abram a Missão 5 no portal!

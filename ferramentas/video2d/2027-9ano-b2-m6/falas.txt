@@ -1,0 +1,23 @@
+Quando acontecer isso, faça aquilo!
+
+A escola quer proteger a sala de informática à noite. O Rafa e a Júlia vão criar o programa do alarme. Mas como um programa sabe a hora certa de agir?
+
+Muitos programas esperam alguma coisa acontecer para agir. Essa coisa é um evento: um clique, uma tecla, um sensor que percebe movimento, ou o relógio chegando a uma hora.
+
+O programa diz assim: QUANDO acontecer o evento, FAÇA a ação. Quando clicar no botão Entrar, conferir a senha. Quando errar a senha três vezes, bloquear a conta por cinco minutos. Quando o sensor perceber movimento à noite, tocar o alarme e avisar no celular. Quando o relógio marcar sete horas, desligar o alarme da porta.
+
+A ação é o que o programa faz quando o evento acontece. E um programa que fica esperando eventos e responde a cada um com uma ação é um programa por eventos.
+
+O sensor é uma peça que percebe algo do ambiente: movimento, luz ou temperatura. Um sensor de movimento, por exemplo, pode gerar um evento.
+
+Agora, o projeto da missão: o alarme da sala de informática. A turma planeja as regras. Regra um: a porta abre depois das dezoito horas, toca a sirene. Regra dois: alguém digita o código certo no teclado da porta, desliga a sirene. Regra três: o código é errado três vezes, manda aviso ao celular do professor.
+
+E como se faz o projeto? Um, listar os eventos. Dois, decidir a ação de cada um. Três, escrever as regras: quando, faça. Quatro, testar cada regra. Cinco, apresentar.
+
+Hora de testar! Testar é conferir se cada regra faz o que deveria. A porta abre depois das dezoito horas: a sirene toca. Digitaram o código certo: a sirene para. Erraram o código três vezes: o aviso vai para o celular do professor.
+
+O alarme da sala ficou pronto, com todas as regras testadas. O programa espera os eventos e responde com a ação certa. Missão cumprida!
+
+Onde eu uso isso? No jogo: quando aperto a tecla, o personagem pula. No celular: quando chega mensagem, ele vibra. E no portão eletrônico: quando aperto o controle, ele abre.
+
+Agora é com vocês: abram a Missão 6 no portal!

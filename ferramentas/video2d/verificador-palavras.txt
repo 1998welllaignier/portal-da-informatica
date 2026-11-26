@@ -95,3 +95,10 @@ phishing
 pix
 hash
 sms
+oxd
+rooms
+ransom
+ransomware
+rânsom
+xod
+pixels

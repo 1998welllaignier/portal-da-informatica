@@ -1,0 +1,21 @@
+A mensagem que ninguém vê!
+
+A Júlia quer mandar um recado secreto para o Rafa. Mas tem um problema: se ela embaralhar a mensagem, todo mundo vai ver que existe um segredo! E se ninguém nem percebesse que o segredo existe?
+
+Na criptografia, todo mundo vê que existe uma mensagem secreta, mas não consegue ler. Por exemplo, xis, ó, dê: dá para ver que é um segredo. Na esteganografia, a mensagem fica escondida dentro de outra coisa, como um bilhete normal que esconde uma palavra. Ninguém nem percebe que ela está lá.
+
+A palavra esteganografia vem do grego e quer dizer escrita escondida.
+
+Exemplo um: a primeira letra de cada linha. Isso se chama acróstico. O bilhete diz: Saí cedo hoje. Ontem choveu muito. Levei o guarda-chuva. Lendo de cima para baixo as primeiras letras: S, O, L. Sol!
+
+Exemplo dois: dentro de uma imagem digital. Cada pontinho de uma foto, chamado pixel, é guardado em números. Mudando bem pouquinho alguns desses números, dá para guardar letras sem que o olho perceba diferença na foto.
+
+Exemplo três, da história: na Grécia antiga, contam que raspavam a cabeça de um mensageiro, escreviam no couro cabeludo e esperavam o cabelo crescer. A mensagem ficava escondida no próprio mensageiro!
+
+Vamos testar? Na esteganografia, a mensagem fica escondida dentro de outra coisa: verdadeiro. Esteganografia quer dizer escrita escondida: verdadeiro. Na criptografia, ninguém percebe que existe uma mensagem: falso! Dá para esconder letras numa foto digital mudando um pouquinho os pixels: verdadeiro. No bilhete do exemplo, as primeiras letras formam a palavra sol: verdadeiro.
+
+O Rafa leu o bilhete da Júlia, juntou as primeiras letras de cada linha e descobriu a palavra escondida: sol! Missão cumprida!
+
+Onde eu uso isso? Marcas d'água invisíveis em fotos e filmes mostram quem é o dono. Jogos de enigma e caças ao tesouro escondem pistas em textos. E poemas em acróstico são feitos na escola, com o nome de alguém nas primeiras letras.
+
+Agora é com vocês: abram a Missão 8 no portal!

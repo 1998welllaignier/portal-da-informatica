@@ -1,0 +1,27 @@
+Malwares: os programas do mal!
+
+O Rafa achou um jogo pago de graça num site desconhecido e baixou. Pouco depois, o celular ficou lento, cheio de anúncios, e começou a abrir coisas sozinho! A Júlia olhou e disse: isso tem cara de malware. Vamos investigar!
+
+Malware é todo programa feito para prejudicar: estragar, espionar, roubar dados ou pedir dinheiro. A palavra junta duas do inglês: malicious, que é malicioso, e software, que é programa.
+
+Primeiro suspeito: o vírus. Ele gruda em outros arquivos e se espalha quando eles são abertos. É como uma gripe, que passa de pessoa para pessoa.
+
+Segundo suspeito: o worm, que em português quer dizer verme. Ele se espalha sozinho pela rede, de computador em computador. É uma praga que anda sozinha!
+
+Terceiro: o cavalo de Troia. Ele finge ser um programa bom, como um jogo grátis, e esconde um malware dentro. É igual ao presente de madeira da lenda grega!
+
+Quarto: o spyware. Vem de spy, que quer dizer espião. Ele guarda o que você digita e manda para o criminoso, como alguém olhando por cima do seu ombro.
+
+E o quinto: o adware. Vem de advertisement, que é propaganda. Ele enche a tela de anúncios, como panfletos jogados sem parar!
+
+Mas como o malware entra? Por arquivos baixados de sites desconhecidos, por links de mensagens estranhas, por aplicativos de fora da loja oficial e por pen drives de outras pessoas.
+
+Caso resolvido! Anúncios do nada são pista de adware, e jogo pago de graça é a isca preferida do cavalo de Troia. Era mesmo coisa de malware!
+
+Agora, como se proteger? Mantenha o sistema e os aplicativos atualizados, porque a atualização fecha as portas que os malwares usam. Use um antivírus, que procura e bloqueia programas maliciosos. Baixe só da loja oficial, onde os aplicativos passam por verificação. E desconfie de grátis demais!
+
+E o celular do Rafa? Ele desinstalou o aplicativo suspeito e passou o antivírus. Os anúncios sumiram e o celular voltou ao normal. Missão cumprida!
+
+Onde eu uso isso? Antes de baixar um jogo, confira se ele é da loja oficial. Quando o celular pedir para atualizar, aceite: isso ajuda a proteger. E se aparecerem propagandas do nada, pode ser um adware.
+
+Agora é com vocês: abram a Missão 1 no portal!

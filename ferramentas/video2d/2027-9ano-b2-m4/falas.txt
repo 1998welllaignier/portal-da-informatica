@@ -1,0 +1,25 @@
+Criptografia hoje: chaves e agá tê tê pê ésse!
+
+O Rafa entrou numa loja on-line e digitou a senha. A Júlia perguntou: será que alguém no meio do caminho consegue ver isso? Será que os dados viajam seguros?
+
+Hoje, toda vez que você entra num site com senha, os dados viajam cifrados. Quem interceptar, ou seja, pegar a mensagem no meio do caminho, só vê uma bagunça de letras.
+
+Mas como o site e o Rafa combinam isso sem ninguém ver? Com um par de chaves: a chave pública e a chave privada. Vamos ver o passo a passo, com a ideia do cadeado aberto.
+
+Primeiro passo: o site distribui cadeados abertos para todo mundo. Esses cadeados abertos são a chave pública.
+
+Segundo passo: você coloca a sua mensagem numa caixa e fecha com o cadeado do site. Terceiro: a caixa viaja pela internet, e ninguém consegue abrir no caminho.
+
+Quarto passo: só o site tem a chave privada, que abre o cadeado. Qualquer pessoa pode fechar o cadeado, mas só o dono da chave privada consegue abrir.
+
+Agora, olhe o endereço do site. Se ele começa com agá tê tê pê, os dados viajam sem criptografia. Se começa com agá tê tê pê ésse e tem um cadeado, os dados viajam cifrados. O S é de secure, que quer dizer seguro.
+
+Mas atenção! O cadeado diz que a conversa com o site é cifrada, mas não garante que o site é honesto. Um site falso também pode ter cadeado. Confira sempre o nome do site!
+
+Nos aplicativos de mensagens existe a criptografia de ponta a ponta: só quem manda e quem recebe conseguem ler. Nem a empresa do aplicativo lê.
+
+O Rafa conferiu o cadeado e o nome da loja, e só então digitou a senha. A Júlia sorriu: dados cifrados, caminho tranquilo. Missão cumprida!
+
+Onde eu uso isso? No site do banco e nas lojas on-line: confira o agá tê tê pê ésse e o cadeado. Nos aplicativos de mensagens com criptografia de ponta a ponta. E no portal da escola, cujo endereço começa com agá tê tê pê ésse.
+
+Agora é com vocês: abram a Missão 4 no portal!
