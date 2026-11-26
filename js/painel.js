@@ -981,9 +981,11 @@
       };
       // 👥 AULA DUPLA (17/11/2026): turmas com aula no mesmo dia e horário podem ser iniciadas juntas
       //    (cada uma com a sua missão e o seu diário) ou separadas. Desliga em Configurações › "Nunca juntar turmas".
-      let dupla = null;
+      let dupla = null; const AULA_DUPLA = false;
       const montarDupla = async t => {
         const bx = c.querySelector("#ini-dupla"); dupla = null; bx.hidden = true; bx.innerHTML = "";
+        // 26/11/2026: desligado de vez (o 5º ano, que dividia horário, virou 🎒 Agregados; nenhuma turma coincide mais)
+        if (!AULA_DUPLA) return;
         const g = await config(); if (g.nuncaJuntar) return;
         const par = turmas.filter(x => x.id !== t.id && x.aula && t.aula && x.aula.ini && x.aula.dia === t.aula.dia && x.aula.ini === t.aula.ini);
         if (!par.length) return;
@@ -3030,10 +3032,7 @@
         <p>Situação: <span class="pp-prova-st ${cfg.modoAula !== false ? "on" : "off"}">${cfg.modoAula !== false ? "▶️ LIGADO" : "⚪ Desligado"}</span></p>
         <p>Ligado, as <strong>tarefas</strong> de cada turma ficam fechadas até você tocar em <strong>▶️ Iniciar a aula</strong> (o painel pergunta sozinho no horário da aula, ou pelo botão na barra de cima) e fecham de novo no <strong>🏁 Finalizar aula</strong>. Os textos ficam sempre abertos. Quem <strong>🏠 estuda em casa</strong> não tem trava.</p>
         <div class="row-btns"><button class="btn" id="modo" type="button">${cfg.modoAula !== false ? "⚪ Desligar" : "▶️ Ligar"}</button></div></div>
-      <div class="painel"><h2>👥 Turmas no mesmo horário</h2>
-        <p>Situação: <span class="pp-prova-st ${cfg.nuncaJuntar ? "off" : "on"}">${cfg.nuncaJuntar ? "🚫 Nunca juntar" : "👥 Perguntar se inicia juntas"}</span></p>
-        <p>Quando duas turmas têm aula no mesmo dia e horário, o <strong>▶️ Iniciar a aula</strong> pergunta se você quer iniciar só uma ou as duas juntas (cada turma com a sua missão, a sua presença e o seu diário). Ao finalizar uma, ele pergunta se finaliza a outra também. Escolha <strong>Nunca juntar</strong> para o painel não perguntar mais e você iniciar sempre uma turma de cada vez.</p>
-        <div class="row-btns"><button class="btn btn-sec" id="juntar" type="button">${cfg.nuncaJuntar ? "👥 Voltar a perguntar" : "🚫 Nunca juntar"}</button></div></div>
+
 `);
     ligarSair(el);
     relatorioHeranca(el.querySelector("#heranca"), cfg).catch(e => { el.querySelector("#heranca").innerHTML = `<h2>👣🧩 Marcações do ano passado</h2><p class="ajuda">Não consegui carregar: ${esc(e.message || e)}</p>`; });
@@ -3043,10 +3042,6 @@
       await db().collection("config").doc("geral").set({ periodo: id }, { merge: true }); P._periodo = id;
       toast("🗓️ Bimestre em uso: " + pr.nome); telaAno(u);
     });
-    el.querySelector("#juntar").onclick = async () => {
-      await db().collection("config").doc("geral").set({ nuncaJuntar: !cfg.nuncaJuntar }, { merge: true });
-      toast(cfg.nuncaJuntar ? "👥 O painel volta a perguntar se inicia as turmas juntas." : "🚫 Pronto: as turmas do mesmo horário serão sempre iniciadas separadas."); telaAno(u);
-    };
     el.querySelector("#modo").onclick = async () => {
       const on = cfg.modoAula !== false;
       if (on && !await P.confirmar("Desligar? As tarefas de todas as turmas ficam sempre abertas, sem precisar iniciar a aula.")) return;

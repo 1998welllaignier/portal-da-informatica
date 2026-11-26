@@ -268,7 +268,8 @@ Apostila no portal + ilustrada (PDF só para quem estuda em casa) · guia do pro
 ### 🔓 Listas do painel sempre montadas na hora (17/11/2026)
 - Toda lista de missões do painel (liberar para um aluno, missão de hoje etc.) é montada na hora a partir do catálogo e do conteúdo, incluindo as ⭐ aulas especiais da série. Missão ou aula especial acrescentada depois aparece sozinha, sem precisar mexer no painel. Na liberação individual, o professor escolhe a missão por botões (com ⭐ sugerida) e o tempo (1h, 2h, 3h, até 23h59, vários dias) — atualizado em 24/11/2026.
 
-### 👥 Aula dupla: turmas no mesmo horário (17/11/2026, aprovado pelo professor)
+### 👥 Aula dupla: turmas no mesmo horário (17/11/2026) — ⛔ DESLIGADA em 26/11/2026
+- 26/11/2026, a pedido do professor: obsoleta. O 5º ano (que dividia horário) virou 🎒 Agregados e nenhuma turma coincide mais; o quadro de Configurações saiu e o ▶️ Iniciar não pergunta mais (`AULA_DUPLA = false` em `js/painel.js`). O texto abaixo fica só como histórico.
 - Quando duas turmas têm aula no mesmo dia e horário, o ▶️ Iniciar a aula pergunta: iniciar só a turma escolhida ou todas juntas. Juntas, cada turma tem a sua missão (sugerida pelo cronograma dela), a sua presença, o seu placar e o seu diário; turma em que ninguém vem fica com todos ausentes, normalmente.
 - Ao finalizar uma turma iniciada junto com outra, o painel pergunta se finaliza a outra também.
 - Configurações › 👥 Turmas no mesmo horário › "Nunca juntar": o painel deixa de perguntar e as turmas são sempre iniciadas separadas.
