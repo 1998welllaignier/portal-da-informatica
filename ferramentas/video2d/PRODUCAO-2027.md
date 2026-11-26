@@ -21,7 +21,7 @@ Voz: o código é o começo do id do MP3 no HeyGen (arquivo `voz_link.txt` da pa
 | 6º 1ºb M4 Pastas e arquivos | 2027-6ano-m4 | v2 ✅ (Armário Gigante, 15 cenas, aprovado no verificador) | voz antiga não serve (roteiro novo) | – | – | falta voz nova |
 | 6º 1ºb M5 Tipos de dados | 2027-6ano-m5 | v2 ✅ (Fábrica de Dados, 16 cenas, aprovado no verificador) | voz antiga não serve (roteiro novo) | – | – | falta voz nova |
 | 6º 1ºb M6 Boa convivência na rede | 2027-6ano-m6 | v2 ✅ (14 cenas, verificador ok) | cbc67eba | enviado, não postado | – | falta voz nova |
-| 6º 1ºb M7 Digitação sem medo | 2027-6ano-m7 | v1 ❌ | 39975661 | enviado, não postado | – | refazer → v2 |
+| 6º 1ºb M7 Digitação sem medo | 2027-6ano-m7 | v2 ✅ (15 cenas, verificador ok) | 39975661 | enviado, não postado | – | falta voz nova |
 | 6º 1ºb M8 Atalhos | 2027-6ano-m8 | v1 ❌ | 04ed897e | enviado, não postado | – | refazer → v2 |
 | 7º 1ºb M1 Programar com blocos | 2027-7ano-m1 | **v2 ✅** (14 cenas, "Monte o seu jogo"; v1 no histórico) | precisa de voz NOVA | – | -Y5vRictuKA no ar = **v1** (trocar depois da aprovação) | v2 pronta, esperando voz |
 | 7º 1ºb M2 Listas no programa | 2027-7ano-m2 | **v2 ✅** (14 cenas, "A Barraca da Turma"; v1 no histórico) | precisa de voz NOVA | – | 4Uu1LKUF-YY no ar = **v1** (trocar depois da aprovação) | v2 pronta, esperando voz |
