@@ -34,6 +34,9 @@ Modelo de referência: `ferramentas/video2d/modelo-cabo-submarino.html` (8º ano
 4. Gravar: `python3 ferramentas/video2d/gravar.py <cena.html> <saida.mp4>` (Chrome sem tela + ffmpeg). Depois juntar a voz e a música com `-c:v copy`.
 5. Versão: os vídeos v3 (estilo antigo) estão no YouTube; os refeitos neste padrão são a **v4**.
 
+## 💬 Legenda de UMA linha (26/11/2026, pedido do professor)
+A legenda do rodapé tem **uma linha só**: o texto da cena é dividido em trechos que cabem numa linha (primeiro frase por frase, depois nas vírgulas, e só então em partes de tamanho parecido); as palavras acendem conforme a voz e, quando o trecho acaba, entra o próximo. Ocupa só a faixa de baixo (y ≈ 640 a 718) e não cobre metade da tela como a de várias linhas. Está no `modelo-v4.html` (função `legenda`); todo `video.html` é gerado de novo com `novo_video.py` para pegar a mudança.
+
 ## 🎙️ Voz Gemini e crivo da narração (26/11/2026)
 - **Voz:** `gemini-2.5-pro-tts`, voz **Charon**, a mesma para todos os vídeos; o estilo (sorriso na voz, pausas antes das palavras importantes, sem tom de desenho animado) e o ajuste leve por série estão em `ferramentas/video2d/vozes/estilos.json`. A chave fica só em `~/.segredos/` (nunca no repositório).
 - **Emoção por momento:** antes de cada trecho vai uma direção entre colchetes — `[suspense]`, `[animado]`, `[explicando]`, `[surpresa]` — que a voz usa e não lê. `narrar.py` marca sozinho (problema = suspense, descoberta = surpresa, conceito = explicando, abertura, "Onde eu uso isso?" e fim = animado); para acertar uma cena à mão: `<pasta>/emocoes.json` com `{"3": "[suspense] texto…"}`.
