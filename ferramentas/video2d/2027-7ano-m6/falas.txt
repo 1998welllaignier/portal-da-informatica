@@ -1,20 +1,22 @@
 Programar em dupla: piloto e navegador!
 
-O Caio e a Duda foram fazer um programa juntos, no mesmo computador. Os dois queriam mexer no mouse ao mesmo tempo, um apagava o bloco do outro, e no fim ninguém sabia o que o programa fazia.
+O Caio e a Duda foram fazer um programa juntos, no mesmo computador. Caio e Duda queriam mexer no mouse ao mesmo tempo, um apagava o bloco do outro, e no fim ninguém sabia o que o programa fazia. Que bagunça!
 
-Programadores de verdade trabalham muito em dupla. Um computador, duas cabeças e dois papéis: o piloto e o navegador.
+Sabia que programadores de verdade trabalham muito em dupla? Isso se chama programação em dupla: um computador, duas cabeças e dois papéis diferentes, o piloto e o navegador. Igual numa corrida de rali.
 
-O piloto fica com o mouse e o teclado e monta os blocos. Mas não decide tudo sozinho.
+O piloto fica com o mouse e o teclado e monta os blocos. Ele é quem dirige. Mas não decide tudo sozinho: ele escuta o navegador.
 
-O navegador lê o enunciado, pensa no próximo passo, confere cada bloco e procura erros. E não pega o mouse!
+O navegador lê o enunciado, pensa no próximo passo, confere cada bloco e procura erros. Ele é quem olha o mapa. E tem uma regra: o navegador não pega o mouse!
 
-E a cada dez minutos, troquem de papel! Assim, os dois aprendem tudo.
+E a cada dez minutos, a dupla troca de papel. Isso é revezar. Assim, cada um pilota, cada um navega, e todo mundo aprende tudo.
 
-O jeito de trabalhar tem quatro passos. Planejar: ler o problema juntos e dividir em partes. Montar: o piloto monta uma parte, e o navegador confere. Testar: rodar depois de cada parte, não só no final. Trocar: trocar de papel e seguir para a próxima parte.
+O jeito de trabalhar tem quatro passos. Primeiro, planejar: ler o problema juntos e dividir em partes. Essa lista de partes é o plano. Segundo, montar: o piloto monta uma parte, e o navegador confere.
 
-E os combinados da dupla: falar com respeito, como acho que esse bloco vai dentro do repita. Ouvir a ideia do outro antes de testar a sua. E lembrar que o erro é da dupla, não de um só.
+Terceiro, testar: rodar o programa depois de cada parte, e não só no final. Quarto, trocar: trocar de papel e seguir para a próxima parte do plano.
 
-O Caio virou piloto, a Duda virou navegadora, e depois trocaram. O programa ficou pronto, e os dois sabiam explicar cada bloco. Missão cumprida!
+E os combinados da dupla: falar com respeito, por exemplo, acho que esse bloco vai dentro do repita. Ouvir a ideia do outro antes de testar a sua. E lembrar que o erro é da dupla, não de um só.
+
+O Caio virou piloto, a Duda virou navegadora, e depois trocaram. O programa ficou pronto, e cada um sabia explicar cada bloco. Missão cumprida!
 
 Onde eu uso isso? No carro, o motorista dirige e quem está do lado olha o mapa. No jogo cooperativo, um ataca e o outro cuida do time. E nas empresas de tecnologia, programar em dupla ajuda a errar menos e a ensinar os novatos.
 

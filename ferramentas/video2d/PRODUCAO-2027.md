@@ -28,7 +28,7 @@ Voz: o código é o começo do id do MP3 no HeyGen (arquivo `voz_link.txt` da pa
 | 7º 1ºb M3 Registros | 2027-7ano-m3 | v2 ✅ (12 cenas, verificador ok) | a9dcb938 | enviado, não postado | – | falta voz nova |
 | 7º 1ºb M4 Depurar | 2027-7ano-m4 | v2 ✅ (12 cenas, verificador ok) | be32b934 | enviado, não postado | – | falta voz nova |
 | 7º 1ºb M5 Decompor e reaproveitar | 2027-7ano-m5 | v2 ✅ (13 cenas, verificador ok) | c974346d | enviado, não postado | – | falta voz nova |
-| 7º 1ºb M6 Programar em dupla | 2027-7ano-m6 | v1 ❌ | 467f382b | enviado, não postado | – | refazer → v2 |
+| 7º 1ºb M6 Programar em dupla | 2027-7ano-m6 | v2 ✅ (12 cenas, verificador ok) | 467f382b | enviado, não postado | – | falta voz nova |
 | 7º 1ºb M7 Desafios de depuração | 2027-7ano-m7 | v1 ❌ (só cenas) | – | – | – | refazer → v2 |
 | 7º 1ºb M8 O placar do quiz | 2027-7ano-m8 | v1 ❌ (só cenas) | – | – | – | refazer → v2 |
 | 8º 1ºb M1 a M3, M5 a M8 | 2027-8ano-m1…m8 | v1 ❌ (só cenas) | – | – | – | refazer → v2 |
