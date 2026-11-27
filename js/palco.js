@@ -147,15 +147,73 @@
       vbox.hidden = true; A.cx.querySelector(".pc-falha").hidden = true; A.st.hidden = false; await leituraAluno(d, s); }
     gravarAluno({});
   }
+  /* 🌟 MODO HELENA NA LEITURA GUIADA (27/11/2026, aprovado pelo professor: "tudo A")
+     Montado sozinho a partir das palavras difíceis da missão que têm figura ou foto (dados/termos-imagens.js), então vale
+     para todas as missões de todos os anos sem escrever nada à mão:
+     - TRECHO: logo abaixo do texto, o 🌟 cartão com a figura e a palavra grande (a primeira palavra difícil do trecho que tem figura).
+     - PERGUNTA RELÂMPAGO: primeiro a vez do aluno do Modo Helena — "Qual figura mostra “<palavra>”?" com 3 figuras
+       (a certa e duas de outras palavras da missão). Errou: a certa brilha e ele tenta de novo (vale metade: 3 XP em vez de 5).
+       Em dupla, o colega lê a pergunta para ele e depois responde a pergunta normal na vez dele.
+     - Sem figura para aquela palavra: ele responde a pergunta normal (com o colega lendo, se estiver em dupla). */
+  const temImg = t => !!(P.termoImg && P.termoImg(t));
+  const baseT = t => norm(String(t || "").replace(/<[^>]+>/g, "").replace(/\s*\(.*?\)\s*/g, " ")).replace(/[^a-z0-9]+/g, " ").trim();
+  function hzCartao(M, i) { const txt = " " + norm(semTags(M.T.lista[i] || "")).replace(/[^a-z0-9]+/g, " ") + " ";
+    return (M.T.termos || []).find(t => t.termo && baseT(t.termo) && txt.includes(" " + baseT(t.termo) + " ") && temImg(t.termo)) || null; }
+  function hzPergunta(M, sl) {
+    const com = (M.T.termos || []).filter(t => t.termo && temImg(t.termo)), alvo = com.find(t => baseT(t.termo) === baseT(sl.q.termo)); if (!alvo) return null;
+    const vistos = new Set([P.termoImg(alvo.termo)]), outras = com.filter(t => { const im = P.termoImg(t.termo); if (t === alvo || vistos.has(im)) return false; vistos.add(im); return true; });
+    if (outras.length < 2) return null;
+    const s0 = sl.i * 5 + 1, d1 = outras[s0 % outras.length], d2 = outras[(s0 + 2) % outras.length] === d1 ? outras[(s0 + 1) % outras.length] : outras[(s0 + 2) % outras.length];
+    const ordem = [[0, 1, 2], [1, 0, 2], [2, 1, 0], [1, 2, 0]][sl.i % 4], ops = [alvo, d1, d2];
+    return { termo: semTags(alvo.termo), ops: ordem.map(k => ops[k]), certa: ordem.indexOf(0) };
+  }
+  const gravarUm = (i, extra) => { const s = sessaoAluno(), d = ativoAluno(); if (!s || !d) return; const id = (s.alunoIds || [])[i]; if (!id) return;
+    try { P.nuvem.app(i).db.collection("progresso").doc(id + "_palco").set(Object.assign({ alunoId: id, turma: s.turma, tipo: "palco", sala: d.turmaAula, dia: hoje(), sessao: d.sessao, momento: d.momento, slide: d.slide || 0, ping: Date.now() }, extra), { merge: true }).catch(() => {}); } catch (e) {} };
+  A.hz = {};
   async function leituraAluno(d, s) {
     const M = await material(d.aid, d.mid); if (!M.T.lista.length) return;
     const sl = M.slides[d.slide || 0] || {}, meus = s.alunoIds || [], kResp = d.sessao + "_" + (d.slide || 0);
+    const hz = P.helena && P.helena.estado ? await P.helena.estado(s).catch(() => null) : null;
     const minha = sl.t === "pergunta" ? A.resp[kResp] : (d.leitor && meus.includes(d.leitor.id) ? "eu" : null);
-    const chave = JSON.stringify([d.momento, d.slide, d.leitor, d.leu, d.termo, d.perg && d.perg.slide === d.slide ? d.perg.revelada : 0, minha, d.aid, d.mid]);
+    const rev = !!(d.perg && d.perg.slide === d.slide && d.perg.revelada);
+    const chave = JSON.stringify([d.momento, d.slide, d.leitor, d.leu, d.termo, d.perg && d.perg.slide === d.slide ? d.perg.revelada : 0, minha, d.aid, d.mid, hz ? A.hz[kResp] || 0 : 0]);
     if (chave === A.chave) return; A.chave = chave;
     pintarSlide(A.st, d, M, "aluno", minha);
     if (L().ligarPalavras) L().ligarPalavras(A.st, M.T.termos, "travado");
-    A.st.querySelectorAll(".pc-op").forEach(b => b.onclick = () => { if (A.resp[kResp] != null) return; const k = +b.dataset.op; A.resp[kResp] = k; gravarAluno({ resp: { [kResp]: k } }); A.chave = ""; leituraAluno(d, s); });
+    const responder = k => { if (A.resp[kResp] != null) return; A.resp[kResp] = k;
+      const z = hz && A.hz[kResp]; if (z && z.fase === "colega") meus.forEach((_, j) => { if (j !== hz.idx) gravarUm(j, { resp: { [kResp]: k } }); }); else gravarAluno({ resp: { [kResp]: k } });
+      A.chave = ""; leituraAluno(d, s); };
+    A.st.querySelectorAll(".pc-op").forEach(b => b.onclick = () => responder(+b.dataset.op));
+    if (!hz) return;
+    const nome = esc(hz.nome), colega = hz.dupla ? esc(hz.colega) : "";
+    // 🌟 trecho: o cartão com a figura
+    if (sl.t === "trecho") { const t = hzCartao(M, sl.i), box = A.st.querySelector(".pc-txt"); if (!t || !box) return;
+      box.insertAdjacentHTML("beforeend", `<div class="pc-hz-cartao"><div class="pc-hz-fig">${P.termoImg(t.termo)}</div><div><span class="pc-hz-tag">🌟 Para ${nome}</span><p class="pc-hz-pal">${esc(semTags(t.termo))}</p></div></div>`);
+      encaixar(A.st); A.st.querySelectorAll("img").forEach(im => { if (!im.complete) im.addEventListener("load", () => encaixar(A.st), { once: true }); }); return; }
+    const pg = A.st.querySelector(".pc-perg"); if (sl.t !== "pergunta" || rev || !pg) return;
+    if (A.resp[kResp] != null) { if ((A.hz[kResp] || {}).feito === "ok") pg.insertAdjacentHTML("afterbegin", `<p class="pc-hz-festa">🎉 Muito bem, ${nome}! Você acertou a figura.</p>`); return; }
+    const z = A.hz[kResp] = A.hz[kResp] || { fase: "hz", erros: [] }, fq = hzPergunta(M, sl);
+    if (z.fase === "hz") {
+      const dica = hz.dupla ? `<p class="pc-hz-dica">👧🧒 <b>${colega}</b>, leia a pergunta para ${nome} e deixe que ${nome} escolha a resposta. Se precisar, pode apontar, mas quem toca é ${nome}.</p>` : "";
+      if (!fq) {   // sem figura: a pergunta normal, na vez dele
+        pg.insertAdjacentHTML("afterbegin", `<p class="pc-hz-vez">🌟 Sua vez, ${nome}!</p>${dica}`);
+        A.st.querySelectorAll(".pc-op").forEach(b => b.onclick = () => { const k = +b.dataset.op;
+          if (hz.dupla) { gravarUm(hz.idx, { resp: { [kResp]: k } }); z.fase = "colega"; z.feito = k === sl.q.certa ? "ok" : "no"; A.chave = ""; leituraAluno(d, s); } else responder(k); });
+        encaixar(A.st); return; }
+      pg.innerHTML = `<p class="pc-hz-vez">🌟 Sua vez, ${nome}!</p>${dica}<h2>Qual figura mostra “${esc(fq.termo)}”?</h2>
+        <div class="pc-hz-ops">${fq.ops.map((t, k) => `<button type="button" class="pc-op pc-hz-op${z.erros.includes(k) ? " errada" : ""}${z.erros.length && k === fq.certa ? " brilha" : ""}" data-op="${k}" aria-label="Figura ${k + 1}" ${z.erros.includes(k) ? "disabled" : ""}>${P.termoImg(t.termo)}</button>`).join("")}</div>
+        <p class="pc-info">${z.erros.length ? "Quase! A figura certa está brilhando: toque nela 😉" : "👆 Toque na figura certa"}</p>`;
+      pg.style.fontSize = "";
+      pg.querySelectorAll(".pc-hz-op").forEach(b => b.onclick = () => { const k = +b.dataset.op;
+        if (k !== fq.certa) { if (!z.erros.includes(k)) z.erros.push(k); A.chave = ""; leituraAluno(d, s); return; }
+        const meia = z.erros.length > 0, rr = { resp: { [kResp]: sl.q.certa } }; if (meia) rr.hzMeia = { [kResp]: 1 };
+        z.feito = "ok";
+        if (hz.dupla) { gravarUm(hz.idx, rr); z.fase = "colega"; A.chave = ""; leituraAluno(d, s); }
+        else { A.resp[kResp] = sl.q.certa; gravarAluno(rr); z.fase = "fim"; A.chave = ""; leituraAluno(d, s); } });
+      return; }
+    if (z.fase === "colega") {
+      pg.insertAdjacentHTML("afterbegin", `${z.feito === "ok" ? `<p class="pc-hz-festa">🎉 Muito bem, ${nome}!</p>` : ""}<p class="pc-hz-vez colega">👉 Agora é a vez de ${colega}: responda a pergunta.</p>`);
+      encaixar(A.st); }
   }
   async function videoAluno(d, box) {
     const v = d.video || {}; if (!v.vid) return;
@@ -326,7 +384,7 @@
       const sl = M.slides[d.slide]; if (!sl || sl.t !== "pergunta") return;
       const k = d.sessao + "_" + d.slide, on = online(), resp = {}; ctx.alunos.forEach(a => { const r = (((docP(a.id) || {}).resp) || {})[k]; if (r != null) resp[a.id] = r; });
       const ac = ctx.alunos.filter(a => resp[a.id] === sl.q.certa), er = ctx.alunos.filter(a => resp[a.id] != null && resp[a.id] !== sl.q.certa), sem = on.filter(a => resp[a.id] == null);
-      ac.forEach(a => { d.xp[a.id] = (d.xp[a.id] || 0) + XP_PERGUNTA; });
+      ac.forEach(a => { const meia = !!((((docP(a.id) || {}).hzMeia) || {})[k]); d.xp[a.id] = (d.xp[a.id] || 0) + (meia ? 3 : XP_PERGUNTA); });   // 🌟 Modo Helena: acertou a figura na 2ª tentativa = 3 XP
       d.perg = { slide: d.slide, revelada: true, certa: sl.q.certa, resp: ac.length + er.length, total: on.length, acertaram: ac.map(a => nomeCurto(a.nome)), erraram: er.map(a => nomeCurto(a.nome)), semResp: sem.map(a => nomeCurto(a.nome)) };
       d.perguntas[d.slide] = { termo: sl.q.termo, acertos: ac.length, resp: ac.length + er.length, quem: ac.map(a => a.id) };
       if (P.sons && P.sons.tandam) try { P.sons.tandam(); } catch (e) {}   // 🥁 "tan-dam!" curtinho (pedido do professor)
