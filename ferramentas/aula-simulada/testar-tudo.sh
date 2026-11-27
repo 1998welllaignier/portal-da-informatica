@@ -9,7 +9,8 @@ for f in ${SO:-roteiro-*.js}; do
   falhou=0
   [ $s -ne 0 ] && falhou=1                                                   # o roteiro quebrou ou passou do tempo
   grep -qE "erros.*\[ *['\"]" "/tmp/teste-$f.txt" && falhou=1                # erro de JavaScript na página (lista de erros com texto)
-  grep -q "CONFERE" "/tmp/teste-$f.txt" && grep -qE ": false,?$" "/tmp/teste-$f.txt" && falhou=1   # conferência com "false"
+  # conferência com "false": só dentro do bloco CONFERE (outros "false" do relatório podem ser o resultado esperado)
+  awk '/CONFERE/{c=1} c&&/: false,?$/{f=1} c&&/^ *}/{c=0} END{exit !f}' "/tmp/teste-$f.txt" && falhou=1
   if [ $falhou -eq 1 ]; then ruim="$ruim $f"; echo "❌ $f (veja /tmp/teste-$f.txt)"; else ok=$((ok+1)); echo "✅ $f"; fi
 done
 pkill -f servidor.js 2>/dev/null

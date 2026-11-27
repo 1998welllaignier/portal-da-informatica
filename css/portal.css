@@ -3086,3 +3086,5 @@ body.hz-aberta{overflow:hidden}
 @media print{.cx-bt,.cx-caixa{display:none!important}}
 .cx-caixa:focus{outline:none}.cx-caixa:focus-visible{outline:3px solid #f59e0b}
 .cx-mao-balao.lado-dir::before{content:"";position:absolute;left:-9px;top:14px;border:9px solid transparent;border-left:0;border-right-color:rgba(30,58,138,.88)}
+/* 🧰 com a carta da vez aberta, a caixa de ferramentas continua por cima (26/11/2026: "deixa a ferramenta em todas") */
+body.hz-aberta .cx-bt,body.hz-aberta .cx-caixa{z-index:9001}body.hz-aberta .cx-balao{z-index:9002}

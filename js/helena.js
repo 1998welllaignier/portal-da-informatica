@@ -90,6 +90,9 @@
       const outros = s.alunoIds.map((_, j) => j).filter(j => j !== i && !mapa[s.alunoIds[j]]);
       v = { idx: i, nome: primeiro(s.nomes[i]) || "você", dupla: outros.length > 0, solo: s.alunoIds.length === 1,
         colega: outros.length ? outros.map(j => primeiro(s.nomes[j])).join(" e ") : "" };
+      // 👭 26/11/2026 (professor): duas do Modo Helena juntas fazem a Trilha juntas, revezando as cartas (uma lê para a outra)
+      if (s.alunoIds.length > 1 && !outros.length) { const nomes = s.alunoIds.map((_, j) => primeiro(s.nomes[j]) || "colega");
+        v = { idx: i, nome: nomes.join(" e "), nomes, dupla: false, solo: true, juntas: true, colega: "" }; }
     }
     memo = { k, v }; return v;
   }
@@ -98,10 +101,10 @@
   /* ---------------- progresso ---------------- */
   const chave = (mid, c) => mid + "-hz-" + c.id;
   function feita(aid, mid, c) { const st = (P.getProg(aid).atv || {})[chave(mid, c)]; return !!(st && st.status); }
-  function gravar(aid, mid, c, status, tentativas) {
+  function gravar(aid, mid, c, status, tentativas, naTrilha) {
     const p = P.getProg(aid); p.atv = p.atv || {};
     const k = chave(mid, c); if (p.atv[k] && p.atv[k].status && p.atv[k].status !== "descanso") return;   // vale a primeira resposta
-    p.atv[k] = { status, tentativas: tentativas || 0, quando: Date.now(), hz: 1 };
+    p.atv[k] = { status, tentativas: tentativas || 0, quando: Date.now(), hz: 1, ...(naTrilha ? { so: 1 } : {}) };
     P.setProg(aid, p);
   }
 
@@ -109,13 +112,13 @@
   const embaralhar = arr => { const a = arr.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
   function carta(c, hz, fim, ao) {   // ao(status, erros): grava na hora; fim(): fecha/avança depois da festa
     const nome = esc(hz.nome), col = hz.dupla ? esc(hz.colega) : "";
-    const leitor = hz.dupla ? `<p class="hz-leitor">👧🧒 <b>${col}</b>, leia em voz alta para a ${nome}:</p>` : "";
+    const leitor = hz.dupla ? `<p class="hz-leitor">👧🧒 <b>${col}</b>, leia em voz alta para ${nome}:</p>` : "";
     const passos = c.tipo === "explica" ? "" : `<ol class="hz-passos"><li>${hz.dupla ? "👂 Ouça" : "👀 Leia"}</li><li>👀 Olhe os desenhos</li><li>👆 Toque ${c.tipo === "ordem" ? "na ordem" : c.tipo === "achar" ? "uma caixa de cada vez" : "na resposta"}</li></ol>`;
-    const el = h(`<div class="hz-carta" role="dialog" aria-modal="true" aria-label="Vez da ${nome}">
-      <p class="hz-tit">🌟 Agora é a vez da ${nome}!</p>${leitor}
+    const el = h(`<div class="hz-carta" role="dialog" aria-modal="true" aria-label="Sua vez, ${nome}">
+      <p class="hz-tit">🌟 Sua vez, ${nome}!</p>${leitor}
       <p class="hz-perg">${esc(c.pergunta)}</p>${passos}
       <div class="hz-area"></div><p class="hz-msg" aria-live="polite"></p>
-      <div class="hz-pe"><button type="button" class="hz-desc">😴 A ${nome} escolheu descansar agora</button></div></div>`);
+      <div class="hz-pe"><button type="button" class="hz-desc">😴 ${nome} escolheu descansar agora</button></div></div>`);
     const area = el.querySelector(".hz-area"), msg = el.querySelector(".hz-msg");
     let erros = 0, acabou = false;
     const terminar = (status) => { if (acabou) return; acabou = true; el.querySelectorAll("button").forEach(b => b.disabled = true);
@@ -146,9 +149,9 @@
     } else if (c.tipo === "explica") {
       const quem = hz.dupla ? col : "o professor";
       area.appendChild(h(`<p class="hz-explica">🗣️ ${nome}, conte para ${quem}!</p>`));
-      const b = h(`<button type="button" class="hz-op hz-contou"><span class="hz-ic">✅</span><span class="hz-tx">${hz.dupla ? `A ${nome} contou` : "Contei!"}</span></button>`);
+      const b = h(`<button type="button" class="hz-op hz-contou"><span class="hz-ic">✅</span><span class="hz-tx">${hz.dupla ? `${nome} contou` : "Contei!"}</span></button>`);
       b.onclick = () => terminar("contou"); area.appendChild(b);
-      if (hz.dupla) area.appendChild(h(`<p class="hz-dica">${col}: escute com atenção e toque em ✅ quando ela terminar.</p>`));
+      if (hz.dupla) area.appendChild(h(`<p class="hz-dica">${col}: escute com atenção e toque em ✅ quando terminar.</p>`));
     }
     el.querySelector(".hz-desc").onclick = () => terminar("descanso");
     return el;
@@ -179,7 +182,7 @@
   }
   function telaSolo(o) {   // { mount, aid, mid, m, hz, apostilaHref }
     const lista = cartas(o.aid, o.mid), seq = sequencia(lista), nome = esc(o.hz.nome);
-    const el = o.mount(`<section class="tela hz-solo"><header class="hz-cab"><p class="hz-sup">🌟 Trilha da ${nome}</p><h1>${esc(o.m.icone || "")} ${esc((o.m.titulo || "").replace(/^Missão \d+ – /, ""))}</h1>
+    const el = o.mount(`<section class="tela hz-solo"><header class="hz-cab"><p class="hz-sup">🌟 Trilha de ${nome}</p><h1>${esc(o.m.icone || "")} ${esc((o.m.titulo || "").replace(/^Missão \d+ – /, ""))}</h1>
       <ol class="hz-bolas">${seq.filter(c => c.tipo !== "pausa").map(() => "<li></li>").join("")}</ol></header><div class="hz-palco"></div>
       <p class="hz-rodape"><a href="${o.apostilaHref}">📚 Voltar às missões</a></p></section>`);
     const palco = el.querySelector(".hz-palco"), bolas = [...el.querySelectorAll(".hz-bolas li")];
@@ -188,13 +191,16 @@
     const proxima = () => {
       pintar(); palco.innerHTML = "";
       const i = seq.findIndex((c, j) => c.tipo === "pausa" ? (!pausaFeita && seq.slice(0, j).every(x => x.tipo === "pausa" || feita(o.aid, o.mid, x)) && seq.slice(j + 1).some(x => !feita(o.aid, o.mid, x))) : !feita(o.aid, o.mid, c));
-      if (i < 0) { palco.appendChild(h(`<div class="hz-carta hz-final"><p class="hz-tit">🏆 Missão da ${nome} concluída!</p><p class="hz-perg">Parabéns pelo esforço, ${nome}! 🎉</p>
+      if (i < 0) { palco.appendChild(h(`<div class="hz-carta hz-final"><p class="hz-tit">🏆 Missão de ${nome} concluída!</p><p class="hz-perg">Parabéns pelo esforço, ${nome}! 🎉</p>
         <p class="hz-dica">Chame o professor para ver tudo o que você fez.</p></div>`)); return; }
       const c = seq[i];
       if (c.tipo === "pausa") { const pz = h(`<div class="hz-carta hz-pausa"><p class="hz-tit">🙌 Hora de descansar a mão!</p><p class="hz-perg">Mexa os dedos, abra e feche a mão, respire fundo. 😌</p>
           <div class="hz-area"><button type="button" class="hz-op"><span class="hz-ic">▶️</span><span class="hz-tx">Continuar</span></button></div></div>`);
         pz.querySelector("button").onclick = () => { pausaFeita = true; proxima(); }; palco.appendChild(pz); return; }
-      palco.appendChild(carta(c, o.hz, () => proxima(), (status, erros) => gravar(o.aid, o.mid, c, status, erros)));
+      let hzC = o.hz;
+      if (o.hz.juntas && o.hz.nomes) { const k = seq.filter(x => x.tipo !== "pausa").indexOf(c), n = o.hz.nomes.length;
+        hzC = Object.assign({}, o.hz, { nome: o.hz.nomes[k % n], colega: o.hz.nomes.filter((_, j) => j !== k % n).join(" e "), dupla: true }); }
+      palco.appendChild(carta(c, hzC, () => proxima(), (status, erros) => gravar(o.aid, o.mid, c, status, erros, true)));
       window.scrollTo(0, 0);
     };
     proxima();
@@ -202,8 +208,18 @@
   }
 
   /* ---------------- 🏆 pontos (usado pelo podio.js) ---------------- */
-  function extras(mid, atv) {
-    let x = 0; Object.keys(atv || {}).forEach(k => { if (k.indexOf(mid + "-hz-") !== 0) return; const st = atv[k] || {};
+  /* ⚖️ 26/11/2026 (professor: "não é justo que elas fiquem em último lugar"): na 🌟 Trilha (sozinha ou duas juntas) as cartas
+     SÃO a missão, então valem como uma missão inteira: todas de primeira = 1000 XP, igual a quem fez a missão completa
+     (de primeira = inteira, com nova tentativa = metade, contou = inteira, descansou = 0). Em dupla com colega, como antes:
+     as tarefas são da dupla e as cartas somam um extra (+40, +25, até +200). */
+  function extras(mid, atv, aid) {
+    const ks = Object.keys(atv || {}).filter(k => k.indexOf(mid + "-hz-") === 0 && atv[k]);
+    if (ks.some(k => atv[k].so)) {
+      const n = Math.max(1, (aid ? cartas(aid, mid).length : 0) || ks.length); let f = 0;
+      ks.forEach(k => { const st = atv[k]; f += st.status === "certo" ? ((st.tentativas || 0) ? .5 : 1) : st.status === "contou" ? 1 : 0; });
+      return Math.min(1000, Math.round(1000 * f / n));
+    }
+    let x = 0; ks.forEach(k => { const st = atv[k] || {};
       if (st.status === "certo") x += (st.tentativas || 0) ? 25 : 40; else if (st.status === "contou") x += 40; });
     return Math.min(200, x);
   }
@@ -214,5 +230,7 @@
     return r;
   }
 
-  P.helena = { estado, limpar, cartas, naPagina, telaSolo, extras, resumo, temCartas: (aid, mid) => cartas(aid, mid).length > 0 };
+  // o nome de quem está no Modo Helena nesta sessão (para a barra de XP do aluno: "Sua vez, <nome>")
+  const nomeAtual = () => (memo.v && memo.v.nome) || "";
+  P.helena = { estado, nomeAtual, limpar, cartas, naPagina, telaSolo, extras, resumo, temCartas: (aid, mid) => cartas(aid, mid).length > 0 };
 })();

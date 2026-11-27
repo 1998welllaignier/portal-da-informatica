@@ -410,7 +410,7 @@
     z.tarefas = max ? Math.round(1000 * raw / max) : 0; z.bonus = bonusDe(mm, atv).xp; z.sequencia = sequencia(atv).bonus;
     if (mm.espiral) { const lab = (atv || {})[mid + "-lab"], alb = (atv || {})[mid + "-termos"];
       z.lab = lab ? (lab.xp != null ? Math.max(0, +lab.xp || 0) : Math.min(150, (lab.ac || 0) * 10)) : 0; z.album = alb && alb.status ? 50 : 0; }
-    z.helena = P.helena ? P.helena.extras(mid, atv) : 0;
+    z.helena = P.helena ? P.helena.extras(mid, atv, aid) : 0;
     z.total = z.tarefas + z.bonus + z.sequencia + z.lab + z.album + z.helena; return z;
   }
   function xpDoc(aid, mid, atv) {
@@ -421,7 +421,7 @@
       (pg.atividades || []).forEach(at => { const T = (P.tipos || {})[at.tipo] || {}; if (T.semStatus || at.opcional) return;
         max += base; const st = (atv || {})[at.id]; if (!st || !st.status) return;
         raw += base * fator(st); }); });
-    return (max ? Math.round(1000 * raw / max) : 0) + bonusDe(mm, atv).xp + sequencia(atv).bonus + extrasEspiral(mm, mid, atv) + (P.helena ? P.helena.extras(mid, atv) : 0);   // 🌟 Vez da Helena (25/11/2026)
+    return (max ? Math.round(1000 * raw / max) : 0) + bonusDe(mm, atv).xp + sequencia(atv).bonus + extrasEspiral(mm, mid, atv) + (P.helena ? P.helena.extras(mid, atv, aid) : 0);   // 🌟 Vez da Helena (25/11/2026)
   }
   /* ⭐ XP da 📖 leitura guiada de HOJE, por turma (24/11/2026: antes era um valor solto da página, que só existia se a
      Aula ao vivo estivesse aberta naquela aba; o painel ao vivo e o placar chegavam a posições diferentes). Agora toda tela

@@ -383,7 +383,7 @@
     box.innerHTML = `<div class="xp-cab"><span>⚡ XP da missão</span><b>${cheio ? `🏆 COMPLETA!${bon ? ` <span class="xp-bonus">⭐ +${bon}</span>` : ""}` : `${xp} / 1000`}</b></div><div class="xp-trilho"><i style="width:${Math.max(xp ? 3 : 0, Math.min(100, xp / 10))}%"></i></div>`;
     // 🧾 26/11/2026 (pedido do professor): de onde veio cada ponto, para o aluno ver que tudo o que ele faz soma no placar
     try { const z = P.podio && P.podio.xpPartes ? P.podio.xpPartes(aid, mid, prog.atv) : null;
-      const ps = z ? [["📘", "tarefas", z.tarefas], ["⭐", "bônus relâmpago", z.bonus], ["🔥", "sequência", z.sequencia], ["♾️", "laboratório", z.lab], ["🃏", "álbum", z.album], ["🌟", "Vez da Helena", z.helena]].filter(x => x[2] > 0) : [];
+      const ps = z ? [["📘", "tarefas", z.tarefas], ["⭐", "bônus relâmpago", z.bonus], ["🔥", "sequência", z.sequencia], ["♾️", "laboratório", z.lab], ["🃏", "álbum", z.album], ["🌟", `“Sua vez${P.helena && P.helena.nomeAtual && P.helena.nomeAtual() ? ", " + esc(P.helena.nomeAtual()) : ""}”`, z.helena]].filter(x => x[2] > 0) : [];
       if (ps.length > 1 || (ps.length === 1 && ps[0][1] !== "tarefas")) box.insertAdjacentHTML("beforeend", `<p class="xp-partes">${ps.map(([ic, r, v], k) => `<span>${k ? "+ " : ""}${ic} ${v} ${r}</span>`).join(" ")}</p>`); } catch (e) {}
     if (xp > antes && antes) { box.classList.remove("subiu"); void box.offsetWidth; box.classList.add("subiu"); }
     linhaPlacarXP();
@@ -1201,8 +1201,10 @@
             cf.querySelector("#sb-tentar").onclick = () => { cf.innerHTML = ""; form.hidden = false; const bc2 = el.querySelector("#fcod button[type=submit], #fcod .btn-grande"); if (bc2) bc2.click(); else el.querySelector("#c1").focus(); };
             cf.querySelector("#sb-voltar").onclick = () => { cf.innerHTML = ""; form.hidden = false; el.querySelector("#c1").focus(); };
             return; } }
+        let trilhaS = infos.length === 1 && !!infos[0].trilha;
+        try { if (!trilhaS) trilhaS = await trilhaDaDupla(infos, turmaSess); } catch (e) {}
         sess.set({ serie: serieSess, turma: turmaSess, modo, nuvem: true, alunoIds: infos.map(x => x.alunoId), nomes: infos.map(x => x.nome), apelidos: infos.map((x, i) => apels[i] || ""), entrou: Date.now(),
-          trilha: infos.length === 1 && !!infos[0].trilha });
+          trilha: trilhaS });
         // 🚦 Sala de espera (20/11/2026): no dia e na hora da aula, quem entra vai para a sala de espera (jogos que dão pontos,
         //    avatar sem pressa, espiar a missão) até o professor dar a 🏁 largada; o avatar de 4 minutos fica para casa e outros dias
         if (P.espera) { try { if (await P.espera.ativaPara(sess.get())) { location.hash = "#/espera"; return; } } catch (e) { console.warn("espera", e); } }
@@ -2110,6 +2112,14 @@
      ROTEADOR
      ============================================================ */
   /* Aluno com 📌 apostila diferenciada: a apostila da turma vira a Trilha Passo a Passo dela */
+  /* 👣🌟 26/11/2026 (professor): dupla de um aluno da Trilha Passo a Passo com alguém do Modo Helena faz o PASSO A PASSO
+     (e as cartas da vez aparecem nele). Os outros casos de dupla continuam na apostila da turma, como antes. */
+  async function trilhaDaDupla(infos, turmaS) {
+    if (!infos || infos.length < 2 || !infos.some(x => x.trilha) || !P.nuvem || !P.nuvem.db) return false;
+    const sn = await P.nuvem.db().collection("config").doc("liberar_" + turmaS).get(); const hz = (sn.exists && sn.data().helena) || {};
+    return infos.every(x => x.trilha || hz[x.alunoId]) && infos.some(x => hz[x.alunoId]);
+  }
+  P.trilhaDaDupla = trilhaDaDupla;
   function trilhaDe(aid) {
     const s = sess.get(); if (!s || !s.trilha) return null;
     const t = cat().apostilas.find(x => x.trilha && x.base === aid); return t ? t.id : null;

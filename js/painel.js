@@ -1326,7 +1326,7 @@
             const on = !a.modoHelena;
             await db().collection("alunos").doc(a.id).update({ modoHelena: on });
             await db().collection("config").doc("liberar_" + a.turma).set({ helena: { [a.id]: on } }, { merge: true });
-            await P.aviso(on ? `Pronto! 🌟 Modo Helena ligado para ${a.nome}.\n\n• Em dupla: a dupla faz a apostila normal e, em cada etapa, aparece a carta "Agora é a vez da ${a.nome.split(" ")[0]}!" (o colega lê em voz alta, ${a.nome.split(" ")[0]} responde com um toque).\n• Sozinho(a): abre a Trilha própria, com cartas de um toque e uma pausa para descansar.\n• O visto do dia vem da presença (não precisa terminar tarefas).` : `${a.nome} voltou ao modo normal.`);
+            await P.aviso(on ? `Pronto! 🌟 Modo Helena ligado para ${a.nome}.\n\n• Em dupla com a apostila da turma: a dupla faz a apostila e, em cada etapa, aparece a carta "🌟 Sua vez, ${a.nome.split(" ")[0]}!" (o colega lê em voz alta, ${a.nome.split(" ")[0]} responde com um toque).\n• Em dupla com alguém do 👣 Passo a Passo: a dupla faz o Passo a Passo, com as cartas da vez.\n• Com outro aluno do Modo Helena: fazem a Trilha juntos, revezando as cartas.\n• Sozinho(a): abre a Trilha própria, com cartas de um toque e uma pausa para descansar. Na Trilha, as cartas valem como a missão inteira (todas de primeira = 1000 XP), para disputar o placar em pé de igualdade.\n• O visto do dia vem da presença (não precisa terminar tarefas).` : `${a.nome} voltou ao modo normal.`);
           }
           if (x === "casa") {
             if (a.emCasa) { await db().collection("alunos").doc(a.id).update({ emCasa: false, emCasaObs: "", casaLivre: "" }); await db().collection("config").doc("liberar_" + a.turma).set({ casaLivre: { [a.id]: "" } }, { merge: true }); }
