@@ -3156,3 +3156,16 @@ body.hz-aberta .cx-bt,body.hz-aberta .cx-caixa{z-index:9001}body.hz-aberta .cx-b
 .rol-aluno.rol-maestra.lotado .rol-maes-op{width:136px;padding:8px 4px 8px;font-size:1.02rem}
 .rol-aluno.rol-maestra.lotado .rol-maes-av,.rol-aluno.rol-maestra.lotado .rol-maes-av svg{width:52px;height:52px}
 .rol-aluno.rol-maestra.lotado .rol-maes-toque{display:none}
+/* 👦👧 Menino ou menina (27/11/2026): pergunta obrigatória, uma vez só, antes do avatar */
+.sx-cobre{position:fixed;inset:0;z-index:100000;background:rgba(15,23,42,.78);display:flex;align-items:center;justify-content:center;padding:16px}
+.sx-cx{background:#fff;border-radius:26px;padding:28px 40px;max-width:760px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.45);animation:rlEntra .35s ease-out}
+.sx-ola{font-size:1.2rem;color:#5b6275;margin:0}.sx-cx h1{font-size:2.3rem;margin:6px 0 4px;color:#1d2233}.sx-sub{font-size:1.1rem;margin:0 0 20px;color:#334155}
+.sx-ops{display:flex;gap:24px;justify-content:center;flex-wrap:wrap}
+.sx-op{width:240px;border:none;border-radius:22px;padding:20px 10px 16px;color:#fff;font:inherit;font-size:1.8rem;font-weight:900;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;transition:transform .12s}
+.sx-op .sx-ic{font-size:5.5rem;line-height:1}
+.sx-op.m{background:linear-gradient(160deg,#3b82f6,#1d4ed8);box-shadow:0 8px 0 #1e3a8a}.sx-op.f{background:linear-gradient(160deg,#ec4899,#be185d);box-shadow:0 8px 0 #831843}
+.sx-op:hover,.sx-op:focus-visible{transform:translateY(-4px) scale(1.04);outline:4px solid #fde047;outline-offset:3px}
+.sx-aviso{margin:24px 0 0;background:#fff7ed;border:2px solid #fdba74;border-radius:14px;padding:10px 16px;font-size:1.05rem;color:#7c2d12}
+.pp-sx{display:flex;align-items:center;gap:12px;background:#eef6ff;border:2px solid #93c5fd;border-radius:14px;padding:8px 14px;margin:0 0 10px;font-size:1rem}
+.pp-sx .pp-sx-ic{font-size:2rem}.pp-sx small{color:#5b6275}.pp-sx.falta{background:#fff7ed;border-color:#fdba74}
+@media (prefers-reduced-motion:reduce){.sx-cx{animation:none}.sx-op{transition:none}}

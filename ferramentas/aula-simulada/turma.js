@@ -11,7 +11,13 @@ function semente(extra) {
   ALUNOS.forEach(a => { s["alunos/" + a.id] = a; s["acessos/9A_" + a.codigo] = { alunoId: a.id, turma: "9A", ativo: true }; });
   s["config/geral"] = { modoAula: true, salaEspera: true };
   s["config/hoje_9A"] = { dia: d, iniciadaDia: d, espera: true, largadaEm: 0, aid: "informatica-9ano-4bim", mid: "m3", titulo: "Missão 3", travar: true, fixo: true };
-  return Object.assign(s, extra || {});
+  Object.assign(s, extra || {});
+  // 👦👧 27/11/2026: todo aluno simulado já respondeu menino/menina (senão a pergunta obrigatória aparece e trava os roteiros antigos).
+  // Quem quiser testar a pergunta apaga com { "progresso/<id>_avatar": null } ou põe o próprio doc.
+  Object.keys(s).filter(k => /^alunos\//.test(k) && s[k]).forEach((k, i) => { const id = k.slice(7), kav = "progresso/" + id + "_avatar";
+    if (!(kav in s)) s[kav] = { alunoId: id, turma: s[k].turma || "9A", tipo: "avatar", sexo: /^(Ana|Carla|Eva|Maria|Helena|Beatriz|Fernanda|Julia|Júlia|Luana|Larissa)/.test(s[k].nome || "") ? "f" : "m", sexoPor: "aluno", sexoEm: Date.now() }; });
+  Object.keys(s).forEach(k => { if (s[k] === null) delete s[k]; });
+  return s;
 }
 async function semear(extra) { await fetch(BASE + "/fb/semente", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(semente(extra)) }); }
 const loja = async () => (await fetch(BASE + "/fb/tudo")).json();

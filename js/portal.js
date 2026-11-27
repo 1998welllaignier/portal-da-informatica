@@ -653,6 +653,10 @@
     const tbAv = document.getElementById("tb-av"); if (tbAv) tbAv.onclick = () => verAvatar();
     relogioAula(); aplicarCoroa();
     if (P.avatar && s.nuvem && !(s.avatares && s.avatares.length)) P.avatar.daSessao(s, () => barra(info));
+    // 👦👧 27/11/2026: quem ainda não respondeu menino/menina responde agora (uma vez só); correção do professor é aplicada sozinha
+    if (P.avatar && P.avatar.garantirSexo && s.nuvem && !s.prof && !/^#\/(painel|telao)/.test(location.hash)) { const kSx = "portalJK:sxOk:" + (s.alunoIds || []).join("+") + ":" + s.entrou;
+      let ja = false; try { ja = !!sessionStorage.getItem(kSx); } catch (e) {}
+      if (!ja) P.avatar.garantirSexo(s).then(() => { try { sessionStorage.setItem(kSx, 1); } catch (e) {} }).catch(() => {}); }   // uma vez por entrada (economiza leituras)
   }
   /* ⏱️ cronômetro da aula: durante a aula da turma, mostra quanto falta para o fim (contagem regressiva) e o horário final;
      nos últimos 10 minutos fica vermelho e nos últimos 5 pisca. Horário de Curionópolis (UTC−3). */
@@ -860,6 +864,9 @@
     if (triUnsub) triUnsub(); triChave = k;
     try { triUnsub = P.nuvem.app(0).db.collection("config").doc("liberar_" + s.turma).onSnapshot(sn => {
       const ss = sess.get(); if (!ss || (ss.alunoIds || [])[0] !== s.alunoIds[0]) return;
+      // 👦👧 o professor corrigiu menino/menina na ficha: aplica no avatar na hora
+      const sxp = ((sn.exists && sn.data().sexoProf) || {})[s.alunoIds[0]], avt = ((ss.avatares || [])[0] || {}).tipo;
+      if ((sxp === "m" || sxp === "f") && sxp !== avt && P.avatar && P.avatar.garantirUm) P.avatar.garantirUm(0, s.alunoIds[0], String((ss.nomes || [])[0] || "").split(" ")[0], ss.turma).then(() => { const s2 = sess.get(), tb = document.getElementById("tb-av"); if (tb && s2 && P.avatar) tb.innerHTML = (s2.alunoIds || []).map((_, i) => P.avatar.svg((s2.avatares || [])[i], 46, true)).join(""); }).catch(() => {});
       const v = ((sn.exists && sn.data().trilha) || {})[s.alunoIds[0]]; if (typeof v !== "boolean" || v === !!ss.trilha) return;
       sess.set(Object.assign({}, ss, { trilha: v }));
       const [r, a1, a2, a3] = (location.hash || "").replace(/^#\//, "").split("/");

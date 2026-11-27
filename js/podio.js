@@ -217,8 +217,11 @@
   }
 
   /* editor com cronômetro. resolve com o avatar escolhido (salvo, anterior ou padrão) */
-  function editor(mount, { nome, anterior, segundos, dupla, espera }) {
-    return new Promise(resolve => {
+  function editor(mount, { nome, anterior, segundos, dupla, espera, sexo }) {
+    return new Promise(resolve0 => {
+      // 👦👧 27/11/2026: o aluno já respondeu menino/menina (pergunta obrigatória): o avatar sai sempre com essa resposta e a escolha some do editor
+      const resolve = v => resolve0(sexo && v && v.avatar ? Object.assign({}, v, { avatar: Object.assign({}, v.avatar, { tipo: sexo }) }) : v);
+      if (sexo && anterior) anterior = Object.assign({}, anterior, { tipo: sexo });
       segundos = segundos || 240; let a = norm(anterior), fim = Date.now() + segundos * 1000, acabou = false, mexeu = false;
       const tempoTxt = s => s % 60 ? `${Math.floor(s / 60) ? Math.floor(s / 60) + " min e " : ""}${s % 60} segundos` : (s / 60 === 1 ? "1 minuto" : s / 60 + " minutos");
       const sw = (lista, campo, cls) => lista.map((c, i) => `<button type="button" class="av-sw ${cls || ""}" data-c="${campo}" data-v="${i}" style="--c:${c}" aria-label="cor ${i + 1}"></button>`).join("");
@@ -241,7 +244,7 @@
             <div class="av-q" data-q="pele"><p class="av-t">🎨 Cor da pele</p><div class="av-row">${sw(PELE, "pele")}</div></div>
             <div class="av-q" data-q="cabelo"><p class="av-t">💇 Cabelo</p><div class="av-row">${op("cabelo")}</div><div class="av-row">${sw(CAB, "corCabelo")}</div></div>
             <p class="av-proximo" aria-live="polite"></p></div>
-            <div class="av-passo2"><p class="av-passo">2️⃣ Agora, a roupa! <span class="av-trava">🔒 Escolha primeiro: masculino ou feminino, a cor da pele e o cabelo</span></p>
+            <div class="av-passo2"><p class="av-passo">2️⃣ Agora, a roupa! <span class="av-trava">🔒 Escolha primeiro: ${sexo ? "" : "masculino ou feminino, "}a cor da pele e o cabelo</span></p>
             <p class="av-t">👕 Blusa</p><div class="av-row">${op("blusa")}</div>
             <div class="av-fut-times" hidden><p class="av-t">⚽ Times prontos: toque num time para vestir <button type="button" class="btn btn-peq av-ideias-btn" id="av-ideias">💡 Ver todos maiores</button></p><div class="av-times-faixa"></div></div><div class="av-row"><small>Cor:</small> ${sw(COR, "cor1")}</div><div class="av-row"><small>Detalhe:</small> ${sw(COR, "cor2")}</div>
             <div class="av-fut" hidden><p class="av-t">⚽ Uniforme de jogador</p><div class="av-row"><small>Modelo:</small> ${op("estilo")}</div>
@@ -259,11 +262,12 @@
         <p class="ajuda">${anterior ? "Este é o avatar que você usou da última vez: mude o que quiser ou entre com ele mesmo. " : ""}O avatar aparece no placar e no pódio da aula.</p></div></section>`);
       // passo 1 primeiro: as roupas, profissões e camisas de futebol só destravam depois de escolher masculino/feminino, pele e cabelo
       const fez = { tipo: !!(anterior && anterior.tipo), pele: !!anterior, cabelo: !!anterior };
+      if (sexo) { a.tipo = sexo; fez.tipo = true; }
       const pinta = () => {
         const livre = fez.tipo && fez.pele && fez.cabelo, p2 = el.querySelector(".av-passo2");
         p2.classList.toggle("travado", !livre); p2.querySelector(".av-trava").hidden = livre; p2.inert = !livre;
         // 18/11/2026 (pedido do professor): as escolhas obrigatórias aparecem UMA DE CADA VEZ, na ordem; o resto só aparece no fim
-        const qs = { tipo: true, pele: fez.tipo, cabelo: fez.tipo && fez.pele };
+        const qs = { tipo: !sexo, pele: fez.tipo, cabelo: fez.tipo && fez.pele };
         el.querySelectorAll(".av-q").forEach(q => { const ab = !!qs[q.dataset.q], antes = !q.hidden; q.hidden = !ab; if (ab && !antes) q.classList.add("av-q-novo"); });
         p2.hidden = !livre;
         el.querySelector(".av-proximo").innerHTML = livre ? "" : !fez.tipo ? "👆 Comece aqui: toque em <b>Masculino</b> ou <b>Feminino</b>." : !fez.pele ? "👆 Agora escolha a <b>cor da pele</b>." : "👆 Agora escolha o <b>cabelo</b>. Depois aparecem as roupas e tudo o mais!";
@@ -335,11 +339,13 @@
       const x = infos[i], ref = N.app(i).db.collection("progresso").doc(x.alunoId + "_avatar");
       let anterior = null, usadoEm = null; try { const sn = await ref.get(); if (sn.exists) { anterior = sn.data().avatar || null; usadoEm = sn.data().usadoEm || null; } } catch (e) {}
       const hoje = new Date().toLocaleDateString("sv-SE");
+      const sexo = await garantirUm(i, x.alunoId, (x.nome || "").split(" ")[0], x.turma || P.sess.get().turma);   // 👦👧 obrigatório, uma vez só
+      if (sexo && anterior && anterior.tipo !== sexo) anterior = Object.assign({}, anterior, { tipo: sexo });
       // 🔒 já entrou hoje: o avatar não muda durante a aula
       if (anterior && usadoEm === hoje) { usados.push(norm(anterior)); P.toast && P.toast(`🔒 ${(x.nome || "").split(" ")[0]}, você já montou o avatar hoje: ele não muda durante a aula.`); continue; }
       const pn = y => (y.nome || "").split(" ")[0], du = infos.length > 1;
       if (du && i > 0) P.toast && P.toast(`👥 Agora é a vez de ${pn(x)} montar o avatar!`);
-      const r = await editor(mount, { nome: pn(x), anterior, segundos: du ? Math.round(segundos / 2) : segundos,  /* 4 minutos: sozinho, tudo; dupla, 2 para cada um */ dupla: du ? { vez: i + 1, outro: pn(infos[1 - i]) } : null });
+      const r = await editor(mount, { nome: pn(x), anterior, sexo, segundos: du ? Math.round(segundos / 2) : segundos,  /* 4 minutos: sozinho, tudo; dupla, 2 para cada um */ dupla: du ? { vez: i + 1, outro: pn(infos[1 - i]) } : null });
       usados.push(r.avatar);
       try { await ref.set(Object.assign({ alunoId: x.alunoId, turma: x.turma || P.sess.get().turma, tipo: "avatar", usadoEm: hoje }, r.salvo ? { avatar: r.avatar, atualizado: Date.now() } : {}), { merge: true }); } catch (e) { console.warn("avatar", e); }
     }
@@ -495,8 +501,48 @@
   }
 
   /* 🎲 avatar sorteado com o uniforme de Curionópolis (quem não montou nenhum na 🚦 Sala de espera) */
-  function sortear() { const n = k => Math.floor(Math.random() * k);
-    return Object.assign({}, PADRAO, { tipo: OPC.tipo[n(2)][0], pele: n(PELE.length), cabelo: OPC.cabelo[n(OPC.cabelo.length)][0], corCabelo: n(4) }); }
-  P.avatar = { svg, editor, fluxoLogin, daSessao, PADRAO, sortear };
+  /* 👦👧 MENINO OU MENINA (27/11/2026, aprovado pelo professor): pergunta OBRIGATÓRIA, uma vez só, antes do avatar.
+     Antes, quem não montava o avatar ganhava menino/menina SORTEADO, e o portal podia tratar uma menina como "Rei" ou "maestro".
+     Fica em progresso/<id>_avatar.sexo ("m"/"f", com sexoEm e sexoPor). O professor corrige na ficha do aluno: a correção vai para
+     config/liberar_<turma>.sexoProf.<id> (o painel não pode gravar no progresso do aluno; o aluno lê e aplica sozinho). */
+  function perguntarSexo(nome) {
+    return new Promise(res => {
+      const d = document.createElement("div"); d.className = "sx-cobre"; d.setAttribute("role", "dialog"); d.setAttribute("aria-modal", "true"); d.setAttribute("aria-label", "Você é menino ou menina?");
+      d.innerHTML = `<div class="sx-cx"><p class="sx-ola">👋 Olá${nome ? ", " + esc(nome) : ""}! Antes de montar o seu avatar:</p><h1>Você é menino ou menina?</h1>
+        <p class="sx-sub">O portal usa isso para falar com você do jeito certo (por exemplo, <b>Rei</b> ou <b>Rainha</b> da sala).</p>
+        <div class="sx-ops"><button type="button" class="sx-op m" data-v="m"><span class="sx-ic">👦</span>Menino</button><button type="button" class="sx-op f" data-v="f"><span class="sx-ic">👧</span>Menina</button></div>
+        <p class="sx-aviso">⚠️ <b>Escolha com atenção:</b> depois de escolher, <b>não dá para mudar</b> por aqui.</p></div>`;
+      document.body.appendChild(d); setTimeout(() => { const b = d.querySelector(".sx-op"); b && b.focus(); }, 50);
+      d.querySelectorAll(".sx-op").forEach(b => b.onclick = () => { d.remove(); res(b.dataset.v); });
+    });
+  }
+  const sxFila = {};   // um aluno não recebe a pergunta duas vezes ao mesmo tempo
+  function garantirUm(i, id, nome, turma) {
+    if (!id || !P.nuvem || !P.nuvem.app) return Promise.resolve(null);
+    if (sxFila[id]) return sxFila[id];
+    return (sxFila[id] = (async () => {
+      const app = P.nuvem.app(i), ref = app.db.collection("progresso").doc(id + "_avatar");
+      let x = {}, prof = null;
+      try { const sn = await ref.get(); x = sn.exists ? sn.data() : {}; } catch (e) {}
+      try { const lb = await app.db.collection("config").doc("liberar_" + turma).get(); prof = ((lb.exists && lb.data().sexoProf) || {})[id] || null; } catch (e) {}
+      let v = prof === "m" || prof === "f" ? prof : (x.sexo === "m" || x.sexo === "f" ? x.sexo : null), por = prof ? "professor" : x.sexoPor || "aluno";
+      if (!v) { v = await perguntarSexo(nome); por = "aluno"; }
+      if (x.sexo !== v || (x.avatar && x.avatar.tipo !== v)) {
+        const o = { alunoId: id, turma, tipo: "avatar", sexo: v, sexoPor: por, sexoEm: x.sexo === v ? (x.sexoEm || Date.now()) : Date.now() };
+        if (x.avatar) o.avatar = Object.assign({}, x.avatar, { tipo: v });
+        try { await ref.set(o, { merge: true }); } catch (e) { console.warn("sexo", e); }
+        const ss = P.sess && P.sess.get(); if (ss && ss.avatares && ss.avatares[i] && (ss.alunoIds || [])[i] === id) { const avs = ss.avatares.slice(); avs[i] = Object.assign({}, avs[i], { tipo: v }); P.sess.set(Object.assign({}, ss, { avatares: avs })); }
+      }
+      return v;
+    })().finally(() => { setTimeout(() => { delete sxFila[id]; }, 1500); }));
+  }
+  // todos os alunos da sessão (dupla: um de cada vez). Chamado ao abrir o portal, para quem entrou antes de existir a pergunta.
+  async function garantirSexo(s) {
+    if (!s || !s.nuvem || s.prof || !(s.alunoIds || []).length) return;
+    for (let i = 0; i < s.alunoIds.length; i++) await garantirUm(i, s.alunoIds[i], String((s.nomes || [])[i] || "").split(" ")[0], s.turma);
+  }
+  function sortear(sexo) { const n = k => Math.floor(Math.random() * k);
+    return Object.assign({}, PADRAO, { tipo: sexo === "m" || sexo === "f" ? sexo : OPC.tipo[n(2)][0], pele: n(PELE.length), cabelo: OPC.cabelo[n(OPC.cabelo.length)][0], corCabelo: n(4) }); }
+  P.avatar = { svg, editor, fluxoLogin, daSessao, PADRAO, sortear, garantirSexo, garantirUm, perguntarSexo };
   P.podio = { setBonus, ouvirBonus, ranking, pontosDoc, xpDoc, xpDe, xpPartes, sequencia, linhaPlacar, podioHTML, confete, nomeCurto, MED, coroa, reis, tituloRei };
 })();

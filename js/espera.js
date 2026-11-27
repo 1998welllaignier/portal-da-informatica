@@ -228,7 +228,8 @@
         const ref = N().app(i).db.collection("progresso").doc(ids[i] + "_avatar");
         let anterior = null; try { const sn = await ref.get(); if (sn.exists) anterior = sn.data().avatar || null; } catch (e) {}
         if (ids.length > 1) P.toast && P.toast(`🧑‍🎨 Vez de ${nomes[i]} montar o avatar!`);
-        const r = await P.avatar.editor(subMount, { nome: nomes[i], anterior, segundos: 3600, espera: { parar: () => largou } });
+        const sexo = P.avatar.garantirUm ? await P.avatar.garantirUm(i, ids[i], String(nomes[i] || "").split(" ")[0], s.turma) : null;   // 👦👧 obrigatório, uma vez só
+        const r = await P.avatar.editor(subMount, { nome: nomes[i], anterior, sexo, segundos: 3600, espera: { parar: () => largou } });
         if (r && r.salvo) {
           try { await ref.set({ alunoId: ids[i], turma: s.turma, tipo: "avatar", usadoEm: d, avatar: r.avatar, atualizado: Date.now() }, { merge: true }); } catch (e) { console.warn("avatar", e); }
           const ss = P.sess.get(); if (ss) { const avs = (ss.avatares || ids.map(() => null)).slice(); avs[i] = r.avatar; P.sess.set(Object.assign({}, ss, { avatares: avs })); }
@@ -252,7 +253,7 @@
       if (emAvatar) await new Promise(r => setTimeout(r, 600));
       await Promise.all(ids.map(async (id, i) => { const ref = N().app(i).db.collection("progresso").doc(id + "_avatar");
         try { const sn = await ref.get(), x = sn.exists ? sn.data() : {};
-          await ref.set(Object.assign({ alunoId: id, turma: s.turma, tipo: "avatar", usadoEm: d }, x.avatar ? {} : { avatar: P.avatar.sortear(), atualizado: Date.now() }), { merge: true }); } catch (e) {} }));
+          await ref.set(Object.assign({ alunoId: id, turma: s.turma, tipo: "avatar", usadoEm: d }, x.avatar ? {} : { avatar: P.avatar.sortear(x.sexo), atualizado: Date.now() }), { merge: true }); } catch (e) {} }));
       const hh = await N().app(0).db.collection("config").doc("hoje_" + ((h && h._turma) || s.turma)).get().then(x => x.exists ? x.data() : {}).catch(() => ({}));
       if (P.trava && P.trava.limpar) P.trava.limpar();
       memo = { k: "", em: 0, v: null };

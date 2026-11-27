@@ -661,9 +661,9 @@
     function maestra(a) {
       if (!ja.includes(a.id)) ja.push(a.id);
       ref.set({ dia: N.hoje(), ja }, { merge: true }).catch(() => {});
-      const avs = {}; getProg().forEach(p => { if (p.tipo === "avatar" && p.avatar) avs[p.alunoId] = p.avatar; });   // 🙂 avatar que o aluno escolheu, para aparecer no botão da maestra
+      const avs = {}, sxs = {}; getProg().forEach(p => { if (p.tipo === "avatar" && p.avatar) avs[p.alunoId] = p.avatar; if (p.tipo === "avatar" && p.sexo) sxs[p.alunoId] = p.sexo; });   // 🙂 avatar que o aluno escolheu, para aparecer no botão da maestra
       const opcoes = online().filter(x => x.id !== a.id).map(x => Object.assign({ id: x.id, nome: x.nome }, avs[x.id] ? { av: avs[x.id] } : {})), em0 = Date.now();
-      const fem = !!(avs[a.id] && avs[a.id].tipo === "f"), titulo = fem ? "maestra" : "maestro";   // ♀♂ maestra ou maestro pelo avatar que o próprio aluno escolheu (mesma regra do Rei/Rainha)
+      const fem = sxs[a.id] ? sxs[a.id] === "f" : !!(avs[a.id] && avs[a.id].tipo === "f"), titulo = fem ? "maestra" : "maestro";   // ♀♂ maestra ou maestro pelo avatar que o próprio aluno escolheu (mesma regra do Rei/Rainha)
       publicar({ girando: false, id: a.id, nome: a.nome, roda: null, porMaestra: null, maestra: { em: em0, opcoes, fem } });
       So && So.sorteado();
       const nc = esc(curto(a.nome));
@@ -1223,6 +1223,10 @@
     // 🏫 quem é de outra turma mas frequenta esta aula aparece no fim, com a etiqueta (o progresso dele vem da turma dele)
     const progVis = (await Promise.all(visit.map(v => db().collection("progresso").where("alunoId", "==", v.id).get().then(q => q.docs.map(d => ({ id: d.id, ...d.data() }))).catch(() => [])))).flat();
     const alunos = alunos0.concat(visit), prog = prog0.concat(progVis);
+    // 👦👧 menino/menina: correção do professor (config/liberar_<turma>.sexoProf) ou a resposta do próprio aluno (progresso/<id>_avatar.sexo)
+    const sexoProf = await db().collection("config").doc("liberar_" + t.id).get().then(x => (x.exists && x.data().sexoProf) || {}).catch(() => ({}));
+    const sexoDe = a => { const av = (pm0 => (pm0[a.id] || []).find(p => p.tipo === "avatar"))(pm) || {}; const v = sexoProf[a.id] || av.sexo || null;
+      return v ? { v, por: sexoProf[a.id] ? "professor" : (av.sexoPor || "aluno"), em: av.sexoEm || null } : null; };
     const pm = {}; prog.forEach(p => { (pm[p.alunoId] = pm[p.alunoId] || []).push(p); });
     const missoes = []; aps.forEach(a => { const C = P.conteudo[a.id]; if (C) C.missoes.filter(m => m.id !== "rc").forEach(m => missoes.push({ aid: a.id, m, serie: a.serie })); });
     const corpo = el.querySelector("#corpo");
@@ -1246,6 +1250,8 @@
         telaTurmas(u, t.id);
       };
     })();
+    { const falta = alunos.filter(a => a.ativo && !a.teste && !a.visitante && !sexoDe(a));
+      if (falta.length) { const box = h(`<div class="painel"><div class="pp-sx falta"><span class="pp-sx-ic">🙋</span><span><b>${falta.length} aluno${falta.length > 1 ? "s" : ""} ainda não ${falta.length > 1 ? "responderam" : "respondeu"} menino/menina</b><br><small>${falta.length > 1 ? "Eles respondem" : "Responde"} sozinho${falta.length > 1 ? "s" : ""} na próxima vez que ${falta.length > 1 ? "entrarem" : "entrar"}. Ou toque no nome e marque você mesmo (👦👧 Menino ou menina).</small><br><small>${falta.map(a => esc(a.nome.split(" ")[0] + " " + (a.nome.split(" ").slice(-1)[0] || ""))).join(", ")}</small></span></div></div>`); corpo.before(box); } }
     function desenhar() {
       const verInat = el.querySelector("#inat").checked;
       const lista = alunos.filter(a => verInat || a.ativo);
@@ -1303,10 +1309,12 @@
 
     function menuAluno(a) {
       const dlg = h(`<dialog class="pp-dlg"><form method="dialog"><h2>${a.atipico ? "🧩 " : ""}${a.teste ? "🧪 " : ""}${a.emCasa ? "🏠 " : ""}${esc(a.nome)}</h2>${a.emCasa ? `<p class="pp-casa">🏠 <strong>Estuda em casa</strong>${a.emCasaObs ? ": " + esc(a.emCasaObs) : ""}${casaLivreAtivo(a) ? " · 🚀 todas as missões abertas, uma por dia (neste ano)" : ""}. Faz as missões <strong>em casa, pelo portal</strong>: o que ele fizer fica registrado nas missões, no placar e no relatório. No 📒 Diário, a presença dele é J automática.</p>` : ""}<p>${esc(nomeTurma(a.turma))} · código <strong>${esc(a.codigo)}</strong> · ${a.ativo ? "ativo" : "desativado"}${a.outraTurma ? ` · também frequenta a aula do ${esc(nomeTurma(a.outraTurma))}` : ""}</p>
+        ${(sx => sx ? `<div class="pp-sx"><span class="pp-sx-ic">${sx.v === "f" ? "👧" : "👦"}</span><span><b>${sx.v === "f" ? "Menina" : "Menino"}</b><br><small>${sx.por === "professor" ? "marcado por você" : `respondido ${sx.v === "f" ? "pela aluna" : "pelo aluno"}${sx.em ? " em " + new Date(sx.em).toLocaleDateString("pt-BR") : ""}`}</small></span></div>` : `<div class="pp-sx falta"><span class="pp-sx-ic">🙋</span><span><b>Ainda não respondeu menino/menina</b><br><small>Responde sozinho na próxima vez que entrar, ou marque aqui embaixo.</small></span></div>`)(sexoDe(a))}
         <div class="pp-dlg-btns">
           <a class="btn" href="#/painel/relatorio/${esc(a.id)}">📄 Relatório do aluno (PDF)</a>
           <button class="btn btn-sec" value="cod" type="button" data-x="cod">🔑 Gerar novo código</button>
           <button class="btn btn-sec" value="nome" type="button" data-x="nome">✏️ Corrigir nome</button>
+          <button class="btn btn-sec" type="button" data-x="sexo">↔️ Corrigir: é menino ou menina?${(sx => sx ? ` (hoje: ${sx.v === "f" ? "👧 Menina" : "👦 Menino"})` : " (ainda não respondeu)")(sexoDe(a))}</button>
           <button class="btn btn-sec" type="button" data-x="turma">🔀 Mudar de turma</button>
           ${(P.turma(a.turma) || {}).livre ? `<button class="btn btn-sec" type="button" data-x="serie">🎓 Mudar a série (Agregados) · hoje: ${esc((cat().series.find(y => y.id === a.serie) || { nome: "sem série" }).nome)}</button>` : ""}
           <button class="btn btn-sec" type="button" data-x="atipico">${a.atipico ? "🧩 Tirar a marcação de aluno atípico" : "🧩 Marcar como aluno atípico (tem PEI)"}</button>
@@ -1342,7 +1350,14 @@
           }
           if (x === "serie") { const sx = await perguntarSerie(a.nome); if (!sx || sx === a.serie) return; await mudarSerieAG(a, sx);
             await P.aviso(`Pronto! ${a.nome} agora faz as missões do ${(cat().series.find(y => y.id === sx) || {}).nome}. O código continua o mesmo; se estiver no portal, peça para sair e entrar de novo.`); }
+          if (x === "sexo") { const atual = (sexoDe(a) || {}).v;
+            const v = await new Promise(res => { const d2 = h(`<dialog class="pp-dlg"><h2>👦👧 ${esc(a.nome)}</h2><p>É menino ou menina?</p><div class="pp-dlg-btns"><button class="btn${atual === "m" ? " btn-ok" : " btn-sec"}" type="button" data-v="m">👦 Menino</button><button class="btn${atual === "f" ? " btn-ok" : " btn-sec"}" type="button" data-v="f">👧 Menina</button><button class="btn btn-sec" type="button" data-v="">Cancelar</button></div><p class="ajuda">O avatar ${a.nome.split(" ")[0]} muda junto (se estiver no portal agora, muda na hora; senão, na próxima entrada).</p></dialog>`);
+              document.body.appendChild(d2); d2.showModal(); d2.querySelectorAll("[data-v]").forEach(b => b.onclick = () => { d2.close(); d2.remove(); res(b.dataset.v); }); });
+            if (!v || v === atual) return;
+            await db().collection("config").doc("liberar_" + a.turma).set({ sexoProf: { [a.id]: v } }, { merge: true });
+            sexoProf[a.id] = v; toast(`✔ ${a.nome.split(" ")[0]}: ${v === "f" ? "👧 menina" : "👦 menino"}.`); dlg.close(); }
           if (x === "avatar") { if (!await P.confirmar(`Apagar o avatar de ${a.nome}? Na próxima entrada com o código, ${a.nome.split(" ")[0]} monta um avatar novo (só desta vez). Se já estiver na aula, peça para clicar em Sair e entrar de novo.`)) return;
+            { const sx = sexoDe(a); if (sx && !sexoProf[a.id]) await db().collection("config").doc("liberar_" + a.turma).set({ sexoProf: { [a.id]: sx.v } }, { merge: true }).catch(() => {}); }   // 👦👧 o menino/menina não se perde ao refazer o avatar
             await db().collection("progresso").doc(a.id + "_avatar").delete(); await P.aviso(`Pronto! ${a.nome.split(" ")[0]} pode sair e entrar de novo com o código: o portal abre a tela de montar o avatar. Os pontos e as tarefas não mudam.`); }
           if (x === "temas") { // 🎉 19/11/2026: o aluno entrou, a janela do tema deu errado e ele ficou sem fazer: apaga o "já viu" para abrir de novo
             if (!await P.confirmar(`Fazer ${a.nome} ver de novo a janela do tema (as curiosidades com o relógio e o desafio)? Na próxima entrada com o código, ela abre outra vez. Os pontos e as tarefas não mudam.`, "Sim, refazer")) return;
