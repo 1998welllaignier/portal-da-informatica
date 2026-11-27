@@ -14,6 +14,9 @@ const bt = (pg, txt) => pg.locator(".pc-b", { hasText: txt }).first().click();
   await prof.locator(".pp-cx-b", { hasText: "Aula ao vivo" }).click(); await prof.waitForTimeout(2500);
   await bt(prof, "Começar pela leitura"); await prof.waitForTimeout(2000);
   await bt(prof, "Sortear quem lê"); await prof.waitForTimeout(1500);
+  // todos "online" agora (ping fresco), como numa aula de verdade
+  for (const pg of al) await pg.evaluate(async id => { const app = window.PORTAL.nuvem.app(0); await app.db.collection("progresso").doc(id + "_sessao").set({ ping: Date.now() }, { merge: true }); }, pg.aluno.id);
+  await prof.waitForTimeout(1500);
   await prof.locator(".rl-girar").click(); await prof.waitForTimeout(8500);
   R.prof_maestra = await prof.locator(".rl-maestra h1").innerText().catch(() => "—");
   await al[2].waitForTimeout(1500); await sh(al[2], "1-helena-escolhe"); await sh(al[0], "1-colega-ve"); await sh(prof, "1-prof-espera");
