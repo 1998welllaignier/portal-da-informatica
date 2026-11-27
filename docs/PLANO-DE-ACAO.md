@@ -369,3 +369,14 @@ Fazer (em ordem):
 9. Script para subir as versões (`?v=`) automaticamente a cada publicação.
 10. Daqui a uma semana: conversar sobre o painel novo (o que ele usou e o que ficou esquecido).
 - Pendência dele: ativar a verificação em duas etapas da conta Google do portal no computador de casa (pede o Firebase; dá para fazer por código SMS, sem Bluetooth).
+
+## 🌟 Modo Helena na leitura guiada (conversa de 27/11/2026 — decidido em parte, falta aprovar as telas)
+- **Tela em dupla com colega da apostila tradicional (proposta, aguardando ele):** o texto tradicional fica igual e entra o 🌟 Cartão da Helena (foto + palavra grande) abaixo de cada trecho.
+- **Perguntas:** a pergunta equivalente dela é de figuras (2–3 opções, no nível dela). Em dupla, **primeiro a vez da Helena, depois a da dupla**, com a instrução: "<colega>, leia a pergunta para a <nome> e deixe que ela escolha a resposta." Desenho em 3 telas mandado a ele.
+- **APROVADO — "Maestra da leitura":** quando a roleta cai num aluno do Modo Helena, aparecem os nomes de todos os que estão online na sala; ela toca em quem vai ler; a escolha aparece na tela de todos; ela ganha os mesmos pontos de quem lê; quem aceita e lê pela escolha dela também ganha pontos. Ela responde as perguntas normalmente, como todo mundo, em todos os trechos (não há pergunta extra só depois da vez dela). Vale automaticamente para todo aluno marcado no Modo Helena, com o nome de quem está logado.
+- Oferecido: ler o PEI dela (só leitura) para ajustar a proposta.
+
+## 🎬 Leitura guiada e sala de espera mais explícitas (ideia de 27/11/2026, para fazer depois, com aprovação)
+- **"Onde estou e o que vem depois":** faixa clara e curta em cada momento. Ex.: Sala de espera — "Você está na sala de espera. Enquanto a turma entra, você pode: (opções). A qualquer momento o professor pode começar pelo vídeo da missão ou pela leitura guiada." Sem ficar cafona nem repetitivo. Ampliar a sala de espera aos poucos (sugestões bem-vindas).
+- **Vinheta curta antes de cada etapa** (estilo "o filme já vai começar" da Turma da Mônica no cinema, no nosso estilo): ao clicar em "começar pelo vídeo" ou "leitura guiada", aparece em sincronia em todas as telas uma mini vinheta fixa com a instrução (vídeo: "Agora vamos ver o vídeo da missão de hoje. Atenção e silêncio, que já vai começar."; leitura: o que é, que o professor sorteia quem lê e que é preciso prestar atenção para responder). Lembrete: os PCs dos alunos não têm som → a voz/áudio da vinheta sai pelo projetor; nas telas dos alunos, texto e animação.
+- **Slide de pergunta com cara própria:** cor/estilo diferente do slide de conteúdo (pensando nos alunos dispersos e com TDAH) e **som exclusivo de pergunta** (pausa a música e toca na mesma altura do som da roleta). O som de comemoração no fim continua como está.

@@ -300,7 +300,7 @@ Apostila no portal + ilustrada (PDF só para quem estuda em casa) · guia do pro
   - como o portal funciona, em linguagem simples;
   - resumo: presença, missões, tarefas, acertos sozinho ou com dica, erros, dicas e nota da prova;
   - aula por aula: presença (vale a chamada do professor; sem ela, conta quem entrou no portal), horário de cada entrada, missão com objetivo e BNCC (quando estiver cadastrada), e cada tarefa com início, fim, tempo, erros e dicas;
-  - também por aula: hora da última tarefa, quantos minutos faltavam para o fim da aula (início + 1h15), registro da aula e **👨‍🏫 observações do professor sobre o aluno**. As observações ficam em `prof/diario/turmas/<turma>/aulas/<data>.obsAlunos.<alunoId>` e devem descrever só fatos.
+  - também por aula: hora da última tarefa, registro da aula e **👨‍🏫 observações do professor sobre o aluno**. As observações ficam em `prof/diario/turmas/<turma>/aulas/<data>.obsAlunos.<alunoId>` e devem descrever só fatos.
 - **O que passou a ser registrado:**
   - a **hora de início de cada tarefa** (`st.ini`, quando a tarefa aparece pela primeira vez);
   - **todas as entradas do dia** (`entradas.<dia>`). Antes ficava só a última.
@@ -862,3 +862,5 @@ O botão 🎮 Sala de jogos (o mesmo do 5º ano) aparece na lista de missões de
 ### 👣 Passo a Passo na hora (26/11/2026, pedido do professor)
 - Marcar ou tirar a 👣 Trilha Passo a Passo de um aluno no painel vale **na hora**: se ele está com o portal aberto, em poucos segundos é levado para a mesma missão na Trilha (ou de volta), com um aviso. O painel grava `config/liberar_<turma>.trilha`, que o portal do aluno escuta (só quem está sozinho no computador; em dupla vale a regra da dupla).
 - Vale para os 🎒 **agregados**: a Trilha é a da série DELE, mesmo quando está participando da aula de outra turma.
+
+- 🔒 **Duração da aula: onde pode aparecer (27/11/2026, decisão do professor):** dentro dos logins (área do aluno e do professor) pode mostrar início, fim e duração — cronômetro, Ao vivo, prova, faixa da aula, 🕘 Horários e orientação ficam como estão, porque o portal depende disso para travar e encerrar na hora certa. O que **sai do portal** (página pública, horários impressos, relatório em PDF para as famílias) mostra **só o horário de início**. Por isso o relatório das famílias não traz mais "faltavam X min" nem "(1h15)".
