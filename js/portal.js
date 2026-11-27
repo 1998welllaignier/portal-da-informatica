@@ -802,24 +802,24 @@
   /* 🌟 27/11/2026: no projetor, o nome sorteado — ou a maestra da leitura escolhendo, ou quem a maestra escolheu */
   P.rolTelaoNome = r => { const e = s => String(s == null ? "" : s).replace(/[&<>"]/g, x => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[x]), c = n => P.podio && P.podio.nomeCurto ? P.podio.nomeCurto(n) : n;
     if (!r.id) return `<p class="rol-ic">🎡</p><h2>Vamos sortear de novo…</h2>`;
-    if (r.maestra) return `<p class="rol-ic">🌟</p><p class="rol-sup">A maestra da leitura é:</p><h2>${e(r.nome)}</h2><p class="rol-por">Escolhendo quem vai ler este trecho… 👀</p>`;
-    return `<p class="rol-ic">📖</p><p class="rol-sup">Quem vai ler é:</p><h2>${e(r.nome)}</h2>${r.porMaestra ? `<p class="rol-por">🌟 Escolha da maestra ${e(c(r.porMaestra))}</p>` : ""}`; };
+    if (r.maestra) return `<p class="rol-ic">🌟</p><p class="rol-sup">${r.maestra.fem ? "A maestra" : "O maestro"} da leitura é:</p><h2>${e(r.nome)}</h2><p class="rol-por">Escolhendo quem vai ler este trecho… 👀</p>`;
+    return `<p class="rol-ic">📖</p><p class="rol-sup">Quem vai ler é:</p><h2>${e(r.nome)}</h2>${r.porMaestra ? `<p class="rol-por">🌟 Escolha ${r.porFem ? "da maestra" : "do maestro"} ${e(c(r.porMaestra))}</p>` : ""}`; };
   /* 🌟 MAESTRA DA LEITURA (27/11/2026): a roleta caiu num aluno do Modo Helena. Na tela dele aparecem os nomes de quem está
      online (botões grandes) e ele toca em quem vai ler; a escolha vai para progresso/<id>_maestra e o painel do professor anuncia.
      Na tela dos outros: "a maestra da leitura é…, escolhendo quem vai ler". */
   function maestraAluno(d, ss, souEu) {
-    const curto = n => P.podio && P.podio.nomeCurto ? P.podio.nomeCurto(n) : n, nome = esc(curto(d.nome || "")), ids = ss.alunoIds || [];
+    const curto = n => P.podio && P.podio.nomeCurto ? P.podio.nomeCurto(n) : n, nome = esc(curto(d.nome || "")), ids = ss.alunoIds || [], fem = !!(d.maestra && d.maestra.fem), titulo = fem ? "maestra" : "maestro";
     if (!souEu) {
-      rolCx = h(`<div class="rol-aluno rol-maestra-ve" role="alert"><div><p class="rol-ic">🌟</p><p class="rol-sup">A maestra da leitura é:</p><h2>${esc(d.nome || "")}</h2><p class="rol-por">Escolhendo quem vai ler este trecho… 👀</p><button type="button" class="btn btn-grande btn-ok">👍 Ok</button></div></div>`);
+      rolCx = h(`<div class="rol-aluno rol-maestra-ve" role="alert"><div><p class="rol-ic">🌟</p><p class="rol-sup">${fem ? "A maestra" : "O maestro"} da leitura é:</p><h2>${esc(d.nome || "")}</h2><p class="rol-por">Escolhendo quem vai ler este trecho… 👀</p><button type="button" class="btn btn-grande btn-ok">👍 Ok</button></div></div>`);
       document.body.appendChild(rolCx); const cx = rolCx; cx.querySelector("button").onclick = () => cx.remove();
       setTimeout(() => { if (cx.isConnected && cx === rolCx) cx.remove(); }, 12000); return;
     }
     const i = Math.max(0, ids.indexOf(d.id)), colega = ids.length > 1 ? (ss.nomes || [])[i === 0 ? 1 : 0] : null;
     const ops = ((d.maestra || {}).opcoes || []).filter(o => !ids.includes(o.id) || ids.length > 1);
-    rolCx = h(`<div class="rol-aluno eu rol-maestra" role="dialog" aria-label="Maestra da leitura"><div>
-      <p class="rol-ic">🌟</p><p class="rol-sup">Sua vez, ${nome}! Você é a maestra da leitura.</p><h2>Toque em quem vai ler este trecho:</h2>
+    rolCx = h(`<div class="rol-aluno eu rol-maestra" role="dialog" aria-label="${fem ? "Maestra" : "Maestro"} da leitura"><div>
+      <p class="rol-ic">🌟</p><p class="rol-sup">Sua vez, ${nome}! Você é ${fem ? "a" : "o"} ${titulo} da leitura.</p><h2>Toque em quem vai ler este trecho:</h2>
       ${colega ? `<p class="rol-maes-dica">👧🧒 <b>${esc(curto(colega))}</b>, leia os nomes para ${nome} e deixe que ${nome} escolha.</p>` : ""}
-      <div class="rol-maes-ops">${ops.map(o => `<button type="button" class="rol-maes-op" data-id="${esc(o.id)}">${o.av && P.avatar ? `<span class="rol-maes-av">${P.avatar.svg(o.av, 72, true)}</span>` : `<span class="rol-maes-ini">${esc((curto(o.nome) || "?").charAt(0))}</span>`}<span>${esc(curto(o.nome))}</span></button>`).join("")}</div>
+      <div class="rol-maes-ops">${ops.map(o => `<button type="button" class="rol-maes-op" data-id="${esc(o.id)}">${o.av && P.avatar ? `<span class="rol-maes-av">${P.avatar.svg(o.av, 72, true)}</span>` : `<span class="rol-maes-ini">${esc((curto(o.nome) || "?").charAt(0))}</span>`}<span>${esc(curto(o.nome))}</span><span class="rol-maes-toque">👆 Toque aqui</span></button>`).join("")}</div>
       <p class="rol-maes-msg" aria-live="polite"></p></div></div>`);
     document.body.appendChild(rolCx); const cx = rolCx, msg = cx.querySelector(".rol-maes-msg");
     cx.querySelectorAll(".rol-maes-op").forEach(b => b.onclick = () => {
@@ -844,7 +844,7 @@
       const souEu = !d.girando && (ss.alunoIds || []).includes(d.id);
       if (!d.girando && d.maestra) { maestraAluno(d, ss, souEu); return; }
       rolCx = h(`<div class="rol-aluno${souEu ? " eu" : ""}" role="alert"><div>${d.girando ? (d.roda ? `<h2 class="rol-tit-roda">🎡 A roleta está girando…</h2>${P.rodaRoletaHTML(d.roda)}` : `<p class="rol-ic">🎡</p><h2>A roleta da leitura está girando…</h2><p>Quem será que vai ler? Olhe para o projetor!</p>`)
-        : `<div class="rol-festa" aria-hidden="true">${Array.from("🎉✨🎊⭐🎉✨🎊⭐🎉✨").map((e, k) => `<i style="--k:${k}">${e}</i>`).join("")}</div><p class="rol-ic">${souEu ? "🎤" : "📖"}</p><p class="rol-sup">${souEu ? (d.porMaestra ? `A maestra ${esc(P.podio.nomeCurto(d.porMaestra))} escolheu VOCÊ! Prepare-se para ler em voz alta:` : "É VOCÊ que vai ler! Prepare-se para ler em voz alta:") : "Quem vai ler é:"}</p><h2>${esc(d.nome || "")}</h2>${d.porMaestra && !souEu ? `<p class="rol-por">🌟 Escolha da maestra ${esc(P.podio.nomeCurto(d.porMaestra))}</p>` : ""}<button type="button" class="btn btn-grande btn-ok">👍 Ok</button>`}</div></div>`);
+        : `<div class="rol-festa" aria-hidden="true">${Array.from("🎉✨🎊⭐🎉✨🎊⭐🎉✨").map((e, k) => `<i style="--k:${k}">${e}</i>`).join("")}</div><p class="rol-ic">${souEu ? "🎤" : "📖"}</p><p class="rol-sup">${souEu ? (d.porMaestra ? `${d.porFem ? "A maestra" : "O maestro"} ${esc(P.podio.nomeCurto(d.porMaestra))} escolheu VOCÊ! Prepare-se para ler em voz alta:` : "É VOCÊ que vai ler! Prepare-se para ler em voz alta:") : "Quem vai ler é:"}</p><h2>${esc(d.nome || "")}</h2>${d.porMaestra && !souEu ? `<p class="rol-por">🌟 Escolha ${d.porFem ? "da maestra" : "do maestro"} ${esc(P.podio.nomeCurto(d.porMaestra))}</p>` : ""}<button type="button" class="btn btn-grande btn-ok">👍 Ok</button>`}</div></div>`);
       document.body.appendChild(rolCx); const cx = rolCx, b = cx.querySelector("button"); if (b) b.onclick = () => cx.remove();
       if (d.girando && d.roda) P.rodaGirar(cx, d.roda);
       setTimeout(() => { if (cx.isConnected && (cx === rolCx)) cx.remove(); }, d.girando ? 15000 : 12000);
