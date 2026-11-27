@@ -14,6 +14,7 @@ import sys, os, re, json, time, hashlib, subprocess, unicodedata, difflib, csv, 
 import numpy as np
 AQUI = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, AQUI)
 from gemini_tts import falar
+import crivo_verde as CV   # 🟢🔴 27/11/2026: diferença pequena e inofensiva = aceita e ajusta o texto/legenda
 pasta = sys.argv[1].rstrip("/"); serie = sys.argv[2]
 arg = lambda k, d=None: sys.argv[sys.argv.index(k) + 1] if k in sys.argv else d
 LIMITE = float(arg("--limite-usd", "10")); MODELO = "gemini-2.5-pro-tts"; VOZ = "Charon"
@@ -98,8 +99,10 @@ def crivo(texto, mp3):
     Só conta como erro da VOZ o que as duas escutas acharem (o que só uma achou é erro de escuta)."""
     d1 = diferencas(texto, transcrever(mp3, "small"))
     if not d1 or not TEM_TURBO: return d1
-    d2 = diferencas(texto, transcrever(mp3, "turbo"))
+    global OUVIDO_TURBO
+    OUVIDO_TURBO = transcrever(mp3, "turbo"); d2 = diferencas(texto, OUVIDO_TURBO)
     return [d for d in d2 if any(d["texto"] == e["texto"] for e in d1)]
+OUVIDO_TURBO = ""
 
 dur = lambda f: float(subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", f], capture_output=True, text=True).stdout)
 
@@ -108,7 +111,7 @@ falas = [p.strip() for p in open(f"{pasta}/falas.txt").read().split("\n\n") if p
 html = open(f"{pasta}/video.html", encoding="utf-8").read()
 chips = re.findall(r'\{ chip: "([^"]*)"', html); chips += [""] * (len(falas) - len(chips))
 over = json.load(open(f"{pasta}/emocoes.json")) if os.path.exists(f"{pasta}/emocoes.json") else {}
-os.makedirs(f"{pasta}/voz/cenas", exist_ok=True); rel = []
+os.makedirs(f"{pasta}/voz/cenas", exist_ok=True); rel = []; aceitas = []
 for i, fala in enumerate(falas):
     texto = over.get(str(i)) or com_emocoes(i, len(falas), fala, chips[i])
     h = hashlib.sha1((MODELO + VOZ + ESTILO + texto).encode()).hexdigest()[:10]; mp3 = f"{pasta}/voz/cenas/{i:02d}-{h}.mp3"
@@ -126,11 +129,50 @@ for i, fala in enumerate(falas):
             with open(CUSTOS, "a", newline="") as fcsv:
                 w = csv.writer(fcsv); novo and w.writerow(["quando", "pasta", "cena", "tentativa", "tokens_texto", "tokens_audio", "segundos", "usd"])
                 w.writerow([datetime.datetime.now().isoformat(timespec="seconds"), os.path.basename(pasta), i, tent + 1, tt, ta, round(dur(mp3), 2), round(usd, 5)])
-        dif = crivo(texto, mp3); ok = not dif; tent += 1
+        globals()["OUVIDO_TURBO"] = ""; dif = crivo(texto, mp3); ok = not dif; tent += 1
+        if not ok and OUVIDO_TURBO and "--sem-verde" not in sys.argv:
+            verdes, verm = CV.classificar(fala, OUVIDO_TURBO, CV.gatilhos_da_cena(html, i))
+            if verdes and not verm:
+                nova = CV.aplicar(fala, verdes); extra = {}
+                if str(i) in over:
+                    o2 = CV.aplicar_em(over[str(i)], fala, verdes)
+                    if o2 is None: verm = [{"motivo": "texto com emoções não localizado"}]
+                    else: extra["over"] = o2
+                if not verm:
+                    aceitas.append({"cena": i, "fala_antiga": fala, "fala_nova": nova, "verdes": verdes, "trocas": [{"de": v["de"], "para": v["para"]} for v in verdes], **extra})
+                    print(f"  🟢 cena {i}: aceita sem gerar de novo · " + "; ".join(f'"{v["de"]}" → "{v["para"]}"' for v in verdes)); ok = True; dif = []; break
+            if verm: print(f"  🔴 cena {i}: " + "; ".join(v.get("motivo", "") for v in verm))
         if not ok: print(f"  cena {i}: CRIVO pegou diferença {dif} → gerando de novo")
     d = dur(mp3); npal = len(tokens(texto)); vel = npal / max(.1, d)
     rel.append({"cena": i, "arquivo": os.path.basename(mp3), "segundos": round(d, 2), "pal_por_s": round(vel, 2), "crivo": "ok" if ok else "DIFERENÇA", "dif": dif, "texto": texto})
     print(f"cena {i:2d} · {d:5.1f}s · {vel:.1f} pal/s · crivo {'ok' if ok else 'DIFERENÇA ' + json.dumps(dif, ensure_ascii=False)}")
+# 🟢 trocas aceitas: o texto do vídeo (falas.txt, F e legenda própria em cenas.js/video.html, emoções) passa a ser o que a voz falou
+if aceitas:
+    arqs = {f: open(f, encoding="utf-8").read() for f in (f"{pasta}/cenas.js", f"{pasta}/video.html") if os.path.exists(f)}
+    for ac in aceitas:
+        i, velha, nova = ac["cena"], ac["fala_antiga"], ac["fala_nova"]
+        for f, txt in arqs.items():
+            m = re.search(r'\bF%d = ("(?:[^"\\]|\\.)*")' % i, txt)
+            if m and json.loads(m.group(1)) == velha: txt = txt[:m.start(1)] + json.dumps(nova, ensure_ascii=False) + txt[m.end(1):]
+            for lit in set(re.findall(r'"((?:[^"\\\n]|\\.){40,})"', txt)):   # legendas próprias (texto longo parecido com a fala)
+                try: val = json.loads('"' + lit + '"')
+                except Exception: continue
+                if val != velha and difflib.SequenceMatcher(None, val, velha).ratio() > .8:
+                    novo = CV.aplicar_em(val, velha, ac["verdes"])
+                    if novo: txt = txt.replace('"' + lit + '"', json.dumps(novo, ensure_ascii=False))
+            arqs[f] = txt
+        falas[i] = nova
+        if "over" in ac: over[str(i)] = ac["over"]
+        # a voz já gravada passa a valer para o texto novo (sem gerar de novo)
+        tx2 = over.get(str(i)) or com_emocoes(i, len(falas), nova, chips[i])
+        h2 = hashlib.sha1((MODELO + VOZ + ESTILO + tx2).encode()).hexdigest()[:10]; novo_mp3 = f"{pasta}/voz/cenas/{i:02d}-{h2}.mp3"
+        import shutil; shutil.copy(f"{pasta}/voz/cenas/{rel[i]['arquivo']}", novo_mp3); rel[i]["arquivo"] = os.path.basename(novo_mp3); rel[i]["texto"] = tx2; rel[i]["crivo"] = "ok (🟢 aceito)"
+    for f, txt in arqs.items(): open(f, "w", encoding="utf-8").write(txt)
+    open(f"{pasta}/falas.txt", "w", encoding="utf-8").write("\n\n".join(falas) + "\n")
+    if over: json.dump(over, open(f"{pasta}/emocoes.json", "w"), ensure_ascii=False, indent=1)
+    json.dump(aceitas, open(f"{pasta}/voz/aceitas.json", "w"), ensure_ascii=False, indent=1)
+    print("🟢 TROCAS ACEITAS (o texto e a legenda agora mostram o que a voz falou):")
+    for ac in aceitas: print(f"   cena {ac['cena']}: " + "; ".join(f'"{t["de"]}" → "{t["para"]}"' for t in ac["trocas"]))
 json.dump(rel, open(f"{pasta}/voz/crivo.json", "w"), ensure_ascii=False, indent=1)
 ruins = [r for r in rel if r["crivo"] != "ok"]; lentos = [r for r in rel if not (1.4 <= r["pal_por_s"] <= 3.6)]
 if lentos: print("⚠️ velocidade fora da faixa (1,4 a 3,6 palavras/s):", [(r["cena"], r["pal_por_s"]) for r in lentos])
