@@ -245,6 +245,8 @@
       b => b.update(db().collection("alunos").doc(a.id), { trilha: on }),
       b => b.set(db().collection("acessos").doc(a.turma + "_" + a.codigo), { alunoId: a.id, turma: a.turma, ativo: a.ativo, nome: a.nome, ...(on ? { trilha: true } : {}) })
     ]);
+    // 👣 26/11/2026 (professor): vale NA HORA, sem esperar o aluno sair e entrar de novo: o portal dele escuta config/liberar_<turma>.trilha
+    try { await db().collection("config").doc("liberar_" + a.turma).set({ trilha: { [a.id]: !!on } }, { merge: true }); } catch (e) { console.warn("trilha na hora", e); }
   }
   async function renomear(a, nome) {
     await lotes([
@@ -1315,10 +1317,12 @@
           if (x === "atipico") { await db().collection("alunos").doc(a.id).update({ atipico: !a.atipico }); }
           if (x === "apoio") { const v = await P.perguntar("Apoios para este aluno na aula (aparecem na Tela da aula, só para você):", a.apoio || ""); if (v === null) return; await db().collection("alunos").doc(a.id).update({ apoio: v.trim() }); }
           if (x === "trilha") {
-            const tem = cat().apostilas.some(y => y.trilha && y.serie === (todasTurmas().find(z => z.id === a.turma) || { serie: {} }).serie.id);
+            // 🎒 agregado: vale a Trilha da série DELE (não a da turma Agregados)
+            const serieA = a.turma === "AG" && a.serie ? String(a.serie) : (todasTurmas().find(z => z.id === a.turma) || { serie: {} }).serie.id;
+            const tem = cat().apostilas.some(y => y.trilha && y.serie === serieA);
             if (!a.trilha && !tem && !await P.confirmar("Esta série ainda não tem Trilha Passo a Passo. A marcação fica guardada e passa a valer quando a Trilha existir. Marcar mesmo assim?")) return;
             await marcarTrilha(a, !a.trilha);
-            await P.aviso(a.trilha ? `${a.nome} volta a usar a apostila da turma.` : `Pronto! Quando ${a.nome} digitar o código, o portal abre direto a Trilha Passo a Passo.`);
+            await P.aviso(a.trilha ? `${a.nome} volta a usar a apostila da turma. Se estiver com o portal aberto, já volta agora (em alguns segundos).` : `Pronto! ${a.nome} passa para a Trilha Passo a Passo agora mesmo: se estiver com o portal aberto, é levado(a) para ela em alguns segundos. Nas próximas vezes, o código já abre direto a Trilha.`);
           }
           if (x === "helena") {
             /* 🌟 Modo Helena (25/11/2026): em dupla, a carta "Vez da <nome>" em cada etapa; sozinho, a Trilha própria (js/helena.js).

@@ -816,6 +816,26 @@
       setTimeout(() => { if (cx.isConnected && (cx === rolCx)) cx.remove(); }, d.girando ? 15000 : 12000);
     }, () => {}); } catch (e) {}
   }
+  /* 👣 26/11/2026 (professor): o professor marca o aluno para a Trilha Passo a Passo (ou tira) no painel e vale NA HORA:
+     o portal do aluno escuta config/liberar_<turma>.trilha e leva ele para a Trilha (ou de volta) na mesma missão.
+     Só para quem está sozinho no computador (em dupla vale a regra da dupla, decidida ao entrar). */
+  let triUnsub = null, triChave = "";
+  function ouvirTrilha(s) {
+    if (!s || !s.nuvem || !P.nuvem || !P.nuvem.app || (s.alunoIds || []).length !== 1 || s.prof) return;
+    const k = s.turma + "|" + s.alunoIds[0]; if (triChave === k) return;
+    if (triUnsub) triUnsub(); triChave = k;
+    try { triUnsub = P.nuvem.app(0).db.collection("config").doc("liberar_" + s.turma).onSnapshot(sn => {
+      const ss = sess.get(); if (!ss || (ss.alunoIds || [])[0] !== s.alunoIds[0]) return;
+      const v = ((sn.exists && sn.data().trilha) || {})[s.alunoIds[0]]; if (typeof v !== "boolean" || v === !!ss.trilha) return;
+      sess.set(Object.assign({}, ss, { trilha: v }));
+      const [r, a1, a2, a3] = (location.hash || "").replace(/^#\//, "").split("/");
+      if (r === "apostila" || r === "missao") {
+        const ap = apostila(a1) || {}, alvo = v ? trilhaDe(ap.base || a1) : (ap.trilha && ap.base ? ap.base : null);
+        if (alvo && alvo !== a1) location.replace("#/" + r + "/" + alvo + (a2 ? "/" + a2 : "") + (r === "missao" && a3 ? "/" + a3 : ""));
+      }
+      toast(v ? "👣 O professor passou você para a Trilha Passo a Passo: a mesma missão, um passo de cada vez." : "📘 O professor voltou você para a apostila da turma.");
+    }, () => {}); } catch (e) {}
+  }
   function ouvirRei(s) {
     const tR = s && P.agEh(s) ? P.agAula : s && s.turma;   // 🎒 agregado: o placar da aula em que foi incluído
     if (!s || !s.nuvem || !P.nuvem || !P.nuvem.app || !tR || reiTurma === tR) return;
@@ -920,6 +940,7 @@
         const m = { w: screen.width, h: screen.height, dpr: Math.round(devicePixelRatio * 100) / 100, iw: innerWidth, ih: innerHeight, dia: hj };
         P.nuvem.app(0).db.collection("progresso").doc(s.alunoIds[0] + "_tela").set({ alunoId: s.alunoIds[0], turma: s.turma, tipo: "tela", monitor: m }, { merge: true }).catch(() => {}); } } catch (e) {}
     try { ouvirRei(sess.get()); } catch (e) {}
+    try { ouvirTrilha(sess.get()); } catch (e) {}
     try { ouvirRoleta(sess.get()); } catch (e) {}
     try { P.palco && P.palco.ouvir(sess.get()); } catch (e) {}   // 🎤 23/11/2026: a Aula ao vivo (vídeo e leitura guiada) num registro só
     try { if (P.agEh(sess.get())) { agChecar(); if (!agIv) agIv = setInterval(agChecar, 15000); } } catch (e) {}

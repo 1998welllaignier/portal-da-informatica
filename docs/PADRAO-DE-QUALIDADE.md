@@ -858,3 +858,7 @@ O botão 🎮 Sala de jogos (o mesmo do 5º ano) aparece na lista de missões de
 - **O nome é sempre o da própria aluna ou aluno** ("🌟 Sua vez, Maria!", "🌟 Sua vez, João!", "Trilha de Ana"; se for a Helena, "Sua vez, Helena!"), nunca "Helena" fixo: o modo é uma homenagem, não o nome de quem usa. Textos sem "da/a" para servir a meninas e meninos.
 - **Pontos justos:** na Trilha (sozinha ou juntas), as cartas SÃO a missão: todas de primeira = **1000 XP**, como quem fez a missão completa (2ª tentativa = metade, contou = inteira, descansou = 0). Em dupla com colega, as cartas continuam como extra (+40, +25, até +200), porque as tarefas da apostila já contam para a dupla.
 - A 🧰 caixa de ferramentas aparece em todas as combinações (fica por cima até com a carta aberta).
+
+### 👣 Passo a Passo na hora (26/11/2026, pedido do professor)
+- Marcar ou tirar a 👣 Trilha Passo a Passo de um aluno no painel vale **na hora**: se ele está com o portal aberto, em poucos segundos é levado para a mesma missão na Trilha (ou de volta), com um aviso. O painel grava `config/liberar_<turma>.trilha`, que o portal do aluno escuta (só quem está sozinho no computador; em dupla vale a regra da dupla).
+- Vale para os 🎒 **agregados**: a Trilha é a da série DELE, mesmo quando está participando da aula de outra turma.
