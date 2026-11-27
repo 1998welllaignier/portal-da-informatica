@@ -90,7 +90,7 @@ def registrar(d, D, kp):
 
     # ---------- 8º ano · dados e privacidade ----------
     dd("identificar", "Identificar: descobrir quem a pessoa é", E1("🔍", "descobrir quem é", "azul"), "azul")
-    dd("cpf", "CPF: o número de documento de cada pessoa no Brasil", CARD(["CPF", "•••.•••.•••-••"], "🪪"), "cinza")
+    dd("cpf", "CPF: o número de documento de cada pessoa no Brasil", CARD(["CPF", "•••.•••.•••-••"], "📇"), "cinza")
     dd("privacidade", "Privacidade: o direito de decidir o que os outros sabem sobre você", E1("🔐", "você decide", "verde"), "verde")
     dd("dado sensivel|dado sensível|dados sensiveis", "Dado sensível: dado ainda mais delicado (saúde, religião, biometria…)", CARD(["Dado sensível", "🏥 🙏 👆 🧬"], "🔴"), "vermelho")
     dd("discriminacao|discriminação", "Discriminação: tratar alguém de forma injusta", E1("🚫", "tratar de forma injusta", "vermelho"), "vermelho")

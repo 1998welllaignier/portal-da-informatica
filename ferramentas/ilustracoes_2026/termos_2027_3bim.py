@@ -136,7 +136,7 @@ def registrar(d, D, kp):
     dd("deepfake|deepfakes", "Deepfake: vídeo ou foto falsa feita com IA, que parece real", E2("🙂", "🎭", "parece real, é falso", "vermelho"), "vermelho")
     dd("plagio|plágio", "Plágio: copiar o trabalho de outro e dizer que é seu", E2("📄", "📄", "cópia sem dizer", "vermelho"), "vermelho")
     dd("impacto|impactos", "Impacto: o efeito que algo causa na vida das pessoas", E1("💥", "o efeito", "amarelo"), "amarelo")
-    dd("desmatamento", "Desmatamento: o corte das árvores da floresta", E2("🌳", "🪵", "corte das árvores", "verde"), "verde")
+    dd("desmatamento", "Desmatamento: o corte das árvores da floresta", E2("🌳", "🌲", "corte das árvores", "verde"), "verde")
     dd("inpe", "INPE: o Instituto Nacional de Pesquisas Espaciais, que vigia a Amazônia por satélite", CARD(["INPE", "satélite → Amazônia"], "🛰️", "verde"), "verde")
     dd("ponto de coleta|pontos de coleta", "Ponto de coleta: lugar que recebe o lixo eletrônico para reaproveitar com segurança", E2("🔋", "♻️", "reaproveita", "verde"), "verde")
     dd("acessibilidade", "Acessibilidade: todas as pessoas conseguem usar, inclusive as pessoas com deficiência", E1("♿", "todos conseguem usar", "azul"), "azul")

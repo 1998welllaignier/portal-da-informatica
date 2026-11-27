@@ -339,6 +339,17 @@ _reg2027c(d, D, k)
 from termos_2027_4bim import registrar as _reg2027d  # noqa: E402
 _reg2027d(d, D, k)
 
+# ---------------- 📷 fotos reais no lugar do desenho (26/11/2026, pedido do professor) ----------------
+# "Data center" aparecia como três retângulos; onde a coisa existe de verdade e o aluno nunca viu, vale a foto real.
+# Só fotos que já estão no portal, com licença livre e crédito (as mesmas das apostilas de 2027 e das curiosidades).
+foto("data center|datacenter|centro de dados", "data-center", "Foto real: o corredor de um data center, com racks (armários) cheios de servidores dos dois lados.", "Foto: PiDatacenters · Wikimedia Commons · licença CC BY-SA 4.0 (foto recortada)")
+foto("servidor|servidores", "data-center", "Foto real: num data center, cada armário (rack) está cheio de servidores, computadores ligados o dia inteiro.", "Foto: PiDatacenters · Wikimedia Commons · licença CC BY-SA 4.0 (foto recortada)")
+foto("hd|disco rigido", "hd-aberto", "Foto real: um HD aberto, com o disco prateado (prato) que gira e o braço que lê e grava por cima dele.", "Foto: Zzubnik · Wikimedia Commons · domínio público")
+foto("gabinete", "gabinete-aberto", "Foto real: um gabinete aberto, com a placa-mãe e as peças do computador lá dentro.", "Foto: BGN-WMCO · Wikimedia Commons · licença CC BY 3.0 (foto recortada)")
+foto("linha braille", "linha-braille", "Foto real: uma linha braille, aparelho com uma fileira de pininhos que sobem e formam as letras em braille.", "Foto: Eddau · Wikimedia Commons · domínio público (CC0) (marca borrada)")
+foto("refrigeracao", "data-center", "Foto real: o corredor de um data center; as grades no piso deixam passar o ar frio que impede os servidores de esquentar demais.", "Foto: PiDatacenters · Wikimedia Commons · licença CC BY-SA 4.0 (foto recortada)")
+foto("urna eletronica", "curiosidades/urna", "Foto real: uma urna eletrônica brasileira (modelo 2020): o eleitor digita o número e aperta CONFIRMA.", "Foto: TSE · Wikimedia Commons · domínio público")
+
 if __name__ == "__main__":
     raiz = os.path.dirname(os.path.dirname(AQUI))
     js = ("/* 🖼️ Imagens das palavras difíceis — gerado por ferramentas/ilustracoes_2026/termos.py (não edite à mão).\n"

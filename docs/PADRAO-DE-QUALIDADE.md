@@ -845,3 +845,7 @@ O botão 🎮 Sala de jogos (o mesmo do 5º ano) aparece na lista de missões de
 - 🧮 Calculadora (botões e teclado; conta feita pelo portal, sem eval) · 📏 Conversor de tamanhos (bit, byte, KB, MB, GB, TB, com a conta de cada linha; **1 GB ≈ 1000 MB e 1 byte = 8 bits, como nas apostilas**) · 📖 Dicionário da missão (os termos da aula; na apostila, de todas) · 📝 Rascunho (só daquele aluno, some quando ele sai).
 - Não aparece na sala de espera, nos jogos, no início nem no painel. **Na 📝 prova:** só se o professor marcar "🧰 Com caixa de ferramentas" ao ligar a prova (dá para ligar e desligar com a prova em andamento), e **sem o 📖 dicionário**, que daria as respostas.
 - Toda apostila nova já nasce com ela: tarefas com contas podem dizer "use a 🧰 calculadora".
+
+### 📷 Foto real nas palavras difíceis (26/11/2026, pedido do professor)
+- Quando a palavra é uma **coisa ou um lugar que existe de verdade** e o aluno talvez nunca tenha visto (data center, satélite, SSD…), o significado mostra **foto real** com crédito, não desenho. Ideias abstratas continuam com o desenho.
+- Lista do que já tem e do que falta: `docs/FOTOS-REAIS.md`. Todo material novo já nasce seguindo essa regra.
