@@ -661,7 +661,8 @@
     function maestra(a) {
       if (!ja.includes(a.id)) ja.push(a.id);
       ref.set({ dia: N.hoje(), ja }, { merge: true }).catch(() => {});
-      const opcoes = online().filter(x => x.id !== a.id).map(x => ({ id: x.id, nome: x.nome })), em0 = Date.now();
+      const avs = {}; getProg().forEach(p => { if (p.tipo === "avatar" && p.avatar) avs[p.alunoId] = p.avatar; });   // 🙂 avatar que o aluno escolheu, para aparecer no botão da maestra
+      const opcoes = online().filter(x => x.id !== a.id).map(x => Object.assign({ id: x.id, nome: x.nome }, avs[x.id] ? { av: avs[x.id] } : {})), em0 = Date.now();
       publicar({ girando: false, id: a.id, nome: a.nome, roda: null, porMaestra: null, maestra: { em: em0, opcoes } });
       So && So.sorteado();
       const nc = esc(curto(a.nome));

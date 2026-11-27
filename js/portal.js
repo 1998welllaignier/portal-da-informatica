@@ -819,7 +819,7 @@
     rolCx = h(`<div class="rol-aluno eu rol-maestra" role="dialog" aria-label="Maestra da leitura"><div>
       <p class="rol-ic">🌟</p><p class="rol-sup">Sua vez, ${nome}! Você é a maestra da leitura.</p><h2>Toque em quem vai ler este trecho:</h2>
       ${colega ? `<p class="rol-maes-dica">👧🧒 <b>${esc(curto(colega))}</b>, leia os nomes para ${nome} e deixe que ${nome} escolha.</p>` : ""}
-      <div class="rol-maes-ops">${ops.map(o => `<button type="button" class="rol-maes-op" data-id="${esc(o.id)}"><span class="rol-maes-ini">${esc((curto(o.nome) || "?").charAt(0))}</span><span>${esc(curto(o.nome))}</span></button>`).join("")}</div>
+      <div class="rol-maes-ops">${ops.map(o => `<button type="button" class="rol-maes-op" data-id="${esc(o.id)}">${o.av && P.avatar ? `<span class="rol-maes-av">${P.avatar.svg(o.av, 72, true)}</span>` : `<span class="rol-maes-ini">${esc((curto(o.nome) || "?").charAt(0))}</span>`}<span>${esc(curto(o.nome))}</span></button>`).join("")}</div>
       <p class="rol-maes-msg" aria-live="polite"></p></div></div>`);
     document.body.appendChild(rolCx); const cx = rolCx, msg = cx.querySelector(".rol-maes-msg");
     cx.querySelectorAll(".rol-maes-op").forEach(b => b.onclick = () => {

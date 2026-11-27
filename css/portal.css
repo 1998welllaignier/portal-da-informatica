@@ -3107,3 +3107,4 @@ body.hz-aberta .cx-bt,body.hz-aberta .cx-caixa{z-index:9001}body.hz-aberta .cx-b
 @keyframes rlPisca{50%{opacity:.35}}
 .pc-maestra{font-size:.85em;font-weight:700;color:#92400e;background:#fffbea;border:2px solid #f2b705;border-radius:999px;padding:1px 10px;margin-left:6px}
 @media (prefers-reduced-motion:reduce){.rl-maes-esp{animation:none}.rol-maes-op{transition:none}}
+.rol-maes-av{width:72px;height:72px;border-radius:50%;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#ede9fe;box-shadow:0 0 0 3px #f2b705}.rol-maes-av svg{width:72px;height:72px;display:block}

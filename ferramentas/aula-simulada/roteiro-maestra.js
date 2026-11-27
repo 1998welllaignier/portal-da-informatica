@@ -16,12 +16,15 @@ const bt = (pg, txt) => pg.locator(".pc-b", { hasText: txt }).first().click();
   await bt(prof, "Sortear quem lê"); await prof.waitForTimeout(1500);
   // todos "online" agora (ping fresco), como numa aula de verdade
   for (const pg of al) await pg.evaluate(async id => { const app = window.PORTAL.nuvem.app(0); await app.db.collection("progresso").doc(id + "_sessao").set({ ping: Date.now() }, { merge: true }); }, pg.aluno.id);
+  // cada um com o avatar escolhido (como no começo da aula)
+  for (const pg of al) await pg.evaluate(async id => { const P = window.PORTAL; await P.nuvem.app(0).db.collection("progresso").doc(id + "_avatar").set({ alunoId: id, turma: "9A", tipo: "avatar", avatar: P.avatar.sortear() }, { merge: true }); }, pg.aluno.id);
   await prof.waitForTimeout(1500);
   await prof.locator(".rl-girar").click(); await prof.waitForTimeout(8500);
   R.prof_maestra = await prof.locator(".rl-maestra h1").innerText().catch(() => "—");
   await al[2].waitForTimeout(1500); await sh(al[2], "1-helena-escolhe"); await sh(al[0], "1-colega-ve"); await sh(prof, "1-prof-espera");
   R.helena_tela = await al[2].locator(".rol-maestra .rol-sup").innerText().catch(() => "—");
   R.helena_opcoes = await al[2].locator(".rol-maes-op").allInnerTexts();
+  R.avatares = await al[2].locator(".rol-maes-av svg").count();
   R.colega_ve = await al[0].locator(".rol-maestra-ve").innerText().catch(() => "—");
   // a Helena toca na Ana
   await al[2].locator(".rol-maes-op", { hasText: "Ana" }).click(); await al[2].waitForTimeout(800); await sh(al[2], "2-helena-escolheu");
@@ -36,6 +39,6 @@ const bt = (pg, txt) => pg.locator(".pc-b", { hasText: txt }).first().click();
   const L = await T.loja(); const pal = L["config/palco_9A"] || {};
   R.xp = pal.xp; R.leitor = pal.leitor;
   R.CONFERE = { caiuNaMaestra: /Carla/.test(R.prof_maestra), telaDela: /maestra da leitura/.test(R.helena_tela), opcoes: R.helena_opcoes.length === 2 && !R.helena_opcoes.some(x => /Carla/.test(x)),
-    colegaAvisado: /maestra/.test(R.colega_ve), profRecebeu: /Ana/.test(R.prof_escolha), anaSabe: /escolheu VOCÊ/.test(R.ana_ve),
+    avatarNosBotoes: R.avatares === 2, colegaAvisado: /maestra/.test(R.colega_ve), profRecebeu: /Ana/.test(R.prof_escolha), anaSabe: /escolheu VOCÊ/.test(R.ana_ve),
     pontosLeitora: (pal.xp || {}).sim1 === 10, pontosMaestra: (pal.xp || {}).sim3 === 10 };
   console.log(R); console.log("erros", prof.erros, al[0].erros, al[1].erros, al[2].erros); await b.close(); })();
