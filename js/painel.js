@@ -632,7 +632,7 @@
       const final = 360 * (5 + Math.floor(Math.random() * 2)) + (360 - (k * fat + fat / 2)) + (Math.random() - .5) * fat * 0.6;
       const svg = area.querySelector(".rl-svg"), T0 = performance.now(), DUR = 6500; let ultFat = -1;
       // 23/11/2026: a mesma roda gira no projetor e na tela dos alunos (mesmos nomes, mesmo ângulo final, mesmo tempo)
-      publicar({ girando: true, id: null, nome: null, roda: { nomes: pool.map(a => curto(a.nome)), final, dur: DUR, t0: Date.now() } });
+      publicar({ girando: true, id: null, nome: null, maestra: null, porMaestra: null, roda: { nomes: pool.map(a => curto(a.nome)), final, dur: DUR, t0: Date.now() } });
       const ease = x => 1 - Math.pow(1 - x, 3.2);
       const passo = agora => { if (!cx.isConnected) return; const x = Math.min(1, (agora - T0) / DUR), a = final * ease(x); svg.style.transform = `rotate(${a}deg)`;
         const f = Math.floor(((360 - (a % 360)) % 360) / fat); if (f !== ultFat) { ultFat = f; So && So.clec(); }
@@ -640,9 +640,10 @@
       requestAnimationFrame(passo);
     }
     function parou(a) {
+      if (op.leitura && a.modoHelena && online().some(x => x.id !== a.id)) return maestra(a);   // 🌟 27/11/2026: caiu num aluno do Modo Helena → ele é a maestra e escolhe quem lê
       if (!ja.includes(a.id)) ja.push(a.id);
       ref.set({ dia: N.hoje(), ja }, { merge: true }).catch(() => {});
-      publicar({ girando: false, id: a.id, nome: a.nome, roda: null });
+      publicar({ girando: false, id: a.id, nome: a.nome, roda: null, maestra: null, porMaestra: null });
       So && So.sorteado();
       const big = h(op.leitura ? `<div class="rl-nome"><p class="rl-sup">📖 Quem vai ler este trecho é…</p><h1>${esc(a.nome)}</h1><div class="rl-bts2"><button type="button" class="btn btn-grande btn-ok rl-vai">✔ Pode ler!</button><button type="button" class="btn btn-grande btn-sec rl-pula">⏭ Pular (sortear outro)</button></div></div>`
         : `<div class="rl-nome"><p class="rl-sup">📖 Quem vai ler é…</p><h1>${esc(a.nome)}</h1><div class="rl-bts2"><button type="button" class="btn btn-grande btn-ok rl-de-novo">🎡 Sortear outro</button><button type="button" class="btn btn-grande btn-sec rl-volta">✕ Voltar ao placar</button></div></div>`);
@@ -652,6 +653,37 @@
         // ⏭ pulou (vergonha, dificuldade…): volta para a roleta, sem contar como "já leu"
         big.querySelector(".rl-pula").onclick = () => { ja = ja.filter(id => id !== a.id); ref.set({ dia: N.hoje(), ja }, { merge: true }).catch(() => {}); op.pular = a.id; inicio(); };
       } else { big.querySelector(".rl-volta").onclick = fechar; big.querySelector(".rl-de-novo").onclick = inicio; }
+    }
+    /* 🌟 MAESTRA DA LEITURA (27/11/2026, pedido do professor): quando a roleta cai num aluno do Modo Helena, ele não lê:
+       escolhe quem vai ler o trecho. Na tela dele aparecem os nomes de quem está online (botões grandes); ele toca num nome
+       (progresso/<id>_maestra { tipo:"maestra", em, escolha }) e a escolha aparece na tela de todos. Quando o escolhido lê,
+       os dois ganham os pontos de leitor. O professor pode escolher por ele, se ele não quiser ou demorar. */
+    function maestra(a) {
+      if (!ja.includes(a.id)) ja.push(a.id);
+      ref.set({ dia: N.hoje(), ja }, { merge: true }).catch(() => {});
+      const opcoes = online().filter(x => x.id !== a.id).map(x => ({ id: x.id, nome: x.nome })), em0 = Date.now();
+      publicar({ girando: false, id: a.id, nome: a.nome, roda: null, porMaestra: null, maestra: { em: em0, opcoes } });
+      So && So.sorteado();
+      const nc = esc(curto(a.nome));
+      const big = h(`<div class="rl-nome rl-maestra"><p class="rl-sup">🌟 Vez da maestra da leitura!</p><h1>${esc(a.nome)}</h1>
+        <p class="rl-maes-tx">${nc} vai escolher quem lê este trecho. <span class="rl-maes-esp">⏳ Esperando a escolha…</span></p>
+        <details class="rl-maes-prof"><summary>👨‍🏫 Escolher por ${nc}</summary><div class="rl-maes-ops">${opcoes.map(x => `<button type="button" class="btn btn-sec" data-mid="${esc(x.id)}">${esc(curto(x.nome))}</button>`).join("")}</div></details>
+        <div class="rl-bts2"><button type="button" class="btn btn-grande btn-sec rl-pula">⏭ Pular (sortear outro)</button></div></div>`);
+      area.appendChild(big); P.podio.confete && P.podio.confete(big);
+      let feito = false;
+      const escolhido = x => { if (feito || !cx.isConnected) return; feito = true; clearInterval(iv); big.remove();
+        if (!ja.includes(x.id)) ja.push(x.id); ref.set({ dia: N.hoje(), ja }, { merge: true }).catch(() => {});
+        publicar({ girando: false, id: x.id, nome: x.nome, roda: null, maestra: null, porMaestra: a.nome });
+        So && So.sorteado();
+        const b2 = h(`<div class="rl-nome"><p class="rl-sup">🌟 ${nc} escolheu quem vai ler:</p><h1>${esc(x.nome)}</h1><div class="rl-bts2"><button type="button" class="btn btn-grande btn-ok rl-vai">✔ Pode ler!</button><button type="button" class="btn btn-grande btn-sec rl-pula">⏭ Pular (sortear outro)</button></div></div>`);
+        area.appendChild(b2); P.podio.confete && P.podio.confete(b2);
+        b2.querySelector(".rl-vai").onclick = () => { fechar(); op.aoEscolher && op.aoEscolher(x, { maestra: { id: a.id, nome: a.nome } }); };
+        b2.querySelector(".rl-pula").onclick = () => { ja = ja.filter(id => id !== x.id); ref.set({ dia: N.hoje(), ja }, { merge: true }).catch(() => {}); op.pular = x.id; inicio(); }; };
+      const iv = setInterval(() => { if (!cx.isConnected || feito) return clearInterval(iv);
+        const doc = getProg().find(p => p.tipo === "maestra" && p.alunoId === a.id && p.em === em0), e = doc && doc.escolha;
+        const x = e && opcoes.find(o => o.id === e.id); if (x) escolhido(x); }, 800);
+      big.querySelectorAll("[data-mid]").forEach(b => b.onclick = () => escolhido(opcoes.find(o => o.id === b.dataset.mid)));
+      big.querySelector(".rl-pula").onclick = () => { feito = true; clearInterval(iv); publicar({ girando: false, id: null, nome: null, maestra: null, porMaestra: null }); ja = ja.filter(id => id !== a.id); ref.set({ dia: N.hoje(), ja }, { merge: true }).catch(() => {}); op.pular = a.id; inicio(); };
     }
     inicio();
   }
@@ -723,7 +755,7 @@
       if (!r || r.dia !== N.hoje() || !r.em || Date.now() - r.em > 90000 || document.querySelector(".rl-cobre")) return;
       const k = r.em + (r.girando ? "g" : "n"); if (k === plRolVisto) return; plRolVisto = k; if (plRolCx) plRolCx.remove();
       plRolCx = h(`<div class="rol-aluno telao"><div>${r.girando ? (r.roda && P.rodaRoletaHTML ? `<h2 class="rol-tit-roda">🎡 A roleta está girando…</h2>${P.rodaRoletaHTML(r.roda)}` : `<p class="rol-ic rol-gira">🎡</p><h2>A roleta está girando…</h2>`)
-        : `<div class="rol-festa" aria-hidden="true">${["🎉", "✨", "🎊", "⭐", "🎉", "✨", "🎊", "⭐", "🎉", "✨"].map((x, i) => `<i style="--k:${i}">${x}</i>`).join("")}</div><p class="rol-ic">📖</p><p class="rol-sup">Quem vai ler é:</p><h2>${esc(r.nome || "")}</h2>`}</div></div>`);
+        : `<div class="rol-festa" aria-hidden="true">${["🎉", "✨", "🎊", "⭐", "🎉", "✨", "🎊", "⭐", "🎉", "✨"].map((x, i) => `<i style="--k:${i}">${x}</i>`).join("")}</div>${P.rolTelaoNome ? P.rolTelaoNome(r) : `<p class="rol-ic">📖</p><p class="rol-sup">Quem vai ler é:</p><h2>${esc(r.nome || "")}</h2>`}`}</div></div>`);
       document.body.appendChild(plRolCx); const cx2 = plRolCx; if (r.girando && r.roda && P.rodaGirar) P.rodaGirar(cx2, r.roda); else So && So.sorteado && So.sorteado();
       setTimeout(() => { if (cx2.isConnected) cx2.remove(); }, r.girando ? 15000 : 8000); }, () => {});
     el.querySelector("#pl-tela").onclick = () => { const d = document.documentElement; (document.fullscreenElement ? document.exitFullscreen() : d.requestFullscreen()).catch(() => {}); };

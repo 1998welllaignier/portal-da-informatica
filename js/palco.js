@@ -88,7 +88,7 @@
       return `${cab(d, M)}<div class="pc-perg"><h2>${esc(q.q)}</h2><div class="pc-ops">${ops}</div>${rodape}</div>`;
     }
     const souEu = quem === "aluno" && d.leitor && (minha === "eu");
-    const faixa = d.leitor ? (souEu ? `<div class="pc-leitor eu">🎤 <b>É a sua vez de ler!</b></div>` : `<div class="pc-leitor">📖 Lendo agora: <b>${esc(d.leitor.nome)}</b>${d.leu ? " ✔" : ""}</div>`) : `<div class="pc-leitor sem">🎡 Quem vai ler?</div>`;
+    const faixa = d.leitor ? (souEu ? `<div class="pc-leitor eu">🎤 <b>É a sua vez de ler!</b></div>` : `<div class="pc-leitor">📖 Lendo agora: <b>${esc(d.leitor.nome)}</b>${d.leu ? " ✔" : ""}${d.leitor.maestra ? ` <span class="pc-maestra">🌟 escolha de ${esc(String(d.leitor.maestra.nome || "").split(" ")[0])}</span>` : ""}</div>`) : `<div class="pc-leitor sem">🎡 Quem vai ler?</div>`;
     let termo = "";
     if (d.termo && d.termo.slide === d.slide) { const x = L().acharTermo(M.T.termos, d.termo.t) || { termo: d.termo.t, def: "" };
       termo = `<div class="pc-termo"><div class="pc-termo-cx"><p class="pc-termo-sup">📖 Palavra difícil</p><h2>${x.rotulo || esc(x.termo)}</h2>${P.termoImg ? P.termoImg(x.termo, x.rotulo) : ""}<p class="modal-def">${x.def || ""}</p>${quem === "prof" ? `<button type="button" class="btn btn-ok pc-termo-x">✕ Fechar para todos</button>` : `<p class="pc-termo-pe">👀 O professor abriu esta palavra para todos</p>`}</div></div>`; }
@@ -255,7 +255,7 @@
     try { db().collection("config").doc("roleta_" + turma).onSnapshot(sn => { const r = sn.exists ? sn.data() : null; if (!r || r.dia !== hoje() || !r.em || Date.now() - r.em > 90000) return;
       const k = r.em + (r.girando ? "g" : "n"); if (k === rolVisto) return; rolVisto = k; if (rolCx) rolCx.remove();
       rolCx = h(`<div class="rol-aluno telao"><div>${r.girando ? (r.roda && P.rodaRoletaHTML ? `<h2 class="rol-tit-roda">🎡 A roleta está girando…</h2>${P.rodaRoletaHTML(r.roda)}` : `<p class="rol-ic rol-gira">🎡</p><h2>A roleta está girando…</h2>`)
-        : `<div class="rol-festa" aria-hidden="true">${["🎉", "✨", "🎊", "⭐", "🎉", "✨", "🎊", "⭐"].map((x, i) => `<i style="--k:${i}">${x}</i>`).join("")}</div><p class="rol-ic">📖</p><p class="rol-sup">Quem vai ler é:</p><h2>${esc(r.nome || "")}</h2>`}</div></div>`);
+        : `<div class="rol-festa" aria-hidden="true">${["🎉", "✨", "🎊", "⭐", "🎉", "✨", "🎊", "⭐"].map((x, i) => `<i style="--k:${i}">${x}</i>`).join("")}</div>${P.rolTelaoNome ? P.rolTelaoNome(r) : `<p class="rol-ic">📖</p><p class="rol-sup">Quem vai ler é:</p><h2>${esc(r.nome || "")}</h2>`}`}</div></div>`);
       document.body.appendChild(rolCx); const cx = rolCx; if (r.girando && r.roda && P.rodaGirar) P.rodaGirar(cx, r.roda); setTimeout(() => { if (cx.isConnected) cx.remove(); }, r.girando ? 15000 : 7000); }, () => {}); } catch (e) {}
     render();
   }
@@ -392,8 +392,8 @@
     const N = () => M ? M.slides.length : 0;
     function irSlide(i) { if (!M) return; d.slide = Math.max(0, Math.min(N() - 1, i)); const sl = M.slides[d.slide];
       d.leitor = sl.t === "trecho" ? (d.lidos[sl.i] || null) : d.leitor; d.leu = sl.t === "trecho" ? !!d.lidos[sl.i] : d.leu; if (sl.t !== "pergunta" || !(d.perg && d.perg.slide === d.slide)) { if (sl.t === "pergunta") d.perg = null; } salvar(); }
-    function sortear(pular) { if (!ctx.roleta) return; ctx.roleta({ leitura: true, pular: pular ? pular.id : null, aoEscolher: a => { d.leitor = { id: a.id, nome: a.nome }; d.leu = false; salvar(); } }); }
-    function leu() { const sl = M.slides[d.slide]; if (!d.leitor || !sl) return; d.leu = true; d.lidos[sl.i] = d.leitor; d.xp[d.leitor.id] = (d.xp[d.leitor.id] || 0) + XP_LEITOR; salvar(); }
+    function sortear(pular) { if (!ctx.roleta) return; ctx.roleta({ leitura: true, pular: pular ? pular.id : null, aoEscolher: (a, ex) => { d.leitor = { id: a.id, nome: a.nome }; if (ex && ex.maestra) d.leitor.maestra = ex.maestra; d.leu = false; salvar(); } }); }
+    function leu() { const sl = M.slides[d.slide]; if (!d.leitor || !sl) return; d.leu = true; d.lidos[sl.i] = d.leitor; d.xp[d.leitor.id] = (d.xp[d.leitor.id] || 0) + XP_LEITOR; const mae = d.leitor.maestra; if (mae && mae.id) d.xp[mae.id] = (d.xp[mae.id] || 0) + XP_LEITOR; salvar(); }   // 🌟 a maestra que escolheu ganha os mesmos pontos de quem leu
     async function registrarLeitura() {   // 📒 no Diário (aula do dia) e no relatório da família, como antes
       if (!M) return; const leitores = Object.entries(d.lidos).filter(([, x]) => x).map(([i, x]) => ({ id: x.id, nome: x.nome, trecho: +i + 1 }));
       if (!leitores.length && !Object.keys(d.perguntas).length) return;

@@ -97,7 +97,7 @@
       : `<p class="lg-grande">🎬</p><h2>Agora vamos ver um vídeo</h2>`}</div>`;
     const P2 = d.fase === "pergunta" || d.fase === "resposta" ? pergunta(T, i) : null;
     let faixa;
-    if (d.leitor) faixa = quem === "aluno" && d.souEu ? `<div class="lg-leitor eu">🎤 <b>É a sua vez de ler!</b></div>` : `<div class="lg-leitor">📖 Lendo agora: <b>${esc(d.leitor.nome)}</b>${d.leu ? " ✔" : ""}</div>`;
+    if (d.leitor) faixa = quem === "aluno" && d.souEu ? `<div class="lg-leitor eu">🎤 <b>É a sua vez de ler!</b></div>` : `<div class="lg-leitor">📖 Lendo agora: <b>${esc(d.leitor.nome)}</b>${d.leu ? " ✔" : ""}${d.leitor.maestra ? ` <span class="pc-maestra">🌟 escolha de ${esc(String(d.leitor.maestra.nome || "").split(" ")[0])}</span>` : ""}</div>`;
     else faixa = `<div class="lg-leitor sem">🎡 Quem vai ler?</div>`;
     if (P2) {
       const st = d.stats || {}, rev = d.fase === "resposta", minha = d.minhaResp;
@@ -156,7 +156,7 @@
     db().collection("config").doc("roleta_" + turma).onSnapshot(sn => { const r = sn.exists ? sn.data() : null; if (!r || r.dia !== hoje() || !r.em || Date.now() - r.em > 90000) return;
       const k = r.em + (r.girando ? "g" : "n"); if (k === rolVisto) return; rolVisto = k; if (rolCx) rolCx.remove();
       rolCx = h(`<div class="rol-aluno telao"><div>${r.girando ? (r.roda && P.rodaRoletaHTML ? `<h2 class="rol-tit-roda">🎡 A roleta está girando…</h2>${P.rodaRoletaHTML(r.roda)}` : `<p class="rol-ic rol-gira">🎡</p><h2>A roleta está girando…</h2><p>Quem será que vai ler?</p>`)
-        : `<div class="rol-festa" aria-hidden="true">${["🎉", "✨", "🎊", "⭐", "🎉", "✨", "🎊", "⭐", "🎉", "✨"].map((e, i) => `<i style="--k:${i}">${e}</i>`).join("")}</div><p class="rol-ic">📖</p><p class="rol-sup">Quem vai ler é:</p><h2>${esc(r.nome || "")}</h2>`}</div></div>`);
+        : `<div class="rol-festa" aria-hidden="true">${["🎉", "✨", "🎊", "⭐", "🎉", "✨", "🎊", "⭐", "🎉", "✨"].map((e, i) => `<i style="--k:${i}">${e}</i>`).join("")}</div>${P.rolTelaoNome ? P.rolTelaoNome(r) : `<p class="rol-ic">📖</p><p class="rol-sup">Quem vai ler é:</p><h2>${esc(r.nome || "")}</h2>`}`}</div></div>`);
       document.body.appendChild(rolCx); const cx = rolCx; if (r.girando && r.roda && P.rodaGirar) P.rodaGirar(cx, r.roda); setTimeout(() => { if (cx.isConnected) cx.remove(); }, r.girando ? 15000 : 7000); }, () => {});
     // 📡 23/11/2026: no projetor, o vídeo acompanha o que o professor dá play/pausa (config/sala_<turma>), sem som
     let salaD = null, ytP = null;
@@ -253,7 +253,7 @@
       if (d.fase === "video") { B.push(["lgc-ok", "📖 Terminou o vídeo: começar a leitura ➜", () => { pararSinc(); d.fase = "trecho"; salvar(); }]); B.push(["lgc-sec", "📡 Abrir o vídeo de novo", passarSinc]); }
       if (d.fase === "trecho") {
         if (!d.leitor) B.push(["lgc-rol", "🎡 Sortear quem lê", sortear]);
-        else if (!d.leu) { B.push(["lgc-ok", `✔ Leu! (+${XP_LEITOR} XP)`, () => { d.leu = true; addXP(d.leitor.id, XP_LEITOR); d.lidos[d.idx] = d.leitor; salvar(); }]); B.push(["lgc-sec", "⏭ Pular (sortear outro)", () => { const a = d.leitor; d.leitor = null; salvar(); sortear(a); }]); }
+        else if (!d.leu) { B.push(["lgc-ok", `✔ Leu! (+${XP_LEITOR} XP)`, () => { d.leu = true; addXP(d.leitor.id, XP_LEITOR); if (d.leitor.maestra && d.leitor.maestra.id) addXP(d.leitor.maestra.id, XP_LEITOR); d.lidos[d.idx] = d.leitor; salvar(); }]); B.push(["lgc-sec", "⏭ Pular (sortear outro)", () => { const a = d.leitor; d.leitor = null; salvar(); sortear(a); }]); }
         if (d.leu || !d.leitor) { if (pergunta(T, d.idx)) B.push([d.leu ? "lgc-ok" : "lgc-sec", "🤔 Pergunta relâmpago", () => { d.fase = "pergunta"; d.stats = { resp: 0, total: online().length, acertos: 0 }; salvar(); }]);
           B.push([d.leu && !pergunta(T, d.idx) ? "lgc-ok" : "lgc-sec", d.idx < N - 1 ? "Próximo trecho ➜" : "🏁 Terminar e liberar a turma", proximo]); }
       }
@@ -283,7 +283,7 @@
     let passoUlt = d.fase + d.idx;
     const salvar = () => { const passo = d.fase + d.idx; if (passo !== passoUlt) { passoUlt = passo; if (P.lousa && P.lousa.limparPincel) P.lousa.limparPincel(); } if (d.termo) { if (!d.termo.passo) d.termo.passo = passo; else if (d.termo.passo !== passo) d.termo = null; } gravar(); pintar(); };
     function sortear(pular) {
-      ctx.roleta({ leitura: true, pular: pular ? pular.id : null, aoEscolher: a => { d.leitor = { id: a.id, nome: a.nome }; d.leu = false; salvar(); } });
+      ctx.roleta({ leitura: true, pular: pular ? pular.id : null, aoEscolher: (a, ex) => { d.leitor = { id: a.id, nome: a.nome }; if (ex && ex.maestra) d.leitor.maestra = ex.maestra; d.leu = false; salvar(); } });
     }
     function mostrarResposta() { if (d.fase !== "pergunta") return; const c = contar(); d.stats = { resp: c.resp, total: c.total, acertos: c.acertos }; c.quem.forEach(id => addXP(id, XP_PERGUNTA)); const P2 = pergunta(T, d.idx); d.perguntas[d.idx] = { termo: P2.termo, acertos: c.acertos, resp: c.resp, quem: c.quem }; d.fase = "resposta"; salvar(); }
     let autoRev = null;   // ✅ 23/11/2026 (pedido do professor): quando TODOS os alunos que entraram responderem, a resposta certa aparece sozinha

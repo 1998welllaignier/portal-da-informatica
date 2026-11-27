@@ -799,6 +799,38 @@
   P.rodaGirar = (box, roda) => { const svg = box && box.querySelector(".rl-svg"); if (!svg || !roda) return; const ease = x => 1 - Math.pow(1 - x, 3.2);
     const passo = () => { if (!svg.isConnected) return; const x = Math.min(1, Math.max(0, (Date.now() - roda.t0) / roda.dur)); svg.style.transform = `rotate(${roda.final * ease(x)}deg)`; if (x < 1) requestAnimationFrame(passo); };
     requestAnimationFrame(passo); };
+  /* 🌟 27/11/2026: no projetor, o nome sorteado — ou a maestra da leitura escolhendo, ou quem a maestra escolheu */
+  P.rolTelaoNome = r => { const e = s => String(s == null ? "" : s).replace(/[&<>"]/g, x => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[x]), c = n => P.podio && P.podio.nomeCurto ? P.podio.nomeCurto(n) : n;
+    if (!r.id) return `<p class="rol-ic">🎡</p><h2>Vamos sortear de novo…</h2>`;
+    if (r.maestra) return `<p class="rol-ic">🌟</p><p class="rol-sup">A maestra da leitura é:</p><h2>${e(r.nome)}</h2><p class="rol-por">Escolhendo quem vai ler este trecho… 👀</p>`;
+    return `<p class="rol-ic">📖</p><p class="rol-sup">Quem vai ler é:</p><h2>${e(r.nome)}</h2>${r.porMaestra ? `<p class="rol-por">🌟 Escolha da maestra ${e(c(r.porMaestra))}</p>` : ""}`; };
+  /* 🌟 MAESTRA DA LEITURA (27/11/2026): a roleta caiu num aluno do Modo Helena. Na tela dele aparecem os nomes de quem está
+     online (botões grandes) e ele toca em quem vai ler; a escolha vai para progresso/<id>_maestra e o painel do professor anuncia.
+     Na tela dos outros: "a maestra da leitura é…, escolhendo quem vai ler". */
+  function maestraAluno(d, ss, souEu) {
+    const curto = n => P.podio && P.podio.nomeCurto ? P.podio.nomeCurto(n) : n, nome = esc(curto(d.nome || "")), ids = ss.alunoIds || [];
+    if (!souEu) {
+      rolCx = h(`<div class="rol-aluno rol-maestra-ve" role="alert"><div><p class="rol-ic">🌟</p><p class="rol-sup">A maestra da leitura é:</p><h2>${esc(d.nome || "")}</h2><p class="rol-por">Escolhendo quem vai ler este trecho… 👀</p><button type="button" class="btn btn-grande btn-ok">👍 Ok</button></div></div>`);
+      document.body.appendChild(rolCx); const cx = rolCx; cx.querySelector("button").onclick = () => cx.remove();
+      setTimeout(() => { if (cx.isConnected && cx === rolCx) cx.remove(); }, 12000); return;
+    }
+    const i = Math.max(0, ids.indexOf(d.id)), colega = ids.length > 1 ? (ss.nomes || [])[i === 0 ? 1 : 0] : null;
+    const ops = ((d.maestra || {}).opcoes || []).filter(o => !ids.includes(o.id) || ids.length > 1);
+    rolCx = h(`<div class="rol-aluno eu rol-maestra" role="dialog" aria-label="Maestra da leitura"><div>
+      <p class="rol-ic">🌟</p><p class="rol-sup">Sua vez, ${nome}! Você é a maestra da leitura.</p><h2>Toque em quem vai ler este trecho:</h2>
+      ${colega ? `<p class="rol-maes-dica">👧🧒 <b>${esc(curto(colega))}</b>, leia os nomes para ${nome} e deixe que ${nome} escolha.</p>` : ""}
+      <div class="rol-maes-ops">${ops.map(o => `<button type="button" class="rol-maes-op" data-id="${esc(o.id)}"><span class="rol-maes-ini">${esc((curto(o.nome) || "?").charAt(0))}</span><span>${esc(curto(o.nome))}</span></button>`).join("")}</div>
+      <p class="rol-maes-msg" aria-live="polite"></p></div></div>`);
+    document.body.appendChild(rolCx); const cx = rolCx, msg = cx.querySelector(".rol-maes-msg");
+    cx.querySelectorAll(".rol-maes-op").forEach(b => b.onclick = () => {
+      const o = ops.find(x => x.id === b.dataset.id); if (!o) return;
+      cx.querySelectorAll(".rol-maes-op").forEach(x => { x.disabled = true; x.classList.toggle("escolhido", x === b); });
+      msg.innerHTML = `✔ Você escolheu <b>${esc(curto(o.nome))}</b>! 🎉`;
+      try { P.nuvem.app(i).db.collection("progresso").doc(d.id + "_maestra").set({ alunoId: d.id, turma: ss.turma, tipo: "maestra", dia: P.nuvem.hoje(), em: d.maestra.em, escolha: { id: o.id, nome: o.nome } }).catch(() => { msg.textContent = "Não deu para enviar. Peça ajuda ao professor."; }); } catch (e) {}
+      setTimeout(() => { if (cx.isConnected) cx.remove(); }, 2500);
+    });
+    setTimeout(() => { if (cx.isConnected && cx === rolCx) cx.remove(); }, 85000);
+  }
   function ouvirRoleta(s) {
     const tR = s && P.agEh(s) ? P.agAula : s && s.turma;   // 🎒 agregado: a roleta da aula em que foi incluído
     if (!s || !s.nuvem || !P.nuvem || !P.nuvem.app || !tR || rolTurma === tR) return;
@@ -808,9 +840,11 @@
       if (/^#\/(painel|prova)/.test(location.hash)) return; // não atrapalha a prova
       const chave = d.em + (d.girando ? "g" : "n"); if (rolVisto === chave) return; rolVisto = chave;
       if (rolCx) rolCx.remove();
+      if (!d.girando && !d.id) { rolCx = null; return; }   // 🌟 o professor pulou a maestra: some e vem a roleta de novo
       const souEu = !d.girando && (ss.alunoIds || []).includes(d.id);
+      if (!d.girando && d.maestra) { maestraAluno(d, ss, souEu); return; }
       rolCx = h(`<div class="rol-aluno${souEu ? " eu" : ""}" role="alert"><div>${d.girando ? (d.roda ? `<h2 class="rol-tit-roda">🎡 A roleta está girando…</h2>${P.rodaRoletaHTML(d.roda)}` : `<p class="rol-ic">🎡</p><h2>A roleta da leitura está girando…</h2><p>Quem será que vai ler? Olhe para o projetor!</p>`)
-        : `<div class="rol-festa" aria-hidden="true">${Array.from("🎉✨🎊⭐🎉✨🎊⭐🎉✨").map((e, k) => `<i style="--k:${k}">${e}</i>`).join("")}</div><p class="rol-ic">${souEu ? "🎤" : "📖"}</p><p class="rol-sup">${souEu ? "É VOCÊ que vai ler! Prepare-se para ler em voz alta:" : "Quem vai ler é:"}</p><h2>${esc(d.nome || "")}</h2><button type="button" class="btn btn-grande btn-ok">👍 Ok</button>`}</div></div>`);
+        : `<div class="rol-festa" aria-hidden="true">${Array.from("🎉✨🎊⭐🎉✨🎊⭐🎉✨").map((e, k) => `<i style="--k:${k}">${e}</i>`).join("")}</div><p class="rol-ic">${souEu ? "🎤" : "📖"}</p><p class="rol-sup">${souEu ? (d.porMaestra ? `A maestra ${esc(P.podio.nomeCurto(d.porMaestra))} escolheu VOCÊ! Prepare-se para ler em voz alta:` : "É VOCÊ que vai ler! Prepare-se para ler em voz alta:") : "Quem vai ler é:"}</p><h2>${esc(d.nome || "")}</h2>${d.porMaestra && !souEu ? `<p class="rol-por">🌟 Escolha da maestra ${esc(P.podio.nomeCurto(d.porMaestra))}</p>` : ""}<button type="button" class="btn btn-grande btn-ok">👍 Ok</button>`}</div></div>`);
       document.body.appendChild(rolCx); const cx = rolCx, b = cx.querySelector("button"); if (b) b.onclick = () => cx.remove();
       if (d.girando && d.roda) P.rodaGirar(cx, d.roda);
       setTimeout(() => { if (cx.isConnected && (cx === rolCx)) cx.remove(); }, d.girando ? 15000 : 12000);
