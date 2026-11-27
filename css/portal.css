@@ -3144,3 +3144,15 @@ body.hz-aberta .cx-bt,body.hz-aberta .cx-caixa{z-index:9001}body.hz-aberta .cx-b
 .pc-op.pc-hz-op.errada{opacity:.45}
 @keyframes pcHzBrilho{to{box-shadow:0 0 0 14px rgba(22,163,74,.15),0 0 40px rgba(22,163,74,.7)}}
 @media (prefers-reduced-motion:reduce){.pc-op.pc-hz-op.brilha{animation:none}}
+/* 🌟 turma cheia (27/11/2026): todos os colegas cabem na tela, sem rolar (rolar é difícil para quem está no Modo Helena) */
+.rol-aluno.rol-maestra.muitos>div{max-width:min(1180px,96vw);padding-top:16px;padding-bottom:16px}
+.rol-aluno.rol-maestra.muitos .rol-ic{font-size:2.2rem;margin:0}
+.rol-aluno.rol-maestra.muitos .rol-sup{font-size:1.2rem;margin:2px 0}
+.rol-aluno.rol-maestra.muitos h2{font-size:1.7rem;margin:2px 0 6px}
+.rol-aluno.rol-maestra.muitos .rol-maes-ops{max-height:none;overflow:visible;gap:12px}
+.rol-aluno.rol-maestra.muitos .rol-maes-op{width:150px;padding:10px 6px 9px;font-size:1.12rem;gap:4px}
+.rol-aluno.rol-maestra.muitos .rol-maes-av,.rol-aluno.rol-maestra.muitos .rol-maes-av svg{width:60px;height:60px}
+.rol-aluno.rol-maestra.muitos .rol-maes-ini{width:48px;height:48px;font-size:1.4rem}
+.rol-aluno.rol-maestra.lotado .rol-maes-op{width:136px;padding:8px 4px 8px;font-size:1.02rem}
+.rol-aluno.rol-maestra.lotado .rol-maes-av,.rol-aluno.rol-maestra.lotado .rol-maes-av svg{width:52px;height:52px}
+.rol-aluno.rol-maestra.lotado .rol-maes-toque{display:none}

@@ -816,7 +816,7 @@
     }
     const i = Math.max(0, ids.indexOf(d.id)), colega = ids.length > 1 ? (ss.nomes || [])[i === 0 ? 1 : 0] : null;
     const ops = ((d.maestra || {}).opcoes || []).filter(o => !ids.includes(o.id) || ids.length > 1);
-    rolCx = h(`<div class="rol-aluno eu rol-maestra" role="dialog" aria-label="${fem ? "Maestra" : "Maestro"} da leitura"><div>
+    rolCx = h(`<div class="rol-aluno eu rol-maestra${ops.length > 12 ? " muitos lotado" : ops.length > 6 ? " muitos" : ""}" role="dialog" aria-label="${fem ? "Maestra" : "Maestro"} da leitura"><div>
       <p class="rol-ic">🌟</p><p class="rol-sup">Sua vez, ${nome}! Você é ${fem ? "a" : "o"} ${titulo} da leitura.</p><h2>Toque em quem vai ler este trecho:</h2>
       ${colega ? `<p class="rol-maes-dica">👧🧒 <b>${esc(curto(colega))}</b>, leia os nomes para ${nome} e deixe que ${nome} escolha.</p>` : ""}
       <div class="rol-maes-ops">${ops.map(o => `<button type="button" class="rol-maes-op" data-id="${esc(o.id)}">${o.av && P.avatar ? `<span class="rol-maes-av">${P.avatar.svg(o.av, 72, true)}</span>` : `<span class="rol-maes-ini">${esc((curto(o.nome) || "?").charAt(0))}</span>`}<span>${esc(curto(o.nome))}</span><span class="rol-maes-toque">👆 Toque aqui</span></button>`).join("")}</div>
