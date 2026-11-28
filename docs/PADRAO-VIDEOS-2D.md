@@ -9,6 +9,20 @@ Modelo de referência: `ferramentas/video2d/modelo-cabo-submarino.html` (8º ano
 - Não é copiar o "bairro": é o **jeito de abordar**. Transformar um assunto que costuma ser explicado de forma tradicional e maçante num "mundo" com regras próprias, personagens, humor e surpresa (cidade, estádio, viagem, caça ao tesouro…). A ferramenta principal é a **metáfora**: explicar o novo por meio de algo que o aluno já conhece.
 - O vídeo tem que ser prazeroso de ver e, ao mesmo tempo, rico em conhecimento verificado. O aluno aprende se divertindo, quase sem perceber (**edutretenimento**, *edutainment*; **aprendizagem lúdica**).
 
+## 🎨 Os 3 estilos de vídeo e seus nomes (nomes escolhidos pelo professor em 27/11/2026)
+Quando o professor disser o nome, é exatamente este estilo. A voz (Gemini) e a vinheta pixel de abertura valem para os três.
+
+| Nome | Como é | Referência |
+|---|---|---|
+| **Clássico** | O padrão atual: 2D com bonequinhos, câmera que se mexe e entra nas coisas, letra lisa, conceito em letras amarelas, selo do professor ("selo Tabajara", descrito neste documento) | `2027-7ano-m3/` (7º ano · M3 Registros) |
+| **Pixel Grande** | Pixel art em tela de 320×180 ampliada 4×, letra quadradona (Press Start 2P), zoom e vista explodida. O professor achou o zoom grande demais e a letra difícil de ler de longe: não usar como padrão | `pixel-grande-7ano-b3-m4/` (M4 Golpes) e `pixel-neon-7ano-m3/render.py` |
+| **Pixel Neon** | Pixel art com câmera mais aberta (cena em 85% da tela, pixels menores), letra pixel estreita (VT323, lê de longe e mostra acento), títulos curtos em tarja escura, brilho (glow) nos destaques, um assunto por vez. Mascote "faísca" viajando por um fio **só** quando o assunto tem caminho (ler/enviar dado, internet, hardware); sem poste/luz quando não tem a ver. Inspirado num reel de pixel art sobre a fiação da casa | `pixel-neon-7ano-m3/estilo_reel.py` (+ `estilo_cosmos.py`, a cena da faísca) |
+
+- **Situação em 27/11/2026:** o Clássico continua o padrão. O Pixel Neon foi aprovado pelo professor ("ficou muito bom") como teste no 7º ano · M3; falta ele decidir se vira padrão de 2027.
+- **Pixel Neon reaproveita a voz** do vídeo Clássico sem gerar de novo (corta a cena pelas pausas de `voz/voz_pausas.wav`): custo zero de voz. Para refazer: copiar `voz/voz_pausas.wav` e `voz/cenas/??.wav` da pasta Clássico para `voz/` e rodar `python3 estilo_reel.py` (os áudios ficam fora do git, como em todas as pastas de vídeo).
+- **Cuidado de conteúdo:** ler um campo faz CÓPIA; a ficha continua com o valor (a faísca leva uma cópia, o valor fica na gaveta).
+- Fontes em `ferramentas/video2d/fontes/` (VT323 e Press Start 2P, licença livre OFL).
+
 ## O que faz o padrão
 - **Historinha com bonequinho**, no estilo "problema → solução": o aluno (bonequinho) tem uma dúvida, a câmera vai até onde a coisa acontece e a resposta aparece.
 - **Câmera que se mexe e entra nas coisas**: mergulho da superfície até o fundo do mar, câmera andando de lado, zoom que entra dentro do objeto (o cabo, o computador, o roteador…) e mostra o que tem lá dentro.

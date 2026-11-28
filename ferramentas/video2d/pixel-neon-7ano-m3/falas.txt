@@ -1,0 +1,23 @@
+Registros: a ficha de cada personagem!
+
+O Caio está criando um jogo de aventura. Ele guardou tudo em três listas separadas: uma de nomes, uma de vidas e uma de forças. Mas, quando apagou o dragão só da lista de nomes, tudo se misturou: a fada ficou com a vida e a força do dragão!
+
+Por que isso aconteceu? Nas listas separadas, o que liga o nome à vida e à força é só a posição. Se uma lista anda e as outras não, cada nome fica na frente do número errado.
+
+Uma lista guarda vários itens parecidos, como os nomes da turma. Mas, para guardar informações diferentes sobre uma coisa só, usamos um registro. Aqui, a gente chama o registro de ficha.
+
+A ficha tem campos. Cada campo tem um nome e um valor: o campo nome vale Dragão, o campo vida vale cem, e o campo força vale oitenta. O valor pode ser um texto ou um número.
+
+No editor de blocos, o bloco nova ficha cria uma ficha vazia, guardada numa variável, como dragão. Depois, o bloco na ficha dragão, o campo vida vale cem, escreve o valor no campo.
+
+E para ler? O bloco campo vida da ficha dragão busca o que está guardado. Mande mostrar na tela, e aparece: cem.
+
+Na lista, a gente acha o item pela posição: primeiro, segundo, terceiro. Na ficha, a gente acha pelo nome do campo. Não importa a ordem: vida é sempre vida.
+
+E dá para juntar lista e ficha: uma lista de fichas é exatamente uma tabela. Cada ficha é uma linha, e cada campo, uma coluna. E o conjunto de todas as fichas se chama cadastro.
+
+O Caio fez uma ficha para cada personagem e juntou todas numa lista. Agora, quando o dragão sai do jogo, sai a ficha inteira, e a fada continua com a força dela. Nada se mistura. Missão cumprida!
+
+Onde eu uso isso? No contato do celular, com nome, telefone e aniversário. Na ficha dos personagens dos jogos. E na ficha de matrícula da secretaria da escola: o conjunto delas é o cadastro.
+
+Agora é com vocês: abram a Missão 3 no portal e montem as suas fichas!

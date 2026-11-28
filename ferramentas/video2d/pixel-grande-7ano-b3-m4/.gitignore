@@ -1,0 +1,9 @@
+voz/
+*.mp4
+*.wav
+*.png
+legenda.json
+eventos.json
+duracao.txt
+__pycache__/
+voz/
