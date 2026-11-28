@@ -27,6 +27,8 @@ async function pagina(browser, papel, vp) {
   pg.on("pageerror", e => pg.erros.push(e.message)); pg.on("dialog", d => d.dismiss().catch(() => {}));
   ctx.on("page", p2 => { p2.erros = []; p2.on("pageerror", e => p2.erros.push(e.message)); });
   await ctx.addInitScript(p => { window.__fbPapel = p; }, papel);
+  // 🎬📖 vinhetinhas (27/11/2026): desligadas nos roteiros antigos (eles testam o resto da aula sem esperar a vinheta); o roteiro-vinheta.js liga com VINHETA=1
+  if (!process.env.VINHETA) await ctx.addInitScript(() => { try { localStorage.setItem("portal:vinhetas", "0"); } catch (e) {} });
   await ctx.route("**/firebase-app-compat.js", r => r.fulfill({ body: FB, contentType: "application/javascript" }));
   await ctx.route("**/firebase-*-compat.js", r => r.request().url().includes("app-compat") ? r.fallback() : r.fulfill({ body: "", contentType: "application/javascript" }));
   await ctx.route("**/iframe_api*", r => r.fulfill({ body: YT, contentType: "application/javascript" }));

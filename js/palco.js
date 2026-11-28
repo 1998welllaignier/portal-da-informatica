@@ -145,6 +145,7 @@
     if (d.momento === "video") { A.st.hidden = true; vbox.hidden = false; await videoAluno(d, vbox); }
     else { if (A.player) { try { A.player.destroy(); } catch (e) {} A.player = null; A.vid = null; clearInterval(A.iv); clearTimeout(A.vigia); vbox.innerHTML = ""; }
       vbox.hidden = true; A.cx.querySelector(".pc-falha").hidden = true; A.st.hidden = false; await leituraAluno(d, s); }
+    if (P.vinheta) { const vn = d.vinheta; if (vn && vn.tipo === d.momento) P.vinheta.mostrar(A.cx, vn, agora, { som: false }); else P.vinheta.parar(A.cx); }   // 🎬📖 vinhetinha (sem som: os PCs dos alunos não têm áudio)
     gravarAluno({});
   }
   /* 🌟 MODO HELENA NA LEITURA GUIADA (27/11/2026, aprovado pelo professor: "tudo A")
@@ -276,7 +277,8 @@
     const el = mount(`<section class="pc-telao"><div class="pc-area pc-area-t"></div><div class="pc-video pc-video-t" hidden></div>
       <button type="button" class="pc-ativar"><b>👆 Clique aqui uma vez</b><span>para a tela cheia e o som do vídeo</span><small>(depois, é só arrastar esta janela para o projetor)</small></button></section>`);
     const st = montarPalco(el.querySelector(".pc-area-t")), vbox = el.querySelector(".pc-video-t"), at = el.querySelector(".pc-ativar");
-    let ativo = false, d = null, M = null, player = null, vid = null, chave = "";
+    let ativo = false, d = null, M = null, player = null, vid = null, chave = "", offT = 0;
+    const vinTelao = () => { if (!P.vinheta) return; const vn = d && d.vinheta; if (vn && vn.tipo === d.momento) P.vinheta.mostrar(el, vn, () => Date.now() + offT, { som: true }); else P.vinheta.parar(el); };   // 🔊 o som da vinheta sai AQUI (mesma janela do som do vídeo)
     const pinta = () => { at.hidden = ativo && (!!document.fullscreenElement || matchMedia("(display-mode: fullscreen)").matches || innerHeight >= screen.height - 4); };
     at.onclick = () => { ativo = true; (document.documentElement.requestFullscreen ? document.documentElement.requestFullscreen() : Promise.reject()).catch(() => {}).finally(() => setTimeout(pinta, 300));
       if (player) try { player.unMute(); player.setVolume(100); } catch (e) {} relatar(); };
@@ -297,6 +299,7 @@
       if (m.cmd === "play") { p.unMute(); p.playVideo(); } else if (m.cmd === "pause") p.pauseVideo(); else if (m.cmd === "mudo") p.mute(); else if (m.cmd === "som") { p.unMute(); p.setVolume(100); }
       else if (m.cmd === "inicio") { p.seekTo(0, true); p.pauseVideo(); } } catch (e) {} setTimeout(relatar, 150); }
     async function render() {
+      vinTelao();
       if (!d || d.dia !== hoje()) { st.innerHTML = `<div class="pc-espera"><p class="pc-grande">📽️</p><h2>Janela do projetor</h2><p>Esperando o professor…</p></div>`; return; }
       if (d.momento === "video" && d.video && d.video.vid) { el.querySelector(".pc-area-t").hidden = true; vbox.hidden = false; return videoMestre(d.video); }
       if (player) { try { player.destroy(); } catch (e) {} player = null; vid = null; vbox.innerHTML = ""; }
@@ -306,7 +309,7 @@
       pintarSlide(st, d, M || { T: { lista: [], termos: [] }, slides: [] }, "telao"); if (M && L().ligarPalavras) L().ligarPalavras(st, M.T.termos, "travado");
     }
     if (BC) BC.addEventListener("message", e => { const m = e.data || {}; if (m.turma !== turma) return;
-      if (m.tipo === "estado") { d = m.d; render(); } else if (m.tipo === "cmd") comando(m); else if (m.tipo === "quem") relatar(); });
+      if (m.tipo === "estado") { d = m.d; offT = m.off || 0; render(); } else if (m.tipo === "cmd") comando(m); else if (m.tipo === "quem") relatar(); });
     if (BC) BC.postMessage({ tipo: "pede", turma });
     // 🎡 a roleta também aparece no projetor (girando e depois o nome)
     let rolVisto = "", rolCx = null;
@@ -355,13 +358,14 @@
       if (d.termo && d.termo.slide !== d.slide) d.termo = null;
       d.vivoEm = agora(); const o = publico();
       alvo.forEach(id => db().collection("config").doc("palco_" + id).set(o).catch(e => console.warn("palco", e)));
-      if (BC) BC.postMessage({ tipo: "estado", turma: t.id, d: o });
+      if (BC) BC.postMessage({ tipo: "estado", turma: t.id, d: o, off: offset });
       if (P.podio && P.podio.setBonus) alvo.forEach(id => P.podio.setBonus(id, hoje(), d.xp));
       if (!semPintar) pintar();
     }
     if (BC) BC.addEventListener("message", onBC);
     function onBC(e) { const m = e.data || {}; if (m.turma !== t.id) return;
-      if (m.tipo === "pede") BC.postMessage({ tipo: "estado", turma: t.id, d: publico() });
+      if (m.tipo === "pede") BC.postMessage({ tipo: "estado", turma: t.id, d: publico(), off: offset });
+      if (m.tipo === "telao" && pend && m.ativo) { const pp = pend; pend = null; telaoInfo = m; irAgora(pp.momento, pp.o2, true); }   // 📽️ o professor clicou na janela do projetor: agora sim, valendo
       if (m.tipo === "telao") { const antes = telaoInfo && telaoInfo.v ? telaoInfo.v.estado + telaoInfo.v.mudo : null; telaoInfo = m; if (doisTelas && d.momento === "video" && m.v && m.vid === (d.video || {}).vid) { publicarVideo(m.v); if (antes !== m.v.estado + m.v.mudo) pintar(); else pintarRemoto(); } } }
     const hb = setInterval(() => { if (!cx.isConnected) return clearInterval(hb); salvar(true); }, 20000);
     const ivOn = setInterval(() => { if (!cx.isConnected) return clearInterval(ivOn); contar(); if (!doisTelas || d.momento !== "video") relatorio(); }, 2000);
@@ -424,8 +428,33 @@
     function pintarRemoto() { const r = lado.querySelector(".pc-remoto-info"); if (!r) return; const e = estadoMestre();
       r.innerHTML = e ? `${e.tocando ? "▶ tocando" : "⏸ pausado"} · ${mmss(e.pos)} de ${mmss(e.dur)} · ${e.mudo ? "🔇 <b>sem som</b>" : "🔊 com som"}` : doisTelas ? "⚠️ A janela do projetor não respondeu: clique em 📽️ Abrir a janela do projetor" : "⏳ carregando o vídeo…"; }
 
-    /* ---- trocar de momento ---- */
+    /* ---- trocar de momento ----
+       📽️ 2 telas (pedido do professor, 27/11/2026): ao clicar em 🎬/📖, NADA muda nos alunos (continuam livres na sala de
+       espera) até ele arrastar a janela do projetor e clicar nela (tela cheia + som). Só nesse clique as telas travam e a
+       🎬📖 vinhetinha começa em todas ao mesmo tempo; no fim da vinheta do vídeo, o vídeo dá play sozinho. */
+    let pend = null, tPlay = 0, tVin = 0;
+    const telaoAtivo = () => !!(telaoInfo && telaoInfo.ativo && Date.now() - telaoInfo.em < 3500);
+    const vinOn = () => !!(P.vinheta && P.vinheta.ligada());
+    const vinAtiva = () => !!(d.vinheta && d.vinheta.tipo === d.momento && agora() < d.vinheta.em + d.vinheta.dur);
     function ir(momento, o2) {
+      o2 = o2 || {};
+      if (momento === "video" && !o2.vid && !vids.length) { P.toast && P.toast("Esta missão ainda não tem vídeo cadastrado."); return; }
+      const etapa = (momento === "video" || momento === "leitura") && d.momento !== momento;
+      if (doisTelas && etapa && !telaoAtivo()) { pend = { momento, o2 }; restaurar(); garantirTelao(); pintar(); return; }
+      pend = null; irAgora(momento, o2, etapa);
+    }
+    function vinhetaLocal() {   // na tela do professor também (com som só na 1 tela: na 2 telas o som sai do projetor)
+      const host = cx.querySelector(".pc-palco-prof"); if (!P.vinheta) return;
+      if (vinAtiva()) { P.vinheta.mostrar(host, d.vinheta, agora, { som: !doisTelas }); clearTimeout(tVin); tVin = setTimeout(pintar, d.vinheta.em + d.vinheta.dur - agora() + 150); }
+      else P.vinheta.parar(host);
+    }
+    function agendarPlay() {   // ▶️ automático no "VAI!" (tenta de novo se o player ainda estiver carregando)
+      clearTimeout(tPlay); const v = d.vinheta; if (!v || v.tipo !== "video" || d.momento !== "video") return;
+      const tenta = n => { if (d.momento !== "video" || d.vinheta !== v) return; const e = estadoMestre(); if (e && e.tocando) return pintar(); remoto("play"); if (n < 16) tPlay = setTimeout(() => tenta(n + 1), 500); };
+      tPlay = setTimeout(() => tenta(0), Math.max(0, v.em + v.dur - agora()));
+    }
+    function pularVinheta() { if (!d.vinheta) return; d.vinheta.dur = Math.max(0, agora() - d.vinheta.em); salvar(true); vinhetaLocal(); if (d.momento === "video") { clearTimeout(tPlay); agendarPlay(); } pintar(); }
+    function irAgora(momento, o2, etapa) {
       o2 = o2 || {}; restaurar();
       if (d.momento === "leitura" && momento !== "leitura") registrarLeitura();
       if (momento === "video") { const v = o2.vid ? vids.find(x => x.id === o2.vid) || { id: o2.vid, nome: o2.nome || "Vídeo do YouTube" } : vids[0];
@@ -435,7 +464,10 @@
       if (momento === "leitura" && d.momento !== "leitura") { d.slide = 0; d.leitor = null; d.leu = false; d.perg = null; d.termo = null; inicioLeitura = Date.now(); }
       if (momento !== "video" && mestre) { try { mestre.destroy(); } catch (e) {} mestre = null; vbox.innerHTML = ""; }
       if (momento !== "leitura" && P.lousa && P.lousa.fechar && P.lousa.estado && P.lousa.estado().modo === "pincel") P.lousa.fechar();
+      d.vinheta = etapa && vinOn() ? { tipo: momento, em: agora() + 900, dur: P.vinheta.DUR[momento] } : (momento === d.momento ? d.vinheta : null);
       d.momento = momento; salvar();
+      if (etapa && d.vinheta) { if (P.musica && P.musica.abafar) P.musica.abafar(d.vinheta.dur + 2500); agendarPlay(); }   // 🎵 a música do portal pausa durante a vinheta
+      vinhetaLocal();
     }
     function garantirTelao() {   // abre a janela do projetor (precisa ser no clique: o navegador bloqueia janela aberta depois)
       if (jan && !jan.closed) { try { jan.focus(); } catch (e) {} return; }
@@ -469,7 +501,8 @@
     }
     async function fechar(semPergunta) {
       if (d.momento === "leitura") registrarLeitura();
-      d.momento = "espera"; salvar(true); clearInterval(hb); clearInterval(ivOn); clearInterval(ivMus);
+      d.momento = "espera"; d.vinheta = null; pend = null; salvar(true); clearInterval(hb); clearInterval(ivOn); clearInterval(ivMus); clearTimeout(tPlay); clearTimeout(tVin);
+      if (P.vinheta) P.vinheta.parar(cx.querySelector(".pc-palco-prof"));
       if (mestre) try { mestre.destroy(); } catch (e) {} mestre = null;
       if (P.lousa && P.lousa.fechar && P.lousa.estado && P.lousa.estado().modo) P.lousa.fechar();
       if (BC) BC.removeEventListener("message", onBC); removeEventListener("beforeunload", sairUnload);
@@ -519,10 +552,16 @@
           if (M && L().ligarPalavras) L().ligarPalavras(st, M.T.termos, "prof", x => { d.termo = { t: semTags(x.termo), slide: d.slide }; salvar(); });
           const fx = st.querySelector(".pc-termo-x"); if (fx) fx.onclick = () => { d.termo = null; salvar(); }; } }
       const sl = M && M.slides[d.slide];
+      if (pend) {   // 📽️ esperando a janela do projetor ficar pronta (os alunos ainda estão livres)
+        stEl.innerHTML = `<div class="pc-prep">📽️ <b>${pend.momento === "video" ? "🎬 Vídeo" : "📖 Leitura guiada"} pronto para começar.</b><br>Arraste a janela do projetor até o projetor e <b>clique nela</b> (tela cheia e som). Só nesse clique as telas dos alunos travam e a vinheta começa em todas.<br><small>Enquanto isso, os alunos continuam livres na sala de espera.</small></div>`;
+        bts.innerHTML = ""; [["pc-g pc-verde", "▶ Começar mesmo assim", () => { const pp = pend; pend = null; irAgora(pp.momento, pp.o2, true); }, "Se a janela do projetor não responder"],
+          ["", "📽️ Abrir a janela do projetor", garantirTelao], ["pc-sai", "✕ Cancelar", () => { pend = null; pintar(); }]].forEach(([c, txt, fn, dica]) => { const b = document.createElement("button"); b.type = "button"; b.className = "btn pc-b " + c; b.textContent = txt; if (dica) b.title = dica; b.onclick = fn; bts.appendChild(b); });
+        relatorio(); return; }
       stEl.innerHTML = d.momento === "espera" ? `🚦 <b>Sala de espera</b> · 👥 <b>${d.on.n}</b> de ${d.on.total} entraram`
         : ehVideo ? `🎬 <b>Vídeo:</b> ${esc(d.video && d.video.titulo || "")}<br><span class="pc-remoto-info"></span>`
         : !sl ? "📖 carregando o texto…" : sl.t === "pergunta" ? `🤔 <b>Pergunta relâmpago</b> · slide ${d.slide + 1} de ${N()}` : `📖 <b>Trecho ${sl.i + 1}</b> de ${M.T.lista.length} · slide ${d.slide + 1} de ${N()} · ${d.leitor ? `lendo: <b>${esc(nomeCurto(d.leitor.nome))}</b>${d.leu ? " ✔" : ""}` : "falta sortear quem lê"}`;
       const B = [];   // [classe, rótulo, ação, dica]
+      if (vinAtiva()) B.push(["pc-g pc-amarelo", "⏭ Pular vinheta", pularVinheta, d.momento === "video" ? "O vídeo começa agora" : "Vai direto para o primeiro trecho"]);
       if (d.momento === "espera") {
         B.push(["pc-g pc-verde", "🎬 Começar pelo vídeo", () => { d._viuVideo = true; ir("video"); }, vids.length ? vids[0].nome : "Esta missão não tem vídeo"]);
         B.push(["pc-g pc-azul", "📖 Começar pela leitura", () => ir("leitura")]);

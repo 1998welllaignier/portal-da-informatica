@@ -5,7 +5,7 @@ cd "$(dirname "$0")"
 pkill -f servidor.js 2>/dev/null; (node servidor.js > /tmp/srv.log 2>&1 &); sleep 2
 ok=0; ruim=""
 for f in ${SO:-roteiro-*.js}; do
-  timeout 240 env NODE_PATH=/opt/npm-tools/node_modules node "$f" > "/tmp/teste-$f.txt" 2>&1; s=$?
+  timeout 240 env NODE_PATH=/opt/npm-tools/node_modules $( [ "$f" = roteiro-vinheta.js ] && echo VINHETA=1 ) node "$f" > "/tmp/teste-$f.txt" 2>&1; s=$?
   falhou=0
   [ $s -ne 0 ] && falhou=1                                                   # o roteiro quebrou ou passou do tempo
   grep -qE "erros.*\[ *['\"]" "/tmp/teste-$f.txt" && falhou=1                # erro de JavaScript na página (lista de erros com texto)

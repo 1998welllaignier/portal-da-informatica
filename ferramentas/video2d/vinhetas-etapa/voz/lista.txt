@@ -1,0 +1,3 @@
+file '/home/claude/portal-da-informatica/ferramentas/video2d/vinhetas-etapa/voz/cenas/00.wav'
+file '/home/claude/portal-da-informatica/ferramentas/video2d/vinhetas-etapa/voz/sil.wav'
+file '/home/claude/portal-da-informatica/ferramentas/video2d/vinhetas-etapa/voz/cenas/01.wav'

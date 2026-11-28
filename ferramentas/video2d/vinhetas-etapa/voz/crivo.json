@@ -1,0 +1,20 @@
+[
+ {
+  "cena": 0,
+  "arquivo": "00-0dddcc0b67.mp3",
+  "segundos": 7.34,
+  "pal_por_s": 2.04,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[animado] Hora do vídeo da missão! Atenção e silêncio, que já vai começar. Três, dois, um!"
+ },
+ {
+  "cena": 1,
+  "arquivo": "01-ac51db17d1.mp3",
+  "segundos": 11.4,
+  "pal_por_s": 2.11,
+  "crivo": "ok",
+  "dif": [],
+  "texto": "[animado] Hora da leitura guiada! Todos leem o mesmo trecho, a roleta sorteia quem lê, e depois tem pergunta. Prestem atenção! Quem será o primeiro?"
+ }
+]
