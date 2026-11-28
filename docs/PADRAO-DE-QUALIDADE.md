@@ -876,3 +876,6 @@ O botão 🎮 Sala de jogos (o mesmo do 5º ano) aparece na lista de missões de
 - **Vinheta (Pixel Neon, desenhada pelo navegador, js/vinheta.js):** vídeo 8 s (cortina → "atenção e silêncio" → 3, 2, 1 só na tela, com bip, → "VAI!" → **o vídeo dá play sozinho**); leitura 12 s (livro → os 3 combinados → roleta "quem será o primeiro?"). Voz Gemini (Charon) em midia/vinhetas/; o 3, 2, 1 não tem voz (pedido do professor), só bips.
 - **Som só na janela que já toca o som da aula** (projetor nas 2 telas; o painel na 1 tela) — o navegador só toca som na janela que recebeu o clique. Alunos: só a animação. A música do portal pausa durante a vinheta. "⏭ Pular vinheta" no painel. Desligar: localStorage portal:vinhetas = "0".
 - Teste: ferramentas/aula-simulada/roteiro-vinheta.js (os roteiros antigos rodam com a vinheta desligada).
+
+## ♾️ Sem teto de pontos na sala de espera e no Laboratório sem fim (decisão do professor, 28/11/2026)
+- Com motivo para ganhar pontos, o aluno fica no lugar jogando em vez de levantar. Não há risco de "morar" na sala de espera: a 🏁 largada fecha a sala (só reabre se o professor ativar ou na próxima aula) e os jogos livres só voltam depois que o aluno termina a tarefa. Vale também para o futuro treino de digitação.

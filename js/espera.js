@@ -2,7 +2,7 @@
    Problema: na hora de entrar, os mais rápidos saíam correndo e respondiam as tarefas de qualquer jeito, enquanto os mais
    lentos ainda digitavam o código. Solução:
    - ALUNO: depois do código, no dia e na hora da aula, cai na Sala de espera ("🎉 Parabéns, você entrou!") com 4 opções:
-       🎮 Jogos de aquecimento (sem fim, autoexplicativos, nunca o mesmo jogo duas vezes seguidas): +5 por acerto, até 150;
+       🎮 Jogos de aquecimento (sem fim, autoexplicativos, nunca o mesmo jogo duas vezes seguidas): +5 por acerto, SEM teto (28/11/2026, pedido do professor: com motivo para ganhar pontos, o aluno fica no lugar jogando em vez de levantar; a largada fecha a sala de espera de qualquer forma);
        🧑‍🎨 Montar o meu avatar, sem pressa (até a largada): +10 na primeira vez que salvar no dia;
        👀 Espiar a missão de hoje (objetivo e "Onde eu uso isso?", só leitura);
        💡 Você sabia? (curiosidades de informática, todas conferidas).
@@ -19,7 +19,7 @@
   const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const N = () => P.nuvem;
   const hoje = () => N().hoje();
-  const TETO = 150, PONTO = 5, BONUS_AVATAR = 10;
+  const TETO = Infinity, PONTO = 5, BONUS_AVATAR = 10;   // ♾️ sem teto desde 28/11/2026
   const sorteio = n => Math.floor(Math.random() * n);
   const embaralha = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = sorteio(i + 1); [a[i], a[j]] = [a[j], a[i]]; } return a; };
 
@@ -177,10 +177,10 @@
     const el = mount(`<section class="tela es-tela">
       <div class="es-topo"><div><h1>🎉 Parabéns, você${ids.length > 1 ? "s entraram" : " entrou"}!</h1>
         <p class="es-sub">Aguarde todos entrarem: a aula já vai começar. <b>O que você${ids.length > 1 ? "s querem" : " quer"} fazer enquanto espera?</b></p></div>
-        <div class="es-placar" title="Pontos de aquecimento: entram no placar da aula"><span class="es-pts">${pontos + bonus}</span><small>pontos de aquecimento</small><i><b style="width:${Math.min(100, 100 * pontos / TETO)}%"></b></i></div></div>
+        <div class="es-placar" title="Pontos de aquecimento: entram no placar da aula"><span class="es-pts">${pontos + bonus}</span><small>pontos de aquecimento</small><i><b style="width:${pontos % 100}%"></b></i></div></div>
       <p class="es-status" aria-live="polite">${h.antes || !valendo(h) ? "⏳ Esperando o professor iniciar a aula…" : "🚦 Aula iniciada: esperando o professor dar a 🏁 largada…"}</p>
       <div class="es-cards">
-        <button type="button" class="es-card" data-op="jogos"><span class="es-card-ic">🎮</span><b>Jogos de aquecimento</b><small>+${PONTO} pontos por acerto (até ${TETO})</small></button>
+        <button type="button" class="es-card" data-op="jogos"><span class="es-card-ic">🎮</span><b>Jogos de aquecimento</b><small>+${PONTO} pontos por acerto (sem limite!)</small></button>
         <button type="button" class="es-card" data-op="avatar"><span class="es-card-ic">🧑‍🎨</span><b>Montar o meu avatar</b><small>${bonus ? "✅ bônus já ganho hoje" : `+${BONUS_AVATAR} pontos ao salvar`}</small></button>
         <button type="button" class="es-card" data-op="espiar"><span class="es-card-ic">👀</span><b>Espiar a missão de hoje</b><small>o que vamos aprender</small></button>
         <button type="button" class="es-card" data-op="sabia"><span class="es-card-ic">💡</span><b>Você sabia?</b><small>curiosidades de informática</small></button>
@@ -190,7 +190,7 @@
     </section>`);
     const palco = el.querySelector(".es-palco"), pts = el.querySelector(".es-pts"), barraP = el.querySelector(".es-placar b"), st = el.querySelector(".es-status");
     let pararJogo = null, largou = false, emAvatar = false;
-    const pintar = () => { pts.textContent = pontos + bonus; barraP.style.width = Math.min(100, 100 * pontos / TETO) + "%"; };
+    const pintar = () => { pts.textContent = pontos + bonus; barraP.style.width = (pontos % 100) + "%"; /* a barrinha enche a cada 100 pontos */ };
     const ganhar = (n, alvoEl) => {
       if (pontos >= TETO) { if (!el.querySelector(".es-teto")) palco.insertAdjacentHTML("afterbegin", `<p class="es-teto">🏆 Você chegou ao máximo de ${TETO} pontos de aquecimento! Pode continuar jogando só por diversão.</p>`); return; }
       pontos = Math.min(TETO, pontos + n); pintar(); gravar();

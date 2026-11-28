@@ -6,7 +6,7 @@
      antes da hora no painel (config/geral.jogosLiberados).
    - COMO JOGAR: antes de todo jogo aparece um tutorial animado (a mãozinha 👆 mostrando o que fazer, ou as teclas
      sendo apertadas) e os passos em frases curtas com ícones, para quem ainda lê devagar.
-   - PONTOS: cada jogo chama api.ponto() quando o aluno vai bem (a Sala de espera dá +5, até 150 por aula).
+   - PONTOS: cada jogo chama api.ponto() quando o aluno vai bem (a Sala de espera dá +5 por acerto, sem teto).
      Pontos “rápidos demais” (menos de 1,2 s entre um e outro) são ignorados, para ninguém trapacear.
    - RECORDE PESSOAL: guardado em progresso/<aluno>_espera.recordes (cada jogo, a maior pontuação). */
 (function () {

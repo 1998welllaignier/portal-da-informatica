@@ -449,8 +449,8 @@
   function ranking(alunos, prog, mid, hoje) {
     const porId = {}; alunos.forEach(a => { porId[a.id] = a; });
     const ent = {}, av = {}; prog.forEach(p => { if (p.tipo === "entrada" && p.dias && p.dias[hoje]) ent[p.alunoId] = p.dias[hoje]; if (p.tipo === "avatar") av[p.alunoId] = p.avatar; });
-    // 🚦 Sala de espera (20/11/2026): quem entra cedo e espera no lugar sai na frente (aquecimento até 150 + avatar 10)
-    const esp = {}; prog.forEach(p => { if (p.tipo === "espera" && p.dia === hoje) esp[p.alunoId] = Math.min(150, p.pontos || 0) + Math.min(10, p.avatarBonus || 0); });
+    // 🚦 Sala de espera (20/11/2026): quem entra cedo e espera no lugar sai na frente (aquecimento sem teto desde 28/11/2026 + avatar 10)
+    const esp = {}; prog.forEach(p => { if (p.tipo === "espera" && p.dia === hoje) esp[p.alunoId] = (p.pontos || 0) + Math.min(10, p.avatarBonus || 0); });
     const docs = {}; prog.forEach(p => { if (p.mid === mid && p.dias && p.dias[hoje] && porId[p.alunoId]) { const o = docs[p.alunoId]; if (!o || (p.atualizado || 0) > (o.atualizado || 0)) docs[p.alunoId] = p; } });
     const B = bonusHoje(hoje);
     const vistos = new Set(), out = [];
